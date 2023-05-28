@@ -1619,7 +1619,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 // Find lowest z-level to draw
                 tripoint p_draw = p.pos;
                 int cur_height_3d = 0;
-                while( !here.dont_draw_lower_floor( p_draw ) && p_draw.z > -OVERMAP_DEPTH && p.pos.z - p_draw.z < max_draw_depth ) {
+                while( !here.dont_draw_lower_floor( p_draw ) && p_draw.z > -OVERMAP_DEPTH &&
+                       p.pos.z - p_draw.z < max_draw_depth ) {
                     p_draw.z -= 1;
                     cur_height_3d -= 1;
                 }
@@ -1639,7 +1640,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 // Keep going up and drawing until current position
                 while( p_draw.z < p.pos.z ) {
                     // Draws fog overlay to give the impression of distance
-                    draw_zlevel_overlay( p_draw, p.ll, p.invisible, color_blocks );
+                    draw_zlevel_overlay( p_draw, p.ll, p.invisible );
                     p_draw.z += 1;
                     cur_height_3d += 1;
                     for( auto f : drawing_layers ) {
@@ -3856,8 +3857,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
 }
 
 void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
-                                      const std::array<bool, 5> &invisible,
-                                      color_block_overlay_container &color_blocks )
+                                      const std::array<bool, 5> &invisible )
 {
     if( is_isometric() ) {
         return;
@@ -3880,9 +3880,15 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
         draw_from_id_string( "zlevel_fog", TILE_CATEGORY::TERRAIN, empty_string, p, subtile, rotation, ll,
                              false );
     } else {
-        // Tileset fog not found, use solid color overlay
-        // Set position for overlay
-        point fog_loc = player_to_screen( p.xy() );
+
+        // Draws zlevel fog using geometry renderer
+        // Slower than sprites so only use as fallback when sprite missing
+        const point screen = player_to_screen( p.xy() );
+        SDL_Rect draw_rect;
+        draw_rect.x = screen.x;
+        draw_rect.y = screen.y;
+        draw_rect.w = tile_width;
+        draw_rect.h = tile_height;
 
         // Overlay color is based on light level
         SDL_Color fog_color = curses_color_to_SDL( c_black );
@@ -3894,9 +3900,12 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
         // Setting for fog transparency
         fog_color.a = 100;
 
-        // Transparency will only work in blend mode
-        color_blocks.first = SDL_BLENDMODE_BLEND;
-        color_blocks.second.emplace( fog_loc, fog_color );
+        // Change blend mode for transparency to work
+        // Disable after to avoid visual bugs
+        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+        geometry->rect( renderer, draw_rect, fog_color );
+        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
+
     }
 }
 
