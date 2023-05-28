@@ -512,6 +512,6 @@
   {
     "id": "afs_set_us_up_the_bomb",
     "type": "item_group",
-    "items": [ { "item": "mininuke_act", "prob": 100, "charges": [ 10, 15 ] } ]
+    "items": [ { "item": "mininuke_act", "prob": 100, "charges": 100 } ]
   }
 ]
