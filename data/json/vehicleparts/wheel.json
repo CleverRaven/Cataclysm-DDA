@@ -617,30 +617,12 @@
       { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "rolling_resistance": 0.575,
-    "wheel_terrain_modifiers": {
-      "FLAT": [ 0, 4 ],
-      "ROAD": [ 0, 2 ]
-    },
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 360,
     "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 0 ] ],
-        "time": "15 m",
-        "using": [ [ "vehicle_fasten", 1 ] ]
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 0 ] ],
-        "time": "15 m",
-        "using": [ [ "vehicle_fasten", 1 ] ]
-      },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "15 m",
-        "using": [
-          [ "adhesive_rubber", 1 ],
-          [ "tire_rubber", 1 ]
-        ]
-      }
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 25 }
@@ -652,16 +634,9 @@
     "name": { "str": "off-road wide wheel" },
     "item": "wheel_wide_or",
     "wheel_offroad_rating": 0.7,
-    "wheel_terrain_modifiers": {
-      "FLAT": [ 0, 3 ],
-      "ROAD": [ 0, 1 ]
-    },
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "contact_area": 320,
-    "damage_reduction": {
-      "bash": 20,
-      "cut": 15,
-      "stab": 10
-    }
+    "damage_reduction": { "bash": 20, "cut": 15, "stab": 10 }
   },
   {
     "id": "wheel_wood",
@@ -677,39 +652,15 @@
     "durability": 30,
     "description": "A simple wooden wheel.",
     "damage_modifier": 50,
-    "breaks_into": [
-      {
-        "item": "2x4",
-        "count": [ 0, 4 ]
-      },
-      {
-        "item": "nail",
-        "charges": [ 5, 15 ]
-      }
-    ],
+    "breaks_into": [ { "item": "2x4", "count": [ 0, 4 ] }, { "item": "nail", "charges": [ 5, 15 ] } ],
     "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "time": "5 m",
-        "using": [ [ "vehicle_nail_install", 1 ] ]
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "time": "5 m",
-        "using": [ [ "vehicle_nail_removal", 1 ] ]
-      },
-      "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "time": "50 s",
-        "using": [ [ "adhesive", 1 ] ]
-      }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 2.15,
     "wheel_offroad_rating": 0.1,
-    "wheel_terrain_modifiers": {
-      "FLAT": [ 0, 6 ],
-      "ROAD": [ 0, 3 ]
-    },
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
     "contact_area": 60,
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "all": 14 }
@@ -723,24 +674,12 @@
     "item": "wheel_wood_b",
     "location": "under",
     "breaks_into": [
-      {
-        "item": "2x4",
-        "count": [ 0, 4 ]
-      },
-      {
-        "item": "nail",
-        "charges": [ 5, 15 ]
-      },
-      {
-        "item": "scrap",
-        "count": [ 1, 2 ]
-      }
+      { "item": "2x4", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 5, 15 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 2.05,
-    "proportional": {
-      "durability": 2,
-      "damage_modifier": 2
-    },
+    "proportional": { "durability": 2, "damage_modifier": 2 },
     "damage_reduction": { "all": 20 }
   },
   {
@@ -752,32 +691,11 @@
     "location": "under",
     "item": "wheel_wood_stable",
     "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "time": "10 m",
-        "using": [ [ "vehicle_nail_install", 1 ] ]
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "time": "10 m",
-        "using": [ [ "vehicle_nail_removal", 1 ] ]
-      },
-      "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "time": "1m 10 s",
-        "using": [ [ "adhesive", 2 ] ]
-      }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "1m 10 s", "using": [ [ "adhesive", 2 ] ] }
     },
-    "breaks_into": [
-      {
-        "item": "2x4",
-        "count": [ 0, 8 ]
-      },
-      {
-        "item": "nail",
-        "charges": [ 10, 30 ]
-      }
-    ],
+    "breaks_into": [ { "item": "2x4", "count": [ 0, 8 ] }, { "item": "nail", "charges": [ 10, 30 ] } ],
     "flags": [ "WHEEL", "STABLE", "STEERABLE", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "rolling_resistance": 2.15,
     "contact_area": 120
@@ -791,42 +709,18 @@
     "item": "wheel_wood_b_stable",
     "location": "under",
     "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "time": "10 m",
-        "using": [ [ "vehicle_nail_install", 1 ] ]
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "time": "10 m",
-        "using": [ [ "vehicle_nail_removal", 1 ] ]
-      },
-      "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "time": "1m 10 s",
-        "using": [ [ "adhesive", 2 ] ]
-      }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "1m 10 s", "using": [ [ "adhesive", 2 ] ] }
     },
     "breaks_into": [
-      {
-        "item": "2x4",
-        "count": [ 0, 8 ]
-      },
-      {
-        "item": "nail",
-        "charges": [ 10, 30 ]
-      },
-      {
-        "item": "scrap",
-        "count": [ 2, 4 ]
-      }
+      { "item": "2x4", "count": [ 0, 8 ] },
+      { "item": "nail", "charges": [ 10, 30 ] },
+      { "item": "scrap", "count": [ 2, 4 ] }
     ],
     "contact_area": 120,
     "rolling_resistance": 2.05,
-    "proportional": {
-      "durability": 2,
-      "damage_modifier": 2
-    },
+    "proportional": { "durability": 2, "damage_modifier": 2 },
     "flags": [ "WHEEL", "STABLE", "STEERABLE", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "all": 20 }
   },
@@ -844,86 +738,37 @@
     "description": "A pair of small crudely made chain tracks.",
     "damage_modifier": 50,
     "breaks_into": [
-      {
-        "item": "steel_chunk",
-        "count": [ 4, 12 ]
-      },
-      {
-        "item": "sheet_metal_small",
-        "charges": [ 8, 20 ]
-      },
-      {
-        "item": "chunk_rubber",
-        "charges": [ 2, 16 ]
-      }
+      { "item": "steel_chunk", "count": [ 4, 12 ] },
+      { "item": "sheet_metal_small", "charges": [ 8, 20 ] },
+      { "item": "chunk_rubber", "charges": [ 2, 16 ] }
     ],
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "2 h",
-        "using": [
-          [ "vehicle_wrench_2", 1 ],
-          [
-            "vehicle_fasten",
-            1
-          ],
-          [
-            "vehicle_hammer_3",
-            1
-          ]
-        ]
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "vehicle_fasten", 1 ], [ "vehicle_hammer_3", 1 ] ]
       },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "2 h",
-        "using": [
-          [
-            "vehicle_wrench_2",
-            1
-          ],
-          [
-            "vehicle_fasten",
-            1
-          ],
-          [
-            "vehicle_pry_and_hammer",
-            1
-          ]
-        ]
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "vehicle_fasten", 1 ], [ "vehicle_pry_and_hammer", 1 ] ]
       },
       "repair": {
         "skills": [ [ "mechanics", 5 ] ],
         "time": "40 m",
         "using": [
           [ "vehicle_wrench_2", 1 ],
-          [
-            "vehicle_pry_and_hammer",
-            1
-          ],
-          [
-            "vehicle_cut_2",
-            1
-          ],
-          [
-            "vehicle_chaintrack_small_change",
-            4
-          ]
+          [ "vehicle_pry_and_hammer", 1 ],
+          [ "vehicle_cut_2", 1 ],
+          [ "vehicle_chaintrack_small_change", 4 ]
         ]
       }
     },
     "rolling_resistance": 20,
     "contact_area": 2000,
     "wheel_offroad_rating": 1.0,
-    "wheel_terrain_modifiers": {
-      "FLAT": [ 0, 2 ],
-      "DIGGABLE": [ 0, 2 ],
-      "ROAD": [ 0, 1 ]
-    },
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 2 ], "DIGGABLE": [ 0, 2 ], "ROAD": [ 0, 1 ] },
     "flags": [ "WHEEL", "STABLE", "STEERABLE", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
-    "damage_reduction": {
-      "bash": 30,
-      "cut": 30,
-      "stab": 30
-    }
+    "damage_reduction": { "bash": 30, "cut": 30, "stab": 30 }
   }
 ]
