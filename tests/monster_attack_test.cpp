@@ -230,6 +230,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         epsilon_threshold threshold{ expected_damage, 2.5 };
         do {
             you.set_all_parts_hp_to_max();
+            you.set_stamina( you.get_stamina_max() ); // Resets stamina so dummy can keep dodging
             // Remove stagger/winded effects
             you.clear_effects();
             you.set_dodges_left( 1 );
