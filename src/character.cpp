@@ -1787,6 +1787,11 @@ void Character::on_try_dodge()
 
 void Character::on_dodge( Creature *source, float difficulty )
 {
+    // Make sure we're not practicing dodge in situation where we can't dodge
+    if( !can_try_doge().success() ) {
+        return;
+    }
+
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0.0f ) * rng( 0,
