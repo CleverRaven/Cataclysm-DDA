@@ -1639,8 +1639,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                 // Keep going up and drawing until current position
                 while( p_draw.z < p.pos.z ) {
-                    // Draws fog overlay to give the impression of distance
-                    draw_zlevel_overlay( p_draw, p.ll, p.invisible );
                     p_draw.z += 1;
                     cur_height_3d += 1;
                     for( auto f : drawing_layers ) {
@@ -2193,6 +2191,12 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     const std::string &found_id = res ? res->id() : id;
 
     if( !tt ) {
+    	// Use fog overlay as fallback for t_open_air
+    	if( id == "t_open_air" ) {
+    	    draw_zlevel_overlay( pos, ll );
+    	    return true;
+    	}
+    	
         uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if( category == TILE_CATEGORY::FURNITURE ) {
@@ -3856,57 +3860,35 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
     return false;
 }
 
-void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
-                                      const std::array<bool, 5> &invisible )
+void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll )
 {
     if( is_isometric() ) {
         return;
     }
-    // Draw tileset fog sprite if exists
-    if( tileset_ptr->find_tile_type( "zlevel_fog" ) ) {
-        // Multitile support
-        const ter_id &t = get_map().ter( p );
-        int subtile = 0;
-        int rotation = 0;
-        const std::bitset<NUM_TERCONN> &connect_group = t.obj().connect_to_groups;
-        const std::bitset<NUM_TERCONN> &rotate_group = t.obj().rotate_to_groups;
-        if( connect_group.any() ) {
-            get_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
-        } else {
-            get_terrain_orientation( p, rotation, subtile, {}, invisible, rotate_group );
-        }
+    // Draws zlevel fog using geometry renderer
+    // Slower than sprites so only use as fallback when sprite missing
+    const point screen = player_to_screen( p.xy() );
+    SDL_Rect draw_rect;
+    draw_rect.x = screen.x;
+    draw_rect.y = screen.y;
+    draw_rect.w = tile_width;
+    draw_rect.h = tile_height;
 
-        // TILE_CATEGORY::NONE does not support variants
-        draw_from_id_string( "zlevel_fog", TILE_CATEGORY::TERRAIN, empty_string, p, subtile, rotation, ll,
-                             false );
-    } else {
-
-        // Draws zlevel fog using geometry renderer
-        // Slower than sprites so only use as fallback when sprite missing
-        const point screen = player_to_screen( p.xy() );
-        SDL_Rect draw_rect;
-        draw_rect.x = screen.x;
-        draw_rect.y = screen.y;
-        draw_rect.w = tile_width;
-        draw_rect.h = tile_height;
-
-        // Overlay color is based on light level
-        SDL_Color fog_color = curses_color_to_SDL( c_black );
-        if( ll == lit_level::BRIGHT_ONLY || ll == lit_level::BRIGHT || ll == lit_level::LIT ) {
-            fog_color = curses_color_to_SDL( c_light_gray );
-        } else if( ll == lit_level::LOW ) {
-            fog_color = curses_color_to_SDL( c_dark_gray );
-        }
-        // Setting for fog transparency
-        fog_color.a = 100;
-
-        // Change blend mode for transparency to work
-        // Disable after to avoid visual bugs
-        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
-        geometry->rect( renderer, draw_rect, fog_color );
-        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
-
+    // Overlay color is based on light level
+    SDL_Color fog_color = curses_color_to_SDL( c_black );
+    if( ll == lit_level::BRIGHT_ONLY || ll == lit_level::BRIGHT || ll == lit_level::LIT ) {
+        fog_color = curses_color_to_SDL( c_light_gray );
+    } else if( ll == lit_level::LOW ) {
+        fog_color = curses_color_to_SDL( c_dark_gray );
     }
+    // Setting for fog transparency
+    fog_color.a = 100;
+
+    // Change blend mode for transparency to work
+    // Disable after to avoid visual bugs
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+    geometry->rect( renderer, draw_rect, fog_color );
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
 }
 
 void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
