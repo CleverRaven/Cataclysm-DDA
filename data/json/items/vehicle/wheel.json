@@ -638,10 +638,7 @@
     "id": "wheel_tricycle",
     "category": "veh_parts",
     "type": "WHEEL",
-    "name": {
-      "str": "set of tricycle wheels",
-      "str_pl": "sets of tricycle wheels"
-    },
+    "name": { "str": "set of tricycle wheels", "str_pl": "sets of tricycle wheels" },
     "description": "A set of hard plastic wheels with one larger than the other two.  Proudly made in the USA by Double Dango Productions. There is only one thought in your mind: can it win Grand Prix?",
     "weight": "750 g",
     "volume": "750 ml",
