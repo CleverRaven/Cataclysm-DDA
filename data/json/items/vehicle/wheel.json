@@ -33,10 +33,7 @@
     "id": "wheel_mount_medium",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": {
-      "str": "medium wheel hub assembly",
-      "str_pl": "medium wheel hub assemblies"
-    },
+    "name": { "str": "medium wheel hub assembly", "str_pl": "medium wheel hub assemblies" },
     "description": "A metal assembly that allows bolting a wheel onto a car.  Fit for a car wheel.",
     "weight": "5 kg",
     "volume": "6 L",
