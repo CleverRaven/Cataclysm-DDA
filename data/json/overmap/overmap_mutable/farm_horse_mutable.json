@@ -225,9 +225,9 @@
         "south": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ] },
         "west": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ] }
       },
-      "forest_end": {
+      "forest_end_n": {
         "overmap": "open_air",
-        "north": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
+        "north": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ] },
         "east": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
         "south": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
         "west": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" }
@@ -976,7 +976,7 @@
       ],
       [
         { "name": "trail_cleanup", "chunk": [ { "overmap": "trail_end_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 },
-        { "name": "forest_cleanup", "chunk": [ { "overmap": "forest_end", "pos": [ 0, 0, 10 ] } ], "weight": 1 }
+        { "name": "forest_cleanup", "chunk": [ { "overmap": "forest_end_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 }
       ]
     ]
   }
