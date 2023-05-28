@@ -156,7 +156,7 @@ void Character::try_remove_crushed()
     }
 }
 
-bool Character::try_remove_grab()
+bool Character::try_remove_grab( bool attacking )
 {
     if( is_mounted() ) {
         // Use the same calc as monster::move_effect
@@ -212,6 +212,13 @@ bool Character::try_remove_grab()
             if( grabber == nullptr ) {
                 remove_effect( eff.get_id(), eff.get_bp() );
                 add_msg_debug( debugmode::DF_MATTACK, "Orphan grab found and removed" );
+                continue;
+            }
+
+            // Short out the check when attacking after removing any orphan grabs
+            if( attacking ) {
+                add_msg_debug( debugmode::DF_MATTACK,
+                               "Grab break check triggered by an attack, only removing orphan grabs allowed" );
                 continue;
             }
 
@@ -377,9 +384,9 @@ bool Character::move_effects( bool attacking )
             remove_effect( effect_in_pit );
         }
     }
-    // Only attempt breaking grabs if we're grabbed and not attacking
-    if( has_flag( json_flag_GRAB ) && !attacking ) {
-        return try_remove_grab();
+    // Attempt to break grabs, only check for orphan grabs on attack
+    if( has_flag( json_flag_GRAB ) ) {
+        return try_remove_grab( attacking );
     }
     return true;
 }
@@ -410,7 +417,7 @@ void Character::wait_effects( bool attacking )
         try_remove_impeding_effect();
         return;
     }
-    if( has_flag( json_flag_GRAB ) && !attacking && !try_remove_grab() ) {
+    if( has_flag( json_flag_GRAB ) && !attacking && !try_remove_grab( false ) ) {
         return;
     }
 }
