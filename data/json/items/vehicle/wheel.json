@@ -657,10 +657,7 @@
     "id": "wheel_wheelchair",
     "type": "WHEEL",
     "category": "veh_parts",
-    "name": {
-      "str": "pair of wheelchair wheels",
-      "str_pl": "pairs of wheelchair wheels"
-    },
+    "name": { "str": "pair of wheelchair wheels", "str_pl": "pairs of wheelchair wheels" },
     "description": "A pair of wheels for a wheelchair.",
     "weight": "3000 g",
     "volume": "12500 ml",
