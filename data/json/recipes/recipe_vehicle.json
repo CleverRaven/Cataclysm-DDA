@@ -213,10 +213,7 @@
     "autolearn": true,
     "reversible": true,
     "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
-    "components": [
-      [ [ "tire_medium_slick", 1 ] ],
-      [ [ "wheel_rim_medium", 1 ] ]
-    ]
+    "components": [ [ [ "tire_medium_slick", 1 ] ], [ [ "wheel_rim_medium", 1 ] ] ]
   },
   {
     "type": "recipe",
