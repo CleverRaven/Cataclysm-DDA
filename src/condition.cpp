@@ -767,10 +767,9 @@ void conditional_t::set_has_var( const JsonObject &jo, const std::string &member
     const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
-    const bool value_check = jo.has_member( "value" );
-    condition = [var_name, value, time_check, value_check, is_npc]( dialogue const & d ) {
+    condition = [var_name, value, time_check, is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
-        if( time_check || !value_check ) {
+        if( time_check ) {
             return !actor->get_value( var_name ).empty();
         }
         return actor->get_value( var_name ) == value;
