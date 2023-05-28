@@ -3008,6 +3008,7 @@ unlively
 unlives
 unlooted
 unlubricated
+unspooled
 unmalted
 unmark
 unmarred

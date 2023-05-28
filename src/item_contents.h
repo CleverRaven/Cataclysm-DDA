@@ -128,6 +128,9 @@ class item_contents
         std::vector<item *> ebooks();
         std::vector<const item *> ebooks() const;
 
+        std::vector<item *> cables( bool active_only = false );
+        std::vector<const item *> cables( bool active_only = false ) const;
+
         void update_modified_pockets( const std::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
@@ -238,7 +241,7 @@ class item_contents
          * volume, length, weight, ammo type, and all other physical restrictions.  This is
          * synonymous with the success of item_contents::can_contain with that item.
          *
-         * For the MOD, CORPSE, SOFTWARE, and MIGRATION pocket types, if contents have such a
+         * For the MOD, CORPSE, SOFTWARE, CABLE, and MIGRATION pocket types, if contents have such a
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */

@@ -1721,6 +1721,36 @@ std::vector<const item *> item_contents::ebooks() const
     return ebooks;
 }
 
+std::vector<item *> item_contents::cables( bool active_only )
+{
+    std::vector<item *> cables;
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CABLE ) ) {
+            for( item *it : pocket.all_items_top() ) {
+                if( !active_only || it->active ) {
+                    cables.emplace_back( it );
+                }
+            }
+        }
+    }
+    return cables;
+}
+
+std::vector<const item *> item_contents::cables( bool active_only ) const
+{
+    std::vector<const item *> cables;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CABLE ) ) {
+            for( const item *it : pocket.all_items_top() ) {
+                if( !active_only || it->active ) {
+                    cables.emplace_back( it );
+                }
+            }
+        }
+    }
+    return cables;
+}
+
 void item_contents::update_modified_pockets(
     const std::optional<const pocket_data *> &mag_or_mag_well,
     std::vector<const pocket_data *> container_pockets )
