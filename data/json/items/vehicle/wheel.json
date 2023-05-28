@@ -33,7 +33,10 @@
     "id": "wheel_mount_medium",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": { "str": "medium wheel hub assembly", "str_pl": "medium wheel hub assemblies" },
+    "name": {
+      "str": "medium wheel hub assembly",
+      "str_pl": "medium wheel hub assemblies"
+    },
     "description": "A metal assembly that allows bolting a wheel onto a car.  Fit for a car wheel.",
     "weight": "5 kg",
     "volume": "6 L",
@@ -50,7 +53,10 @@
     "id": "wheel_mount_heavy",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": { "str": "heavy wheel hub assembly", "str_pl": "heavy wheel hub assemblies" },
+    "name": {
+      "str": "heavy wheel hub assembly",
+      "str_pl": "heavy wheel hub assemblies"
+    },
     "description": "A heavy metal assembly that allows bolting a wheel onto a car.  Fit for a large car wheel.",
     "weight": "6 kg",
     "volume": "7 L",
@@ -400,7 +406,7 @@
     "id": "wheel_armor",
     "category": "veh_parts",
     "name": { "str": "armored wheel" },
-    "description": "A wide military-grade wheel.",
+    "description": "A wide military-grade wheel, can stop any bullet wasn't designed to poke it. It looks like it is made of rubber, but it is not.",
     "weight": "24500 g",
     "volume": "17500 ml",
     "longest_side": "813 mm",
@@ -438,7 +444,7 @@
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "bicycle wheel" },
-    "description": "A bicycle wheel.",
+    "description": "A bicycle wheel. Design of these look awfully similar to those that are on wheelchairs.",
     "weight": "1500 g",
     "volume": "11 L",
     "longest_side": "686 mm",
@@ -463,8 +469,11 @@
     "id": "wheel_caster",
     "category": "veh_parts",
     "type": "WHEEL",
-    "name": { "str": "set of casters", "str_pl": "sets of casters" },
-    "description": "A set of casters, like you'd find on a shopping cart.",
+    "name": {
+      "str": "set of casters",
+      "str_pl": "sets of casters"
+    },
+    "description": "A set of casters, like you'd find on a shopping cart. These are incredibly bad at redistributing weight, use it only on light-weight vehicles.",
     "weight": "1500 g",
     "volume": "1250 ml",
     "longest_side": "102 mm",
@@ -482,7 +491,10 @@
     "id": "wheel_10",
     "category": "veh_parts",
     "type": "WHEEL",
-    "name": { "str": "set of wheels", "str_pl": "sets of wheels" },
+    "name": {
+      "str": "set of wheels",
+      "str_pl": "sets of wheels"
+    },
     "description": "A set of four small wheels with tough rubber tires.",
     "weight": "4 kg",
     "volume": "4 L",
@@ -537,7 +549,10 @@
   },
   {
     "id": "wheel_rail_small_pair",
-    "name": { "str": "pair of small rail wheels", "str_pl": "pairs of small rail wheels" },
+    "name": {
+      "str": "pair of small rail wheels",
+      "str_pl": "pairs of small rail wheels"
+    },
     "type": "WHEEL",
     "description": "A pair of small rail wheels.  It fits small railroad rails found in places like amusement parks.  Mostly for hobby purposes rather than transportation.",
     "copy-from": "wheel_rail",
@@ -638,8 +653,11 @@
     "id": "wheel_tricycle",
     "category": "veh_parts",
     "type": "WHEEL",
-    "name": { "str": "set of tricycle wheels", "str_pl": "sets of tricycle wheels" },
-    "description": "A set of hard plastic wheels with one larger than the other two.  Proudly made in the USA by Double Dango Productions.",
+    "name": {
+      "str": "set of tricycle wheels",
+      "str_pl": "sets of tricycle wheels"
+    },
+    "description": "A set of hard plastic wheels with one larger than the other two.  Proudly made in the USA by Double Dango Productions. There is only one thought in your mind: can it win Grand Prix?",
     "weight": "750 g",
     "volume": "750 ml",
     "longest_side": "178 mm",
@@ -657,7 +675,10 @@
     "id": "wheel_wheelchair",
     "type": "WHEEL",
     "category": "veh_parts",
-    "name": { "str": "pair of wheelchair wheels", "str_pl": "pairs of wheelchair wheels" },
+    "name": {
+      "str": "pair of wheelchair wheels",
+      "str_pl": "pairs of wheelchair wheels"
+    },
     "description": "A pair of wheels for a wheelchair.",
     "weight": "3000 g",
     "volume": "12500 ml",
@@ -703,11 +724,12 @@
     "type": "WHEEL",
     "category": "veh_parts",
     "name": { "str": "wooden cart wheel" },
-    "description": "A handmade wooden cart wheel.",
+    "description": "A handmade wooden cart wheel: the symbol of civilization, ancient and post-apocalyptic alike.",
     "weight": "4500 g",
     "volume": "8750 ml",
     "longest_side": "508 mm",
     "price": 1200,
+    "price_postapoc": 200,
     "to_hit": -4,
     "material": [ "wood" ],
     "symbol": "]",
@@ -722,6 +744,104 @@
     "type": "WHEEL",
     "name": { "str": "banded wooden cart wheel" },
     "description": "A handmade wooden cart wheel with metal bands for durability.",
-    "relative": { "weight": "500 g" }
+    "price": 1350,
+    "price_postapoc": 210,
+    "material": [
+      {
+        "type": "wood",
+        "portion": 9
+      },
+      {
+        "type": "steel",
+        "portion": 1
+      }
+    ],
+    "weight": "5000 g"
+  },
+  {
+    "id": "wheel_wood_stable",
+    "copy-from": "wheel_wood",
+    "type": "WHEEL",
+    "name": {
+      "str": "pair of wooden cart wheels",
+      "str_pl": "pairs of wooden cart wheels"
+    },
+    "description": "A pair of handmade wooden cart wheel, used on small wooden carts.",
+    "weight": "9000 g",
+    "volume": "17500 ml",
+    "price": 2400,
+    "price_postapoc": 400
+  },
+  {
+    "id": "wheel_wood_b_stable",
+    "copy-from": "wheel_wood",
+    "type": "WHEEL",
+    "name": {
+      "str": "pair of banded wooden cart wheels",
+      "str_pl": "pairs of banded wooden cart wheels"
+    },
+    "description": "A pair of handmade wooden cart wheel with metal bands for durability, used on small wooden carts.",
+    "material": [
+      {
+        "type": "wood",
+        "portion": 9
+      },
+      {
+        "type": "steel",
+        "portion": 1
+      }
+    ],
+    "weight": "10000 g",
+    "volume": "17500 ml",
+    "price": 2600,
+    "price_postapoc": 420
+  },
+  {
+    "id": "chaintrack_makeshift_stable",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": {
+      "str": "pair of small makeshift chain tracks",
+      "str_pl": "pairs of small makeshift chain tracks"
+    },
+    "description": "A pair of small makeshift chain tracks made for off-road heavy-duty carts and mobile turrets, also known as 'continuous tracks' or 'caterpillar treads'. Each chain track is made of two small rims, each made of two welded together wheels of a scooter or similar, located on each end, and one moving cut in half rebar between them acting as a return roller. The track itself is made of a dozen and a half of crudely-shaped small metal sheets padded with rubber chunks, connected with each other via hinges. They are marvelous when off-road, while having low top speed and acceleration. This one is handmade, thus having a lower durability than factory-made.",
+    "weight": "22868 g",
+    "volume": "27320 ml",
+    "longest_side": "1000 mm",
+    "price": 6000,
+    "price_postapoc": 1400,
+    "material": [
+      {
+        "type": "steel",
+        "portion": 19
+      },
+      {
+        "type": "rubber",
+        "portion": 1
+      }
+    ],
+    "diameter": 11,
+    "width": 10,
+    "symbol": "]",
+    "color": "light_gray",
+    "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "wheel_wheelchair_or",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": { "str": "off-road 'wheelchair' wheels" },
+    "description": "A pair of off-road bicycle wheels, repurposed for the use on wheelchairs. Having bones was never an option...",
+    "weight": "3000 g",
+    "volume": "22 L",
+    "longest_side": "686 mm",
+    "price": 8000,
+    "price_postapoc": 250,
+    "material": [ "aluminum", "rubber" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 27,
+    "width": 3,
+    "melee_damage": { "bash": 8 }
   }
 ]
