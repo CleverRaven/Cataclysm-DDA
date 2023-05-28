@@ -5,28 +5,40 @@
     "id": "mon_zombie_survivor_death_drops",
     "magazine": 100,
     "entries": [
-      { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
-      { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
+      { "group": "survivor_basic_outfit", "damage": [ 1, 4 ] },
+      { "group": "bugout_bag" },
+      { "group": "book_survival", "prob": 15 },
+      { "group": "gear_survival", "prob": 25, "damage": [ 1, 4 ] },
+      { "group": "survivor_knife", "damage": [ 1, 4 ] },
       {
         "distribution": [
-          { "group": "book_survival", "prob": 15 },
-          { "group": "gear_survival", "prob": 25, "damage": [ 1, 4 ] },
-          { "group": "survivor_knife", "damage": [ 1, 4 ] },
-          {
-            "distribution": [
-              { "group": "survivor_melee", "prob": 40, "damage": [ 1, 4 ] },
-              { "group": "survivor_longguns", "prob": 60, "contents-item": "shoulder_strap", "damage": [ 1, 4 ] }
-            ],
-            "prob": 50
-          },
-          { "group": "survivor_grenades", "prob": 15, "damage": [ 1, 4 ] },
-          { "group": "stash_food", "prob": 40 }
-        ]
+          { "group": "survivor_melee", "prob": 40, "damage": [ 1, 4 ] },
+          { "group": "survivor_longguns", "prob": 60, "contents-item": "shoulder_strap", "damage": [ 1, 4 ] }
+        ],
+        "prob": 50
       },
+      { "group": "survivor_grenades", "prob": 25 },
+      { "group": "stash_food", "prob": 90 },
+      { "group": "ammo_common", "prob": 95 },
+      { "group": "stash_drugs", "prob": 80 },
+      { "group": "gear_survival", "prob": 80 },
+      { "group": "mil_food", "prob": 55 },
+      { "group": "mil_food_nodrugs", "prob": 55 },
+      { "group": "shelter", "prob": 8 },
+      { "group": "mil_surplus", "prob": 60 },
+      { "group": "default_zombie_items_bags", "prob": 80 },
+      { "group": "default_zombie_items_pockets", "prob": 95 },
       { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 },
       {
         "distribution": [ { "group": "full_survival_kit", "damage": [ 1, 4 ] }, { "group": "used_survival_kit", "damage": [ 1, 4 ] } ],
-        "prob": 5
+        "prob": 15
+      },
+      {
+        "distribution": [
+          { "group": "guns_pistol_common_everyday_carry", "damage": [ 1, 2 ], "prob": 1 },
+          { "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry" } ], "prob": 80 }
+        ],
+        "prob": 80
       }
     ]
   },
@@ -176,10 +188,15 @@
     "id": "survivor_knife",
     "type": "item_group",
     "items": [
-      [ "makeshift_knife", 80 ],
-      [ "copper_knife", 20 ],
-      [ "knife_steak", 20 ],
-      { "group": "knife_rambo_cont", "prob": 60 }
+      [ "knife_butcher", 15 ],
+      [ "knife_chef", 15 ],
+      [ "knife_carving", 15 ],
+      [ "knife_folding", 10 ],
+      [ "makeshift_knife", 1 ],
+      [ "knife_steak", 35 ],
+      { "group": "knife_rambo_cont", "prob": 15 },
+      [ "knife_hunting", 10 ],
+      [ "knife_meat_cleaver", 10 ]
     ]
   },
   {
@@ -243,7 +260,7 @@
         ],
         "prob": 200
       },
-      { "item": "ar15", "prob": 5, "charges": [ 0, 30 ] },
+      { "item": "modular_ar15", "prob": 5, "charges": [ 0, 30 ] },
       { "item": "mossberg_500", "prob": 5, "charges": [ 0, 6 ] },
       { "item": "remington_870", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "ruger_1022", "prob": 15, "charges": [ 0, 10 ] },
@@ -252,6 +269,254 @@
       { "item": "shotgun_d", "prob": 10, "charges": [ 0, 2 ] },
       { "item": "sten", "prob": 20, "charges": [ 0, 32 ] },
       { "item": "sks", "prob": 10, "charges": [ 0, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "survivor_basic_outfit",
+    "magazine": 100,
+    "entries": [
+      { "group": "underwear" },
+      { "group": "survivor_basic_pants" },
+      { "group": "survivor_basic_shirt" },
+      { "group": "survivor_basic_hands", "prob": 95 },
+      { "group": "survivor_basic_feet" },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      {
+        "distribution": [ { "group": "survivor_helmet_plus_mask", "prob": 60 }, { "group": "survivor_basic_head_full", "prob": 40 } ]
+      },
+      {
+        "distribution": [ { "group": "survivor_basic_with_jacket", "prob": 30 }, { "group": "survivor_basic_individual", "prob": 70 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "survivor_helmet_plus_mask",
+    "magazine": 100,
+    "entries": [ { "group": "survivor_basic_head_only" }, { "group": "survivor_basic_face", "prob": 75 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "survivor_basic_with_jacket",
+    "magazine": 100,
+    "entries": [ { "group": "survivor_basic_jacket" }, { "group": "survivor_basic_legs", "prob": 95 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "survivor_basic_individual",
+    "magazine": 100,
+    "entries": [
+      { "group": "survivor_basic_torso" },
+      { "group": "survivor_basic_legs", "prob": 95 },
+      { "group": "survivor_basic_arms", "prob": 95 }
+    ]
+  },
+  {
+    "id": "survivor_basic_head_only",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their head",
+    "items": [
+      [ "helmet_ball", 15 ],
+      [ "helmet_bike", 15 ],
+      [ "hat_boonie", 10 ],
+      [ "helmet_skid", 10 ],
+      [ "airsoft_helmet", 12 ],
+      [ "helmet_scrap", 5 ],
+      [ "pot_helmet", 7 ],
+      [ "helmet_army", 4 ],
+      [ "hat_hard", 22 ],
+      [ "miner_hat", 9 ],
+      [ "firehelmet", 10 ],
+      [ "chainmail_junk_hood", 1 ],
+      [ "pickelhaube", 1 ]
+    ]
+  },
+  {
+    "id": "survivor_basic_face",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their face",
+    "items": [
+      [ "glasses_safety", 15 ],
+      [ "goggles_swim", 5 ],
+      [ "goggles_ski", 10 ],
+      { "item": "mask_gas", "prob": 60, "charges": [ 0, 100 ] },
+      [ "mask_hockey", 10 ],
+      [ "mask_bal", 1 ],
+      [ "mask_rioter", 5 ]
+    ]
+  },
+  {
+    "id": "survivor_basic_head_full",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their entire head",
+    "items": [ [ "helmet_motor", 15 ], [ "helmet_riot", 4 ], [ "helmet_football", 10 ] ]
+  },
+  {
+    "id": "survivor_basic_arms",
+    "type": "item_group",
+    "//": "Anything a survivor looted to wear on their arms",
+    "items": [
+      [ "armguard_hard", 10 ],
+      [ "armguard_tire", 5 ],
+      [ "2byarm_guard", 5 ],
+      [ "armor_riot_arm", 8 ],
+      [ "armguard_paper", 10 ],
+      [ "armguard_scrap", 7 ],
+      [ "carpet_armguards", 8 ],
+      [ "improvised_armguard_tire", 4 ],
+      [ "elbow_pads", 20 ],
+      [ "chainmail_junk_arms", 1 ]
+    ]
+  },
+  {
+    "id": "survivor_basic_torso",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their torso",
+    "items": [
+      [ "vest_leather", 20 ],
+      [ "vest_leather_mod", 8 ],
+      [ "stab_vest", 15 ],
+      [ "dragonskin", 1 ],
+      [ "chainmail_junk_vest", 1 ],
+      [ "chestguard_hard", 10 ],
+      [ "armor_riot_torso", 10 ],
+      [ "cuirass_scrap", 8 ],
+      [ "carpet_cuirass", 7 ],
+      [ "bookplate", 7 ],
+      [ "football_armor", 15 ],
+      [ "ballistic_vest_light_pouches", 15 ],
+      [ "ballistic_vest_light_operator", 15 ],
+      [ "ballistic_vest_light", 15 ],
+      [ "soft_3a_vest", 3 ],
+      [ "level_3_vest", 3 ],
+      [ "lame_foil", 1 ],
+      [ "sleeveless_trenchcoat_leather", 12 ],
+      [ "sleeveless_trenchcoat", 12 ]
+    ]
+  },
+  {
+    "id": "survivor_basic_jacket",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their torso and arms",
+    "items": [
+      [ "trenchcoat", 15 ],
+      [ "trenchcoat_leather", 15 ],
+      [ "trenchcoat_fur", 5 ],
+      [ "trenchcoat_faux_fur", 5 ],
+      [ "duster", 15 ],
+      [ "duster_leather", 10 ],
+      [ "duster_fur", 10 ],
+      [ "duster_faux_fur", 8 ],
+      [ "jacket_leather", 30 ],
+      [ "jacket_leather_tire", 15 ],
+      [ "jacket_leather_mod", 25 ],
+      [ "motorbike_armor", 25 ],
+      [ "ski_jacket", 10 ],
+      [ "coat_winter", 10 ],
+      [ "coat_fur_sf", 1 ],
+      [ "coat_fur", 1 ],
+      [ "coat_faux_fur", 1 ]
+    ]
+  },
+  {
+    "id": "survivor_basic_legs",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their legs",
+    "items": [
+      [ "knee_pads", 20 ],
+      [ "armor_riot_leg", 8 ],
+      [ "legguard_tire", 15 ],
+      [ "chainmail_junk_legs", 1 ],
+      [ "legguard_scrap", 10 ],
+      [ "armor_riot_torso", 10 ],
+      [ "carpet_legguards", 8 ],
+      [ "legguard_paper", 7 ],
+      [ "chaps_leather", 15 ],
+      [ "chaps_cut_resistant", 10 ],
+      [ "legguard_hard", 10 ]
+    ]
+  },
+  {
+    "id": "survivor_basic_hands",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their hands",
+    "items": [
+      [ "gloves_work", 20 ],
+      [ "gloves_fur", 8 ],
+      [ "gloves_wool", 8 ],
+      [ "chainmail_junk_hands", 1 ],
+      [ "gloves_winter", 10 ],
+      [ "gloves_rubber", 10 ],
+      [ "gloves_leather", 25 ],
+      [ "gloves_airsoft", 3 ],
+      [ "wetsuit_gloves", 5 ],
+      [ "beekeeping_gloves", 5 ],
+      [ "gloves_cut_resistant", 10 ],
+      [ "wetsuit_gloves_thick", 3 ],
+      [ "gloves_tactical", 10 ],
+      [ "fire_gauntlets", 5 ],
+      [ "gauntlet_fencing", 2 ],
+      [ "gauntlet_fencing_l", 1 ]
+    ]
+  },
+  {
+    "id": "survivor_basic_feet",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their hands",
+    "items": [
+      [ "boots", 20 ],
+      [ "boots_steel", 15 ],
+      [ "boots_scrap", 2 ],
+      [ "boots_hiking", 15 ],
+      [ "boots_combat", 10 ],
+      [ "boots_winter", 10 ],
+      [ "motorbike_boots", 5 ],
+      [ "knee_high_boots", 5 ],
+      [ "thigh_high_boots", 3 ],
+      [ "boots_fur", 10 ],
+      [ "sneakers_steel", 10 ],
+      [ "boots_rubber", 5 ]
+    ]
+  },
+  {
+    "id": "survivor_basic_pants",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their hands",
+    "items": [
+      [ "pants_cargo", 15 ],
+      [ "pants_army", 10 ],
+      [ "winter_pants_army", 2 ],
+      [ "technician_pants_gray", 15 ],
+      [ "jeans", 20 ],
+      [ "jeans_red", 5 ],
+      [ "motorbike_pants", 10 ],
+      [ "survivor_adhoc_leather_pants", 15 ],
+      [ "pants_faux_fur", 5 ],
+      [ "pants_ski", 5 ],
+      [ "pants", 5 ]
+    ]
+  },
+  {
+    "id": "survivor_basic_shirt",
+    "type": "item_group",
+    "//": "Anything a survivor looted or cobbled together to wear on their hands",
+    "items": [
+      [ "sweatshirt", 15 ],
+      [ "hoodie", 10 ],
+      [ "sweater", 10 ],
+      [ "technician_shirt_gray", 5 ],
+      [ "rashguard", 15 ],
+      [ "wetsuit_jacket", 5 ],
+      [ "survivor_adhoc_leather_shirt", 10 ],
+      [ "cloth_shirt_padded", 15 ],
+      [ "combat_shirt", 5 ],
+      [ "fencing_jacket", 1 ]
     ]
   }
 ]

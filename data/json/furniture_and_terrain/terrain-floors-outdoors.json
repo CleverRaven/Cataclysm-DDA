@@ -7,7 +7,7 @@
     "symbol": ".",
     "color": "brown",
     "connect_groups": "DIRT",
-    "connects_to": "DIRT",
+    "connects_to": [ "DIRT", "CLAY", "SAND", "MUD", "DIRTMOUND", "CLAYMOUND", "SANDMOUND", "SANDGLASS", "CONCRETE" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
@@ -19,7 +19,7 @@
     "description": "Covered in twigs and lots of brown, decaying leaves.",
     "symbol": ".",
     "color": "brown",
-    "looks_like": "t_grass_tall",
+    "looks_like": "t_moss",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
@@ -33,7 +33,7 @@
     "color": "yellow",
     "move_cost": 3,
     "connect_groups": "SAND",
-    "connects_to": "SAND",
+    "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS" ],
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
@@ -46,6 +46,8 @@
     "color": "brown",
     "looks_like": "t_dirt",
     "move_cost": 3,
+    "connect_groups": "MUD",
+    "connects_to": "MUD",
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
@@ -57,7 +59,7 @@
     "symbol": ".",
     "color": "light_red",
     "connect_groups": "CLAY",
-    "connects_to": "CLAY",
+    "connects_to": [ "CLAY", "CLAYMOUND" ],
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
@@ -70,8 +72,8 @@
     "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
-    "connect_groups": "CLAY",
-    "connects_to": "CLAY",
+    "connect_groups": "CLAYMOUND",
+    "connects_to": "CLAYMOUND",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "BURROWABLE" ],
     "bash": {
@@ -91,8 +93,8 @@
     "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
-    "connect_groups": "SAND",
-    "connects_to": "SAND",
+    "connect_groups": "SANDMOUND",
+    "connects_to": "SANDMOUND",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "BURROWABLE" ],
     "bash": {
@@ -112,8 +114,8 @@
     "looks_like": "t_sand",
     "symbol": "~",
     "color": "brown",
-    "connect_groups": "SAND",
-    "connects_to": "SAND",
+    "connect_groups": "SANDGLASS",
+    "connects_to": "SANDGLASS",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "crunch", "ter_set": "t_sand", "str_min": 25, "str_max": 100, "str_min_supported": 100, "bash_below": true }
@@ -125,8 +127,8 @@
     "description": "An area of heaped dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
     "symbol": "#",
     "color": "brown",
-    "connect_groups": "DIRT",
-    "connects_to": "DIRT",
+    "connect_groups": "DIRTMOUND",
+    "connects_to": "DIRTMOUND",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "PLANTABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 },

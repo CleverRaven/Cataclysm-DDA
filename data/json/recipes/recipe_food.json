@@ -2288,7 +2288,11 @@
     "tools": [ [ [ "surface_heat", 11, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "//": "these are actually tortilla chips.  about 120g of tortilla, plus oil, so about 11u",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_frying" } ],
-    "components": [ [ [ "tortilla_corn", 5 ] ], [ [ "fry_oil", 2, "LIST" ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
+    "components": [
+      [ [ "tortilla_corn", 5 ], [ "tortilla_flour", 5 ] ],
+      [ [ "fry_oil", 2, "LIST" ] ],
+      [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -9559,7 +9563,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
-    "difficulty": 5,
+    "difficulty": 3,
     "time": "10 m",
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,

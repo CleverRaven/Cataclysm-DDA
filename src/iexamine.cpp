@@ -1575,7 +1575,7 @@ void iexamine::deployed_furniture( Character &you, const tripoint &pos )
     }
     you.add_msg_if_player( m_info, _( "You take down the %s." ),
                            here.furn( pos ).obj().name() );
-    const auto furn_item = here.furn( pos ).obj().deployed_item;
+    const itype_id furn_item = here.furn( pos ).obj().deployed_item;
     here.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
     here.furn_set( pos, f_null );
 }
@@ -2703,7 +2703,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
     // The plant furniture has the NOITEM token which prevents adding items on that square,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
     // must be on the square of the plant, therefore this hack:
-    const auto old_furn = here.furn( tile );
+    const furn_id old_furn = here.furn( tile );
     here.furn_set( tile, f_null );
     here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
     here.furn_set( tile, old_furn );
@@ -3300,7 +3300,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
             }
             you.add_msg_if_player( m_info, _( "You take down the %s." ),
                                    here.furnname( examp ) );
-            const auto furn_item = here.furn( examp ).obj().deployed_item;
+            const itype_id furn_item = here.furn( examp ).obj().deployed_item;
             here.add_item_or_charges( examp, item( furn_item, calendar::turn ) );
             here.furn_set( examp, f_null );
             return;
@@ -3726,7 +3726,7 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
         return false;
     }
     map &here = get_map();
-    const auto keg_name = here.name( pos );
+    const std::string keg_name = here.name( pos );
 
     map_stack stack = here.i_at( pos );
     if( stack.empty() ) {
@@ -4054,7 +4054,10 @@ void trap::examine( const tripoint &examp ) const
     }
 
     // Some traps are not actual traps. Those should get a different query, no skill checks, and the option to grab it right away.
-    if( easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
+    // If there is a telepad and we are anchored, there is no risk involved in disarming it also.
+    if( easy_take_down() || ( id == tr_telepad &&
+                              player_character.worn_with_flag(
+                                  flag_DIMENSIONAL_ANCHOR ) ) ) { // Separated so saying no doesn't trigger the other query.
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
@@ -4448,7 +4451,7 @@ static int getNearPumpCount( const tripoint &p, fuel_station_fuel_type &fuel_typ
     int result = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        const auto t = here.ter( tmp );
+        const ter_id t = here.ter( tmp );
         if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
             result++;
             fuel_type = FUEL_TYPE_GASOLINE;
@@ -4573,7 +4576,7 @@ std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int num
     int k = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        const auto t = here.ter( tmp );
+        const ter_id t = here.ter( tmp );
         if( ( t == ter_t_gas_pump || t == ter_t_gas_pump_a
               || t == ter_t_diesel_pump || t == ter_t_diesel_pump_a ) && number == k++ ) {
             return tmp;
@@ -4641,7 +4644,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, fuel_station_fuel
     int k = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        const auto t = here.ter( tmp );
+        const ter_id t = here.ter( tmp );
         if( fuel_type == FUEL_TYPE_GASOLINE ) {
             if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                 if( number == k++ ) {
@@ -6383,7 +6386,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_part ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
+                crafts.emplace_back( vehicle_cursor( part->vehicle(), part->part_index() ), &it );
             }
         }
     } else {
@@ -6397,7 +6400,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_furn ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
+                crafts.emplace_back( map_cursor( examp ), &it );
             }
         }
     }

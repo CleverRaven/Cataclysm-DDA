@@ -986,7 +986,7 @@
   {
     "type": "scenario",
     "id": "aircraft_carrier_start",
-    "name": "Challenge- Aircraft Carrier",
+    "name": "Challenge - Aircraft Carrier",
     "points": 4,
     "description": "You were on a mission off the coast of North Korea when the aircraft carrier you were stationed on suddenly and inexplicably found itself in the middle of a lake.  You have no idea where you are or what's happened, but you have more important things to worry about: everyone else aboard seems to have become violently insane.  It might be time to abandon ship.",
     "start_name": "Aircraft Carrier",

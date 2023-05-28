@@ -1995,7 +1995,7 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p,
  */
 const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
-    const auto furn_here = furn( pos );
+    const furn_id furn_here = furn( pos );
     if( !furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         const harvest_id &harvest = furn_here->get_harvest();
         if( ! harvest.is_null() ) {
@@ -2003,7 +2003,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
         }
     }
 
-    const auto ter_here = ter( pos );
+    const ter_id ter_here = ter( pos );
     if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         return harvest_id::NULL_ID();
     }
@@ -2014,7 +2014,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
 const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
     static const std::set<std::string> null_harvest_names = {};
-    const auto furn_here = furn( pos );
+    const furn_id furn_here = furn( pos );
     if( furn_here->can_examine( pos ) ) {
         if( furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
             return null_harvest_names;
@@ -2023,7 +2023,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
         return furn_here->get_harvest_names();
     }
 
-    const auto ter_here = ter( pos );
+    const ter_id ter_here = ter( pos );
     if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         return null_harvest_names;
     }
@@ -3763,7 +3763,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             // HACK: A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
             tripoint below( p.xy(), p.z - 1 );
-            const auto roof = get_roof( below, false );
+            const ter_id roof = get_roof( below, false );
             if( roof == ter( p ) ) {
                 smash_ter = false;
                 bash = nullptr;
@@ -3921,7 +3921,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             // Take the tent down
             const int rad = tentp->second.obj().bash.collapse_radius;
             for( const tripoint &pt : points_in_radius( tentp->first, rad ) ) {
-                const auto frn = furn( pt );
+                const furn_id frn = furn( pt );
                 if( frn == f_null ) {
                     continue;
                 }
@@ -3981,7 +3981,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     if( smash_ter && ter( p ) == t_open_air && zlevels ) {
         tripoint below( p.xy(), p.z - 1 );
-        const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
+        const ter_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
     }
 
@@ -6711,7 +6711,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     if( curr_field.field_count() > 0 ) {
         const field_type_id &fid = curr_field.displayed_field_type();
         const field_entry *fe = curr_field.find_field( fid );
-        const auto field_symbol = fid->get_symbol();
+        const std::string field_symbol = fid->get_symbol();
         if( field_symbol == "&" || fe == nullptr ) {
             // Do nothing, a '&' indicates invisible fields.
         } else if( field_symbol == "*" ) {
@@ -7010,7 +7010,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
         obstaclepos = new_point;
         return false;
     } );
-    if( const auto obstacle_f = furn( obstaclepos ) ) {
+    if( const furn_id obstacle_f = furn( obstaclepos ) ) {
         return obstacle_f->coverage;
     }
     if( const optional_vpart_position vp = veh_at( obstaclepos ) ) {
@@ -7025,7 +7025,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
 
 int map::coverage( const tripoint &p ) const
 {
-    if( const auto obstacle_f = furn( p ) ) {
+    if( const furn_id obstacle_f = furn( p ) ) {
         return obstacle_f->coverage;
     }
     if( const optional_vpart_position vp = veh_at( p ) ) {
@@ -7089,7 +7089,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
         const tripoint tp = { p.xy(), f.z };
         const int tp_cost = move_cost( tp );
         // rejection conditions
-        if( tp_cost < cost_min || tp_cost > cost_max || ( !has_floor_or_support( tp ) && tp != f ) ) {
+        if( tp_cost < cost_min || tp_cost > cost_max || is_open_air( tp ) ) {
             continue;
         }
         // set initial cost for grid point
@@ -7340,7 +7340,7 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     clear_vehicle_level_caches();
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            loadn( point( gridx, gridy ), update_vehicle, false );
+            loadn( point( gridx, gridy ), update_vehicle );
             if( pump_events ) {
                 inp_mngr.pump_events();
             }
@@ -7442,6 +7442,7 @@ void map::shift( const point &sp )
     }
 
     const tripoint_abs_sm abs = get_abs_sub();
+    std::vector<tripoint> loaded_grids;
 
     // TODO: fix point types (sp should be relative?)
     set_abs_sub( abs + sp );
@@ -7493,6 +7494,7 @@ void map::shift( const point &sp )
                             update_vehicle_list( cur_submap, gridz );
                         } else {
                             loadn( grid, true );
+                            loaded_grids.emplace_back( grid );
                         }
                     }
                 } else { // sy < 0; work through it backwards
@@ -7508,6 +7510,7 @@ void map::shift( const point &sp )
                             update_vehicle_list( cur_submap, gridz );
                         } else {
                             loadn( grid, true );
+                            loaded_grids.emplace_back( grid );
                         }
                     }
                 }
@@ -7527,6 +7530,7 @@ void map::shift( const point &sp )
                             update_vehicle_list( cur_submap, gridz );
                         } else {
                             loadn( grid, true );
+                            loaded_grids.emplace_back( grid );
                         }
                     }
                 } else { // sy < 0; work through it backwards
@@ -7542,6 +7546,7 @@ void map::shift( const point &sp )
                             update_vehicle_list( cur_submap, gridz );
                         } else {
                             loadn( grid, true );
+                            loaded_grids.emplace_back( grid );
                         }
                     }
                 }
@@ -7559,6 +7564,11 @@ void map::shift( const point &sp )
         for( const tripoint &pt : old_cache ) {
             support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
         }
+    }
+    // actualize after loading all submaps to prevent errors
+    // with entities at the edges
+    for( tripoint loaded_grid : loaded_grids ) {
+        actualize( loaded_grid );
     }
 }
 
@@ -7651,7 +7661,7 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
     return ret;
 }
 
-void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actualize )
+void map::loadn( const tripoint &grid, const bool update_vehicles )
 {
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x()
                   << "], worldy[" << abs_sub.y() << "], grid " << grid << ")";
@@ -7745,19 +7755,14 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         }
     }
 
-    // don't actualize before all maps are loaded
-    if( _actualize ) {
-        actualize( grid );
-    }
-
     abs_sub.z() = old_abs_z;
 }
 
-void map::loadn( const point &grid, bool update_vehicles, bool _actualize )
+void map::loadn( const point &grid, bool update_vehicles )
 {
     if( zlevels ) {
         for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            loadn( tripoint( grid, gridz ), update_vehicles, _actualize );
+            loadn( tripoint( grid, gridz ), update_vehicles );
         }
 
         // Note: we want it in a separate loop! It is a post-load cleanup
@@ -7766,7 +7771,7 @@ void map::loadn( const point &grid, bool update_vehicles, bool _actualize )
             add_roofs( tripoint( grid, gridz ) );
         }
     } else {
-        loadn( tripoint( grid, abs_sub.z() ), update_vehicles, _actualize );
+        loadn( tripoint( grid, abs_sub.z() ), update_vehicles );
     }
 }
 
@@ -8094,6 +8099,7 @@ void map::actualize( const tripoint &grid )
     const bool do_funnels = grid.z >= 0;
 
     // check spoiled stuff, and fill up funnels while we're at it
+    process_items_in_vehicles( *tmpsub );
     process_items_in_submap( *tmpsub, grid );
     explosion_handler::process_explosions();
     for( int x = 0; x < SEEX; x++ ) {
@@ -8109,7 +8115,7 @@ void map::actualize( const tripoint &grid )
                 field_ter_locs.push_back( pnt );
             }
 
-            const auto trap_here = tmpsub->get_trap( p );
+            const trap_id trap_here = tmpsub->get_trap( p );
             if( trap_here != tr_null ) {
                 traplocs[trap_here.to_i()].push_back( pnt );
             }

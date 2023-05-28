@@ -31,6 +31,7 @@
     "name": "dreamforged full helmet",
     "id": "dreamforged_fullhelmet_ench",
     "activity_level": "ACTIVE_EXERCISE",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_fullhelmet_ench",
@@ -51,6 +52,7 @@
     "name": "dreamforged helmet",
     "id": "dreamforged_helmet_ench",
     "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_helmet_ench", "effect": [ { "u_spawn_item": "dreamforged_helmet_ench", "use_item_group": true } ] }
     ],
@@ -65,6 +67,7 @@
     "name": "dreamforged plate armor",
     "id": "dreamforged_plate_armor_ench",
     "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_plate_armor_ench",
@@ -82,6 +85,7 @@
     "name": "dreamforged plate armor",
     "id": "dreamforged_armguard_plate_ench",
     "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_armguard_plate_ench",
@@ -99,6 +103,7 @@
     "name": "dreamforged boots",
     "id": "dreamforged_boots_ench",
     "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_boots_ench", "effect": [ { "u_spawn_item": "dreamforged_boots_ench", "use_item_group": true } ] }
     ],

@@ -901,7 +901,7 @@
       { "item": "fishing_waders", "prob": 1 },
       { "item": "football_armor", "prob": 1 },
       { "item": "pom_poms", "prob": 1 },
-      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
       { "item": "cheerleader_top_short", "prob": 1 },
       { "item": "cheerleader_skirt", "prob": 1 },
       { "item": "cheerleader_skirt_short", "prob": 1 },

@@ -199,8 +199,8 @@
       "place_loot": [
         { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },
         {
-          "item": "m4_carbine",
-          "variant": "m4a1",
+          "item": "modular_m4_carbine",
+          "variant": "modular_m4a1",
           "x": 12,
           "y": [ 9, 11 ],
           "magazine": 100,

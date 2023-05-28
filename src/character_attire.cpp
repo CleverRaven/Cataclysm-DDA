@@ -757,6 +757,13 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
 
             // add the sublocations to the overall body part layer and update if we are conflicting
             for( sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
+                if( std::count_if( bp->sub_parts.begin(),
+                bp->sub_parts.end(), [sbp]( const sub_bodypart_str_id & bpid ) {
+                return sbp.id() == bpid;
+                } ) == 0 ) {
+                    // the sub part isn't part of the bodypart we are checking
+                    continue;
+                }
                 // bit hacky but needed since we are doing one layer at a time
                 std::vector<layer_level> ll;
                 ll.push_back( item_layer );

@@ -724,10 +724,10 @@ TEST_CASE( "crafting_failure_rates_match_calculated", "[crafting][random]" )
     const recipe_id armor_qt_lightplate( "armor_qt_lightplate_test_no_tools" );
 
     // Skill zero recipes
-    test_chances_for( makeshift_crowbar, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f );
-    test_chances_for( meat_cooked, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f );
-    test_chances_for( club_wooden_large, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f );
-    test_chances_for( nailboard, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f );
+    test_chances_for( makeshift_crowbar, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    test_chances_for( meat_cooked, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    test_chances_for( club_wooden_large, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    test_chances_for( nailboard, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
     // Recipes requring various degrees of skill and proficiencies
     test_chances_for( cudgel, 82.5, 72.f, 50.f, 50.f, 21.f, 21.f, 2.25 );
     test_chances_for( pumpkin_muffins, 92.5, 82.f, 67.f, 50.f, 43.f, 21.f, 2.25 );
@@ -2123,8 +2123,8 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
     std::vector<item> tools;
     tools.insert( tools.end(), 10, tool_with_ammo( "hotplate", 500 ) );
     tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
-    tools.emplace_back( item( "pot_canning" ) );
-    tools.emplace_back( item( "knife_butcher" ) );
+    tools.emplace_back( "pot_canning" );
+    tools.emplace_back( "knife_butcher" );
 
     GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
 

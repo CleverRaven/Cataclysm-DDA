@@ -45,7 +45,25 @@
         "F": { "item": "pot", "chance": 50 },
         "v": { "item": "jug_plastic", "chance": 50 }
       },
-      "place_loot": [ { "group": "NC_ROBOFAC_INTERCOM_trade", "chance": 100, "x": 2, "y": [ 2, 4 ], "repeat": [ 9, 15 ] } ]
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": 2, "y": [ 2, 4 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_ROBOFAC_FREE_MERCHANT_misc",
+          "faction": "free_merchants",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_ROBOFAC_FREE_MERCHANT_misc",
+          "faction": "free_merchants",
+          "x": 2,
+          "y": 4
+        }
+      ],
+      "//": "migration from older saved games - remove older shop stocks",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

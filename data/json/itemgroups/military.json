@@ -4,16 +4,16 @@
     "id": "military_standard_assault_rifles",
     "subtype": "distribution",
     "entries": [
-      { "item": "m4_carbine", "variant": "m4a1", "prob": 88, "charges": [ 0, 30 ] },
-      { "item": "m27_assault_rifle", "variant": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 88, "charges": [ 0, 30 ] },
+      { "item": "modular_m27_assault_rifle", "variant": "modular_m27iar", "prob": 10, "charges": [ 0, 30 ] },
       {
-        "item": "m27_assault_rifle",
-        "variant": "m38dmr",
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m38dmr",
         "contents-group": "m38dmr_mods",
         "prob": 1,
         "charges": [ 0, 30 ]
       },
-      { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ] }
+      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ] }
     ]
   },
   {
@@ -21,22 +21,28 @@
     "id": "military_standard_assault_rifles_sighted",
     "subtype": "distribution",
     "entries": [
-      { "item": "m4_carbine", "variant": "m4a1", "prob": 88, "charges": [ 0, 30 ], "contents-item": "acog_scope" },
       {
-        "item": "m27_assault_rifle",
-        "variant": "m27iar",
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
+        "prob": 88,
+        "charges": [ 0, 30 ],
+        "contents-item": "acog_scope"
+      },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m27iar",
         "prob": 10,
         "charges": [ 0, 30 ],
         "contents-item": "acog_scope"
       },
-      { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-item": "acog_scope" }
+      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-item": "acog_scope" }
     ]
   },
   {
     "type": "item_group",
     "id": "military_grenadier_assault_rifles",
     "subtype": "distribution",
-    "entries": [ { "item": "m4_carbine", "contents-group": "military_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
+    "entries": [ { "item": "modular_m4_carbine", "contents-group": "military_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
   },
   {
     "id": "armor_plates",
@@ -636,15 +642,15 @@
       { "item": "20x66_flechette", "prob": 3 },
       { "item": "m9", "variant": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
-      { "item": "m4_carbine", "variant": "m4a1", "prob": 7 },
-      { "item": "m4_carbine", "variant": "m4_cqbr", "prob": 1 },
+      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 7 },
+      { "item": "m4_cqbr", "prob": 1 },
       { "item": "m231pfw", "prob": 1 },
-      { "item": "m16a4", "prob": 5 },
-      { "item": "m16_auto_rifle", "variant": "m16a3", "prob": 1 },
+      { "item": "modular_m16a4", "prob": 5 },
+      { "item": "modular_m16_auto_rifle", "variant": "modular_m16a3", "prob": 1 },
       { "item": "colt_ro635", "prob": 1 },
       { "item": "p226_9mm", "prob": 1 },
       { "item": "sp2022", "prob": 1 },
-      { "item": "m27_assault_rifle", "variant": "h&k416a5", "prob": 7 },
+      { "item": "modular_m27_assault_rifle", "variant": "modular_h&k416a5", "prob": 7 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
       { "item": "m26_mass_standalone", "prob": 1 },
       { "item": "scar_l", "prob": 6 },
@@ -652,8 +658,8 @@
       { "item": "sig_mcx_rattler_sbr", "prob": 1 },
       { "item": "m249", "prob": 1 },
       { "item": "m240", "prob": 1 },
-      { "item": "m27_assault_rifle", "variant": "m27iar", "prob": 1 },
-      { "item": "m27_assault_rifle", "variant": "m38dmr", "contents-group": "m38dmr_mods", "prob": 1 },
+      { "item": "modular_m27_assault_rifle", "variant": "modular_m27iar", "prob": 1 },
+      { "item": "modular_m27_assault_rifle", "variant": "modular_m38dmr", "contents-group": "m38dmr_mods", "prob": 1 },
       { "item": "plasma_gun", "prob": 1 },
       { "item": "m320", "prob": 5 },
       { "item": "m320_mod", "prob": 10 },
@@ -778,7 +784,7 @@
       { "item": "winter_pants_army", "prob": 20 },
       { "item": "winter_jacket_army", "prob": 20 },
       { "item": "winter_gloves_army", "prob": 20 },
-      { "item": "army_top", "prob": 70 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 70 },
       { "group": "ammo_pocket_batteries_full", "prob": 40 },
       { "item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
       { "item": "boots_combat", "prob": 50 },
@@ -851,8 +857,13 @@
       { "item": "rm451_flamethrower", "prob": 10, "charges": [ 0, 2000 ] },
       { "item": "m249", "prob": 30, "charges": [ 0, 30 ] },
       { "item": "m240", "prob": 20, "charges": [ 0, 200 ] },
-      { "item": "m27_assault_rifle", "variant": "m27iar", "prob": 30, "charges": [ 0, 30 ] },
-      { "item": "m27_assault_rifle", "variant": "m38dmr", "contents-group": "m38dmr_mods", "charges": [ 0, 30 ] },
+      { "item": "modular_m27_assault_rifle", "variant": "modular_m27iar", "prob": 30, "charges": [ 0, 30 ] },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m38dmr",
+        "contents-group": "m38dmr_mods",
+        "charges": [ 0, 30 ]
+      },
       { "item": "m2browning", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "mark19", "prob": 15, "charges": [ 0, 50 ] },
       { "item": "556", "prob": 30, "charges": [ 1, 30 ] },
@@ -893,7 +904,10 @@
       { "item": "20x66_frag", "prob": 2, "charges": [ 1, 5 ] },
       { "item": "20x66_flare", "prob": 4, "charges": [ 1, 10 ] },
       { "item": "20x66_inc", "prob": 2, "charges": [ 1, 10 ] },
-      { "item": "bt_apc9k", "prob": 1, "charges": [ 0, 15 ] }
+      { "item": "bt_apc9k", "prob": 1, "charges": [ 0, 15 ] },
+      { "item": "tac338", "prob": 8, "charges": [ 0, 5 ] },
+      { "item": "338lapua_fmjbt", "prob": 12, "charges": [ 1, 25 ] },
+      { "item": "338lapua_api", "prob": 4, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -999,7 +1013,7 @@
       { "item": "winter_pants_army", "prob": 10 },
       { "item": "winter_jacket_army", "prob": 10 },
       { "item": "winter_gloves_army", "prob": 10 },
-      { "item": "army_top", "prob": 30 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
       { "item": "boots_combat", "prob": 10 },
       { "item": "gloves_tactical", "prob": 10 },
       { "item": "jumpsuit", "prob": 20 },
