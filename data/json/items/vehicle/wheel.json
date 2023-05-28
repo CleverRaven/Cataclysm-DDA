@@ -463,10 +463,7 @@
     "id": "wheel_caster",
     "category": "veh_parts",
     "type": "WHEEL",
-    "name": {
-      "str": "set of casters",
-      "str_pl": "sets of casters"
-    },
+    "name": { "str": "set of casters", "str_pl": "sets of casters" },
     "description": "A set of casters, like you'd find on a shopping cart. These are incredibly bad at redistributing weight, use it only on light-weight vehicles.",
     "weight": "1500 g",
     "volume": "1250 ml",
