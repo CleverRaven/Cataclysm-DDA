@@ -312,9 +312,7 @@
           "light_snare_kit",
           "wicker_backpack"
         ],
-        "entries": [
-          { "item": "copper_knife", "container-item": "sheath" }
-        ]
+        "entries": [ { "item": "copper_knife", "container-item": "sheath" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
