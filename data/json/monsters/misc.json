@@ -119,7 +119,15 @@
     "weight": "100 kg",
     "name": { "str": "debug dragger" },
     "description": "This monster exists to drag you behind it briefly",
-    "special_attacks": [ { "id": "grab_drag", "cooldown": 0, "move_cost": 0, "grab_data": { "drag_grab_break_distance": 999, "drag_movecost_mod": 0.001 } }, { "id": "drag_followup", "move_cost": 0, "cooldown": 0, "grab_data": { "drag_grab_break_distance": 999 } } ]
+    "special_attacks": [
+      {
+        "id": "grab_drag",
+        "cooldown": 0,
+        "move_cost": 0,
+        "grab_data": { "drag_grab_break_distance": 999, "drag_movecost_mod": 0.001 }
+      },
+      { "id": "drag_followup", "move_cost": 0, "cooldown": 0, "grab_data": { "drag_grab_break_distance": 999 } }
+    ]
   },
   {
     "id": "weakpoint_mon",
