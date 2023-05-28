@@ -1192,6 +1192,20 @@
   {
     "type": "keybinding",
     "id": "QUIT",
+    "name": "Close map",
+    "category": "OVERMAP",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "m" },
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
     "name": "Exit screen",
     "bindings": [
       { "input_method": "keyboard_any", "key": "ESC" },
