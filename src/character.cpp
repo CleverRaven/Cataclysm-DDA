@@ -1108,6 +1108,10 @@ bool Character::can_try_doge() const
         add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
         return false;
     }
+    //If stamina is too low we can't dodge
+    if( get_stamina_dodge_modifier() <= 0.1 ) {
+        return false;
+    }
 
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
     if( get_dodges_left() <= 0 ) {
@@ -1115,6 +1119,15 @@ bool Character::can_try_doge() const
         return false;
     }
     return true;
+}
+
+float Character::get_stamina_dodge_modifier() const
+{
+    const double stamina = get_stamina();
+    const double stamina_min = get_stamina_max() * 0.1;
+    const double stamina_max = get_stamina_max() * 0.9;
+    const double stamina_logistic = 1.0 - logarithmic_range( stamina_min, stamina_max, stamina );
+    return stamina_logistic;
 }
 
 int Character::sight_range( float light_level ) const
