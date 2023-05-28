@@ -1305,6 +1305,7 @@ clean-pch:
 	rm -f pch/*pch.hpp.gch
 	rm -f pch/*pch.hpp.pch
 	rm -f pch/*pch.hpp.d
+	$(MAKE) -C tests clean-pch
 
 .PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
 
