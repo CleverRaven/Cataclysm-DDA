@@ -323,7 +323,7 @@ TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]
 
         SECTION( "30% stamina" ) {
             dummy.set_stamina( .3 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 0.4f ).margin( 0.1 ) );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.1 ) );
         }
 
         SECTION( "20% stamina" ) {

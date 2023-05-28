@@ -1109,7 +1109,7 @@ bool Character::can_try_doge() const
         return false;
     }
     //If stamina is too low we can't dodge
-    if( get_stamina_dodge_modifier() <= 0.1 ) {
+    if( get_stamina_dodge_modifier() <= 0.11 ) {
         return false;
     }
 
