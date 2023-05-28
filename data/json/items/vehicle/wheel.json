@@ -400,7 +400,7 @@
     "id": "wheel_armor",
     "category": "veh_parts",
     "name": { "str": "armored wheel" },
-    "description": "A wide military-grade wheel, can stop any bullet wasn't designed to poke it. It looks like it is made of rubber, but it is not.",
+    "description": "A wide military-grade wheel, can stop any bullet that wasn't designed to poke it. It looks like it is made of rubber, but it is not.",
     "weight": "24500 g",
     "volume": "17500 ml",
     "longest_side": "813 mm",
