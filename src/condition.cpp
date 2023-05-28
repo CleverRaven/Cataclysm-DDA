@@ -773,7 +773,7 @@ void conditional_t::set_has_var( const JsonObject &jo, const std::string &member
         if( time_check || !value_check ) {
             return !actor->get_value( var_name ).empty();
         }
-        return actor->get_value(var_name) == value;
+        return actor->get_value( var_name ) == value;
     };
 }
 
