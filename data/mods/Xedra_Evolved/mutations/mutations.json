@@ -272,5 +272,15 @@
     "valid": false,
     "purifiable": false,
     "types": [ "BLOOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "APOSTATES_BLOOD",
+    "name": { "str": "Apostates's blood" },
+    "points": 0,
+    "description": "Through a complicated ritual utilizing an unholy relic, you have transubstantiated your own blood with that of a great betrayer of faith.  It'll prevent you from becoming infected with vampirism while you live along abilities that may seem demonic, effects postmortem unknown.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BLOOD" ]
   }
 ]

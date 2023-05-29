@@ -208,6 +208,20 @@
     "valid_targets": [ "self", "ally" ]
   },
   {
+    "type": "SPELL",
+    "id": "apostates_blood",
+    "name": { "str": "Blood of Saints" },
+    "effect": "mutate",
+    "shape": "blast",
+    "effect_str": "APOSTATES_BLOOD",
+    "description": "This grants a specific mutation.",
+    "message": "You imbibed the concoction and you feel your veins flex in a warm glow.",
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "flags": [ "SILENT", "MUTATE_TRAIT" ],
+    "valid_targets": [ "self", "ally" ]
+  },
+  {
     "id": "wicked_quick_hands",
     "type": "SPELL",
     "name": "Wicked Quick Hands",
