@@ -243,12 +243,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "cast_spell",
-      "spell_id": "extend_life",
-      "no_fail": true,
-      "level": 1
-    }
+    "use_action": { "type": "cast_spell", "spell_id": "extend_life", "no_fail": true, "level": 1 }
   },
   {
     "id": "potion_dex",
