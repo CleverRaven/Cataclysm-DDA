@@ -768,7 +768,7 @@ void conditional_t::set_has_var( const JsonObject &jo, const std::string &member
     const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
     if( !time_check && !jo.has_member( "value" ) ) {
-        jo.throw_error( "Missing field: \"value\" or \"time\"" );
+        jo.throw_error( R"(Missing field: "value" or "time")" );
         condition = []( dialogue const & ) {
             return false;
         };
