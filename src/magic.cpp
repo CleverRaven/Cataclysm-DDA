@@ -1934,6 +1934,7 @@ spell &known_magic::get_spell( const spell_id &sp )
 std::vector<spell *> known_magic::get_spells()
 {
     std::vector<spell *> spells;
+    spells.reserve( spellbook.size() );
     for( auto &spell_pair : spellbook ) {
         spells.emplace_back( &spell_pair.second );
     }
@@ -1980,6 +1981,7 @@ void known_magic::update_mana( const Character &guy, float turns )
 std::vector<spell_id> known_magic::spells() const
 {
     std::vector<spell_id> spell_ids;
+    spell_ids.reserve( spellbook.size() );
     for( const std::pair<const spell_id, spell> &pair : spellbook ) {
         spell_ids.emplace_back( pair.first );
     }
