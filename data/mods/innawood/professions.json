@@ -506,7 +506,17 @@
     "proficiencies": [ "prof_basketweaving", "prof_pottery" ],
     "items": {
       "both": {
-        "items": [ "wicker_backpack", "tunic", "mocassins", "cloak", "chaps_leather", "bandana_head", "copper_knife", "shortbow" ],
+        "items": [
+          "wicker_backpack",
+          "tunic",
+          "mocassins",
+          "cloak",
+          "chaps_leather",
+          "bandana_head",
+          "copper_knife",
+          "shortbow",
+          "loincloth"
+        ],
         "entries": [
           { "item": "seed_pumpkin", "count": 5 },
           { "item": "seed_beans", "count": 5 },
@@ -516,9 +526,44 @@
           { "item": "water_clean", "charges": 8, "container-item": "bottle_gourd" },
           { "item": "arrow_heavy_fire_hardened_fletched", "charges": 10, "container-item": "quiver_birchbark" }
         ]
-      },
-      "male": [ "loincloth" ],
-      "female": [ "loincloth" ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "carpenter",
+    "name": "Carpenter",
+    "points": 4,
+    "description": "Living under your craftsmanship, the tribe was no longer bound to caves lest they freeze in the night.  You won't have to work nearly as hard for just yourself.",
+    "skills": [ { "level": 4, "name": "fabrication" } ],
+    "proficiencies": [ "prof_carving", "prof_carpentry_basic" ],
+    "items": {
+      "both": {
+        "items": [ "wicker_backpack", "tunic", "clogs", "socks", "helmet_larmor", "copper_knife", "primitive_hammer", "loincloth" ],
+        "entries": [
+          { "item": "copper_ax", "container-item": "axe_ring" },
+          { "item": "primitive_adze", "container-item": "rope_makeshift_6" },
+          { "item": "primitive_shovel", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bricklayer",
+    "name": "Bricklayer",
+    "points": 4,
+    "description": "Using the earth and organic material to create durable, insulated adobe kept your trade in high demand in your tribe.  Now alone, you only need to look out for yourself.",
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "trapper_pack", "tunic", "mocassins", "socks", "helmet_larmor", "primitive_hammer", "loincloth", "frame_wood_light" ],
+        "entries": [
+          { "item": "adobe_brick", "count": 10 },
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" },
+          { "item": "wood_smoother", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
     }
   }
 ]
