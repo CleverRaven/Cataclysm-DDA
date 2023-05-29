@@ -245,7 +245,6 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "cast_spell",
-      "activation_message": "You swallow the potion and feel younger already.  Though the taste lingers long past when you'd hope it would pass.",
       "spell_id": "extend_life",
       "no_fail": true,
       "level": 1

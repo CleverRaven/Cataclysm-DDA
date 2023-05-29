@@ -87,7 +87,7 @@
     "id": "EXTEND_LIFE",
     "name": { "str": "Extended Life" },
     "points": 0,
-    "description": "You have imbibed a potion that proclaims to extend your life.  You feel healthier at least.",
+    "description": "You swallow the potion and feel younger already.  Though the taste lingers long past when you'd hope it would pass.",
     "valid": false
   },
   {
