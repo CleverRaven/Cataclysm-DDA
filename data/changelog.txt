@@ -23,7 +23,6 @@ Add support for running and smashing animations
 Allow zones to interact across multiple Z levels
 Creatures can stumble into invisible players to discover them
 Add molting for exoskeleton mutations
-Connect items to electrical grid; improved cables
 
 
 ## Content:
@@ -43,17 +42,9 @@ Crustacean mutation tree
 Dead trees can be harvested for wood(once per tree)
 Added a new location called survivor forest camp
 Addition of non-NPC civilians for lore reasons
-Allow using flour tortillas to make nacho chips
-two caffeine addict hobbies
 Nether spiders as a new bossfight for the game.
-Give Stimulant Psychosis medical category
 Migrates the changes from PR #64743. Adds 24 caliber conversion kits for various weapons, 13 new guns, 3 new calibres, and 3 professions, and migrates over the abandoned changes left behind in PR #63074.
-Modified existing snippets for the trait Kaluptic Psychosis and added new ones.
-Constructable brick oven
 Adds in all national flags and finishes up from a previous PR
-Adds rubber hoses in destroyed fuel pumps
-creation of a new library variant
-adds Brigandine armor and modify chainmail to work with it
 
 
 ## Interface:
