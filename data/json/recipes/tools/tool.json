@@ -702,7 +702,7 @@
       [ [ "pressure_gauge", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "steel_grille", 16 ] ],
-      [ [ "element", 16 ] ],
+      [ [ "element", 16 ], [ "crude_heating_element", 24 ] ],
       [ [ "cable", 50 ] ]
     ]
   },
@@ -1284,7 +1284,7 @@
       [ [ "hose", 2 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "vac_pump", 1 ] ],
-      [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
+      [ [ "element", 3 ], [ "crude_heating_element", 4 ] ],
       [ [ "sheet_metal", 3 ] ],
       [ [ "glass_sheet", 1 ] ]
     ]
