@@ -82,7 +82,6 @@ Open multiple containers in Advanced Inventory Manager
 [Aftershock] Elemental bionic weapons.
 [Bombastic Perks] Adds the recycler perk
 [Xedra Evolved] Revamped the inventor class
-Auditing various Xedra Evolved spells for sanity
 
 
 ## Balance:
@@ -101,12 +100,6 @@ Add a more accessible holy symbol mission, replacing the small relic one
 Most materials now burn at least a little slower than gunpowder
 stationary monsters don't let you train throwing to high levels
 player can drag heavier vehicles
-survivor zombies drop more and better loot
-HM12 is less exploitable
-Wandering Hordes prefer to wander and recruit in open terrain
-fur body armor has slightly lower encumbrance
-Gunsmith ammo convert json EOCify and cleanup
-anchoring makes disarming telepad trivial
 
 
 ## Bugfixes:
@@ -147,12 +140,7 @@ Fix UI and accessibility issues in the overmap UI and character creation menu
 Fix unicode path encoding error in Windows MinGW build
 Difficulty 0 recipes are no longer arbitrarily difficult
 Make EOC u_sell_item() actually transfers the items' ownership
-Makeshift water electrolyzer no longer requires lye to craft
-Adjusted mess kit, large shelter kit and removed mutagen,fetus, and elf-A recipe book from toxic waste dump
-fixes weirdness with multi layer armour and encumbrance
 Fix disassembing item causing deadlock
-Forest floor should look like moss and not tall grass
-Refugee Center NPC visited coastal forests in landlocked Slovakia (I believe it should be Slovenia)
 
 
 ## Performance:
