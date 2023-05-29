@@ -210,6 +210,11 @@ void talker_character::learn_recipe( const recipe_id &recipe_to_learn )
     me_chr->learn_recipe( &*recipe_to_learn );
 }
 
+void talker_character::forget_recipe( const recipe_id &recipe_to_forget )
+{
+    me_chr->forget_recipe( &*recipe_to_forget );
+}
+
 bool talker_character_const::is_deaf() const
 {
     return me_chr_const->is_deaf();
