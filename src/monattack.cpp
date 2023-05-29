@@ -943,7 +943,6 @@ bool mattack::boomer( monster *z )
     }
     target->on_dodge( z, 5 );
 
-
     return true;
 }
 
@@ -990,7 +989,6 @@ bool mattack::boomer_glow( monster *z )
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
     }
-
 
     return true;
 }
@@ -1889,7 +1887,6 @@ bool mattack::fungus_inject( monster *z )
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
-
 
     target->block_hit( z, hit, dam_inst );
 

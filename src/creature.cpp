@@ -1413,7 +1413,7 @@ bool Creature::dodge_check( monster *z )
     return dodge_check( z->get_hit() );
 }
 
-bool Creature::dodge_check( monster *z, bodypart_id bp, damage_instance dam_inst )
+bool Creature::dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst )
 {
 
     if( is_monster() ) {
@@ -1423,16 +1423,14 @@ bool Creature::dodge_check( monster *z, bodypart_id bp, damage_instance dam_inst
     Character *guy_target = as_character();
 
     float potential_damage = 0.0f;
-    for( damage_unit dmg : dam_inst.damage_units ) {
+    for( const damage_unit &dmg : dam_inst.damage_units ) {
         potential_damage += dmg.amount - guy_target->worn.damage_resist( dmg.type, bp );
-
     }
     int part_hp = guy_target->get_part_hp_cur( bp );
     float dmg_ratio = 0.0f; // if the part is already destroyed it can't take more damage
     if( part_hp > 0 ) {
         dmg_ratio = potential_damage / part_hp;
     }
-
 
     //If attack might remove more than half of the part's hp, dodge no matter the odds
     if( dmg_ratio >= 0.5f ) {
@@ -1443,7 +1441,6 @@ bool Creature::dodge_check( monster *z, bodypart_id bp, damage_instance dam_inst
 
     return false;
 }
-
 
 /*
  * State check functions

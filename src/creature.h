@@ -489,7 +489,7 @@ class Creature : public viewer
 
         bool dodge_check( float hit_roll, bool force_try = false );
         bool dodge_check( monster *z );
-        bool dodge_check( monster *z, bodypart_id bp, damage_instance dam_inst );
+        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst );
 
         // Temporarily reveals an invisible player when a monster tries to enter their location
         bool stumble_invis( const Creature &player, bool stumblemsg = true );

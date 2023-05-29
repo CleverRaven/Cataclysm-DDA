@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_MONATTACK_H
 #define CATA_SRC_MONATTACK_H
 
-
 class monster;
 class Creature;
 

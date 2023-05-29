@@ -1110,7 +1110,7 @@ ret_val<void> Character::can_try_doge() const
     }
     //If stamina is too low we can't dodge
     if( get_stamina_dodge_modifier() <= 0.11 ) {
-        add_msg_debug( debugmode::DF_MELEE, "Stamina too low to doge. Stamina: %d", get_stamina() );
+        add_msg_debug( debugmode::DF_MELEE, "Stamina too low to doge.  Stamina: %d", get_stamina() );
         add_msg_debug( debugmode::DF_MELEE, "Stamina dodge modifier: %f", get_stamina_dodge_modifier() );
         return ret_val<void>::make_failure( !is_npc() ? _( "Your stamina is too low to attempt to dodge." )
                                             :
@@ -2221,7 +2221,6 @@ void Character::process_turn()
     } else if( moves > 0 ) {
         blocks_left = get_num_blocks();
         set_dodges_left( get_num_dodges() );
-
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:
