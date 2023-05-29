@@ -346,9 +346,11 @@ std::wstring utf8_to_wstr( const std::string &str )
     strip_trailing_nulls( wstr );
     return wstr;
 #else
-    std::size_t sz = std::mbstowcs( nullptr, str.c_str(), 0 ) + 1;
-    std::wstring wstr( sz, '\0' );
-    std::mbstowcs( wstr.data(), str.c_str(), sz );
+    std::size_t sz = std::mbstowcs( nullptr, str.c_str(), 0 );
+    cata_assert( sz != static_cast<size_t>( -1 ) );
+    std::wstring wstr( sz + 1, '\0' );
+    std::size_t converted = std::mbstowcs( wstr.data(), str.c_str(), sz );
+    cata_assert( converted == sz );
     strip_trailing_nulls( wstr );
     return wstr;
 #endif
@@ -363,9 +365,11 @@ std::string wstr_to_utf8( const std::wstring &wstr )
     strip_trailing_nulls( str );
     return str;
 #else
-    std::size_t sz = std::wcstombs( nullptr, wstr.c_str(), 0 ) + 1;
-    std::string str( sz, '\0' );
-    std::wcstombs( str.data(), wstr.c_str(), sz );
+    std::size_t sz = std::wcstombs( nullptr, wstr.c_str(), 0 );
+    cata_assert( sz != static_cast<size_t>( -1 ) );
+    std::string str( sz + 1, '\0' );
+    std::size_t converted = std::wcstombs( str.data(), wstr.c_str(), sz );
+    cata_assert( converted == sz );
     strip_trailing_nulls( str );
     return str;
 #endif

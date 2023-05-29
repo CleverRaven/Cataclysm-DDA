@@ -42,12 +42,10 @@
   {
     "type": "vehicle_part",
     "id": "mana_frame",
+    "copy-from": "frame_abstract",
     "name": "mana frame",
-    "symbol": "O",
-    "categories": [ "movement", "hull" ],
+    "breaks_into": "EMPTY_GROUP",
     "color": "magenta",
-    "broken_symbol": "M",
-    "broken_color": "red",
     "damage_modifier": 10,
     "noise_factor": 1,
     "fuel_type": "mana",
@@ -60,15 +58,8 @@
     "description": "A shape of pure mana that can float and carry items.",
     "size": "37500 ml",
     "power": "200 W",
-    "location": "structure",
-    "//": "Flagged OBSOLETE to hide from install UI. This should not be interactable nor visible as a vehicle part, its part of a summoned magic 'vehicle'",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    },
     "flags": [
-      "OBSOLETE",
+      "NO_INSTALL_HIDDEN",
       "ENGINE",
       "STABLE",
       "E_STARTS_INSTANTLY",

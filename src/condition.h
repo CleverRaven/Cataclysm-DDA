@@ -198,8 +198,7 @@ struct conditional_t {
         void set_get_condition( const JsonObject &jo, const std::string &member );
         void set_compare_num( const JsonObject &jo, std::string_view member );
         void set_math( const JsonObject &jo, std::string_view member );
-        template<class J>
-        static std::function<std::string( const dialogue & )> get_get_string( J const &jo );
+        static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
         template<class J>
         static std::function<double( dialogue & )> get_get_dbl( J const &jo );
         static std::function<double( dialogue & )> get_get_dbl( const std::string &value,

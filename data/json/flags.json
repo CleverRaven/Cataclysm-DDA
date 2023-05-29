@@ -1,5 +1,35 @@
 [
   {
+    "id": "ABLATIVE_CHAINMAIL_ARMS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_ELBOWS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_LEGS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_KNEES",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_TORSO",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
     "id": "ABLATIVE_LARGE",
     "type": "json_flag",
     "info": "This plate will fit in <info>large</info> armor pockets",
@@ -308,7 +338,7 @@
   {
     "id": "HELMET_HEAD_ATTACHMENT",
     "type": "json_flag",
-    "info": "This item is attachable in <info>tactical helmets </info> as a flashlight.",
+    "info": "This item is attachable in <info>tactical helmets</info> as a flashlight.",
     "restriction": "Item must be some kind of flashlight"
   },
   {
@@ -596,35 +626,13 @@
   },
   {
     "id": "MC_MOBILE",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_RANDOM_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_SCIENCE_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Can be used to <info>store data</info> for other devices."
   },
   {
     "id": "MC_HAS_DATA",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_MAY_BE_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_TURN_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Some of your data is <info>stored</info> here."
   },
   {
     "id": "NO_PARASITES",
@@ -1178,6 +1186,10 @@
     "type": "json_flag"
   },
   {
+    "id": "AUTO_DELETE_CABLE",
+    "type": "json_flag"
+  },
+  {
     "id": "CAMERA_PRO",
     "type": "json_flag"
   },
@@ -1572,10 +1584,6 @@
   },
   {
     "id": "POWERED",
-    "type": "json_flag"
-  },
-  {
-    "id": "POWER_CORD",
     "type": "json_flag"
   },
   {

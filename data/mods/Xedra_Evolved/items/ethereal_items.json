@@ -57,7 +57,7 @@
   {
     "id": "dagger_dreamdross",
     "type": "TOOL",
-    "name": { "str": "dreamdross fighting knife", "str_pl": "dreamdross fighting knives" },
+    "name": { "str": "dreamer dagger" },
     "description": "This ephemeral dagger is 15 inches long from the hilt to the tip, the blade itself is a pearly white color and is extremely sharp double edged blade.",
     "weight": "145 g",
     "volume": "250 ml",
@@ -72,9 +72,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 8 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "DREAM_DAGGER" } ] },
     "category": "weapons",
     "melee_damage": { "stab": 16 }
   },
@@ -107,16 +105,7 @@
     "color": "brown",
     "symbol": "/",
     "material": [ "dreamstuff" ],
-    "flags": [
-      "NONCONDUCTIVE",
-      "BELT_CLIP",
-      "LIGHT_15",
-      "TRADER_AVOID",
-      "UNBREAKABLE_MELEE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS"
-    ],
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
     "volume": "1250 ml",
     "price": 0,
     "qualities": [ [ "DREAM_HAMMER", 1 ] ],
@@ -164,7 +153,7 @@
     "volume": "1 ml",
     "material": [ "dreamstuff" ],
     "symbol": "*",
-    "color": "pink",
+    "color": "dark_gray",
     "flags": [
       "SINGLE_USE",
       "TRADER_AVOID",

@@ -15,9 +15,9 @@
       [ "H" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe_cross_unconnected", "wheel_10", "minifridge" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe_cross", "wheel_10", "minifridge" ] },
       { "x": 0, "y": 0, "part": "controls_electronic" },
-      { "x": -1, "y": 0, "parts": [ "xlframe_cross_unconnected", "wheel_10" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_cross", "wheel_10" ] },
       { "x": -1, "y": 0, "parts": [ "small_storage_battery" ] },
       { "x": -1, "y": 0, "part": "veh_tools_kitchen", "tools": [ "hotplate", "pan", "pot" ] }
     ],

@@ -236,5 +236,46 @@
         "max_item_length": "14 cm"
       }
     ]
+  },
+  {
+    "id": "55gal_drum_rubber",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "collapsible drum" },
+    "description": "A beige collapsible drum with a water valve and D-Rings.  Text on its top clearly says \"POTABLE WATER ONLY\".",
+    "weight": "16 kg",
+    "volume": "23 L",
+    "price": 39500,
+    "price_postapoc": 250,
+    "//": "todo: replace with some better rubber material",
+    "material": [ { "type": "rubber", "portion": 9 }, { "type": "steel", "portion": 1 } ],
+    "symbol": "0",
+    "color": "yellow",
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": false,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "500 kg"
+      }
+    ]
+  },
+  {
+    "id": "432gal_drum_rubber",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "big collapsible drum" },
+    "description": "A black collapsible drum with a valve and D-Rings.  Yellow text on its top clearly says \"FLAMMABLE\".  Empty and collapsed, it could be moved elsewhere.",
+    "weight": "125 kg",
+    "volume": "180 L",
+    "price": 39500,
+    "price_postapoc": 250,
+    "//": "todo: replace with some better rubber material",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_432gal_drum_rubber" },
+    "material": [ { "type": "rubber", "portion": 9 }, { "type": "steel", "portion": 1 } ],
+    "symbol": "0"
   }
 ]

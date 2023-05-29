@@ -45,7 +45,7 @@
       [ "camera_bag", 10 ],
       { "item": "eink_tablet_pc", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 15, "charges": [ 0, 500 ] },
-      [ "mobile_memory_card", 50 ],
+      [ "memory_card_unread", 50 ],
       [ "usb_drive", 50 ],
       { "item": "mp3", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 50, "charges": [ 0, 100 ] },

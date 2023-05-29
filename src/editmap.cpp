@@ -1321,7 +1321,7 @@ void editmap::edit_fld()
             }
             if( field_intensity != fsel_intensity || target_list.size() > 1 ) {
                 for( tripoint &elem : target_list ) {
-                    const auto fid = static_cast<field_type_id>( idx );
+                    const field_type_id fid = static_cast<field_type_id>( idx );
                     field &t_field = here.get_field( elem );
                     field_entry *t_fld = t_field.find_field( fid );
                     int t_intensity = 0;
