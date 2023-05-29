@@ -202,13 +202,42 @@
       ],
       "place_rubble": [ { "x": [ 1, 4 ], "y": [ 24, 29 ], "repeat": [ 5, 20 ] } ],
       "place_item": [
-        { "item": "afs_set_us_up_the_bomb_act", "x": 19, "y": 12, "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] },
         { "item": "afs_set_us_up_the_bomb_act", "x": 59, "y": 8, "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] },
-        { "item": "afs_set_us_up_the_bomb_act", "x": 70, "y": 25, "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] },
-        { "item": "afs_set_us_up_the_bomb_act", "x": 41, "y": 62, "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] },
-        { "item": "afs_set_us_up_the_bomb_act", "x": 60, "y": 57, "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] },
-        { "item": "afs_set_us_up_the_bomb_act", "x": 17, "y": 42, "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] },
-        { "item": "afs_set_us_up_the_bomb_act", "x": 7, "y": 68, "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] }
+        {
+          "item": "afs_set_us_up_the_bomb_act",
+          "x": 70,
+          "y": 25,
+          "amount": 1,
+          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
+        },
+        {
+          "item": "afs_set_us_up_the_bomb_act",
+          "x": 41,
+          "y": 62,
+          "amount": 1,
+          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
+        },
+        {
+          "item": "afs_set_us_up_the_bomb_act",
+          "x": 60,
+          "y": 57,
+          "amount": 1,
+          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
+        },
+        {
+          "item": "afs_set_us_up_the_bomb_act",
+          "x": 17,
+          "y": 42,
+          "amount": 1,
+          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
+        },
+        {
+          "item": "afs_set_us_up_the_bomb_act",
+          "x": 7,
+          "y": 68,
+          "amount": 1,
+          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
+        }
       ],
       "place_graffiti": [
         { "text": "Barracks", "x": 10, "y": 23 },
