@@ -359,55 +359,5 @@
       [ [ "batrachian_sample", 1 ], [ "rabbit_sample", 1 ] ],
       [ [ "water", 2 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "hyde_formula",
-    "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_ALCHEMY",
-    "skill_used": "chemistry",
-    "skills_required": [ "firstaid", 6 ],
-    "difficulty": 7,
-    "time": "24 m",
-    "flags": [ "SECRET" ],
-    "proficiencies": [
-      { "proficiency": "prof_intro_chemistry" },
-      { "proficiency": "prof_inorganic_chemistry" },
-      { "proficiency": "prof_intro_chem_synth" },
-      { "proficiency": "prof_pharmaceutical" }
-    ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "chem_sulphur", 1 ] ], [ [ "anesthetic_kit", 1 ] ], [ [ "medical_sample", 1 ] ], [ [ "water", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "apostates_blood",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "chemistry",
-    "skills_required": [ "deduction", 6 ],
-    "difficulty": 8,
-    "time": "45 m",
-    "batch_time_factors": [ 80, 20 ],
-    "flags": [ "SECRET" ],
-    "using": [ [ "mutagen_production_standard", 25 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_intro_chemistry" },
-      { "proficiency": "prof_inorganic_chemistry" },
-      { "proficiency": "prof_biochemistry" },
-      { "proficiency": "prof_intro_chem_synth" },
-      { "proficiency": "prof_chem_synth" }
-    ],
-    "components": [
-      [ [ "unholy_relic", 1 ] ],
-      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ],
-      [ [ "mercury", 1 ], [ "silver", 1 ] ],
-      [ [ "gold_small", 1 ] ]
-    ],
-    "flags": [ "SECRET" ]
   }
 ]

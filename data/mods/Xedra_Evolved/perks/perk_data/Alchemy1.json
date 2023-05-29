@@ -80,15 +80,5 @@
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ALCHEMY5",
-    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY5" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
-    "//": "Removed ideas for cat's eye goggles, ubermensch amulet, and perfection of form.  This PR is getting huge already.",
-    "effect": [
-      { "u_roll_remainder": [ "hyde_formula", "clone_phylactery", "apostates_blood" ], "type": "recipe" },
-      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "384 hours" }
-    ]
   }
 ]
