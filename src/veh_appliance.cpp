@@ -3,6 +3,7 @@
 #include "inventory.h"
 #include "itype.h"
 #include "map_iterator.h"
+#include "action.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
@@ -180,6 +181,8 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "SIPHON" );
     ctxt.register_action( "RENAME" );
     ctxt.register_action( "REMOVE" );
+    ctxt.register_action( "UNPLUG" );
+    ctxt.register_action( "MERGE" );
 }
 
 // @returns true if a battery part exists on any vehicle connected to veh
@@ -550,6 +553,32 @@ void veh_app_interact::plug()
     veh->plug_in( pos );
 }
 
+void veh_app_interact::merge()
+{
+    const std::optional<tripoint> dir = choose_direction(
+                                            _( "Merge the appliance into which grid?" ) );
+    if( !dir ) {
+        return;
+    }
+
+    const tripoint target_pos = get_player_character().pos() + *dir;
+    map &here = get_map();
+    const optional_vpart_position target_vp = here.veh_at( target_pos );
+    if( !target_vp ) {
+        return;
+    }
+    vehicle &target_veh = target_vp->vehicle();
+    if( !target_veh.has_tag( flag_APPLIANCE ) ) {
+        popup( _( "Target must be an appliance." ) );
+        return;
+    }
+    if( !target_veh.is_powergrid() ) {
+        popup( _( "A power grid must be wires, power generation or batteries." ) );
+        return;
+    }
+    veh->merge_appliance_into_grid( target_veh );
+}
+
 void veh_app_interact::populate_app_actions()
 {
     const std::string ctxt_letters = ctxt.get_available_single_char_hotkeys();
@@ -613,32 +642,6 @@ void veh_app_interact::populate_app_actions()
         app_actions.emplace_back( it._on_submit );
     }
     imenu.setup();
-}
-
-void veh_app_interact::merge()
-{
-    const cata::optional<tripoint> dir = choose_direction(
-            _( "Merge the appliance into which grid?" ) );
-    if( !dir ) {
-        return;
-    }
-
-    const tripoint target_pos = get_player_character().pos() + *dir;
-    map &here = get_map();
-    const optional_vpart_position target_vp = here.veh_at( target_pos );
-    if( !target_vp ) {
-        return;
-    }
-    vehicle &target_veh = target_vp->vehicle();
-    if( !target_veh.has_tag( flag_APPLIANCE ) ) {
-        popup( _( "Target must be an appliance." ) );
-        return;
-    }
-    if( !target_veh.is_powergrid() ) {
-        popup( _( "A power grid must be wires, power generation or batteries." ) );
-        return;
-    }
-    veh->merge_appliance_into_grid( target_veh );
 }
 
 shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor()

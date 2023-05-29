@@ -105,6 +105,17 @@ class veh_app_interact
         */
         bool can_unplug();
         /**
+         * Checks whether the current appliance is considered a "power grid"
+         * that could be merged with another power grid.
+         * @returns True if the appliance can be merged.
+        */
+        bool can_merge();
+        /**
+         * Function associated with the "MERGE" action.
+         * Merge power grid elements together into a single appliance
+         */
+        void merge();
+        /**
          * Function associated with the "REFILL" action.
          * Checks all appliance parts for a watertight container to refill. If multiple
          * parts are eligible, the player is prompted to select one. A refill activity
