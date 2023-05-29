@@ -112,5 +112,11 @@
     "from": "reinforced_windshield_full",
     "to": "reinforced_windshield",
     "variant": "full_horizontal"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "ram_military_horizontal",
+    "to": "ram_military",
+    "variant": "front"
   }
 ]
