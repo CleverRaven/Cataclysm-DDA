@@ -425,9 +425,9 @@
         "append": true
       },
       {
-        "id": "congolese_flag",
-        "name": { "str": "Congolese flag" },
-        "description": "A large red stripe divides a blue background into two triangles, the upper left corner sporting a yellow star.",
+        "id": "congo_flag",
+        "name": { "str": "Congo flag" },
+        "description": "It has a diagonal tricolor of green, yellow and red radiating from the lower hoist side corner.",
         "weight": 10,
         "append": true
       },
@@ -467,8 +467,8 @@
         "append": true
       },
       {
-        "id": "congo_flag",
-        "name": { "str": "Congo flag" },
+        "id": "democratic_congo_flag",
+        "name": { "str": "Democratic Republic Congo flag" },
         "description": "A sky blue flag with a yellow star in the upper left canton, diagonally running across the flag is a red strip and yellow fimbriation.",
         "weight": 10,
         "append": true
