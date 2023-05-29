@@ -267,9 +267,9 @@
     "copy-from": "life_extension_potion"
   },
   {
-    "id": "potion_strength",
-    "name": { "str": "potion of terrible strength", "str_pl": "potions of terrible strength" },
-    "description": "This is a potion of terrible strength.  It will increase your strength for 50 minutes.",
+    "id": "hares_leap_potion",
+    "name": { "str": "potion of hare's leap", "str_pl": "potions of hare's leap" },
+    "description": "This is a potion of hare's leap.  It will increase your strength for 50 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "spell_hare_leap", "no_fail": true, "level": 25 },
     "type": "COMESTIBLE",
     "color": "green_yellow",
