@@ -934,7 +934,7 @@
         "specifically_covers": [ "torso_hanging_back" ]
       }
     ]
-  },
+    },
     {
     "id": "dry_bag",
     "repairs_like": "backpack",
@@ -1020,7 +1020,7 @@
         "specifically_covers": [ "torso_hanging_back" ]
       }
     ]
-  },
+    },
     {
     "id": "dry_duffelbag",
     "type": "ARMOR",
