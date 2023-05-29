@@ -2843,6 +2843,11 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     }
     // first memorize the actual terrain
     const ter_id &t = here.ter( p );
+    const std::string &tname = t.id().str();
+    // Non-isometric legacy mode does not draw fog sprites
+    if( !is_isometric() && fov_3d_z_range == 0 && tname == "t_open_air" ) {
+        return false;
+    }
     if( t && !invisible[0] ) {
         int subtile = 0;
         int rotation = 0;
@@ -2857,7 +2862,6 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             get_terrain_orientation( p, rotation, subtile, {}, invisible, rotate_group );
             // do something to get other terrain orientation values
         }
-        const std::string &tname = t.id().str();
         if( here.check_seen_cache( p ) ) {
             get_avatar().memorize_tile( here.getabs( p ), tname, subtile, rotation );
         }
