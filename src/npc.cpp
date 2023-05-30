@@ -1362,8 +1362,8 @@ void npc::do_npc_read( bool ebook )
         return;
     }
 
-	item_location book;
-	item_location ereader;
+    item_location book;
+    item_location ereader;
 
     if( !ebook ) {
 		book = game_menus::inv::read( *npc_player );
