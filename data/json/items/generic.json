@@ -1,4 +1,3 @@
-
 [
   {
     "type": "GENERIC",
@@ -2114,12 +2113,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-  "charged_qualities": [
-    [
-      "BLOW_AIR",
-      1
-    ]
-  ],
+    "charged_qualities": [ [ "BLOW_AIR", 1 ] ],
     "weight": "2857 g",
     "volume": "1 L"
   },
@@ -2864,9 +2858,7 @@
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE" ],
-    "petfood": [
-      "CATTLEFOOD"
-    ],
+    "petfood": [ "CATTLEFOOD" ],
     "weight": "34 g",
     "volume": "250 ml",
     "to_hit": -2
