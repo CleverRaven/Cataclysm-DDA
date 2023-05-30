@@ -427,7 +427,7 @@
     "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "barley_stalks", 1 ] ] ]
   },
- {
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "dry_oat_stalks",
@@ -458,7 +458,7 @@
     "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "oat_stalks", 1 ] ] ]
   },
- {
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "dry_wild_rice_stalks",
@@ -489,7 +489,7 @@
     "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "wild_rice_stalks", 1 ] ] ]
   },
- {
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "dry_buckwheat_stalks",

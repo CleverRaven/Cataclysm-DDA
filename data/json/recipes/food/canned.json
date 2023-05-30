@@ -2286,7 +2286,10 @@
     "container": "can_food_big",
     "charges": 48,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "can_tomato", 24 ], [ "tomato", 24 ],  [ "tomato_cut", 24 ], [ "irradiated_tomato", 24 ] ], [ [ "water_clean", 30 ] ] ],
+    "components": [
+      [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "tomato_cut", 24 ], [ "irradiated_tomato", 24 ] ],
+      [ [ "water_clean", 30 ] ]
+    ],
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]

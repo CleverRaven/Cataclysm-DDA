@@ -72,9 +72,7 @@
     "batch_time_factors": [ 90, 1 ],
     "//": "A person with a flail can do 420 pounds per day because threshing scales very well.",
     "autolearn": true,
-    "tools": [
-      [ [ "2h_flail_wood", -1 ] ]
-    ],
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 2 ] ],
     "components": [ [ [ "dry_wheat_stalks", 1 ] ] ]
   },
@@ -164,9 +162,7 @@
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_oats", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_oats", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -179,16 +175,9 @@
     "time": "5 m",
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
-  "qualities": [
-    {
-      "id": "BLOW_AIR",
-      "level": 1
-    }
-    ],
+    "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_oats", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_oats", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -201,13 +190,9 @@
     "time": "10 m",
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
-    "tools": [
-      [ [ "2h_flail_wood", -1 ] ]
-    ],
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 2 ] ],
-    "components": [
-      [ [ "dry_barley_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_barley_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -219,13 +204,9 @@
     "time": "15 m",
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
-    "tools": [
-      [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ]
-    ],
+    "tools": [ [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 2 ] ],
-    "components": [
-      [ [ "dry_barley_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_barley_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -238,9 +219,7 @@
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_barley", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_barley", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -253,16 +232,9 @@
     "time": "5 m",
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
-  "qualities": [
-    {
-      "id": "BLOW_AIR",
-      "level": 1
-    }
-    ],
+    "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_barley", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_barley", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -276,13 +248,9 @@
     "batch_time_factors": [ 90, 1 ],
     "//": "Lentils are half the volume of wheat, so we half the time and byproducts.",
     "autolearn": true,
-    "tools": [
-      [ [ "2h_flail_wood", -1 ] ]
-    ],
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 1 ] ],
-    "components": [
-      [ [ "dry_lentil_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_lentil_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -294,13 +262,9 @@
     "time": "8 m",
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
-    "tools": [
-      [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ]
-    ],
+    "tools": [ [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 1 ] ],
-    "components": [
-      [ [ "dry_lentil_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_lentil_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -313,9 +277,7 @@
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_lentils", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_lentils", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -328,16 +290,9 @@
     "time": "3 m",
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
-  "qualities": [
-    {
-      "id": "BLOW_AIR",
-      "level": 1
-    }
-    ],
+    "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_lentils", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_lentils", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -350,13 +305,9 @@
     "time": "5 m",
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
-    "tools": [
-      [ [ "2h_flail_wood", -1 ] ]
-    ],
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 1 ] ],
-    "components": [
-      [ [ "dry_wild_rice_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_wild_rice_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -368,9 +319,7 @@
     "time": "8 m",
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
-    "tools": [
-      [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ]
-    ],
+    "tools": [ [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 1 ] ],
     "components": [ [ [ "dry_wild_rice_stalks", 1 ] ] ]
   },

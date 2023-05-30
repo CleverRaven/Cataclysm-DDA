@@ -42,9 +42,7 @@
     "milling": { "into": "flour", "conversion_rate": 15 },
     "charges": 4,
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
-    "petfood": [
-      "CATTLEFOOD", "BIRDFOOD"
-    ],
+    "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST" ],
     "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "grow": "70 days" }
   },
@@ -183,9 +181,7 @@
     "milling": { "into": "flour_wheat_free", "conversion_rate": 15 },
     "charges": 2,
     "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
-    "petfood": [
-      "CATTLEFOOD", "BIRDFOOD"
-    ],
+    "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST" ],
     "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "grow": "91 days" }
   },
@@ -731,9 +727,7 @@
     "fun": -2,
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "smoking_result": "kernels",
-    "petfood": [
-      "CATTLEFOOD", "BIRDFOOD"
-    ],
+    "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT", "SMOKABLE", "RAW", "PLANTABLE_SEED", "CATTLE" ],
     "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -1119,9 +1113,7 @@
     "cooks_like": "beans_cooked",
     "smoking_result": "dry_beans",
     "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ],
-    "petfood": [
-      "CATTLEFOOD"
-    ],
+    "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
   },
