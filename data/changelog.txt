@@ -43,8 +43,7 @@ Dead trees can be harvested for wood(once per tree)
 Added a new location called survivor forest camp
 Addition of non-NPC civilians for lore reasons
 Nether spiders as a new bossfight for the game.
-Migrates the changes from PR #64743. Adds 24 caliber conversion kits for various weapons, 13 new guns, 3 new calibres, and 3 professions, and migrates over the abandoned changes left behind in PR #63074.
-Adds in all national flags and finishes up from a previous PR
+New conversion kits, guns, and calibres
 
 
 ## Interface:
@@ -140,7 +139,6 @@ Fix UI and accessibility issues in the overmap UI and character creation menu
 Fix unicode path encoding error in Windows MinGW build
 Difficulty 0 recipes are no longer arbitrarily difficult
 Make EOC u_sell_item() actually transfers the items' ownership
-Fix disassembing item causing deadlock
 
 
 ## Performance:
@@ -162,7 +160,6 @@ Allow C++ standard includes in clang-tidy tests
 
 ## Build:
 Support Mac arm64 build
-Ensure builds with RUNTESTS=1 only build tests once
 
 
 ## I18N and A11Y:
