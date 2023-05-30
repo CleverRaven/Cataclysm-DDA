@@ -1,12 +1,12 @@
 [
   {
-    "id": "xe_cold_iron_cutting_damage",
+    "id": "xe_cold_iron_cut_damage",
     "type": "damage_type",
     "physical": true,
     "magic_color": "light_gray",
     "name": "cold iron cut",
     "skill": "cutting",
-    "derived_from": [ "cutting", 1 ],
+    "derived_from": [ "cut", 1 ],
     "immune_flags": { "character": [ "IRONSWORN" ], "monster": [ "IRONWROUGHT" ] }
   },
   {

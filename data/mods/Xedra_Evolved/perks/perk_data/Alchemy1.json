@@ -9,7 +9,8 @@
         "type": "recipe"
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "24 hours" }
-    ]
+    ],
+    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   },
   {
     "type": "effect_on_condition",
@@ -21,7 +22,8 @@
         "type": "recipe"
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "48 hours" }
-    ]
+    ],
+    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   },
   {
     "type": "effect_on_condition",
@@ -42,7 +44,8 @@
         "type": "recipe"
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
-    ]
+    ],
+    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   },
   {
     "type": "effect_on_condition",
@@ -60,14 +63,14 @@
           "cold_iron_knife",
           "cold_iron_sword",
           "cold_iron_warhammer",
-          "cold_iron_charm",
           "cold_iron_battleaxe",
           "blood_of_saints"
         ],
         "type": "recipe"
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
-    ]
+    ],
+    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   },
   {
     "type": "effect_on_condition",
@@ -79,6 +82,7 @@
         "type": "recipe"
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" }
-    ]
+    ],
+    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   }
 ]
