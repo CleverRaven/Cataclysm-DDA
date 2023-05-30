@@ -2706,6 +2706,8 @@ stoneskin
 stopcock
 stoppered
 stoppeth
+stook
+stooking
 storable
 stormcaller
 stormshaper
@@ -2834,6 +2836,7 @@ thorned
 thornothurian
 thosun
 threateningly
+threshed
 throating
 throwable
 thru
@@ -2998,6 +3001,7 @@ unnervingly
 unobtainium
 unornamented
 unpadded
+unpopped
 unpowered
 unpressurised
 unreinforced
@@ -3121,6 +3125,7 @@ wetworks
 whap
 whaps
 whatlike
+wheatberries
 whiled
 whiplike
 whirr
@@ -3235,6 +3240,7 @@ zombullfrog
 zoonotic
 zpzzzzpzz
 zubon
+zucchinis
 zuniceratops
 zuul
 zweitimber
