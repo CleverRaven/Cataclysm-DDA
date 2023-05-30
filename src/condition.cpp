@@ -2770,7 +2770,7 @@ double eoc_math::act( dialogue &d ) const
             return lhs->eval( d ) >= rhs->eval( d );
         case oper::invalid:
         default:
-            debugmsg( "unknown eoc math operator %d", action );
+            debugmsg( "unknown eoc math operator %d %s", action, d.get_callstack() );
     }
 
     return 0;
