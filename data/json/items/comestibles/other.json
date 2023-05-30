@@ -398,9 +398,7 @@
     "cooks_like": "beans_cooked",
     "charges": 6,
     "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
-    "petfood": [
-      "CATTLEFOOD"
-    ],
+    "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
   },
