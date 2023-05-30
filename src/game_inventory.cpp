@@ -1267,8 +1267,8 @@ class ereader_inventory_preset : public pickup_inventory_preset
 
 item_location game_menus::inv::ereader_to_use( Character &you )
 {
-	const std::string msg = _( "You don't have any e-readers you can use." );
-    return inv_internal( you, ereader_inventory_preset( you ), _( "Select e-reader." ), 1, msg );					 
+    const std::string msg = _( "You don't have any e-readers you can use." );
+    return inv_internal( you, ereader_inventory_preset( you ), _( "Select e-reader." ), 1, msg );
 }
 
 class read_inventory_preset: public pickup_inventory_preset
