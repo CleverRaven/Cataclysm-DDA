@@ -839,7 +839,7 @@
     "weight": "149 g",
     "quench": -5,
     "calories": 247,
-    "description": "A pile of short stalks with lentils rattling in their pods. The plants were dry when harvested, and now only need to be threshed and winnowed.",
+    "description": "A pile of short stalks with lentils rattling in their pods. These plants dried in the field and didn't need a tool to harvest, but they'll still need to be threshed and winnowed.",
     "price": 12,
     "price_postapoc": 10,
     "volume": "315 ml"
@@ -852,7 +852,7 @@
     "weight": "134 g",
     "quench": -5,
     "calories": 235,
-    "description": "Lentils with chaff mixed in. These dried in the field, but they will still have to be winnowed before they're usable.",
+    "description": "Lentils with chaff mixed in. These will have to be winnowed before they're usable.",
     "price": 12,
     "price_postapoc": 10,
     "volume": "252 ml"
@@ -876,7 +876,7 @@
     "charges": 2,
     "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "lentils", "fruit": "dry_lentil_stalks", "grow": "91 days" }
   },
   {

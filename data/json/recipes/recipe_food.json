@@ -9146,6 +9146,7 @@
         [ "dry_lentils", 1 ],
         [ "dry_corn", 1 ],
         [ "corn", 1 ],
+        [ "seed_canola", 1 ],
         [ "corn_kernels", 1 ],
         [ "soybean", 1 ],
         [ "dry_soybean", 1 ],
