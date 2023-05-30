@@ -1366,17 +1366,16 @@ void npc::do_npc_read( bool ebook )
     item_location ereader;
 
     if( !ebook ) {
-		book = game_menus::inv::read( *npc_player );
-	}
-	else {
-		ereader = game_menus::inv::ereader_to_use( *npc_player );
-		if( !ereader ) {
-			add_msg( _( "Never mind." ) );
-			return;
-		}
-		book = game_menus::inv::ebookread( *npc_player, ereader );
-	}
-	
+        book = game_menus::inv::read( *npc_player );
+    } else {
+        ereader = game_menus::inv::ereader_to_use( *npc_player );
+        if( !ereader ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        book = game_menus::inv::ebookread( *npc_player, ereader );
+    }
+
     if( !book ) {
         add_msg( _( "Never mind." ) );
         return;
