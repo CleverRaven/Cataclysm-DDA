@@ -76,10 +76,7 @@
     "quench": -1,
     "calories": 10,
     "flags": [ "INEDIBLE", "CATTLE" ],
-    "petfood": [
-      "BIRDFOOD"
-    ],
-    "description": "Loose bits of dried straw and seed casings from winnowed grain. It could be used as birdfood, or if there's enough of it, made into cattle fodder.",
+    "description": "Loose bits of dried straw and seed casings from winnowed grain. There are a few fragments of seeds still mixed in, a big enough pile of this stuff could be made into bird food or cattle fodder.",
     "price": 0,
     "price_postapoc": 0,
     "volume": "2 ml"
