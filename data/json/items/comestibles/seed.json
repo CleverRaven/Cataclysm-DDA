@@ -497,6 +497,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_melon",
+    "copy-from": "seed_fruit",
+    "name": { "str_sp": "cantaloupe melon seeds" },
+    "description": "Some cantaloupe melon seeds.",
+    "seed_data": { "plant_name": "cantaloupe", "fruit": "melon", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_pumpkin",
     "copy-from": "seed",
     "name": { "str_sp": "pumpkin seeds" },

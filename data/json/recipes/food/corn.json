@@ -245,7 +245,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "dry_barley",
+    "result": "barley",
     "id_suffix": "fan",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -281,7 +281,7 @@
     ],
     "byproducts": [ [ "straw_pile", 1 ] ],
     "components": [
-      [ [ "lentil_stalks", 1 ] ]
+      [ [ "dry_lentil_stalks", 1 ] ]
     ]
   },
   {
@@ -299,7 +299,7 @@
     ],
     "byproducts": [ [ "straw_pile", 1 ] ],
     "components": [
-      [ [ "lentil_stalks", 1 ] ]
+      [ [ "dry_lentil_stalks", 1 ] ]
     ]
   },
   {
@@ -342,7 +342,7 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "threshed_wild_rice",
+    "result": "wild_rice",
     "id_suffix": "flail",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -361,7 +361,7 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "threshed_wild_rice",
+    "result": "wild_rice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",

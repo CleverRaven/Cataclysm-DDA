@@ -105,6 +105,7 @@
 
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
@@ -2640,6 +2641,8 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         return;
         } else {
           const itype &type = *seed->type;
+          player_activity act( ACT_HARVEST, to_moves<int>( 60_seconds ) );
+          you.assign_activity( act );
           here.i_clear( examp );
 
           int skillLevel = round( you.get_skill_level( skill_survival ) );
@@ -2658,8 +2661,6 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
               here.add_item_or_charges( you.pos(), i );
           }
           here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
-          you.set_activity_level( LIGHT_EXERCISE );
-          you.moves -= to_moves<int>( 30_seconds );
         }
     }
 }

@@ -105,7 +105,7 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "30 s",
-    "components": [ [ [ "seed_mulberry", 1 ] ] ]
+    "components": [ [ [ "seed_mulberries", 1 ] ] ]
   },
   {
     "result": "zucchini",
