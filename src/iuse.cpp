@@ -8864,8 +8864,8 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoi
     }
 
     const item_location book = game_menus::inv::titled_filter_menu(
-    [&ebooks]( const item & itm ) {
-        return itm.is_book() && itm.type->book->is_scannable && !ebooks.count( itm.typeId() );
+    [&ebooks, &p]( const item & itm ) {
+        return itm.is_book() && itm.type->book->is_scannable && !ebooks.count( itm.typeId() ) && itm.is_owned_by( *p, true );
     },
     *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
 
