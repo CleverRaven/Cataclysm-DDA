@@ -53,11 +53,11 @@
         "MPPPpv...............................................................pPM",
         "MPPpMMMMMMMMMMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMDDMMMMMMMMMMM",
         "MPPPv................*....*..................*.MM.....cx...............M",
-        "MPvYYYYYYYYYYYYYYYYYY..........................MM.MMM..x..........(YYY.M",
-        "M..............................................MM.MFDxx*x.......*..YYY.M",
-        "M..............................................MM.MMM(x............YYY.M",
-        "M..............................................MM..xcx.................M",
-        "M..............................................MM.YYY.............(YYY.M",
+        "MPvYYYYYYYYYYYYYYYYYY..................pp......MM.MMM..x..........(YYY.M",
+        "M.....................................pPPp.....MM.MFDxx*x.......*..YYY.M",
+        "M....................................pPPPPp....MM.MMM(x............YYY.M",
+        "M....................................pPPPp.....MM..xcx.................M",
+        "M.....................................ppp......MM.YYY.............(YYY.M",
         "M..............................................MM.YYY..*........*..YYY.M",
         "M..YYYYYYYYYYYYYYYYYY..........................MM.YYY(.............YYY.M",
         "M..............................................MM......................M",
@@ -237,6 +237,13 @@
           "y": 68,
           "amount": 1,
           "custom-flags": [ "ACTIVATE_ON_PLACE" ]
+        },
+        {
+          "item": "afs_set_us_up_the_bomb_act",
+          "x": 40,
+          "y": 31,
+          "amount": 1,
+          "custom-flags": [ "ACTIVATE_ON_PLACE" ]
         }
       ],
       "place_graffiti": [
@@ -260,7 +267,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "ship self-destruct system" },
-    "description": "A 100L metal barrel filled with military explosives.  Once it has been activated it will explode after 100 seconds, raining fire and steel on everything in sight.",
+    "description": "You shouldn't be seeing this!",
     "weight": "1 g",
     "volume": "1 ml",
     "price": 0,
@@ -284,7 +291,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "active ship self-destruct system" },
-    "description": "A 100L metal barrel filled with military explosives.  It has been activated and will soon explode, delivering its entire destructive power to everything in sight.",
+    "description": "You shouldn't be seeing this!",
     "weight": "1 g",
     "volume": "1 ml",
     "price": 0,
