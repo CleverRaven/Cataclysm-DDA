@@ -445,7 +445,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "splitrail_fence_butt", "splitrail_fence_gap" ],
+    "id": [ "splitrail_fence_butt", "splitrail_fence_gap", "splitrail_fence_inner" ],
     "copy-from": "fence",
     "sym": "."
   },

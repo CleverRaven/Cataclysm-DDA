@@ -543,7 +543,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "paddock_C"],
+    "om_terrain": [ "paddock_C" ],
     "//": "Flip to use with _gap versions",
     "weight": 250,
     "object": {
@@ -1587,6 +1587,22 @@
         "                        "
       ],
       "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "splitrail_fence_inner",
+    "weight": 250,
+    "object": {
+      "predecessor_mapgen": "field",
+      "place_nested": [
+        { "chunks": [ "1x1_splitrail_fence" ], "x": 23, "y": 0, "neighbors": { "north_east": "dirt_road" } },
+        { "chunks": [ "1x1_splitrail_fence" ], "x": 23, "y": 23, "neighbors": { "south_east": "dirt_road" } },
+        { "chunks": [ "1x1_splitrail_fence" ], "x": 0, "y": 23, "neighbors": { "south_west": "dirt_road" } },
+        { "chunks": [ "1x1_splitrail_fence" ], "x": 0, "y": 0, "neighbors": { "north_west": "dirt_road" } }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
