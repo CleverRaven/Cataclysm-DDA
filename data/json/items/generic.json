@@ -233,7 +233,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -3221,7 +3221,7 @@
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml",
     "to_hit": -3,
@@ -3279,7 +3279,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "MISSION_ITEM" ],
+    "flags": [ "MISSION_ITEM", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3304,7 +3304,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ],
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3320,7 +3320,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2" ],
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3336,7 +3336,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3" ],
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3

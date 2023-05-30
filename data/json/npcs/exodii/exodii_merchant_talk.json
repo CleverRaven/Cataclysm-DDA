@@ -8,6 +8,7 @@
     "to_hit": -1,
     "color": "yellow",
     "symbol": ".",
+    "flags": [ "COIN_SHAPED" ],
     "material": [ "copper" ],
     "volume": "1 ml",
     "price": 1,
