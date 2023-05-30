@@ -4,9 +4,6 @@
     "type": "vehicle_part",
     "categories": [ "warfare" ],
     "location": "structure",
-    "symbol": "^",
-    "broken_symbol": "*",
-    "symbols": { "front": "^", "rear": "v", "left": "<", "right": ">" },
     "damage_modifier": 150,
     "description": "A reinforced ram.  Place at the edge of vehicle to reduce damage taken in collisions, and to increase damaged delivered in collisions, if the ram is the first vehicle part to collide.",
     "requirements": {
@@ -14,7 +11,13 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "PROTRUSION", "OBSTACLE" ]
+    "flags": [ "PROTRUSION", "OBSTACLE" ],
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "^^>>vv<<", "symbols_broken": "*" },
+      { "id": "rear", "label": "Rear", "symbols": "vv<<^^>>", "symbols_broken": "*" },
+      { "id": "left", "label": "Left", "symbols": "<<^^>>vv", "symbols_broken": "*" },
+      { "id": "right", "label": "Right", "symbols": ">>vv<<^^", "symbols_broken": "*" }
+    ]
   },
   {
     "id": "ram_alloy",
@@ -161,7 +164,6 @@
     "copy-from": "ram_blaze",
     "type": "vehicle_part",
     "name": { "str": "tied mattress" },
-    "symbol": "=",
     "item": "mattress",
     "color": "white",
     "broken_color": "light_gray",
@@ -174,7 +176,8 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] }
     },
     "damage_reduction": { "bash": 20 },
-    "extend": { "flags": [ "OPAQUE" ] }
+    "extend": { "flags": [ "OPAQUE" ] },
+    "variants": [ { "symbols": "=", "symbols_broken": "*" } ]
   },
   {
     "id": "tearer",
@@ -188,8 +191,6 @@
     "power": "-1750 W",
     "damage_modifier": 500,
     "breaks_into": [  ],
-    "symbol": "*",
-    "broken_symbol": "x",
     "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increase the damage the vehicle delivers in collisions.  Mount on the edges of the vehicle, preferably the front.",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
@@ -198,7 +199,8 @@
     },
     "extend": { "flags": [ "SHARP", "UNMOUNT_ON_DAMAGE" ] },
     "delete": { "flags": [ "OBSTACLE" ] },
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 40 },
+    "variants": [ { "symbols": "*", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
@@ -228,13 +230,12 @@
     "durability": 250,
     "color": "white",
     "broken_color": "white",
-    "symbol": ".",
-    "broken_symbol": "x",
     "description": "A metal spike, welded to the vehicle, to increase injury when crashing into things.",
     "item": "spike",
     "folded_volume": "250 ml",
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ],
-    "damage_reduction": { "all": 12 }
+    "damage_reduction": { "all": 12 },
+    "variants": [ { "symbols": ".", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
