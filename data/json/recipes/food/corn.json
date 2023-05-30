@@ -76,9 +76,7 @@
       [ [ "2h_flail_wood", -1 ] ]
     ],
     "byproducts": [ [ "straw_pile", 2 ] ],
-    "components": [
-      [ [ "dry_wheat_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_wheat_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -91,13 +89,9 @@
     "batch_time_factors": [ 90, 1 ],
     "//": "Not having a flail slows this down considerably.",
     "autolearn": true,
-    "tools": [
-      [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ]
-    ],
+    "tools": [ [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 2 ] ],
-    "components": [
-      [ [ "dry_wheat_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_wheat_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -111,9 +105,7 @@
     "//": "The fastest way to do this without tools is just to toss the wheat into the air and let the chaff float away. This could also represent picking the seeds out by hand, etc.",
     "autolearn": true,
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_wheat", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_wheat", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -127,16 +119,9 @@
     "batch_time_factors": [ 20, 1 ],
     "//": "Anything that blows air can do this really quickly.",
     "autolearn": true,
-  "qualities": [
-    {
-      "id": "BLOW_AIR",
-      "level": 1
-    }
-    ],
+    "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_wheat", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_wheat", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -150,13 +135,9 @@
     "batch_time_factors": [ 90, 1 ],
     "//": "Oats are half the volume of wheat, so we half the time and byproducts.",
     "autolearn": true,
-    "tools": [
-      [ [ "2h_flail_wood", -1 ] ]
-    ],
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 1 ] ],
-    "components": [
-      [ [ "dry_oat_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_oat_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -168,13 +149,9 @@
     "time": "8 m",
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
-    "tools": [
-      [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ]
-    ],
+    "tools": [ [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 1 ] ],
-    "components": [
-      [ [ "dry_oat_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_oat_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -395,9 +372,7 @@
       [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ]
     ],
     "byproducts": [ [ "straw_pile", 1 ] ],
-    "components": [
-      [ [ "dry_wild_rice_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_wild_rice_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -410,13 +385,9 @@
     "time": "10 m",
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
-    "tools": [
-      [ [ "2h_flail_wood", -1 ] ]
-    ],
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 2 ] ],
-    "components": [
-      [ [ "dry_buckwheat_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_buckwheat_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -429,13 +400,9 @@
     "batch_time_factors": [ 90, 1 ],
     "//": "Not having a flail slows this down considerably.",
     "autolearn": true,
-    "tools": [
-      [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ]
-    ],
+    "tools": [ [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 2 ] ],
-    "components": [
-      [ [ "dry_buckwheat_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_buckwheat_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",

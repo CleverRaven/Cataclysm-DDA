@@ -148,9 +148,7 @@
     "volume": "250 ml",
     "charges": 8,
     "fun": -6,
-    "petfood": [
-      "CATTLEFOOD", "BIRDFOOD"
-    ],
+    "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "NUTRIENT_OVERRIDE", "EDIBLE_FROZEN", "PLANTABLE_SEED", "INEDIBLE", "CATTLE" ],
     "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "byproducts": [ "withered" ], "grow": "91 days" }
   },
