@@ -51,19 +51,19 @@
     "type": "vehicle_part_migration",
     "from": "saddle_pedal",
     "to": "saddle",
-    "variant": "pedal_front"
+    "variant": "pedal"
   },
   {
     "type": "vehicle_part_migration",
     "from": "saddle_motor",
     "to": "saddle",
-    "variant": "motor_front"
+    "variant": "motor"
   },
   {
     "type": "vehicle_part_migration",
     "from": "saddle_scooter",
     "to": "saddle",
-    "variant": "scooter_front"
+    "variant": "scooter"
   },
   {
     "type": "vehicle_part_migration",

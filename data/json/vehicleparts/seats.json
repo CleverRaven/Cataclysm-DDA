@@ -136,10 +136,11 @@
     "size": "0 ml",
     "extend": { "flags": [ "NONBELTABLE" ] },
     "delete": { "flags": [ "BELTABLE", "CARGO" ] },
-    "variants_bases": [
-      { "id": "pedal", "label": "Pedals" },
-      { "id": "motor", "label": "Motorcycle" },
-      { "id": "scooter", "label": "Scooter" }
+    "variants_bases": [  ],
+    "variants": [
+      { "id": "pedal", "label": "Pedals", "symbols": "#", "symbols_broken": "*" },
+      { "id": "motor", "label": "Motorcycle", "symbols": "#", "symbols_broken": "*" },
+      { "id": "scooter", "label": "Scooter", "symbols": "#", "symbols_broken": "*" }
     ]
   },
   {
@@ -154,7 +155,8 @@
     "item": "sheet",
     "folded_volume": "2500 ml",
     "location": "anywhere",
-    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
+    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ],
+    "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
   {
     "id": "metal_bench",

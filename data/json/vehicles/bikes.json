@@ -5,7 +5,7 @@
     "name": "Bicycle",
     "blueprint": [ "o#o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "saddle#pedal_front", "horn_bicycle", "foot_pedals" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "saddle#pedal", "horn_bicycle", "foot_pedals" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe#vertical", "wheel_mount_light_steerable" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe#vertical", "wheel_mount_light" ] }
     ]
@@ -42,7 +42,7 @@
     "name": "Folding Bicycle",
     "blueprint": [ "o#o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "folding_frame", "saddle#pedal_front", "horn_bicycle", "foot_pedals" ] },
+      { "x": 0, "y": 0, "parts": [ "folding_frame", "saddle#pedal", "horn_bicycle", "foot_pedals" ] },
       { "x": 1, "y": 0, "parts": [ "folding_frame", "wheel_mount_light_steerable", "wheel_bicycle" ] },
       { "x": -1, "y": 0, "parts": [ "folding_frame", "wheel_mount_light" ] },
       { "x": -1, "y": 0, "parts": [ "wheel_bicycle#rear", "basketsm#bike_rear" ] }
@@ -55,7 +55,7 @@
     "blueprint": [ "o#o" ],
     "parts": [
       { "x": 1, "y": 0, "parts": [ "frame#vertical_2", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
-      { "x": 0, "y": 0, "parts": [ "frame#vertical", "saddle#motor_front", "controls", "battery_motorbike_small" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical", "saddle#motor", "controls", "battery_motorbike_small" ] },
       { "x": 0, "y": 0, "parts": [ "engine_1cyl_large", { "part": "tank_small", "fuel": "gasoline" } ] },
       { "x": 0, "y": 0, "parts": [ "alternator_motorbike" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe#vertical", "muffler", "wheel_mount_light", "wheel_motorbike_or#rear" ] }
@@ -74,7 +74,7 @@
     "name": "Motorcycle",
     "blueprint": [ "o#>o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor_front" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor" ] },
       { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" } ] },
       { "x": -1, "y": 0, "parts": [ "frame#vertical", "wheel_mount_light", "wheel_motorbike#rear" ] },
       { "x": 2, "y": 0, "parts": [ "frame#vertical", "wheel_mount_light_steerable", "wheel_motorbike" ] },
@@ -96,7 +96,7 @@
     "name": "Motorcycle Chassis",
     "blueprint": [ "o#>" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor_front" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor" ] },
       { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" } ] },
       { "x": -1, "y": 0, "parts": [ "frame#vertical", "wheel_mount_light", "wheel_motorbike#rear" ] }
     ]
@@ -130,7 +130,7 @@
       [ "O O" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor_front", "controls", "controls_electronic", "horn_car" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor", "controls", "controls_electronic", "horn_car" ] },
       { "x": 1, "y": 0, "parts": [ "frame#cover", "engine_vtwin", "alternator_motorbike", "battery_motorbike" ] },
       {
         "x": 1,
@@ -155,7 +155,7 @@
       [ "O  " ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor_front" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor" ] },
       { "x": 1, "y": 0, "parts": [ "frame#cover" ] },
       { "x": -1, "y": 0, "parts": [ "frame#horizontal" ] },
       { "x": 1, "y": -1, "parts": [ "frame#horizontal", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
@@ -169,7 +169,7 @@
     "name": "Scooter",
     "blueprint": [ "o>o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_handle", "saddle#scooter_front" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_handle", "saddle#scooter" ] },
       { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "horn_car", "motorcycle_kickstand" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe#vertical", "wheel_mount_light_steerable", "wheel_small#scooter_front" ] },
       { "x": 1, "y": 0, "parts": [ "motorcycle_headlight" ] },
@@ -200,7 +200,7 @@
     "name": "Superbike",
     "blueprint": [ "o#>o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor_front", "motorcycle_kickstand" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle#motor", "motorcycle_kickstand" ] },
       { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" } ] },
       { "x": -1, "y": 0, "parts": [ "frame#vertical", "wheel_mount_light", "wheel_motorbike#rear" ] },
       { "x": 2, "y": 0, "parts": [ "frame#vertical", "wheel_mount_light_steerable", "wheel_motorbike" ] },
@@ -216,9 +216,9 @@
     "name": "Tandem",
     "blueprint": [ "o##o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "saddle#motor_front", "horn_bicycle", "foot_pedals" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "saddle#motor", "horn_bicycle", "foot_pedals" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe#vertical", "wheel_mount_light_steerable", "wheel_bicycle" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe#vertical_2", "saddle#pedal_front" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe#vertical_2", "saddle#pedal" ] },
       {
         "x": -2,
         "y": 0,
@@ -231,7 +231,7 @@
     "type": "vehicle",
     "name": "Children's Tricycle",
     "blueprint": [ "#" ],
-    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical", "saddle#pedal_front", "foot_pedals", "wheel_tricycle" ] } ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical", "saddle#pedal", "foot_pedals", "wheel_tricycle" ] } ]
   },
   {
     "id": "unicycle",
@@ -239,11 +239,7 @@
     "name": "Unicycle",
     "blueprint": [ "#" ],
     "parts": [
-      {
-        "x": 0,
-        "y": 0,
-        "parts": [ "frame_handle", "saddle#pedal_front", "foot_pedals", "wheel_mount_light", "wheel_unicycle" ]
-      }
+      { "x": 0, "y": 0, "parts": [ "frame_handle", "saddle#pedal", "foot_pedals", "wheel_mount_light", "wheel_unicycle" ] }
     ]
   }
 ]
