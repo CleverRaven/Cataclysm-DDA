@@ -74,7 +74,7 @@
       "type": "cast_spell",
       "spell_id": "learn_blood_of_saints",
       "no_fail": true,
-      "activation_message": "You drink the %s.  Your veins flex with a warm soft glowing feeling."
+      "level": 1
     }
   }
 ]

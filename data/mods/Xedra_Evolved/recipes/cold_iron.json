@@ -15,7 +15,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
-    "tools": [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "wax", 1 ] ], [ [ "lamp_oil", 5 ] ], [ [ "dreamdross_scrap", 1 ], [ "holy_symbol", 2 ] ] ]
   },
   {
@@ -139,9 +139,9 @@
       [ [ "small_relic", 2 ] ],
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ],
-      [ [ "mercury", 1 ], [ "silver", 1 ] ],
+      [ [ "mercury", 1 ] ],
+      [ [ "silver_small", 3 ] ],
       [ [ "gold_small", 1 ] ]
-    ],
-    "flags": [ "SECRET" ]
+    ]
   }
 ]

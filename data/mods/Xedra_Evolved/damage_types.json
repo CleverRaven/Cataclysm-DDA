@@ -18,5 +18,15 @@
     "skill": "bashing",
     "derived_from": [ "bashing", 1 ],
     "immune_flags": { "character": [ "IRONSWORN" ], "monster": [ "IRONWROUGHT" ] }
+  },
+  {
+    "id": "xe_cold_iron_stab_damage",
+    "type": "damage_type",
+    "physical": true,
+    "magic_color": "light_gray",
+    "name": "cold iron stab",
+    "skill": "bashing",
+    "derived_from": [ "stabbing", 1 ],
+    "immune_flags": { "character": [ "IRONSWORN" ], "monster": [ "IRONWROUGHT" ] }
   }
 ]
