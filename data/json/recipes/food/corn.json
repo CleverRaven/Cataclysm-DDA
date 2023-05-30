@@ -372,9 +372,7 @@
       [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ]
     ],
     "byproducts": [ [ "straw_pile", 1 ] ],
-    "components": [
-      [ [ "dry_wild_rice_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_wild_rice_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
