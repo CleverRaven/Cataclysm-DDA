@@ -8,9 +8,10 @@
         "u_roll_remainder": [ "extra_str_aspirin", "blackout_rage_drink", "sixdust", "small_blessing_brigit" ],
         "type": "recipe"
       },
-      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "24 hours" }
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "24 hours" },
+      { "u_message": "You learn a new secret of alchemy." }
     ],
-    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   },
   {
     "type": "effect_on_condition",
@@ -21,9 +22,10 @@
         "u_roll_remainder": [ "prophets_lsd", "truckers_stamina_pills", "spiritshow_dust", "charm_of_marzanna" ],
         "type": "recipe"
       },
-      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "48 hours" }
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "48 hours" },
+      { "u_message": "You learn a new secret of alchemy." }
     ],
-    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   },
   {
     "type": "effect_on_condition",
@@ -43,9 +45,10 @@
         ],
         "type": "recipe"
       },
-      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" },
+      { "u_message": "You learn a new secret of alchemy." }
     ],
-    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   },
   {
     "type": "effect_on_condition",
@@ -59,18 +62,13 @@
     },
     "effect": [
       {
-        "u_roll_remainder": [
-          "cold_iron_knife",
-          "cold_iron_sword",
-          "cold_iron_warhammer",
-          "cold_iron_battleaxe",
-          "blood_of_saints"
-        ],
+        "u_roll_remainder": [ "cold_iron_knife", "cold_iron_sword", "cold_iron_warhammer", "cold_iron_battleaxe", "blood_of_saints" ],
         "type": "recipe"
       },
-      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" },
+      { "u_message": "You learn a new secret of alchemy." }
     ],
-    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   },
   {
     "type": "effect_on_condition",
@@ -81,8 +79,9 @@
         "u_roll_remainder": [ "life_extension_potion", "potion_strength", "potion_dex", "hares_leap_potion" ],
         "type": "recipe"
       },
-      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" }
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" },
+      { "u_message": "You learn a new secret of alchemy." }
     ],
-    "false_effect": [ { "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   }
 ]

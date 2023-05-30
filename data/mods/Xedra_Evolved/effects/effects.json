@@ -144,6 +144,7 @@
     "//": "Prevents you from learning new alchemy recipes.",
     "name": [ "Mental Exhaustion" ],
     "desc": [ "You have recently realized a new alchemical recipe and your thoughts are scattered." ],
+    "remove_message": "Your mind feels normal enough that you could focus on new alchemy ideas once again.",
     "max_intensity": 1,
     "rating": "bad"
   },

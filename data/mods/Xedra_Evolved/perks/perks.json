@@ -4,7 +4,7 @@
     "id": "perk_ALCHEMY1",
     "name": { "str": "Basic Alchemical Knowledge" },
     "points": 0,
-    "description": "You spent years before the Cataclysm researching esoteric sciences and occult mysteries but only know in the heat of survival, have you experienced the epiphany that will allow you to create alchemical substances.",
+    "description": "You spent years before the Cataclysm researching esoteric sciences and occult mysteries but only now in the heat of survival, have you experienced the epiphany that will allow you to create alchemical substances.",
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_ALCHEMY1" ]
