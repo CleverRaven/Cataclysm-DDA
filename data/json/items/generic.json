@@ -3851,7 +3851,7 @@
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
         "moves": 100,
-        "flag_restriction": [ "BANK_NOTE_SHAPED" ]
+        "flag_restriction": [ "CREDIT_CARD_SHAPED" ]
       },
       {
         "//": "Coin Purse",
