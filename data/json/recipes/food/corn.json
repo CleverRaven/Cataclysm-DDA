@@ -387,9 +387,7 @@
     "autolearn": true,
     "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 2 ] ],
-    "components": [
-      [ [ "dry_buckwheat_stalks", 1 ] ]
-    ]
+    "components": [ [ [ "dry_buckwheat_stalks", 1 ] ] ]
   },
   {
     "type": "recipe",
