@@ -121,9 +121,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_wheat", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_wheat", 1 ] ] ]
   },
   {
     "type": "recipe",
