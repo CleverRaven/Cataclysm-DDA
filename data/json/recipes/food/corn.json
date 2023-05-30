@@ -385,9 +385,7 @@
     "time": "10 m",
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
-    "tools": [
-      [ [ "2h_flail_wood", -1 ] ]
-    ],
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 2 ] ],
     "components": [
       [ [ "dry_buckwheat_stalks", 1 ] ]
