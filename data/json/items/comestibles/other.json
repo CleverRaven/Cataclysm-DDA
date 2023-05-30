@@ -497,10 +497,7 @@
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
     "smoking_result": "dry_soybean",
-    "milling": {
-      "into": "paste_nut",
-      "conversion_rate": 0.2
-    },
+    "milling": { "into": "paste_nut", "conversion_rate": 0.2 },
     "seed_data": { "plant_name": "soybean", "fruit": "soybean", "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" },
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ]
