@@ -428,12 +428,7 @@
     "time": "5 m",
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
-  "qualities": [
-    {
-      "id": "BLOW_AIR",
-      "level": 1
-    }
-    ],
+    "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
     "components": [
       [ [ "threshed_buckwheat", 1 ] ]
