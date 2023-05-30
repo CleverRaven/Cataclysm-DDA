@@ -141,14 +141,18 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 120,
-    "description": "Dried kernels from a particular type of corn.  Practically inedible raw, they can be cooked to make a tasty snack.",
+    "description": "Dried kernels from a particular type of corn.  Inedible raw, they can be cooked to make a tasty snack.",
     "price": 100,
     "price_postapoc": 400,
     "material": [ "junk" ],
     "volume": "250 ml",
     "charges": 8,
-    "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -6
+    "fun": -6,
+    "petfood": [
+      "CATTLEFOOD", "BIRDFOOD"
+    ],
+    "flags": [ "NUTRIENT_OVERRIDE", "EDIBLE_FROZEN", "PLANTABLE_SEED", "INEDIBLE", "CATTLE" ],
+    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",

@@ -2114,5 +2114,20 @@
   {
     "id": "ELECTRONIC",
     "type": "json_flag"
+  },
+  {
+    "id": "FRESH_GRAIN",
+    "type": "json_flag",
+    "//": "This item is fresh-cut grain, and can be dried in a stook."
+  },
+  {
+    "id": "CUT_HARVEST",
+    "type": "json_flag",
+    "//": "This seed will grow into a plant which needs a grass-cutting tool such as a sickle to harvest."
+  },
+  {
+    "id": "HARVEST_SEEDS",
+    "type": "json_flag",
+    "//": "This seed will grow up to be a plant that drops seeds when harvested. Best for things like carrots and herbs where the seed is not really part of the produce itself."
   }
 ]

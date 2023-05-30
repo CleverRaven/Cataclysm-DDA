@@ -420,5 +420,15 @@
     "type": "tool_quality",
     "id": "MOP",
     "name": { "str": "mopping" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "BLOW_AIR",
+    "name": { "str": "air blowing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "BLOW_HOT_AIR",
+    "name": { "str": "hot air blowing" }
   }
 ]

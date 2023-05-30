@@ -26,13 +26,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
-    "recurrence": [ { "global_val": "ps_min_woc", "default": "5 days" }, { "global_val": "ps_max_woc", "default": "18 days" } ],
-    "global": true,
-    "effect": { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" }
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_PORTAL_EARLY_MESSAGES",
     "recurrence": [ "1 minutes", "30 minutes" ],
     "global": true,
