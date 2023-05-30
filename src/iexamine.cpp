@@ -3168,6 +3168,7 @@ void iexamine::stook_full( Character &, const tripoint &examp )
             add_msg( _( "You take down the stook as the drying process is now finished." ) );
             it = result;
         }
+    }
     here.furn_set( examp, next_stook_type );
 }
 
