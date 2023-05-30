@@ -1105,7 +1105,7 @@
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES"],
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ],
     "melee_damage": { "bash": 7 }
   },
   {
