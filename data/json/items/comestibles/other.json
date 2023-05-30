@@ -542,9 +542,7 @@
     "material": [ "veggy" ],
     "fun": 1,
     "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
-    "petfood": [
-      "CATTLEFOOD"
-    ],
+    "petfood": [ "CATTLEFOOD" ],
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE" ],
     "smoking_result": "edamame_roasted"
   },
