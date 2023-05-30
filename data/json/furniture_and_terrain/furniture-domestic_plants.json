@@ -307,7 +307,7 @@
     "move_cost_mod": 1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "SEALED", "TRANSPARENT", "CONTAINER", "TINY", "DONT_REMOVE_ROTTEN", "FLAMMABLE_ASH", "SHORT" ],
+    "flags": [ "SEALED", "CONTAINER", "TINY", "DONT_REMOVE_ROTTEN", "FLAMMABLE_ASH", "SHORT" ],
     "examine_action": "stook_full",
     "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "whish." }
   },

@@ -19,7 +19,7 @@
       "CATTLEFOOD"
     ],
     "smoking_result": "dry_wheat_stalks",
-    "volume": "315 ml"
+    "volume": "1 L"
   },
   {
     "type": "COMESTIBLE",
@@ -40,7 +40,7 @@
     ],
     "price": 25,
     "price_postapoc": 20,
-    "volume": "315 ml"
+    "volume": "900 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -60,7 +60,7 @@
     "description": "Wheat with the chaff still mixed in. It will have to be winnowed before it's usable.",
     "price": 25,
     "price_postapoc": 20,
-    "volume": "290 ml"
+    "volume": "252 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -302,45 +302,39 @@
     "id": "oat_stalks",
     "name": { "str_sp": "oat stalks" },
     "copy-from": "wheat_stalks",
-    "weight": "121 g",
     "description": "A sheaf of freshly-cut oats, now ready for drying in a stook or smoker.",
     "price": 12,
     "calories": 355,
     "price_postapoc": 10,
-    "smoking_result": "dry_oat_stalks",
-    "volume": "315 ml"
+    "smoking_result": "dry_oat_stalks"
   },
   {
     "type": "COMESTIBLE",
     "id": "dry_oat_stalks",
     "name": { "str_sp": "dried oat stalks" },
     "copy-from": "dry_wheat_stalks",
-    "weight": "106 g",
     "quench": -5,
     "calories": 355,
     "description": "A sheaf of dried oat stalks. These will require threshing before anything can be done with them.",
     "price": 12,
-    "price_postapoc": 10,
-    "volume": "315 ml"
+    "price_postapoc": 10
   },
   {
     "type": "COMESTIBLE",
     "id": "threshed_oats",
     "name": { "str_sp": "threshed oats" },
     "copy-from": "threshed_wheat",
-    "weight": "91 g",
     "quench": -5,
     "calories": 340,
     "description": "Oats with the chaff still mixed in. They will have to be winnowed before they're usable.",
     "price": 12,
-    "price_postapoc": 10,
-    "volume": "252 ml"
+    "price_postapoc": 10
   },
   {
     "type": "COMESTIBLE",
     "id": "oats",
     "name": { "str_sp": "oats" },
-    "weight": "86 g",
+    "weight": "203 g",
     "color": "brown",
     "comestible_type": "FOOD",
     "symbol": ",",
@@ -350,7 +344,7 @@
     "price": 120,
     "price_postapoc": 100,
     "material": [ "wheat" ],
-    "volume": "150 ml",
+    "volume": "250 ml",
     "milling": { "into": "flour_wheat_free", "conversion_rate": 3.75 },
     "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
     "petfood": [
@@ -755,28 +749,24 @@
     "type": "COMESTIBLE",
     "id": "wild_rice_stalks",
     "name": { "str_sp": "wild rice stalks" },
-    "copy-from": "wheat_stalks",
-    "weight": "171 g",
+    "copy-from": "buckwheat_stalks",
     "quench": -5,
     "calories": 135,
     "description": "A sheaf of wild rice stalks, ready for drying.",
     "price": 12,
     "price_postapoc": 10,
-    "smoking_result": "dry_wild_rice_stalks",
-    "volume": "315 ml"
+    "smoking_result": "dry_wild_rice_stalks"
   },
   {
     "type": "COMESTIBLE",
     "id": "dry_wild_rice_stalks",
     "name": { "str_sp": "dried wild rice stalks" },
-    "copy-from": "dry_wheat_stalks",
-    "weight": "149 g",
+    "copy-from": "buckwheat_stalks",
     "quench": -5,
     "calories": 135,
     "description": "A bunch of dry wild rice stalks. Threshing these would knock the grains loose.",
     "price": 12,
-    "price_postapoc": 10,
-    "volume": "315 ml"
+    "price_postapoc": 10
   },
   {
     "type": "COMESTIBLE",
@@ -916,7 +906,7 @@
     "id": "buckwheat_stalks",
     "name": { "str_sp": "buckwheat stalks" },
     "comestible_type": "FOOD",
-    "weight": "302 g",
+    "weight": "287 g",
     "color": "brown",
     "symbol": ",",
     "description": "These leafy stalks only get about waist-high and technically aren't a grass, but thanks to their long stems and nutritious seeds, they can still be farmed like any other cereal crop.",
@@ -939,7 +929,7 @@
     "comestible_type": "FOOD",
     "material": [ "veggy" ],
     "primary_material": "dry_plant",
-    "weight": "273 g",
+    "weight": "258 g",
     "color": "brown",
     "symbol": ",",
     "quench": -10,
@@ -959,7 +949,7 @@
     "name": { "str_sp": "threshed buckwheat" },
     "comestible_type": "FOOD",
     "material": [ "wheat" ],
-    "weight": "205 g",
+    "weight": "190 g",
     "color": "brown",
     "symbol": ",",
     "quench": -10,

@@ -2095,7 +2095,7 @@
     "to_hit": 1,
     "melee_damage": { "bash": 4 }
   },
-    "type": "GENERIC",
+  {
     "type": "TOOL",
     "id": "fan",
     "symbol": ",",
@@ -2853,7 +2853,6 @@
     "description": "A beautiful black onyx."
   },
   {
-    "type": "GENERIC",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "id": "straw_pile",
@@ -2863,9 +2862,6 @@
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },
     "category": "spare_parts",
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
-    "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
-    "weight": "20 g",
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE" ],
     "petfood": [
