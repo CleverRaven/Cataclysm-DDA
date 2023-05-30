@@ -149,9 +149,7 @@
     "time": "8 m",
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
-    "tools": [
-      [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ]
-    ],
+    "tools": [ [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 1 ] ],
     "components": [
       [ [ "dry_oat_stalks", 1 ] ]
