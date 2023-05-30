@@ -1024,7 +1024,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "full-face motorcycle helmet" },
-    "description": "A helmet that covers the entire head along with glareproof visors, offering the best protection when you ride around on your motorcycle. Activate to raise the visor.",
+    "description": "A helmet that covers the entire head along with glareproof visors, offering the best protection when you ride around on your motorcycle.  Activate to raise the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
     "price": 32500,
