@@ -138,7 +138,7 @@
     "looks_like": "skorpion_61",
     "type": "GUN",
     "name": { "str": "Kel-Tec PLR16" },
-    "description": "This is a semi-automatic pistol chambered in 5.56 NATO, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard.",
+    "description": "Semi-automatic pistol, chambered in 5.56 NATO, using gas piston to reduce lenght and frame constructed from reinforced polymer to make the it both durable and light-weight. This one comes with plastic handguard.",
     "weight": "1800 g",
     "volume": "1665 ml",
     "longest_side": "485 mm",
@@ -166,7 +166,8 @@
       [ "rail mount", 2 ],
       [ "sights", 1 ],
       [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel mount", 1 ],
+	  [ "underbarrel", 1 ]
     ],
     "pocket_data": [
       {
