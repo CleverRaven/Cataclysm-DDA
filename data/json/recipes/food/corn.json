@@ -415,9 +415,7 @@
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_buckwheat", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_buckwheat", 1 ] ] ]
   },
   {
     "type": "recipe",
