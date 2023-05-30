@@ -1240,13 +1240,13 @@ class ereader_inventory_preset : public pickup_inventory_preset
             const auto &uses = it.type->use_methods;
 
             if( it.is_broken() ) {
-                return string_format( _( "E-reader is broken and won't turn on." ), it.tname() );
+                return /*string_format(*/ _( "E-reader is broken and won't turn on." ) /*)*/;
             }
 
-            if( !it.ammo_sufficient( &you, uses.count( "EBOOKREAD" ) ) ) {
+            if( !it.ammo_sufficient( &you, "EBOOKREAD" ) ) {
                 return string_format(
-                           n_gettext( "Needs at least %d charge",
-                                      "Needs at least %d charges", loc->ammo_required() ),
+                           n_gettext( "Needs at least %d charge.",
+                                      "Needs at least %d charges.", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 
@@ -1259,7 +1259,7 @@ class ereader_inventory_preset : public pickup_inventory_preset
 
     protected:
         std::string get_action_name( const item &it ) const {
-            return _( "Read E-book" );
+            return string_format( "Read on %s.", it.tname() );
         }
     private:
         const Character &you;
