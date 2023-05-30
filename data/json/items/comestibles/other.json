@@ -523,10 +523,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "fun": -5,
-    "milling": {
-      "into": "flour_wheat_free",
-      "conversion_rate": 1
-    },
+    "milling": { "into": "flour_wheat_free", "conversion_rate": 1 },
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
     "seed_data": { "plant_name": "soybean", "fruit": "soybean", "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" },
     "petfood": [ "CATTLEFOOD" ],
