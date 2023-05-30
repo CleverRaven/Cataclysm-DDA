@@ -3162,8 +3162,8 @@ void iexamine::stook_full( Character &, const tripoint &examp )
                     // Set charges to 1 for stacking purposes.
                     it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
                 }
-                add_msg( _( "You take down the stook as the drying process is now finished." ) );
-                it = result;
+                result.components.add( it );
+                result.recipe_charges = it.charges;
             }
             add_msg( _( "You take down the stook as the drying process is now finished." ) );
             it = result;
