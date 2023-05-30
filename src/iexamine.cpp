@@ -3153,17 +3153,14 @@ void iexamine::stook_full( Character &, const tripoint &examp )
     }
     for( item &it : items ) {
         if( it.has_flag( flag_SMOKABLE ) && it.get_comestible() ) {
-                item result( it.get_comestible()->smoking_result, it.birthday(), it.charges );
-                recipe rec;
-                result.inherit_flags( it, rec );
-                if( !result.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
-                    // If the item has "cooks_like" it will be replaced by that item as a component.
-                    if( !it.get_comestible()->cooks_like.is_empty() ) {
-                        // Set charges to 1 for stacking purposes.
-                        it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
-                    }
-                    result.components.add( it );
-                    result.recipe_charges = it.charges;
+            item result( it.get_comestible()->smoking_result, it.birthday(), it.charges );
+            recipe rec;
+            result.inherit_flags( it, rec );
+            if( !result.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+                // If the item has "cooks_like" it will be replaced by that item as a component.
+                if( !it.get_comestible()->cooks_like.is_empty() ) {
+                    // Set charges to 1 for stacking purposes.
+                    it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
                 }
                 add_msg( _( "You take down the stook as the drying process is now finished." ) );
                 it = result;
