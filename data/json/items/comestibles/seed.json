@@ -459,7 +459,7 @@
     "id": "soybean_seed",
     "copy-from": "dry_soybean",
     "category": "seeds",
-    "name": { "str_sp": "soybean seads" },
+    "name": { "str_sp": "soybean seeds" },
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "description": "A pile of dry soybeans. These are intended for planting, but there's no reason they couldn't be made into food.",
     "price": 90,
