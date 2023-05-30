@@ -396,7 +396,7 @@
     "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "wheat_stalks", 1 ] ] ]
   },
- {
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "dry_barley_stalks",
