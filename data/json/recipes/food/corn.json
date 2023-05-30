@@ -105,9 +105,7 @@
     "//": "The fastest way to do this without tools is just to toss the wheat into the air and let the chaff float away. This could also represent picking the seeds out by hand, etc.",
     "autolearn": true,
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [
-      [ [ "threshed_wheat", 1 ] ]
-    ]
+    "components": [ [ [ "threshed_wheat", 1 ] ] ]
   },
   {
     "type": "recipe",
