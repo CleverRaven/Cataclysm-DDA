@@ -119,12 +119,7 @@
     "batch_time_factors": [ 20, 1 ],
     "//": "Anything that blows air can do this really quickly.",
     "autolearn": true,
-  "qualities": [
-    {
-      "id": "BLOW_AIR",
-      "level": 1
-    }
-    ],
+    "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
     "components": [
       [ [ "threshed_wheat", 1 ] ]
