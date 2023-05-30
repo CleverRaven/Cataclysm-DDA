@@ -7428,7 +7428,6 @@ const std::set<tripoint> &vehicle::get_points( const bool force_refresh, const b
         for( const std::pair<const point, std::vector<int>> &part_location : relative_parts ) {
             if( no_fake && part( part_location.second.front() ).is_fake ) {
                 continue;
-
             }
             occupied_points.insert( global_part_pos3( part_location.second.front() ) );
         }
