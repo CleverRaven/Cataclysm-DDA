@@ -135,9 +135,7 @@
     "batch_time_factors": [ 90, 1 ],
     "//": "Oats are half the volume of wheat, so we half the time and byproducts.",
     "autolearn": true,
-    "tools": [
-      [ [ "2h_flail_wood", -1 ] ]
-    ],
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
     "byproducts": [ [ "straw_pile", 1 ] ],
     "components": [
       [ [ "dry_oat_stalks", 1 ] ]
