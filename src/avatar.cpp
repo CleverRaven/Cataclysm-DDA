@@ -274,7 +274,7 @@ void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
     player_map_memory->prepare_region( p1, p2 );
 }
 
-const memorized_terrain_tile &avatar::get_memorized_tile( const tripoint &pos ) const
+const memorized_tile &avatar::get_memorized_tile( const tripoint &pos ) const
 {
     return player_map_memory->get_tile( pos );
 }

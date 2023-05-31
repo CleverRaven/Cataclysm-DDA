@@ -3998,7 +3998,7 @@ void player_morale::load( const JsonObject &jsin )
 }
 
 struct mm_elem {
-    memorized_terrain_tile tile;
+    memorized_tile tile;
     int symbol;
 
     bool operator==( const mm_elem &rhs ) const {

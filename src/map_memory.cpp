@@ -11,8 +11,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-const memorized_terrain_tile mm_submap::default_tile{ "", 0, 0 };
 const int mm_submap::default_symbol = 0;
+const memorized_tile mm_submap::default_tile = {};
 
 #define MM_SIZE (MAPSIZE * 2)
 
@@ -41,8 +41,53 @@ struct reg_coord_pair {
     }
 };
 
-mm_submap::mm_submap() = default;
 mm_submap::mm_submap( bool make_valid ) : valid( make_valid ) {}
+
+bool mm_submap::is_empty() const
+{
+    return tiles.empty() && symbols.empty();
+}
+
+bool mm_submap::is_valid() const
+{
+    return valid;
+}
+
+const memorized_tile &mm_submap::tile( const point &p ) const
+{
+    if( tiles.empty() ) {
+        return default_tile;
+    }
+    return tiles[p.y * SEEX + p.x];
+}
+
+void mm_submap::set_tile( const point &p, const memorized_tile &value )
+{
+    if( tiles.empty() ) {
+        // call 'reserve' first to force allocation of exact size
+        tiles.reserve( SEEX * SEEY );
+        tiles.resize( SEEX * SEEY, default_tile );
+    }
+    tiles[p.y * SEEX + p.x] = value;
+}
+
+int mm_submap::symbol( const point &p ) const
+{
+    if( symbols.empty() ) {
+        return default_symbol;
+    }
+    return symbols[p.y * SEEX + p.x];
+}
+
+void mm_submap::set_symbol( const point &p, int value )
+{
+    if( symbols.empty() ) {
+        // call 'reserve' first to force allocation of exact size
+        symbols.reserve( SEEX * SEEY );
+        symbols.resize( SEEX * SEEY, default_symbol );
+    }
+    symbols[p.y * SEEX + p.x] = value;
+}
 
 mm_region::mm_region() : submaps( nullptr ) {}
 
@@ -59,6 +104,13 @@ bool mm_region::is_empty() const
     return true;
 }
 
+bool memorized_tile::operator==( const memorized_tile &rhs ) const
+{
+    return rotation == rhs.rotation &&
+           subtile == rhs.subtile &&
+           tile == rhs.tile;
+}
+
 map_memory::coord_pair::coord_pair( const tripoint &p ) : loc( p.xy() )
 {
     sm = tripoint( ms_to_sm_remain( loc.x, loc.y ), p.z );
@@ -69,7 +121,7 @@ map_memory::map_memory()
     clear_cache();
 }
 
-const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos ) const
+const memorized_tile &map_memory::get_tile( const tripoint &pos ) const
 {
     coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
@@ -84,7 +136,7 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
     if( !sm.is_valid() ) {
         return;
     }
-    sm.set_tile( p.loc, memorized_terrain_tile{ ter, subtile, rotation } );
+    sm.set_tile( p.loc, memorized_tile{ ter, subtile, rotation } );
 }
 
 int map_memory::get_symbol( const tripoint &pos ) const

@@ -2902,7 +2902,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         }
     } else if( invisible[0] && has_terrain_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const memorized_terrain_tile &t = get_terrain_memory_at( p );
+        const memorized_tile &t = get_terrain_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::TERRAIN, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -2914,7 +2914,7 @@ bool cata_tiles::has_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        const memorized_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         return !t.tile.empty();
     }
     return false;
@@ -2924,7 +2924,7 @@ bool cata_tiles::has_terrain_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        const memorized_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "t_" ) ) {
             return true;
         }
@@ -2936,7 +2936,7 @@ bool cata_tiles::has_furniture_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        const memorized_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "f_" ) ) {
             return true;
         }
@@ -2948,7 +2948,7 @@ bool cata_tiles::has_trap_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        const memorized_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "tr_" ) ) {
             return true;
         }
@@ -2960,7 +2960,7 @@ bool cata_tiles::has_vpart_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        const memorized_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "vp_" ) ) {
             return true;
         }
@@ -2968,11 +2968,11 @@ bool cata_tiles::has_vpart_memory_at( const tripoint &p ) const
     return false;
 }
 
-memorized_terrain_tile cata_tiles::get_terrain_memory_at( const tripoint &p ) const
+memorized_tile cata_tiles::get_terrain_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "t_" ) ) {
             return t;
         }
@@ -2980,11 +2980,11 @@ memorized_terrain_tile cata_tiles::get_terrain_memory_at( const tripoint &p ) co
     return {};
 }
 
-memorized_terrain_tile cata_tiles::get_furniture_memory_at( const tripoint &p ) const
+memorized_tile cata_tiles::get_furniture_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "f_" ) ) {
             return t;
         }
@@ -2992,11 +2992,11 @@ memorized_terrain_tile cata_tiles::get_furniture_memory_at( const tripoint &p ) 
     return {};
 }
 
-memorized_terrain_tile cata_tiles::get_trap_memory_at( const tripoint &p ) const
+memorized_tile cata_tiles::get_trap_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "tr_" ) ) {
             return t;
         }
@@ -3004,11 +3004,11 @@ memorized_terrain_tile cata_tiles::get_trap_memory_at( const tripoint &p ) const
     return {};
 }
 
-memorized_terrain_tile cata_tiles::get_vpart_memory_at( const tripoint &p ) const
+memorized_tile cata_tiles::get_vpart_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "vp_" ) ) {
             return t;
         }
@@ -3101,7 +3101,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         }
     } else if( invisible[0] && has_furniture_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const memorized_terrain_tile &t = get_furniture_memory_at( p );
+        const memorized_tile &t = get_furniture_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::FURNITURE, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -3179,7 +3179,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         }
     } else if( invisible[0] && has_trap_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const memorized_terrain_tile &t = get_trap_memory_at( p );
+        const memorized_tile &t = get_trap_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::TRAP, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -3614,7 +3614,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         }
     } else if( !roof && invisible[0] && has_vpart_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const memorized_terrain_tile &t = get_vpart_memory_at( p );
+        const memorized_tile &t = get_vpart_memory_at( p );
         int height_3d_temp = 0;
         std::string_view tid = t.tile;
         std::string_view tvar;

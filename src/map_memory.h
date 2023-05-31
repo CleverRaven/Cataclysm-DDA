@@ -9,84 +9,48 @@
 #include "memory_fast.h"
 #include "point.h" // IWYU pragma: keep
 
-class JsonOut;
 class JsonObject;
 class JsonOut;
 class JsonValue;
 
-struct memorized_terrain_tile {
-    std::string tile;
-    int subtile;
-    int rotation;
+class memorized_tile
+{
+    public:
+        std::string tile;
+        int subtile = 0;
+        int rotation = 0;
 
-    inline bool operator==( const memorized_terrain_tile &rhs ) const {
-        return ( rotation == rhs.rotation ) && ( subtile == rhs.subtile ) && ( tile == rhs.tile );
-    }
-
-    inline bool operator!=( const memorized_terrain_tile &rhs ) const {
-        return !( *this == rhs );
-    }
+        bool operator==( const memorized_tile &rhs ) const;
+        bool operator!=( const memorized_tile &rhs ) const {
+            return !( *this == rhs );
+        }
 };
 
 /** Represent a submap-sized chunk of tile memory. */
 struct mm_submap {
     public:
-        static const memorized_terrain_tile default_tile;
+        static const memorized_tile default_tile;
         static const int default_symbol;
 
-        mm_submap();
+        mm_submap() = default;
         explicit mm_submap( bool make_valid );
 
-        /** Whether this mm_submap is empty. Empty submaps are skipped during saving. */
-        bool is_empty() const {
-            return tiles.empty() && symbols.empty();
-        }
+        // @returns true if mm_submap is empty; empty submaps are skipped during saving.
+        bool is_empty() const;
+        // @returns true if mm_submap is valid, i.e. not returned from an uninitialized region.
+        bool is_valid() const;
 
-        // Whether this mm_submap is invalid, i.e. returned from an uninitialized region.
-        bool is_valid() const {
-            return valid;
-        }
-
-        inline const memorized_terrain_tile &tile( const point &p ) const {
-            if( tiles.empty() ) {
-                return default_tile;
-            } else {
-                return tiles[p.y * SEEX + p.x];
-            }
-        }
-
-        inline void set_tile( const point &p, const memorized_terrain_tile &value ) {
-            if( tiles.empty() ) {
-                // call 'reserve' first to force allocation of exact size
-                tiles.reserve( SEEX * SEEY );
-                tiles.resize( SEEX * SEEY, default_tile );
-            }
-            tiles[p.y * SEEX + p.x] = value;
-        }
-
-        inline int symbol( const point &p ) const {
-            if( symbols.empty() ) {
-                return default_symbol;
-            } else {
-                return symbols[p.y * SEEX + p.x];
-            }
-        }
-
-        inline void set_symbol( const point &p, int value ) {
-            if( symbols.empty() ) {
-                // call 'reserve' first to force allocation of exact size
-                symbols.reserve( SEEX * SEEY );
-                symbols.resize( SEEX * SEEY, default_symbol );
-            }
-            symbols[p.y * SEEX + p.x] = value;
-        }
+        const memorized_tile &tile( const point &p ) const;
+        void set_tile( const point &p, const memorized_tile &value );
+        int symbol( const point &p ) const;
+        void set_symbol( const point &p, int value );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonValue &ja );
 
     private:
         // NOLINTNEXTLINE(cata-serialize)
-        std::vector<memorized_terrain_tile> tiles; // holds either 0 or SEEX*SEEY elements
+        std::vector<memorized_tile> tiles; // holds either 0 or SEEX*SEEY elements
         // NOLINTNEXTLINE(cata-serialize)
         std::vector<int> symbols; // holds either 0 or SEEX*SEEY elements
         bool valid = true; // NOLINT(cata-serialize)
@@ -157,7 +121,7 @@ class map_memory
          * Returns memorized tile.
          * @param pos tile position, in global ms coords.
          */
-        const memorized_terrain_tile &get_tile( const tripoint &pos ) const;
+        const memorized_tile &get_tile( const tripoint &pos ) const;
 
         /**
          * Memorizes given symbol, overwriting old value.

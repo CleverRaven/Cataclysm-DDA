@@ -44,7 +44,7 @@ class window;
 } // namespace catacurses
 enum class character_type : int;
 class map_memory;
-struct memorized_terrain_tile;
+class memorized_tile;
 
 namespace debug_menu
 {
@@ -144,7 +144,7 @@ class avatar : public Character
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
                             int rotation );
         /** Returns last stored map tile in given location in tiles mode */
-        const memorized_terrain_tile &get_memorized_tile( const tripoint &p ) const;
+        const memorized_tile &get_memorized_tile( const tripoint &p ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
         void memorize_symbol( const tripoint &pos, int symbol );
         /** Returns last stored map tile in given location in curses mode */

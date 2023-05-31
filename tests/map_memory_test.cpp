@@ -39,7 +39,7 @@ TEST_CASE( "map_memory_defaults", "[map_memory]" )
     map_memory memory;
     memory.prepare_region( p1, p2 );
     CHECK( memory.get_symbol( p1 ) == 0 );
-    memorized_terrain_tile default_tile = memory.get_tile( p1 );
+    memorized_tile default_tile = memory.get_tile( p1 );
     CHECK( default_tile.tile.empty() );
     CHECK( default_tile.subtile == 0 );
     CHECK( default_tile.rotation == 0 );
