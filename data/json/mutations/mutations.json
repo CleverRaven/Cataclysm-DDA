@@ -3917,7 +3917,7 @@
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
     "enchantments": [
-      { 
+      {
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_any_trait": [ "PAWS" ] } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ]
       }
