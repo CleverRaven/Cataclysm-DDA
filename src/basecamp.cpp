@@ -40,8 +40,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
-
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
     { base_camps::base_dir, { "[B]", base_camps::TAB_MAIN, to_translation( "base camp: base", "[B]" ), to_translation( "base camp: base", " MAIN " ) } },
