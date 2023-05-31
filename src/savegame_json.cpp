@@ -3997,29 +3997,20 @@ void player_morale::load( const JsonObject &jsin )
     jsin.read( "morale", points );
 }
 
-struct mm_elem {
-    memorized_tile tile;
-    int symbol;
-
-    bool operator==( const mm_elem &rhs ) const {
-        return symbol == rhs.symbol && tile == rhs.tile;
-    }
-};
-
 void mm_submap::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
 
     // Uses RLE for compression.
 
-    mm_elem last;
+    memorized_tile last;
     int num_same = 1;
 
     const auto write_seq = [&]() {
         jsout.start_array();
-        jsout.write( last.tile.tile );
-        jsout.write( last.tile.subtile );
-        jsout.write( last.tile.rotation );
+        jsout.write( last.tile );
+        jsout.write( last.subtile );
+        jsout.write( last.rotation );
         jsout.write( last.symbol );
         if( num_same != 1 ) {
             jsout.write( num_same );
@@ -4029,8 +4020,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
 
     for( size_t y = 0; y < SEEY; y++ ) {
         for( size_t x = 0; x < SEEX; x++ ) {
-            point p( x, y );
-            const mm_elem elem = { tile( p ), symbol( p ) };
+            const memorized_tile &elem = tile( point( x, y ) );
             if( x == 0 && y == 0 ) {
                 last = elem;
                 continue;
@@ -4055,7 +4045,7 @@ void mm_submap::deserialize( const JsonValue &ja )
 
     JsonArray sm_json = ja;
 
-    mm_elem elem;
+    memorized_tile elem;
     size_t remaining = 0;
 
     for( size_t y = 0; y < SEEY; y++ ) {
@@ -4064,9 +4054,9 @@ void mm_submap::deserialize( const JsonValue &ja )
                 remaining -= 1;
             } else {
                 JsonArray elem_json = sm_json.next_array();
-                elem.tile.tile = elem_json.next_string();
-                elem.tile.subtile = elem_json.next_int();
-                elem.tile.rotation = elem_json.next_int();
+                elem.tile = elem_json.next_string();
+                elem.subtile = elem_json.next_int();
+                elem.rotation = elem_json.next_int();
                 elem.symbol = elem_json.next_int();
                 if( elem_json.size() > 4 ) {
                     remaining = elem_json.next_int() - 1;
@@ -4075,13 +4065,9 @@ void mm_submap::deserialize( const JsonValue &ja )
                     elem_json.throw_error( "Too many values for RLE" );
                 }
             }
-            point p( x, y );
             // Try to avoid assigning to save up on memory
-            if( elem.tile != mm_submap::default_tile ) {
-                set_tile( p, elem.tile );
-            }
-            if( elem.symbol != mm_submap::default_symbol ) {
-                set_symbol( p, elem.symbol );
+            if( elem != mm_submap::default_tile ) {
+                set_tile( point( x, y ), elem );
             }
         }
     }

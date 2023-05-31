@@ -11,7 +11,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-const int mm_submap::default_symbol = 0;
 const memorized_tile mm_submap::default_tile = {};
 
 #define MM_SIZE (MAPSIZE * 2)
@@ -45,7 +44,7 @@ mm_submap::mm_submap( bool make_valid ) : valid( make_valid ) {}
 
 bool mm_submap::is_empty() const
 {
-    return tiles.empty() && symbols.empty();
+    return tiles.empty();
 }
 
 bool mm_submap::is_valid() const
@@ -71,22 +70,20 @@ void mm_submap::set_tile( const point &p, const memorized_tile &value )
     tiles[p.y * SEEX + p.x] = value;
 }
 
-int mm_submap::symbol( const point &p ) const
+char32_t mm_submap::symbol( const point &p ) const
 {
-    if( symbols.empty() ) {
-        return default_symbol;
-    }
-    return symbols[p.y * SEEX + p.x];
+    return tile( p ).symbol;
 }
 
-void mm_submap::set_symbol( const point &p, int value )
+void mm_submap::set_symbol( const point &p, char32_t value )
 {
-    if( symbols.empty() ) {
-        // call 'reserve' first to force allocation of exact size
-        symbols.reserve( SEEX * SEEY );
-        symbols.resize( SEEX * SEEY, default_symbol );
+    if( tiles.empty() ) {
+        memorized_tile t;
+        t.symbol = value;
+        set_tile( p, t );
     }
-    symbols[p.y * SEEX + p.x] = value;
+    // if tiles not empty we can cast away the const and set field directly
+    const_cast<memorized_tile &>( tile( p ) ).symbol = value;
 }
 
 mm_region::mm_region() : submaps( nullptr ) {}
@@ -106,7 +103,8 @@ bool mm_region::is_empty() const
 
 bool memorized_tile::operator==( const memorized_tile &rhs ) const
 {
-    return rotation == rhs.rotation &&
+    return symbol == rhs.symbol &&
+           rotation == rhs.rotation &&
            subtile == rhs.subtile &&
            tile == rhs.tile;
 }
@@ -136,17 +134,21 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
     if( !sm.is_valid() ) {
         return;
     }
-    sm.set_tile( p.loc, memorized_tile{ ter, subtile, rotation } );
+    memorized_tile t;
+    t.tile = ter;
+    t.subtile = subtile;
+    t.rotation = rotation;
+    sm.set_tile( p.loc, std::move( t ) );
 }
 
-int map_memory::get_symbol( const tripoint &pos ) const
+char32_t map_memory::get_symbol( const tripoint &pos ) const
 {
     coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
     return sm.symbol( p.loc );
 }
 
-void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
+void map_memory::memorize_symbol( const tripoint &pos, char32_t symbol )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
@@ -163,7 +165,6 @@ void map_memory::clear_memorized_tile( const tripoint &pos )
     if( !sm.is_valid() ) {
         return;
     }
-    sm.set_symbol( p.loc, mm_submap::default_symbol );
     sm.set_tile( p.loc, mm_submap::default_tile );
 }
 

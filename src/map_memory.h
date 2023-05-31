@@ -16,6 +16,7 @@ class JsonValue;
 class memorized_tile
 {
     public:
+        char32_t symbol = 0;
         std::string tile;
         int subtile = 0;
         int rotation = 0;
@@ -30,7 +31,6 @@ class memorized_tile
 struct mm_submap {
     public:
         static const memorized_tile default_tile;
-        static const int default_symbol;
 
         mm_submap() = default;
         explicit mm_submap( bool make_valid );
@@ -42,8 +42,8 @@ struct mm_submap {
 
         const memorized_tile &tile( const point &p ) const;
         void set_tile( const point &p, const memorized_tile &value );
-        int symbol( const point &p ) const;
-        void set_symbol( const point &p, int value );
+        char32_t symbol( const point &p ) const;
+        void set_symbol( const point &p, char32_t value );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonValue &ja );
@@ -52,8 +52,7 @@ struct mm_submap {
         // NOLINTNEXTLINE(cata-serialize)
         std::vector<memorized_tile> tiles; // holds either 0 or SEEX*SEEY elements
         // NOLINTNEXTLINE(cata-serialize)
-        std::vector<int> symbols; // holds either 0 or SEEX*SEEY elements
-        bool valid = true; // NOLINT(cata-serialize)
+        bool valid = true;
 };
 
 /**
@@ -127,13 +126,13 @@ class map_memory
          * Memorizes given symbol, overwriting old value.
          * @param pos tile position, in global ms coords.
         */
-        void memorize_symbol( const tripoint &pos, int symbol );
+        void memorize_symbol( const tripoint &pos, char32_t symbol );
 
         /**
          * Returns memorized symbol.
          * @param pos tile position, in global ms coords.
          */
-        int get_symbol( const tripoint &pos ) const;
+        char32_t get_symbol( const tripoint &pos ) const;
 
         /**
          * Clears memorized tile and symbol.
