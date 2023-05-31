@@ -397,7 +397,6 @@ class basecamp
         inline void set_storage_zone( const std::vector<const zone_data *> &zones ) {
             storage_zones = zones;
         }
-        static constexpr int inv_range = 20;
     private:
         friend class basecamp_action_components;
 

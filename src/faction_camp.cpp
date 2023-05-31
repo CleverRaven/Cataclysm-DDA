@@ -1751,10 +1751,14 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
         }
 
         map *target_map = &get_map();
-        for( item *i : equipment ) {
-            int count = i->count();
-            target_map->use_charges( target_map->getlocal( get_dumping_spot() ), basecamp::inv_range,
-                                     i->typeId(), count );
+        for( const zone_data *zone : storage_zones ) {
+            const tripoint_abs_ms &center = zone->get_center_point();
+            const int radius = rl_dist( zone->get_start_point(), zone->get_end_point() ) / 2 + 1;
+            const tripoint &origin = target_map->getlocal( center );
+            for( item *i : equipment ) {
+                int count = i->count();
+                target_map->use_charges( origin, radius, i->typeId(), count );
+            }
         }
         target_map->save();
     }
