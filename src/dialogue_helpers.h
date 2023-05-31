@@ -175,7 +175,7 @@ struct eoc_math {
     std::shared_ptr<math_exp> rhs;
     eoc_math::oper action = oper::invalid;
 
-    void from_json( const JsonObject &jo, std::string_view member );
+    void from_json( const JsonObject &jo, std::string_view member, bool conditional = false );
     double act( dialogue &d ) const;
 };
 

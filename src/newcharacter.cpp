@@ -1255,11 +1255,11 @@ static struct {
 static void add_trait( std::vector<trait_and_var> &to, const trait_id &trait )
 {
     if( trait->variants.empty() ) {
-        to.emplace_back( trait_and_var( trait, "" ) );
+        to.emplace_back( trait, "" );
         return;
     }
     for( const std::pair<const std::string, mutation_variant> &var : trait->variants ) {
-        to.emplace_back( trait_and_var( trait, var.first ) );
+        to.emplace_back( trait, var.first );
     }
 }
 

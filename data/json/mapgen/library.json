@@ -410,5 +410,136 @@
         }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_library_3" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "------------------------",
+        "..pp----pp##o#######o##.",
+        "..pp----pp#  KJ%J%JW  #.",
+        "..pp----pp#           #.",
+        ".#::#**#::#[h [h [h [h#.",
+        ".#U                   o.",
+        ".#U    OOMMNNUUPPAA   #.",
+        ".#I                   #.",
+        ".#T    QQKWJUUITKJW   #.",
+        ".o                    #.",
+        ".#||||||  [h [h [h [h o.",
+        ".#cScSc|              #.",
+        ".o     +  %U%I%T%J%Q  #.",
+        ".#+|+|+|              #.",
+        ".# | | |  cc%cccc%cc  #.",
+        ".#t|t|t|              #.",
+        ".###########o####o#####.",
+        ".pppp4ppppppppppppppppp.",
+        "........................",
+        "...5..p..5....5..p..5...",
+        "........................",
+        "...5..p..5....5..p..5...",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "standard_building_palette", "library_palette" ],
+      "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_library_3" ],
+    "weight": 1000,
+    "//": "vandalized variant.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "------------------------",
+        "..pp----pp##o#######o##.",
+        "..pp----pp#  KJ%J%JW  #.",
+        "..pp----pp#           #.",
+        ".#::#**#::#[h [h [h [h#.",
+        ".#U                   o.",
+        ".#U    OOMMNNUUPPAA   #.",
+        ".#I                   #.",
+        ".#T    QQKWJUUITKJW   #.",
+        ".o                    #.",
+        ".#||||||  [h [h [h [h o.",
+        ".#cScSc|              #.",
+        ".o     +  %U%I%T%J%Q  #.",
+        ".#+|+|+|              #.",
+        ".# | | |  cc%cccc%cc  #.",
+        ".#t|t|t|              #.",
+        ".###########o####o#####.",
+        ".pppp4ppppppppppppppppp.",
+        "........................",
+        "...5..p..5....5..p..5...",
+        "........................",
+        "...5..p..5....5..p..5...",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "standard_building_palette_vandalized", "vandalized_library_palette" ],
+      "nested": { "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] } },
+      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_library_roof_3",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "          |222222222223 ",
+        "          |...........3 ",
+        "          |.R.........3 ",
+        " |22222222|........U..3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |---5----------------3 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_items": [ { "item": "roof_trash", "x": [ 3, 18 ], "y": [ 6, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 6, 8 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
+          "x": [ 3, 15 ],
+          "y": [ 8, 11 ]
+        }
+      ]
+    }
   }
 ]

@@ -346,8 +346,8 @@ static std::vector<swim_scenario> generate_scenarios()
             for( const std::pair<const std::string, swimmer_skills> &skills : skills_map ) {
                 for( const std::pair<const std::string, swimmer_gear> &gear : gear_map ) {
                     for( const std::pair<const std::string, swimmer_traits> &traits : traits_map ) {
-                        scenarios.emplace_back( swim_scenario( move_mode, stats.first, skills.first, gear.first,
-                                                               traits.first ) );
+                        scenarios.emplace_back( move_mode, stats.first, skills.first, gear.first,
+                                                traits.first );
                     }
                 }
             }

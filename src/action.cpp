@@ -1125,17 +1125,18 @@ std::optional<tripoint> choose_adjacent( const std::string &message, const bool 
 }
 
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const action_id action, bool allow_vertical )
+        const std::string &failure_message, const action_id action,
+        const bool allow_vertical, const bool allow_autoselect )
 {
     const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
         return can_interact_at( action, p );
     };
-    return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
+    return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
 }
 
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical )
+        const bool allow_vertical, const bool allow_autoselect )
 {
     std::vector<tripoint> valid;
     avatar &player_character = get_avatar();
@@ -1148,7 +1149,7 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         }
     }
 
-    const bool auto_select = get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
+    const bool auto_select = allow_autoselect && get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
     if( valid.empty() && auto_select ) {
         add_msg( failure_message );
         return std::nullopt;

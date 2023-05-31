@@ -140,7 +140,7 @@ static std::vector<std::string> scrape_win_at(
     cata_cursesport::WINDOW *win = static_cast<cata_cursesport::WINDOW *>( w.get() );
 
     for( int i = origin.y; i < rows && static_cast<size_t>( i ) < win->line.size(); i++ ) {
-        lines.emplace_back( std::string() );
+        lines.emplace_back( );
         for( int j = origin.x; j < cols && static_cast<size_t>( j ) < win->line[i].chars.size(); j++ ) {
             lines[i] += win->line[i].chars[j].ch;
         }

@@ -133,6 +133,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ACIDTRAIL: return "ACIDTRAIL";
         case MF_SHORTACIDTRAIL: return "SHORTACIDTRAIL";
         case MF_FIREPROOF: return "FIREPROOF";
+        case MF_IRONWROUGHT: return "IRONWROUGHT";
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
         case MF_SMALLSLUDGETRAIL: return "SMALLSLUDGETRAIL";
@@ -811,7 +812,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "weakpoint_sets" ) ) {
         weakpoints_deferred.clear();
         for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
-            weakpoints_deferred.emplace_back( weakpoints_id( jval.get_string() ) );
+            weakpoints_deferred.emplace_back( jval.get_string() );
         }
     }
 
@@ -893,10 +894,10 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         absorb_material.clear();
         if( jo.has_array( "absorb_material" ) ) {
             for( std::string mat : jo.get_string_array( "absorb_material" ) ) {
-                absorb_material.emplace_back( material_id( mat ) );
+                absorb_material.emplace_back( mat );
             }
         } else {
-            absorb_material.emplace_back( material_id( jo.get_string( "absorb_material" ) ) );
+            absorb_material.emplace_back( jo.get_string( "absorb_material" ) );
         }
     }
 

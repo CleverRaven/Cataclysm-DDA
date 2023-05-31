@@ -2848,6 +2848,36 @@ void item::craft_data::deserialize( const JsonObject &obj )
     obj.read( "cached_tool_selections", cached_tool_selections );
 }
 
+void item::link_data::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "link_i_state", s_state );
+    jsout.member( "link_t_state", t_state );
+    jsout.member( "link_t_abs_pos", t_abs_pos );
+    jsout.member( "link_t_mount", t_mount );
+    jsout.member( "link_max_length", max_length );
+    jsout.member( "link_last_processed", last_processed );
+    jsout.member( "link_charge_rate", charge_rate );
+    jsout.member( "link_charge_interval", charge_interval );
+    jsout.member( "link_charge_efficiency", charge_efficiency );
+    jsout.end_object();
+}
+
+void item::link_data::deserialize( const JsonObject &data )
+{
+    data.allow_omitted_members();
+
+    data.read( "link_i_state", s_state );
+    data.read( "link_t_state", t_state );
+    data.read( "link_t_abs_pos", t_abs_pos );
+    data.read( "link_t_mount", t_mount );
+    max_length = data.get_int( "link_max_length" );
+    data.read( "link_last_processed", last_processed );
+    charge_rate = data.get_int( "link_charge_rate" );
+    charge_interval = data.get_int( "link_charge_interval" );
+    charge_efficiency = data.get_int( "link_charge_efficiency" );
+}
+
 // Template parameter because item::craft_data is private and I don't want to make it public.
 template<typename T>
 static void load_legacy_craft_data( io::JsonObjectInputArchive &archive, T &value )
@@ -2945,6 +2975,7 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "wetness", wetness, 0 );
+    archive.io( "contents_linked", contents_linked, false );
     archive.io( "dropped_from", dropped_from, harvest_drop_type_id::NULL_ID() );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );
@@ -2977,6 +3008,14 @@ void item::io( Archive &archive )
 
     static const cata::value_ptr<relic> null_relic_ptr = nullptr;
     archive.io( "relic_data", relic_data, null_relic_ptr );
+    static const cata::value_ptr<link_data> null_link_ptr = nullptr;
+    archive.io( "link_data", link, null_link_ptr );
+    if( link ) {
+        const optional_vpart_position vp = get_map().veh_at( link->t_abs_pos );
+        if( vp ) {
+            link->t_veh_safe = vp.value().vehicle().get_safe_reference();
+        }
+    }
 
     item_controller->migrate_item( orig, *this );
 
@@ -3299,7 +3338,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
-            tools.emplace_back( item( it, calendar::turn ) );
+            tools.emplace_back( it, calendar::turn );
         }
     }
 }

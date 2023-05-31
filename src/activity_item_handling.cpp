@@ -1741,7 +1741,7 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
     for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
         you.consume_tools( it );
     }
-    you.backlog.push_front( player_activity( activity_to_restore ) );
+    you.backlog.emplace_front( activity_to_restore );
     you.assign_activity( ACT_BUILD );
     you.activity.placement = here.getglobal( src_loc );
     return true;
@@ -1984,8 +1984,9 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         num_processed = 0;
         // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
+        src_set.reserve( act.coord_set.size() );
         for( const tripoint &p : act.coord_set ) {
-            src_set.emplace_back( tripoint_abs_ms( p ) );
+            src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -2797,7 +2798,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
             return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
-                you.backlog.push_front( player_activity( act_id ) );
+                you.backlog.emplace_front( act_id );
                 you.assign_activity( ACT_FETCH_REQUIRED );
                 player_activity &act_prev = you.backlog.front();
                 act_prev.str_values.push_back( what_we_need.str() );
@@ -2862,7 +2863,7 @@ static bool generic_multi_activity_do(
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( churn_activity_actor( 18000, item_location() ) );
-        you.backlog.push_front( player_activity( act_id ) );
+        you.backlog.emplace_front( act_id );
         you.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING &&
@@ -2881,23 +2882,23 @@ static bool generic_multi_activity_do(
             }
             // TODO: fix point types
             iexamine::plant_seed( you, src_loc.raw(), itype_id( seed ) );
-            you.backlog.push_front( player_activity( act_id ) );
+            you.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( you, src_loc ) ) {
-            you.backlog.push_front( player_activity( act_id ) );
+            you.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
                reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( you, src_loc, reason ) ) {
-            you.backlog.push_front( player_activity( act_id ) );
+            you.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
         if( here.partial_con_at( src_loc ) ) {
-            you.backlog.push_front( player_activity( act_id ) );
+            you.backlog.emplace_front( act_id );
             you.assign_activity( ACT_BUILD );
             you.activity.placement = src;
             return false;
@@ -2920,11 +2921,11 @@ static bool generic_multi_activity_do(
         }
     } else if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && you.has_quality( qual_AXE, 1 ) ) {
         if( chop_tree_activity( you, src_loc ) ) {
-            you.backlog.push_front( player_activity( act_id ) );
+            you.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_FISHING && you.has_quality( qual_FISHING_ROD, 1 ) ) {
-        you.backlog.push_front( player_activity( act_id ) );
+        you.backlog.emplace_front( act_id );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         you.activity = player_activity();
         item &best_rod = you.best_item_with_quality( qual_FISHING_ROD );
@@ -2937,24 +2938,24 @@ static bool generic_multi_activity_do(
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.
-        you.backlog.push_front( player_activity( act_id ) );
+        you.backlog.emplace_front( act_id );
         if( mine_activity( you, src_loc ) ) {
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_MOP ) {
         if( mop_activity( you, src_loc ) ) {
-            you.backlog.push_front( player_activity( act_id ) );
+            you.backlog.emplace_front( act_id );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'o' ) ) {
-            you.backlog.push_front( player_activity( act_id ) );
+            you.backlog.emplace_front( act_id );
             return false;
         }
         you.activity_vehicle_part_index = -1;
     } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
         if( vehicle_activity( you, src_loc, you.activity_vehicle_part_index, 'r' ) ) {
-            you.backlog.push_front( player_activity( act_id ) );
+            you.backlog.emplace_front( act_id );
             return false;
         }
 
@@ -2980,7 +2981,7 @@ static bool generic_multi_activity_do(
                     // Keep doing
                     // After assignment of disassemble activity (not multitype anymore)
                     // the backlog will not be nuked in do_player_activity()
-                    you.backlog.emplace_back( player_activity( ACT_MULTIPLE_DIS ) );
+                    you.backlog.emplace_back( ACT_MULTIPLE_DIS );
                     break;
                 }
             }
