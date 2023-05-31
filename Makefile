@@ -109,7 +109,9 @@ WARNINGS = \
   -Wsuggest-override \
   -Wunused-macros \
   -Wzero-as-null-pointer-constant \
-  -Wno-unknown-warning-option
+  -Wno-unknown-warning-option \
+  -Wno-dangling-reference \
+  -Wno-c++20-compat
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -1305,6 +1307,7 @@ clean-pch:
 	rm -f pch/*pch.hpp.gch
 	rm -f pch/*pch.hpp.pch
 	rm -f pch/*pch.hpp.d
+	$(MAKE) -C tests clean-pch
 
 .PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
 

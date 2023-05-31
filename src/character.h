@@ -3468,6 +3468,8 @@ class Character : public Creature, public visitable
 
         // Our weariness level last turn, so we know when we transition
         int old_weary_level = 0;
+        // Z-level on the last turn (used for edge-case "fine_detail_vision_mod" NPCs function override)
+        int last_pc_zlev = 0;
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;

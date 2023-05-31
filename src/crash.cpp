@@ -7,6 +7,7 @@
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <exception>
 #include <initializer_list>
 #include <iostream>

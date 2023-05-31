@@ -767,6 +767,14 @@ void conditional_t::set_has_var( const JsonObject &jo, const std::string &member
     const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
+    if( !time_check && !jo.has_member( "value" ) ) {
+        jo.throw_error( R"(Missing field: "value" or "time")" );
+        condition = []( dialogue const & ) {
+            return false;
+        };
+        return;
+    }
+
     condition = [var_name, value, time_check, is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
         if( time_check ) {
@@ -1426,7 +1434,7 @@ void conditional_t::set_compare_num( const JsonObject &jo, const std::string_vie
 void conditional_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
-    math.from_json( jo, member );
+    math.from_json( jo, member, true );
     condition = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
@@ -2660,7 +2668,7 @@ void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string_view m
     };
 }
 
-void eoc_math::from_json( const JsonObject &jo, std::string_view member )
+void eoc_math::from_json( const JsonObject &jo, std::string_view member, bool conditional )
 {
     JsonArray const objects = jo.get_array( member );
     if( objects.size() > 3 ) {
@@ -2710,6 +2718,17 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member )
         } else {
             jo.throw_error( "Invalid binary operator in " + jo.str() );
             return;
+        }
+    }
+    if( !conditional && action >= oper::equal ) {
+        objects.throw_error( "Comparison operators can only be used in conditional statements" );
+    }
+    if( conditional && action < oper::equal ) {
+        if( action == oper::assign ) {
+            objects.throw_error(
+                R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
+        } else {
+            objects.throw_error( "Only comparison operators can be used in conditional statements" );
         }
     }
     bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
@@ -2762,7 +2781,7 @@ double eoc_math::act( dialogue &d ) const
             return lhs->eval( d ) >= rhs->eval( d );
         case oper::invalid:
         default:
-            debugmsg( "unknown eoc math operator %d", action );
+            debugmsg( "unknown eoc math operator %d %s", action, d.get_callstack() );
     }
 
     return 0;

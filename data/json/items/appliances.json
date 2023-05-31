@@ -232,26 +232,6 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "TOOL",
-    "id": "power_cord",
-    "name": { "str": "power cord" },
-    "description": "A short, multi-stranded copper cord with a power outlet at the end.",
-    "to_hit": 1,
-    "color": "dark_gray",
-    "symbol": "&",
-    "material": [ "steel", "plastic" ],
-    "volume": "500 ml",
-    "weight": "75 g",
-    "category": "tools",
-    "price": 1,
-    "price_postapoc": 100,
-    "max_charges": 3,
-    "initial_charges": 3,
-    "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "POWER_CORD", "SINGLE_USE" ],
-    "melee_damage": { "bash": 2 }
-  },
-  {
     "type": "GENERIC",
     "id": "standing_lamp",
     "name": { "str": "disconnected standing lamp" },
