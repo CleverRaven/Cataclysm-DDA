@@ -3918,7 +3918,13 @@
     "destroys_gear": true,
     "enchantments": [
       {
-        "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST" ] } ] },
+        "condition": {
+          "and": [
+            { "u_has_move_mode": "crouch" },
+            { "not": "u_can_drop_weapon" },
+            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST" ] }
+        ]
+      },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ]
       }
     ]
