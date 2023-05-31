@@ -267,7 +267,7 @@
     "fun": 3,
     "vitamins": [ [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ] ]
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "grits",
     "name": { "str_sp": "grits" },
