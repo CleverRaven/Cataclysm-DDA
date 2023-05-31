@@ -106,7 +106,7 @@ std::function<double( dialogue & )> armor_eval( char scope,
     };
 }
 
-std::function<double( dialogue & )> num_input_eval( char scope,
+std::function<double( dialogue & )> num_input_eval( char /*scope*/,
         std::vector<diag_value> const &params )
 {
     return[prompt = params[0], default_val = params[1]]( dialogue const & d ) {
