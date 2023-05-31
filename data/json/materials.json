@@ -166,7 +166,9 @@
     "cut_dmg_verb": "passed through",
     "repaired_with": "water",
     "soft": true,
-    "resist": { "bash": 8, "cut": 0, "acid": 8, "heat": 4, "bullet": 4 }
+    "resist": { "bash": 8, "cut": 0, "acid": 8, "heat": 4, "bullet": 4 },
+    "//": "Super easy to repair since you're just feeding it blood (it is alive)",
+    "repair_difficulty": 0
   },
   {
     "type": "material",
@@ -1519,7 +1521,8 @@
       { "fuel": 0.4, "smoke": 3, "burn": 0.003 },
       { "fuel": 1, "smoke": 5, "burn": 0.008 }
     ],
-    "resist": { "bash": 0.75, "cut": 0.5, "acid": 9, "heat": 1, "bullet": 0.5 }
+    "resist": { "bash": 0.75, "cut": 0.5, "acid": 9, "heat": 1, "bullet": 0.5 },
+    "repair_difficulty": 5
   },
   {
     "type": "material",
@@ -2114,7 +2117,9 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 2, "cut": 3, "acid": 0, "heat": 3, "bullet": 2 }
+    "resist": { "bash": 2, "cut": 3, "acid": 0, "heat": 3, "bullet": 2 },
+    "//": "No material in game can actually repair this. Difficulty is zero so that second skin can be 'repaired' (fed blood) with the feeding kit trivially.",
+    "repair_difficulty": 0
   },
   {
     "type": "material",
