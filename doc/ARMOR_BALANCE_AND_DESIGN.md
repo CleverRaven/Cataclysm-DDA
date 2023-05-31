@@ -49,7 +49,6 @@ here is an example armor to look at:
 ```json
 {
   "id": "dress_shirt",
-  "repairs_like": "tshirt",
   "type": "ARMOR",
   "name": { "str": "dress shirt" },
   "description": "A white button-down shirt with long sleeves.  Looks professional!",
@@ -540,6 +539,22 @@ Some armor with custom abilities can be handled as enchantments. This is a new w
 #### Further Reading
 The Nomad Jumpsuits use this to provide well distributed.
 
+### Repairs_Like
+#### Explanation
+This flag should usually not be used as the materials of the item itself determine the difficulty to repair, however you can still use it to determine if something should be easier or harder to repair than its materials would suggest. For example, a leather belt repairs_like "leather" because the belt buckle is exceedingly unlikely to be damaged compared to just the leather parts.
+#### Example
+```json
+    "id": "leather_belt",
+    "type": "ARMOR",
+    "name": { "str": "leather belt" },
+    "description": "A leather belt.  Designed to look good and hold up a pair of pants, but you should be able to attach a small tool or weapon to one of the belt loops.",
+    "weight": "150 g",
+    "volume": "350 ml",
+    "price": 2000,
+    "price_postapoc": 100,
+    "repairs_like": "leather",
+    "material": [ { "type": "leather", "portion": 75 }, { "type": "steel", "portion": 25 } ],
+```
 ### Notable Flags
 This is a hopefully exhaustive list of flags you may wish to use on items and what they do.
 
