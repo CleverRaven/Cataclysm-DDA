@@ -3904,11 +3904,11 @@
   {
     "type": "mutation",
     "id": "ANIMAL_FEET",
-    "name": { "str": "Animal Legs" },
+    "name": { "str": "Digitigrade Legs" },
     "points": -1,
     "visibility": 2,
     "ugliness": 2,
-    "description": "The heels of your feet have shifted up off the ground in a rather animalistic fashion.  While some people might think this looks cool, it mostly just means you can't carry as much or wear shoes.",
+    "description": "The heels of your feet have shifted up off the ground in a rather animalistic fashion.  While *some people* might think this looks cool, it mostly just means you can't carry as much or wear shoes.",
     "types": [ "FEET" ],
     "prereqs": [ "PADDED_FEET" ],
     "weight_capacity_modifier": 0.85,
