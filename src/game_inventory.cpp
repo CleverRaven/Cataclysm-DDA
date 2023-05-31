@@ -1237,7 +1237,7 @@ class ereader_inventory_preset : public pickup_inventory_preset
 
         std::string get_denial( const item_location &loc ) const override {
             const item &it = *loc;
-            const auto &uses = it.type->use_methods;
+            //const auto &uses = it.type->use_methods;
 
             if( it.is_broken() ) {
                 return /*string_format(*/ _( "E-reader is broken and won't turn on." ) /*)*/;
