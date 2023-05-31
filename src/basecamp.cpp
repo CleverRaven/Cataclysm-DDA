@@ -661,8 +661,6 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint_abs_ms &dump_spot = get_dumping_spot();
-    const tripoint &origin = target_map.getlocal( dump_spot );
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
