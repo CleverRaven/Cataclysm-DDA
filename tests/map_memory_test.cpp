@@ -38,7 +38,7 @@ TEST_CASE( "map_memory_defaults", "[map_memory]" )
 {
     map_memory memory;
     memory.prepare_region( p1, p2 );
-    CHECK( memory.get_symbol( p1 ) == 0 );
+    CHECK( memory.get_tile( p1 ).symbol == 0 );
     memorized_tile default_tile = memory.get_tile( p1 );
     CHECK( default_tile.symbol == 0 );
     CHECK( default_tile.ter_id.empty() );
@@ -53,14 +53,14 @@ TEST_CASE( "map_memory_remembers", "[map_memory]" )
 {
     map_memory memory;
     memory.prepare_region( p1, p2 );
-    memory.memorize_symbol( p1, 1 );
-    memory.memorize_symbol( p2, 2 );
-    CHECK( memory.get_symbol( p1 ) == 1 );
-    CHECK( memory.get_symbol( p2 ) == 2 );
+    memory.set_tile_symbol( p1, 1 );
+    memory.set_tile_symbol( p2, 2 );
+    CHECK( memory.get_tile( p1 ).symbol == 1 );
+    CHECK( memory.get_tile( p2 ).symbol == 2 );
 
     const memorized_tile &mt = memory.get_tile( p2 );
 
-    memory.memorize_tile( p2, "foo", 42, 270 );
+    memory.set_tile_decoration( p2, "foo", 42, 270 );
     CHECK( mt.dec_id == "foo" );
     CHECK( mt.dec_subtile == 42 );
     CHECK( mt.dec_rotation == 270 );
@@ -68,7 +68,7 @@ TEST_CASE( "map_memory_remembers", "[map_memory]" )
     CHECK( mt.ter_subtile == 0 );
     CHECK( mt.ter_rotation == 0 );
 
-    memory.memorize_tile( p2, "t_foo", 43, 180 );
+    memory.set_tile_terrain( p2, "t_foo", 43, 180 );
     CHECK( mt.dec_id == "foo" );
     CHECK( mt.dec_subtile == 42 );
     CHECK( mt.dec_rotation == 270 );
@@ -76,7 +76,7 @@ TEST_CASE( "map_memory_remembers", "[map_memory]" )
     CHECK( mt.ter_subtile == 43 );
     CHECK( mt.ter_rotation == 180 );
 
-    memory.memorize_tile( p2, "bar", 44, 90 );
+    memory.set_tile_decoration( p2, "bar", 44, 90 );
     CHECK( mt.dec_id == "bar" );
     CHECK( mt.dec_subtile == 44 );
     CHECK( mt.dec_rotation == 90 );
@@ -89,18 +89,37 @@ TEST_CASE( "map_memory_overwrites", "[map_memory]" )
 {
     map_memory memory;
     memory.prepare_region( p1, p2 );
-    memory.memorize_symbol( p1, 1 );
-    memory.memorize_symbol( p2, 2 );
-    memory.memorize_symbol( p2, 3 );
-    CHECK( memory.get_symbol( p1 ) == 1 );
-    CHECK( memory.get_symbol( p2 ) == 3 );
+    memory.set_tile_symbol( p1, 1 );
+    memory.set_tile_symbol( p2, 2 );
+    memory.set_tile_symbol( p2, 3 );
+    CHECK( memory.get_tile( p1 ).symbol == 1 );
+    CHECK( memory.get_tile( p2 ).symbol == 3 );
 }
 
 TEST_CASE( "map_memory_forgets", "[map_memory]" )
 {
     map_memory memory;
-    memory.memorize_symbol( tripoint_zero, 1 );
-    memory.memorize_symbol( p3, 1 );
+    memory.prepare_region( p1, p2 );
+    memory.set_tile_decoration( p1, "vp_foo", 42, 270 );
+    memory.set_tile_terrain( p1, "t_foo", 43, 180 );
+    const memorized_tile &mt = memory.get_tile( p1 );
+    CHECK( mt.symbol == 0 );
+    CHECK( mt.ter_id == "t_foo" );
+    CHECK( mt.ter_subtile == 43 );
+    CHECK( mt.ter_rotation == 180 );
+    CHECK( mt.dec_id == "vp_foo" );
+    CHECK( mt.dec_subtile == 42 );
+    CHECK( mt.dec_rotation == 270 );
+    memory.set_tile_symbol( p1, 1 );
+    CHECK( mt.symbol == 1 );
+    memory.clear_tile_vehicles( p1 );
+    CHECK( mt.symbol == 0 );
+    CHECK( mt.ter_id == "t_foo" );
+    CHECK( mt.ter_subtile == 43 );
+    CHECK( mt.ter_rotation == 180 );
+    CHECK( mt.dec_id.empty() );
+    CHECK( mt.dec_subtile == 0 );
+    CHECK( mt.dec_rotation == 0 );
 }
 
 // TODO: map memory save / load

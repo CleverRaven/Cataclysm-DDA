@@ -13,7 +13,7 @@
 
 const memorized_tile mm_submap::default_tile = {};
 
-#define MM_SIZE (MAPSIZE * 2)
+static constexpr int MM_SIZE = MAPSIZE * 2;
 
 #define dbg(x) DebugLog((x),D_MMAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -52,7 +52,7 @@ bool mm_submap::is_valid() const
     return valid;
 }
 
-const memorized_tile &mm_submap::tile( const point &p ) const
+const memorized_tile &mm_submap::get_tile( const point &p ) const
 {
     if( tiles.empty() ) {
         return default_tile;
@@ -68,22 +68,6 @@ void mm_submap::set_tile( const point &p, const memorized_tile &value )
         tiles.resize( SEEX * SEEY, default_tile );
     }
     tiles[p.y * SEEX + p.x] = value;
-}
-
-char32_t mm_submap::symbol( const point &p ) const
-{
-    return tile( p ).symbol;
-}
-
-void mm_submap::set_symbol( const point &p, char32_t value )
-{
-    if( tiles.empty() ) {
-        memorized_tile t;
-        t.symbol = value;
-        set_tile( p, t );
-    }
-    // if tiles not empty we can cast away the const and set field directly
-    const_cast<memorized_tile &>( tile( p ) ).symbol = value;
 }
 
 mm_region::mm_region() : submaps( nullptr ) {}
@@ -124,57 +108,68 @@ map_memory::map_memory()
 
 const memorized_tile &map_memory::get_tile( const tripoint &pos ) const
 {
-    coord_pair p( pos );
+    const coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
-    return sm.tile( p.loc );
+    return sm.get_tile( p.loc );
 }
 
-void map_memory::memorize_tile( const tripoint &pos, const std::string &id, int subtile,
-                                int rotation )
+void map_memory::set_tile_terrain( const tripoint &pos, const std::string_view id,
+                                   int subtile, int rotation )
 {
-    coord_pair p( pos );
+    const coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
     if( !sm.is_valid() ) {
         return;
     }
-    memorized_tile t = sm.tile( p.loc );
-    if( string_starts_with( id, "t_" ) ) {
-        t.ter_id = id;
-        t.ter_subtile = subtile;
-        t.ter_rotation = rotation;
-    } else {
-        t.dec_id = id;
-        t.dec_subtile = subtile;
-        t.dec_rotation = rotation;
-    }
-    sm.set_tile( p.loc, std::move( t ) );
+    memorized_tile mt = sm.get_tile( p.loc );
+    mt.ter_id = id;
+    mt.ter_subtile = subtile;
+    mt.ter_rotation = rotation;
+    sm.set_tile( p.loc, mt );
 }
 
-char32_t map_memory::get_symbol( const tripoint &pos ) const
+void map_memory::set_tile_decoration( const tripoint &pos, const std::string_view id,
+                                      int subtile, int rotation )
 {
-    coord_pair p( pos );
-    const mm_submap &sm = get_submap( p.sm );
-    return sm.symbol( p.loc );
-}
-
-void map_memory::memorize_symbol( const tripoint &pos, char32_t symbol )
-{
-    coord_pair p( pos );
+    const coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
     if( !sm.is_valid() ) {
         return;
     }
-    sm.set_symbol( p.loc, symbol );
+    memorized_tile mt = sm.get_tile( p.loc );
+    mt.dec_id = id;
+    mt.dec_subtile = subtile;
+    mt.dec_rotation = rotation;
+    sm.set_tile( p.loc, mt );
 }
 
-void map_memory::clear_memorized_tile( const tripoint &pos )
+void map_memory::set_tile_symbol( const tripoint &pos, char32_t symbol )
 {
-    coord_pair p( pos );
+    const coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
     if( !sm.is_valid() ) {
         return;
     }
-    sm.set_tile( p.loc, mm_submap::default_tile );
+    memorized_tile mt = sm.get_tile( p.loc );
+    mt.symbol = symbol;
+    sm.set_tile( p.loc, mt );
+}
+
+void map_memory::clear_tile_vehicles( const tripoint &pos )
+{
+    const coord_pair p( pos );
+    mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
+    memorized_tile mt = sm.get_tile( p.loc );
+    if( string_starts_with( mt.dec_id, "vp_" ) ) {
+        mt.dec_id.clear();
+        mt.dec_rotation = 0;
+        mt.dec_subtile = 0;
+        mt.symbol = 0;
+    }
+    sm.set_tile( p.loc, mt );
 }
 
 bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )

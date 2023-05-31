@@ -43,13 +43,11 @@ struct mm_submap {
         // @returns true if mm_submap is valid, i.e. not returned from an uninitialized region.
         bool is_valid() const;
 
-        const memorized_tile &tile( const point &p ) const;
+        const memorized_tile &get_tile( const point &p ) const;
         void set_tile( const point &p, const memorized_tile &value );
-        char32_t symbol( const point &p ) const;
-        void set_symbol( const point &p, char32_t value );
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( const JsonValue &ja );
+        void deserialize( const JsonArray &ja );
 
     private:
         // NOLINTNEXTLINE(cata-serialize)
@@ -110,33 +108,34 @@ class map_memory
         bool prepare_region( const tripoint &p1, const tripoint &p2 );
 
         /**
-         * Memorizes given tile, overwriting old value.
-         * @param pos tile position, in global ms coords.
-         */
-        void memorize_tile( const tripoint &pos, const std::string &id, int subtile, int rotation );
-        /**
          * Returns memorized tile.
          * @param pos tile position, in global ms coords.
          */
         const memorized_tile &get_tile( const tripoint &pos ) const;
 
         /**
-         * Memorizes given symbol, overwriting old value.
+         * Memorizes terrain at \p pos, overwriting old terrain values.
+         * @param pos tile position, in global ms coords.
+         */
+        void set_tile_terrain( const tripoint &pos, std::string_view id, int subtile, int rotation );
+
+        /**
+         * Memorizes decoraiton at \p pos, overwriting old decoration values.
+         * @param pos tile position, in global ms coords.
+         */
+        void set_tile_decoration( const tripoint &pos, std::string_view id, int subtile, int rotation );
+
+        /**
+         * Memorizes symbol at \p pos, overwriting old symbol.
          * @param pos tile position, in global ms coords.
         */
-        void memorize_symbol( const tripoint &pos, char32_t symbol );
+        void set_tile_symbol( const tripoint &pos, char32_t symbol );
 
         /**
-         * Returns memorized symbol.
+         * Clears memorized vehicles and symbol.
          * @param pos tile position, in global ms coords.
          */
-        char32_t get_symbol( const tripoint &pos ) const;
-
-        /**
-         * Clears memorized tile and symbol.
-         * @param pos tile position, in global ms coords.
-         */
-        void clear_memorized_tile( const tripoint &pos );
+        void clear_tile_vehicles( const tripoint &pos );
 
     private:
         std::map<tripoint, shared_ptr_fast<mm_submap>> submaps;

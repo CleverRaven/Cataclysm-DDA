@@ -4021,7 +4021,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
 
     for( size_t y = 0; y < SEEY; y++ ) {
         for( size_t x = 0; x < SEEX; x++ ) {
-            const memorized_tile &elem = tile( point( x, y ) );
+            const memorized_tile &elem = get_tile( point( x, y ) );
             if( x == 0 && y == 0 ) {
                 last = elem;
                 continue;
@@ -4040,13 +4040,12 @@ void mm_submap::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void mm_submap::deserialize( const JsonValue &jv )
+void mm_submap::deserialize( const JsonArray &ja )
 {
+    size_t submap_array_idx = 0;
+
     // Uses RLE for compression.
-
-    JsonArray sm_ja = jv;
-
-    memorized_tile elem;
+    memorized_tile tile;
     size_t remaining = 0;
 
     for( size_t y = 0; y < SEEY; y++ ) {
@@ -4054,42 +4053,43 @@ void mm_submap::deserialize( const JsonValue &jv )
             if( remaining > 0 ) {
                 remaining -= 1;
             } else {
-                JsonArray ja = sm_ja.next_array();
-                if( ja.size() < 6 ) {
-                    std::string id = ja.get_string( 0 );
+                const JsonArray ja_tile = ja.get_array( submap_array_idx++ );
+                if( ja_tile.size() < 6 ) {
+                    std::string id = ja_tile.get_string( 0 );
+                    // mid-0.G saves store either terrain or decoration, but not both
                     if( string_starts_with( id, "t_" ) ) {
-                        elem.ter_id = std::move( id );
-                        elem.ter_subtile = ja.get_int( 1 );
-                        elem.ter_rotation = ja.get_int( 2 );
-                        elem.dec_id.clear();
-                        elem.dec_subtile = 0;
-                        elem.dec_rotation = 0;
+                        tile.ter_id = std::move( id );
+                        tile.ter_subtile = ja_tile.get_int( 1 );
+                        tile.ter_rotation = ja_tile.get_int( 2 );
+                        tile.dec_id.clear();
+                        tile.dec_subtile = 0;
+                        tile.dec_rotation = 0;
                     } else {
-                        elem.ter_id.clear();
-                        elem.ter_subtile = 0;
-                        elem.ter_rotation = 0;
-                        elem.dec_id = std::move( id );
-                        elem.dec_subtile = ja.get_int( 1 );
-                        elem.dec_rotation = ja.get_int( 2 );
+                        tile.ter_id.clear();
+                        tile.ter_subtile = 0;
+                        tile.ter_rotation = 0;
+                        tile.dec_id = std::move( id );
+                        tile.dec_subtile = ja_tile.get_int( 1 );
+                        tile.dec_rotation = ja_tile.get_int( 2 );
                     }
-                    elem.symbol = ja.get_int( 3 );
-                    if( ja.size() > 4 ) {
-                        remaining = ja.get_int( 4 ) - 1;
+                    tile.symbol = ja_tile.get_int( 3 );
+                    if( ja_tile.size() > 4 ) {
+                        remaining = ja_tile.get_int( 4 ) - 1;
                     }
                 } else {
-                    remaining = ja.get_int( 0 ) - 1;
-                    elem.symbol = ja.get_int( 1 );
-                    elem.ter_id = ja.get_string( 2 );
-                    elem.ter_subtile = ja.get_int( 3 );
-                    elem.ter_rotation = ja.get_int( 4 );
-                    elem.dec_id = ja.get_string( 5 );
-                    elem.dec_subtile = ja.get_int( 6 );
-                    elem.dec_rotation = ja.get_int( 7 );
+                    remaining = ja_tile.get_int( 0 ) - 1;
+                    tile.symbol = ja_tile.get_int( 1 );
+                    tile.ter_id = ja_tile.get_string( 2 );
+                    tile.ter_subtile = ja_tile.get_int( 3 );
+                    tile.ter_rotation = ja_tile.get_int( 4 );
+                    tile.dec_id = ja_tile.get_string( 5 );
+                    tile.dec_subtile = ja_tile.get_int( 6 );
+                    tile.dec_rotation = ja_tile.get_int( 7 );
                 }
             }
             // Try to avoid assigning to save up on memory
-            if( elem != mm_submap::default_tile ) {
-                set_tile( point( x, y ), elem );
+            if( tile != mm_submap::default_tile ) {
+                set_tile( point( x, y ), tile );
             }
         }
     }
