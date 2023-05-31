@@ -158,7 +158,7 @@ void damage_type::check()
             return dt.id == dio.dmg_type;
         } );
         if( iter == dio_list.end() ) {
-            debugmsg( "damage type %s has no associated damage_info_order type." );
+            debugmsg( "damage type %s has no associated damage_info_order type.", dt.id.c_str() );
         }
     }
 }
