@@ -17,9 +17,12 @@ class memorized_tile
 {
     public:
         char32_t symbol = 0;
-        std::string tile;
-        int subtile = 0;
-        int rotation = 0;
+        std::string ter_id; // terrain tile id
+        std::string dec_id; // decoration tile id (furniture, vparts ...)
+        int ter_subtile = 0;
+        int dec_subtile = 0;
+        int ter_rotation = 0;
+        int dec_rotation = 0;
 
         bool operator==( const memorized_tile &rhs ) const;
         bool operator!=( const memorized_tile &rhs ) const {
@@ -73,10 +76,6 @@ struct mm_region {
 
 /**
  * Manages map tiles memorized by the avatar.
- * Note that there are 2 separate memories in here:
- *   1. memorized graphic tiles (for TILES with a tileset)
- *   2. memorized symbols (for CURSES or TILES in ascii mode)
- * TODO: combine tiles and curses. Also, split map memory into layers (terrain/furn/vpart/...)?
  */
 class map_memory
 {
@@ -114,8 +113,7 @@ class map_memory
          * Memorizes given tile, overwriting old value.
          * @param pos tile position, in global ms coords.
          */
-        void memorize_tile( const tripoint &pos, const std::string &ter,
-                            int subtile, int rotation );
+        void memorize_tile( const tripoint &pos, const std::string &id, int subtile, int rotation );
         /**
          * Returns memorized tile.
          * @param pos tile position, in global ms coords.

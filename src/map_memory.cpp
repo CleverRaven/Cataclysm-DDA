@@ -104,9 +104,12 @@ bool mm_region::is_empty() const
 bool memorized_tile::operator==( const memorized_tile &rhs ) const
 {
     return symbol == rhs.symbol &&
-           rotation == rhs.rotation &&
-           subtile == rhs.subtile &&
-           tile == rhs.tile;
+           ter_rotation == rhs.ter_rotation &&
+           dec_rotation == rhs.dec_rotation &&
+           ter_subtile == rhs.ter_subtile &&
+           dec_subtile == rhs.dec_subtile &&
+           ter_id == rhs.ter_id &&
+           dec_id == rhs.dec_id;
 }
 
 map_memory::coord_pair::coord_pair( const tripoint &p ) : loc( p.xy() )
@@ -126,18 +129,24 @@ const memorized_tile &map_memory::get_tile( const tripoint &pos ) const
     return sm.tile( p.loc );
 }
 
-void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
-                                const int subtile, const int rotation )
+void map_memory::memorize_tile( const tripoint &pos, const std::string &id, int subtile,
+                                int rotation )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
     if( !sm.is_valid() ) {
         return;
     }
-    memorized_tile t;
-    t.tile = ter;
-    t.subtile = subtile;
-    t.rotation = rotation;
+    memorized_tile t = sm.tile( p.loc );
+    if( string_starts_with( id, "t_" ) ) {
+        t.ter_id = id;
+        t.ter_subtile = subtile;
+        t.ter_rotation = rotation;
+    } else {
+        t.dec_id = id;
+        t.dec_subtile = subtile;
+        t.dec_rotation = rotation;
+    }
     sm.set_tile( p.loc, std::move( t ) );
 }
 

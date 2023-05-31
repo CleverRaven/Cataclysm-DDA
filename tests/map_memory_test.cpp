@@ -40,9 +40,13 @@ TEST_CASE( "map_memory_defaults", "[map_memory]" )
     memory.prepare_region( p1, p2 );
     CHECK( memory.get_symbol( p1 ) == 0 );
     memorized_tile default_tile = memory.get_tile( p1 );
-    CHECK( default_tile.tile.empty() );
-    CHECK( default_tile.subtile == 0 );
-    CHECK( default_tile.rotation == 0 );
+    CHECK( default_tile.symbol == 0 );
+    CHECK( default_tile.ter_id.empty() );
+    CHECK( default_tile.ter_subtile == 0 );
+    CHECK( default_tile.ter_rotation == 0 );
+    CHECK( default_tile.dec_id.empty() );
+    CHECK( default_tile.dec_subtile == 0 );
+    CHECK( default_tile.dec_rotation == 0 );
 }
 
 TEST_CASE( "map_memory_remembers", "[map_memory]" )
@@ -53,6 +57,32 @@ TEST_CASE( "map_memory_remembers", "[map_memory]" )
     memory.memorize_symbol( p2, 2 );
     CHECK( memory.get_symbol( p1 ) == 1 );
     CHECK( memory.get_symbol( p2 ) == 2 );
+
+    const memorized_tile &mt = memory.get_tile( p2 );
+
+    memory.memorize_tile( p2, "foo", 42, 270 );
+    CHECK( mt.dec_id == "foo" );
+    CHECK( mt.dec_subtile == 42 );
+    CHECK( mt.dec_rotation == 270 );
+    CHECK( mt.ter_id.empty() );
+    CHECK( mt.ter_subtile == 0 );
+    CHECK( mt.ter_rotation == 0 );
+
+    memory.memorize_tile( p2, "t_foo", 43, 180 );
+    CHECK( mt.dec_id == "foo" );
+    CHECK( mt.dec_subtile == 42 );
+    CHECK( mt.dec_rotation == 270 );
+    CHECK( mt.ter_id == "t_foo" );
+    CHECK( mt.ter_subtile == 43 );
+    CHECK( mt.ter_rotation == 180 );
+
+    memory.memorize_tile( p2, "bar", 44, 90 );
+    CHECK( mt.dec_id == "bar" );
+    CHECK( mt.dec_subtile == 44 );
+    CHECK( mt.dec_rotation == 90 );
+    CHECK( mt.ter_id == "t_foo" );
+    CHECK( mt.ter_subtile == 43 );
+    CHECK( mt.ter_rotation == 180 );
 }
 
 TEST_CASE( "map_memory_overwrites", "[map_memory]" )

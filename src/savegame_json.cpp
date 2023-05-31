@@ -4008,13 +4008,14 @@ void mm_submap::serialize( JsonOut &jsout ) const
 
     const auto write_seq = [&]() {
         jsout.start_array();
-        jsout.write( last.tile );
-        jsout.write( last.subtile );
-        jsout.write( last.rotation );
+        jsout.write( num_same );
         jsout.write( last.symbol );
-        if( num_same != 1 ) {
-            jsout.write( num_same );
-        }
+        jsout.write( last.ter_id );
+        jsout.write( last.ter_subtile );
+        jsout.write( last.ter_rotation );
+        jsout.write( last.dec_id );
+        jsout.write( last.dec_subtile );
+        jsout.write( last.dec_rotation );
         jsout.end_array();
     };
 
@@ -4039,11 +4040,11 @@ void mm_submap::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void mm_submap::deserialize( const JsonValue &ja )
+void mm_submap::deserialize( const JsonValue &jv )
 {
     // Uses RLE for compression.
 
-    JsonArray sm_json = ja;
+    JsonArray sm_ja = jv;
 
     memorized_tile elem;
     size_t remaining = 0;
@@ -4053,16 +4054,37 @@ void mm_submap::deserialize( const JsonValue &ja )
             if( remaining > 0 ) {
                 remaining -= 1;
             } else {
-                JsonArray elem_json = sm_json.next_array();
-                elem.tile = elem_json.next_string();
-                elem.subtile = elem_json.next_int();
-                elem.rotation = elem_json.next_int();
-                elem.symbol = elem_json.next_int();
-                if( elem_json.size() > 4 ) {
-                    remaining = elem_json.next_int() - 1;
-                }
-                if( elem_json.has_more() ) {
-                    elem_json.throw_error( "Too many values for RLE" );
+                JsonArray ja = sm_ja.next_array();
+                if( ja.size() < 6 ) {
+                    std::string id = ja.get_string( 0 );
+                    if( string_starts_with( id, "t_" ) ) {
+                        elem.ter_id = std::move( id );
+                        elem.ter_subtile = ja.get_int( 1 );
+                        elem.ter_rotation = ja.get_int( 2 );
+                        elem.dec_id.clear();
+                        elem.dec_subtile = 0;
+                        elem.dec_rotation = 0;
+                    } else {
+                        elem.ter_id.clear();
+                        elem.ter_subtile = 0;
+                        elem.ter_rotation = 0;
+                        elem.dec_id = std::move( id );
+                        elem.dec_subtile = ja.get_int( 1 );
+                        elem.dec_rotation = ja.get_int( 2 );
+                    }
+                    elem.symbol = ja.get_int( 3 );
+                    if( ja.size() > 4 ) {
+                        remaining = ja.get_int( 4 ) - 1;
+                    }
+                } else {
+                    remaining = ja.get_int( 0 ) - 1;
+                    elem.symbol = ja.get_int( 1 );
+                    elem.ter_id = ja.get_string( 2 );
+                    elem.ter_subtile = ja.get_int( 3 );
+                    elem.ter_rotation = ja.get_int( 4 );
+                    elem.dec_id = ja.get_string( 5 );
+                    elem.dec_subtile = ja.get_int( 6 );
+                    elem.dec_rotation = ja.get_int( 7 );
                 }
             }
             // Try to avoid assigning to save up on memory
