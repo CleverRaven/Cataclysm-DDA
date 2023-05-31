@@ -2637,7 +2637,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
     } else { // Generic seed, use the seed item data
         const inventory &crafting_inv = you.crafting_inventory();
         if ( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
-        add_msg( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
+          you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
         return;
         } else {
           const itype &type = *seed->type;
@@ -2661,6 +2661,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
               here.add_item_or_charges( you.pos(), i );
           }
           here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
+          you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
         }
     }
 }

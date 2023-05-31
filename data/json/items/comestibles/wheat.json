@@ -824,7 +824,6 @@
     "price_postapoc": 150,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "charges": 2,
     "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST" ],
