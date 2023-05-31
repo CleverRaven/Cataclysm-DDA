@@ -4120,55 +4120,6 @@ void mm_region::deserialize( const JsonValue &ja )
     }
 }
 
-void map_memory::load_legacy( const JsonValue &jv )
-{
-    struct mig_elem {
-        int symbol;
-        memorized_terrain_tile tile;
-    };
-    std::map<tripoint, mig_elem> elems;
-
-    JsonArray root_array = jv;
-    for( JsonArray elem_json : root_array.next_array() ) {
-        tripoint p;
-        p.x = elem_json.next_int();
-        p.y = elem_json.next_int();
-        p.z = elem_json.next_int();
-        mig_elem &elem = elems[p];
-        elem.tile.tile = elem_json.next_string();
-        elem.tile.subtile = elem_json.next_int();
-        elem.tile.rotation = elem_json.next_int();
-        if( elem_json.has_more() ) {
-            elem_json.throw_error( "Too many values for map memory entry" );
-        }
-    }
-
-    for( JsonArray symbols_json : root_array.next_array() ) {
-        tripoint p;
-        p.x = symbols_json.next_int();
-        p.y = symbols_json.next_int();
-        p.z = symbols_json.next_int();
-        elems[p].symbol = symbols_json.next_int();
-        if( symbols_json.has_more() ) {
-            symbols_json.throw_error( "Too many values for map memory symbol" );
-        }
-    }
-
-    for( const std::pair<const tripoint, mig_elem> &elem : elems ) {
-        coord_pair cp( elem.first );
-        shared_ptr_fast<mm_submap> sm = find_submap( cp.sm );
-        if( !sm ) {
-            sm = allocate_submap( cp.sm );
-        }
-        if( elem.second.tile != mm_submap::default_tile ) {
-            sm->set_tile( cp.loc, elem.second.tile );
-        }
-        if( elem.second.symbol != mm_submap::default_symbol ) {
-            sm->set_symbol( cp.loc, elem.second.symbol );
-        }
-    }
-}
-
 void point::deserialize( const JsonArray &jsin )
 {
     x = jsin.get_int( 0 );

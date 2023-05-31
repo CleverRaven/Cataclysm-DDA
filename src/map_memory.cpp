@@ -18,11 +18,6 @@ const int mm_submap::default_symbol = 0;
 
 #define dbg(x) DebugLog((x),D_MMAP) << __FILE__ << ":" << __LINE__ << ": "
 
-static cata_path find_legacy_mm_file()
-{
-    return PATH_INFO::player_base_save_path_path() + SAVE_EXTENSION_MAP_MEMORY;
-}
-
 static cata_path find_mm_dir()
 {
     return PATH_INFO::player_base_save_path_path() + ".mm1";
@@ -204,17 +199,11 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
         return nullptr;
     }
 
-    const cata_path dirname = find_mm_dir();
-    reg_coord_pair p( sm_pos );
-    const cata_path path = find_region_path( dirname, p.reg );
-
-    if( !dir_exist( dirname.get_unrelative_path() ) ) {
-        // Old saves don't have [plname].mm1 folder
-        return nullptr;
-    }
+    const reg_coord_pair p( sm_pos );
+    const cata_path path = find_region_path( find_mm_dir(), p.reg );
 
     mm_region mmr;
-    const auto loader = [&]( const JsonValue & jsin ) {
+    const auto loader = [&mmr]( const JsonValue & jsin ) {
         mmr.deserialize( jsin );
     };
 
@@ -240,7 +229,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
             if( pos == sm_pos ) {
                 ret = sm;
             }
-            submaps.insert( std::make_pair( pos, sm ) );
+            submaps.emplace( pos, sm );
         }
     }
 
@@ -279,29 +268,11 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
 
 void map_memory::load( const tripoint &pos )
 {
-    const cata_path dirname = find_mm_dir();
-
-    clear_cache();
-
-    if( !dir_exist( dirname.get_unrelative_path() ) ) {
-        // Old saves have [plname].mm file and no [plname].mm1 folder
-        const cata_path legacy_file = find_legacy_mm_file();
-        if( file_exist( legacy_file.get_unrelative_path() ) ) {
-            try {
-                read_from_file_optional_json( legacy_file, [&]( const JsonValue & jsin ) {
-                    this->load_legacy( jsin );
-                } );
-            } catch( const std::exception &err ) {
-                debugmsg( "Failed to load legacy memory map file: %s", err.what() );
-            }
-        }
-        return;
-    }
-
-    coord_pair p( pos );
-    tripoint start = p.sm - tripoint( MM_SIZE / 2, MM_SIZE / 2, 0 );
+    const coord_pair p( pos );
+    const tripoint start = p.sm - tripoint( MM_SIZE / 2, MM_SIZE / 2, 0 );
     dbg( D_INFO ) << "[LOAD] Loading memory map around " << p.sm << ". Loading submaps within " << start
                   << "->" << start + tripoint( MM_SIZE, MM_SIZE, 0 );
+    clear_cache();
     for( int dy = 0; dy < MM_SIZE; dy++ ) {
         for( int dx = 0; dx < MM_SIZE; dx++ ) {
             fetch_submap( start + tripoint( dx, dy, 0 ) );
