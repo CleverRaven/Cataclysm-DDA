@@ -230,6 +230,8 @@ struct dialogue {
 
         const std::unordered_map<std::string, std::string> &get_context() const;
         const std::unordered_map<std::string, std::function<bool( dialogue & )>> &get_conditionals() const;
+        void amend_callstack( const std::string &value );
+        std::string get_callstack() const;
     private:
         /**
          * The talker that speaks (almost certainly representing the avatar, ie get_avatar() )

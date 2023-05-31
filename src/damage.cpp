@@ -406,6 +406,7 @@ damage_instance damage_instance::di_considering_length( units::length barrel_len
     for( damage_unit &du : di.damage_units ) {
         if( !du.barrels.empty() ) {
             std::vector<std::pair<float, float>> lerp_points;
+            lerp_points.reserve( du.barrels.size() );
             for( const barrel_desc &b : du.barrels ) {
                 lerp_points.emplace_back( static_cast<float>( b.barrel_length.value() ), b.amount );
             }

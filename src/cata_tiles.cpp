@@ -3162,8 +3162,8 @@ bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &heig
     const lit_level lit = overridden ? lit_level::LIT : ll;
     const int rotation = here.passable( p ) ? 1 : 0;
     const std::string tile = "graffiti_" +
-                             to_upper_case( string_replace( remove_punctuations( here.graffiti_at( p ).substr( 0, 32 ) ), " ",
-                                            "_" ) );
+                             to_upper_case( string_replace( remove_punctuations( here.graffiti_at( p ) ), " ",
+                                            "_" ) ).substr( 0, 32 );
     return draw_from_id_string( tileset_ptr->find_tile_type( tile ) ? tile : "graffiti",
                                 TILE_CATEGORY::NONE, empty_string, p, 0, rotation, lit, false, height_3d );
 }

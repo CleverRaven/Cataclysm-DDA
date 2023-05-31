@@ -767,6 +767,14 @@ void conditional_t::set_has_var( const JsonObject &jo, const std::string &member
     const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
+    if( !time_check && !jo.has_member( "value" ) ) {
+        jo.throw_error( R"(Missing field: "value" or "time")" );
+        condition = []( dialogue const & ) {
+            return false;
+        };
+        return;
+    }
+
     condition = [var_name, value, time_check, is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
         if( time_check ) {
@@ -2762,7 +2770,7 @@ double eoc_math::act( dialogue &d ) const
             return lhs->eval( d ) >= rhs->eval( d );
         case oper::invalid:
         default:
-            debugmsg( "unknown eoc math operator %d", action );
+            debugmsg( "unknown eoc math operator %d %s", action, d.get_callstack() );
     }
 
     return 0;
