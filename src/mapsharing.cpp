@@ -95,7 +95,6 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::setSharing( false );
     MAP_SHARING::setCompetitive( false );
     MAP_SHARING::setWorldmenu( true );
-    MAP_SHARING::setUsername( "" );
     if( const char *user = getenv( "USER" ) ) {
         MAP_SHARING::setUsername( user );
     } else {
