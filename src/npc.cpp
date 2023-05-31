@@ -1393,7 +1393,6 @@ void npc::do_npc_read( bool ebook )
 
         // NPCs can't read to other NPCs yet
         const time_duration time_taken = time_to_read( *book, *this );
-        //item_location ereader = {};
 
         // NPCs read until they gain a level
         read_activity_actor actor( time_taken, book, ereader, true, getID().get_value() );
