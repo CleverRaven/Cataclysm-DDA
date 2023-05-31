@@ -52,9 +52,14 @@ effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
 
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
+static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
+static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
+
 static const mtype_id mon_zombie( "mon_zombie" );
 
 static const skill_id skill_survival( "survival" );
+
+static const recipe_id recipe_cattail_jelly( "cattail_jelly" );
 namespace
 {
 void complete_activity( Character &u )
@@ -462,4 +467,25 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key" ).empty() );
     CHECK( d.get_value( "npctalk_var_key2" ).empty() );
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
+}
+
+
+TEST_CASE( "EOC_recipe_test", "[eoc]" )
+{
+    clear_avatar();
+    const recipe *r = &recipe_cattail_jelly.obj();
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "fail_var" ).empty() );
+
+    CHECK( effect_on_condition_EOC_recipe_test_1->activate( d ) );
+    CHECK( globvars.get_global_value( "fail_var" ).empty() );
+    CHECK( get_avatar().knows_recipe( r ) );
+
+
+    CHECK( effect_on_condition_EOC_recipe_test_2->activate( d ) );
+    CHECK( globvars.get_global_value( "fail_var" ).empty() );
+    CHECK( !get_avatar().knows_recipe( r ) );
 }
