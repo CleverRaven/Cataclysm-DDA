@@ -863,14 +863,12 @@ void basecamp_action_components::consume_components()
         }
         // this may consume pseudo-resources from fake items
         for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
-            player_character.consume_tools( *target_map, sel, batch_size_, origin, radius,
-                                            &base_ );
+            player_character.consume_tools( *target_map, sel, batch_size_, origin, radius, &base_ );
         }
         // go back and consume the actual resources
         for( basecamp_resource &bcp_r : base_.resources ) {
             if( bcp_r.consumed > 0 ) {
-                target_map->use_charges( origin, 0, bcp_r.ammo_id, bcp_r.consumed );
-                bcp_r.consumed = 0;
+                target_map->use_charges( origin, radius, bcp_r.ammo_id, bcp_r.consumed );
             }
         }
     }

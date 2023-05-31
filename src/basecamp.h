@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "clzones.h"
 #include "craft_command.h"
 #include "game_inventory.h"
 #include "inventory.h"
@@ -29,7 +28,7 @@ class JsonOut;
 class character_id;
 class npc;
 class time_duration;
-
+class zone_data;
 enum class farm_ops : int;
 class item;
 class mission_data;
