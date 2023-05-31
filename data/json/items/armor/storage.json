@@ -957,7 +957,7 @@
         "max_contains_weight": "30 kg",
         "max_item_length": "70 cm",
         "watertight": true,
-        "moves": 350
+        "moves": 450
       }
     ],
     "material_thickness": 1,
@@ -1042,7 +1042,7 @@
         "max_contains_weight": "60 kg",
         "max_item_length": "65 cm",
         "magazine_well": "5 L",
-        "moves": 350
+        "moves": 450
       },
       {
         "//": "items slipped under the top of a duffelbag not well secured",
