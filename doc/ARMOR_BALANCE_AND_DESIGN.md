@@ -250,14 +250,14 @@ The robofac greaves, mantles, skirts and vambraces use this.
 
 ### Repairs
 #### Explanation
-Clothing repairs are inherited from their material type, while the difficulty and required skills are inherited from their crafting recipe. In cases where a piece of clothing or armor is not craftable, the ``repairs-like`` flag can be used to specify a recipe from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
+Clothing repairs are inherited from their material type.  Needed materials and repair difficulty are based on these materials (you can make a repair with any material it is made of, but the difficulty is whatever is the hardest part of it to repair).  In cases where the repair difficulty does not match that of its materials the ``repairs-like`` flag can be used to specify an item from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
 
 #### Example
-
+The leather belt repairs like a leather patch because steel is more difficult to repair than leather, but the steel belt buckle is exceedingly unlikely to sustain damage compared to the leather majority of the belt.
 ```json
 {
-  "id": "dress_shirt",
-  "repairs_like": "tshirt"
+  "id": "belt_leather",
+  "repairs_like": "leather"
 }
 ```
 
@@ -492,7 +492,6 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
 {
   "id": "survivor_light_on",
   "copy-from": "survivor_light",
-  "repairs_like": "survivor_light",
   "type": "TOOL_ARMOR",
   "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
   "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
@@ -539,22 +538,6 @@ Some armor with custom abilities can be handled as enchantments. This is a new w
 #### Further Reading
 The Nomad Jumpsuits use this to provide well distributed.
 
-### Repairs_Like
-#### Explanation
-This flag should usually not be used as the materials of the item itself determine the difficulty to repair, however you can still use it to determine if something should be easier or harder to repair than its materials would suggest. For example, a leather belt repairs_like "leather" because the belt buckle is exceedingly unlikely to be damaged compared to just the leather parts.
-#### Example
-```json
-    "id": "leather_belt",
-    "type": "ARMOR",
-    "name": { "str": "leather belt" },
-    "description": "A leather belt.  Designed to look good and hold up a pair of pants, but you should be able to attach a small tool or weapon to one of the belt loops.",
-    "weight": "150 g",
-    "volume": "350 ml",
-    "price": 2000,
-    "price_postapoc": 100,
-    "repairs_like": "leather",
-    "material": [ { "type": "leather", "portion": 75 }, { "type": "steel", "portion": 25 } ],
-```
 ### Notable Flags
 This is a hopefully exhaustive list of flags you may wish to use on items and what they do.
 
