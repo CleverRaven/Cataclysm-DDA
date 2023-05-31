@@ -65,6 +65,33 @@
   },
   {
     "type": "mutation",
+    "id": "DRUNKEN",
+    "name": { "str": "Drunken Master" },
+    "points": 1,
+    "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "LIGHTWEIGHT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "KI_STRIKE",
+    "name": { "str": "Ki Strike" },
+    "points": 2,
+    "description": "Who needs weapons?  You deal more melee damage while fighting barehanded and without gloves.  This damage improves as your unarmed skill increases.",
+    "starting_trait": true,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "EXTEND_LIFE",
+    "name": { "str": "Extended Life" },
+    "points": 0,
+    "description": "You swallow the potion and feel younger already.  Though the taste lingers long past when you'd hope it would pass.",
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "NIGHTMARE_CHIMERAS",
     "name": { "str": "Haunted by your dreams made flesh" },
     "points": 0,
@@ -235,5 +262,15 @@
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
     "metabolism_modifier": 5,
     "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "BLOOD_OF_SAINTS",
+    "name": { "str": "Saint's blood" },
+    "points": 0,
+    "description": "Through a complicated ritual utilizing a saint's relic, you have transubstantiated your own blood with the holy blood of the saints.  It'll prevent you from becoming infected with vampirism while you live, effects postmortem unknown.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BLOOD" ]
   }
 ]

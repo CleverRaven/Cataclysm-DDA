@@ -1156,7 +1156,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a UPS.  It will charge you if it has some juice in it." ) );
-                } else if( cable->link->has_states( link_state::bio_cable, link_state::vehicle_port ) ) {
+                } else if( cable->link->has_states( link_state::bio_cable, link_state::vehicle_battery ) ||
+                           cable->link->has_states( link_state::bio_cable, link_state::vehicle_port ) ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
@@ -1165,7 +1166,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                            cable->link->s_state == link_state::ups ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a portable power source, but you also need to connect it to your CBM." ) );
-                } else if( cable->link->t_state == link_state::vehicle_port ) {
+                } else if( cable->link->t_state == link_state::vehicle_battery ||
+                           cable->link->t_state == link_state::vehicle_port ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a vehicle, but you also need to connect it to your CBM." ) );
                 }
@@ -3004,6 +3006,7 @@ std::optional<item> bionic::uninstall_weapon()
 std::vector<const item *> bionic::get_available_pseudo_items( bool include_weapon ) const
 {
     std::vector<const item *> ret;
+    ret.reserve( passive_pseudo_items.size() );
     for( const item &pseudo : passive_pseudo_items ) {
         ret.push_back( &pseudo );
     }
@@ -3392,7 +3395,9 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     std::vector<vehicle *> remote_vehicles;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->has_states( link_state::bio_cable, link_state::vehicle_port );
+        return it.link && it.link->has_state( link_state::bio_cable ) &&
+               ( it.link->has_state( link_state::vehicle_battery ) ||
+                 it.link->has_state( link_state::vehicle_port ) );
     } );
     int n = cables.size();
     if( n == 0 ) {

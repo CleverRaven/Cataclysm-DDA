@@ -438,6 +438,7 @@ const std::map<std::string, std::unique_ptr<WORLD>> &worldfactory::get_all_world
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
+    result.reserve( all_worlds.size() );
     for( const auto &elem : all_worlds ) {
         result.push_back( elem.first );
     }

@@ -982,7 +982,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 6 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "socks", 1 ], [ "socks_wool", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 4 ] ] ]
+    "components": [ [ [ "socks", 1 ], [ "socks_wool", 1 ] ], [ [ "element", 2 ], [ "crude_heating_element", 3 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "result": "wetsuit_booties",

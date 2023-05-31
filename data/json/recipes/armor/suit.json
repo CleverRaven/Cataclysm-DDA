@@ -3515,7 +3515,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 52 ], [ "tailoring_cotton_patchwork", 48 ], [ "soldering_standard", 100 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_closures" } ],
-    "components": [ [ [ "element", 18 ] ], [ [ "cable", 37 ] ] ]
+    "components": [ [ [ "element", 18 ], [ "crude_heating_element", 27 ] ], [ [ "cable", 37 ] ] ]
   },
   {
     "result": "thermal_outfit",
@@ -3554,7 +3554,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_closures" } ],
     "components": [
       [ [ "sheet_cotton", 36 ], [ "sheet_cotton_patchwork", 36 ], [ "union_suit", 1 ] ],
-      [ [ "element", 12 ] ],
+      [ [ "element", 12 ], [ "crude_heating_element", 18 ] ],
       [ [ "cable", 20 ] ]
     ]
   },

@@ -6,7 +6,7 @@
     "locations": [ "subterranean_empty", "land", "open_air" ],
     "city_distance": [ 10, 40 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "WILDERNESS", "MAN_MADE" ],
+    "flags": [ "MAN_MADE" ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land" ] ],
       [ [ 1, 0, 0 ], [ "land" ] ],
