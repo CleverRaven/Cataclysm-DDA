@@ -242,6 +242,7 @@ baselines
 basiliscus
 bassline
 basswood
+barleycorn
 batching
 batlike
 batrachian
@@ -2990,6 +2991,7 @@ undersides
 underslung
 underwelming
 undescribed
+undried
 undulates
 uneasing
 unfathomably
@@ -3034,6 +3036,7 @@ unpowered
 unpressurised
 unreinforced
 unrifled
+unrotten
 unrushed
 unsaved
 unseasoned
