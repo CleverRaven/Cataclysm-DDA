@@ -390,6 +390,7 @@ static const species_id species_HUMAN( "HUMAN" );
 static const start_location_id start_location_sloc_shelter( "sloc_shelter" );
 
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
+static const trait_id trait_ANIMAL_FEET( "ANIMAL_FEET" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
@@ -474,7 +475,6 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_ANIMAL_FEET( "ANIMAL_FEET" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
