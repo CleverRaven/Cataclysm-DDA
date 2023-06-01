@@ -14,7 +14,7 @@
     "name": { "str_sp": "dried barley stalks" },
     "copy-from": "dry_wheat_stalks",
     "calories": 775,
-    "description": "A sheaf of dried barley stalks. These will require threshing before anything can be done with them."
+    "description": "A sheaf of dried barley stalks.  These will require threshing before anything can be done with them."
   },
   {
     "type": "COMESTIBLE",
@@ -22,7 +22,7 @@
     "name": { "str_sp": "threshed barley" },
     "copy-from": "threshed_wheat",
     "calories": 745,
-    "description": "Barley with the chaff still mixed in. It will have to be winnowed before it's usable."
+    "description": "Barley with the chaff still mixed in.  It will have to be winnowed before it's usable."
   },
   {
     "type": "COMESTIBLE",
@@ -173,7 +173,7 @@
     "symbol": ",",
     "quench": -8,
     "calories": 616,
-    "description": "Dry seeds from a wild buckwheat plant. Inedible in their present state, they are commonly cooked or ground into flour.",
+    "description": "Dry seeds from a wild buckwheat plant.  Inedible in their present state, they are commonly cooked or ground into flour.",
     "price": 90,
     "price_postapoc": 400,
     "material": [ "veggy" ],
@@ -441,7 +441,7 @@
     "weight": "52 g",
     "volume": "249 ml",
     "spoils_in": "3 days",
-    "description": "A chili pepper that's been cut into pieces. The seeds have been removed.",
+    "description": "A chili pepper that's been cut into pieces.  The seeds have been removed.",
     "price": 10,
     "price_postapoc": 10
   },
@@ -798,7 +798,7 @@
     "name": { "str": "cut pumpkin" },
     "copy-from": "pumpkin",
     "spoils_in": "6 days",
-    "description": "A quarter section of a pumpkin. The seeds and stringy inner pulp have been removed.",
+    "description": "A quarter section of a pumpkin.  The seeds and stringy inner pulp have been removed.",
     "price": 25,
     "calories": 30,
     "quench": 5,
