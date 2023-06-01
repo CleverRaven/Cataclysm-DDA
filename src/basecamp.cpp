@@ -895,7 +895,6 @@ void basecamp_action_components::consume_components()
         target_map = campmap.get();
     }
     avatar &player_character = get_avatar();
-    const std::vector<const zone_data *> &storage_zones = base_.get_storage_zone();
     std::vector<tripoint> src;
     for( const tripoint_abs_ms &p : base_.src_set ) {
         src.emplace_back( target_map->getlocal( p ) );
