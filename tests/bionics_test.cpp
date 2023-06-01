@@ -489,7 +489,9 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
         item_location ups = dummy.i_add( item( "UPS_off" ) );
         item_location cable = dummy.i_add( item( "jumper_cable" ) );
-        cable->set_var( "state", "UPS_link" );
+        cable->link = cata::make_value<item::link_data>();
+        cable->link->s_state = link_state::ups;
+        cable->link->t_state = link_state::bio_cable;
         ups->set_var( "cable", "plugged_in" );
         cable->active = true;
 
@@ -549,7 +551,9 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         item_location solar_pack = dummy.top_items_loc()[1];
         REQUIRE( solar_pack->typeId() == itype_solarpack_on );
         item_location cable = dummy.i_add( item( "jumper_cable" ) );
-        cable->set_var( "state", "solar_pack_link" );
+        cable->link = cata::make_value<item::link_data>();
+        cable->link->s_state = link_state::solarpack;
+        cable->link->t_state = link_state::bio_cable;
         solar_pack->set_var( "cable", "plugged_in" );
         cable->active = true;
 

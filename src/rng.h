@@ -10,7 +10,7 @@
 #include <random>
 #include <type_traits>
 
-#include "units.h"
+#include "units_fwd.h"
 
 class map;
 class time_duration;

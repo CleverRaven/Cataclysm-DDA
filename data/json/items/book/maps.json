@@ -23,6 +23,7 @@
     "color": "blue",
     "volume": "10 ml",
     "weight": "10 g",
+    "flags": [ "CREDIT_CARD_SHAPED" ],
     "use_action": {
       "type": "reveal_map",
       "radius": 90,

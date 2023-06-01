@@ -132,6 +132,7 @@ static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
@@ -876,7 +877,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         std::vector<tool_comp> writing_tools;
         writing_tools.reserve( writing_tools_filter.size() );
         for( const item *tool : writing_tools_filter ) {
-            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
+            writing_tools.emplace_back( tool->typeId(), 1 );
         }
 
         p.consume_tools( writing_tools, pages );
@@ -5000,6 +5001,51 @@ std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( Js
     return actor.clone();
 }
 
+void reel_cable_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void reel_cable_activity_actor::finish( player_activity &act, Character &who )
+{
+    cable->active = false;
+    cable->charges = cable->link->max_length;
+    cable->link.reset();
+    if( parent_item ) {
+        parent_item->contents_linked = false;
+        who.add_msg_if_player( m_info, string_format( _( "You gather the cable up with the %s." ),
+                               parent_item->label( 1 ) ) );
+    } else {
+        who.add_msg_if_player( m_info, string_format( _( "You reel in the %s and wind it up." ),
+                               cable->label( 1 ) ) );
+    }
+    if( cable->has_flag( flag_AUTO_DELETE_CABLE ) ) {
+        cable.remove_item();
+    }
+    act.set_to_null();
+}
+
+void reel_cable_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "cable", cable );
+    jsout.member( "parent_item", parent_item );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValue &jsin )
+{
+    reel_cable_activity_actor actor( 0, {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "cable", actor.cable );
+    data.read( "parent_item", actor.parent_item );
+
+    return actor.clone();
+}
+
 void meditate_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 20_minutes );
@@ -6474,8 +6520,9 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         num_processed = 0;
         // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
+        src_set.reserve( coord_set.size() );
         for( const tripoint &p : coord_set ) {
-            src_set.emplace_back( tripoint_abs_ms( p ) );
+            src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -7116,6 +7163,7 @@ deserialize_functions = {
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
+    { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },

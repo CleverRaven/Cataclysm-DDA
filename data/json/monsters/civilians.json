@@ -14,14 +14,13 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 75,
-    "speed": 105,
+    "speed": 90,
     "symbol": "@",
     "color": "white",
     "diff": 2,
     "aggression": -50,
     "morale": -50,
-    "vision_day": 30,
-    "vision_night": 3,
+    "vision_day": 10,
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
@@ -30,7 +29,7 @@
     "//": "They are human after all",
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "upgrades": { "half_life": 1, "into": "mon_feral_human_pipe" },
+    "upgrades": { "half_life": 1, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
     "dodge": 1,
     "death_drops": "default_zombie_death_drops",
     "zombify_into": "mon_zombie",
@@ -58,6 +57,7 @@
     "aggression": 100,
     "morale": 100,
     "vision_day": 50,
+    "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
     "//": "Copied from zombie cop",
     "melee_skill": 6,
@@ -102,6 +102,14 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ]
   },
   {
+    "name": "GROUP_CIVILIANS_UPGRADE",
+    "type": "monstergroup",
+    "monsters": [
+      { "group": "GROUP_VANILLA_ONLY_HUMANS", "weight": 8, "cost_multiplier": 0 },
+      { "group": "GROUP_FERAL", "weight": 2, "cost_multiplier": 0 }
+    ]
+  },
+  {
     "name": "GROUP_CIVILIANS_STANDARD",
     "//": "Used for deduplication only, so one does not have to repeat the same standard ratio over and over again",
     "type": "monstergroup",
@@ -109,7 +117,16 @@
       { "monster": "mon_civilian_stationary", "weight": 30, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_zombiefighter", "weight": 16, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_police", "weight": 4, "cost_multiplier": 3, "ends": "3 days" },
-      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "ends": "5 days", "pack_size": [ 1, 5 ] }
+      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "ends": "2 days", "pack_size": [ 1, 5 ] },
+      {
+        "monster": "mon_civilian_panic",
+        "weight": 60,
+        "cost_multiplier": 0,
+        "starts": "2 days",
+        "ends": "4 days",
+        "pack_size": [ 1, 2 ]
+      },
+      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "starts": "4 days", "ends": "6 days" }
     ]
   }
 ]
