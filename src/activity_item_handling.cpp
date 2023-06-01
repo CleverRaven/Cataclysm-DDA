@@ -2770,7 +2770,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
                 requirement_comp_vector.push_back( std::vector<item_comp> { item_comp( itype_id( dynamic_cast<const plot_options &>
                                                    ( zone->get_options() ).get_seed() ), 1 )
                                                                           } );
-            } else if( reason == do_activity_reason::NEEDS_CUT_HARVESTING) {
+            } else if( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) {
                 quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_GRASS_CUT, 1, 1 ) } );
             } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
                        reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
