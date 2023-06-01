@@ -491,7 +491,7 @@
             "condition": { "and": [ { "math": [ "u_skill('electronics')", ">=", "4" ] }, { "math": [ "u_skill('firstaid')", ">=", "4" ] } ] }
           }
         ],
-        "topic": "TALK_PERK_MENU_SELECT"
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_jugg" } },
@@ -503,7 +503,7 @@
           { "set_string_var": "No Requirements", "target_var": { "global_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],
-        "topic": "TALK_PERK_MENU_SELECT"
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_empath" } },
@@ -515,7 +515,7 @@
           { "set_string_var": "No Requirements", "target_var": { "global_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],
-        "topic": "TALK_PERK_MENU_SELECT"
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       { "text": "Lifestyle Perks", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
@@ -553,7 +553,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_SELECT_PLAYSTYLE",
-    "dynamic_line": "<global_val:trait_name>: \"<global_val:trait_description>\"\nCosts <u_val:playstyle_cost> perk points, <global_val:trait_requirement_description>.\n<global_val:trait_additional_details>",
+    "dynamic_line": "<global_val:trait_name>: \"<global_val:trait_description>\"\nCosts <u_val:playstyle_cost> + 1 perk points, <global_val:trait_requirement_description>.\n<global_val:trait_additional_details>",
     "responses": [
       {
         "text": "Select Perk.",
@@ -561,12 +561,12 @@
         "condition": {
           "and": [
             { "or": [ { "math": [ "u_no_prerecs", ">", "0" ] }, { "get_condition": "perk_condition" } ] },
-            { "math": [ "u_num_perks", ">=", "u_playstyle_cost" ] }
+            { "math": [ "u_num_perks", ">=", "u_playstyle_cost + 1" ] }
           ]
         },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": { "global_val": "trait_id" } }, { "math": [ "u_num_perks", "-=", "u_playstyle_cost" ] } ]
+        "effect": [ { "u_add_trait": { "global_val": "trait_id" } }, { "math": [ "u_num_perks", "-=", "u_playstyle_cost + 1" ] } ]
       },
       { "text": "Go Back.", "topic": "TALK_PERK_MENU_PLAYSTYLE" },
       { "text": "Quit.", "topic": "TALK_DONE" }

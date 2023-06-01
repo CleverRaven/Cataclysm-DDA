@@ -86,7 +86,7 @@
       {
         "text": "Default (4 perk points)",
         "effect": [
-          { "math": [ "u_playstyle_cost", "=", "4" ] },
+          { "math": [ "u_playstyle_cost", "=", "3" ] },
           { "math": [ "u_no_playstyle", "=", "0" ] },
           {
             "u_add_var": "playstyle_note",
@@ -100,7 +100,7 @@
       {
         "text": "Enabled, Custom Cost",
         "effect": [
-          { "math": [ "u_playstyle_cost", "=", "num_input('Playstyle Perks Cost?', '4')" ] },
+          { "math": [ "u_playstyle_cost", "=", "num_input('Playstyle Perks Cost?', '4') - 1" ] },
           { "math": [ "u_no_playstyle", "=", "0" ] },
           {
             "u_add_var": "playstyle_note",
