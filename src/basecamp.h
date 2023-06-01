@@ -397,7 +397,7 @@ class basecamp
         inline void set_storage_zone( const std::vector<const zone_data *> &zones ) {
             storage_zones = zones;
         }
-        void form_storage_zones( Character &p, map &here, const tripoint_abs_ms &abspos );
+        void form_storage_zones( map &here, const tripoint_abs_ms &abspos );
     private:
         friend class basecamp_action_components;
 
@@ -437,7 +437,7 @@ class basecamp_action_components
         basecamp &base_;
         std::vector<comp_selection<item_comp>> item_selections_;
         std::vector<comp_selection<tool_comp>> tool_selections_;
-        std::unique_ptr<tinymap> map_; // Used for by-radio crafting
+        std::unique_ptr<map> map_; // Used for by-radio crafting
 };
 
 #endif // CATA_SRC_BASECAMP_H
