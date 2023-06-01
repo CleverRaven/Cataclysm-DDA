@@ -1602,6 +1602,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // Otherwise they will be replaced with an opaque fallback sprite
         // 2. May worsen visibility issues in isometric tilesets with inconsistent terrain heights
         const int max_draw_depth = is_isometric() ? 0 : fov_3d_z_range;
+        const int height_3d_mult = is_isometric() ? 10 : 0;
         if( max_draw_depth <= 0 ) {
             // Legacy draw mode
             for( tile_render_info &p : draw_points ) {
@@ -1617,7 +1618,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 int cur_height_3d = 0;
                 while( !here.dont_draw_lower_floor( p_draw ) && p.pos.z - p_draw.z < max_draw_depth ) {
                     p_draw.z -= 1;
-                    cur_height_3d -= 1;
+                    cur_height_3d -= height_3d_mult;
                 }
 
                 // Keep going up and drawing until current position
@@ -1626,7 +1627,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         ( this->*f )( p_draw, p.ll, cur_height_3d, p.invisible );
                     }
                     p_draw.z += 1;
-                    cur_height_3d += 1;
+                    cur_height_3d += height_3d_mult;
                 } while( p_draw.z <= p.pos.z );
             }
         }
