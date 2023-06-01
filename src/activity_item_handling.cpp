@@ -2874,7 +2874,8 @@ static bool generic_multi_activity_do(
     map &here = get_map();
     // something needs to be done, now we are there.
     // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
-    if( ( ( reason == do_activity_reason::NEEDS_HARVESTING ) || ( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) ) &&
+    if( ( ( reason == do_activity_reason::NEEDS_HARVESTING ) ||
+          ( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) ) &&
         here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         // TODO: fix point types
         iexamine::harvest_plant( you, src_loc.raw(), true );
