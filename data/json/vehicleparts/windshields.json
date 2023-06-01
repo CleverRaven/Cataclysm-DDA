@@ -1,6 +1,6 @@
 [
   {
-    "abstract": "windshield_abstract",
+    "id": "windshield",
     "type": "vehicle_part",
     "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
     "symbol": "\"",
@@ -15,6 +15,8 @@
       "ne_edge": "u",
       "sw_edge": "b",
       "se_edge": "n",
+      "left": "j",
+      "right": "j",
       "vertical": "j",
       "vertical_left": "j",
       "vertical_right": "j",
@@ -34,7 +36,7 @@
     "damage_modifier": 70,
     "description": "A sheet of glass that lets you see outside the vehicle.",
     "durability": 50,
-    "flags": [ "OVER", "WINDSHIELD", "OBSTACLE", "WINDOW" ],
+    "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
     "item": "glass_sheet",
     "location": "center",
     "looks_like": "t_wall_glass",
@@ -45,50 +47,21 @@
     }
   },
   {
-    "copy-from": "windshield_abstract",
-    "id": "windshield",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "windshield_abstract",
+    "copy-from": "windshield",
     "id": "windshield_full",
-    "looks_like": "windshield",
     "type": "vehicle_part",
     "name": { "str": "full windshield" }
   },
   {
-    "abstract": "reinforced_windshield_abstract",
+    "id": "reinforced_windshield",
     "type": "vehicle_part",
+    "copy-from": "windshield",
     "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" }, { "count": [ 4, 8 ], "item": "wire" } ],
-    "symbol": "\"",
-    "symbols": {
-      "nw": "y",
-      "ne": "u",
-      "sw": "b",
-      "se": "n",
-      "nw_edge": "y",
-      "ne_edge": "u",
-      "sw_edge": "b",
-      "se_edge": "n",
-      "vertical": "j",
-      "vertical_left": "j",
-      "vertical_right": "H",
-      "horizontal_front": "h",
-      "horizontal_front_edge": "^",
-      "horizontal_rear": "h",
-      "horizontal_rear_edge": "="
-    },
-    "broken_color": "light_gray",
-    "broken_symbol": "0",
-    "categories": [ "hull" ],
-    "color": "light_blue",
     "damage_modifier": 80,
     "damage_reduction": { "all": 16 },
     "description": "A sheet of glass that lets you see outside the vehicle.  Reinforced with wire to make it harder to break than normal glass.",
     "durability": 250,
-    "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
     "item": "reinforced_glass_sheet",
-    "location": "center",
     "looks_like": "windshield",
     "name": { "str": "reinforced windshield" },
     "requirements": {
@@ -97,12 +70,7 @@
     }
   },
   {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reinforced_windshield_abstract",
+    "copy-from": "reinforced_windshield",
     "id": "reinforced_windshield_full",
     "looks_like": "reinforced_windshield",
     "type": "vehicle_part",

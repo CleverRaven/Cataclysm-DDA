@@ -165,6 +165,21 @@
     "type": "ARMOR",
     "name": { "str": "cowboy hat" },
     "description": "Whether yer hunting varmints, fixing up the ranch, or heading into the sunset, this is the hat for the job.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_cowboy_hat",
+        "name": { "str": "cowboy hat" },
+        "description": "Whether yer hunting varmints, fixing up the ranch, or heading into the sunset, this is the hat for the job.",
+        "weight": 30
+      },
+      {
+        "id": "flag_cowboy_hat",
+        "name": { "str_sp": "American cowboy hat" },
+        "description": "This hat has traded its original classic looks for a red, white, and blue pattern with a band of golden stars embossed about its lip; suitable headwear for only the most serious of patriots.",
+        "append": true
+      }
+    ],
     "weight": "390 g",
     "volume": "2 L",
     "price": 9500,

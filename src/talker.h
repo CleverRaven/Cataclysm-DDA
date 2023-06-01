@@ -4,13 +4,13 @@
 
 #include "coordinates.h"
 #include "effect.h"
+#include "item.h"
 #include "units.h"
 #include "units_fwd.h"
 #include <list>
 
 class computer;
 class faction;
-class item;
 class item_location;
 class mission;
 class monster;
@@ -492,6 +492,9 @@ class talker
         virtual void mod_pain( int ) {}
         virtual void set_pain( int ) {}
         virtual int pain_cur() const {
+            return 0;
+        }
+        virtual double armor_at( damage_type_id &, bodypart_id & ) const {
             return 0;
         }
         virtual bool worn_with_flag( const flag_id &, const bodypart_id & ) const {

@@ -1023,8 +1023,8 @@
     "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "motorcycle helmet" },
-    "description": "A helmet with covers for the head and chin, leaving space in-between for you to wear goggles.  Activate to raise the visor.",
+    "name": { "str": "full-face motorcycle helmet" },
+    "description": "A helmet that covers the entire head along with glareproof visors, offering the best protection for when you ride around on your motorcycle.  Activate to raise the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
     "price": 32500,
@@ -1105,7 +1105,7 @@
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ],
     "melee_damage": { "bash": 7 }
   },
   {
@@ -1115,8 +1115,8 @@
     "looks_like": "helmet_motor",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "motorcycle helmet (raised visor)", "str_pl": "motorcycle helmets (raised visor)" },
-    "description": "A helmet with covers for the head and chin, leaving space in-between for you to wear goggles.  The visor is raised.  Activate to put down the visor.",
+    "name": { "str": "full-face motorcycle helmet (raised visor)", "str_pl": "full-face motorcycle helmets (raised visor)" },
+    "description": "A helmet that covers the entire head along with glareproof visors, offering the best protection when you ride around on your motorcycle.  The visor is raised.  Activate to put down the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
     "price": 32500,
@@ -1302,6 +1302,16 @@
         "specifically_covers": [ "head_crown", "head_forehead" ],
         "coverage": 100,
         "encumbrance_modifiers": [ "NONE" ]
+      }
+    ],
+    "variants": [
+      {
+        "id": "morion",
+        "name": { "str": "morion" },
+        "description": "The tall crested helmet of a spanish conquistador.  Heavy rusting implies it might be that many years old.",
+        "color": "dark_gray",
+        "weight": 0,
+        "append": false
       }
     ],
     "warmth": 5,

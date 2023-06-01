@@ -578,6 +578,11 @@ int talker_character_const::pain_cur() const
     return me_chr_const->get_pain();
 }
 
+double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
+{
+    return me_chr_const->worn.damage_resist( dt, bp );
+}
+
 void talker_character::mod_pain( int amount )
 {
     me_chr->mod_pain( amount );

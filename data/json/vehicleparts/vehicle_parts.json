@@ -84,7 +84,7 @@
     "broken_color": "red",
     "durability": 100,
     "item": "null",
-    "flags": [ "NOINSTALL" ],
+    "flags": [ "NO_INSTALL_HIDDEN" ],
     "breaks_into": [  ]
   },
   {
@@ -284,24 +284,17 @@
   {
     "type": "vehicle_part",
     "id": "wooden_aisle",
+    "copy-from": "aisle",
     "name": { "str": "wooden aisle" },
-    "symbol": "H",
-    "symbols": { "horizontal": "H", "vertical": "=" },
-    "looks_like": "t_floor",
-    "categories": [ "hull", "passengers" ],
     "color": "brown",
-    "broken_symbol": "#",
     "broken_color": "brown",
     "durability": 200,
-    "description": "An aisle.",
     "item": "frame_wood",
-    "location": "center",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
     "damage_reduction": { "all": 16 }
   },
@@ -1158,7 +1151,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "MOUNTABLE", "BOARDABLE", "CARGO", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
+    "flags": [ "MOUNTABLE", "BOARDABLE", "CARGO", "NO_INSTALL_HIDDEN", "NO_UNINSTALL" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
@@ -1184,7 +1177,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive_rubber", 2 ], [ "tire_rubber", 2 ] ] }
     },
-    "flags": [ "FLOATS", "VARIABLE_SIZE", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
+    "flags": [ "FLOATS", "VARIABLE_SIZE", "NO_INSTALL_HIDDEN", "NO_UNINSTALL" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
@@ -1212,7 +1205,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" },
       "repair": { "skills": [ [ "tailor", 1 ] ], "time": "150 s", "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ] }
     },
-    "flags": [ "ENGINE", "CONTROLS", "PROTRUSION", "E_STARTS_INSTANTLY", "WIND_POWERED", "OVER", "STABLE", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "ENGINE", "CONTROLS", "PROTRUSION", "E_STARTS_INSTANTLY", "WIND_POWERED", "STABLE", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "cotton_patchwork", "count": [ 5, 10 ] } ]
   },
   {
@@ -1320,7 +1313,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "WATCH", "ALARMCLOCK" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "WATCH", "ALARMCLOCK", "CABLE_PORTS" ],
     "breaks_into": [ { "group": "ig_vp_device", "count": [ 2, 3 ] } ]
   },
   {
@@ -1412,7 +1405,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 10 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "CABLE_PORTS" ],
     "breaks_into": "ig_vp_device",
     "damage_reduction": { "all": 6 }
   },
@@ -2170,112 +2163,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "door_trunk",
-    "name": { "str": "trunk door" },
-    "symbol": "+",
-    "looks_like": "hatch",
-    "categories": [ "hull" ],
-    "color": "light_gray",
-    "broken_symbol": "&",
-    "broken_color": "light_gray",
-    "damage_modifier": 80,
-    "durability": 150,
-    "description": "A short door.  You can always see over it, open or closed.",
-    "item": "frame",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
-    },
-    "flags": [
-      "OBSTACLE",
-      "OPENABLE",
-      "MULTISQUARE",
-      "BOARDABLE",
-      "LOW_FINAL_AIR_DRAG",
-      "NO_ROOF_NEEDED",
-      "WINDOW",
-      "SIMPLE_PART",
-      "DOOR"
-    ],
-    "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 20 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "hddoor_trunk",
-    "name": { "str": "heavy-duty trunk door" },
-    "symbol": "+",
-    "categories": [ "hull" ],
-    "color": "light_gray",
-    "looks_like": "door_trunk",
-    "broken_symbol": "&",
-    "broken_color": "light_gray",
-    "damage_modifier": 80,
-    "durability": 750,
-    "description": "A strong, short door.  You can always see over it, open or closed.",
-    "item": "hdframe",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 4 ] ] }
-    },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW", "SIMPLE_PART", "DOOR" ],
-    "breaks_into": "ig_vp_hdframe",
-    "damage_reduction": { "all": 30 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "door_shutter",
-    "name": { "str": "shutter door" },
-    "looks_like": "hatch",
-    "symbol": "+",
-    "categories": [ "hull" ],
-    "color": "white",
-    "broken_symbol": "&",
-    "broken_color": "white",
-    "damage_modifier": 80,
-    "durability": 95,
-    "description": "A strong door.  Solid construction means you can't see through it when closed.",
-    "item": "sheet_metal",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
-    },
-    "flags": [ "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
-    "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 7 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "door_sliding",
-    "name": { "str": "sliding door" },
-    "symbol": "+",
-    "looks_like": "door",
-    "categories": [ "hull" ],
-    "color": "light_cyan",
-    "broken_symbol": "&",
-    "broken_color": "light_cyan",
-    "damage_modifier": 80,
-    "durability": 150,
-    "description": "A door.  A window lets you see through it when closed.",
-    "item": "frame",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
-    },
-    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
-    "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 20 }
-  },
-  {
-    "type": "vehicle_part",
     "id": "cargo_space",
     "name": { "str": "cargo space" },
     "symbol": "=",
@@ -2460,7 +2347,7 @@
     "description": "Thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
     "item": "jumper_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
   {
@@ -2479,7 +2366,7 @@
     "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
     "item": "extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
   {
@@ -2498,7 +2385,7 @@
     "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
     "item": "long_extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
   {
@@ -2517,7 +2404,7 @@
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "item": "jumper_cable_heavy",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "wire", "count": [ 4, 8 ] }, { "item": "plastic_chunk", "count": [ 4, 8 ] } ]
   },
   {
@@ -2534,13 +2421,13 @@
     "description": "A heavy-duty tow cable, if the other end was attached to another vehicle, it could pull it.",
     "item": "hd_tow_cable",
     "requirements": { "removal": { "time": 500 } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "grip_hook", "count": 1 }, { "item": "cable", "count": [ 1, 4 ] } ]
   },
   {
     "type": "vehicle_part",
     "id": "jumper_cable_debug",
-    "name": { "str": "shiny cable" },
+    "name": { "str": "shiny debug cable" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "yellow",
@@ -2552,7 +2439,7 @@
     "durability": 120,
     "item": "jumper_cable_debug",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "jumper_cable_debug" } ]
   },
   {
@@ -2634,54 +2521,6 @@
     },
     "flags": [ "SHARP", "PROTRUSION" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "door_wood",
-    "name": { "str": "wooden door" },
-    "symbol": "+",
-    "looks_like": "t_door_c",
-    "categories": [ "hull" ],
-    "color": "brown",
-    "broken_symbol": "&",
-    "broken_color": "brown",
-    "damage_modifier": 75,
-    "durability": 160,
-    "description": "A door.  Has a window so you can see out of it, even when closed.",
-    "item": "frame_wood",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
-    },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "SIMPLE_PART", "DOOR" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
-    "damage_reduction": { "all": 8 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "door_wood_opaque",
-    "name": { "str": "opaque wooden door" },
-    "symbol": "+",
-    "looks_like": "door_wood",
-    "categories": [ "hull" ],
-    "color": "brown",
-    "broken_symbol": "&",
-    "broken_color": "brown",
-    "damage_modifier": 75,
-    "durability": 170,
-    "description": "A door.  Solid construction means you can't see through it when closed.",
-    "item": "frame_wood",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
-    },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "OPAQUE", "SIMPLE_PART", "DOOR" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
-    "damage_reduction": { "all": 12 }
   },
   {
     "type": "vehicle_part",
@@ -2885,7 +2724,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 3 ] ]
       }
     },
-    "flags": [ "REMOTE_CONTROLS", "OBSTACLE" ],
+    "flags": [ "REMOTE_CONTROLS", "OBSTACLE", "CABLE_PORTS" ],
     "breaks_into": [
       { "item": "motor_tiny", "count": [ 1, 3 ] },
       { "item": "steel_chunk", "count": [ 1, 3 ] },

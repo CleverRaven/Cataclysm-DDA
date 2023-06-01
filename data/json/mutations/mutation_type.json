@@ -258,5 +258,9 @@
   {
     "type": "mutation_type",
     "id": "facial_hair"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BODY_ARMOR_MOD"
   }
 ]

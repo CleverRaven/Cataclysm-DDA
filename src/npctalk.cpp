@@ -1960,20 +1960,37 @@ const std::unordered_map<std::string, std::function<bool( dialogue & )>>
     return conditionals;
 }
 
+void dialogue::amend_callstack( const std::string &value )
+{
+    if( !context["callstack"].empty() ) {
+        context["callstack"] += " \\ " + value;
+    } else {
+        context["callstack"] = value;
+    }
+}
+
+std::string dialogue::get_callstack() const
+{
+    if( context.count( "callstack" ) != 0 ) {
+        return "Callstack: " + context.find( "callstack" )->second;
+    }
+    return "";
+}
+
 talker *dialogue::actor( const bool is_beta ) const
 {
     if( !has_beta && !has_alpha ) {
-        debugmsg( "Attempted to use a dialogue with no actors!" );
+        debugmsg( "Attempted to use a dialogue with no actors!  %s", get_callstack() );
     }
     if( is_beta && !has_beta ) {
-        debugmsg( "Tried to use an invalid beta talker." );
+        debugmsg( "Tried to use an invalid beta talker.  %s", get_callstack() );
         // Try to avoid a crash by using the alpha if it exists
         if( has_alpha ) {
             return alpha.get();
         }
     }
     if( !is_beta && !has_alpha ) {
-        debugmsg( "Tried to use an invalid alpha talker." );
+        debugmsg( "Tried to use an invalid alpha talker.  %s", get_callstack() );
         // Try to avoid a crash by using the beta if it exists
         if( has_beta ) {
             return beta.get();
@@ -1991,9 +2008,8 @@ dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.h
         beta = d.actor( true )->clone();
     }
     if( !has_alpha && !has_beta ) {
-        debugmsg( "Constructed a dialogue with no actors!" );
+        debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
     }
-
     context = d.get_context();
     conditionals = d.get_conditionals();
 }
@@ -2012,7 +2028,7 @@ dialogue::dialogue( std::unique_ptr<talker> alpha_in,
         beta = std::move( beta_in );
     }
     if( !has_alpha && !has_beta ) {
-        debugmsg( "Constructed a dialogue with no actors!" );
+        debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
     }
 
     context = ctx;
@@ -2663,11 +2679,13 @@ void talk_effect_fun_t::set_u_sell_item( const JsonObject &jo, const std::string
         itype_id current_item_name = itype_id( item_name.evaluate( d ) );
         if( item::count_by_charges( current_item_name ) &&
             d.actor( false )->has_charges( current_item_name, current_count ) ) {
-            for( const item &it : d.actor( false )->use_charges( current_item_name, current_count ) ) {
+            for( item &it : d.actor( false )->use_charges( current_item_name, current_count ) ) {
+                it.set_owner( d.actor( true )->get_faction()->id );
                 d.actor( true )->i_add( it );
             }
         } else if( d.actor( false )->has_amount( current_item_name, current_count ) ) {
-            for( const item &it : d.actor( false )->use_amount( current_item_name, current_count ) ) {
+            for( item &it : d.actor( false )->use_amount( current_item_name, current_count ) ) {
+                it.set_owner( d.actor( true )->get_faction()->id );
                 d.actor( true )->i_add( it );
             }
         } else {
@@ -2934,7 +2952,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
         if( target_params.has_value() ) {
-            const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
+            const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value(), d );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
                                    project_to<coords::ms>( omt_pos ).z() );
         }
@@ -3198,7 +3216,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             if( d.has_beta ) {
                 update_params.guy = d.actor( true )->get_npc();
             }
-            omt_pos = mission_util::get_om_terrain_pos( update_params );
+            omt_pos = mission_util::get_om_terrain_pos( update_params, d );
         }
         time_duration future = dov_time_in_future.evaluate( d );
         if( future > 0_seconds ) {
@@ -3272,10 +3290,10 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_vi
                                             member ) );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [dest_params, true_eocs, false_eocs, is_npc]( dialogue const & d ) {
+    function = [dest_params, true_eocs, false_eocs, is_npc]( dialogue & d ) {
         npc *guy = d.actor( is_npc )->get_npc();
         if( guy ) {
-            tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params );
+            tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params, d );
             guy->goal = destination;
             guy->omt_path = overmap_buffer.get_travel_path( guy->global_omt_location(), guy->goal,
                             overmap_path_params::for_npc() );
@@ -3771,9 +3789,15 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string_
     function = [is_npc, fake, targeted, true_eocs, false_eocs]( dialogue const & d ) {
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
-            debugmsg( "No valid caster for spell." );
+            debugmsg( "No valid caster for spell.  %s", d.get_callstack() );
             run_eoc_vector( false_eocs, d );
+            return;
         } else {
+            if( !fake.is_valid() ) {
+                debugmsg( "%s is not a valid spell.  %s", fake.id.c_str(), d.get_callstack() );
+                run_eoc_vector( false_eocs, d );
+                return;
+            }
             spell sp = fake.get_spell( *caster, 0 );
             if( targeted ) {
                 if( std::optional<tripoint> target = sp.select_target( caster ) ) {
@@ -4001,8 +4025,8 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
         jo.throw_error( "Invalid input for run_eocs" );
     }
     function = [eocs]( dialogue const & d ) {
-        dialogue newDialog( d );
         for( const effect_on_condition_id &eoc : eocs ) {
+            dialogue newDialog( d );
             eoc->activate( newDialog );
         }
     };
@@ -4082,7 +4106,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
                             dialogue newDialog( get_talker_for( npc ), nullptr, d.get_conditionals(), d.get_context() );
                             eoc->activate( newDialog );
                         } else {
-                            debugmsg( "Tried to use invalid npc: %s", target.evaluate( d ) );
+                            debugmsg( "Tried to use invalid npc: %s. %s", target.evaluate( d ), d.get_callstack() );
                         }
                     }
                 }
@@ -4114,7 +4138,7 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string_
                 // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
                 // this is so monster attacks against other monsters won't give error messages.
             } else {
-                debugmsg( "Cannot queue a non activation effect_on_condition." );
+                debugmsg( "Cannot queue a non activation effect_on_condition.  %s", d.get_callstack() );
             }
         }
     };
@@ -4154,7 +4178,7 @@ void talk_effect_fun_t::set_queue_eoc_with( const JsonObject &jo, const std::str
             // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
             // this is so monster attacks against other monsters won't give error messages.
         } else {
-            debugmsg( "Cannot queue a non activation effect_on_condition." );
+            debugmsg( "Cannot queue a non activation effect_on_condition.  %s", d.get_callstack() );
         }
     };
 }
@@ -4243,7 +4267,7 @@ void talk_effect_fun_t::set_roll_remainder( const JsonObject &jo,
                     not_had.push_back( cur_string.evaluate( d ) );
                 }
             } else {
-                debugmsg( "Invalid roll remainder type." );
+                debugmsg( "Invalid roll remainder type.  %s", d.get_callstack() );
             }
         }
         if( !not_had.empty() ) {
@@ -4267,7 +4291,7 @@ void talk_effect_fun_t::set_roll_remainder( const JsonObject &jo,
                 d.actor( is_npc )->learn_recipe( recipe );
                 name = recipe->result_name();
             } else {
-                debugmsg( "Invalid roll remainder type." );
+                debugmsg( "Invalid roll remainder type.  %s", d.get_callstack() );
             }
             std::string cur_message = message.evaluate( d );
             if( !cur_message.empty() ) {
@@ -5801,7 +5825,7 @@ bool npc::item_whitelisted( const item &it )
         return true;
     }
 
-    const auto to_match = it.tname( 1, false );
+    const std::string to_match = it.tname( 1, false );
     return item_name_whitelisted( to_match );
 }
 

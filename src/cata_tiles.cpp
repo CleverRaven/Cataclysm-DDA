@@ -632,8 +632,8 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     cata_path layering_path = tileset_root / fs::u8path( layering );
 
     dbg( D_INFO ) << "Attempting to Load LAYERING file " << layering_path;
-    cata::ifstream layering_file( layering_path.get_unrelative_path(),
-                                  std::ifstream::in | std::ifstream::binary );
+    std::ifstream layering_file( layering_path.get_unrelative_path(),
+                                 std::ifstream::in | std::ifstream::binary );
 
     if( !layering_file.good() ) {
         has_layering = false;
@@ -2220,9 +2220,9 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                 if( subtile == open_ ) {
                     sym = '\'';
                 } else if( subtile == broken ) {
-                    sym = v.sym_broken;
+                    sym = v.get_symbol_broken();
                 } else {
-                    sym = v.sym;
+                    sym = v.get_symbol();
                     if( !vpid_data.second.empty() ) {
                         const auto &var_data = v.symbols.find( vpid_data.second );
                         if( var_data != v.symbols.end() ) {
@@ -2531,7 +2531,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             // needs to be defined by the tileset to look good, so we use system clock:
             std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
             auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>( now );
-            auto value = now_ms.time_since_epoch();
+            std::chrono::milliseconds value = now_ms.time_since_epoch();
             // aiming roughly at the standard 60 frames per second:
             int animation_frame = value.count() / 17;
             // offset by log_rand so that everything does not blink at the same time:
@@ -3216,8 +3216,8 @@ bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &heig
     const lit_level lit = overridden ? lit_level::LIT : ll;
     const int rotation = here.passable( p ) ? 1 : 0;
     const std::string tile = "graffiti_" +
-                             to_upper_case( string_replace( remove_punctuations( here.graffiti_at( p ).substr( 0, 32 ) ), " ",
-                                            "_" ) );
+                             to_upper_case( string_replace( remove_punctuations( here.graffiti_at( p ) ), " ",
+                                            "_" ) ).substr( 0, 32 );
     return draw_from_id_string( tileset_ptr->find_tile_type( tile ) ? tile : "graffiti",
                                 TILE_CATEGORY::NONE, empty_string, p, 0, rotation, lit, false, height_3d );
 }
@@ -3746,7 +3746,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 rot_facing = -1;
             }
             if( rot_facing >= -1 ) {
-                const auto ent_name = m->type->id;
+                const mtype_id ent_name = m->type->id;
                 std::string chosen_id = ent_name.str();
                 if( m->has_effect( effect_ridden ) ) {
                     int pl_under_height = 6;

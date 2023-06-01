@@ -43,7 +43,7 @@
     "id": "beehive_harv",
     "type": "harvest",
     "message": "You carefully crack open the hive structure and drain the liquid.",
-    "entries": [ { "drop": "honeycomb", "base_num": [ 160, 180 ] }, { "drop": "wax", "base_num": [ 40, 50 ] } ]
+    "entries": [ { "drop": "honeycomb", "base_num": [ 30, 180 ] }, { "drop": "wax", "base_num": [ 4, 5 ] } ]
   },
   {
     "id": "jerusalem_artichoke_harv",

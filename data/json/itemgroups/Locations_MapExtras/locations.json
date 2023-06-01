@@ -512,7 +512,7 @@
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
       [ "rope_30", 5 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 10 ],
       [ "leotard", 5 ],
       [ "cheerleader_skirt", 5 ],
@@ -990,8 +990,8 @@
     "type": "item_group",
     "id": "sewer",
     "items": [
-      [ "mutagen", 8 ],
-      [ "fetus", 1 ],
+      [ "crack", 8 ],
+      { "group": "book_mag_tech", "prob": 20 },
       [ "joint", 20 ],
       [ "mag_porn", 20 ],
       [ "cotton_patchwork", 1 ],
@@ -1005,7 +1005,7 @@
       [ "55gal_drum", 10 ],
       [ "30gal_drum", 15 ],
       { "group": "tools_toolbox", "prob": 1 },
-      [ "recipe_elfa", 2 ]
+      [ "decoy_elfa", 2 ]
     ]
   },
   {
@@ -2057,7 +2057,7 @@
       [ "frisbee", 10 ],
       [ "disc_golf", 10 ],
       [ "pom_poms", 10 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 1 ],

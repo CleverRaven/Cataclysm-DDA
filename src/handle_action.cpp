@@ -324,7 +324,7 @@ input_context game::get_player_input( std::string &action )
                     if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == visibility_type::CLEAR &&
                         !creatures.creature_at( mapp, true ) ) {
                         // Suppress if a critter is there
-                        wPrint.vdrops.emplace_back( std::make_pair( iRand.x, iRand.y ) );
+                        wPrint.vdrops.emplace_back( iRand.x, iRand.y );
                     }
                 }
             }
@@ -888,13 +888,19 @@ static void smash()
 
         if( bash_result.success ) {
             // Bash results in destruction of target
-            explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_complete" );
+            if( get_option<bool>( "ANIMATIONS" ) ) {
+                explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_complete" );
+            }
         } else if( smashskill >= here.bash_resistance( smashp ) ) {
             // Bash effective but target not yet destroyed
-            explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_effective" );
+            if( get_option<bool>( "ANIMATIONS" ) ) {
+                explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_effective" );
+            }
         } else {
             // Bash not effective
-            explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_ineffective" );
+            if( get_option<bool>( "ANIMATIONS" ) ) {
+                explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_ineffective" );
+            }
             if( one_in( 10 ) ) {
                 if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
                     // %s is the smashed furniture
