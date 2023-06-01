@@ -1597,10 +1597,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
         };
 
-        // Disable multi z-level display on isometric tilesets. Can be enabled but will cause the following issues:
-        // 1. Supposedly transparent terrain and fields such as t_open_air need to be given sprites
-        // Otherwise they will be replaced with an opaque fallback sprite
-        // 2. May worsen visibility issues in isometric tilesets with inconsistent terrain heights
+        // Limit draw depth to vertical vision setting
+        // Disable multi z-level display on isometric tilesets until height_3d issues resolved
         const int max_draw_depth = is_isometric() ? 0 : fov_3d_z_range;
         const int height_3d_mult = is_isometric() ? 10 : 0;
         if( max_draw_depth <= 0 ) {
@@ -1891,12 +1889,11 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 bool cata_tiles::draw_from_id_string_internal( const std::string &id, const tripoint &pos,
         int subtile,
         int rota,
-        lit_level ll, int retract, bool apply_night_vision_goggles )
+        lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d )
 {
-    int nullint = 0;
     return cata_tiles::draw_from_id_string_internal( id, TILE_CATEGORY::NONE, empty_string, pos,
             subtile,
-            rota, ll, retract, apply_night_vision_goggles, nullint, 0, "", point() );
+            rota, ll, retract, apply_night_vision_goggles, height_3d, 0, "", point() );
 }
 
 
@@ -2178,7 +2175,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     if( !tt ) {
         // Use fog overlay as fallback for transparent terrain
         if( category == TILE_CATEGORY::TERRAIN && !here.dont_draw_lower_floor( pos ) ) {
-            draw_zlevel_overlay( pos, ll );
+            draw_zlevel_overlay( pos, ll, height_3d );
 
             // t_open_air is plentiful at high z-levels
             // Skipping the rest of the fallback code will significantly improve performance
@@ -2343,13 +2340,13 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             }
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string_internal( generic_id, pos, subtile, rota,
-                                                     ll, retract, nv_color_active );
+                                                     ll, retract, nv_color_active, height_3d );
             }
             // Try again without color this time (using default color).
             generic_id = get_ascii_tile_id( sym, -1, -1 );
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string_internal( generic_id, pos, subtile, rota,
-                                                     ll, retract, nv_color_active );
+                                                     ll, retract, nv_color_active, height_3d );
             }
         }
     }
@@ -3853,7 +3850,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
     return false;
 }
 
-void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll )
+void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int &height_3d )
 {
     if( is_isometric() ) {
         return;
@@ -3863,9 +3860,12 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll )
     const point screen = player_to_screen( p.xy() );
     SDL_Rect draw_rect;
     draw_rect.x = screen.x;
-    draw_rect.y = screen.y;
+    draw_rect.y = screen.y - height_3d;
     draw_rect.w = tile_width;
     draw_rect.h = tile_height;
+    if( is_isometric() ) {
+        draw_rect.y += tile_height / 4;
+    }
 
     // Overlay color is based on light level
     SDL_Color fog_color = curses_color_to_SDL( c_black );
