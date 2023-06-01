@@ -720,27 +720,9 @@ void talk_function::basecamp_mission( npc &p )
     }
     basecamp *bcp = *temp_camp;
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
-    if( bcp->get_dumping_spot() == tripoint_abs_ms{} ) {
-        map &here = get_map();
-        zone_manager &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
-            mgr.cache_vzones();
-        }
-        tripoint src_loc;
-        const tripoint_abs_ms abspos = p.get_location();
-        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
-            const std::optional<tripoint_abs_ms> dump_pt =
-                mgr.get_nearest( zone_type_CAMP_STORAGE, abspos );
-            const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
-                    60 );
-            // Find the nearest unsorted zone to dump objects at
-            if( dump_pt.has_value() ) {
-                src_loc = here.getlocal( dump_pt.value() );
-                bcp->set_storage_zone( zones );
-            }
-        }
-        bcp->set_dumping_spot( here.getglobal( src_loc ) );
-    }
+    map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    bcp->form_storage_zones( p, here, p.get_location(), mgr );
     bcp->get_available_missions( mission_key );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
         bcp->handle_mission( { mission_key.cur_key.id.id, false } );
@@ -4701,10 +4683,7 @@ bool basecamp::validate_sort_points()
 {
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
-    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
-        mgr.cache_vzones();
-    }
-    tripoint src_loc = here.getlocal( bb_pos ) + point_north;
+    tripoint_abs_ms abs_pos = here.getglobal( bb_pos );
     const tripoint_abs_ms abspos = get_player_character().get_location();
     if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
         !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
@@ -4714,17 +4693,8 @@ bool basecamp::validate_sort_points()
             return false;
         }
     } else {
-        const std::optional<tripoint_abs_ms> dump_pt =
-            mgr.get_nearest( zone_type_CAMP_STORAGE, abspos );
-        const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
-                60 );
-        // Find the nearest unsorted zone to dump objects at
-        if( dump_pt.has_value() ) {
-            src_loc = here.getlocal( dump_pt.value() );
-            set_storage_zone( zones );
-        }
+        form_storage_zones( get_player_character(), here, abs_pos, mgr );
     }
-    set_dumping_spot( here.getglobal( src_loc ) );
     return true;
 }
 

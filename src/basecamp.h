@@ -397,6 +397,8 @@ class basecamp
         inline void set_storage_zone( const std::vector<const zone_data *> &zones ) {
             storage_zones = zones;
         }
+        void form_storage_zones( Character &p, map &here, const tripoint_abs_ms &abspos,
+                                 zone_manager &mgr );
     private:
         friend class basecamp_action_components;
 

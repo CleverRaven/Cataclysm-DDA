@@ -40,6 +40,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
+
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
     { base_camps::base_dir, { "[B]", base_camps::TAB_MAIN, to_translation( "base camp: base", "[B]" ), to_translation( "base camp: base", " MAIN " ) } },
@@ -655,7 +657,26 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     }
     return ret;
 }
+void basecamp::form_storage_zones( Character &p, map &here, const tripoint_abs_ms &abspos,
+                                   zone_manager &mgr )
+{
 
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
+        mgr.cache_vzones();
+    }
+    tripoint src_loc = here.getlocal( bb_pos ) + point_north;
+    if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
+        const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
+                60 );
+        // Find the nearest unsorted zone to dump objects at
+        if( !zones.empty() ) {
+            src_loc = here.getlocal( zones.front()->get_center_point() );
+            set_storage_zone( zones );
+        }
+    }
+    set_dumping_spot( here.getglobal( src_loc ) );
+
+}
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
@@ -750,8 +771,8 @@ void basecamp::form_crafting_inventory( map &target_map )
 void basecamp::form_crafting_inventory()
 {
     if( by_radio ) {
-        tinymap target_map;
-        target_map.load( project_to<coords::sm>( omt_pos ), false );
+        map target_map;
+        target_map.load( project_to<coords::sm>( omt_pos ) - point( -5, -5 ), false );
         form_crafting_inventory( target_map );
     } else {
         form_crafting_inventory( get_map() );
