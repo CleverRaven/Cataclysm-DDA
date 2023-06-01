@@ -359,7 +359,7 @@
     "copy-from": "dry_corn",
     "category": "seeds",
     "name": { "str_sp": "corn seeds" },
-    "description": "A pile of dried corn, designated for planting. It could just as easily become food.",
+    "description": "A pile of dried corn, designated for planting.  It could just as easily become food.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "seed_data": { "plant_name": "corn", "fruit": "corn", "byproducts": [ "withered" ], "grow": "80 days" }
   },
