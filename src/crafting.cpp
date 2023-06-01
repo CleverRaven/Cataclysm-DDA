@@ -1999,6 +1999,63 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     return ret;
 }
 
+std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+        const std::function<bool( const item & )> &filter, const std::vector<tripoint> &reachable_pts,
+        bool select_ind )
+{
+    std::list<item> ret;
+
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return ret;
+    }
+
+    item_comp selected_comp = is.comp;
+
+    const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
+    // Count given to use_amount/use_charges, changed by those functions!
+    int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
+                         selected_comp.count );
+    // First try to get everything from the map, than (remaining amount) from player
+    if( is.use_from & usage_from::map ) {
+        if( by_charges ) {
+            std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count, filter );
+            ret.splice( ret.end(), tmp );
+        } else {
+            std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, filter,
+                                                select_ind );
+            remove_ammo( tmp, *this );
+            ret.splice( ret.end(), tmp );
+        }
+    }
+    if( is.use_from & usage_from::player ) {
+        if( by_charges ) {
+            std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
+            ret.splice( ret.end(), tmp );
+        } else {
+            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
+            remove_ammo( tmp, *this );
+            ret.splice( ret.end(), tmp );
+        }
+    }
+    // Merge charges for items that stack with each other
+    if( by_charges && ret.size() > 1 ) {
+        for( auto outer = std::begin( ret ); outer != std::end( ret ); ++outer ) {
+            for( auto inner = std::next( outer ); inner != std::end( ret ); ) {
+                if( outer->merge_charges( *inner ) ) {
+                    inner = ret.erase( inner );
+                } else {
+                    ++inner;
+                }
+            }
+        }
+    }
+    for( item &it : ret ) {
+        it.spill_contents( *this );
+    }
+    empty_buckets( *this );
+    return ret;
+}
+
 /* This call is in-efficient when doing it for multiple items with the same map inventory.
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
@@ -2282,6 +2339,29 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
             use_charges( tool.comp.type, quantity, radius );
+        }
+    }
+
+    // else, usage_from::none (or usage_from::cancel), so we don't use up any tools;
+}
+
+void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                               const std::vector<tripoint> &reachable_pts, basecamp *bcp )
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return;
+    }
+    const itype *tmp = item::find_type( tool.comp.type );
+    int quantity = tool.comp.count * batch * tmp->charge_factor();
+
+    if( tool.use_from == usage_from::player || tool.use_from == usage_from::both ) {
+        use_charges( tool.comp.type, quantity );
+    }
+    if( tool.use_from == usage_from::map || tool.use_from == usage_from::both ) {
+        m.use_charges( reachable_pts, tool.comp.type, quantity, return_true<item>, bcp );
+        // Map::use_charges() does not handle UPS charges.
+        if( quantity > 0 ) {
+            m.consume_ups( reachable_pts, units::from_kilojoule( quantity ) );
         }
     }
 

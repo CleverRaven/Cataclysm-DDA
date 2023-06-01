@@ -397,6 +397,13 @@ class basecamp
         inline void set_storage_zone( const std::vector<const zone_data *> &zones ) {
             storage_zones = zones;
         }
+        inline const std::unordered_set<tripoint_abs_ms> &get_storage_tiles() const {
+            return src_set;
+        }
+        // dumping spot in absolute co-ords
+        inline void set_storage_tiles( const std::unordered_set<tripoint_abs_ms> &tiles ) {
+            src_set = tiles;
+        }
         void form_storage_zones( map &here, const tripoint_abs_ms &abspos );
         map *get_camp_map();
     private:
@@ -414,6 +421,7 @@ class basecamp
         comp_list camp_workers; // NOLINT(cata-serialize)
         tripoint_abs_ms dumping_spot;
         std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
+        std::unordered_set<tripoint_abs_ms> src_set; // NOLINT(cata-serialize)
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
         std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)

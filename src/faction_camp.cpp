@@ -720,11 +720,21 @@ void talk_function::basecamp_mission( npc &p )
     }
     basecamp *bcp = *temp_camp;
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
-    map &here = *( bcp->get_camp_map() );
-    bcp->form_storage_zones( here, p.get_location() );
+    map *here = &get_map();
+    std::unique_ptr<map> campmap;
+    if( get_avatar().dialogue_by_radio ) {
+        campmap = std::make_unique<map>();
+        campmap->load( project_to<coords::sm>( bcp->camp_omt_pos() ) - point( 5, 5 ), false );
+        here = campmap.get();
+    }
+    bcp->form_storage_zones( *here, p.get_location() );
     bcp->get_available_missions( mission_key );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
         bcp->handle_mission( { mission_key.cur_key.id.id, false } );
+    }
+    if( campmap ) {
+        campmap->save();
+        campmap.reset();
     }
 }
 
@@ -1731,17 +1741,26 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
             camp_food_supply( duration, exertion_level );
         }
 
-        map *target_map = get_camp_map();
-        for( const zone_data *zone : storage_zones ) {
-            const tripoint_abs_ms &center = zone->get_center_point();
-            const int radius = rl_dist( zone->get_start_point(), zone->get_end_point() ) / 2 + 1;
-            const tripoint &origin = target_map->getlocal( center );
-            for( item *i : equipment ) {
-                int count = i->count();
-                target_map->use_charges( origin, radius, i->typeId(), count );
-            }
+        map *target_map = &get_map();
+        std::unique_ptr<map> campmap;
+        if( by_radio ) {
+            campmap = std::make_unique<map>();
+            campmap->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
+            target_map = campmap.get();
         }
-        target_map->save();
+        std::vector<tripoint> src_set_pt;
+
+        for( const tripoint_abs_ms &p : src_set ) {
+            src_set_pt.emplace_back( target_map->getlocal( p ) );
+        }
+        for( item *i : equipment ) {
+            int count = i->count();
+            target_map->use_charges( src_set_pt, i->typeId(), count );
+        }
+        if( campmap ) {
+            campmap->save();
+            campmap.reset();
+        }
     }
     return comp;
 }
@@ -4681,7 +4700,12 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint &tar
 bool basecamp::validate_sort_points()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    map &here = *get_camp_map();
+    map *here = &get_map();
+    std::unique_ptr<map> campmap = std::make_unique<map>();
+    if( by_radio ) {
+        campmap->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
+        here = campmap.get();
+    }
     const tripoint_abs_ms abspos = get_player_character().get_location();
     if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
         !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
@@ -4691,7 +4715,11 @@ bool basecamp::validate_sort_points()
             return false;
         }
     } else {
-        form_storage_zones( here, abspos );
+        form_storage_zones( *here, abspos );
+    }
+    if( campmap ) {
+        campmap->save();
+        campmap.reset();
     }
     return true;
 }
