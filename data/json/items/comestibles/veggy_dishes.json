@@ -717,6 +717,7 @@
     "sealed": true,
     "material": [ "veggy" ],
     "volume": "250 ml",
+    "weight": "275 g",
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 2 ] ],
     "delete": { "flags": [ "RAW" ] }
   },
