@@ -1284,7 +1284,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
                 map_stack items = here.i_at( src_loc );
                 const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.is_seed();
+                    return it.is_seed();
                 } );
                 if ( seed->has_flag( json_flag_CUT_HARVEST ) ) {
                     // The plant in this location needs a grass cutting tool.
