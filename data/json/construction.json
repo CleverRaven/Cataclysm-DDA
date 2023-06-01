@@ -7875,7 +7875,7 @@
     "category": "OTHER",
     "required_skills": [ [ "survival", 2 ] ],
     "time": "0 m",
-    "pre_note": "Mark a spot to stack cut grain for drying outdoors. Once placed, put unrotten undried grain stalks on the stooking spot and examine it to get started.",
+    "pre_note": "Mark a spot to stack cut grain for drying outdoors.  Once placed, put unrotten undried grain stalks on the stooking spot and examine it to get started.",
     "pre_special": "check_empty",
     "post_flags": [ "keep_items" ],
     "dark_craftable": true,

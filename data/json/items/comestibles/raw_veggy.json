@@ -34,7 +34,7 @@
     "symbol": ",",
     "quench": -10,
     "calories": 743,
-    "description": "A pile of dried barleycorn.  A staple of brewing everywhere.  It can be planted, boiled, or ground into flour.",
+    "description": "A pile of dried barleycorn, a staple of brewing everywhere.  It can be planted, boiled, or ground into flour.",
     "price": 20,
     "price_postapoc": 250,
     "material": [ "veggy" ],
@@ -1093,7 +1093,7 @@
     "copy-from": "zucchini",
     "cooks_like": "zucchini",
     "spoils_in": "2 days 12 hours",
-    "description": "A chopped-up summer squash. The seeds have been removed."
+    "description": "A chopped-up summer squash.  The seeds have been removed."
   },
   {
     "type": "COMESTIBLE",
