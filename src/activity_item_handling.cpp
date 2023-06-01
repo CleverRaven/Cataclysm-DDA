@@ -1296,7 +1296,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 } else {
                     // We can harvest this plant without any tools.
                     return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
-                    }
+                }
             } else if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
                 if( you.has_quality( qual_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great
