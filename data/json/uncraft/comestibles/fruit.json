@@ -209,5 +209,12 @@
     "activity_level": "NO_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "seed_maianthemum_stellatum", 1 ] ] ]
+  },
+    {
+    "result": "soybean",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "raw_edamame", 1 ] ] ]
   }
 ]
