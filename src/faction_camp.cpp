@@ -3096,7 +3096,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                             int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
                             if( !seed->has_flag( flag_HARVEST_SEEDS ) ) {
                                 seed_cnt = 0;
-                                }
+                            }
                             for( item &i : iexamine::get_harvest_items( *seed->type, plant_count,
                                     seed_cnt, true ) ) {
                                 here.add_item_or_charges( player_character.pos(), i );
