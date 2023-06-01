@@ -766,16 +766,20 @@ void basecamp::form_crafting_inventory( map &target_map )
         }
     }
 }
+map *basecamp::get_camp_map()
+{
+    if( by_radio ) {
+        map_ = std::make_shared<map>();
+        map_->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
+        return map_.get();
+    } else {
+        return &get_map();
+    }
+}
 
 void basecamp::form_crafting_inventory()
 {
-    if( by_radio ) {
-        map target_map;
-        target_map.load( project_to<coords::sm>( omt_pos ) - point( -5, -5 ), false );
-        form_crafting_inventory( target_map );
-    } else {
-        form_crafting_inventory( get_map() );
-    }
+    form_crafting_inventory( *get_camp_map() );
 }
 
 // display names
@@ -871,18 +875,12 @@ bool basecamp_action_components::choose_components()
 
 void basecamp_action_components::consume_components()
 {
-    map *target_map = &get_map();
-    if( base_.by_radio ) {
-        map_ = std::make_unique<map>();
-        map_->load( project_to<coords::sm>( base_.camp_omt_pos() - point( -5, -5 ) ), false );
-        target_map = map_.get();
-    }
+    map *target_map = base_.get_camp_map();
     avatar &player_character = get_avatar();
     const std::vector<const zone_data *> &storage_zones = base_.get_storage_zone();
     for( const zone_data *zone : storage_zones ) {
-        const tripoint_abs_ms &center = zone->get_center_point();
         const int radius = rl_dist( zone->get_start_point(), zone->get_end_point() ) / 2 + 1;
-        const tripoint &origin = target_map->getlocal( center );
+        const tripoint &origin = target_map->getlocal( zone->get_center_point() );
         for( const comp_selection<item_comp> &sel : item_selections_ ) {
             player_character.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
                                             radius );
@@ -898,8 +896,6 @@ void basecamp_action_components::consume_components()
             }
         }
     }
-    if( map_ ) {
-        map_->save();
-        map_.reset();
-    }
+    target_map->save();
+
 }

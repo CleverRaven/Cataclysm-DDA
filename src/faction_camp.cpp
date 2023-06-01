@@ -720,7 +720,7 @@ void talk_function::basecamp_mission( npc &p )
     }
     basecamp *bcp = *temp_camp;
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
-    map &here = get_map();
+    map &here = *( bcp->get_camp_map() );
     bcp->form_storage_zones( here, p.get_location() );
     bcp->get_available_missions( mission_key );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
@@ -1731,7 +1731,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
             camp_food_supply( duration, exertion_level );
         }
 
-        map *target_map = &get_map();
+        map *target_map = get_camp_map();
         for( const zone_data *zone : storage_zones ) {
             const tripoint_abs_ms &center = zone->get_center_point();
             const int radius = rl_dist( zone->get_start_point(), zone->get_end_point() ) / 2 + 1;
@@ -4681,8 +4681,7 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint &tar
 bool basecamp::validate_sort_points()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    map &here = get_map();
-    tripoint_abs_ms abs_pos = here.getglobal( bb_pos );
+    map &here = *get_camp_map();
     const tripoint_abs_ms abspos = get_player_character().get_location();
     if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
         !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
@@ -4692,7 +4691,7 @@ bool basecamp::validate_sort_points()
             return false;
         }
     } else {
-        form_storage_zones( here, abs_pos );
+        form_storage_zones( here, abspos );
     }
     return true;
 }
