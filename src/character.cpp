@@ -7531,7 +7531,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-    if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || has_trait( trait_ANIMAL_FEET ) ) && !is_on_ground() ) {
+    if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || has_trait( trait_ANIMAL_FEET ) ) &&
+        !is_on_ground() ) {
         int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) ) {
             rolls += 2;
