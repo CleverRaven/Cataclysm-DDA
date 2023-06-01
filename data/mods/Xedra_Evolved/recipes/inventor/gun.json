@@ -216,7 +216,7 @@
       [ [ "fuse", 1 ] ],
       [ [ "scrap", 2 ] ]
     ],
-    "time": "18 h",
+    "time": "1 h",
     "skill_used": "deduction",
     "difficulty": 4,
     "skills_required": [ "firstaid", 6 ],
