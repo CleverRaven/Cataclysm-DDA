@@ -874,7 +874,7 @@ void basecamp_action_components::consume_components()
     map *target_map = &get_map();
     if( base_.by_radio ) {
         map_ = std::make_unique<map>();
-        map_->load( project_to<coords::sm>( base_.camp_omt_pos() - point(-5,-5) ), false );
+        map_->load( project_to<coords::sm>( base_.camp_omt_pos() - point( -5, -5 ) ), false );
         target_map = map_.get();
     }
     avatar &player_character = get_avatar();
