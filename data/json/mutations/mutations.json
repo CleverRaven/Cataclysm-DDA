@@ -3908,7 +3908,7 @@
     "points": -1,
     "visibility": 2,
     "ugliness": 2,
-    "description": "The heels of your feet have shifted up off the ground in a rather animalistic fashion.  While *some people* might think this looks cool, it mostly just means you can't wear shoes and are more easily knocked down.  At least can can move faster when crouching.",
+    "description": "The heels of your feet have shifted up off the ground in a rather animalistic fashion.  While *some people* might think this looks cool, it mostly just means you can't wear shoes and are more easily knocked down.  At least you can move faster when crouching.",
     "types": [ "FEET" ],
     "prereqs": [ "PADDED_FEET" ],
     "category": [ "LUPINE", "FELINE", "BEAST" ],
