@@ -474,6 +474,7 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_ANIMAL_FEET( "ANIMAL_FEET" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
@@ -7530,7 +7531,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-    if( worn_with_flag( flag_REQUIRES_BALANCE ) && !is_on_ground() ) {
+    if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || has_trait( trait_ANIMAL_FEET ) ) && !is_on_ground() ) {
         int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) ) {
             rolls += 2;
@@ -7543,6 +7544,9 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         }
         if( has_trait( trait_CLUMSY ) ) {
             rolls++;
+        }
+        if( has_trait( trait_ANIMAL_FEET ) ) {
+            rolls -= 2;
         }
 
         if( stability_roll() < dice( rolls, 10 ) ) {
