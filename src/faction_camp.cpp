@@ -3094,7 +3094,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                             plant_count *= farm_map.furn( pos )->plant->harvest_multiplier;
                             plant_count = std::min( std::max( plant_count, 1 ), 12 );
                             int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
-                            if ( !seed->has_flag( flag_HARVEST_SEEDS ) ) {
+                            if( !seed->has_flag( flag_HARVEST_SEEDS ) ) {
                                 seed_cnt = 0;
                                 }
                             for( item &i : iexamine::get_harvest_items( *seed->type, plant_count,
