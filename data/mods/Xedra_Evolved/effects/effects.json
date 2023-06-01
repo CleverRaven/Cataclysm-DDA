@@ -136,6 +136,7 @@
       "Your brain can't hold any more brilliance."
     ],
     "max_intensity": 3,
+    "apply_message": "Some great idea illuminated your mind, it's probably a good time to pick your laptop and do some calculations.",
     "rating": "good"
   },
   {
