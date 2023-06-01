@@ -721,7 +721,7 @@ void talk_function::basecamp_mission( npc &p )
     basecamp *bcp = *temp_camp;
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
     map &here = get_map();
-    bcp->form_storage_zones( p, here, p.get_location() );
+    bcp->form_storage_zones( here, p.get_location() );
     bcp->get_available_missions( mission_key );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
         bcp->handle_mission( { mission_key.cur_key.id.id, false } );
@@ -4692,7 +4692,7 @@ bool basecamp::validate_sort_points()
             return false;
         }
     } else {
-        form_storage_zones( get_player_character(), here, abs_pos );
+        form_storage_zones( here, abs_pos );
     }
     return true;
 }
