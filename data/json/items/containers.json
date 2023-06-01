@@ -2534,6 +2534,7 @@
         "max_item_length": "26 cm"
       }
     ],
+    "flags": [ "BANK_NOTE_SHAPED" ],
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {

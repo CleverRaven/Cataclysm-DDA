@@ -24,15 +24,26 @@ void JsonTranslationInputCheck::registerMatchers( MatchFinder *Finder )
                     ) ),
             // <translation function>( ... )
             hasAncestor(
-                callExpr( callee( decl( anyOf(
-                                            functionDecl(
-                                                    hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext", "n_gettext", "npgettext" )
-                                            ).bind( "translationFunc" ),
-                                            functionDecl(
-                                                    hasAnyName( "to_translation", "pl_translation" )
-                                            ) ) ) )
-                          // no_translation is ok, it's used to load generated names such as artifact names
-                        ).bind( "translationCall" ) )
+                callExpr(
+                    callee(
+                        decl(
+                            anyOf(
+                                functionDecl(
+                                    hasAnyName(
+                                        "_", "translation_argument_identity", "gettext", "pgettext",
+                                        "n_gettext", "npgettext"
+                                    )
+                                ).bind( "translationFunc" ),
+                                functionDecl(
+                                    hasAnyName( "to_translation", "pl_translation" )
+                                )
+                                // no_translation is ok, it's used to load generated names such as
+                                // artifact names
+                            )
+                        )
+                    )
+                ).bind( "translationCall" )
+            )
         ).bind( "jsonInputCall" ),
         this
     );

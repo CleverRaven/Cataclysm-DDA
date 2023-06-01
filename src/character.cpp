@@ -576,6 +576,7 @@ Character::Character() :
     nv_cached = false;
     volume = 0;
     set_value( "THIEF_MODE", "THIEF_ASK" );
+	last_pc_zlev = 0; // Z-level on the last turn (used in character.cpp for "fine_detail_vision_mod" NPCs function override)																										  
     for( const auto &v : vitamin::all() ) {
         vitamin_levels[ v.first ] = 0;
         daily_vitamins[v.first] = { 0,0 };
@@ -1467,6 +1468,9 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
     }
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
         for( const monster &critter : g->all_monsters() ) {
+            if( critter.is_hallucination() ) {
+                continue;
+            }
             Attitude att = critter.attitude_to( *this );
             if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 15 &&
                 rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
@@ -1497,6 +1501,9 @@ bool Character::check_mount_is_spooked()
         const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
         const bool combat_mount = mounted_creature->has_flag( MF_COMBAT_MOUNT );
         for( const monster &critter : g->all_monsters() ) {
+            if( critter.is_hallucination() ) {
+                continue;
+            }
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
             // actually too close now - horse might spook.
@@ -2529,8 +2536,16 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0f,
-                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+    float ambient_light;
+    // Light is calculated for player's z-level; NPC actions on different Z-level would stop
+    // Check if NPC is on the same z-level - if not overwrite light level for it
+    // Additional check for "last_pc_zlev" value - solve edge case on first turn after changing player z-level
+    if( ( p.z == get_player_character().pos().z ) && ( p.z == get_player_character().last_pc_zlev ) ) {
+        ambient_light = std::max( 1.0f,
+                                  LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+    } else {
+        ambient_light = 1.0f;
+    }
 
     return std::min( own_light, ambient_light );
 }
