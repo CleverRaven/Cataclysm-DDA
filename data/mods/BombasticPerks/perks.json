@@ -310,12 +310,12 @@
     "id": "perk_jugg",
     "name": { "str": "Unstoppable force" },
     "points": 0,
-    "description": ".",
+    "description": "You've always been a bit of a bull in a china shop; people used to call you heavy handed but now they aren't saying much at all.  You deal extra damage based on how protective your armor is.",
     "category": [ "perk" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_armor('bash', 'torso') * u_attack_speed() / 200" ] } } ]
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
       }
     ]
   }
