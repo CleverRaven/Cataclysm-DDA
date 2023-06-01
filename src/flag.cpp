@@ -282,6 +282,7 @@ const flag_id flag_ROLLER_INLINE( "ROLLER_INLINE" );
 const flag_id flag_ROLLER_ONE( "ROLLER_ONE" );
 const flag_id flag_ROLLER_QUAD( "ROLLER_QUAD" );
 const flag_id flag_SAFECRACK( "SAFECRACK" );
+const flag_id flag_SEED_HARVEST( "SEED_HARVEST" );
 const flag_id flag_SEMITANGIBLE( "SEMITANGIBLE" );
 const flag_id flag_SHREDDED( "SHREDDED" );
 const flag_id flag_SHRUB( "SHRUB" );

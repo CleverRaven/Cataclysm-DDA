@@ -29,6 +29,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
@@ -1659,7 +1660,6 @@ void talk_function::field_harvest( npc &p, const std::string &place )
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.is_seed();
             } );
-
             if( seed != items.end() ) {
                 const islot_seed &seed_data = *seed->type->seed;
                 const item item_seed = item( seed->type, calendar::turn );
@@ -1675,7 +1675,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     // items similar to iexamine::harvest_plant
                     number_plants += plant_count * tmp.charges;
                     number_seeds += std::max( 1, rng( plant_count / 4, plant_count / 2 ) ) * item_seed.charges;
-
+                    if ( !seed->has_flag( flag_HARVEST_SEEDS ) ) {
+                        number_seeds = 0;
+                    }
                     bay.i_clear( plot );
                     bay.furn_set( plot, f_null );
                     bay.ter_set( plot, t_dirtmound );
@@ -1711,7 +1713,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     }
     tmp = item( seed_types[plant_index], calendar::turn );
     const islot_seed &seed_data = *tmp.type->seed;
-    if( seed_data.spawn_seeds ) {
+    if( seed_data.spawn_seeds && number_seeds > 0 ) {
         if( tmp.count_by_charges() ) {
             tmp.charges = 1;
         }

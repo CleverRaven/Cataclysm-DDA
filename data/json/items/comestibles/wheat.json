@@ -748,7 +748,7 @@
     "type": "COMESTIBLE",
     "id": "dry_wild_rice_stalks",
     "name": { "str_sp": "dried wild rice stalks" },
-    "copy-from": "buckwheat_stalks",
+    "copy-from": "dry_buckwheat_stalks",
     "quench": -5,
     "calories": 135,
     "description": "A bunch of dry wild rice stalks. Threshing these would knock the grains loose.",

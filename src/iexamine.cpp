@@ -3100,7 +3100,7 @@ void iexamine::stook_empty( Character &, const tripoint &examp )
     bool grain_present = false;
     map_stack items = here.i_at( examp );
     for( const item &i : items ) {
-        if( i.has_flag( flag_FRESH_GRAIN ) ) {
+        if( i.has_flag( flag_FRESH_GRAIN ) && !i.rotten() ) {
             grain_present = true;
         } else {
             add_msg( m_bad, _( "This pile contains %s, which can't be dried here!" ), i.tname( 1,

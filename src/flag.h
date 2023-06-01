@@ -303,6 +303,7 @@ extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
 extern const flag_id flag_SOLARPACK;
 extern const flag_id flag_SOLARPACK_ON;
+extern const flag_id flag_SEED_HARVEST;
 extern const flag_id flag_SPAWN_ACTIVE;
 extern const flag_id flag_SPEAR;
 extern const flag_id flag_SPEEDLOADER;
