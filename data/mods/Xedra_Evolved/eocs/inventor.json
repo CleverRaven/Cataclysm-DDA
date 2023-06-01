@@ -96,6 +96,7 @@
       {
         "u_roll_remainder": [
           "battery_gun",
+          "ray_gun",
           "inventor_light_minus_cell",
           "inventor_light_cell",
           "inventor_medium_cell",
@@ -126,7 +127,7 @@
       {
         "u_roll_remainder": [
           "aura_force",
-          "ray_gun",
+          "ray_rifle",
           "ion_gun",
           "accelerator_gun",
           "inventor_grenade_noise_expl",
