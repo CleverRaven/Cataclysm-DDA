@@ -66,7 +66,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "lens",
-    "mod_targets": [ "rifle", "pistol" ],
+    "mod_targets": [ "rifle", "pistol", "smg" ],
     "range_multiplier": 0.75,
     "damage_modifier": { "damage_type": "heat", "amount": 7 },
     "min_skills": [ [ "deduction", 4 ], [ "weapon", 4 ] ]
@@ -84,7 +84,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "lens",
-    "mod_targets": [ "rifle", "pistol" ],
+    "mod_targets": [ "rifle", "pistol", "smg" ],
     "range_multiplier": 1.5,
     "damage_modifier": { "damage_type": "heat", "amount": -7 },
     "min_skills": [ [ "deduction", 4 ], [ "weapon", 4 ] ]
@@ -102,7 +102,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "emitter",
-    "mod_targets": [ "pistol", "rifle" ],
+    "mod_targets": [ "pistol", "rifle", "smg" ],
     "ammo_to_fire_multiplier": 2,
     "damage_modifier": { "damage_type": "heat", "amount": 10 },
     "min_skills": [ [ "deduction", 4 ], [ "weapon", 4 ] ]
@@ -120,7 +120,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "emitter",
-    "mod_targets": [ "pistol", "rifle" ],
+    "mod_targets": [ "pistol", "rifle", "smg" ],
     "ammo_to_fire_multiplier": 5,
     "damage_modifier": { "damage_type": "heat", "amount": 30 },
     "min_skills": [ [ "deduction", 4 ], [ "weapon", 4 ] ]
@@ -138,7 +138,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "emitter",
-    "mod_targets": [ "pistol", "rifle" ],
+    "mod_targets": [ "pistol", "rifle", "smg" ],
     "ammo_to_fire_multiplier": 0.75,
     "damage_modifier": { "damage_type": "heat", "amount": -3 },
     "min_skills": [ [ "deduction", 4 ], [ "weapon", 4 ] ]
