@@ -296,7 +296,7 @@
       ],
       "palettes": [ "office_doctor" ],
       "terrain": { "?": "t_floor", "/": "t_floor", "Y": "t_floor", "A": "t_floor", "R": "t_floor", "'": "t_door_glass_o" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
+      "furniture": { "?": "f_bed", "/": "f_bed", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
       "computers": {
         "5": {
           "name": "Medical Supply Access",
@@ -311,7 +311,6 @@
         "o": { "item": "doctors_books", "chance": 60 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
         "C": { "item": "dresser", "chance": 75 },
-        "O": { "item": "bionics", "chance": 40 },
         "T": { "item": "office_breakroom", "chance": 80 },
         "f": { "item": "office_paper", "chance": 90 },
         "H": [
@@ -400,9 +399,9 @@
         "t": "f_table",
         "c": "f_armchair",
         "f": "f_filing_cabinet",
-        "?": "f_autodoc",
+        "?": "f_bed",
         "L": "f_locker",
-        "/": "f_autodoc_couch",
+        "/": "f_bed",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "A": "f_air_conditioner"
       },

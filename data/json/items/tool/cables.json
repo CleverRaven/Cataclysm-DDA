@@ -70,7 +70,8 @@
       "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_battery" ]
     },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "qualities": [ [ "JUMPSTART", 1 ] ]
   },
   {
     "type": "TOOL",
