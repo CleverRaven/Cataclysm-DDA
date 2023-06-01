@@ -39,7 +39,6 @@
         { "id": "unknown", "fg": 79, "rotates": false },
         { "id": "weather_snowflake", "bg": 95 },
         { "id": [ "player_female", "player_male" ], "fg": 144, "rotates": false },
-        { "id": [ "t_open_air", "t_open_air_rooved" ], "bg": 811 },
         { "id": "lighting_hidden", "fg": 1067, "bg": 1067, "rotates": false },
         {
           "id": "explosion_weak",

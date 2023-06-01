@@ -8979,7 +8979,7 @@
         { "id": "mon_ziger", "fg": 1747 },
         { "id": "t_gates_control_brick", "fg": 2072 },
         { "id": "t_gates_control_brick_lab", "fg": 2073 },
-        { "id": "t_open_air", "fg": 2076 },
+        { "id": "tr_ledge", "fg": 2076 },
         { "id": "t_railroad_rubble", "fg": 2077 },
         { "id": "t_wood_stairs_down", "fg": 2087 },
         { "id": "t_wood_stairs_up", "fg": 2088 },

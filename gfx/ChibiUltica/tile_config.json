@@ -2569,7 +2569,6 @@
           "bg": 2316,
           "rotates": false
         },
-        { "id": "t_open_air", "fg": 176 },
         { "id": "overlay_female_mutation_BARK", "fg": 308 },
         { "id": "overlay_female_mutation_BEAK", "fg": 309 },
         { "id": "overlay_female_mutation_MUZZLE_LONG", "fg": 318 },

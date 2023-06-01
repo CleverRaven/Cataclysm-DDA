@@ -6151,7 +6151,7 @@
         },
         { "id": "t_nuclear_reactor", "fg": 3297, "rotates": false },
         { "id": "t_oil_circ_brkr_l", "fg": 3287, "rotates": false },
-        { "id": [ "t_open_air", "t_open_air_rooved" ], "fg": 2760, "rotates": false },
+        { "id": [ "tr_ledge" ], "fg": 2760, "rotates": false },
         { "id": [ "t_ov_reb_cage", "t_ov_smreb_cage", "t_metal" ], "fg": 2912, "rotates": false },
         {
           "id": "t_palisade",
