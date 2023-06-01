@@ -7880,8 +7880,8 @@
     "post_flags": [ "keep_items" ],
     "dark_craftable": true,
     "post_terrain": "f_stook_empty"
-   },
-   {
+  },
+  {
     "type": "construction",
     "id": "constr_brick_oven_prep",
     "group": "build_brick_oven",
