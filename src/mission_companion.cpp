@@ -1675,7 +1675,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     // items similar to iexamine::harvest_plant
                     number_plants += plant_count * tmp.charges;
                     number_seeds += std::max( 1, rng( plant_count / 4, plant_count / 2 ) ) * item_seed.charges;
-                    if ( !seed->has_flag( flag_HARVEST_SEEDS ) ) {
+                    if( !seed->has_flag( flag_HARVEST_SEEDS ) ) {
                         number_seeds = 0;
                     }
                     bay.i_clear( plot );

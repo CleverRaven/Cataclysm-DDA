@@ -1284,19 +1284,19 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
                 map_stack items = here.i_at( src_loc );
                 const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.is_seed();
+                    return it.is_seed();
                 } );
-                if ( seed->has_flag( json_flag_CUT_HARVEST ) ) {
+                if( seed->has_flag( json_flag_CUT_HARVEST ) ) {
                     // The plant in this location needs a grass cutting tool.
                     if( you.has_quality( quality_id( qual_GRASS_CUT ), 1 ) ) {
-                    return activity_reason_info::ok( do_activity_reason::NEEDS_CUT_HARVESTING );
+                        return activity_reason_info::ok( do_activity_reason::NEEDS_CUT_HARVESTING );
                     } else {
-                    return activity_reason_info::fail( do_activity_reason::NEEDS_CUT_HARVESTING );
+                        return activity_reason_info::fail( do_activity_reason::NEEDS_CUT_HARVESTING );
                     }
                 } else {
                     // We can harvest this plant without any tools.
                     return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
-                    }
+                }
             } else if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
                 if( you.has_quality( qual_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great

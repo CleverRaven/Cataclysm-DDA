@@ -2636,32 +2636,32 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         }
     } else { // Generic seed, use the seed item data
         const inventory &crafting_inv = you.crafting_inventory();
-        if ( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
-          you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
-        return;
+        if( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
+            you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
+            return;
         } else {
-          const itype &type = *seed->type;
-          player_activity act( ACT_HARVEST, to_moves<int>( 60_seconds ) );
-          you.assign_activity( act );
-          here.i_clear( examp );
+            const itype &type = *seed->type;
+            player_activity act( ACT_HARVEST, to_moves<int>( 60_seconds ) );
+            you.assign_activity( act );
+            here.i_clear( examp );
 
-          int skillLevel = round( you.get_skill_level( skill_survival ) );
-          ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-          int plant_count = rng( skillLevel / 2, skillLevel );
-          plant_count *= here.furn( examp )->plant->harvest_multiplier;
-          plant_count = std::min( std::max( plant_count, 1 ), 12 );
-          int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
-          if ( !seed->has_flag( flag_HARVEST_SEEDS ) ) {
-            seedCount = 0;
-          }
-          for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
-              if( from_activity ) {
-                  i.set_var( "activity_var", you.name );
-              }
-              here.add_item_or_charges( you.pos(), i );
-          }
-          here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
-          you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
+            int skillLevel = round( you.get_skill_level( skill_survival ) );
+            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+            int plant_count = rng( skillLevel / 2, skillLevel );
+            plant_count *= here.furn( examp )->plant->harvest_multiplier;
+            plant_count = std::min( std::max( plant_count, 1 ), 12 );
+            int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
+            if( !seed->has_flag( flag_HARVEST_SEEDS ) ) {
+                seedCount = 0;
+            }
+            for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
+                if( from_activity ) {
+                    i.set_var( "activity_var", you.name );
+                }
+                here.add_item_or_charges( you.pos(), i );
+            }
+            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
+            you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
         }
     }
 }
