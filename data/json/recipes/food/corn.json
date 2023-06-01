@@ -335,7 +335,7 @@
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
     "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
-    "byproducts": [ [ "straw_pile", 2 ] ],
+    "byproducts": [ [ "straw_pile", 1 ] ],
     "components": [ [ [ "dry_buckwheat_stalks", 1 ] ] ]
   },
   {
@@ -350,7 +350,7 @@
     "//": "Not having a flail slows this down considerably.",
     "autolearn": true,
     "tools": [ [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ] ],
-    "byproducts": [ [ "straw_pile", 2 ] ],
+    "byproducts": [ [ "straw_pile", 1 ] ],
     "components": [ [ [ "dry_buckwheat_stalks", 1 ] ] ]
   },
   {
@@ -380,5 +380,63 @@
     "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
     "components": [ [ [ "threshed_buckwheat", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "threshed_canola",
+    "id_suffix": "flail",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "survival",
+    "time": "10 m",
+    "batch_time_factors": [ 90, 1 ],
+    "autolearn": true,
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ],
+    "byproducts": [ [ "straw_pile", 1 ] ],
+    "components": [ [ [ "dry_canola_stalks", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "threshed_canola",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "survival",
+    "time": "15 m",
+    "batch_time_factors": [ 90, 1 ],
+    "//": "Not having a flail slows this down considerably.",
+    "autolearn": true,
+    "tools": [ [ [ "stick", -1 ], [ "2x4", -1 ], [ "club_wooden", -1 ], [ "cudgel", -1 ] ] ],
+    "byproducts": [ [ "straw_pile", 1 ] ],
+    "components": [ [ [ "dry_canola_stalks", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "seed_canola",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "survival",
+    "time": "20 m",
+    "batch_time_factors": [ 20, 1 ],
+    "autolearn": true,
+    "byproducts": [ [ "chaff", 1 ] ],
+    "components": [ [ [ "threshed_canola", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "seed_canola",
+    "id_suffix": "fan",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "survival",
+    "time": "5 m",
+    "batch_time_factors": [ 20, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
+    "byproducts": [ [ "chaff", 1 ] ],
+    "components": [ [ [ "threshed_canola", 1 ] ] ]
   }
 ]
