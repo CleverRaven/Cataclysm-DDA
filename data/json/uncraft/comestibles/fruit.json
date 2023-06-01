@@ -210,7 +210,7 @@
     "time": "30 s",
     "components": [ [ [ "seed_maianthemum_stellatum", 1 ] ] ]
   },
-    {
+  {
     "result": "soybean",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
