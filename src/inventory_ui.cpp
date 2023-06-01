@@ -1388,6 +1388,8 @@ void inventory_column::collate()
             if( e->is_item() && e->get_category_ptr() == outer->get_category_ptr() &&
                 e->any_item()->is_favorite == outer->any_item()->is_favorite &&
                 e->any_item()->typeId() == outer->any_item()->typeId() &&
+                e->any_item()->contents_linked == outer->any_item()->contents_linked &&
+                !!e->any_item()->link == !!outer->any_item()->link &&
                 ( !indent_entries() ||
                   e->any_item().parent_item() == outer->any_item().parent_item() ) &&
                 ( e->is_collation_header() || !e->chevron ) &&

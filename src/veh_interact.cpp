@@ -2092,7 +2092,7 @@ void veh_interact::do_change_shape()
                 entry.extratxt.left = 1;
                 entry.extratxt.sym = special_symbol( shape->get_symbol() );
                 entry.extratxt.color = shape->color;
-                variants.emplace_back( std::string() );
+                variants.emplace_back( );
                 smenu.entries.emplace_back( entry );
             }
 
@@ -3458,17 +3458,7 @@ void veh_interact::complete_vehicle( Character &you )
             if( veh->part_flag( vehicle_part, "POWER_TRANSFER" ) ) {
                 veh->remove_remote_part( vehicle_part );
             }
-            if( veh->is_towing() || veh->is_towed() ) {
-                add_msg_debug( debugmode::DF_VEHICLE, "vehicle is towing/towed" );
-                vehicle *other_veh = veh->is_towing() ? veh->tow_data.get_towed() :
-                                     veh->tow_data.get_towed_by();
-                if( other_veh ) {
-                    add_msg_debug( debugmode::DF_VEHICLE, "Other vehicle exists.  Removing tow cable" );
-                    other_veh->remove_part( other_veh->get_tow_part() );
-                    other_veh->tow_data.clear_towing();
-                }
-                veh->tow_data.clear_towing();
-            }
+
             bool broken = veh->part( vehicle_part ).is_broken();
             bool smash_remove = veh->part( vehicle_part ).info().has_flag( "SMASH_REMOVE" );
 
@@ -3485,6 +3475,8 @@ void veh_interact::complete_vehicle( Character &you )
 
             if( wall_wire_removal ) {
                 veh->part( vehicle_part ).properties_to_item();
+            } else if( veh->part_flag( vehicle_part, "TOW_CABLE" ) ) {
+                veh->invalidate_towing( true, &you );
             } else if( broken ) {
                 item_group::ItemList pieces = veh->part( vehicle_part ).pieces_for_broken_part();
                 resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );

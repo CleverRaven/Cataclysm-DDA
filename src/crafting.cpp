@@ -134,7 +134,7 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
 float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
 {
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
-    float darkness = fine_detail_vision_mod() - 4.0f;
+    float darkness = fine_detail_vision_mod( this->pos() ) - 4.0f;
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
     }
@@ -2858,7 +2858,8 @@ void drop_or_handle( const item &newit, Character &p )
 void remove_ammo( item &dis_item, Character &p )
 {
     dis_item.remove_items_with( [&p]( const item & it ) {
-        if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || it.is_magazine() ) ) {
+        if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || ( it.is_magazine() &&
+                                      !it.is_tool() ) ) ) {
             return false;
         }
         drop_or_handle( it, p );

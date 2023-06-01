@@ -271,7 +271,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "element", 8 ], [ "crude_heating_element", 8 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "cable", 4 ] ],
       [ [ "sheet_metal_small", 5 ] ],
       [ [ "power_supply", 1 ] ]
@@ -303,7 +303,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "element", 12 ], [ "crude_heating_element", 12 ] ],
+      [ [ "element", 12 ], [ "crude_heating_element", 18 ] ],
       [ [ "cable", 6 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "power_supply", 1 ] ]
@@ -1233,7 +1233,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
-      [ [ "element", 8 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "cable", 4 ] ],
       [ [ "power_supply", 1 ] ]
@@ -1534,7 +1534,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "element", 8 ], [ "crude_heating_element", 8 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "cable", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
@@ -1572,7 +1572,7 @@
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 4 ] ],
       [ [ "motor_tiny", 1 ] ],
-      [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
+      [ [ "element", 3 ], [ "crude_heating_element", 4 ] ],
       [ [ "cable", 16 ] ]
     ]
   },
