@@ -701,8 +701,10 @@
     "weight": "1790 g",
     "volume": "970 ml",
     "longest_side": "30 cm",
+    "barrel_length": "247 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 10 },
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "range": 16,
     "material": [ "steel" ],
     "symbol": "(",
@@ -710,7 +712,6 @@
     "ammo": [
       "10mm",
       "22",
-      "223",
       "32",
       "357mag",
       "357sig",
@@ -729,20 +730,19 @@
       "9x18",
       "shot"
     ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 558,
     "durability": 7,
     "blackpowder_tolerance": 66,
     "loudness": 23,
     "clip_size": 12,
     "valid_mod_locations": [
-      [ "mechanism", 1 ],
+      [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "muzzle", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "pocket_data": [
@@ -751,7 +751,6 @@
         "ammo_restriction": {
           "10mm": 12,
           "22": 16,
-          "223": 6,
           "32": 16,
           "357mag": 10,
           "357sig": 14,
