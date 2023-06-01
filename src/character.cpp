@@ -7547,8 +7547,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             rolls++;
         }
         if( has_trait( trait_ANIMAL_FEET ) ) {
-            rolls -= 3;
-            if( is_crouching() || ( rolls < 0 ) ) {
+            rolls -= 2;
+            if( is_crouching() ) {
                 rolls = 0;
             }
         }
