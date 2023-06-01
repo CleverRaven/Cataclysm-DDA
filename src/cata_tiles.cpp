@@ -2171,13 +2171,19 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         }
     }
 
+    map &here = get_map();
     const std::string &found_id = res ? res->id() : id;
 
     if( !tt ) {
-        // Use fog overlay as fallback for t_open_air
-        if( id == "t_open_air" ) {
+        // Use fog overlay as fallback for transparent terrain
+        if( category == TILE_CATEGORY::TERRAIN && !here.dont_draw_lower_floor( pos ) ) {
             draw_zlevel_overlay( pos, ll );
-            return true;
+
+            // t_open_air is plentiful at high z-levels
+            // Skipping the rest of the fallback code will significantly improve performance
+            if( id == "t_open_air" ) {
+                return true;
+            }
         }
 
         uint32_t sym = UNKNOWN_UNICODE;
@@ -2394,7 +2400,6 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     // seed the PRNG to get a reproducible random int
     // TODO: faster solution here
     unsigned int seed = 0;
-    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     // TODO: determine ways other than category to differentiate more types of sprites
     switch( category ) {
