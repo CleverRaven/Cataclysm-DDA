@@ -2636,9 +2636,9 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         }
     } else { // Generic seed, use the seed item data
         const inventory &crafting_inv = you.crafting_inventory();
-        if ( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
-          you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
-        return;
+        if( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
+            you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
+            return;
         } else {
           const itype &type = *seed->type;
           player_activity act( ACT_HARVEST, to_moves<int>( 60_seconds ) );
