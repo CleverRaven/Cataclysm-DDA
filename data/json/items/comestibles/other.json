@@ -396,7 +396,6 @@
     "material": [ "bean" ],
     "volume": "250 ml",
     "cooks_like": "beans_cooked",
-    "charges": 6,
     "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
