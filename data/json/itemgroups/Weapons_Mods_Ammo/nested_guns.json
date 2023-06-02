@@ -2619,7 +2619,7 @@
       { "group": "on_hand_303" }
     ]
   },
-    {
+  {
     "id": "nested_rdb_223",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2632,7 +2632,7 @@
       { "group": "on_hand_223" }
     ]
   },
-    {
+  {
     "id": "nested_rfb_308",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
