@@ -390,6 +390,7 @@
     "symbol": "%",
     "quench": -4,
     "calories": 203,
+    "charges": 6,
     "description": "Dehydrated great northern beans.  Tasty and nutritious when cooked, virtually inedible when dry.",
     "price": 300,
     "price_postapoc": 150,
