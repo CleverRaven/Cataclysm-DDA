@@ -57,7 +57,7 @@
     "id": "mod_inv_pistol_booster",
     "type": "GUNMOD",
     "name": { "str": "pistol's booster" },
-    "description": "A set of mechanisms, that alter the blocky pistol work enough to make it something in between of automatic pistol and a submachine gun.",
+    "description": "A set of mechanisms, that alter the action of the blocky pistol enough to make it something in between of automatic pistol and a submachine gun.",
     "weight": "68 g",
     "volume": "119 ml",
     "integral_volume": "400 ml",

@@ -89,7 +89,7 @@
     "type": "GUN",
     "reload_noise_volume": 4,
     "name": { "str": "the hyperboloid" },
-    "description": "Pretty bulky, this laser rifle has double amount of lenses and emitters, which makes it really devastating after some modding.",
+    "description": "Pretty bulky, this laser rifle has double the amount of lenses and emitters, which makes it really devastating after some modding.",
     "weight": "3540 g",
     "volume": "3830 ml",
     "longest_side": "991 mm",
