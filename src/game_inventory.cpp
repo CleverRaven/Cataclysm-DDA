@@ -1860,7 +1860,7 @@ class repair_inventory_preset: public inventory_selector_preset
                 return colorize( string_format( "%d", difficulty ),
                                  difficulty > you.get_skill_level( actor->used_skill ) ? c_red : c_unset );
             },
-            _( "SKILL NEEDED" ) );
+            _( "DIFFICULTY" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
