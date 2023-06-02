@@ -1741,23 +1741,23 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
             camp_food_supply( duration, exertion_level );
         }
         if( !equipment.empty() ) {
-            map* target_map = &get_map();
+            map *target_map = &get_map();
             std::unique_ptr<map> campmap;
-            if (by_radio) {
+            if( by_radio ) {
                 campmap = std::make_unique<map>();
-                campmap->load(project_to<coords::sm>(omt_pos) - point(5, 5), false);
+                campmap->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
                 target_map = campmap.get();
             }
             std::vector<tripoint> src_set_pt;
-            src_set_pt.resize(src_set.size());
-            for (const tripoint_abs_ms& p : src_set) {
-                src_set_pt.emplace_back(target_map->getlocal(p));
+            src_set_pt.resize( src_set.size() );
+            for( const tripoint_abs_ms &p : src_set ) {
+                src_set_pt.emplace_back( target_map->getlocal( p ) );
             }
-            for (item* i : equipment) {
+            for( item *i : equipment ) {
                 int count = i->count();
-                target_map->use_charges(src_set_pt, i->typeId(), count);
+                target_map->use_charges( src_set_pt, i->typeId(), count );
             }
-            if (campmap) {
+            if( campmap ) {
                 campmap->save();
                 campmap.reset();
             }
