@@ -399,6 +399,7 @@
   },
   {
     "result": "dry_lentils",
+    "id_suffix": "seed_designation",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_lentils", 1 ] ] ]
