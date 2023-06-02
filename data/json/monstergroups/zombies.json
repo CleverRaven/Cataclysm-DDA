@@ -10,10 +10,7 @@
       { "monster": "mon_zombie_fat", "weight": 50 },
       { "monster": "mon_zombie_rot", "weight": 50 },
       { "monster": "mon_zombie_runner", "weight": 20, "cost_multiplier": 2 },
-      { "monster": "mon_feral_human_pipe", "weight": 40 },
-      { "monster": "mon_feral_human_crowbar", "weight": 40 },
-      { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 2 },
-      { "monster": "mon_feral_sapien_spear", "weight": 14, "cost_multiplier": 2 },
+      { "group": "GROUP_FERAL", "weight": 115 },
       { "monster": "mon_zombie_crawler", "weight": 25 },
       { "monster": "mon_zombie_brainless", "weight": 25 },
       { "monster": "mon_zombie_dog", "weight": 25, "pack_size": [ 1, 2 ] }
@@ -72,10 +69,7 @@
       { "monster": "mon_zombie_fat", "weight": 50 },
       { "monster": "mon_zombie_rot", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_runner", "weight": 20, "cost_multiplier": 2 },
-      { "monster": "mon_feral_human_pipe", "weight": 20 },
-      { "monster": "mon_feral_human_crowbar", "weight": 20 },
-      { "monster": "mon_feral_human_axe", "weight": 10, "cost_multiplier": 2 },
-      { "monster": "mon_feral_sapien_spear", "weight": 5, "cost_multiplier": 2 },
+      { "group": "GROUP_FERAL", "weight": 55 },
       { "monster": "mon_zombie_crawler", "weight": 25 },
       { "monster": "mon_zombie_brainless", "weight": 25 }
     ]
@@ -120,7 +114,6 @@
       { "monster": "mon_dog_zombie_rot", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 200, "cost_multiplier": 3 },
-      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fursuit", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_zombie_swat", "weight": 100, "cost_multiplier": 3 },
       { "monster": "mon_zombie_medical", "weight": 100, "cost_multiplier": 2 },
@@ -133,12 +126,8 @@
       { "monster": "mon_zombie_survivor_elite", "weight": 10, "cost_multiplier": 25, "starts": "60 days" },
       { "monster": "mon_beekeeper", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "weight": 10, "cost_multiplier": 12 },
-      { "monster": "mon_feral_human_tool", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_runner", "weight": 200, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_feral_human_pipe", "weight": 40, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_feral_human_crowbar", "weight": 40, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_feral_sapien_spear", "weight": 10, "cost_multiplier": 2 },
+      { "group": "GROUP_FERAL", "weight": 121 },
       { "monster": "mon_feral_soldier", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brainless", "weight": 650 }
     ]
@@ -166,7 +155,6 @@
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_soldier", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 20, "cost_multiplier": 3 },
-      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_swat", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_medical", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 3 },
@@ -178,13 +166,9 @@
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
       { "monster": "mon_beekeeper", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "weight": 1, "cost_multiplier": 12 },
-      { "monster": "mon_feral_human_tool", "weight": 1, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_runner", "weight": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_feral_human_pipe", "weight": 4, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_feral_human_crowbar", "weight": 4, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_feral_human_axe", "weight": 2, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_feral_sapien_spear", "weight": 1, "cost_multiplier": 2 },
+      { "group": "GROUP_FERAL", "weight": 13 },
       { "monster": "mon_feral_soldier", "weight": 1, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_runner", "weight": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_brainless", "weight": 65 },
       { "monster": "mon_gas_zombie", "weight": 1, "cost_multiplier": 2, "starts": "7 days" }
     ]
@@ -203,8 +187,22 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_VANILLA_NO_FERAL",
-    "//": "also no civilians, currently used in the sealed hazardous waste sarcophagus chamber",
+    "name": "GROUP_FERAL",
+    "//": "default ferals",
+    "default": "mon_feral_human_crowbar",
+    "monsters": [
+      { "monster": "mon_feral_cop", "weight": 10, "cost_multiplier": 3 },
+      { "monster": "mon_feral_human_pipe", "weight": 40, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_human_crowbar", "weight": 30, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_human_axe", "weight": 10, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_feral_human_tool", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_sapien_spear", "weight": 5, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_VANILLA_ONLY_HUMANS",
+    "//": "only human zombies, used in the refugee center and as upgrades for civilians",
     "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
@@ -212,9 +210,18 @@
       { "monster": "mon_zombie_child", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie_tough", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie_rot", "weight": 60, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_dog", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_zombie_crawler", "weight": 30, "cost_multiplier": 0 },
       { "monster": "mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_VANILLA_NO_FERAL",
+    "//": "also no civilians, currently used in the sealed hazardous waste sarcophagus chamber",
+    "default": "mon_zombie",
+    "monsters": [
+      { "group": "GROUP_VANILLA_ONLY_HUMANS", "weight": 850, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_dog", "weight": 50, "cost_multiplier": 0 }
     ]
   },
   {
@@ -225,10 +232,7 @@
     "monsters": [
       { "group": "GROUP_VANILLA_NO_FERAL", "weight": 801, "cost_multiplier": 0 },
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 500, "cost_multiplier": 0 },
-      { "monster": "mon_feral_human_pipe", "weight": 30, "cost_multiplier": 0, "ends": "380 days" },
-      { "monster": "mon_feral_human_crowbar", "weight": 40, "cost_multiplier": 0, "ends": "380 days" },
-      { "monster": "mon_feral_human_axe", "weight": 20, "cost_multiplier": 0, "ends": "380 days" },
-      { "monster": "mon_feral_sapien_spear", "weight": 9, "cost_multiplier": 2, "ends": "400 days" }
+      { "group": "GROUP_FERAL", "weight": 99, "cost_multiplier": 0 }
     ]
   },
   {
@@ -628,10 +632,7 @@
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 10 ] },
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 13, "pack_size": [ 15, 20 ] },
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 20, "pack_size": [ 25, 30 ] },
-      { "monster": "mon_feral_human_pipe", "weight": 4, "pack_size": [ 5, 9 ] },
-      { "monster": "mon_feral_human_crowbar", "weight": 4, "pack_size": [ 4, 7 ] },
-      { "monster": "mon_feral_human_axe", "weight": 2, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_feral_sapien_spear", "weight": 1, "cost_multiplier": 2 },
+      { "group": "GROUP_FERAL", "weight": 13 },
       { "monster": "mon_zombie", "weight": 75, "cost_multiplier": 2 },
       { "monster": "mon_zombie_medical", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fat", "weight": 75, "cost_multiplier": 2 },
@@ -642,7 +643,6 @@
       { "monster": "mon_zombie_crawler", "weight": 25, "cost_multiplier": 3 },
       { "monster": "mon_zombie_soldier", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 30, "cost_multiplier": 3 },
-      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 7 },
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fireman", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 5 },
@@ -652,7 +652,6 @@
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
       { "monster": "mon_beekeeper", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "weight": 1, "cost_multiplier": 12 },
-      { "monster": "mon_feral_human_tool", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_runner", "weight": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_brainless", "weight": 55 }
     ]
@@ -691,6 +690,7 @@
     "type": "monstergroup",
     "monsters": [
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 100, "cost_multiplier": 0 },
+      { "group": "GROUP_FERAL", "weight": 150, "cost_multiplier": 0 },
       { "monster": "mon_zombie", "weight": 920 },
       { "monster": "mon_zombie_fat", "weight": 30 },
       { "monster": "mon_zombie_cop", "weight": 10, "cost_multiplier": 2 },

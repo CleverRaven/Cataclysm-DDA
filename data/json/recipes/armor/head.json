@@ -2252,7 +2252,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "components": [
       [ [ "cotton_patchwork", 4 ], [ "scarf", 2 ], [ "scarf_long", 1 ], [ "balclava", 1 ] ],
-      [ [ "element", 2 ] ],
+      [ [ "element", 2 ], [ "crude_heating_element", 3 ] ],
       [ [ "cable", 6 ] ]
     ]
   },
