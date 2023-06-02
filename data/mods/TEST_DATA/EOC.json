@@ -97,6 +97,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_mon_nearby_test",
+    "effect": [
+      { "math": [ "mons", "=", "u_monsters_nearby()" ] },
+      { "math": [ "zombs", "=", "u_monsters_nearby('mon_zombie')" ] },
+      { "set_string_var": "mon_zombie_tough", "target_var": { "context_val": "tough_id" } },
+      { "math": [ "zplust", "=", "u_monsters_nearby('mon_zombie', _tough_id)" ] },
+      { "math": [ "zplust_adj", "=", "u_monsters_nearby('mon_zombie', _tough_id, 'radius': 1)" ] },
+      { "u_location_variable": { "context_val": "smoker_loc" }, "x_adjust": 10 },
+      { "math": [ "smoks", "=", "u_monsters_nearby('mon_zombie_smoker', 'radius': 0, 'location': _smoker_loc)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_options_tests",
     "effect": [
       {

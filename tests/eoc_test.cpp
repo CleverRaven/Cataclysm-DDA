@@ -37,6 +37,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
+static const effect_on_condition_id
+effect_on_condition_EOC_mon_nearby_test( "EOC_mon_nearby_test" );
 static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_mutator_test" );
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
@@ -53,6 +55,8 @@ effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 static const recipe_id recipe_cattail_jelly( "cattail_jelly" );
 
@@ -311,6 +315,33 @@ TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 9 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 0 ) );
 
+}
+
+TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &a = get_avatar();
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    g->place_critter_at( mon_zombie, a.pos() + tripoint_east );
+    g->place_critter_at( mon_zombie, a.pos() + tripoint{ 2, 0, 0 } );
+    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint_north );
+    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 2, 0 } );
+    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 3, 0 } );
+    g->place_critter_at( mon_zombie_smoker, a.pos() + tripoint{ 10, 0, 0 } );
+    g->place_critter_at( mon_zombie_smoker, a.pos() + tripoint{ 11, 0, 0 } );
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_mons" ).empty() );
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    REQUIRE( effect_on_condition_EOC_mon_nearby_test->activate( d ) );
+
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mons" ) ) == 7 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs" ) ) == 2 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust" ) ) == 5 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust_adj" ) ) == 2 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_smoks" ) ) == 1 );
 }
 
 TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
