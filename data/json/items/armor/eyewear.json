@@ -9,11 +9,7 @@
     "price": 2500,
     "price_postapoc": 10,
     "to_hit": -2,
-    "material": [
-      { "type": "cardboard", "portion": 90 },
-      { "type": "plastic", "portion": 9 },
-      { "type": "aluminum", "portion": 1 }
-    ],
+    "material": [ { "type": "cardboard", "portion": 90 }, { "type": "plastic", "portion": 9 }, { "type": "aluminum", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "sunglasses",
     "color": "light_gray",
