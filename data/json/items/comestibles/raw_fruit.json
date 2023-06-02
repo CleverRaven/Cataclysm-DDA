@@ -686,7 +686,7 @@
     "price": 21,
     "price_postapoc": 25,
     "material": [ "fruit" ],
-    "volume": "275 ml",
+    "volume": "250 ml",
     "fun": 4,
     "flags": [ "SMOKABLE", "EATEN_COLD" ],
     "smoking_result": "dry_fruit",
