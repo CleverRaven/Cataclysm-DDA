@@ -482,7 +482,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "id": "soybean",
-    "name": { "str_sp": "soybeans" },
+    "name": { "str_sp": "raw soybeans" },
     "volume": "25 ml",
     "weight": "16 g",
     "symbol": ".",
