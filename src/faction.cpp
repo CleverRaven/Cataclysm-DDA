@@ -1068,8 +1068,7 @@ void faction_manager::display() const
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
                 if( guy->has_companion_mission() ) {
-                    guy->reset_companion_mission();
-                    popup( _( "%s returns from their mission" ), guy->disp_name() );
+                    talk_function::basecamp_mission( *guy );
                 } else if( interactable || radio_interactable ) {
                     player_character.talk_to( get_talker_for( *guy ), radio_interactable );
                 }

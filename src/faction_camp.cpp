@@ -4701,11 +4701,6 @@ bool basecamp::validate_sort_points()
 {
     zone_manager &mgr = zone_manager::get_manager();
     map *here = &get_map();
-    std::unique_ptr<map> campmap = std::make_unique<map>();
-    if( by_radio ) {
-        campmap->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
-        here = campmap.get();
-    }
     const tripoint_abs_ms abspos = get_player_character().get_location();
     if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
         !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
@@ -4716,10 +4711,6 @@ bool basecamp::validate_sort_points()
         }
     } else {
         form_storage_zones( *here, abspos );
-    }
-    if( campmap ) {
-        campmap->save();
-        campmap.reset();
     }
     return true;
 }
@@ -5232,38 +5223,21 @@ int camp_morale( int change )
 
 void basecamp::place_results( const item &result )
 {
+    map *target_bay = &get_map();
+    std::unique_ptr<map> campmap;
     if( by_radio ) {
-        tinymap target_bay;
-        target_bay.load( project_to<coords::sm>( omt_pos ), false );
-        const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
-        target_bay.add_item_or_charges( new_spot, result, true );
-        apply_camp_ownership( new_spot, 10 );
-        target_bay.save();
-    } else {
-        map &here = get_map();
-        zone_manager &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
-            mgr.cache_vzones();
-        }
-        Character &player_character = get_player_character();
-        const tripoint_abs_ms abspos = player_character.get_location();
-        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
-            const std::unordered_set<tripoint_abs_ms> &src_set =
-                mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const std::vector<tripoint_abs_ms> &src_sorted =
-                get_sorted_tiles_by_distance( abspos, src_set );
-            // Find the nearest unsorted zone to dump objects at
-            for( const tripoint_abs_ms &src : src_sorted ) {
-                const tripoint &src_loc = here.getlocal( src );
-                here.add_item_or_charges( src_loc, result, true );
-                apply_camp_ownership( src_loc, 10 );
-                break;
-            }
-            //or dump them at players feet
-        } else {
-            here.add_item_or_charges( player_character.pos(), result, true );
-            apply_camp_ownership( player_character.pos(), 0 );
-        }
+        campmap = std::make_unique<map>();
+        campmap->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
+        target_bay = campmap.get();
+    }
+    form_storage_zones( *target_bay, target_bay->getglobal(target_bay->getlocal(bb_pos)));
+    const tripoint &new_spot = target_bay->getlocal( get_dumping_spot() );
+    target_bay->add_item_or_charges( new_spot, result, true );
+    apply_camp_ownership( new_spot, 10 );
+    if( 
+        campmap ) {
+        campmap->save();
+        campmap.reset();
     }
 }
 

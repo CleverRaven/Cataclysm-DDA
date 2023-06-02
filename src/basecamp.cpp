@@ -671,7 +671,7 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
         if( !zones.empty() ) {
             if( zones != storage_zones ) {
                 std::unordered_set<tripoint_abs_ms> src_set;
-                for( const zone_data *zone : storage_zones ) {
+                for( const zone_data *zone : zones ) {
                     for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
                              zone->get_start_point(), zone->get_end_point() ) ) {
                         src_set.emplace( p );
