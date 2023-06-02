@@ -850,7 +850,7 @@ void faction_manager::display() const
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         camps[i]->camp_name() );
@@ -871,7 +871,7 @@ void faction_manager::display() const
                 if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         followers[i]->disp_name() );
@@ -897,7 +897,7 @@ void faction_manager::display() const
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         _( valfac[i]->name ) );
