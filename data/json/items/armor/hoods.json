@@ -1,7 +1,6 @@
 [
   {
     "id": "beekeeping_hood",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "beekeeping hood" },
     "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.",
@@ -345,7 +344,6 @@
   },
   {
     "id": "hood_ninja",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "ninja hood" },
     "description": "A black hood commonly used by ninja.",
