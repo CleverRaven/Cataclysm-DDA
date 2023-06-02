@@ -896,6 +896,7 @@ void basecamp_action_components::consume_components()
     }
     avatar &player_character = get_avatar();
     std::vector<tripoint> src;
+    src.resize( base_.src_set.size() );
     for( const tripoint_abs_ms &p : base_.src_set ) {
         src.emplace_back( target_map->getlocal( p ) );
     }
