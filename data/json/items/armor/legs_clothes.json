@@ -185,7 +185,7 @@
   },
   {
     "id": "flag_pants",
-     "type": "ARMOR",
+    "type": "ARMOR",
     "name": { "str_sp": "flag pants" },
     "description": "A pair of pants embroidered with an American flag pattern.",
     "weight": "399 g",
