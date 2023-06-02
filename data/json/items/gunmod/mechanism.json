@@ -208,7 +208,7 @@
     "id": "m240semi",
     "type": "GUNMOD",
     "name": { "str": "M240 select fire trigger" },
-    "description": "A trigger modification that allows the M249 to switch between semi and full automatic modes.",
+    "description": "A trigger modification that allows the M240 to switch between semi and full automatic modes.",
     "weight": "60 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
