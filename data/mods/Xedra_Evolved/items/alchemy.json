@@ -243,7 +243,19 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "cast_spell", "spell_id": "extend_life", "no_fail": true, "level": 0 }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the potion.",
+      "effect_on_conditions": [
+        {
+          "id": "extend_life",
+          "effect": [
+            { "u_message": "You imbibed the concoction and you feel your chakras align and your DNA de-age." },
+            { "u_add_trait": "EXTEND_LIFE" }
+          ]
+        }
+      ]
+    }
   },
   {
     "id": "potion_dex",
@@ -280,7 +292,16 @@
     "id": "hyde_formula",
     "name": { "str": "Hyde Formula", "str_pl": "Hyde Formulae" },
     "description": "This is a transmutation potion that will bring your best attributes to the forefront.",
-    "use_action": { "type": "cast_spell", "spell_id": "spell_hyde_formula", "no_fail": true, "level": 0 },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the formula.",
+      "effect_on_conditions": [
+        {
+          "id": "hyde_formula",
+          "effect": [ { "u_message": "You imbibed the concoction and you feel your inner self unleashed." }, { "u_add_trait": "HYDE" } ]
+        }
+      ]
+    },
     "type": "COMESTIBLE",
     "color": "green_yellow",
     "calories": 50,
