@@ -66,7 +66,7 @@
       { "math": [ "u_available_exp", "=", "0" ] },
       { "math": [ "u_current_level", "=", "0" ] },
       { "math": [ "u_no_playstyle", "=", "0" ] },
-      { "math": [ "u_playstyle_cost", "=", "4" ] },
+      { "math": [ "u_playstyle_cost", "=", "3" ] },
       { "math": [ "u_no_prerecs", "=", "0" ] },
       { "u_add_trait": "perk_perk_menu" }
     ]
