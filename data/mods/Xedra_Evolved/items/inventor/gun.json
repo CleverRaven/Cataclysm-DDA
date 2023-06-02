@@ -211,7 +211,7 @@
   {
     "type": "ammunition_type",
     "id": "bio_warhead",
-    "name": "biological warhead",
+    "name": "bio-warhead",
     "default": "bio_warhead"
   },
   {
