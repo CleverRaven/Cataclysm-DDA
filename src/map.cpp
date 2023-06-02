@@ -5801,7 +5801,7 @@ units::energy map::consume_ups( const tripoint &origin, const int range, units::
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
     reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
-    consume_ups( reachable_pts, qty );
+    return consume_ups( reachable_pts, qty );
 }
 
 std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )

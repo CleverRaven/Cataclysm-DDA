@@ -1952,7 +1952,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     }
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
-    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    m.reachable_flood_steps( reachable_pts, origin, radius, 1, 100 );
     return consume_items( m, is, batch, filter, reachable_pts, select_ind );
 }
 
