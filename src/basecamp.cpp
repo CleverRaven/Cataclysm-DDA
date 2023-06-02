@@ -767,16 +767,6 @@ void basecamp::form_crafting_inventory( map &target_map )
         }
     }
 }
-map *basecamp::get_camp_map()
-{
-    if( by_radio ) {
-        map_ = std::make_shared<map>();
-        map_->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
-        return map_.get();
-    } else {
-        return &get_map();
-    }
-}
 
 void basecamp::form_crafting_inventory()
 {
