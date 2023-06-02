@@ -460,7 +460,6 @@
     "id": "seed_beans",
     "copy-from": "dry_beans",
     "category": "seeds",
-    "charges": "6",
     "name": { "str_sp": "bean seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "Dry beans, ready for planting.",
