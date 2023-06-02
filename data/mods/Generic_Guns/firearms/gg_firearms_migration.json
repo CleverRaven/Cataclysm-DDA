@@ -353,7 +353,9 @@
       "ak308",
       "zpapm90",
       "zpap85",
-      "papm77"
+      "papm77",
+	  "rfb_308",
+	  "rdb_223"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
