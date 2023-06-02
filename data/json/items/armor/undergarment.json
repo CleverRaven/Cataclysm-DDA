@@ -347,7 +347,6 @@
   },
   {
     "id": "camisole",
-    "repairs_like": "tank_top",
     "type": "ARMOR",
     "name": { "str": "camisole" },
     "description": "A small camisole made from silk.  Typically used as an undergarment, it is light and easy to wear.",
@@ -441,7 +440,6 @@
   },
   {
     "id": "corset",
-    "repairs_like": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "leather corset" },
     "description": "A snug, black leather corset.  Has no pockets, but its thick material provides good protection from harm.  Use it to loosen it if you want to wear it over normal clothing.",
@@ -481,7 +479,6 @@
   },
   {
     "id": "corset_waist",
-    "repairs_like": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "waist corset" },
     "description": "A snug, black leather waist corset.  Works as a stylish solution for back pain.  Use it to loosen it if you want to wear it over normal clothing.",
@@ -827,7 +824,6 @@
   },
   {
     "id": "tights",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "tights" },
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
