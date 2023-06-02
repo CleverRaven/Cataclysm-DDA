@@ -195,7 +195,6 @@
   {
     "id": "bio_warhead",
     "type": "AMMO",
-    "category": "artifacts",
     "name": { "str": "bio-warhead" },
     "description": "So you decided to become an inventor and instead of inventing something good for mankind, you invented this?  You should be ashamed.",
     "weight": "1340 g",
