@@ -1068,20 +1068,9 @@ void faction_manager::display() const
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
                 if( guy->has_companion_mission() ) {
-                    if( camp ) {
-                        basecamp *temp_camp = camp;
-                        temp_camp->validate_assignees();
-                        temp_camp->validate_sort_points();
-                        temp_camp->scan_pseudo_items();
-                        const std::string title = "Base Missions";
-                        mission_data mission_key;
-                        temp_camp->set_by_radio( true );
-                        temp_camp->get_available_missions( mission_key );
-                        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
-                                "FACTION_CAMP", title ) ) {
-                            temp_camp->handle_mission( mission_key.cur_key.id );
-                        }
-                    }
+
+                    talk_function::basecamp_mission( *guy );
+
                 } else if( interactable || radio_interactable ) {
                     player_character.talk_to( get_talker_for( *guy ), radio_interactable );
                 }

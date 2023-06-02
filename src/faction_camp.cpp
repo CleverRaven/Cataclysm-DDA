@@ -730,7 +730,7 @@ void talk_function::basecamp_mission( npc &p )
     bcp->form_storage_zones( *here, p.get_location() );
     bcp->get_available_missions( mission_key );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
-        bcp->handle_mission( { mission_key.cur_key.id.id, false } );
+        bcp->handle_mission( mission_key.cur_key.id );
     }
     if( campmap ) {
         campmap->save();
