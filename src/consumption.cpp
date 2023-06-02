@@ -725,7 +725,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );
         }
         if( !food.has_flag( flag_CATTLE ) && !food.has_flag( flag_FELINE ) &&
-              !food.has_flag( flag_LUPINE ) && !food.has_flag( flag_BIRD ) ) {
+            !food.has_flag( flag_LUPINE ) && !food.has_flag( flag_BIRD ) ) {
             return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
         }
     }
