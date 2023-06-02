@@ -226,7 +226,7 @@ static int om_harvest_ter_break( npc &comp, const tripoint_abs_omt &omt_tgt, con
 static mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt,
                                    int chance = 100,
                                    bool take = true );
-static void apply_camp_ownership( const tripoint &camp_pos, int radius );
+static void apply_camp_ownership( map &target, const tripoint &camp_pos, int radius );
 /*
  * Counts or cuts trees into trunks and trunks into logs
  * @param omt_tgt the targeted OM tile
@@ -5233,7 +5233,7 @@ void basecamp::place_results( const item &result )
     form_storage_zones( *target_bay, target_bay->getglobal( target_bay->getlocal( bb_pos ) ) );
     const tripoint &new_spot = target_bay->getlocal( get_dumping_spot() );
     target_bay->add_item_or_charges( new_spot, result, true );
-    apply_camp_ownership( new_spot, 10 );
+    apply_camp_ownership( *target_bay, new_spot, 10 );
     if(
         campmap ) {
         campmap->save();
@@ -5241,9 +5241,8 @@ void basecamp::place_results( const item &result )
     }
 }
 
-void apply_camp_ownership( const tripoint &camp_pos, int radius )
+void apply_camp_ownership( map &here, const tripoint &camp_pos, int radius )
 {
-    map &here = get_map();
     for( const tripoint &p : here.points_in_rectangle( camp_pos + point( -radius, -radius ),
             camp_pos + point( radius, radius ) ) ) {
         map_stack items = here.i_at( p.xy() );
