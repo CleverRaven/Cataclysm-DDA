@@ -728,7 +728,7 @@ void talk_function::basecamp_mission( npc &p )
         here = campmap.get();
     }
     bcp->form_storage_zones( *here, p.get_location() );
-    bcp->get_available_missions( mission_key );
+    bcp->get_available_missions( mission_key, *here );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
         bcp->handle_mission( mission_key.cur_key.id );
     }
@@ -1344,14 +1344,14 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     }
 }
 
-void basecamp::get_available_missions( mission_data &mission_key )
+void basecamp::get_available_missions( mission_data &mission_key, map &here )
 {
     std::string entry;
 
     const point &base_dir = base_camps::base_dir;
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
-    reset_camp_resources();
+    reset_camp_resources( here );
 
     // Missions that belong exclusively to the central tile
     {

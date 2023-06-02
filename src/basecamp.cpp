@@ -158,7 +158,6 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
 
     const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
-    reset_camp_resources();
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
@@ -455,7 +454,7 @@ void basecamp::update_in_progress( const std::string &bldg, const point &dir )
     }
 }
 
-void basecamp::reset_camp_resources()
+void basecamp::reset_camp_resources( map &here )
 {
     reset_camp_workers();
     for( auto &e : expansions ) {
@@ -474,7 +473,7 @@ void basecamp::reset_camp_resources()
             add_resource( it );
         }
     }
-    form_crafting_inventory();
+    form_crafting_inventory( here );
 }
 
 // available companion list manipulation

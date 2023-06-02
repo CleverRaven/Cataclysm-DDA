@@ -277,7 +277,7 @@ class basecamp
         std::string craft_description( const recipe_id &itm );
 
         // main mission description collection
-        void get_available_missions( mission_data &mission_key );
+        void get_available_missions( mission_data &mission_key, map &here );
         void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
         // available companion list manipulation
         void reset_camp_workers();
@@ -409,7 +409,7 @@ class basecamp
         friend class basecamp_action_components;
 
         // lazy re-evaluation of available camp resources
-        void reset_camp_resources();
+        void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );
         // omt pos
         tripoint_abs_omt omt_pos;
