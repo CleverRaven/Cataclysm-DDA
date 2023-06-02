@@ -108,6 +108,13 @@ int talker_character_const::per_cur() const
     return me_chr_const->per_cur;
 }
 
+int talker_character_const::attack_speed() const
+{
+    item_location cur_weapon = me_chr_const->used_weapon();
+    item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+    return me_chr_const->attack_speed( cur_weap );
+}
+
 void talker_character::set_str_max( int value )
 {
     me_chr->str_max = value;

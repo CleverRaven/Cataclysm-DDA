@@ -11170,8 +11170,8 @@ void Character::mod_pain( int npain )
         }
         npain += enchantment_cache->get_value_add( enchant_vals::mod::PAIN );
 
-        // no matter how powerful the enchantment if we are gaining pain we always gain at least a little/don't lose any
-        npain = std::max( 1, npain );
+        // no matter how powerful the enchantment if we are gaining pain we don't lose any
+        npain = std::max( 0, npain );
     }
     Creature::mod_pain( npain );
 }
