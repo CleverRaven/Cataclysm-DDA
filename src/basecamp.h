@@ -405,7 +405,6 @@ class basecamp
             src_set = tiles;
         }
         void form_storage_zones( map &here, const tripoint_abs_ms &abspos );
-        map *get_camp_map();
     private:
         friend class basecamp_action_components;
 
@@ -428,7 +427,6 @@ class basecamp
         std::vector<std::vector<ui_mission_id>> temp_ui_mission_keys;   // NOLINT(cata-serialize)
         inventory _inv; // NOLINT(cata-serialize)
         bool by_radio = false; // NOLINT(cata-serialize)
-        std::shared_ptr<map> map_; // NOLINT(cata-serialize)
 };
 
 class basecamp_action_components

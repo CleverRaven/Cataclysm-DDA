@@ -1950,53 +1950,10 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     if( has_trait( trait_DEBUG_HS ) ) {
         return ret;
     }
-
-    item_comp selected_comp = is.comp;
-
-    const tripoint &loc = origin;
-    const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
-    // Count given to use_amount/use_charges, changed by those functions!
-    int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
-                         selected_comp.count );
-    // First try to get everything from the map, than (remaining amount) from player
-    if( is.use_from & usage_from::map ) {
-        if( by_charges ) {
-            std::list<item> tmp = m.use_charges( loc, radius, selected_comp.type, real_count, filter );
-            ret.splice( ret.end(), tmp );
-        } else {
-            std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, filter,
-                                                select_ind );
-            remove_ammo( tmp, *this );
-            ret.splice( ret.end(), tmp );
-        }
-    }
-    if( is.use_from & usage_from::player ) {
-        if( by_charges ) {
-            std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
-            ret.splice( ret.end(), tmp );
-        } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
-            remove_ammo( tmp, *this );
-            ret.splice( ret.end(), tmp );
-        }
-    }
-    // Merge charges for items that stack with each other
-    if( by_charges && ret.size() > 1 ) {
-        for( auto outer = std::begin( ret ); outer != std::end( ret ); ++outer ) {
-            for( auto inner = std::next( outer ); inner != std::end( ret ); ) {
-                if( outer->merge_charges( *inner ) ) {
-                    inner = ret.erase( inner );
-                } else {
-                    ++inner;
-                }
-            }
-        }
-    }
-    for( item &it : ret ) {
-        it.spill_contents( *this );
-    }
-    empty_buckets( *this );
-    return ret;
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    return consume_items( m, is, batch, filter, reachable_pts, select_ind );
 }
 
 std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
