@@ -1326,7 +1326,7 @@
       {
         "id": "rdb_223",
         "name": { "str_sp": "Kel-Tec RDB" },
-        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the AR-15 platform and a 5.56 NATO cartridge. Name stands for Right Done Bullpup due to technical solutions such as downward case ejection and convenience for left-handers, designed to solve some of the problems of bullpup guns. At the same time, the execution of a good idea is not as perfect as the manufacturer (and user) would like.",
+        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the AR-15 platform and a 5.56 NATO cartridge.  Name stands for Right Done Bullpup due to technical solutions such as downward case ejection and convenience for left-handers, designed to solve some of the problems of bullpup guns. At the same time, the execution of a good idea is not as perfect as the manufacturer (and user) would like.",
         "weight": 1
       }
     ],
