@@ -819,11 +819,9 @@ void Character::initialize()
     set_stored_kcal( get_healthy_kcal() );
     if( has_trait( trait_XS ) ) {
         set_stored_kcal( std::floor( get_stored_kcal() / 5 ) );
-        toggle_trait( trait_XS );
     }
     if( has_trait( trait_XXXL ) ) {
         set_stored_kcal( std::floor( get_stored_kcal() * 5 ) );
-        toggle_trait( trait_XXXL );
     }
 
     // Learn recipes
