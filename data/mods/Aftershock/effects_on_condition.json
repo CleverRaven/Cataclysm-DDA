@@ -63,10 +63,7 @@
         "u_message": "You make sure there are no lose items in the pod that would become projectiles during launch before you strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod fires from the ship, plummeting towards the planet below.",
         "popup": true
       },
-      { "u_teleport": { "global_val": "new_map" }, "force": true },
-      {
-        "assign_mission_target": { "om_special": "crashing ship", "om_terrain": "crashing_ship_3_north", "search_range": 500 }
-      }
+      { "u_teleport": { "global_val": "new_map" }, "force": true }
     ]
   }
 ]
