@@ -386,12 +386,10 @@
   "volume": "1500 ml",
   "longest_side": "40 cm",
   "price": 1000000,
-  "price_postapoc": 1500,
-  "to_hit": 0,
-  "piercing": 10,
-  "cutting": 15,
+  "price_postapoc": 3200,
+  "melee_damage": { "bash": 6, "cut": 12 },
   "material": [
-    "steel",
+    "iron",
     "wood"
   ],
   "symbol": "T",
@@ -400,10 +398,8 @@
     "PICKAXE"
   ],
   "qualities": [
-    [ "AXE", 2 ],
-    [ "CUT", 1 ],
-    [ "DIG", 2 ],
-    [ "BUTCHER", 4 ]
+    [ "AXE", 1 ],
+    [ "DIG", 2 ]
   ],
   "flags": [
     "NONCONDUCTIVE",
