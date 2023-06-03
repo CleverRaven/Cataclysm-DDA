@@ -276,5 +276,48 @@
         "specifically_covers": [ "head_nape", "head_ear_r", "head_ear_l" ]
       }
     ]
+  },
+  {
+    "id": "lc_chainmail_nape",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel chainmail aventail", "str_pl": "mild steel chainmail aventails" },
+    "description": "A wide chainmail ring designed to attach to a helmet that covers the top of the head, allowing the aventail to lay across the fact and protect it.",
+    "weight": "1801 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "lc_steel_chain" ],
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "HELMET_AVENTAIL", "CANT_WEAR" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 20,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 100
+      }
+    ]
   }
 ]
