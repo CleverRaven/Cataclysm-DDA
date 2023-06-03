@@ -461,7 +461,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "Bullpup rifle 7.62x51" },
+    "name": { "str": "bullpup rifle 7.62x51" },
     "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the Cold War battle rifle and a 7.62x51 cartridge.",
     "variant_type": "gun",
     "variants": [
