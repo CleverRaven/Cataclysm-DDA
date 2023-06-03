@@ -827,7 +827,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "japanese_knotweed_stem",
-        "name": { "str_sp": "%s, japanese_knotweed_stem" }
+        "name": { "str_sp": "%s, japanese knotweed stem" }
       }
     ],
     "weight": "259 g",
@@ -887,7 +887,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "japanese_knotweed_stem",
-        "name": { "str_sp": "%s, japanese_knotweed_stem" }
+        "name": { "str_sp": "%s, japanese knotweed stem" }
       }
     ],
     "weight": "192 g",
@@ -1051,7 +1051,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "japanese_knotweed_stem",
-        "name": { "str_sp": "%s, japanese_knotweed_stem" }
+        "name": { "str_sp": "%s, japanese knotweed stem" }
       }
     ],
     "copy-from": "veggy",
@@ -1130,7 +1130,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "japanese_knotweed_stem",
-        "name": { "str_sp": "%s, japanese_knotweed_stem" }
+        "name": { "str_sp": "%s, japanese knotweed stem" }
       }
     ],
     "copy-from": "veggy",
