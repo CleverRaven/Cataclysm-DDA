@@ -776,8 +776,8 @@
           "y": 0,
           "neighbors": { "east": [ "paddock_end_UR" ] }
         },
-        { "chunks": [ "24x24_fence_gate" ], "x": 0, "y": 0, "neighbors": { "west": [ "splitrail_fence_butt" ] } },
-        { "chunks": [ "24x24_fence_gate" ], "x": 0, "y": 0, "neighbors": { "east": [ "splitrail_fence_butt" ] } },
+        { "chunks": [ "24x24_fence_gate" ], "x": 0, "y": 0, "neighbors": { "west": [ "splitrail_fence" ] } },
+        { "chunks": [ "24x24_fence_gate" ], "x": 0, "y": 0, "neighbors": { "east": [ "splitrail_fence" ] } },
         {
           "chunks": [ "1x1_farm_house_parking" ],
           "x": 15,

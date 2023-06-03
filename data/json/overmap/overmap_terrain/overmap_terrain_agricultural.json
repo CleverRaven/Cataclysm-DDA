@@ -432,40 +432,20 @@
   },
   {
     "type": "overmap_terrain",
-    "abstract": "fence",
+    "id": [
+      "pasture",
+      "splitrail_fence_butt",
+      "splitrail_fence_gap",
+      "splitrail_fence_UL",
+      "splitrail_fence_UR",
+      "splitrail_fence_DL",
+      "splitrail_fence_DR",
+      "splitrail_fence_inner"
+    ],
     "copy-from": "generic_rural_building",
-    "name": "fence",
+    "name": "pasture",
+    "sym": "#",
     "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "splitrail_fence_UL",
-    "copy-from": "fence",
-    "sym": "┌"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "splitrail_fence_butt", "splitrail_fence_gap", "splitrail_fence_inner" ],
-    "copy-from": "fence",
-    "sym": "."
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "splitrail_fence_UR",
-    "copy-from": "fence",
-    "sym": "┐"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "splitrail_fence_DR",
-    "copy-from": "fence",
-    "sym": "┘"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "splitrail_fence_DL",
-    "copy-from": "fence",
-    "sym": "└"
   },
   {
     "type": "overmap_terrain",
