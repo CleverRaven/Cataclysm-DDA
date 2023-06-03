@@ -468,7 +468,7 @@
       {
         "id": "rfb_308",
         "name": { "str_sp": "Kel-Tec RFB" },
-        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using magazines of the FN FAL and a .308 NATO cartridge.",
+        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using magazines of the FN FAL and a .308 NATO cartridge. The main design features include forward case ejection, duplication of magazine resease button and safety trigger for left-handers and a posted barrel for increased accuracy.",
         "weight": 1
       }
     ],
