@@ -77,14 +77,14 @@ std::optional<S> _get_dialogue_func( C const &cnt, std::string_view token )
         scope = token[0];
         scoped = token.substr( 2, token.size() - 2 );
     }
-    std::optional<P> df = _get_common<P>( cnt, scoped );
-    if( df ) {
-        if( ( *df )->scopes.find( scope ) == std::string_view::npos ) {
+    auto df = cnt.find( scoped );
+    if( df != cnt.end() ) {
+        if( df->second.scopes.find( scope ) == std::string_view::npos ) {
             throw std::invalid_argument( string_format(
                                              "Scope %c is not valid for dialogue function %s() (%s)",
-                                             scope, ( *df )->symbol.data(), ( *df )->scopes.data() ) );
+                                             scope, scoped, df->second.scopes ) );
         }
-        return { { *df, scope } };
+        return { { &df->second, scope } };
     }
 
     return std::nullopt;
@@ -304,7 +304,7 @@ class math_exp::math_exp_impl
         void parse_colon( parse_state &state );
         void parse_bin_op( pbin_op const &op, parse_state &state );
         template<typename T>
-        void parse_diag_f( T const &token, parse_state &state );
+        void parse_diag_f( std::string_view symbol, T const &token, parse_state &state );
         void parse_comma( parse_state &state );
         void parse_lparen( parse_state &state );
         void parse_rparen( parse_state &state );
@@ -359,11 +359,11 @@ void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
 
         } else if( std::optional<scoped_diag_eval> feval = get_dialogue_eval( token ); feval &&
                    !assignment ) {
-            parse_diag_f( *feval, state );
+            parse_diag_f( token, *feval, state );
 
         } else if( std::optional<scoped_diag_ass> fass = get_dialogue_ass( token ); fass &&
                    assignment ) {
-            parse_diag_f( *fass, state );
+            parse_diag_f( token, *fass, state );
 
         } else if( std::optional<punary_op> op = get_unary_op( token ); op && state.allows_prefix_unary ) {
             state.validate( parse_state::expect::operand );
@@ -455,11 +455,12 @@ void math_exp::math_exp_impl::parse_bin_op( pbin_op const &op, parse_state &stat
 }
 
 template<typename T>
-void math_exp::math_exp_impl::parse_diag_f( T const &token, parse_state &state )
+void math_exp::math_exp_impl::parse_diag_f( std::string_view symbol, T const &token,
+        parse_state &state )
 {
     state.validate( parse_state::expect::operand );
     ops.emplace( token );
-    arity.emplace( token.df->symbol, token.df->num_params, arity_t::type_t::func, true );
+    arity.emplace( symbol, token.df->num_params, arity_t::type_t::func, true );
     state.set( parse_state::expect::lparen, false );
 }
 

@@ -1,7 +1,6 @@
 #ifndef CATA_SRC_MATH_PARSER_DIAG_H
 #define CATA_SRC_MATH_PARSER_DIAG_H
 
-#include <array>
 #include <functional>
 #include <map>
 #include <string>
@@ -14,9 +13,8 @@
 class math_exp;
 struct dialogue;
 struct dialogue_func {
-    dialogue_func( std::string_view s_, std::string_view sc_, int n_ ) : symbol( s_ ),
+    dialogue_func( std::string_view sc_, int n_ ) :
         scopes( sc_ ), num_params( n_ ) {}
-    std::string_view symbol;
     std::string_view scopes;
     int num_params{};
 };
@@ -75,8 +73,8 @@ struct dialogue_func_eval : dialogue_func {
     using f_t = std::function<double( dialogue & )> ( * )( char scope,
                 std::vector<diag_value> const &, diag_kwargs const & );
 
-    dialogue_func_eval( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
-        : dialogue_func( s_, sc_, n_ ), f( f_ ) {}
+    dialogue_func_eval( std::string_view sc_, int n_, f_t f_ )
+        : dialogue_func( sc_, n_ ), f( f_ ) {}
 
     f_t f;
 };
@@ -85,8 +83,8 @@ struct dialogue_func_ass : dialogue_func {
     using f_t = std::function<void( dialogue &, double )> ( * )( char scope,
                 std::vector<diag_value> const &, diag_kwargs const & );
 
-    dialogue_func_ass( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
-        : dialogue_func( s_, sc_, n_ ), f( f_ ) {}
+    dialogue_func_ass( std::string_view sc_, int n_, f_t f_ )
+        : dialogue_func( sc_, n_ ), f( f_ ) {}
 
     f_t f;
 };
@@ -113,23 +111,23 @@ decl_diag_ass u_val_ass;
 decl_diag_eval weather_eval;
 decl_diag_ass weather_ass;
 
-inline std::array<dialogue_func_eval, 9> const dialogue_eval_f{
-    dialogue_func_eval{ "_test_diag_", "g", -1, test_diag },
-    dialogue_func_eval{ "val", "un", -1, u_val },
-    dialogue_func_eval{ "game_option", "g", 1, option_eval },
-    dialogue_func_eval{ "pain", "un", 0, pain_eval },
-    dialogue_func_eval{ "skill", "un", 1, skill_eval },
-    dialogue_func_eval{ "weather", "g", 1, weather_eval },
-    dialogue_func_eval{ "armor", "un", 2, armor_eval },
-    dialogue_func_eval{ "num_input", "g", 2, num_input_eval },
-    dialogue_func_eval{ "attack_speed", "un", 0, attack_speed_eval }
+inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
+    { "_test_diag_", { "g", -1, test_diag } },
+    { "armor", { "un", 2, armor_eval } },
+    { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "game_option", { "g", 1, option_eval } },
+    { "num_input", { "g", 2, num_input_eval } },
+    { "pain", { "un", 0, pain_eval } },
+    { "skill", { "un", 1, skill_eval } },
+    { "val", { "un", -1, u_val } },
+    { "weather", { "g", 1, weather_eval } },
 };
 
-inline std::array<dialogue_func_ass, 4> const dialogue_assign_f{
-    dialogue_func_ass{ "val", "un", -1, u_val_ass },
-    dialogue_func_ass{ "pain", "un", 0, pain_ass },
-    dialogue_func_ass{ "skill", "un", 1, skill_ass },
-    dialogue_func_ass{ "weather", "g", 1, weather_ass },
+inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
+    { "pain", { "un", 0, pain_ass } },
+    { "skill", { "un", 1, skill_ass } },
+    { "val", { "un", -1, u_val_ass } },
+    { "weather", { "g", 1, weather_ass } },
 };
 
 #endif // CATA_SRC_MATH_PARSER_DIAG_H
