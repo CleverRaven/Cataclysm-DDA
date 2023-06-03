@@ -374,41 +374,5 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 4, "cut": 40 }
-  },
- {
-  "id": "dolabra",
-  "type": "TOOL",
-  "name": {
-    "str": "Dolabra"
-  },
-  "description": "A multi-purpose tool from 1st Century Ancient Rome. You can use it to chop down trees, dig pits, and mine through sheer rock. It also doesn't make a terrible weapon in a pinch.",
-  "weight": "2000 g",
-  "volume": "1500 ml",
-  "longest_side": "40 cm",
-  "price": 1000000,
-  "price_postapoc": 1500,
-  "to_hit": 0,
-  "piercing": 10,
-  "cutting": 15,
-  "material": [
-    "steel",
-    "wood"
-  ],
-  "symbol": "T",
-  "color": "light_gray",
-  "use_action": [
-    "PICKAXE"
-  ],
-  "qualities": [
-    [ "AXE", 2 ],
-    [ "CUT", 1 ],
-    [ "DIG", 2 ],
-    [ "BUTCHER", 4 ]
-  ],
-  "flags": [
-    "NONCONDUCTIVE",
-    "DIG_TOOL",
-    "SHEATH_AXE"
-  ]
-}
+  }
 ]
