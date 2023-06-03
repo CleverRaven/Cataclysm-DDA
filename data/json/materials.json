@@ -167,7 +167,7 @@
     "repaired_with": "water",
     "soft": true,
     "resist": { "bash": 8, "cut": 0, "acid": 8, "heat": 4, "bullet": 4 },
-    "//": "Super easy to repair since you're just feeding it blood (it is alive)",
+    "//1": "Super easy to repair since you're just feeding it blood (it is alive)",
     "repair_difficulty": 0
   },
   {
@@ -201,7 +201,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "resist": { "bash": 1, "cut": 2, "acid": 4, "heat": 2, "bullet": 1 },
-    "repair_difficulty": 4
+    "repair_difficulty": 5
   },
   {
     "type": "material",
@@ -269,7 +269,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 3, "cut": 4, "acid": 16, "heat": 2, "bullet": 2 }
+    "resist": { "bash": 3, "cut": 4, "acid": 16, "heat": 2, "bullet": 2 },
+    "repair_difficulty": 4
   },
   {
     "type": "material",
@@ -860,7 +861,8 @@
       { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
     ],
     "burn_products": [ [ "glass_shard", 0.5 ] ],
-    "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 3, "bullet": 3 }
+    "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 3, "bullet": 3 },
+    "repair_difficulty": 7
   },
   {
     "type": "material",
@@ -898,7 +900,8 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "gold_small", 0.5 ] ],
-    "resist": { "bash": 1, "cut": 1, "acid": 10, "heat": 3, "bullet": 1 }
+    "resist": { "bash": 1, "cut": 1, "acid": 10, "heat": 3, "bullet": 1 },
+    "repair_difficulty": 5
   },
   {
     "type": "material",
@@ -2118,7 +2121,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "resist": { "bash": 2, "cut": 3, "acid": 0, "heat": 3, "bullet": 2 },
-    "//": "No material in game can actually repair this. Difficulty is zero so that second skin can be 'repaired' (fed blood) with the feeding kit trivially.",
+    "//1": "No material in game can actually repair this. Difficulty is zero so that second skin can be 'repaired' (fed blood) with the feeding kit trivially.",
     "repair_difficulty": 0
   },
   {
