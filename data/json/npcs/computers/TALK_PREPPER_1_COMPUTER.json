@@ -142,5 +142,10 @@
     "id": "COMP_PREPPER_1_OPENDOOR",
     "dynamic_line": "Error: 'open': command not found.",
     "responses": [ { "text": "Back", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "EOC_ROBOFAC_INTERCOM",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
   }
 ]

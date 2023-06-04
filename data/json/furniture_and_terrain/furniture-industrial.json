@@ -164,6 +164,25 @@
   },
   {
     "type": "furniture",
+    "id": "f_intercom",
+    "name": "intercom",
+    "description": "An intercom panel.  For when you want to scare the crap out of someone, or just talk to them over the intercom system, if you're boring like that.",
+    "symbol": "=",
+    "color": "light_gray",
+    "move_cost_mod": -10,
+    "required_str": -10,
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_concrete_wall",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_machinery_light",
     "name": "light machinery",
     "looks_like": "t_machinery_light",

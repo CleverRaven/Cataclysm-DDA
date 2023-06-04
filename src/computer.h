@@ -15,6 +15,7 @@
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class faction;
 
 enum computer_action {
     COMPACT_NULL = 0,
@@ -154,14 +155,20 @@ class computer
         // Can be customized to for example warn the player of potentially lethal
         // consequences like secubots spawning.
         std::string access_denied;
-        std::vector<std::string> chat_topics; // What it has to say.
-        std::vector<effect_on_condition_id> eocs; // Effect on conditions to run when accessed.
+        // What it has to say.
+        std::vector<std::string> chat_topics;
+        // Effect on conditions to run when accessed.
+        std::vector<effect_on_condition_id> eocs;
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
+        // Computers faction for chat purposes
+        faction *my_fac = nullptr;
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        void set_faction( const faction_id &id );
+        faction *get_faction() const;
 
         void remove_option( computer_action action );
 };

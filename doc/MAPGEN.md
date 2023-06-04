@@ -1179,7 +1179,8 @@ Creates a `f_console` furniture. Despite the only required field is `name`, you 
 | access_denied | (optional, string) message displayed to the player if `security` > 0. Defaults to `"ERROR!  Access denied!"`
 | eocs          | (optional, array of strings) a name for an `effect` that will shoot when player examines the computer
 | chat_topics   | (optional, array of strings) conversation topics if dialog is opened with the computer
-
+| furn   | (optional, string) The furniture the computer will actually be, default is f_console
+| fac    | (optional, string) The faction the computer will belong to for chat purposes
 
 Example for placing computer console (either by using a character in the rows array or explicit coordinates):
 
@@ -1195,6 +1196,7 @@ Example for placing computer console (either by using a character in the rows ar
 },
 "place_computers": [
   {
+    "furn":"f_console",
     "name": "Test computer 2",
     "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
     "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ],

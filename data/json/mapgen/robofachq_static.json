@@ -193,7 +193,7 @@
         ",,,,,,,,,,,,,,,,,|$,,,(B  [   |?ñt  Y||eeee||yyyyyyyyyyyyyy___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,(hdh=   |^     ||Eeee||9  y  8 y  99|___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,||||||[[||  a   ||||||||99 y 88 y 999|55555555555|||,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,|$,,,(  h h  ||||||+||||||Q|||||||||||||||MMMMMMMMMMM|||,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,|$,,,(  h h  ||||||+||||||||||||||||||||||MMMMMMMMMMM|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,(  6dd  2 7|; Y||||||||||||||||||||||mmmmmmmmmmm|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,(B h  ^^|77|i  |,,,,,,,,,,,,,,,,,,|||||||||||||||||||,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|||u|||||||||||||||||,,,,,,,,,,,,,,,,,,|||||||||||||||||,|,,,,,,,,,,,,,,,,,,,,,",
@@ -244,7 +244,6 @@
         "ñ": "t_carpet_red",
         "E": "t_elevator_control_robofac_down",
         "Y": "t_strconc_floor_olight",
-        "I": "t_intercom",
         "M": "t_ramp_down_high",
         "m": "t_ramp_down_low"
       },
@@ -256,8 +255,20 @@
         "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ],
         "7": { "item": "file_room", "chance": 100, "repeat": [ 10, 30 ] }
       },
-      "npcs": { "Q": { "class": "robofac_intercom" } }
+      "computers": {
+        "I": {
+          "name": "Intercom",
+          "furn": "f_intercom",
+          "eocs": [ "EOC_ROBOFAC_INTERCOM" ],
+          "chat_topics": [ "TALK_ROBOFAC_INTERCOM" ]
+        }
+      }
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INTERCOM",
+    "effect": [ "open_dialogue" ]
   },
   {
     "type": "mapgen",

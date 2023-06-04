@@ -6,6 +6,8 @@
 
 #include "debug.h"
 #include "enum_conversions.h"
+#include "faction.h"
+#include "game.h"
 #include "json.h"
 #include "output.h"
 #include "talker_furniture.h"
@@ -127,6 +129,16 @@ std::string computer::get_value( const std::string &key ) const
 {
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;
+}
+
+void computer::set_faction( const faction_id &id )
+{
+    my_fac = g->faction_manager_ptr->get( id );
+}
+
+faction *computer::get_faction() const
+{
+    return my_fac;
 }
 
 static computer_action computer_action_from_legacy_enum( int val );

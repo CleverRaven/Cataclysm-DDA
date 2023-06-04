@@ -46,6 +46,11 @@ tripoint_abs_omt talker_furniture::global_omt_location() const
     return get_player_character().global_omt_location();
 }
 
+faction *talker_furniture::get_faction() const
+{
+    return me_comp->get_faction();
+}
+
 std::string talker_furniture::get_value( const std::string &var_name ) const
 {
     return me_comp->get_value( var_name );

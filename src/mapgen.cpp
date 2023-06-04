@@ -3031,12 +3031,16 @@ class jmapgen_computer : public jmapgen_piece
         std::vector<computer_failure> failures;
         std::vector<std::string> chat_topics;
         std::vector<effect_on_condition_id> eocs;
+        faction_id fac;
+        furn_str_id furn;
         bool target;
         jmapgen_computer( const JsonObject &jsi, const std::string_view/*context*/ ) {
             jsi.read( "name", name );
             jsi.read( "access_denied", access_denied );
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
+            furn = furn_str_id( jsi.get_string( "furn", "f_console" ) );
+            fac = faction_id( jsi.get_string( "fac", "no_faction" ) );
             if( jsi.has_array( "options" ) ) {
                 for( JsonObject jo : jsi.get_array( "options" ) ) {
                     options.emplace_back( computer_option::from_json( jo ) );
@@ -3061,10 +3065,11 @@ class jmapgen_computer : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
-            dat.m.furn_set( r, furn_f_console );
+            dat.m.furn_set( r, furn );
             computer *cpu =
                 dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z() ), name.translated(),
                                     security );
+            cpu->set_faction( fac );
             for( const computer_option &opt : options ) {
                 cpu->add_option( opt );
             }

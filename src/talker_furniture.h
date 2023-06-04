@@ -38,6 +38,7 @@ class talker_furniture: public talker_cloner<talker_furniture>
         tripoint pos() const override;
         tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
+        faction *get_faction() const override;
 
         std::string get_value( const std::string &var_name ) const override;
         void set_value( const std::string &var_name, const std::string &value ) override;
