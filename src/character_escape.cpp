@@ -288,7 +288,8 @@ bool Character::try_remove_grab( bool attacking )
         }
 
         // We have attempted to break every grab but have failed to break at least one
-        if( has_effect_with_flag( json_flag_GRAB ) ) {
+        // Attacks only get the abbreviated grab check, grabs don't prevent attacking
+        if( has_effect_with_flag( json_flag_GRAB ) && !attacking ) {
             return false;
         }
     }
