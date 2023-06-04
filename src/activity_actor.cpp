@@ -3306,15 +3306,16 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
     int refresh_ratio;
-    if( cur_total_moves < 100'000 ) { // less than 1000 turns (~20min)
+    if( cur_total_moves < 1'000 ) { // less than 1000 turns (~20min)
         refresh_ratio = 1; // every turn
     } else if( cur_total_moves < 1'000'000 ) { // less than 10000 turns (~3hr)
-        refresh_ratio = cur_total_moves / 1000; // every 10 turns
+        refresh_ratio = 10; // every 10 turns
     } else {
-        refresh_ratio = cur_total_moves / 10000; // every 100 turns
+        refresh_ratio = 100; // every 100 turns
     }
-    int one_percent_steps = craft.item_counter / refresh_ratio - old_counter / refresh_ratio;
-    if( one_percent_steps > 0 ) {
+    int turns_advanced = ( craft.item_counter * cur_total_moves - old_counter * cur_total_moves ) /
+                         10'000'000'00;
+    if( turns_advanced > refresh_ratio ) {
         refresh_speed = true;
     }
     // Proficiencies and tools are gained/consumed after every 5% progress
