@@ -1576,92 +1576,92 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             draw_points.emplace_back( pos, height_3d, ll, invisible );
         }
     }
-    
-        // List all layers for a single z-level
-        const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
-                &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
-                &cata_tiles::draw_field_or_item,
-                &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
-                &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark,
-                &cata_tiles::draw_zombie_revival_indicators
-            }
-        };
 
-        // Legacy code to use when vertical vision range is 0
-        const std::array<decltype( &cata_tiles::draw_furniture ), 14> drawing_layers_legacy = {{
-                &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
-                &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
-                &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
-                &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
-                &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark,
-                &cata_tiles::draw_zombie_revival_indicators
-            }
-        };
+    // List all layers for a single z-level
+    const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
+            &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
+            &cata_tiles::draw_field_or_item,
+            &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
+            &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark,
+            &cata_tiles::draw_zombie_revival_indicators
+        }
+    };
 
-        // Limit draw depth to vertical vision setting
-        // Disable multi z-level display on isometric tilesets until height_3d issues resolved
-        const int max_draw_depth = is_isometric() ? 0 : fov_3d_z_range;
-        const int height_3d_mult = is_isometric() ? 10 : 0;
-        if( max_draw_depth <= 0 ) {
-            // Legacy draw mode
-            for( tile_render_info &p : draw_points ) {
-                for( auto f : drawing_layers_legacy ) {
-                    ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
-                }
-            }
-        } else {
-            // Multi z-level draw mode
-            
-            // Categorize draw_points by lowest level to draw
-            std::map<int, std::vector<tile_render_info>> draw_points_3d;
-            for( tile_render_info &p : draw_points ) {
-                tripoint p_draw = p.pos;
-                while( !here.dont_draw_lower_floor( p_draw ) && p.pos.z - p_draw.z < max_draw_depth ) {
-                    p_draw.z -= 1;
-                }
-                draw_points_3d[p_draw.z].emplace_back( p );
-            }
+    // Legacy code to use when vertical vision range is 0
+    const std::array<decltype( &cata_tiles::draw_furniture ), 14> drawing_layers_legacy = {{
+            &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
+            &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
+            &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
+            &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
+            &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark,
+            &cata_tiles::draw_zombie_revival_indicators
+        }
+    };
 
-            // Start drawing from the bottom-most z-level
-            int cur_zlevel = -OVERMAP_DEPTH;
-            do {
-            	int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
-            	// Every z-level, start drawing from the bottom-most layer
-                for( auto f : drawing_layers ) {
-            	    int iter = -OVERMAP_DEPTH;
-            	    do {
-            	        for( tile_render_info &p : draw_points_3d[iter] ) {
-            	        	tripoint draw_loc = p.pos;
-            	        	draw_loc.z = cur_zlevel;
-                                ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible ); //!!
-                            }
-                        iter += 1;
-                    } while( iter <= cur_zlevel );
-                }
-                cur_zlevel += 1;
-            } while( cur_zlevel <= center.z );
+    // Limit draw depth to vertical vision setting
+    // Disable multi z-level display on isometric tilesets until height_3d issues resolved
+    const int max_draw_depth = is_isometric() ? 0 : fov_3d_z_range;
+    const int height_3d_mult = is_isometric() ? 10 : 0;
+    if( max_draw_depth <= 0 ) {
+        // Legacy draw mode
+        for( tile_render_info &p : draw_points ) {
+            for( auto f : drawing_layers_legacy ) {
+                ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
+            }
+        }
+    } else {
+        // Multi z-level draw mode
+
+        // Categorize draw_points by lowest level to draw
+        std::map<int, std::vector<tile_render_info>> draw_points_3d;
+        for( tile_render_info &p : draw_points ) {
+            tripoint p_draw = p.pos;
+            while( !here.dont_draw_lower_floor( p_draw ) && p.pos.z - p_draw.z < max_draw_depth ) {
+                p_draw.z -= 1;
+            }
+            draw_points_3d[p_draw.z].emplace_back( p );
         }
 
-        // display number of monsters to spawn in mapgen preview
-        for( const tile_render_info &p : draw_points ) {
-            const auto mon_override = monster_override.find( p.pos );
-            if( mon_override != monster_override.end() ) {
-                const int count = std::get<1>( mon_override->second );
-                const bool more = std::get<2>( mon_override->second );
-                if( count > 1 || more ) {
-                    std::string text = "x" + std::to_string( count );
-                    if( more ) {
-                        text += "+";
+        // Start drawing from the bottom-most z-level
+        int cur_zlevel = -OVERMAP_DEPTH;
+        do {
+            int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
+            // Every z-level, start drawing from the bottom-most layer
+            for( auto f : drawing_layers ) {
+                int iter = -OVERMAP_DEPTH;
+                do {
+                    for( tile_render_info &p : draw_points_3d[iter] ) {
+                        tripoint draw_loc = p.pos;
+                        draw_loc.z = cur_zlevel;
+                        ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible ); //!!
                     }
-                    overlay_strings.emplace( player_to_screen( p.pos.xy() ) + half_tile,
-                                             formatted_text( text, catacurses::red,
-                                                     direction::NORTH ) );
-                }
+                    iter += 1;
+                } while( iter <= cur_zlevel );
             }
-            if( !p.invisible[0] ) {
-                here.check_and_set_seen_cache( p.pos );
+            cur_zlevel += 1;
+        } while( cur_zlevel <= center.z );
+    }
+
+    // display number of monsters to spawn in mapgen preview
+    for( const tile_render_info &p : draw_points ) {
+        const auto mon_override = monster_override.find( p.pos );
+        if( mon_override != monster_override.end() ) {
+            const int count = std::get<1>( mon_override->second );
+            const bool more = std::get<2>( mon_override->second );
+            if( count > 1 || more ) {
+                std::string text = "x" + std::to_string( count );
+                if( more ) {
+                    text += "+";
+                }
+                overlay_strings.emplace( player_to_screen( p.pos.xy() ) + half_tile,
+                                         formatted_text( text, catacurses::red,
+                                                 direction::NORTH ) );
             }
         }
+        if( !p.invisible[0] ) {
+            here.check_and_set_seen_cache( p.pos );
+        }
+    }
     // tile overrides are already drawn in the previous code
     void_radiation_override();
     void_terrain_override();
