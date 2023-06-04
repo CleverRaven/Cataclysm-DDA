@@ -1264,13 +1264,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 7 -> 8" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 52138, 0, true );
+            test_skill_progression( recipe_armguard_lightplate, 52139, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 42657, 50, true );
+            test_skill_progression( recipe_armguard_lightplate, 42658, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 39079, 100, true );
+            test_skill_progression( recipe_armguard_lightplate, 39080, 100, true );
         }
     }
     SECTION( "lvl 8 -> 9" ) {
@@ -1297,15 +1297,15 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "long craft with proficiency delays" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_longbow, 71192, 0, false );
+            test_skill_progression( recipe_longbow, 71201, 0, false );
             test_skill_progression( recipe_longbow, 28805, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_longbow, 56945, 50, false );
+            test_skill_progression( recipe_longbow, 56957, 50, false );
             test_skill_progression( recipe_longbow, 23609, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_longbow, 52211, 100, false );
+            test_skill_progression( recipe_longbow, 52227, 100, false );
             test_skill_progression( recipe_longbow, 21651, 100, true );
         }
     }

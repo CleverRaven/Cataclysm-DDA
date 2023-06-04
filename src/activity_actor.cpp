@@ -3305,7 +3305,15 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( num_practice_ticks > 0 ) {
         level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
-    int one_percent_steps = craft.item_counter / 100'000 - old_counter / 100'000;
+    int refresh_ratio;
+    if( cur_total_moves < 100'000 ) { // less than 1000 turns (~20min)
+        refresh_ratio = 1; // every turn
+    } else if( cur_total_moves < 1'000'000 ) { // less than 10000 turns (~3hr)
+        refresh_ratio = cur_total_moves / 1000; // every 10 turns
+    } else {
+        refresh_ratio = cur_total_moves / 10000; // every 100 turns
+    }
+    int one_percent_steps = craft.item_counter / refresh_ratio - old_counter / refresh_ratio;
     if( one_percent_steps > 0 ) {
         refresh_speed = true;
     }
