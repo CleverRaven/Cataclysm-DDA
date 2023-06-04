@@ -3200,6 +3200,7 @@ craft_activity_actor::craft_activity_actor( item_location &it, const bool is_lon
     cached_assistants = 0;
     cached_base_total_moves = 1;
     cached_cur_total_moves = 1;
+    refresh_speed = true;
 }
 
 bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
@@ -3250,26 +3251,25 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const std::optional<tripoint> location = craft_item.where() == item_location::type::character
             ? std::optional<tripoint>() : std::optional<tripoint>( craft_item.position() );
     const recipe &rec = craft.get_making();
-    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location );
     const int assistants = crafter.available_assistant_count( craft.get_making() );
 
-    if( crafting_speed <= 0.0f ) {
-        crafter.cancel_activity();
-        return;
-    }
+    if( refresh_speed || cached_assistants != assistants ) {
 
-    if( cached_crafting_speed != crafting_speed || cached_assistants != assistants ) {
-        cached_crafting_speed = crafting_speed;
         cached_assistants = assistants;
-
+        cached_crafting_speed = crafter.crafting_speed_multiplier( craft, location );
+        if( cached_crafting_speed <= 0.0f ) {
+            crafter.cancel_activity();
+            return;
+        }
         // Base moves for batch size with no speed modifier or assistants
         // Must ensure >= 1 so we don't divide by 0;
         cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
                                             rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0 ) );
         // Current expected total moves, includes crafting speed modifiers and assistants
         cached_cur_total_moves = std::max( static_cast<int64_t>( 1 ),
-                                           rec.batch_time( crafter, craft.get_making_batch_size(), crafting_speed,
+                                           rec.batch_time( crafter, craft.get_making_batch_size(), cached_crafting_speed,
                                                    assistants ) );
+        refresh_speed = false;
     }
     const double base_total_moves = cached_base_total_moves;
     const double cur_total_moves = cached_cur_total_moves;
@@ -3305,6 +3305,10 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( num_practice_ticks > 0 ) {
         level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
+    int one_percent_steps = craft.item_counter / 100'000 - old_counter / 100'000;
+    if( one_percent_steps > 0 ) {
+        refresh_speed = true;
+    }
     // Proficiencies and tools are gained/consumed after every 5% progress
     int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
@@ -3312,7 +3316,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
         level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
         // Invalidate the crafting time cache because proficiencies may have changed
-        cached_crafting_speed = 0;
+        refresh_speed = true;
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
