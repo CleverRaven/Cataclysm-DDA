@@ -591,5 +591,25 @@
     "required_level": 1,
     "intelligence": 8,
     "time": "15 m"
+  },
+  {
+  "id": "historical_smithing",
+  "type": "BOOK",
+  "category": "manuals",
+  "name": { "str": "Anthropological Metallurgy", "str_pl": "copies of Anthropological Metallurgy" },
+  "description": "This thick textbook discusses the role of metalworking throughout human history in great detail, spanning from Feudal Japan to the Byzantine Empire. It includes vivid descriptions of every culture discussed within, which helps balance how utterly mundane the contents are."
+  "weight": "2720 g",
+  "volume": "6000 ml",
+  "price": 12500,
+  "price_postapoc": 2150,
+  "material": [ "paper", "cardboard" ],
+  "symbol": "m",
+  "color": "brown",
+  "looks_like": "novel_crime2",
+  "skill": "fabrication",
+  "required_level": 7,
+  "intelligence": 9,
+  "time": "30 m"
+  "melee_damage": { "bash": 4 }
   }
 ]
