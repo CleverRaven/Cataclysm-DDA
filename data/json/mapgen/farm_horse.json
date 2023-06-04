@@ -441,7 +441,14 @@
       "palettes": [ "paddock" ],
       "place_nested": [
         {
-          "chunks": [ [ "null", 85 ], [ "24x24_paddock_divider_h", 5 ], [ "24x24_paddock_divider_v", 5 ], [ "paddock_24x24_showjumps", 5 ] ],
+          "chunks": [
+            [ "null", 65 ],
+            [ "24x24_paddock_divider_h", 5 ],
+            [ "24x24_paddock_divider_v", 5 ],
+            [ "24x24_paddock_divider_diag_up", 10 ],
+            [ "24x24_paddock_divider_diag_down", 10 ],
+            [ "paddock_24x24_showjumps", 5 ]
+          ],
           "x": 0,
           "y": 0
         },
@@ -578,10 +585,10 @@
       "place_nested": [
         {
           "chunks": [
-            [ "null", 40 ],
-            [ "24x24_paddock_divider_v", 40 ],
-            [ "24x24_paddock_divider_diagup", 10 ],
-            [ "24x24_paddock_divider_diagdown", 10 ]
+            [ "null", 25 ],
+            [ "24x24_paddock_divider_v", 25 ],
+            [ "24x24_paddock_divider_diag_up", 25 ],
+            [ "24x24_paddock_divider_diag_down", 25 ]
           ],
           "x": 0,
           "y": 0
@@ -666,13 +673,23 @@
         },
         {
           "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "paddock_feeder_4x4", 10 ] ],
-          "x": [ 1, 16 ],
-          "y": [ 24, 37 ]
+          "x": [ 1, 7 ],
+          "y": [ 24, 30 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_diag_up", 40 ], [ "24x24_paddock_divider_diag_down", 40 ] ],
+          "x": 0,
+          "y": 24
         },
         {
           "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "paddock_feeder_4x4", 10 ] ],
-          "x": [ 24, 37 ],
-          "y": [ 24, 37 ]
+          "x": [ 32, 38 ],
+          "y": [ 24, 30 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_diag_up", 40 ], [ "24x24_paddock_divider_diag_down", 40 ] ],
+          "x": 24,
+          "y": 24
         }
       ]
     }
