@@ -279,7 +279,7 @@
     "explosion": { "power": 90000000, "shrapnel": { "casing_mass": 1200000, "fragment_mass": 60000 } },
     "use_action": {
       "target": "afs_set_us_up_the_bomb_act",
-      "target_charges": 100,
+      "target_charges": 420,
       "active": true,
       "menu_text": "Activate fuze",
       "type": "transform"
@@ -299,8 +299,8 @@
     "looks_like": "t_foamcrete_wall_seal",
     "symbol": "P",
     "color": "white",
-    "initial_charges": 100,
-    "max_charges": 100,
+    "initial_charges": 420,
+    "max_charges": 420,
     "turns_per_charge": 1,
     "explode_in_fire": false,
     "use_action": {
