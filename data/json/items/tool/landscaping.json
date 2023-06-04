@@ -387,7 +387,10 @@
   "longest_side": "40 cm",
   "price": 1000000,
   "price_postapoc": 3200,
-  "melee_damage": { "bash": 6, "cut": 12 },
+  "melee_damage": {
+    "bash": 6,
+    "cut": 12
+  },
   "material": [
     "iron",
     "wood"
