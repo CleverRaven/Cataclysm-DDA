@@ -4,8 +4,8 @@
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str_sp": "Cold War battle rifle" },
-    "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
+    "name": { "str_sp": "heavy automatic rifle" },
+    "description": "Originally designed in the mid 1950s, this gun is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
     "variant_type": "gun",
     "variants": [
       {

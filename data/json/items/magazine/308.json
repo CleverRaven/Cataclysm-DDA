@@ -15,8 +15,17 @@
     "id": "falbigmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "FAL 30-round magazine" },
-    "description": "An extended 30-round steel box magazine for the FN FAL rifle.",
+    "name": { "str": "heavy automatic rifle 30-round magazine" },
+    "description": "An extended 30-round steel box magazine for the heavy automatic rifle.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "falbigmag",
+        "name": { "str": "FAL 30-round magazine" },
+        "description": "An extended 30-round steel box magazine for the FN FAL rifle.",
+        "weight": 1
+      }
+    ],
     "weight": "360 g",
     "volume": "750 ml",
     "price": 2100,
@@ -32,8 +41,17 @@
     "id": "falmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "FAL 20-round magazine" },
-    "description": "A military issue 20-round steel box magazine for the FN FAL rifle.",
+    "name": { "str": "heavy automatic rifle 20-round magazine" },
+    "description": "A military issue 20-round steel box magazine for the heavy automatic rifle.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "falmag",
+        "name": { "str": "FAL 20-round magazine" },
+        "description": "A military issue 20-round steel box magazine for the FN FAL rifle.",
+        "weight": 1
+      }
+    ],
     "weight": "240 g",
     "volume": "500 ml",
     "price": 1200,
