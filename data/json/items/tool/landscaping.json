@@ -375,7 +375,7 @@
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 4, "cut": 40 }
   },
- {
+{
   "id": "dolabra",
   "type": "TOOL",
   "name": {

@@ -592,7 +592,7 @@
     "intelligence": 8,
     "time": "15 m"
   },
-  {
+{
   "id": "historical_smithing",
   "type": "BOOK",
   "category": "manuals",
