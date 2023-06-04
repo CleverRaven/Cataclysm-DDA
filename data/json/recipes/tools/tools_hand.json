@@ -1631,7 +1631,7 @@
 			{ "id": "ANVIL", "level": 2 },
 			{ "id": "SAW_W", "level": 2 },
 			{ "id": "GRIND", "level": 2 },
-			{ "id": "FILE", "level": 1 },
+			{ "id": "FILE", "level": 1 }
 	  ],
 	  "using": [ [ "forging_standard", 10 ], [ " steel_standard", 10 ] ],
 	  "components": [
