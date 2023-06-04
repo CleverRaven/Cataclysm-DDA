@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "achievement.h"
+#include "action.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -311,6 +312,7 @@ enum npc_chat_menu {
     NPC_CHAT_START_SEMINAR,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
+    NPC_CHAT_MOVE_TO_POS,
     NPC_CHAT_FOLLOW,
     NPC_CHAT_AWAKE,
     NPC_CHAT_MOUNT,
@@ -781,6 +783,9 @@ void game::chat()
                         string_format( _( "Tell %s to guard" ), followers.front()->get_name() ) :
                         _( "Tell someone to guard…" )
                       );
+        nmenu.addentry( NPC_CHAT_MOVE_TO_POS, true, 'G',
+                        follower_count == 1 ? string_format( _( "Tell %s to move to location" ),
+                                followers.front()->get_name() ) : _( "Tell someone to move to location…" ) );
         nmenu.addentry( NPC_CHAT_AWAKE, true, 'w', _( "Tell everyone on your team to wake up" ) );
         nmenu.addentry( NPC_CHAT_MOUNT, true, 'M', _( "Tell everyone on your team to mount up" ) );
         nmenu.addentry( NPC_CHAT_DISMOUNT, true, 'm', _( "Tell everyone on your team to dismount" ) );
@@ -882,6 +887,35 @@ void game::chat()
             } else {
                 talk_function::assign_guard( *followers[npcselect] );
                 yell_msg = string_format( _( "Guard here, %s!" ), followers[npcselect]->get_name() );
+            }
+            break;
+        }
+        case NPC_CHAT_MOVE_TO_POS: {
+            const int npcselect = npc_select_menu( followers, _( "Who should move?" ) );
+            if( npcselect < 0 ) {
+                return;
+            }
+
+            map &here = get_map();
+            std::optional<tripoint> p = look_around();
+
+            if( !p ) {
+                return;
+            }
+
+            if( here.impassable( tripoint( *p ) ) ) {
+                add_msg( m_info, _( "This destination can't be reached." ) );
+                return;
+            }
+
+            if( npcselect == follower_count ) {
+                for( npc *them : followers ) {
+                    them->goto_to_this_pos = here.getglobal( *p );
+                }
+                yell_msg = _( "Everyone move there!" );
+            } else {
+                followers[npcselect]->goto_to_this_pos = here.getglobal( *p );
+                yell_msg = string_format( _( "Move there, %s!" ), followers[npcselect]->get_name() );
             }
             break;
         }
