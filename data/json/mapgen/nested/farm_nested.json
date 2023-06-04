@@ -1126,6 +1126,50 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "7x7_silo_fodder",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..._...",
+        "._____.",
+        "._____.",
+        "_______",
+        "._____.",
+        "._____.",
+        "..._..."
+      ],
+      "palettes": [ "farm_lots" ],
+      "terrain": { "_": "t_null" },
+      "item": { "_": { "item": "cattlefodder", "chance": 20, "repeat": 10 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x7_silo_straw",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..._...",
+        "._____.",
+        "._____.",
+        "_______",
+        "._____.",
+        "._____.",
+        "..._..."
+      ],
+      "palettes": [ "farm_lots" ],
+      "terrain": { "_": "t_null" },
+      "item": { "_": { "item": "straw_pile", "chance": 20, "repeat": 10 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "paddock_24x24_showjumps",
     "//": "Spawns jumps in a clockwise 19x19 circle from [ 2, 2 ]. Rarely has a central jump.",
     "object": {

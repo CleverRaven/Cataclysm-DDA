@@ -68,13 +68,12 @@
       "ring_2_n": { "overmap": "farm_horse_ring_2_north", "locations": [ "special_field" ] },
       "ring_3_n": { "overmap": "farm_horse_ring_3_north", "locations": [ "special_field" ] },
       "ring_4_n": { "overmap": "farm_horse_ring_4_north", "locations": [ "special_field" ] },
-      "silo_1_w": { "overmap": "ranch_camp_57_south", "locations": [ "special_field" ] },
-      "silo_1_roof_w": { "overmap": "ranch_camp_57_roof_south" },
-      "silo_1_tower_w": { "overmap": "ranch_camp_57_silo_south" },
-      "silo_1_cap_w": { "overmap": "ranch_camp_57_silocap_south" },
-      "silo_2_w": { "overmap": "farm_horse_silo_west", "locations": [ "special_field", "forest_without_trail", "field" ] },
-      "silo_2_tower_w": { "overmap": "farm_horse_silo_1_west" },
-      "silo_2_cap_w": { "overmap": "farm_horse_silo_roof_west" },
+      "silo_n": { "overmap": "farm_horse_silo_north", "locations": [ "special_field" ] },
+      "silo_tower_n": { "overmap": "farm_horse_silo_1_north" },
+      "silo_cap_n": { "overmap": "farm_horse_silo_roof_north" },
+      "silo_w": { "overmap": "farm_horse_silo_west" },
+      "silo_tower_w": { "overmap": "farm_horse_silo_1_west" },
+      "silo_cap_w": { "overmap": "farm_horse_silo_roof_west" },
       "paddock_n": { "overmap": "paddock_north" },
       "paddock_e": { "overmap": "paddock_east" },
       "paddock_s": { "overmap": "paddock_south" },
@@ -763,7 +762,6 @@
         },
         {
           "name": "hayfield_end_1",
-          "//": "Dead end phase.",
           "chunk": [
             { "overmap": "hayfield_L_se", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
@@ -777,17 +775,18 @@
         {
           "name": "hayfield_end_2",
           "chunk": [
-            { "overmap": "dirt_road_new", "pos": [ 0, 0, 0 ] },
-            { "overmap": "dirt_road_farm_parking_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "silo_2_w", "pos": [ 1, 0, 0 ] },
-            { "overmap": "silo_2_tower_w", "pos": [ 1, 0, 1 ] },
-            { "overmap": "silo_2_tower_w", "pos": [ 1, 0, 2 ] },
-            { "overmap": "silo_2_cap_w", "pos": [ 1, 0, 3 ] },
-            { "overmap": "hayfield_R_sw", "pos": [ 0, 1, 0 ] },
-            { "overmap": "hayfield_L_nw", "pos": [ 0, 2, 0 ] },
-            { "overmap": "hayfield_L_se", "pos": [ -1, 1, 0 ] },
-            { "overmap": "hayfield_R_ne", "pos": [ -1, 2, 0 ] }
+            { "overmap": "dirt_road_nw", "pos": [ 0, 1, 0 ] },
+            { "overmap": "dirt_road_farm_parking_e", "pos": [ -1, 1, 0 ] },
+            { "overmap": "silo_w", "pos": [ -1, 0, 0 ] },
+            { "overmap": "silo_tower_w", "pos": [ -1, 0, 1 ] },
+            { "overmap": "silo_tower_w", "pos": [ -1, 0, 2 ] },
+            { "overmap": "silo_cap_w", "pos": [ -1, 0, 3 ] },
+            { "overmap": "hayfield_R_sw", "pos": [ -2, 0, 0 ] },
+            { "overmap": "hayfield_L_nw", "pos": [ -2, 1, 0 ] },
+            { "overmap": "hayfield_L_se", "pos": [ -3, 0, 0 ] },
+            { "overmap": "hayfield_R_ne", "pos": [ -3, 1, 0 ] }
           ],
           "max": 1,
           "weight": 10
@@ -944,27 +943,14 @@
           "weight": 2
         },
         {
-          "name": "silo_1",
+          "name": "silo",
           "chunk": [
             { "overmap": "dirt_road_farm_parking_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "silo_1_w", "pos": [ 1, 0, 0 ] },
-            { "overmap": "silo_1_roof_w", "pos": [ 1, 0, 1 ] },
-            { "overmap": "silo_1_tower_w", "pos": [ 1, 0, 2 ] },
-            { "overmap": "silo_1_cap_w", "pos": [ 1, 0, 3 ] }
-          ],
-          "max": 1,
-          "weight": 5
-        },
-        {
-          "name": "silo_2",
-          "chunk": [
-            { "overmap": "dirt_road_farm_parking_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "silo_2_w", "pos": [ 1, 0, 0 ] },
-            { "overmap": "silo_2_tower_w", "pos": [ 1, 0, 1 ] },
-            { "overmap": "silo_2_tower_w", "pos": [ 1, 0, 2 ] },
-            { "overmap": "silo_2_cap_w", "pos": [ 1, 0, 3 ] }
+            { "overmap": "silo_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "silo_tower_n", "pos": [ 1, 0, 1 ] },
+            { "overmap": "silo_tower_n", "pos": [ 1, 0, 2 ] },
+            { "overmap": "silo_cap_n", "pos": [ 1, 0, 3 ] }
           ],
           "max": 1,
           "weight": 5
