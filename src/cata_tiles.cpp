@@ -1355,8 +1355,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
 
     creature_tracker &creatures = get_creature_tracker();
+    std::vector<tile_render_info> draw_points;
     for( int row = min_row; row < max_row; row ++ ) {
-        std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
             point temp;
@@ -1575,7 +1575,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             draw_points.emplace_back( pos, height_3d, ll, invisible );
         }
-
+    }
+    
         // List all layers for a single z-level
         const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
                 &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
@@ -1610,24 +1611,35 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
         } else {
             // Multi z-level draw mode
+            
+            // Categorize draw_points by lowest level to draw
+            std::map<int, std::vector<tile_render_info>> draw_points_3d;
             for( tile_render_info &p : draw_points ) {
-                // Find lowest z-level to draw
                 tripoint p_draw = p.pos;
-                int cur_height_3d = 0;
                 while( !here.dont_draw_lower_floor( p_draw ) && p.pos.z - p_draw.z < max_draw_depth ) {
                     p_draw.z -= 1;
-                    cur_height_3d -= height_3d_mult;
                 }
-
-                // Keep going up and drawing until current position
-                do {
-                    for( auto f : drawing_layers ) {
-                        ( this->*f )( p_draw, p.ll, cur_height_3d, p.invisible );
-                    }
-                    p_draw.z += 1;
-                    cur_height_3d += height_3d_mult;
-                } while( p_draw.z <= p.pos.z );
+                draw_points_3d[p_draw.z].emplace_back( p );
             }
+
+            // Start drawing from the bottom-most z-level
+            int cur_zlevel = -OVERMAP_DEPTH;
+            do {
+            	int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
+            	// Every z-level, start drawing from the bottom-most layer
+                for( auto f : drawing_layers ) {
+            	    int iter = -OVERMAP_DEPTH;
+            	    do {
+            	        for( tile_render_info &p : draw_points_3d[iter] ) {
+            	        	tripoint draw_loc = p.pos;
+            	        	draw_loc.z = cur_zlevel;
+                                ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible ); //!!
+                            }
+                        iter += 1;
+                    } while( iter <= cur_zlevel );
+                }
+                cur_zlevel += 1;
+            } while( cur_zlevel <= center.z );
         }
 
         // display number of monsters to spawn in mapgen preview
@@ -1650,7 +1662,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 here.check_and_set_seen_cache( p.pos );
             }
         }
-    }
     // tile overrides are already drawn in the previous code
     void_radiation_override();
     void_terrain_override();
