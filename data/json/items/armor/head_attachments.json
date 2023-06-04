@@ -295,8 +295,16 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_AVENTAIL", "CANT_WEAR" ],
     "armor": [
       {
-        "covers": [ "torso", "mouth" ],
-        "specifically_covers": [ "torso_neck" ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ],
+        "material": [
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 5,
+        "coverage": 90
+      },
+      {
+        "covers": [ "mouth" ],
         "material": [
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
@@ -321,7 +329,7 @@
     "name": { "str": "XS mild steel chainmail partial aventail" },
     "description": "A customized mild steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "mc_chainmail_face",
@@ -333,8 +341,14 @@
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "mouth" ],
-        "specifically_covers": [ "torso_neck" ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -356,7 +370,7 @@
     "name": { "str": "XS medium steel chainmail partial aventail" },
     "description": "A customized medium steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hc_chainmail_face",
@@ -368,8 +382,14 @@
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "mouth" ],
-        "specifically_covers": [ "torso_neck" ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -391,7 +411,7 @@
     "name": { "str": "XS high steel chainmail partial aventail" },
     "description": "A customized high steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "qt_chainmail_face",
@@ -403,8 +423,14 @@
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "mouth" ],
-        "specifically_covers": [ "torso_neck" ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -426,7 +452,7 @@
     "name": { "str": "XS tempered steel chainmail partial aventail" },
     "description": "A customized tempered steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "lc_chainmail_aventail",
@@ -446,8 +472,16 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_AVENTAIL", "CANT_WEAR" ],
     "armor": [
       {
-        "covers": [ "torso", "mouth","arm_l", "arm_r" ],
-        "specifically_covers": [ "torso_neck", "arm_shoulder_r", "arm_shoulder_l" ],
+        "covers": [ "head", "arm_l", "arm_r" ],
+        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
+        "material": [
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 5,
+        "coverage": 90
+      },
+      {
+        "covers": [ "mouth" ],
         "material": [
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
@@ -472,7 +506,7 @@
     "name": { "str": "XS mild steel chainmail aventail" },
     "description": "A customized mild steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "mc_chainmail_aventail",
@@ -484,8 +518,14 @@
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "mouth","arm_l", "arm_r" ],
-        "specifically_covers": [ "torso_neck", "arm_shoulder_r", "arm_shoulder_l" ],
+        "covers": [ "head", "arm_l", "arm_r" ],
+        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -507,20 +547,26 @@
     "name": { "str": "XS medium steel chainmail aventail" },
     "description": "A customized medium steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hc_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
     "material": [ "hc_steel_chain" ],
-    "name": { "str": "high steel chainmail partial aventail" },
+    "name": { "str": "high steel chainmail aventail" },
     "description": "A wide high steel chainmail draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "mouth","arm_l", "arm_r" ],
-        "specifically_covers": [ "torso_neck", "arm_shoulder_r", "arm_shoulder_l" ],
+        "covers": [ "head", "arm_l", "arm_r" ],
+        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -542,7 +588,7 @@
     "name": { "str": "XS high steel chainmail aventail" },
     "description": "A customized high steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "qt_chainmail_aventail",
@@ -554,8 +600,14 @@
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "mouth","arm_l", "arm_r" ],
-        "specifically_covers": [ "torso_neck", "arm_shoulder_r", "arm_shoulder_l" ],
+        "covers": [ "head","arm_l", "arm_r" ],
+        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -577,6 +629,6 @@
     "name": { "str": "XS tempered steel chainmail aventail" },
     "description": "A customized tempered steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]

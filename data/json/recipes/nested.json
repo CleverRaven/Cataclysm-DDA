@@ -5622,7 +5622,7 @@
     "difficulty": 1
   },
   {
-    "id": "nested_mc_chainmail_face",
+    "id": "nested_mc_chainmail_aventail",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -5634,7 +5634,7 @@
     "difficulty": 2
   },
   {
-    "id": "nested_hc_chainmail_face",
+    "id": "nested_hc_chainmail_aventail",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -5646,7 +5646,7 @@
     "difficulty": 3
   },
   {
-    "id": "nested_qt_chainmail_face",
+    "id": "nested_qt_chainmail_aventail",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",

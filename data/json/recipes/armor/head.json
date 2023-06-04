@@ -3361,7 +3361,7 @@
     "components": [ [ [ "qt_link_sheet", 3 ] ], [ [ "lc_chain_link", 60 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
   },
   {
-    "result": "xs_lc_chainmail_aventail",
+    "result": "xs_qt_chainmail_aventail",
     "type": "recipe",
     "copy-from": "lc_chainmail_aventail",
     "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 40 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]

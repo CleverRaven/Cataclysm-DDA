@@ -2524,7 +2524,7 @@
     "category": "armor",
     "name": { "str": "mild steel turban helm" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower. This one is made in modern times out of mild steel.",
-    "weight": "900 g",
+    "weight": "800g",
     "volume": "1500ml",
     "price": 26000,
     "price_postapoc": 2500,
