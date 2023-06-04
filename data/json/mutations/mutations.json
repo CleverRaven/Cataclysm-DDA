@@ -3922,9 +3922,7 @@
             "and": [
               { "u_has_move_mode": "run" },
               { "not": "u_can_drop_weapon" },
-              {
-                "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE" ]
-              },
+              { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE" ] },
               { "u_has_trait": "PAWS" }
             ]
           },
