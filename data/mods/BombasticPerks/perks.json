@@ -253,8 +253,10 @@
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,
-    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.",
-    "category": [ "perk" ]
+    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life activate the perk to gain insight into the nature of life itself!",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_frankenstein_insight" ]
   },
   {
     "type": "mutation",
@@ -293,6 +295,28 @@
     "enchantments": [
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": 0.25 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_empath",
+    "name": { "str": "Empath" },
+    "points": 0,
+    "description": "You've always had a passion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of its abilities temporarily.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_jugg",
+    "name": { "str": "Unstoppable force" },
+    "points": 0,
+    "description": "You've always been a bit of a bull in a china shop; people used to call you heavy handed but now they aren't saying much at all.  You deal extra damage based on how protective your armor is.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
+      }
     ]
   }
 ]

@@ -494,6 +494,9 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
+        virtual int attack_speed() const {
+            return 0;
+        }
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {
             return 0;
         }

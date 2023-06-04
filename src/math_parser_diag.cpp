@@ -9,6 +9,7 @@
 #include "dialogue.h"
 #include "math_parser_shim.h"
 #include "options.h"
+#include "string_input_popup.h"
 #include "units.h"
 #include "weather.h"
 
@@ -90,8 +91,8 @@ std::function<void( dialogue &, double )> u_val_ass( char scope,
 std::function<double( dialogue & )> option_eval( char /* scope */,
         std::vector<diag_value> const &params )
 {
-    return[option = params[0].str()]( dialogue const & ) {
-        return get_option<float>( option );
+    return[option = params[0]]( dialogue const & d ) {
+        return get_option<float>( option.eval( d ) );
     };
 }
 
@@ -102,6 +103,32 @@ std::function<double( dialogue & )> armor_eval( char scope,
         damage_type_id dt( type.eval( d ) );
         bodypart_id bp( bpid.eval( d ) );
         return d.actor( beta )->armor_at( dt, bp );
+    };
+}
+
+std::function<double( dialogue & )> num_input_eval( char /*scope*/,
+        std::vector<diag_value> const &params )
+{
+    return[prompt = params[0], default_val = params[1]]( dialogue const & d ) {
+        string_input_popup popup;
+        double dv = std::stod( default_val.eval( d ) );
+        int popup_val = dv;
+        popup
+        .title( _( "Input a value:" ) )
+        .width( 20 )
+        .description( prompt.eval( d ) )
+        .edit( popup_val );
+        if( popup.canceled() ) {
+            return dv;
+        }
+        return static_cast<double>( popup_val );
+    };
+}
+
+std::function<double( dialogue & )> attack_speed_eval( char scope, std::vector<diag_value> const & )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        return d.actor( beta )->attack_speed();
     };
 }
 
