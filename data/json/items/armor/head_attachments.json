@@ -297,17 +297,13 @@
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_nape", "head_throat" ],
-        "material": [
-          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
-        ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 5,
         "coverage": 90
       },
       {
         "covers": [ "mouth" ],
-        "material": [
-          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
-        ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 5,
         "coverage": 100
       }
@@ -474,17 +470,13 @@
       {
         "covers": [ "head", "arm_l", "arm_r" ],
         "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
-        "material": [
-          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
-        ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 5,
         "coverage": 90
       },
       {
         "covers": [ "mouth" ],
-        "material": [
-          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
-        ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 5,
         "coverage": 100
       }
@@ -600,7 +592,7 @@
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head","arm_l", "arm_r" ],
+        "covers": [ "head", "arm_l", "arm_r" ],
         "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
         "coverage": 90,
         "encumbrance": 5
