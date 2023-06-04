@@ -1624,7 +1624,7 @@
 	       { "proficiency": "prof_metalworking" },
 		   { "proficiency": "prof_blacksmithing" },
 		   { "proficiency": "prof_toolsmithing" },
-		   { "proficiency": "prof_bladesmith" },
+		   { "proficiency": "prof_bladesmith" }
 		  ],
 	  "qualities": [
 			{ "id": "HAMMER", "level": 3 },
