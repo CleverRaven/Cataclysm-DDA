@@ -801,7 +801,7 @@
             { "overmap": "paddock_end_UL_n", "pos": [ -1, 0, 0 ] },
             { "overmap": "paddock_end_UR_n", "pos": [ 1, 0, 0 ] },
             { "overmap": "paddock_end_DL_n", "pos": [ -1, 1, 0 ] },
-            { "overmap": "paddock_end_DC_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "paddock_C_n", "pos": [ 0, 1, 0 ] },
             { "overmap": "paddock_end_DR_n", "pos": [ 1, 1, 0 ] }
           ],
           "max": 2,
