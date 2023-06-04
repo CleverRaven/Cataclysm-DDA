@@ -130,7 +130,6 @@
       "paddock_end_UL_n": { "overmap": "paddock_end_UL_north" },
       "paddock_end_UR_n": { "overmap": "paddock_end_UR_north" },
       "paddock_end_DL_n": { "overmap": "paddock_end_DL_north" },
-      "paddock_end_DC_n": { "overmap": "paddock_end_DC_north" },
       "paddock_end_DR_n": { "overmap": "paddock_end_DR_north" },
       "fence_UL_n": { "overmap": "splitrail_fence_UL_north" },
       "fence_UL_e": { "overmap": "splitrail_fence_UL_east" },

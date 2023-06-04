@@ -477,7 +477,6 @@
       "paddock_end_UL",
       "paddock_end_UR",
       "paddock_end_DL",
-      "paddock_end_DC",
       "paddock_end_DR"
     ],
     "copy-from": "generic_rural_building",
