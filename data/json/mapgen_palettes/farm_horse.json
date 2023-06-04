@@ -102,7 +102,8 @@
       "9": [ "t_region_tree", "t_region_tree_fruit", "t_region_tree_nut" ],
       "/": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ]
     },
-    "item": { ".": { "item": "feces_manure", "chance": 1 } },
-    "furniture": { "e": "f_showjump_end", "j": "f_showjump" }
+    "items": { ".": { "item": "sometimes_manure", "chance": 1 } },
+    "furniture": { "e": "f_showjump_end", "j": "f_showjump" },
+    "monsters": { ".": { "monster": "GROUP_HORSES", "chance": 900, "density": 0.01 } }
   }
 ]

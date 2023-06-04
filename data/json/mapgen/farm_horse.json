@@ -223,22 +223,22 @@
         "..W1  8W;;;;;;;WLL ^W...",
         "..WWWWWWW;;;;;WWWWWWW...",
         "..W;;;WЫ;;;;;;ЫЫW;;;W...",
-        "..3;;;3;;;;;;;;;3;;;3...",
+        "..H;[;H;;;;;;;;;H;[;H...",
         "..W;;;W77;;;;;77W;;;W...",
         "..WWWWWWW;;;;;WWWWWWW...",
         "..W;;;WЫЫ;;;;;;ЫW;;;W...",
-        "..3;;;3;;;;;;;;;3;;;3...",
+        "..H;[;H;;;;;;;;;H;[;H...",
         "..W;;;W77;;;;;77W;;;W...",
         "..WWWWWWW;;;;;WWWWWWW...",
         "..W;;;W77;;;;;ЫЫW;;;W...",
-        "..3;;;3;;;;;;;;;3;;;3...",
+        "..H;[;H;;;;;;;;;H;[;H...",
         "..W;;;W#5;;;;;77W;;;W...",
         "..WWWWWWWGGGGGWWWWWWW...",
         "........................",
         "........................"
       ],
       "palettes": [ "farm_horse" ],
-      "terrain": { "Ы": "t_dirtfloor" },
+      "terrain": { "Ы": "t_dirtfloor", "[": "t_dirtfloor" },
       "items": {
         "k": { "item": "office", "chance": 30 },
         "7": { "item": "horse_gear", "chance": 20 },
@@ -252,7 +252,8 @@
         { "group": "farming_tools", "x": [ 75, 81 ], "y": [ 17, 22 ], "chance": 50, "repeat": [ 2, 4 ] },
         { "item": "bucket", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 20, "repeat": 4 },
         { "item": "cattlefodder", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 80, "repeat": [ 6, 10 ] }
-      ]
+      ],
+      "monsters": { "[": { "monster": "GROUP_HORSES_STABLES", "chance": 1, "density": 0.01 } }
     }
   },
   {
@@ -581,17 +582,18 @@
       ],
       "palettes": [ "paddock" ],
       "place_nested": [
+        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 0, 19 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
         {
-          "chunks": [
+          "else_chunks": [
             [ "null", 25 ],
             [ "24x24_paddock_divider_v", 25 ],
             [ "24x24_paddock_divider_diag_up", 25 ],
             [ "24x24_paddock_divider_diag_down", 25 ]
           ],
           "x": 0,
-          "y": 0
-        },
-        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 0, 19 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } }
+          "y": 0,
+          "neighbors": { "north": [ "dirt_road_turnback" ] }
+        }
       ]
     }
   },
@@ -654,20 +656,12 @@
       ],
       "palettes": [ "paddock" ],
       "place_nested": [
-        {
-          "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_diag_up", 40 ], [ "24x24_paddock_divider_diag_down", 40 ] ],
-          "x": 0,
-          "y": 24
-        },
-        {
-          "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_diag_up", 40 ], [ "24x24_paddock_divider_diag_down", 40 ] ],
-          "x": 24,
-          "y": 24
-        },
         { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 1, 18 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
         { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 1, 17 ], "neighbors": { "west": [ "dirt_road" ] } },
         { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 25, 42 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
         { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 25, 42 ], "neighbors": { "west": [ "dirt_road" ] } },
+        { "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_diag_up", 80 ] ], "x": 0, "y": 24 },
+        { "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_diag_down", 80 ] ], "x": 24, "y": 24 },
         {
           "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "paddock_feeder_4x4", 10 ] ],
           "x": [ 1, 16 ],
