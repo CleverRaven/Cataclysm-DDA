@@ -793,6 +793,7 @@
     ],
     "charges_per_use": 1,
     "use_action": {
+      "ammo_scale": 0,
       "target": "UPS_on",
       "msg": "You turn the charger on.",
       "active": true,
