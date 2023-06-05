@@ -165,7 +165,6 @@
   "id": "UPS_off", 
   "type": "MIGRATION", 
   "replace": "UPS_ON",
-  "flags": [ "IS_UPS" ],
-  "contents": [ { "id": "heavy_battery_cell", "count": 1 } ]
+  "flags": [ "IS_UPS" ]
 }
 ]
