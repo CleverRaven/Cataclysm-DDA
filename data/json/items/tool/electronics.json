@@ -784,10 +784,6 @@
     "need_charges_msg": "The charger's battery is empty.",
     "type": "transform"
   },
-  "melee_damage": {
-    "bash": 8
-  }
-},
   {
     "id": "methanol_fuel_cell",
     "type": "TOOL",
