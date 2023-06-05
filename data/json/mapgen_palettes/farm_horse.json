@@ -50,6 +50,7 @@
       "c": "f_counter",
       "^": "f_counter",
       "d": "f_dresser",
+      "w": "f_wardrobe",
       "f": "f_fridge",
       "h": "f_chair",
       "k": "f_desk",
@@ -66,7 +67,30 @@
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "b": "f_rotary_clothesline",
       "p": "f_region_flower_decorative"
-    }
+    },
+    "items": {
+      "f": { "item": "fridge", "chance": 30 },
+      "o": { "item": "oven", "chance": 30 },
+      "8": { "item": "ranch_homebooks", "chance": 30 },
+      "r": { "item": "restaur_kitchen", "chance": 30 },
+      "c": { "item": "kitchen_counters", "chance": 30 },
+      "2": { "item": "metal_workshop", "chance": 30, "repeat": [ 2, 4 ] },
+      "7": { "item": "horse_gear", "chance": 20 },
+      "^": { "item": "horse_gear", "chance": 40 },
+      "@": { "item": "bed", "chance": 50, "repeat": [ 1, 2 ] },
+      "B": { "item": "shower", "chance": 40, "repeat": [ 2, 4 ] },
+      "d": { "item": "dresser", "chance": 70, "repeat": [ 2, 4 ] },
+      "S": { "item": "softdrugs", "chance": 60, "repeat": [ 2, 4 ] },
+      "a": { "item": "coat_rack", "chance": 35 },
+      "L": { "item": "riding_gear", "chance": 70, "repeat": [ 2, 4 ] },
+      "w": [
+        { "item": "SUS_wardrobe_mens", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "clothing_riding", "chance": 100, "repeat": [ 1, 4 ] },
+        { "item": "riding_gear", "chance": 20, "repeat": [ 1, 4 ] }
+      ]
+    },
+    "item": { "a": { "item": "helmet_riding", "chance": 40 } }
   },
   {
     "type": "palette",

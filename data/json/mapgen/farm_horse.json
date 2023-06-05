@@ -34,17 +34,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "p": "t_grass", "0": "t_grass", "6": "t_grass", "Ы": "t_dirtfloor" },
-      "items": {
-        "k": { "item": "office", "chance": 30 },
-        "f": { "item": "fridge", "chance": 30 },
-        "o": { "item": "oven", "chance": 30 },
-        "8": { "item": "ranch_homebooks", "chance": 30 },
-        "r": { "item": "restaur_kitchen", "chance": 30 },
-        "c": { "item": "kitchen_counters", "chance": 30 },
-        "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
-        "7": { "item": "horse_gear", "chance": 20 },
-        "^": { "item": "horse_gear", "chance": 30 }
-      },
+      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] } },
       "place_loot": [ { "item": "television", "x": 21, "y": 6, "chance": 100 } ]
     }
   },
@@ -66,7 +56,7 @@
         "      -dkk-*8***8*-____ ",
         "      v*h*+*******-____ ",
         "      -***-*||||-*-|v|- ",
-        "      v@**-*-y*t-*-dyd- ",
+        "      v@*w-*-y*t-*-wyd- ",
         "      -@*8-*+**B-*-***--",
         "      ||||-*-S*B-*-***1v",
         "      -kk8-*||||-*+***nv",
@@ -82,15 +72,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "_": "t_shingle_flat_roof", "*": "t_floor", " ": "t_open_air", ">": "t_stairs_down" },
-      "items": {
-        "@": { "item": "bed", "chance": 50, "repeat": [ 1, 2 ] },
-        "D": { "item": "trash_cart", "chance": 50 },
-        "B": { "item": "shower", "chance": 40, "repeat": [ 2, 4 ] },
-        "d": { "item": "dresser", "chance": 70, "repeat": [ 2, 4 ] },
-        "8": { "item": "ranch_homebooks", "chance": 70, "repeat": [ 2, 4 ] },
-        "k": { "item": "bedroom", "chance": 60, "repeat": [ 2, 4 ] },
-        "S": { "item": "softdrugs", "chance": 60, "repeat": [ 2, 4 ] }
-      }
+      "items": { "k": { "item": "bedroom", "chance": 60, "repeat": [ 2, 4 ] }, "D": { "item": "trash_cart", "chance": 50 } }
     }
   },
   {
@@ -239,11 +221,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "Ы": "t_dirtfloor", "[": "t_dirtfloor" },
-      "items": {
-        "k": { "item": "office", "chance": 30 },
-        "7": { "item": "horse_gear", "chance": 20 },
-        "^": { "item": "horse_gear", "chance": 30 }
-      },
+      "items": { "k": { "item": "office", "chance": 30 } },
       "item": { "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } },
       "place_loot": [
         { "item": "stepladder", "x": 18, "y": 8, "chance": 100 },
