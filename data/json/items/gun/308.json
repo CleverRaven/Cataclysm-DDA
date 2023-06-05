@@ -468,7 +468,7 @@
       {
         "id": "rfb_308",
         "name": { "str_sp": "Kel-Tec RFB" },
-        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using magazines from the FN FAL and the .308 Winchester cartridge.  The main design features include forward case ejection, the duplication of the magazine release button and safety catch for left-handers, and a heavy barrel as spine of the gun.  Most noticeable features of the RFB are reflected in the transcription of its name - Rifle, Forward-ejection, Bullpup",
+        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using magazines from the FN FAL and the .308 Winchester cartridge.  The main design features include forward case ejection, the duplication of the magazine release button and safety catch for left-handers, and a heavy barrel serving as the gun's spine.  The most noticeable features of the RFB are reflected in the transcription of its name: rifle, forward-ejection, bullpup.",
         "weight": 1
       }
     ],
