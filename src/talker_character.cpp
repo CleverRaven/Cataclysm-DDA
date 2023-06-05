@@ -108,6 +108,13 @@ int talker_character_const::per_cur() const
     return me_chr_const->per_cur;
 }
 
+int talker_character_const::attack_speed() const
+{
+    item_location cur_weapon = me_chr_const->used_weapon();
+    item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+    return me_chr_const->attack_speed( cur_weap );
+}
+
 void talker_character::set_str_max( int value )
 {
     me_chr->str_max = value;
@@ -578,6 +585,11 @@ int talker_character_const::pain_cur() const
     return me_chr_const->get_pain();
 }
 
+double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
+{
+    return me_chr_const->worn.damage_resist( dt, bp );
+}
+
 void talker_character::mod_pain( int amount )
 {
     me_chr->mod_pain( amount );
@@ -889,6 +901,11 @@ int talker_character::get_part_hp_max( const bodypart_id &id ) const
 void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
 {
     me_chr->set_part_hp_cur( id, set );
+}
+
+void talker_character::die()
+{
+    me_chr->die( nullptr );
 }
 
 void talker_character::learn_martial_art( const matype_id &id ) const

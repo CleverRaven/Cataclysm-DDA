@@ -304,7 +304,7 @@ static void check_part_ammo_capacity( vpart_id part_type, itype_id item_type, am
     CAPTURE( part_type );
     CAPTURE( item_type );
     CAPTURE( ammo_type );
-    vehicle_part test_part( part_type, "", point_zero, item( item_type ) );
+    vehicle_part test_part( part_type, item( item_type ) );
     CHECK( expected_count == test_part.ammo_capacity( ammo_type ) );
 }
 
@@ -319,7 +319,7 @@ TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
 TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
 {
     GIVEN( "tank is empty" ) {
-        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        vehicle_part vp( vpart_tank_test, item( itype_metal_tank_test ) );
         REQUIRE( vp.ammo_remaining() == 0 );
         THEN( "ammo_current ammotype is always null" ) {
             CHECK( vp.ammo_current().is_null() );
@@ -333,10 +333,10 @@ TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
     }
 
     GIVEN( "tank is not empty" ) {
-        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        vehicle_part vp( vpart_tank_test, item( itype_metal_tank_test ) );
         item tank( itype_metal_tank_test );
         REQUIRE( tank.fill_with( item( itype_water_clean ), 100 ) == 100 );
-        vp.set_base( tank );
+        vp.set_base( std::move( tank ) );
         REQUIRE( vp.ammo_remaining() == 100 );
 
         THEN( "ammo_current is not null" ) {

@@ -3,7 +3,7 @@
     "id": "mon_zombie_scientist",
     "type": "MONSTER",
     "name": { "str": "zombie scientist" },
-    "description": "Apart from the jet-black eyes, this zombie looks less decomposed and inhuman than most.  Clad in a tattered lab coat, it seems to have a glimmer of awareness - not human awareness, but something else.  As you watch, its movements look almost marionette-like.",
+    "description": "The remaining protective gear, laboratory equipment, and long, formerly white labcoat tell you that this zombie was some kind of researcher before turning.",
     "default_faction": "science",
     "bodytype": "human",
     "//": "zombie scientists are recognised as friendly by the lab's defense system",
@@ -34,22 +34,7 @@
     "death_drops": "mon_zombie_scientist_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "STUMBLES",
-      "WARM",
-      "GRABS",
-      "BASHES",
-      "POISON",
-      "ACIDPROOF",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
-      "PRIORITIZE_TARGETS",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "GRABS", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "electric": 1 }
   },
   {

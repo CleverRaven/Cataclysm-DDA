@@ -215,6 +215,7 @@
       { "item": "tinderbox", "prob": 10, "charges": [ 0, 100 ] },
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
+      [ "light_snare_kit", 8 ],
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] }
     ]
   },
@@ -613,7 +614,7 @@
       [ "horse_tack", 3 ],
       [ "saddlebag", 5 ],
       [ "lifestraw", 3 ],
-      [ "acetylene_machine", 2 ],
+      [ "light_snare_kit", 3 ],
       { "item": "propane_lantern", "prob": 15, "charges": [ 2000, 3000 ] },
       { "item": "propane_cooker", "prob": 15, "charges": [ 2000, 3000 ] }
     ]
@@ -793,7 +794,7 @@
       [ "screwdriver_set", 20 ],
       [ "socket_screwdriver_set", 20 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
-      [ "mobile_memory_card_science", 40 ],
+      [ "memory_card_science", 40 ],
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
       [ "element", 5 ],

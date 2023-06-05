@@ -552,7 +552,7 @@
     "name": { "str": "large plastic bottle" },
     "looks_like": "bottle_plastic",
     "description": "A two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
-    "weight": "13 g",
+    "weight": "53 g",
     "volume": "2040 ml",
     "price": 25,
     "price_postapoc": 10,
@@ -1837,12 +1837,12 @@
     "name": { "str": "3L glass jar" },
     "looks_like": "jar_glass_sealed",
     "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Preserves its contents from rot until opened.",
-    "weight": "365 g",
-    "volume": "3852 ml",
-    "longest_side": "298 mm",
-    "price": 0,
+    "weight": "953 g",
+    "volume": "3530 ml",
+    "longest_side": "20 cm",
+    "price": "20 USD",
     "price_postapoc": 10,
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1858,7 +1858,8 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "//": "Based on https://www.amazon.com/CZFWin-Container-Airtight-Storage-Cookies/dp/B0936RC7M1/ref=sr_1_10?keywords=3l%2Bglass%2Bjar&qid=1684576671&sr=8-10&th=1"
   },
   {
     "id": "jar_glass_sealed",
@@ -1866,10 +1867,11 @@
     "category": "container",
     "name": { "str": "0.5L glass jar" },
     "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Preserves its contents from rot until opened (assuming it was sterile before sealing).",
-    "weight": "150 g",
-    "volume": "680 ml",
-    "longest_side": "132 mm",
-    "price": 0,
+    "weight": "277 g",
+    "//1": "Weight taken from https://www.amazon.co.uk/dp/B0030G0FG0/ref=twister_B09TQ861T8?_encoding=UTF8&psc=1",
+    "volume": "690 ml",
+    "longest_side": "127 mm",
+    "price": "5 USD",
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1885,7 +1887,9 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 4 }
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 4 },
+    "//2": "Based on https://www.kilnerjar.co.uk/0025400-preserve-jar-05-litre/"
   },
   {
     "id": "jerrycan",
@@ -2530,6 +2534,7 @@
         "max_item_length": "26 cm"
       }
     ],
+    "flags": [ "BANK_NOTE_SHAPED" ],
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {

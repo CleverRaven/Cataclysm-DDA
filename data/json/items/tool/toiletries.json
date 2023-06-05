@@ -41,9 +41,10 @@
     "category": "spare_parts",
     "name": { "str": "dish towel" },
     "description": "A dish towel, useful for cleaning hard surfaces.",
-    "weight": "80 g",
-    "volume": "200 ml",
-    "price": 200,
+    "weight": "65600 mg",
+    "volume": "43 ml",
+    "//1": "Calculated from cotton density because if I took exact product dimensions you'd have <2ml of volume BUT no way in hell is the player folding the towel so neatly.",
+    "price": 127,
     "price_postapoc": 20,
     "material": [ "cotton" ],
     "symbol": ",",
@@ -58,7 +59,8 @@
       { "id": "dtowel6", "text": "A dish towel with a floral pattern." },
       { "id": "dtowel7", "text": "A dish towel with a gingham pattern." },
       { "id": "dtowel8", "text": "A dish towel with a cat pattern." }
-    ]
+    ],
+    "//2": "Based on https://www.amazon.com/Zeppoli-Classic-Kitchen-15-Pack-Natural/dp/B01IG8X9E6/ref=sr_1_9?crid=3VWY7NLBYVH2N&keywords=dish%2Btowel&qid=1684589366&sprefix=dish%2Btowel%2Caps%2C256&sr=8-9&th=1"
   },
   {
     "id": "elec_hairtrimmer",

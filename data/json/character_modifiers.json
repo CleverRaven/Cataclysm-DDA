@@ -108,7 +108,7 @@
   {
     "type": "character_mod",
     "id": "limb_speed_movecost_mod",
-    "description": "Limb speed move cost modifier <color_dark_gray>(Movement Speed)</color>",
+    "description": "Limb speed move cost modifier <color_dark_gray>(Movement)</color>",
     "mod_type": "x",
     "value": { "limb_score": "move_speed", "max": "max_move_cost", "nominator": 1.0 }
   },
@@ -141,7 +141,7 @@
   {
     "type": "character_mod",
     "id": "obstacle_climb_mod",
-    "description": "Obstacle climb modifier <color_dark_gray>(Crawl, Grip, Lift)</color>",
+    "description": "Obstacle climb modifier <color_dark_gray>(Crawling, Grip, Lift)</color>",
     "mod_type": "x",
     "value": {
       "limb_score": [ [ "crawl", 3.0 ], [ "grip", 2.0 ], "lift" ],
@@ -188,7 +188,7 @@
   {
     "type": "character_mod",
     "id": "limb_dodge_mod",
-    "description": "Dodge chance modifier <color_dark_gray>(Balance, Move Speed, Footing)</color>",
+    "description": "Dodge chance modifier <color_dark_gray>(Balance, Movement, Footing)</color>",
     "mod_type": "x",
     "value": {
       "limb_score": [ [ "balance", 1.5 ], "move_speed", "footing" ],

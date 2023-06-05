@@ -216,7 +216,6 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 
 // fault flags
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
-static const std::string flag_SILENT( "SILENT" );
 
 // item pricing
 static const int PRICE_FILTHY_MALUS = 100;  // cents
@@ -839,6 +838,30 @@ int item::damage_level() const
     return type->damage_level( damage_ );
 }
 
+float item::damage_adjusted_melee_weapon_damage( float value ) const
+{
+    if( type->count_by_charges() ) {
+        return value; // count by charges items don't have partial damage
+    }
+    return value * ( 1.0f - 0.1f * std::max( 0, damage_level() - 1 ) );
+}
+
+float item::damage_adjusted_gun_damage( float value ) const
+{
+    if( type->count_by_charges() ) {
+        return value; // count by charges items don't have partial damage
+    }
+    return value - 2 * std::max( 0, damage_level() - 1 );
+}
+
+float item::damage_adjusted_armor_resist( float value ) const
+{
+    if( type->count_by_charges() ) {
+        return value; // count by charges items don't have partial damage
+    }
+    return value * ( 1.0f - std::max( 0, damage_level() - 1 ) * 0.125f );
+}
+
 void item::set_damage( int qty )
 {
     damage_ = std::clamp( qty, degradation_, max_damage() );
@@ -847,7 +870,7 @@ void item::set_damage( int qty )
 void item::set_degradation( int qty )
 {
     degradation_ = std::clamp( qty, 0, max_damage() );
-    damage_ = std::clamp( damage_, degradation_, max_damage() );
+    set_damage( damage_ );
 }
 
 item item::split( int qty )
@@ -2858,16 +2881,22 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             }
         }
 
-        if( damage_level() > 0 ) {
-            int dmg_penalty = damage_level() * -2;
-            info.emplace_back( "GUN", "damaged_weapon_penalty", "",
-                               iteminfo::no_newline | iteminfo::no_name, dmg_penalty );
+        const int gun_damage = loaded_mod->gun_damage( true ).total_damage();
+        if( damage() > 0 ) {
+            item intact_mod( *loaded_mod );
+            intact_mod.set_degradation( 0 );
+            intact_mod.set_damage( 0 );
+            const int intact_damage = intact_mod.gun_damage( true ).total_damage();
+            if( intact_damage != gun_damage ) {
+                const int dmg_penalty = gun_damage - intact_damage;
+                info.emplace_back( "GUN", "damaged_weapon_penalty", "",
+                                   iteminfo::no_newline | iteminfo::no_name, dmg_penalty );
+            }
         }
 
         if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
             info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
-                               iteminfo::no_newline | iteminfo::no_name,
-                               loaded_mod->gun_damage( true ).total_damage() );
+                               iteminfo::no_newline | iteminfo::no_name, gun_damage );
         }
     }
     info.back().bNewLine = true;
@@ -3767,7 +3796,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
         std::map<int, std::vector<bodypart_id>> limb_groups;
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            limb_groups[portion_for_bodypart( bp )->coverage].push_back( bp );
+            limb_groups[portion_for_bodypart( bp )->coverage].emplace_back( bp );
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -3796,7 +3825,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             armor_encumb_data encumbrance( get_encumber( c, bp, item::encumber_flags::assume_empty ),
                                            get_encumber( c, bp ), get_encumber( c, bp, item::encumber_flags::assume_full ) );
 
-            limb_groups[encumbrance].push_back( bp );
+            limb_groups[encumbrance].emplace_back( bp );
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -3839,7 +3868,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // TODO: Make this less inflexible on anatomy
         std::map<int, std::vector<bodypart_id>> limb_groups;
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            limb_groups[get_warmth( bp )].push_back( bp );
+            limb_groups[get_warmth( bp )].emplace_back( bp );
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -3862,7 +3891,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         std::map<int, std::vector<bodypart_id>> limb_groups;
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            limb_groups[portion_for_bodypart( bp )->breathability].push_back( bp );
+            limb_groups[portion_for_bodypart( bp )->breathability].emplace_back( bp );
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -4513,7 +4542,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                           total_recipes ), total_recipes );
 
             insert_separation_line( info );
-            info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            info.emplace_back( "DESCRIPTION", recipe_line );
 
             if( !known_recipe_list.empty() ) {
                 const std::string recipe_line =
@@ -4522,7 +4551,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               known_recipe_list.size() ),
                                    known_recipe_list.size(), enumerate_lcsorted_with_limit( known_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
 
             if( !learnable_recipe_list.empty() ) {
@@ -4532,7 +4561,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               learnable_recipe_list.size() ),
                                    learnable_recipe_list.size(), enumerate_lcsorted_with_limit( learnable_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
 
             if( !unlearnable_recipe_list.empty() ) {
@@ -4542,7 +4571,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               unlearnable_recipe_list.size() ),
                                    unlearnable_recipe_list.size(), enumerate_lcsorted_with_limit( unlearnable_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
         }
     }
@@ -4608,8 +4637,8 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                           total_ebooks ), total_ebooks );
 
             insert_separation_line( info );
-            info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
-            info.emplace_back( iteminfo( "DESCRIPTION", source_line ) );
+            info.emplace_back( "DESCRIPTION", recipe_line );
+            info.emplace_back( "DESCRIPTION", source_line );
 
             if( !known_recipe_list.empty() ) {
                 const std::string recipe_line =
@@ -4618,7 +4647,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               known_recipe_list.size() ),
                                    known_recipe_list.size(), enumerate_lcsorted_with_limit( known_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
 
             if( !learnable_recipe_list.empty() ) {
@@ -4628,7 +4657,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               learnable_recipe_list.size() ),
                                    learnable_recipe_list.size(), enumerate_lcsorted_with_limit( learnable_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
 
             if( !unlearnable_recipe_list.empty() ) {
@@ -4638,7 +4667,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               unlearnable_recipe_list.size() ),
                                    unlearnable_recipe_list.size(), enumerate_lcsorted_with_limit( unlearnable_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
         }
     }
@@ -5510,8 +5539,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                        ? string_format( "<good>%s</good>", e->nname( 1 ) )
                                        : e->nname( 1 ) );
         }
-        info.emplace_back( "DESCRIPTION",
-                           _( "<bold>Can be stored in</bold>: " ) + enumerate_lcsorted_with_limit( holsters_str ) );
+        info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in</bold>: " ) +
+                           enumerate_lcsorted_with_limit( holsters_str, 30 ) );
         info.back().sName += ".";
     }
 
@@ -5599,7 +5628,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 const std::string name = r->result_name( /* decorated = */ true );
                 crafts.emplace_back( can_make ? name : string_format( "<dark>%s</dark>", name ) );
             }
-            const std::string recipes = enumerate_lcsorted_with_limit( crafts, 12 );
+            const std::string recipes = enumerate_lcsorted_with_limit( crafts, 15 );
             info.emplace_back( " DESCRIPTION", string_format( _( "You could use it to craft: %s" ), recipes ) );
         }
     }
@@ -5651,10 +5680,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 return;
             }
 
-            // Sort according to the user's locale
-            std::sort( result_parts.begin(), result_parts.end(), localized_compare );
-
-            const std::string installable_parts = enumerate_lcsorted_with_limit( result_parts, 12 );
+            const std::string installable_parts = enumerate_lcsorted_with_limit( result_parts, 15 );
 
             insert_separation_line( info );
             info.emplace_back( " DESCRIPTION", string_format( install_where, installable_parts ) );
@@ -6240,36 +6266,19 @@ void item::on_contents_changed()
 
 std::string item::dirt_symbol() const
 {
-    const int dirt_level = get_var( "dirt", 0 ) / 2000;
-    std::string dirt_symbol;
-    // TODO: MATERIALS put this in json
-
     // these symbols are unicode square characters of different heights, representing a rough
-    // estimation of fouling in a gun. This appears instead of "faulty"
-    // since most guns will have some level of fouling in them, and usually it is not a big deal.
-    switch( dirt_level ) {
-        case 0:
-            dirt_symbol.clear();
-            break;
-        case 1:
-            dirt_symbol = "<color_white>\u2581</color>";
-            break;
-        case 2:
-            dirt_symbol = "<color_light_gray>\u2583</color>";
-            break;
-        case 3:
-            dirt_symbol = "<color_light_gray>\u2585</color>";
-            break;
-        case 4:
-            dirt_symbol = "<color_dark_gray>\u2587</color>";
-            break;
-        case 5:
-            dirt_symbol = "<color_brown>\u2588</color>";
-            break;
-        default:
-            dirt_symbol.clear();
+    // estimation of fouling in a gun. This appears instead of "faulty" since most guns will
+    // have some level of fouling in them, and usually it is not a big deal.
+    switch( static_cast<int>( get_var( "dirt", 0 ) / 2000 ) ) {
+        // *INDENT-OFF*
+        case 1:  return "<color_white>\u2581</color>";
+        case 2:  return "<color_light_gray>\u2583</color>";
+        case 3:  return "<color_light_gray>\u2585</color>";
+        case 4:  return "<color_dark_gray>\u2587</color>";
+        case 5:  return "<color_brown>\u2588</color>";
+        default: return "";
+        // *INDENT-ON*
     }
-    return dirt_symbol;
 }
 
 std::string item::degradation_symbol() const
@@ -6304,9 +6313,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // item damage and/or fouling level
     std::string damtext;
 
+    // add first prefix if item has a fault that defines a prefix (prioritize?)
+    for( const fault_id &f : faults ) {
+        const std::string prefix = f->item_prefix();
+        if( !prefix.empty() ) {
+            damtext = prefix + " ";
+            break;
+        }
+    }
+    damtext += dirt_symbol();
+
     if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" && with_prefix ) {
         if( is_favorite ) {
-            damtext = _( "* " ); // Display asterisk for favorite items, before item's name
+            damtext += _( "* " ); // Display asterisk for favorite items, before item's name
         }
     }
 
@@ -6319,20 +6338,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             // get the utf8 width of the tags
             truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
-        }
-    }
-    if( !faults.empty() ) {
-        bool silent = true;
-        for( const auto &fault : faults ) {
-            if( !fault->has_flag( flag_SILENT ) ) {
-                silent = false;
-                break;
-            }
-        }
-        if( silent ) {
-            damtext.insert( 0, dirt_symbol() );
-        } else {
-            damtext.insert( 0, _( "faulty " ) + dirt_symbol() );
         }
     }
 
@@ -6555,8 +6560,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
     if( active && ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_LITCIG ) ) ) {
         tagtext += _( " (lit)" );
-    } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
+    } else if( contents_linked || ( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) ) {
         tagtext += _( " (plugged in)" );
+    } else if( link ) {
+        if( link->s_state == link_state::needs_reeling ) {
+            tagtext += _( " (unspooled)" );
+        } else if( active ) {
+            tagtext += _( " (connected)" );
+        }
     } else if( active && !has_temperature() && !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
@@ -6798,8 +6809,8 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
     int price = price_override ? *price_override
                 : units::to_cent( practical ? type->price_post : type->price );
     if( damage() > 0 ) {
-        // maximal damage level is 4, maximal reduction is 80% of the value.
-        price -= price * static_cast< double >( damage_level() ) / 5;
+        // maximal damage level is 5, maximal reduction is 80% of the value.
+        price -= price * static_cast<double>( std::max( 0, damage_level() - 1 ) ) / 5;
     }
 
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
@@ -7197,7 +7208,7 @@ int item::damage_melee( const damage_type_id &dt ) const
     if( type->melee.count( dt ) > 0 ) {
         res = type->melee.at( dt );
     }
-    res -= res * damage_level() * 0.1;
+    res = damage_adjusted_melee_weapon_damage( res );
 
     // apply type specific flags
     // FIXME: Hardcoded damage types
@@ -8372,7 +8383,7 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
     float resist = 0.0f;
     float mod = get_clothing_mod_val_for_damage_type( dmg_type );
 
-    const float damage_scale = 1.0f - damage_level() * 0.125f;
+    const float damage_scale = damage_adjusted_armor_resist( 1.0f );
 
     if( !bp_null ) {
         // If we have armour portion materials for this body part, use that instead
@@ -9335,11 +9346,6 @@ bool item::is_toolmod() const
     return !is_gunmod() && type->mod;
 }
 
-bool item::is_faulty() const
-{
-    return is_engine() ? !faults.empty() : false;
-}
-
 bool item::is_irremovable() const
 {
     return has_flag( flag_IRREMOVABLE );
@@ -10056,14 +10062,13 @@ damage_instance item::gun_damage( bool with_ammo, bool shot ) const
         }
     }
 
-    int item_damage = damage_level();
-    if( item_damage > 0 ) {
+    if( damage() > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
             if( du.amount <= 1.0 ) {
                 continue;
             }
-            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
+            du.amount = std::max<float>( 1.0f, damage_adjusted_gun_damage( du.amount ) );
         }
     }
 
@@ -10086,14 +10091,13 @@ damage_instance item::gun_damage( itype_id ammo ) const
     ret.add( ammo->ammo->damage.di_considering_length( bl ) );
 
 
-    int item_damage = damage_level();
-    if( item_damage > 0 ) {
+    if( damage() > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
             if( du.amount <= 1.0 ) {
                 continue;
             }
-            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
+            du.amount = std::max<float>( 1.0f, damage_adjusted_gun_damage( du.amount ) );
         }
     }
 
@@ -10189,7 +10193,7 @@ int item::shots_remaining( const Character *carrier ) const
 {
     int ret = 1000; // Arbitrary large number for things that do not require ammo.
     if( ammo_required() ) {
-        ret = std::min( ammo_remaining( carrier ) / ammo_required(), ret );
+        ret = std::min( ammo_remaining( carrier, true ) / ammo_required(), ret );
     }
     if( get_gun_energy_drain() > 0_kJ ) {
         ret = std::min( static_cast<int>( energy_remaining( carrier ) / get_gun_energy_drain() ), ret );
@@ -10197,7 +10201,7 @@ int item::shots_remaining( const Character *carrier ) const
     return ret;
 }
 
-int item::ammo_remaining( const Character *carrier ) const
+int item::ammo_remaining( const Character *carrier, bool cable_links ) const
 {
     int ret = 0;
 
@@ -10205,6 +10209,25 @@ int item::ammo_remaining( const Character *carrier ) const
     const item *mag = magazine_current();
     if( mag ) {
         ret += mag->ammo_remaining();
+    }
+
+    // Cable connections
+    if( cable_links && contents_linked ) {
+        for( const item *cable : contents.cables( true ) ) {
+            if( !cable->link ) {
+                continue;
+            }
+            if( cable->link->t_veh_safe ) {
+                ret += cable->link->t_veh_safe->connected_battery_power_level().first;
+                continue;
+            } else {
+                const optional_vpart_position vp = get_map().veh_at( cable->link->t_abs_pos );
+                if( vp ) {
+                    ret += vp->vehicle().connected_battery_power_level().first;
+                    continue;
+                }
+            }
+        }
     }
 
     std::set<ammotype> ammo = ammo_types();
@@ -10243,6 +10266,11 @@ int item::ammo_remaining( const Character *carrier ) const
     }
 
     return ret;
+}
+
+int item::ammo_remaining( bool cable_links ) const
+{
+    return ammo_remaining( nullptr, cable_links );
 }
 
 units::energy item::energy_remaining( const Character *carrier ) const
@@ -10351,7 +10379,7 @@ void item::handle_liquid_or_spill( Character &guy, const item *avoid )
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
     if( count_by_charges() ) {
-        return ammo_remaining( carrier ) >= qty;
+        return ammo_remaining( carrier, true ) >= qty;
     }
 
     return shots_remaining( carrier ) >= qty;
@@ -10374,6 +10402,20 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         return 0;
     }
     const int wanted_qty = qty;
+
+    // Consume power from appliances/vehicles connected with cables
+    if( contents_linked ) {
+        for( const item *cable : contents.cables( true ) ) {
+            if( cable->link && cable->link->t_veh_safe ) {
+                qty = cable->link->t_veh_safe->discharge_battery( qty, true );
+            } else {
+                const optional_vpart_position vp = get_map().veh_at( cable->link->t_abs_pos );
+                if( vp ) {
+                    qty = vp->vehicle().discharge_battery( qty, true );
+                }
+            }
+        }
+    }
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
@@ -11337,14 +11379,15 @@ int item::getlight_emit() const
         has_flag( flag_USES_BIONIC_POWER ) ) {
         return lumint;
     }
-    if( ammo_remaining() == 0 ) {
+    if( ammo_remaining( true ) == 0 ) {
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
         const ammotype &loaded_ammo = ammo_data()->ammo->type;
-        if( ammo_capacity( loaded_ammo ) && ammo_remaining() < ( ammo_capacity( loaded_ammo ) / 5 ) ) {
-            lumint *= ammo_remaining() * 5.0 / ammo_capacity( loaded_ammo );
+        if( ammo_capacity( loaded_ammo ) &&
+            ammo_remaining( true ) < ( ammo_capacity( loaded_ammo ) / 5 ) ) {
+            lumint *= ammo_remaining( true ) * 5.0 / ammo_capacity( loaded_ammo );
         }
     }
     return lumint;
@@ -12034,7 +12077,8 @@ int item::processing_speed() const
         return to_turns<int>( 10_minutes );
     }
 
-    if( active || ethereal || wetness || has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+    if( active || ethereal || wetness || contents_linked ||
+        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -12703,110 +12747,321 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     return false;
 }
 
-std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
+bool item::process_cable( map &here, Character *carrier, const tripoint &pos, item *parent_item )
 {
-    const std::string &state = get_var( "state" );
-    if( state != "pay_out_cable" && state != "cable_charger_link" ) {
-        return std::nullopt;
-    }
-    map &here = get_map();
-    const optional_vpart_position vp_pos = here.veh_at( pos );
-    if( vp_pos ) {
-        const std::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
-        if( seat && p == seat->vehicle().get_passenger( seat->part_index() ) ) {
-            return pos;
-        }
+    // Active cables need link data to process.
+    if( !link ) {
+        return reset_cable( carrier, parent_item );
     }
 
-    tripoint source2( get_var( "source_x", 0 ), get_var( "source_y", 0 ), get_var( "source_z", 0 ) );
-    tripoint source( source2 );
-
-    return here.getlocal( source );
-}
-
-bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
-{
-    if( carrier == nullptr ) {
-        reset_cable( carrier );
-        return false;
+    // Failsafe for loose, unwound cables that are somehow still active.
+    if( link->s_state == link_state::needs_reeling || link->has_no_links() ) {
+        return reset_cable( carrier, parent_item );
     }
-    std::string state = get_var( "state" );
-    if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *this ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            reset_cable( carrier );
+
+    // Handle item-side links.
+    if( link->s_state == link_state::solarpack ) {
+        if( carrier == nullptr || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
+            add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
+                                    string_format( _( "The %s has come loose from the solar pack." ), label( 1 ) ) :
+                                    string_format( _( "The %s's cable has come loose from the solar pack." ),
+                                                   parent_item->label( 1 ) ) );
+            reset_cable( carrier, parent_item );
             return false;
         }
     }
+    const item_filter used_ups = [&]( const item & itm ) {
+        return itm.has_flag( flag_IS_UPS ) && itm.get_var( "cable" ) == "plugged_in";
+    };
+    if( link->s_state == link_state::ups ) {
+        if( carrier == nullptr || !carrier->has_item_with( used_ups ) ) {
+            add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
+                                    string_format( _( "The %s has come loose from the UPS." ), label( 1 ) ) :
+                                    string_format( _( "The %s's cable has come loose from the UPS." ), parent_item->label( 1 ) ) );
+            reset_cable( carrier, parent_item );
+            return false;
+        }
+    }
+    if( ( link->t_state == link_state::no_link && link->s_state != link_state::vehicle_tow ) ||
+        link->t_state == link_state::bio_cable ) {
+        // Certain cable states should skip processing and also become inactive if dropped.
+        if( carrier == nullptr ) {
+            return reset_cable( nullptr, parent_item, true, pos );
+        }
+        return false;
+    }
 
-    static const item_filter used_ups = [&]( const item & itm ) {
-        return itm.get_var( "cable" ) == "plugged_in";
+    const bool last_t_abs_pos_is_oob = !here.inbounds( link->t_abs_pos );
+
+    // Lambda function for checking if a cable's been stretched too long, resetting it if so.
+    // @return True if the cable is disconnected.
+    const auto is_cable_too_long = [this, carrier, pos, parent_item, last_t_abs_pos_is_oob]() {
+        if( debug_mode ) {
+            add_msg_debug( debugmode::DF_IUSE, "%s linked to %s%s, length %d/%d",
+                           parent_item != nullptr ? parent_item->label( 1 ) : label( 1 ),
+                           link->t_abs_pos.to_string_writable(), last_t_abs_pos_is_oob ? " (OoB)" : "",
+                           link->max_length - charges, link->max_length );
+        }
+        if( charges == 0 && carrier != nullptr ) {
+            carrier->add_msg_if_player( m_warning, parent_item == nullptr ?
+                                        string_format( _( "Your %s is stretched to its limit!" ), label( 1 ) ) :
+                                        string_format( _( "Your %s's cable is stretched to its limit!" ), parent_item->label( 1 ) ) );
+        } else if( charges < 0 ) {
+            if( carrier != nullptr ) {
+                carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
+                                            string_format( _( "Your over-extended %s breaks loose!" ), label( 1 ) ) :
+                                            string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_item->label( 1 ) ) );
+            } else {
+                add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
+                                        string_format( _( "The over-extended %s breaks loose!" ), label( 1 ) ) :
+                                        string_format( _( "The %s's over-extended cable breaks loose!" ), parent_item->label( 1 ) ) );
+            }
+            return true;
+        }
+        return false;
     };
 
-    if( state == "UPS" ) {
-        if( !carrier->has_item( *this ) || !carrier->has_item_with( used_ups ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            for( item *used : carrier->items_with( used_ups ) ) {
-                used->erase_var( "cable" );
+    // Check if the item has moved positions this turn.
+    bool check_length = false;
+    if( link->s_bub_pos != pos ) {
+        link->s_bub_pos = pos;
+        check_length = true;
+    }
+
+    // If the vehicle pointer is lost...
+    if( !link->t_veh_safe ) {
+        if( last_t_abs_pos_is_oob ) {
+            // ... and the last recorded target point is out of bounds, just check the length if needed and exit early.
+            if( check_length ) {
+                // We can't get the exact connection point without the vehicle loaded, so fudge some forgiveness by adding the mount dimensions.
+                // Better to err on the side of keeping things connected.
+                charges = link->max_length - rl_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
+                          link->t_mount.abs().x + link->t_mount.abs().y;
+                if( is_cable_too_long() ) {
+                    return reset_cable( carrier, parent_item );
+                }
             }
-            reset_cable( carrier );
             return false;
+        } else {
+            // ... and the last recorded target point is in-bounds, try to recreate the vehicle pointer, disconnecting if it fails.
+            const optional_vpart_position vp = here.veh_at( link->t_abs_pos );
+            if( !vp ) {
+                return reset_cable( carrier, parent_item, true, pos );
+            }
+            auto vp_displayed = vp.part_displayed();
+            if( vp_displayed && vp_displayed->part().has_flag( vp_flag::carried_flag ) ) {
+                // Connected vehicle was racked, so disconnect.
+                return reset_cable( carrier, parent_item, true, pos );
+            }
+            link->t_veh_safe = vp.value().vehicle().get_safe_reference();
         }
     }
-    const std::optional<tripoint> source = get_cable_target( carrier, pos );
-    if( !source ) {
+
+    // Regular pointers are faster, so make one now that we know the reference is valid.
+    vehicle *t_veh = link->t_veh_safe.get();
+
+    // We should skip processing if the last saved target point is out of bounds, but if the linked vehicle is moving fast enough,
+    // we should always process it to avoid erroneously skipping devices riding inside of it.
+    if( last_t_abs_pos_is_oob && t_veh->velocity < HALF_MAPSIZE_X * 400 ) {
+        if( check_length ) {
+            charges = link->max_length - rl_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
+                      link->t_mount.abs().x + link->t_mount.abs().y;
+            if( is_cable_too_long() ) {
+                return reset_cable( carrier, parent_item );
+            }
+        }
         return false;
     }
 
-    if( !here.veh_at( *source ) ) {
-        if( carrier->has_item( *this ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+    // Find the vp_part index the cable is linked to.
+    int link_vp_index = -1;
+    if( link->t_state == link_state::vehicle_port ) {
+        for( int idx : t_veh->cable_ports ) {
+            if( t_veh->part( idx ).mount == link->t_mount ) {
+                link_vp_index = idx;
+                break;
+            }
         }
-        reset_cable( carrier );
-        return false;
+    } else if( link->t_state == link_state::vehicle_battery ) {
+        for( int idx : t_veh->batteries ) {
+            if( t_veh->part( idx ).mount == link->t_mount ) {
+                link_vp_index = idx;
+                break;
+            }
+        }
+    } else if( link->t_state == link_state::vehicle_tow || link->s_state == link_state::vehicle_tow ) {
+        link_vp_index = t_veh->part_at( t_veh->coord_translate( link->t_mount ) );
+    }
+    if( link_vp_index == -1 ) {
+        // The part with cable ports was lost, so disconnect the cable.
+        return reset_cable( carrier, parent_item, true, pos );
     }
 
-    int distance = rl_dist( pos, *source );
-    int max_charges = type->maximum_charges();
-    charges = max_charges - distance;
+    // Set the new absolute position to the vehicle's origin.
+    tripoint t_veh_bub_pos = t_veh->global_pos3();
+    tripoint_abs_ms new_t_abs_pos = here.getglobal( t_veh_bub_pos );
+    if( link->t_abs_pos != new_t_abs_pos ) {
+        link->t_abs_pos = new_t_abs_pos;
+        check_length = true;
+    }
 
-    if( charges < 1 ) {
-        if( carrier->has_item( *this ) ) {
-            carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
+    // If either the link's connected sides moved, check cable's length.
+    if( check_length ) {
+        charges = link->max_length - rl_dist( pos,
+                                              t_veh_bub_pos + t_veh->part( link_vp_index ).precalc[0] );
+        if( is_cable_too_long() ) {
+            return reset_cable( carrier, parent_item );
         }
-        reset_cable( carrier );
+    }
+
+    // Extra behaviors for the cabled item.
+    if( parent_item != nullptr ) {
+        int turns_elapsed = to_turns<int>( calendar::turn - link->last_processed );
+        link->last_processed = calendar::turn;
+
+        int power_draw = 0;
+
+        // Recharge or charge linked batteries
+        power_draw -= charge_linked_batteries( *parent_item, *t_veh, turns_elapsed );
+
+        // Tool power draw display
+        if( parent_item->active && parent_item->type->tool && parent_item->type->tool->power_draw > 0_W ) {
+            power_draw -= parent_item->type->tool->power_draw.value();
+        }
+
+        // Send total power draw to the vehicle so it can be displayed.
+        if( power_draw != 0 ) {
+            t_veh->linked_item_epower_this_turn += units::from_milliwatt( power_draw );
+        }
+    } else if( has_flag( flag_AUTO_DELETE_CABLE ) ) {
+        debugmsg( "%s shouldn't exist outside of an item or vehicle part.", tname() );
+        return true;
     }
 
     return false;
 }
 
-void item::reset_cable( Character *p )
+int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed )
 {
-    int max_charges = type->maximum_charges();
-
-    set_var( "state", "attach_first" );
-    erase_var( "source_x" );
-    erase_var( "source_y" );
-    erase_var( "source_z" );
-    active = false;
-    charges = max_charges;
-
-    if( p != nullptr ) {
-        p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
-        p->moves -= charges * 10;
+    if( !link || link->charge_rate == 0 || turns_elapsed < 1 || link->charge_interval < 1 ) {
+        return 0;
     }
+    const item *parent_mag = linked_item.magazine_current();
+    if( !parent_mag ) {
+        return 0;
+    }
+
+    const bool power_in = link->charge_rate > 0;
+
+    if( ( power_in && parent_mag->has_flag( flag_RECHARGE ) &&
+          linked_item.ammo_remaining() < linked_item.ammo_capacity( ammo_battery ) ) ||
+        ( !power_in && linked_item.ammo_remaining() > 0 ) ) {
+
+        // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
+        // spent ouside the reality bubble it should be applied as a percentage of the total instead.
+        // This is used for determining which to do.
+        bool short_time_passed = turns_elapsed <= link->charge_interval;
+
+        if( !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) &&
+            short_time_passed ) {
+            return link->charge_rate;
+        }
+
+        // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
+        int transfer_total = short_time_passed ? 1 :
+                             ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
+
+        if( power_in ) {
+            const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
+            // Around 85% efficient by default; a few of the discharges don't actually recharge
+            if( battery_deficit == 0 && !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + transfer_total );
+            }
+        } else {
+            // Around 85% efficient by default; a few of the discharges don't actually charge
+            if( !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+                const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
+                if( battery_surplus == 0 ) {
+                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
+                }
+            } else {
+                const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
+                if( linked_levels.first < linked_levels.second ) {
+                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
+                }
+            }
+        }
+        return link->charge_rate;
+    }
+    return 0;
 }
 
-bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
+bool item::reset_cable( Character *p, item *parent_item, const bool loose_message,
+                        const tripoint sees_point )
+{
+    active = false;
+    if( !link ) {
+        if( parent_item != nullptr ) {
+            debugmsg( "%s's active cable lost its cable data!", parent_item->tname() );
+            parent_item->contents_linked = false;
+        } else {
+            debugmsg( "Active cable %s lost its cable data!", tname() );
+        }
+        charges = type->maximum_charges();
+        return has_flag( flag_AUTO_DELETE_CABLE );
+    }
+
+    if( loose_message ) {
+        if( p != nullptr ) {
+            p->add_msg_if_player( m_warning, parent_item == nullptr ?
+                                  string_format( _( "Your %s has come loose." ), label( 1 ) ) :
+                                  string_format( _( "Your %s's cable has come loose." ), parent_item->label( 1 ) ) );
+        } else {
+            add_msg_if_player_sees( sees_point, m_warning, parent_item == nullptr ?
+                                    string_format( _( "The %s has come loose." ), label( 1 ) ) :
+                                    string_format( _( "The %s's cable has come loose." ), parent_item->label( 1 ) ) );
+        }
+    }
+    if( parent_item != nullptr ) {
+        parent_item->contents_linked = false;
+    }
+    const int respool_length = 5;
+    if( link->max_length - charges > respool_length ) {
+        // Cables that are too long need to be manually rewound before reuse.
+        link->s_state = link_state::needs_reeling;
+        return false;
+    }
+
+    charges = link->max_length;
+    link.reset();
+    return has_flag( flag_AUTO_DELETE_CABLE );
+}
+
+void item::reset_cables( Character *p )
+{
+    if( !contents_linked ) {
+        debugmsg( "Tried to reset %s's cables but it wasn't plugged in.", tname() );
+        return;
+    }
+    std::vector<item *> cables = contents.cables( true );
+    for( item *cable : cables ) {
+        if( cable->reset_cable( p, this ) ) {
+            remove_item( *cable );
+        }
+    }
+    contents_linked = false;
+}
+
+bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
+                                const link_state required_state )
 {
     if( carrier == nullptr ) {
         erase_var( "cable" );
         active = false;
         return false;
     }
-    bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_link" ||
-                it.get_var( "state" ) == "UPS" );
+    bool has_connected_cable = carrier->has_item_with( [&required_state]( const item & it ) {
+        return it.link && it.link->has_state( required_state );
     } );
     if( !has_connected_cable ) {
         erase_var( "cable" );
@@ -12838,7 +13093,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
     if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_W ) &&
-        ammo_remaining( carrier ) == 0 ) {
+        ammo_remaining( carrier, true ) == 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
@@ -12949,6 +13204,20 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         wetness -= 1;
     }
 
+    if( contents_linked ) {
+        std::vector<item *> cables = contents.cables( true );
+        if( !cables.empty() ) {
+            for( item *cable : cables ) {
+                if( cable->process_cable( here, carrier, pos, this ) ) {
+                    remove_item( *cable );
+                }
+            }
+        } else {
+            debugmsg( "%s was labeled as plugged in but had no active cables inside.", tname() );
+            contents_linked = false;
+        }
+    }
+
     // Remaining stuff is only done for active items.
     if( active ) {
 
@@ -13006,7 +13275,11 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
             if( has_flag( flag_IS_UPS ) && mark_flag() ) {
                 // DO NOT process this as a tool! It really isn't!
-                return process_UPS( carrier, pos );
+                return process_linked_item( carrier, pos, link_state::ups );
+            }
+            if( ( has_flag( flag_SOLARPACK ) || has_flag( flag_SOLARPACK_ON ) ) && mark_flag() ) {
+                // DO NOT process this as a tool! It really isn't!
+                return process_linked_item( carrier, pos, link_state::solarpack );
             }
 
             if( !mark ) {
@@ -13552,6 +13825,7 @@ std::vector<item_comp> item::get_uncraft_components() const
                 if( component.has_flag( flag_UNRECOVERABLE ) ) {
                     continue;
                 }
+                // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
                 auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp & obj ) {
                     return obj.type == component.typeId();
                 } );

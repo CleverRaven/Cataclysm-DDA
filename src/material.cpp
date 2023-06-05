@@ -87,7 +87,7 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
         JsonObject jo = jsobj.get_object( "resist" );
         _resistances = load_resistances_instance( jo );
         for( const JsonMember &jmemb : jo ) {
-            _res_was_loaded.emplace_back( damage_type_id( jmemb.name() ) );
+            _res_was_loaded.emplace_back( jmemb.name() );
         }
     }
 
@@ -214,13 +214,13 @@ std::string material_type::cut_dmg_verb() const
     return _cut_dmg_verb.translated();
 }
 
-std::string material_type::dmg_adj( int damage ) const
+std::string material_type::dmg_adj( int damage_level ) const
 {
-    if( damage <= 0 ) {
+    if( damage_level <= 1 ) {
         return std::string(); // not damaged
     }
-    // apply bounds checking
-    return _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].translated();
+    const int idx = std::clamp( damage_level - 2, 0, static_cast<int>( _dmg_adj.size() ) );
+    return _dmg_adj[idx].translated();
 }
 
 int material_type::chip_resist() const

@@ -81,8 +81,6 @@
       "place_items": [
         { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 17, "y": 22 },
         { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 18, "y": 22 },
-        { "item": "vending_food_items", "chance": 80, "repeat": [ 3, 6 ], "x": 3, "y": 6 },
-        { "item": "vending_drink_items", "chance": 80, "repeat": [ 3, 6 ], "x": 3, "y": 7 },
         { "item": "fridgesnacks", "chance": 70, "repeat": [ 0, 4 ], "x": 3, "y": 4 }
       ],
       "add": [ { "item": "microwave", "x": 4, "y": 4, "chance": 1 }, { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 } ],

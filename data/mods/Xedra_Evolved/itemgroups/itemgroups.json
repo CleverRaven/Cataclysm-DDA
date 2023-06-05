@@ -136,6 +136,13 @@
   },
   {
     "type": "item_group",
+    "id": "softdrugs",
+    "subtype": "distribution",
+    "copy-from": "softdrugs",
+    "extend": { "entries": [ { "item": "truckstop_viagra", "prob": 15 } ] }
+  },
+  {
+    "type": "item_group",
     "subtype": "distribution",
     "id": "xed_notes",
     "//": "Itemgroup for lore snippet items in Xedra Offices and Labs.",

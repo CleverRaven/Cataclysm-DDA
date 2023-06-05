@@ -18,7 +18,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "BIOLUM", "HAIR", "HORNS", "TAIL", "WHISKERS", "WINGS", "TUSKS" ],
+    "types": [ "BIOLUM", "HAIR", "HORNS", "TAIL", "WHISKERS", "WINGS", "TUSKS", "BODY_ARMOR_MOD" ],
     "cancels": [ "ARM_FEATHERS", "CF_HAIR", "HAIRROOTS", "INK_GLANDS", "THORNS", "TRANSPIRATION", "WEB_RAPPEL", "WEB_ROPE" ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
@@ -34,6 +34,18 @@
     "types": [ "ARMS" ],
     "cancels": [ "BENDY1", "BENDY2", "BENDY3" ],
     "description": "You have human arms."
+  },
+  {
+    "type": "mutation",
+    "id": "HUMAN_BLOOD",
+    "name": { "str": "Human Blood" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "BLOOD" ],
+    "cancels": [ "ACIDBLOOD" ],
+    "description": "You have human blood."
   },
   {
     "type": "mutation",
@@ -101,6 +113,7 @@
       "LEAPING_LEGS",
       "LEAPING_LEGS2",
       "LEG_TENT_BRACE",
+      "SCUTTLE",
       "LIGHTSTEP",
       "STRONGKNEES"
     ],
@@ -983,7 +996,6 @@
     "name": { "str": "High Adrenaline" },
     "points": 1,
     "description": "If you are in a very dangerous situation, you may experience a temporary rush which increases your speed and strength significantly.",
-    "starting_trait": true,
     "changes_to": [ "ADRENALINE2" ],
     "category": [ "BEAST", "CHIMERA" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_CHIMERA" ]
@@ -1035,7 +1047,8 @@
     "cancels": [ "NONADDICTIVE" ],
     "points": 2,
     "mixed_effect": true,
-    "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…"
+    "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…",
+    "category": [ "MEDICAL" ]
   },
   {
     "type": "mutation",
@@ -1884,6 +1897,7 @@
     "starting_trait": true,
     "changes_to": [ "SUNBURN" ],
     "category": [ "TROGLOBITE", "MOUSE", "RABBIT" ],
+    "flags": [ "ALBINO" ],
     "types": [ "skin_tone" ]
   },
   {
@@ -1950,7 +1964,7 @@
     "ugliness": 1,
     "description": "Your skin is slightly rough.  This has no gameplay effect.",
     "types": [ "SKIN" ],
-    "changes_to": [ "SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN", "PATCHSKIN1" ],
+    "changes_to": [ "SPARSE_SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN", "PATCHSKIN1" ],
     "category": [
       "LIZARD",
       "RAPTOR",
@@ -2444,15 +2458,42 @@
   },
   {
     "type": "mutation",
-    "id": "SCALES",
+    "id": "SPARSE_SCALES",
     "name": { "str": "Sparse Scales" },
     "points": 2,
-    "visibility": 10,
-    "ugliness": 3,
-    "description": "Your skin has toughened and grown thin, flexible scales in some places, acting as natural armor.  Somewhat reduces wet effects.",
+    "visibility": 5,
+    "ugliness": 1,
+    "description": "Your skin has toughened and grown thin, flexible scales in some places, acting as natural armor.",
     "types": [ "SKIN" ],
     "category": [ "RAPTOR", "LIZARD", "FISH" ],
     "prereqs": [ "SKIN_ROUGH" ],
+    "changes_to": [ "SCALES" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
+    ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 2, "bash": 1 } ],
+    "integrated_armor": [ "integrated_sparse_scales" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SCALES",
+    "name": { "str": "Scales" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 3,
+    "description": "Your skin has toughened further and your scales have grown to cover most of your body.  Somewhat reduces wet effects.",
+    "types": [ "SKIN" ],
+    "category": [ "RAPTOR", "LIZARD", "FISH" ],
+    "prereqs": [ "SPARSE_SCALES" ],
     "changes_to": [ "THICK_SCALES", "SLEEK_SCALES" ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
@@ -2466,7 +2507,7 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "armor": [ { "part_types": [ "tail" ], "cut": 2, "bash": 2 } ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 7, "bash": 4 } ],
     "integrated_armor": [ "integrated_scales" ]
   },
   {
@@ -2477,7 +2518,7 @@
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  Further, bony scutes cover your extremities, offering additional protection there.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "threshreq": [ "THRESH_LIZARD" ],
@@ -2509,6 +2550,7 @@
     "prereqs": [ "SCALES" ],
     "category": [ "FISH" ],
     "movecost_swim_modifier": 0.75,
+    "threshreq": [ "THRESH_FISH" ],
     "wet_protection": [
       { "part": "head", "good": 7 },
       { "part": "leg_l", "good": 21 },
@@ -2767,6 +2809,31 @@
   },
   {
     "type": "mutation",
+    "id": "CHITIN_MOLTED",
+    "name": { "str": "Epicuticle (Molted)" },
+    "points": 2,
+    "visibility": 3,
+    "ugliness": 2,
+    "description": "Your epidermis has turned into a thin, flexible layer of chitin.  Newly molted, it feels a little tender, but it's still tough and leathery.",
+    "purifiable": false,
+    "types": [ "SKIN" ],
+    "leads_to": [ "CHITIN2", "CHITIN_FUR", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "integrated_armor": [ "integrated_chitin" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 1 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 1 },
+      { "part": "foot_r", "ignored": 1 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "CHITIN2",
     "name": { "str": "Chitin Carapace" },
     "points": 2,
@@ -2779,6 +2846,32 @@
     "leads_to": [ "CHITIN3", "CRUSTACEAN_CARAPACE" ],
     "category": [ "SPIDER", "INSECT", "CRUSTACEAN" ],
     "integrated_armor": [ "integrated_chitin2" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 9 },
+      { "part": "leg_r", "ignored": 9 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 8 },
+      { "part": "arm_r", "ignored": 8 },
+      { "part": "hand_l", "ignored": 2 },
+      { "part": "hand_r", "ignored": 2 },
+      { "part": "torso", "ignored": 18 }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHITIN2_MOLTED",
+    "name": { "str": "Chitin Carapace (Molted)" },
+    "points": 2,
+    "visibility": 6,
+    "ugliness": 3,
+    "description": "You've recently molted, and your chitin exoskeleton is still soft and vulnerable.",
+    "purifiable": false,
+    "types": [ "BODY_ARMOR" ],
+    "prereqs": [ "CHITIN_MOLTED" ],
+    "leads_to": [ "CHITIN3", "CRUSTACEAN_CARAPACE" ],
+    "integrated_armor": [ "integrated_chitin2_molted" ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
       { "part": "leg_l", "ignored": 9 },
@@ -2822,6 +2915,32 @@
   },
   {
     "type": "mutation",
+    "id": "CHITIN3_MOLTED",
+    "name": { "str": "Sclerotin Plate (Molted)" },
+    "points": 2,
+    "visibility": 8,
+    "ugliness": 5,
+    "description": "Your exoskeleton bears thick plates of chitin which have not fully sclerotized.  They won't provide good protection until they've had time to harden.",
+    "types": [ "BODY_ARMOR" ],
+    "prereqs": [ "CHITIN2_MOLTED" ],
+    "leads_to": [ "CHITIN_FUR3" ],
+    "integrated_armor": [ "integrated_chitin3_molted" ],
+    "purifiable": false,
+    "wet_protection": [
+      { "part": "head", "ignored": 4 },
+      { "part": "leg_l", "ignored": 14 },
+      { "part": "leg_r", "ignored": 14 },
+      { "part": "foot_l", "ignored": 4 },
+      { "part": "foot_r", "ignored": 4 },
+      { "part": "arm_l", "ignored": 12 },
+      { "part": "arm_r", "ignored": 12 },
+      { "part": "hand_l", "ignored": 3 },
+      { "part": "hand_r", "ignored": 3 },
+      { "part": "torso", "ignored": 26 }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "CRUSTACEAN_CARAPACE",
     "name": { "str": "Crustacean Carapace" },
     "points": 8,
@@ -2834,6 +2953,33 @@
     "leads_to": [ "CRUSTACEAN_CLAW" ],
     "integrated_armor": [ "integrated_carapace" ],
     "wet_protection": [
+      { "part": "head", "ignored": 15 },
+      { "part": "leg_l", "ignored": 20 },
+      { "part": "leg_r", "ignored": 20 },
+      { "part": "foot_l", "ignored": 9 },
+      { "part": "foot_r", "ignored": 9 },
+      { "part": "arm_l", "ignored": 20 },
+      { "part": "arm_r", "ignored": 20 },
+      { "part": "hand_l", "ignored": 9 },
+      { "part": "hand_r", "ignored": 9 },
+      { "part": "torso", "ignored": 34 }
+    ],
+    "passive_mods": { "dex_mod": -2 }
+  },
+  {
+    "type": "mutation",
+    "id": "CRUSTACEAN_CARAPACE_MOLTED",
+    "name": { "str": "Crustacean Carapace (Molted)" },
+    "points": 8,
+    "visibility": 10,
+    "ugliness": 8,
+    "description": "You're covered in a great chitin carapace which reduces your Dexterity by 1, however it has recently molted and will offer poor protection until it has time to harden.  Greatly reduces wet effects.",
+    "types": [ "BODY_ARMOR" ],
+    "prereqs": [ "CHITIN2" ],
+    "category": [ "CRUSTACEAN" ],
+    "leads_to": [ "CRUSTACEAN_CLAW" ],
+    "integrated_armor": [ "integrated_carapace_molted" ],
+    "wet_protection": [
       { "part": "head", "ignored": 8 },
       { "part": "leg_l", "ignored": 16 },
       { "part": "leg_r", "ignored": 16 },
@@ -2845,7 +2991,7 @@
       { "part": "hand_r", "ignored": 6 },
       { "part": "torso", "ignored": 20 }
     ],
-    "passive_mods": { "dex_mod": -2 }
+    "passive_mods": { "dex_mod": -1 }
   },
   {
     "type": "mutation",
@@ -2857,8 +3003,8 @@
     "bodytemp_modifiers": [ 100, 150 ],
     "bodytemp_sleep": 50,
     "description": "You've developed some sort of hair growing out of your chitin.  It's a bit warmer than not having hair.",
-    "types": [ "BODY_ARMOR" ],
-    "prereqs": [ "CHITIN" ],
+    "types": [ "BODY_ARMOR_MOD" ],
+    "prereqs": [ "CHITIN", "CHITIN_MOLTED", "CHITIN2", "CHITIN2_MOLTED", "CHITIN3", "CHITIN3_MOLTED" ],
     "category": [ "SPIDER" ],
     "changes_to": [ "CHITIN_FUR2" ]
   },
@@ -2872,10 +3018,12 @@
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
     "description": "Your chitin hair has thickened and spread across your body.  It provides minor warmth and helps you sense nearby vibrations.",
-    "types": [ "BODY_ARMOR" ],
-    "prereqs": [ "CHITIN_FUR" ],
+    "types": [ "BODY_ARMOR_MOD" ],
+    "prereqs": [ "CHITIN2", "CHITIN3", "CHITIN2_MOLTED", "CHITIN3_MOLTED" ],
+    "prereqs2": [ "CHITIN", "CHITIN_MOLTED" ],
     "leads_to": [ "CF_HAIR" ],
     "category": [ "SPIDER" ],
+    "cancels": [ "CHITIN_FUR" ],
     "changes_to": [ "CHITIN_FUR3" ]
   },
   {
@@ -2888,9 +3036,23 @@
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
     "description": "Your thick exoskeleton boasts a fine coat of hairs that put feline whiskers to shame.",
-    "types": [ "BODY_ARMOR" ],
-    "prereqs": [ "CHITIN_FUR2", "CHITIN3" ],
+    "types": [ "BODY_ARMOR_MOD" ],
+    "prereqs": [ "CHITIN3", "CHITIN3_MOLTED" ],
+    "prereqs2": [ "CHITIN", "CHITIN_MOLTED", "CHITIN2", "CHITIN2_MOLTED" ],
     "leads_to": [ "CF_HAIR" ],
+    "threshreq": [ "THRESH_SPIDER" ],
+    "cancels": [ "CHITIN_FUR", "CHITIN_FUR2" ],
+    "category": [ "SPIDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CF_HAIR",
+    "name": { "str": "Urticating Hairs" },
+    "points": 3,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "Significant amounts of your hairs have loosened.  If some creature tries to attack you, your assailant is quite likely to get fine, bristly chitin in an irritating spot; it doesn't carry your venom but it will be distracting.",
+    "prereqs": [ "CHITIN3", "CHITIN3_MOLTED" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ]
   },
@@ -2901,31 +3063,15 @@
     "points": 0,
     "visibility": 10,
     "ugliness": 9,
-    "cut_dmg_bonus": 3,
-    "bash_dmg_bonus": 6,
-    "butchering_quality": -3,
     "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
-    "encumbrance_always": [ [ "hand_r", 40 ] ],
     "valid": false,
     "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "prereqs": [ "CRUSTACEAN_CARAPACE" ],
+    "integrated_armor": [ "integrated_giant_pincer" ],
     "threshreq": [ "THRESH_CRUSTACEAN" ],
     "category": [ "CRUSTACEAN" ],
     "restricts_gear": [ "hand_r" ],
-    "types": [ "HANDS" ],
-    "armor": [ { "parts": [ "hand_r" ], "bash": 3, "cut": 3 } ]
-  },
-  {
-    "type": "mutation",
-    "id": "CF_HAIR",
-    "name": { "str": "Urticating Hairs" },
-    "points": 3,
-    "visibility": 1,
-    "ugliness": 1,
-    "description": "Significant amounts of your hairs have loosened.  If some creature tries to attack you, your assailant is quite likely to get fine, bristly chitin in an irritating spot; it doesn't carry your venom but it will be distracting.",
-    "prereqs": [ "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ]
+    "types": [ "HANDS" ]
   },
   {
     "type": "mutation",
@@ -3258,30 +3404,29 @@
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
-    "cut_dmg_bonus": 3,
-    "pierce_dmg_bonus": 3,
-    "butchering_quality": 4,
+    "integrated_armor": [ "integrated_claws" ],
+    "flags": [ "UNARMED_BONUS" ],
     "description": "You have claws on the ends of your fingers.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
     "changes_to": [ "CLAWS_RETRACT", "CLAWS_RAT" ],
-    "category": [ "BEAST", "RAT", "URSINE", "FELINE", "LUPINE" ]
+    "category": [ "BEAST", "RAT", "URSINE", "FELINE" ],
+    "//": "No Lupine, wolf claws aren't long or sharp enough."
   },
   {
     "type": "mutation",
     "id": "CLAWS_RAT",
-    "name": { "str": "Rat Claws" },
+    "name": { "str": "Gnarled Claws" },
     "points": 3,
     "visibility": 3,
     "ugliness": 4,
-    "cut_dmg_bonus": 1,
-    "butchering_quality": 4,
+    "integrated_armor": [ "integrated_claws_rat" ],
     "flags": [ "UNARMED_BONUS" ],
     "description": "Your claws have grown tougher and slightly gnarled.",
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS" ],
     "changes_to": [ "CLAWS_ST" ],
-    "category": [ "RAT" ]
+    "category": [ "RAT", "URSINE" ]
   },
   {
     "type": "mutation",
@@ -3291,16 +3436,13 @@
     "visibility": 3,
     "ugliness": 5,
     "purifiable": false,
-    "cut_dmg_bonus": 1,
-    "pierce_dmg_bonus": 3,
-    "butchering_quality": 8,
-    "flags": [ "UNARMED_BONUS" ],
+    "integrated_armor": [ "integrated_claws_st" ],
     "description": "Your paws are bone, muscle, and claw with a thin layer of skin and fur.  They might as well be made of stainless steel.",
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS_RAT" ],
     "prereqs2": [ "PAWS" ],
-    "threshreq": [ "THRESH_RAT" ],
-    "category": [ "RAT" ]
+    "threshreq": [ "THRESH_RAT", "THRESH_URSINE" ],
+    "category": [ "RAT", "URSINE" ]
   },
   {
     "type": "mutation",
@@ -3323,9 +3465,7 @@
     "active": true,
     "valid": false,
     "ugliness": 1,
-    "cut_dmg_bonus": 3,
-    "pierce_dmg_bonus": 3,
-    "butchering_quality": 4,
+    "integrated_armor": [ "integrated_claws" ],
     "description": "Sharp claws are extending from the end of your fingers.",
     "transform": { "target": "CLAWS_RETRACT", "msg_transform": "You retract your claws.", "active": false, "moves": 10 },
     "cost": 0
@@ -3338,6 +3478,7 @@
     "visibility": 4,
     "ugliness": 4,
     "mixed_effect": true,
+    "//": "Didn't integrate-ize tentacle rakes because they are hardcoded, waiting for limb rework.",
     "description": "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
     "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
     "prereqs": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
@@ -3424,17 +3565,13 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "cut_dmg_bonus": 3,
-    "butchering_quality": 4,
+    "integrated_armor": [ "integrated_talons" ],
     "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
-    "restricts_gear": [ "hand_fingers_l", "hand_fingers_r" ],
-    "destroys_gear": true,
     "description": "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent wearing gloves.",
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
-    "category": [ "LIZARD", "BIRD", "CHIMERA" ],
-    "allowed_items": [ "ALLOWS_TALONS" ]
+    "category": [ "LIZARD", "BIRD", "CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -4839,6 +4976,24 @@
   },
   {
     "type": "mutation",
+    "id": "CRAB_LEGS",
+    "name": { "str": "Crab Legs" },
+    "points": 1,
+    "mixed_effect": true,
+    "description": "You have four prong-tipped legs, splayed out and articulated like a crab's.  They're a little quieter than human feet.",
+    "category": [ "CRUSTACEAN" ],
+    "types": [ "LEGS", "FEET", "SOLES" ],
+    "prereqs": [ "CHITIN2", "CRUSTACEAN_CARAPACE" ],
+    "leads_to": [ "SCUTTLE" ],
+    "visibility": 8,
+    "ugliness": 9,
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "noise_modifier": 0.9,
+    "destroys_gear": true,
+    "flags": [ "TOUGH_FEET" ]
+  },
+  {
+    "type": "mutation",
     "id": "GASTROPOD_FOOT",
     "name": { "str": "Gastropod Foot" },
     "points": 1,
@@ -4863,10 +5018,11 @@
     "id": "GASTROPOD_BALANCE",
     "name": { "str": "Gastropod Balance" },
     "points": 1,
-    "description": "By pushing your whole 'foot' against the ground you are able to move across rough terrain without losing your 'footing'.",
+    "description": "By pushing your whole 'foot' against the ground you are able to move across rough terrain without losing your 'footing'.  You're also able to cling to the ground underwater, allowing you to move along the bottom more easily.",
     "prereqs": [ "GASTROPOD_FOOT" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
-    "category": [ "GASTROPOD" ]
+    "category": [ "GASTROPOD" ],
+    "flags": [ "WALK_UNDERWATER" ]
   },
   {
     "type": "mutation",
@@ -6370,6 +6526,7 @@
     "prereqs": [ "ALBINO" ],
     "prereqs2": [ "TROGLO2", "TROGLO3" ],
     "category": [ "TROGLOBITE" ],
+    "flags": [ "SUNBURN" ],
     "types": [ "skin_tone" ]
   },
   {
@@ -6391,7 +6548,7 @@
     "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
     "types": [ "SUNLIGHT" ],
     "changes_to": [ "TROGLO2" ],
-    "category": [ "LIZARD", "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE" ]
+    "category": [ "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE" ]
   },
   {
     "type": "mutation",
@@ -6455,7 +6612,7 @@
     "restricts_gear": [ "hand_l", "hand_r" ],
     "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
     "types": [ "HANDS" ],
-    "prereqs": [ "CLAWS", "CLAWS_RETRACT", "CLAWS_RAT" ],
+    "prereqs": [ "NAILS", "CLAWS", "CLAWS_RETRACT", "CLAWS_RAT" ],
     "cancels": [ "TALONS" ],
     "changes_to": [ "PAWS_LARGE" ],
     "category": [ "LUPINE", "RAT", "FELINE", "BEAST", "URSINE" ],
@@ -7424,10 +7581,26 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your lower tentacles have developed suckers.  They make land movement marginally more tiring, but do a good job of keeping you set in place.",
+    "description": "Your lower tentacles have developed suckers, perfect for walking along lake beds and ocean floors.  They make land movement marginally more tiring, do a good job of keeping you set in place.",
     "prereqs": [ "LEG_TENTACLES" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
-    "category": [ "CEPHALOPOD" ]
+    "category": [ "CEPHALOPOD" ],
+    "flags": [ "WALK_UNDERWATER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SCUTTLE",
+    "name": { "str": "Scuttle" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "Your hook-shaped feet curl inward to grip the ground, allowing you to easily walk along the bottom when you're underwater.  They're also a bit quicker at climbing over obstacles, even on dry land.",
+    "prereqs": [ "CRAB_LEGS" ],
+    "threshreq": [ "THRESH_CRUSTACEAN" ],
+    "movecost_obstacle_modifier": 0.87,
+    "category": [ "CRUSTACEAN" ],
+    "flags": [ "WALK_UNDERWATER" ]
   },
   {
     "type": "mutation",
@@ -7445,6 +7618,7 @@
     "name": { "str": "Gastropod" },
     "points": 1,
     "description": "You feel bad for all the creatures that don't carry their home on their backs.",
+    "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7526,6 +7700,7 @@
     "name": { "str": "Insect" },
     "points": 1,
     "description": "It would be good to be a queen, having workers constantly servicing your every need… but how would you keep them in line?",
+    "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7536,6 +7711,7 @@
     "name": { "str": "Plant" },
     "points": 1,
     "description": "Well, you still have those other walking flowers--and the mushrooms, too--to deal with.  But you'll manage.",
+    "flags": [ "PLANTBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7566,6 +7742,7 @@
     "name": { "str": "Cephalopod" },
     "points": 1,
     "description": "Strange aeons, true, but Death seems to be slacking, and you are doing just fine.",
+    "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7576,6 +7753,7 @@
     "name": { "str": "Arachnid" },
     "points": 1,
     "description": "Well, maybe you'll just have to make your own worldwide web.",
+    "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7690,6 +7868,7 @@
     "name": { "str": "Crustacean" },
     "points": 1,
     "description": "Who needs skin when you can have a hard carapace?",
+    "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7711,6 +7890,8 @@
     "points": 4,
     "description": "Your body has developed a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
     "prereqs": [ "ACIDPROOF" ],
+    "types": [ "BLOOD" ],
+    "flags": [ "ACIDBLOOD" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "category": [ "INSECT", "CHIMERA", "MEDICAL", "SLIME" ]
   },
@@ -8155,6 +8336,16 @@
     "valid": false,
     "description": "They said college costs an arm and a leg, they sure weren't kidding!",
     "enchantments": [ "ENCH_DEBUG_ONLY_HEAD" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_BIG_HEAD",
+    "name": { "str": "Debug Big Head" },
+    "points": 99,
+    "valid": false,
+    "description": "They said college what make me smart, this is a lot to lug around!",
+    "enchantments": [ "ENCH_DEBUG_BIG_HEAD" ],
     "debug": true
   },
   {

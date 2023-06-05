@@ -1,0 +1,65 @@
+[
+  {
+    "id": "xe_cold_iron_cut_damage",
+    "type": "damage_type",
+    "physical": true,
+    "magic_color": "light_gray",
+    "name": "cold iron cut",
+    "skill": "cutting",
+    "derived_from": [ "cut", 1 ],
+    "immune_flags": { "character": [ "IRONSWORN" ], "monster": [ "IRONWROUGHT" ] }
+  },
+  {
+    "id": "xe_cold_iron_cut_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "cutting",
+    "bionic_info": { "order": 999999, "show_type": false },
+    "protection_info": { "order": 999999, "show_type": false },
+    "pet_prot_info": { "order": 999999, "show_type": false },
+    "melee_combat_info": { "order": 999999, "show_type": false },
+    "ablative_info": { "order": 999999, "show_type": false }
+  },
+  {
+    "id": "xe_cold_iron_bash_damage",
+    "type": "damage_type",
+    "physical": true,
+    "magic_color": "light_gray",
+    "name": "cold iron bash",
+    "skill": "bashing",
+    "derived_from": [ "bash", 1 ],
+    "immune_flags": { "character": [ "IRONSWORN" ], "monster": [ "IRONWROUGHT" ] }
+  },
+  {
+    "id": "xe_cold_iron_bash_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "bashing",
+    "bionic_info": { "order": 999999, "show_type": false },
+    "protection_info": { "order": 999999, "show_type": false },
+    "pet_prot_info": { "order": 999999, "show_type": false },
+    "melee_combat_info": { "order": 999999, "show_type": false },
+    "ablative_info": { "order": 999999, "show_type": false }
+  },
+  {
+    "id": "xe_cold_iron_stab_damage",
+    "type": "damage_type",
+    "physical": true,
+    "magic_color": "light_gray",
+    "name": "cold iron stab",
+    "skill": "stabbing",
+    "derived_from": [ "stab", 1 ],
+    "immune_flags": { "character": [ "IRONSWORN" ], "monster": [ "IRONWROUGHT" ] }
+  },
+  {
+    "id": "xe_cold_iron_stab_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "piercing",
+    "bionic_info": { "order": 999999, "show_type": false },
+    "protection_info": { "order": 999999, "show_type": false },
+    "pet_prot_info": { "order": 999999, "show_type": false },
+    "melee_combat_info": { "order": 999999, "show_type": false },
+    "ablative_info": { "order": 999999, "show_type": false }
+  }
+]

@@ -10,84 +10,62 @@
 #include <string>
 
 #include "calendar.h"
+#include "memory_fast.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+struct requirement_data;
 
-struct mending_method {
+class fault_fix
+{
     public:
-        std::string id;
+        fault_fix_id id_ = fault_fix_id::NULL_ID();
         translation name;
-        translation description;
-        translation success_msg;
+        translation success_msg; // message to print on applying successfully
         time_duration time;
-        std::map<std::string, std::string> set_variables;
-        std::map<skill_id, int> skills;
-        std::optional<fault_id> turns_into;
-        std::optional<fault_id> also_mends;
-        std::optional<int> heal_stages;
+        std::map<std::string, std::string> set_variables; // item vars applied to item
+        std::map<skill_id, int> skills; // map of skill_id to required level
+        std::set<fault_id> faults_removed; // which faults are removed on applying
+        std::set<fault_id> faults_added; // which faults are added on applying
+        int mod_damage = 0; // mod_damage with this value is called on item applied to
+        int mod_degradation = 0; // mod_degradation with this value is called on item applied to
 
-        requirement_data get_requirements() const;
+        const requirement_data &get_requirements() const;
+
+        static void load( const JsonObject &jo );
+        static const std::map<fault_fix_id, fault_fix> &all();
+        static void reset();
+        static void finalize();
+        static void check_consistency();
     private:
         friend class fault;
-        std::vector<std::pair<requirement_id, int>> requirements;
+        shared_ptr_fast<requirement_data> requirements = make_shared_fast<requirement_data>();
 };
 
 class fault
 {
     public:
-        fault() : id_( fault_id( "null" ) ) {}
+        const fault_id &id() const;
+        std::string name() const;
+        std::string description() const;
+        std::string item_prefix() const;
+        bool has_flag( const std::string &flag ) const;
 
-        const fault_id &id() const {
-            return id_;
-        }
+        const std::set<fault_fix_id> &get_fixes() const;
 
-        bool is_null() const {
-            return id_ == fault_id( "null" );
-        }
-
-        std::string name() const {
-            return name_.translated();
-        }
-
-        std::string description() const {
-            return description_.translated();
-        }
-
-        const std::map<std::string, mending_method> &mending_methods() const {
-            return mending_methods_;
-        }
-
-        const mending_method *find_mending_method( const std::string &id ) const {
-            if( mending_methods_.find( id ) != mending_methods_.end() ) {
-                return &mending_methods_.at( id );
-            } else {
-                return nullptr;
-            }
-        }
-
-        bool has_flag( const std::string &flag ) const {
-            return flags.count( flag );
-        }
-
-        /** Load fault from JSON definition */
-        static void load_fault( const JsonObject &jo );
-
-        /** Get all currently loaded faults */
         static const std::map<fault_id, fault> &all();
-
-        /** Clear all loaded faults (invalidating any pointers) */
+        static void load( const JsonObject &jo );
         static void reset();
-
-        /** Checks all loaded from JSON are valid */
         static void check_consistency();
 
     private:
-        fault_id id_;
+        friend class fault_fix;
+        fault_id id_ = fault_id::NULL_ID();
         translation name_;
         translation description_;
-        std::map<std::string, mending_method> mending_methods_;
+        translation item_prefix_; // prefix added to affected item's name
+        std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
 };
 

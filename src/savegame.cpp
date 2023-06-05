@@ -710,10 +710,10 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
                     count--;
                     layer[z + OVERMAP_DEPTH].terrain[i][j] = tmp_otid;
                     if( tmp_otid == oter_lake_shore || tmp_otid == oter_lake_surface ) {
-                        lake_points.emplace_back( tripoint_om_omt( i, j, z ) );
+                        lake_points.emplace_back( i, j, z );
                     }
                     if( tmp_otid == oter_forest || tmp_otid == oter_forest_thick ) {
-                        forest_points.emplace_back( tripoint_om_omt( i, j, z ) );
+                        forest_points.emplace_back( i, j, z );
                     }
                 }
             }
@@ -1387,6 +1387,14 @@ void weather_manager::unserialize_all( const JsonObject &w )
 void global_variables::unserialize( JsonObject &jo )
 {
     jo.read( "global_vals", global_values );
+    // potentially migrate some variable names
+    for( std::pair<std::string, std::string> migration : migrations ) {
+        if( global_values.count( migration.first ) != 0 ) {
+            auto extracted = global_values.extract( migration.first );
+            extracted.key() = migration.second;
+            global_values.insert( std::move( extracted ) );
+        }
+    }
 }
 
 void timed_event_manager::unserialize_all( const JsonArray &ja )
@@ -1473,6 +1481,7 @@ void game::serialize_master( std::ostream &fout )
 void faction_manager::serialize( JsonOut &jsout ) const
 {
     std::vector<faction> local_facs;
+    local_facs.reserve( factions.size() );
     for( const auto &elem : factions ) {
         local_facs.push_back( elem.second );
     }
@@ -1482,6 +1491,15 @@ void faction_manager::serialize( JsonOut &jsout ) const
 void global_variables::serialize( JsonOut &jsout ) const
 {
     jsout.member( "global_vals", global_values );
+}
+
+void global_variables::load_migrations( const JsonObject &jo, const std::string_view & )
+{
+    const std::string from( jo.get_string( "from" ) );
+    const std::string to = jo.has_string( "to" )
+                           ? jo.get_string( "to" )
+                           : "NULL_VALUE";
+    get_globals().migrations.emplace( from, to );
 }
 
 void timed_event_manager::serialize_all( JsonOut &jsout )

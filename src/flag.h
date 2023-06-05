@@ -39,6 +39,7 @@ extern const flag_id flag_ALLOWS_REMOTE_USE;
 extern const flag_id flag_ALWAYS_TWOHAND;
 extern const flag_id flag_OLD_CURRENCY;
 extern const flag_id flag_AURA;
+extern const flag_id flag_AUTO_DELETE_CABLE;
 extern const flag_id flag_BAROMETER;
 extern const flag_id flag_BASH_IMMUNE;
 extern const flag_id flag_BELTED;
@@ -182,14 +183,8 @@ extern const flag_id flag_MAG_BELT;
 extern const flag_id flag_MAG_BULKY;
 extern const flag_id flag_MAG_DESTROY;
 extern const flag_id flag_MAG_EJECT;
-extern const flag_id flag_MC_ENCRYPTED;
 extern const flag_id flag_MC_HAS_DATA;
-extern const flag_id flag_MC_MAY_BE_ENCRYPTED;
 extern const flag_id flag_MC_MOBILE;
-extern const flag_id flag_MC_RANDOM_STUFF;
-extern const flag_id flag_MC_SCIENCE_STUFF;
-extern const flag_id flag_MC_TURN_USED;
-extern const flag_id flag_MC_USED;
 extern const flag_id flag_MECH_BAT;
 extern const flag_id flag_MELTS;
 extern const flag_id flag_MESSY;
@@ -423,7 +418,7 @@ class json_flag
         }
 
         /** Requires this flag to be installed on vehicle */
-        std::string requires_flag() const {
+        const std::string &requires_flag() const {
             return requires_flag_;
         }
 
