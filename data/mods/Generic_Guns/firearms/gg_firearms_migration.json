@@ -353,7 +353,8 @@
       "ak308",
       "zpapm90",
       "zpap85",
-      "papm77"
+      "papm77",
+      "plr16"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
