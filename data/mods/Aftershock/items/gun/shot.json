@@ -14,6 +14,7 @@
     "material": [ "qt_steel", "plastic", "carbide" ],
     "symbol": "r",
     "color": "light_gray",
+    "ammo": [ "shot" ],
     "dispersion": 125,
     "durability": 7,
     "min_cycle_recoil": 1250,
