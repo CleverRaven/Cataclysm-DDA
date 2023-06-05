@@ -718,7 +718,7 @@
     "id": "UPS_on",
     "type": "TOOL",
     "name": { "str": "UPS (on)", "str_pl": "UPSes (on)" },
-    "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor, and some guns, but drains batteries quickly. ",
+    "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor, and some guns, but drains batteries quickly.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
