@@ -12946,54 +12946,54 @@ int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int t
     if( !link || link->charge_rate == 0 || turns_elapsed < 1 || link->charge_interval < 1 ) {
         return 0;
     }
-    const item *parent_mag = linked_item.magazine_current();
-    if( !parent_mag ) {
-        return 0;
+
+    if( !linked_item.is_battery() ) {
+        const item *parent_mag = linked_item.magazine_current();
+        if( !parent_mag || !parent_mag->has_flag( flag_RECHARGE ) ) {
+            return 0;
+        }
     }
 
     const bool power_in = link->charge_rate > 0;
+    if( power_in ? linked_item.ammo_remaining() >= linked_item.ammo_capacity( ammo_battery ) :
+                   linked_item.ammo_remaining() <= 0 ) {
+        return 0;
+    }
 
-    if( ( power_in && parent_mag->has_flag( flag_RECHARGE ) &&
-          linked_item.ammo_remaining() < linked_item.ammo_capacity( ammo_battery ) ) ||
-        ( !power_in && linked_item.ammo_remaining() > 0 ) ) {
+    // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
+    // spent ouside the reality bubble it should be applied as a percentage of the total instead.
+    bool short_time_passed = turns_elapsed <= link->charge_interval;
 
-        // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
-        // spent ouside the reality bubble it should be applied as a percentage of the total instead.
-        // This is used for determining which to do.
-        bool short_time_passed = turns_elapsed <= link->charge_interval;
-
-        if( !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) &&
-            short_time_passed ) {
-            return link->charge_rate;
-        }
-
-        // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
-        int transfer_total = short_time_passed ? 1 :
-                             ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
-
-        if( power_in ) {
-            const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
-            // Around 85% efficient by default; a few of the discharges don't actually recharge
-            if( battery_deficit == 0 && !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
-                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + transfer_total );
-            }
-        } else {
-            // Around 85% efficient by default; a few of the discharges don't actually charge
-            if( !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
-                const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
-                if( battery_surplus == 0 ) {
-                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
-                }
-            } else {
-                const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
-                if( linked_levels.first < linked_levels.second ) {
-                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
-                }
-            }
-        }
+    if( !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) &&
+        short_time_passed ) {
         return link->charge_rate;
     }
-    return 0;
+
+    // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
+    int transfer_total = short_time_passed ? 1 :
+                         ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
+
+    if( power_in ) {
+        const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
+        // Around 85% efficient by default; a few of the discharges don't actually recharge
+        if( battery_deficit == 0 && !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+            linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + transfer_total );
+        }
+    } else {
+        // Around 85% efficient by default; a few of the discharges don't actually charge
+        if( !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+            const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
+            if( battery_surplus == 0 ) {
+                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
+            }
+        } else {
+            const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
+            if( linked_levels.first < linked_levels.second ) {
+                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
+            }
+        }
+    }
+    return link->charge_rate;
 }
 
 bool item::reset_cable( Character *p, item *parent_item, const bool loose_message,
