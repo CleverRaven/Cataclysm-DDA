@@ -957,7 +957,7 @@
     "price_postapoc": 10,
     "material": [ "epoxy", "nylon" ],
     "flags": [ "REACH_ATTACK", "REACH3" ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 1 }
   },
   {
@@ -974,6 +974,7 @@
     "price_postapoc": 10,
     "material": [ "epoxy", "leather" ],
     "flags": [ "REACH_ATTACK" ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 1 }
   }
 ]

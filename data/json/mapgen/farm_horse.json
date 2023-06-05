@@ -441,15 +441,15 @@
       ],
       "palettes": [ "paddock" ],
       "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 1, 17 ], "y": 0 },
+        { "chunks": [ "5x5_paddock_gate_n" ], "x": [ 1, 17 ], "y": 0 },
         {
           "chunks": [
             [ "null", 65 ],
             [ "24x24_paddock_divider_h", 5 ],
             [ "24x24_paddock_divider_v", 5 ],
-            [ "24x24_paddock_divider_diag_up", 10 ],
-            [ "24x24_paddock_divider_diag_down", 10 ],
-            [ "paddock_24x24_showjumps", 5 ]
+            [ "24x24_paddock_divider_d_U", 10 ],
+            [ "24x24_paddock_divider_d_D", 10 ],
+            [ "24x24_paddock_showjumps", 5 ]
           ],
           "x": 0,
           "y": 0
@@ -493,12 +493,12 @@
       ],
       "palettes": [ "paddock" ],
       "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 1, 18 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
-        { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 1, 17 ], "neighbors": { "west": [ "dirt_road" ] } },
-        { "chunks": [ [ "null", 90 ], [ "paddock_feeder_4x4", 10 ] ], "x": [ 1, 17 ], "y": [ 1, 17 ] },
-        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 24, 40 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
-        { "chunks": [ "paddock_gate_5x5_e" ], "x": 42, "y": [ 1, 17 ], "neighbors": { "east": [ "dirt_road" ] } },
-        { "chunks": [ [ "null", 90 ], [ "paddock_feeder_4x4", 10 ] ], "x": [ 24, 41 ], "y": [ 1, 17 ] }
+        { "chunks": [ "5x5_paddock_gate_n" ], "x": [ 1, 18 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_w" ], "x": 0, "y": [ 1, 17 ], "neighbors": { "west": [ "dirt_road" ] } },
+        { "chunks": [ [ "null", 90 ], [ "4x4_paddock_feeder", 10 ] ], "x": [ 1, 17 ], "y": [ 1, 17 ] },
+        { "chunks": [ "5x5_paddock_gate_n" ], "x": [ 24, 40 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_e" ], "x": 42, "y": [ 1, 17 ], "neighbors": { "east": [ "dirt_road" ] } },
+        { "chunks": [ [ "null", 90 ], [ "4x4_paddock_feeder", 10 ] ], "x": [ 24, 41 ], "y": [ 1, 17 ] }
       ]
     }
   },
@@ -537,12 +537,12 @@
       ],
       "palettes": [ "paddock" ],
       "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_s" ], "x": [ 1, 18 ], "y": 19, "neighbors": { "south": [ "dirt_road" ] } },
-        { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 2, 18 ], "neighbors": { "west": [ "dirt_road" ] } },
-        { "chunks": [ [ "null", 90 ], [ "paddock_feeder_4x4", 10 ] ], "x": [ 1, 17 ], "y": [ 2, 18 ] },
-        { "chunks": [ "paddock_gate_5x5_s" ], "x": [ 24, 40 ], "y": 19, "neighbors": { "south": [ "dirt_road" ] } },
-        { "chunks": [ "paddock_gate_5x5_e" ], "x": 42, "y": [ 2, 18 ], "neighbors": { "east": [ "dirt_road" ] } },
-        { "chunks": [ [ "null", 90 ], [ "paddock_feeder_4x4", 10 ] ], "x": [ 24, 41 ], "y": [ 2, 18 ] }
+        { "chunks": [ "5x5_paddock_gate_s" ], "x": [ 1, 18 ], "y": 19, "neighbors": { "south": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_w" ], "x": 0, "y": [ 2, 18 ], "neighbors": { "west": [ "dirt_road" ] } },
+        { "chunks": [ [ "null", 90 ], [ "4x4_paddock_feeder", 10 ] ], "x": [ 1, 17 ], "y": [ 2, 18 ] },
+        { "chunks": [ "5x5_paddock_gate_s" ], "x": [ 24, 40 ], "y": 19, "neighbors": { "south": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_e" ], "x": 42, "y": [ 2, 18 ], "neighbors": { "east": [ "dirt_road" ] } },
+        { "chunks": [ [ "null", 90 ], [ "4x4_paddock_feeder", 10 ] ], "x": [ 24, 41 ], "y": [ 2, 18 ] }
       ]
     }
   },
@@ -582,13 +582,13 @@
       ],
       "palettes": [ "paddock" ],
       "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 0, 19 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_n" ], "x": [ 0, 19 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
         {
           "else_chunks": [
             [ "null", 25 ],
             [ "24x24_paddock_divider_v", 25 ],
-            [ "24x24_paddock_divider_diag_up", 25 ],
-            [ "24x24_paddock_divider_diag_down", 25 ]
+            [ "24x24_paddock_divider_d_U", 25 ],
+            [ "24x24_paddock_divider_d_D", 25 ]
           ],
           "x": 0,
           "y": 0,
@@ -656,29 +656,29 @@
       ],
       "palettes": [ "paddock" ],
       "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 1, 18 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
-        { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 1, 17 ], "neighbors": { "west": [ "dirt_road" ] } },
-        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 25, 42 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
-        { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 25, 42 ], "neighbors": { "west": [ "dirt_road" ] } },
-        { "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_diag_up", 80 ] ], "x": 0, "y": 24 },
-        { "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_diag_down", 80 ] ], "x": 24, "y": 24 },
+        { "chunks": [ "5x5_paddock_gate_n" ], "x": [ 1, 18 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_w" ], "x": 0, "y": [ 1, 17 ], "neighbors": { "west": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_n" ], "x": [ 25, 42 ], "y": 0, "neighbors": { "north": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_w" ], "x": 0, "y": [ 25, 42 ], "neighbors": { "west": [ "dirt_road" ] } },
+        { "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_d_U", 80 ] ], "x": 0, "y": 24 },
+        { "chunks": [ [ "null", 20 ], [ "24x24_paddock_divider_d_D", 80 ] ], "x": 24, "y": 24 },
         {
-          "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "paddock_feeder_4x4", 10 ] ],
+          "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "4x4_paddock_feeder", 10 ] ],
           "x": [ 1, 16 ],
           "y": [ 1, 16 ]
         },
         {
-          "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "paddock_feeder_4x4", 10 ] ],
+          "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "4x4_paddock_feeder", 10 ] ],
           "x": [ 24, 37 ],
           "y": [ 1, 16 ]
         },
         {
-          "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "paddock_feeder_4x4", 10 ] ],
+          "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "4x4_paddock_feeder", 10 ] ],
           "x": [ 1, 7 ],
           "y": [ 24, 30 ]
         },
         {
-          "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "paddock_feeder_4x4", 10 ] ],
+          "chunks": [ [ "null", 60 ], [ "pond_6x6_natural", 5 ], [ "mx_trees_nested", 25 ], [ "4x4_paddock_feeder", 10 ] ],
           "x": [ 32, 38 ],
           "y": [ 24, 30 ]
         }
@@ -688,7 +688,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "paddock_d_UL", "paddock_d_UR" ], [ "paddock_d_DL", "paddock_d_DR" ] ],
+    "om_terrain": [ [ "paddock_d_D_butt", "paddock_d_U_gap" ], [ "paddock_d_D_gap", "paddock_d_U_butt" ] ],
     "weight": 250,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -745,8 +745,8 @@
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_e" ], "x": 19, "y": [ 0, 14 ], "neighbors": { "east": [ "dirt_road" ] } },
-        { "chunks": [ "paddock_gate_5x5_w" ], "x": 24, "y": [ 24, 38 ], "neighbors": { "west": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_e" ], "x": 19, "y": [ 0, 14 ], "neighbors": { "east": [ "dirt_road" ] } },
+        { "chunks": [ "5x5_paddock_gate_w" ], "x": 24, "y": [ 24, 38 ], "neighbors": { "west": [ "dirt_road" ] } },
         { "chunks": [ [ "null", 50 ], [ "pond_6x6_natural", 50 ] ], "x": [ 0, 4 ], "y": [ 14, 18 ] },
         { "chunks": [ [ "null", 50 ], [ "pond_6x6_natural", 50 ] ], "x": [ 38, 42 ], "y": [ 14, 18 ] },
         { "chunks": [ [ "null", 50 ], [ "pond_6x6_natural", 50 ] ], "x": [ 0, 4 ], "y": [ 38, 42 ] },
@@ -888,7 +888,7 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_nested": [ { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 0, 4 ], "neighbors": { "west": [ "dirt_road" ] } } ]
+      "place_nested": [ { "chunks": [ "5x5_paddock_gate_w" ], "x": 0, "y": [ 0, 4 ], "neighbors": { "west": [ "dirt_road" ] } } ]
     }
   },
   {
@@ -979,15 +979,15 @@
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 1, 9 ], "y": 0 },
-        { "chunks": [ "paddock_gate_5x5_n" ], "x": [ 56, 64 ], "y": 0 },
+        { "chunks": [ "5x5_paddock_gate_n" ], "x": [ 1, 9 ], "y": 0 },
+        { "chunks": [ "5x5_paddock_gate_n" ], "x": [ 56, 64 ], "y": 0 },
         {
-          "chunks": [ [ "null", 20 ], [ "pond_6x6_natural", 10 ], [ "mx_trees_nested", 50 ], [ "paddock_feeder_4x4", 20 ] ],
+          "chunks": [ [ "null", 20 ], [ "pond_6x6_natural", 10 ], [ "mx_trees_nested", 50 ], [ "4x4_paddock_feeder", 20 ] ],
           "x": [ 1, 16 ],
           "y": [ 48, 62 ]
         },
         {
-          "chunks": [ [ "null", 65 ], [ "mx_trees_nested", 25 ], [ "paddock_feeder_4x4", 10 ] ],
+          "chunks": [ [ "null", 65 ], [ "mx_trees_nested", 25 ], [ "4x4_paddock_feeder", 10 ] ],
           "x": [ 48, 62 ],
           "y": [ 48, 62 ]
         }
@@ -1054,9 +1054,9 @@
       ],
       "palettes": [ "paddock" ],
       "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_e" ], "x": 19, "y": [ 1, 14 ] },
-        { "chunks": [ "paddock_gate_5x5_e" ], "x": 17, "y": [ 24, 40 ] },
-        { "chunks": [ [ "null", 80 ], [ "paddock_gate_5x5_n", 20 ] ], "x": [ 2, 16 ], "y": 24 }
+        { "chunks": [ "5x5_paddock_gate_e" ], "x": 19, "y": [ 1, 14 ] },
+        { "chunks": [ "5x5_paddock_gate_e" ], "x": 17, "y": [ 24, 40 ] },
+        { "chunks": [ [ "null", 80 ], [ "5x5_paddock_gate_n", 20 ] ], "x": [ 2, 16 ], "y": 24 }
       ]
     }
   },
@@ -1119,9 +1119,9 @@
       ],
       "palettes": [ "paddock" ],
       "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 2, 14 ] },
-        { "chunks": [ "paddock_gate_5x5_w" ], "x": 2, "y": [ 24, 40 ] },
-        { "chunks": [ [ "null", 80 ], [ "paddock_gate_5x5_n", 20 ] ], "x": [ 3, 17 ], "y": 24 }
+        { "chunks": [ "5x5_paddock_gate_w" ], "x": 0, "y": [ 2, 14 ] },
+        { "chunks": [ "5x5_paddock_gate_w" ], "x": 2, "y": [ 24, 40 ] },
+        { "chunks": [ [ "null", 80 ], [ "5x5_paddock_gate_n", 20 ] ], "x": [ 3, 17 ], "y": 24 }
       ]
     }
   },
@@ -1243,7 +1243,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "palettes": [ "paddock" ],
-      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "track_24x24_showjumps", 20 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "24x24_track_showjumps", 20 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -1321,32 +1321,32 @@
     "om_terrain": "farm_horse_silo",
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "predecessor_mapgen": "field",
       "rows": [
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iii-≷-iiiiiiiiiiiiiiiiii",
-        "iii222iiiiiiiiiiiiiiiiii",
-        "i222_222iiiiiiiiiiiiiiii",
-        "i2_____2iiiiiiiiiiiiiiii",
-        "22_____22iiiiiiiiiiiiiii",
-        "A_______2iiiiiiiiiiiiiii",
-        "22_____22iiiiiiiiiiiiiii",
-        "i2_____2iiiiiiiiiiiiiiii",
-        "i222_222iiiiiiiiiiiiiiii",
-        "iii222iiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii",
-        "iiiiiiiiiiiiiiiiiiiiiiii"
+        "........................",
+        "........................",
+        "........................",
+        "...-≷-..................",
+        "...222..................",
+        ".222_222................",
+        ".2_____2................",
+        "22_____22...............",
+        "A_______2...............",
+        "22_____22...............",
+        ".2_____2................",
+        ".222_222................",
+        "...222..................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
       ],
       "palettes": [ "farm_lots" ],
       "terrain": { "_": "t_metal_floor" },
@@ -1358,7 +1358,8 @@
           "y": 5,
           "neighbors": { "north": [ "hayfield" ] }
         }
-      ]
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {

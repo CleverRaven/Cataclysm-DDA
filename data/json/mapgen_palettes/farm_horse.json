@@ -36,13 +36,6 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "#": "t_ladder_up",
-      "2": [
-        [ "t_region_groundcover", 25 ],
-        [ "t_region_shrub", 2 ],
-        [ "t_region_tree", 1 ],
-        [ "t_region_tree_fruit", 1 ],
-        [ "t_region_tree_nut", 1 ]
-      ],
       "9": [ "t_region_tree", "t_region_tree_fruit", "t_region_tree_nut" ]
     },
     "furniture": {
@@ -92,14 +85,6 @@
       "j": "t_null",
       "s": "t_region_shrub",
       "w": "t_water_sh",
-      "2": [
-        [ "t_region_groundcover", 25 ],
-        [ "t_region_shrub", 2 ],
-        [ "t_region_tree", 1 ],
-        [ "t_region_tree_fruit", 1 ],
-        [ "t_region_tree_nut", 1 ]
-      ],
-      "9": [ "t_region_tree", "t_region_tree_fruit", "t_region_tree_nut" ],
       "/": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ]
     },
     "items": { ".": { "item": "sometimes_manure", "chance": 1 } },

@@ -395,7 +395,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "paddock_gate_5x5_n",
+    "nested_mapgen_id": "5x5_paddock_gate_n",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -413,7 +413,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "paddock_gate_5x5_e",
+    "nested_mapgen_id": "5x5_paddock_gate_e",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -431,7 +431,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "paddock_gate_5x5_s",
+    "nested_mapgen_id": "5x5_paddock_gate_s",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -449,7 +449,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "paddock_gate_5x5_w",
+    "nested_mapgen_id": "5x5_paddock_gate_w",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -567,7 +567,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "paddock_feeder_4x4",
+    "nested_mapgen_id": "4x4_paddock_feeder",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -586,7 +586,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "showjump_3x3_EW",
+    "nested_mapgen_id": "3x3_showjump_EW",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -602,7 +602,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "showjump_3x3_NS",
+    "nested_mapgen_id": "3x3_showjump_NS",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -618,7 +618,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "showjump_shrub_5x5_NS",
+    "nested_mapgen_id": "5x5_showjump_shrub_NS",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -636,7 +636,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "showjump_shrub_5x5_EW",
+    "nested_mapgen_id": "5x5_showjump_shrub_EW",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -654,7 +654,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "showjump_water_3x3_N",
+    "nested_mapgen_id": "3x3_showjump_water_N",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -670,7 +670,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "showjump_water_3x3_W",
+    "nested_mapgen_id": "3x3_showjump_water_W",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -686,7 +686,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "showjump_shrubs_water_5x5_S",
+    "nested_mapgen_id": "5x5_showjump_shrubs_water_S",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -704,7 +704,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "showjump_shrubs_water_5x5_E",
+    "nested_mapgen_id": "5x5_showjump_shrubs_water_E",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -754,7 +754,7 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_nested": [ { "chunks": [ "paddock_gate_5x5_e" ], "x": 7, "y": 2 }, { "chunks": [ "paddock_gate_5x5_w" ], "x": 11, "y": 2 } ]
+      "place_nested": [ { "chunks": [ "5x5_paddock_gate_e" ], "x": 7, "y": 2 }, { "chunks": [ "5x5_paddock_gate_w" ], "x": 11, "y": 2 } ]
     }
   },
   {
@@ -792,13 +792,13 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_nested": [ { "chunks": [ "paddock_gate_5x5_n" ], "x": 2, "y": 11 }, { "chunks": [ "paddock_gate_5x5_s" ], "x": 2, "y": 7 } ]
+      "place_nested": [ { "chunks": [ "5x5_paddock_gate_n" ], "x": 2, "y": 11 }, { "chunks": [ "5x5_paddock_gate_s" ], "x": 2, "y": 7 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_paddock_divider_diag_up",
+    "nested_mapgen_id": "24x24_paddock_divider_d_U",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -835,7 +835,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_paddock_divider_diag_down",
+    "nested_mapgen_id": "24x24_paddock_divider_d_D",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -1170,38 +1170,38 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "paddock_24x24_showjumps",
+    "nested_mapgen_id": "24x24_paddock_showjumps",
     "//": "Spawns jumps in a clockwise 19x19 circle from [ 2, 2 ]. Rarely has a central jump.",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_nested": [
-        { "chunks": [ [ "null", 50 ], [ "showjump_3x3_EW", 25 ], [ "showjump_shrub_5x5_EW", 25 ] ], "x": 6, "y": 2 },
-        { "chunks": [ [ "showjump_3x3_EW", 75 ], [ "showjump_shrub_5x5_EW", 25 ] ], "x": 11, "y": 2 },
-        { "chunks": [ [ "null", 50 ], [ "showjump_3x3_NS", 25 ], [ "showjump_shrub_5x5_NS", 25 ] ], "x": 16, "y": 6 },
-        { "chunks": [ [ "showjump_3x3_NS", 75 ], [ "showjump_shrub_5x5_NS", 25 ] ], "x": 16, "y": 11 },
+        { "chunks": [ [ "null", 50 ], [ "3x3_showjump_EW", 25 ], [ "5x5_showjump_shrub_EW", 25 ] ], "x": 6, "y": 2 },
+        { "chunks": [ [ "3x3_showjump_EW", 75 ], [ "5x5_showjump_shrub_EW", 25 ] ], "x": 11, "y": 2 },
+        { "chunks": [ [ "null", 50 ], [ "3x3_showjump_NS", 25 ], [ "5x5_showjump_shrub_NS", 25 ] ], "x": 16, "y": 6 },
+        { "chunks": [ [ "3x3_showjump_NS", 75 ], [ "5x5_showjump_shrub_NS", 25 ] ], "x": 16, "y": 11 },
         {
-          "chunks": [ [ "null", 50 ], [ "showjump_3x3_EW", 25 ], [ "showjump_shrub_5x5_EW", 20 ], [ "showjump_water_3x3_W", 5 ] ],
+          "chunks": [ [ "null", 50 ], [ "3x3_showjump_EW", 25 ], [ "5x5_showjump_shrub_EW", 20 ], [ "3x3_showjump_water_W", 5 ] ],
           "x": 12,
           "y": 16
         },
         {
-          "chunks": [ [ "showjump_3x3_EW", 75 ], [ "showjump_shrub_5x5_EW", 20 ], [ "showjump_water_3x3_W", 5 ] ],
+          "chunks": [ [ "3x3_showjump_EW", 75 ], [ "5x5_showjump_shrub_EW", 20 ], [ "3x3_showjump_water_W", 5 ] ],
           "x": 7,
           "y": 16
         },
         {
-          "chunks": [ [ "null", 50 ], [ "showjump_3x3_NS", 25 ], [ "showjump_shrub_5x5_NS", 20 ], [ "showjump_water_3x3_N", 5 ] ],
+          "chunks": [ [ "null", 50 ], [ "3x3_showjump_NS", 25 ], [ "5x5_showjump_shrub_NS", 20 ], [ "3x3_showjump_water_N", 5 ] ],
           "x": 2,
           "y": 12
         },
         {
-          "chunks": [ [ "showjump_3x3_NS", 75 ], [ "showjump_shrub_5x5_NS", 20 ], [ "showjump_water_3x3_N", 5 ] ],
+          "chunks": [ [ "3x3_showjump_NS", 75 ], [ "5x5_showjump_shrub_NS", 20 ], [ "3x3_showjump_water_N", 5 ] ],
           "x": 2,
           "y": 7
         },
         {
-          "chunks": [ [ "null", 80 ], [ "showjump_shrubs_water_5x5_E", 10 ], [ "showjump_shrubs_water_5x5_S", 10 ] ],
+          "chunks": [ [ "null", 80 ], [ "5x5_showjump_shrubs_water_E", 10 ], [ "5x5_showjump_shrubs_water_S", 10 ] ],
           "x": 9,
           "y": 9
         }
@@ -1211,21 +1211,21 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "track_24x24_showjumps",
-    "//": "Same as paddock_24x24_showjumps but without shrub/water jumps.",
+    "nested_mapgen_id": "24x24_track_showjumps",
+    "//": "Same as 24x24_paddock_showjumps but without shrub/water jumps.",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_nested": [
-        { "chunks": [ [ "null", 50 ], [ "showjump_3x3_EW", 50 ] ], "x": 6, "y": 2 },
-        { "chunks": [ "showjump_3x3_EW" ], "x": 11, "y": 2 },
-        { "chunks": [ [ "null", 50 ], [ "showjump_3x3_NS", 50 ] ], "x": 16, "y": 6 },
-        { "chunks": [ "showjump_3x3_NS" ], "x": 16, "y": 11 },
-        { "chunks": [ [ "null", 50 ], [ "showjump_3x3_EW", 50 ] ], "x": 12, "y": 16 },
-        { "chunks": [ "showjump_3x3_EW" ], "x": 7, "y": 16 },
-        { "chunks": [ [ "null", 50 ], [ "showjump_3x3_NS", 50 ] ], "x": 2, "y": 12 },
-        { "chunks": [ "showjump_3x3_NS" ], "x": 2, "y": 7 },
-        { "chunks": [ [ "null", 80 ], [ "showjump_3x3_NS", 20 ] ], "x": 9, "y": 9 }
+        { "chunks": [ [ "null", 50 ], [ "3x3_showjump_EW", 50 ] ], "x": 6, "y": 2 },
+        { "chunks": [ "3x3_showjump_EW" ], "x": 11, "y": 2 },
+        { "chunks": [ [ "null", 50 ], [ "3x3_showjump_NS", 50 ] ], "x": 16, "y": 6 },
+        { "chunks": [ "3x3_showjump_NS" ], "x": 16, "y": 11 },
+        { "chunks": [ [ "null", 50 ], [ "3x3_showjump_EW", 50 ] ], "x": 12, "y": 16 },
+        { "chunks": [ "3x3_showjump_EW" ], "x": 7, "y": 16 },
+        { "chunks": [ [ "null", 50 ], [ "3x3_showjump_NS", 50 ] ], "x": 2, "y": 12 },
+        { "chunks": [ "3x3_showjump_NS" ], "x": 2, "y": 7 },
+        { "chunks": [ [ "null", 80 ], [ "3x3_showjump_NS", 20 ] ], "x": 9, "y": 9 }
       ]
     }
   },
