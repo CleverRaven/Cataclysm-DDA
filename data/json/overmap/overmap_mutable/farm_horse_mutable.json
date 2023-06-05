@@ -179,6 +179,9 @@
       "outer_to_inner_e": { "overmap": "special_air", "east": "outer_to_inner" },
       "outer_to_inner_s": { "overmap": "special_air", "south": "outer_to_inner" },
       "outer_to_inner_w": { "overmap": "special_air", "west": "outer_to_inner" },
+      "outer_to_inner_ns": { "overmap": "special_air", "north": "outer_to_inner", "south": "outer_to_inner" },
+      "outer_to_inner_ne": { "overmap": "special_air", "north": "outer_to_inner", "east": "outer_to_inner" },
+      "outer_to_inner_nw": { "overmap": "special_air", "north": "outer_to_inner", "west": "outer_to_inner" },
       "road_to_house_n": { "overmap": "special_air", "north": "road_to_house" },
       "road_to_house_e": { "overmap": "special_air", "east": "road_to_house" },
       "road_to_house_s": { "overmap": "special_air", "south": "road_to_house" },
@@ -970,6 +973,11 @@
       ],
       [
         { "name": "dirt_road_cleanup", "chunk": [ { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 }
+      ],
+      [
+        { "name": "dirt_road_intersect_ns", "chunk": [ { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_ns", "pos": [ 0, 0, 10 ] } ], "weight": 1 },
+        { "name": "dirt_road_intersect_ne", "chunk": [ { "overmap": "dirt_road_ne", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_ne", "pos": [ 0, 0, 10 ] } ], "weight": 1 },
+        { "name": "dirt_road_intersect_nw", "chunk": [ { "overmap": "dirt_road_nw", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_nw", "pos": [ 0, 0, 10 ] } ], "weight": 1 }
       ],
       [
         {
