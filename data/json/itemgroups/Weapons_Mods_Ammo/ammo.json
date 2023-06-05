@@ -387,7 +387,6 @@
     "//": "Military specification rifle ammo found at military sites.",
     "subtype": "distribution",
     "entries": [
-      { "item": "12mm", "prob": 40 },
       { "item": "3006_incendiary", "prob": 5 },
       { "item": "3006", "prob": 20 },
       { "item": "50_incendiary", "prob": 10 },

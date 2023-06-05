@@ -22,6 +22,7 @@ Allow mutants to walk underwater
 Add support for running and smashing animations
 Allow zones to interact across multiple Z levels
 Creatures can stumble into invisible players to discover them
+Add molting for exoskeleton mutations
 
 
 ## Content:
@@ -41,6 +42,8 @@ Crustacean mutation tree
 Dead trees can be harvested for wood(once per tree)
 Added a new location called survivor forest camp
 Addition of non-NPC civilians for lore reasons
+Nether spiders as a new bossfight for the game.
+New conversion kits, guns, and calibres
 
 
 ## Interface:
@@ -135,6 +138,7 @@ NPC morale modifiers now updates regularly instead of being permanently applied
 Fix UI and accessibility issues in the overmap UI and character creation menu
 Fix unicode path encoding error in Windows MinGW build
 Difficulty 0 recipes are no longer arbitrarily difficult
+Make EOC u_sell_item() actually transfers the items' ownership
 
 
 ## Performance:
@@ -151,6 +155,7 @@ Modernize string_formatter
 Migrate some JSON APIs to string_view
 Add units::temperature_delta
 Upgrade clang-tidy used in CI to LLVM 16
+Allow C++ standard includes in clang-tidy tests
 
 
 ## Build:
