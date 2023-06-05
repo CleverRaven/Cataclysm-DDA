@@ -754,10 +754,6 @@
     "menu_text": "Turn off",
     "type": "transform"
   },
-  "melee_damage": {
-    "bash": 8
-  }
-},
   {
   "id": "UPS_off",
   "type": "TOOL",
