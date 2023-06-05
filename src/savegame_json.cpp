@@ -118,7 +118,7 @@
 #include "submap.h"
 #include "text_snippets.h"
 #include "tileray.h"
-#include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -4071,7 +4071,15 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                         tile.set_ter_rotation( 0 );
                         tile.set_dec_id( std::move( id ) );
                         tile.set_dec_subtile( ja_tile.get_int( 1 ) );
-                        tile.set_dec_rotation( ja_tile.get_int( 2 ) );
+                        const int legacy_rotation = ja_tile.get_int( 2 );
+                        if( string_starts_with( tile.dec_id, "vp_" ) ) {
+                            // legacy vehicle rotation needs to be converted from 0-360 degrees
+                            // to 0-3 tileset rotation
+                            const units::angle legacy_angle = units::from_degrees( legacy_rotation );
+                            tile.set_dec_rotation( angle_to_dir4( 270_degrees - legacy_angle ) );
+                        } else {
+                            tile.set_dec_rotation( legacy_rotation );
+                        }
                     }
                     tile.symbol = ja_tile.get_int( 3 );
                     if( ja_tile.size() > 4 ) {

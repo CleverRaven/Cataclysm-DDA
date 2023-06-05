@@ -44,8 +44,8 @@ class memorized_tile
         friend struct mm_submap; // serialization needs access to private members
         ter_str_id ter_id;       // terrain tile id
         std::string dec_id;      // decoration tile id (furniture, vparts ...)
-        int16_t ter_rotation = 0;
-        int16_t dec_rotation = 0;
+        int8_t ter_rotation = 0;
+        int8_t dec_rotation = 0;
         int8_t ter_subtile = 0;
         int8_t dec_subtile = 0;
 };

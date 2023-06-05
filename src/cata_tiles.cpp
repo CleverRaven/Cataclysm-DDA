@@ -65,6 +65,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -2228,8 +2229,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                     if( subtile == open_ ) {
                         sym = '\'';
                     } else {
-                        const units::angle direction = units::from_degrees( rota ) + 90_degrees;
-                        sym = vv.get_symbol_curses( direction, subtile == broken );
+                        sym = vv.get_symbol_curses( 90_degrees * rota, subtile == broken );
                     }
                     col = vpi.color;
                     subtile = -1;
@@ -2431,10 +2431,6 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                     seed = simple_point_hash( vp->mount() );
                 }
             }
-
-            // convert vehicle 360-degree direction (0=E,45=SE, etc) to 4-way tile
-            // rotation (0=N,1=W,etc)
-            rota = 3 - units::angle_to_dir4( units::from_degrees( rota ) );
         }
         break;
         case TILE_CATEGORY::FURNITURE: {
@@ -3508,7 +3504,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const vpart_display vd = veh.get_display_of_tile( ovp->mount() );
         if( !vd.id.is_null() ) {
             const int subtile = vd.is_open ? open_ : vd.is_broken ? broken : 0;
-            const int rotation = std::round( to_degrees( veh.face.dir() ) );
+            const int rotation = angle_to_dir4( 270_degrees - veh.face.dir() );
             avatar &you = get_avatar();
             if( !veh.forward_velocity() && !veh.player_in_control( you )
                 && !( you.get_grab_type() == object_type::VEHICLE
@@ -3537,7 +3533,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         if( vp2 ) {
             const char part_mod = std::get<1>( override->second );
             const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-            const units::angle rotation = std::get<2>( override->second );
+            const int rotation = angle_to_dir4( 270_degrees - std::get<2>( override->second ) );
             const int draw_highlight = std::get<3>( override->second );
             const std::string vpname = "vp_" + vp2.str();
             // tile overrides are never memorized
@@ -3545,7 +3541,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             int height_3d_temp = 0;
             const bool ret =
                 draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
-                                     to_degrees( rotation ), lit_level::LIT, false, height_3d_temp );
+                                     rotation, lit_level::LIT, false, height_3d_temp );
             if( !roof ) {
                 height_3d = height_3d_temp;
             }

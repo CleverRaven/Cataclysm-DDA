@@ -203,15 +203,18 @@ class vpart_variant
 
         std::string get_label() const;
 
+        // @note if input is vehicle facing convert using `270_degrees - vehicle.face.dir()` first
         // @param direction facing angle, 0 = north, 90 = east...
         // @param is_broken if true returns the broken symbol else
         // @returns unicode symbol for this variant given a direction and broken status
         char32_t get_symbol( units::angle direction, bool is_broken ) const;
 
+        // @note if input is vehicle facing convert using `270_degrees - vehicle.face.dir()` first
         // @param direction facing angle, 0 = north, 90 = east...
         // @param is_broken whether to return the broken symbol
         // @returns ncurses ACS code for this variant given a direction and broken status
         int get_symbol_curses( units::angle direction, bool is_broken ) const;
+
         // @returns ncurses ACS code for a unicode \p sym symbol
         static int get_symbol_curses( char32_t sym );
 

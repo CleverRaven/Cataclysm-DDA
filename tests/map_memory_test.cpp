@@ -60,29 +60,29 @@ TEST_CASE( "map_memory_remembers", "[map_memory]" )
 
     const memorized_tile &mt = memory.get_tile( p2 );
 
-    memory.set_tile_decoration( p2, "foo", 42, 270 );
+    memory.set_tile_decoration( p2, "foo", 42, 3 );
     CHECK( mt.get_dec_id() == "foo" );
     CHECK( mt.get_dec_subtile() == 42 );
-    CHECK( mt.get_dec_rotation() == 270 );
+    CHECK( mt.get_dec_rotation() == 3 );
     CHECK( mt.get_ter_id().empty() );
     CHECK( mt.get_ter_subtile() == 0 );
     CHECK( mt.get_ter_rotation() == 0 );
 
-    memory.set_tile_terrain( p2, "t_foo", 43, 180 );
+    memory.set_tile_terrain( p2, "t_foo", 43, 2 );
     CHECK( mt.get_dec_id() == "foo" );
     CHECK( mt.get_dec_subtile() == 42 );
-    CHECK( mt.get_dec_rotation() == 270 );
+    CHECK( mt.get_dec_rotation() == 3 );
     CHECK( mt.get_ter_id() == "t_foo" );
     CHECK( mt.get_ter_subtile() == 43 );
-    CHECK( mt.get_ter_rotation() == 180 );
+    CHECK( mt.get_ter_rotation() == 2 );
 
-    memory.set_tile_decoration( p2, "bar", 44, 90 );
+    memory.set_tile_decoration( p2, "bar", 44, 1 );
     CHECK( mt.get_dec_id() == "bar" );
     CHECK( mt.get_dec_subtile() == 44 );
-    CHECK( mt.get_dec_rotation() == 90 );
+    CHECK( mt.get_dec_rotation() == 1 );
     CHECK( mt.get_ter_id() == "t_foo" );
     CHECK( mt.get_ter_subtile() == 43 );
-    CHECK( mt.get_ter_rotation() == 180 );
+    CHECK( mt.get_ter_rotation() == 2 );
 }
 
 TEST_CASE( "map_memory_overwrites", "[map_memory]" )
@@ -100,23 +100,23 @@ TEST_CASE( "map_memory_forgets", "[map_memory]" )
 {
     map_memory memory;
     memory.prepare_region( p1, p2 );
-    memory.set_tile_decoration( p1, "vp_foo", 42, 270 );
-    memory.set_tile_terrain( p1, "t_foo", 43, 180 );
+    memory.set_tile_decoration( p1, "vp_foo", 42, 3 );
+    memory.set_tile_terrain( p1, "t_foo", 43, 2 );
     const memorized_tile &mt = memory.get_tile( p1 );
     CHECK( mt.symbol == 0 );
     CHECK( mt.get_ter_id() == "t_foo" );
     CHECK( mt.get_ter_subtile() == 43 );
-    CHECK( mt.get_ter_rotation() == 180 );
+    CHECK( mt.get_ter_rotation() == 2 );
     CHECK( mt.get_dec_id() == "vp_foo" );
     CHECK( mt.get_dec_subtile() == 42 );
-    CHECK( mt.get_dec_rotation() == 270 );
+    CHECK( mt.get_dec_rotation() == 3 );
     memory.set_tile_symbol( p1, 1 );
     CHECK( mt.symbol == 1 );
     memory.clear_tile_vehicles( p1 );
     CHECK( mt.symbol == 0 );
     CHECK( mt.get_ter_id() == "t_foo" );
     CHECK( mt.get_ter_subtile() == 43 );
-    CHECK( mt.get_ter_rotation() == 180 );
+    CHECK( mt.get_ter_rotation() == 2 );
     CHECK( mt.get_dec_id().empty() );
     CHECK( mt.get_dec_subtile() == 0 );
     CHECK( mt.get_dec_rotation() == 0 );
