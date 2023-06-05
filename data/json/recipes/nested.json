@@ -5593,6 +5593,18 @@
     "difficulty": 5
   },
   {
+    "id": "nested_ch_chainmail_face",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain partial aventails",
+    "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_face", "xl_ch_chainmail_face", "xs_ch_chainmail_face" ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_all_chainmail_face",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -5601,7 +5613,7 @@
     "name": "steel chain partial aventails",
     "description": "Recipes related to constructing various types and sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_lc_chainmail_face", "nested_mc_chainmail_face", "nested_hc_chainmail_face", "nested_qt_chainmail_face" ],
+    "nested_category_data": [ "nested_lc_chainmail_face", "nested_mc_chainmail_face", "nested_hc_chainmail_face", "nested_qt_chainmail_face","nested_ch_chainmail_face" ],
     "difficulty": 7
   },
   {
@@ -5653,6 +5665,18 @@
     "difficulty": 5
   },
   {
+    "id": "nested_ch_chainmail_aventail",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain aventails",
+    "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_aventail", "xl_ch_chainmail_aventail", "xs_ch_chainmail_aventail" ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_all_chainmail_aventail",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -5665,7 +5689,8 @@
       "nested_lc_chainmail_aventail",
       "nested_mc_chainmail_aventail",
       "nested_hc_chainmail_aventail",
-      "nested_qt_chainmail_aventail"
+      "nested_qt_chainmail_aventail",
+      "nested_ch_chainmail_aventail"
     ],
     "difficulty": 7
   },
@@ -5718,6 +5743,18 @@
     "difficulty": 5
   },
   {
+    "id": "nested_ch_helmet_nasal",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel nasal helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_helmet_nasal", "xl_ch_helmet_nasal", "xs_ch_helmet_nasal" ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_all_helmet_nasal",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -5726,7 +5763,7 @@
     "name": "steel nasal helmets",
     "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_lc_helmet_nasal", "nested_mc_helmet_nasal", "nested_hc_helmet_nasal", "nested_qt_helmet_nasal" ],
+    "nested_category_data": [ "nested_lc_helmet_nasal", "nested_mc_helmet_nasal", "nested_hc_helmet_nasal", "nested_qt_helmet_nasal", "nested_ch_helmet_nasal" ],
     "difficulty": 7
   },
   {
@@ -5778,6 +5815,18 @@
     "difficulty": 5
   },
   {
+    "id": "nested_ch_helmet_turban",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel turban helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_helmet_turban", "xl_ch_helmet_turban", "xs_ch_helmet_turban" ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_all_helmet_turban",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -5786,7 +5835,7 @@
     "name": "steel turban helmets",
     "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_lc_helmet_turban", "nested_mc_helmet_turban", "nested_hc_helmet_turban", "nested_qt_helmet_turban" ],
+    "nested_category_data": [ "nested_lc_helmet_turban", "nested_mc_helmet_turban", "nested_hc_helmet_turban", "nested_qt_helmet_turban", "nested_ch_helmet_turban" ],
     "difficulty": 7
   }
 ]

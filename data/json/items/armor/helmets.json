@@ -1466,6 +1466,54 @@
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
+    "id": "ch_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_nasal",
+    "material": [ "ch_steel" ],
+    "name": { "str": "hardened steel nasal helmet" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm. This one is made in modern times out of hardened steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "ch_helmet_nasal",
+    "name": { "str": "hardened steel XL nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm. This one is made in modern times out of hardened steel.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "ch_helmet_nasal",
+    "looks_like": "helmet_nasal",
+    "name": { "str": "hardened steel XS nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm. This one is made in modern times out of hardened steel.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "helmet_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -2731,6 +2779,54 @@
     "looks_like": "helmet_turban",
     "name": { "str": "tempered steel XS turban helm" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower. This one is made in modern times out of tempered steel and is fitted to a smaller head.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "ch_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_turban",
+    "material": [ "ch_steel" ],
+    "name": { "str": "hardened steel turban helmet" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower. This one is made in modern times out of hardened steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "ch_helmet_turban",
+    "name": { "str": "hardened steel XL turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower. This one is made in modern times out of hardened steel and is fitted to a larger head.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "ch_helmet_turban",
+    "looks_like": "helmet_turban",
+    "name": { "str": "hardened steel XS turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower. This one is made in modern times out of hardened steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   }

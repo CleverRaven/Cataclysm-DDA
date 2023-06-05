@@ -451,6 +451,47 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "ch_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_face",
+    "material": [ "ch_steel_chain" ],
+    "name": { "str": "hardened steel chainmail partial aventail" },
+    "description": "A wide hardened steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_face",
+    "name": { "str": "XL hardened steel chainmail partial aventail" },
+    "description": "A customized hardened steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_face",
+    "name": { "str": "XS hardened steel chainmail partial aventail" },
+    "description": "A customized hardened steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "lc_chainmail_aventail",
     "type": "ARMOR",
     "category": "armor",
@@ -620,6 +661,47 @@
     "copy-from": "qt_chainmail_aventail",
     "name": { "str": "XS tempered steel chainmail aventail" },
     "description": "A customized tempered steel aventail, designed to attach to cap helmets.  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_aventail",
+    "material": [ "ch_steel_chain" ],
+    "name": { "str": "hardened steel chainmail aventail" },
+    "description": "A wide hardened steel draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head", "arm_l", "arm_r" ],
+        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_aventail",
+    "name": { "str": "XL hardened steel chainmail aventail" },
+    "description": "A customized hardened steel aventail, designed to attach to cap helmets.  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_aventail",
+    "name": { "str": "XS hardened steel chainmail aventail" },
+    "description": "A customized hardened steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   }
