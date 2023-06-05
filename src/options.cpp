@@ -4049,6 +4049,8 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     std::unordered_map<std::string, cOpt>::iterator opt = options.find( name );
     if( opt == options.end() ) {
         debugmsg( "requested non-existing option %s", name );
+        static cOpt nullopt;
+        return nullopt;
     }
     if( !world_options.has_value() ) {
         // Global options contains the default for new worlds, which is good enough here.
