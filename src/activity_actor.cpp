@@ -5988,6 +5988,23 @@ std::unique_ptr<activity_actor> clear_rubble_activity_actor::deserialize( JsonVa
 
     return actor.clone();
 }
+void firstaid_activity_actor::do_turn( player_activity &act, Character & )
+{
+    item_location it = act.targets.front();
+    if( !it.get_item() ) {
+        // Erase activity and values.
+        act.set_to_null();
+        act.values.clear();
+    }
+    Character *patient = patientID == get_avatar().getID() ? &get_avatar() :
+                         dynamic_cast<Character *>( g->find_npc( patientID ) );
+    if( !patient ) {
+        debugmsg( "Your patient can no longer be found so you stop using the %s.", name );
+        act.set_to_null();
+        act.values.clear();
+        return;
+    }
+}
 
 void firstaid_activity_actor::start( player_activity &act, Character & )
 {
@@ -6001,7 +6018,7 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     static const std::string iuse_name_string( "heal" );
 
     item_location it = act.targets.front();
-    item *used_tool = it->get_usable_item( iuse_name_string );
+    item *used_tool = it.get_item() ? it->get_usable_item( iuse_name_string ) : nullptr;
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for healing" );
         act.set_to_null();
