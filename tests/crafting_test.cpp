@@ -740,7 +740,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     avatar dummy;
     clear_character( dummy );
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
-    item_location ups = dummy.i_add( item( "UPS_off" ) );
+    item_location ups = dummy.i_add( item( "UPS_ON" ) );
     item ups_mag( ups->magazine_default() );
     ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
     ret_val<void> result = ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -762,7 +762,7 @@ TEST_CASE( "UPS modded tools", "[crafting][ups]" )
     tripoint const test_loc = dummy.pos();
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
-    item ups = GENERATE( item( "UPS_off" ), item( "test_ups" ) );
+    item ups = GENERATE( item( "UPS_ON" ), item( "test_ups" ) );
     CAPTURE( ups.typeId() );
     item_location ups_loc;
     if( ups_on_ground ) {
