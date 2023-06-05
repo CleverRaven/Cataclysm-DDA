@@ -73,7 +73,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "questionable blood treatment" },
-    "description": "This homemade blood treatment .",
+    "description": "This homemade blood treatment purports to reduce the cravings brought on by vampirism and if applied often and early to even reverse some stages of the disease.  But vampires surely can't be real, can they?",
     "weight": "12 g",
     "volume": "10ml",
     "price": 5000,
@@ -86,7 +86,7 @@
     "color": "magenta",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "You inject the %s in hopes of ending your thirst for blood.",
+      "description": "Inject the treatment.",
       "effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ]
     },
     "flags": [ "NPC_SAFE", "TRADER_AVOID" ]

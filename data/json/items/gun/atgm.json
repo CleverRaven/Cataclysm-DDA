@@ -12,7 +12,6 @@
     "price": 8500000,
     "price_postapoc": 5000,
     "to_hit": -6,
-    "bashing": 12,
     "material": [ "steel" ],
     "ammo": [ "atgm" ],
     "skill": "launcher",
@@ -25,6 +24,7 @@
     "loudness": 200,
     "valid_mod_locations": [ [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "MOUNTED_GUN", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "atgm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "atgm": 1 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

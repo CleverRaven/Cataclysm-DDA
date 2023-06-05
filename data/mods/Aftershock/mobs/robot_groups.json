@@ -113,11 +113,6 @@
     "monsters": [ { "monster": "mon_utilibot_fire", "weight": 200, "cost_multiplier": 2, "pack_size": [ 4, 6 ] } ]
   },
   {
-    "name": "GROUP_NECROPOLIS_ROBOT",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_tankbot", "weight": 20, "cost_multiplier": 0 } ]
-  },
-  {
     "type": "monstergroup",
     "name": "GROUP_MIL_BASE",
     "monsters": [

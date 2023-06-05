@@ -11,10 +11,19 @@
     "warmth": 150,
     "color": "green",
     "material": [ "oil" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "WATER_FRIENDLY", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
-    },
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "WATER_FRIENDLY",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
@@ -33,16 +42,19 @@
     "warmth": 150,
     "color": "green",
     "material": [ "oil" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "WATER_FRIENDLY", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_COLD", "multiply": -0.25 }, { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
-        }
-      ]
-    },
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "WATER_FRIENDLY",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" }, { "id": "ench_cold_armor" } ] },
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]

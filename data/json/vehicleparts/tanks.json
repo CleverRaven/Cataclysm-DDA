@@ -120,7 +120,7 @@
     "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
     "categories": [ "cargo" ],
     "damage_modifier": 80,
-    "epower": -40,
+    "epower": "-40 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
@@ -146,7 +146,7 @@
     "location": "fuel_source",
     "copy-from": "fridgetank",
     "description": "A 60L heated tank.  When turned on, it will prevent the contents from freezing.",
-    "epower": -60,
+    "epower": "-60 W",
     "flags": [ "FLUIDTANK", "HEATED_TANK", "ENABLED_DRAINS_EPOWER" ]
   },
   {
@@ -162,7 +162,11 @@
     "categories": [ "movement" ],
     "damage_modifier": 80,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "drilling_standard", 50 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
@@ -258,7 +262,7 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 10 ] }
     ],
-    "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE", "AIRCRAFT_REPAIRABLE_NOPROF" ],
+    "flags": [ "FLUIDTANK", "OBSTACLE", "AIRCRAFT_REPAIRABLE_NOPROF" ],
     "damage_reduction": { "all": 30, "stab": 12 }
   },
   {

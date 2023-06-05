@@ -14,7 +14,7 @@
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -34,7 +34,7 @@
     "using": [ [ "welding_standard", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -54,7 +54,7 @@
     "using": [ [ "welding_standard", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -75,7 +75,7 @@
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -97,7 +97,7 @@
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap", 2 ] ], [ [ "circuit", 1 ] ] ]
@@ -565,7 +565,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "motor_tiny", 1 ] ]
+      [ [ "motor_micro", 1 ] ]
     ]
   },
   {
@@ -584,7 +584,7 @@
     "components": [
       [ [ "compressor", 1 ] ],
       [ [ "cu_pipe", 3 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "sheet_metal_small", 5 ] ],
       [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ]
     ]
@@ -614,11 +614,12 @@
     "difficulty": 4,
     "time": "45 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
-      [ [ "zinc_metal", 2 ] ],
+      [ [ "zinc_metal", 8 ] ],
       [ [ "chem_potassium_hydroxide", 7 ], [ "lye_powder", 2 ] ],
       [ [ "duct_tape", 1 ] ],
       [ [ "water_clean", 1 ] ],
@@ -636,11 +637,12 @@
     "difficulty": 4,
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 6 ] ],
+      [ [ "zinc_metal", 24 ] ],
       [ [ "chem_potassium_hydroxide", 20 ], [ "lye_powder", 4 ] ],
       [ [ "duct_tape", 5 ] ],
       [ [ "water_clean", 3 ] ],
@@ -658,11 +660,12 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 166 ] ],
-      [ [ "zinc_metal", 6 ] ],
+      [ [ "zinc_metal", 24 ] ],
       [ [ "carbon_electrode", 1 ] ],
       [ [ "duct_tape", 5 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
@@ -679,11 +682,12 @@
     "difficulty": 4,
     "time": "1 h 20 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
-      [ [ "zinc_metal", 24 ] ],
+      [ [ "zinc_metal", 96 ] ],
       [ [ "chem_potassium_hydroxide", 82 ], [ "lye_powder", 22 ] ],
       [ [ "duct_tape", 20 ] ],
       [ [ "water_clean", 12 ] ],
@@ -701,11 +705,12 @@
     "difficulty": 3,
     "time": "1 h 20 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 664 ] ],
-      [ [ "zinc_metal", 24 ] ],
+      [ [ "zinc_metal", 96 ] ],
       [ [ "carbon_electrode", 4 ] ],
       [ [ "duct_tape", 20 ] ],
       [ [ "steel_chunk", 12 ], [ "scrap", 24 ] ]
@@ -722,11 +727,12 @@
     "difficulty": 4,
     "time": "1 h 45 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
-      [ [ "zinc_metal", 50 ] ],
+      [ [ "zinc_metal", 200 ] ],
       [ [ "chem_potassium_hydroxide", 170 ], [ "lye_powder", 34 ] ],
       [ [ "duct_tape", 40 ] ],
       [ [ "water_clean", 25 ] ],
@@ -744,11 +750,12 @@
     "difficulty": 3,
     "time": "1 h 45 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 1328 ] ],
-      [ [ "zinc_metal", 50 ] ],
+      [ [ "zinc_metal", 200 ] ],
       [ [ "carbon_electrode", 8 ] ],
       [ [ "duct_tape", 40 ] ],
       [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
@@ -763,6 +770,7 @@
     "skill_used": "mechanics",
     "time": "2 h 40 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "syringe", -1 ] ] ],
     "components": [ [ [ "5l_methanol_tank", 1 ] ], [ [ "chem_methanol", 5000 ] ] ]
   },
@@ -775,6 +783,7 @@
     "skill_used": "mechanics",
     "time": "5 h 20 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "syringe", -1 ] ] ],
     "components": [ [ [ "10l_methanol_tank", 1 ] ], [ [ "chem_methanol", 10000 ] ] ]
   },
@@ -787,6 +796,7 @@
     "skill_used": "mechanics",
     "time": "14 h 56 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "syringe", -1 ] ] ],
     "components": [ [ [ "28l_methanol_tank", 1 ] ], [ [ "chem_methanol", 28000 ] ] ]
   },
@@ -799,6 +809,7 @@
     "skill_used": "mechanics",
     "time": "32 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "syringe", -1 ] ] ],
     "components": [ [ [ "60l_methanol_tank", 1 ] ], [ [ "chem_methanol", 60000 ] ] ]
   },
@@ -813,6 +824,7 @@
     "skills_required": [ "chemistry", 2 ],
     "time": "20 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ], [ [ "paper", -1 ], [ "aluminum_foil", -1 ] ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "sugar", 2 ] ], [ [ "charcoal", 3 ] ] ]
@@ -828,6 +840,7 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chem_muriatic_acid", 1 ] ], [ [ "chem_zinc_powder", 200 ] ], [ [ "chem_manganese_dioxide", 262 ] ] ]
   }

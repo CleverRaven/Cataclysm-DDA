@@ -116,13 +116,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Coverage",
             "Coverage (M)",
             "Coverage (R)",
-            "Coverage (V)",
-            "Bash",
-            "Cut",
-            "Bullet",
-            "Acid",
-            "Fire"
+            "Coverage (V)"
         };
+        for( const damage_type &dt : damage_type::get_all() ) {
+            header.emplace_back( uppercase_first_letter( dt.name.translated() ) );
+        }
         const bodypart_id bp_null( "bp_null" );
         bodypart_id bp = opts.empty() ? bp_null : bodypart_id( opts.front() );
         auto dump = [&rows, &bp]( const item & obj ) {
@@ -135,11 +133,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_MELEE ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_RANGED ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_VITALS ) ) );
-            r.push_back( std::to_string( obj.bash_resist() ) );
-            r.push_back( std::to_string( obj.cut_resist() ) );
-            r.push_back( std::to_string( obj.bullet_resist() ) );
-            r.push_back( std::to_string( obj.acid_resist() ) );
-            r.push_back( std::to_string( obj.fire_resist() ) );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                r.push_back( std::to_string( obj.resist( dt.id ) ) );
+            }
             rows.push_back( r );
         };
 
@@ -302,9 +298,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Max velocity (mph)", "Safe velocity (mph)", "Acceleration (mph/turn)",
             "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
-        auto dump = [&rows]( const vproto_id & obj ) {
-            vehicle veh_empty( get_map(), obj, 0, 0 );
-            vehicle veh_fueled( get_map(), obj, 100, 0 );
+        auto dump = [&rows]( const vehicle_prototype & obj ) {
+            vehicle veh_empty( get_map(), obj.id, 0, 0 );
+            vehicle veh_fueled( get_map(), obj.id, 100, 0 );
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
@@ -315,12 +311,12 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( veh_fueled.acceleration() / 100 ) );
             r.push_back( std::to_string( veh_fueled.coeff_air_drag() ) );
             r.push_back( std::to_string( veh_fueled.coeff_rolling_drag() ) );
-            r.push_back( std::to_string( veh_fueled.static_drag( false ) ) );
+            r.push_back( std::to_string( units::to_watt( veh_fueled.static_drag( false ) ) ) );
             r.push_back( std::to_string( static_cast<int>( 50 *
                                          veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );
         };
-        for( auto &e : vehicle_prototype::get_all() ) {
+        for( const vehicle_prototype &e : vehicles::get_all_prototypes() ) {
             dump( e );
         }
 

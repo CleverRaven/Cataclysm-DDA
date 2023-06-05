@@ -183,14 +183,15 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 8,
+      "furn_set": "f_planter",
       "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
+        { "item": "withered", "count": [ 2, 8 ] },
+        { "item": "leaves", "count": [ 4, 16 ] },
+        { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
     "plant_data": { "transform": "f_planter", "base": "f_planter" }
@@ -217,14 +218,15 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 8,
+      "furn_set": "f_planter",
       "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
+        { "item": "withered", "count": [ 2, 8 ] },
+        { "item": "leaves", "count": [ 4, 16 ] },
+        { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
     "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
@@ -250,16 +252,13 @@
       ]
     },
     "bash": {
-      "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 4,
+      "furn_set": "f_planter",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
     },
     "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
   },
@@ -284,15 +283,16 @@
       ]
     },
     "bash": {
-      "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 6,
+      "furn_set": "f_planter",
       "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
+        { "item": "withered", "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 2, 6 ] },
+        { "item": "twig", "count": [ 0, 1 ] }
       ]
     },
     "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }

@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_magus_weapon",
     "//": "Forging and water included for glass heat-tempering process",
     "category": "CC_ENCHANTED",
@@ -24,7 +24,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_magus_weapon_adept",
     "//": "This recipes uses cut to represent the carving, alchemy for the infusion of the mana and to make life difficult",
     "category": "CC_ENCHANTED",
@@ -48,7 +48,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_biomancer_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -69,7 +69,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_biomancer_weapon_adept",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -121,7 +121,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "rune_animist_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -143,7 +143,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "rune_animist_weapon_adept",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -169,7 +169,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "rune_druid_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -183,7 +183,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "rune_technomancer_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -208,7 +208,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "rune_technomancer_weapon_adept",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -236,7 +236,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_stormshaper_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -258,7 +258,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_stormshaper_weapon_adept",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -273,19 +273,19 @@
     "components": [
       [ [ "rune_stormshaper_weapon", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
-      [ [ "gold", 100 ] ],
+      [ [ "gold_small", 100 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
       [ [ "rune_stormshaper", 1 ] ]
     ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_earthshaper_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "spellcraft", 2 ], [ "bashing", 2 ] ],
+    "skills_required": [ [ "spellcraft", 2 ], [ "unarmed", 2 ] ],
     "difficulty": 4,
     "time": "360 m",
     "autolearn": true,
@@ -295,7 +295,7 @@
   {
     "result": "rune_kelvinist_weapon",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
@@ -320,7 +320,7 @@
   {
     "result": "rune_kelvinist_ice_adept_weapon",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
@@ -350,7 +350,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "animist_doll_zombie",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -379,7 +379,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "animist_doll_skeleton",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -413,7 +413,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "animist_doll_decayed_pouncer",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -441,31 +441,45 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
-    "result": "shotcestus",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "flaming_fist",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
-    "skill_used": "mechanics",
-    "difficulty": 4,
-    "skills_required": [ [ "spellcraft", 4 ], [ "bashing", 2 ], [ "shotgun", 2 ] ],
+    "skill_used": "spellcraft",
+    "difficulty": 6,
+    "skills_required": [ [ "spellcraft", 6 ], [ "unarmed", 3 ] ],
     "time": "4 h 30 m",
-    "book_learn": [ [ "techno_basic", 4 ] ],
+    "book_learn": [ [ "book_mythological", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CUT_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
       { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 }
     ],
-    "tools": [ [ [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ], [ "rune_technomancer_weapon_adept", -1 ] ] ],
-    "byproducts": [ [ "splinter", 4 ] ],
-    "//": "Splinters from stock",
-    "components": [ [ [ "leather", 4 ] ], [ [ "pipe_double_shotgun", 1 ], [ "shotgun_d", 1 ] ], [ [ "scrap", 8 ] ] ]
+    "components": [ [ [ "leather", 4 ] ], [ [ "rune_kelvinist", 6 ] ], [ [ "scrap", 8 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "gauntlet_pounding",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "spellcraft",
+    "difficulty": 6,
+    "skills_required": [ [ "spellcraft", 6 ], [ "unarmed", 3 ] ],
+    "time": "4 h 30 m",
+    "book_learn": [ [ "book_mythological", 6 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "components": [ [ [ "leather", 8 ] ], [ [ "rune_earthshaper", 12 ] ], [ [ "scrap", 16 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "mjolnir",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -493,7 +507,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "gungnir",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -515,7 +529,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "gram",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -537,7 +551,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "ichaival",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -564,7 +578,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "laevateinn",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -586,7 +600,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "arrow_odin",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -630,7 +644,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "magi_staff_minor",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -645,7 +659,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "magi_staff_lesser",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -661,7 +675,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "magi_staff_greater",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",

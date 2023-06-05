@@ -598,5 +598,23 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "ursine_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "crustacean_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "crustacean_sample", "count-min": 1, "count-max": 1 } ]
+  },
+  {
+    "id": "crustacean_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "crustacean_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "crustacean_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "crustacean_sample", "count-min": 3, "count-max": 6 } ]
   }
 ]

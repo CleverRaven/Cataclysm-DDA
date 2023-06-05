@@ -2,6 +2,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_ZOMBIE",
+    "//": "Random North American dino zombie list",
     "monsters": [
       { "monster": "mon_zilophosaurus", "weight": 10, "cost_multiplier": 20, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zeratosaurus", "weight": 10, "cost_multiplier": 60, "starts": "3 days" },
@@ -14,7 +15,6 @@
       { "monster": "mon_zappalachiosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zorgosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zalbertosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zianzhousaurus", "weight": 4, "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zanuqsaurus", "weight": 4, "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zaspletosaurus", "weight": 4, "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zyrannosaurus", "weight": 80, "cost_multiplier": 80, "starts": "6 days" },
@@ -83,6 +83,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_ZOMBIE_SCORCHED",
+    "//": "Random North American scorched dino zombie list",
     "monsters": [
       { "monster": "mon_zilophosaurus_scorched", "weight": 10, "cost_multiplier": 20, "starts": "3 days" },
       { "monster": "mon_zeratosaurus_scorched", "weight": 10, "cost_multiplier": 60, "starts": "3 days" },
@@ -314,6 +315,15 @@
       { "monster": "mon_sornithomimus", "weight": 400 },
       { "monster": "mon_zornithomimus_shady", "weight": 300 },
       { "monster": "mon_zornithomimus_brute", "weight": 300 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zerizinosaurus_UPGRADE",
+    "monsters": [
+      { "monster": "mon_serizinosaurus", "weight": 400 },
+      { "monster": "mon_zerizinosaurus_shady", "weight": 300 },
+      { "monster": "mon_zerizinosaurus_brute", "weight": 300 }
     ]
   },
   {

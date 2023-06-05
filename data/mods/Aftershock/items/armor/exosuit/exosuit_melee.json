@@ -10,8 +10,6 @@
     "weight": "3500 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
-    "bashing": 30,
-    "cutting": 45,
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
@@ -27,7 +25,8 @@
       },
       "CROWBAR"
     ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 30, "cut": 45 }
   },
   {
     "id": "scrap_axe",
@@ -40,15 +39,14 @@
     "weight": "4250 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
-    "bashing": 30,
-    "cutting": 35,
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "budget_steel", "rubber" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE", "BELT_CLIP" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 30, "cut": 35 }
   },
   {
     "id": "heavy_drill",
@@ -60,8 +58,6 @@
     "weight": "45 kg",
     "volume": "6 L",
     "longest_side": "90 cm",
-    "bashing": 50,
-    "cutting": 5,
     "sided": true,
     "techniques": [ "WBLOCK_2", "BRUTAL", "WIDE", "SWEEP" ],
     "qualities": [ [ "HAMMER", 2 ], [ "DIG", 1 ] ],
@@ -88,7 +84,8 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "melee_damage": { "bash": 50, "cut": 5 }
   },
   {
     "id": "heavy_drill_on",
@@ -96,14 +93,13 @@
     "copy-from": "heavy_drill",
     "name": { "str": "heavy mining drill (on)", "str_pl": "heavy mining drills (on)" },
     "description": "This is a portable roadheader, designed to chew through the toughest rock.  Currently active, the drill heads are a blur.",
-    "bashing": 50,
-    "cutting": 25,
     "qualities": [ [ "HAMMER", 1 ], [ "DIG", 3 ] ],
     "extend": { "flags": [ "POWERED", "EXO_LARGE_GADGET" ] },
     "to_hit": { "grip": "weapon", "length": "long", "surface": "every", "balance": "clumsy" },
     "power_draw": "1500 mW",
     "revert_to": "heavy_drill",
-    "use_action": { "ammo_scale": 0, "target": "heavy_drill", "msg": "You deactivate the drill.", "type": "transform" }
+    "use_action": { "ammo_scale": 0, "target": "heavy_drill", "msg": "You deactivate the drill.", "type": "transform" },
+    "melee_damage": { "bash": 50, "cut": 25 }
   },
   {
     "id": "exosuit_claw",
@@ -115,8 +111,6 @@
     "longest_side": "50 cm",
     "price": 1100,
     "price_postapoc": 250,
-    "bashing": 50,
-    "cutting": 10,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "qt_steel" ],
     "symbol": "[",
@@ -133,7 +127,8 @@
         "coverage": 100,
         "encumbrance": 5
       }
-    ]
+    ],
+    "melee_damage": { "bash": 50, "cut": 10 }
   },
   {
     "id": "exosuit_plasma_torch",
@@ -143,8 +138,6 @@
     "weight": "8 kg",
     "volume": "6500 ml",
     "longest_side": "80 cm",
-    "bashing": 50,
-    "cutting": 10,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "qt_steel", "ceramic" ],
     "symbol": ";",
@@ -174,7 +167,8 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 50, "cut": 10 }
   },
   {
     "id": "exosuit_power_cutter",
@@ -184,8 +178,6 @@
     "weight": "10 kg",
     "volume": "4 L",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
-    "bashing": 10,
-    "cutting": 5,
     "material": [ "qt_steel", "diamond" ],
     "symbol": "/",
     "looks_like": "circsaw_off",
@@ -224,7 +216,8 @@
         "coverage": 100,
         "encumbrance": 30
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10, "cut": 5 }
   },
   {
     "id": "exosuit_power_cutter_on",
@@ -232,7 +225,6 @@
     "type": "TOOL",
     "name": { "str": "exosuit power cutter (on)", "str_pl": "exosuit power cutters (on)" },
     "description": "A huge, multi-fuel powered saw with a diamond blade, currently a whirling blur.  It's consuming fuel and can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
-    "cutting": 100,
     "turns_per_charge": 5,
     "revert_to": "exosuit_power_cutter",
     "use_action": {
@@ -242,6 +234,7 @@
       "type": "transform"
     },
     "qualities": [ [ "CUT", 3 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -80 ] ],
-    "extend": { "flags": [ "MESSY" ] }
+    "extend": { "flags": [ "MESSY" ] },
+    "melee_damage": { "bash": 10, "cut": 100 }
   }
 ]

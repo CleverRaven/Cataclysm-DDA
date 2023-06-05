@@ -169,57 +169,44 @@ TEST_CASE( "uncraft difficulty and character skill", "[uncraft][difficulty][skil
     }
 }
 
-// Item damage_level (0-4) affects chance of successfully recovering components from disassembly.
-// The rate of successful component recovery for each damage level is:
-//
-// level : success (0.8^level)
-//     0 : 100%
-//     1 : 80%
-//     2 : 64%
-//     3 : 51%
-//     4 : 41%
-//
-// Internally, damage is applied in a range from (0 - 4000) as described in src/item.h.
-// Roughly, set_damage(1000) yields damage_level() == 1, and 2000 yields level 2, etc.
-//
+// Item damage_level (0-5) affects chance of successfully recovering components from disassembly.
 TEST_CASE( "uncraft from a damaged item", "[uncraft][damage]" )
 {
     Character &they = setup_uncraft_character();
 
-    // This uncraft has 0 difficulty and cannot fail because of skills
     recipe uncraft_rags = recipe_dictionary::get_uncraft( itype_test_rag_bundle );
-    REQUIRE( uncraft_rags.difficulty == 0 );
+    REQUIRE( uncraft_rags.difficulty == 0 ); // 0 difficulty makes sure it can't fail because of skills
 
-    // The rag bundle should yield 100 rags and 1 long string (string_36)
-    // We will only count the rags, since they are more likely to be affected by damage
-    std::map<itype_id, int> yield;
+    struct uncraft_test_preset {
+        const int damage;       // value to assign as item's damage
+        const int damage_level; // expected item damage level
+        const int yield;        // expected approximate yield
+        const int margin;       // expected approximate yield margin
+    };
 
-    // 80% chance for each component
-    // Chance of recovering all 100 is about 1 in 5 billion
-    SECTION( "1 damage_level: 80 percent chance to recover components" ) {
-        yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 1000 );
-        CHECK( yield[itype_cotton_patchwork] == Approx( 80 ).margin( 20 ) );
-    }
+    // yield is based on pow( 0.8, damage_level ) roll, e.g. level 2 will get 0.8^2 = ~64% yield
+    // uncraft repeated 10 times and the bundle yields 100 each = 1000 yield total for intact item
+    // margin value of 55 derived from running 1000 iterations of this, add 5 for rng outliers
+    const int margin = 60;
+    const std::vector<uncraft_test_preset> presets = {
+        {    0, 0, 1000,      0 }, // expect full yield from undamaged
+        {  999, 1,  800, margin }, // ~80% from damage level 1
+        { 1999, 2,  640, margin }, // ~64% from damage level 2
+        { 2999, 3,  512, margin }, // ~51% from damage level 3
+        { 3999, 4,  410, margin }, // ~41% from damage level 4
+        { 4000, 5,  328, margin }, // ~33% from damage level 5 (XX)
+    };
 
-    // 64% chance for each component
-    // Recovering more than 90 is billlions-to-one
-    SECTION( "2 damage_level: 64 percent chance to recover components" ) {
-        yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 2000 );
-        CHECK( yield[itype_cotton_patchwork] == Approx( 64 ).margin( 30 ) );
-    }
+    for( const uncraft_test_preset &preset : presets ) {
+        CAPTURE( preset.damage, preset.damage_level, preset.yield, preset.margin );
 
-    // 51% chance for each component
-    // Recovering more than 80 is billions-to-one
-    SECTION( "3 damage_level: 51 percent chance to recover components" ) {
-        yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 3000 );
-        CHECK( yield[itype_cotton_patchwork] == Approx( 51 ).margin( 40 ) );
-    }
+        item test_item( itype_test_rag_bundle, calendar::turn );
+        test_item.set_damage( preset.damage );
+        CHECK( test_item.damage_level() == preset.damage_level );
 
-    // 41% chance for each component
-    // Recovering more than 70 is billions-to-one
-    SECTION( "4 damage_level: 41 percent chance to recover components" ) {
-        yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 1, 4000 );
-        CHECK( yield[itype_cotton_patchwork] == Approx( 41 ).margin( 40 ) );
+        const int yield = repeat_uncraft( they, itype_test_rag_bundle, uncraft_rags, 10, preset.damage )
+                          .at( itype_cotton_patchwork );
+        CHECK( yield == Approx( preset.yield ).margin( preset.margin ) );
     }
 }
 

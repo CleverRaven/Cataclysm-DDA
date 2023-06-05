@@ -11,6 +11,7 @@ enum class var_type : int {
     global,
     faction,
     party,
+    context,
     last
 };
 
@@ -44,6 +45,10 @@ class global_variables
         }
         void unserialize( JsonObject &jo );
         void serialize( JsonOut &jsout ) const;
+
+        std::map<std::string, std::string> migrations; // NOLINT(cata-serialize)
+        static void load_migrations( const JsonObject &jo, const std::string_view &src );
+
     private:
         std::unordered_map<std::string, std::string> global_values;
 };

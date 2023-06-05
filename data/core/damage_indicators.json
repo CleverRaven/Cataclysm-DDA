@@ -1,0 +1,44 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DAMAGE_INDICATOR_LEVEL_0",
+    "info": "Damage indicator string to show for damage level 0",
+    "stype": "string_input",
+    "value": "<color_c_green>++</color>"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DAMAGE_INDICATOR_LEVEL_1",
+    "info": "Damage indicator string to show for damage level 1",
+    "stype": "string_input",
+    "value": "<color_c_light_green>||</color>"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DAMAGE_INDICATOR_LEVEL_2",
+    "info": "Damage indicator string to show for damage level 2",
+    "stype": "string_input",
+    "value": "<color_c_yellow>|\\</color>"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DAMAGE_INDICATOR_LEVEL_3",
+    "info": "Damage indicator string to show for damage level 3",
+    "stype": "string_input",
+    "value": "<color_c_light_red>|.</color>"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DAMAGE_INDICATOR_LEVEL_4",
+    "info": "Damage indicator string to show for damage level 4",
+    "stype": "string_input",
+    "value": "<color_c_red>\\.</color>"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DAMAGE_INDICATOR_LEVEL_5",
+    "info": "Damage indicator string to show for damage level 5",
+    "stype": "string_input",
+    "value": "<color_c_dark_gray>XX</color>"
+  }
+]

@@ -107,13 +107,13 @@
           "bronze_pickaxe",
           "mocassins",
           "torch",
-          "fire_drill",
           "waterskin",
           "tunic",
           "helmet_larmor",
           "gloves_wraps_leather",
           "bigtrapper_pack"
-        ]
+        ],
+        "entries": [ { "item": "fire_drill", "ammo-item": "notch", "charges": 24 } ]
       }
     }
   },
@@ -214,10 +214,11 @@
     "proficiencies": [ "prof_fibers" ],
     "items": {
       "both": {
-        "items": [ "fire_drill", "wicker_backpack", "footrags_leather", "shirt_straw", "skirt_grass", "straw_hat" ],
+        "items": [ "wicker_backpack", "footrags_leather", "shirt_straw", "skirt_grass", "straw_hat" ],
         "entries": [
           { "item": "primitive_knife", "container-item": "sheath_birchbark" },
-          { "item": "fishing_rod_basic", "custom-flags": [ "auto_wield" ] }
+          { "item": "fishing_rod_basic", "custom-flags": [ "auto_wield" ] },
+          { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
         ]
       }
     }
@@ -257,8 +258,11 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "skirt_grass", "shirt_straw", "footrags", "straw_basket", "primitive_knife", "fire_drill" ],
-        "entries": [ { "item": "water_clean", "charges": 6, "container-item": "waterskin" } ]
+        "items": [ "skirt_grass", "shirt_straw", "footrags", "straw_basket", "primitive_knife" ],
+        "entries": [
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
+        ]
       }
     }
   },
@@ -360,6 +364,31 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "native_settler",
+    "name": "Native Settler",
+    "description": "You were on the road with friends from your tribe to search for a new settlement spot when you seemed to be yanked somewhere completely different.  You see no sign of your friends, but at least you got your equipment and some seeds with you.",
+    "points": 3,
+    "skills": [ { "level": 4, "name": "survival" }, { "level": 2, "name": "archery" } ],
+    "proficiencies": [ "prof_basketweaving", "prof_pottery" ],
+    "items": {
+      "both": {
+        "items": [ "wicker_backpack", "tunic", "mocassins", "cloak", "chaps_leather", "bandana_head", "copper_knife", "shortbow" ],
+        "entries": [
+          { "item": "seed_pumpkin", "count": 5 },
+          { "item": "seed_beans", "count": 5 },
+          { "item": "seed_corn", "count": 5 },
+          { "item": "seed_wild_rice", "count": 5 },
+          { "item": "seed_bottle_gourd", "count": 1 },
+          { "item": "water_clean", "charges": 8, "container-item": "bottle_gourd" },
+          { "item": "arrow_heavy_fire_hardened_fletched", "charges": 10, "container-item": "quiver_birchbark" }
+        ]
+      },
+      "male": [ "loincloth" ],
+      "female": [ "loincloth" ]
     }
   }
 ]

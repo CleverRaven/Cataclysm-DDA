@@ -282,5 +282,16 @@
     "mission": 7,
     "chat": "TALK_GODCO_Arturo_1",
     "faction": "gods_community"
+  },
+  {
+    "type": "npc",
+    "id": "FM_godco_merchant_random",
+    "//": "Random NPC, can direct you to the free merchants and sell you things.",
+    "name_suffix": "Caravan Merchant",
+    "class": "NC_EVAC_GODCO_TRADER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_CARAVAN_MERCHANT_1",
+    "faction": "free_merchants"
   }
 ]

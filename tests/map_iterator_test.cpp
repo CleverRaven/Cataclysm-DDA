@@ -228,12 +228,15 @@ TEST_CASE( "tripoint_range_circle_sizes_correct", "[tripoint_range]" )
     CHECK( points_in_radius_circ( tripoint_zero, 4 ).size() == 69 );
 }
 
+static bool tripoint_range_predicates_radius_test_func( const tripoint &pt )
+{
+    return pt.z < 0;
+}
+
 TEST_CASE( "tripoint_range_predicates_radius", "[tripoint_range]" )
 {
-    tripoint_range<tripoint> tested = points_in_radius_where( tripoint_zero,
-    2, []( const tripoint & pt ) {
-        return pt.z < 0;
-    }, 2 );
+    tripoint_range<tripoint> tested = points_in_radius_where( tripoint_zero, 2,
+                                      tripoint_range_predicates_radius_test_func, 2 );
     std::vector<tripoint> expected = {
         { -2, -2, -2 }, { -1, -2, -2 }, { 0, -2, -2 }, { 1, -2, -2 }, { 2, -2, -2 },
         { -2, -1, -2 }, { -1, -1, -2 }, { 0, -1, -2 }, { 1, -1, -2 }, { 2, -1, -2 },

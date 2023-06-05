@@ -35,39 +35,43 @@ Rare items with considerable use tend to have the highest variety in prices ~(10
 pretty much the most anyone will be willing to spend on any one thing, no matter how nice it is.
 
 #### Currently Implemented faction currencies
+
+```json
+  {
     "id": "FMCNote",
     "description": "The Free Merchant Certified Note, also known by names such as a 'c-note' or 'merch', is a currency based on old American bills.  Fifty dollar bills and larger are printed with a promissory note signed by the treasurer of the Free Merchants, along with a complex design.  The note explains that this can be exchanged for food, water, and other services through the Free Merchants in the Refugee Center.",
     "name": { "str": "merch" }, 
     "price_postapoc": 250
-
-
+  },
+  {
     "id": "RobofacCoin",
     "name": { "str": "Hub 01 Gold Coin" },
     "description": "This is a small but surprisingly heavy gold coin.  One side is etched with circuitry and the other side reads 'Hub 01 exchange currency'.",
     "price_postapoc": 5000
-	
-	
+  },
+	{
     "id": "FlatCoin",
     "name": { "str": "FlatCoin" },
     "description": "This is a coin that has been flattened in a novelty coin flattening machine.  The machine has been somewhat crudely altered so that the design - which appears to once have been Mickey Mouse - is overlaid with a handwritten emblem of a book.  There is some text that faintly reads 'Campus Exchange Token'.",
     "price_postapoc": 250
-
-
+  },
+  {
     "id": "signed_chit",
     "name": { "str": "chit" },
     "description": "This is a slip of paper signed by the issuer.",
     "price_postapoc": 250
-
-
+  },
+  {
     "id": "icon",
     "name": { "str": "icon" },
     "description": "This is a small picture, about the same size as an ID card, symbolizing a religious figure.  On the back, there is a text that faintly reads 'New England Church Community'.",
     "price_postapoc": 250
-	
+  }
+```
 	
 ##### Some benchmark prices
 
-```
+```json
   {
     "id": "antibiotics",
     "name": { "str_sp": "antibiotics" },
@@ -112,7 +116,7 @@ For items that have a stack size, you need to **divide** the price by stack size
 
 #### IRREPLACEABLE_CONSUMABLE Flag
 Pre cataclysm consumables that can not be replaced can be given the flag:
-```
+```json
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
 ```
 

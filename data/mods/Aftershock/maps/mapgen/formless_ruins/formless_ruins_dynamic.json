@@ -171,7 +171,7 @@
     "method": "json",
     "om_terrain": [ "afs_formless_ruins_dynamic" ],
     "//": "emptier map with a droneswarm, very rare",
-    "weight": 10,
+    "weight": 5,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -807,8 +807,8 @@
         "///..  //   "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { "C": "t_metal_floor", "W": "t_metal_floor", "T": "t_metal_floor", "1": "t_machinery_heavy" },
-      "furniture": { "C": "f_counter", "W": "f_rack", "T": "f_afs_telepad" },
+      "terrain": { "C": "t_metal_floor", "W": "t_metal_floor", "T": "t_metal_floor" },
+      "furniture": { "1": "f_machinery_heavy", "C": "f_counter", "W": "f_rack", "T": "f_afs_telepad" },
       "items": {
         "W": [
           { "item": "afs_experimental_combat_gear", "chance": 10, "repeat": [ 1, 2 ] },
@@ -856,7 +856,7 @@
         ]
       },
       "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 11 ], "y": [ 0, 11 ], "density": 0.1 } ],
-      "monster": { "M": { "monster": "mon_skitterbot" } },
+      "monster": { "M": { "monster": "mon_skitterbot", "pack_size": 1 } },
       "palettes": [ "afs_formless_ruins" ]
     }
   },

@@ -27,10 +27,10 @@
     "price": 0,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "moon_tears", "fae_fur", "gold" ],
     "symbol": "M",
     "color": "yellow",
-    "flags": [ "TACK" ]
+    "flags": [ "TACK" ],
+    "melee_damage": { "bash": 5 }
   }
 ]

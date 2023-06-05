@@ -1,47 +1,37 @@
 [
   {
-    "id": "bicycle",
+    "abstract": "bicycle_abstract",
     "type": "vehicle",
     "name": "Bicycle",
     "blueprint": [ "o#o" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle_pedal", "horn_bicycle", "foot_pedals" ] },
-      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_bicycle" ] },
-      {
-        "x": -1,
-        "y": 0,
-        "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ]
-      }
+      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light" ] }
+    ]
+  },
+  {
+    "id": "bicycle",
+    "type": "vehicle",
+    "copy-from": "bicycle_abstract",
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "wheel_bicycle" ] },
+      { "x": -1, "y": 0, "parts": [ "wheel_bicycle_rear", "basketsm_bike_rear" ] }
     ]
   },
   {
     "id": "bicycle_dirt",
     "type": "vehicle",
+    "copy-from": "bicycle_abstract",
     "name": "Mountain bike",
-    "blueprint": [ "o#o" ],
-    "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle_pedal", "horn_bicycle", "foot_pedals" ] },
-      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_bicycle_or" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_or_rear" ] }
-    ]
+    "parts": [ { "x": 1, "y": 0, "parts": [ "wheel_bicycle_or" ] }, { "x": -1, "y": 0, "parts": [ "wheel_bicycle_or_rear" ] } ]
   },
   {
     "id": "bicycle_electric",
     "type": "vehicle",
+    "copy-from": "bicycle",
     "name": "Electric Bicycle",
-    "blueprint": [ "o#o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle_pedal", "horn_bicycle", "foot_pedals" ] },
-      {
-        "x": 1,
-        "y": 0,
-        "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_bicycle", "motorcycle_headlight" ]
-      },
-      {
-        "x": -1,
-        "y": 0,
-        "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ]
-      },
       { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic" ] },
       { "x": -1, "y": 0, "parts": [ "small_storage_battery", "engine_electric_tiny" ] }
     ]
@@ -65,58 +55,26 @@
     "blueprint": [ "o#o" ],
     "parts": [
       { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
-      {
-        "x": 0,
-        "y": 0,
-        "parts": [
-          "frame_vertical",
-          { "part": "tank_small", "fuel": "gasoline" },
-          "saddle_motor",
-          "controls",
-          "battery_motorbike_small",
-          "engine_1cyl_large",
-          "alternator_motorbike"
-        ]
-      },
+      { "x": 0, "y": 0, "parts": [ "frame_vertical", "saddle_motor", "controls", "battery_motorbike_small" ] },
+      { "x": 0, "y": 0, "parts": [ "engine_1cyl_large", { "part": "tank_small", "fuel": "gasoline" } ] },
+      { "x": 0, "y": 0, "parts": [ "alternator_motorbike" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "muffler", "wheel_mount_light", "wheel_motorbike_or_rear" ] }
     ]
   },
   {
     "id": "motorcycle_enduro",
     "type": "vehicle",
+    "copy-from": "motorcycle_cross",
     "name": "Street-Legal Dirt Bike",
-    "blueprint": [ "o#o" ],
-    "parts": [
-      {
-        "x": 1,
-        "y": 0,
-        "parts": [ "frame_vertical_2", "motorcycle_headlight", "wheel_mount_light_steerable", "wheel_motorbike_or" ]
-      },
-      {
-        "x": 0,
-        "y": 0,
-        "parts": [
-          "frame_vertical",
-          { "part": "tank_small", "fuel": "gasoline" },
-          "horn_car",
-          "controls",
-          "saddle_motor",
-          "controls_electronic",
-          "battery_motorbike_small",
-          "engine_1cyl_large",
-          "alternator_motorbike"
-        ]
-      },
-      { "x": -1, "y": 0, "parts": [ "frame_handle", "muffler", "wheel_mount_light", "wheel_motorbike_or_rear" ] }
-    ]
+    "parts": [ { "x": 1, "y": 0, "parts": [ "motorcycle_headlight" ] }, { "x": 0, "y": 0, "parts": [ "horn_car" ] } ]
   },
   {
-    "id": "motorcycle",
+    "abstract": "motorcycle_abstract",
     "type": "vehicle",
     "name": "Motorcycle",
     "blueprint": [ "o#>o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle_motor", "motorcycle_kickstand" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle_motor" ] },
       { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" } ] },
       { "x": -1, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light", "wheel_motorbike_rear" ] },
       { "x": 2, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light_steerable", "wheel_motorbike" ] },
@@ -125,6 +83,12 @@
       { "x": 1, "y": 0, "parts": [ "motorcycle_headlight", "battery_motorbike" ] },
       { "x": -1, "y": 0, "parts": [ "muffler", "box" ] }
     ]
+  },
+  {
+    "id": "motorcycle",
+    "type": "vehicle",
+    "copy-from": "motorcycle_abstract",
+    "parts": [ { "x": 0, "y": 0, "parts": [ "motorcycle_kickstand" ] } ]
   },
   {
     "id": "motorcycle_chassis",
@@ -140,20 +104,13 @@
   {
     "id": "motorcycle_sidecart",
     "type": "vehicle",
+    "copy-from": "motorcycle_abstract",
     "name": "Motorcycle",
     "blueprint": [
       [ "o#>o" ],
       [ " #> " ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle_motor" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" } ] },
-      { "x": -1, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light", "wheel_motorbike_rear" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light_steerable", "wheel_motorbike" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "vehicle_alarm" ] },
-      { "x": 0, "y": 0, "parts": [ "horn_car", "engine_vtwin", "alternator_motorbike" ] },
-      { "x": 1, "y": 0, "parts": [ "motorcycle_headlight", "battery_motorbike" ] },
-      { "x": -1, "y": 0, "parts": [ "muffler", "box" ] },
       { "x": 0, "y": 1, "parts": [ "frame_cross", "wheel_mount_light", "wheel_motorbike", "seat" ] },
       { "x": 1, "y": 1, "parts": [ "frame_handle", "box" ] }
     ],
@@ -207,35 +164,35 @@
     ]
   },
   {
-    "id": "scooter",
+    "abstract": "scooter_abstract",
     "type": "vehicle",
     "name": "Scooter",
     "blueprint": [ "o>o" ],
     "parts": [
-      {
-        "x": 0,
-        "y": 0,
-        "parts": [ "frame_handle", "motorcycle_headlight", "saddle_scooter", "controls", "controls_electronic" ]
-      },
-      { "x": 0, "y": 0, "parts": [ "horn_car", "motorcycle_kickstand", "engine_1cyl", "alternator_motorbike" ] },
-      { "x": 0, "y": 0, "parts": [ "battery_motorbike", { "part": "tank_small", "fuel": "gasoline" } ] },
+      { "x": 0, "y": 0, "parts": [ "frame_handle", "saddle_scooter" ] },
+      { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "horn_car", "motorcycle_kickstand" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small_scooter" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small_scooter_rear" ] },
+      { "x": 1, "y": 0, "parts": [ "motorcycle_headlight" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small_scooter_rear" ] }
+    ]
+  },
+  {
+    "id": "scooter",
+    "type": "vehicle",
+    "copy-from": "scooter_abstract",
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "engine_1cyl", "alternator_motorbike", "battery_motorbike" ] },
+      { "x": 0, "y": 0, "parts": [ { "part": "tank_small", "fuel": "gasoline" } ] },
       { "x": -1, "y": 0, "part": "muffler" }
     ]
   },
   {
     "id": "scooter_electric",
     "type": "vehicle",
+    "copy-from": "scooter_abstract",
     "name": "Electric Scooter",
     "blueprint": [ "o>o" ],
-    "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_handle", "motorcycle_headlight", "saddle_scooter", "controls" ] },
-      { "x": 0, "y": 0, "parts": [ "controls_electronic", "horn_car", "motorcycle_kickstand" ] },
-      { "x": 0, "y": 0, "parts": [ "medium_storage_battery", "engine_electric_small" ] },
-      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small_scooter" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small_scooter_rear" ] }
-    ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "medium_storage_battery", "engine_electric_small" ] } ]
   },
   {
     "id": "superbike",

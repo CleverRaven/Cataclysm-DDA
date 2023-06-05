@@ -41,7 +41,8 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": {
-      "items": [ { "item": "mattress", "count": 2 }, { "item": "2x4", "count": 28 }, { "item": "nail", "charges": [ 20, 30 ] } ]
+      "items": [ { "item": "mattress", "count": 1 }, { "item": "2x4", "count": 16 }, { "item": "nail", "charges": [ 10, 20 ] } ],
+      "furn_set": "f_bed"
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT" ],
     "bash": {
@@ -63,7 +64,7 @@
     "id": "f_triple_bunkbed",
     "name": "triple berth",
     "symbol": "#",
-    "description": "This bunk bed can hold 3 person at once - perfect solution for places with lack of free space.",
+    "description": "This bunk bed can hold three people at once - a perfect sleeping solution for places where empty space is at a premium.",
     "looks_like": "f_bed",
     "color": "magenta",
     "move_cost_mod": 8,
@@ -121,7 +122,7 @@
     "type": "furniture",
     "id": "f_floor_mattress",
     "name": "mattress",
-    "description": "An ordinary mattress left on the floor.  While it's not as comfortable as an entire bed without the mattress, it's pretty close.  If it's someplace actually safe to sleep, it's practically a luxury in and of itself.",
+    "description": "An ordinary mattress lying on the floor.  While it's not as comfortable as a proper bed with a frame, it's pretty close.  If it's somewhere actually safe to sleep, this is practically a luxury in and of itself.",
     "symbol": "0",
     "color": "magenta",
     "move_cost_mod": 3,
@@ -145,7 +146,7 @@
     "type": "furniture",
     "id": "f_down_mattress",
     "name": "down mattress",
-    "description": "A squishy feather-stuffed mattress left on the floor.  While it's not as comfortable as an entire bed without the mattress, it's pretty close.  If it's someplace actually safe to sleep, it's practically a luxury in and of itself.",
+    "description": "A squishy, feather-stuffed mattress lying on the floor.  While it's not as comfortable as a proper bed with a frame, it's pretty close.  If it's somewhere actually safe to sleep, this is practically a luxury in and of itself.",
     "symbol": "0",
     "color": "magenta",
     "move_cost_mod": 3,
@@ -258,7 +259,7 @@
     "comfort": 2,
     "floor_bedding_warmth": 200,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 7, 8 ] } ] },
+    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 120, 140 ] } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 6,

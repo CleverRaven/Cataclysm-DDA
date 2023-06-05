@@ -258,6 +258,26 @@
   },
   {
     "type": "snippet",
+    "category": "PORTAL_STORM_WITNESSED",
+    "text": [
+      "You hear a voice whispering from behind you \"We can see you.\"",
+      "You hear a voice whispering from behind you \"What is it?\" \"What should we do with it?\"",
+      "You hear a voice whispering from behind you \"Smile thing, you're ours now\"",
+      "You hear a voice whispering from behind you \"Running wont help you.\"",
+      "You hear a voice whispering from behind you \"What's the rush?\"",
+      "You hear a voice whispering from behind you \"It's getting away!\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_VOICES_DRAW_ATTENTION",
+    "text": [
+      "You hear an angry voice shouting \"YOU FOOLS IT'S OVER THERE!\"",
+      "You hear an angry voice shouting \"QUICKLY CRUSH THE DISSENTER!\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "PORTAL_STORM_DUNGEON_ANGRY",
     "text": [
       "You hear an angry voice shouting \"BEGONE!  YOU ARE TOO BLAND AND RIGID FOR THIS PARADISE!\"",
@@ -504,6 +524,19 @@
   },
   {
     "type": "snippet",
+    "category": "<XEDRA_OFFICER>",
+    "text": [
+      "an almost human voice saying \"Contact, clean this up.\"",
+      "an almost human voice saying \"This is what we've trained for.\"",
+      "an almost human voice saying \"I WONT LET YOU KILL ME!\"",
+      "an almost human voice saying \"Flank him, quick.\"",
+      "an almost human voice saying \"Get eyes on them.\"",
+      "an almost human voice saying \"I'm not going back.\"",
+      "an almost human voice saying \"The breach must be contained.\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "AMBIENT_LAB_SUBWAY",
     "text": [
       "<AMBIENT_SUBWAY>",
@@ -519,6 +552,17 @@
       "There is a shimmering spot above the rails.  Looking through, you can see the night sky and hear something howl with hatred and hunger.  You're certain it could not pass through an opening so small.  You're also certain the gateway will grow.",
       "The wall is carpeted by green-gray mushrooms, their caps turning towards you with anticipation.",
       "The wall's concrete is warped into a spiral relief, drawing your eye inexorably to its center.  You force yourself to look away, and feel something shift behind the wall."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "play_piano",
+    "text": [
+      "You play a short, light-hearted ditty.",
+      "You play a deep, sonorous symphony.",
+      "You play a short requiem.",
+      "You play a few notes, but nothing comes to you.",
+      "You want to be Mozart, but the best you can do is Schubert."
     ]
   }
 ]

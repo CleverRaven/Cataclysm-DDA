@@ -29,8 +29,8 @@
     "material": [ "plastic" ],
     "volume": "250 ml",
     "weight": "170 g",
-    "bashing": 2,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -45,15 +45,15 @@
     "material": [ "plastic" ],
     "volume": "500 ml",
     "weight": "175 g",
-    "bashing": 1,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "net",
     "type": "AMMO",
     "category": "weapons",
     "name": { "str": "net" },
-    "description": "A mesh of string and weights, traditionally used to catch fish, and to entangle opponents in combat.",
+    "description": "A mesh of string and weights, traditionally used to catch fish and to entangle opponents in combat.",
     "weight": "1100 g",
     "volume": "1500 ml",
     "price": 650,
@@ -79,8 +79,8 @@
     "volume": "500 ml",
     "weight": "175 g",
     "to_hit": -1,
-    "cutting": 8,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ]
+    "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ],
+    "melee_damage": { "cut": 8 }
   },
   {
     "type": "GENERIC",
@@ -98,8 +98,8 @@
     "weight": "300 g",
     "longest_side": "30 cm",
     "to_hit": -1,
-    "cutting": 8,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 18 }, { "damage_type": "bash", "amount": 4 } ]
+    "thrown_damage": [ { "damage_type": "stab", "amount": 18 }, { "damage_type": "bash", "amount": 4 } ],
+    "melee_damage": { "cut": 8 }
   },
   {
     "type": "GENERIC",
@@ -110,14 +110,13 @@
     "name": { "str": "throwing axe" },
     "symbol": ";",
     "color": "light_gray",
-    "description": "A lightweight hatchet made for throwing.  Its ineffective cutting edge and light weight makes it unsuitable for use as a tool.",
+    "description": "A lightweight hatchet made for throwing.  Its ineffective cutting edge and light weight make it unsuitable for use as a tool.",
     "material": [ "steel", "wood" ],
     "volume": "750 ml",
     "weight": "792 g",
     "to_hit": -1,
-    "bashing": 10,
-    "cutting": 17,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ],
+    "melee_damage": { "bash": 10, "cut": 17 }
   },
   {
     "type": "GENERIC",
@@ -128,32 +127,32 @@
     "name": { "str": "throwing knife", "str_pl": "throwing knives" },
     "symbol": ";",
     "color": "light_gray",
-    "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "description": "A thin, flat knife made for throwing.  Its ineffective cutting edge and odd shape make it unsuitable for use as a tool.",
     "material": [ "steel" ],
     "volume": "100 ml",
     "weight": "460 g",
     "to_hit": -2,
-    "bashing": 1,
-    "cutting": 10,
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
+    "melee_damage": { "bash": 1, "stab": 10 }
   },
   {
     "id": "throwing_stick",
     "type": "AMMO",
     "category": "weapons",
     "name": { "str": "throwing stick" },
-    "description": "A stick carved into a shape suitable for throwing at a target.  Not a boomerang, so don't expect it to return to your hand.",
+    "description": "A stick carved into a shape suitable for throwing at a target.  It's not a boomerang, so don't expect it to return to your hand.",
     "weight": "574 g",
     "volume": "500 ml",
     "price": 200,
     "price_postapoc": 50,
-    "bashing": 5,
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
     "ammo_type": "thrown",
-    "flags": [ "NOGIB" ]
+    "flags": [ "NOGIB" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -167,14 +166,13 @@
     "material": [ "wood", "iron" ],
     "volume": "800 ml",
     "longest_side": "80 cm",
-    "bashing": 5,
-    "cutting": 18,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "cut", "amount": 17 } ],
     "flags": [ "SPEAR", "NONCONDUCTIVE", "JAVELIN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 9000,
-    "price_postapoc": 500
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 5, "stab": 18 }
   },
   {
     "type": "GENERIC",
@@ -187,13 +185,12 @@
     "material": [ "wood", "bronze" ],
     "volume": "800 ml",
     "longest_side": "80 cm",
-    "bashing": 5,
-    "cutting": 16,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "cut", "amount": 15 } ],
     "flags": [ "SPEAR", "NONCONDUCTIVE", "JAVELIN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 9000,
-    "price_postapoc": 500
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 5, "stab": 16 }
   }
 ]

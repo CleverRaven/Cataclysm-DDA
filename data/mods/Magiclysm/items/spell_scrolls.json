@@ -59,6 +59,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_thought_shield",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Thought Shield", "str_pl": "Scrolls of Thought Shield" },
+    "description": "Harried by evil spirits or creatures from beyond?  This spell will keep your mind safe!",
+    "use_action": { "type": "learn_spell", "spells": [ "thought_shield" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_holographic_transposition",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Holographic Transposition", "str_pl": "Scrolls of Holographic Transposition" },
@@ -104,20 +113,11 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_summon_zombie",
+    "id": "spell_scroll_summon_undead",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Summon Zombie", "str_pl": "Scrolls of Summon Zombie" },
+    "name": { "str": "Scroll of Summon Undead", "str_pl": "Scrolls of Summon Undead" },
     "description": "An ethereal-looking zombie rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_zombie" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
-    "id": "spell_scroll_summon_skeleton",
-    "//": "Animist spell",
-    "name": { "str": "Scroll of Summon Skeleton", "str_pl": "Scrolls of Summon Skeleton" },
-    "description": "A ghostly skeleton rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_skeleton" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
   },
   {
     "type": "BOOK",
@@ -148,11 +148,38 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_summon_decayed_pouncer",
+    "id": "spell_scroll_summon_undead_swarm",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Summon Decayed Pouncer", "str_pl": "Scrolls of Summon Decayed Pouncer" },
-    "description": "A decrepit looking large cat rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_decayed_pouncer" ] }
+    "name": { "str": "Scroll of Summon Undead Swarm", "str_pl": "Scrolls of Summon Undead Swarm" },
+    "description": "A few decrepit looking animals rises from the depths of the earth to fight for you.  You may be able to summon better with a higher level in this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_undead_swarm" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_convert",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Convert", "str_pl": "Scrolls of Convert" },
+    "description": "Kill an ally creature, converting its life energy into compact rune, that you can use afterwards.",
+    "use_action": { "type": "learn_spell", "spells": [ "convert" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_dominate",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Domination", "str_pl": "Scrolls of Domination" },
+    "description": "Force the undead creature you pick to obey your command, making it an ally for a short time.",
+    "use_action": { "type": "learn_spell", "spells": [ "dominate" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_life_detonation",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Life Detonation", "str_pl": "Scrolls of Life Detonation" },
+    "description": "Explode a living energy inside your undead, to release a tremendous force around.",
+    "use_action": { "type": "learn_spell", "spells": [ "life_detonation" ] }
   },
   {
     "type": "BOOK",
@@ -355,6 +382,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_bandage",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Vegetative Poultice", "str_pl": "Scrolls of Vegetative Poultice" },
+    "description": "Turn a bunch of leaves and bark into an effective bandage.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_bandage_heal" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_stonefist",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Stonefist", "str_pl": "Scrolls of Stonefist" },
@@ -522,6 +558,15 @@
     "name": { "str": "Scroll of Summon Boulder", "str_pl": "Scrolls of Summon Boulder" },
     "description": "Pull the smooth rock underground, using your forces of earth shaping.  You can use it as a table, or as a primitive anvil.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_boulder" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_reveal_world_map",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Reading the Earthbones", "str_pl": "Scrolls of Reading the Earthbone" },
+    "description": "Use magic to reveal nearby terrain .",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_reveal_world_map" ] }
   },
   {
     "type": "BOOK",

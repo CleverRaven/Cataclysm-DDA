@@ -49,6 +49,8 @@ MAKE_NULL_ID( zone_type, "null" )
 MAKE_NULL_ID( speed_description, "SPEED_DESCRIPTION_NULL_ID" )
 MAKE_NULL_ID( mood_face, "MOOD_FACE_NULL_ID" )
 MAKE_NULL_ID( move_mode, "null" )
+MAKE_NULL_ID( fault, "null" )
+MAKE_NULL_ID( fault_fix, "null" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \
@@ -70,6 +72,7 @@ MAKE_NULL_ID2( overmap_special_migration, "" )
 MAKE_NULL_ID2( construction_category, "NULL" )
 MAKE_NULL_ID2( construction_group, "null" )
 MAKE_NULL_ID2( ammo_effect, "AE_NULL" )
+MAKE_NULL_ID2( damage_type, "" )
 MAKE_NULL_ID2( effect_on_condition, "" )
 MAKE_NULL_ID2( field_type, "fd_null" )
 MAKE_NULL_ID2( furn_t, "f_null" )

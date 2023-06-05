@@ -25,17 +25,15 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void AlmostNeverAutoCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(
         varDecl(
+            // Exclude lambda captures with initializers
+            unless( hasParent( lambdaExpr() ) ),
             anyOf(
                 varDecl( hasType( autoType() ) ),
                 varDecl( hasType( references( autoType() ) ) )
@@ -110,6 +108,14 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
     Policy.adjustForCPlusPlus();
     std::string TypeStr = AutoTp.getAsString( Policy );
 
+    std::string DesugaredTypeStr;
+    // Test stripped type is not null to avoid a crash in
+    // QualType::getSplitDesugaredType in clang/lib/AST/Type.cpp
+    if( QualifierCollector().strip( AutoTp ) ) {
+        QualType DesugaredAutoTp = AutoTp.getDesugaredType( *Result.Context );
+        DesugaredTypeStr = DesugaredAutoTp.getAsString( Policy );
+    }
+
     // In the case of 'const auto' we need to bring the beginning forwards
     // to the start of the 'const'.
     SourceLocation MaybeNewBegin = RangeToReplace.getBegin().getLocWithOffset( -6 );
@@ -141,10 +147,14 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
     // details) based on their names.  Skipping the first character of each
     // word to avoid worrying about capitalization.
     for( std::string Fragment : {
-             "terator", "nternal", "__"
+             "terator", "element_type", "mapped_type", "value_type", "nternal", "__"
          } ) {
         if( std::search( TypeStr.begin(), TypeStr.end(), Fragment.begin(), Fragment.end() ) !=
             TypeStr.end() ) {
+            return;
+        }
+        if( std::search( DesugaredTypeStr.begin(), DesugaredTypeStr.end(), Fragment.begin(),
+                         Fragment.end() ) != DesugaredTypeStr.end() ) {
             return;
         }
     }
@@ -167,6 +177,4 @@ void AlmostNeverAutoCheck::check( const MatchFinder::MatchResult &Result )
     CheckDecl( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

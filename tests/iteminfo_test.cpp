@@ -14,6 +14,7 @@
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "make_static.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "player_helpers.h"
@@ -1218,12 +1219,12 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
                                    float acid = 0.0f, float fire = 0.0f, float env = 0.0f )
 {
     CAPTURE( armor.typeId().str() );
-    REQUIRE( armor.bash_resist() == Approx( bash ) );
-    REQUIRE( armor.cut_resist() == Approx( cut ) );
-    REQUIRE( armor.stab_resist() == Approx( stab ) );
-    REQUIRE( armor.bullet_resist() == Approx( bullet ) );
-    REQUIRE( armor.acid_resist() == Approx( acid ) );
-    REQUIRE( armor.fire_resist() == Approx( fire ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "bash" ) ) ) == Approx( bash ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "cut" ) ) ) == Approx( cut ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "stab" ) ) ) == Approx( stab ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "bullet" ) ) ) == Approx( bullet ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "acid" ) ) ) == Approx( acid ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "heat" ) ) ) == Approx( fire ) );
     REQUIRE( armor.get_env_resist() == Approx( env ) );
 }
 
@@ -1294,6 +1295,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Bash: <color_c_yellow>4.00</color>\n"
                "  Cut: <color_c_yellow>4.00</color>\n"
                "  Ballistic: <color_c_yellow>4.00</color>\n"
+               "  Pierce: <color_c_yellow>3.20</color>\n"
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>1.00</color>\n"
                "  Environmental: <color_c_yellow>20</color>\n"
@@ -1318,6 +1320,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
                "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
                "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n"
+               "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n"
              );
     }
 
@@ -1647,9 +1650,15 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
     SECTION( "weapon mods" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::DESCRIPTION_GUN_MODS } ) ==
                "--\n"
-               "<color_c_white>Mods</color>: <color_c_white>0/2</color> accessories;"
-               " <color_c_white>0/1</color> dampening; <color_c_white>0/1</color> sights;"
-               " <color_c_white>0/1</color> stabilizer; <color_c_white>0/1</color> underbarrel.\n" );
+               "<color_c_white>Mods</color>:\n"
+               "<color_cyan># </color>dampening:\n"
+               "    <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>sights:\n"
+               "    <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>stabilizer:\n"
+               "    <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>underbarrel:\n"
+               "    <color_dark_gray>[-empty-]</color>\n" );
     }
 
     SECTION( "weapon dispersion" ) {
@@ -1881,13 +1890,13 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>56</color>-<color_c_yellow>532</color>"
+               " <color_c_yellow>52</color>-<color_c_yellow>532</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-79%)\n" );
+               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-56%)\n" );
     }
 }
 
@@ -2043,7 +2052,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     // At low level, no info is shown
     GIVEN( "survival 2" ) {
         player_character.set_skill_level( skill_survival, 2 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 2 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 2 );
 
         THEN( "cannot see hidden poison or hallucinogen" ) {
             CHECK( item_info_str( almond, poison ).empty() );
@@ -2054,7 +2063,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     // Hidden poison is visible at survival level 3
     GIVEN( "survival 3" ) {
         player_character.set_skill_level( skill_survival, 3 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 3 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 3 );
 
         THEN( "can see hidden poison" ) {
             CHECK( item_info_str( almond, poison ) ==
@@ -2071,7 +2080,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     // Hidden hallucinogen is not visible until survival level 5
     GIVEN( "survival 4" ) {
         player_character.set_skill_level( skill_survival, 4 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 4 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 4 );
 
         THEN( "still cannot see hidden hallucinogen" ) {
             CHECK( item_info_str( nutmeg, hallu ).empty() );
@@ -2080,7 +2089,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
 
     GIVEN( "survival 5" ) {
         player_character.set_skill_level( skill_survival, 5 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 5 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 5 );
 
         THEN( "can see hidden hallucinogen" ) {
             CHECK( item_info_str( nutmeg, hallu ) ==
@@ -2451,25 +2460,16 @@ TEST_CASE( "repairable and with what tools", "[iteminfo][repair]" )
 
     std::vector<iteminfo_parts> repaired = { iteminfo_parts::DESCRIPTION_REPAIREDWITH };
 
-    // TODO: Move reinforcement to a different part flag ? Repair tools interfere here (especially
-    // with Magiclysm, which has enchanted tailor's kit)
-    /*
-    item socks( "test_socks" );
-    CHECK( item_info_str( socks, repaired ) ==
-           "--\n"
-           "* This item can be <color_c_green>reinforced</color>.\n" );
-    */
-
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using extended multitool, arc welder, makeshift arc welder, or welding kit.\n"
+           "<color_c_white>Repair</color> using integrated multitool, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
            "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
          );
 
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or extended multitool.\n"
+           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or integrated multitool.\n"
            "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==
@@ -2578,7 +2578,8 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
 
         WHEN( "they acquire the needed skills" ) {
             player_character.set_skill_level( purtab->skill_used, purtab->difficulty );
-            REQUIRE( player_character.get_skill_level( purtab->skill_used ) == purtab->difficulty );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( purtab->skill_used ) ) ==
+                     purtab->difficulty );
 
             THEN( "still nothing is craftable from it" ) {
                 CHECK( item_info_str( *iodine, crafting ) ==
@@ -2776,6 +2777,7 @@ TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )
                "--\n"
                "Capacity: <color_c_yellow>1</color> round of arrows\n" );
 
+
     }
 }
 
@@ -2971,6 +2973,7 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
         "  Bash: <color_c_yellow>10.00</color>\n"
         "  Cut: <color_c_yellow>16.00</color>\n"
         "  Ballistic: <color_c_yellow>5.60</color>\n"
+        "  Pierce: <color_c_yellow>12.80</color>\n"
         "  Acid: <color_c_yellow>3.60</color>\n"
         "  Fire: <color_c_yellow>1.50</color>\n"
         "  Environmental: <color_c_yellow>6</color>\n";
@@ -2988,6 +2991,7 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
         "  Bash: <color_c_yellow>12.00</color>\n"
         "  Cut: <color_c_yellow>19.20</color>\n"
         "  Ballistic: <color_c_yellow>6.72</color>\n"
+        "  Pierce: <color_c_yellow>15.36</color>\n"
         "  Acid: <color_c_yellow>4.20</color>\n"
         "  Fire: <color_c_yellow>1.75</color>\n"
         "  Environmental: <color_c_yellow>7</color>\n";
@@ -3004,6 +3008,7 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
         "  Bash: <color_c_yellow>15.00</color>\n"
         "  Cut: <color_c_yellow>24.00</color>\n"
         "  Ballistic: <color_c_yellow>8.40</color>\n"
+        "  Pierce: <color_c_yellow>19.20</color>\n"
         "  Acid: <color_c_yellow>4.80</color>\n"
         "  Fire: <color_c_yellow>2.00</color>\n"
         "  Environmental: <color_c_yellow>8</color>\n";

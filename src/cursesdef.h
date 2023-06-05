@@ -84,6 +84,9 @@ enum base_color : short {
     magenta = 0x05,  // RGB{196, 0, 180}
     cyan = 0x06,     // RGB{0, 170, 200}
     white = 0x07,    // RGB{196, 196, 196}
+
+    // 256 Color Support
+    dark_gray = 237,
 };
 
 using chtype = int;
@@ -127,7 +130,9 @@ void endwin();
 void mvwaddch( const window &win, const point &p, chtype ch );
 void wclear( const window &win );
 void curs_set( int visibility );
+// Set specified color, possibly including bold/blink attributes, for the window
 void wattron( const window &win, const nc_color &attrs );
+// Reset window color to white on black, no bold, no blink
 void wattroff( const window &win, nc_color attrs );
 void waddch( const window &win, chtype ch );
 int getmaxy( const window &win );
@@ -136,6 +141,7 @@ int getbegx( const window &win );
 int getbegy( const window &win );
 int getcurx( const window &win );
 int getcury( const window &win );
+bool supports_256_colors();
 } // namespace catacurses
 
 #endif // CATA_SRC_CURSESDEF_H

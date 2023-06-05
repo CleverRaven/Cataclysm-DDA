@@ -476,7 +476,7 @@ The below widget is a prime example of a text widget, and is used to display a p
       "id": "parched",
       "text": "Parched",
       "color": "light_red",
-      "condition": { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+      "condition": { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
     },
     {
       "id": "dehydrated",
@@ -484,8 +484,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "light_red",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
         ]
       }
     },
@@ -495,8 +495,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "yellow",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
         ]
       }
     },
@@ -506,8 +506,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "yellow",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
         ]
       }
     },
@@ -517,8 +517,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "white",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
         ]
       }
     },
@@ -528,8 +528,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "green",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
         ]
       }
     },
@@ -539,8 +539,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "green",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
         ]
       }
     },
@@ -548,7 +548,7 @@ The below widget is a prime example of a text widget, and is used to display a p
       "id": "turgid",
       "text": "Turgid",
       "color": "green",
-      "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+      "condition": { "compare_num": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
     }
   ]
 },
@@ -1023,6 +1023,7 @@ Many vars are numeric in nature. These may use style "number" or style "graph". 
 | `mana`            | available mana, 0-MAX_MANA
 | `morale_level`    | morale level, -100 to +100
 | `move`            | movement counter, 0-100+
+| `move_remainder`  | remaining moves for the current turn, 0-9999+
 | `pain`            | perceived pain, 0-80+
 | `sound`           | sound, 0-20+
 | `speed`           | speed, 0-500+

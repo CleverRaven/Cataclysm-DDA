@@ -18,7 +18,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "shifting_mass", "min_level": 1 },
+        "spell_data": { "id": "shifting_mass_attack", "min_level": 1 },
         "cooldown": 1,
         "monster_message": "For a moment the shifting mass passes into you as if it were an illusion and a slight wave of fatigue washes over you."
       }

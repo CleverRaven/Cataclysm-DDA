@@ -55,16 +55,40 @@
   },
   {
     "type": "mutation",
+    "id": "MIGO_RAD_ADAPTION",
+    "name": { "str": "Radioactive Environment Adaptation" },
+    "points": 2,
+    "description": "You think you know how to instruct your body to process radioactive particles out of itself faster than normal.",
+    "category": [ "MIGO" ],
+    "active": true,
+    "activated_eocs": [ "EOC_RAD_ADAP_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MIGO_THRESH_RAD_FLUSH",
+    "name": { "str": "Radiation Flush " },
+    "points": 5,
+    "description": "You can instruct your immune system to flush out radioactive particles at an enviable speed.",
+    "prereqs": [ "MIGO_RAD_ADAPTION" ],
+    "category": [ "MIGO" ],
+    "threshreq": [ "THRESH_YUGGOTH" ],
+    "active": true,
+    "activated_eocs": [ "EOC_RAD_FLUSH_activated" ]
+  },
+  {
+    "type": "mutation",
     "id": "FACIAL_TENTACLES",
     "name": "Facial Tentacles",
     "points": 1,
     "visibility": 8,
     "ugliness": 5,
+    "consume_time_modifier": 0.5,
     "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast.  Slightly decreases wet penalties.",
+    "types": [ "MUZZLE" ],
     "prereqs": [ "MOUTH_TENDRILS" ],
     "cancels": [ "MANDIBLES" ],
     "category": [ "MIGO" ],
-    "wet_protection": [ { "part": "mouth", "neutral": 4 } ]
+    "wet_protection": [ { "part": "mouth", "ignored": 1 } ]
   },
   {
     "type": "mutation",
@@ -74,8 +98,20 @@
     "visibility": 7,
     "ugliness": 6,
     "description": "Skin tabs and odd flaps of skin surround your mouth.  They don't affect your eating, but are unpleasant to look at.",
+    "types": [ "MUZZLE" ],
     "category": [ "MIGO" ],
     "leads_to": [ "FACIAL_TENTACLES" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FUNGAL_IMMUNITY",
+    "name": { "str": "fungivoral immune system" },
+    "points": 5,
+    "description": "The immune system of these beings transcends anything seen in humanity and appear to be able to target even directed infections such as fungal infestations.",
+    "purifiable": false,
+    "threshreq": [ "THRESH_YUGGOTH" ],
+    "category": [ "MIGO" ],
+    "flags": [ "MYCUS_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -83,9 +119,69 @@
     "name": "Warm Natured",
     "points": 2,
     "description": "Your body becomes much more efficient at distributing heat from itself.",
+    "types": [ "METABOLISM" ],
     "category": [ "MIGO" ],
     "leads_to": [ "MIGO_HEAT_RESIST" ],
     "bodytemp_modifiers": [ -500, -1250 ]
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN",
+    "copy-from": "THICKSKIN",
+    "extend": { "category": [ "MIGO", "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICK_HIDE",
+    "name": { "str": "Thick Hide" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 2,
+    "description": "Your skin has thickened and toughened further, acting as natural armor.  Somewhat reduces wet effects.",
+    "types": [ "SKIN" ],
+    "category": [ "MIGO" ],
+    "prereqs": [ "THICKSKIN" ],
+    "changes_to": [ "RHOMBOIDAL_DENTICLES" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
+    ],
+    "integrated_armor": [ "integrated_hide" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RHOMBOIDAL_DENTICLES",
+    "name": { "str": "Rhomboidal Denticles" },
+    "points": 3,
+    "visibility": 10,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your skin has thick diamond shaped enamel scutes that both armor your body and allow you to move more smoothly in water.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "THICK_HIDE" ],
+    "threshreq": [ "THRESH_YUGGOTH" ],
+    "category": [ "MIGO" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 15 },
+      { "part": "leg_l", "ignored": 26 },
+      { "part": "leg_r", "ignored": 26 },
+      { "part": "foot_l", "ignored": 15 },
+      { "part": "foot_r", "ignored": 15 },
+      { "part": "arm_l", "ignored": 24 },
+      { "part": "arm_r", "ignored": 24 },
+      { "part": "hand_l", "ignored": 14 },
+      { "part": "hand_r", "ignored": 14 },
+      { "part": "torso", "ignored": 50 }
+    ],
+    "integrated_armor": [ "integrated_rhomboidal_denticles" ]
   },
   {
     "type": "mutation",
@@ -94,6 +190,7 @@
     "points": 1,
     "description": "You see the world a little differently today.  Intelligence + 1",
     "changes_to": [ "EXPANDED_CONSCIOUSNESS" ],
+    "types": [ "INT" ],
     "category": [ "MIGO" ],
     "passive_mods": { "int_mod": 1 }
   },
@@ -103,6 +200,7 @@
     "name": "Expanded Consciousness",
     "points": 2,
     "description": "You are beginning to see a way off this planet.  Intelligence + 2",
+    "types": [ "INT" ],
     "prereqs": [ "NEURAL_IMPROVEMENT" ],
     "changes_to": [ "UPLIFTED_CONSCIOUSNESS" ],
     "category": [ "MIGO" ],
@@ -111,12 +209,13 @@
   {
     "type": "mutation",
     "id": "UPLIFTED_CONSCIOUSNESS",
-    "name": "Extremely Smart",
+    "name": "Uplifted Consciousness",
     "points": 3,
     "visibility": 1,
     "ugliness": 1,
     "description": "As humans uplifted our pets in the final years this process is lifting you to a new level of intelligence.  Intelligence + 4",
     "prereqs": [ "EXPANDED_CONSCIOUSNESS" ],
+    "types": [ "INT" ],
     "changes_to": [ "ALIEN_INT" ],
     "category": [ "MIGO" ],
     "passive_mods": { "int_mod": 4 }
@@ -130,6 +229,7 @@
     "ugliness": 6,
     "description": "You can see the connections from A to B to C to D.  You look at fellow survivors like you are imagining taking them apart.  Intelligence + 5",
     "prereqs": [ "UPLIFTED_CONSCIOUSNESS" ],
+    "types": [ "INT" ],
     "category": [ "MIGO" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "starting_trait": false,
@@ -141,6 +241,7 @@
     "name": "Enhanced Reactions",
     "points": 1,
     "description": "Today is the day to start juggling.  Dexterity + 1",
+    "types": [ "DEX" ],
     "changes_to": [ "QUICKENING" ],
     "category": [ "MIGO" ],
     "passive_mods": { "dex_mod": 1 }
@@ -151,6 +252,7 @@
     "name": "Quickening",
     "points": 2,
     "description": "You are starting to move like they do.  Dexterity + 2",
+    "types": [ "DEX" ],
     "prereqs": [ "ENHANCED_REACTIONS" ],
     "changes_to": [ "OTHERWORLDLY_GRACE" ],
     "category": [ "MIGO" ],
@@ -162,6 +264,7 @@
     "name": "Otherworldly Grace",
     "points": 3,
     "description": "You no longer move like a human, others find it disconcerting.  Dexterity + 4",
+    "types": [ "DEX" ],
     "prereqs": [ "ENHANCED_REACTIONS" ],
     "threshreq": "THRESH_YUGGOTH",
     "social_modifiers": { "persuade": -10, "lie": -6 },
@@ -176,6 +279,7 @@
     "description": "You see some new muscles that you aren't sure you've seen on humans before.  Strength + 1",
     "changes_to": [ "MUSCLE_FIBER" ],
     "category": [ "MIGO" ],
+    "types": [ "STR" ],
     "social_modifiers": { "persuade": -3, "intimidate": 2 },
     "passive_mods": { "str_mod": 1 }
   },
@@ -185,7 +289,8 @@
     "name": "Muscle Fiber",
     "points": 2,
     "description": "Fibrous tissue seems to be spreading through your body.  Strength + 2",
-    "prereqs": [ "STR_UP" ],
+    "types": [ "STR" ],
+    "prereqs": [ "NEW_MUSCLES" ],
     "category": [ "MIGO" ],
     "social_modifiers": { "persuade": -3, "intimidate": 2 },
     "ugliness": 2,
@@ -235,7 +340,7 @@
     "id": "THRESH_YUGGOTH",
     "name": "YUGGOTH",
     "points": 1,
-    "description": "This death throes of this world are the birthing pangs of yours.",
+    "description": "The death throes of this world are the birthing pangs of yours.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -248,8 +353,8 @@
     "description": "Your sweat now smells otherworldly, and not in a good way.  The mi-go still hate you but at least they aren't offended by your smell.",
     "valid": false,
     "purifiable": false,
-    "types": [ "LEGS" ],
-    "prereqs": [ "SMELLY", "SMELLY2" ],
+    "types": [ "SCENT" ],
+    "prereqs": [ "SMELLY2" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "category": [ "MIGO" ],
     "ugliness": 1,
@@ -262,6 +367,7 @@
     "points": 1,
     "description": "You are off-putting to others.  Your mannerisms have changed as if human interaction is becoming foreign.",
     "category": [ "MIGO" ],
+    "types": [ "ATTRACTIVENESS" ],
     "social_modifiers": { "persuade": -15, "lie": -10 },
     "ugliness": 2
   },
@@ -275,6 +381,7 @@
     "description": "You have a pair of large, veiny wings.  They don't appear to be made for this atmosphere but they grant a powerful buffeting attack.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
+    "flags": [ "WINGS_1" ],
     "category": [ "MIGO" ],
     "attacks": {
       "attack_text_u": "You buffet %s with your wings",
@@ -323,12 +430,6 @@
     "type": "mutation",
     "id": "TOUGH_FEET",
     "copy-from": "TOUGH_FEET",
-    "extend": { "category": [ "MASTODON" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "THICKSKIN",
-    "copy-from": "THICKSKIN",
     "extend": { "category": [ "MASTODON" ] }
   },
   {
@@ -397,15 +498,24 @@
   },
   {
     "type": "mutation",
-    "id": "URSINE_FUR",
-    "copy-from": "URSINE_FUR",
-    "extend": { "category": [ "MASTODON" ] }
+    "id": "MASTODON_FUR",
+    "name": { "str": "Wooly Fur" },
+    "points": 4,
+    "visibility": 10,
+    "ugliness": 3,
+    "bodytemp_sleep": 550,
+    "description": "Your fur has grown out and thickened, providing great protection from attacks as well as considerable insulation.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "FUR" ],
+    "threshreq": [ "THRESH_MASTODON" ],
+    "category": [ "MASTODON" ],
+    "integrated_armor": [ "integrated_mastodon_fur" ]
   },
   {
     "type": "mutation",
     "id": "CRUSHINGFEET",
     "name": "Crushing Feet",
-    "points": -4,
+    "points": 0,
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
@@ -442,6 +552,7 @@
     "visibility": 3,
     "ugliness": 3,
     "description": "You have a pair of bumps on your face above your mouth and beside your nose.",
+    "types": [ "TUSKS" ],
     "category": [ "MASTODON" ],
     "changes_to": [ "TUSKS" ]
   },
@@ -453,7 +564,7 @@
     "visibility": 3,
     "ugliness": 1,
     "description": "You have a pair of small tusks on your face.  They allow you to make a weak piercing goring attack.",
-    "types": [ "HORNS" ],
+    "types": [ "TUSKS" ],
     "prereqs": [ "FACEBUMPS" ],
     "changes_to": [ "TUSKS_POINTED" ],
     "category": [ "MASTODON" ],
@@ -473,8 +584,8 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "You have a pair of long, pointed tusks, like someone weaponized an elephant.  They allow you to make a strong piercing headbutt attack, but prevent wearing mouthgear that is not made of fabric.",
-    "types": [ "HORNS" ],
-    "prereqs": [ "HORNS" ],
+    "types": [ "TUSKS" ],
+    "prereqs": [ "TUSKS" ],
     "restricts_gear": [ "mouth" ],
     "allow_soft_gear": true,
     "category": [ "MASTODON" ],
@@ -485,6 +596,12 @@
       "chance": 22,
       "base_damage": { "damage_type": "stab", "amount": 24 }
     }
+  },
+  {
+    "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
+    "extend": { "category": [ "MASTODON" ] }
   },
   {
     "type": "mutation",
@@ -545,7 +662,7 @@
     "type": "mutation",
     "id": "TRUNK",
     "name": { "str": "Elephant Trunk" },
-    "points": -4,
+    "points": 0,
     "visibility": 5,
     "ugliness": 6,
     "mixed_effect": true,
@@ -597,7 +714,7 @@
     "type": "mutation",
     "id": "TRIPAWS",
     "name": "Three Fingered",
-    "points": -3,
+    "points": 0,
     "visibility": 3,
     "ugliness": 2,
     "mixed_effect": true,
@@ -631,7 +748,7 @@
     "type": "mutation",
     "id": "TRUMPET",
     "name": "Trumpeting Voice",
-    "points": -1,
+    "points": 0,
     "mixed_effect": true,
     "description": "You have a trumpeting, elephantine voice.  Threatening NPCs will be easier, but lying will be very hard.",
     "category": [ "MASTODON" ],
@@ -674,6 +791,48 @@
   },
   {
     "type": "mutation",
+    "id": "POISRESIST",
+    "copy-from": "POISRESIST",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION",
+    "copy-from": "NIGHTVISION",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISRESISTANT",
+    "copy-from": "DISRESISTANT",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISIMMUNE",
+    "copy-from": "DISIMMUNE",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INFRESIST",
+    "copy-from": "INFRESIST",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INFIMMUNE",
+    "copy-from": "INFIMMUNE",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PARAIMMUNE",
+    "copy-from": "PARAIMMUNE",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
     "id": "SCHIZOPHRENIC",
     "copy-from": "SCHIZOPHRENIC",
     "extend": { "category": [ "MIGO" ] }
@@ -682,7 +841,7 @@
     "type": "mutation",
     "id": "STR_UP",
     "copy-from": "STR_UP",
-    "extend": { "category": [ "MASTODON", "MIGO" ] }
+    "extend": { "category": [ "MASTODON" ] }
   },
   {
     "type": "mutation",
@@ -707,17 +866,5 @@
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
     "extend": { "category": [ "MIGO" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "HORNS",
-    "copy-from": "HORNS",
-    "extend": { "category": [ "MASTODON" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "HEADBUMPS",
-    "copy-from": "HEADBUMPS",
-    "extend": { "category": [ "MASTODON" ] }
   }
 ]

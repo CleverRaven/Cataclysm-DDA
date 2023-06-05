@@ -172,6 +172,13 @@ TEST_CASE( "string_formatter" )
         CHECK( long_string.size() == 100000 );
     }
 
+    // Test formatting of string_view arguments
+    using namespace std::literals::string_view_literals;
+    test_for_expected( "a", "%s", "a"sv );
+    test_for_expected( "a", "%s", "ab"sv.substr( 0, 1 ) );
+    test_for_expected( "a", "%.1s", "ab"sv );
+    test_for_expected( "ab", "%.3s", "ab"sv );
+
     // These calls should cause *compile* errors. Try it out.
 #if 0
     string_format( "", std::vector<int>() );

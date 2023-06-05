@@ -46,20 +46,33 @@ past_game_info::past_game_info( const JsonObject &jo )
         throw JsonError( string_format( "unexpected memorial version %d", version ) );
     }
 
-    // Extract the "standard" game info from the game started event
-    event_multiset &events = stats_->get_events( event_type::game_start );
-    const event_multiset::summaries_type &counts = events.counts();
-    if( counts.size() != 1 ) {
-        if( counts.empty() ) {
-            throw too_old_memorial_file_error( "memorial file lacks game_start event" );
+    // Extract avatar name info from the game_avatar_new event
+    // gives the starting character name; "et. al." is appended if there was character switching
+    event_multiset &new_avatar_events = stats_->get_events( event_type::game_avatar_new );
+    const event_multiset::summaries_type &new_avatar_counts = new_avatar_events.counts();
+    if( !new_avatar_counts.empty() ) {
+        const cata::event::data_type &new_avatar_event_data = new_avatar_counts.begin()->first;
+        auto avatar_name_it = new_avatar_event_data.find( "avatar_name" );
+        if( avatar_name_it != new_avatar_event_data.end() ) {
+            avatar_name_ = avatar_name_it->second.get_string() +
+                           ( new_avatar_counts.size() > 1 ? " et. al." : "" );
         }
-        debugmsg( "Unexpected number of game start events: %d\n", counts.size() );
-        return;
-    }
-    const cata::event::data_type &event_data = counts.begin()->first;
-    auto avatar_name_it = event_data.find( "avatar_name" );
-    if( avatar_name_it != event_data.end() ) {
-        avatar_name_ = avatar_name_it->second.get_string();
+    } else {
+        // Legacy approach using the game_start event
+        event_multiset &start_events = stats_->get_events( event_type::game_start );
+        const event_multiset::summaries_type &start_counts = start_events.counts();
+        if( start_counts.size() != 1 ) {
+            if( start_counts.empty() ) {
+                throw too_old_memorial_file_error( "memorial file lacks game_start event" );
+            }
+            debugmsg( "Unexpected number of game start events: %d\n", start_counts.size() );
+            return;
+        }
+        const cata::event::data_type &start_event_data = start_counts.begin()->first;
+        auto avatar_name_it = start_event_data.find( "avatar_name" );
+        if( avatar_name_it != start_event_data.end() ) {
+            avatar_name_ = avatar_name_it->second.get_string();
+        }
     }
 }
 
@@ -106,7 +119,7 @@ void past_games_info::ensure_loaded()
         }
 
         components.erase( components.begin(), components.end() - 6 );
-        sortable_filenames.emplace_back( join( components, "-" ), filename );
+        sortable_filenames.emplace_back( string_join( components, "-" ), filename );
     }
 
     std::sort( sortable_filenames.begin(),

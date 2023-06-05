@@ -15,7 +15,7 @@ on:
       - '**.c'
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.run_id }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}-${{ github.event_name }}
   cancel-in-progress: true
 
 jobs:
@@ -31,10 +31,11 @@ jobs:
 
     - run: sudo apt-get install astyle
 
-    - run: make astyle-check && make astyle-fast && make style-all-json-parallel
+    - run: make astyle-fast
+    - run: make style-all-json-parallel
 
     - name: 'suggester / JSON & C++'
       uses: reviewdog/action-suggester@v1
-      if: ${{ failure() }}
+      if: ${{ always() }}
       with:
         tool_name: 'JSON & C++ formatters'

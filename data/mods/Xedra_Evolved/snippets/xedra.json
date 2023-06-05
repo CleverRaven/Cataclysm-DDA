@@ -156,5 +156,26 @@
         "text": "Off books, we need more intel on the mirrorshades so we can avenge Tony, Martell, and Picarelli."
       }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "border_patrol_files",
+    "text": [
+      {
+        "name": "incursion_zero",
+        "id": "incursion_zero_report",
+        "text": "Date: 07/13/2008 /nLocation: Old Cain Springs, Kentucky /nIncident: Faerie Incursion /nDescription: Our department has received reports of strange occurrences in the area, including sightings of small, barkskinned creatures that match the description of faeries from folklore.  Witnesses have reported missing objects, strange noises, and unexplained lights in the vicinity.  /nResponse: Our team has been dispatched to the area to investigate.  We are working closely with local law enforcement and other relevant agencies to determine the nature of the incursion and to neutralize any potential threats.  We advise residents to stay indoors and report any suspicious activity to the authorities.  /nStatus: The situation is ongoing.  We have set up a temporary command center in the area and are conducting a thorough investigation.  Our team is equipped with specialized equipment to detect and track interdimensional activity.  We will provide further updates as the situation develops.  /nRecommendation: Based on our findings, we recommend that the area be designated as a potential hotspot for interdimensional activity.  We suggest that ongoing surveillance and monitoring be put in place to ensure the safety of local residents and to prevent any further incursions.  We also recommend that education programs be put in place to help residents understand the nature of these creatures and how to avoid potential conflicts."
+      },
+      {
+        "name": "abduction_report",
+        "id": "abduction_report_1",
+        "text": "Date: 07/25/2008 /nLocation: Old Cain Springs, Kentucky /nIncident: Abduction of Locals /nDescription: Our team has received reports of several local residents who have gone missing under mysterious circumstances.  Witnesses have reported seeing small, floating lights in the area around the time of the disappearances, leading us to believe that fae-class cryptids may be involved.  /nResponse: Our team has launched a full investigation into the matter, working in close coordination with local law enforcement.  We have engaged significant animal based tracking resources, and are gathering intelligence from witnesses and other sources to build a comprehensive picture of the situation.  /nStatus: The situation is ongoing.  At this time, we have not been able to locate the missing individuals or definitively establish the involvement of fae-class cryptids.  However, we are actively pursuing all leads and are dedicating significant resources to this investigation.  /nRecommendation: Based on our findings to date, we recommend that the area be designated as a high-risk zone for fae cryptid activity.  We urge all residents to exercise caution and report any suspicious activity to the authorities.  Additionally, we recommend that public awareness campaigns be initiated to educate the public about the potential dangers of fae cryptids and how to avoid potential conflicts.  Our team will continue to provide updates as the investigation progresses."
+      },
+      {
+        "name": "lights_in_swamp_report",
+        "id": "lights_in_swamp_report",
+        "text": "Date: 04/29/2016 /nLocation: Norton, Massachusetts wetlands /nIncident: Strange lights and sounds in bogs at night /nDescription: Sam 'Goatman' Simmons, has reported numerous strange lights and sounds emanating from the bogs on the northern edge of Norton, MA on the way to Rehobeth.  He'd been drinking and walking his goat late one night and as he neared the edge of the wetlands he heard strange music and multicoloured lights.  He suspected one of his neighbors who's property adjoined the bog of throwing a party but after walking around the edges he couldn't figure out how to get through the various streams and ponds to get to it.  Finally at some point, he remembered stories his grandparents had told about people going missing in the bogs and decided to go home and call the police.  The police passed it on to the Border Patrol who investigated for dimensional spillage.  While they were unable to find any cryptids or artifacts at the bogs, they measured a weakness in reality that suggests that the stories might have basis in fact.  Border Patrol left emergency contact information with the local police in the event of any future incursions."
+      }
+    ]
   }
 ]

@@ -11,10 +11,10 @@
     "material": [ "steel" ],
     "techniques": [ "DEF_DISARM" ],
     "volume": "10 L",
-    "bashing": 15,
     "category": "veh_parts",
     "price": 4000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "melee_damage": { "bash": 15 }
   },
   {
     "type": "GENERIC",
@@ -41,10 +41,10 @@
     "to_hit": -5,
     "color": "cyan",
     "volume": "15 L",
-    "bashing": 20,
     "price": 5500,
     "price_postapoc": 100,
-    "copy-from": "foldframe"
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 20 }
   },
   {
     "type": "GENERIC",
@@ -56,11 +56,11 @@
     "color": "green",
     "material": [ "qt_steel", "steel" ],
     "volume": "20 L",
-    "bashing": 25,
     "price": 12000,
     "price_postapoc": 250,
     "qualities": [ [ "ANVIL", 1 ] ],
-    "copy-from": "foldframe"
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 25 }
   },
   {
     "type": "GENERIC",
@@ -72,11 +72,10 @@
     "color": "brown",
     "material": [ "wood" ],
     "volume": "15 L",
-    "bashing": 16,
-    "cutting": 4,
     "price": 3500,
     "price_postapoc": 100,
-    "copy-from": "foldframe"
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 16, "cut": 4 }
   },
   {
     "type": "GENERIC",
@@ -99,10 +98,9 @@
     "color": "brown",
     "material": [ "wood" ],
     "volume": "8750 ml",
-    "bashing": 8,
-    "cutting": 1,
     "price": 1000,
     "price_postapoc": 50,
-    "copy-from": "foldframe"
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 8, "cut": 1 }
   }
 ]

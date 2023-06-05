@@ -128,6 +128,8 @@ static void check_trait_cardio_stamina_run( Character &they, std::string trait_n
     } else {
         set_single_trait( they, trait_name );
     }
+    //it's possible suddenly becoming huge or tiny will cause BMI issues so we reset stored kcal to new normal
+    they.set_stored_kcal( they.get_healthy_kcal() );
     GIVEN( "trait: " + trait_name ) {
         CHECK( they.get_cardiofit() == Approx( expect_cardio_fit ).margin( 2 ) );
         CHECK( they.get_stamina_max() == Approx( expect_stamina_max ).margin( 5 ) );
@@ -147,7 +149,7 @@ TEST_CASE( "base cardio", "[cardio][base]" )
 
     // Ensure no initial effects that would affect cardio
     REQUIRE( they.get_lifestyle() == 0 );
-    REQUIRE( they.get_skill_level( skill_swimming ) == 0 );
+    REQUIRE( static_cast<int>( they.get_skill_level( skill_swimming ) ) == 0 );
     // Ensure starting cardio are what we expect
     REQUIRE( they.get_cardiofit() == 1000 );
 
@@ -184,7 +186,7 @@ TEST_CASE( "cardio is and isn't affected by certain traits", "[cardio][traits]" 
 
     // Ensure no initial effects that would affect cardio
     REQUIRE( they.get_lifestyle() == 0 );
-    REQUIRE( they.get_skill_level( skill_swimming ) == 0 );
+    REQUIRE( static_cast<int>( they.get_skill_level( skill_swimming ) ) == 0 );
     // Ensure starting cardio are what we expect
     REQUIRE( they.get_cardiofit() == 1000 );
 

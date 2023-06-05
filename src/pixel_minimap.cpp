@@ -10,6 +10,7 @@
 #include <functional>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <utility>
 #include <vector>
 
@@ -30,7 +31,6 @@
 #include "mapdata.h"
 #include "math_defines.h"
 #include "monster.h"
-#include "optional.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
 #include "vehicle.h"
@@ -91,7 +91,7 @@ SDL_Color get_map_color_at( const tripoint &p )
         return curses_color_to_SDL( vp->vehicle().part_color( vp->part_index() ) );
     }
 
-    if( const auto furn_id = here.furn( p ) ) {
+    if( const furn_id furn_id = here.furn( p ) ) {
         return curses_color_to_SDL( furn_id->color() );
     }
 

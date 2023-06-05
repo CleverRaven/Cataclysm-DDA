@@ -27,6 +27,7 @@
         [ "egg_gallimimus", 1 ],
         [ "egg_struthiomimus", 1 ],
         [ "egg_ornithomimus", 1 ],
+        [ "egg_therizinosaurus", 1 ],
         [ "egg_nothronychus", 1 ],
         [ "egg_anzu", 1 ],
         [ "egg_deinonychus", 1 ],
@@ -85,6 +86,7 @@
       [
         [ "egg_dino_small", 1 ],
         [ "egg_dino_theropod_small", 1 ],
+        [ "egg_tawa", 1 ],
         [ "egg_coelophysis", 1 ],
         [ "egg_compsognathus", 1 ],
         [ "egg_albertonykus", 1 ],

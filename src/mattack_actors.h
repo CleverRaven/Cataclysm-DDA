@@ -14,7 +14,6 @@
 #include "magic.h"
 #include "mattack_common.h"
 #include "translations.h"
-#include "type_id.h"
 #include "weighted_list.h"
 
 class Creature;
@@ -40,11 +39,6 @@ class leap_actor : public mattack_actor
         // Don't jump if distance to target is more than this
         float max_consider_range = 0.0f;
 
-        // See melee_actor
-        std::vector<efftype_id> forbidden_effects_any;
-        std::vector<efftype_id> forbidden_effects_all;
-        std::vector<efftype_id> required_effects_any;
-        std::vector<efftype_id> required_effects_all;
         std::vector<mon_effect_data> self_effects;
 
         translation message;
@@ -62,12 +56,6 @@ class mon_spellcasting_actor : public mattack_actor
     public:
         fake_spell spell_data;
 
-        // See melee_actor
-        std::vector<efftype_id> forbidden_effects_any;
-        std::vector<efftype_id> forbidden_effects_all;
-        std::vector<efftype_id> required_effects_any;
-        std::vector<efftype_id> required_effects_all;
-
         bool allow_no_target = false;
 
         mon_spellcasting_actor() = default;
@@ -78,19 +66,30 @@ class mon_spellcasting_actor : public mattack_actor
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
+struct grab {
+    // Intensity of grab effect applied, defaults to the monster's defined grab_strength unless specified
+    int grab_strength;
+    // Percent chance to initiate a pull
+    int pull_chance;
+    // Ratio of pullee:puller weight
+    float pull_weight_ratio;
+    // Which effect should we apply on a successful grab to our target (bp)
+    // Limited to one GRAB-flagged effect per bp
+    efftype_id grab_effect;
+    // Messages for pulls
+    translation pull_msg_u;
+    translation pull_fail_msg_u;
+    translation pull_msg_npc;
+    translation pull_fail_msg_npc;
+    void load_grab( const JsonObject &jo );
+    bool was_loaded = false;
+};
+
 class melee_actor : public mattack_actor
 {
     public:
         // Maximum damage from the attack
-        damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
-        // Percent chance for the attack to happen if the mob tries it
-        int attack_chance = 100;
-        // Effects preventing the attack from to triggering
-        std::vector<efftype_id> forbidden_effects_any;
-        std::vector<efftype_id> forbidden_effects_all;
-        // Effects required for the attack to trigger
-        std::vector<efftype_id> required_effects_any;
-        std::vector<efftype_id> required_effects_all;
+        damage_instance damage_max_instance;
         // Minimum multiplier on damage above (rolled per attack)
         float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)
@@ -118,6 +117,8 @@ class melee_actor : public mattack_actor
         int hitsize_min = -1;
         int hitsize_max = -1;
         bool attack_upper = true;
+        grab grab_data;
+        bool is_grab = false;
 
         /**
          * If empty, regular melee roll body part selection is used.
@@ -213,6 +214,8 @@ class gun_actor : public mattack_actor
         /** Number of moves required for each attack */
         int move_cost = 150;
 
+        /** Should moving vehicles be targeted */
+        bool target_moving_vehicles = false;
         /*@{*/
         /** Turrets may need to expend moves targeting before firing on certain targets */
 

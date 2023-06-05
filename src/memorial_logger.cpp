@@ -67,7 +67,7 @@ memorial_log_entry::memorial_log_entry( const std::string &preformatted_msg ) :
 {}
 
 memorial_log_entry::memorial_log_entry( time_point time, const oter_type_str_id &oter_id,
-                                        const std::string &oter_name, const std::string &msg ) :
+                                        std::string_view oter_name, std::string_view msg ) :
     time_( time ), oter_id_( oter_id ), oter_name_( oter_name ), message_( msg )
 {}
 
@@ -115,11 +115,11 @@ void memorial_logger::clear()
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void memorial_logger::add( const std::string &male_msg,
-                           const std::string &female_msg )
+void memorial_logger::add( const std::string_view male_msg,
+                           const std::string_view female_msg )
 {
     Character &player_character = get_player_character();
-    const std::string &msg = player_character.male ? male_msg : female_msg;
+    const std::string_view msg = player_character.male ? male_msg : female_msg;
 
     if( msg.empty() ) {
         return;
@@ -160,7 +160,7 @@ void memorial_logger::load( std::istream &fin )
         size_t size = fin.tellg();
         fin.seekg( 0, std::ios_base::beg );
         memorial_data.resize( size );
-        fin.read( &memorial_data[0], size );
+        fin.read( memorial_data.data(), size );
         JsonValue jsin = json_loader::from_string( memorial_data );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
@@ -246,7 +246,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string & desc, const bodypart_id & bp ) {
+    [&file, &indent, &u]( const std::string_view desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -480,6 +480,10 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::angers_amigara_horrors: {
             add( pgettext( "memorial_male", "Angered a group of amigara horrors!" ),
                  pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
+            break;
+        }
+        case event_type::avatar_dies: {
+            add( pgettext( "memorial_male", "Died" ), pgettext( "memorial_female", "Died" ) );
             break;
         }
         case event_type::awakes_dark_wyrms: {
@@ -877,7 +881,7 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
-        case event_type::game_over: {
+        case event_type::game_avatar_death: {
             bool suicide = e.get<bool>( "is_suicide" );
             std::string last_words = e.get<cata_variant_type::string>( "last_words" );
             if( suicide ) {
@@ -896,11 +900,19 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
-        case event_type::game_start: {
-            add( //~ %s is player name
-                pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
-                pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
-                avatar_name );
+        case event_type::game_avatar_new: {
+            bool new_game = e.get<bool>( "is_new_game" );
+            if( new_game ) {
+                add( //~ %s is player name
+                    pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
+                    pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
+                    avatar_name );
+            } else {
+                add( //~ %s is player name
+                    pgettext( "memorial_male", "%s took over the journey through the Cataclysm." ),
+                    pgettext( "memorial_female", "%s took over the journey through the Cataclysm." ),
+                    avatar_name );
+            }
             break;
         }
         case event_type::installs_cbm: {
@@ -1097,8 +1109,12 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::cuts_tree:
         case event_type::reads_book:
         case event_type::game_load:
+        case event_type::game_over:
         case event_type::game_save:
+        case event_type::game_start:
+        case event_type::game_begin:
         case event_type::u_var_changed:
+        case event_type::vehicle_moves:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

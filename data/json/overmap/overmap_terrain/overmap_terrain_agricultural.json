@@ -112,6 +112,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "sugar_house_parking",
+    "copy-from": "s_lot",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "pottery_cottage", "pottery_cottage_2nd", "pottery_cottage_roof" ],
     "copy-from": "generic_rural_building",
     "name": "potters cottage",
@@ -120,6 +126,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "pottery_cottage_basement", "farm_stills_3_basement", "ranch_camp_68_basement" ],
+    "spawns": { "group": "GROUP_BASEMENT_HOUSE", "population": [ 1, 1 ], "chance": 80 },
     "copy-from": "generic_city_house_basement"
   },
   {

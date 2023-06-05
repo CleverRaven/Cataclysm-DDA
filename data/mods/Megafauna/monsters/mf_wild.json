@@ -26,13 +26,13 @@
       { "damage_type": "bash", "amount": 4.0, "armor_penetration": 2 }
     ],
     "dodge": 2,
-    "armor_bash": 3,
     "harvest": "pelt_megafauna",
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "reproduction": { "baby_monster": "mon_giant_beaver_cub", "baby_count": 4, "baby_timer": 360 },
     "baby_flags": [ "AUTUMN" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ],
+    "armor": { "bash": 3 }
   },
   {
     "id": "mon_giant_beaver_cub",
@@ -81,9 +81,6 @@
     ],
     "special_attacks": [ { "id": "longswipe" }, { "id": "smash" }, [ "EAT_CROP", 5 ], [ "EAT_FOOD", 5 ] ],
     "dodge": 0,
-    "armor_bash": 8,
-    "armor_cut": 12,
-    "armor_stab": 12,
     "harvest": "pelt_megafauna",
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.05 } ],
@@ -95,7 +92,8 @@
       "feed": "The %s seems to like you!  It lets you pat its head, giving off a bassy hum.",
       "pet": "The %s turns on its back and lets you scratch its huge, moss-overgrown belly."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "PET_MOUNTABLE", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "PET_MOUNTABLE", "CANPLAY" ],
+    "armor": { "bash": 8, "cut": 12, "stab": 12 }
   },
   {
     "id": "mon_large_claw_sloth_cub",
@@ -142,8 +140,6 @@
     "melee_damage": [ { "damage_type": "stab", "amount": 4.0 }, { "damage_type": "bash", "amount": 8.0, "armor_penetration": 5 } ],
     "special_attacks": [ { "id": "stag_smash" }, { "id": "mutant_antler" }, [ "EAT_CROP", 20 ] ],
     "dodge": 2,
-    "armor_bash": 4,
-    "armor_cut": 2,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "starting_ammo": { "milk_raw": 3 },
@@ -158,7 +154,8 @@
       "feed": "The %s seems to tolerate you.  It cautiously lets you pat its head and seems friendly for now.",
       "pet": "The %s bows down its massive antlered head to nuzzle your face."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "MILKABLE", "WARM", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "MILKABLE", "WARM", "CANPLAY" ],
+    "armor": { "bash": 4, "cut": 2 }
   },
   {
     "id": "mon_stagmoose_cub",
@@ -212,9 +209,6 @@
       { "damage_type": "bash", "amount": 8.0, "armor_penetration": 4 }
     ],
     "dodge": 1,
-    "armor_bash": 10,
-    "armor_cut": 6,
-    "armor_stab": 4,
     "vision_night": 5,
     "path_settings": { "max_dist": 10 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.2 } ],
@@ -263,7 +257,8 @@
       "DESTROYS",
       "PUSH_MON",
       "CANPLAY"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 6, "stab": 4 }
   },
   {
     "id": "mon_mammoth_cub",
@@ -283,7 +278,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 4.0, "armor_penetration": 1 } ],
     "dodge": 1,
-    "armor_bash": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
     "harvest": "woolly_mammoth_baby",
@@ -303,7 +297,8 @@
       "PUSH_MON",
       "CANPLAY"
     ],
-    "upgrades": { "age_grow": 450, "into": "mon_mammoth" }
+    "upgrades": { "age_grow": 450, "into": "mon_mammoth" },
+    "armor": { "cut": 6, "stab": 4, "bash": 2 }
   },
   {
     "id": "mon_mastodon",
@@ -331,9 +326,6 @@
       { "damage_type": "bash", "amount": 8.0, "armor_penetration": 6 }
     ],
     "dodge": 1,
-    "armor_bash": 12,
-    "armor_cut": 2,
-    "armor_stab": 6,
     "vision_night": 5,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY", "MATING_SEASON" ],
@@ -378,7 +370,8 @@
       "DESTROYS",
       "PUSH_MON",
       "CANPLAY"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 2, "stab": 6 }
   },
   {
     "id": "mon_mastodon_cub",
@@ -398,7 +391,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 4.0, "armor_penetration": 1 } ],
     "dodge": 1,
-    "armor_bash": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
     "harvest": "mammal_large_leather",
@@ -417,7 +409,8 @@
       "PUSH_MON",
       "CANPLAY"
     ],
-    "upgrades": { "age_grow": 450, "into": "mon_mastodon" }
+    "upgrades": { "age_grow": 450, "into": "mon_mastodon" },
+    "armor": { "cut": 2, "stab": 6, "bash": 2 }
   },
   {
     "id": "mon_shortface",
@@ -442,9 +435,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 6.0 } ],
     "dodge": 2,
-    "armor_bash": 10,
-    "armor_cut": 6,
-    "armor_stab": 4,
     "vision_day": 16,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
@@ -463,7 +453,8 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ]
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON" ],
+    "armor": { "bash": 10, "cut": 6, "stab": 4 }
   },
   {
     "id": "mon_shortface_cub",
@@ -550,9 +541,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 8.0, "armor_penetration": 1 } ],
     "dodge": 2,
-    "armor_bash": 6,
-    "armor_cut": 30,
-    "armor_stab": 15,
     "vision_day": 10,
     "vision_night": 4,
     "path_settings": { "max_dist": 10 },
@@ -571,7 +559,8 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 50 } ]
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PUSH_MON" ],
+    "armor": { "bash": 6, "cut": 30, "stab": 15 }
   },
   {
     "id": "mon_glyptotherium_young",
@@ -592,13 +581,11 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "bash", "amount": 2.0 } ],
     "dodge": 3,
-    "armor_bash": 4,
-    "armor_cut": 10,
-    "armor_stab": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "mammal_large_leather",
     "upgrades": { "age_grow": 360, "into": "mon_glyptotherium" },
-    "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "armor": { "bash": 4, "cut": 10, "stab": 5 }
   },
   {
     "id": "mon_american_zebra",
@@ -622,7 +609,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 5.0, "armor_penetration": 4 } ],
     "dodge": 2,
-    "armor_bash": 2,
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -634,7 +620,8 @@
     "baby_flags": [ "AUTUMN" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.3,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_zebra_foal",

@@ -3,7 +3,7 @@
     "id": "mon_mi_go",
     "type": "MONSTER",
     "name": { "str": "mi-go" },
-    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and simply gazing upon the unnatural beast fills you with primordial dread.",
+    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.",
     "default_faction": "mi-go",
     "bodytype": "migo",
     "species": [ "MIGO" ],
@@ -16,15 +16,11 @@
     "color": "pink",
     "aggression": 20,
     "morale": 30,
-    "melee_skill": 7,
+    "melee_skill": 5,
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 2,
     "bleed_rate": 75,
     "vision_day": 50,
     "vision_night": 20,
@@ -34,7 +30,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "flags": [
@@ -49,13 +45,14 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_mi_go_slaver",
     "type": "MONSTER",
     "name": { "str": "mi-go slaver" },
-    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and simply gazing upon the unnatural beast fills you with primordial dread.  It is carrying an oblong object that hums with an odd keening sound.",
+    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.  It is carrying an oblong object that hums with an odd keening sound.",
     "default_faction": "mi-go",
     "bodytype": "migo",
     "species": [ "MIGO" ],
@@ -74,10 +71,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 3,
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 20,
@@ -87,7 +80,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
       {
         "type": "spell",
@@ -108,7 +101,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3 }
   },
   {
     "id": "mon_mi_go_surgeon",
@@ -128,15 +122,11 @@
     "color": "red",
     "aggression": 20,
     "morale": 30,
-    "melee_skill": 8,
+    "melee_skill": 7,
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 4,
-    "armor_bash": 5,
-    "armor_cut": 13,
-    "armor_bullet": 10,
-    "armor_elec": 3,
     "bleed_rate": 75,
     "vision_day": 50,
     "vision_night": 20,
@@ -146,7 +136,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] }
     ],
     "flags": [
@@ -161,7 +151,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 13, "bullet": 10, "electric": 3 }
   },
   {
     "id": "mon_mi_go_guard",
@@ -186,10 +177,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 5,
-    "armor_bash": 17,
-    "armor_cut": 22,
-    "armor_bullet": 18,
-    "armor_elec": 4,
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 20,
@@ -199,7 +186,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       [ "SHRIEK_ALERT", 5 ],
       [ "SHRIEK_STUN", 4 ],
       [ "TAZER", 5 ],
@@ -223,7 +210,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 17, "cut": 22, "bullet": 18, "electric": 4 }
   },
   {
     "id": "mon_mi_go_myrmidon",
@@ -248,10 +236,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 4,
-    "armor_bash": 19,
-    "armor_cut": 27,
-    "armor_bullet": 22,
-    "armor_elec": 6,
     "bleed_rate": 25,
     "vision_day": 50,
     "vision_night": 25,
@@ -261,7 +245,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "stretch_attack" },
       { "id": "longswipe", "cooldown": 12 },
       { "id": "cut_throat", "cooldown": 12 },
@@ -285,7 +269,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 19, "cut": 27, "bullet": 22, "electric": 6 }
   },
   {
     "id": "mon_mi_go_captured",
@@ -304,10 +289,6 @@
     "color": "light_gray",
     "aggression": 20,
     "morale": 50,
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_bullet": 10,
-    "armor_elec": 6,
     "bleed_rate": 25,
     "vision_day": 50,
     "vision_night": 25,
@@ -326,7 +307,8 @@
       "SEES",
       "SMELLS",
       "HEARS"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 10, "bullet": 10, "electric": 6 }
   },
   {
     "id": "mon_mi_go_scout",
@@ -351,10 +333,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 5,
-    "armor_elec": 2,
-    "armor_bash": 4,
-    "armor_cut": 5,
-    "armor_bullet": 4,
     "bleed_rate": 25,
     "vision_day": 50,
     "vision_night": 25,
@@ -373,6 +351,7 @@
         "fake_dex": 8,
         "fake_per": 8,
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The mi-go scout fires its weapon!",
         "ranges": [ [ 2, 30, "DEFAULT" ] ]
       }
@@ -389,6 +368,7 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 5, "bullet": 4, "electric": 2 }
   }
 ]

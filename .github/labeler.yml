@@ -64,6 +64,7 @@
   - "**/effect_on_condition**"
   - "**/**eocs**"
   - "**/eocs**"
+  - "**/condition**"
 
 "Fields / Furniture / Terrain / Traps":
   - "**/**furniture**"
@@ -173,8 +174,10 @@
 "Map / Mapgen":
   - "**/**mapgen**"
   - "**/mapgen**"
+  - "**/mapgen/**"
   - "**/**overmap**"
   - "**/overmap**"
+  - "**/overmap/**"
 
 "Martial Arts":
   - "**/martialart**"
@@ -207,6 +210,9 @@
   - "lang/**"
   - "**/**translation**"
   - "**/translation**"
+
+"Mods: Bombastic Perks":
+  - data/mods/BombasticPerks/**/*
 
 "Mods: Aftershock":
   - data/mods/Aftershock/**/*
@@ -269,3 +275,4 @@
 "Vehicles":
   - "**/**vehicle**"
   - "**/vehicle**"
+  - "src/veh_**"

@@ -1,0 +1,558 @@
+[
+  {
+    "id": "MISSION_FORGE_DIVINER_ANTS",
+    "type": "mission_definition",
+    "name": { "str": "Visit the anthill" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be giant ants here.",
+    "destination": "anthill",
+    "start": {
+      "assign_mission_target": { "om_terrain": "anthill", "om_special": "anthill", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_ACID_ANTS",
+    "type": "mission_definition",
+    "name": { "str": "Visit the acid anthill" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be giant acid ants here.",
+    "destination": "acid_anthill",
+    "start": { "assign_mission_target": { "om_terrain": "acid_anthill", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_DERMATIK",
+    "type": "mission_definition",
+    "name": { "str": "Visit the dermatiks" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be dermatiks here.",
+    "destination": "nest_dermatik",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "nest_dermatik",
+        "om_special": "Large Dermatik Nest",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_SPIDER_WEB",
+    "type": "mission_definition",
+    "name": { "str": "Visit the spider web" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a spider web here.",
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3, "om_special": "mx_spider", "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_SPIDER_PIT",
+    "type": "mission_definition",
+    "name": { "str": "Visit the spider pit" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a pit full of spiders here.",
+    "destination": "spider_pit",
+    "start": {
+      "assign_mission_target": { "om_terrain": "spider_pit", "om_special": "Spider Pit", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_SPIDER_DEMON",
+    "type": "mission_definition",
+    "name": { "str": "Visit the demon spiders" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be demon spiders here.",
+    "destination": "demon_spider_lair",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "demon_spider_lair",
+        "om_special": "demon_spider_lair",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_FUNGAL_BLOOM",
+    "type": "mission_definition",
+    "name": { "str": "Visit the fungal bloom" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a fungal bloom here.",
+    "destination": "fungal_bloom",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "fungal_bloom",
+        "om_special": "Fungal Bloom",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_FUNGAL_TOWER",
+    "type": "mission_definition",
+    "name": { "str": "Visit the fungal tower" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a fungal tower here.",
+    "destination": "fungal_tower",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "fungal_tower",
+        "om_special": "Fungal Tower",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_FUNGAL_FLOWERS",
+    "type": "mission_definition",
+    "name": { "str": "Visit the fungal flowers" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be fungal flowers here.",
+    "destination": "fungal_flowers",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "fungal_flowers",
+        "om_special": "Fungal Flowers",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_MI_GO_ENCAMPMENT",
+    "type": "mission_definition",
+    "name": { "str": "Visit the mi-go encampment" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a mi-go encampment here.",
+    "destination": "mi-go_camp1",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "mi-go_camp1",
+        "om_special": "Mi-Go Encampment",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_MI_GO_TOWER",
+    "type": "mission_definition",
+    "name": { "str": "Visit the mi-go tower" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a mi-go tower here.",
+    "destination": "mi-go_scout_tower_1",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "mi-go_scout_tower_1",
+        "om_special": "Mi-Go Scout Tower",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_TRIFFID",
+    "type": "mission_definition",
+    "name": { "str": "Visit the triffid grove" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be triffids here.",
+    "destination": "triffid_grove",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "triffid_grove",
+        "om_special": "Triffid Grove",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_KRAKEN",
+    "type": "mission_definition",
+    "name": { "str": "Visit the kraken cave" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a kraken cave here.",
+    "destination": "river_cave",
+    "start": { "assign_mission_target": { "om_terrain": "river_cave", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_SLIME",
+    "type": "mission_definition",
+    "name": { "str": "Visit the slime pit" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a slime pit here.",
+    "destination": "slimepit_top",
+    "start": {
+      "assign_mission_target": { "om_terrain": "slimepit_top", "om_special": "Slime Pit", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_GOBLIN",
+    "type": "mission_definition",
+    "name": { "str": "Visit the goblins" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be goblins here.",
+    "destination": "goblin_1A",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "goblin_1A",
+        "om_special": "goblin_encampment",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_ORC",
+    "type": "mission_definition",
+    "name": { "str": "Visit the orcs" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be orcs here.",
+    "destination": "orc_village",
+    "start": {
+      "assign_mission_target": { "om_terrain": "orc_village", "om_special": "orc_village", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_SWAMP_DRAGON",
+    "type": "mission_definition",
+    "name": { "str": "Visit the dragon" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that here be swamp dragons.",
+    "destination": "black_dragon_lair_z-0_NW",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "black_dragon_lair_z-0_NW",
+        "om_special": "black_dragon_lair",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_BALROG",
+    "type": "mission_definition",
+    "name": { "str": "Visit the balrog" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a balrog here.",
+    "destination": "mine_balrog_central",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "mine_balrog_central",
+        "om_special": "Balrog mine",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_LAB",
+    "type": "mission_definition",
+    "name": { "str": "Visit the lab" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a lab here.",
+    "destination": "lab_stairs",
+    "start": {
+      "assign_mission_target": { "om_terrain": "lab_stairs", "om_special": "Lab", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_LAB_CENTRAL",
+    "type": "mission_definition",
+    "name": { "str": "Visit the central lab" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a central lab here.",
+    "destination": "central_lab_entrance",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "central_lab_entrance",
+        "om_special": "Central Lab",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 400
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_LAB_ICE",
+    "type": "mission_definition",
+    "name": { "str": "Visit the ice lab" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be an ice lab here.",
+    "destination": "ice_lab_stairs",
+    "start": {
+      "assign_mission_target": { "om_terrain": "ice_lab_stairs", "om_special": "Ice Lab", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_LAB_NETHER",
+    "type": "mission_definition",
+    "name": { "str": "Visit the nether lab" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a nether lab here.",
+    "destination": "nether_elevator_above",
+    "start": {
+      "assign_mission_target": { "om_terrain": "nether_elevator_above", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_EXODII",
+    "type": "mission_definition",
+    "name": { "str": "Visit the exodii" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be exodii here.",
+    "destination": "exodii_base_x0y0z0",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "exodii_base_x0y0z0",
+        "om_special": "exodii_base",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_TEMPLE",
+    "type": "mission_definition",
+    "name": { "str": "Visit the strange temple" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a strange temple.",
+    "destination": "temple_stairs",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "temple_stairs",
+        "om_special": "Strangle Temple",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_ATTUNEMENT",
+    "type": "mission_definition",
+    "name": { "str": "Visit the attunement altar" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be an attunement altar here.",
+    "destination": "attunement_altar_NW",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "attunement_altar_NW",
+        "om_special": "attunement altar",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_ACADEMY",
+    "type": "mission_definition",
+    "name": { "str": "Visit the magic academy" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a magic academy here.",
+    "destination": "magic_academy_ground",
+    "start": {
+      "assign_mission_target": { "om_terrain": "magic_academy_ground", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_TOWER1",
+    "type": "mission_definition",
+    "name": { "str": "Visit the wizard tower" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a wizard tower here.",
+    "destination": "wizardtower1_ground",
+    "start": {
+      "assign_mission_target": { "om_terrain": "wizardtower1_ground", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_TOWER2",
+    "type": "mission_definition",
+    "name": { "str": "Visit the wizard tower" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a wizard tower altar here.",
+    "destination": "wizardtower2_ground",
+    "start": {
+      "assign_mission_target": { "om_terrain": "wizardtower2_ground", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_RIVER",
+    "type": "mission_definition",
+    "name": { "str": "Visit the river" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a river here.",
+    "destination": "river_center",
+    "start": { "assign_mission_target": { "om_terrain": "river_center", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_CLAY",
+    "type": "mission_definition",
+    "name": { "str": "Visit the clay deposit" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a clay deposit here.",
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3, "om_special": "mx_clay_deposit", "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_SAND",
+    "type": "mission_definition",
+    "name": { "str": "Visit the sand patch" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you there would be a sand patch here.",
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 3, "om_special": "mx_sand_patch", "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_SPRING",
+    "type": "mission_definition",
+    "name": { "str": "Visit the hot spring" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a hot spring here.",
+    "destination": "hot_springs",
+    "start": {
+      "assign_mission_target": { "om_terrain": "hot_springs", "om_special": "Hot Springs", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_CAVE",
+    "type": "mission_definition",
+    "name": { "str": "Visit the cave" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a cave here.",
+    "destination": "cave",
+    "start": {
+      "assign_mission_target": { "om_terrain": "cave", "om_special": "Cave", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_CAVE_INNAWOOD",
+    "//": "Innawood uses a different terrain ID for caves",
+    "type": "mission_definition",
+    "name": { "str": "Visit the cave" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a cave here.",
+    "destination": "cave_innawood",
+    "start": {
+      "assign_mission_target": { "om_terrain": "cave_innawood", "om_special": "Cave", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_MAGIC_PLANT",
+    "type": "mission_definition",
+    "name": { "str": "Visit the magic field" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a field of magical flowers here.",
+    "destination": "magic_field_a1",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "magic_field_a1",
+        "om_special": "magic_field",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_OTHER_FORGE",
+    "type": "mission_definition",
+    "name": { "str": "Visit the other Forge of Wonders" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be another Forge of Wonders here.  Or perhaps it's the same forge, but a different time?  They weren't entirely clear what was going on here.",
+    "destination": "forge_1A_north",
+    "start": {
+      "assign_mission_target": { "om_terrain": "forge_1A_north", "reveal_radius": 3, "cant_see": true, "search_range": 400 }
+    }
+  }
+]

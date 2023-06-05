@@ -1,5 +1,13 @@
 [
   {
+    "id": "mon_tawa_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "magenta and green hatchling",
+    "default_faction": "tawa_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_tawa" }
+  },
+  {
     "id": "mon_coelophysis_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -191,6 +199,13 @@
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
+  },
+  {
+    "id": "mon_therizinosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "upgrades": { "age_grow": 50, "into": "mon_therizinosaurus_juvenile" }
   },
   {
     "id": "mon_nothronychus_hatchling",

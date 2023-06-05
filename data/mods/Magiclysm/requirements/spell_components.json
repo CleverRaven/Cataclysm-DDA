@@ -27,7 +27,13 @@
         [ "knife_paring", 1 ],
         [ "knife_steak", 1 ],
         [ "throwing_knife", 1 ],
-        [ "knife_baselard", 1 ]
+        [ "knife_baselard", 1 ],
+        [ "magical_throwing_knife", 1 ],
+        [ "magical_throwing_knife_fire", 1 ],
+        [ "magical_throwing_knife_cold", 1 ],
+        [ "magical_throwing_knife_cut", 1 ],
+        [ "magical_throwing_knife_biological", 1 ],
+        [ "magical_throwing_knife_pure_special", 1 ]
       ]
     ]
   },
@@ -64,13 +70,13 @@
     "id": "spell_components_causticaura",
     "type": "requirement",
     "//": "Strong acids suitable for the Caustic Aura spell",
-    "components": [ [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_muriatic_acid", 2 ], [ "chem_nitric_acid", 2 ] ] ]
+    "components": [ [ [ "chem_sulphuric_acid", 2 ], [ "chem_muriatic_acid", 2 ], [ "chem_nitric_acid", 2 ] ] ]
   },
   {
     "id": "spell_components_shardspray",
     "type": "requirement",
     "//": "A kilo of metal fragments suitable for the Shardspray spell",
-    "components": [ [ [ "scrap", 40 ], [ "copper", 500 ], [ "gold", 200 ], [ "silver", 333 ], [ "lead", 333 ] ] ]
+    "components": [ [ [ "scrap", 40 ], [ "copper", 500 ], [ "gold_small", 200 ], [ "silver_small", 333 ], [ "lead", 333 ] ] ]
   },
   {
     "id": "spell_components_nova_flare",
@@ -82,6 +88,16 @@
     "id": "spell_components_reactive_armor",
     "type": "requirement",
     "components": [ [ [ "aura_stoneskin", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_rune_animist",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_rune_animist_3",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 3 ] ] ]
   },
   {
     "id": "spell_components_potion_starter",
@@ -102,5 +118,22 @@
     "id": "spell_components_samsara",
     "type": "requirement",
     "components": [ [ [ "rune_druid", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_bandage",
+    "type": "requirement",
+    "//": "Leaves and bark for the Vegetative Poultice spell",
+    "components": [
+      [
+        [ "young_leaves", 2 ],
+        [ "leaves", 2 ],
+        [ "grape_leaves", 2 ],
+        [ "fiddlehead_raw", 2 ],
+        [ "cattail_rhizome", 2 ],
+        [ "raw_dandelion", 2 ],
+        [ "juniper", 2 ]
+      ],
+      [ [ "alder_bark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ], [ "willowbark", 1 ] ]
+    ]
   }
 ]

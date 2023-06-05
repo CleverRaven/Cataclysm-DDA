@@ -32,9 +32,9 @@ struct behavior_return {
 // The behavior tree performs a depth-first traversal until it reaches an unmet goal.
 // When tick is invoked, it visits root -> node_t::tick -> strategy -> children -> node_t::tick
 // At each level, the strategy determines the order in which to visit the current node's children.
-// Once a leaf node is reached, it either returns success, indicating it's requirements are met,
-// failure, indicating that it is incapable of satisfying it's requirements, or running, indicating
-// that it is capable of addressing tis requirements, but that they aren't met yet.
+// Once a leaf node is reached, it either returns success, indicating its requirements are met,
+// failure, indicating that it is incapable of satisfying its requirements, or running, indicating
+// that it is capable of addressing its requirements, but that they aren't met yet.
 // In practice, the tree is traversed until it reaches a node that returns running,
 // meaning that it is capable of making progress if set as a goal.
 // The arrangement of the tree and configuration of iteration strategies guarantees that it visits
@@ -71,7 +71,7 @@ class node_t
         void add_child( const node_t *new_child );
 
         // Loading interface.
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         string_id<node_t> id;
         std::vector<std::pair<string_id<node_t>, mod_id>> src;

@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "magician's hat" },
-    "description": "Old school cylinder hat, used by illusionists in the whole world.  Maybe it still remember some cool tricks?",
+    "description": "Old school cylinder hat, used by illusionists around the world.  Maybe it still remembers some cool tricks?",
     "weight": "150 g",
     "volume": "600 ml",
     "price": 2000,
@@ -12,6 +12,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "green",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "damage_transfer" ] }
   },
   {
@@ -27,6 +28,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "fire_teleport" ] }
   }
 ]

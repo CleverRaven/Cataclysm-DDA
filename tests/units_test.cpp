@@ -351,6 +351,48 @@ TEST_CASE( "Temperatures", "[temperature]" )
     }
 }
 
+TEST_CASE( "Temperature delta", "[temperature]" )
+{
+    SECTION( "Different units match" ) {
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( 10 ) ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( 10 ) ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( 18 ) ) == 10 );
+
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( 0 ) ) == 0 );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( 0 ) ) == 0 );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( 0 ) ) == 0 );
+
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( -10 ) ) == -10 );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( -10 ) ) == -10 );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( -18 ) ) == -10 );
+
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( 100.1 ) ) == 100.1f );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( 100.1 ) ) == 100.1f );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( 180.18 ) ) == Approx( 100.1f ).margin(
+                   0.001f ) );
+    }
+
+    SECTION( "Temperature subtraction" ) {
+        CHECK( units::to_kelvin_delta( 100_K - 90_K ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( 10 ) ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( 10 ) ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( 18 ) ) == 10 );
+    }
+
+    SECTION( "Temperature plus delta" ) {
+        CHECK( units::to_kelvin( 10_K + units::from_kelvin_delta( 10 ) ) == 20 );
+        CHECK( units::to_kelvin( units::from_kelvin_delta( 10 ) + 10_K ) == 20 );
+        CHECK( units::to_celsius( units::from_celsius( 10 ) + units::from_celsius_delta( 10 ) ) == 20 );
+        CHECK( units::to_fahrenheit( units::from_fahrenheit( 10 ) + units::from_fahrenheit_delta(
+                                         10 ) ) == Approx( 20.f ).margin( 0.0001f ) );
+
+        units::temperature temp = units::from_kelvin( 22.5 );
+        temp += units::from_kelvin_delta( 10.3 );
+        CHECK( units::to_kelvin( temp ) == 32.8f );
+    }
+
+}
+
 TEST_CASE( "Specific energy", "[temperature]" )
 {
     SECTION( "Different units match" ) {

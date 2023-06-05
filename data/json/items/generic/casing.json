@@ -7,8 +7,7 @@
     "stackable": true,
     "material": [ "brass" ],
     "symbol": "=",
-    "color": "yellow",
-    "damage_states": [ 0, 0 ]
+    "color": "yellow"
   },
   {
     "id": "223_casing",
@@ -31,6 +30,7 @@
   },
   {
     "id": "22_casing_new",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "category": "spare_parts",
     "price": 100,
@@ -55,12 +55,32 @@
     "volume": "10ml"
   },
   {
+    "id": "123ln_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": "12.3ln casing" },
+    "description": "An empty casing from a 12.3ln round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "270win_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "GENERIC",
     "name": { "str": ".270 Winchester casing" },
     "description": "An empty casing from a .270 Winchester round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "303_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".303 casing" },
+    "description": "An empty casing from a .303 round.",
     "weight": "7 g",
     "volume": "10ml"
   },
@@ -286,6 +306,26 @@
     "volume": "10ml"
   },
   {
+    "id": "50beowulf_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".50 Beowulf casing" },
+    "description": "An empty casing from a .50 Beowulf round.",
+    "weight": "4 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "450_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".450 Bushmaster casing" },
+    "description": "An empty casing from a .450 Bushmaster round.",
+    "weight": "4 g",
+    "volume": "10ml"
+  },
+  {
     "id": "46mm_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -306,18 +346,6 @@
     "volume": "6ml"
   },
   {
-    "id": "5x50_hull",
-    "copy-from": "casing",
-    "looks_like": "9mm_casing",
-    "type": "GENERIC",
-    "name": { "str": "5x50mm hull" },
-    "description": "An empty plastic hull from a 5x50mm flechette round.",
-    "weight": "1 g",
-    "volume": "5ml",
-    "material": [ "plastic" ],
-    "color": "light_green"
-  },
-  {
     "id": "500_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -334,6 +362,16 @@
     "type": "GENERIC",
     "name": { "str": ".50 BMG casing" },
     "description": "An empty casing from a .50 BMG round.  These are rare, so you might want to hold onto them.",
+    "weight": "18 g",
+    "volume": "12ml"
+  },
+  {
+    "id": "338lapua_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".338 Lapua casing" },
+    "description": "An empty casing from a .338 Lapua round.  These are rare, so you might want to hold onto them.",
     "weight": "18 g",
     "volume": "12ml"
   },
@@ -468,8 +506,7 @@
     "stackable": true,
     "material": [ "plastic" ],
     "symbol": "=",
-    "color": "red",
-    "damage_states": [ 0, 0 ]
+    "color": "red"
   },
   {
     "id": "410shot_hull",
@@ -483,8 +520,7 @@
     "material": [ "plastic" ],
     "symbol": "=",
     "looks_like": "shot_hull",
-    "color": "red",
-    "damage_states": [ 0, 0 ]
+    "color": "red"
   },
   {
     "id": "300blk_casing",

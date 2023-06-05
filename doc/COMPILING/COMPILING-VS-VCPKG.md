@@ -23,7 +23,7 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `12b7cfe6109a9d68319334b56a01c44a302a13b6` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
+3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `5b1214315250939257ef5d62ecdcbca18cf4fb1c` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
 ***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
 
@@ -112,8 +112,6 @@ It is possible to use ccache with Visual Studio and gain the same benefits as ot
 
 1. Download the "Windows x86_64 (binary release)" of ccache from https://ccache.dev/download.html.
 
-    - Note: Version 4.6.2 has a bug which causes a spammy warning on build. As of now, version 4.6.1 is known to work and not cause spam on build. You can download version 4.6.1 from https://github.com/ccache/ccache/releases/tag/v4.6.1, it is the "ccache-4.6.1-windows-x86_64.zip" option under Assets.
-
 2. Extract the contents of the zip file somewhere convenient but not on $PATH.
 
     - For example, if Cataclysm is checked out at `C:/dev/Cataclysm-DDA/`, then extract the folder and move the contents to `C:/dev/ccache/`. Verify the binary exists at `C:/dev/ccache/ccache.exe`.
@@ -133,4 +131,4 @@ It is possible to use ccache with Visual Studio and gain the same benefits as ot
 </Project>
 ```
 
-5. ccache should now just work when building with Release modes in Visual Studio. Debug builds do not work because of limitations from the size of CDDA and the msvc toolchain. However, Debug builds are almost intolerably slow anyway so this limitation is not something we are going to fix right now.
+5. ccache should now just work when building with Release modes in Visual Studio. Debug builds do not work because of the size of CDDA and limitations in the msvc toolchain. However, Debug builds are almost intolerably slow anyway so this limitation is not something we are going to fix right now.

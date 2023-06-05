@@ -120,7 +120,7 @@
     "type": "monstergroup",
     "name": "GROUP_SWARM_BATS",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_bat", "weight": 10, "pack_size": [ 1, 2 ] } ]
+    "monsters": [ { "monster": "xe_mon_bat", "weight": 10, "pack_size": [ 1, 2 ] } ]
   },
   {
     "type": "monstergroup",
@@ -139,9 +139,24 @@
     "name": "GROUP_ALL_BATS",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_bat", "weight": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "xe_mon_bat", "weight": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_vampire_bat", "weight": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_bat_giant", "weight": 10 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_Exodii_Jotunn",
+    "//": "A small Exodii hunter/killer unit or party.  Hunting for Xedra Survivors or Balthazar pawns.",
+    "monsters": [
+      { "monster": "mon_exodii_quad", "weight": 100 },
+      { "monster": "mon_exodii_quad", "weight": 50, "cost_multiplier": 20, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_exodii_quad_jotunn", "weight": 800, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FERAL_AGENTS",
+    "monsters": [ { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 1, 2 ] } ]
   }
 ]

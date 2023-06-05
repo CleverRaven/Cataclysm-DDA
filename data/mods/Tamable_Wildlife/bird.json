@@ -130,5 +130,89 @@
       "pet": "The %s runs around your leg."
     },
     "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pigeon",
+    "type": "MONSTER",
+    "copy-from": "mon_pigeon",
+    "name": { "str": "pigeon" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_hummingbird",
+    "type": "MONSTER",
+    "copy-from": "mon_hummingbird",
+    "name": { "str": "hummingbird" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It quickly flies around you and seems friendly.",
+      "pet": "The %s flies around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_woodpecker",
+    "type": "MONSTER",
+    "copy-from": "mon_woodpecker",
+    "name": { "str": "woodpecker" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_coot",
+    "type": "MONSTER",
+    "copy-from": "mon_coot",
+    "name": { "str": "coot" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_cormorant",
+    "type": "MONSTER",
+    "copy-from": "mon_coot",
+    "name": { "str": "cormorant" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_moorhen",
+    "type": "MONSTER",
+    "copy-from": "mon_coot",
+    "name": { "str": "moorhen" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_grebe",
+    "type": "MONSTER",
+    "copy-from": "mon_coot",
+    "name": { "str": "grebe" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
   }
 ]

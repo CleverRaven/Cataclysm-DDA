@@ -94,6 +94,7 @@ class tiny_bitset
             swap( lhs.storage_, rhs.storage_ );
         }
 
+        // NOLINTNEXTLINE(cata-large-inline-function)
         void set( size_t idx ) {
             cata_assert( idx < size() );
             size_t block_idx = idx / kBitsPerBlock;
@@ -101,6 +102,7 @@ class tiny_bitset
             bits()[block_idx] |= bit_mask;
         }
 
+        // NOLINTNEXTLINE(cata-large-inline-function)
         bool test( size_t idx ) {
             cata_assert( idx < size() );
             size_t block_idx = idx / kBitsPerBlock;
@@ -108,6 +110,7 @@ class tiny_bitset
             return bits()[block_idx] & bit_mask;
         }
 
+        // NOLINTNEXTLINE(cata-large-inline-function)
         void clear( size_t idx ) {
             cata_assert( idx < size() );
             size_t block_idx = idx / kBitsPerBlock;
