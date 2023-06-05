@@ -1,0 +1,23 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "tower",
+    "name": "tower",
+    "color": "green",
+    "sym": "o"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "uniform",
+    "name": "uniform",
+    "color": "red",
+    "sym": "u"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "binomial",
+    "name": "binomial",
+    "color": "black",
+    "sym": "b"
+  }
+]

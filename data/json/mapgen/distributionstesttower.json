@@ -1,0 +1,20 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "tower",
+    "object": { "predecessor_mapgen": "open_air" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "uniform",
+    "object": { "predecessor_mapgen": "open_air" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "binomial",
+    "object": { "predecessor_mapgen": "open_air" }
+  }
+]
