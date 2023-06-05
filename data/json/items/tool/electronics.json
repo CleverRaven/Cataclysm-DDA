@@ -715,44 +715,36 @@
     "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
   },
   {
-  "id": "UPS_on",
-  "type": "TOOL",
-  "name": {
-    "str": "UPS (on)",
-    "str_pl": "UPSes (on)"
-  },
-  "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor, and some guns, but drains batteries quickly. ",
-  "weight": "680 g",
-  "volume": "2500 ml",
-  "price": 280000,
-  "price_postapoc": 1500,
-  "to_hit": -1,
-  "material": [
-    "aluminum",
-    "plastic"
-  ],
-  "symbol": ";",
-  "color": "light_gray",
-  "ammo": [
-    "battery"
-  ],
-  "flags": [
-    "IS_UPS"
-  ],
-  "pocket_data": [
-    {
-      "pocket_type": "MAGAZINE_WELL",
-      "flag_restriction": [ "BATTERY_HEAVY" ],
-      "default_magazine": "heavy_plus_battery_cell"
-    }
-  ],
-  "charges_per_use": 1,
-  "use_action": {
-    "ammo_scale": 0,
-    "target": "UPS_off",
-    "msg": "The charger is turned off.",
-    "menu_text": "Turn off",
-    "type": "transform"
+    "id": "UPS_on",
+    "type": "TOOL",
+    "name": { "str": "UPS (on)", "str_pl": "UPSes (on)" },
+    "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor, and some guns, but drains batteries quickly. ",
+    "weight": "680 g",
+    "volume": "2500 ml",
+    "price": 280000,
+    "price_postapoc": 1500,
+    "to_hit": -1,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "IS_UPS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "UPS_off",
+      "msg": "The charger is turned off.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
   "id": "UPS_off",
