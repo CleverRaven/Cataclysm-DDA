@@ -420,11 +420,13 @@
     "name": { "str": "merch currency strap" },
     "description": "A hundred Free Merchant Certified Notes held together by an improvised currency strap.  This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
     "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "copy-from": "FMCNote",
     "color": "white",
-    "symbol": "$",
     "price": 500000,
-    "price_postapoc": 25000
+    "price_postapoc": 25000,
+    "weight": "100 g",
+    "volume": "113 ml",
+    "flags": [ "BANK_NOTE_STRAP_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -521,11 +523,12 @@
     "name": { "str": "merch currency bundle" },
     "description": "A thousand Free Merchant Certified Notes, divided evenly between ten improvised currency straps, and bundled together with rubber bands.  This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
     "looks_like": "money_bundle_one",
-    "copy-from": "money_bundle_one",
+    "copy-from": "money_strap_FMCNote",
     "color": "green",
-    "symbol": "$",
     "price": 5000000,
-    "price_postapoc": 250000
+    "price_postapoc": 250000,
+    "weight": "1000 g",
+    "volume": "1129 ml"
   },
   {
     "type": "GENERIC",
