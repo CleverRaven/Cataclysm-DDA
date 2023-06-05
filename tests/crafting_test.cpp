@@ -995,7 +995,8 @@ static int resume_craft()
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( player_character.crafting_speed_multiplier( *craft, std::nullopt ) == 1.0 );
+    float workbench_multiplier = -1;
+    REQUIRE( player_character.crafting_speed_multiplier( *craft, std::nullopt, workbench_multiplier ) == 1.0 );
     REQUIRE( !player_character.activity );
     player_character.use( player_character.get_item_position( craft ) );
     REQUIRE( player_character.activity );
