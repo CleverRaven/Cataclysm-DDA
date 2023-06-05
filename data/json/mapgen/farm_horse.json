@@ -33,7 +33,7 @@
         "........................"
       ],
       "palettes": [ "farm_horse" ],
-      "terrain": { "p": "t_grass", "0": "t_grass", "6": "t_grass", "Ы": "t_dirtfloor" },
+      "terrain": { "p": "t_grass" },
       "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] } },
       "place_loot": [ { "item": "television", "x": 21, "y": 6, "chance": 100 } ]
     }
@@ -339,7 +339,6 @@
         "........................"
       ],
       "palettes": [ "farm_horse" ],
-      "items": { "7": { "item": "horse_gear", "chance": 20 } },
       "place_loot": [
         { "group": "farming_tools", "x": 9, "y": [ 4, 7 ], "chance": 40, "repeat": [ 2, 4 ] },
         { "group": "farming_tools", "x": 9, "y": [ 9, 11 ], "chance": 40, "repeat": [ 2, 4 ] },
