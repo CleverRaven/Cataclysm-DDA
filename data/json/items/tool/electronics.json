@@ -3,7 +3,7 @@
     "id": "camera",
     "type": "TOOL",
     "name": { "str": "camera" },
-    "description": "A point-and-shoot digital camera with a digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.",
+    "description": "A point-and-shoot digital camera with a digital vviewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.",
     "weight": "907 g",
     "volume": "250 ml",
     "price": 20000,
