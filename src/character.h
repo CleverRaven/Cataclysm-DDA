@@ -3127,7 +3127,8 @@ class Character : public Creature, public visitable
         float lighting_craft_speed_multiplier( const recipe &rec ) const;
         float crafting_speed_multiplier( const recipe &rec ) const;
         /** For use with in progress crafts */
-        float crafting_speed_multiplier( const item &craft, const std::optional<tripoint> &loc ) const;
+        float crafting_speed_multiplier( const item &craft, const std::optional<tripoint> &loc,
+                                         float &cached_workbench_multipler ) const;
         int available_assistant_count( const recipe &rec ) const;
         /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
