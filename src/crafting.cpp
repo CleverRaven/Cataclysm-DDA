@@ -275,7 +275,7 @@ float Character::crafting_speed_multiplier( const recipe &rec ) const
 }
 
 float Character::crafting_speed_multiplier( const item &craft,
-        const std::optional<tripoint> &loc, float &cached_workbench_multiplier ) const
+        const std::optional<tripoint> &loc, float *cached_workbench_multiplier ) const
 {
     if( !craft.is_craft() ) {
         debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
@@ -285,9 +285,12 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_multi = cached_workbench_multiplier <= 0 ? workbench_crafting_speed_multiplier(
-                                  *this, craft, loc ) : cached_workbench_multiplier;
-    cached_workbench_multiplier = bench_multi;
+    const float bench_multi = ( cached_workbench_multiplier == nullptr ||
+                                *cached_workbench_multiplier <= 0 ) ? workbench_crafting_speed_multiplier(
+                                  *this, craft, loc ) : *cached_workbench_multiplier;
+    if( cached_workbench_multiplier != nullptr ) {
+        *cached_workbench_multiplier = bench_multi;
+    }
     const float morale_multi = morale_crafting_speed_multiplier( rec );
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
