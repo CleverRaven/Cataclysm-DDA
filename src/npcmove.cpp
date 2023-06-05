@@ -164,6 +164,7 @@ enum npc_action : int {
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
+    npc_goto_to_this_pos,
     npc_goto_destination,
     npc_avoid_friendly_fire,
     npc_escape_explosion,
@@ -926,6 +927,10 @@ void npc::move()
         }
     }
 
+    if( action == npc_undecided && is_walking_with() && goto_to_this_pos ) {
+        action = npc_goto_to_this_pos;
+    }
+
     // check if in vehicle before doing any other follow activities
     if( action == npc_undecided && is_walking_with() && player_character.in_vehicle &&
         !in_vehicle ) {
@@ -1375,6 +1380,16 @@ void npc::execute_action( npc_action action )
         case npc_mug_player:
             mug_player( player_character );
             break;
+
+        case npc_goto_to_this_pos: {
+            update_path( get_map().getlocal( *goto_to_this_pos ) );
+            move_to_next();
+
+            if( get_location() == *goto_to_this_pos ) {
+                goto_to_this_pos = std::nullopt;
+            }
+            break;
+        }
 
         case npc_goto_destination:
             go_to_omt_destination();
@@ -4294,6 +4309,8 @@ std::string npc_action_name( npc_action action )
             return "Do nothing";
         case npc_do_attack:
             return "Attack";
+        case npc_goto_to_this_pos:
+            return "Go to position";
         case num_npc_actions:
             return "Unnamed action";
     }
