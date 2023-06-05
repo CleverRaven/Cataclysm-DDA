@@ -67,7 +67,7 @@ struct mm_submap {
         void set_tile( const point &p, const memorized_tile &value );
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( const JsonArray &ja );
+        void deserialize( int version, const JsonArray &ja );
 
     private:
         // NOLINTNEXTLINE(cata-serialize)

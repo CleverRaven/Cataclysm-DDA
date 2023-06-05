@@ -4042,7 +4042,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void mm_submap::deserialize( const JsonArray &ja )
+void mm_submap::deserialize( int version, const JsonArray &ja )
 {
     size_t submap_array_idx = 0;
 
@@ -4056,9 +4056,8 @@ void mm_submap::deserialize( const JsonArray &ja )
                 remaining -= 1;
             } else {
                 const JsonArray ja_tile = ja.get_array( submap_array_idx++ );
-                if( ja_tile.size() < 6 ) {
+                if( version < 1 ) { // legacy, remove after 0.H comes out
                     std::string id = ja_tile.get_string( 0 );
-                    // mid-0.G saves store either terrain or decoration, but not both
                     if( string_starts_with( id, "t_" ) ) {
                         tile.set_ter_id( std::move( id ) );
                         tile.set_ter_subtile( ja_tile.get_int( 1 ) );
@@ -4105,6 +4104,10 @@ void mm_submap::deserialize( const JsonArray &ja )
 
 void mm_region::serialize( JsonOut &jsout ) const
 {
+    jsout.start_object();
+    jsout.member( "version", 1 );
+    jsout.write( "data" );
+    jsout.write_member_separator();
     jsout.start_array();
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         // NOLINTNEXTLINE(modernize-loop-convert)
@@ -4118,19 +4121,31 @@ void mm_region::serialize( JsonOut &jsout ) const
         }
     }
     jsout.end_array();
+    jsout.end_object();
 }
 
 void mm_region::deserialize( const JsonValue &ja )
 {
-    JsonArray region_json = ja;
+    int version;
+    JsonArray region_json;
+
+    if( ja.test_array() ) { // legacy, remove after 0.H comes out
+        version = 0;
+        region_json = ja;
+    } else {
+        JsonObject region_obj = ja;
+        version = region_obj.get_int( "version" );
+        region_json = region_obj.get_array( "data" );
+    }
+
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         // NOLINTNEXTLINE(modernize-loop-convert)
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             shared_ptr_fast<mm_submap> &sm = submaps[x][y];
             sm = make_shared_fast<mm_submap>();
-            JsonValue jsin = region_json.next_value();
+            const JsonValue jsin = region_json.next_value();
             if( !jsin.test_null() ) {
-                sm->deserialize( jsin );
+                sm->deserialize( version, jsin );
             }
         }
     }
