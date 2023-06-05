@@ -761,6 +761,7 @@
       }
     ],
     "charges_per_use": 1,
+    "revert_to": "UPS_OFF",
     "use_action": {
       "ammo_scale": 0,
       "target": "UPS_off",
