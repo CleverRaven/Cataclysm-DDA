@@ -41,7 +41,6 @@ static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_m
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
-
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_expects_fail( "EOC_run_with_test_expects_fail" );
@@ -51,15 +50,14 @@ static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_queued( "EOC_run_with_test_queued" );
 static const effect_on_condition_id
 effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
-
-
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
+static const recipe_id recipe_cattail_jelly( "cattail_jelly" );
+
 static const skill_id skill_survival( "survival" );
 
-static const recipe_id recipe_cattail_jelly( "cattail_jelly" );
 namespace
 {
 void complete_activity( Character &u )
