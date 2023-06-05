@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "aftershock_crashing_ship",
-    "terrain": { "0": "hard_vacuum" }
+    "terrain": { "0": "t_metal_floor" }
   },
   {
     "//": "Aftershock crashing ship, divided into six sections. This is intended to be the port side of a larger ship, with the corridors leading to the rest of the ship sealed off due to hull breaches.",

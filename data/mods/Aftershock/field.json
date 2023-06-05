@@ -11,26 +11,5 @@
     "half_life": "1 seconds",
     "phase": "solid",
     "display_field": false
-  },
-  {
-    "id": "fd_hard_vacuum",
-    "type": "field_type",
-    "intensity_levels": [
-      {
-        "name": "hard vacuum",
-        "sym": " ",
-        "move_cost": 1000,
-        "extra_radiation_min": 5,
-        "extra_radiation_max": 20,
-        "dangerous": true,
-        "transparent": true,
-        "convection_temperature_mod": -273
-      }
-    ],
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 100 ], [ "sensor", 100 ] ] },
-    "percent_spread": 100,
-    "priority": -1,
-    "half_life": "5 minutes",
-    "phase": "gas"
   }
 ]
