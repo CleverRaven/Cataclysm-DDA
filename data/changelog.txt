@@ -44,6 +44,7 @@ Added a new location called survivor forest camp
 Addition of non-NPC civilians for lore reasons
 Nether spiders as a new bossfight for the game.
 New conversion kits, guns, and calibres
+Adds Grits
 
 
 ## Interface:
@@ -57,6 +58,7 @@ Mouse thumb button support
 Show NPC location when selecting NPC to chat with, guard, or follow
 Display why vehicle parts cannot be installed
 Open multiple containers in Advanced Inventory Manager
+Can close map with 'm' key
 
 
 ## Mods:
@@ -81,6 +83,9 @@ Open multiple containers in Advanced Inventory Manager
 [Aftershock] Elemental bionic weapons.
 [Bombastic Perks] Adds the recycler perk
 [Xedra Evolved] Revamped the inventor class
+Magiclysm class enchantments fixes
+Alchemy Perks for Xedra Evolved
+Bombastic Perks adds Playstyle Perks
 
 
 ## Balance:
@@ -99,6 +104,8 @@ Add a more accessible holy symbol mission, replacing the small relic one
 Most materials now burn at least a little slower than gunpowder
 stationary monsters don't let you train throwing to high levels
 player can drag heavier vehicles
+heavy steel ballistic plate has more encumbrance
+Changing damage reduction on suppressors
 
 
 ## Bugfixes:
@@ -139,6 +146,24 @@ Fix UI and accessibility issues in the overmap UI and character creation menu
 Fix unicode path encoding error in Windows MinGW build
 Difficulty 0 recipes are no longer arbitrarily difficult
 Make EOC u_sell_item() actually transfers the items' ownership
+Fix graffiti string truncation caused CTD
+Readd JUMPSTART quality to jumper cable
+#65448 Small monsters can double as pack-mules
+Remove mx_supplydrop
+Fix stop of NPC disassembly and crafting jobs while player changes Z-level
+Added crude heating element alternatives with 50% extra cost over normal elements
+fix missing include in crash.cpp
+artisan turrets don't shoot their customers
+removing leftovers of bionics from doctor's office from base game ~~and No Hope mod~~ reverted No Hope Changes
+Using default magazine to calculate maximum capacity for guns with random ammo
+Fix cable pockets interfering with battery mods
+Misc bugfixes targeting the new civilian monsters
+Revert 'makeshift electrolyzer shouldn't contain lye'
+Giving the motorcycle helmet the sunglasses quality so it would protect against the sun glare.
+Clarify low calorie messages
+Removed obsoleted items from blacksmith's inventory as recommended by Drew
+Fixing energy consumption and size of few mini appliances
+Typo fix for shoulder guards
 
 
 ## Performance:
@@ -156,6 +181,7 @@ Migrate some JSON APIs to string_view
 Add units::temperature_delta
 Upgrade clang-tidy used in CI to LLVM 16
 Allow C++ standard includes in clang-tidy tests
+Fix GCC warnings
 
 
 ## Build:
