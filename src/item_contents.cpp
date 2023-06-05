@@ -1943,6 +1943,7 @@ void item_contents::add_pocket( const item &pocket_item )
     additional_pockets_volume += total_nonrigid_volume;
     additional_pockets_space_used += pocket_item.get_pocket_size();
     additional_pockets.push_back( pocket_item );
+    additional_pockets.back().clear_items();
 
 }
 
