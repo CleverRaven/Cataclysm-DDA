@@ -530,7 +530,7 @@
       { "item": "mdrx", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "cz600", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 },
-      { "item": "rdb_223", "prob": 1, "charges-min": 0, "charges-max": 20 }
+      { "item": "rdb_223", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
