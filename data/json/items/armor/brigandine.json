@@ -1923,7 +1923,7 @@
     "id": "lc_shoulder_guards",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "Pair of mild steel shoulder guards", "str_pl": "Pairs of mild steel shoulder guards" },
+    "name": { "str": "pair of mild steel shoulder guards", "str_pl": "pairs of mild steel shoulder guards" },
     "description": "A pair of thin shoulder guards, made of mild steel.  Designed to be attached to brigandine.",
     "weight": "438 g",
     "volume": "600 ml",
@@ -1937,21 +1937,21 @@
     "id": "xl_lc_shoulder_guards",
     "type": "GENERIC",
     "copy-from": "lc_shoulder_guards",
-    "name": { "str": "XL Pair of mild steel shoulder guards", "str_pl": "XL Pairs of mild steel shoulder guards" },
+    "name": { "str": "XL pair of mild steel shoulder guards", "str_pl": "XL pairs of mild steel shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
   },
   {
     "id": "lc_shoulder_guards_xs",
     "type": "GENERIC",
     "copy-from": "lc_shoulder_guards",
-    "name": { "str": "XS Pair of mild steel shoulder guards", "str_pl": "XS Pairs of mild steel shoulder guards" },
+    "name": { "str": "XS pair of mild steel shoulder guards", "str_pl": "XS pairs of mild steel shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
   },
   {
     "id": "mc_shoulder_guards",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "Pair of medium steel shoulder guards", "str_pl": "Pairs of medium steel shoulder guards" },
+    "name": { "str": "pair of medium steel shoulder guards", "str_pl": "pairs of medium steel shoulder guards" },
     "description": "A pair of thin shoulder guards, made of medium steel.  Designed to be attached to brigandine.",
     "weight": "438 g",
     "volume": "600 ml",
@@ -1965,21 +1965,21 @@
     "id": "xl_mc_shoulder_guards",
     "type": "GENERIC",
     "copy-from": "mc_shoulder_guards",
-    "name": { "str": "XL Pair of medium steel shoulder guards", "str_pl": "XL Pairs of medium steel shoulder guards" },
+    "name": { "str": "XL pair of medium steel shoulder guards", "str_pl": "XL pairs of medium steel shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
   },
   {
     "id": "mc_shoulder_guards_xs",
     "type": "GENERIC",
     "copy-from": "mc_shoulder_guards",
-    "name": { "str": "XS Pair of medium steel shoulder guards", "str_pl": "XS Pairs of medium steel shoulder guards" },
+    "name": { "str": "XS pair of medium steel shoulder guards", "str_pl": "XS pairs of medium steel shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
   },
   {
     "id": "hc_shoulder_guards",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "Pair of high steel shoulder guards", "str_pl": "Pairs of high steel shoulder guards" },
+    "name": { "str": "pair of high steel shoulder guards", "str_pl": "pairs of high steel shoulder guards" },
     "description": "A pair of thin shoulder guards, made of high steel.  Designed to be attached to brigandine.",
     "weight": "438 g",
     "volume": "600 ml",
@@ -1993,21 +1993,21 @@
     "id": "xl_hc_shoulder_guards",
     "type": "GENERIC",
     "copy-from": "hc_shoulder_guards",
-    "name": { "str": "XL Pair of high steel shoulder guards", "str_pl": "XL Pairs of high steel shoulder guards" },
+    "name": { "str": "XL pair of high steel shoulder guards", "str_pl": "XL pairs of high steel shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
   },
   {
     "id": "hc_shoulder_guards_xs",
     "type": "GENERIC",
     "copy-from": "hc_shoulder_guards",
-    "name": { "str": "XS Pair of high steel shoulder guards", "str_pl": "XS Pairs of high steel shoulder guards" },
+    "name": { "str": "XS pair of high steel shoulder guards", "str_pl": "XS pairs of high steel shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
   },
   {
     "id": "ch_shoulder_guards",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "Pair of case hardened shoulder guards", "str_pl": "Pairs of case hardened shoulder guards" },
+    "name": { "str": "pair of case hardened shoulder guards", "str_pl": "pairs of case hardened shoulder guards" },
     "description": "A pair of thin shoulder guards, made from case hardened steel.  Designed to be attached to brigandine.",
     "weight": "438 g",
     "volume": "600 ml",
@@ -2021,21 +2021,21 @@
     "id": "xl_ch_shoulder_guards",
     "type": "GENERIC",
     "copy-from": "ch_shoulder_guards",
-    "name": { "str": "XL Pair of case hardened shoulder guards", "str_pl": "XL Pairs of case hardened shoulder guards" },
+    "name": { "str": "XL pair of case hardened shoulder guards", "str_pl": "XL pairs of case hardened shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
   },
   {
     "id": "ch_shoulder_guards_xs",
     "type": "GENERIC",
     "copy-from": "ch_shoulder_guards",
-    "name": { "str": "XS Pair of case hardened shoulder guards", "str_pl": "XS Pairs of case hardened shoulder guards" },
+    "name": { "str": "XS pair of case hardened shoulder guards", "str_pl": "XS pairs of case hardened shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
   },
   {
     "id": "qt_shoulder_guards",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "Pair of tempered shoulder guards", "str_pl": "Pairs of tempered shoulder guards" },
+    "name": { "str": "pair of tempered shoulder guards", "str_pl": "pairs of tempered shoulder guards" },
     "description": "A pair of thin shoulder guards, made from tempered steel.  Designed to be attached to brigandine.",
     "weight": "438 g",
     "volume": "600 ml",
@@ -2049,14 +2049,14 @@
     "id": "xl_qt_shoulder_guards",
     "type": "GENERIC",
     "copy-from": "qt_shoulder_guards",
-    "name": { "str": "XL Pair of tempered shoulder guards", "str_pl": "XL Pairs of tempered shoulder guards" },
+    "name": { "str": "XL pair of tempered shoulder guards", "str_pl": "XL pairs of tempered shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
   },
   {
     "id": "qt_shoulder_guards_xs",
     "type": "GENERIC",
     "copy-from": "qt_shoulder_guards",
-    "name": { "str": "XS Pair of tempered shoulder guards", "str_pl": "XS Pairs of tempered shoulder guards" },
+    "name": { "str": "XS pair of tempered shoulder guards", "str_pl": "XS pairs of tempered shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
   }
 ]

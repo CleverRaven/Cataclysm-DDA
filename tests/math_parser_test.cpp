@@ -115,6 +115,25 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.parse( "2 * 1.5" ) );
     CHECK( testexp.eval( d ) == Approx( 3 ) );
 
+    // diag functions. _test_diag adds up all the (kw)args except for "test_unused_kwarg"
+    CHECK( testexp.parse( "_test_diag_('1', 2, 3*4)" ) ); // mixed arg types
+    CHECK( testexp.eval( d ) == Approx( 15 ) );
+    CHECK( testexp.parse( "_test_diag_('1+2*3:() sin(1)')" ) ); // string with token delimiters
+    CHECK( testexp.parse( "_test_diag_(sin(pi), _test_diag_('1'))" ) ); // compounding
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
+    CHECK( testexp.parse( "_test_diag_('1':'2')" ) );  // string kwarg
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
+    CHECK( testexp.parse( "_test_diag_(1, '2', '1':'2', '3':'4')" ) );  // kwargs after positional
+    CHECK( testexp.eval( d ) == Approx( 9 ) );
+    CHECK( testexp.parse( "_test_diag_('1':2)" ) );  // double kwarg
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
+    CHECK( testexp.parse( "_test_diag_('1':2*3)" ) );  // sub-expression kwarg
+    CHECK( testexp.eval( d ) == Approx( 6 ) );
+    CHECK( testexp.parse( "_test_diag_('1':3.5*sin(pi/2))" ) );  // sub-expression kwarg
+    CHECK( testexp.eval( d ) == Approx( 3.5 ) );
+    CHECK( testexp.parse( "_test_diag_('1':2*_test_diag_('2':'3'))" ) );  // kwarg compounding
+    CHECK( testexp.eval( d ) == Approx( 6 ) );
+
     // failed validation
     // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
     std::string dmsg = capture_debugmsg_during( [&testexp, &d]() {
@@ -138,7 +157,17 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "_test_(1)" ) );
         CHECK_FALSE( testexp.parse( "'string'" ) );
         CHECK_FALSE( testexp.parse( "('wrong')" ) );
-        CHECK_FALSE( testexp.parse( "u_val('wr'ong')" ) ); // stray ' inside string
+        CHECK_FALSE( testexp.parse( "_test_diag_('wr'ong')" ) ); // stray ' inside string
+        CHECK_FALSE( testexp.parse( "_test_diag_('wrong)" ) ); // unterminated string
+        CHECK_FALSE( testexp.parse( "_test_diag_('1'+'2')" ) );  // no string operators (yet)
+        CHECK_FALSE( testexp.parse( "_test_diag_(1:'2')" ) );    // kwarg key is not string
+        CHECK_FALSE( testexp.parse( "_test_diag_('1':'2', 3)" ) ); // positional after kwargs
+        CHECK_FALSE( testexp.parse( "_test_diag_('test_unused_kwarg': 'mustfail')" ) ); // unused kwarg
+        CHECK_FALSE( testexp.parse( "_test_diag_('1':'2':)" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_('1':'2':'3')" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_(:)" ) );
+        CHECK_FALSE( testexp.parse( "sin('1':'2')" ) ); // no kwargs in math functions (yet?)
+        CHECK_FALSE( testexp.parse( "'1':'2'" ) );
         CHECK_FALSE( testexp.parse( "2 2*2" ) ); // stray space inside variable name
         CHECK_FALSE( testexp.parse( "2+++2" ) );
         CHECK( testexp.parse( "2+3" ) );
@@ -177,7 +206,7 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
 
     // reading scoped values with u_val shim
     std::string dmsg = capture_debugmsg_during( [&testexp]() {
-        CHECK_FALSE( testexp.parse( "u_val( 3 )" ) ); // only quoted strings or variables accepted
+        CHECK_FALSE( testexp.parse( "u_val( 3 )" ) ); // this function doesn't support numbers
         CHECK_FALSE( testexp.parse( "u_val(myval)" ) ); // this function doesn't support variables
         CHECK_FALSE( testexp.parse( "val( 'stamina' )" ) ); // invalid scope for this function
     } );
