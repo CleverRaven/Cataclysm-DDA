@@ -12956,7 +12956,7 @@ int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int t
 
     const bool power_in = link->charge_rate > 0;
     if( power_in ? linked_item.ammo_remaining() >= linked_item.ammo_capacity( ammo_battery ) :
-                   linked_item.ammo_remaining() <= 0 ) {
+        linked_item.ammo_remaining() <= 0 ) {
         return 0;
     }
 
