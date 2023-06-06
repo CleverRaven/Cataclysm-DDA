@@ -3131,7 +3131,7 @@ class Character : public Creature, public visitable
         /** For use with in progress crafts.
          *  Workbench multiplier calculation (especially finding lifters nearby)
          *  is expensive when numorous items are around.
-         *  So use pre-calculated cache if possible. 
+         *  So use pre-calculated cache if possible.
          */
         float crafting_speed_multiplier( const item &craft, const std::optional<tripoint> &loc,
                                          bool use_cached_workbench_multiplier = false, float cached_workbench_multiplier = 0.0f
