@@ -5602,7 +5602,7 @@
         { "id": [ "t_pavement_y", "t_pavement_y_bg_dp" ], "fg": 3851 },
         { "id": "t_pedestal_temple", "fg": 3779, "rotates": false },
         { "id": "t_pedestal_wyrm", "fg": 3778, "rotates": false },
-        { "id": [ "t_open_air", "t_open_air_rooved" ], "fg": 3839 },
+        { "id": "tr_ledge", "fg": 3839 },
         {
           "id": [ "t_pit", "tr_pit", "tr_sinkhole" ],
           "fg": 3852,
