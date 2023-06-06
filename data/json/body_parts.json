@@ -611,7 +611,7 @@
     "encumbrance_text": "Running and swimming are slowed.",
     "encumbrance_threshold": 20,
     "main_part": "gastropod_foot",
-    "connected_to": "torso_waist",
+    "connected_to": "torso",
     "opposite_part": "gastropod_foot",
     "limb_types": [ [ "leg", 0.8 ], [ "foot", 0.5 ], [ "tail", 0.2 ] ],
     "limb_scores": [ [ "move_speed", 0.3 ], [ "crawl", 0.6 ], [ "footing", 0.8 ] ],
