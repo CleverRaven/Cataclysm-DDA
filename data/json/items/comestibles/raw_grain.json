@@ -236,6 +236,7 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": ",",
+    "category": "seeds",
     "quench": -10,
     "calories": 230,
     "description": "A heap of round black seeds, typically milled and pressed for their oil.",
