@@ -3916,6 +3916,7 @@
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "weight_capacity_modifier": 0.8,
     "triggers": [
       [
         {
