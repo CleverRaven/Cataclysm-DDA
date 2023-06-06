@@ -397,7 +397,7 @@
     "spoils_in": "1 day",
     "name": { "str": "seed potato", "str_pl": "seed potatoes" },
     "description": "Raw potato cut into pieces, separating each bud for planting.",
-    "delete": { "flags": [ "INEDIBLE" ] },
+    "extend": { "flags": [ "INEDIBLE", "PLANTABLE_SEED" ] },
     "seed_data": { "plant_name": "potatoes", "fruit": "potato", "byproducts": [ "withered" ], "grow": "95 days" }
   },
   {
