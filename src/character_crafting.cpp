@@ -37,6 +37,11 @@ void Character::learn_recipe( const recipe *const rec )
     learned_recipes->include( rec );
 }
 
+void Character::forget_recipe( const recipe *const rec )
+{
+    learned_recipes->remove( rec );
+}
+
 int Character::exceeds_recipe_requirements( const recipe &rec ) const
 {
     return get_all_skills().exceeds_recipe_requirements( rec );

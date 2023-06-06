@@ -100,7 +100,8 @@ struct talk_effect_fun_t {
         void set_add_mission( const JsonObject &jo, const std::string &member );
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         void set_u_buy_monster( const JsonObject &jo, const std::string &member );
-        void set_u_learn_recipe( const JsonObject &jo, const std::string &member );
+        void set_learn_recipe( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_forget_recipe( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_first_topic( const JsonObject &jo, const std::string &member );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
