@@ -424,6 +424,15 @@
   },
   {
     "type": "effect_type",
+    "id": "grabbing_gastropod_foot",
+    "name": [ "Grabbing G. Foot" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "desc": [ "You're grabbing the snail like lower body of somebody." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
     "id": "grabbing_appendix",
     "name": [ "Grabbing" ],
     "show_in_info": true,
