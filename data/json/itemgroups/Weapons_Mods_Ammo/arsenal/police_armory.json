@@ -469,7 +469,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "glock40mag",
-    "entries": [ { "40fmj", "charges": [ 12, 12 ] } ]
+    "entries": [ { "item": "40fmj", "charges": [ 12, 12 ] } ]
   },
   {
     "id": "police_armory_boxes_40sw",
