@@ -209,11 +209,11 @@ static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_DRILL( "DRILL" );
+static const quality_id qual_GRASS_CUT( "GRASS_CUT" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_TREE_TAP( "TREE_TAP" );
-static const quality_id qual_GRASS_CUT( "GRASS_CUT" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave( "autoclave" );
