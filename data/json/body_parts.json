@@ -613,7 +613,7 @@
     "main_part": "gastropod_foot",
     "connected_to": "torso_waist",
     "opposite_part": "gastropod_foot",
-    "limb_types": [ [ "leg", 0.8 ], [ "foot", 0.5 ] [ "tail", 0.2 ] ],
+    "limb_types": [ [ "leg", 0.8 ], [ "foot", 0.5 ], [ "tail", 0.2 ] ],
     "limb_scores": [ [ "move_speed", 0.3 ], [ "crawl", 0.6 ], [ "footing", 0.8 ] ],
     "hit_size": 30,
     "hit_difficulty": 1.2,
