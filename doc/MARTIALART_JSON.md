@@ -78,9 +78,8 @@
   "crit_tec": true,           // This technique only works on a critical hit
   "crit_ok": true,            // This technique works on both normal and critical hits
   "attack_override": false,   // This technique replaces the base attack it triggered on, nulling damage and movecost (instead using the tech's flat_bonuses), and counts as unarmed for the purposes of skill training and special melee effects
-  "downed_target": true,      // Technique only works on a downed target
-  "stunned_target": true,     // Technique only works on a stunned target
-  "human_target": true,       // Technique only works on a human-like target
+  "condition": "u_is_outside",// Optional (array of) dialog conditions the attack requires to trigger.  Failing these will disqualify the tech from being selected
+  "condition_desc": "Needs X",// Description string describing the conditions of this attack (since dialog conditions can't be automatically evaluated)       
   "repeat_min": 1,            // Technique's damage and any added effects are repeated rng( repeat_min, repeat_max) times. The target's armor and the effect's chances are applied for each repeat.
   "repeat_max": 1,
   "knockback_dist": 1,        // Distance target is knocked back
