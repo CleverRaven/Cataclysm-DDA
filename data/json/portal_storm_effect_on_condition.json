@@ -234,7 +234,7 @@
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "alter_timed_events": "portal_dungeon_entrance" },
-      { "math": [ "portal_storm_counter", "++" ] },
+      { "math": [ "u_counter_portal_storm_counter", "++" ] },
       { "math": [ "talked_to_storm", "=", "0" ] }
     ]
   },
@@ -704,7 +704,7 @@
         "type": "bad",
         "popup": true
       },
-      { "u_add_effect": "incorporeal", "duration": { "math": [ "ps_str", "*=", "u_val('time: 1 s')" ] } }
+      { "u_add_effect": "incorporeal", "duration": { "math": [ "ps_str * u_val('time: 1 s')" ] } }
     ]
   },
   {
@@ -829,7 +829,7 @@
     "id": "EOC_PORTAL_STORM_CELL",
     "condition": {
       "and": [
-        { "math": [ "in_portal_cell", "==", "0" ] },
+        { "math": [ "u_in_portal_cell", "==", "0" ] },
         { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
         { "not": "u_driving" }
       ]
@@ -838,8 +838,8 @@
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
-      { "math": [ "cell_time", "=", "u_val('time: 5 m') + rand(60)" ] },
-      { "math": [ "in_portal_cell", "=", "1" ] },
+      { "math": [ "u_cell_time", "=", "u_val('time: 5 m') + rand(60)" ] },
+      { "math": [ "u_in_portal_cell", "=", "1" ] },
       {
         "revert_location": { "global_val": "cell_loc" },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
@@ -868,7 +868,7 @@
         "queue_eocs": {
           "id": "EOC_PORTAL_STORM_CELL_TELEPORT",
           "effect": [
-            { "math": [ "in_portal_cell", "=", "0" ] },
+            { "math": [ "u_in_portal_cell", "=", "0" ] },
             { "u_teleport": { "global_val": "original_loc" } },
             { "u_message": "You came back.  This time." }
           ]
