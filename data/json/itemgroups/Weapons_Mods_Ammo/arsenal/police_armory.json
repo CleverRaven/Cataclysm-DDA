@@ -617,13 +617,13 @@
     "//": "One or more ar15s, empty mags, full mags, 223 remington ammo.",
     "subtype": "collection",
     "entries": [
-		{ "group": "police_armory_ar15_pick1" },
-		{ "group": "police_armory_ar15_pick1", "prob": 50, "count": [ 1, 2 ] },
-		{ "group": "police_armory_ar15_pick1", "prob": 25 },
-		{ "item": "stanag30", "count": [ 1, 7 ] },
-        { "group": "police_armory_full_stanag30_223", "count": [ 1, 8 ] },
-        { "group": "police_armory_boxes_223" }
-	]
+      { "group": "police_armory_ar15_pick1" },
+      { "group": "police_armory_ar15_pick1", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "police_armory_ar15_pick1", "prob": 25 },
+      { "item": "stanag30", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_stanag30_223", "count": [ 1, 8 ] },
+      { "group": "police_armory_boxes_223" }
+    ]
   },
   {
     "type": "item_group",
@@ -631,10 +631,10 @@
     "//": "Pick a random ar-15 chambered in 223 weighted towards medium barrels.",
     "subtype": "distribution",
     "entries": [
-        { "group": "ar15_223medium", "prob": 50 },
-        { "group": "ar15_223long", "prob": 30 },
-        { "group": "ar15_223short", "prob": 20 }
-	]
+      { "group": "ar15_223medium", "prob": 50 },
+      { "group": "ar15_223long", "prob": 30 },
+      { "group": "ar15_223short", "prob": 20 }
+    ]
   },
   {
     "id": "police_armory_full_stanag30_223",
@@ -648,11 +648,11 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-		{ "group": "police_armory_box_some_223" },
-		{ "group": "police_armory_box_some_223", "prob": 50 },
-		{ "item": "ammunition_box_308", "count": [ 5, 75 ] },
-		{ "group": "police_armory_box_full_223", "count": [ 0, 32 ] }
-	]
+      { "group": "police_armory_box_some_223" },
+      { "group": "police_armory_box_some_223", "prob": 50 },
+      { "item": "ammunition_box_308", "count": [ 5, 75 ] },
+      { "group": "police_armory_box_full_223", "count": [ 0, 32 ] }
+    ]
   },
   {
     "id": "police_armory_box_full_223",
@@ -674,23 +674,23 @@
     "//": "One or more m4s, empty mags, full mags, 556 nato ammo.",
     "subtype": "collection",
     "entries": [
-		{ "item": "modular_m4_carbine" },
-		{ "item": "modular_m4_carbine", "prob": 50, "count": [ 1, 2 ] },
-		{ "item": "stanag30", "count": [ 1, 7 ] },
-        { "group": "police_armory_full_stanag30_556", "count": [ 1, 8 ] },
-        { "group": "police_armory_boxes_556" }
-	]
+      { "item": "modular_m4_carbine" },
+      { "item": "modular_m4_carbine", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "stanag30", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_stanag30_556", "count": [ 1, 8 ] },
+      { "group": "police_armory_boxes_556" }
+    ]
   },
   {
     "id": "police_armory_boxes_556",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-		{ "group": "police_armory_box_some_556" },
-		{ "group": "police_armory_box_some_556", "prob": 50 },
-		{ "item": "ammunition_box_308", "count": [ 5, 75 ] },
-		{ "group": "police_armory_box_full_556", "count": [ 0, 32 ] }
-	]
+      { "group": "police_armory_box_some_556" },
+      { "group": "police_armory_box_some_556", "prob": 50 },
+      { "item": "ammunition_box_308", "count": [ 5, 75 ] },
+      { "group": "police_armory_box_full_556", "count": [ 0, 32 ] }
+    ]
   },
   {
     "id": "police_armory_full_stanag30_556",
@@ -719,22 +719,22 @@
     "//": "One or more m24 rifles, boxes of 308 and 762.",
     "subtype": "collection",
     "entries": [
-		{ "item": "M24" },
-		{ "item": "M24", "prob": 50 },
-        { "group": "police_armory_boxes_308" },
-        { "group": "police_armory_boxes_762_51", "prob": 25 }
-	]
+      { "item": "M24" },
+      { "item": "M24", "prob": 50 },
+      { "group": "police_armory_boxes_308" },
+      { "group": "police_armory_boxes_762_51", "prob": 25 }
+    ]
   },
   {
     "id": "police_armory_boxes_308",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-		{ "group": "police_armory_box_some_308" },
-		{ "group": "police_armory_box_some_308", "prob": 50 },
-		{ "item": "ammunition_box_308", "count": [ 3, 30 ] },
-		{ "group": "police_armory_box_full_308", "count": [ 0, 16 ] }
-	]
+      { "group": "police_armory_box_some_308" },
+      { "group": "police_armory_box_some_308", "prob": 50 },
+      { "item": "ammunition_box_308", "count": [ 3, 30 ] },
+      { "group": "police_armory_box_full_308", "count": [ 0, 16 ] }
+    ]
   },
   {
     "id": "police_armory_box_full_308",
@@ -755,11 +755,11 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-		{ "group": "police_armory_box_some_762_51" },
-		{ "group": "police_armory_box_some_762_51", "prob": 50 },
-		{ "item": "ammunition_box_762_51", "count": [ 3, 20 ] },
-		{ "group": "police_armory_box_full_762_51", "count": [ 0, 12 ] }
-	]
+      { "group": "police_armory_box_some_762_51" },
+      { "group": "police_armory_box_some_762_51", "prob": 50 },
+      { "item": "ammunition_box_762_51", "count": [ 3, 20 ] },
+      { "group": "police_armory_box_full_762_51", "count": [ 0, 12 ] }
+    ]
   },
   {
     "id": "police_armory_box_full_762_51",
@@ -781,21 +781,21 @@
     "//": "One or more Rem700 rifles, boxes of 30-06.",
     "subtype": "collection",
     "entries": [
-		{ "item": "remington_700", "contents-item": "rifle_scope" },
-		{ "item": "remington_700", "contents-item": "rifle_scope", "prob": 50 },
-        { "group": "police_armory_boxes_30-06" }
-	  ]
+      { "item": "remington_700", "contents-item": "rifle_scope" },
+      { "item": "remington_700", "contents-item": "rifle_scope", "prob": 50 },
+      { "group": "police_armory_boxes_30-06" }
+    ]
   },
   {
     "id": "police_armory_boxes_3006",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-		{ "group": "police_armory_box_some_3006" },
-		{ "group": "police_armory_box_some_3006", "prob": 50 },
-		{ "item": "ammunition_box_308", "count": [ 4, 30 ] },
-		{ "group": "police_armory_box_full_3006", "count": [ 0, 16 ] }
-	]
+      { "group": "police_armory_box_some_3006" },
+      { "group": "police_armory_box_some_3006", "prob": 50 },
+      { "item": "ammunition_box_308", "count": [ 4, 30 ] },
+      { "group": "police_armory_box_full_3006", "count": [ 0, 16 ] }
+    ]
   },
   {
     "id": "police_armory_box_full_3006",
@@ -816,25 +816,22 @@
     "id": "police_armory_shotgun_pick1",
     "//": "Pick a random police shotgun.",
     "subtype": "distribution",
-    "entries": [
-        { "group": "mossberg_500", "prob": 50 },
-        { "group": "remington_870", "prob": 50 }
-	]
+    "entries": [ { "group": "mossberg_500", "prob": 50 }, { "group": "remington_870", "prob": 50 } ]
   },
   {
     "id": "police_armory_boxes_shotshells",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-		{ "group": "police_armory_box_some_shot_beanbag" },
-		{ "group": "police_armory_box_some_shot_beanbag", "prob": 50 },
-		{ "group": "police_armory_box_some_shot_he" },
-		{ "group": "police_armory_box_some_shot_00", "prob": 75 },
-		{ "item": "ammunition_box_50bmg", "count": [ 4, 40 ] },
-		{ "group": "police_armory_box_full_shot_beanbag", "count": [ 0, 10 ] },
-		{ "group": "police_armory_box_full_shot_00", "count": [ 0, 8 ], "prob": 75 },
-		{ "group": "police_armory_box_full_shot_he", "count": [ 0, 4 ], "prob": 75 }
-	]
+      { "group": "police_armory_box_some_shot_beanbag" },
+      { "group": "police_armory_box_some_shot_beanbag", "prob": 50 },
+      { "group": "police_armory_box_some_shot_he" },
+      { "group": "police_armory_box_some_shot_00", "prob": 75 },
+      { "item": "ammunition_box_50bmg", "count": [ 4, 40 ] },
+      { "group": "police_armory_box_full_shot_beanbag", "count": [ 0, 10 ] },
+      { "group": "police_armory_box_full_shot_00", "count": [ 0, 8 ], "prob": 75 },
+      { "group": "police_armory_box_full_shot_he", "count": [ 0, 4 ], "prob": 75 }
+    ]
   },
   {
     "id": "police_armory_box_full_shot_beanbag",
