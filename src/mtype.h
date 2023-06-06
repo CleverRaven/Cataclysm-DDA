@@ -101,6 +101,7 @@ enum m_flag : int {
     MF_ACIDTRAIL,           // Leaves a trail of acid
     MF_SHORTACIDTRAIL,      // Leaves an intermittent trail of acid
     MF_FIREPROOF,           // Immune to fire
+    MF_IRONWROUGHT,         // Immune to cold iron and does cold iron damage instead of any cutting damage
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_SMALLSLUDGETRAIL,    // Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving

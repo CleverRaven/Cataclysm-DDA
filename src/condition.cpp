@@ -1434,7 +1434,7 @@ void conditional_t::set_compare_num( const JsonObject &jo, const std::string_vie
 void conditional_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
-    math.from_json( jo, member );
+    math.from_json( jo, member, true );
     condition = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
@@ -2668,7 +2668,7 @@ void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string_view m
     };
 }
 
-void eoc_math::from_json( const JsonObject &jo, std::string_view member )
+void eoc_math::from_json( const JsonObject &jo, std::string_view member, bool conditional )
 {
     JsonArray const objects = jo.get_array( member );
     if( objects.size() > 3 ) {
@@ -2718,6 +2718,17 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member )
         } else {
             jo.throw_error( "Invalid binary operator in " + jo.str() );
             return;
+        }
+    }
+    if( !conditional && action >= oper::equal ) {
+        objects.throw_error( "Comparison operators can only be used in conditional statements" );
+    }
+    if( conditional && action < oper::equal ) {
+        if( action == oper::assign ) {
+            objects.throw_error(
+                R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
+        } else {
+            objects.throw_error( "Only comparison operators can be used in conditional statements" );
         }
     }
     bool const lhs_assign = action >= oper::assign && action <= oper::decrease;

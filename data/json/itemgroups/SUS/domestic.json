@@ -438,6 +438,7 @@
       { "item": "copper_pan", "prob": 30 },
       { "item": "dutch_oven", "prob": 5 },
       { "item": "kettle", "prob": 80 },
+      { "item": "coffeepot", "prob": 50 },
       { "item": "aluminum_pan", "prob": 15 },
       { "item": "pot_aluminum", "prob": 15 }
     ]
