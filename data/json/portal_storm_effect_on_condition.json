@@ -704,7 +704,7 @@
         "type": "bad",
         "popup": true
       },
-      { "u_add_effect": "incorporeal", "duration": { "math": [ "ps_str", "*", "u_val('time: 1 s')" ] } }
+      { "u_add_effect": "incorporeal", "duration": { "math": [ "ps_str", "*=", "u_val('time: 1 s')" ] } }
     ]
   },
   {
