@@ -1255,7 +1255,7 @@
     "category": "armor",
     "name": { "str": "mild steel nasal helm" },
     "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm. This one is made in modern times out of mild steel.",
-    "weight": "1007 g",
+    "weight": "1507 g",
     "volume": "2 L",
     "price": 26000,
     "price_postapoc": 3000,
@@ -1267,18 +1267,27 @@
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 100,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 20,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "coverage": 90,
         "encumbrance": 0,
         "rigid_layer_only": true
@@ -1287,7 +1296,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "PADDED" ],
     "melee_damage": { "bash": 3 },
     "pocket_data": [
       {
@@ -1325,25 +1334,33 @@
     "id": "mc_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
-    "material": [ "mc_steel" ],
     "name": { "str": "medium steel nasal helmet" },
     "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm. This one is made in modern times out of medium steel.",
     "armor": [
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 100,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 20,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "coverage": 90,
         "encumbrance": 0,
         "rigid_layer_only": true
@@ -1373,25 +1390,33 @@
     "id": "hc_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
-    "material": [ "hc_steel" ],
     "name": { "str": "high steel nasal helmet" },
     "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm. This one is made in modern times out of high steel.",
     "armor": [
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 100,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 20,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "coverage": 90,
         "encumbrance": 0,
         "rigid_layer_only": true
@@ -1421,25 +1446,33 @@
     "id": "qt_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
-    "material": [ "qt_steel" ],
     "name": { "str": "tempered steel nasal helmet" },
     "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm. This one is made in modern times out of tempered steel.",
     "armor": [
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 100,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 20,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "coverage": 90,
         "encumbrance": 0,
         "rigid_layer_only": true
@@ -1469,25 +1502,33 @@
     "id": "ch_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
-    "material": [ "ch_steel" ],
     "name": { "str": "hardened steel nasal helmet" },
     "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm. This one is made in modern times out of hardened steel.",
     "armor": [
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 100,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "head" ],
         "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
         "coverage": 20,
         "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "coverage": 90,
         "encumbrance": 0,
         "rigid_layer_only": true
