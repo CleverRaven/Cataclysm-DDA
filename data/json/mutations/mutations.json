@@ -3942,7 +3942,18 @@
             { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST" ] }
           ]
         },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "u_has_move_mode": "run" },
+            { "not": "u_can_drop_weapon" },
+            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST" ] },
+            { "u_has_trait": "PAWS" }
+          ]
+        },
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
       }
     ]
   },
