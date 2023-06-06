@@ -301,7 +301,7 @@
       [ "autoclave", 1 ],
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 1, "charges": [ 0, 50 ] },
-      [ "UPS_off", 5 ],
+      [ "UPS_OFF", 5 ],
       { "item": "tazer", "prob": 3, "charges": [ 0, 100 ] },
       { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
