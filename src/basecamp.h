@@ -140,11 +140,12 @@ class basecamp
         // Maunally added a bunch of copy constuctors and operator=.
         // This is to make it possible to have a std::unique_ptr in this class.
         // Only copy those member variables whose values are assigned in basecamp::deserialize().
-        basecamp( const basecamp &bcp ): directions(bcp.directions),hidden_missions( bcp.hidden_missions ),
+        basecamp( const basecamp &bcp ): directions( bcp.directions ),
+            hidden_missions( bcp.hidden_missions ),
             fortifications( bcp.fortifications ), salt_water_pipes( bcp.salt_water_pipes ), name( bcp.name ),
             omt_pos( bcp.omt_pos ), bb_pos( bcp.bb_pos ),
             expansions( bcp.expansions ), camp_map(), dumping_spot( bcp.dumping_spot ) {};
-        basecamp( basecamp &&bcp ): directions(bcp.directions),hidden_missions( bcp.hidden_missions ),
+        basecamp( basecamp &&bcp ): directions( bcp.directions ), hidden_missions( bcp.hidden_missions ),
             fortifications( bcp.fortifications ), salt_water_pipes( bcp.salt_water_pipes ), name( bcp.name ),
             omt_pos( bcp.omt_pos ), bb_pos( bcp.bb_pos ),
             expansions( bcp.expansions ), camp_map(), dumping_spot( bcp.dumping_spot ) {};
