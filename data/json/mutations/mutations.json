@@ -3956,10 +3956,8 @@
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
       },
       {
-        "condition": {
-          "or": [ "u_can_drop_weapon", { "u_has_move_mode": "walk" } ]
-        },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.10 } ]
+        "condition": { "or": [ "u_can_drop_weapon", { "u_has_move_mode": "walk" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
       }
     ]
   },
