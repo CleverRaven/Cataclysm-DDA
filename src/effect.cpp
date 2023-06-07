@@ -1148,7 +1148,10 @@ int effect::set_intensity( int val, bool alert )
     }
 
     val = std::max( std::min( val, eff_type->max_intensity ), 0 );
-    if( val == intensity ) {
+    if( val == intensity 
+        val - 1 < static_cast<int>( eff_type->apply_msgs.size() ) ) {
+        add_msg( eff_type->apply_msgs[ val - 1 ].second,
+                 eff_type->apply_msgs[ val - 1 ].first.translated() );
         // Nothing to change
         return intensity;
     }

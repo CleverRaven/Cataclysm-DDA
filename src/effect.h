@@ -225,9 +225,10 @@ class effect_type
 
         std::vector<std::pair<translation, game_message_type>> decay_msgs;
 
+        std::vector<std::pair<translation, game_message_type>> apply_msgs;
+
         effect_rating rating = effect_rating::e_neutral;
 
-        translation apply_message;
         std::string apply_memorial_log;
         translation remove_message;
         std::string remove_memorial_log;
