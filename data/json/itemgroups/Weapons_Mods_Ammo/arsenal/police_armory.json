@@ -235,56 +235,56 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "9mm", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "9mm", "charges": [ 70, 70 ] } ]
   },
   {
     "id": "police_armory_box_full_9mmfmj",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "9mmfmj", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "9mmfmj", "charges": [ 70, 70 ] } ]
   },
   {
     "id": "police_armory_box_full_9mmP",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "9mmP", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "9mmP", "charges": [ 70, 70 ] } ]
   },
   {
     "id": "police_armory_box_full_9mmP2",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "9mmP2", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "9mmP2", "charges": [ 70, 70 ] } ]
   },
   {
     "id": "police_armory_box_some_9mm",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "9mm", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "9mm", "charges": [ 1, 70 ] } ]
   },
   {
     "id": "police_armory_box_some_9mmfmj",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "9mmfmj", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "9mmfmj", "charges": [ 1, 70 ] } ]
   },
   {
     "id": "police_armory_box_some_9mmP",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "9mmP", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "9mmP", "charges": [ 1, 70 ] } ]
   },
   {
     "id": "police_armory_box_some_9mmP2",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "9mmP2", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "9mmP2", "charges": [ 1, 70 ] } ]
   },
   {
     "type": "item_group",
@@ -325,13 +325,13 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "fn57mag",
-    "entries": [ { "item": "57mm", "charges": [ 20, 20 ] } ]
+    "entries": [ { "item": "57mm_ss", "charges": [ 20, 20 ] } ]
   },
   {
     "id": "police_armory_full_fn57mag_57mm_ss",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "fn57mag_ss",
+    "container-item": "fn57mag",
     "entries": [ { "item": "57mm_ss", "charges": [ 20, 20 ] } ]
   },
   {
@@ -368,21 +368,21 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "57mm_ss", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "57mm_ss", "charges": [ 80, 80 ] } ]
   },
   {
     "id": "police_armory_box_some_57mm",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "57mm", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "57mm", "charges": [ 1, 80 ] } ]
   },
   {
     "id": "police_armory_box_some_57mm_ss",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "57mm_ss", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "57mm_ss", "charges": [ 1, 80 ] } ]
   },
   {
     "type": "item_group",
@@ -482,28 +482,28 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "40sw", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "40sw", "charges": [ 60, 60 ] } ]
   },
   {
     "id": "police_armory_box_full_40fmj",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "40fmj", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "40fmj", "charges": [ 60, 60 ] } ]
   },
   {
     "id": "police_armory_box_some_40sw",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "40sw", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "40sw", "charges": [ 1, 60 ] } ]
   },
   {
     "id": "police_armory_box_some_40fmj",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "40fmj", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "40fmj", "charges": [ 1, 60 ] } ]
   },
   {
     "type": "item_group",
@@ -574,42 +574,42 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "45_acp", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "45_acp", "charges": [ 45, 45 ] } ]
   },
   {
     "id": "police_armory_box_full_45_jhp",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "45_jhp", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "45_jhp", "charges": [ 45, 45 ] } ]
   },
   {
     "id": "police_armory_box_full_45_super",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "45_super", "charges": [ 50, 50 ] } ]
+    "entries": [ { "item": "45_super", "charges": [ 45, 45 ] } ]
   },
   {
     "id": "police_armory_box_some_45_acp",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "45_acp", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "45_acp", "charges": [ 1, 45 ] } ]
   },
   {
     "id": "police_armory_box_some_45_jhp",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "45_jhp", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "45_jhp", "charges": [ 1, 45 ] } ]
   },
   {
     "id": "police_armory_box_some_45_super",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammunition_box_308",
-    "entries": [ { "item": "45_super", "charges": [ 1, 50 ] } ]
+    "entries": [ { "item": "45_super", "charges": [ 1, 45 ] } ]
   },
   {
     "type": "item_group",
@@ -631,9 +631,9 @@
     "//": "Pick a random ar-15 chambered in 223 weighted towards medium barrels.",
     "subtype": "distribution",
     "entries": [
-      { "group": "ar15_223medium", "prob": 50 },
-      { "group": "ar15_223long", "prob": 30 },
-      { "group": "ar15_223short", "prob": 20 }
+      { "item": "ar15_223medium", "prob": 50 },
+      { "item": "ar15_223long", "prob": 30 },
+      { "item": "ar15_223short", "prob": 20 }
     ]
   },
   {
@@ -783,7 +783,7 @@
     "entries": [
       { "item": "remington_700", "contents-item": "rifle_scope" },
       { "item": "remington_700", "contents-item": "rifle_scope", "prob": 50 },
-      { "group": "police_armory_boxes_30-06" }
+      { "group": "police_armory_boxes_3006" }
     ]
   },
   {
@@ -816,7 +816,7 @@
     "id": "police_armory_shotgun_pick1",
     "//": "Pick a random police shotgun.",
     "subtype": "distribution",
-    "entries": [ { "group": "mossberg_500", "prob": 50 }, { "group": "remington_870", "prob": 50 } ]
+    "entries": [ { "item": "mossberg_500", "prob": 50 }, { "item": "remington_870", "prob": 50 } ]
   },
   {
     "id": "police_armory_boxes_shotshells",
