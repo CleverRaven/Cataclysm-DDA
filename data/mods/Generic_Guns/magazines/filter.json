@@ -1,0 +1,38 @@
+[
+  {
+    "id": "gasfilter_sm",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": { "str": "gas mask cartridge" },
+    "description": "A small-sized, replaceable filter cartridge for an air filtration mask.",
+    "weight": "2 g",
+    "volume": "250 ml",
+    "price_postapoc": 375,
+    "material": [ "plastic", "rubber", "charcoal" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "gasfilter_m" ],
+    "count": 100,
+    "capacity": 100,
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "GASFILTER_SM" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_s": 100 } } ]
+  },
+  {
+    "id": "gasfilter_med",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": { "str": "gas mask cartridge" },
+    "description": "A medium-sized, replaceable filter cartridge for an air filtration mask.",
+    "weight": "2 g",
+    "volume": "250 ml",
+    "price_postapoc": 375,
+    "material": [ "plastic", "rubber", "charcoal" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "gasfilter_m" ],
+    "count": 100,
+    "capacity": 100,
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "GASFILTER_MED" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ]
+  }
+]
