@@ -478,7 +478,7 @@
     "copy-from": "dry_beans",
     "category": "seeds",
     "charges": 1,
-    "delete": { "container": "bag_plastic" },
+    "container": "null",
     "name": { "str_sp": "bean seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "Dry beans, ready for planting.",
@@ -501,7 +501,7 @@
     "copy-from": "dry_lentils",
     "category": "seeds",
     "name": { "str_sp": "lentil seeds" },
-    "delete": { "container": "bag_plastic" },
+    "container": "null",
     "description": "Dried lentils, ready for planting.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "seed_data": { "plant_name": "lentils", "fruit": "dry_lentil_stalks", "seeds": false, "grow": "91 days" }
@@ -952,7 +952,7 @@
     "id": "seed_popcorn",
     "copy-from": "kernels",
     "name": { "str_sp": "seed popcorn" },
-    "delete": { "container": "bag_plastic" },
+    "container": "null",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "A bunch of dry unpopped corn.  It's intended for planting, but could be put to other uses.",
     "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
