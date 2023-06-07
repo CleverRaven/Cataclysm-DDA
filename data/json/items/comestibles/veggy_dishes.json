@@ -823,7 +823,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "weight": "259 g",
     "color": "green",
@@ -878,7 +883,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "weight": "192 g",
     "color": "green",
@@ -1037,7 +1047,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "copy-from": "veggy",
     "proportional": { "weight": 0.5 },
@@ -1111,7 +1126,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "copy-from": "veggy",
     "color": "light_green",

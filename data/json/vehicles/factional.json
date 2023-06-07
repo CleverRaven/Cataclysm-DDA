@@ -49,15 +49,13 @@
       { "x": -4, "y": 2, "parts": [ "frame_se", "halfboard_se" ] }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 15, "item_groups": [ "car_misc" ] },
-      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "car_misc" ] },
-      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 1, "chance": 30, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 1, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 0, "chance": 55, "item_groups": [ "farming_tools" ] },
       { "x": -2, "y": 1, "chance": 52, "item_groups": [ "mischw" ] },
       { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit" ] },
-      { "x": -3, "y": 1, "chance": 13, "item_groups": [ "car_kit" ] },
+      { "x": -3, "y": 1, "chance": 30, "item_groups": [ "car_kit" ] },
       { "x": -3, "y": 0, "chance": 18, "item_groups": [ "fuel_gasoline" ] },
       { "x": -2, "y": 1, "chance": 13, "items": [ "ax" ] }
     ],

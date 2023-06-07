@@ -17,7 +17,10 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [ { "item": "extinguisher", "prob": 35 }, { "item": "throw_extinguisher", "prob": 75, "count": [ 3, 5 ] } ],
+        "distribution": [
+          { "item": "extinguisher", "prob": 35, "charges": [ 75, 100 ] },
+          { "item": "throw_extinguisher", "prob": 75, "count": [ 3, 5 ] }
+        ],
         "prob": 100
       },
       { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 60, "prob": 75 },

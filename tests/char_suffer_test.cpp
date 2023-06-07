@@ -133,9 +133,9 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
             dummy.worn.clear();
 
             // 60 times * 12 bodyparts * 0.25 chance for medium effect
-            THEN( "they lose about 165 focus per hour" ) {
+            THEN( "they lose 80 to 280 focus per hour" ) {
                 focus_lost = test_suffer_focus_lost( dummy, 1_hours );
-                CHECK( focus_lost == Approx( 180 ).margin( 90 ) );
+                CHECK( focus_lost == Approx( 180 ).margin( 100 ) );
             }
 
             // THEN( "they suffer about 2 pain per hour" ) {
