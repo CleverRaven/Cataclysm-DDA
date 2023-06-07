@@ -247,11 +247,11 @@
         { "group": "trash", "repeat": [ 1, 3 ], "x": [ 1, 23 ], "y": [ 18, 23 ] }
       ],
       "place_npcs": [
-        { "class": "old_guard_red", "x": 27, "y": 23 },
-        { "class": "guard", "x": 25, "y": 25 },
-        { "class": "guard", "x": 29, "y": 25 },
-        { "class": "guard", "x": 25, "y": 30 },
-        { "class": "guard", "x": 29, "y": 30 }
+        { "class": "old_guard_red", "x": 3, "y": 1 },
+        { "class": "guard", "x": 1, "y": 1 },
+        { "class": "guard", "x": 5, "y": 1 },
+        { "class": "guard", "x": 1, "y": 6 },
+        { "class": "guard", "x": 5, "y": 6 }
       ],
       "place_monsters": [ { "monster": "GROUP_DINOSAUR_ZOMBIE_SCORCHED", "density": 0.1, "x": [ 1, 22 ], "y": [ 1, 22 ] } ],
       "monster": { "#": { "monster": "mon_zaspletosaurus_scorched", "chance": 1 } },
