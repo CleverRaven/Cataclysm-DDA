@@ -1740,7 +1740,7 @@
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 },
-    "repair_difficulty": 7
+    "repair_difficulty": 6
   },
   {
     "type": "material",
@@ -1759,7 +1759,7 @@
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 11, "cut": 11, "acid": 7, "heat": 3, "bullet": 7.5 },
-    "repair_difficulty": 6
+    "repair_difficulty": 7
   },
   {
     "type": "material",
