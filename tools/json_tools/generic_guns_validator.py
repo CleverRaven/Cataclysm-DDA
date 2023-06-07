@@ -55,7 +55,8 @@ ID_WHITELIST = {
     'coin_wrapper',
     'bio_shotgun_gun',
     'gasfilter_med',
-    'gasfilter_sm'
+    'gasfilter_sm',
+    "rebreather_cartridge"
 }
 
 
