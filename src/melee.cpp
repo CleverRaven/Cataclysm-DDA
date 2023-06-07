@@ -1458,9 +1458,16 @@ void Character::roll_damage( const damage_type_id &dt, bool crit, damage_instanc
         di.add_damage( dt, other_dam, arpen, armor_mult, other_mul );
     }
 }
-
 matec_id Character::pick_technique( Creature &t, const item_location &weap, bool crit,
                                     bool dodge_counter, bool block_counter )
+{
+    std::vector<matec_id> possible = evaluate_techniques( t, weap, crit,
+                                     dodge_counter,  block_counter );
+    return random_entry( possible, tec_none );
+}
+std::vector<matec_id> Character::evaluate_techniques( Creature &t, const item_location &weap,
+        bool crit,
+        bool dodge_counter, bool block_counter )
 {
 
     const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap, *this );
@@ -1592,7 +1599,7 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
         }
     }
 
-    return random_entry( possible, tec_none );
+    return possible;
 }
 
 bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique )
