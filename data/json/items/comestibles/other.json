@@ -412,7 +412,7 @@
     "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
-    "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -510,7 +510,7 @@
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
     "smoking_result": "dry_soybean",
     "milling": { "into": "paste_nut", "conversion_rate": 0.2 },
-    "seed_data": { "plant_name": "soybean", "fruit": "soybean", "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" },
+    "seed_data": { "plant_name": "soybean", "fruit": "soybean", "seeds": false, "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" },
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ]
   },
@@ -532,7 +532,7 @@
     "fun": -5,
     "milling": { "into": "flour_wheat_free", "conversion_rate": 1 },
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
-    "seed_data": { "plant_name": "soybean", "fruit": "soybean", "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" },
+    "seed_data": { "plant_name": "soybean", "fruit": "soybean", "seeds": false, "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" },
     "petfood": [ "CATTLEFOOD" ],
     "smoking_result": "soy_nuts",
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "NUTRIENT_OVERRIDE", "SMOKED", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ]
