@@ -1097,5 +1097,65 @@
         { "item": "amplifier", "count": [ 1, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_exo_gantry",
+    "name": "Exosuit gantry",
+    "symbol": "T",
+    "description": "A gantry for supporting an exosuit upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when active.  This one is not currently functioning.",
+    "color": "light_cyan",
+    "looks_like": "f_robotic_arm",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "max_volume": "1750 L",
+    "deconstruct": {
+      "items": [
+        { "item": "steel_lump", "count": [ 3, 6 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "welder", "charges": 0, "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_shuttle_seat",
+    "name": "shuttle seat",
+    "copy-from": "f_seat_airplane",
+    "description": "The cushioned and upright facing seat of a short-ranged shuttle pod.  Has a locking bar that fits over your shoulders.",
+    "symbol": "H",
+    "color": "light_red",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
+    },
+    "required_str": 20
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_escape_pod_seat_launch",
+    "name": "escape pod seat",
+    "copy-from": "f_seat_airplane",
+    "description": "The cushioned and upright facing seat of a single-seater escape pod.  A storage space beneath it holds survival supplies.",
+    "symbol": "H",
+    "color": "light_red",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
+    },
+    "required_str": 20
   }
 ]

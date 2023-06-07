@@ -47,7 +47,7 @@ static float brute_special_probability( monster &attacker, Creature &target, con
 {
     size_t hits = 0;
     for( size_t i = 0; i < iters; i++ ) {
-        if( !mattack::dodge_check( &attacker, &target ) ) {
+        if( !target.dodge_check( &attacker ) ) {
             hits++;
         }
     }
@@ -261,11 +261,11 @@ TEST_CASE( "Charcter can dodge" )
     dude.clear_effects();
     REQUIRE( dude.get_dodge() > 0.0 );
 
-    const int dodges_left = dude.dodges_left;
+    const int dodges_left = dude.get_dodges_left();
     for( int i = 0; i < 10000; ++i ) {
         dude.deal_melee_attack( &zed, 1 );
-        if( dodges_left < dude.dodges_left ) {
-            CHECK( dodges_left < dude.dodges_left );
+        if( dodges_left < dude.get_dodges_left() ) {
+            CHECK( dodges_left < dude.get_dodges_left() );
             break;
         }
     }
@@ -280,10 +280,10 @@ TEST_CASE( "Incapacited character can't dodge" )
     dude.add_effect( effect_sleep, 1_hours );
     REQUIRE( dude.get_dodge() == 0.0 );
 
-    const int dodges_left = dude.dodges_left;
+    const int dodges_left = dude.get_dodges_left();
     for( int i = 0; i < 10000; ++i ) {
         dude.deal_melee_attack( &zed, 1 );
-        CHECK( dodges_left == dude.dodges_left );
+        CHECK( dodges_left == dude.get_dodges_left() );
     }
 }
 
