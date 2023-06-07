@@ -516,7 +516,7 @@ Character::Character() :
     int_max = 8;
     per_cur = 8;
     per_max = 8;
-    dodges_left = 1;
+    set_dodges_left(1);
     blocks_left = 1;
     str_bonus = 0;
     dex_bonus = 0;
@@ -1077,6 +1077,61 @@ double Character::aim_per_move( const item &gun, double recoil,
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
+}
+
+int Character::get_dodges_left() const
+{
+    return dodges_left;
+}
+
+void Character::set_dodges_left( int dodges )
+{
+    dodges_left = dodges;
+}
+
+void Character::mod_dodges_left( int mod )
+{
+    dodges_left += mod;
+}
+
+void Character::consume_dodge_attempts()
+{
+    if( get_dodges_left() > 0 ) {
+        mod_dodges_left( -1 );
+    }
+}
+
+ret_val<void> Character::can_try_doge() const
+{
+    //If we're asleep or busy we can't dodge
+    if( in_sleep_state() || has_effect( effect_narcosis ) ||
+        has_effect( effect_winded ) || is_driving() ) {
+        add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
+        return ret_val<void>::make_failure();
+    }
+    //If stamina is too low we can't dodge
+    if( get_stamina_dodge_modifier() <= 0.11 ) {
+        add_msg_debug( debugmode::DF_MELEE, "Stamina too low to doge.  Stamina: %d", get_stamina() );
+        add_msg_debug( debugmode::DF_MELEE, "Stamina dodge modifier: %f", get_stamina_dodge_modifier() );
+        return ret_val<void>::make_failure( !is_npc() ? _( "Your stamina is too low to attempt to dodge." )
+                                            :
+                                            _( "<npcname>'s stamina is too low to attempt to dodge." ) );;
+    }
+    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
+    if( get_dodges_left() <= 0 ) {
+        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+        return ret_val<void>::make_failure();
+    }
+    return ret_val<void>::make_success();
+}
+
+float Character::get_stamina_dodge_modifier() const
+{
+    const double stamina = get_stamina();
+    const double stamina_min = get_stamina_max() * 0.1;
+    const double stamina_max = get_stamina_max() * 0.9;
+    const double stamina_logistic = 1.0 - logarithmic_range( stamina_min, stamina_max, stamina );
+    return stamina_logistic;
 }
 
 int Character::sight_range( float light_level ) const
@@ -1715,11 +1770,28 @@ bool Character::is_dead_state() const
     return false;
 }
 
+void Character::on_try_dodge()
+{
+    ret_val<void> can_dodge = can_try_doge();
+    if( !can_dodge.success() ) {
+        add_msg( m_bad, can_dodge.c_str() );
+        return;
+    }
+
+    // Each attempt consumes an available dodge
+    consume_dodge_attempts();
+
+    const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
+    mod_stamina( -base_burn_rate * 6 );
+    set_activity_level( EXTRA_EXERCISE );
+}
+
 void Character::on_dodge( Creature *source, float difficulty )
 {
-    // Each avoided hit consumes an available dodge
-    // When no more available we are likely to fail player::dodge_roll
-    dodges_left--;
+    // Make sure we're not practicing dodge in situation where we can't dodge
+    if( !can_try_doge().success() ) {
+        return;
+    }
 
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
@@ -2146,10 +2218,10 @@ void Character::process_turn()
     // We can dodge again! Assuming we can actually move...
     if( in_sleep_state() ) {
         blocks_left = 0;
-        dodges_left = 0;
+        set_dodges_left( 0 );
     } else if( moves > 0 ) {
         blocks_left = get_num_blocks();
-        dodges_left = get_num_dodges();
+        set_dodges_left( get_num_dodges() );
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:
