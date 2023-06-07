@@ -3960,13 +3960,15 @@
           "or": [
             "u_can_drop_weapon", 
             { "u_has_move_mode": "walk" },
-            { "and": [
-              { "not": "u_can_drop_weapon" },
-              { "not": { "u_has_trait": "THRESH_LUPINE" } },
-              { "not": { "u_has_trait": "THRESH_FELINE" } },
-              { "not": { "u_has_trait": "THRESH_BEAST" } }
-            ] } 
-          ] 
+            {
+              "and": [
+                { "not": "u_can_drop_weapon" },
+                { "not": { "u_has_trait": "THRESH_LUPINE" } },
+                { "not": { "u_has_trait": "THRESH_FELINE" } },
+                { "not": { "u_has_trait": "THRESH_BEAST" } }
+              ]
+            }
+          ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
       }
