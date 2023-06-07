@@ -2651,9 +2651,6 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
             plant_count *= here.furn( examp )->plant->harvest_multiplier;
             plant_count = std::min( std::max( plant_count, 1 ), 12 );
             int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
-            if( !seed->has_flag( flag_HARVEST_SEEDS ) ) {
-                seedCount = 0;
-            }
             for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
                 if( from_activity ) {
                     i.set_var( "activity_var", you.name );

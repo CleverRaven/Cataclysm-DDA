@@ -147,7 +147,6 @@ const flag_id flag_GAS_PROOF( "GAS_PROOF" );
 const flag_id flag_GIBBED( "GIBBED" );
 const flag_id flag_GNV_EFFECT( "GNV_EFFECT" );
 const flag_id flag_HARD( "HARD" );
-const flag_id flag_HARVEST_SEEDS( "HARVEST_SEEDS" );
 const flag_id flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 const flag_id flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 const flag_id flag_HIDDEN_POISON( "HIDDEN_POISON" );

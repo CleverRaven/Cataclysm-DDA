@@ -40,7 +40,7 @@
     "charges": 2,
     "stack_size": 8,
     "seed_data": { "plant_name": "hops", "fruit": "hops", "byproducts": [ "straw_pile" ], "grow": "120 days" },
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ]
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ]
   },
   {
     "id": "seed_blackberries",
@@ -49,7 +49,7 @@
     "name": { "str_sp": "blackberry seeds" },
     "description": "Some blackberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "blackberry", "fruit": "blackberries", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "blackberry", "fruit": "blackberries", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_blueberries",
@@ -58,7 +58,7 @@
     "name": { "str_sp": "blueberry seeds" },
     "description": "Some blueberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "blueberry", "fruit": "blueberries", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "blueberry", "fruit": "blueberries", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_cranberries",
@@ -67,7 +67,7 @@
     "name": { "str_sp": "cranberry seeds" },
     "description": "Some cranberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "cranberry", "fruit": "cranberries", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "cranberry", "fruit": "cranberries", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_huckleberries",
@@ -76,7 +76,13 @@
     "name": { "str_sp": "huckleberry seeds" },
     "description": "Some huckleberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "huckleberry", "fruit": "huckleberries", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "huckleberry",
+      "fruit": "huckleberries",
+      "seeds": false,
+      "byproducts": [ "withered" ],
+      "grow": "91 days"
+    }
   },
   {
     "id": "seed_mulberries",
@@ -85,7 +91,7 @@
     "name": { "str_sp": "mulberry seeds" },
     "description": "Some mulberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "mulberry", "fruit": "mulberries", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "mulberry", "fruit": "mulberries", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_elderberries",
@@ -94,7 +100,7 @@
     "name": { "str_sp": "elderberry seeds" },
     "description": "Some elderberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "elderberry", "fruit": "elderberries", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "elderberry", "fruit": "elderberries", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_raspberries",
@@ -103,7 +109,7 @@
     "name": { "str_sp": "raspberry seeds" },
     "description": "Some raspberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "raspberry", "fruit": "raspberries", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "raspberry", "fruit": "raspberries", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_strawberries",
@@ -112,7 +118,7 @@
     "name": { "str_sp": "strawberry seeds" },
     "description": "Some strawberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "strawberry", "fruit": "strawberries", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "strawberry", "fruit": "strawberries", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_grapes",
@@ -121,7 +127,13 @@
     "name": { "str_sp": "grape seeds" },
     "description": "Some grape seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "grape", "fruit": "grapes", "byproducts": [ "grape_leaves", "withered" ], "grow": "91 days" },
+    "seed_data": {
+      "plant_name": "grape",
+      "fruit": "grapes",
+      "seeds": false,
+      "byproducts": [ "grape_leaves", "withered" ],
+      "grow": "91 days"
+    },
     "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
@@ -131,7 +143,7 @@
     "name": { "str_sp": "rose seeds" },
     "description": "Some rose seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "rose", "fruit": "rose_hips", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "rose", "fruit": "rose_hips", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -139,7 +151,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "tobacco seeds" },
     "description": "Some tobacco seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "tobacco", "fruit": "tobacco_raw", "grow": "91 days" }
   },
   {
@@ -150,7 +162,7 @@
     "name": { "str_sp": "barley seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "This pile of dried barley is earmarked for planting.",
-    "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "grow": "70 days" }
+    "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -162,7 +174,7 @@
     "volume": "1 ml",
     "weight": "5 g",
     "stack_size": 40,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "sugar beet", "fruit": "sugar_beet", "grow": "90 days" }
   },
   {
@@ -172,7 +184,7 @@
     "price": 50,
     "name": { "str_sp": "lettuce seeds" },
     "description": "Some lettuce seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "lettuce", "fruit": "lettuce", "byproducts": [ "withered" ], "grow": "85 days" }
   },
   {
@@ -183,7 +195,7 @@
     "name": { "str_sp": "cabbage seeds" },
     "color": "light_gray",
     "description": "Some white cabbage seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cabbage", "fruit": "cabbage", "byproducts": [ "withered" ], "grow": "85 days" }
   },
   {
@@ -194,7 +206,7 @@
     "name": { "str_sp": "tomato seeds" },
     "description": "Some tomato seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "tomato", "fruit": "tomato", "byproducts": [ "withered" ], "grow": "65 days" }
+    "seed_data": { "plant_name": "tomato", "fruit": "tomato", "seeds": false, "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -206,7 +218,7 @@
     "weight": "5 g",
     "charges": 2,
     "stack_size": 40,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "130 days" },
     "milling": { "into": "paste_seed", "conversion_rate": 0.05 }
   },
@@ -217,7 +229,7 @@
     "price": 50,
     "name": { "str_sp": "broccoli seeds" },
     "description": "Some broccoli seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "broccoli", "fruit": "broccoli", "byproducts": [ "withered" ], "grow": "75 days" }
   },
   {
@@ -228,7 +240,7 @@
     "name": { "str_sp": "zucchini seeds" },
     "description": "Some zucchini seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "zucchini", "fruit": "zucchini", "byproducts": [ "withered" ], "grow": "47 days" }
+    "seed_data": { "plant_name": "zucchini", "fruit": "zucchini", "seeds": false, "byproducts": [ "withered" ], "grow": "47 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -237,7 +249,7 @@
     "price": 50,
     "name": { "str_sp": "onion seeds" },
     "description": "Some onion seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "onion", "fruit": "onion", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
@@ -247,7 +259,7 @@
     "price": 50,
     "name": { "str_sp": "garlic seeds" },
     "description": "Some garlic seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
@@ -257,7 +269,7 @@
     "name": { "str_sp": "cattail seeds" },
     "color": "green",
     "description": "Some cattail seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cattail", "fruit": "cattail_stalk", "byproducts": [ "cattail_rhizome" ], "grow": "91 days" }
   },
   {
@@ -267,7 +279,7 @@
     "name": { "str_sp": "dahlia seeds" },
     "color": "green",
     "description": "Some dahlia seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "dahlia", "fruit": "dahlia_root", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -278,7 +290,7 @@
     "color": "green",
     "description": "Some salsify seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "salsify", "fruit": "salsify_raw", "grow": "91 days" }
   },
   {
@@ -289,7 +301,7 @@
     "color": "green",
     "description": "Some chicory seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "chicory", "fruit": "chicory_raw", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -299,7 +311,7 @@
     "price": 50,
     "name": { "str_sp": "wild root seeds" },
     "description": "Some seeds from a white flower.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "wild root", "fruit": "carrot_wild", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
@@ -308,7 +320,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "decorative plant seeds" },
     "color": "green",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "description": "Some small decorative plant seeds, likely grass or flower.  Don't expect them to be useful for anything other than dry plant material.",
     "seed_data": { "plant_name": "decorative plant", "fruit": "withered", "grow": "91 days" }
   },
@@ -319,7 +331,7 @@
     "name": { "str_sp": "cactus seeds" },
     "color": "green",
     "description": "Some cactus seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cactus", "fruit": "cactus_pad", "grow": "91 days" }
   },
   {
@@ -340,7 +352,7 @@
     "material": [ "garlic" ],
     "volume": "150 ml",
     "fun": -3,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
@@ -350,7 +362,7 @@
     "price": 50,
     "name": { "str_sp": "carrot seeds" },
     "description": "Some carrot seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "carrot", "fruit": "carrot", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
@@ -361,7 +373,7 @@
     "name": { "str_sp": "corn seeds" },
     "description": "A pile of dried corn, designated for planting.  It could just as easily become food.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "seed_data": { "plant_name": "corn", "fruit": "corn", "byproducts": [ "withered" ], "grow": "80 days" }
+    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -372,7 +384,13 @@
     "color": "white",
     "description": "Some chili pepper seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "chili pepper", "fruit": "chili_pepper", "byproducts": [ "withered" ], "grow": "65 days" }
+    "seed_data": {
+      "plant_name": "chili pepper",
+      "fruit": "chili_pepper",
+      "seeds": false,
+      "byproducts": [ "withered" ],
+      "grow": "65 days"
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -381,7 +399,7 @@
     "price": 50,
     "name": { "str_sp": "cucumber seeds" },
     "description": "Some cucumber seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cucumber", "fruit": "cucumber", "byproducts": [ "withered" ], "grow": "60 days" }
   },
   {
@@ -398,7 +416,7 @@
     "name": { "str": "seed potato", "str_pl": "seed potatoes" },
     "description": "Raw potato cut into pieces, separating each bud for planting.",
     "extend": { "flags": [ "INEDIBLE", "PLANTABLE_SEED" ] },
-    "seed_data": { "plant_name": "potatoes", "fruit": "potato", "byproducts": [ "withered" ], "grow": "95 days" }
+    "seed_data": { "plant_name": "potatoes", "fruit": "potato", "seeds": false, "byproducts": [ "withered" ], "grow": "95 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -413,7 +431,7 @@
     "price": 100,
     "weight": "2 g",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" },
     "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
@@ -427,7 +445,6 @@
     "description": "Some fungal seeds.",
     "ammo_type": "NULL",
     "stack_size": 8,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "fungal flower", "grow": "91 days" }
   },
   {
@@ -464,7 +481,7 @@
     "name": { "str_sp": "bean seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "Dry beans, ready for planting.",
-    "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -475,7 +492,7 @@
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "A pile of dry soybeans.  These are intended for planting, but there's no reason they couldn't be made into food.",
     "price": 90,
-    "seed_data": { "plant_name": "soybean", "fruit": "raw_edamame", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "soybean", "fruit": "raw_edamame", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -485,7 +502,7 @@
     "name": { "str_sp": "lentil seeds" },
     "description": "Dried lentils, ready for planting.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
-    "seed_data": { "plant_name": "lentils", "fruit": "dry_lentil_stalks", "grow": "91 days" }
+    "seed_data": { "plant_name": "lentils", "fruit": "dry_lentil_stalks", "seeds": false, "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -496,7 +513,7 @@
     "color": "green",
     "description": "Some thyme seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "thyme", "fruit": "thyme", "grow": "91 days" }
   },
   {
@@ -506,7 +523,7 @@
     "name": { "str_sp": "watermelon seeds" },
     "description": "Some watermelon seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -515,7 +532,7 @@
     "name": { "str_sp": "cantaloupe melon seeds" },
     "description": "Some cantaloupe melon seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "cantaloupe", "fruit": "melon", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "cantaloupe", "fruit": "melon", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -529,7 +546,7 @@
     "description": "Some raw pumpkin seeds.  Could be fried and eaten.",
     "price": 100,
     "flags": [ "PLANTABLE_SEED" ],
-    "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" },
+    "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
     "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
@@ -544,7 +561,7 @@
     "description": "Some raw sunflower seeds.  Could be pressed into oil.",
     "price": 100,
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": "91 days" },
     "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
@@ -556,7 +573,7 @@
     "color": "green",
     "description": "Some dogbane seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "dogbane", "fruit": "dogbane", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -567,7 +584,7 @@
     "color": "green",
     "description": "Some bee balm seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "bee balm", "fruit": "bee_balm", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -578,7 +595,7 @@
     "color": "green",
     "description": "Some mugwort seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "mugwort", "fruit": "mugwort", "grow": "91 days" }
   },
   {
@@ -589,7 +606,7 @@
     "description": "A pile of buckwheat, ready to be planted.",
     "category": "seeds",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "grow": "91 days" }
+    "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -599,7 +616,7 @@
     "color": "green",
     "description": "Some seeds harvested from wild herbs.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "wild herb", "fruit": "wild_herbs", "grow": "91 days" }
   },
   {
@@ -610,7 +627,7 @@
     "color": "green",
     "description": "Some wild vegetable stems.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "wild vegetable", "fruit": "veggy_wild", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -621,7 +638,7 @@
     "color": "green",
     "description": "Some dandelion seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "dandelion", "fruit": "raw_dandelion", "grow": "91 days" }
   },
   {
@@ -632,7 +649,7 @@
     "color": "green",
     "description": "Some burdock seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "burdock", "fruit": "raw_burdock", "grow": "91 days" }
   },
   {
@@ -642,7 +659,7 @@
     "name": { "str_sp": "Japanese knotweed stems" },
     "description": "Some Japanese knotweed stems, prepared for planting.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": {
       "plant_name": "Japanese knotweed",
       "fruit": "japanese_knotweed_stem",
@@ -659,7 +676,7 @@
     "weight": "5 g",
     "stack_size": 10,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "wild rice", "fruit": "wild_rice_stalks", "grow": "91 days" }
+    "seed_data": { "plant_name": "wild rice", "fruit": "wild_rice_stalks", "seeds": false, "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -667,7 +684,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "Jerusalem artichoke seeds" },
     "description": "Some Jerusalem artichoke seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "charges": 2,
     "seed_data": { "plant_name": "Jerusalem artichoke", "fruit": "jerusalem_artichoke", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -682,6 +699,7 @@
     "seed_data": {
       "plant_name": "starry false Solomon's seal",
       "fruit": "m_stellatum_berries",
+      "seeds": false,
       "byproducts": [ "withered" ],
       "grow": "91 days"
     }
@@ -693,7 +711,7 @@
     "name": { "str_sp": "wild sarsaparilla seeds" },
     "description": "Some wild sarsaparilla seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": {
       "plant_name": "wild sarsaparilla",
       "fruit": "wild_sarsaparilla_root",
@@ -708,7 +726,7 @@
     "name": { "str_sp": "mayapple seeds" },
     "description": "Some mayapple seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "mayapple", "fruit": "mayapple", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "mayapple", "fruit": "mayapple", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -720,6 +738,7 @@
     "seed_data": {
       "plant_name": "wintergreen",
       "fruit": "wintergreen_berry",
+      "seeds": false,
       "byproducts": [ "wintergreen_leaves", "withered" ],
       "grow": "91 days"
     }
@@ -731,7 +750,7 @@
     "name": { "str_sp": "groundnut seeds" },
     "description": "Some groundnut seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "groundnut", "fruit": "groundnut", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -740,7 +759,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "wild garlic seeds" },
     "description": "Some wild garlic seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "charges": 2,
     "seed_data": { "plant_name": "wild garlic", "fruit": "wild_garlic", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -752,7 +771,7 @@
     "color": "green",
     "description": "Some bamboo seeds.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS", "CUT_HARVEST" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "CUT_HARVEST" ],
     "seed_data": { "plant_name": "bamboo", "fruit": "raw_bamboo", "grow": "91 days" }
   },
   {
@@ -763,7 +782,7 @@
     "color": "green",
     "description": "Some rhubarb stems.",
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "rhubarb", "fruit": "rhubarb", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -772,7 +791,7 @@
     "copy-from": "seed_mushroom_base",
     "name": { "str_sp": "mushroom spores" },
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": "91 days" }
+    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "seeds": false, "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -781,7 +800,7 @@
     "name": { "str_sp": "morel mushroom spores" },
     "description": "Some morel mushroom spores.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "91 days" }
+    "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "seeds": false, "grow": "91 days" }
   },
   {
     "id": "datura_seed",
@@ -796,7 +815,7 @@
     "healthy": -2,
     "fun": -1,
     "use_action": [ "DATURA" ],
-    "flags": [ "PLANTABLE_SEED", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "datura", "fruit": "datura_seed", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -806,7 +825,7 @@
     "price": 50,
     "name": { "str_sp": "celery seeds" },
     "description": "Some celery seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "celery", "fruit": "celery", "byproducts": [ "withered" ], "grow": "130 days" }
   },
   {
@@ -817,7 +836,7 @@
     "description": "A pile of dried whole oats, ready for planting.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "category": "seeds",
-    "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "grow": "65 days" }
+    "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" }
   },
   {
     "id": "seed_wheat",
@@ -827,7 +846,7 @@
     "name": { "str_sp": "wheat seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "A pile of dry wheatberries, designated for planting.",
-    "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "grow": "120 days" }
+    "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -913,7 +932,7 @@
     "looks_like": "seed_raw_dandelion",
     "name": { "str_sp": "chamomile seeds" },
     "description": "Some chamomile seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "chamomile", "fruit": "chamomile", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -923,7 +942,7 @@
     "looks_like": "seed_raw_dandelion",
     "name": { "str_sp": "spurge seeds" },
     "description": "Some spurge seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "spurge", "fruit": "spurge", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -933,7 +952,7 @@
     "name": { "str_sp": "seed popcorn" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "A bunch of dry unpopped corn.  It's intended for planting, but could be put to other uses.",
-    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -941,7 +960,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "horseradish seeds" },
     "description": "Some horseradish seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "horseradish", "fruit": "horseradish_root", "byproducts": [ "horseradish_greens" ], "grow": "91 days" }
   },
   {
@@ -956,7 +975,7 @@
     "description": "Some mustard seeds.  Could be ground into mustard powder.",
     "price": 100,
     "charges": 2,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "HARVEST_SEEDS" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "mustard", "fruit": "seed_mustard", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -967,7 +986,7 @@
     "name": { "str_sp": "bell pepper seeds" },
     "description": "Some bell pepper seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "bell pepper", "fruit": "bell_pepper", "byproducts": [ "withered" ], "grow": "70 days" }
+    "seed_data": { "plant_name": "bell pepper", "fruit": "bell_pepper", "seeds": false, "byproducts": [ "withered" ], "grow": "70 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -977,6 +996,12 @@
     "name": { "str_sp": "bottle gourd seeds" },
     "description": "Some bottle gourd seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "bottle gourd", "fruit": "raw_bottle_gourd", "byproducts": [ "withered" ], "grow": "60 days" }
+    "seed_data": {
+      "plant_name": "bottle gourd",
+      "fruit": "raw_bottle_gourd",
+      "seeds": false,
+      "byproducts": [ "withered" ],
+      "grow": "60 days"
+    }
   }
 ]
