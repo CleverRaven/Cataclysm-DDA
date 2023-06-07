@@ -168,6 +168,7 @@
     "ammo": [ "9mm" ],
     "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "range": 14,
     "dispersion": 240,
     "durability": 8,
     "min_cycle_recoil": 450,
