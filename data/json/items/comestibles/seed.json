@@ -405,17 +405,17 @@
   {
     "type": "COMESTIBLE",
     "id": "seed_potato_raw",
+    "copy-from": "potato",
     "category": "seeds",
     "calories": 48,
     "volume": "94 ml",
     "weight": "53 g",
-    "copy-from": "potato",
     "price": 0,
-    "price_postapoc": 0,
     "spoils_in": "1 day",
+    "price_postapoc": 0,
     "name": { "str": "seed potato", "str_pl": "seed potatoes" },
     "description": "Raw potato cut into pieces, separating each bud for planting.",
-    "extend": { "flags": [ "INEDIBLE", "PLANTABLE_SEED" ] },
+    "extend": { "flags": [ "INEDIBLE", "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ] },
     "seed_data": { "plant_name": "potatoes", "fruit": "potato", "seeds": false, "byproducts": [ "withered" ], "grow": "95 days" }
   },
   {
