@@ -478,6 +478,7 @@
     "copy-from": "dry_beans",
     "category": "seeds",
     "charges": 1,
+    "delete": { "container": "bag_plastic" },
     "name": { "str_sp": "bean seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "Dry beans, ready for planting.",
