@@ -41,7 +41,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ],
     "weight": "12 mg",
     "volume": "1 ml"
   },
@@ -285,7 +285,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
     "weight": "1 g",
     "volume": "2 ml"
   },

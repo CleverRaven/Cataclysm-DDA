@@ -1,0 +1,17 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_elder_ginseng",
+    "name": "hundred year old ginseng",
+    "description": "The ginseng plant has leaves that grow in a circle around a straight stem.  Yellowish-green, umbrella-shaped flowers grow in the center and produce red berries.  Wrinkles around the neck of the root tell how old the plant is.  This plant is over a hundred years old and if you decide to harvest it, you will need the roots.",
+    "symbol": "*",
+    "color": "cyan",
+    "looks_like": "f_burdock",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "elder_ginseng_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  }
+]

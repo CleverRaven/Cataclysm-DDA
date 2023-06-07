@@ -723,14 +723,17 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
+
+    const float dodge = dodge_roll();
+    on_try_dodge();
+
+    int hit_spread = hitroll - dodge - size_melee_penalty();
+
     add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
                    hitroll );
-
-    float dodge = dodge_roll();
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
 
-    int hit_spread = hitroll - dodge - size_melee_penalty();
     if( has_flag( MF_IMMOBILE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
@@ -1095,6 +1098,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const bool u_see_this = player_view.sees( *this );
 
     const double goodhit = accuracy_projectile_attack( attack );
+    on_try_dodge(); // There's a doge roll in accuracy_projectile_attack()
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
@@ -1381,6 +1385,63 @@ bool Creature::attack_air( const tripoint &p )
                             disp_name( false, true ) );
     return true;
 }
+
+bool Creature::dodge_check( float hit_roll, bool force_try )
+{
+    // If successfully uncanny dodged, no need to calculate dodge chance
+    if( uncanny_dodge() ) {
+        return true;
+    }
+
+    const float dodge_ability = dodge_roll();
+    // center is 5 - 0 / 2
+    // stddev is 5 - 0 / 4
+    const float dodge_chance = 1 - normal_roll_chance( 2.5f, 1.25f, dodge_ability - hit_roll );
+    if( dodge_chance >= 0.8f || force_try ) {
+        on_try_dodge();
+        float attack_roll = hit_roll + rng_normal( 0, 5 );
+        return dodge_ability > attack_roll;
+    }
+    add_msg_if_player( m_warning,
+                       _( "You don't think you could dodge this attack, and decide to conserve stamina." ) );
+
+    return false;
+}
+
+bool Creature::dodge_check( monster *z )
+{
+    return dodge_check( z->get_hit() );
+}
+
+bool Creature::dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst )
+{
+
+    if( is_monster() ) {
+        return dodge_check( z );
+    }
+
+    Character *guy_target = as_character();
+
+    float potential_damage = 0.0f;
+    for( const damage_unit &dmg : dam_inst.damage_units ) {
+        potential_damage += dmg.amount - guy_target->worn.damage_resist( dmg.type, bp );
+    }
+    int part_hp = guy_target->get_part_hp_cur( bp );
+    float dmg_ratio = 0.0f; // if the part is already destroyed it can't take more damage
+    if( part_hp > 0 ) {
+        dmg_ratio = potential_damage / part_hp;
+    }
+
+    //If attack might remove more than half of the part's hp, dodge no matter the odds
+    if( dmg_ratio >= 0.5f ) {
+        return dodge_check( z->get_hit(), true );
+    } else if( dmg_ratio > 0.0f ) { // else apply usual rules
+        return dodge_check( z->get_hit() );
+    }
+
+    return false;
+}
+
 /*
  * State check functions
  */

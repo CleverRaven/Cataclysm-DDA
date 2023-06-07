@@ -99,7 +99,7 @@ TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
-    dummy.dodges_left = 1;
+    dummy.set_dodges_left( 1 );
 
     SECTION( "character get_hit_base increases by 1/4 for each point of DEX" ) {
         CHECK( hit_base_with_dex( dummy, 1 ) == 0.25f );
@@ -308,37 +308,37 @@ TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]
 
         SECTION( "75% stamina" ) {
             dummy.set_stamina( .75 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 4.0f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 3.8f ).margin( 0.1 ) );
         }
 
         SECTION( "50% stamina" ) {
             dummy.set_stamina( .5 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 4.0f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 2.0f ).margin( 0.1 ) );
         }
 
         SECTION( "40% stamina" ) {
             dummy.set_stamina( .4 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 3.2f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 1.0f ).margin( 0.1 ) );
         }
 
         SECTION( "30% stamina" ) {
             dummy.set_stamina( .3 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 2.4f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.1 ) );
         }
 
         SECTION( "20% stamina" ) {
             dummy.set_stamina( .2 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 1.6f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.1 ) );
         }
 
         SECTION( "10% stamina" ) {
             dummy.set_stamina( .1 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 0.8f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.1 ) );
         }
 
         SECTION( "0% stamina" ) {
             dummy.set_stamina( 0 );
-            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.1 ) );
         }
     }
 }

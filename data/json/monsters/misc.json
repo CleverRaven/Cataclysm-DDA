@@ -54,7 +54,7 @@
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regeneration_modifiers": [ [ "onfire", -5 ], [ "corroding", 5 ] ],
-    "flags": [ "IMMOBILE", "SEES" ]
+    "flags": [ "IMMOBILE", "SEES", "NOT_HALLUCINATION" ]
   },
   {
     "id": "mon_debug_grabber_mid",

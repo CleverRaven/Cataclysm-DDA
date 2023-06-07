@@ -58,5 +58,32 @@
       "ter_set": "t_floor",
       "items": [ { "item": "clearcrete_chunk", "count": [ 42, 84 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_foamcrete_wall_seal",
+    "name": "foamcrete wall",
+    "description": "Automatically deployed by the ship to block breaches and seal off damaged sections, this foamcrete wall is a temporary solution at best.",
+    "symbol": "#",
+    "color": "white",
+    "looks_like": "t_rock_wall",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_foamcrete_floor",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "DESTROY_ITEM", "MINEABLE", "BLOCK_WIND" ],
+    "bash": { "str_min": 15, "str_max": 40, "sound": "crash!", "sound_fail": "thump!", "ter_set": "t_null" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_foamcrete_floor_seal",
+    "name": "foamcrete floor",
+    "description": "Automatically deployed by the ship to block breaches and seal off damaged sections, this foamcrete floor is a temporary solution at best.",
+    "symbol": ".",
+    "color": "light_blue",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 30, "bash_below": true }
   }
 ]

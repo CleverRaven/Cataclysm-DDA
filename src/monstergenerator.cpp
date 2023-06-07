@@ -133,6 +133,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ACIDTRAIL: return "ACIDTRAIL";
         case MF_SHORTACIDTRAIL: return "SHORTACIDTRAIL";
         case MF_FIREPROOF: return "FIREPROOF";
+        case MF_IRONWROUGHT: return "IRONWROUGHT";
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
         case MF_SMALLSLUDGETRAIL: return "SMALLSLUDGETRAIL";

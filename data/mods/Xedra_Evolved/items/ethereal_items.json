@@ -96,6 +96,34 @@
     ]
   },
   {
+    "id": "aura_drunken_master",
+    "type": "ARMOR",
+    "name": "Drunken Master aura",
+    "description": "Hey I thought this was America…",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "dreamstuff" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 3 },
+            { "value": "DEXTERITY", "add": 3 },
+            { "value": "INTELLIGENCE", "add": -6 },
+            { "value": "PERCEPTION", "add": -3 }
+          ],
+          "mutations": [ "DRUNKEN", "GOODCARDIO" ]
+        }
+      ]
+    }
+  },
+  {
     "type": "TOOL",
     "id": "xe_oneiric_hammer",
     "name": { "str": "Oneiric Hammer" },
