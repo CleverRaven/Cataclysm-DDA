@@ -446,7 +446,6 @@
     "name": { "str_sp": "canola seeds" },
     "weight": "132 g",
     "color": "light_gray",
-    "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": ",",
     "category": "seeds",
