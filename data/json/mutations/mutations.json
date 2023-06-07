@@ -3958,7 +3958,7 @@
       {
         "condition": {
           "or": [
-            "u_can_drop_weapon", 
+            "u_can_drop_weapon",
             { "u_has_move_mode": "walk" },
             {
               "and": [
