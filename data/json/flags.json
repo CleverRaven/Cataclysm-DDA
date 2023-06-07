@@ -2181,8 +2181,13 @@
     "restriction": "Item must be shaped like a bank note strap"
   },
   {
+    "id": "GASFILTER_SM",
+    "type": "json_flag",
+    "info": "A small-sized gasmask filter."
+  },
+  {
     "id": "GASFILTER_MED",
     "type": "json_flag",
-    "info": "A medium sized gasmask filter."
+    "info": "A medium-sized gasmask filter."
   }
 ]
