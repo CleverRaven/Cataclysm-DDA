@@ -6,7 +6,6 @@ Use the `Home` key to return to the top.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [JSON INFO](#json-info)
 - [Introduction](#introduction)
   - [Overall structure](#overall-structure)
   - [Common properties](#common-properties)
@@ -25,11 +24,11 @@ Use the `Home` key to return to the top.
   - [`data/json/vehicles/`](#datajsonvehicles)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   - [`data/json/` JSONs](#datajson-jsons)
-    - [Ascii\_arts](#ascii_arts)
+    - [Ascii_arts](#ascii_arts)
     - [Addiction types](#addiction-types)
     - [Body Graphs](#body-graphs)
       - [Graph Parts](#graph-parts)
-    - [Body\_parts](#body_parts)
+    - [Body_parts](#body_parts)
 - [On-hit Effects](#on-hit-effects)
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
@@ -79,14 +78,14 @@ Use the `Home` key to return to the top.
       - [Defining common requirements](#defining-common-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
     - [Constructions](#constructions)
-    - [Scent\_types](#scent_types)
+    - [Scent_types](#scent_types)
     - [Scores, Achievements, and Conducts](#scores-achievements-and-conducts)
       - [`event_transformation`](#event_transformation)
       - [`event_statistic`](#event_statistic)
       - [`score`](#score)
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
-    - [Skills](#skills-1)
+    - [Skills](#skills)
     - [Speed Description](#speed-description)
     - [Mood Face](#mood-face)
     - [Tool Qualities](#tool-qualities)
@@ -117,7 +116,7 @@ Use the `Home` key to return to the top.
     - [Armor](#armor)
       - [Armor Portion Data](#armor-portion-data)
         - [Encumbrance](#encumbrance)
-        - [Encumbrance\_modifiers](#encumbrance_modifiers)
+        - [Encumbrance_modifiers](#encumbrance_modifiers)
         - [Coverage](#coverage)
         - [Covers](#covers)
         - [Specifically Covers](#specifically-covers)
@@ -128,7 +127,7 @@ Use the `Home` key to return to the top.
     - [Books](#books)
       - [Conditional Naming](#conditional-naming)
       - [Color Key](#color-key)
-      - [CBMs](#cbms-1)
+      - [CBMs](#cbms)
     - [Comestibles](#comestibles)
     - [Containers](#containers)
     - [Melee](#melee)
@@ -225,18 +224,18 @@ Use the `Home` key to return to the top.
         - [`base`](#base)
         - [`growth_multiplier`](#growth_multiplier)
         - [`harvest_multiplier`](#harvest_multiplier)
-    - [clothing\_mod](#clothing_mod)
+    - [clothing_mod](#clothing_mod)
 - [Scenarios](#scenarios)
   - [`description`](#description-1)
   - [`name`](#name-2)
   - [`points`](#points-1)
   - [`items`](#items-3)
   - [`flags`](#flags-2)
-  - [`cbms`](#cbms-2)
+  - [`cbms`](#cbms-1)
   - [`traits`, `forced_traits`, `forbidden_traits`](#traits-forced_traits-forbidden_traits)
   - [`allowed_locs`](#allowed_locs)
   - [`start_name`](#start_name)
-  - [`professions`](#professions-1)
+  - [`professions`](#professions)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement-1)
   - [`eocs`](#eocs)
@@ -244,7 +243,7 @@ Use the `Home` key to return to the top.
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
-  - [`terrain`](#terrain-1)
+  - [`terrain`](#terrain)
   - [`city_sizes`](#city_sizes)
   - [`city_distance`](#city_distance)
   - [`allowed_z_levels`](#allowed_z_levels)
@@ -3991,6 +3990,24 @@ The contents of use_action fields can either be a string indicating a built-in f
     "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
     "moves": 50, // how many move points the action takes.
     "radius": 1 // maximum radius for random npc placement.
+},
+"use_action": {
+    "type": "link_up", // Connect item to a vehicle or appliance, such as plugging a chargeable device into a power source.
+    "cable_type": "generic_device_cable" // The item type of the cable created with this action ( Optional, defaults to "generic_device_cable" ).
+    "cable_length": 5 // Maximum length of the cable ( Optional, defaults to 2 ).
+    "charge_rate": "60 W" // Charge rate in watts. A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
+                          // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
+                          // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid ( Optional, defaults to "0 W" ).
+    "efficiency": 7 // one_in(this) chance to fail adding 1 charge every charge interval ( Optional, defaults to 7, which is around 85% efficiency ).
+    "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect" ).
+    "targets": [ // Array of link_states that are valid connection points of the cable ( Optional, defaults to only allowing disconnection ).
+        "no_link",         // Must be included to allow letting the player manually disconnect the cable.
+        "vehicle_port",    // Can connect to a vehicle's cable ports / electrical controls or an appliance.
+        "vehicle_battery", // Can connect to a vehicle's battery or an appliance.
+        "vehicle_tow",     // Can be used as a tow cable between two vehicles.
+        "bio_cable",       // Can connect to a cable system bionic.
+        "ups",             // Can link to a UPS.
+        "solarpack",       // Can link to a worn solar pack.
 },
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age

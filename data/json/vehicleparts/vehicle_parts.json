@@ -602,8 +602,8 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "A small fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
-    "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
-    "epower": "-30 W",
+    "//": "Use average consumption, not the max on the appliance rating plate. For big fridge 30W ~ 260kWh per annum is good, but for mini variant with decrased volume by ~ 6 time, surface area ~ 3-4 times and insulation thickness only by 2 time 10W is good too and very close to real world variant ",
+    "epower": "-24 W",
     "size": "75 L",
     "item": "minifridge",
     "location": "center",
@@ -639,7 +639,7 @@
     "looks_like": "minifridge",
     "damage_modifier": 80,
     "durability": 100,
-    "epower": "-45 W",
+    "epower": "-36 W",
     "size": "75 L",
     "item": "minifreezer",
     "location": "center",
@@ -1313,7 +1313,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "WATCH", "ALARMCLOCK" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "WATCH", "ALARMCLOCK", "CABLE_PORTS" ],
     "breaks_into": [ { "group": "ig_vp_device", "count": [ 2, 3 ] } ]
   },
   {
@@ -1405,7 +1405,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 10 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "CABLE_PORTS" ],
     "breaks_into": "ig_vp_device",
     "damage_reduction": { "all": 6 }
   },
@@ -2427,7 +2427,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable_debug",
-    "name": { "str": "shiny cable" },
+    "name": { "str": "shiny debug cable" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "yellow",
@@ -2724,7 +2724,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 3 ] ]
       }
     },
-    "flags": [ "REMOTE_CONTROLS", "OBSTACLE" ],
+    "flags": [ "REMOTE_CONTROLS", "OBSTACLE", "CABLE_PORTS" ],
     "breaks_into": [
       { "item": "motor_tiny", "count": [ 1, 3 ] },
       { "item": "steel_chunk", "count": [ 1, 3 ] },

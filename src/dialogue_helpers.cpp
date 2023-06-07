@@ -58,11 +58,11 @@ std::string str_or_var::evaluate( dialogue const &d ) const
             var_name = var_name.substr( 12 );
         }
         debugmsg( "No default value provided for str_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default_str\" member to prevent this.",
-                  var_name );
+                  "variable %s.  Add a \"default_str\" member to prevent this.  %s",
+                  var_name, d.get_callstack() );
         return "";
     }
-    debugmsg( "No valid value for str_or_var_part." );
+    debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
     return "";
 }
 
@@ -84,8 +84,8 @@ double dbl_or_var_part::evaluate( dialogue &d ) const
             var_name = var_name.substr( 12 );
         }
         debugmsg( "No default value provided for dbl_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default\" member to prevent this.",
-                  var_name );
+                  "variable %s.  Add a \"default\" member to prevent this.  %s",
+                  var_name, d.get_callstack() );
         return 0;
     }
     if( arithmetic_val.has_value() ) {
@@ -95,13 +95,13 @@ double dbl_or_var_part::evaluate( dialogue &d ) const
         if( !val.empty() ) {
             return std::stof( val );
         }
-        debugmsg( "No valid arithmetic value for dbl_or_var_part." );
+        debugmsg( "No valid arithmetic value for dbl_or_var_part.  %s", d.get_callstack() );
         return 0;
     }
     if( math_val ) {
         return math_val->act( d );
     }
-    debugmsg( "No valid value for dbl_or_var_part." );
+    debugmsg( "No valid value for dbl_or_var_part.  %s", d.get_callstack() );
     return 0;
 }
 
@@ -122,7 +122,7 @@ time_duration duration_or_var_part::evaluate( dialogue &d ) const
         std::string val = read_var_value( var_val.value(), d );
         if( !val.empty() ) {
             time_duration ret_val;
-            ret_val = time_duration::from_turns( std::stoi( val ) );
+            ret_val = time_duration::from_turns( std::stof( val ) );
             return ret_val;
         }
         if( default_val.has_value() ) {
@@ -133,8 +133,8 @@ time_duration duration_or_var_part::evaluate( dialogue &d ) const
             var_name = var_name.substr( 12 );
         }
         debugmsg( "No default value provided for duration_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default\" member to prevent this.",
-                  var_name );
+                  "variable %s.  Add a \"default\" member to prevent this.  %s",
+                  var_name, d.get_callstack() );
         return 0_seconds;
     }
     if( arithmetic_val.has_value() ) {
@@ -143,16 +143,16 @@ time_duration duration_or_var_part::evaluate( dialogue &d ) const
         std::string val = read_var_value( info, d );
         if( !val.empty() ) {
             time_duration ret_val;
-            ret_val = time_duration::from_turns( std::stoi( val ) );
+            ret_val = time_duration::from_turns( std::stof( val ) );
             return ret_val;
         }
-        debugmsg( "No valid arithmetic value for duration_or_var_part." );
+        debugmsg( "No valid arithmetic value for duration_or_var_part.  %s", d.get_callstack() );
         return 0_seconds;
     }
     if( math_val ) {
         return time_duration::from_turns( math_val->act( d ) );
     }
-    debugmsg( "No valid value for duration_or_var_part." );
+    debugmsg( "No valid value for duration_or_var_part.  %s", d.get_callstack() );
     return 0_seconds;
 }
 

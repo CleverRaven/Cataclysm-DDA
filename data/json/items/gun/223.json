@@ -133,6 +133,79 @@
     "melee_damage": { "bash": 9 }
   },
   {
+    "id": "plr16",
+    "copy-from": "rifle_semi",
+    "looks_like": "skorpion_61",
+    "type": "GUN",
+    "name": { "str": "Rifle caliber pistol" },
+    "description": "This is a semi-automatic pistol chambered in 5.56x45, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "plr16",
+        "name": { "str_sp": "Kel-Tec PLR16" },
+        "description": "This is a semi-automatic pistol chambered in 5.56 NATO, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard.",
+        "weight": 1
+      }
+    ],
+    "weight": "1800 g",
+    "volume": "1665 ml",
+    "longest_side": "485 mm",
+    "barrel_length": "234 mm",
+    "price": 86900,
+    "price_postapoc": 5500,
+    "to_hit": -2,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "skill": "pistol",
+    "range": -6,
+    "dispersion": 300,
+    "durability": 6,
+    "min_cycle_recoil": 1350,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 2 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
     "id": "famas",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",

@@ -1621,12 +1621,9 @@ void Item_factory::init()
     add_iuse( "BLECH_BECAUSE_UNCLEAN", &iuse::blech_because_unclean );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
     add_iuse( "C4", &iuse::c4 );
-    add_iuse( "TOW_ATTACH", &iuse::tow_attach );
-    add_iuse( "CABLE_ATTACH", &iuse::cable_attach );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
     add_iuse( "COIN_FLIP", &iuse::coin_flip );
-    add_iuse( "CORD_ATTACH", &iuse::cord_attach );
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
@@ -1826,6 +1823,7 @@ void Item_factory::init()
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
     add_actor( std::make_unique<modify_gunmods_actor>() );
+    add_actor( std::make_unique<link_up_actor>() );
     add_actor( std::make_unique<deploy_tent_actor>() );
     add_actor( std::make_unique<learn_spell_actor>() );
     add_actor( std::make_unique<cast_spell_actor>() );
@@ -3679,6 +3677,22 @@ void Item_factory::add_special_pockets( itype &def )
     if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION ) ) {
         def.pockets.emplace_back( item_pocket::pocket_type::MIGRATION );
     }
+    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CABLE ) ) {
+        const use_function *iuse = def.get_use( "link_up" );
+        if( iuse != nullptr ) {
+            const link_up_actor *actor_ptr =
+                static_cast<const link_up_actor *>( iuse->get_actor_ptr() );
+            if( actor_ptr != nullptr && !actor_ptr->is_cable_item ) {
+                pocket_data cable_pocket( item_pocket::pocket_type::CABLE );
+                cable_pocket.rigid = true;
+                cable_pocket.volume_capacity = units::from_milliliter( 1 );
+                cable_pocket.max_contains_weight = units::from_gram( 1 );
+                cable_pocket.weight_multiplier = 0.0f;
+                cable_pocket.volume_multiplier = 0.0f;
+                def.pockets.emplace_back( cable_pocket );
+            }
+        }
+    }
 }
 
 enum class grip_val : int {
@@ -3744,6 +3758,37 @@ std::string enum_to_string<encumbrance_modifier>( encumbrance_modifier data )
     }
     cata_fatal( "Invalid encumbrance descriptor" );
 }
+} // namespace io
+
+namespace io
+{
+// *INDENT-OFF*
+template<>
+std::string enum_to_string<link_state>( link_state data )
+{
+    switch( data ) {
+        case link_state::no_link:
+            return "no_link";
+        case link_state::needs_reeling:
+            return "needs_reeling";
+        case link_state::vehicle_port:
+            return "vehicle_port";
+        case link_state::vehicle_battery:
+            return "vehicle_battery";
+        case link_state::vehicle_tow:
+            return "vehicle_tow";
+        case link_state::bio_cable:
+            return "bio_cable";
+        case link_state::ups:
+            return "ups";
+        case link_state::solarpack:
+            return "solarpack";
+        case link_state::last:
+            break;
+    }
+    cata_fatal( "Invalid link_state" );
+}
+// *INDENT-ON*
 } // namespace io
 
 namespace io

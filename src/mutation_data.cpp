@@ -862,6 +862,7 @@ const mutation_variant *mutation_branch::pick_variant_menu() const
     menu.desc_enabled = true;
     menu.text = string_format( _( "Pick variant for: %s" ), name() );
     std::vector<const mutation_variant *> options;
+    options.reserve( variants.size() );
     for( const std::pair<const std::string, mutation_variant> &var : variants ) {
         options.emplace_back( &var.second );
     }
@@ -891,6 +892,7 @@ void mutation_branch::reset_all()
 std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
+    ret.reserve( raw_messages.size() );
     for( const translation &msg : raw_messages ) {
         ret.push_back( msg.translated() );
     }
