@@ -720,22 +720,16 @@ void talk_function::basecamp_mission( npc &p )
     }
     basecamp *bcp = *temp_camp;
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
-    map *here = &get_map();
-    std::unique_ptr<map> campmap;
-    if( get_avatar().dialogue_by_radio ) {
-        campmap = std::make_unique<map>();
-        campmap->load( project_to<coords::sm>( bcp->camp_omt_pos() ) - point( 5, 5 ), false );
-        here = campmap.get();
-    }
-    bcp->form_storage_zones( *here, p.get_location() );
-    bcp->get_available_missions( mission_key, *here );
+    map &here = bcp->get_camp_map();
+    bcp->form_storage_zones( here, p.get_location() );
+    bcp->get_available_missions( mission_key, here );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
         bcp->handle_mission( mission_key.cur_key.id );
     }
-    if( campmap ) {
-        campmap->save();
-        campmap.reset();
-    }
+    here.save();
+    // This is to make sure the basecamp::camp_map is always usable and valid.
+    // Otherwise when quick saving unloads submaps, basecamp::camp_map is still valid but becomes unusable.
+    bcp->unload_camp_map();
 }
 
 void basecamp::add_available_recipes( mission_data &mission_key, mission_kind kind,
@@ -1741,26 +1735,17 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
             camp_food_supply( duration, exertion_level );
         }
         if( !equipment.empty() ) {
-            map *target_map = &get_map();
-            std::unique_ptr<map> campmap;
-            if( by_radio ) {
-                campmap = std::make_unique<map>();
-                campmap->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
-                target_map = campmap.get();
-            }
+            map &target_map = get_camp_map();
             std::vector<tripoint> src_set_pt;
             src_set_pt.resize( src_set.size() );
             for( const tripoint_abs_ms &p : src_set ) {
-                src_set_pt.emplace_back( target_map->getlocal( p ) );
+                src_set_pt.emplace_back( target_map.getlocal( p ) );
             }
             for( item *i : equipment ) {
                 int count = i->count();
-                target_map->use_charges( src_set_pt, i->typeId(), count );
+                target_map.use_charges( src_set_pt, i->typeId(), count );
             }
-            if( campmap ) {
-                campmap->save();
-                campmap.reset();
-            }
+            target_map.save();
         }
     }
     return comp;
@@ -5224,22 +5209,12 @@ int camp_morale( int change )
 
 void basecamp::place_results( const item &result )
 {
-    map *target_bay = &get_map();
-    std::unique_ptr<map> campmap;
-    if( by_radio ) {
-        campmap = std::make_unique<map>();
-        campmap->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
-        target_bay = campmap.get();
-    }
-    form_storage_zones( *target_bay, target_bay->getglobal( target_bay->getlocal( bb_pos ) ) );
-    const tripoint &new_spot = target_bay->getlocal( get_dumping_spot() );
-    target_bay->add_item_or_charges( new_spot, result, true );
-    apply_camp_ownership( *target_bay, new_spot, 10 );
-    if(
-        campmap ) {
-        campmap->save();
-        campmap.reset();
-    }
+    map &target_bay = get_camp_map();
+    form_storage_zones( target_bay, target_bay.getglobal( target_bay.getlocal( bb_pos ) ) );
+    const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
+    target_bay.add_item_or_charges( new_spot, result, true );
+    apply_camp_ownership( target_bay, new_spot, 10 );
+    target_bay.save();
 }
 
 void apply_camp_ownership( map &here, const tripoint &camp_pos, int radius )

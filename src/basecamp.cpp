@@ -767,20 +767,30 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
 }
 
+map &basecamp::get_camp_map()
+{
+    if( by_radio ) {
+        if( !camp_map ) {
+            camp_map = std::make_unique<map>();
+            camp_map->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
+        }
+        return *camp_map;
+    }
+    return get_map();
+}
+
+void basecamp::unload_camp_map()
+{
+    if( camp_map ) {
+        camp_map.reset();
+    }
+}
+
 void basecamp::form_crafting_inventory()
 {
-    map *here = &get_map();
-    std::unique_ptr<map> campmap;
-    if( by_radio ) {
-        campmap = std::make_unique<map>();
-        campmap->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
-        here = campmap.get();
-    }
-    form_crafting_inventory( *here );
-    if( campmap ) {
-        campmap->save();
-        campmap.reset();
-    }
+    map &here = get_camp_map();
+    form_crafting_inventory( here );
+    here.save();
 }
 
 // display names
@@ -876,35 +886,25 @@ bool basecamp_action_components::choose_components()
 
 void basecamp_action_components::consume_components()
 {
-    map *target_map = &get_map();
-    std::unique_ptr<map> campmap;
-    if( base_.by_radio ) {
-        campmap = std::make_unique<map>();
-        campmap->load( project_to<coords::sm>( base_.omt_pos ) - point( 5, 5 ), false );
-        target_map = campmap.get();
-    }
+    map &target_map = base_.get_camp_map();
     avatar &player_character = get_avatar();
     std::vector<tripoint> src;
     src.resize( base_.src_set.size() );
     for( const tripoint_abs_ms &p : base_.src_set ) {
-        src.emplace_back( target_map->getlocal( p ) );
+        src.emplace_back( target_map.getlocal( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        player_character.consume_items( *target_map, sel, batch_size_, is_crafting_component, src );
+        player_character.consume_items( target_map, sel, batch_size_, is_crafting_component, src );
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
-        player_character.consume_tools( *target_map, sel, batch_size_, src, &base_ );
+        player_character.consume_tools( target_map, sel, batch_size_, src, &base_ );
     }
     // go back and consume the actual resources
     for( basecamp_resource &bcp_r : base_.resources ) {
         if( bcp_r.consumed > 0 ) {
-            target_map->use_charges( src, bcp_r.ammo_id, bcp_r.consumed );
+            target_map.use_charges( src, bcp_r.ammo_id, bcp_r.consumed );
         }
     }
-
-    if( campmap ) {
-        campmap->save();
-        campmap.reset();
-    }
+    target_map.save();
 }
