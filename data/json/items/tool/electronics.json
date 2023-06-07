@@ -302,7 +302,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Activate the recorder's printer",
-      "effect_on_conditions": [ "print_portal_storm_data" ]
+      "effect_on_conditions": [ "print_nre_data" ]
     },
     "pocket_data": [
       {
