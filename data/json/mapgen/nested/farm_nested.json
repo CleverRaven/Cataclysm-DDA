@@ -580,7 +580,7 @@
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "r": "t_cattle_feeder" },
-      "place_nested": [ { "chunks": [ [ "null", 30 ], [ "2x2_haybale", 40 ], [ "2x2_feed", 40 ] ], "x": 1, "y": 1 } ]
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "2x2_feed", 50 ] ], "x": 1, "y": 1 } ]
     }
   },
   {
