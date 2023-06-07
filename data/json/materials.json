@@ -2841,7 +2841,8 @@
     ],
     "soft": true,
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
-    "resist": { "bash": 2.2, "cut": 3.5, "acid": 7, "heat": 1, "bullet": 1.4 }
+    "resist": { "bash": 2.2, "cut": 3.5, "acid": 7, "heat": 1, "bullet": 1.4 },
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
