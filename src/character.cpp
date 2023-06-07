@@ -516,7 +516,7 @@ Character::Character() :
     int_max = 8;
     per_cur = 8;
     per_max = 8;
-    dodges_left = 1;
+    set_dodges_left(1);
     blocks_left = 1;
     str_bonus = 0;
     dex_bonus = 0;
@@ -576,6 +576,7 @@ Character::Character() :
     nv_cached = false;
     volume = 0;
     set_value( "THIEF_MODE", "THIEF_ASK" );
+	last_pc_zlev = 0; // Z-level on the last turn (used in character.cpp for "fine_detail_vision_mod" NPCs function override)																										  
     for( const auto &v : vitamin::all() ) {
         vitamin_levels[ v.first ] = 0;
         daily_vitamins[v.first] = { 0,0 };
@@ -1078,6 +1079,61 @@ double Character::aim_per_move( const item &gun, double recoil,
     return std::min( aim_speed, recoil - limit );
 }
 
+int Character::get_dodges_left() const
+{
+    return dodges_left;
+}
+
+void Character::set_dodges_left( int dodges )
+{
+    dodges_left = dodges;
+}
+
+void Character::mod_dodges_left( int mod )
+{
+    dodges_left += mod;
+}
+
+void Character::consume_dodge_attempts()
+{
+    if( get_dodges_left() > 0 ) {
+        mod_dodges_left( -1 );
+    }
+}
+
+ret_val<void> Character::can_try_doge() const
+{
+    //If we're asleep or busy we can't dodge
+    if( in_sleep_state() || has_effect( effect_narcosis ) ||
+        has_effect( effect_winded ) || is_driving() ) {
+        add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
+        return ret_val<void>::make_failure();
+    }
+    //If stamina is too low we can't dodge
+    if( get_stamina_dodge_modifier() <= 0.11 ) {
+        add_msg_debug( debugmode::DF_MELEE, "Stamina too low to doge.  Stamina: %d", get_stamina() );
+        add_msg_debug( debugmode::DF_MELEE, "Stamina dodge modifier: %f", get_stamina_dodge_modifier() );
+        return ret_val<void>::make_failure( !is_npc() ? _( "Your stamina is too low to attempt to dodge." )
+                                            :
+                                            _( "<npcname>'s stamina is too low to attempt to dodge." ) );;
+    }
+    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
+    if( get_dodges_left() <= 0 ) {
+        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+        return ret_val<void>::make_failure();
+    }
+    return ret_val<void>::make_success();
+}
+
+float Character::get_stamina_dodge_modifier() const
+{
+    const double stamina = get_stamina();
+    const double stamina_min = get_stamina_max() * 0.1;
+    const double stamina_max = get_stamina_max() * 0.9;
+    const double stamina_logistic = 1.0 - logarithmic_range( stamina_min, stamina_max, stamina );
+    return stamina_logistic;
+}
+
 int Character::sight_range( float light_level ) const
 {
     if( light_level == 0 ) {
@@ -1467,6 +1523,9 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
     }
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
         for( const monster &critter : g->all_monsters() ) {
+            if( critter.is_hallucination() ) {
+                continue;
+            }
             Attitude att = critter.attitude_to( *this );
             if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 15 &&
                 rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
@@ -1497,6 +1556,9 @@ bool Character::check_mount_is_spooked()
         const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
         const bool combat_mount = mounted_creature->has_flag( MF_COMBAT_MOUNT );
         for( const monster &critter : g->all_monsters() ) {
+            if( critter.is_hallucination() ) {
+                continue;
+            }
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
             // actually too close now - horse might spook.
@@ -1708,11 +1770,28 @@ bool Character::is_dead_state() const
     return false;
 }
 
+void Character::on_try_dodge()
+{
+    ret_val<void> can_dodge = can_try_doge();
+    if( !can_dodge.success() ) {
+        add_msg( m_bad, can_dodge.c_str() );
+        return;
+    }
+
+    // Each attempt consumes an available dodge
+    consume_dodge_attempts();
+
+    const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
+    mod_stamina( -base_burn_rate * 6 );
+    set_activity_level( EXTRA_EXERCISE );
+}
+
 void Character::on_dodge( Creature *source, float difficulty )
 {
-    // Each avoided hit consumes an available dodge
-    // When no more available we are likely to fail player::dodge_roll
-    dodges_left--;
+    // Make sure we're not practicing dodge in situation where we can't dodge
+    if( !can_try_doge().success() ) {
+        return;
+    }
 
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
@@ -2139,10 +2218,10 @@ void Character::process_turn()
     // We can dodge again! Assuming we can actually move...
     if( in_sleep_state() ) {
         blocks_left = 0;
-        dodges_left = 0;
+        set_dodges_left( 0 );
     } else if( moves > 0 ) {
         blocks_left = get_num_blocks();
-        dodges_left = get_num_dodges();
+        set_dodges_left( get_num_dodges() );
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:
@@ -2529,8 +2608,16 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0f,
-                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+    float ambient_light;
+    // Light is calculated for player's z-level; NPC actions on different Z-level would stop
+    // Check if NPC is on the same z-level - if not overwrite light level for it
+    // Additional check for "last_pc_zlev" value - solve edge case on first turn after changing player z-level
+    if( ( p.z == get_player_character().pos().z ) && ( p.z == get_player_character().last_pc_zlev ) ) {
+        ambient_light = std::max( 1.0f,
+                                  LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+    } else {
+        ambient_light = 1.0f;
+    }
 
     return std::min( own_light, ambient_light );
 }
@@ -9621,7 +9708,7 @@ std::vector<std::string> Character::short_description_parts() const
         result.push_back( _( "Wearing: " ) + worn_str );
     }
     const int visibility_cap = 0; // no cap
-    const auto trait_str = visible_mutations( visibility_cap );
+    const std::string trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
         result.push_back( _( "Traits: " ) + trait_str );
     }
@@ -11155,8 +11242,8 @@ void Character::mod_pain( int npain )
         }
         npain += enchantment_cache->get_value_add( enchant_vals::mod::PAIN );
 
-        // no matter how powerful the enchantment if we are gaining pain we always gain at least a little/don't lose any
-        npain = std::max( 1, npain );
+        // no matter how powerful the enchantment if we are gaining pain we don't lose any
+        npain = std::max( 0, npain );
     }
     Creature::mod_pain( npain );
 }
@@ -11496,10 +11583,10 @@ void Character::process_items()
         set_check_encumbrance( false );
     }
 
-    // Load all items that use the UPS to their minimal functional charge,
+    // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     const auto inv_use_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( flag_USE_UPS );
+        return itm.has_flag( flag_USE_UPS ) && itm.ammo_data();
     } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();

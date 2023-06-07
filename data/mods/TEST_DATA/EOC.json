@@ -233,5 +233,21 @@
     "id": "EOC_increment_var",
     "//": "tests adding a variable to the player",
     "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_recipe_test_1",
+    "//": "tests adding a recipe to the player",
+    "condition": { "not": { "u_know_recipe": "cattail_jelly" } },
+    "effect": { "u_learn_recipe": "cattail_jelly" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_recipe_test_2",
+    "//": "tests forgetting a recipe from the player",
+    "condition": { "u_know_recipe": "cattail_jelly" },
+    "effect": { "u_forget_recipe": "cattail_jelly" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
   }
 ]

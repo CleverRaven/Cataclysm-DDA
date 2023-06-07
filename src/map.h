@@ -1847,8 +1847,8 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        void loadn( const tripoint &grid, bool update_vehicles, bool _actualize = true );
-        void loadn( const point &grid, bool update_vehicles, bool _actualize = true );
+        void loadn( const tripoint &grid, bool update_vehicles );
+        void loadn( const point &grid, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.

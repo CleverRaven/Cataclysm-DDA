@@ -14,6 +14,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "void_spider_spiderling_skewered_drops",
+    "entries": [ { "item": "arrow_meteor", "charges": 1, "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "mon_dragon_dummy_drops",
     "entries": [
       { "item": "paper", "count": [ 100, 300 ] },

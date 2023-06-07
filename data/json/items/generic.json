@@ -233,7 +233,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -895,6 +895,36 @@
     "description": "A carved piece of wood which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
     "material": [ "wood" ],
     "qualities": [ [ "TREE_TAP", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "egg_void_spider",
+    "name": { "str": "luminescent bead" },
+    "weight": "55 g",
+    "color": "white",
+    "symbol": "o",
+    "description": "Strange lights perpetually glimmer within the sharpened internals of this glass globule.",
+    "price": 44,
+    "price_postapoc": 50,
+    "material": [ "glass" ],
+    "flags": [ "LIGHT_8" ],
+    "volume": "50 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tattered_garment",
+    "name": { "str_sp": "tattered garments" },
+    "category": "other",
+    "description": "Time and the elements have reduced them to a mound of filthy ribbons.",
+    "weight": "1175 g",
+    "volume": "3 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cotton_patchwork",
+    "color": "brown"
   },
   {
     "type": "GENERIC",
@@ -3191,7 +3221,7 @@
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml",
     "to_hit": -3,
@@ -3249,7 +3279,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "MISSION_ITEM" ],
+    "flags": [ "MISSION_ITEM", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3274,7 +3304,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ],
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3290,7 +3320,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2" ],
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3306,7 +3336,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3" ],
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3753,19 +3783,7 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [
-          "FMCNote",
-          "signed_chit",
-          "family_photo",
-          "money_one",
-          "money_two",
-          "money_five",
-          "money_ten",
-          "money_twenty",
-          "money_fifty",
-          "money_hundred",
-          "condom"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED" ]
       },
       {
         "//": "Card Sleeves",
@@ -3774,32 +3792,7 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [
-          "cash_card",
-          "gasdiscount_silver",
-          "gasdiscount_gold",
-          "gasdiscount_platinum",
-          "id_science",
-          "id_military",
-          "id_industrial",
-          "fp_loyalty_card",
-          "scorecard",
-          "robofac_test_data",
-          "icon",
-          "labmap",
-          "id_science_visitor_1",
-          "id_science_transport_1",
-          "id_science_maintenance_green",
-          "id_science_maintenance_yellow",
-          "id_science_maintenance_blue",
-          "id_science_security_yellow",
-          "id_science_security_magenta",
-          "id_science_security_black",
-          "id_science_mutagen_green",
-          "id_science_mutagen_pink",
-          "id_science_mutagen_cyan",
-          "id_science_medical_red"
-        ]
+        "flag_restriction": [ "CREDIT_CARD_SHAPED" ]
       },
       {
         "//": "Coin Purse",
@@ -3808,19 +3801,7 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "150 ml",
         "moves": 200,
-        "item_restriction": [
-          "FMCNote",
-          "RobofacCoin",
-          "FlatCoin",
-          "coin_penny",
-          "coin_nickel",
-          "coin_dime",
-          "coin_quarter",
-          "coin_half_dollar",
-          "coin_dollar",
-          "coin_silver",
-          "coin_gold"
-        ]
+        "flag_restriction": [ "COIN_SHAPED" ]
       }
     ]
   },
@@ -3861,19 +3842,7 @@
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
         "moves": 100,
-        "item_restriction": [
-          "FMCNote",
-          "signed_chit",
-          "family_photo",
-          "money_one",
-          "money_two",
-          "money_five",
-          "money_ten",
-          "money_twenty",
-          "money_fifty",
-          "money_hundred",
-          "condom"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED" ]
       },
       {
         "//": "Card Sleeves",
@@ -3882,32 +3851,7 @@
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
         "moves": 100,
-        "item_restriction": [
-          "cash_card",
-          "gasdiscount_silver",
-          "gasdiscount_gold",
-          "gasdiscount_platinum",
-          "id_science",
-          "id_military",
-          "id_industrial",
-          "fp_loyalty_card",
-          "scorecard",
-          "robofac_test_data",
-          "icon",
-          "labmap",
-          "id_science_visitor_1",
-          "id_science_transport_1",
-          "id_science_maintenance_green",
-          "id_science_maintenance_yellow",
-          "id_science_maintenance_blue",
-          "id_science_security_yellow",
-          "id_science_security_magenta",
-          "id_science_security_black",
-          "id_science_mutagen_green",
-          "id_science_mutagen_pink",
-          "id_science_mutagen_cyan",
-          "id_science_medical_red"
-        ]
+        "flag_restriction": [ "CREDIT_CARD_SHAPED" ]
       },
       {
         "//": "Coin Purse",
@@ -3916,19 +3860,7 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "175 ml",
         "moves": 200,
-        "item_restriction": [
-          "FMCNote",
-          "RobofacCoin",
-          "FlatCoin",
-          "coin_penny",
-          "coin_nickel",
-          "coin_dime",
-          "coin_quarter",
-          "coin_half_dollar",
-          "coin_dollar",
-          "coin_silver",
-          "coin_gold"
-        ]
+        "flag_restriction": [ "COIN_SHAPED" ]
       }
     ]
   },
@@ -3966,18 +3898,7 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "500 ml",
         "moves": 400,
-        "item_restriction": [
-          "cash_card",
-          "gasdiscount_silver",
-          "gasdiscount_gold",
-          "gasdiscount_platinum",
-          "id_science",
-          "id_military",
-          "id_industrial",
-          "fp_loyalty_card",
-          "robofac_test_data",
-          "condom"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
     ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
@@ -4007,40 +3928,7 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [
-          "cash_card",
-          "gasdiscount_silver",
-          "gasdiscount_gold",
-          "gasdiscount_platinum",
-          "id_science",
-          "id_military",
-          "id_industrial",
-          "fp_loyalty_card",
-          "robofac_test_data",
-          "icon",
-          "labmap",
-          "FMCNote",
-          "signed_chit",
-          "family_photo",
-          "money_one",
-          "money_two",
-          "money_five",
-          "money_ten",
-          "money_twenty",
-          "condom",
-          "id_science_visitor_1",
-          "id_science_transport_1",
-          "id_science_maintenance_green",
-          "id_science_maintenance_yellow",
-          "id_science_maintenance_blue",
-          "id_science_security_yellow",
-          "id_science_security_magenta",
-          "id_science_security_black",
-          "id_science_mutagen_green",
-          "id_science_mutagen_pink",
-          "id_science_mutagen_cyan",
-          "id_science_medical_red"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
     ],
     "armor": [ { "encumbrance": 0, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
@@ -4166,6 +4054,31 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
+    "id": "parachute_mil",
+    "type": "GENERIC",
+    "name": { "str": "military parachute" },
+    "description": "This is a big, bulky military-level parachute, designed to slow the fall of up to a thousand kilograms of cargo dropped from an aircraft.  You have no clue how to put all the straps back in their place.",
+    "weight": "113400 g",
+    "volume": "136080 ml",
+    "price": 200000,
+    "price_postapoc": 1000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "green"
+  },
+  {
+    "id": "pallet",
+    "type": "GENERIC",
+    "name": { "str": "wooden pallet" },
+    "description": "This is a heavy and bulky 40x48-inch palette.",
+    "weight": "28 kg",
+    "volume": "194400 ml",
+    "material": [ "wood" ],
+    "symbol": "#",
+    "color": "brown"
+  },
+  {
     "type": "TOOL",
     "id": "training_dummy_light",
     "symbol": "@",
@@ -4237,44 +4150,7 @@
         "max_contains_weight": "2 kg",
         "max_contains_volume": "1 L",
         "moves": 100,
-        "item_restriction": [
-          "money_one",
-          "money_two",
-          "money_five",
-          "money_ten",
-          "money_twenty",
-          "money_fifty",
-          "money_hundred",
-          "FMCNote",
-          "money_strap_one",
-          "money_strap_two",
-          "money_strap_five",
-          "money_strap_ten",
-          "money_strap_twenty",
-          "money_strap_fifty",
-          "money_strap_hundred",
-          "money_strap_FMCNote",
-          "money_bundle_one",
-          "money_bundle_two",
-          "money_bundle_five",
-          "money_bundle_ten",
-          "money_bundle_twenty",
-          "money_bundle_fifty",
-          "money_bundle_hundred",
-          "money_bundle_FMCNote",
-          "coin_penny",
-          "coin_nickel",
-          "coin_dime",
-          "coin_quarter",
-          "coin_half_dollar",
-          "coin_dollar",
-          "coin_wrapper",
-          "coin_silver",
-          "coin_gold",
-          "RobofacCoin",
-          "FlatCoin",
-          "survnote"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED", "BANK_NOTE_STRAP_SHAPED", "COIN_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
     ],
     "melee_damage": { "bash": 12 }

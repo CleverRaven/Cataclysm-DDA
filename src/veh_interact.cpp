@@ -1054,7 +1054,7 @@ void veh_interact::do_install()
                         string_format( "%s (%s)", shapes[i]->name(), shapes[i]->get_id().str() );
                     uilist_entry entry( i, true, 0, vpname );
                     entry.extratxt.left = 1;
-                    entry.extratxt.sym = special_symbol( shapes[i]->sym );
+                    entry.extratxt.sym = special_symbol( shapes[i]->get_symbol() );
                     entry.extratxt.color = shapes[i]->color;
                     shape_ui_entries.push_back( entry );
                 }
@@ -2090,9 +2090,9 @@ void veh_interact::do_change_shape()
                 uilist_entry entry( vpname );
                 entry.retval = ret_code++;
                 entry.extratxt.left = 1;
-                entry.extratxt.sym = special_symbol( shape->sym );
+                entry.extratxt.sym = special_symbol( shape->get_symbol() );
                 entry.extratxt.color = shape->color;
-                variants.emplace_back( std::string() );
+                variants.emplace_back( );
                 smenu.entries.emplace_back( entry );
             }
 
@@ -2919,7 +2919,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
     for( size_t i = page * lines_per_page; i < ( page + 1 ) * lines_per_page && i < list.size(); i++ ) {
         const vpart_info &info = *list[i];
         int y = i - page * lines_per_page + header;
-        mvwputch( w_list, point( 1, y ), info.color, special_symbol( info.sym ) );
+        mvwputch( w_list, point( 1, y ), info.color, special_symbol( info.get_symbol() ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dark_gray;
         trim_and_print( w_list, point( 3, y ), getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name() );
@@ -3458,17 +3458,7 @@ void veh_interact::complete_vehicle( Character &you )
             if( veh->part_flag( vehicle_part, "POWER_TRANSFER" ) ) {
                 veh->remove_remote_part( vehicle_part );
             }
-            if( veh->is_towing() || veh->is_towed() ) {
-                add_msg_debug( debugmode::DF_VEHICLE, "vehicle is towing/towed" );
-                vehicle *other_veh = veh->is_towing() ? veh->tow_data.get_towed() :
-                                     veh->tow_data.get_towed_by();
-                if( other_veh ) {
-                    add_msg_debug( debugmode::DF_VEHICLE, "Other vehicle exists.  Removing tow cable" );
-                    other_veh->remove_part( other_veh->get_tow_part() );
-                    other_veh->tow_data.clear_towing();
-                }
-                veh->tow_data.clear_towing();
-            }
+
             bool broken = veh->part( vehicle_part ).is_broken();
             bool smash_remove = veh->part( vehicle_part ).info().has_flag( "SMASH_REMOVE" );
 
@@ -3485,6 +3475,8 @@ void veh_interact::complete_vehicle( Character &you )
 
             if( wall_wire_removal ) {
                 veh->part( vehicle_part ).properties_to_item();
+            } else if( veh->part_flag( vehicle_part, "TOW_CABLE" ) ) {
+                veh->invalidate_towing( true, &you );
             } else if( broken ) {
                 item_group::ItemList pieces = veh->part( vehicle_part ).pieces_for_broken_part();
                 resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );

@@ -193,7 +193,7 @@
     "description": "First bring pizzaiolo some chocolate cake then lead him to his family house.",
     "goal": "MGOAL_GO_TO",
     "start": {
-      "effect": { "u_learn_recipe": "cake2" },
+      "effect": [ { "u_learn_recipe": "cake2" }, { "u_message": "You learn how to craft cake.", "popup": true } ],
       "assign_mission_target": {
         "om_terrain": "house",
         "om_terrain_match_type": "PREFIX",

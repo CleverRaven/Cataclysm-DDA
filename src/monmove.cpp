@@ -589,7 +589,7 @@ void monster::plan()
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    const auto actual_faction = friendly == 0 ? faction : STATIC( mfaction_str_id( "player" ) );
+    const mfaction_id actual_faction = friendly == 0 ? faction : STATIC( mfaction_str_id( "player" ) );
     const auto &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
         DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "

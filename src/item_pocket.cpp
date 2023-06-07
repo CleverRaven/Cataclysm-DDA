@@ -48,6 +48,7 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
     case item_pocket::pocket_type::CORPSE: return "CORPSE";
     case item_pocket::pocket_type::SOFTWARE: return "SOFTWARE";
     case item_pocket::pocket_type::EBOOK: return "EBOOK";
+    case item_pocket::pocket_type::CABLE: return "CABLE";
     case item_pocket::pocket_type::MIGRATION: return "MIGRATION";
     case item_pocket::pocket_type::LAST: break;
     }
@@ -1303,6 +1304,15 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         }
     }
 
+    if( data->type == item_pocket::pocket_type::CABLE ) {
+        if( it.has_flag( flag_CABLE_SPOOL ) ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_MOD, _( "only certain cables can go into cable pocket" ) );
+        }
+    }
+
     if( data->type == item_pocket::pocket_type::MOD ) {
         if( it.is_toolmod() || it.is_gunmod() ) {
             return ret_val<item_pocket::contain_code>::make_success();
@@ -1662,7 +1672,7 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
 void item_pocket::overflow( const tripoint &pos, const item_location &loc )
 {
     if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
-        is_type( pocket_type::EBOOK ) ) {
+        is_type( pocket_type::EBOOK ) || is_type( pocket_type::CABLE ) ) {
         return;
     }
     if( empty() ) {
@@ -1767,7 +1777,8 @@ void item_pocket::on_contents_changed()
 
 bool item_pocket::spill_contents( const tripoint &pos )
 {
-    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ) {
+    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ||
+        is_type( pocket_type::CABLE ) ) {
         return false;
     }
 

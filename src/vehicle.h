@@ -852,6 +852,10 @@ class vehicle
         // Refresh active_item cache for vehicle parts
         void refresh_active_item_cache();
 
+        /** Return a pointer-like type that's automatically invalidated if this
+        * item is destroyed or assigned-to */
+        safe_reference<vehicle> get_safe_reference();
+
         /**
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
@@ -888,7 +892,7 @@ class vehicle
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
         // towing functions
-        void invalidate_towing( bool first_vehicle = false );
+        void invalidate_towing( bool first_vehicle = false, Character *remover = nullptr );
         void do_towing_move();
         bool tow_cable_too_far() const;
         bool no_towing_slack() const;
@@ -1358,6 +1362,8 @@ class vehicle
         units::power total_water_wheel_epower() const;
         // Total power drain across all vehicle accessories.
         units::power total_accessory_epower() const;
+        // Total power draw from all cable-connected devices. Is cleared every turn during idle().
+        units::power linked_item_epower_this_turn; // NOLINT(cata-serialize)
         // Net power draw or drain on batteries.
         units::power net_battery_charge_rate( bool include_reactors ) const;
         // Maximum available power available from all reactors. Power from
@@ -2050,6 +2056,7 @@ class vehicle
         std::vector<int> mufflers; // NOLINT(cata-serialize)
         std::vector<int> planters; // NOLINT(cata-serialize)
         std::vector<int> accessories; // NOLINT(cata-serialize)
+        std::vector<int> cable_ports; // NOLINT(cata-serialize)
         std::vector<int> fake_parts; // NOLINT(cata-serialize)
 
         // config values
@@ -2085,6 +2092,7 @@ class vehicle
         bool has_tag( const std::string &tag ) const;
 
     private:
+        safe_reference_anchor anchor; // NOLINT(cata-serialize)
         mutable units::mass mass_cache; // NOLINT(cata-serialize)
         // cached pivot point
         mutable point pivot_cache; // NOLINT(cata-serialize)

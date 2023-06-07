@@ -81,13 +81,15 @@ TEST_CASE( "lru_cache_perf", "[.]" )
 {
     constexpr int max_size = 1000000;
     lru_cache<tripoint, int> symbol_cache;
-    const auto start1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start1 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < 1000000; ++i ) {
         for( int j = -60; j <= 60; ++j ) {
             symbol_cache.insert( max_size, { i, j, 0 }, 1 );
         }
     }
-    const auto end1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end1 =
+        std::chrono::high_resolution_clock::now();
     const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
                             ( end1 - start1 ).count();
     printf( "completed %d insertions in %lld microseconds.\n", max_size, diff1 );
