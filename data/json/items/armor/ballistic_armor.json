@@ -205,7 +205,7 @@
     "armor": [
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 } ],
-        "encumbrance": 2,
+        "encumbrance": 3,
         "coverage": 45,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ]
