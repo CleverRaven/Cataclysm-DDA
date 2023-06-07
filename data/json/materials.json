@@ -2845,6 +2845,7 @@
     "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
+<<<<<<< HEAD
     "type": "material",
     "id": "auto_steel",
     "name": "automotive steel"
@@ -2853,5 +2854,15 @@
     "type": "material",
     "id": "auto_steel_heavy",
     "name": "heavy duty automotive steel"
+=======
+	  "type": "material",
+	  "id": "auto_steel",
+	  "name": "automotive steel"
+  },
+  {
+	  "type": "material",
+	  "id": "auto_steel_heavy",
+	  "name": "heavy duty automotive steel"
+>>>>>>> df0d859be6 (Update materials.json)
   }
 ]
