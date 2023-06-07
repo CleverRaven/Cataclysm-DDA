@@ -97,7 +97,7 @@
     "fun": -6,
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "NUTRIENT_OVERRIDE", "EDIBLE_FROZEN", "PLANTABLE_SEED", "INEDIBLE", "CATTLE" ],
-    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
