@@ -958,14 +958,17 @@
     "price": "10 USD",
     "ammo": "strange_arrow",
     "min_strength": 15,
-    "weight": "3200 g",
+    "weight": "22 kg",
     "volume": "6250 ml",
     "longest_side": "218 cm",
     "price_postapoc": 2000,
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "material": [
+            { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 },
+            { "type": "monolith_heavy", "covered_by_mat": 20, "thickness": 2.0 }
+          ],
           "encumbrance": 25,
           "coverage": 14,
           "covers": [ "torso" ],
