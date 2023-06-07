@@ -972,8 +972,9 @@ void veh_interact::do_install()
         tab_vparts.clear();
         std::copy_if( can_mount.begin(), can_mount.end(), std::back_inserter( tab_vparts ),
                       tab_filters[tab] );
-        // filtered list can be empty
-        sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos];
+        // tab_vparts can be empty or pos out of bounds
+        sel_vpart_info = pos >= 0 && pos < static_cast<int>( tab_vparts.size() )
+                         ? tab_vparts[pos] : nullptr;
 
         const bool can_install = update_part_requirements();
         ui_manager::redraw();
@@ -988,9 +989,11 @@ void veh_interact::do_install()
             .max_length( 100 )
             .edit( filter );
             tab = tab_filters.size() - 1; // Move to the user filter tab.
+            pos = 0;
         } else if( action == "REPAIR" ) {
             filter.clear();
             tab = 0;
+            pos = 0;
         } else if( action == "INSTALL" || action == "CONFIRM" ) {
             if( !can_install || sel_vpart_info == nullptr ) {
                 continue;
@@ -1043,6 +1046,7 @@ void veh_interact::do_install()
             w_msg_scroll_offset--;
         } else {
             move_in_list( pos, action, tab_vparts.size(), 2 );
+            pos = std::max( pos, 0 ); // move_in_list sets pos to -1 when moving up in empty list
         }
     }
 }
