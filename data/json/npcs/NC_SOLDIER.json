@@ -140,7 +140,7 @@
       { "item": "goggles_nv", "prob": 1 },
       { "item": "goggles_ir", "prob": 1 },
       { "item": "optical_cloak", "prob": 1 },
-      { "item": "UPS_off", "prob": 8 },
+      { "item": "UPS_OFF", "prob": 8 },
       { "item": "tacvest", "prob": 10 },
       { "item": "backpack", "prob": 8 },
       { "item": "dump_pouch", "prob": 20 },
