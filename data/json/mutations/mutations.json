@@ -3953,7 +3953,7 @@
             { "u_has_trait": "PAWS" }
           ]
         },
-        "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": -0.10 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
       }
     ]
   },
