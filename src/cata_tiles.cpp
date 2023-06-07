@@ -1626,18 +1626,19 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         int cur_zlevel = -OVERMAP_DEPTH;
         do {
             int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
-            // Every z-level, start drawing from the bottom-most layer
-            for( auto f : drawing_layers ) {
-                int iter = -OVERMAP_DEPTH;
-                do {
-                    for( tile_render_info &p : draw_points_3d[iter] ) {
-                        tripoint draw_loc = p.pos;
-                        draw_loc.z = cur_zlevel;
-                        ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible ); //!!
+            // Iterate through all relevant points
+            int iter = -OVERMAP_DEPTH;
+            do {
+                for( tile_render_info &p : draw_points_3d[iter] ) {
+                    tripoint draw_loc = p.pos;
+                    draw_loc.z = cur_zlevel;
+                    // Draw each layer
+                    for( auto f : drawing_layers ) {
+                        ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible );
                     }
-                    iter += 1;
-                } while( iter <= cur_zlevel );
-            }
+                }
+                iter += 1;
+            } while( iter <= cur_zlevel );
             cur_zlevel += 1;
         } while( cur_zlevel <= center.z );
     }
