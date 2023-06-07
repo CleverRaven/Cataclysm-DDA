@@ -34,5 +34,22 @@
     "capacity": 100,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "GASFILTER_MED" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ]
+  },
+  {
+    "id": "rebreather_cartridge",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": { "str": "rebreather filter cartridge" },
+    "price": 2500,
+    "price_postapoc": 3000,
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "A replaceable filter cartridge for a rebreather.",
+    "material": [ "aluminum" ],
+    "volume": "250 ml",
+    "weight": "12 g",
+    "ammo_type": "rebreather_filter",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "REBREATHER_CART" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 30 } } ]
   }
 ]

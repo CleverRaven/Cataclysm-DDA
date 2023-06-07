@@ -1638,7 +1638,14 @@
     "weight": "720 g",
     "volume": "500 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": "REBREATHER_CART",
+        "default_magazine": "rebreather_cartridge"
+      }
+    ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
@@ -1684,7 +1691,14 @@
     "weight": "960 g",
     "volume": "1250 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": "REBREATHER_CART",
+        "default_magazine": "rebreather_cartridge"
+      }
+    ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
@@ -1736,7 +1750,14 @@
     "weight": "360 g",
     "volume": "250 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": "REBREATHER_CART",
+        "default_magazine": "rebreather_cartridge"
+      }
+    ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
