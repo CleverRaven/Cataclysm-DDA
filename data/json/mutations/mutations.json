@@ -1963,7 +1963,7 @@
     "visibility": 1,
     "ugliness": 1,
     "description": "It's subtle, but your skin has definitely taken on a sickly yellow-green hue.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "TORSO_ARMOR", "BODY_ARMOR_MOD", "ARMOR" ],
     "changes_to": [ "PLANTSKIN" ],
     "category": [
       "PLANT",
@@ -1978,7 +1978,7 @@
     "visibility": 2,
     "ugliness": 1,
     "description": "You have goosebumps that never seem to go away.  Are they getting bigger?",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "TORSO_ARMOR", "BODY_ARMOR_MOD", "ARMOR" ],
     "changes_to": [ "FEATHERS" ],
     "category": [ "BIRD" ]
   },
@@ -1988,9 +1988,9 @@
     "name": { "str": "Rashy Skin" },
     "points": -1,
     "visibility": 2,
-    "ugliness": 2,
+    "ugliness": 1,
     "description": "You've developed a persistent skin rash.  Sometimes it's fine, other times it itches like hell.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "TORSO_ARMOR", "BODY_ARMOR_MOD", "ARMOR" ],
     "changes_to": ["PATCHSKIN1" ],
     "category": [ "CHIMERA" ]
   },
@@ -2000,7 +2000,7 @@
     "name": { "str": "Hirsute" },
     "points": 0,
     "description": "Your body hair is growing in thicker than it used to.  It's almost like you're going through a second puberty or something.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "TORSO_ARMOR", "BODY_ARMOR_MOD", "ARMOR" ],
     "changes_to": [ "LIGHTFUR" ],
     "category": [
       "MOUSE",
@@ -2021,7 +2021,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "Your skin keeps peeling in big flakes, like you're recovering from a bad sunburn.  Oddly, it doesn't hurt at all.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "TORSO_ARMOR", "BODY_ARMOR_MOD", "ARMOR" ],
     "changes_to": [ "SPARSE_SCALES" ],
     "category": [
       "LIZARD",
@@ -2037,7 +2037,7 @@
     "visibility": 1,
     "ugliness": 1,
     "description": "Your skin has lost some of its color and taken on a smooth, papery texture.  This slightly reduces wet effects, but also makes you a little more vulnerable to cuts and scrapes.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "TORSO_ARMOR", "BODY_ARMOR_MOD", "ARMOR" ],
     "changes_to": [ "CHITIN" ],
     "category": [
       "SPIDER",
@@ -7578,8 +7578,7 @@
     "ugliness": 3,
     "description": "You have grown a thick shell over your torso, providing excellent armor, but you cannot wear anything on your torso.  Somewhat reduces wet effects.",
     "types": [ "TORSO_ARMOR" ],
-    "prereqs": [ "CHITIN", "THICKSKIN" ],
-    "cancels": [ "CHITIN3" ],
+    "prereqs": [ "THICKSKIN" ],
     "changes_to": [ "SHELL2" ],
     "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
