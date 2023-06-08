@@ -5294,20 +5294,20 @@ void map::process_items()
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
     for( int gz = minz; gz <= maxz; ++gz ) {
         level_cache &cache = access_cache( gz );
-        std::set<tripoint> submaps_with_vehicles;
+        std::set<submap * > submaps_with_vehicles;
         for( vehicle *this_vehicle : cache.vehicle_list ) {
             tripoint pos = this_vehicle->global_pos3();
-            submaps_with_vehicles.emplace( pos.x / SEEX, pos.y / SEEY, pos.z );
-        }
-        for( const tripoint &pos : submaps_with_vehicles ) {
             submap *const current_submap = get_submap_at_grid( pos );
             if( current_submap == nullptr ) {
                 debugmsg( "Tried to process items at (%d,%d,%d) but the submap is not loaded", pos.x, pos.y,
                           pos.z );
                 continue;
             }
+            submaps_with_vehicles.emplace( current_submap );
+        }
+        for( submap *submap : submaps_with_vehicles ) {
             // Vehicles first in case they get blown up and drop active items on the map.
-            process_items_in_vehicles( *current_submap );
+            process_items_in_vehicles( *submap );
         }
     }
     update_submaps_with_active_items();
