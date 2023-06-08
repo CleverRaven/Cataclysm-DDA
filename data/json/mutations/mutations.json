@@ -1963,7 +1963,7 @@
     "visibility": 1,
     "ugliness": 1,
     "description": "It's subtle, but your skin has definitely taken on a sickly yellow-green hue.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "PLANTSKIN" ],
     "category": [ "PLANT", "ELFA" ]
   },
@@ -1975,7 +1975,7 @@
     "visibility": 2,
     "ugliness": 1,
     "description": "You have goosebumps that never seem to go away.  Are they getting bigger?",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "FEATHERS" ],
     "category": [ "BIRD" ]
   },
@@ -1987,7 +1987,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "You've developed a persistent skin rash.  Sometimes it's fine, other times it itches like hell.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "PATCHSKIN1" ],
     "category": [ "CHIMERA" ]
   },
@@ -1997,7 +1997,7 @@
     "name": { "str": "Hirsute" },
     "points": 0,
     "description": "Your body hair is growing in thicker than it used to.  It's almost like you're going through a second puberty or something.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "LIGHTFUR" ],
     "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE" ]
   },
@@ -2009,7 +2009,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "Your skin keeps peeling in big flakes, like you're recovering from a bad sunburn.  Oddly, it doesn't hurt at all.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "SPARSE_SCALES" ],
     "category": [ "LIZARD", "RAPTOR", "FISH" ]
   },
@@ -2021,7 +2021,7 @@
     "visibility": 1,
     "ugliness": 1,
     "description": "Your skin has lost some of its color and taken on a smooth, papery texture.  This slightly reduces wet effects, but also makes you a little more vulnerable to cuts and scrapes.",
-    "types": [ "SKIN", "BODY_ARMOR" ],
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "CHITIN" ],
     "category": [ "SPIDER", "INSECT", "CRUSTACEAN" ],
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": -1 } ],
