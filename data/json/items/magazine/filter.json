@@ -11,7 +11,7 @@
     "material": [ "plastic", "rubber", "charcoal" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": [ "gasfilter_m" ],
+    "ammo_type": [ "gasfilter_s" ],
     "count": 100,
     "capacity": 100,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "GASFILTER_SM" ],

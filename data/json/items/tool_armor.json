@@ -1642,7 +1642,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": "REBREATHER_CART",
+        "flag_restriction": [ "REBREATHER_CART" ],
         "default_magazine": "rebreather_cartridge"
       }
     ],
@@ -1695,7 +1695,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": "REBREATHER_CART",
+        "flag_restriction": [ "REBREATHER_CART" ],
         "default_magazine": "rebreather_cartridge"
       }
     ],
@@ -1754,7 +1754,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": "REBREATHER_CART",
+        "flag_restriction": [ "REBREATHER_CART" ],
         "default_magazine": "rebreather_cartridge"
       }
     ],
