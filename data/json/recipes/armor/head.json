@@ -3028,7 +3028,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [] ],
+    "components": [ [  ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -3043,7 +3043,7 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "lc_steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "xl_lc_helmet_turban",
@@ -3053,7 +3053,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "mc_helmet_turban",
@@ -3068,7 +3068,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [] ],
+    "components": [ [  ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -3083,7 +3083,7 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "mc_steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "xl_mc_helmet_turban",
@@ -3093,7 +3093,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "hc_helmet_turban",
@@ -3108,7 +3108,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [] ],
+    "components": [ [  ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -3123,7 +3123,7 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "hc_steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "xl_hc_helmet_turban",
@@ -3133,7 +3133,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "qt_helmet_turban",
@@ -3148,7 +3148,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [] ],
+    "components": [ [  ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -3163,7 +3163,7 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "mc_steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "xl_qt_helmet_turban",
@@ -3173,7 +3173,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "ch_helmet_turban",
@@ -3203,7 +3203,7 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "mc_steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "xl_ch_helmet_turban",
@@ -3213,7 +3213,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [] ]
+    "components": [ [  ] ]
   },
   {
     "result": "lc_chainmail_face",
