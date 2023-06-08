@@ -2193,6 +2193,6 @@
   {
     "id": "REBREATHER_CART",
     "type": "json_flag",
-    "info": "A filter for a reabreather."
+    "info": "A filter for a rebreather."
   }
 ]
