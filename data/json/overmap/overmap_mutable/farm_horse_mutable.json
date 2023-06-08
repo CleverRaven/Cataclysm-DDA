@@ -29,7 +29,7 @@
       "dirt_road_nsw_root_n": { "overmap": "dirt_road_3way_east", "north": "root_to_road" },
       "dirt_road_new_root_n": { "overmap": "dirt_road_3way_south", "north": "root_to_road" },
       "dirt_road_nes_root_n": { "overmap": "dirt_road_3way_west", "north": "root_to_road" },
-      "dirt_road_ns_road_n": { "overmap": "dirt_road_north", "connections": { "north": { "connection": "local_road" } } },
+      "dirt_road_ns_road_s": { "overmap": "dirt_road_north", "connections": { "south": { "connection": "local_road" } } },
       "dirt_road_ns": { "overmap": "dirt_road_north" },
       "dirt_road_ew": { "overmap": "dirt_road_east" },
       "dirt_road_sw": { "overmap": "dirt_road_turn_north" },
@@ -925,7 +925,7 @@
         },
         {
           "name": "farm_exit",
-          "chunk": [ { "overmap": "dirt_road_ns_road_n", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_s", "pos": [ 0, -1, 10 ] } ],
+          "chunk": [ { "overmap": "dirt_road_ns_road_s", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_n", "pos": [ 0, -1, 10 ] } ],
           "max": 1,
           "weight": 10
         }
