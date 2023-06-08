@@ -5613,7 +5613,13 @@
     "name": "steel chain partial aventails",
     "description": "Recipes related to constructing various types and sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_lc_chainmail_face", "nested_mc_chainmail_face", "nested_hc_chainmail_face", "nested_qt_chainmail_face","nested_ch_chainmail_face" ],
+    "nested_category_data": [
+      "nested_lc_chainmail_face",
+      "nested_mc_chainmail_face",
+      "nested_hc_chainmail_face",
+      "nested_qt_chainmail_face",
+      "nested_ch_chainmail_face"
+    ],
     "difficulty": 7
   },
   {
@@ -5763,7 +5769,13 @@
     "name": "steel nasal helmets",
     "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_lc_helmet_nasal", "nested_mc_helmet_nasal", "nested_hc_helmet_nasal", "nested_qt_helmet_nasal", "nested_ch_helmet_nasal" ],
+    "nested_category_data": [
+      "nested_lc_helmet_nasal",
+      "nested_mc_helmet_nasal",
+      "nested_hc_helmet_nasal",
+      "nested_qt_helmet_nasal",
+      "nested_ch_helmet_nasal"
+    ],
     "difficulty": 7
   },
   {
@@ -5835,7 +5847,13 @@
     "name": "steel turban helmets",
     "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_lc_helmet_turban", "nested_mc_helmet_turban", "nested_hc_helmet_turban", "nested_qt_helmet_turban", "nested_ch_helmet_turban" ],
+    "nested_category_data": [
+      "nested_lc_helmet_turban",
+      "nested_mc_helmet_turban",
+      "nested_hc_helmet_turban",
+      "nested_qt_helmet_turban",
+      "nested_ch_helmet_turban"
+    ],
     "difficulty": 7
   }
 ]
