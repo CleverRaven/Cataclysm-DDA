@@ -1403,18 +1403,18 @@
         "weight": 1
       }
     ],
-    "weight": "3000 g",
-    "volume": "3056 ml",
-    "longest_side": "687 mm",
-    "barrel_length": "409 mm",
-    "price": 86900,
+    "weight": "3200 g",
+    "volume": "3421 ml",
+    "longest_side": "693 mm",
+    "barrel_length": "439 mm",
+    "price": 100000,
     "price_postapoc": 5500,
     "to_hit": -2,
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
-    "dispersion": 180,
+    "dispersion": 500,
     "durability": 6,
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
@@ -1428,6 +1428,7 @@
       [ "rail mount", 2 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
+      [ "underbarrel", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [
