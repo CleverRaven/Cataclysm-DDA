@@ -286,7 +286,7 @@
             { "overmap": "dirt_road_ew", "pos": [ 2, 0, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 3, 0, 0 ] },
             { "overmap": "dirt_road_esw", "pos": [ 4, 0, 0 ] },
-            { "overmap": "road_to_stable_s", "pos": [ 3, 0, 10 ] },
+            { "overmap": "road_to_stable_s", "pos": [ 4, 0, 10 ] },
             { "overmap": "field_reserved", "pos": [ 4, 1, 0 ] },
             { "overmap": "field_reserved", "pos": [ 3, 1, 0 ] },
             { "overmap": "field_reserved", "pos": [ 4, 2, 0 ] },
