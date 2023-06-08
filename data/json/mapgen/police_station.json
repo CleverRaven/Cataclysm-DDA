@@ -347,9 +347,9 @@
       "items": {
         "3": { "item": "police_armory_any_pistol", "chance": 100 },
         "[": { "item": "police_armory_any_pistol", "chance": 90 },
-        "9":{ "item": "police_armory_any_assaultrifle", "chance": 100 },
-        "{":{ "item": "police_armory_any_sniperrifle", "chance": 80 },
-        "]":{ "item": "police_armory_any_shotgun", "chance": 100 },
+        "9": { "item": "police_armory_any_assaultrifle", "chance": 100 },
+        "{": { "item": "police_armory_any_sniperrifle", "chance": 80 },
+        "]": { "item": "police_armory_any_shotgun", "chance": 100 },
         "7": [
           { "item": "jewelry_front", "chance": 50, "repeat": [ 2, 3 ] },
           { "item": "stash_drugs", "chance": 50, "repeat": [ 2, 3 ] },
