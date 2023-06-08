@@ -3136,8 +3136,13 @@ static bionic_id migrate_bionic_id( const bionic_id &original )
 void bionic::deserialize( const JsonObject &jo )
 {
     id = migrate_bionic_id( bionic_id( jo.get_string( "id" ) ) );
+    if( !id.is_valid() ) {
+        debugmsg( "deserialized bionic id '%s' doesn't exist and has no migration", id.str() );
+        id = bionic_id::NULL_ID(); // remove it
+    }
     if( id.is_null() ) {
-        return; // obsoleted bionic
+        jo.allow_omitted_members();
+        return; // obsoleted bionics migrated to bionic_id::NULL_ID ids
     }
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
