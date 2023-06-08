@@ -632,7 +632,7 @@
       { "item": "scuba_tank", "prob": 5, "charges": [ 0, 60 ] },
       { "item": "small_scuba_tank", "prob": 5, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],
-      { "item": "rebreather", "prob": 2, "charges": [ 0, 60 ] },
+      { "item": "rebreather", "prob": 2, "ammo-item": "rebreather_cartridge", "charges": 100 },
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
       [ "hand_pump", 10 ],
