@@ -53,8 +53,7 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
-    "mutations": [ "FUTURESIGHT" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "FUTURESIGHT" ], "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
       {
         "encumbrance": 0,
