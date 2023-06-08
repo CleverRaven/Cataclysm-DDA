@@ -34,7 +34,7 @@ struct fixed_distribution : int_distribution_impl {
 };
 
 struct uniform_distribution : int_distribution_impl {
-    std::uniform_distribution<int> dist;
+    std::uniform_int_distribution<int> dist;
 
     explicit uniform_distribution( lo, hi )
         : dist( lo, hi )
@@ -45,7 +45,7 @@ struct uniform_distribution : int_distribution_impl {
     }
 
     int sample() override {
-        return dist( rng_get_engine();
+        return dist( rng_get_engine() );
     }
 
     std::string description() const override {
@@ -57,8 +57,8 @@ struct uniform_distribution : int_distribution_impl {
 struct binomial_distribution : int_distribution_impl {
     std::binomial_distribution<int> dist;
 
-    explicit binomial_distribution( lo, hi, n, p )
-        : dist( lo, hi, n, p )
+    explicit binomial_distribution( n, p )
+        : dist( n, p )
     {}
 
     int minimum() const override {
@@ -66,7 +66,7 @@ struct binomial_distribution : int_distribution_impl {
     }
 
     int sample() override {
-        return dist( rng_get_engine();
+        return dist( rng_get_engine() );
     }
 
     std::string description() const override {
@@ -129,13 +129,11 @@ void int_distribution::deserialize( const JsonValue &jin )
     } else if( jin.test_object() ) {
         JsonObject jo = jin.get_object();
         if( jo.has_member( "bounds" ) ) {
-			
-            JsonArray arr = jo.get_array( "bounds" );
-			if( arr.size() != 2 ) {
+			if( jo.get_array( "bounds" ).size() != 2 ) {
 				jo.throw_error( R"("Bounds array has wrong number of elements, should be [ lo, hi ]")" );
 			}
-			arr.read( 0, lo );
-			arr.read( 1, hi );
+			lo = jo.get_array( "bounds" ).get_int( 0 );
+			hi = jo.get_array( "bounds" ).get_int( 1 );
 		}
 		if( jo.has_member( "distribution" ) ) {
             if( jo.test_object() ) {
@@ -145,23 +143,33 @@ void int_distribution::deserialize( const JsonValue &jin )
 					if( mean <= 0.0 ) {
 						jin.throw_error( "poisson mean must be greater than 0.0" );
 					}
-					impl_ = make_shared_fast<poisson_distribution>( lo, hi, mean );
+					int poisson = make_shared_fast<poisson_distribution>( mean );
+					if( poisson < lo ) {
+						poisson = lo;
+					} else if( poisson > hi ) {
+						poisson = hi;
+					}
+					impl_ = poisson;
 				} else if( jo.has_member( "binomial" ) ) {
 					JsonArray arr = jo.get_array( "binomial" );
-					if( arr.size() != 2 ) {
-						jo.throw_error( R"("Binomial array has wrong number of elements, should be [ n, p ]")" );
+					if( jo.get_array( "binomial" ).size() != 2 ) {
+						jo.throw_error( "binomial array has wrong number of elements, should be [ n, p ]" );
 					}
-					int n;
-					float p;
-					arr.read( 0, n );
-					arr.read( 1, p );
+					int n = jo.get_array( "binomial" ).get_int( 0 );
+					float p = jo.get_array( "binomial" ).get_float( 1 );
 					if( n < 0 ) {
 						jin.throw_error( "n trials must be 0 or greater" );
 					}
 					if( p < 0.0 || p > 1.0 ) {
 						jin.throw_error( "success probability must be between 0.0 and 1.0" );
 					}
-					impl_ = make_shared_fast<binomial_distribution>( lo, hi, n, p );
+					int binomial = make_shared_fast<binomial_distribution>( n, p );
+					if( binomial < lo ) {
+						binomial = lo;
+					} else if( binomial > hi ) {
+						binomial = hi;
+					}
+					impl_ = binomial;
 				} else {
 				jo.throw_error( R"(Expected "poisson" or "binomial" member)" );
 				}
