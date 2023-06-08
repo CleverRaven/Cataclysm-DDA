@@ -261,7 +261,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "flak helmet" },
-    "description": "An M1 combat helmet, famously worn by American soldiers in the Second World War as well as the Korean and Vietnam wars.  Its steel construction has rendered it outdated by modern military standards, but it still remains popular among geurilla fighters, collectors and war re-enactors.",
+    "description": "A M1 combat helmet, famously worn by American soldiers in the Second World War as well as the Korean and Vietnam wars.  Its steel construction has rendered it outdated by modern military standards, but it still remains popular among guerilla fighters, collectors and war re-enactors.",
     "weight": "1400 g",
     "volume": "1900 ml",
     "longest_side": "28 cm",
