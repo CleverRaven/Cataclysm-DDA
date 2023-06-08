@@ -536,13 +536,13 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": ".45 WWII SMG" },
-    "description": "A WWII submachine gun, lacking semi-auto fire elector and chambered in .45 ACP.  ",
+    "description": "A WWII submachine gun, lacking semi-auto fire selector and chambered in .45 ACP.  ",
     "variant_type": "gun",
     "variants": [
       {
         "id": "greasegun",
         "name": { "str": "M3 SMG" },
-        "description": "An American-made submachine gun developed during WWII as an alternative to Thompson M1928A1 and used at least till early 1990s.  Simple, cheap, somewhat crude, but still effective weapon, mostly made from sheet steel to reduce cost and speed up production.  In times of active use, it was considered as a disposable weapon, which is more expedient to replace than to repair.  Unfortunately, you cannot afford such wastefulness, unlike this submachine gun, which is devoid of even a fire selector for semi-auto fire.",
+        "description": "An American-made submachine gun developed during WWII as an alternative to Thompson M1928A1 and used at least till early 1990s.  Simple cheap, and somewhat crude, the M3 was still quite an effective weapon, mostly made from sheet metal to reduce costs and speed up production.  In times of active use, it was considered as a disposable weapon, which is more expedient to replace than to repair.  Unfortunately, you cannot afford such wastefulness, unlike this submachine gun, which is devoid of even a fire selector for semi-auto fire.",
         "weight": 1
       }
     ],
