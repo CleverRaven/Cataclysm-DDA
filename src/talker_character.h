@@ -194,6 +194,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void unset_mutation( const trait_id &old_trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;
         void learn_recipe( const recipe_id &recipe_to_learn ) override;
+        void forget_recipe( const recipe_id &recipe_to_forget ) override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          const std::string &bp, bool permanent, bool force, int intensity
                        ) override;

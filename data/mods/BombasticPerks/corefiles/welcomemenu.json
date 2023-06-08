@@ -20,7 +20,7 @@
       },
       {
         "text": "Custom Value",
-        "effect": [ { "math": [ "u_exp_to_perk", "=", "num_input('Exp until first level?', '100')" ] } ],
+        "effect": [ { "math": [ "u_exp_to_perk", "=", "num_input('Exp until first level?', 100)" ] } ],
         "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT"
       },
       { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME" }
@@ -38,7 +38,7 @@
       },
       {
         "text": "Custom Value",
-        "effect": [ { "math": [ "u_exp_per_level", "=", "num_input('Exp increase?', '300')" ] } ],
+        "effect": [ { "math": [ "u_exp_per_level", "=", "num_input('Exp increase?', 300)" ] } ],
         "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
       },
       { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_FIRST_LEVEL" }
@@ -100,7 +100,7 @@
       {
         "text": "Enabled, Custom Cost",
         "effect": [
-          { "math": [ "u_playstyle_cost", "=", "num_input('Playstyle Perks Cost?', '4') - 1" ] },
+          { "math": [ "u_playstyle_cost", "=", "num_input('Playstyle Perks Cost?', 4) - 1" ] },
           { "math": [ "u_no_playstyle", "=", "0" ] },
           {
             "u_add_var": "playstyle_note",

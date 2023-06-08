@@ -183,8 +183,8 @@
   {
     "id": "m249semi",
     "type": "GUNMOD",
-    "name": { "str": "M249 semi-auto trigger" },
-    "description": "A trigger modification that allows the M249 to fire in semi-automatic mode.",
+    "name": { "str": "M249 select fire trigger" },
+    "description": "A trigger modification that allows the M249 to switch between semi and full automatic modes.",
     "weight": "60 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
@@ -200,15 +200,15 @@
     "consume_chance": 50,
     "consume_divisor": 110,
     "//durability_modifier": -3,
-    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 4 ] ],
     "min_skills": [ [ "mechanics", 4 ], [ "rifle", 5 ] ],
     "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
   },
   {
     "id": "m240semi",
     "type": "GUNMOD",
-    "name": { "str": "M240 semi-auto trigger" },
-    "description": "A trigger modification that allows the M240 to fire in semi-automatic mode.",
+    "name": { "str": "M240 select fire trigger" },
+    "description": "A trigger modification that allows the M240 to switch between semi and full automatic modes.",
     "weight": "60 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
@@ -224,7 +224,7 @@
     "consume_chance": 50,
     "consume_divisor": 110,
     "//durability_modifier": -3,
-    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 4 ] ],
     "min_skills": [ [ "mechanics", 4 ], [ "rifle", 5 ] ],
     "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
   }

@@ -540,7 +540,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_block ) ) / 3.0;
         }
 
-        if( const int spell_dodge = cr->get_dodge() - spell_accuracy > 0 ) {
+        if( cr->dodge_check( spell_accuracy ) ) {
+            const int spell_dodge = cr->get_dodge() - spell_accuracy;
             const int roll = std::round( rng( 1, 20 ) );
             // 5% per point (linear) ranging from 0-33%, capped at block score
             damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_dodge ) ) / 3.0;
