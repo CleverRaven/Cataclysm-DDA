@@ -3108,6 +3108,7 @@ class Character : public Creature, public visitable
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
         void forget_recipe( const recipe *rec );
+        void forget_all_recipes();
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
         bool can_decomp_learn( const recipe &rec ) const;

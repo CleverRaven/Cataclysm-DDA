@@ -132,7 +132,7 @@ dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &mem
             ret_val.arithmetic_val = arith;
         } else if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
-            ret_val.math_val->from_json( jo, "math" );
+            ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
         } else {
             ret_val.var_val = read_var_info( jo );
         }
@@ -186,7 +186,7 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
             ret_val.arithmetic_val = arith;
         } else if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
-            ret_val.math_val->from_json( jo, "math" );
+            ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
         } else {
             ret_val.var_val = read_var_info( jo );
         }
@@ -1434,7 +1434,7 @@ void conditional_t::set_compare_num( const JsonObject &jo, const std::string_vie
 void conditional_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
-    math.from_json( jo, member, true );
+    math.from_json( jo, member, eoc_math::type_t::compare );
     condition = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
@@ -2088,7 +2088,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         // no recursive math through shim
         if constexpr( std::is_same_v<JsonObject, J> ) {
             eoc_math math;
-            math.from_json( jo, "math" );
+            math.from_json( jo, "math", eoc_math::type_t::ret );
             return [math = std::move( math )]( dialogue & d ) {
                 return math.act( d );
             };
@@ -2662,13 +2662,31 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
 void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
-    math.from_json( jo, member );
+    math.from_json( jo, member, eoc_math::type_t::assign );
     function = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
 }
 
-void eoc_math::from_json( const JsonObject &jo, std::string_view member, bool conditional )
+void eoc_math::_validate_type( JsonArray const &objects, type_t type_ ) const
+{
+    if( type_ != type_t::compare && action >= oper::equal ) {
+        objects.throw_error( "Comparison operators can only be used in conditional statements" );
+    } else if( type_ == type_t::compare && action < oper::equal ) {
+        if( action == oper::assign ) {
+            objects.throw_error(
+                R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
+        } else {
+            objects.throw_error( "Only comparison operators can be used in conditional statements" );
+        }
+    } else if( type_ == type_t::ret && action > oper::ret ) {
+        objects.throw_error( "Only return expressions are allowed in this context" );
+    } else if( type_ != type_t::ret && action == oper::ret ) {
+        objects.throw_error( "Return expression in assignment context has no effect" );
+    }
+}
+
+void eoc_math::from_json( const JsonObject &jo, std::string_view member, type_t type_ )
 {
     JsonArray const objects = jo.get_array( member );
     if( objects.size() > 3 ) {
@@ -2720,17 +2738,7 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member, bool co
             return;
         }
     }
-    if( !conditional && action >= oper::equal ) {
-        objects.throw_error( "Comparison operators can only be used in conditional statements" );
-    }
-    if( conditional && action < oper::equal ) {
-        if( action == oper::assign ) {
-            objects.throw_error(
-                R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
-        } else {
-            objects.throw_error( "Only comparison operators can be used in conditional statements" );
-        }
-    }
+    _validate_type( objects, type_ );
     bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
     lhs = defer_math( objects.get_string( 0 ), lhs_assign );
     if( action >= oper::plus_assign && action <= oper::decrease ) {
