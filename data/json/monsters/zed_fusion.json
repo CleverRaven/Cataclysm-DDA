@@ -172,7 +172,8 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "harvest": "exempt",
-    "special_attacks": [ [ "FLESH_TENDRIL", 1 ] ],
+    "grab_strength": 100,
+    "special_attacks": [ [ "FLESH_TENDRIL", 1 ], { "id": "grab" }, { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 100 } } ],
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
     "armor": { "bash": 10, "cut": 20, "bullet": 16, "electric": 5 }

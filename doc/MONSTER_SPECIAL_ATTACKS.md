@@ -16,7 +16,7 @@
 
 # Monster special attacks
 
-Monster creatures in C:DDA not only can do simple melee attacks, they have a wide array of attack-type actions.  For example, the common `GRAB` is a monster special attack.
+Monster creatures in C:DDA not only can do simple melee attacks, they have a wide array of attack-type actions.  
 
 Depending on the intended effect, these can be valid `use_actions` for tools and weapons, hardcoded special attacks, any normal physical attack or even spells.  Also, depending on the kind of attack, these can be cooldown-based, conditioned or occur on death.
 
@@ -36,7 +36,7 @@ Monster special attacks can be defined either as old style arrays, new style obj
 Generally [hardcoded special attacks](#hardcoded-special-attacks) are declared this way, although it can also be used for [JSON-declared attacks](/data/json/monster_special_attacks) too.  It contains 2 elements, the `id` of the attack and the cooldown:
 
 ```JSON
-"special_attacks": [ [ "GRAB", 10 ] ]
+"special_attacks": [ [ "ACID", 10 ] ]
 ```
 
 ### New style object
@@ -68,7 +68,7 @@ In the case of separately defined attacks the object has to contain at least an 
 
 ```JSON
 "special_attacks": [
-    [ "GRAB", 10 ],
+    [ "ACID", 10 ],
     { "type": "leap", "cooldown": 8, "max_range": 4 },
     { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
 ]
@@ -90,7 +90,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BIO_OP_DISARM``` Disarming attack, does no damage.
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding.
 - ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
-- ```BITE``` Bite attack that can cause deep infected wounds.  If the attacker is humanoid, the target must be `GRAB`bed before `BITE` can trigger.  See also `bite` below.
 - ```BLOW_WHISTLE``` Blow a whistle creating a sound of volume 40 from the position of the monster.
 - ```BOOMER_GLOW``` Spits glowing bile.
 - ```BOOMER``` Spits bile.
@@ -124,8 +123,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```FUNGAL_TRAIL``` Spreads fungal terrain.
 - ```GENE_STING``` Shoots a dart at the player that causes a mutation if it connects.
 - ```GENERATOR``` Regenerates health, hums.
-- ```GRAB_DRAG``` Applies `GRAB` to the target, and drags it around.  Note: dragging is resistible depending on the size difference and the melee dice of the attacker.
-- ```GRAB``` Grabs the player, slowing on hit, making movement and dodging impossible and blocking harder.
 - ```GRENADIER``` Deploys tear gas/pacification/flashbang/c4 hacks from its ammo.
 - ```GRENADIER_ELITE``` Deploys grenade/flashbang/c4/mininuke hacks from its ammo.
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.  Can destroy bashable terrain or do damage if it hits something.
@@ -147,7 +144,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```PHOTOGRAPH``` Photographs the player.  Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pulls any weapon that's made of iron or steel from the player's hand.
-- ```RANGED_PULL``` Pulls targets towards attacker from 3 tiles range, dodgable but not resistible.
 - ```RATKING``` Inflicts disease `rat`.
 - ```RATTLE``` "a sibilant rattling sound!".
 - ```RESURRECT``` Revives the dead (again).

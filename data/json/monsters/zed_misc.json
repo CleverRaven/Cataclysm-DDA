@@ -519,7 +519,8 @@
       { "id": "bite_humanoid", "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ] },
       { "id": "impale", "condition": { "not": { "u_has_flag": "GRAB_FILTER" } } },
       { "id": "scratch_humanoid", "damage_max_instance": [ { "damage_type": "cut", "amount": 15 } ] },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
