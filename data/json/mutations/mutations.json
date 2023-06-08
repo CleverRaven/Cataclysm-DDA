@@ -2050,7 +2050,7 @@
       { "part": "arm_l", "neutral": 4 },
       { "part": "arm_r", "neutral": 4 },
       { "part": "hand_l", "neutral": 6 },
-      { "part": "hand_r", "neutral": 6},
+      { "part": "hand_r", "neutral": 6 },
       { "part": "torso", "neutral": 5 }
     ]
   },
