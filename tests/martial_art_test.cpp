@@ -13,9 +13,8 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_stunned( "stunned" );
 
-
-static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_club_wooden( "club_wooden" );
+static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_weapon1( "test_weapon1" );
 static const itype_id itype_test_weapon2( "test_weapon2" );
 

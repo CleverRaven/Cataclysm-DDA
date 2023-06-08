@@ -141,8 +141,6 @@ static const skill_id skill_spellcraft( "spellcraft" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const species_id species_HUMAN( "HUMAN" );
-
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
 static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
