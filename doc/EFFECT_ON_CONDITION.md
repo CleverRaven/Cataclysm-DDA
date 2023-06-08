@@ -67,6 +67,7 @@ broken_bone |  | { "character", `character_id` }, { "part", `body_part` }, |
 broken_bone_mends |  | { "character", `character_id` }, { "part", `body_part` }, |
 buries_corpse |  | { "character", `character_id` }, { "corpse_type", `mtype_id` }, { "corpse_name", `string` }, |
 causes_resonance_cascade |  | NONE |
+character_casts_spell | | { "character", `character_id` }, { "spell", `spell_id` }, { "difficulty", `int` }, { "cost", `int` }, { "cast_time", `int` }, { "damage", `int` }, |
 character_consumes_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
 character_eats_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
 character_forgets_spell |  | { "character", `character_id` }, { "spell", `spell_id` } |

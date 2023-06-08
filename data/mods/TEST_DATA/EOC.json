@@ -236,6 +236,25 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_spell_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "effect": [
+      { "math": [ "key1", "=", "_damage" ] },
+      { "math": [ "key2", "=", "_cast_time" ] },
+      { "math": [ "key3", "=", "_difficulty" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_spell_xp",
+    "effect": [
+      { "math": [ "u_spell_exp('test_eoc_spell')", "=", "1000" ] },
+      { "math": [ "key1", "=", "u_spell_exp('test_eoc_spell')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_recipe_test_1",
     "//": "tests adding a recipe to the player",
     "condition": { "not": { "u_know_recipe": "cattail_jelly" } },
