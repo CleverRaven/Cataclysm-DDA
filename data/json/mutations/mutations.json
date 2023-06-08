@@ -1999,16 +1999,7 @@
     "description": "Your body hair is growing in thicker than it used to.  It's almost like you're going through a second puberty or something.",
     "types": [ "SKIN", "BODY_ARMOR" ],
     "changes_to": [ "LIGHTFUR" ],
-    "category": [
-      "MOUSE",
-      "BEAST",
-      "CATTLE",
-      "RAT",
-      "FELINE",
-      "LUPINE",
-      "RABBIT",
-      "URSINE"
-    ]
+    "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE" ]
   },
   {
     "type": "mutation",
@@ -2032,11 +2023,7 @@
     "description": "Your skin has lost some of its color and taken on a smooth, papery texture.  This slightly reduces wet effects, but also makes you a little more vulnerable to cuts and scrapes.",
     "types": [ "SKIN", "BODY_ARMOR" ],
     "changes_to": [ "CHITIN" ],
-    "category": [
-      "SPIDER",
-      "INSECT",
-      "CRUSTACEAN"
-    ],
+    "category": [ "SPIDER", "INSECT", "CRUSTACEAN" ],
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": -1 } ],
     "wet_protection": [
       { "part": "head", "neutral": 3 },
