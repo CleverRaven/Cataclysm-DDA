@@ -271,7 +271,7 @@
     "to_hit": -1,
     "material": [ "steel", "cotton" ],
     "symbol": "[",
-    "looks-like": "helmet_army",
+    "looks_like": "helmet_army",
     "color": "green",
     "warmth": 10,
     "material_thickness": 1.12,
