@@ -238,7 +238,6 @@ The attack's behavior is determined by the `grab_data` array, using the below va
 | `drag_deviation`            | optional int, default 0. Deviation of the monster's pathing from their target's opposite tile - 0 always drags directly opposite, 1 chooses randomly from the monster's and opposite tile's common neighbors, 2 lets the monster drag towards any of its neighboring tiles not occupied by itself or its target. Dragging direction is randomized every drag step.
 | `drag_grab_break_distance`  | optional int, default 0. Drag steps after which the dragged character gets a chance to break the grab using the normal grab break calculations.
 | `drag_movecost_mod`         | optional float, default 1.0. Move cost modifier for every step of dragging - per default the monster spends moves for each drag step, but will still complete the drag, leading to them "catching up" on their move debt afterwards. Internally a move cost of 0.0 will *prevent* movement, so use a slightly larger value.
-| `` |
 | `respect_seatbelts`         | Optional bool, default true.  When false drags/pulls can tear you out of your seatbelt, damaging the part in question.
 | `pull_chance`               | Optional integer.  Percent chance for a connecting attack to initiate a pull, moving the target adjacent.  Pulls are prevented by seatbelts.
 | `pull_weight_ratio`         | Optional float.  Ratio of weight the monster can successfully pull when succeeding the `pull_chance` roll or when dragging (requires a non-zero `drag_distance` ).  Default 0.75.
