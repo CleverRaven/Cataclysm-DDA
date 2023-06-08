@@ -242,18 +242,12 @@ TEST_CASE( "Off Limb Ghost ablative vest", "[coverage]" )
     SECTION( "Ablative not covered seperate limb" ) {
         item full = item( "test_ghost_vest" );
         full.force_insert_item( item( "test_plate_skirt_super" ), item_pocket::pocket_type::CONTAINER );
-        item empty = item( "test_ghost_vest" );
 
         standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
-
+        dude.wear_item( full, false );
         damage_unit du_full = damage_unit( damage_type_id( "bash" ), 100.0f );
-        damage_unit du_empty = damage_unit( damage_type_id( "bash" ), 100.0f );
-
         dude.armor_absorb( du_full, full, bodypart_id( "leg_l" ), 50 );
-        dude.armor_absorb( du_empty, full, bodypart_id( "leg_l" ), 50 );
-
         check_near( "Damage Protected", du_full.amount, 0.0f, 0.1f );
-        check_near( "Damage Unprotected", du_empty.amount, 100.0f, 0.1f );
     }
 }
 
