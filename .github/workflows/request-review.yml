@@ -6,6 +6,11 @@ on:
     types: [opened, synchronize, ready_for_review, reopened]
 
 
+concurrency:
+  group: request-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+
 jobs:
   auto-request-review:
     # Do not spam reviewer with PRs in forks. If fork owners wish to alert
