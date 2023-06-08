@@ -1991,7 +1991,7 @@
     "ugliness": 2,
     "description": "You've developed a persistent skin rash.  Sometimes it's fine, other times it itches like hell.",
     "types": [ "SKIN", "BODY_ARMOR" ],
-    "changes_to": ["PATCHSKIN1" ],
+    "changes_to": [ "PATCHSKIN1" ],
     "category": [ "CHIMERA" ]
   },
   {
