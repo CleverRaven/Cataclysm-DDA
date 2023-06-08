@@ -33,6 +33,48 @@ struct fixed_distribution : int_distribution_impl {
     }
 };
 
+struct uniform_distribution : int_distribution_impl {
+    std::uniform_distribution<int> dist;
+
+    explicit uniform_distribution( lo, hi )
+        : dist( lo, hi )
+    {}
+
+    int minimum() const override {
+        return 0;
+    }
+
+    int sample() override {
+        return dist( rng_get_engine();
+    }
+
+    std::string description() const override {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        return string_format( "Uniform(%d,%d)", lo, hi );
+    }
+};
+
+struct binomial_distribution : int_distribution_impl {
+    std::binomial_distribution<int> dist;
+
+    explicit binomial_distribution( lo, hi, n, p )
+        : dist( lo, hi, n, p )
+    {}
+
+    int minimum() const override {
+        return 0;
+    }
+
+    int sample() override {
+        return dist( rng_get_engine();
+    }
+
+    std::string description() const override {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        return string_format( "Binomial(%d,%.0f)", n, p );
+    }
+};
+
 struct poisson_distribution : int_distribution_impl {
     std::poisson_distribution<int> dist;
 
@@ -79,21 +121,57 @@ std::string int_distribution::description() const
 
 void int_distribution::deserialize( const JsonValue &jin )
 {
+	int lo = 0;
+	int hi = MAX_INT;
     if( jin.test_int() ) {
         int v = jin.get_int();
         impl_ = make_shared_fast<fixed_distribution>( v );
     } else if( jin.test_object() ) {
         JsonObject jo = jin.get_object();
-        if( jo.has_member( "poisson" ) ) {
-            double mean = jo.get_float( "poisson", 1.0 );
-            if( mean <= 0.0 ) {
-                jin.throw_error( "poisson mean must be greater than 0.0" );
-            }
-            impl_ = make_shared_fast<poisson_distribution>( mean );
-        } else {
-            jo.throw_error( R"(Expected "poisson" member)" );
-        }
+        if( jo.has_member( "bounds" ) ) {
+			
+            JsonArray arr = jo.get_array( "bounds" );
+			if( arr.size() != 2 ) {
+				jo.throw_error( R"("Bounds array has wrong number of elements, should be [ lo, hi ]")" );
+			}
+			arr.read( 0, lo );
+			arr.read( 1, hi );
+		}
+		if( jo.has_member( "distribution" ) ) {
+            if( jo.test_object() ) {
+				JsonObject jo2 = jo.get_object();
+				if( jo.has_member( "poisson" ) ) {
+					double mean = jo.get_float( "poisson", 1.0 );
+					if( mean <= 0.0 ) {
+						jin.throw_error( "poisson mean must be greater than 0.0" );
+					}
+					impl_ = make_shared_fast<poisson_distribution>( lo, hi, mean );
+				} else if( jo.has_member( "binomial" ) ) {
+					JsonArray arr = jo.get_array( "binomial" );
+					if( arr.size() != 2 ) {
+						jo.throw_error( R"("Binomial array has wrong number of elements, should be [ n, p ]")" );
+					}
+					int n;
+					float p;
+					arr.read( 0, n );
+					arr.read( 1, p );
+					if( n < 0 ) {
+						jin.throw_error( "n trials must be 0 or greater" );
+					}
+					if( p < 0.0 || p > 1.0 ) {
+						jin.throw_error( "success probability must be between 0.0 and 1.0" );
+					}
+					impl_ = make_shared_fast<binomial_distribution>( lo, hi, n, p );
+				} else {
+				jo.throw_error( R"(Expected "poisson" or "binomial" member)" );
+				}
+			}
+		} else if( jo.has_member( "bounds" ) {
+			impl_ = make_shared_fast<uniform_distribution>( lo, hi );
+		} else {
+			jo.throw_error( R"(Expected "bounds" and/or "distribution" member)" );
+		}
     } else {
-        jin.throw_error( "expected number or object" );
+        jin.throw_error( "expected integer or object" );
     }
 }
