@@ -256,6 +256,37 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "helmet_army_outdated",
+    "repairs_like": "helmet_barbute",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "flak helmet" },
+    "description": "An M1 combat helmet, famously worn by American soldiers in the Second World War as well as the Korean and Vietnam wars.  Its steel construction has rendered it outdated by modern military standards, but it still remains popular among geurilla fighters, collectors and war re-enactors.",
+    "weight": "1400 g",
+    "volume": "1900 ml",
+    "longest_side": "28 cm",
+    "price": 20000,
+    "//": "assuming this is an antique and not a cheap replica",
+    "price_postapoc": 1200,
+    "to_hit": -1,
+    "material": [ "steel", "cotton" ],
+    "symbol": "[",
+    "looks-like": "helmet_army",
+    "color": "green",
+    "warmth": 10,
+    "material_thickness": 1.12,
+    "flags": [ "VARSIZE", "STURDY", "PADDED" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "tac_fullhelmet",
     "repairs_like": "xlkevlar",
     "type": "ARMOR",
