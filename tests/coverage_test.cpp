@@ -245,9 +245,9 @@ TEST_CASE( "Off Limb Ghost ablative vest", "[coverage]" )
 
         standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
         dude.wear_item( full, false );
-        damage_unit du_full = damage_unit( damage_type_id( "bash" ), 100.0f );
-        dude.armor_absorb( du_full, full, bodypart_id( "leg_l" ), 50 );
-        check_near( "Damage Protected", du_full.amount, 0.0f, 0.1f );
+        damage_instance du_full = damage_instance( damage_type_id( "bash" ), 100.0f );
+        dude.absorb_hit( weakpoint_attack(), bodypart_id( "leg_l" ), du_full );
+        check_near( "Damage Protected", du_full.total_damage(), 0.0f, 0.1f );
     }
 }
 
