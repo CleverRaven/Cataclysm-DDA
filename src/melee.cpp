@@ -1138,16 +1138,7 @@ int Character::get_spell_resist() const
 
 float Character::get_dodge() const
 {
-    //If we're asleep or busy we can't dodge
-    if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( effect_winded ) || is_driving() ) {
-        add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
-        return 0.0f;
-    }
-
-    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( dodges_left <= 0 ) {
-        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+    if( !can_try_doge().success() ) {
         return 0.0f;
     }
 
@@ -1175,12 +1166,11 @@ float Character::get_dodge() const
         add_msg_debug( debugmode::DF_MELEE, "Dodge after speed penalty %.1f", ret );
     }
 
-    //Dodge decreases linearly to 0 when below 50% stamina.
-    const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
-    if( stamina_ratio <= .5 ) {
-        ret *= 2 * stamina_ratio;
-        add_msg_debug( debugmode::DF_MELEE, "Dodge after stamina penalty %.1f", ret );
-    }
+    //Dodge decreases logisticaly with stamina.
+    const double stamina_logistic = get_stamina_dodge_modifier();
+    ret *= stamina_logistic;
+
+    add_msg_debug( debugmode::DF_MELEE, "Dodge after stamina penalty %.1f", ret );
 
     // Reaction score of limbs influences dodge chances
     ret *= get_limb_score( limb_score_reaction );
