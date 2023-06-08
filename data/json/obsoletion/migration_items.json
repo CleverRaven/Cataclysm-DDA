@@ -160,15 +160,5 @@
     "type": "MIGRATION",
     "replace": "tank_top",
     "variant": "tank_top_cheerleader"
-  },
-  {
-    "id": "gasfilter_s",
-    "type": "MIGRATION",
-    "replace": "gasfilter_sm"
-  },
-  {
-    "id": "gasfilter_m",
-    "type": "MIGRATION",
-    "replace": "gasfilter_med"
   }
 ]
