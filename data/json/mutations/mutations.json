@@ -2023,11 +2023,7 @@
     "description": "Your skin keeps peeling in big flakes, like you're recovering from a bad sunburn.  Oddly, it doesn't hurt at all.",
     "types": [ "SKIN", "BODY_ARMOR" ],
     "changes_to": [ "SPARSE_SCALES" ],
-    "category": [
-      "LIZARD",
-      "RAPTOR",
-      "FISH"
-    ]
+    "category": [ "LIZARD", "RAPTOR", "FISH" ]
   },
   {
     "type": "mutation",
