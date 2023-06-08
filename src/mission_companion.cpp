@@ -1675,6 +1675,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     // items similar to iexamine::harvest_plant
                     number_plants += plant_count * tmp.charges;
                     number_seeds += std::max( 1, rng( plant_count / 4, plant_count / 2 ) ) * item_seed.charges;
+                    
                     bay.i_clear( plot );
                     bay.furn_set( plot, f_null );
                     bay.ter_set( plot, t_dirtmound );
@@ -1710,7 +1711,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     }
     tmp = item( seed_types[plant_index], calendar::turn );
     const islot_seed &seed_data = *tmp.type->seed;
-    if( seed_data.spawn_seeds && number_seeds > 0 ) {
+    if( seed_data.spawn_seeds ) {
         if( tmp.count_by_charges() ) {
             tmp.charges = 1;
         }
