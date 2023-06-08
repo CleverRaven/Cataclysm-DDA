@@ -483,7 +483,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "308" ],
-    "dispersion": 150,
+    "dispersion": 500,
     "durability": 7,
     "min_cycle_recoil": 2700,
     "valid_mod_locations": [
