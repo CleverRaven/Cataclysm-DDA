@@ -1965,10 +1965,7 @@
     "description": "It's subtle, but your skin has definitely taken on a sickly yellow-green hue.",
     "types": [ "SKIN", "BODY_ARMOR" ],
     "changes_to": [ "PLANTSKIN" ],
-    "category": [
-      "PLANT",
-      "ELFA"
-    ]
+    "category": [ "PLANT", "ELFA" ]
   },
   {
     "type": "mutation",
