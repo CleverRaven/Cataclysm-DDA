@@ -1261,7 +1261,7 @@ bool outfit::is_wearing_active_optcloak() const
     return false;
 }
 
-ret_val<void> test_only_one_conflicts( const item &clothing, const item &i )
+static ret_val<void> test_only_one_conflicts( const item &clothing, const item &i )
 {
     const bool this_restricts_only_one = clothing.has_flag( json_flag_ONE_PER_LAYER );
 
@@ -1316,8 +1316,8 @@ ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
     return ret_val<void>::make_success();
 }
 
-ret_val<void> rigid_test( const item &clothing, const item &i,
-                          const std::vector<sub_bodypart_id> &to_test )
+static ret_val<void> rigid_test( const item &clothing, const item &i,
+                                 const std::unordered_set<sub_bodypart_id> &to_test )
 {
     // check each sublimb individually
     for( const sub_bodypart_id &sbp : to_test ) {
@@ -1348,7 +1348,7 @@ ret_val<void> rigid_test( const item &clothing, const item &i,
 ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) const
 {
 
-    std::vector<sub_bodypart_id> to_test;
+    std::unordered_set<sub_bodypart_id> to_test;
 
     // if not overridden get the actual side of the item
     if( s == side::num_sides ) {
@@ -1363,14 +1363,29 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
         // figure out which sublimbs need to be tested
         for( const sub_bodypart_id &sbp : swapped_item.get_covered_sub_body_parts() ) {
             if( swapped_item.is_bp_rigid( sbp ) ) {
-                to_test.push_back( sbp );
+                to_test.emplace( sbp );
             }
         }
     } else {
         // figure out which sublimbs need to be tested
         for( const sub_bodypart_id &sbp : clothing.get_covered_sub_body_parts() ) {
             if( clothing.is_bp_rigid( sbp ) ) {
-                to_test.push_back( sbp );
+                to_test.emplace( sbp );
+            }
+        }
+    }
+
+    if( clothing.is_ablative() ) {
+        // need to check ablative armor too
+        for( const item_pocket *pocket : clothing.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                const item &ablative_armor = pocket->front();
+
+                for( const sub_bodypart_id &sbp : ablative_armor.get_covered_sub_body_parts() ) {
+                    if( ablative_armor.is_bp_rigid( sbp ) ) {
+                        to_test.emplace( sbp );
+                    }
+                }
             }
         }
     }
@@ -1901,18 +1916,16 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         }
 
         if( !destroy ) {
-            // if we don't have sub parts data
-            // this is the feet head and hands
-            if( bp->sub_parts.empty() ) {
-                destroy = guy.armor_absorb( elem, armor, bp, roll );
-            } else {
-                // if this armor has sublocation data test against it instead of just a generic roll
-                destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
-                // for the torso we also need to consider if it hits anything hanging off the character or their neck
-                if( secondary_sbp != sub_bodypart_id() ) {
-                    destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
-                }
+            // if the armor location has ablative armor apply that first
+            if( armor.is_ablative() ) {
+                guy.ablative_armor_absorb( elem, armor, sbp, roll );
+            }
 
+            // if not already destroyed to an armor absorb
+            destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
+            // for the torso we also need to consider if it hits anything hanging off the character or their neck
+            if( secondary_sbp != sub_bodypart_id() ) {
+                destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
             }
         }
 

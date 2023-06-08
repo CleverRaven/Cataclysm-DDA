@@ -9327,6 +9327,11 @@ std::vector<item_pocket *> item::get_all_ablative_pockets()
     return contents.get_all_ablative_pockets();
 }
 
+std::vector<const item_pocket *> item::get_all_ablative_pockets() const
+{
+    return contents.get_all_ablative_pockets();
+}
+
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );

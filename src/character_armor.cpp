@@ -241,11 +241,6 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
-    // if the armor location has ablative armor apply that first
-    if( armor.is_ablative() ) {
-        ablative_armor_absorb( du, armor, sbp, roll );
-    }
-
     // if the core armor is missed then exit
     if( roll > armor.get_coverage( sbp, ctype ) ) {
         return false;
