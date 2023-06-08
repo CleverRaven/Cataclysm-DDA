@@ -2639,7 +2639,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "rdb_223", "charges-min": 0, "charges-max": 30, "contents-item": [ "improve_sights" ] },
+      { "item": "rdb_223", "charges-min": 0, "charges-max": 30, "contents-group": "sights_rifle" },
       { "group": "stanag_30_random" },
       { "group": "stanag_30_random", "prob": 50 },
       { "group": "on_hand_223" }
@@ -2652,7 +2652,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "rfb_308", "charges-min": 0, "charges-max": 20, "contents-item": [ "improve_sights" ] },
+      { "item": "rfb_308", "charges-min": 0, "charges-max": 20, "contents-group": "sights_rifle" },
       { "item": "falmag" },
       { "item": "falmag", "prob": 50 },
       { "group": "on_hand_308" }
