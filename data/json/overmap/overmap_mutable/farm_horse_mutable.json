@@ -1006,13 +1006,26 @@
           "max": { "poisson": 3 }
         },
         {
-          "name": "trail_intersect",
+          "name": "trail_intersect_ns",
           "//": "Gets placed if the trail collides with a mapgen trail, ends trail gen and skips next phase",
+          "chunk": [ { "overmap": "trail_intersect", "pos": [ 0, 0, 0 ] }, { "overmap": "trail_to_trail_n", "pos": [ 0, -1, 10 ] } ],
+          "weight": 1
+        },
+        {
+          "name": "trail_intersect_ne",
           "chunk": [
-            { "overmap": "trail_intersect", "pos": [ 0, 0, 0 ] },
+            { "overmap": "trail_ne", "pos": [ 0, 0, 0 ] },
             { "overmap": "trail_to_trail_n", "pos": [ 0, -1, 10 ] },
-            { "overmap": "forest_trail", "pos": [ -1, -1, 0 ] },
-            { "overmap": "forest_trail", "pos": [ 1, -1, 0 ] }
+            { "overmap": "trail_intersect", "pos": [ 1, 0, 0 ] }
+          ],
+          "weight": 1
+        },
+        {
+          "name": "trail_intersect_nw",
+          "chunk": [
+            { "overmap": "trail_nw", "pos": [ 0, 0, 0 ] },
+            { "overmap": "trail_to_trail_n", "pos": [ 0, -1, 10 ] },
+            { "overmap": "trail_intersect", "pos": [ -1, 0, 0 ] }
           ],
           "weight": 1
         }
