@@ -1375,47 +1375,11 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
         }
     }
 
-    if( clothing.is_ablative() ) {
-        // need to check ablative armor too
-        for( const item_pocket *pocket : clothing.get_all_ablative_pockets() ) {
-            if( !pocket->empty() ) {
-                const item &ablative_armor = pocket->front();
-
-                for( const sub_bodypart_id &sbp : ablative_armor.get_covered_sub_body_parts() ) {
-                    if( ablative_armor.is_bp_rigid( sbp ) ) {
-                        to_test.emplace( sbp );
-                    }
-                }
-            }
-        }
-    }
-
     // go through all worn and see if already wearing something rigid
     for( const item &i : worn ) {
         ret_val<void> result = rigid_test( clothing, i, to_test );
         if( !result.success() ) {
             return result;
-        }
-
-        if( i.is_ablative() ) {
-            // if item has ablative armor we should check those too.
-            for( const item *ablative_armor : i.all_ablative_armor() ) {
-                // if the pocket is ablative and not empty we should use its values
-                result = rigid_test( clothing, *ablative_armor, to_test );
-                if( !result.success() ) {
-                    return result;
-                }
-            }
-        }
-    }
-
-    // ablative clothing we also need to check all of it's plates
-    if( clothing.is_ablative() ) {
-        for( const item *ablative_armor : clothing.all_ablative_armor() ) {
-            ret_val<void> ret = check_rigid_conflicts( *ablative_armor );
-            if( !ret.success() ) {
-                return ret;
-            }
         }
     }
 

@@ -221,7 +221,7 @@ TEST_CASE( "Proportional armor material resistances", "[material]" )
 
 TEST_CASE( "Ghost ablative vest", "[coverage]" )
 {
-    SECTION( "Ablative not covered" ) {
+    SECTION( "Ablative not covered same limb" ) {
         item full = item( "test_ghost_vest" );
         full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
         full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
@@ -234,6 +234,26 @@ TEST_CASE( "Ghost ablative vest", "[coverage]" )
         const float dmg_empty = get_avg_melee_dmg( empty );
         // make sure the armor is counting even if the base vest doesn't do anything
         check_not_near( "Average damage", dmg_full, dmg_empty, 0.5f );
+    }
+}
+
+TEST_CASE( "Off Limb Ghost ablative vest", "[coverage]" )
+{
+    SECTION( "Ablative not covered seperate limb" ) {
+        item full = item( "test_ghost_vest" );
+        full.force_insert_item( item( "test_plate_skirt_super" ), item_pocket::pocket_type::CONTAINER );
+        item empty = item( "test_ghost_vest" );
+
+        standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+
+        damage_unit du_full = damage_unit( damage_type_id( "bash" ), 100.0f );
+        damage_unit du_empty = damage_unit( damage_type_id( "bash" ), 100.0f );
+
+        dude.armor_absorb( du_full, full, bodypart_id( "leg_l" ), 50 );
+        dude.armor_absorb( du_empty, full, bodypart_id( "leg_l" ), 50 );
+
+        check_near( "Damage Protected", du_full.amount, 0.0f, 0.1f );
+        check_near( "Damage Unprotected", du_empty.amount, 100.0f, 0.1f );
     }
 }
 
