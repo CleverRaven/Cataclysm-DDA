@@ -332,7 +332,7 @@
     "result": "seed_lentils",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "raw_lentils", 1 ], ["dry_lentils", 1] ] ],
+    "components": [ [ [ "raw_lentils", 1 ], [ "dry_lentils", 1 ] ] ],
     "charges": 12
   },
   {
