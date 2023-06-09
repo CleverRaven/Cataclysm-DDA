@@ -166,7 +166,7 @@
     "description": "A heavy helmet that provides excellent protection from all sorts of damage.  It is labeled as the advanced combat helmet.",
     "weight": "1383 g",
     "volume": "1750 ml",
-	"longest_side": "28 cm",
+    "longest_side": "28 cm",
     "price": 15000,
     "price_postapoc": 1500,
     "to_hit": -1,
