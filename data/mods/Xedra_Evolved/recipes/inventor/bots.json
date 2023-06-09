@@ -36,12 +36,11 @@
       [ [ "scrap_aluminum", 400 ] ],
       [ [ "cable", 200 ] ],
       [ [ "e_scrap", 3 ] ],
-      [ [ "lens", 3 ] ],
+      [ [ "lens", 5 ] ],
       [ [ "motor_micro", 8 ] ],
       [ [ "power_supply", 12 ] ],
       [ [ "processor", 26 ] ],
       [ [ "RAM", 12 ] ],
-      [ [ "lens", 2 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "nuts_bolts", 25 ] ],
       [ [ "inventor_heavy_cell", 2 ] ]
@@ -50,6 +49,7 @@
     "skill_used": "deduction",
     "difficulty": 9,
     "skills_required": [ [ "fabrication", 7 ], [ "electronics", 3 ] ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ROBOTS"
   },
@@ -90,12 +90,11 @@
       [ [ "scrap_aluminum", 400 ] ],
       [ [ "cable", 200 ] ],
       [ [ "e_scrap", 3 ] ],
-      [ [ "lens", 3 ] ],
+      [ [ "lens", 5 ] ],
       [ [ "motor_micro", 8 ] ],
       [ [ "power_supply", 12 ] ],
       [ [ "processor", 26 ] ],
       [ [ "RAM", 12 ] ],
-      [ [ "lens", 2 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "nuts_bolts", 25 ] ],
       [ [ "inventor_heavy_cell", 2 ] ]
@@ -104,6 +103,7 @@
     "skill_used": "deduction",
     "difficulty": 9,
     "skills_required": [ [ "fabrication", 7 ], [ "electronics", 3 ] ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ROBOTS"
   },
@@ -144,12 +144,11 @@
       [ [ "scrap_aluminum", 400 ] ],
       [ [ "cable", 200 ] ],
       [ [ "e_scrap", 3 ] ],
-      [ [ "lens", 3 ] ],
+      [ [ "lens", 5 ] ],
       [ [ "motor_micro", 8 ] ],
       [ [ "power_supply", 12 ] ],
       [ [ "processor", 26 ] ],
       [ [ "RAM", 12 ] ],
-      [ [ "lens", 2 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "nuts_bolts", 25 ] ],
       [ [ "inventor_heavy_cell", 2 ] ]
@@ -158,6 +157,7 @@
     "skill_used": "deduction",
     "difficulty": 9,
     "skills_required": [ [ "fabrication", 7 ], [ "electronics", 3 ] ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ROBOTS"
   }

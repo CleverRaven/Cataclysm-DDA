@@ -95,7 +95,7 @@
       { "group": "gunmod_energy", "prob": 40 },
       { "item": "plut_cell", "prob": 30, "charges": [ 1, 5 ] },
       [ "plasma", 30 ],
-      [ "UPS_off", 20 ]
+      [ "UPS_OFF", 20 ]
     ]
   },
   {
@@ -1364,7 +1364,7 @@
       { "item": "jackhammer", "prob": 2, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 1, "charges": [ 0, 7920 ] },
       [ "dynamite", 5 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, 500 ] },
@@ -1830,7 +1830,7 @@
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 4, "charges": [ 0, 50 ] },
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
       [ "flyer", 10 ],
       [ "hazmat_suit", 5 ],
       [ "e_tool", 5 ],

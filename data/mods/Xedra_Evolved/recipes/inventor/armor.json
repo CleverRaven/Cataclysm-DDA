@@ -29,6 +29,7 @@
     "skill_used": "deduction",
     "difficulty": 4,
     "skills_required": [ "electronics", 4 ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
   },
@@ -50,6 +51,7 @@
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
   },
@@ -75,6 +77,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ "electronics", 4 ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
   },
@@ -101,6 +104,7 @@
     "skill_used": "deduction",
     "difficulty": 4,
     "skills_required": [ "electronics", 3 ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
   },
@@ -128,6 +132,7 @@
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "electronics", 7 ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
   },
@@ -159,6 +164,7 @@
     "skill_used": "deduction",
     "difficulty": 8,
     "skills_required": [ "electronics", 7 ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
   },
@@ -179,6 +185,7 @@
     "skill_used": "deduction",
     "difficulty": 4,
     "skills_required": [ "electronics", 3 ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
   },
@@ -199,6 +206,7 @@
     "skill_used": "deduction",
     "difficulty": 4,
     "skills_required": [ "electronics", 3 ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
   },
@@ -226,6 +234,7 @@
     "skill_used": "deduction",
     "difficulty": 4,
     "skills_required": [ "electronics", 3 ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
   }

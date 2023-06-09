@@ -446,6 +446,26 @@ void conditional_t::set_has_flag( const JsonObject &jo, const std::string &membe
     };
 }
 
+void conditional_t::set_has_species( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
+{
+    str_or_var species_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [species_to_check, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        return actor->has_species( species_id( species_to_check.evaluate( d ) ) );
+    };
+}
+
+void conditional_t::set_bodytype( const JsonObject &jo, const std::string &member,
+                                  bool is_npc )
+{
+    str_or_var bt_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [bt_to_check, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        return actor->bodytype( bodytype_id( bt_to_check.evaluate( d ) ) );
+    };
+}
+
 void conditional_t::set_has_activity( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
@@ -1898,6 +1918,14 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_bmi_permil();
             };
+        } else if( checked_value == "size" ) {
+            return [is_npc]( dialogue const & d ) {
+                return d.actor( is_npc )->get_size();
+            };
+        } else if( checked_value == "grab_strength" ) {
+            return [is_npc]( dialogue const & d ) {
+                return d.actor( is_npc )->get_grab_strength();
+            };
         } else if( checked_value == "fine_detail_vision_mod" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_fine_detail_vision_mod();
@@ -3000,6 +3028,14 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_flag( jo, "u_has_flag" );
     } else if( jo.has_member( "npc_has_flag" ) ) {
         set_has_flag( jo, "npc_has_flag", true );
+    } else if( jo.has_member( "u_has_species" ) ) {
+        set_has_species( jo, "u_has_species" );
+    } else if( jo.has_member( "npc_has_species" ) ) {
+        set_has_species( jo, "npc_has_species", true );
+    } else if( jo.has_member( "u_bodytype" ) ) {
+        set_bodytype( jo, "u_bodytype" );
+    } else if( jo.has_member( "npc_bodytype" ) ) {
+        set_bodytype( jo, "npc_bodytype", true );
     } else if( jo.has_member( "npc_has_class" ) ) {
         set_npc_has_class( jo, "npc_has_class", true );
     } else if( jo.has_member( "u_has_class" ) ) {

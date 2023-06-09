@@ -147,7 +147,7 @@
     "name": "standard batteries",
     "description": "Recipes related to constructing standard rechargeable batteries.",
     "skill_used": "electronics",
-    "nested_category_data": [ "UPS_off", "medium_battery_cell", "medium_plus_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ],
+    "nested_category_data": [ "UPS_OFF", "medium_battery_cell", "medium_plus_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ],
     "difficulty": 3
   },
   {

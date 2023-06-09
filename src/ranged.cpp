@@ -92,6 +92,7 @@ static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
 static const ammotype ammo_metal_rail( "metal_rail" );
+static const ammotype ammo_strange_arrow( "strange_arrow" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
 
@@ -2094,6 +2095,8 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { 4, _( "Fwoosh!" ) };
     } else if( at.count( ammo_arrow ) ) {
         return { noise, _( "whizz!" ) };
+    } else if( at.count( ammo_strange_arrow ) ) {
+        return { noise, _( "Crack!" ) };
     } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
     }
