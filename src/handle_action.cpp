@@ -22,7 +22,6 @@
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
-#include "cata_tiles.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
@@ -79,7 +78,6 @@
 #include "rng.h"
 #include "safemode_ui.h"
 #include "scores_ui.h"
-#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "timed_event.h"
@@ -95,6 +93,11 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+
+#if defined(TILES)
+#include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+#include "sdltiles.h"
+#endif
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -383,10 +386,12 @@ input_context game::get_player_input( std::string &action )
                 .on_top( true );
             }
 
+#if defined(TILES)
             // Remove asynchronous animations after animation delay if no input
             if( current_turn.async_anim_timeout() ) {
                 tilecontext->void_async_anim();
             }
+#endif
 
             ui_manager::redraw_invalidated();
         } while( handle_mouseview( ctxt, action ) && uquit != QUIT_WATCH
@@ -2843,9 +2848,11 @@ bool game::handle_action()
         ctxt = get_player_input( action );
     }
 
+#if defined(TILES)
     // Remove asynchronous animations if any action taken before the input timeout
     // Otherwise repeated input can cause animations to accumulate as the timeout is never reached
     tilecontext->void_async_anim();
+#endif
 
     bool veh_ctrl = has_vehicle_control( player_character );
 
