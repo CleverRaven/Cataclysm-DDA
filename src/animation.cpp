@@ -886,11 +886,8 @@ void game::draw_async_anim( const tripoint &p, const std::string tile_id, const 
         return;
     }
 
-    shared_ptr_fast<draw_callback_t> async_anim_cb = make_shared_fast<draw_callback_t>( [&]() {
-        tilecontext->init_draw_async_anim( p, tile_id );
-    } );
-    add_draw_callback( async_anim_cb );
-    ui_manager::redraw();
+    tilecontext->init_draw_async_anim( p, tile_id );
+    g->invalidate_main_ui_adaptor();
 }
 #else
 void game::draw_async_anim( const tripoint &p, const std::string, const std::string ncstr,
