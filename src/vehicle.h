@@ -240,7 +240,7 @@ class turret_cpu
         turret_cpu() = default;
         turret_cpu( const turret_cpu & ) {};
         turret_cpu &operator=( const turret_cpu & ) {
-            *this = turret_cpu()
+            *this = turret_cpu();
             return *this;
         }
 };
