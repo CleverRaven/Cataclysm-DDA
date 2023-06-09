@@ -2962,6 +2962,7 @@ bool game::handle_action()
             destination_preview.clear();
         }
     }
+
     if( act == ACTION_NULL ) {
         const input_event &&evt = ctxt.get_raw_input();
         if( !evt.sequence.empty() ) {
