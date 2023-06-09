@@ -863,6 +863,46 @@ void game::draw_zones( const tripoint &start, const tripoint &end, const tripoin
 #endif
 
 #if defined(TILES)
+void game::draw_async_anim( const tripoint &p, const std::string tile_id, const std::string ncstr,
+                            const nc_color nccol )
+{
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
+
+    if( !get_option<bool>( "ANIMATIONS" ) ) {
+        return;
+    }
+
+    if( !u.sees( p ) ) {
+        return;
+    }
+
+    if( !use_tiles ) {
+        if( ncstr != "" ) {
+            hit_animation( get_avatar(), p, nccol, ncstr );
+        }
+        return;
+    }
+
+    shared_ptr_fast<draw_callback_t> async_anim_cb = make_shared_fast<draw_callback_t>( [&]() {
+        tilecontext->init_draw_async_anim( p, tile_id );
+    } );
+    add_draw_callback( async_anim_cb );
+    ui_manager::redraw();
+}
+#else
+void game::draw_async_anim( const tripoint &p, const std::string tile_id, const std::string ncstr,
+                            const nc_color nccol )
+{
+    if( ncstr != "" ) {
+        hit_animation( get_avatar(), p, nccol, ncstr );
+    }
+}
+#endif
+
+#if defined(TILES)
 void game::draw_radiation_override( const tripoint &p, const int rad )
 {
     if( use_tiles ) {

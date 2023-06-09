@@ -584,6 +584,10 @@ class cata_tiles
         void draw_zones_frame();
         void void_zones();
 
+        void init_draw_async_anim( const tripoint &p, const std::string tile_id );
+        void draw_async_anim();
+        void void_async_anim();
+
         void init_draw_radiation_override( const tripoint &p, int rad );
         void void_radiation_override();
 
@@ -713,11 +717,13 @@ class cata_tiles
         bool do_draw_weather = false;
         bool do_draw_sct = false;
         bool do_draw_zones = false;
+        bool do_draw_async_anim = false;
 
         tripoint exp_pos;
         int exp_rad = 0;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
+        std::map<tripoint, std::string> async_anim_layer;
 
         tripoint bul_pos;
         std::string bul_id;

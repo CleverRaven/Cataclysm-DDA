@@ -22,6 +22,7 @@
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_tiles.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
@@ -78,6 +79,7 @@
 #include "rng.h"
 #include "safemode_ui.h"
 #include "scores_ui.h"
+#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "timed_event.h"
@@ -202,6 +204,13 @@ class user_turn
             std::chrono::milliseconds elapsed_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
             return elapsed_ms.count() / ( 10.0 * turn_duration );
+        }
+
+        bool async_anim_timeout() {
+            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+            std::chrono::milliseconds elapsed_ms =
+                std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
+            return elapsed_ms.count() > get_option<int>( "ANIMATION_DELAY" );
         }
 
 };
@@ -372,6 +381,11 @@ input_context game::get_player_input( std::string &action )
                 deathcam_msg_popup
                 ->wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
                 .on_top( true );
+            }
+
+            // Remove asynchronous animations after animation delay if no input
+            if( current_turn.async_anim_timeout() ) {
+                tilecontext->void_async_anim();
             }
 
             ui_manager::redraw_invalidated();
@@ -2839,6 +2853,10 @@ bool game::handle_action()
         ctxt = get_player_input( action );
     }
 
+    // Remove asynchronous animations if any action taken before the input timeout
+    // Otherwise repeated input can cause animations to accumulate as the timeout is never reached
+    tilecontext->void_async_anim();
+
     bool veh_ctrl = has_vehicle_control( player_character );
 
     // If performing an action with right mouse button, co-ordinates
@@ -2954,7 +2972,6 @@ bool game::handle_action()
             destination_preview.clear();
         }
     }
-
     if( act == ACTION_NULL ) {
         const input_event &&evt = ctxt.get_raw_input();
         if( !evt.sequence.empty() ) {

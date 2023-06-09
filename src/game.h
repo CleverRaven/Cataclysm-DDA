@@ -756,6 +756,9 @@ class game
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         void draw_highlight( const tripoint &p );
+        // Draws an asynchronous animation at p with tile_id as its sprite. If ncstr is specified, it will also be displayed in curses.
+        void draw_async_anim( const tripoint &p, const std::string tile_id, const std::string ncstr = "",
+                              const nc_color nccol = c_black );
         void draw_radiation_override( const tripoint &p, int rad );
         void draw_terrain_override( const tripoint &p, const ter_id &id );
         void draw_furniture_override( const tripoint &p, const furn_id &id );
