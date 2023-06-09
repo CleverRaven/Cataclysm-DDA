@@ -4050,7 +4050,7 @@ void cata_tiles::init_draw_zones( const tripoint &_start, const tripoint &_end,
     zone_end = _end;
     zone_offset = _offset;
 }
-void cata_tiles::init_draw_async_anim( const tripoint &p, const std::string tile_id )
+void cata_tiles::init_draw_async_anim( const tripoint &p, const std::string &tile_id )
 {
     do_draw_async_anim = true;
     async_anim_layer[ p ] = tile_id;

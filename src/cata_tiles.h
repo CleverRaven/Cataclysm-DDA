@@ -584,7 +584,7 @@ class cata_tiles
         void draw_zones_frame();
         void void_zones();
 
-        void init_draw_async_anim( const tripoint &p, const std::string tile_id );
+        void init_draw_async_anim( const tripoint &p, const std::string &tile_id );
         void draw_async_anim();
         void void_async_anim();
 

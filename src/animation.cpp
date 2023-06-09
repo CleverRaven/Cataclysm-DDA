@@ -863,8 +863,8 @@ void game::draw_zones( const tripoint &start, const tripoint &end, const tripoin
 #endif
 
 #if defined(TILES)
-void game::draw_async_anim( const tripoint &p, const std::string tile_id, const std::string ncstr,
-                            const nc_color nccol )
+void game::draw_async_anim( const tripoint &p, const std::string &tile_id, const std::string &ncstr,
+                            const nc_color &nccol )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -890,8 +890,8 @@ void game::draw_async_anim( const tripoint &p, const std::string tile_id, const 
     g->invalidate_main_ui_adaptor();
 }
 #else
-void game::draw_async_anim( const tripoint &p, const std::string, const std::string ncstr,
-                            const nc_color nccol )
+void game::draw_async_anim( const tripoint &p, const std::string &, const std::string &ncstr,
+                            const nc_color &nccol )
 {
     if( ncstr != "" ) {
         hit_animation( get_avatar(), p, nccol, ncstr );
