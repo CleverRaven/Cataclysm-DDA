@@ -285,15 +285,12 @@ void take_items_from( monster &z )
 {
     const std::string pet_name = z.get_name();
     std::vector<item> &monster_inv = z.inv;
-    if( monster_inv.empty() ) {
-        return;
-    }
 
     int i = 0;
     uilist selection_menu;
     selection_menu.text = string_format( _( "Select an item to remove from the %s." ), pet_name );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-    for( auto iter : monster_inv ) {
+    for( const item& iter : monster_inv ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Retrieve %s" ), iter.tname() );
     }
     selection_menu.selected = 1;
