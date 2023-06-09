@@ -180,12 +180,14 @@ class ma_technique
         int weighting = 0; //how often this technique is used
 
         // conditional
-        bool downed_target = false; // only works on downed enemies
-        bool stunned_target = false;// only works on stunned enemies
         bool wall_adjacent = false; // only works near a wall
-        bool human_target = false;  // only works on humanoid enemies
 
         bool needs_ammo = false;    // technique only works if the item is loaded with ammo
+
+        // Dialogue conditions of the attack
+        std::function<bool( dialogue & )> condition;
+        std::string condition_desc;
+        bool has_condition = false;
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;

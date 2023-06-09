@@ -1111,7 +1111,7 @@
     "id": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "soldering iron" },
-    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
     "weight": "90 g",
     "volume": "120 ml",
     "longest_side": "22 cm",

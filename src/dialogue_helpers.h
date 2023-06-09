@@ -171,13 +171,19 @@ struct eoc_math {
 
         invalid,
     };
+    enum class type_t : int {
+        ret = 0,
+        compare,
+        assign,
+    };
     std::shared_ptr<math_exp> lhs;
     std::shared_ptr<math_exp> mhs;
     std::shared_ptr<math_exp> rhs;
     eoc_math::oper action = oper::invalid;
 
-    void from_json( const JsonObject &jo, std::string_view member, bool conditional = false );
+    void from_json( const JsonObject &jo, std::string_view member, type_t type_ );
     double act( dialogue &d ) const;
+    void _validate_type( JsonArray const &objects, type_t type_ ) const;
 };
 
 struct dbl_or_var_part {

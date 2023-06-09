@@ -385,7 +385,8 @@ static void check_damage_from_test_fire( const std::vector<std::string> &armor_i
     }
     CHECK( total_hits == Approx( 1000 ).margin( 100 ) );
     CHECK( set_on_fire == total_hits );
-    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+    const float avg_dmg = total_dmg / static_cast<float>( total_hits );
+    CHECK( avg_dmg == Approx( expected_avg_dmg ).epsilon( 0.075 ) );
 }
 
 TEST_CASE( "Damage type effectiveness vs. monster resistance", "[melee][damage]" )

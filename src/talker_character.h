@@ -69,6 +69,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool has_trait( const trait_id &trait_to_check ) const override;
         bool has_recipe( const recipe_id &recipe_to_check ) const override;
         bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
+        bool has_species( const species_id &species ) const override;
+        bool bodytype( const bodytype_id &bt ) const override;
         bool crossed_threshold() const override;
         int num_bionics() const override;
         bool has_max_power() const override;
@@ -117,6 +119,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_instant_thirst() const override;
         int get_stored_kcal() const override;
         int get_healthy_kcal() const override;
+        int get_size() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;

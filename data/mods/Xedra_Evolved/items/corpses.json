@@ -1,0 +1,41 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "broken_sniperbot",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken sniper bot",
+    "category": "other",
+    "description": "A broken sniper bot.  Total scrap, but some stuff is still useful.",
+    "material": [ "steel" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_shotgunbot",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken shotgun bot",
+    "category": "other",
+    "description": "A broken shotgun bot.  Total scrap, but some stuff is still useful.",
+    "material": [ "steel" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_meleebot",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken cutthroater",
+    "category": "other",
+    "description": "A broken cutthroater.  Total scrap, but some stuff is still useful.",
+    "material": [ "steel" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  }
+]

@@ -109,7 +109,7 @@
         "collection": [
           { "item": "hairpin", "prob": 25, "count": [ 3, 4 ] },
           { "item": "touristmap", "prob": 2, "count": [ 0, 1 ] },
-          { "item": "UPS_off", "prob": 5, "count": [ 0, 2 ] },
+          { "item": "UPS_OFF", "prob": 5, "count": [ 0, 2 ] },
           { "item": "pockknife", "prob": 20, "count": [ 0, 5 ] },
           { "item": "fork", "prob": 60, "count": [ 3, 10 ] },
           { "item": "spoon", "prob": 60, "count": [ 3, 10 ] },

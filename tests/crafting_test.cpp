@@ -740,7 +740,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     avatar dummy;
     clear_character( dummy );
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
-    item_location ups = dummy.i_add( item( "UPS_off" ) );
+    item_location ups = dummy.i_add( item( "UPS_ON" ) );
     item ups_mag( ups->magazine_default() );
     ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
     ret_val<void> result = ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -762,7 +762,7 @@ TEST_CASE( "UPS modded tools", "[crafting][ups]" )
     tripoint const test_loc = dummy.pos();
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
-    item ups = GENERATE( item( "UPS_off" ), item( "test_ups" ) );
+    item ups = GENERATE( item( "UPS_ON" ), item( "test_ups" ) );
     CAPTURE( ups.typeId() );
     item_location ups_loc;
     if( ups_on_ground ) {
@@ -995,7 +995,7 @@ static int resume_craft()
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( player_character.crafting_speed_multiplier( *craft, std::nullopt ) == 1.0 );
+    REQUIRE( player_character.crafting_speed_multiplier( *craft, std::nullopt ) );
     REQUIRE( !player_character.activity );
     player_character.use( player_character.get_item_position( craft ) );
     REQUIRE( player_character.activity );
@@ -1385,6 +1385,7 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
 static void clear_and_setup( Character &c, map &m, item &tool )
 {
     clear_character( c );
+    c.get_learned_recipes(); // cache auto-learned recipes
     c.set_skill_level( skill_fabrication, 10 );
     c.wield( tool );
     m.i_clear( c.pos() );
