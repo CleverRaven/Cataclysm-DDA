@@ -10423,7 +10423,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                 if( u.posx() < oldpos.x ) {
                     draw_async_anim( oldpos, "run_sw", "/", c_light_gray );
                 } else if( u.posx() == oldpos.x ) {
-                    draw_async_anim( oldpos, "run_s", "-", c_light_gray );
+                    draw_async_anim( oldpos, "run_s", "|", c_light_gray );
                 } else {
                     draw_async_anim( oldpos, "run_se", "\\", c_light_gray );
                 }
