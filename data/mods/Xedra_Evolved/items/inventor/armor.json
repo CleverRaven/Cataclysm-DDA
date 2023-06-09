@@ -47,6 +47,7 @@
     "copy-from": "helmet_inventor",
     "name": { "str": "helmet of creative juices (on)", "str_pl": "helmets of creative juices (on)" },
     "power_draw": "7 W",
+    "revert_to": "helmet_inventor",
     "use_action": [ { "ammo_scale": 0, "target": "helmet_inventor", "msg": "The helmet turns off.", "type": "transform" } ]
   },
   {
@@ -290,6 +291,7 @@
     "copy-from": "aura_force",
     "name": { "str": "force shield (on)", "str_pl": "force shields (on)" },
     "power_draw": "250 W",
+    "revert_to": "aura_force",
     "use_action": [ { "ammo_scale": 0, "target": "aura_force", "msg": "Torus stops working.", "type": "transform" } ]
   },
   {
@@ -441,6 +443,7 @@
     "color": "light_gray",
     "name": { "str": "\"Overture\" (on)", "str_pl": "\"Overtures\" (on)" },
     "power_draw": "50 W",
+    "revert_to": "inventor_electric_fist",
     "use_action": [ { "ammo_scale": 0, "target": "inventor_electric_fist", "msg": "The fist turns off.", "type": "transform" } ]
   },
   {
@@ -496,6 +499,7 @@
     "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
     "power_draw": "5 W",
     "environmental_protection": 25,
+    "revert_to": "wolf_mask",
     "use_action": [ { "ammo_scale": 0, "target": "wolf_mask", "msg": "The mask stops working.", "type": "transform" } ]
   },
   {
