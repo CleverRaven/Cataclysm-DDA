@@ -32,6 +32,7 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
+#include "npc.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -45,7 +46,6 @@ class JsonOut;
 class map;
 class monster;
 class nc_color;
-class npc;
 class vehicle;
 class vehicle_part_range;
 class veh_menu;
@@ -233,6 +233,17 @@ enum class vp_flag : uint32_t {
     tracked_flag = 16 //carried vehicle part with tracking enabled
 };
 
+class turret_cpu
+{
+    public:
+        std::unique_ptr<npc> brain;
+        turret_cpu() {};
+        turret_cpu( const turret_cpu &T ) {};
+        turret_cpu operator=( const turret_cpu &T ) {
+            return turret_cpu();
+        }
+};
+
 /**
  * Structure, describing vehicle part (i.e., wheel, seat)
  */
@@ -327,6 +338,7 @@ struct vehicle_part {
         /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
 
+        turret_cpu cpu;
         /**
          * If this part is capable of wholly containing something, process the
          * items in there.
@@ -1815,7 +1827,7 @@ class vehicle
          * @param pt the vehicle part containing the turret we're trying to target.
          * @return npc object with suitable attributes for targeting a vehicle turret.
          */
-        npc &get_targeting_npc( const vehicle_part &pt ) const;
+        npc &get_targeting_npc( vehicle_part &pt );
         /*@}*/
 
     public:
