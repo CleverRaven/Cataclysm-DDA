@@ -252,7 +252,6 @@
     "longest_side": "377 mm",
     "skill": "pistol",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "range": 14,
     "dispersion": 270,
     "valid_mod_locations": [
       [ "barrel", 1 ],
