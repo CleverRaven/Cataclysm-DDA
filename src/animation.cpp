@@ -893,7 +893,7 @@ void game::draw_async_anim( const tripoint &p, const std::string tile_id, const 
     ui_manager::redraw();
 }
 #else
-void game::draw_async_anim( const tripoint &p, const std::string tile_id, const std::string ncstr,
+void game::draw_async_anim( const tripoint &p, const std::string, const std::string ncstr,
                             const nc_color nccol )
 {
     if( ncstr != "" ) {
