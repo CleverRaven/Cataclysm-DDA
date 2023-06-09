@@ -1414,7 +1414,8 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
-    "dispersion": 500,
+    "dispersion": 180,
+    "sight_dispersion": 500,
     "durability": 6,
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
