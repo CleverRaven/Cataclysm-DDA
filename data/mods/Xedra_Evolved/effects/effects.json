@@ -136,6 +136,7 @@
       "Your brain can't hold any more brilliance."
     ],
     "max_intensity": 3,
+    "apply_message": "A great idea has illuminated your mind, it's probably a good time to pick up your laptop and do some calculations.",
     "rating": "good"
   },
   {
@@ -177,7 +178,8 @@
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape and your eyes return to their usual hue.",
     "rating": "good",
-    "flags": [ "NIGHT_VISION" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ]
   },
   {
     "type": "effect_type",
@@ -444,7 +446,7 @@
     "apply_message": "AAAAARGH!!",
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.1 }, { "limb_score": "night_vis", "modifier": 0.1 } ],
-    "base_mods": { "str_mod": [ 4 ], "dex_mod": [ 4 ], "per_mod": [ -8 ] }
+    "base_mods": { "str_mod": [ 6 ], "dex_mod": [ 6 ], "per_mod": [ -8 ] }
   },
   {
     "type": "effect_type",
@@ -454,10 +456,10 @@
     "apply_message": "You feel a deep energy in your muscles, exuberant and coiled.",
     "remove_message": "The energy in your body fades away.",
     "rating": "good",
-    "//": "+0.1x smamina regen for each level",
+    "//": "+0.2x smamina regen for each level",
     "enchantments": [
       {
-        "values": [ { "value": "REGEN_STAMINA", "multiply": { "math": [ "u_val('spell_level', 'spell: spell_stamina_wonder') / 10" ] } } ]
+        "values": [ { "value": "REGEN_STAMINA", "multiply": { "math": [ "u_val('spell_level', 'spell: spell_stamina_wonder') / 5" ] } } ]
       }
     ]
   },
@@ -481,22 +483,19 @@
     "id": "effect_endurance",
     "type": "effect_type",
     "name": [ "Endurance" ],
-    "desc": [ "Take the blows.  Don’t let the world kill you." ],
+    "desc": [ "Take the blows.  Don’t let the world kill you.  Your skin can stop a few attacks." ],
     "apply_message": "Your sense of touch is blunted for a bit, but your skin feels more dense.",
     "remove_message": "The sturdy feeling is gone.",
     "rating": "good",
     "show_intensity": false,
-    "//": "+1 armor for each 2 lvls",
+    "//": "+1 armor for each lvl",
     "enchantments": [
       {
         "values": [
-          { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance') / 2" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance') / 2" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance') / 2" ] } },
-          {
-            "value": "ARMOR_BULLET",
-            "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance') / 2" ] }
-          }
+          { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_BULLET", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } }
         ]
       }
     ]
@@ -505,20 +504,22 @@
     "id": "spell_melee_damage",
     "type": "effect_type",
     "name": [ "Physical Instrument" ],
-    "desc": [ "Your body is a tool of destruction.  Use it effectively." ],
+    "desc": [
+      "Your body is a tool of destruction.  Use it effectively.  Your attacks are faster and deadlier, and your dodge abilities is better"
+    ],
     "apply_message": "You can feel a bubbling energy in your muscles.",
     "remove_message": "The feelings in your muscles subside.",
     "rating": "good",
     "show_intensity": false,
-    "//": "+1 atk speed for each level, +1 dodge each 10 levels, +10% melee damage every 4 levels",
+    "//": "+2 atk speed for each level, +1 dodge each 10 levels, +5% melee damage every level",
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage')" ] } },
+          { "value": "ATTACK_SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') * 2" ] } },
           { "value": "BONUS_DODGE", "add": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') / 10" ] } },
           {
             "value": "MELEE_DAMAGE",
-            "multiply": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') / 40" ] }
+            "multiply": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') / 20" ] }
           }
         ]
       }
@@ -528,14 +529,14 @@
     "type": "effect_type",
     "id": "spell_speed_eff",
     "name": [ "Rush" ],
-    "desc": [ "A burst of speed and stamina." ],
-    "apply_message": "Your lungs seem to gain capacity and your legs feel longer.",
+    "desc": [ "A burst of speed." ],
+    "apply_message": "You feel your legs are much longer now.",
     "remove_message": "Your body shrinks back into its normal space.",
     "rating": "good",
     "show_intensity": false,
-    "//": "+3 speed for each level",
+    "//": "+5 speed for each level",
     "enchantments": [
-      { "values": [ { "value": "SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_speed_wonder') * 3" ] } } ] }
+      { "values": [ { "value": "SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_speed_wonder') * 5" ] } } ] }
     ]
   },
   {
