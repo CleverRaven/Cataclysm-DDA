@@ -290,7 +290,7 @@ void take_items_from( monster &z )
     uilist selection_menu;
     selection_menu.text = string_format( _( "Select an item to remove from the %s." ), pet_name );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-    for( const item& iter : monster_inv ) {
+    for( const item &iter : monster_inv ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Retrieve %s" ), iter.tname() );
     }
     selection_menu.selected = 1;
