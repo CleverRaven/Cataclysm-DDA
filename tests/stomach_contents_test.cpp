@@ -27,7 +27,6 @@ static void reset_time()
 {
     calendar::turn = calendar::start_of_cataclysm;
     Character &player_character = get_player_character();
-    player_character.set_stored_kcal( player_character.get_healthy_kcal() );
     player_character.set_hunger( 0 );
     clear_avatar();
 }
