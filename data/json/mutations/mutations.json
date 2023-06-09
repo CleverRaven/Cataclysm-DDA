@@ -1969,7 +1969,7 @@
   },
   {
     "type": "mutation",
-    "id": "GOOSEBUMPS",
+    "id": "SKIN_ROUGH",
     "name": { "str": "Goosebumps" },
     "points": 0,
     "visibility": 2,
@@ -2644,7 +2644,7 @@
     "description": "Iridescent feathers have grown to cover your entire body, providing a marginal protection against attacks and minor protection from cold.  They also provide a natural waterproofing.",
     "types": [ "SKIN" ],
     "leads_to": [ "DOWN" ],
-    "prereqs": [ "GOOSEBUMPS" ],
+    "prereqs": [ "SKIN_ROUGH" ],
     "category": [ "BIRD" ],
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
   },
