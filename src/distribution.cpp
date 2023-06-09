@@ -12,6 +12,15 @@ struct int_distribution_impl {
     virtual std::string description() const = 0;
 };
 
+int bound_distribution( int lo, int hi, int random ) {
+	if (random < lo) {
+		return lo;
+	} else if( random > hi ) {
+		return hi;
+	}
+	return random;
+}
+
 struct fixed_distribution : int_distribution_impl {
     int value;
 
@@ -56,11 +65,12 @@ struct uniform_distribution : int_distribution_impl {
 
 struct binomial_distribution : int_distribution_impl {
     std::binomial_distribution<int> dist;
-
-    explicit binomial_distribution( int t, double p )
-        : dist( t, p )
+	
+    explicit binomial_distribution( int lo, int hi, int t, double p )
+        : bound_distribution( lo, hi, dist( t, p ) )
+		
     {}
-
+	
     int minimum() const override {
         return 0;
     }
@@ -79,9 +89,9 @@ struct poisson_distribution : int_distribution_impl {
     std::poisson_distribution<int> dist;
 
     explicit poisson_distribution( double mean )
-        : dist( mean )
+        : bound_distribution( lo, hi, dist( mean ) )
     {}
-
+	
     int minimum() const override {
         return 0;
     }
@@ -144,12 +154,7 @@ void int_distribution::deserialize( const JsonValue &jin )
 				if( mean <= 0.0 ) {
 					jo.throw_error( "poisson mean must be greater than 0.0" );
 				}
-				impl_ = make_shared_fast<poisson_distribution>( mean );
-				if( impl_ < lo ) {
-					impl_ = lo;
-				} else if( impl_ > hi ) {
-					impl_ = hi;
-				}
+				impl_ = make_shared_fast<poisson_distribution>( lo, hi, mean );
 			} else if( jo.get_object( "distribution" ).has_member( "binomial" ) ) {
 				JsonArray arr = jo.get_array( "binomial" );
 				if( jo.get_array( "binomial" ).size() != 2 ) {
@@ -163,12 +168,7 @@ void int_distribution::deserialize( const JsonValue &jin )
 				if( p < 0.0 || p > 1.0 ) {
 					jo.throw_error( "success probability must be between 0.0 and 1.0" );
 				}
-				impl_ =  make_shared_fast<binomial_distribution>( t, p );
-				if( impl_ < lo ) {
-					impl_ = lo;
-				} else if( binomial > hi ) {
-					impl_ = hi;
-				}
+				impl_ =  make_shared_fast<binomial_distribution>( lo, hi, t, p );
 			} else {
 			jo.throw_error( R"(Expected "poisson" or "binomial" member)" );
 			}
