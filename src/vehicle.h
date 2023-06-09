@@ -238,8 +238,8 @@ class turret_cpu
     public:
         std::unique_ptr<npc> brain;
         turret_cpu() {};
-        turret_cpu( const turret_cpu &T ) {};
-        turret_cpu operator=( const turret_cpu &T ) {
+        turret_cpu( const turret_cpu & ) {};
+        turret_cpu operator=( const turret_cpu & ) {
             return turret_cpu();
         }
 };
