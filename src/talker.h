@@ -4,13 +4,13 @@
 
 #include "coordinates.h"
 #include "effect.h"
+#include "item.h"
 #include "units.h"
 #include "units_fwd.h"
 #include <list>
 
 class computer;
 class faction;
-class item;
 class item_location;
 class mission;
 class monster;
@@ -201,6 +201,7 @@ class talker
             return false;
         }
         virtual void learn_recipe( const recipe_id & ) {}
+        virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
@@ -492,6 +493,9 @@ class talker
         virtual void mod_pain( int ) {}
         virtual void set_pain( int ) {}
         virtual int pain_cur() const {
+            return 0;
+        }
+        virtual int attack_speed() const {
             return 0;
         }
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {

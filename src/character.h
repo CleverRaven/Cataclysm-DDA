@@ -520,6 +520,8 @@ class Character : public Creature, public visitable
         /** Modifiers to character speed, with descriptions */
         std::vector<speed_bonus_effect> speed_bonus_effects;
 
+        int dodges_left;
+
     public:
         std::vector<speed_bonus_effect> get_speed_bonus_effects() const;
         int get_speed() const override;
@@ -691,8 +693,18 @@ class Character : public Creature, public visitable
         double aim_per_move( const item &gun, double recoil,
                              Target_attributes target_attributes = Target_attributes() ) const;
 
+        int get_dodges_left() const;
+        void set_dodges_left( int dodges );
+        void mod_dodges_left( int mod );
+        void consume_dodge_attempts();
+        ret_val<void> can_try_doge() const;
+
+        float get_stamina_dodge_modifier() const;
+
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
+        /** Called after the player has tryed to dodge an attack */
+        void on_try_dodge() override;
 
         /** Combat getters */
         float get_dodge_base() const override;
@@ -949,7 +961,6 @@ class Character : public Creature, public visitable
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
 
         int blocks_left;
-        int dodges_left;
 
         double recoil = MAX_RECOIL;
 
@@ -1710,6 +1721,9 @@ class Character : public Creature, public visitable
             return worn.is_worn( thing );
         }
 
+        bool is_worn_module( const item &thing ) const {
+            return worn.is_worn_module( thing );
+        }
         /**
          * Asks how to use the item (if it has more than one use_method) and uses it.
          * Returns true if it destroys the item. Consumes charges from the item.
@@ -3093,6 +3107,8 @@ class Character : public Creature, public visitable
                          const std::vector<npc *> &helpers ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
+        void forget_recipe( const recipe *rec );
+        void forget_all_recipes();
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
         bool can_decomp_learn( const recipe &rec ) const;
@@ -3126,8 +3142,16 @@ class Character : public Creature, public visitable
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
         float lighting_craft_speed_multiplier( const recipe &rec ) const;
         float crafting_speed_multiplier( const recipe &rec ) const;
-        /** For use with in progress crafts */
-        float crafting_speed_multiplier( const item &craft, const std::optional<tripoint> &loc ) const;
+        float workbench_crafting_speed_multiplier( const item &craft,
+                const std::optional<tripoint> &loc )const;
+        /** For use with in progress crafts.
+         *  Workbench multiplier calculation (especially finding lifters nearby)
+         *  is expensive when numorous items are around.
+         *  So use pre-calculated cache if possible.
+         */
+        float crafting_speed_multiplier( const item &craft, const std::optional<tripoint> &loc,
+                                         bool use_cached_workbench_multiplier = false, float cached_workbench_multiplier = 0.0f
+                                       ) const;
         int available_assistant_count( const recipe &rec ) const;
         /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
@@ -3468,6 +3492,8 @@ class Character : public Creature, public visitable
 
         // Our weariness level last turn, so we know when we transition
         int old_weary_level = 0;
+        // Z-level on the last turn (used for edge-case "fine_detail_vision_mod" NPCs function override)
+        int last_pc_zlev = 0;
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;

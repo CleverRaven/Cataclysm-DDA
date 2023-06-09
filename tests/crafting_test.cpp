@@ -995,7 +995,7 @@ static int resume_craft()
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( player_character.crafting_speed_multiplier( *craft, std::nullopt ) == 1.0 );
+    REQUIRE( player_character.crafting_speed_multiplier( *craft, std::nullopt ) );
     REQUIRE( !player_character.activity );
     player_character.use( player_character.get_item_position( craft ) );
     REQUIRE( player_character.activity );
@@ -1385,6 +1385,7 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
 static void clear_and_setup( Character &c, map &m, item &tool )
 {
     clear_character( c );
+    c.get_learned_recipes(); // cache auto-learned recipes
     c.set_skill_level( skill_fabrication, 10 );
     c.wield( tool );
     m.i_clear( c.pos() );
@@ -2123,8 +2124,8 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
     std::vector<item> tools;
     tools.insert( tools.end(), 10, tool_with_ammo( "hotplate", 500 ) );
     tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
-    tools.emplace_back( item( "pot_canning" ) );
-    tools.emplace_back( item( "knife_butcher" ) );
+    tools.emplace_back( "pot_canning" );
+    tools.emplace_back( "knife_butcher" );
 
     GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
 

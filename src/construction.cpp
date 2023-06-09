@@ -997,7 +997,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         // Gift components
         for( const auto &it : con.requirements->get_components() ) {
-            used.emplace_back( item( it.front().type ) );
+            used.emplace_back( it.front().type );
         }
     } else {
         // Use up the components

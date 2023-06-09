@@ -75,7 +75,7 @@ void dependency_node::check_cyclicity()
 
         if( nodes_visited.find( check->key ) != nodes_visited.end() ) {
             if( all_errors[CYCLIC].empty() ) {
-                all_errors[CYCLIC].push_back( "Error: Circular Dependency Circuit Found!" );
+                all_errors[CYCLIC].emplace_back( "Error: Circular Dependency Circuit Found!" );
             }
             continue;
         }
@@ -389,7 +389,7 @@ void dependency_tree::check_for_strongly_connected_components()
     }
     // now go back through this and give them all the circular error code!
     for( dependency_node * const &elem : in_circular_connection ) {
-        elem->all_errors[CYCLIC].push_back( "In Circular Dependency Cycle" );
+        elem->all_errors[CYCLIC].emplace_back( "In Circular Dependency Cycle" );
     }
 }
 

@@ -167,8 +167,8 @@ void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
 mission_target_params parse_mission_om_target( const JsonObject &jo );
 std::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params
-        &params );
-tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params );
+        &params, dialogue &d );
+tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params, dialogue &d );
 void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( const JsonObject &jo,

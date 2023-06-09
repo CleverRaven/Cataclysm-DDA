@@ -3991,6 +3991,24 @@ The contents of use_action fields can either be a string indicating a built-in f
     "moves": 50, // how many move points the action takes.
     "radius": 1 // maximum radius for random npc placement.
 },
+"use_action": {
+    "type": "link_up", // Connect item to a vehicle or appliance, such as plugging a chargeable device into a power source.
+    "cable_type": "generic_device_cable" // The item type of the cable created with this action ( Optional, defaults to "generic_device_cable" ).
+    "cable_length": 5 // Maximum length of the cable ( Optional, defaults to 2 ).
+    "charge_rate": "60 W" // Charge rate in watts. A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
+                          // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
+                          // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid ( Optional, defaults to "0 W" ).
+    "efficiency": 7 // one_in(this) chance to fail adding 1 charge every charge interval ( Optional, defaults to 7, which is around 85% efficiency ).
+    "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect" ).
+    "targets": [ // Array of link_states that are valid connection points of the cable ( Optional, defaults to only allowing disconnection ).
+        "no_link",         // Must be included to allow letting the player manually disconnect the cable.
+        "vehicle_port",    // Can connect to a vehicle's cable ports / electrical controls or an appliance.
+        "vehicle_battery", // Can connect to a vehicle's battery or an appliance.
+        "vehicle_tow",     // Can be used as a tow cable between two vehicles.
+        "bio_cable",       // Can connect to a cable system bionic.
+        "ups",             // Can link to a UPS.
+        "solarpack",       // Can link to a worn solar pack.
+},
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
@@ -5381,6 +5399,16 @@ For overmap specials add an entry to `data/json/obsoletion/migration_overmap_spe
     "new_id": "cs_open_sewer",
     "//": "Removed <when> - this will migrate to 'new_id'"
   },
+```
+
+For EOC/dialogue variables you can use `var_migration`. This currently only migrates **Character**, and **Global** vars. If "to" isn't provided the variable will be migrated to a key of "NULL_VALUE".
+
+```json
+{
+    "type": "var_migration",
+    "from": "temp_var",
+    "to": "new_temp_var"
+}
 ```
 
 For recipes, deleting the recipe is enough.

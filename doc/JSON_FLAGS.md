@@ -744,6 +744,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 ### Flags
 
+- ```BANK_NOTE_SHAPED``` ... This item fits into the folded sleeve of wallets, like a bank note.
+- ```BANK_NOTE_STRAP_SHAPED``` ... This item fits into pockets intended for money straps (like a cash register).
 - ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
 - ```BIONIC_TOGGLED``` ... This bionic only has a function when activated, instead of causing its effect every turn.
 - ```BIONIC_POWER_SOURCE``` ... This bionic is a source of bionic power.
@@ -752,6 +754,8 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BIONIC_WEAPON``` ... This bionic is a weapon bionic and activating it will create (or destroy) its fake_item in the user's hands. Prevents all other activation effects.
 - ```BIONIC_ARMOR_INTERFACE``` ... This bionic can provide power to powered armor.
 - ```BIONIC_SLEEP_FRIENDLY``` ... This bionic won't provide a warning if the player tries to sleep while it's active.
+- ```COIN_SHAPED``` ... This item is shaped like a coin and fits into the coin purse of a wallet.
+- ```CREDIT_CARD_SHAPED``` ... This item is shaped like a credit card and fits into the card slots of a wallet and similar pockets.
 - ```CONDUCTIVE``` ... Item is considered as conducting electricity, even if material it's made of is non-conductive. Opposite of `NONCONDUCTIVE`.
 - ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
 - ```CRUTCHES``` ... Item with this flag helps characters not to fall down if their legs are broken.
@@ -1205,7 +1209,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
 - ```GLOBALLY_UNIQUE``` Location will only occur once per world. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
 - ```URBAN```
-- ```WILDERNESS```
+- ```WILDERNESS``` - Locations that have no road connection.
 - ```MAN_MADE``` - For location, created by human. For Innawood mod purposes
 
 ### Overmap terrains
@@ -1336,9 +1340,10 @@ Melee flags are fully compatible with tool flags, and vice versa.
 
 - ```ACT_ON_RANGED_HIT```  The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
 - ```ALLOWS_REMOTE_USE``` This item can be activated or reloaded from adjacent tile without picking it up.
+- ```AUTO_DELETE_CABLE``` This cable is automatically created and deleted by their appliance or device and the player should never be able to directly interact with it.
 - ```BELT_CLIP``` The item can be clipped or hooked on to a belt loop of the appropriate size (belt loops are limited by their max_volume and max_weight properties)
 - ```BOMB``` It can be a remote controlled bomb.
-- ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
+- ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It should usually have a "link_up" iuse_action that describes what it can be connected to and how.
 - ```CANNIBALISM``` The item is a food that contains human flesh, and applies all applicable effects when consumed.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them. If item also has ```POWERED``` flag, then it digs faster, but uses up the item's ammo as if activating it.
@@ -1401,7 +1406,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
 - ```BREAK_STICK``` Breaks long branch into two.
 - ```C4``` Arm the C4.
-- ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
 - ```CAN_GOO``` Release a little blob buddy.
 - ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
 - ```CARVER_OFF``` Turn the carver on.
@@ -1482,7 +1486,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```TORCH``` Light a torch.
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - ```TOWEL``` Dry your character using the item as towel.
-- ```TOW_ATTACH``` This is a tow cable, activate it to attach it to a vehicle.
 - ```TURRET``` Activate a turret.
 - ```WASH_ALL_ITEMS``` Wash items with ```FILTHY``` flag.
 - ```WASH_HARD_ITEMS``` Wash hard items with ```FILTHY``` flag.

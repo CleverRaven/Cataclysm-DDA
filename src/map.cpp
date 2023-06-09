@@ -5382,6 +5382,7 @@ void map::process_items_in_vehicles( submap &current_submap )
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
     std::vector<vehicle *> vehicles;
+    vehicles.reserve( current_submap.vehicles.size() );
     for( const auto &veh : current_submap.vehicles ) {
         vehicles.push_back( veh.get() );
     }
@@ -7340,7 +7341,7 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     clear_vehicle_level_caches();
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            loadn( point( gridx, gridy ), update_vehicle, false );
+            loadn( point( gridx, gridy ), update_vehicle );
             if( pump_events ) {
                 inp_mngr.pump_events();
             }
@@ -7442,6 +7443,7 @@ void map::shift( const point &sp )
     }
 
     const tripoint_abs_sm abs = get_abs_sub();
+    std::vector<tripoint> loaded_grids;
 
     // TODO: fix point types (sp should be relative?)
     set_abs_sub( abs + sp );
@@ -7493,6 +7495,7 @@ void map::shift( const point &sp )
                             update_vehicle_list( cur_submap, gridz );
                         } else {
                             loadn( grid, true );
+                            loaded_grids.emplace_back( grid );
                         }
                     }
                 } else { // sy < 0; work through it backwards
@@ -7508,6 +7511,7 @@ void map::shift( const point &sp )
                             update_vehicle_list( cur_submap, gridz );
                         } else {
                             loadn( grid, true );
+                            loaded_grids.emplace_back( grid );
                         }
                     }
                 }
@@ -7527,6 +7531,7 @@ void map::shift( const point &sp )
                             update_vehicle_list( cur_submap, gridz );
                         } else {
                             loadn( grid, true );
+                            loaded_grids.emplace_back( grid );
                         }
                     }
                 } else { // sy < 0; work through it backwards
@@ -7542,6 +7547,7 @@ void map::shift( const point &sp )
                             update_vehicle_list( cur_submap, gridz );
                         } else {
                             loadn( grid, true );
+                            loaded_grids.emplace_back( grid );
                         }
                     }
                 }
@@ -7559,6 +7565,11 @@ void map::shift( const point &sp )
         for( const tripoint &pt : old_cache ) {
             support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
         }
+    }
+    // actualize after loading all submaps to prevent errors
+    // with entities at the edges
+    for( tripoint loaded_grid : loaded_grids ) {
+        actualize( loaded_grid );
     }
 }
 
@@ -7651,7 +7662,7 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
     return ret;
 }
 
-void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actualize )
+void map::loadn( const tripoint &grid, const bool update_vehicles )
 {
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x()
                   << "], worldy[" << abs_sub.y() << "], grid " << grid << ")";
@@ -7745,19 +7756,14 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         }
     }
 
-    // don't actualize before all maps are loaded
-    if( _actualize ) {
-        actualize( grid );
-    }
-
     abs_sub.z() = old_abs_z;
 }
 
-void map::loadn( const point &grid, bool update_vehicles, bool _actualize )
+void map::loadn( const point &grid, bool update_vehicles )
 {
     if( zlevels ) {
         for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            loadn( tripoint( grid, gridz ), update_vehicles, _actualize );
+            loadn( tripoint( grid, gridz ), update_vehicles );
         }
 
         // Note: we want it in a separate loop! It is a post-load cleanup
@@ -7766,7 +7772,7 @@ void map::loadn( const point &grid, bool update_vehicles, bool _actualize )
             add_roofs( tripoint( grid, gridz ) );
         }
     } else {
-        loadn( tripoint( grid, abs_sub.z() ), update_vehicles, _actualize );
+        loadn( tripoint( grid, abs_sub.z() ), update_vehicles );
     }
 }
 
@@ -8094,6 +8100,7 @@ void map::actualize( const tripoint &grid )
     const bool do_funnels = grid.z >= 0;
 
     // check spoiled stuff, and fill up funnels while we're at it
+    process_items_in_vehicles( *tmpsub );
     process_items_in_submap( *tmpsub, grid );
     explosion_handler::process_explosions();
     for( int x = 0; x < SEEX; x++ ) {

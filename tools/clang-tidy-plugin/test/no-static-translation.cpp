@@ -1,6 +1,6 @@
-// RUN: %check_clang_tidy %s cata-no-static-translation %t -- --load=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-no-static-translation %t -- --load=%cata_plugin -- -I %cata_include -DLOCALIZE
 
-#include "mock-translation.h"
+#include "translations.h"
 
 class foo
 {
