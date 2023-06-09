@@ -476,6 +476,7 @@ TEST_CASE( "EOC_recipe_test", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
+    REQUIRE_FALSE( get_avatar().knows_recipe( r ) );
     REQUIRE( globvars.get_global_value( "fail_var" ).empty() );
 
     CHECK( effect_on_condition_EOC_recipe_test_1->activate( d ) );
@@ -485,5 +486,5 @@ TEST_CASE( "EOC_recipe_test", "[eoc]" )
 
     CHECK( effect_on_condition_EOC_recipe_test_2->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );
-    CHECK( !get_avatar().knows_recipe( r ) );
+    CHECK_FALSE( get_avatar().knows_recipe( r ) );
 }
