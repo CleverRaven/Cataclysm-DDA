@@ -509,6 +509,13 @@
   },
   {
     "type": "effect_type",
+    "id": "maimed_arm",
+    "name": [ "Broken Arm" ],
+    "//": "Disables base grabs and scratches",
+    "desc": [ "Your arms are broken.  Your imaginary monster arms, so this is probably a bug." ]
+  },
+  {
+    "type": "effect_type",
     "id": "maimed_mandible",
     "name": [ "Maimed Mandibles" ],
     "//": "Given by weakpoints, used to disable bites if specified in the bite def",
