@@ -10407,25 +10407,25 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
             if( u.posy() < oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    draw_async_anim( oldpos, "run_nw", "*", c_light_gray );
+                    draw_async_anim( oldpos, "run_nw", "\\", c_light_gray );
                 } else if( u.posx() == oldpos.x ) {
-                    draw_async_anim( oldpos, "run_n", "*", c_light_gray );
+                    draw_async_anim( oldpos, "run_n", "|", c_light_gray );
                 } else {
-                    draw_async_anim( oldpos, "run_ne", "*", c_light_gray );
+                    draw_async_anim( oldpos, "run_ne", "/", c_light_gray );
                 }
             } else if( u.posy() == oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    draw_async_anim( oldpos, "run_w", "*", c_light_gray );
+                    draw_async_anim( oldpos, "run_w", "-", c_light_gray );
                 } else {
-                    draw_async_anim( oldpos, "run_e", "*", c_light_gray );
+                    draw_async_anim( oldpos, "run_e", "-", c_light_gray );
                 }
             } else {
                 if( u.posx() < oldpos.x ) {
-                    draw_async_anim( oldpos, "run_sw", "*", c_light_gray );
+                    draw_async_anim( oldpos, "run_sw", "/", c_light_gray );
                 } else if( u.posx() == oldpos.x ) {
-                    draw_async_anim( oldpos, "run_s", "*", c_light_gray );
+                    draw_async_anim( oldpos, "run_s", "-", c_light_gray );
                 } else {
-                    draw_async_anim( oldpos, "run_se", "*", c_light_gray );
+                    draw_async_anim( oldpos, "run_se", "\\", c_light_gray );
                 }
             }
         }
