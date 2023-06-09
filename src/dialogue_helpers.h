@@ -142,6 +142,9 @@ struct var_info {
 
 std::string read_var_value( const var_info &info, const dialogue &d );
 
+var_info process_variable( const std::string &type );
+
+
 struct str_or_var {
     std::optional<std::string> str_val;
     std::optional<var_info> var_val;
