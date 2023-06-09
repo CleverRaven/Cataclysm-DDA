@@ -1815,7 +1815,7 @@ class vehicle
          * @param pt the vehicle part containing the turret we're trying to target.
          * @return npc object with suitable attributes for targeting a vehicle turret.
          */
-        npc get_targeting_npc( const vehicle_part &pt ) const;
+        npc &get_targeting_npc( const vehicle_part &pt ) const;
         /*@}*/
 
     public:

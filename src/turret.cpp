@@ -389,7 +389,7 @@ int vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets )
             bool has_target = t->target.first != t->target.second;
             if( has_target ) {
                 turret_data turret = turret_query( *t );
-                npc cpu = get_targeting_npc( *t );
+                npc &cpu = get_targeting_npc( *t );
                 shots += turret.fire( cpu, t->target.second );
                 t->reset_target( global_part_pos3( *t ) );
             }
@@ -544,28 +544,30 @@ void vehicle::turrets_set_mode()
     }
 }
 
-npc vehicle::get_targeting_npc( const vehicle_part &pt ) const
+npc &vehicle::get_targeting_npc( const vehicle_part &pt ) const
 {
     // Make a fake NPC to represent the targeting system
-    npc cpu;
-    cpu.set_body();
-    cpu.set_fake( true );
+    static npc cpu;
+    static int inited = 0;
+    if( inited == 0 ) {
+        inited++;
+        cpu.set_body();
+        cpu.set_fake( true );
+        // turrets are subject only to recoil_vehicle()
+        cpu.recoil = 0;
+        cpu.str_cur = 16;
+        cpu.dex_cur = 8;
+        cpu.per_cur = 12;
+        // Assume vehicle turrets are friendly to the player.
+        cpu.set_attitude( NPCATT_FOLLOW );
+        cpu.set_fac( get_owner() );
+        cpu.set_skill_level( skill_gun, 4 );
+    }
     cpu.name = string_format( _( "The %s turret" ), pt.get_base().tname( 1 ) );
-    // turrets are subject only to recoil_vehicle()
-    cpu.recoil = 0;
-
     // These might all be affected by vehicle part damage, weather effects, etc.
     cpu.set_skill_level( pt.get_base().gun_skill(), 8 );
-    cpu.set_skill_level( skill_gun, 4 );
-
-    cpu.str_cur = 16;
-    cpu.dex_cur = 8;
-    cpu.per_cur = 12;
     cpu.setpos( global_part_pos3( pt ) );
     cpu.recalc_sight_limits();
-    // Assume vehicle turrets are friendly to the player.
-    cpu.set_attitude( NPCATT_FOLLOW );
-    cpu.set_fac( get_owner() );
     return cpu;
 }
 
@@ -583,7 +585,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     tripoint pos = global_part_pos3( pt );
 
     // Create the targeting computer's npc
-    npc cpu = get_targeting_npc( pt );
+    npc &cpu = get_targeting_npc( pt );
 
     int area = max_aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
