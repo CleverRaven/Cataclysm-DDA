@@ -10405,29 +10405,27 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
         // Add trail animation when sprinting
         if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
-            std::map<tripoint, nc_color> area_color;
-            area_color[oldpos] = c_black;
             if( u.posy() < oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_nw" );
+                    draw_async_anim( oldpos, "run_nw", "*", c_light_gray );
                 } else if( u.posx() == oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_n" );
+                    draw_async_anim( oldpos, "run_n", "*", c_light_gray );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_ne" );
+                    draw_async_anim( oldpos, "run_ne", "*", c_light_gray );
                 }
             } else if( u.posy() == oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_w" );
+                    draw_async_anim( oldpos, "run_w", "*", c_light_gray );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_e" );
+                    draw_async_anim( oldpos, "run_e", "*", c_light_gray );
                 }
             } else {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_sw" );
+                    draw_async_anim( oldpos, "run_sw", "*", c_light_gray );
                 } else if( u.posx() == oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_s" );
+                    draw_async_anim( oldpos, "run_s", "*", c_light_gray );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_se" );
+                    draw_async_anim( oldpos, "run_se", "*", c_light_gray );
                 }
             }
         }
