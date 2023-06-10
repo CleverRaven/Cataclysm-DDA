@@ -481,7 +481,7 @@ struct vehicle_part {
         bool is_available( bool carried = true ) const;
 
         /*
-         * @param pt the vehicle part containing the turret we're trying to target.
+         * @param veh the vehicle containing this part.
          * @return npc object with suitable attributes for targeting a vehicle turret.
         */
         npc &get_targeting_npc( vehicle &veh );
