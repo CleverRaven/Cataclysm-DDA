@@ -281,6 +281,37 @@ bool give_items_to( monster &z )
     return to_move.size() == items.size();
 }
 
+void take_items_from( monster &z )
+{
+    const std::string pet_name = z.get_name();
+    std::vector<item> &monster_inv = z.inv;
+
+    int i = 0;
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select an item to remove from the %s." ), pet_name );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    for( const item &iter : monster_inv ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Retrieve %s" ), iter.tname() );
+    }
+    selection_menu.selected = 1;
+    selection_menu.query();
+    const int index = selection_menu.ret;
+    if( index < 0 || index == UILIST_CANCEL  || index == 0  ||
+        index > static_cast<int>( monster_inv.size() ) ) {
+        return;
+    }
+
+    // because the first entry is the cancel option
+    const int selection = index - 1;
+    item retrieved_item = monster_inv[selection];
+    monster_inv.erase( monster_inv.begin() + selection );
+
+    add_msg( _( "You remove the %1$s from the %2$s's bag." ), retrieved_item.tname(), pet_name );
+
+    avatar &you = get_avatar();
+    you.i_add( retrieved_item );
+}
+
 item_location pet_armor_loc( monster &z )
 {
     auto filter = [z]( const item & it ) {
@@ -572,6 +603,7 @@ bool monexamine::pet_menu( monster &z )
         remove_bag,
         drop_all,
         give_items,
+        take_items,
         mon_armor_add,
         mon_harness_remove,
         mon_armor_remove,
@@ -613,10 +645,11 @@ bool monexamine::pet_menu( monster &z )
     Character &player_character = get_player_character();
     if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
-        amenu.addentry( remove_bag, true, 'b', _( "Remove bag from %s" ), pet_name );
         if( !z.inv.empty() ) {
+            amenu.addentry( take_items, true, 'T', _( "Take items from bag" ) );
             amenu.addentry( drop_all, true, 'd', _( "Remove all items from bag" ) );
         }
+        amenu.addentry( remove_bag, true, 'b', _( "Remove bag from %s" ), pet_name );
     } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         amenu.addentry( attach_bag, true, 'b', _( "Attach bag to %s" ), pet_name );
     }
@@ -762,6 +795,9 @@ bool monexamine::pet_menu( monster &z )
             break;
         case give_items:
             return give_items_to( z );
+        case take_items:
+            take_items_from( z );
+            break;
         case mon_armor_add:
             return add_armor( z );
         case mon_harness_remove:
