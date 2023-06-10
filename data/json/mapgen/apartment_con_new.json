@@ -302,13 +302,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "│": "t_wall_metal",
-        "+": "t_door_locked",
-        ",": "t_thconc_floor",
-        "M": "t_thconc_floor",
-        "K": "t_thconc_floor"
-      },
+      "terrain": { "│": "t_wall_metal", "+": "t_door_locked", ",": "t_thconc_floor", "M": "t_thconc_floor", "K": "t_thconc_floor" },
       "furniture": { "K": "f_generator_broken", "M": "f_machinery_heavy" },
       "nested": {
         "Đ": {

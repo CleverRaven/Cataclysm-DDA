@@ -83,14 +83,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "r": "t_floor",
-        "C": "t_floor",
-        "W": "t_floor",
-        "%": "t_wall_w",
-        "^": "t_chaingate_l",
-        "+": "t_door_metal_pickable"
-      },
+      "terrain": { "r": "t_floor", "C": "t_floor", "W": "t_floor", "%": "t_wall_w", "^": "t_chaingate_l", "+": "t_door_metal_pickable" },
       "furniture": { "W": "f_water_heater" },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "items": { "C": { "item": "ammo_common", "chance": 30 }, "r": { "item": "tools_blacksmith", "chance": 30 } }

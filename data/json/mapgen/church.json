@@ -74,13 +74,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "O": "t_column",
-        ".": "t_shingle_flat_roof",
-        "<": "t_stairs_up",
-        "#": "t_wall_w",
-        "o": "t_open_air_rooved"
-      }
+      "terrain": { "O": "t_column", ".": "t_shingle_flat_roof", "<": "t_stairs_up", "#": "t_wall_w", "o": "t_open_air_rooved" }
     }
   },
   {

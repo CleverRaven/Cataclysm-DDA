@@ -69,12 +69,7 @@
         "                                   5-.............................................-5                                    "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "W": "t_brick_wall",
-        "f": "t_thconc_floor",
-        "l": "t_thconc_floor_olight",
-        "M": "t_door_metal_locked"
-      }
+      "terrain": { "W": "t_brick_wall", "f": "t_thconc_floor", "l": "t_thconc_floor_olight", "M": "t_door_metal_locked" }
     }
   },
   {
