@@ -552,10 +552,7 @@
         "|------------3          "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "#": "t_brick_wall",
-        "+": "t_door_locked"
-      },
+      "terrain": { "#": "t_brick_wall", "+": "t_door_locked" },
       "furniture": {
         "&": [ "f_ergometer", "f_ergometer_mechanical" ],
         ":": "f_exercise",
