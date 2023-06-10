@@ -5,7 +5,7 @@
     "id": "tr_ledge",
     "name": "ledge",
     "color": "i_cyan",
-    "memorial_male": { "ctxt": "memorial_female", "str": "Fell down a ledge." },
+    "memorial_male": { "ctxt": "memorial_male", "str": "Fell down a ledge." },
     "memorial_female": { "ctxt": "memorial_female", "str": "Fell down a ledge." },
     "symbol": " ",
     "visibility": 0,

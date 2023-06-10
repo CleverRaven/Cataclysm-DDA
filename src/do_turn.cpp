@@ -440,6 +440,8 @@ bool do_turn()
     mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();
+    // Set the last PC z-level position value (used in character.cpp for "fine_detail_vision_mod" NPCs function override) Check will compare last turn and current Z-levels
+    get_player_character().last_pc_zlev = get_player_character().pos().z;
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );

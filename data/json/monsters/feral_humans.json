@@ -45,6 +45,7 @@
       }
     ],
     "death_drops": "feral_humans_death_drops_pipe",
+    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -91,12 +92,12 @@
         "id": "stretch_attack",
         "cooldown": 5,
         "range": 2,
-        "hit_dmg_u": "The %1$s thrusts a spear at your %2$s, slashing it!",
-        "hit_dmg_npc": "The %1$s thrusts a spear at <npcname>'s %2$s, slashing it!",
-        "no_dmg_msg_u": "The %1$s thrusts a spear at your %2$s, but glances off your armor!",
-        "no_dmg_msg_npc": "The %1$s thrusts a spear at <npcname>'s %2$s, but glances off armor!",
-        "miss_msg_u": "The %s thrusts a spear at you, but you evade it!",
-        "miss_msg_npc": "The %s thrusts a spear at <npcname>, but they evade it!"
+        "hit_dmg_u": "%1$s thrusts a spear at your %2$s, slashing it!",
+        "hit_dmg_npc": "%1$s thrusts a spear at <npcname>'s %2$s, slashing it!",
+        "no_dmg_msg_u": "%1$s thrusts a spear at your %2$s, but glances off your armor!",
+        "no_dmg_msg_npc": "%1$s thrusts a spear at <npcname>'s %2$s, but glances off armor!",
+        "miss_msg_u": "%s thrusts a spear at you, but you evade!",
+        "miss_msg_npc": "%s thrusts a spear at <npcname>, but they evade!"
       }
     ],
     "harvest": "human",
@@ -204,7 +205,7 @@
     "id": "mon_feral_human_pipe_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
-    "upgrades": { "age_grow": 4, "into": "mon_feral_human_pipe_fungal_corpse" },
+    "upgrades": { "age_grow": 4, "into_group": "GROUP_NULL", "into": "mon_feral_human_pipe_fungal_corpse" },
     "burn_into": "mon_starer_pipe",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
   },
@@ -212,7 +213,7 @@
     "id": "mon_feral_human_crowbar_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_crowbar",
-    "upgrades": { "age_grow": 4, "into": "mon_feral_human_crowbar_fungal_corpse" },
+    "upgrades": { "age_grow": 4, "into_group": "GROUP_NULL", "into": "mon_feral_human_crowbar_fungal_corpse" },
     "burn_into": "mon_starer_crowbar",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
   },
@@ -220,7 +221,7 @@
     "id": "mon_feral_human_axe_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_axe",
-    "upgrades": { "age_grow": 4, "into": "mon_feral_human_axe_fungal_corpse" },
+    "upgrades": { "age_grow": 4, "into_group": "GROUP_NULL", "into": "mon_feral_human_axe_fungal_corpse" },
     "burn_into": "mon_starer_axe",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
   },
@@ -230,7 +231,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores covering this person's body, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_pipe",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
@@ -241,7 +242,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores on this person's arms, and their facial expression is pure agony.  Their mouth opens and closes softly in a silent moan.",
     "copy-from": "mon_feral_human_crowbar",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
@@ -252,7 +253,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores on this person's arms, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_axe",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
@@ -916,12 +917,12 @@
         "id": "stretch_attack",
         "cooldown": 5,
         "range": 2,
-        "hit_dmg_u": "The %1$s lunges their bayonet at your %2$s, stabbing it!",
-        "hit_dmg_npc": "The %1$s lunges their bayonet at <npcname>'s %2$s, stabbing it!",
-        "no_dmg_msg_u": "The %1$s thrusts their bayonet at your %2$s, but it glances off your armor!",
-        "no_dmg_msg_npc": "The %1$s thrusts their bayonet at <npcname>'s %2$s, but glances off armor!",
-        "miss_msg_u": "The %s thrusts their bayonet at you, but you evade it!",
-        "miss_msg_npc": "The %s thrusts their bayonet at <npcname>, but they evade it!"
+        "hit_dmg_u": "%1$s lunges their bayonet at your %2$s, stabbing it!",
+        "hit_dmg_npc": "%1$s lunges their bayonet at <npcname>'s %2$s, stabbing it!",
+        "no_dmg_msg_u": "%1$s thrusts their bayonet at your %2$s, but it glances off your armor!",
+        "no_dmg_msg_npc": "%1$s thrusts their bayonet at <npcname>'s %2$s, but glances off armor!",
+        "miss_msg_u": "%s thrusts their bayonet at you, but you evade!",
+        "miss_msg_npc": "%s thrusts their bayonet at <npcname>, but they evade!"
       }
     ],
     "harvest": "human",
@@ -956,9 +957,11 @@
     "speed": 90,
     "aggression": 30,
     "morale": 25,
+    "color": "light_blue",
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "dodge": 3,
+    "diff": 4,
     "starting_ammo": { "9mm": 3 },
     "special_attacks": [
       {

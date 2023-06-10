@@ -153,6 +153,7 @@ static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
 static const skill_id skill_swimming( "swimming" );
+static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 
 struct swimmer_stats {
     int strength = 0;
@@ -319,6 +320,7 @@ static void configure_swimmer( avatar &swimmer, const move_mode_id move_mode,
         swimmer.add_profession_items();
     }
 
+    swimmer.toggle_trait( trait_DISIMMUNE ); // random diseases can flake the test
     swimmer.set_movement_mode( move_mode );
 }
 
@@ -346,8 +348,8 @@ static std::vector<swim_scenario> generate_scenarios()
             for( const std::pair<const std::string, swimmer_skills> &skills : skills_map ) {
                 for( const std::pair<const std::string, swimmer_gear> &gear : gear_map ) {
                     for( const std::pair<const std::string, swimmer_traits> &traits : traits_map ) {
-                        scenarios.emplace_back( swim_scenario( move_mode, stats.first, skills.first, gear.first,
-                                                               traits.first ) );
+                        scenarios.emplace_back( move_mode, stats.first, skills.first, gear.first,
+                                                traits.first );
                     }
                 }
             }
@@ -942,7 +944,7 @@ TEST_CASE( "export scenario swim move cost and distance values", "[.]" )
 
     avatar &dummy = get_avatar();
 
-    cata::ofstream testfile;
+    std::ofstream testfile;
     testfile.open( fs::u8path( "swim-scenarios.csv" ), std::ofstream::trunc );
     testfile << "scenario, move cost, steps" << std::endl;
 
@@ -967,7 +969,7 @@ TEST_CASE( "export profession swim cost and distance", "[.]" )
 
     avatar &dummy = get_avatar();
 
-    cata::ofstream testfile;
+    std::ofstream testfile;
     testfile.open( fs::u8path( "swim-profession.csv" ), std::ofstream::trunc );
     testfile << "profession, move cost, steps" << std::endl;
 
@@ -1003,7 +1005,7 @@ TEST_CASE( "export swim move cost and distance data", "[.]" )
 
     avatar &dummy = get_avatar();
 
-    cata::ofstream testfile;
+    std::ofstream testfile;
     testfile.open( fs::u8path( "swim-skill.csv" ), std::ofstream::trunc );
     testfile << "athletics, move cost, steps" << std::endl;
     for( int i = 0; i <= 10; i++ ) {

@@ -24,7 +24,7 @@
       { "item": "knife_rm42", "prob": 10 },
       { "item": "laser_rifle", "prob": 10 },
       { "item": "mininuke", "prob": 10 },
-      { "item": "UPS_off", "prob": 10 },
+      { "item": "UPS_OFF", "prob": 10 },
       { "item": "optical_cloak", "prob": 10 },
       { "item": "holo_cloak", "prob": 10 },
       { "item": "plasma_rifle", "prob": 10 },

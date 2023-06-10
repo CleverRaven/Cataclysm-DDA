@@ -88,6 +88,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_armor",
+    "effect": [
+      { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
+      { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
+      { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_options_tests",
     "effect": [
       {
@@ -179,6 +188,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_diag_w_vars",
+    "effect": [
+      { "set_string_var": "survival", "target_var": { "global_val": "myskill" } },
+      { "math": [ "myskill_math", "=", "u_skill(myskill)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_jmath_test",
     "effect": [ { "math": [ "blorgy", "=", "jmath_test_blorg(1, 2)" ] } ]
   },
@@ -216,5 +233,21 @@
     "id": "EOC_increment_var",
     "//": "tests adding a variable to the player",
     "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_recipe_test_1",
+    "//": "tests adding a recipe to the player",
+    "condition": { "not": { "u_know_recipe": "cattail_jelly" } },
+    "effect": { "u_learn_recipe": "cattail_jelly" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_recipe_test_2",
+    "//": "tests forgetting a recipe from the player",
+    "condition": { "u_know_recipe": "cattail_jelly" },
+    "effect": { "u_forget_recipe": "cattail_jelly" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
   }
 ]

@@ -8,6 +8,7 @@
 #include <variant>
 #include <vector>
 
+#include "cata_utility.h"
 #include "debug.h"
 #include "dialogue_helpers.h"
 #include "math_parser_diag.h"
@@ -116,6 +117,12 @@ struct var {
 
     var_info varinfo;
 };
+struct kwarg {
+    kwarg() = default;
+    explicit kwarg( std::string_view key_ ): key( key_ ) {}
+    std::string key;
+    std::shared_ptr<thingie> val;
+};
 struct thingie {
     thingie() = default;
     template <class U>
@@ -127,17 +134,10 @@ struct thingie {
     constexpr double eval( dialogue &d ) const;
 
     using impl_t =
-        std::variant<double, std::string, oper, func, func_jmath, func_diag_eval, func_diag_ass, var>;
+        std::variant<double, std::string, oper, func, func_jmath, func_diag_eval, func_diag_ass, var, kwarg>;
     impl_t data;
 };
 
-// overload pattern from https://en.cppreference.com/w/cpp/utility/variant/visit
-template <class... Ts>
-struct overloaded : Ts... {
-    using Ts::operator()...;
-};
-template <class... Ts>
-explicit overloaded( Ts... ) -> overloaded<Ts...>;
 constexpr double thingie::eval( dialogue &d ) const
 {
     return std::visit( overloaded{
@@ -151,6 +151,11 @@ constexpr double thingie::eval( dialogue &d ) const
             debugmsg( "Unexpected string operand %.*s", v.size(), v.data() );
             return 0.0;
         },
+        []( kwarg const & v )
+        {
+            debugmsg( "Unexpected kwarg %s", v.key );
+            return 0.0;
+        },
         [&d]( auto const & v ) -> double
         {
             return v.eval( d );
@@ -160,7 +165,7 @@ constexpr double thingie::eval( dialogue &d ) const
 }
 
 using op_t =
-    std::variant<pbin_op, punary_op, pmath_func, jmath_func_id, scoped_diag_eval, scoped_diag_ass, paren>;
+    std::variant<pbin_op, punary_op, pmath_func, jmath_func_id, scoped_diag_eval, scoped_diag_ass, paren, kwarg>;
 
 constexpr bool operator>( op_t const &lhs, binary_op const &rhs )
 {

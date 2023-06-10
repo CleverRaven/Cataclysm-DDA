@@ -134,7 +134,7 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
 float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
 {
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
-    float darkness = fine_detail_vision_mod() - 4.0f;
+    float darkness = fine_detail_vision_mod( this->pos() ) - 4.0f;
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
     }
@@ -207,8 +207,8 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
     return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
 }
 
-static float workbench_crafting_speed_multiplier( const Character &you, const item &craft,
-        const std::optional<tripoint> &loc )
+float Character::workbench_crafting_speed_multiplier( const item &craft,
+        const std::optional<tripoint> &loc )const
 {
     float multiplier;
     units::mass allowed_mass;
@@ -251,7 +251,7 @@ static float workbench_crafting_speed_multiplier( const Character &you, const it
     const units::mass &craft_mass = craft.weight();
     const units::volume &craft_volume = craft.volume();
 
-    units::mass lifting_mass = you.best_nearby_lifting_assist();
+    units::mass lifting_mass = best_nearby_lifting_assist();
 
     if( lifting_mass > craft_mass ) {
         return multiplier;
@@ -275,7 +275,8 @@ float Character::crafting_speed_multiplier( const recipe &rec ) const
 }
 
 float Character::crafting_speed_multiplier( const item &craft,
-        const std::optional<tripoint> &loc ) const
+        const std::optional<tripoint> &loc, bool use_cached_workbench_multiplier,
+        float cached_workbench_multiplier ) const
 {
     if( !craft.is_craft() ) {
         debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
@@ -285,7 +286,9 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_multi = workbench_crafting_speed_multiplier( *this, craft, loc );
+    const float bench_multi = ( use_cached_workbench_multiplier ||
+                                cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
+                              workbench_crafting_speed_multiplier( craft, loc );
     const float morale_multi = morale_crafting_speed_multiplier( rec );
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
@@ -997,9 +1000,10 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // The primary required skill counts extra compared to the secondary skills, before factoring in the
     // weight added by the required level.
     const float weighted_skill_average =
-        ( ( 2.0f * making.difficulty * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
+        ( ( 2.0f * std::max( making.difficulty,
+                             1 ) * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
         // No DBZ
-        std::max( 1.f, ( 2.0f * making.difficulty + secondary_difficulty ) );
+        std::max( 1.f, ( 2.0f * std::max( making.difficulty, 1 ) + secondary_difficulty ) );
     add_msg_debug( debugmode::DF_CRAFTING, "Weighted skill average: %g", weighted_skill_average );
 
     float total_skill_modifiers = 0.0f;
@@ -1168,39 +1172,6 @@ float Character::crafting_failure_roll( const recipe &making ) const
                    data.final_difficulty );
 
     return std::max( craft_roll, 0.0f );
-}
-
-// Returns the area under a curve with provided standard deviation and center
-// from difficulty to positive to infinity. That is, the chance that a normal roll on
-// said curve will return a value of difficulty or greater.
-static float normal_roll_chance( float center, float stddev, float difficulty )
-{
-    cata_assert( stddev >= 0.f );
-    // We're going to be using them a lot, so let's name our variables.
-    // M = the given "center" of the curve
-    // S = the given standard deviation of the curve
-    // A = the difficulty
-    // So, the equation of the normal curve is...
-    // y = (1.f/(S*std::sqrt(2 * M_PI))) * exp(-(std::pow(x - M, 2))/(2 * std::pow(S, 2)))
-    // Thanks to wolfram alpha, we know the integral of that from A to B to be
-    // 0.5 * (erf((M-A)/(std::sqrt(2) * S)) - erf((M-B)/(std::sqrt(2) * S)))
-    // And since we know B to be infinity, we can simplify that to
-    // 0.5 * (erfc((A-m)/(std::sqrt(2)* S))+sgn(S)-1) (as long as S != 0)
-    // Wait a second, what are erf, erfc and sgn?
-    // Oh, those are the error function, complementary error function, and sign function
-    // Luckily, erf() is provided to us in math.h, and erfc is just 1 - erf
-    // Sign is pretty obvious x > 0 ? x == 0 ? 0 : 1 : -1;
-    // Since we know S will always be > 0, that term vanishes.
-
-    // With no standard deviation, we will always return center
-    if( stddev == 0.f ) {
-        return ( center > difficulty ) ? 1.f : 0.f;
-    }
-
-    float numerator = difficulty - center;
-    float denominator = std::sqrt( 2 ) * stddev;
-    float compl_erf = 1.f - std::erf( numerator / denominator );
-    return 0.5 * compl_erf;
 }
 
 float Character::recipe_success_chance( const recipe &making ) const
@@ -2857,7 +2828,8 @@ void drop_or_handle( const item &newit, Character &p )
 void remove_ammo( item &dis_item, Character &p )
 {
     dis_item.remove_items_with( [&p]( const item & it ) {
-        if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || it.is_magazine() ) ) {
+        if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || ( it.is_magazine() &&
+                                      !it.is_tool() ) ) ) {
             return false;
         }
         drop_or_handle( it, p );

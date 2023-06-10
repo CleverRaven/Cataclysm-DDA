@@ -4,9 +4,6 @@
     "type": "vehicle_part",
     "categories": [ "warfare" ],
     "location": "structure",
-    "symbol": "X",
-    "symbols": { "rear": "X", "left": "X", "right": "X" },
-    "broken_symbol": "*",
     "damage_modifier": 150,
     "description": "A reinforced ram.  Place at the edge of vehicle to reduce damage taken in collisions, and to increase damaged delivered in collisions, if the ram is the first vehicle part to collide.",
     "requirements": {
@@ -14,7 +11,13 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "PROTRUSION", "OBSTACLE" ]
+    "flags": [ "PROTRUSION", "OBSTACLE" ],
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "^^>>vv<<", "symbols_broken": "*" },
+      { "id": "rear", "label": "Rear", "symbols": "vv<<^^>>", "symbols_broken": "*" },
+      { "id": "left", "label": "Left", "symbols": "<<^^>>vv", "symbols_broken": "*" },
+      { "id": "right", "label": "Right", "symbols": ">>vv<<^^", "symbols_broken": "*" }
+    ]
   },
   {
     "id": "ram_alloy",
@@ -59,7 +62,7 @@
     "damage_reduction": { "all": 87 }
   },
   {
-    "id": "ram_military_horizontal",
+    "id": "ram_military",
     "copy-from": "ram_blaze",
     "type": "vehicle_part",
     "name": { "str": "military composite ram" },
@@ -161,9 +164,9 @@
     "copy-from": "ram_blaze",
     "type": "vehicle_part",
     "name": { "str": "tied mattress" },
-    "symbol": "=",
     "item": "mattress",
     "color": "white",
+    "broken_color": "light_gray",
     "damage_modifier": 50,
     "durability": 40,
     "description": "A mattress, strapped onto the vehicle.  It could serve to blunt any impact.",
@@ -173,17 +176,15 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] }
     },
     "damage_reduction": { "bash": 20 },
-    "extend": { "flags": [ "OPAQUE" ] }
+    "extend": { "flags": [ "OPAQUE" ] },
+    "variants": [ { "symbols": "=", "symbols_broken": "*" } ]
   },
   {
     "id": "tearer",
     "type": "vehicle_part",
+    "copy-from": "ram_blaze",
     "name": { "str": "shredder" },
     "item": "tearer",
-    "location": "structure",
-    "symbol": "*",
-    "broken_symbol": "x",
-    "categories": [ "warfare" ],
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "durability": 450,
@@ -196,7 +197,64 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION" ],
-    "damage_reduction": { "all": 40 }
+    "extend": { "flags": [ "SHARP", "UNMOUNT_ON_DAMAGE" ] },
+    "delete": { "flags": [ "OBSTACLE" ] },
+    "damage_reduction": { "all": 40 },
+    "variants": [ { "symbols": "*", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "copy-from": "ram_blaze",
+    "id": "blade",
+    "name": { "str": "blade" },
+    "damage_modifier": 250,
+    "durability": 200,
+    "description": "A blade, welded to the vehicle, for cutting up zombies.",
+    "item": "blade",
+    "folded_volume": "750 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "extend": { "flags": [ "SHARP" ] },
+    "delete": { "flags": [ "OBSTACLE" ] },
+    "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "copy-from": "blade",
+    "id": "spike",
+    "name": { "str": "spike" },
+    "damage_modifier": 300,
+    "durability": 250,
+    "color": "white",
+    "broken_color": "white",
+    "description": "A metal spike, welded to the vehicle, to increase injury when crashing into things.",
+    "item": "spike",
+    "folded_volume": "250 ml",
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ],
+    "damage_reduction": { "all": 12 },
+    "variants": [ { "symbols": ".", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "spike_wood",
+    "copy-from": "spike",
+    "name": { "str": "wooden spike" },
+    "color": "brown",
+    "broken_color": "brown",
+    "damage_modifier": 115,
+    "durability": 150,
+    "description": "A wooden spike, attached to the vehicle, to increase injury when crashing into things.",
+    "item": "pointy_stick",
+    "folded_volume": "1250 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ],
+    "damage_reduction": { "all": 0 }
   }
 ]

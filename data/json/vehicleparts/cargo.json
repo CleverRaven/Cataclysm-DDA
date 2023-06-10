@@ -3,10 +3,8 @@
     "type": "vehicle_part",
     "id": "cargo_bag",
     "name": { "str": "storage bag" },
-    "symbol": "o",
     "categories": [ "cargo" ],
     "color": "light_gray",
-    "broken_symbol": "#",
     "broken_color": "dark_gray",
     "damage_modifier": 60,
     "durability": 15,
@@ -20,17 +18,16 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED" ],
-    "breaks_into": "ig_vp_cloth"
+    "breaks_into": "ig_vp_cloth",
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "abstract": "basketlg_abstract",
     "name": { "str": "shopping cart basket" },
     "categories": [ "cargo" ],
-    "symbol": "o",
     "looks_like": "basketsm",
     "color": "brown",
-    "broken_symbol": "#",
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 75,
@@ -47,19 +44,15 @@
       }
     },
     "flags": [ "CARGO", "OBSTACLE" ],
-    "damage_reduction": { "all": 6 }
+    "damage_reduction": { "all": 6 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "copy-from": "basketlg_abstract",
     "id": "basketlg",
-    "symbol": "o",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "basketlg_abstract",
-    "id": "basketlg_cart",
-    "symbol": "o",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "cart", "label": "Cart" } ],
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "id": "basketlg_external",
@@ -68,8 +61,6 @@
     "looks_like": "basketlg",
     "item": "basket",
     "location": "structure",
-    "symbol": "o",
-    "broken_symbol": "#",
     "categories": [ "cargo" ],
     "color": "brown",
     "broken_color": "brown",
@@ -83,17 +74,16 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
-    "damage_reduction": { "all": 6 }
+    "damage_reduction": { "all": 6 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "basketlg_folding",
     "name": { "str": "folding shopping cart basket" },
-    "symbol": "o",
     "looks_like": "basketlg",
     "categories": [ "cargo" ],
     "color": "brown",
-    "broken_symbol": "#",
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 75,
@@ -111,17 +101,16 @@
       }
     },
     "flags": [ "CARGO", "OBSTACLE" ],
-    "damage_reduction": { "all": 4 }
+    "damage_reduction": { "all": 4 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "abstract": "basketsm_abstract",
     "name": { "str": "wire bike basket" },
-    "symbol": "o",
     "looks_like": "basketlg",
     "categories": [ "cargo" ],
     "color": "brown",
-    "broken_symbol": "#",
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 75,
@@ -139,28 +128,16 @@
       }
     },
     "flags": [ "CARGO" ],
-    "damage_reduction": { "all": 6 }
+    "damage_reduction": { "all": 6 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "copy-from": "basketsm_abstract",
     "id": "basketsm",
     "looks_like": "basketlg",
-    "symbol": "o",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "basketsm_abstract",
-    "id": "basketsm_bike_rear",
-    "looks_like": "basketsm",
-    "symbol": "o",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "basketsm_abstract",
-    "id": "basketsm_wheelchair",
-    "looks_like": "basketsm",
-    "symbol": "o",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "bike_rear", "label": "Bike Rear" }, { "id": "wheelchair", "label": "Wheelchair" } ],
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "id": "basketsm_external",
@@ -169,8 +146,6 @@
     "looks_like": "basketsm",
     "item": "bike_basket",
     "location": "structure",
-    "symbol": "o",
-    "broken_symbol": "#",
     "categories": [ "cargo" ],
     "color": "brown",
     "broken_color": "brown",
@@ -184,17 +159,16 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
-    "damage_reduction": { "all": 6 }
+    "damage_reduction": { "all": 6 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "abstract": "box_abstract",
     "name": { "str": "box" },
     "categories": [ "cargo" ],
-    "symbol": "o",
     "looks_like": "f_crate_o",
     "color": "brown",
-    "broken_symbol": "#",
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 100,
@@ -208,20 +182,15 @@
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 28 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "copy-from": "box_abstract",
     "id": "box",
-    "symbol": "o",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "box_abstract",
-    "id": "box_wheelbarrow",
-    "looks_like": "box",
-    "symbol": "o",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "wheelbarrow", "label": "Wheelbarrow" } ],
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "id": "cargo_space_external",
@@ -229,8 +198,6 @@
     "name": { "str": "external cargo rack" },
     "item": "cargo_rack",
     "location": "structure",
-    "symbol": "=",
-    "broken_symbol": "#",
     "categories": [ "cargo" ],
     "color": "light_gray",
     "broken_color": "dark_gray",
@@ -244,7 +211,8 @@
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ],
-    "damage_reduction": { "all": 26 }
+    "damage_reduction": { "all": 26 },
+    "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
   },
   {
     "id": "bike_rack",
@@ -252,8 +220,6 @@
     "name": { "str": "bike rack" },
     "item": "bike_rack",
     "location": "anywhere",
-    "symbol": "=",
-    "broken_symbol": "#",
     "categories": [ "cargo" ],
     "color": "light_gray",
     "broken_color": "dark_gray",
@@ -270,7 +236,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "BIKE_RACK_VEH", "MULTISQUARE" ],
-    "damage_reduction": { "all": 10 }
+    "damage_reduction": { "all": 10 },
+    "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
   },
   {
     "id": "mounted_spare_tire",
@@ -278,8 +245,6 @@
     "name": { "str": "mounted spare tire" },
     "item": "mounted_spare_tire",
     "location": "structure",
-    "symbol": "o",
-    "broken_symbol": "#",
     "categories": [ "other" ],
     "color": "light_gray",
     "broken_color": "dark_gray",
@@ -292,6 +257,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION" ],
-    "damage_reduction": { "all": 10 }
+    "damage_reduction": { "all": 10 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   }
 ]

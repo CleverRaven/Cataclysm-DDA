@@ -1,5 +1,6 @@
 #include "HeaderGuardCheck.h"
 
+#include <iostream>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -309,7 +310,7 @@ class HeaderGuardPPCallbacks : public PPCallbacks
                 const FileInfo &Info = FileInfos.at( FileName );
                 const FileEntry *FE = Info.Entry;
                 if( !FE ) {
-                    fprintf( stderr, "No FileEntry for %s\n", FileName.c_str() );
+                    std::cerr << "No FileEntry for " << FileName << "\n";
                     continue;
                 }
                 FileID FID = SM.translateFile( FE );
