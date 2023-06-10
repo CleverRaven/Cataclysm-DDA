@@ -373,11 +373,7 @@
     "qualities": [ [ "EXTRACT", 3 ] ],
     "color": "dark_gray",
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "item_restriction": [ "large_storage_battery", "storage_battery" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "large_storage_battery", "storage_battery" ] }
     ],
     "melee_damage": { "bash": 8 }
   },
