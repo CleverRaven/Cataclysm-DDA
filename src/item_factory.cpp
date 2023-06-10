@@ -667,6 +667,10 @@ void Item_factory::finalize_pre( itype &obj )
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );
     }
 
+    if( obj.can_use( "link_up" ) ) {
+        obj.ammo_scale.emplace( "link_up", 0 );
+    }
+
     if( obj.longest_side == -1_mm ) {
         units::volume effective_volume = obj.count_by_charges() &&
                                          obj.stack_size > 0 ? ( obj.volume / obj.stack_size ) : obj.volume;
