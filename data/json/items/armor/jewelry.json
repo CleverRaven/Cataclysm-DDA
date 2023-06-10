@@ -1886,7 +1886,7 @@
     "material": [ "brass" ],
     "symbol": "[",
     "color": "yellow",
-    "//": "weight/volume are based on circle 2.75 in diameter and 1 cm thickness brass. Though some objects that copy from this may say they're different materials in the description, assume the material to be plated over the brass.",
+    "//": "typical badges are 1-4 oz and are usually brass with a possible very thin precious metal plating.",
     "material_thickness": 2,
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
