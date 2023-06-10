@@ -103,6 +103,7 @@
       "paddock_DR_e": { "overmap": "paddock_DR_east" },
       "paddock_d_D_butt_n": { "overmap": "paddock_d_D_butt_north" },
       "paddock_d_D_butt_w": { "overmap": "paddock_d_D_butt_west" },
+      "paddock_d_U_gap_n": { "overmap": "paddock_d_U_gap_north" },
       "paddock_d_D_gap_e": { "overmap": "paddock_d_D_gap_east" },
       "paddock_d_U_butt_w": { "overmap": "paddock_d_U_butt_west" },
       "paddock_special_1_e": { "overmap": "paddock_special_1_east" },
@@ -560,6 +561,21 @@
           "weight": 10
         },
         {
+          "name": "paddocks_1_1",
+          "chunk": [
+            { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, -1, 10 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
+            { "overmap": "inner_to_outer_s", "pos": [ 0, 0, 10 ] },
+            { "overmap": "paddock_L_butt_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_d_U_gap_n", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_w", "pos": [ 1, 0, 0 ] },
+            { "overmap": "paddock_w", "pos": [ 1, 1, 0 ] }
+          ],
+          "max": 3,
+          "weight": 10
+        },
+        {
           "name": "paddocks_1_3",
           "chunk": [
             { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
@@ -575,8 +591,8 @@
             { "overmap": "paddock_R_gap_n", "pos": [ 3, 0, 0 ] },
             { "overmap": "forest", "pos": [ 3, 1, 0 ] }
           ],
-          "max": 3,
-          "weight": 1
+          "max": 1,
+          "weight": 10
         },
         {
           "name": "paddocks_0_2",

@@ -725,7 +725,7 @@
         { "chunks": [ "5x5_paddock_gate_e" ], "x": 19, "y": [ 0, 14 ], "neighbors": { "east": [ "dirt_road" ] } },
         { "chunks": [ "5x5_paddock_gate_w" ], "x": 24, "y": [ 24, 38 ], "neighbors": { "west": [ "dirt_road" ] } },
         { "chunks": [ [ "null", 50 ], [ "pond_6x6_natural", 50 ] ], "x": [ 0, 4 ], "y": [ 14, 18 ] },
-        { "chunks": [ [ "null", 50 ], [ "pond_6x6_natural", 50 ] ], "x": [ 38, 42 ], "y": [ 14, 18 ] },
+        { "chunks": [ "pond_6x6_natural" ], "x": [ 38, 42 ], "y": [ 14, 18 ] },
         { "chunks": [ [ "null", 50 ], [ "pond_6x6_natural", 50 ] ], "x": [ 0, 4 ], "y": [ 38, 42 ] },
         { "chunks": [ [ "null", 50 ], [ "pond_6x6_natural", 50 ] ], "x": [ 38, 42 ], "y": [ 38, 42 ] }
       ]
