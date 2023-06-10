@@ -34,7 +34,7 @@
     "symbol": "?",
     "color": "green",
     "skill": "deduction",
-    "min_level": 2,
+    "required_level": 2,
     "max_level": 3,
     "intelligence": 9,
     "time": "20 m"
@@ -53,7 +53,7 @@
     "symbol": "?",
     "color": "green",
     "skill": "deduction",
-    "min_level": 1,
+    "required_level": 1,
     "max_level": 2,
     "intelligence": 8,
     "time": "20 m"
