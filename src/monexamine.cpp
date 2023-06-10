@@ -296,7 +296,7 @@ void take_items_from( monster &z )
     selection_menu.selected = 1;
     selection_menu.query();
     const int index = selection_menu.ret;
-    if( index <= 0 || index == UILIST_CANCEL || index > static_cast<int>( monster_inv.size() ) ) {
+    if( index <= 0 || index > static_cast<int>( monster_inv.size() ) ) {
         return;
     }
 
