@@ -2152,7 +2152,7 @@ void Character::process_turn()
     if( activity.targets.empty() && activity.do_drop_invalid_inventory() ) {
         drop_invalid_inventory();
     }
-    if (leak_level_dirty) {
+    if( leak_level_dirty ) {
         calculate_leak_level();
     }
     process_items();
@@ -6399,16 +6399,16 @@ void Character::mod_rad( int mod )
     set_rad( std::max( 0, get_rad() + mod ) );
 }
 
-void Character::calculate_leak_level() {
+void Character::calculate_leak_level()
+{
     float ret = 0.0f;
     // This is bad way to calculate radiation and should be rewritten some day.
-    for (const item_location& item_loc : const_cast<Character*>(this)->all_items_loc()) {
-        const item* it = item_loc.get_item();
-        if (it->has_flag(flag_RADIOACTIVE)) {
-            if (it->has_flag(flag_LEAK_ALWAYS)) {
-                ret += to_gram(it->weight()) / 250.f;
-            }
-            else if (it->has_flag(flag_LEAK_DAM)) {
+    for( const item_location &item_loc : const_cast<Character *>( this )->all_items_loc() ) {
+        const item *it = item_loc.get_item();
+        if( it->has_flag( flag_RADIOACTIVE ) ) {
+            if( it->has_flag( flag_LEAK_ALWAYS ) ) {
+                ret += to_gram( it->weight() ) / 250.f;
+            } else if( it->has_flag( flag_LEAK_DAM ) ) {
                 ret += it->damage_level();
             }
         }
@@ -6422,7 +6422,8 @@ float Character::get_leak_level() const
     return leak_level;
 }
 
-void Character::invalidate_leak_level_cache() {
+void Character::invalidate_leak_level_cache()
+{
     leak_level_dirty = true;
 }
 

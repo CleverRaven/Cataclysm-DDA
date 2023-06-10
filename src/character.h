@@ -3297,17 +3297,17 @@ class Character : public Creature, public visitable
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
         void mend( int rate_multiplier );
 
-        private:
-            // Amount of radiation (mSv) leaked from carried items.
-            float leak_level = 0.0f;
-            /** Signify that leak_level needs refreshing. Set to true on inventory change. */
-            bool leak_level_dirty = true;
-        public:
-            float get_leak_level() const;
-            /** Iterate through the character inventory to get its leak level */
-            void calculate_leak_level();
-            /** Sets leak_level_dirty to true */
-            void invalidate_leak_level_cache();
+    private:
+        // Amount of radiation (mSv) leaked from carried items.
+        float leak_level = 0.0f;
+        /** Signify that leak_level needs refreshing. Set to true on inventory change. */
+        bool leak_level_dirty = true;
+    public:
+        float get_leak_level() const;
+        /** Iterate through the character inventory to get its leak level */
+        void calculate_leak_level();
+        /** Sets leak_level_dirty to true */
+        void invalidate_leak_level_cache();
 
 
         /** Creates an auditory hallucination */
