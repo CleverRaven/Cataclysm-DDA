@@ -363,13 +363,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "%": "t_wall_b",
-        "+": "t_door_locked",
-        "'": "t_thconc_floor",
-        "W": "t_window_domestic",
-        "i": "t_thconc_floor",
-      },
+      "terrain": { "%": "t_wall_b", "+": "t_door_locked", "'": "t_thconc_floor", "W": "t_window_domestic", "i": "t_thconc_floor" },
       "furniture": {
         "I": "f_desk",
         "h": "f_chair",
