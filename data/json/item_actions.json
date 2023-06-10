@@ -983,7 +983,7 @@
   {
     "type": "item_action",
     "id": "link_up",
-    "name": { "str": "Attach / Detach" }
+    "name": { "str": "Plug in / Unplug" }
   },
   {
     "type": "item_action",

@@ -57,7 +57,6 @@
     "initial_charges": 3,
     "use_action": {
       "type": "link_up",
-      "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
       "cable_length": 3,
       "targets": [ "no_link", "vehicle_port", "vehicle_battery" ]
@@ -91,7 +90,6 @@
     "initial_charges": 10,
     "use_action": {
       "type": "link_up",
-      "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
       "cable_length": 10,
       "targets": [ "no_link", "vehicle_port", "vehicle_battery" ]
@@ -133,7 +131,6 @@
     "initial_charges": 3,
     "use_action": {
       "type": "link_up",
-      "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
       "cable_length": 3,
       "targets": [ "no_link", "vehicle_port", "vehicle_battery" ]
