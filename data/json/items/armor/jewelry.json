@@ -1880,7 +1880,7 @@
     "name": { "str": "badge template" },
     "description": "This is a template for police/medical badges.  If found in a game, it is a bug.",
     "weight": "60 g",
-    "volume": "5 ml",
+    "volume": "8 ml",
     "price": 5000,
     "price_postapoc": 700,
     "material": [ "brass" ],
