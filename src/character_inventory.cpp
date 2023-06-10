@@ -522,7 +522,7 @@ void Character::drop_invalid_inventory()
         weap.overflow();
     }
     worn.overflow( *this );
-
+    leaking_level = leak_level();
     cache_inventory_is_valid = true;
 }
 

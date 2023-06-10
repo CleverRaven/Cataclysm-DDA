@@ -2452,7 +2452,7 @@ class Character : public Creature, public visitable
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
         bool hauling = false;
-
+        float leaking_level;
         tripoint view_offset;
 
         player_activity stashed_outbounds_activity;
