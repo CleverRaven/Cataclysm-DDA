@@ -601,5 +601,54 @@
     "rating": "good",
     "removes_effects": [ "wicked_quick_hands" ],
     "base_mods": { "str_mod": [ 4 ] }
+  },
+  {
+    "id": "bleed_karma",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Just to make karma arms drop a proper liquid when damaged",
+    "show_intensity": false,
+    "show_in_info": false,
+    "enchantments": [ { "emitter": "emit_blood_karma" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_karma_arm",
+    "name": [ "Grabbing Karma Arm" ],
+    "show_in_info": true,
+    "desc": [ "You're trying to grab an ethereal karma arm.  It surely doesn't work." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "karma_arms",
+    "name": { "str": "Karma" },
+    "points": 1,
+    "description": "An ethereal hands appear behind you back, making you looks like an ancient god.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "karma_arm_up_r" },
+          { "gain": "karma_arm_up_l" },
+          { "gain": "karma_arm_lw_r" },
+          { "gain": "karma_arm_lw_l" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "spell_karma_arms_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "An ethereal, transparent arms grow from your shoulders, and <color_cyan>glow<color>.",
+    "remove_message": "The cyan arms grow dim, and finally dissapear.",
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "karma_arms" ] } ]
   }
 ]

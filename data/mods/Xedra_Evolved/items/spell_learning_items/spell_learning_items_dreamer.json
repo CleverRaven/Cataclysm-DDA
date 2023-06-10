@@ -219,5 +219,21 @@
     "color": "black",
     "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_winch" ] }
+  },
+  {
+    "id": "artifact_karma_arms",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": "odd circle",
+    "description": "Circular unit of energy, with few another circles that almost make a connection around the center",
+    "weight": "90 g",
+    "volume": "190 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "cyan",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
+    "use_action": { "type": "learn_spell", "spells": [ "spell_karma_arms" ] }
   }
 ]
