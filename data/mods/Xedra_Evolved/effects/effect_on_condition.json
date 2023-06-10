@@ -29,7 +29,7 @@
     "type": "effect_on_condition",
     "id": "xe_scraggy-boo_messages",
     "recurrence": [ "72 hours", "168 hours" ],
-    "condition": { "u_has_items": { "item": "book_teens_deduction" } },
+    "condition": { "u_has_items": { "item": "book_teens_deduction", "count": 1 } },
     "effect": [ { "u_message": "XE_SCRAGGY-BOO_MESSAGES_1", "snippet": true } ]
   }
 ]
