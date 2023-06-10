@@ -524,8 +524,8 @@
     "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": 1000,
-    "base_casting_time": { "math": [ "spell_time(u_val('time: 4 h'))" ] },
-    "final_casting_time": { "math": [ "spell_time(u_val('time: 4 h'))" ] },
+    "base_casting_time": { "math": [ "spell_time(u_val('time: 2 h'))" ] },
+    "final_casting_time": { "math": [ "spell_time(u_val('time: 2 h'))" ] },
     "spell_class": "DREAMER"
   }
 ]
