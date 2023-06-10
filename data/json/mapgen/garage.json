@@ -112,12 +112,11 @@
         " |..........AA........3 ",
         " |.=..................3 ",
         " |----------------##### ",
-        "                  ##>## ",
+        "                  ##v## ",
         "                  ####  ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down" },
       "place_items": [ { "item": "roof_trash", "x": [ 4, 20 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -369,10 +368,7 @@
         "+": "t_door_locked",
         "'": "t_thconc_floor",
         "W": "t_window_domestic",
-        "I": "t_thconc_floor",
-        "h": "t_thconc_floor",
         "i": "t_thconc_floor",
-        "x": "t_thconc_floor"
       },
       "furniture": {
         "I": "f_desk",
@@ -437,8 +433,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]
