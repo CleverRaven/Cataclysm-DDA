@@ -912,7 +912,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "components": [
       [ [ "cotton_patchwork", 4 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ],
-      [ [ "element", 2 ] ],
+      [ [ "element", 2 ], [ "crude_heating_element", 3 ] ],
       [ [ "cable", 2 ] ]
     ]
   },

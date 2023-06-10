@@ -177,8 +177,8 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( -dd.x );   // values[4]
     res.values.push_back( -dd.y );   // values[5]
     res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
-    res.str_values.push_back( vp->get_id().str() );
-    res.str_values.push_back( sel_vpart_variant );
+    res.str_values.emplace_back( vp->get_id().str() );
+    res.str_values.emplace_back( "" ); // previously stored the part variant, now obsolete
     res.targets.emplace_back( std::move( refill_target ) );
 
     return res;
@@ -223,15 +223,6 @@ std::optional<vpart_reference> veh_interact::select_part( const vehicle &veh,
 veh_interact::veh_interact( vehicle &veh, const point &p )
     : dd( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keycode )
 {
-    // Only build the shapes map and the wheel list once
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        vpart_shapes[ vp.name() + vp.base_item.str() ].push_back( &vp );
-        if( vp.has_flag( "WHEEL" ) ) {
-            wheel_types.push_back( &vp );
-        }
-    }
-
     main_context.register_directions();
     main_context.register_action( "QUIT" );
     main_context.register_action( "INSTALL" );
@@ -1001,7 +992,7 @@ void veh_interact::do_install()
             filter.clear();
             tab = 0;
         } else if( action == "INSTALL" || action == "CONFIRM" ) {
-            if( !can_install ) {
+            if( !can_install || sel_vpart_info == nullptr ) {
                 continue;
             }
             switch( reason ) {
@@ -1034,117 +1025,11 @@ void veh_interact::do_install()
                               " Continue?" ) ) ) {
                 return;
             }
-            auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
-            // Don't include appliances in variant list
-            for( auto iter = shapes.begin(); iter != shapes.end(); ) {
-                if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
-                    shapes.erase( iter );
-                } else {
-                    iter++;
-                }
-            }
-            int selected_shape = -1;
-            // more than one base variant available with the same name
-            size_t num_vpart_shapes = shapes.size();
-            if( num_vpart_shapes > 1 ) {
-                std::vector<uilist_entry> shape_ui_entries;
-                for( size_t i = 0; i < shapes.size(); i++ ) {
-                    // use the id to distinguish between them
-                    std::string vpname =
-                        string_format( "%s (%s)", shapes[i]->name(), shapes[i]->get_id().str() );
-                    uilist_entry entry( i, true, 0, vpname );
-                    entry.extratxt.left = 1;
-                    entry.extratxt.sym = special_symbol( shapes[i]->get_symbol() );
-                    entry.extratxt.color = shapes[i]->color;
-                    shape_ui_entries.push_back( entry );
-                }
-                sort_uilist_entries_by_line_drawing( shape_ui_entries );
-                uilist smenu;
-                //~ Choose a base variant for a vehicle part
-                smenu.settext( _( "Choose base:" ) );
-                smenu.entries = shape_ui_entries;
-                smenu.w_width_setup = [this]() {
-                    return getmaxx( w_list );
-                };
-                smenu.w_x_setup = [this]( const int ) {
-                    return getbegx( w_list );
-                };
-                smenu.w_y_setup = [this]( const int ) {
-                    return getbegy( w_list );
-                };
-                smenu.query();
-                selected_shape = smenu.ret;
-            } else { // only one shape available, default to first one
-                selected_shape = 0;
-            }
-            if( selected_shape >= 0 && static_cast<size_t>( selected_shape ) < num_vpart_shapes ) {
-                sel_vpart_info = shapes[selected_shape];
-                sel_vpart_variant.clear();
-                selected_shape = 0;
-                // more than one shape available, display selection
-                size_t num_shapes_total = sel_vpart_info->symbols.size();
-                if( num_shapes_total > 0 ) {
-                    std::vector<uilist_entry> shape_ui_entries;
-                    size_t j = 1;
-                    for( const auto &vp_variant : sel_vpart_info->symbols ) {
-                        std::string disp_name = sel_vpart_info->name();
-                        for( const auto &vp_variant_pair : vpart_variants ) {
-                            if( vp_variant_pair.first == vp_variant.first ) {
-                                disp_name += " " + vp_variant_pair.second;
-                                break;
-                            }
-                        }
-                        uilist_entry entry( j, true, 0, disp_name );
-                        entry.extratxt.left = 1;
-                        entry.extratxt.sym = special_symbol( vp_variant.second );
-                        entry.extratxt.color = sel_vpart_info->color;
-                        shape_ui_entries.push_back( entry );
-                        j += 1;
-                    }
-                    sort_uilist_entries_by_line_drawing( shape_ui_entries );
-                    //~ Option to select the default vehicle part, no variant
-                    uilist_entry def_entry( 0, true, 0, _( "No variant (use default)" ) );
-                    def_entry.extratxt.left = 1;
-                    def_entry.extratxt.sym = ' ';
-                    def_entry.extratxt.color = c_white;
-                    shape_ui_entries.push_back( def_entry );
-                    uilist smenu;
-                    //~ Choose a variant shape for a vehicle part
-                    smenu.settext( _( "Choose shape:" ) );
-                    smenu.entries = shape_ui_entries;
-                    smenu.w_width_setup = [this]() {
-                        return getmaxx( w_list );
-                    };
-                    smenu.w_x_setup = [this]( const int ) {
-                        return getbegx( w_list );
-                    };
-                    smenu.w_y_setup = [this]( const int ) {
-                        return getbegy( w_list );
-                    };
-                    smenu.query();
-                    selected_shape = smenu.ret;
-                }
-                if( selected_shape >= 0 && ( num_shapes_total == 0 ||
-                                             static_cast<size_t>( selected_shape ) <= num_shapes_total ) ) {
-                    int offset = selected_shape - 1;
-                    if( offset >= 0 ) {
-                        int j = 0;
-                        for( const auto &vp_variant : sel_vpart_info->symbols ) {
-                            if( j == offset ) {
-                                sel_vpart_variant = vp_variant.first;
-                                break;
-                            } else {
-                                j += 1;
-                            }
-                        }
-                    }
-                    sel_cmd = 'i';
-                    return;
-                }
-            }
+
+            sel_cmd = 'i';
+            break;
         } else if( action == "QUIT" ) {
             sel_vpart_info = nullptr;
-            sel_vpart_variant.clear();
             break;
         } else if( action == "PREV_TAB" ) {
             pos = 0;
@@ -1312,7 +1197,6 @@ void veh_interact::do_repair()
                 }
                 sel_vehicle_part = &pt;
                 sel_vpart_info = &vp;
-                sel_vpart_variant = pt.variant;
                 const std::vector<npc *> helpers = player_character.get_crafting_helpers();
                 for( const npc *np : helpers ) {
                     add_msg( m_info, _( "%s helps with this task…" ), np->get_name() );
@@ -2025,6 +1909,44 @@ bool veh_interact::do_unload()
     return true;
 }
 
+static void do_change_shape_menu( vehicle_part &vp )
+{
+    const vpart_info &vpi = vp.info();
+    uilist smenu;
+    smenu.text = _( "Choose cosmetic variant:" );
+    int ret_code = 0;
+    int default_selection = 0;
+    std::vector<std::string> variants;
+    for( const auto& [variant_id, vv] : vpi.variants ) {
+        if( variant_id == vp.variant ) {
+            default_selection = ret_code;
+        }
+        uilist_entry entry( vv.get_label() );
+        entry.txt = entry.txt.empty() ? _( "Default" ) : entry.txt;
+        entry.retval = ret_code++;
+        entry.extratxt.left = 1;
+        entry.extratxt.sym = vv.get_symbol_curses( 0_degrees, false );
+        entry.extratxt.color = vpi.color;
+        variants.emplace_back( variant_id );
+        smenu.entries.emplace_back( entry );
+    }
+    sort_uilist_entries_by_line_drawing( smenu.entries );
+
+    // get default selection after sorting
+    for( std::size_t i = 0; i < smenu.entries.size(); ++i ) {
+        if( smenu.entries[i].retval == default_selection ) {
+            default_selection = i;
+            break;
+        }
+    }
+
+    smenu.selected = default_selection;
+    smenu.query();
+    if( smenu.ret >= 0 ) {
+        vp.variant = variants[smenu.ret];
+    }
+}
+
 void veh_interact::do_change_shape()
 {
     if( cant_do( 'p' ) == task_reason::INVALID_TARGET ) {
@@ -2041,8 +1963,7 @@ void veh_interact::do_change_shape()
     int part_selected = 0;
 
     while( true ) {
-        vehicle_part &part = veh->part( parts_here[part_selected] );
-        sel_vpart_info = &part.info();
+        vehicle_part &vp = veh->part( parts_here[part_selected] );
 
         highlight_part = part_selected;
         overview_enable = [this, part_selected]( const vehicle_part & pt ) {
@@ -2055,82 +1976,7 @@ void veh_interact::do_change_shape()
         if( action == "QUIT" ) {
             break;
         } else if( action == "CONFIRM" || action == "CHANGE_SHAPE" ) {
-            using v_shapes = std::vector<const vpart_info *, std::allocator<const vpart_info *>>;
-            v_shapes &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
-            // Don't include appliances in variant list
-            for( auto iter = shapes.begin(); iter != shapes.end(); ) {
-                if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
-                    shapes.erase( iter );
-                } else {
-                    iter++;
-                }
-            }
-            if( shapes.empty() ) {
-                break;
-            }
-
-            uilist smenu;
-            smenu.text = _( "Choose shape:" );
-            smenu.w_width_setup = [this]() {
-                return getmaxx( w_list );
-            };
-            smenu.w_x_setup = [this]( const int ) {
-                return getbegx( w_list );
-            };
-            smenu.w_y_setup = [this]( const int ) {
-                return getbegy( w_list );
-            };
-
-            int ret_code = 0;
-            int default_selection = 0;
-            std::vector<std::string> variants;
-            for( const vpart_info *const shape : shapes ) {
-                // more than one base variant available with the same name, use id to distinguish between them
-                std::string vpname = string_format( "%s (%s)", shape->name(), shape->get_id().str() );
-                uilist_entry entry( vpname );
-                entry.retval = ret_code++;
-                entry.extratxt.left = 1;
-                entry.extratxt.sym = special_symbol( shape->get_symbol() );
-                entry.extratxt.color = shape->color;
-                variants.emplace_back( );
-                smenu.entries.emplace_back( entry );
-            }
-
-            for( const std::pair<const std::string, int> &vp_variant : sel_vpart_info->symbols ) {
-                std::string disp_name = sel_vpart_info->name();
-                // getting all the available shape variants from vpart_variants
-                for( const std::pair<std::string, translation> &vp_variant_pair : vpart_variants ) {
-                    if( vp_variant_pair.first == vp_variant.first ) {
-                        disp_name += " " + vp_variant_pair.second;
-                        variants.emplace_back( vp_variant.first );
-                        if( vp_variant.first == part.variant ) {
-                            default_selection = ret_code;
-                        }
-                        break;
-                    }
-                }
-                uilist_entry entry( disp_name );
-                entry.retval = ret_code++;
-                entry.extratxt.left = 1;
-                entry.extratxt.sym = special_symbol( vp_variant.second );
-                entry.extratxt.color = sel_vpart_info->color;
-                smenu.entries.emplace_back( entry );
-            }
-            sort_uilist_entries_by_line_drawing( smenu.entries );
-
-            // get default selection after sorting
-            for( std::size_t i = 0; i < smenu.entries.size(); ++i ) {
-                if( smenu.entries[i].retval == default_selection ) {
-                    default_selection = i;
-                    break;
-                }
-            }
-
-            smenu.selected = default_selection;
-            smenu.query();
-            if( smenu.ret >= 0 ) {
-                part.variant = variants[smenu.ret];
-            }
+            do_change_shape_menu( vp );
         } else {
             move_in_list( part_selected, action, parts_here.size() );
         }
@@ -2360,27 +2206,18 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     can_mount.clear();
     if( !obstruct ) {
         std::vector<const vpart_info *> req_missing;
-        for( const auto &e : vpart_info::all() ) {
-            const vpart_info &vp = e.second;
-            if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
+        for( const auto &[id, vpi] : vpart_info::all() ) {
+            if( has_critter && vpi.has_flag( VPFLAG_OBSTACLE ) ) {
                 continue;
             }
-            if( vp.has_flag( "NO_INSTALL_HIDDEN" ) ) {
-                // exclude parts that should never be installed through install menu
-                continue;
+            if( vpi.has_flag( "NO_INSTALL_HIDDEN" ) ||
+                vpi.has_flag( VPFLAG_APPLIANCE ) ) {
+                continue; // hide parts with incompatible flags
             }
-            if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
-                // exclude "appliances" from vehicle part list
-                continue;
-            }
-            if( vp.get_id() != vpart_shapes[ vp.name() + vp.base_item.str() ][ 0 ]->get_id() ) {
-                // only add first shape to install list
-                continue;
-            }
-            if( can_potentially_install( vp ) ) {
-                can_mount.push_back( &vp );
+            if( can_potentially_install( vpi ) ) {
+                can_mount.push_back( &vpi );
             } else {
-                req_missing.push_back( &vp );
+                req_missing.push_back( &vpi );
             }
         }
         auto vpart_localized_sort = []( const vpart_info * a, const vpart_info * b ) {
@@ -2509,37 +2346,32 @@ void veh_interact::display_veh()
         mvwputch( w_disp, point( x, h_size.y ), c_dark_gray, LINE_OXOX );
     }
 
-    //Iterate over structural parts so we only hit each square once
-    std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
-    for( int &structural_part : structural_parts ) {
-        const int p = structural_part;
-        char sym = veh->part_sym( p, false, false );
-        nc_color col = veh->part_color( p, false, false );
-
-        const point q = ( veh->part( p ).mount + dd ).rotate( 3 );
-
-        if( q == point_zero ) {
-            col = hilite( col );
-            cpart = p;
-        }
-        mvwputch( w_disp, h_size + q, col, special_symbol( sym ) );
-    }
-
-    const int hw = getmaxx( w_disp ) / 2;
-    const int hh = getmaxy( w_disp ) / 2;
-    const point vd = -dd;
-    const point q = veh->coord_translate( vd );
-    const tripoint vehp = veh->global_pos3() + q;
     map &here = get_map();
-    bool obstruct = here.impassable_ter_furn( vehp );
-    const optional_vpart_position ovp = here.veh_at( vehp );
-    if( ovp && &ovp->vehicle() != veh ) {
-        obstruct = true;
+    nc_color col_at_cursor = c_black;
+    int sym_at_cursor = ' ';
+    //Iterate over structural parts so we only hit each square once
+    for( const int structural_part_idx : veh->all_parts_at_location( "structure" ) ) {
+        const vehicle_part &vp = veh->part( structural_part_idx );
+        const vpart_display vd = veh->get_display_of_tile( vp.mount, false, false );
+        const point q = ( vp.mount + dd ).rotate( 3 );
+
+        if( q != point_zero ) { // cursor is not on this part
+            mvwputch( w_disp, h_size + q, vd.color, vd.symbol_curses );
+            continue;
+        }
+        cpart = structural_part_idx;
+        col_at_cursor = vd.color;
+        sym_at_cursor = vd.symbol_curses;
     }
-    nc_color col = cpart >= 0 ? veh->part_color( cpart, false, false ) : c_black;
-    char sym = cpart >= 0 ? veh->part_sym( cpart, false, false ) : ' ';
-    mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
-              special_symbol( sym ) );
+
+    const point pt_disp( getmaxx( w_disp ) / 2, getmaxy( w_disp ) / 2 );
+    const tripoint pos_at_cursor = veh->global_pos3() + veh->coord_translate( -dd );
+    const optional_vpart_position ovp = here.veh_at( pos_at_cursor );
+    col_at_cursor = hilite( col_at_cursor );
+    if( here.impassable_ter_furn( pos_at_cursor ) || ( ovp && &ovp->vehicle() != veh ) ) {
+        col_at_cursor = red_background( col_at_cursor );
+    }
+    mvwputch( w_disp, pt_disp, col_at_cursor, sym_at_cursor );
     wnoutrefresh( w_disp );
 }
 
@@ -2918,8 +2750,9 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
     size_t page = pos / lines_per_page;
     for( size_t i = page * lines_per_page; i < ( page + 1 ) * lines_per_page && i < list.size(); i++ ) {
         const vpart_info &info = *list[i];
+        const vpart_variant &vv = info.variants.at( info.variant_default );
         int y = i - page * lines_per_page + header;
-        mvwputch( w_list, point( 1, y ), info.color, special_symbol( info.get_symbol() ) );
+        mvwputch( w_list, point( 1, y ), info.color, vv.get_symbol_curses( 0_degrees, false ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dark_gray;
         trim_and_print( w_list, point( 3, y ), getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name() );
@@ -3298,7 +3131,7 @@ void veh_interact::complete_vehicle( Character &you )
                 break;
             }
             ::vehicle_part &vp_new = veh->part( partnum );
-            vp_new.variant = you.activity.str_values[1];
+            do_change_shape_menu( vp_new );
 
             // Need map-relative coordinates to compare to output of look_around.
             // Need to call coord_translate() directly since it's a new part.
@@ -3352,9 +3185,7 @@ void veh_interact::complete_vehicle( Character &you )
         }
 
         case 'r': {
-            cata_assert( you.activity.str_values.size() >= 2 );
-            const std::string &variant_id = you.activity.str_values[1];
-            veh_utils::repair_part( *veh, veh->part( vehicle_part ), you, variant_id );
+            veh_utils::repair_part( *veh, veh->part( vehicle_part ), you );
             break;
         }
 
@@ -3458,17 +3289,7 @@ void veh_interact::complete_vehicle( Character &you )
             if( veh->part_flag( vehicle_part, "POWER_TRANSFER" ) ) {
                 veh->remove_remote_part( vehicle_part );
             }
-            if( veh->is_towing() || veh->is_towed() ) {
-                add_msg_debug( debugmode::DF_VEHICLE, "vehicle is towing/towed" );
-                vehicle *other_veh = veh->is_towing() ? veh->tow_data.get_towed() :
-                                     veh->tow_data.get_towed_by();
-                if( other_veh ) {
-                    add_msg_debug( debugmode::DF_VEHICLE, "Other vehicle exists.  Removing tow cable" );
-                    other_veh->remove_part( other_veh->get_tow_part() );
-                    other_veh->tow_data.clear_towing();
-                }
-                veh->tow_data.clear_towing();
-            }
+
             bool broken = veh->part( vehicle_part ).is_broken();
             bool smash_remove = veh->part( vehicle_part ).info().has_flag( "SMASH_REMOVE" );
 
@@ -3485,6 +3306,8 @@ void veh_interact::complete_vehicle( Character &you )
 
             if( wall_wire_removal ) {
                 veh->part( vehicle_part ).properties_to_item();
+            } else if( veh->part_flag( vehicle_part, "TOW_CABLE" ) ) {
+                veh->invalidate_towing( true, &you );
             } else if( broken ) {
                 item_group::ItemList pieces = veh->part( vehicle_part ).pieces_for_broken_part();
                 resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );

@@ -11,8 +11,6 @@
     "name": { "str": "boom crane" },
     "item": "cantilever_medium",
     "location": "structure",
-    "symbol": "=",
-    "broken_symbol": "*",
     "categories": [ "utility" ],
     "color": "light_gray",
     "broken_color": "light_blue",
@@ -28,7 +26,8 @@
     },
     "flags": [ "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
-    "damage_reduction": { "all": 48 }
+    "damage_reduction": { "all": 48 },
+    "variants": [ { "symbols": "=", "symbols_broken": "*" } ]
   },
   {
     "id": "crane_medium_internal",
@@ -46,8 +45,6 @@
     "name": { "str": "telescopic crane" },
     "item": "cantilever_small",
     "location": "center",
-    "symbol": "=",
-    "broken_symbol": "*",
     "categories": [ "utility" ],
     "color": "light_gray",
     "broken_color": "light_blue",
@@ -64,7 +61,8 @@
     },
     "flags": [ "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
-    "damage_reduction": { "all": 42 }
+    "damage_reduction": { "all": 42 },
+    "variants": [ { "symbols": "=", "symbols_broken": "*" } ]
   },
   {
     "id": "crane_tiny",
@@ -72,8 +70,6 @@
     "name": { "str": "pallet lifter" },
     "item": "pallet_lifter",
     "location": "center",
-    "symbol": "=",
-    "broken_symbol": "*",
     "categories": [ "utility" ],
     "color": "light_gray",
     "broken_color": "light_blue",
@@ -89,7 +85,8 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "PROTRUSION" ],
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 40 },
+    "variants": [ { "symbols": "=", "symbols_broken": "*" } ]
   },
   {
     "id": "forklift_fork",
@@ -97,8 +94,6 @@
     "name": { "str": "forklift arm" },
     "item": "frame",
     "location": "structure",
-    "symbol": "|",
-    "broken_symbol": "x",
     "categories": [ "utility" ],
     "color": "light_gray",
     "broken_color": "light_gray",
@@ -128,7 +123,8 @@
     },
     "flags": [ "CARGO", "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
-    "damage_reduction": { "all": 42 }
+    "damage_reduction": { "all": 42 },
+    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
   },
   {
     "id": "rockwheel",
@@ -136,8 +132,6 @@
     "name": { "str": "rockwheel" },
     "item": "v_rockwheel_item",
     "location": "structure",
-    "symbol": "&",
-    "broken_symbol": "x",
     "categories": [ "utility" ],
     "color": "light_gray",
     "broken_color": "light_gray",
@@ -167,7 +161,8 @@
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL", "TRANSFORM_TERRAIN" ],
-    "damage_reduction": { "all": 132 }
+    "damage_reduction": { "all": 132 },
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
@@ -175,8 +170,6 @@
     "name": { "str": "air jack system" },
     "item": "v_airjack_item",
     "location": "under",
-    "symbol": "[",
-    "broken_symbol": "/",
     "categories": [ "utility" ],
     "color": "light_gray",
     "broken_color": "light_blue",
@@ -204,15 +197,14 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "PROTRUSION", "SELF_JACK" ],
-    "damage_reduction": { "all": 36 }
+    "damage_reduction": { "all": 36 },
+    "variants": [ { "symbols": "[", "symbols_broken": "/" } ]
   },
   {
     "type": "vehicle_part",
     "id": "motorcycle_kickstand",
     "name": { "str": "motorcycle kickstand" },
     "item": "v_motorcycle_kickstand_item",
-    "symbol": "[",
-    "broken_symbol": "/",
     "categories": [ "utility" ],
     "color": "light_gray",
     "broken_color": "light_blue",
@@ -227,6 +219,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "SELF_JACK" ],
-    "damage_reduction": { "all": 5 }
+    "damage_reduction": { "all": 5 },
+    "variants": [ { "symbols": "[", "symbols_broken": "/" } ]
   }
 ]

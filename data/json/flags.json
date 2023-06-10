@@ -1186,6 +1186,10 @@
     "type": "json_flag"
   },
   {
+    "id": "AUTO_DELETE_CABLE",
+    "type": "json_flag"
+  },
+  {
     "id": "CAMERA_PRO",
     "type": "json_flag"
   },
@@ -1580,10 +1584,6 @@
   },
   {
     "id": "POWERED",
-    "type": "json_flag"
-  },
-  {
-    "id": "POWER_CORD",
     "type": "json_flag"
   },
   {
@@ -2144,5 +2144,40 @@
   {
     "id": "ELECTRONIC",
     "type": "json_flag"
+  },
+  {
+    "id": "AFS_CS_LOCKER_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's locker room."
+  },
+  {
+    "id": "AFS_CS_ARMORY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's armory."
+  },
+  {
+    "id": "AFS_CS_EXOBAY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's exobay."
+  },
+  {
+    "id": "CREDIT_CARD_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a credit card"
+  },
+  {
+    "id": "BANK_NOTE_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a bank note"
+  },
+  {
+    "id": "COIN_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a coin"
+  },
+  {
+    "id": "BANK_NOTE_STRAP_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a bank note strap"
   }
 ]

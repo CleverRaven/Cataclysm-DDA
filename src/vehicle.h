@@ -51,6 +51,7 @@ class vehicle_part_range;
 class veh_menu;
 class vpart_info;
 class vpart_position;
+class vpart_variant;
 class zone_data;
 struct input_event;
 struct itype;
@@ -679,6 +680,24 @@ enum class autodrive_result : int {
 
 class RemovePartHandler;
 
+class vpart_display
+{
+    public:
+        vpart_display();
+        explicit vpart_display( const vehicle_part &vp );
+
+        const vpart_id &id;
+        const vpart_variant &variant;
+        nc_color color = c_black;
+        char32_t symbol = ' '; // symbol in unicode
+        int symbol_curses = ' '; // symbol converted to curses ACS encoding if needed
+        bool is_broken = false;
+        bool is_open = false;
+        bool has_cargo = false;
+        // @returns string for tileset: "vp_{id}_{variant}" or "vp_{id}" if variant is empty
+        std::string get_tileset_id() const;
+};
+
 /**
  * A vehicle as a whole with all its components.
  *
@@ -852,6 +871,10 @@ class vehicle
         // Refresh active_item cache for vehicle parts
         void refresh_active_item_cache();
 
+        /** Return a pointer-like type that's automatically invalidated if this
+        * item is destroyed or assigned-to */
+        safe_reference<vehicle> get_safe_reference();
+
         /**
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
@@ -879,7 +902,10 @@ class vehicle
                     float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero, float damage_size = 0 );
 
         void serialize( JsonOut &json ) const;
+        // deserializes vehicle from json (including parts)
         void deserialize( const JsonObject &data );
+        // deserializes parts from json to parts vector (clearing it first)
+        void deserialize_parts( const JsonArray &data );
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
                              int hl = -1, bool detail = false, bool include_fakes = true ) const;
@@ -888,7 +914,7 @@ class vehicle
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
         // towing functions
-        void invalidate_towing( bool first_vehicle = false );
+        void invalidate_towing( bool first_vehicle = false, Character *remover = nullptr );
         void do_towing_move();
         bool tow_cable_too_far() const;
         bool no_towing_slack() const;
@@ -1111,6 +1137,15 @@ class vehicle
         */
         int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
         /**
+        *  Returns part index at mount point \p pt which has given \p f flag
+        *  @note uses relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
+        int part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const;
+        /**
         *  Returns \p p or part index at mount point \p pt which has given \p f flag
         *  @note uses relative_parts cache
         *  @param p index of part to start searching from
@@ -1229,12 +1264,14 @@ class vehicle
         // @return index or -1 if part is nullptr, not found or removed and include_removed is false.
         int index_of_part( const vehicle_part *part, bool include_removed = false ) const;
 
-        // get symbol for map
-        char part_sym( int p, bool exact = false, bool include_fake = true ) const;
-        std::string part_id_string( int p, char &part_mod, bool below_roof = true, bool roof = true ) const;
-
-        // get color for map
-        nc_color part_color( int p, bool exact = false, bool include_fake = true ) const;
+        // @param dp mount point to check
+        // @param rotate symbol is rotated using vehicle facing, or north facing if false
+        // @param include_fake if true fake parts are included
+        // @param below_roof if true parts below roof are included
+        // @param roof if true roof parts are included
+        // @returns filled vpart_display struct or default constructed if no part displayed
+        vpart_display get_display_of_tile( const point &dp, bool rotate = true, bool include_fake = true,
+                                           bool below_roof = true, bool roof = true ) const;
 
         // Get all printable fuel types
         std::vector<itype_id> get_printable_fuel_types() const;
@@ -1358,6 +1395,8 @@ class vehicle
         units::power total_water_wheel_epower() const;
         // Total power drain across all vehicle accessories.
         units::power total_accessory_epower() const;
+        // Total power draw from all cable-connected devices. Is cleared every turn during idle().
+        units::power linked_item_epower_this_turn; // NOLINT(cata-serialize)
         // Net power draw or drain on batteries.
         units::power net_battery_charge_rate( bool include_reactors ) const;
         // Maximum available power available from all reactors. Power from
@@ -2050,6 +2089,7 @@ class vehicle
         std::vector<int> mufflers; // NOLINT(cata-serialize)
         std::vector<int> planters; // NOLINT(cata-serialize)
         std::vector<int> accessories; // NOLINT(cata-serialize)
+        std::vector<int> cable_ports; // NOLINT(cata-serialize)
         std::vector<int> fake_parts; // NOLINT(cata-serialize)
 
         // config values
@@ -2085,6 +2125,7 @@ class vehicle
         bool has_tag( const std::string &tag ) const;
 
     private:
+        safe_reference_anchor anchor; // NOLINT(cata-serialize)
         mutable units::mass mass_cache; // NOLINT(cata-serialize)
         // cached pivot point
         mutable point pivot_cache; // NOLINT(cata-serialize)

@@ -2816,12 +2816,12 @@ void options_manager::add_options_debug()
                                       to_translation( "Options regarding 3D field of vision." ) ),
     [&]( const std::string & page_id ) {
         add( "FOV_3D", page_id, to_translation( "Experimental 3D field of vision" ),
-             to_translation( "If true and the world is in Z-level mode, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level.  Currently very bugged!" ),
+             to_translation( "If true and the world is in Z-level mode, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level." ),
              false
            );
 
         add( "FOV_3D_Z_RANGE", page_id, to_translation( "Vertical range of 3D field of vision" ),
-             to_translation( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
+             to_translation( "How many levels up and down the experimental 3D field of vision reaches and is drawn on screen.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
              0, OVERMAP_LAYERS, 4
            );
     } );
@@ -4049,6 +4049,8 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     std::unordered_map<std::string, cOpt>::iterator opt = options.find( name );
     if( opt == options.end() ) {
         debugmsg( "requested non-existing option %s", name );
+        static cOpt nullopt;
+        return nullopt;
     }
     if( !world_options.has_value() ) {
         // Global options contains the default for new worlds, which is good enough here.

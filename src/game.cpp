@@ -2669,7 +2669,7 @@ bool game::is_game_over()
         // prevent pain from updating
         u.set_pain( 0 );
         // prevent dodging
-        u.dodges_left = 0;
+        u.set_dodges_left( 0 );
         return false;
     }
     if( uquit == QUIT_DIED ) {

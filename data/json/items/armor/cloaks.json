@@ -425,9 +425,9 @@
         "append": true
       },
       {
-        "id": "congolese_flag",
-        "name": { "str": "Congolese flag" },
-        "description": "A large red stripe divides a blue background into two triangles, the upper left corner sporting a yellow star.",
+        "id": "congo_flag",
+        "name": { "str": "Congo flag" },
+        "description": "It has a diagonal tricolor of green, yellow and red radiating from the lower hoist side corner.",
         "weight": 10,
         "append": true
       },
@@ -467,8 +467,8 @@
         "append": true
       },
       {
-        "id": "congo_flag",
-        "name": { "str": "Congo flag" },
+        "id": "democratic_congo_flag",
+        "name": { "str": "Democratic Republic Congo flag" },
         "description": "A sky blue flag with a yellow star in the upper left canton, diagonally running across the flag is a red strip and yellow fimbriation.",
         "weight": 10,
         "append": true
@@ -1543,13 +1543,13 @@
       {
         "id": "connecticut_flag",
         "name": { "str": "Connecticut flag" },
-        "description": "A large blue flag featuring a white baroque shield with three grapevines, each bearing three bunches of purple grapes on a field of royal blue, below the shield reads “Qui Transtulit Sustinet”, which is Latin for “He who transplanted sustains” which represents the state of Connecticut.",
+        "description": "A large blue flag featuring a white baroque shield with three grapevines, each bearing three bunches of purple grapes on a field of royal blue, below the shield reads \"Qui Transtulit Sustinet\", which is Latin for \"He who transplanted sustains\" which represents the state of Connecticut.",
         "weight": 5
       },
       {
         "id": "rhode_island_flag",
         "name": { "str": "Rhode Island flag" },
-        "description": "A large white flag of Rhode Island that features a golden anchor in the middle of it surrounded by thirteen gold stars, below the anchor is a blue banner that reads “hope”.",
+        "description": "A large white flag of Rhode Island that features a golden anchor in the middle of it surrounded by thirteen gold stars, below the anchor is a blue banner that reads \"hope\".",
         "weight": 5
       }
     ]

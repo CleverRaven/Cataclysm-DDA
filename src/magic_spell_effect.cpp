@@ -540,7 +540,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_block ) ) / 3.0;
         }
 
-        if( const int spell_dodge = cr->get_dodge() - spell_accuracy > 0 ) {
+        if( cr->dodge_check( spell_accuracy ) ) {
+            const int spell_dodge = cr->get_dodge() - spell_accuracy;
             const int roll = std::round( rng( 1, 20 ) );
             // 5% per point (linear) ranging from 0-33%, capped at block score
             damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_dodge ) ) / 3.0;
@@ -1726,6 +1727,7 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
         }
         Creature *victim = creatures.creature_at<Creature>( potential_target );
         dialogue d( victim ? get_talker_for( victim ) : nullptr, get_talker_for( caster ) );
+        d.amend_callstack( string_format( "Spell: %s Caster: %s", sp.id().c_str(), caster.disp_name() ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );

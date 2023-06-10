@@ -167,7 +167,7 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
         item_location drill = they.i_add( item( "test_cordless_drill" ) );
         item_location bat_cell = they.i_add( item( "heavy_battery_cell" ) );
         item_location ups_mod = they.i_add( item( "battery_ups" ) );
-        item_location ups = they.i_add( item( "UPS_off" ) );
+        item_location ups = they.i_add( item( "UPS_ON" ) );
 
         GIVEN( "UPS has battery with enough charge, equal to drill's charges_per_use" ) {
             // Charge the battery

@@ -3,34 +3,7 @@
     "id": "windshield",
     "type": "vehicle_part",
     "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
-    "symbol": "\"",
-    "symbols": {
-      "cover_left": "h",
-      "cover_right": "h",
-      "nw": "y",
-      "ne": "u",
-      "sw": "b",
-      "se": "n",
-      "nw_edge": "y",
-      "ne_edge": "u",
-      "sw_edge": "b",
-      "se_edge": "n",
-      "left": "j",
-      "right": "j",
-      "vertical": "j",
-      "vertical_left": "j",
-      "vertical_right": "j",
-      "vertical_2_left": "j",
-      "vertical_2_right": "j",
-      "horizontal_front": "h",
-      "horizontal_front_edge": "^",
-      "horizontal_rear": "h",
-      "horizontal_rear_edge": "=",
-      "wheel_left": "y",
-      "wheel_right": "u"
-    },
     "broken_color": "light_gray",
-    "broken_symbol": "0",
     "categories": [ "hull" ],
     "color": "light_cyan",
     "damage_modifier": 70,
@@ -44,13 +17,64 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] }
-    }
-  },
-  {
-    "copy-from": "windshield",
-    "id": "windshield_full",
-    "type": "vehicle_part",
-    "name": { "str": "full windshield" }
+    },
+    "variants_bases": [ { "id": "full", "label": "Full" } ],
+    "variants": [
+      { "id": "horizontal", "label": "Horizontal", "symbols": "\"", "symbols_broken": "0" },
+      { "id": "cover_left", "label": "Cover Left", "symbols": "──││──││", "symbols_broken": "0" },
+      { "id": "cover_right", "label": "Cover Right", "symbols": "──││──││", "symbols_broken": "0" },
+      { "id": "nw", "label": "Front Left", "symbols": "┌┌┐┐┘┘└└", "symbols_broken": "0" },
+      { "id": "ne", "label": "Front Right", "symbols": "┐┐┘┘└└┌┌", "symbols_broken": "0" },
+      { "id": "sw", "label": "Rear Left", "symbols": "└└┌┌┐┐┘┘", "symbols_broken": "0" },
+      { "id": "se", "label": "Rear Right", "symbols": "┘┘└└┌┌┐┐", "symbols_broken": "0" },
+      { "id": "nw_edge", "label": "Front Left Corner", "symbols": "┌┌┐┐┘┘└└", "symbols_broken": "0" },
+      { "id": "ne_edge", "label": "Front Right Corner", "symbols": "┐┐┘┘└└┌┌", "symbols_broken": "0" },
+      { "id": "sw_edge", "label": "Rear Left Corner", "symbols": "└└┌┌┐┐┘┘", "symbols_broken": "0" },
+      { "id": "se_edge", "label": "Rear Right Corner", "symbols": "┘┘└└┌┌┐┐", "symbols_broken": "0" },
+      { "id": "left", "label": "Left", "symbols": "│/─\\│/─\\", "symbols_broken": "0" },
+      { "id": "right", "label": "Right", "symbols": "│/─\\│/─\\", "symbols_broken": "0" },
+      { "id": "vertical", "label": "Vertical", "symbols": "│/─\\│/─\\", "symbols_broken": "0" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "│/─\\│/─\\", "symbols_broken": "0" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "│/─\\│/─\\", "symbols_broken": "0" },
+      {
+        "id": "vertical_2_left",
+        "label": "Left Thick Vertical",
+        "symbols": "│/─\\│/─\\",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "vertical_2_right",
+        "label": "Right Thick Vertical",
+        "symbols": "│/─\\│/─\\",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "horizontal_front",
+        "label": "Front Horizontal",
+        "symbols": "──││──││",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "horizontal_front_edge",
+        "label": "Front Edge Horizontal",
+        "symbols": "^^>>vv<<",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "horizontal_rear",
+        "label": "Rear Horizontal",
+        "symbols": "──││──││",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "horizontal_rear_edge",
+        "label": "Rear Edge Horizontal",
+        "symbols": "━━┃┃━━┃┃",
+        "symbols_broken": "0"
+      },
+      { "id": "wheel_left", "label": "Wheel Left", "symbols": "┌┌┐┐┘┘└└", "symbols_broken": "0" },
+      { "id": "wheel_right", "label": "Wheel Right", "symbols": "┐┐┘┘└└┌┌", "symbols_broken": "0" }
+    ]
   },
   {
     "id": "reinforced_windshield",
@@ -67,13 +91,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
-    }
-  },
-  {
-    "copy-from": "reinforced_windshield",
-    "id": "reinforced_windshield_full",
-    "looks_like": "reinforced_windshield",
-    "type": "vehicle_part",
-    "name": { "str": "reinforced full windshield" }
+    },
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   }
 ]

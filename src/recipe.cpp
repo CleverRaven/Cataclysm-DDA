@@ -521,6 +521,7 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
         std::sort( mapgen_values.begin(), mapgen_values.end() );
 
         std::vector<std::string> bp_values;
+        bp_values.reserve( bp_param.second.size() );
         for( const std::pair<const std::string, translation> &p : bp_param.second ) {
             bp_values.push_back( p.first );
         }
@@ -959,6 +960,7 @@ std::string recipe::recipe_proficiencies_string() const
 {
     std::vector<proficiency_id> profs;
 
+    profs.reserve( proficiencies.size() );
     for( const recipe_proficiency &rec : proficiencies ) {
         profs.push_back( rec.id );
     }

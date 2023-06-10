@@ -95,7 +95,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
 
-        item ups( "UPS_off" );
+        item ups( "UPS_ON" );
         item ups_mag( ups.magazine_default() );
         ups_mag.ammo_set( ups_mag.ammo_default(), 1000 );
         ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -142,7 +142,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
 
-        item ups( "UPS_off" );
+        item ups( "UPS_ON" );
         item ups_mag( ups.magazine_default() );
         ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
         ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );

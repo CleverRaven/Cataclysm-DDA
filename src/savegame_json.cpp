@@ -2848,6 +2848,36 @@ void item::craft_data::deserialize( const JsonObject &obj )
     obj.read( "cached_tool_selections", cached_tool_selections );
 }
 
+void item::link_data::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "link_i_state", s_state );
+    jsout.member( "link_t_state", t_state );
+    jsout.member( "link_t_abs_pos", t_abs_pos );
+    jsout.member( "link_t_mount", t_mount );
+    jsout.member( "link_max_length", max_length );
+    jsout.member( "link_last_processed", last_processed );
+    jsout.member( "link_charge_rate", charge_rate );
+    jsout.member( "link_charge_interval", charge_interval );
+    jsout.member( "link_charge_efficiency", charge_efficiency );
+    jsout.end_object();
+}
+
+void item::link_data::deserialize( const JsonObject &data )
+{
+    data.allow_omitted_members();
+
+    data.read( "link_i_state", s_state );
+    data.read( "link_t_state", t_state );
+    data.read( "link_t_abs_pos", t_abs_pos );
+    data.read( "link_t_mount", t_mount );
+    max_length = data.get_int( "link_max_length" );
+    data.read( "link_last_processed", last_processed );
+    charge_rate = data.get_int( "link_charge_rate" );
+    charge_interval = data.get_int( "link_charge_interval" );
+    charge_efficiency = data.get_int( "link_charge_efficiency" );
+}
+
 // Template parameter because item::craft_data is private and I don't want to make it public.
 template<typename T>
 static void load_legacy_craft_data( io::JsonObjectInputArchive &archive, T &value )
@@ -2945,6 +2975,7 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "wetness", wetness, 0 );
+    archive.io( "contents_linked", contents_linked, false );
     archive.io( "dropped_from", dropped_from, harvest_drop_type_id::NULL_ID() );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );
@@ -2977,6 +3008,14 @@ void item::io( Archive &archive )
 
     static const cata::value_ptr<relic> null_relic_ptr = nullptr;
     archive.io( "relic_data", relic_data, null_relic_ptr );
+    static const cata::value_ptr<link_data> null_link_ptr = nullptr;
+    archive.io( "link_data", link, null_link_ptr );
+    if( link ) {
+        const optional_vpart_position vp = get_map().veh_at( link->t_abs_pos );
+        if( vp ) {
+            link->t_veh_safe = vp.value().vehicle().get_safe_reference();
+        }
+    }
 
     item_controller->migrate_item( orig, *this );
 
@@ -3233,30 +3272,34 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.allow_omitted_members();
     vpart_id pid;
     data.read( "id", pid );
+    data.read( "variant", variant );
 
     const vpart_migration *migration = vpart_migration::find_migration( pid );
     if( migration != nullptr ) {
-        DebugLog( D_WARNING, D_MAIN ) << "vehicle_part::deserialize migrating '" << pid.str()
-                                      << "' to '" << migration->part_id_new.str() << "'";
+        const std::string &new_variant = migration->variant
+                                         ? migration->variant.value()
+                                         : migration->part_id_new->variant_default;
+        DebugLog( D_WARNING, D_MAIN ) << "vehicle_part::deserialize migrating " <<
+                                      "vpid '" << pid.str() << "' to '" << migration->part_id_new.str() << "' "
+                                      "variant '" << variant << "' to '" << new_variant << "'";
         pid = migration->part_id_new;
+        variant = new_variant;
     }
 
-    std::tie( pid, variant ) = get_vpart_id_variant( pid );
-
-    // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         data.throw_error_at( "id", "bad vehicle part" );
     }
     info_ = &pid.obj();
-    if( variant.empty() ) {
-        data.read( "variant", variant );
-    }
 
     if( migration != nullptr ) { // migration overrides the base item
         data.get_member( "base" ); // mark member as visited
         base = item( migration->part_id_new->base_item, calendar::turn );
     } else {
         data.read( "base", base );
+    }
+
+    if( info().variants.count( variant ) <= 0 ) {
+        variant = info().variant_default;
     }
 
     data.read( "mount_dx", mount.x );
@@ -3405,9 +3448,6 @@ void smart_controller_config::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-/*
- * Load vehicle from a json blob that might just exceed player in size.
- */
 void vehicle::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
@@ -3459,16 +3499,7 @@ void vehicle::deserialize( const JsonObject &data )
     old_owner = faction_id( temp_old_id );
     data.read( "theft_time", theft_time );
 
-    parts.clear();
-    for( const JsonValue val : data.get_array( "parts" ) ) {
-        vehicle_part part;
-        try {
-            val.read( part, /* throw_on_error = */ true );
-            parts.emplace_back( std::move( part ) );
-        } catch( const JsonError &err ) {
-            debugmsg( err.what() );
-        }
-    }
+    deserialize_parts( data.get_array( "parts" ) );
 
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
@@ -3521,6 +3552,20 @@ void vehicle::deserialize( const JsonObject &data )
     // that can't be used as it currently stands because it would also
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
+}
+
+void vehicle::deserialize_parts( const JsonArray &data )
+{
+    parts.clear();
+    for( const JsonValue jv : data ) {
+        try {
+            vehicle_part part;
+            jv.read( part, /* throw_on_error = */ true );
+            parts.emplace_back( std::move( part ) );
+        } catch( const JsonError &err ) {
+            debugmsg( err.what() );
+        }
+    }
 }
 
 void vehicle::serialize( JsonOut &json ) const
