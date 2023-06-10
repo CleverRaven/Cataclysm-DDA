@@ -131,11 +131,9 @@
     "type": "vehicle_part",
     "id": "yoke_harness_heavyduty",
     "name": { "str": "reinforced yoke and harness" },
-    "symbol": "H",
     "looks_like": "yoke_harness",
     "categories": [ "movement", "operations" ],
     "color": "dark_gray",
-    "broken_symbol": "M",
     "broken_color": "dark_gray",
     "damage_modifier": 100,
     "noise_factor": 10,
@@ -167,7 +165,8 @@
       "UNSTABLE_WHEEL",
       "WHEEL"
     ],
-    "damage_reduction": { "all": 20 }
+    "damage_reduction": { "all": 20 },
+    "variants": [ { "symbols": "H", "symbols_broken": "M" } ]
   },
   {
     "type": "vehicle_part",
