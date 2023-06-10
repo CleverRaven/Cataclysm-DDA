@@ -10,10 +10,10 @@
     "noise_factor": 5,
     "m2c": 90,
     "fuel_type": "battery",
-    "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "flags": [ "ENGINE", "E_HIGHER_SKILL", "E_HEATER" ]
+    "flags": [ "ENGINE", "E_HIGHER_SKILL", "E_HEATER" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
   },
   {
     "id": "engine_electric_tiny",

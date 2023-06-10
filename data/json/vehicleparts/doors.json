@@ -3,7 +3,6 @@
     "id": "door",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
-    "broken_symbol": "&",
     "categories": [ "hull" ],
     "color": "cyan",
     "damage_modifier": 80,
@@ -21,33 +20,27 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "size": "2500 ml",
-    "symbol": "+",
-    "symbols": {
-      "ne": "+",
-      "nw": "+",
-      "se": "+",
-      "sw": "+",
-      "vertical_left": "+",
-      "vertical_right": "+",
-      "front": "+",
-      "front_left": "+",
-      "front_right": "+",
-      "horizontal_front": "+",
-      "horizontal_2": "+",
-      "horizontal_rear": "+",
-      "left": "+",
-      "right": "+",
-      "rear": "+",
-      "wheel_left": "+",
-      "wheel_right": "+"
-    },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door",
-    "id": "door_full",
-    "looks_like": "door",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ],
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "+", "symbols_broken": "&" },
+      { "id": "front_left", "label": "Front Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "front_right", "label": "Front Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "left", "label": "Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "right", "label": "Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "rear", "label": "Rear", "symbols": "+", "symbols_broken": "&" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "+", "symbols_broken": "&" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "+", "symbols_broken": "&" },
+      { "id": "horizontal_front", "label": "Front Horizontal", "symbols": "+", "symbols_broken": "&" },
+      { "id": "horizontal_2", "label": "Thick Horizontal", "symbols": "+", "symbols_broken": "&" },
+      { "id": "horizontal_rear", "label": "Rear Horizontal", "symbols": "+", "symbols_broken": "&" },
+      { "id": "ne", "label": "Front Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "nw", "label": "Front Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "se", "label": "Rear Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "sw", "label": "Rear Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "wheel_left", "label": "Wheel Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "wheel_right", "label": "Wheel Right", "symbols": "+", "symbols_broken": "&" }
+    ]
   },
   {
     "copy-from": "door",
@@ -83,13 +76,8 @@
     "name": { "str": "opaque door" },
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_opaque",
-    "id": "door_opaque_full",
-    "looks_like": "door_opaque",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   },
   {
     "id": "hddoor",
@@ -105,12 +93,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "hddoor",
-    "id": "hddoor_full",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   },
   {
     "id": "hddoor_opaque",
@@ -121,12 +105,8 @@
     "name": { "str": "heavy-duty opaque door" },
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "hddoor_opaque",
-    "id": "hddoor_opaque_full",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   },
   {
     "id": "door_internal",

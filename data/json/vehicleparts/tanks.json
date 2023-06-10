@@ -5,7 +5,6 @@
     "name": { "str": "vehicle tank (2L)" },
     "item": "metal_tank_little",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 75,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
@@ -23,7 +22,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 26, "stab": 8 }
+    "damage_reduction": { "all": 26, "stab": 8 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_small",
@@ -31,7 +31,6 @@
     "name": { "str": "vehicle tank (10L)" },
     "item": "jerrycan",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 100,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
@@ -48,7 +47,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "soldering_standard", 5 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 9, "stab": 0 }
+    "damage_reduction": { "all": 9, "stab": 0 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_medium",
@@ -56,7 +56,6 @@
     "name": { "str": "vehicle tank (20L)" },
     "item": "jerrycan_big",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 120,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
@@ -77,7 +76,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 28, "stab": 10 }
+    "damage_reduction": { "all": 28, "stab": 10 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank",
@@ -85,7 +85,6 @@
     "name": { "str": "vehicle tank (60L)" },
     "item": "metal_tank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
@@ -106,7 +105,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "fridgetank",
@@ -114,7 +114,6 @@
     "name": { "str": "refrigerated tank (60L)" },
     "item": "fridgetank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
@@ -136,7 +135,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "heattank",
@@ -155,7 +155,6 @@
     "name": { "str": "external tank (100L)" },
     "item": "30gal_drum",
     "location": "structure",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 160,
     "description": "A storage space for holding liquids, mounted outside the vehicle's walls and armor.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
@@ -171,7 +170,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FLUIDTANK" ],
-    "damage_reduction": { "all": 30, "stab": 12 }
+    "damage_reduction": { "all": 30, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "afs_small_roof_external_tank",
@@ -206,7 +206,6 @@
     "name": { "str": "wooden barrel (100L)" },
     "item": "wooden_barrel",
     "location": "center",
-    "symbol": "O",
     "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
@@ -224,7 +223,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 18, "stab": 12 }
+    "damage_reduction": { "all": 18, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_30gal_drum",
@@ -232,7 +232,6 @@
     "name": { "str": "steel drum (100L)" },
     "item": "30gal_drum",
     "location": "fuel_source",
-    "symbol": "0",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "broken_color": "red",
@@ -249,7 +248,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 30, "stab": 12 }
+    "damage_reduction": { "all": 30, "stab": 12 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_55gal_drum",
@@ -271,7 +271,6 @@
     "name": { "str": "fuel bunker" },
     "item": "fuel_bunker",
     "location": "fuel_source",
-    "symbol": "O",
     "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
@@ -289,7 +288,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "damage_reduction": { "all": 24, "stab": 18 }
+    "damage_reduction": { "all": 24, "stab": 18 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "small_pressure_tank",
@@ -298,7 +298,6 @@
     "//": "1 gallon tank.",
     "item": "small_propane_tank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A tank for pressurized gasses.",
@@ -320,7 +319,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "GASTANK" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "large_pressure_tank",
@@ -329,7 +329,6 @@
     "//": "20 gallon tank.",
     "item": "large_propane_tank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A large tank for pressurized gasses.",
@@ -350,7 +349,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "xl_pressure_tank",
@@ -359,7 +359,6 @@
     "//": "100 gallon ASME tank.",
     "item": "xl_propane_tank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A large tank for pressurized gasses.",
@@ -380,7 +379,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "GASTANK" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_55gal_drum_aluminum",
