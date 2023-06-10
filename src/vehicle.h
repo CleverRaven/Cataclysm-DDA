@@ -235,8 +235,10 @@ enum class vp_flag : uint32_t {
 
 class turret_cpu
 {
-    public:
+    friend vehicle_part;
+    private:
         std::unique_ptr<npc> brain;
+    public:
         turret_cpu() = default;
         turret_cpu( const turret_cpu & ) {};
         turret_cpu &operator=( const turret_cpu & ) {
@@ -476,6 +478,13 @@ struct vehicle_part {
         bool is_unavailable( bool carried = true ) const;
         /** parts are available if they aren't unavailable */
         bool is_available( bool carried = true ) const;
+
+        /*
+         * @param pt the vehicle part containing the turret we're trying to target.
+         * @return npc object with suitable attributes for targeting a vehicle turret.
+        */
+        npc& get_targeting_npc(vehicle& veh);
+        /*@}*/
 
         /** how much blood covers part (in turns). */
         int blood = 0;
@@ -1824,13 +1833,6 @@ class vehicle
          * @return Number of shots fired by all turrets (which may be zero)
          */
         int turrets_aim_and_fire( std::vector<vehicle_part *> &turrets );
-
-        /*
-         * @param pt the vehicle part containing the turret we're trying to target.
-         * @return npc object with suitable attributes for targeting a vehicle turret.
-         */
-        npc &get_targeting_npc( vehicle_part &pt );
-        /*@}*/
 
     public:
         /**
