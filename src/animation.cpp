@@ -880,7 +880,7 @@ void game::draw_async_anim( const tripoint &p, const std::string &tile_id, const
     }
 
     if( !use_tiles ) {
-        if( ncstr != "" ) {
+        if( !ncstr.empty() ) {
             hit_animation( get_avatar(), p, nccol, ncstr );
         }
         return;
@@ -893,7 +893,7 @@ void game::draw_async_anim( const tripoint &p, const std::string &tile_id, const
 void game::draw_async_anim( const tripoint &p, const std::string &, const std::string &ncstr,
                             const nc_color &nccol )
 {
-    if( ncstr != "" ) {
+    if( !ncstr.empty() ) {
         hit_animation( get_avatar(), p, nccol, ncstr );
     }
 }
