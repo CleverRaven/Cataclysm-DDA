@@ -4,13 +4,13 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of light survivor boots", "str_pl": "pairs of light survivor boots" },
-    "description": "A pair of custom-made Kevlar boots with a chemical-resistant layer and rubber toes.  Will keep you highly mobile without the worry of zombie acid dissolving your feet.",
+    "description": "A pair of custom-made Kevlar-armored boots with a chemical-resistant layer and rubber toes.  Will keep you highly mobile without the worry of zombie acid dissolving your feet.",
     "weight": "1120 g",
     "volume": "2 L",
     "price": 24000,
     "price_postapoc": 5000,
     "to_hit": -1,
-    "material": [ "kevlar", "nomex", "nylon" ],
+    "material": [ "kevlar", "nomex", "leather" ],
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "green",
@@ -25,7 +25,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.1 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "encumbrance": 10,
         "coverage": 100
@@ -36,7 +36,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.1 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "rubber", "covered_by_mat": 100, "thickness": 0.6 }
         ],
         "coverage": 100
@@ -45,7 +45,7 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "rubber", "covered_by_mat": 100, "thickness": 5.0 }
         ],
@@ -82,7 +82,7 @@
     "price": 24000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "material": [ "kevlar", "nomex", "nylon", "steel" ],
+    "material": [ "kevlar", "nomex", "leather", "steel" ],
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "brown",
@@ -97,7 +97,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.6 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.8 }
         ],
         "encumbrance": 20,
         "coverage": 100
@@ -108,7 +108,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.6 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.8 },
           { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "coverage": 100
@@ -117,7 +117,7 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
         ],
@@ -164,7 +164,7 @@
     "name": { "str": "pair of faux fur winter survivor boots", "str_pl": "pairs of faux fur winter survivor boots" },
     "description": "A pair of customized, Kevlar-armored boots with a chemical-resistant layer and steel toes.  Warm thanks to the faux-fur lining, and quite protective due to the thick materials, though perhaps a little hard to move in.",
     "copy-from": "boots_wsurvivor",
-    "material": [ "kevlar", "nylon", "nomex", "faux_fur", "steel" ],
+    "material": [ "leather", "leather", "nomex", "faux_fur", "steel" ],
     "symbol": "[",
     "warmth": 50,
     "looks_like": "boots_fur",
@@ -176,7 +176,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "faux_fur", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "encumbrance": 35,
@@ -188,7 +188,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "faux_fur", "covered_by_mat": 100, "thickness": 2.5 },
           { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
         ],
@@ -198,7 +198,7 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
@@ -240,7 +240,7 @@
     "price": 24000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "material": [ "kevlar", "nylon", "nomex", "fur", "steel" ],
+    "material": [ "kevlar", "leather", "nomex", "fur", "steel" ],
     "symbol": "[",
     "looks_like": "boots_fur",
     "color": "light_gray",
@@ -255,7 +255,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "fur", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "encumbrance": 35,
@@ -267,7 +267,7 @@
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "fur", "covered_by_mat": 100, "thickness": 2.5 },
           { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
         ],
@@ -277,7 +277,7 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "fur", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
