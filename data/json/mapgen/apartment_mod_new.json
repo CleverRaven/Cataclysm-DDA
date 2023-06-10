@@ -222,7 +222,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "f": "t_chainfence", "g": "t_chaingate_c", "│": "t_wall_metal", ">": "t_stairs_down", "+": "t_door_locked" },
+      "terrain": { "│": "t_wall_metal", "+": "t_door_locked" },
       "place_nested": [
         {
           "chunks": [ [ "roof_2x2_golf", 25 ], [ "null", 25 ], [ "roof_4x4_party", 25 ], [ "roof_3x3_wine", 25 ] ],
