@@ -339,7 +339,8 @@ struct vehicle_part {
         /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
 
-        turret_cpu cpu;
+        // No need to serialize this, it can simply be reinitialized after starting a new game.
+        turret_cpu cpu; //NOLINT(cata-serialize)
         /**
          * If this part is capable of wholly containing something, process the
          * items in there.
