@@ -1220,7 +1220,7 @@
     ],
     "warmth": 20,
     "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "helmet_riding_peakless",
