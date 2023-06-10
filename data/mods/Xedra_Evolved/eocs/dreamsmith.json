@@ -17,7 +17,16 @@
           "dreamdross_lump",
           "forged_dreamstuff_ingot"
         ],
-        "type": "recipe"
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_MESSAGE_SCORE_TIMER",
+          "effect": [
+            {
+              "u_message": "Something sparked in your head, and you realise interesting property of dreamdross.  Maybe you can forge something new?",
+              "type": "info"
+            }
+          ]
+        }
       }
     ]
   },
