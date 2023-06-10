@@ -41,7 +41,6 @@ static const skill_id skill_unarmed( "unarmed" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
-static constexpr int test_margin = 75; // 7.5% margin on test outcomes
 
 static void reset_caches( int a_zlev, int t_zlev )
 {
@@ -418,7 +417,7 @@ TEST_CASE( "Grab_breaks_against_weak_grabbers", "[mattack][grab]" )
 TEST_CASE( "Grab_drag tests", "[mattack][grab][drag]" )
 >>>>>>> 09907d1af0 (Tweaks, tests)
 {
-    const tripoint target_location = attacker_location + tripoint{ 1, 0, 0 };
+    const tripoint target_location = attacker_location + tripoint_east;
     clear_map();
     clear_creatures();
     Character &you = get_player_character();

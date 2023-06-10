@@ -750,8 +750,8 @@ bool melee_actor::call( monster &z ) const
                 for( const tripoint loc : surrounding ) {
                     monster *mon = creatures.creature_at<monster>( loc );
                     if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon->attack_target() == target ) {
-                        if( target->is_monster() || !target->is_monster() &&
-                            mon->has_effect( eff.get_bp()->grabbing_effect ) ) {
+                        if( target->is_monster() || ( !target->is_monster() &&
+                                                      mon->has_effect( eff.get_bp()->grabbing_effect ) ) ) {
                             grabber = mon;
                             break;
                         }
