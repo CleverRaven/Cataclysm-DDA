@@ -32,7 +32,6 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
-#include "npc.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -46,6 +45,7 @@ class JsonOut;
 class map;
 class monster;
 class nc_color;
+class npc;
 class vehicle;
 class vehicle_part_range;
 class veh_menu;
@@ -235,7 +235,7 @@ enum class vp_flag : uint32_t {
 
 class turret_cpu
 {
-    friend vehicle_part;
+        friend vehicle_part;
     private:
         std::unique_ptr<npc> brain;
     public:
@@ -245,6 +245,7 @@ class turret_cpu
             brain.reset();
             return *this;
         }
+        ~turret_cpu();
 };
 
 /**
@@ -483,7 +484,7 @@ struct vehicle_part {
          * @param pt the vehicle part containing the turret we're trying to target.
          * @return npc object with suitable attributes for targeting a vehicle turret.
         */
-        npc& get_targeting_npc(vehicle& veh);
+        npc &get_targeting_npc( vehicle &veh );
         /*@}*/
 
         /** how much blood covers part (in turns). */
