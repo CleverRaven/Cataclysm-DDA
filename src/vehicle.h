@@ -240,11 +240,8 @@ class turret_cpu
         std::unique_ptr<npc> brain;
     public:
         turret_cpu() = default;
-        turret_cpu( const turret_cpu & ) {};
-        turret_cpu &operator=( const turret_cpu & ) {
-            brain.reset();
-            return *this;
-        }
+        turret_cpu( const turret_cpu & );
+        turret_cpu &operator=( const turret_cpu & );
         ~turret_cpu();
 };
 
