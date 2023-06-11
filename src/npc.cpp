@@ -1494,7 +1494,7 @@ bool npc::wield( item &it )
     } else {
         to_wield = it;
     }
-
+    invalidate_leak_level_cache();
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
     item_location weapon = get_wielded_item();

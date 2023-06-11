@@ -170,19 +170,6 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
-        "condition": {
-          "not": {
-            "or": [
-              { "u_has_trait": "perk_way_openpalm" },
-              { "u_has_trait": "perk_way_closedfist" },
-              { "u_has_trait": "perk_way_pinchedfingers" }
-            ]
-          }
-        },
-        "text": "Gain [Way Of The Fist]",
-        "topic": "TALK_PERK_MENU_WAYOFTHEFIST"
-      },
-      {
         "condition": { "not": { "u_has_trait": "perk_way_openpalm" } },
         "text": "Gain [<trait_name:perk_way_openpalm>]",
         "effect": [
@@ -411,6 +398,21 @@
             "target_var": { "global_val": "trait_description" }
           },
           { "set_string_var": "perk_hobbyist", "target_var": { "global_val": "trait_id" } },
+          { "set_string_var": "No Requirements", "target_var": { "global_val": "trait_requirement_description" } },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_troubleseeker" } },
+        "text": "Gain [<trait_name:perk_troubleseeker>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_troubleseeker>", "target_var": { "global_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_troubleseeker>",
+            "target_var": { "global_val": "trait_description" }
+          },
+          { "set_string_var": "perk_troubleseeker", "target_var": { "global_val": "trait_id" } },
           { "set_string_var": "No Requirements", "target_var": { "global_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],

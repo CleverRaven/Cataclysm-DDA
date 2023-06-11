@@ -19,11 +19,9 @@
     "id": "afs_crude_plating",
     "name": { "str": "crude plating" },
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
-    "symbol": ")",
     "looks_like": "steel_plate",
     "categories": [ "warfare" ],
     "color": "light_gray",
-    "broken_symbol": ")",
     "broken_color": "dark_gray",
     "durability": 300,
     "item": "sheet_metal",
@@ -35,17 +33,16 @@
     },
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 6 ] } ],
-    "damage_reduction": { "all": 4 }
+    "damage_reduction": { "all": 4 },
+    "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
   },
   {
     "type": "vehicle_part",
     "id": "afs_control_station",
     "name": { "str": "control station" },
-    "symbol": "$",
     "looks_like": "vehicle_dashboard",
     "categories": [ "operations" ],
     "color": "red",
-    "broken_symbol": "$",
     "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 400,
@@ -76,7 +73,8 @@
       { "item": "cable", "charges": [ 5, 20 ] },
       { "item": "RAM", "charges": [ 1, 4 ] },
       { "item": "e_scrap", "charges": [ 3, 8 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
   },
   {
     "id": "afs_mounted_external_tank",
@@ -142,11 +140,9 @@
     "type": "vehicle_part",
     "id": "robot_cargo",
     "name": "robot_carrier",
-    "symbol": "=",
     "categories": [ "cargo", "passengers" ],
     "color": "light_gray",
     "looks_like": "cargo_space",
-    "broken_symbol": "#",
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "A cargo space for carrying robots.  'e'xamine it to capture a robot next to you, or to release the robot currently contained.  When selecting a robot to capture, choose its tile relative to you, not the part.",
@@ -163,16 +159,15 @@
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "exo_gantry",
     "name": { "str": "exosuit maintenance gantry" },
-    "symbol": "T",
     "categories": [ "utility" ],
     "color": "light_gray",
-    "broken_symbol": "x",
     "broken_color": "light_gray",
     "looks_like": "veh_tools_workshop",
     "damage_modifier": 10,
@@ -198,6 +193,7 @@
       { "item": "steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] },
       { "item": "welder", "charges": 0, "prob": 50 }
-    ]
+    ],
+    "variants": [ { "symbols": "T", "symbols_broken": "x" } ]
   }
 ]

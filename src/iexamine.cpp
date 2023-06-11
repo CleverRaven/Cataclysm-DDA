@@ -5443,9 +5443,9 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( static_cast<int>( patient.leak_level() ) ) {
+            if( static_cast<int>( patient.get_leak_level() ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
-                       static_cast<int>( patient.leak_level() ) );
+                       static_cast<int>( patient.get_leak_level() ) );
             }
             break;
         }

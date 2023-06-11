@@ -240,6 +240,20 @@
   },
   {
     "type": "mutation",
+    "id": "perk_troubleseeker",
+    "name": { "str": "Trouble seeker" },
+    "points": 0,
+    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies will sometimes appear out of nowhere to attack you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_troubleseek_on" ],
+    "deactivated_eocs": [ "EOC_troubleseek_off" ],
+    "processed_eocs": [ "EOC_troubleseeking" ],
+    "time": 20000
+  },
+  {
+    "type": "mutation",
     "id": "perk_popeye",
     "name": { "str": "Of sailors and spinach" },
     "points": 0,

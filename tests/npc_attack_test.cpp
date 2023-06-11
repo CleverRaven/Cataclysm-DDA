@@ -160,7 +160,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
             REQUIRE( main_npc.worn_with_flag( flag_COMBAT_TOGGLEABLE ) );
 
             WHEN( "NPC has a UPS for their armor" ) {
-                item ps( "UPS_off" );
+                item ps( "UPS_ON" );
                 item battery( "heavy_plus_battery_cell" );
                 battery.ammo_set( battery.ammo_default(), battery.ammo_capacity( ammo_battery ) );
 
