@@ -532,7 +532,7 @@
   {
     "id": "greasegun",
     "looks_like": "hk_mp5",
-    "//": "When or if all guns will have barrel lenght as damage modifier factor, barrel lenght is 203mm",
+    "barrel_length": "203 mm"
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": ".45 WWII SMG" },
