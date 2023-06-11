@@ -216,7 +216,8 @@
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
       [ "light_snare_kit", 8 ],
-      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] }
+      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
+      { "item": "teargas_sprayer", "prob": 15, "charges": 10 }
     ]
   },
   {

@@ -432,6 +432,7 @@ canina
 cannelured
 caparison
 caprison
+capsicum
 carabiner
 carabiners
 carapace
@@ -1977,6 +1978,7 @@ offroad
 ohms
 oignon
 oleaginous
+oleoresin
 olieribos
 olor
 omnivore
