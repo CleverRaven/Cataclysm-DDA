@@ -4,37 +4,82 @@
     "type": "vehicle_part",
     "location": "center",
     "categories": [ "hull" ],
-    "symbols": {
-      "cover": "^",
-      "cross": "c",
-      "horizontal": "h",
-      "horizontal_2": "=",
-      "vertical": "j",
-      "vertical_2": "H",
-      "ne": "u",
-      "nw": "y",
-      "se": "n",
-      "sw": "b",
-      "cover_left": "h",
-      "cover_right": "h",
-      "horizontal_front": "h",
-      "hatch_wheel_left": "b",
-      "hatch_wheel_right": "n",
-      "horizontal_rear": "h",
-      "horizontal_2_front": "=",
-      "horizontal_2_rear": "=",
-      "nw_edge": "j",
-      "ne_edge": "j",
-      "vertical_left": "j",
-      "vertical_right": "j",
-      "vertical_T_left": "[",
-      "vertical_T_right": "]",
-      "vertical_2_left": "H",
-      "vertical_2_right": "H",
-      "wheel_left": "j",
-      "wheel_right": "j"
-    },
-    "flags": [ "OBSTACLE", "NO_ROOF_NEEDED" ]
+    "flags": [ "OBSTACLE", "NO_ROOF_NEEDED" ],
+    "variants": [
+      { "id": "horizontal", "label": "Horizontal", "symbols": "──││──││", "symbols_broken": "#" },
+      {
+        "id": "horizontal_2",
+        "label": "Thick Horizontal",
+        "symbols": "━━┃┃━━┃┃",
+        "symbols_broken": "#"
+      },
+      { "id": "vertical", "label": "Vertical", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "vertical_2", "label": "Thick Vertical", "symbols": "┃┃━━┃┃━━", "symbols_broken": "#" },
+      { "id": "ne", "label": "Front Right", "symbols": "┐┐┘┘└└┌┌", "symbols_broken": "#" },
+      { "id": "nw", "label": "Front Left", "symbols": "┌┌┐┐┘┘└└", "symbols_broken": "#" },
+      { "id": "se", "label": "Rear Right", "symbols": "┘┘└└┌┌┐┐", "symbols_broken": "#" },
+      { "id": "sw", "label": "Rear Left", "symbols": "└└┌┌┐┐┘┘", "symbols_broken": "#" },
+      { "id": "cross", "label": "Cross", "symbols": "┼X┼X┼X┼X", "symbols_broken": "#" },
+      { "id": "cover", "label": "Cover", "symbols": "^^>>vv<<", "symbols_broken": "#" },
+      { "id": "cover_left", "label": "Cover Left", "symbols": "──││──││", "symbols_broken": "#" },
+      { "id": "cover_right", "label": "Cover Right", "symbols": "──││──││", "symbols_broken": "#" },
+      {
+        "id": "horizontal_front",
+        "label": "Front Horizontal",
+        "symbols": "──││──││",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "hatch_wheel_left",
+        "label": "Hatchback Wheel Left",
+        "symbols": "└└┌┌┐┐┘┘",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "hatch_wheel_right",
+        "label": "Hatchback Wheel Right",
+        "symbols": "┘┘└└┌┌┐┐",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "horizontal_rear",
+        "label": "Rear Horizontal",
+        "symbols": "──││──││",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "horizontal_2_front",
+        "label": "Front Thick Horizontal",
+        "symbols": "━━┃┃━━┃┃",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "horizontal_2_rear",
+        "label": "Rear Thick Horizontal",
+        "symbols": "━━┃┃━━┃┃",
+        "symbols_broken": "#"
+      },
+      { "id": "nw_edge", "label": "Front Left Corner", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "ne_edge", "label": "Front Right Corner", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "vertical_T_left", "label": "Left T Joint", "symbols": "[/-\\[/-\\", "symbols_broken": "#" },
+      { "id": "vertical_T_right", "label": "Right T Joint", "symbols": "]/-\\]/-\\", "symbols_broken": "#" },
+      {
+        "id": "vertical_2_left",
+        "label": "Left Thick Vertical",
+        "symbols": "┃┃━━┃┃━━",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "vertical_2_right",
+        "label": "Right Thick Vertical",
+        "symbols": "┃┃━━┃┃━━",
+        "symbols_broken": "#"
+      },
+      { "id": "wheel_left", "label": "Wheel Left", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "wheel_right", "label": "Wheel Right", "symbols": "│/─\\│/─\\", "symbols_broken": "#" }
+    ]
   },
   {
     "abstract": "board_abstract",
@@ -107,7 +152,6 @@
     "name": { "str": "stow board" },
     "item": "sheet_metal",
     "color": "white",
-    "broken_symbol": "#",
     "broken_color": "light_gray",
     "durability": 80,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",

@@ -487,7 +487,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         // Connect to empty ups. Bionic shouldn't work
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
-        item_location ups = dummy.i_add( item( "UPS_off" ) );
+        item_location ups = dummy.i_add( item( "UPS_ON" ) );
         item_location cable = dummy.i_add( item( "jumper_cable" ) );
         cable->link = cata::make_value<item::link_data>();
         cable->link->s_state = link_state::ups;

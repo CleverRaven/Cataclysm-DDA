@@ -5221,7 +5221,8 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             insert_separation_line( info );
             info.emplace_back( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
             enumerate_as_string( all_tec_sorted, []( const matec_id & tid ) {
-                return string_format( "<stat>%s</stat>: <info>%s</info>", tid.obj().name, tid.obj().description );
+                return string_format( "<stat>%s</stat>: <info>%s</info> <info>%s</info>", tid.obj().name,
+                                      tid.obj().description, tid.obj().condition_desc );
             } ) );
         }
     }

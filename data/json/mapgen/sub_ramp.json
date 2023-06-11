@@ -5,7 +5,7 @@
     "om_terrain": [ "sub_ramp_above" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_rock_floor_no_roof",
       "rows": [
         "#   X   X      X   X   #",
         "#  -x---x-    -x---x-  #",

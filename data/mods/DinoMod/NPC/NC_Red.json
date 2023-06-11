@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "old_guard_red",
     "name_unique": "Red",
-    "class": "NC_HUNTER",
+    "class": "NC_SOLDIER",
     "attitude": 7,
     "mission": 3,
     "chat": "TALK_OLD_GUARD_RED",
