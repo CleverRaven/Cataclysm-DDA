@@ -30,11 +30,9 @@ def gen_new(path):
             if isinstance(jo, dict): # Handles weird files like mods/replacement.json
                 if jo["type"] == "mapgen" and "palettes" in jo["object"] and "rows" in jo["object"] and "roof_palette" in jo["object"]["palettes"]:
                     if len(jo["object"]["palettes"]) == 1:
-                        terms = ["2", "3", "|"]
+                        terms = ["|", "2", "3"]
                         if "terrain" in jo["object"]:
-                            for term in terms:
-                                if term in jo["object"]["terrain"]:
-                                    terms.remove(term)
+                            terms[:] = [term for term in terms if term not in jo["object"]["terrain"]]
                         if len(terms) != 0:
                             pattern = r"[" + ''.join(terms) + r"]"
                             rowsn = len(jo["object"]["rows"])
