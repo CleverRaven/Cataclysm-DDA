@@ -62,6 +62,12 @@ struct sub_body_part_type {
     // hanging locations.
     bool secondary = false;
 
+    // if this location needs to bend in rigid armor
+    bool is_joint = false;
+
+    // What does this part wear like? How does it relate to human limbs?
+    std::vector<sub_bodypart_str_id> wears_like;
+
     // the maximum coverage value for this part
     // if something entirely covered this part it
     // would have this value
