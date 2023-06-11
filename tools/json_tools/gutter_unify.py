@@ -2,8 +2,9 @@
 
 """
 
-Unifies "2", "3", "|" old gutters into "-" on maps using the roof_palette which don't define their own terrain definition for said characters.
-Prints any maps using other palettes with the roof_palette for manual correcting.
+Unifies "2", "3", "|" old gutters into "-" on maps using the roof_palette
+which don't define their own terrain definition for said characters.
+Prints maps using palettes alongside roof_palette for manual correcting.
 Can be run in /json and /mods
 
 """
@@ -26,18 +27,19 @@ def gen_new(path):
             json_data = json.load(json_file)
         except json.JSONDecodeError:
             failures.add(
-                "Json Decode Error at:\n"
-                + path
-                + "\nEnsure that the file is a JSON file consisting of an array of objects!"
+                "Json Decode Error at:\n" +
+                path +
+                "\nEnsure that the file is a JSON"
+                "file consisting of an array of objects!"
             )
             return None
         for jo in json_data:
-            if isinstance(jo, dict):  # Handles weird files like mods/replacement.json
+            if isinstance(jo, dict):
                 if (
-                    jo["type"] == "mapgen"
-                    and "palettes" in jo["object"]
-                    and "rows" in jo["object"]
-                    and "roof_palette" in jo["object"]["palettes"]
+                    jo["type"] == "mapgen" and
+                    "palettes" in jo["object"] and
+                    "rows" in jo["object"] and
+                    "roof_palette" in jo["object"]["palettes"]
                 ):
                     if len(jo["object"]["palettes"]) == 1:
                         terms = ["|", "2", "3"]
@@ -59,7 +61,7 @@ def gen_new(path):
                                     change = True
                                 i += 1
                     else:
-                        if isinstance(jo["om_terrain"], str):  # Handles merged maps
+                        if isinstance(jo["om_terrain"], str):
                             mapname = jo["om_terrain"]
                         else:
                             mapnames = []
@@ -70,11 +72,11 @@ def gen_new(path):
                                 j += 1
                             mapname = ",".join(mapnames)
                         failures.add(
-                            "Can't automatically correct map(s):\n"
-                            + mapname
-                            + "\nin file:\n"
-                            + path
-                            + "\ndue to multiple palettes being present."
+                            "Can't automatically correct map(s):\n" +
+                            mapname +
+                            "\nin file:\n" +
+                            path +
+                            "\ndue to multiple palettes being present."
                         )
     return json_data if change else None
 
