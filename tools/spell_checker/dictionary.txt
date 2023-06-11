@@ -935,6 +935,8 @@ excretions
 exhorts
 existentialists
 exoplanet
+exobay
+exodii
 exosuit
 exosuits
 expansionary
@@ -1358,6 +1360,8 @@ hygroscopic
 hyolith
 hypacrosaurus
 hyperaggressive
+hyperboloid
+hyperboloids
 hyperdimensional
 hypergeometric
 hypermedia

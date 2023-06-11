@@ -741,6 +741,13 @@ inline constexpr double to_arcmin( const units::angle v )
     return to_degrees( v ) * 60;
 }
 
+// convert angle to nearest of 0=east, 1=south, 2=west, 3=north
+// ties broken in favor of north/south
+int angle_to_dir4( units::angle direction );
+
+// convert angle to nearest of 0=east 1=SE 2=south 3=SW...
+int angle_to_dir8( units::angle direction );
+
 // converts a volume as if it were a cube to the length of one side
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(

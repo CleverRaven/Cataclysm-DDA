@@ -27,7 +27,7 @@
       { "coverage": 80, "covers": [ "head" ], "specifically_covers": [ "head_forehead" ] },
       { "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_ear_l", "head_ear_r" ] }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "stockpot_helmet",
@@ -103,7 +103,7 @@
       }
     ],
     "flags": [ "RAINPROOF", "PADDED", "OUTER" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "headgear",
@@ -250,7 +250,7 @@
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "tac_fullhelmet",
@@ -277,7 +277,7 @@
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "tac_helmet",
@@ -374,7 +374,7 @@
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "firehelmet",
@@ -414,7 +414,7 @@
         "specifically_covers": [ "head_ear_l", "head_ear_r", "head_nape" ]
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "helmet_ball",
@@ -458,7 +458,7 @@
         "specifically_covers": [ "head_ear_l", "head_ear_r" ]
       }
     ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "helmet_barbute",
@@ -507,7 +507,7 @@
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_barbute",
@@ -588,7 +588,7 @@
         "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "helmet_chitin",
@@ -632,7 +632,7 @@
     "material_thickness": 4,
     "environmental_protection": 4,
     "flags": [ "WATERPROOF", "STURDY" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_helmet_chitin",
@@ -680,7 +680,7 @@
       },
       { "coverage": 90, "covers": [ "head" ], "specifically_covers": [ "head_nape" ] }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_conical",
@@ -822,7 +822,7 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_galea",
@@ -891,7 +891,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_kabuto",
@@ -1095,7 +1095,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "helmet_motor_raised",
@@ -1163,7 +1163,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "helmet_nasal",
@@ -1204,7 +1204,7 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_nasal",
@@ -1249,7 +1249,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_plate",
@@ -1307,7 +1307,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_helmet_kettle",
@@ -1347,7 +1347,7 @@
         "encumbrance_modifiers": [ "IMBALANCED" ]
       }
     ],
-    "melee_damage": { "bash": 1, "cut": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_helmet_scrap",
@@ -1411,7 +1411,7 @@
         "encumbrance": 10
       }
     ],
-    "melee_damage": { "bash": 18 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "ch_helmet_metal_sheets_full",
@@ -1476,7 +1476,7 @@
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ],
-    "melee_damage": { "bash": 16 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "ch_helmet_metal_sheets",
@@ -1524,14 +1524,14 @@
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "pickelhaube",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pickelhaube", "str_pl": "pickelhauben" },
-    "description": "A spiked helmet once worn by German military officers.  The spike is very sharp.",
+    "description": "A spiked helmet once worn by German military officers.  The spike is ornamental.",
     "weight": "980 g",
     "volume": "1750 ml",
     "price": 24000,
@@ -1570,7 +1570,7 @@
         "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
       }
     ],
-    "melee_damage": { "bash": 2, "stab": 4 }
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "id": "helmet_corinthian",
@@ -1614,7 +1614,7 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_corinthian",
@@ -1662,7 +1662,7 @@
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_helmet_bronze",
@@ -1765,7 +1765,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "lc_helm_close_raised",
@@ -1858,7 +1858,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "mc_helm_close_raised",
@@ -1951,7 +1951,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "hc_helm_close_raised",
@@ -2044,7 +2044,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "ch_helm_close_raised",
@@ -2137,7 +2137,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "qt_helm_close_raised",
@@ -2273,6 +2273,6 @@
         "flag_restriction": [ "HELMET_BACK_POUCH" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 1 }
   }
 ]

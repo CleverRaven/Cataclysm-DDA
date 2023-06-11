@@ -122,7 +122,7 @@ time_duration duration_or_var_part::evaluate( dialogue &d ) const
         std::string val = read_var_value( var_val.value(), d );
         if( !val.empty() ) {
             time_duration ret_val;
-            ret_val = time_duration::from_turns( std::stoi( val ) );
+            ret_val = time_duration::from_turns( std::stof( val ) );
             return ret_val;
         }
         if( default_val.has_value() ) {
@@ -143,7 +143,7 @@ time_duration duration_or_var_part::evaluate( dialogue &d ) const
         std::string val = read_var_value( info, d );
         if( !val.empty() ) {
             time_duration ret_val;
-            ret_val = time_duration::from_turns( std::stoi( val ) );
+            ret_val = time_duration::from_turns( std::stof( val ) );
             return ret_val;
         }
         debugmsg( "No valid arithmetic value for duration_or_var_part.  %s", d.get_callstack() );

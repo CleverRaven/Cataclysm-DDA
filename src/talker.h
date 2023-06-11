@@ -5,6 +5,8 @@
 #include "coordinates.h"
 #include "effect.h"
 #include "item.h"
+#include "messages.h"
+#include "type_id.h"
 #include "units.h"
 #include "units_fwd.h"
 #include <list>
@@ -20,6 +22,8 @@ class Character;
 class recipe;
 struct tripoint;
 class vehicle;
+
+using bodytype_id = std::string;
 
 /*
  * Talker is an entity independent way of providing a participant in a dialogue.
@@ -201,6 +205,7 @@ class talker
             return false;
         }
         virtual void learn_recipe( const recipe_id & ) {}
+        virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
@@ -208,6 +213,15 @@ class talker
         virtual void set_fatigue( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;
+        }
+        virtual bool has_species( const species_id & ) const {
+            return false;
+        }
+        virtual bool bodytype( const bodytype_id & ) const {
+            return false;
+        }
+        virtual int get_grab_strength() const {
+            return 0;
         }
         virtual bool crossed_threshold() const {
             return false;
@@ -456,6 +470,9 @@ class talker
         virtual int get_healthy_kcal() const {
             return 0;
         }
+        virtual int get_size() const {
+            return 0;
+        }
         virtual int get_stim() const {
             return 0;
         }
@@ -492,6 +509,9 @@ class talker
         virtual void mod_pain( int ) {}
         virtual void set_pain( int ) {}
         virtual int pain_cur() const {
+            return 0;
+        }
+        virtual int attack_speed() const {
             return 0;
         }
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {

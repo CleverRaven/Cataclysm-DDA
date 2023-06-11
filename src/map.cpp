@@ -6785,8 +6785,9 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     int veh_part = 0;
     const vehicle *veh = veh_at_internal( p, veh_part );
     if( veh != nullptr ) {
-        sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
-        tercol = veh->part_color( veh_part );
+        const vpart_display vd = veh->get_display_of_tile( veh->part( veh_part ).mount );
+        sym = vd.symbol_curses;
+        tercol = vd.color;
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
 
         if( !veh->forward_velocity() && !veh->player_in_control( player_character )
@@ -6861,12 +6862,11 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
         sym = '.';
         tercol = curr_furn.color();
     } else if( ( veh = veh_at_internal( p, part_below ) ) != nullptr ) {
+        const vpart_position vpp( const_cast<vehicle &>( *veh ), part_below );
+        const vpart_display vd = veh->get_display_of_tile( vpp.mount(), true, true, false );
         const int roof = veh->roof_at_part( part_below );
-        const int displayed_part = roof >= 0 ? roof : part_below;
-        sym = special_symbol( veh->face.dir_symbol( veh->part_sym( displayed_part, true ) ) );
-        tercol = ( roof >= 0 ||
-                   vpart_position( const_cast<vehicle &>( *veh ),
-                                   part_below ).obstacle_at_part() ) ? c_light_gray : c_light_gray_cyan;
+        sym = vd.symbol_curses;
+        tercol = roof >= 0 || vpp.obstacle_at_part() ? c_light_gray : c_light_gray_cyan;
     } else if( curr_ter.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) ) {
         if( curr_ter.has_flag( ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL ) ) {
             sym = AUTO_WALL_PLACEHOLDER;

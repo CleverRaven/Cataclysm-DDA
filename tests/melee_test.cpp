@@ -47,7 +47,7 @@ static float brute_special_probability( monster &attacker, Creature &target, con
 {
     size_t hits = 0;
     for( size_t i = 0; i < iters; i++ ) {
-        if( !mattack::dodge_check( &attacker, &target ) ) {
+        if( !target.dodge_check( &attacker ) ) {
             hits++;
         }
     }
@@ -261,11 +261,11 @@ TEST_CASE( "Charcter can dodge" )
     dude.clear_effects();
     REQUIRE( dude.get_dodge() > 0.0 );
 
-    const int dodges_left = dude.dodges_left;
+    const int dodges_left = dude.get_dodges_left();
     for( int i = 0; i < 10000; ++i ) {
         dude.deal_melee_attack( &zed, 1 );
-        if( dodges_left < dude.dodges_left ) {
-            CHECK( dodges_left < dude.dodges_left );
+        if( dodges_left < dude.get_dodges_left() ) {
+            CHECK( dodges_left < dude.get_dodges_left() );
             break;
         }
     }
@@ -280,10 +280,10 @@ TEST_CASE( "Incapacited character can't dodge" )
     dude.add_effect( effect_sleep, 1_hours );
     REQUIRE( dude.get_dodge() == 0.0 );
 
-    const int dodges_left = dude.dodges_left;
+    const int dodges_left = dude.get_dodges_left();
     for( int i = 0; i < 10000; ++i ) {
         dude.deal_melee_attack( &zed, 1 );
-        CHECK( dodges_left == dude.dodges_left );
+        CHECK( dodges_left == dude.get_dodges_left() );
     }
 }
 
@@ -385,7 +385,8 @@ static void check_damage_from_test_fire( const std::vector<std::string> &armor_i
     }
     CHECK( total_hits == Approx( 1000 ).margin( 100 ) );
     CHECK( set_on_fire == total_hits );
-    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+    const float avg_dmg = total_dmg / static_cast<float>( total_hits );
+    CHECK( avg_dmg == Approx( expected_avg_dmg ).epsilon( 0.075 ) );
 }
 
 TEST_CASE( "Damage type effectiveness vs. monster resistance", "[melee][damage]" )

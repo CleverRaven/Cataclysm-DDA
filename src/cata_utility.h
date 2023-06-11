@@ -697,4 +697,6 @@ struct overloaded : Ts... {
 template <class... Ts>
 explicit overloaded( Ts... ) -> overloaded<Ts...>;
 
+std::optional<double> svtod( std::string_view token );
+
 #endif // CATA_SRC_CATA_UTILITY_H

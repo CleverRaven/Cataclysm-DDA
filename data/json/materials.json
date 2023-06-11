@@ -151,6 +151,30 @@
   },
   {
     "type": "material",
+    "id": "isopropyl",
+    "name": "Isopropyl Alcohol",
+    "density": 0.786,
+    "specific_heat_liquid": 2.4,
+    "specific_heat_solid": 2.3,
+    "latent_heat": 666,
+    "freezing_point": -89,
+    "edible": false,
+    "conductive": true,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "fuel_data": { "energy": "24700 kJ" },
+    "//": "Burn data is cargo culted from alcohol.",
+    "burn_data": [
+      { "fuel": 150, "smoke": 0, "burn": 1 },
+      { "fuel": 300, "smoke": 0, "burn": 2 },
+      { "fuel": 450, "smoke": 0, "burn": 3 }
+    ],
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 }
+  },
+  {
+    "type": "material",
     "id": "alien_liquid",
     "name": "Non-Newtonian Fluid",
     "//": "science values for this are probably all wrong taken partially from water",

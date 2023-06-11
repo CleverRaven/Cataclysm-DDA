@@ -70,6 +70,8 @@ inline double rng_normal( double hi )
     return rng_normal( 0.0, hi );
 }
 
+float normal_roll_chance( float center, float stddev, float difficulty );
+
 double normal_roll( double mean, double stddev );
 
 double chi_squared_roll( double trial_num );

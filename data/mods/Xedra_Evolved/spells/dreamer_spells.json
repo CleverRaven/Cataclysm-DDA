@@ -253,7 +253,7 @@
     "name": "Spatial Awareness",
     "description": "Feel them.  See them.  Connect to them.",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "IGNORE_WALLS", "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "IGNORE_WALLS", "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "DREAMER",
     "energy_source": "MANA",

@@ -128,7 +128,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "UPS_off",
+    "result": "UPS_OFF",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
