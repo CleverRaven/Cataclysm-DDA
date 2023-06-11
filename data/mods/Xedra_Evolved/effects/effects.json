@@ -647,7 +647,7 @@
     "name": [ "" ],
     "desc": [ "" ],
     "apply_message": "An ethereal, transparent arms grow from your shoulders, and <color_cyan>glow<color>.",
-    "remove_message": "The cyan arms grow dim, and finally dissapear.",
+    "remove_message": "The cyan arms grow dim, and finally disappear.",
     "rating": "good",
     "enchantments": [ { "mutations": [ "karma_arms" ] } ]
   }

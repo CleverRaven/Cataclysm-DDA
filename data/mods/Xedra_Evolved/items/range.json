@@ -80,7 +80,7 @@
     "color": "light_gray",
     "name": { "str": "compound crossbow" },
     "reload_noise_volume": 4,
-    "description": "A medieval crossbow, forged entirely from dreamdross, including it's strings.  Probably not the best weapon in modern world, it still capapble to do devastating damage while being completely silent",
+    "description": "A medieval crossbow, forged entirely from dreamdross, including it's strings.  Probably not the best weapon in modern world, it still capable to do devastating damage while being completely silent",
     "material": [ "steel", "plastic" ],
     "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "rifle",
