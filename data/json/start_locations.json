@@ -604,7 +604,7 @@
     "type": "start_location",
     "id": "sloc_horse_ranch",
     "name": "Horse Ranch",
-    "terrain": [ "horse_farm_13" ]
+    "terrain": [ "farm_horse_stable_1" ]
   },
   {
     "type": "start_location",

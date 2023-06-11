@@ -187,7 +187,7 @@
       { "x": 0, "y": -1, "parts": [ "frame_wood#vertical_left", "wood box" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood#vertical_right", "wood box" ] },
       { "x": 1, "y": -1, "parts": [ "frame_wood#nw", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_wood#cross", "seat_wood", "controls" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood#cross", "seat_wood", "reins_tackle" ] },
       { "x": 1, "y": 1, "parts": [ "frame_wood#ne", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
       { "x": 2, "y": -1, "parts": [ "yoke_harness" ] },
       { "x": 2, "y": 1, "parts": [ "yoke_harness" ] },
@@ -223,7 +223,7 @@
       { "x": 1, "y": -2, "parts": [ "frame_wood#vertical_left", "clothboard#nw", "roof_cloth" ] },
       { "x": 1, "y": 2, "parts": [ "frame_wood#vertical_right", "clothboard#ne", "roof_cloth" ] },
       { "x": 2, "y": -1, "parts": [ "frame_wood#horizontal_front", "seat_wood" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_wood#horizontal_front", "seat_wood", "controls" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_wood#horizontal_front", "seat_wood", "reins_tackle" ] },
       { "x": 2, "y": 1, "parts": [ "frame_wood#horizontal_front", "seat_wood" ] },
       {
         "x": 2,
@@ -278,7 +278,7 @@
       [ " ## " ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_wood#nw", "seat_wood", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_wood#nw", "seat_wood", "reins_tackle" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood#ne", "seat_wood" ] },
       { "x": 1, "y": 0, "parts": [ "yoke_harness" ] },
       { "x": 1, "y": 1, "parts": [ "yoke_harness" ] },
@@ -333,12 +333,64 @@
       [ "+##+" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_wood#cross", "seat_wood", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_wood#cross", "seat_wood", "reins_tackle" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood#cross", "seat_wood" ] },
       { "x": 0, "y": -1, "parts": [ "frame_wood#cross", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
       { "x": 0, "y": 2, "parts": [ "frame_wood#cross", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
       { "x": 1, "y": 0, "parts": [ "yoke_harness" ] },
       { "x": 1, "y": 1, "parts": [ "yoke_harness" ] }
     ]
+  },
+  {
+    "id": "horse_trailer",
+    "type": "vehicle",
+    "name": "Horse Trailer",
+    "blueprint": [
+      [ " o  " ],
+      [ " || " ],
+      [ "|--|" ],
+      [ "+==+" ],
+      [ "|==|" ],
+      [ "|==|" ],
+      [ "|++|" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame#cross", "aisle", "aisle_lights", "controls_electronic", "roof" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#cross", "aisle", "aisle_lights", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame#vertical_right", "door_opaque#full_right" ] },
+      { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door_opaque#full_left" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#cross", "stowboard#vertical_left", "roof" ] },
+      { "x": 1, "y": 1, "parts": [ "frame#cross", "stowboard#vertical_right", "roof" ] },
+      { "x": 1, "y": 2, "parts": [ "frame#ne", "board#ne" ] },
+      { "x": 1, "y": -1, "parts": [ "frame#nw", "board#nw" ] },
+      { "x": 2, "y": 0, "parts": [ "frame#nw", "board#nw" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#ne", "board#ne" ] },
+      { "x": 3, "y": 0, "parts": [ "frame#cover", "wheel_mount_light_steerable", "wheel_small" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#cross", "aisle", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#cross", "aisle", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "board#vertical_right" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "board#vertical_left" ] },
+      { "x": -2, "y": 0, "parts": [ "frame#cross", "livestock_stall", "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "frame#cross", "livestock_stall", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "frame#vertical_right", "board#wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": -1, "parts": [ "frame#vertical_left", "board#wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -3, "y": 0, "parts": [ "frame#horizontal", "door_shutter" ] },
+      { "x": -3, "y": 1, "parts": [ "frame#horizontal", "door_shutter" ] },
+      { "x": -3, "y": 2, "parts": [ "frame#se", "board#wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -3, "y": -1, "parts": [ "frame#sw", "board#wheel_left", "wheel_mount_medium", "wheel" ] }
+    ],
+    "items": [
+      { "x": 1, "y": 0, "chance": 14, "item_groups": [ "farm_supply_riding_gear" ] },
+      { "x": 1, "y": 1, "chance": 5, "item_groups": [ "farm_supply_riding_gear" ] },
+      { "x": -2, "y": 0, "chance": 8, "item_groups": [ "car_misc" ] },
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "suits" ] }
+    ]
+  },
+  {
+    "id": "disconnected_floodlight",
+    "type": "vehicle",
+    "name": "Disconencted directed floodlight",
+    "blueprint": [ [ "o" ] ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame#cross", "directed_floodlight", "controls_electronic" ] } ]
   }
 ]

@@ -2428,6 +2428,32 @@
     "type": "mapgen",
     "method": "json",
     "//": "a nested map for lawns",
+    "nested_mapgen_id": "pond_6x6_natural",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     Z",
+        "  Kk  ",
+        "kKkKK ",
+        " KKK  ",
+        "  K   ",
+        "    Z "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "furniture": { "k": "f_region_water_plant" },
+      "monsters": {
+        "K": { "monster": "GROUP_POND_FISH", "chance": 4, "density": 0.01 },
+        "k": { "monster": "GROUP_POND_BIRD", "chance": 3, "density": 0.01 },
+        " ": { "monster": "GROUP_POND_ANIMAL", "chance": 23, "density": 0.01 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
     "nested_mapgen_id": "playset_4x4_1",
     "object": {
       "mapgensize": [ 4, 4 ],

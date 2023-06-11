@@ -1034,6 +1034,32 @@
   },
   {
     "type": "construction",
+    "id": "constr_showjump_end",
+    "group": "build_showjump_end",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "pointy_stick", 4 ], [ "spear_wood", 4 ], [ "pointy_stick_long", 4 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "f_showjump_end"
+  },
+  {
+    "type": "construction",
+    "id": "constr_showjump",
+    "group": "build_showjump",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "10 s",
+    "components": [ [ [ "long_pole", 1 ] ] ],
+    "dark_craftable": true,
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_showjump"
+  },
+  {
+    "type": "construction",
     "id": "constr_scrap_wall_halfway",
     "group": "build_metal_wall",
     "//": "Step 1: foundation",

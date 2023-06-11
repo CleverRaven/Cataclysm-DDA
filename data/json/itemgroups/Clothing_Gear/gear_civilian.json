@@ -193,6 +193,7 @@
       { "item": "hat_ball", "prob": 10 },
       { "item": "hat_golf", "prob": 5 },
       { "item": "helmet_bike", "prob": 70 },
+      { "item": "helmet_riding", "prob": 5 },
       { "group": "helmet_bike_modified", "prob": 10 }
     ]
   },
