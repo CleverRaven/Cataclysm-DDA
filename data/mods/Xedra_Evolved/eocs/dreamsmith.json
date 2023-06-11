@@ -88,7 +88,11 @@
           "dreamforged_helmet_ench",
           "dreamforged_plate_armor_ench",
           "dreamforged_armguard_plate_ench",
-          "dreamforged_boots_ench"
+          "dreamforged_boots_ench",
+          "dreamforged_longbow",
+          "arrow_dreamforged",
+          "dreamforged_crossbow",
+          "bolt_dreamforged"
         ],
         "type": "recipe"
       },
