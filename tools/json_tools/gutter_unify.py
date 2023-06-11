@@ -26,17 +26,15 @@ def gen_new(path):
         except json.JSONDecodeError:
             failures.add("Json Decode Error at:\n" + path + "\nEnsure that the file is a JSON file consisting of an array of objects!")
             return None
-        print(path)
         for jo in json_data:
             if isinstance(jo, dict): # Handles weird files like mods/replacement.json
                 if jo["type"] == "mapgen" and "palettes" in jo["object"] and "rows" in jo["object"] and "roof_palette" in jo["object"]["palettes"]:
                     if len(jo["object"]["palettes"]) == 1:
                         terms = ["2", "3", "|"]
-                        potentialterms = terms
                         if "terrain" in jo["object"]:
-                            for potentialterm in potentialterms:
-                                if potentialterm in jo["object"]["terrain"]:
-                                    terms.remove(potentialterm)
+                            for term in terms:
+                                if term in jo["object"]["terrain"]:
+                                    terms.remove(term)
                         if len(terms) != 0:
                             pattern = r"[" + ''.join(terms) + r"]"
                             rowsn = len(jo["object"]["rows"])
