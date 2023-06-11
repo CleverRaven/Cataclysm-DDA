@@ -364,13 +364,16 @@
     "symbol": "U",
     "color": "dark_gray",
     "looks_like": "household_water_heater",
-    "weight": "22700 g",
+    "weight": "500 kg",
     "volume": "500 L",
     "price": 20000,
     "to_hit": -5,
     "material": [ "steel" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_catalytic_cracking_reactor" },
     "qualities": [ [ "EXTRACT", 3 ] ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "large_storage_battery", "storage_battery" ] }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
