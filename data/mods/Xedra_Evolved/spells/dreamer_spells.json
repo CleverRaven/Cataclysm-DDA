@@ -533,7 +533,7 @@
     "type": "SPELL",
     "name": "Karma Arms",
     "description": "Four transparent arms grow out of your body.  You have full control over them, and who knows what power they contain.",
-    "//": "obvious reference for "Submachine" by Mateusz Skutnik, albeit no portals",
+    "//": "obvious reference for 'Submachine' by Mateusz Skutnik, albeit no portals",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "spell_karma_arms_eff",
