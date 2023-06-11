@@ -1791,7 +1791,7 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
 
     it.activation_consume( 1, you->pos(), you );
 
-    you->practice( skill_survival, act->index, 2 );
+    you->practice( skill_survival, act->index, 5 );
 
     firestarter_actor::resolve_firestarter_use( *you, get_map().bub_from_abs( act->placement ) );
     act->set_to_null();
