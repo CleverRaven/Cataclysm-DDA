@@ -126,8 +126,18 @@
     "type": "requirement",
     "//": "Crafting of steel/iron items or installation of vehicle parts, measured in 1 cm segments - assume roughly 360 cm per hour, 10 seconds per # of this quality",
     "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
+    "//2": "acetlyne is measured in grams while propane is measured in ml - this means acetlyene is roughly 2x as potent as propane per charge",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 40 ], [ "toolset", 30 ], [ "oxy_torch", 1 ] ] ],
+    "tools": [
+      [
+        [ "welder", 20 ],
+        [ "welding_kit", 20 ],
+        [ "welder_crude", 40 ],
+        [ "toolset", 30 ],
+        [ "oxy_torch", 1 ],
+        [ "propane_torch", 8 ]
+      ]
+    ],
     "components": [ [ [ "welding_rod_steel", 1 ], [ "welding_wire_steel", 1 ], [ "brazing_rod_bronze", 1 ] ] ]
   },
   {
@@ -135,33 +145,75 @@
     "type": "requirement",
     "//": "Crafting items made of aluminium alloy or installation of vehicle parts, currently making the same assumption for time/coverage as steel",
     "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
+    "//2": "acetlyne is measured in grams while propane is measured in ml - this means acetlyene is roughly 2x as potent as propane per charge",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 40 ], [ "toolset", 30 ], [ "oxy_torch", 1 ] ] ],
+    "tools": [
+      [
+        [ "welder", 20 ],
+        [ "welding_kit", 20 ],
+        [ "welder_crude", 40 ],
+        [ "toolset", 30 ],
+        [ "oxy_torch", 1 ],
+        [ "propane_torch", 8 ]
+      ]
+    ],
     "components": [ [ [ "welding_rod_alloy", 1 ], [ "welding_wire_alloy", 1 ], [ "brazing_rod_alloy", 1 ] ] ]
   },
   {
     "id": "repair_welding_standard",
     "type": "requirement",
-    "//": "Repair of steel/iron items - costs double over that of standard welding",
+    "//": "Repair of steel/iron items - per 10 cm of weld (100 seconds each), done this way to use 1 chunk of steel per 10 cm",
     "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
+    "//2": "acetlyne is measured in grams while propane is measured in ml - this means acetlyene is roughly 2x as potent as propane per charge",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 40 ], [ "welding_kit", 40 ], [ "welder_crude", 80 ], [ "toolset", 60 ], [ "oxy_torch", 2 ] ] ],
+    "tools": [
+      [
+        [ "welder", 200 ],
+        [ "welding_kit", 200 ],
+        [ "welder_crude", 400 ],
+        [ "toolset", 300 ],
+        [ "oxy_torch", 10 ],
+        [ "propane_torch", 80 ]
+      ]
+    ],
     "components": [
-      [ [ "welding_rod_steel", 2 ], [ "welding_wire_steel", 2 ], [ "brazing_rod_bronze", 2 ] ],
+      [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
       [ [ "steel_tiny", 1, "LIST" ] ]
     ]
   },
   {
     "id": "repair_welding_alloys",
     "type": "requirement",
-    "//": "Repair items made of aluminium alloy - costs double over that of standard welding",
+    "//": "Repair of aluminum items - per 10 cm of weld (100 seconds each), done this way to use 1 chunk of steel per 10 cm",
     "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
+    "//2": "acetlyne is measured in grams while propane is measured in ml - this means acetlyene is roughly 2x as potent as propane per charge",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 40 ], [ "welding_kit", 40 ], [ "welder_crude", 80 ], [ "toolset", 60 ], [ "oxy_torch", 2 ] ] ],
+    "tools": [
+      [
+        [ "welder", 200 ],
+        [ "welding_kit", 200 ],
+        [ "welder_crude", 400 ],
+        [ "toolset", 300 ],
+        [ "oxy_torch", 10 ],
+        [ "propane_torch", 80 ]
+      ]
+    ],
     "components": [
-      [ [ "welding_rod_alloy", 2 ], [ "welding_wire_alloy", 2 ], [ "brazing_rod_alloy", 2 ] ],
+      [ [ "welding_rod_alloy", 10 ], [ "welding_wire_alloy", 10 ], [ "brazing_rod_alloy", 10 ] ],
       [ [ "material_aluminium_ingot", 1 ] ]
     ]
+  },
+  {
+    "id": "repair_welding_rebar",
+    "type": "requirement",
+    "//": "Repair of rebar items - per 10 cm of weld (100 seconds each), done this way to use 1 rebar per 40 cm - you should use new rebar instead of repairing individual rebars",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
+    "//2": "acetlyne is measured in grams while propane is measured in ml - this means acetlyene is roughly 2x as potent as propane per charge",
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "tools": [
+      [ [ "welder", 800 ], [ "welding_kit", 800 ], [ "welder_crude", 1600 ], [ "oxy_torch", 40 ], [ "propane_torch", 320 ] ]
+    ],
+    "components": [ [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ], [ [ "rebar", 1 ] ] ]
   },
   {
     "id": "chainmail_standard",

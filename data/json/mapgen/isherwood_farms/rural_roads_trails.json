@@ -383,5 +383,11 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pasture",
+    "object": { "predecessor_mapgen": "field" }
   }
 ]

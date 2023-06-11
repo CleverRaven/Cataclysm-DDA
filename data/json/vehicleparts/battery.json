@@ -127,9 +127,10 @@
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "medium_storage_battery", "count": [ 1, 2 ] }
     ],
+    "//": "29cm length battery, welded on at least two edges",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "300 s", "using": "vehicle_weld_removal" }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "welding_standard", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": "vehicle_weld_removal" }
     },
     "damage_reduction": { "bash": 10 },
     "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
