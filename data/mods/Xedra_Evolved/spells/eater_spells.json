@@ -519,7 +519,7 @@
     "id": "point_blank",
     "type": "SPELL",
     "name": "Point Blank",
-    "description": "Straight hit with your arm.  Using additional energy, you probably can break a wall with such powerful strike.",
+    "description": "Straight hit with your arm.  Using additional energy, you probably can break a wall with such a powerful strike.",
     "valid_targets": [ "hostile", "ground" ],
     "effect": "attack",
     "shape": "blast",

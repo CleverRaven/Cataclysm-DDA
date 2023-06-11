@@ -510,7 +510,7 @@
     "type": "effect_type",
     "name": [ "Physical Instrument" ],
     "desc": [
-      "Your body is a tool of destruction.  <color_red>Use it effectively<color>.  Your attacks are faster and deadlier, and your dodge abilities is better"
+      "Your body is a tool of destruction.  <color_red>Use it effectively<color>.  Your attacks are faster and deadlier, and your dodging ability is better."
     ],
     "apply_message": "You can feel a bubbling energy in your muscles.",
     "remove_message": "The feelings in your muscles subside.",

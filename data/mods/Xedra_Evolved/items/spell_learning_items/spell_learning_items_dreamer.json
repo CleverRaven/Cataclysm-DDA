@@ -213,7 +213,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": "odd circle",
-    "description": "Circular unit of energy, with few another circles that almost make a connection around the center",
+    "description": "Circular unit of energy, surrounded by a few other circles that almost make a connection around the center.",
     "weight": "90 g",
     "volume": "190 ml",
     "price": 2000,

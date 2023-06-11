@@ -138,7 +138,7 @@
           "id": "EOC_DREAMSMITH_SUPER_MESSAGE_POSITIVE",
           "effect": [
             {
-              "u_message": "You found pretty smart way to utilize a dreamdross abilities, and you can't wait to use it.",
+              "u_message": "You found a pretty smart way to utilize dreamdross' abilities, and you can't wait to use it.",
               "type": "good"
             }
           ]

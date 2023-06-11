@@ -532,7 +532,7 @@
     "id": "spell_karma_arms",
     "type": "SPELL",
     "name": "Karma Arms",
-    "description": "A four transparent arms grow out of your body.  You have a full control over them, and who knows what power they contain.",
+    "description": "Four transparent arms grow out of your body.  You have full control over them, and who knows what power they contain.",
     "//": "obvious reference for submachine, albeit no portals",
     "valid_targets": [ "self" ],
     "effect": "attack",

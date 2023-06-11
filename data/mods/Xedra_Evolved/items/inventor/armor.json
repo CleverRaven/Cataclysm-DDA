@@ -391,7 +391,7 @@
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "heavy CQC system" },
-    "description": "Heavyweight system, that start from your hands, that holds square-ish steel frame with few bumps on the end, to increase the damage output by concentrating the impact point, goes into your lower arms with thick piece of hardened steel to cover both your limb and the hydraulic system, into the upper arm with aluminum tubes for hydraulic system, and end on your back, where the main part of hydraulic servos belong.  The energy consumption is recuperated from each move, but overall weight and bulkiness of the system makes it barely possible to use with anything in your hands.",
+    "description": "Heavyweight system, starting from your hands, that holds a square-ish steel frame with few bumps on the end, to increase damage output by concentrating the impact point.  It goes into your lower arms with thick piece of hardened steel to cover both your limbs and the hydraulic system, extends into the upper arm with aluminum tubes for hydraulics, and ends on your back, where the main part of hydraulic servos belong.  The energy consumption is recuperated from each move, but overall weight and bulkiness of the system makes it barely possible to use with anything in your hands.",
     "material": [ "aluminum", "steel" ],
     "volume": "11678 ml",
     "weight": "3970 g",
