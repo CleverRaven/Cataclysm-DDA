@@ -7,7 +7,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "WILDERNESS" ],
+    "flags": [ "CLASSIC", "MAN_MADE", "FARM" ],
     "check_for_locations_area": [ { "type": [ "land" ], "from": [ -4, -2, 0 ], "to": [ 4, 22, 0 ] } ],
     "joins": [ "root_to_road", "road_to_house", "road_to_extra", "house_to_extension", "farm_to_farm" ],
     "overmaps": {

@@ -49,6 +49,7 @@
     "volume": "5 ml",
     "price": 800,
     "price_postapoc": 0,
+    "flags": [ "BANK_NOTE_SHAPED" ],
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"
@@ -101,15 +102,17 @@
     "category": "other",
     "name": { "str": "chess set" },
     "description": "A wooden box containing all the pieces needed to play a game of chess.",
-    "weight": "907 g",
-    "volume": "2 L",
-    "price": 7500,
+    "weight": "550 g",
+    "volume": "2400 ml",
+    "longest_side": "30 cm",
+    "price": "16 USD",
     "price_postapoc": 500,
     "material": [ "wood" ],
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
+    "use_action": [ "PLAY_GAME" ],
+    "//": "Based on folded volume of https://www.amazon.co.uk/Big-Game-Hunters-Portable-Wooden/dp/B07XVKG4YY/ref=sr_1_6?crid=1N6NEJ01S0U4V&keywords=chess+set&qid=1684582085&sprefix=chess+se%2Caps%2C117&sr=8-6"
   },
   {
     "id": "checkers",

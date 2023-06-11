@@ -1934,6 +1934,7 @@ spell &known_magic::get_spell( const spell_id &sp )
 std::vector<spell *> known_magic::get_spells()
 {
     std::vector<spell *> spells;
+    spells.reserve( spellbook.size() );
     for( auto &spell_pair : spellbook ) {
         spells.emplace_back( &spell_pair.second );
     }
@@ -1980,6 +1981,7 @@ void known_magic::update_mana( const Character &guy, float turns )
 std::vector<spell_id> known_magic::spells() const
 {
     std::vector<spell_id> spell_ids;
+    spell_ids.reserve( spellbook.size() );
     for( const std::pair<const spell_id, spell> &pair : spellbook ) {
         spell_ids.emplace_back( pair.first );
     }
@@ -2197,11 +2199,11 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     for( const std::string &line : foldstring( sp.description(), width ) ) {
         info_txt.emplace_back( colorize( line, c_light_gray ) );
     }
-    info_txt.emplace_back( std::string() );
+    info_txt.emplace_back( );
     for( const std::string &line : foldstring( spell_desc::enumerate_spell_data( sp, pc ), width ) ) {
         info_txt.emplace_back( colorize( line, c_light_gray ) );
     }
-    info_txt.emplace_back( std::string() );
+    info_txt.emplace_back( );
 
     auto columnize = [&width]( const std::string & col1, const std::string & col2 ) {
         std::string line = col1;
@@ -2224,7 +2226,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
                              string_format( "%s: %s", _( "to Next Level" ),
                                             colorize( std::to_string( sp.exp_to_next_level() ), c_light_green ) ) ), c_light_gray ) );
 
-    info_txt.emplace_back( std::string() );
+    info_txt.emplace_back( );
 
     const bool cost_encumb = spell_desc::energy_cost_encumbered( sp, pc );
     std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
@@ -2243,7 +2245,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
         colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
                                  moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
 
-    info_txt.emplace_back( std::string() );
+    info_txt.emplace_back( );
 
     std::string targets;
     if( sp.is_valid_target( spell_target::none ) ) {
@@ -2254,7 +2256,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     info_txt.emplace_back(
         colorize( string_format( "%s: %s", _( "Valid Targets" ), targets ), c_light_gray ) );
 
-    info_txt.emplace_back( std::string() );
+    info_txt.emplace_back( );
 
     std::string target_ids;
     target_ids = sp.list_targeted_monster_names();
@@ -2263,7 +2265,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
              foldstring( string_format( _( "Only affects the monsters: %s" ), target_ids ), width ) ) {
             info_txt.emplace_back( colorize( line, c_light_gray ) );
         }
-        info_txt.emplace_back( std::string() );
+        info_txt.emplace_back( );
     }
 
     const int damage = sp.damage( pc );

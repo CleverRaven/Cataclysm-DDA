@@ -336,6 +336,7 @@ std::optional<std::list<item>::iterator> Character::wear_item( const item &to_we
         bool interactive, bool do_calc_encumbrance )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
         if( interactive ) {
@@ -757,6 +758,13 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
 
             // add the sublocations to the overall body part layer and update if we are conflicting
             for( sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
+                if( std::count_if( bp->sub_parts.begin(),
+                bp->sub_parts.end(), [sbp]( const sub_bodypart_str_id & bpid ) {
+                return sbp.id() == bpid;
+                } ) == 0 ) {
+                    // the sub part isn't part of the bodypart we are checking
+                    continue;
+                }
                 // bit hacky but needed since we are doing one layer at a time
                 std::vector<layer_level> ll;
                 ll.push_back( item_layer );
@@ -881,6 +889,15 @@ bool outfit::is_worn( const itype_id &clothing ) const
     }
     return false;
 }
+bool outfit::is_worn_module( const item &thing ) const
+
+{
+    return thing.has_flag( flag_CANT_WEAR ) &&
+    std::any_of( worn.cbegin(), worn.cend(), [&thing]( item const & elem ) {
+        return elem.contained_where( thing ) != nullptr;
+    } );
+}
+
 
 bool outfit::is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const
 {

@@ -504,30 +504,27 @@ void vehicle::toggle_tracking()
 
 item vehicle::init_cord( const tripoint &pos )
 {
-    item powercord( "power_cord" );
-    powercord.set_var( "source_x", pos.x );
-    powercord.set_var( "source_y", pos.y );
-    powercord.set_var( "source_z", pos.z );
-    powercord.set_var( "state", "pay_out_cable" );
-    powercord.active = true;
+    item cord( "power_cord" );
+    cord.link = cata::make_value<item::link_data>();
+    cord.link->t_state = link_state::vehicle_port;
+    cord.link->t_veh_safe = get_safe_reference();
+    cord.link->t_abs_pos = get_map().getglobal( pos );
+    cord.active = true;
 
-    return powercord;
+    return cord;
 }
 
 void vehicle::plug_in( const tripoint &pos )
 {
-    item powercord = init_cord( pos );
+    item cord = init_cord( pos );
 
-    if( powercord.get_use( "CABLE_ATTACH" ) ) {
-        powercord.get_use( "CABLE_ATTACH" )->call( get_player_character(), powercord, powercord.active,
-                pos );
+    if( cord.get_use( "link_up" ) ) {
+        cord.type->get_use( "link_up" )->call( get_player_character(), cord, false, pos );
     }
-
 }
 
 void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 {
-
     item cord = init_cord( source_pos );
     map &here = get_map();
 
@@ -544,24 +541,19 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     }
 
     tripoint target_global = here.getabs( target_pos );
-    // TODO: make sure there is always a matching vpart id here. Maybe transform this into
-    // a iuse_actor class, or add a check in item_factory.
     const vpart_id vpid( cord.typeId().str() );
 
     point vcoords = source_vp->mount();
-    vehicle_part source_part( vpid, "", vcoords, item( cord ) );
+    vehicle_part source_part( vpid, item( cord ) );
     source_part.target.first = target_global;
     source_part.target.second = target_veh->global_square_location().raw();
-    source_veh->install_part( vcoords, source_part );
+    source_veh->install_part( vcoords, std::move( source_part ) );
 
     vcoords = target_vp->mount();
-    vehicle_part target_part( vpid, "", vcoords, item( cord ) );
-    tripoint source_global( cord.get_var( "source_x", 0 ),
-                            cord.get_var( "source_y", 0 ),
-                            cord.get_var( "source_z", 0 ) );
-    target_part.target.first = here.getabs( source_global );
+    vehicle_part target_part( vpid, item( cord ) );
+    target_part.target.first = cord.link->t_abs_pos.raw();
     target_part.target.second = source_veh->global_square_location().raw();
-    target_veh->install_part( vcoords, target_part );
+    target_veh->install_part( vcoords, std::move( target_part ) );
 }
 
 double vehicle::engine_cold_factor( const vehicle_part &vp ) const
@@ -860,7 +852,7 @@ void vehicle::reload_seeds( const tripoint &pos )
     } );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_null, _( "No seed" ), 0 ) );
+    seed_entries.emplace( seed_entries.begin(), itype_null, _( "No seed" ), 0 );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
@@ -1483,12 +1475,12 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     }
     item base = item( parts[part].get_base() );
     base.type->invoke( get_avatar(), base, pos );
-    parts[part].set_base( base );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vp_flag::animal_flag );
     } else {
         parts[part].remove_flag( vp_flag::animal_flag );
     }
+    parts[part].set_base( std::move( base ) );
     invalidate_mass();
 }
 
@@ -2080,11 +2072,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             };
             std::string title = string_format( _( "Purify <color_%s>water</color> in tank" ),
                                                get_all_colors().get_name( itype_water->color ) );
-            vehicle_part &tank = veh_interact::select_part( *this, sel, title );
-            if( !tank )
+            const std::optional<vpart_reference> vpr = veh_interact::select_part( *this, sel, title );
+            if( !vpr )
             {
                 return;
             }
+            vehicle_part &tank = vpr->part();
             int64_t cost = static_cast<int64_t>( itype_water_purifier->charges_to_use() );
             if( fuel_left( itype_battery ) < tank.ammo_remaining() * cost )
             {

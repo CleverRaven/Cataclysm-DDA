@@ -620,7 +620,7 @@
       [ [ "gun_module", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "m16a4", 1 ] ],
+      [ [ "modular_m16a4", 1 ] ],
       [ [ "canister_empty", 1 ] ]
     ]
   },

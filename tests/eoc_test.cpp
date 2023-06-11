@@ -19,7 +19,11 @@ effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
 static const effect_on_condition_id
+effect_on_condition_EOC_math_armor( "EOC_math_armor" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_assign( "EOC_math_diag_assign" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_diag_w_vars( "EOC_math_diag_w_vars" );
 static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_math_duration" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_switch_math( "EOC_math_switch_math" );
@@ -35,6 +39,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_mutator_test" );
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
+static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
+static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_expects_fail( "EOC_run_with_test_expects_fail" );
@@ -44,11 +50,14 @@ static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_queued( "EOC_run_with_test_queued" );
 static const effect_on_condition_id
 effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
-
-
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
+
+static const recipe_id recipe_cattail_jelly( "cattail_jelly" );
+
+static const skill_id skill_survival( "survival" );
+
 namespace
 {
 void complete_activity( Character &u )
@@ -156,6 +165,19 @@ TEST_CASE( "EOC_jmath", "[eoc][math_parser]" )
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     effect_on_condition_EOC_jmath_test->activate( d );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_blorgy" ) ) == Approx( 7 ) );
+}
+
+TEST_CASE( "EOC_diag_with_vars", "[eoc][math_parser]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    REQUIRE( globvars.get_global_value( "npctalk_var_myskill_math" ).empty() );
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    effect_on_condition_EOC_math_diag_w_vars->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_myskill_math" ) ) == Approx( 0 ) );
+    get_avatar().set_skill_level( skill_survival, 3 );
+    effect_on_condition_EOC_math_diag_w_vars->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_myskill_math" ) ) == Approx( 3 ) );
 }
 
 TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
@@ -268,6 +290,27 @@ TEST_CASE( "EOC_mutator_test", "[eoc][math_parser]" )
     CHECK( effect_on_condition_EOC_mutator_test->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "zombie" );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "zombie" );
+}
+
+TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &a = get_avatar();
+    a.worn.wear_item( a, item( "test_eoc_armor_suit" ), false, true, true );
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    CHECK( effect_on_condition_EOC_math_armor->activate( d ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 4 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 9 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 0 ) );
+
 }
 
 TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
@@ -422,4 +465,26 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key" ).empty() );
     CHECK( d.get_value( "npctalk_var_key2" ).empty() );
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
+}
+
+
+TEST_CASE( "EOC_recipe_test", "[eoc]" )
+{
+    clear_avatar();
+    const recipe *r = &recipe_cattail_jelly.obj();
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE_FALSE( get_avatar().knows_recipe( r ) );
+    REQUIRE( globvars.get_global_value( "fail_var" ).empty() );
+
+    CHECK( effect_on_condition_EOC_recipe_test_1->activate( d ) );
+    CHECK( globvars.get_global_value( "fail_var" ).empty() );
+    CHECK( get_avatar().knows_recipe( r ) );
+
+
+    CHECK( effect_on_condition_EOC_recipe_test_2->activate( d ) );
+    CHECK( globvars.get_global_value( "fail_var" ).empty() );
+    CHECK_FALSE( get_avatar().knows_recipe( r ) );
 }

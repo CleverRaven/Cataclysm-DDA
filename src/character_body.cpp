@@ -196,6 +196,7 @@ void Character::update_body( const time_point &from, const time_point &to )
 {
     // Early return if we already did update previously on the same turn (e.g. when loading savegame).
     if( to <= last_updated ) {
+        last_updated = to;
         return;
     }
     if( !is_npc() ) {
