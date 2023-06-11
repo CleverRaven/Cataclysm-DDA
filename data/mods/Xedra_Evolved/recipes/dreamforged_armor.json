@@ -5,7 +5,7 @@
     "result": "dreamforged_ballistic_plate",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
-    "time": "18 h",
+    "time": "6 h",
     "skill_used": "deduction",
     "difficulty": 4,
     "//": "TODO: add proficiency for armor dreamforging",
@@ -19,7 +19,7 @@
     "activity_level": "ACTIVE_EXERCISE",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
-    "time": "14 h",
+    "time": "5 h",
     "skill_used": "deduction",
     "difficulty": 4,
     "flags": [ "SECRET" ],
@@ -40,7 +40,7 @@
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
-    "time": "2 d 5 h",
+    "time": "16 h",
     "skill_used": "deduction",
     "difficulty": 5,
     "flags": [ "SECRET" ],
@@ -58,7 +58,7 @@
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
-    "time": "1 d 18 h",
+    "time": "8 h",
     "difficulty": 4,
     "flags": [ "SECRET" ]
   },
@@ -76,7 +76,7 @@
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 8 ] ] ],
-    "time": "3 d 19 h",
+    "time": "22 h",
     "flags": [ "SECRET" ],
     "difficulty": 7
   },
@@ -94,7 +94,7 @@
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "1 d 14 h",
+    "time": "11 h",
     "flags": [ "SECRET" ],
     "difficulty": 5
   },
@@ -109,7 +109,7 @@
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "1 d 17 h",
+    "time": "12 h",
     "flags": [ "SECRET" ],
     "difficulty": 5
   },
@@ -119,7 +119,7 @@
     "result": "dreamforged_helmet_berserker",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
-    "time": "2 d 19 h",
+    "time": "1 d 1 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "flags": [ "SECRET" ],
@@ -132,7 +132,7 @@
     "result": "dreamforged_armguard_plate_berserk",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "3 d 5 h",
+    "time": "1 d 5 h",
     "flags": [ "SECRET" ],
     "difficulty": 8
   },
@@ -142,7 +142,7 @@
     "result": "dreamforged_boots_berserk",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "3 d 3 h",
+    "time": "1 d 3 h",
     "flags": [ "SECRET" ],
     "difficulty": 7
   },
@@ -152,7 +152,7 @@
     "result": "dreamforged_fullhelmet_arcane",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "3 d 9 h",
+    "time": "1 d 9 h",
     "flags": [ "SECRET" ],
     "difficulty": 7
   },
@@ -162,7 +162,7 @@
     "result": "dreamforged_armguard_plate_gunslinger",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "6 d 6 h",
+    "time": "2 d 6 h",
     "flags": [ "SECRET" ],
     "difficulty": 6
   }
