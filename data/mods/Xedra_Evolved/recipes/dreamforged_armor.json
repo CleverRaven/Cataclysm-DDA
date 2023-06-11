@@ -4,11 +4,11 @@
     "activity_level": "ACTIVE_EXERCISE",
     "result": "dreamforged_ballistic_plate",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_armor" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "time": "6 h",
     "skill_used": "deduction",
     "difficulty": 4,
-    "//": "TODO: add proficiency for armor dreamforging",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
@@ -18,6 +18,7 @@
     "result": "dreamforged_ballistic_plate_small",
     "activity_level": "ACTIVE_EXERCISE",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_armor" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "time": "5 h",
     "skill_used": "deduction",
@@ -39,6 +40,7 @@
       }
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_armor" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "time": "16 h",
     "skill_used": "deduction",
@@ -118,6 +120,11 @@
     "activity_level": "ACTIVE_EXERCISE",
     "result": "dreamforged_helmet_berserker",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_dreamsmithing" },
+      { "proficiency": "prof_dreamsmithing_armor" },
+      { "proficiency": "prof_dreamsmithing_peak" }
+    ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "time": "1 d 1 h",
     "skill_used": "deduction",

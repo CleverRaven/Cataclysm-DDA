@@ -3,6 +3,7 @@
     "type": "recipe",
     "result": "dreamdross_bo",
     "activity_level": "ACTIVE_EXERCISE",
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" } ],
     "components": [
       [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ],
       [ [ "stick_long", 1 ], [ "plank_long", 1 ], [ "long_pole", 1 ] ]
@@ -30,7 +31,6 @@
     "type": "recipe",
     "result": "dreamdross_club",
     "copy-from": "dreamdross_bo",
-    "activity_level": "ACTIVE_EXERCISE",
     "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ], [ [ "hammer", 1 ], [ "pipe", 1 ], [ "rebar", 1 ] ] ],
     "time": "3 h",
     "flags": [ "SECRET" ],
@@ -41,6 +41,7 @@
     "name": "dreamforged long sword",
     "id": "dreamforged_longsword_ench",
     "activity_level": "ACTIVE_EXERCISE",
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_weapon" } ],
     "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
@@ -54,7 +55,6 @@
     "flags": [ "SECRET" ],
     "skill_used": "deduction",
     "difficulty": 6,
-    "//": "TODO: add proficiency for weapon dreamforging",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
   },
@@ -464,6 +464,11 @@
     "activity_level": "ACTIVE_EXERCISE",
     "result": "dreamforged_knuckle_berserk",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_dreamsmithing" },
+      { "proficiency": "prof_dreamsmithing_weapon" },
+      { "proficiency": "prof_dreamsmithing_peak" }
+    ],
     "components": [ [ [ "forged_dreamstuff_ingot", 4 ] ] ],
     "time": "1 d 2 h",
     "skill_used": "deduction",
