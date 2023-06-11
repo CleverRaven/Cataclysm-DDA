@@ -37,12 +37,15 @@ def gen_new(path):
                             if potentialterm in jo["object"]["terrain"]:
                                 terms.remove(potentialterm)
                     if len(terms) != 0:
+                        for term in terms:
+                            if term == "|":
+                                term = "/|"
+                        pattern = r"'|'.join(terms)"
                         rowsn = len(jo["object"]["rows"])
                         i = 0
                         while i < rowsn:
-                            for term in terms:
-                                newrow = jo["object"]["rows"][i].replace(term, "-")
-                                if(jo["object"]["rows"][i] != newrow)
+                            if re.search(pattern, jo["object"]["rows"][i]):
+                                jo["object"]["rows"][i] = re.sub(pattern, '-',jo["object"]["rows"][i])
                                 change = True
                             i += 1
                 else:
