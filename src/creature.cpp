@@ -1772,10 +1772,8 @@ std::vector<effect> Creature::get_effects_from_bp( const bodypart_id &bp ) const
 {
     std::vector<effect> effs;
     for( auto &elem : *effects ) {
-        for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            if( _it.first == bp ) {
-                effs.push_back( _it.second );
-            }
+        if( elem.second.find( bp ) != elem.second.end() ) {
+            effs.push_back( elem.second[bp] );
         }
     }
     return effs;
