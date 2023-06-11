@@ -184,7 +184,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
     std::set<tripoint> closed;
     std::set<tripoint> bashed{ p };
     std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 0.0f, p ) );
+    open.emplace( 0.0f, p );
     dist_map[p] = 0.0f;
     // Find all points to blast
     while( !open.empty() ) {
@@ -258,7 +258,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
             }
 
             if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
-                open.push( std::make_pair( next_dist, dest ) );
+                open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
             }
         }

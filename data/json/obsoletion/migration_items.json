@@ -160,5 +160,11 @@
     "type": "MIGRATION",
     "replace": "tank_top",
     "variant": "tank_top_cheerleader"
+  },
+  {
+    "id": "UPS_off",
+    "type": "MIGRATION",
+    "replace": "UPS_ON",
+    "flags": [ "IS_UPS" ]
   }
 ]

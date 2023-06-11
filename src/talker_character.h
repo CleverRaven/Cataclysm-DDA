@@ -51,6 +51,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int dex_cur() const override;
         int int_cur() const override;
         int per_cur() const override;
+        int attack_speed() const override;
         int pain_cur() const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
         int get_str_max() const override;
@@ -68,6 +69,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool has_trait( const trait_id &trait_to_check ) const override;
         bool has_recipe( const recipe_id &recipe_to_check ) const override;
         bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
+        bool has_species( const species_id &species ) const override;
+        bool bodytype( const bodytype_id &bt ) const override;
         bool crossed_threshold() const override;
         int num_bionics() const override;
         bool has_max_power() const override;
@@ -116,6 +119,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_instant_thirst() const override;
         int get_stored_kcal() const override;
         int get_healthy_kcal() const override;
+        int get_size() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
@@ -193,6 +197,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void unset_mutation( const trait_id &old_trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;
         void learn_recipe( const recipe_id &recipe_to_learn ) override;
+        void forget_recipe( const recipe_id &recipe_to_forget ) override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          const std::string &bp, bool permanent, bool force, int intensity
                        ) override;

@@ -45,7 +45,7 @@
     "difficulty": 5,
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_WEAPONS"
+    "subcategory": "CSC_XEDRA_ARMOR"
   },
   {
     "type": "recipe",

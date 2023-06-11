@@ -1642,7 +1642,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
-      "items": [ { "item": "chain", "count": 1 }, { "item": "block_and_tackle", "count": 1 }, { "item": "nuts_bolts", "count": 2 } ]
+      "items": [ { "item": "chain", "count": 1 }, { "item": "block_and_tackle", "count": 1 }, { "item": "nuts_bolts", "charges": 2 } ]
     },
     "crafting_pseudo_item": "fake_lift_heavy"
   }

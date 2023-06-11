@@ -324,7 +324,7 @@
         "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
         "coverage": 25,
         "encumbrance": 1,
-        "layers": [ "OUTER" ]
+        "layers": [ "BELTED" ]
       }
     ]
   },

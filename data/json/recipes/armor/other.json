@@ -64,7 +64,12 @@
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "amplifier", 1 ] ]
+    ],
     "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {

@@ -108,6 +108,13 @@ int talker_character_const::per_cur() const
     return me_chr_const->per_cur;
 }
 
+int talker_character_const::attack_speed() const
+{
+    item_location cur_weapon = me_chr_const->used_weapon();
+    item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+    return me_chr_const->attack_speed( cur_weap );
+}
+
 void talker_character::set_str_max( int value )
 {
     me_chr->str_max = value;
@@ -203,6 +210,11 @@ void talker_character::learn_recipe( const recipe_id &recipe_to_learn )
     me_chr->learn_recipe( &*recipe_to_learn );
 }
 
+void talker_character::forget_recipe( const recipe_id &recipe_to_forget )
+{
+    me_chr->forget_recipe( &*recipe_to_forget );
+}
+
 bool talker_character_const::is_deaf() const
 {
     return me_chr_const->is_deaf();
@@ -238,6 +250,23 @@ bool talker_character_const::has_flag( const json_character_flag &trait_flag_to_
 {
     return me_chr_const->has_flag( trait_flag_to_check );
 }
+
+bool talker_character_const::has_species( const species_id &species ) const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Character %s checked for species %s", me_chr_const->name,
+                   species.c_str() );
+    return me_chr_const->in_species( species );
+}
+
+bool talker_character_const::bodytype( const bodytype_id &bt ) const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Character %s checked for bodytype %s", me_chr_const->name,
+                   bt );
+    // All characters are human-bodytyped for now
+    // TODO: Change that for very limby characters
+    return bt == "human";
+}
+
 
 bool talker_character_const::crossed_threshold() const
 {
@@ -552,6 +581,13 @@ int talker_character_const::get_stored_kcal() const
 int talker_character_const::get_healthy_kcal() const
 {
     return me_chr_const->get_healthy_kcal();
+}
+
+int talker_character_const::get_size() const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Size category of character %s = %d", me_chr_const->name,
+                   me_chr_const->get_size() - 0 );
+    return me_chr_const->get_size() - 0;
 }
 
 void talker_character::set_stored_kcal( int value )

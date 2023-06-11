@@ -504,30 +504,27 @@ void vehicle::toggle_tracking()
 
 item vehicle::init_cord( const tripoint &pos )
 {
-    item powercord( "power_cord" );
-    powercord.set_var( "source_x", pos.x );
-    powercord.set_var( "source_y", pos.y );
-    powercord.set_var( "source_z", pos.z );
-    powercord.set_var( "state", "pay_out_cable" );
-    powercord.active = true;
+    item cord( "power_cord" );
+    cord.link = cata::make_value<item::link_data>();
+    cord.link->t_state = link_state::vehicle_port;
+    cord.link->t_veh_safe = get_safe_reference();
+    cord.link->t_abs_pos = get_map().getglobal( pos );
+    cord.active = true;
 
-    return powercord;
+    return cord;
 }
 
 void vehicle::plug_in( const tripoint &pos )
 {
-    item powercord = init_cord( pos );
+    item cord = init_cord( pos );
 
-    if( powercord.get_use( "CABLE_ATTACH" ) ) {
-        powercord.get_use( "CABLE_ATTACH" )->call( get_player_character(), powercord, powercord.active,
-                pos );
+    if( cord.get_use( "link_up" ) ) {
+        cord.type->get_use( "link_up" )->call( get_player_character(), cord, false, pos );
     }
-
 }
 
 void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 {
-
     item cord = init_cord( source_pos );
     map &here = get_map();
 
@@ -544,8 +541,6 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     }
 
     tripoint target_global = here.getabs( target_pos );
-    // TODO: make sure there is always a matching vpart id here. Maybe transform this into
-    // a iuse_actor class, or add a check in item_factory.
     const vpart_id vpid( cord.typeId().str() );
 
     point vcoords = source_vp->mount();
@@ -556,10 +551,7 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 
     vcoords = target_vp->mount();
     vehicle_part target_part( vpid, item( cord ) );
-    tripoint source_global( cord.get_var( "source_x", 0 ),
-                            cord.get_var( "source_y", 0 ),
-                            cord.get_var( "source_z", 0 ) );
-    target_part.target.first = here.getabs( source_global );
+    target_part.target.first = cord.link->t_abs_pos.raw();
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, std::move( target_part ) );
 }
@@ -860,7 +852,7 @@ void vehicle::reload_seeds( const tripoint &pos )
     } );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_null, _( "No seed" ), 0 ) );
+    seed_entries.emplace( seed_entries.begin(), itype_null, _( "No seed" ), 0 );
 
     int seed_index = iexamine::query_seed( seed_entries );
 

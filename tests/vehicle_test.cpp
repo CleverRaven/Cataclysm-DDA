@@ -423,10 +423,9 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
 {
     map &here = get_map();
     item cord( itm );
-    cord.set_var( "source_x", src_pos.x );
-    cord.set_var( "source_y", src_pos.y );
-    cord.set_var( "source_z", src_pos.z );
-    cord.set_var( "state", "pay_out_cable" );
+    cord.link = cata::make_value<item::link_data>();
+    cord.link->t_state = link_state::vehicle_port;
+    cord.link->t_abs_pos = here.getglobal( src_pos );
     cord.active = true;
 
     const optional_vpart_position target_vp = here.veh_at( dst_pos );
@@ -452,10 +451,7 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
 
     vcoords = target_vp->mount();
     vehicle_part target_part( vpid, item( cord ) );
-    tripoint source_global( cord.get_var( "source_x", 0 ),
-                            cord.get_var( "source_y", 0 ),
-                            cord.get_var( "source_z", 0 ) );
-    target_part.target.first = here.getabs( source_global );
+    target_part.target.first = cord.link->t_abs_pos.raw();
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, std::move( target_part ) );
 }

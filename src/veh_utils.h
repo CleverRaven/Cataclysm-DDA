@@ -29,7 +29,7 @@ vehicle_part *most_repairable_part( vehicle &veh, Character &who_arg );
  * Repairs a given part on a given vehicle by given character.
  * Awards xp and consumes components.
  */
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::string &variant );
+bool repair_part( vehicle &veh, vehicle_part &pt, Character &who );
 } // namespace veh_utils
 
 struct veh_menu_item {

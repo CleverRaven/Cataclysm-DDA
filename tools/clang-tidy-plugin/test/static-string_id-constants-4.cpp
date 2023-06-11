@@ -1,28 +1,7 @@
-// RUN: %check_clang_tidy %s cata-static-string_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-static-string_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
 
-template<typename T>
-class string_id
-{
-    public:
-        template<typename S>
-        explicit string_id( S &&, int cid = -1 ) {
-        }
-};
-
-class activity_type;
-using activity_id = string_id<activity_type>;
-
-struct bionic_data;
-using bionic_id = string_id<bionic_data>;
-
-template<typename T>
-inline const T &static_argument_identity( const T &t )
-{
-    return t;
-}
-
-#define STATIC(expr) \
-    static_argument_identity( expr )
+#include "make_static.h"
+#include "type_id.h"
 
 static const activity_id ACT_WASH( "ACT_WASH" );
 // CHECK-FIXES: static const activity_id ACT_ZZZ( "ACT_ZZZ" );

@@ -248,6 +248,7 @@ void DynamicDataLoader::initialize()
     add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
     add( "jmath_function", &jmath_func::load_func );
+    add( "var_migration", &global_variables::load_migrations );
     add( "connect_group", &connect_group::load );
     add( "fault", &fault::load );
     add( "fault_fix", &fault_fix::load );
@@ -801,6 +802,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Faults" ), &fault::check_consistency },
             { _( "Fault fixes" ), &fault_fix::check_consistency },
             { _( "Vehicle parts" ), &vpart_info::check },
+            { _( "Vehicle part migrations" ), &vpart_migration::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
             { _( "Mapgen palettes" ), &mapgen_palette::check_definitions },
             {

@@ -179,7 +179,7 @@ void trap::load( const JsonObject &jo, const std::string_view )
             charges = 1;
         }
         if( !item_type.is_empty() && quantity > 0 && charges > 0 ) {
-            components.emplace_back( std::make_tuple( item_type, quantity, charges ) );
+            components.emplace_back( item_type, quantity, charges );
         }
     }
     if( jo.has_object( "vehicle_data" ) ) {
