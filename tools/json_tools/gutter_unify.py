@@ -56,6 +56,18 @@ def gen_new(path):
                         failures.add("Can't automatically correct map(s):\n" + mapname + "\nin file:\n" + path + "\ndue to multiple palettes being present.")
     return json_data if change else None
 
+def format_json(path):
+    file_path = os.path.dirname(__file__)
+    format_path_linux = os.path.join(file_path, "../format/json_formatter.cgi")
+    path_win = "../format/JsonFormatter-vcpkg-static-Release-x64.exe"
+    format_path_win = os.path.join(file_path, path_win)
+    if os.path.exists(format_path_linux):
+        os.system(f"{format_path_linux} {path}")
+    elif os.path.exists(format_path_win):
+        os.system(f"{format_path_win} {path}")
+    else:
+        print("No json formatter found")
+
 for root, directories, filenames in os.walk(args_dict["dir"]):
     for filename in filenames:
         path = os.path.join(root, filename)
@@ -64,7 +76,7 @@ for root, directories, filenames in os.walk(args_dict["dir"]):
             if new is not None:
                 with open(path, "w", encoding="utf-8") as jf:
                     json.dump(new, jf, ensure_ascii=False)
-                os.system(f"tools\\format\\json_formatter.exe {path}")
+                format_json(path)
 
 for statement in failures:
     print(statement)
