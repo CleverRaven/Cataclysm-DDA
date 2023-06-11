@@ -285,7 +285,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "fist" },
-    "description": "A solid, full size cast of human fist, made out of some gray metal.  Looks menacing.",
+    "description": "A solid, full size cast of a human fist, made out of some gray metal.  Looks menacing.",
     "weight": "560 g",
     "volume": "280 ml",
     "price": 1000,
