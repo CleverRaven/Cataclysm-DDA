@@ -565,7 +565,7 @@
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
+      [ "grip mount", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
