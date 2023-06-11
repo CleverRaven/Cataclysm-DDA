@@ -94,15 +94,21 @@
           "dreamforged_crossbow",
           "bolt_dreamforged"
         ],
-        "type": "recipe"
-      },
-      {
-        "u_message": "A brilliant idea about the dreamdross properties hit your head, and you think you know how to utilize one now.",
-        "type": "info"
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_MESSAGE_POSITIVE",
+          "effect": [
+            {
+              "u_message": "A brilliant idea about the dreamdross properties hit your head, and you think you know how to utilize one now.",
+              "type": "good"
+            }
+          ]
+        }
       },
       { "math": [ "DREAMSMITH_RECIPE_SCORE", "=", "0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "100" ] }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You tried to test a new idea, but it failed.  Try again.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -127,11 +133,16 @@
           "dreamforged_q_staff_exp",
           "dreamforged_armguard_plate_gunslinger"
         ],
-        "type": "recipe"
-      },
-      {
-        "u_message": "You found pretty smart way to utilize a dreamdross abilities, and you can't wait to use it.",
-        "type": "info"
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_MESSAGE_POSITIVE",
+          "effect": [
+            {
+              "u_message": "You found pretty smart way to utilize a dreamdross abilities, and you can't wait to use it.",
+              "type": "good"
+            }
+          ]
+        }
       },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", "=", "0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET", "+=", "200" ] }
