@@ -175,7 +175,7 @@
     "vision_day": 50,
     "vision_night": 6,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "hoary_blast", "min_level": 5 }, "cooldown": 10 } ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 }, "cooldown": 15 } ],
     "death_drops": "changeling_lord_death_drops",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ],

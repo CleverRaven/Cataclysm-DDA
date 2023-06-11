@@ -557,13 +557,13 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
             }
         }
     }
-    const vpart_info &vp = veh->part_info( vpindex );
+    const vehicle_part &vp = veh->part( vpindex );
+    const vpart_info &vpi = vp.info();
     if( type == 'r' ) {
-        const vehicle_part part = veh->part( vpindex );
-        time_to_take = vp.repair_time( you ) * ( part.damage() - part.degradation() ) /
-                       ( part.max_damage() - part.degradation() );
+        const int frac = ( vp.damage() - vp.degradation() ) / ( vp.max_damage() - vp.degradation() );
+        time_to_take = vpi.repair_time( you ) * frac;
     } else if( type == 'o' ) {
-        time_to_take = vp.removal_time( you );
+        time_to_take = vpi.removal_time( you );
     }
     you.assign_activity( ACT_VEHICLE, time_to_take, static_cast<int>( type ) );
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
@@ -585,11 +585,9 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // values[5]
     you.activity.values.push_back( -point_zero.y );
     // values[6]
-    you.activity.values.push_back( veh->index_of_part( &veh->part( vpindex ) ) );
-    you.activity.str_values.push_back( vp.get_id().str() );
-    std::pair<vpart_id, std::string> vp_v = get_vpart_id_variant( vp.get_id() );
-    const std::string &variant_id = vp_v.second;
-    you.activity.str_values.push_back( variant_id );
+    you.activity.values.push_back( veh->index_of_part( &vp ) );
+    you.activity.str_values.push_back( vpi.get_id().str() );
+    you.activity.str_values.push_back( vp.variant );
     // this would only be used for refilling tasks
     item_location target;
     you.activity.targets.emplace_back( std::move( target ) );

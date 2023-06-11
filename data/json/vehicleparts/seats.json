@@ -26,7 +26,6 @@
     "id": "seat",
     "breaks_into": "ig_vp_seat",
     "broken_color": "red",
-    "broken_symbol": "*",
     "categories": [ "operations", "passengers" ],
     "color": "red",
     "comfort": 2,
@@ -50,19 +49,17 @@
       }
     },
     "size": "25 L",
-    "symbol": "#",
-    "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#", "rear": "#" },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat",
-    "id": "seat_swivel_chair",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat",
-    "id": "seat_windshield",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" }, { "id": "swivel_chair", "label": "Swivel Chair" } ],
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "#", "symbols_broken": "*" },
+      { "id": "vertical", "label": "Vertical", "symbols": "#", "symbols_broken": "*" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "#", "symbols_broken": "*" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "#", "symbols_broken": "*" },
+      { "id": "left", "label": "Left", "symbols": "#", "symbols_broken": "*" },
+      { "id": "right", "label": "Right", "symbols": "#", "symbols_broken": "*" },
+      { "id": "rear", "label": "Rear", "symbols": "#", "symbols_broken": "*" }
+    ]
   },
   {
     "id": "seat_leather",
@@ -70,12 +67,8 @@
     "copy-from": "seat",
     "item": "seat_leather",
     "name": { "str": "leather seat" },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_leather",
-    "id": "seat_windshield_leather",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
     "id": "reclining_seat",
@@ -87,12 +80,8 @@
     "name": { "str": "reclining seat" },
     "size": "6250 ml",
     "extend": { "flags": [ "BED" ] },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat",
-    "id": "reclining_seat_windshield",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
     "id": "reclining_seat_leather",
@@ -101,12 +90,8 @@
     "item": "seat_leather",
     "looks_like": "seat_leather",
     "name": { "str": "reclining leather seat" },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_leather",
-    "id": "reclining_seat_windshield_leather",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
     "id": "seat_back",
@@ -150,22 +135,13 @@
     "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "size": "0 ml",
     "extend": { "flags": [ "NONBELTABLE" ] },
-    "delete": { "flags": [ "BELTABLE", "CARGO" ] }
-  },
-  {
-    "copy-from": "saddle",
-    "id": "saddle_pedal",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "saddle",
-    "id": "saddle_motor",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "saddle",
-    "id": "saddle_scooter",
-    "type": "vehicle_part"
+    "delete": { "flags": [ "BELTABLE", "CARGO" ] },
+    "variants_bases": [  ],
+    "variants": [
+      { "id": "pedal", "label": "Pedals", "symbols": "#", "symbols_broken": "*" },
+      { "id": "motor", "label": "Motorcycle", "symbols": "#", "symbols_broken": "*" },
+      { "id": "scooter", "label": "Scooter", "symbols": "#", "symbols_broken": "*" }
+    ]
   },
   {
     "type": "vehicle_part",
@@ -179,7 +155,8 @@
     "item": "sheet",
     "folded_volume": "2500 ml",
     "location": "anywhere",
-    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
+    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ],
+    "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
   {
     "id": "metal_bench",

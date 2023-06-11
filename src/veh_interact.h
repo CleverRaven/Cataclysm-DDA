@@ -82,7 +82,6 @@ class veh_interact
 
         const vehicle_part *sel_vehicle_part = nullptr;
         const vpart_info *sel_vpart_info = nullptr;
-        std::string sel_vpart_variant;
 
         // Command currently being run by the player
         char sel_cmd = ' ';
@@ -264,14 +263,6 @@ class veh_interact
          * Can be converted to a vector<vpart_info>.
          * Updated whenever the cursor moves. */
         std::vector<const vpart_info *> can_mount;
-
-        /* Maps part names to vparts representing different shapes of a part.
-         * Used to slim down installable parts list. Only built once. */
-        std::map< std::string, std::vector<const vpart_info *> > vpart_shapes;
-
-        /* Vector of all wheel types. Used for changing wheels, so it only needs
-         * to be built once. */
-        std::vector<const vpart_info *> wheel_types;
 
         /* Vector of vparts in the current square that can be repaired. Strictly a
          * subset of parts_here.

@@ -7,29 +7,6 @@
     "durability": 400,
     "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_frame",
-    "symbol": "h",
-    "broken_symbol": "#",
-    "symbols": {
-      "cover": "^",
-      "cross": "c",
-      "horizontal": "h",
-      "horizontal_front": "h",
-      "horizontal_rear": "h",
-      "horizontal_2": "=",
-      "horizontal_2_front": "=",
-      "vertical": "j",
-      "vertical_left": "j",
-      "vertical_right": "j",
-      "vertical_T_left": "j",
-      "vertical_T_right": "j",
-      "vertical_2": "H",
-      "vertical_2_left": "H",
-      "vertical_2_right": "H",
-      "ne": "u",
-      "nw": "y",
-      "se": "n",
-      "sw": "b"
-    },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
@@ -37,7 +14,58 @@
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "categories": [ "hull" ],
-    "damage_reduction": { "all": 20 }
+    "damage_reduction": { "all": 20 },
+    "variants": [
+      { "id": "horizontal", "label": "Horizontal", "symbols": "──││──││", "symbols_broken": "#" },
+      {
+        "id": "horizontal_front",
+        "label": "Front Horizontal",
+        "symbols": "──││──││",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "horizontal_rear",
+        "label": "Rear Horizontal",
+        "symbols": "──││──││",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "horizontal_2",
+        "label": "Thick Horizontal",
+        "symbols": "━━┃┃━━┃┃",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "horizontal_2_front",
+        "label": "Front Thick Horizontal",
+        "symbols": "━━┃┃━━┃┃",
+        "symbols_broken": "#"
+      },
+      { "id": "vertical", "label": "Vertical", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "vertical_T_left", "label": "Left T Joint", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "vertical_T_right", "label": "Right T Joint", "symbols": "│/─\\│/─\\", "symbols_broken": "#" },
+      { "id": "vertical_2", "label": "Thick Vertical", "symbols": "┃┃━━┃┃━━", "symbols_broken": "#" },
+      {
+        "id": "vertical_2_left",
+        "label": "Left Thick Vertical",
+        "symbols": "┃┃━━┃┃━━",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "vertical_2_right",
+        "label": "Right Thick Vertical",
+        "symbols": "┃┃━━┃┃━━",
+        "symbols_broken": "#"
+      },
+      { "id": "cover", "label": "Cover", "symbols": "^^>>vv<<", "symbols_broken": "#" },
+      { "id": "cross", "label": "Cross", "symbols": "┼X┼X┼X┼X", "symbols_broken": "#" },
+      { "id": "ne", "label": "Front Right", "symbols": "┐┐┘┘└└┌┌", "symbols_broken": "#" },
+      { "id": "nw", "label": "Front Left", "symbols": "┌┌┐┐┘┘└└", "symbols_broken": "#" },
+      { "id": "se", "label": "Rear Right", "symbols": "┘┘└└┌┌┐┐", "symbols_broken": "#" },
+      { "id": "sw", "label": "Rear Left", "symbols": "└└┌┌┐┐┘┘", "symbols_broken": "#" }
+    ]
   },
   {
     "id": "folding_frame",
