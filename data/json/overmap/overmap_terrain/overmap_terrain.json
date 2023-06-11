@@ -198,7 +198,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "special_forest",
+    "id": [ "special_forest", "lab_subway_vent_shaft_surface" ],
     "name": "forest",
     "sym": "F",
     "color": "green",
@@ -218,7 +218,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "special_air",
+    "id": [ "special_air", "lab_subway_vent_shaft_roof" ],
     "name": "open air",
     "sym": ".",
     "color": "blue",
@@ -877,16 +877,6 @@
     "sym": ".",
     "color": "blue",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_surface",
-    "copy-from": "forest"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_roof",
-    "copy-from": "open_air"
   },
   {
     "type": "overmap_terrain",
