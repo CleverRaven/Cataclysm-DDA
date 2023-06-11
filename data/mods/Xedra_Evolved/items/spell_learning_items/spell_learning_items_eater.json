@@ -297,5 +297,21 @@
     "color": "dark_gray",
     "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_unbreakable" ] }
+  },
+  {
+    "id": "artifact_point_blank",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "fist" },
+    "description": "A solid, full size cast of human fist, made out of some gray metal.  Looks menacing.",
+    "weight": "560 g",
+    "volume": "280 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "0",
+    "color": "dark_gray",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
+    "use_action": { "type": "learn_spell", "spells": [ "point_blank" ] }
   }
 ]
