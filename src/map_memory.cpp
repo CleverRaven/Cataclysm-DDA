@@ -85,6 +85,86 @@ bool mm_region::is_empty() const
     return true;
 }
 
+const std::string &memorized_tile::get_ter_id() const
+{
+    return ter_id.str();
+}
+
+const std::string &memorized_tile::get_dec_id() const
+{
+    return dec_id;
+}
+
+void memorized_tile::set_ter_id( const std::string_view id )
+{
+    ter_id = ter_str_id( id );
+}
+
+void memorized_tile::set_dec_id( const std::string_view id )
+{
+    dec_id = id;
+}
+
+int memorized_tile::get_ter_rotation() const
+{
+    return ter_rotation;
+}
+
+void memorized_tile::set_ter_rotation( int rotation )
+{
+    if( rotation < std::numeric_limits<decltype( ter_rotation )>::min() ||
+        rotation > std::numeric_limits<decltype( ter_rotation )>::max() ) {
+        debugmsg( "map memory can't store rotation value %d", rotation );
+        rotation = 0;
+    }
+    ter_rotation = rotation;
+}
+
+int memorized_tile::get_dec_rotation() const
+{
+    return dec_rotation;
+}
+
+void memorized_tile::set_dec_rotation( int rotation )
+{
+    if( rotation < std::numeric_limits<decltype( dec_rotation )>::min() ||
+        rotation > std::numeric_limits<decltype( dec_rotation )>::max() ) {
+        debugmsg( "map memory can't store rotation value %d", rotation );
+        rotation = 0;
+    }
+    dec_rotation = rotation;
+}
+
+int memorized_tile::get_ter_subtile() const
+{
+    return ter_subtile;
+}
+
+void memorized_tile::set_ter_subtile( int subtile )
+{
+    if( subtile < std::numeric_limits<decltype( ter_subtile )>::min() ||
+        subtile > std::numeric_limits<decltype( ter_subtile )>::max() ) {
+        debugmsg( "map memory can't store terrain subtile value %d", subtile );
+        subtile = 0;
+    }
+    ter_subtile = subtile;
+}
+
+int memorized_tile::get_dec_subtile() const
+{
+    return dec_subtile;
+}
+
+void memorized_tile::set_dec_subtile( int subtile )
+{
+    if( subtile < std::numeric_limits<decltype( dec_subtile )>::min() ||
+        subtile > std::numeric_limits<decltype( dec_subtile )>::max() ) {
+        debugmsg( "map memory can't store decoration subtile value %d", subtile );
+        subtile = 0;
+    }
+    dec_subtile = subtile;
+}
+
 bool memorized_tile::operator==( const memorized_tile &rhs ) const
 {
     return symbol == rhs.symbol &&
@@ -122,9 +202,9 @@ void map_memory::set_tile_terrain( const tripoint &pos, const std::string_view i
         return;
     }
     memorized_tile mt = sm.get_tile( p.loc );
-    mt.ter_id = id;
-    mt.ter_subtile = subtile;
-    mt.ter_rotation = rotation;
+    mt.set_ter_id( id );
+    mt.set_ter_subtile( subtile );
+    mt.set_ter_rotation( rotation );
     sm.set_tile( p.loc, mt );
 }
 
@@ -137,9 +217,9 @@ void map_memory::set_tile_decoration( const tripoint &pos, const std::string_vie
         return;
     }
     memorized_tile mt = sm.get_tile( p.loc );
-    mt.dec_id = id;
-    mt.dec_subtile = subtile;
-    mt.dec_rotation = rotation;
+    mt.set_dec_id( id );
+    mt.set_dec_subtile( subtile );
+    mt.set_dec_rotation( rotation );
     sm.set_tile( p.loc, mt );
 }
 
@@ -163,10 +243,10 @@ void map_memory::clear_tile_vehicles( const tripoint &pos )
         return;
     }
     memorized_tile mt = sm.get_tile( p.loc );
-    if( string_starts_with( mt.dec_id, "vp_" ) ) {
-        mt.dec_id.clear();
-        mt.dec_rotation = 0;
-        mt.dec_subtile = 0;
+    if( string_starts_with( mt.get_dec_id(), "vp_" ) ) {
+        mt.set_dec_id( "" );
+        mt.set_dec_rotation( 0 );
+        mt.set_dec_subtile( 0 );
         mt.symbol = 0;
     }
     sm.set_tile( p.loc, mt );

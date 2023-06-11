@@ -1823,7 +1823,7 @@ uint8_t map::get_known_connections( const tripoint &p,
     if( use_tiles ) {
         is_memorized =
         [&]( const tripoint & q ) {
-            return !player_character.get_memorized_tile( getabs( q ) ).ter_id.empty();
+            return !player_character.get_memorized_tile( getabs( q ) ).get_ter_id().empty();
         };
     } else {
 #endif
@@ -1908,7 +1908,7 @@ uint8_t map::get_known_connections_f( const tripoint &p,
 #ifdef TILES
     if( use_tiles ) {
         is_memorized = [&]( const tripoint & q ) {
-            return !player_character.get_memorized_tile( getabs( q ) ).dec_id.empty();
+            return !player_character.get_memorized_tile( getabs( q ) ).get_dec_id().empty();
         };
     } else {
 #endif

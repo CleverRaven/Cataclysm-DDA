@@ -4011,11 +4011,13 @@ void mm_submap::serialize( JsonOut &jsout ) const
         jsout.write( num_same );
         jsout.write( last.symbol );
         jsout.write( last.ter_id );
-        jsout.write( last.ter_subtile );
-        jsout.write( last.ter_rotation );
-        jsout.write( last.dec_id );
-        jsout.write( last.dec_subtile );
-        jsout.write( last.dec_rotation );
+        jsout.write( static_cast<int>( last.ter_subtile ) );
+        jsout.write( static_cast<int>( last.ter_rotation ) );
+        if( !last.get_dec_id().empty() ) {
+            jsout.write( last.dec_id );
+            jsout.write( static_cast<int>( last.dec_subtile ) );
+            jsout.write( static_cast<int>( last.dec_rotation ) );
+        }
         jsout.end_array();
     };
 
@@ -4058,19 +4060,19 @@ void mm_submap::deserialize( const JsonArray &ja )
                     std::string id = ja_tile.get_string( 0 );
                     // mid-0.G saves store either terrain or decoration, but not both
                     if( string_starts_with( id, "t_" ) ) {
-                        tile.ter_id = std::move( id );
-                        tile.ter_subtile = ja_tile.get_int( 1 );
-                        tile.ter_rotation = ja_tile.get_int( 2 );
-                        tile.dec_id.clear();
-                        tile.dec_subtile = 0;
-                        tile.dec_rotation = 0;
+                        tile.set_ter_id( std::move( id ) );
+                        tile.set_ter_subtile( ja_tile.get_int( 1 ) );
+                        tile.set_ter_rotation( ja_tile.get_int( 2 ) );
+                        tile.set_dec_id( "" );
+                        tile.set_dec_subtile( 0 );
+                        tile.set_dec_rotation( 0 );
                     } else {
-                        tile.ter_id.clear();
-                        tile.ter_subtile = 0;
-                        tile.ter_rotation = 0;
-                        tile.dec_id = std::move( id );
-                        tile.dec_subtile = ja_tile.get_int( 1 );
-                        tile.dec_rotation = ja_tile.get_int( 2 );
+                        tile.set_ter_id( "" );
+                        tile.set_ter_subtile( 0 );
+                        tile.set_ter_rotation( 0 );
+                        tile.set_dec_id( std::move( id ) );
+                        tile.set_dec_subtile( ja_tile.get_int( 1 ) );
+                        tile.set_dec_rotation( ja_tile.get_int( 2 ) );
                     }
                     tile.symbol = ja_tile.get_int( 3 );
                     if( ja_tile.size() > 4 ) {
@@ -4079,12 +4081,18 @@ void mm_submap::deserialize( const JsonArray &ja )
                 } else {
                     remaining = ja_tile.get_int( 0 ) - 1;
                     tile.symbol = ja_tile.get_int( 1 );
-                    tile.ter_id = ja_tile.get_string( 2 );
+                    tile.set_ter_id( ja_tile.get_string( 2 ) );
                     tile.ter_subtile = ja_tile.get_int( 3 );
                     tile.ter_rotation = ja_tile.get_int( 4 );
-                    tile.dec_id = ja_tile.get_string( 5 );
-                    tile.dec_subtile = ja_tile.get_int( 6 );
-                    tile.dec_rotation = ja_tile.get_int( 7 );
+                    if( ja_tile.size() > 5 ) {
+                        tile.set_dec_id( ja_tile.get_string( 5 ) );
+                        tile.dec_subtile = ja_tile.get_int( 6 );
+                        tile.dec_rotation = ja_tile.get_int( 7 );
+                    } else {
+                        tile.set_dec_id( "" );
+                        tile.dec_subtile = 0;
+                        tile.dec_rotation = 0;
+                    }
                 }
             }
             // Try to avoid assigning to save up on memory

@@ -13,21 +13,41 @@ class JsonObject;
 class JsonOut;
 class JsonValue;
 
+struct ter_t;
+using ter_str_id = string_id<ter_t>;
+
 class memorized_tile
 {
     public:
         char32_t symbol = 0;
-        std::string ter_id; // terrain tile id
-        std::string dec_id; // decoration tile id (furniture, vparts ...)
-        int ter_subtile = 0;
-        int dec_subtile = 0;
-        int ter_rotation = 0;
-        int dec_rotation = 0;
+
+        const std::string &get_ter_id() const;
+        const std::string &get_dec_id() const;
+        void set_ter_id( std::string_view id );
+        void set_dec_id( std::string_view id );
+
+        int get_ter_rotation() const;
+        void set_ter_rotation( int rotation );
+        int get_dec_rotation() const;
+        void set_dec_rotation( int rotation );
+
+        int get_ter_subtile() const;
+        void set_ter_subtile( int subtile );
+        int get_dec_subtile() const;
+        void set_dec_subtile( int subtile );
 
         bool operator==( const memorized_tile &rhs ) const;
         bool operator!=( const memorized_tile &rhs ) const {
             return !( *this == rhs );
         }
+    private:
+        friend struct mm_submap; // serialization needs access to private members
+        ter_str_id ter_id;       // terrain tile id
+        std::string dec_id;      // decoration tile id (furniture, vparts ...)
+        int16_t ter_rotation = 0;
+        int16_t dec_rotation = 0;
+        int8_t ter_subtile = 0;
+        int8_t dec_subtile = 0;
 };
 
 /** Represent a submap-sized chunk of tile memory. */
