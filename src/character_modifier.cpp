@@ -223,6 +223,7 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
         skill = round( get_skill_level( skill_swimming ) );
     }
     float total = 0.0f;
+    // Avoid call has_flag() in a loop
     bool cache_flag_EFFECT_LIMB_SCORE_MOD_LOCAL = has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL );
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         float mod = 0.0f;
