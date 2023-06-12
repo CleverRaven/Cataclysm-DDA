@@ -3,12 +3,16 @@
     "id": "MISSION_REACH_REFUGEE_CENTER",
     "type": "mission_definition",
     "name": { "str": "Reach Refugee Center" },
+    "description": "Maybe I'll find safety there.",
     "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "evac_center_13",
     "difficulty": 1,
     "value": 0,
-    "start": "reveal_refugee_center",
+    "start": {
+      "assign_mission_target": { "om_special": "evac_center", "om_terrain": "evac_center_13", "reveal_radius": 3, "search_range": 400, "z": 0 },
+      "reveal_om_ter": "refctr_road"
+    },
     "origins": [ "ORIGIN_COMPUTER" ],
-    "destination": "evac_center_18",
     "end": { "effect": [ { "u_add_var": "found_refugee_center", "value": "yes" } ] }
   }
 ]

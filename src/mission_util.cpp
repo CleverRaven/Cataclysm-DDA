@@ -506,7 +506,9 @@ bool mission_util::load_funcs( const JsonObject &jo,
         set_reveal( target_terrain, funcs );
     } else if( jo.has_member( "reveal_om_ter" ) ) {
         set_reveal_any( jo.get_array( "reveal_om_ter" ), funcs );
-    } else if( jo.has_member( "assign_mission_target" ) ) {
+    }
+
+	if( jo.has_member( "assign_mission_target" ) ) {
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
         set_assign_om_target( mission_target, funcs );
     }

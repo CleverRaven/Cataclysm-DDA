@@ -293,58 +293,6 @@ void mission_start::place_book( mission * )
 {
 }
 
-void mission_start::reveal_refugee_center( mission *miss )
-{
-    mission_target_params t;
-    str_or_var overmap_terrain;
-    overmap_terrain.str_val = "refctr_S3e";
-    t.overmap_terrain = overmap_terrain;
-    str_or_var overmap_special;
-    overmap_special.str_val = "evac_center";
-    t.overmap_special = overmap_special;
-    t.mission_pointer = miss;
-    dbl_or_var search_range;
-    search_range.min.dbl_val = 0;
-    t.search_range = search_range;
-    dbl_or_var reveal_radius;
-    reveal_radius.min.dbl_val = 1;
-    t.reveal_radius = reveal_radius;
-    dbl_or_var min_distance;
-    min_distance.min.dbl_val = 0;
-    t.min_distance = min_distance;
-
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
-    std::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t, d );
-
-    if( !target_pos ) {
-        add_msg( _( "You don't know where the address could be…" ) );
-        return;
-    }
-
-    const tripoint_abs_omt source_road = overmap_buffer.find_closest(
-            get_player_character().global_omt_location(), "road",
-            3, false );
-    const tripoint_abs_omt dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
-
-    if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
-        //reset the mission target to the refugee center entrance and reveal path from the road
-        str_or_var overmap_terrain;
-        overmap_terrain.str_val = "refctr_S3e";
-        t.overmap_terrain = overmap_terrain;
-        dbl_or_var reveal_radius;
-        reveal_radius.min.dbl_val = 3;
-        t.reveal_radius = reveal_radius;
-        target_pos = mission_util::assign_mission_target( t, d );
-        const tripoint_abs_omt dest_refugee_center = overmap_buffer.find_closest( *target_pos,
-                "evac_center_18", 1, false );
-        overmap_buffer.reveal_route( dest_road, dest_refugee_center, 1, false );
-
-        add_msg( _( "You mark the refugee center and the road that leads to it…" ) );
-    } else {
-        add_msg( _( "You mark the refugee center, but you have no idea how to get there by road…" ) );
-    }
-}
-
 // Creates multiple lab consoles near tripoint place, which must have its z-level set to where consoles should go.
 void static create_lab_consoles(
     mission *miss, const tripoint_abs_omt &place, const std::string &otype, int security,
