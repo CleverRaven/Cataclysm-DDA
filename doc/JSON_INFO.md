@@ -4173,17 +4173,17 @@ Use actions can be used with a timer delay.
 
 
 
-Timer can be set with `"countdown2"` use action.
+Timer can be set by player action with `"countdown"` use action. This timer is set when player activates it.
 ```
 "use_action": {
     "type": "countdown"
-	"name": "push button", // Optional name for the action.
+	"name": "push button", // Optional visible name for the action.
 	"message": "You push the button", // Optional message shown from the action
     "countdown_interval": "5 seconds"  // Sets timer on item to this
 }
 ```
 
-Or in `"transform"` use action.
+Item `"transform"` action can also set and start the timer.
 ```
 "use_action": {
     "type": "transform"
@@ -4192,7 +4192,15 @@ Or in `"transform"` use action.
 }
 ```
 
-When the time duration specified has passed the action in `"countdown_action"` is triggered. This action can be any use action but actions not made with this in mind may not behave well.
+Timer inherent to the item itself can be set by defining `"countdown_interval"` in item json. This timer is started at the birth of the item.
+
+```
+    "id": "migo_plate_undergrown",
+    "name": { "str": "undergrown iridescent carapace plate" },
+    "countdown_interval": "24 hours",
+```
+
+Once the duration of the timer has passed the `"countdown_action"` is executed. This action can be any use action but many actions do not behave well when they are not triggered by the player.
 
 ```
 "countdown_action": {
@@ -4201,9 +4209,7 @@ When the time duration specified has passed the action in `"countdown_action"` i
 }
 ```
 
-Additional options can be defined in item definitions (not in use action):
-```"countdown_interval": "1 seconds"``` Timer duration set in item. Used when item spawns with active timer instead of being player activated.
-```"revert_to": "canister_empty"``` Optional turn the item to this after the countdown action. If no revert_to is specified the item is destroyed. Only valid for TOOL type items.
+Additionally `"revert_to"` can be defined in item definitions (not in use action). The item is deactivated and turned to this type after the `"countdown_action"`. If no revert_to is specified the item is destroyed. Only valid for TOOL type items.
 
 ### Random Descriptions
 
