@@ -1752,7 +1752,7 @@ std::vector<std::reference_wrapper<const effect>> Creature::get_effects_with_fla
             continue;
         }
         for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            effs.push_back( std::ref( _it.second ) );
+            effs.emplace_back( _it.second );
         }
     }
     return effs;
@@ -1763,7 +1763,7 @@ std::vector<std::reference_wrapper<const effect>> Creature::get_effects() const
     std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
         for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            effs.push_back( std::ref( _it.second ) );
+            effs.emplace_back( _it.second );
         }
     }
     return effs;
@@ -1776,7 +1776,7 @@ std::vector<std::reference_wrapper<const effect>> Creature::get_effects_from_bp(
     for( auto &elem : *effects ) {
         const auto iter = elem.second.find( bp );
         if( iter != elem.second.end() ) {
-            effs.push_back( std::ref( iter->second ) );
+            effs.emplace_back( iter->second );
         }
     }
     return effs;
