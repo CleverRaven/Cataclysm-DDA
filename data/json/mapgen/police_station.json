@@ -64,7 +64,7 @@
         "N": { "item": "bulletin_police", "chance": 50, "repeat": [ 1, 3 ] },
         ".": { "item": "badge_deputy", "chance": 5 },
         "t": { "item": "trash_cart", "chance": 50 },
-        "c": { "item": "kitchen", "chance": 40 },
+        "c": { "item": "kitchen", "chance": 40, "repeat": [ 2, 4 ] },
         "1": { "item": "cop_items", "chance": 70 },
         "l": { "item": "cop_armory", "chance": 70 },
         "L": { "item": "cop_evidence", "chance": 60 }
