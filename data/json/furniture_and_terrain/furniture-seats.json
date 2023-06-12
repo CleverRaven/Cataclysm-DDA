@@ -389,6 +389,7 @@
     "id": "f_chair_folding",
     "name": "folding chair",
     "symbol": "#",
+    "looks_like": "f_chair",
     "description": "A black foldable plastic chair on a steel frame.  Not particularly comfortable, but at least you have something to sit on.",
     "color": "light_gray",
     "move_cost_mod": 1,

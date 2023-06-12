@@ -18,7 +18,7 @@ struct icg_entry {
     item_group_id item_group;
     std::string message;
 
-    std::function<bool( const dialogue & )> condition;
+    std::function<bool( dialogue & )> condition;
 
     bool operator==( icg_entry const &rhs ) const;
     bool matches( item const &it, npc const &beta ) const;
@@ -54,7 +54,7 @@ struct shopkeeper_cons_rates {
     static const std::vector<shopkeeper_cons_rates> &get_all();
     static void load_rate( const JsonObject &jo, std::string const &src );
     static void check_all();
-    void load( const JsonObject &jo, std::string const &src );
+    void load( const JsonObject &jo, std::string_view src );
     void check() const;
 
     int get_rate( item const &it, npc const &beta ) const;
@@ -70,7 +70,7 @@ struct shopkeeper_blacklist {
     static void reset();
     static const std::vector<shopkeeper_blacklist> &get_all();
     static void load_blacklist( const JsonObject &jo, std::string const &src );
-    void load( const JsonObject &jo, std::string const &src );
+    void load( const JsonObject &jo, std::string_view src );
     icg_entry const *matches( item const &it, npc const &beta ) const;
 };
 

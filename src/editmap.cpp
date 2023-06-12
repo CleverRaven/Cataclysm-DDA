@@ -649,20 +649,18 @@ void editmap::draw_main_ui_overlay()
                         g->draw_item_override( map_p, itype_id::NULL_ID(), mtype_id::NULL_ID(),
                                                false );
                     }
-                    const optional_vpart_position vp = tmpmap.veh_at( tmp_p );
-                    if( vp ) {
-                        const vehicle &veh = vp->vehicle();
-                        const int veh_part = vp->part_index();
+                    if( const optional_vpart_position ovp = tmpmap.veh_at( tmp_p ) ) {
+                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount() );
                         char part_mod = 0;
-                        const vpart_id &vp_id = vpart_id( veh.part_id_string( veh_part,
-                                                          part_mod, true, true ) );
-                        const std::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
-                        bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
-                        units::angle veh_dir = veh.face.dir();
-                        g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
+                        if( vd.is_open ) {
+                            part_mod = 1;
+                        } else if( vd.is_broken ) {
+                            part_mod = 2;
+                        }
+                        const units::angle veh_dir = ovp->vehicle().face.dir();
+                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo, ovp->mount() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
-                                                point_zero );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_zero );
                     }
                     g->draw_below_override( map_p,
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
@@ -1321,7 +1319,7 @@ void editmap::edit_fld()
             }
             if( field_intensity != fsel_intensity || target_list.size() > 1 ) {
                 for( tripoint &elem : target_list ) {
-                    const auto fid = static_cast<field_type_id>( idx );
+                    const field_type_id fid = static_cast<field_type_id>( idx );
                     field &t_field = here.get_field( elem );
                     field_entry *t_fld = t_field.find_field( fid );
                     int t_intensity = 0;

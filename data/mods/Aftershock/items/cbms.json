@@ -80,6 +80,30 @@
     "difficulty": 9
   },
   {
+    "id": "afs_bio_blade_fire",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Bioweapon Thermal Conduits" },
+    "looks_like": "bio_int_enhancer",
+    "description": "An improved ulnar sheath equipped with thermal inductors allows for the super heating of all types of implanted bladed weaponry.  While this bionic is active, any deployed bionic blades will deal additional fire damage to targets.",
+    "price": 8000,
+    "price_postapoc": 3500,
+    "weight": "250 g",
+    "difficulty": 8
+  },
+  {
+    "id": "afs_bio_blade_electric",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Bioweapon Superconductive Channels" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Paired capacitor banks maintain implanted bladed weaponry under constant electrical charge.  While this bionic is active, any deployed bionic blades will deal additional electric damage with a chance of the damage arcing to other nearby targets.",
+    "price": 8000,
+    "price_postapoc": 3500,
+    "weight": "250 g",
+    "difficulty": 8
+  },
+  {
     "id": "afs_bio_melee_optimization_unit",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

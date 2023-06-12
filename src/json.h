@@ -49,6 +49,13 @@ template<typename T>
 class optional;
 } // namespace cata
 
+// Traits class to distinguish sequences which are string like from others
+template< class, class = void >
+struct is_string_like : std::false_type { };
+template< class T >
+struct is_string_like<T, std::void_t<decltype( std::declval<T &>().substr() )>> :
+std::true_type { };
+
 template<typename T, typename Enable = void>
 struct key_from_json_string;
 
@@ -431,9 +438,10 @@ class TextJsonIn
         }
 
         // array ~> vector, deque, list
-        template < typename T, typename std::enable_if <
-                       !std::is_same<void, typename T::value_type>::value >::type * = nullptr
-                   >
+        template < typename T, typename std::enable_if_t <
+                       !std::is_same_v<void, typename T::value_type> &&
+                       !is_string_like<T>::value
+                       > * = nullptr >
         auto read( T &v, bool throw_on_error = false ) -> decltype( v.front(), true ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
@@ -784,7 +792,7 @@ class JsonOut
         }
 
         // strings need escaping and quoting
-        void write( const std::string &val );
+        void write( std::string_view val );
         void write( const char *val ) {
             write( std::string( val ) );
         }
@@ -819,7 +827,7 @@ class JsonOut
             write( io::enum_to_string<E>( value ) );
         }
 
-        void write_as_string( const std::string &s ) {
+        void write_as_string( const std::string_view s ) {
             write( s );
         }
 
@@ -852,9 +860,10 @@ class JsonOut
 
         // containers with front() ~> array
         // vector, deque, forward_list, list
-        template < typename T, typename std::enable_if <
-                       !std::is_same<void, typename T::value_type>::value >::type * = nullptr
-                   >
+        template < typename T, typename std::enable_if_t <
+                       !std::is_same_v<void, typename T::value_type> &&
+                       !is_string_like<T>::value
+                       > * = nullptr >
         auto write( const T &container ) -> decltype( container.front(), ( void )0 ) {
             write_as_array( container );
         }
@@ -920,19 +929,19 @@ class JsonOut
 
         // convenience methods for writing named object members
         // TODO: enforce value after
-        void member( const std::string &name );
-        void null_member( const std::string &name );
-        template <typename T> void member( const std::string &name, const T &value ) {
+        void member( std::string_view name );
+        void null_member( std::string_view name );
+        template <typename T> void member( const std::string_view name, const T &value ) {
             member( name );
             write( value );
         }
-        template <typename T> void member( const std::string &name, const T &value,
+        template <typename T> void member( const std::string_view name, const T &value,
                                            const T &value_default ) {
             if( value != value_default ) {
                 member( name, value );
             }
         }
-        template <typename T> void member_as_string( const std::string &name, const T &value ) {
+        template <typename T> void member_as_string( const std::string_view name, const T &value ) {
             member( name );
             write_as_string( value );
         }
@@ -1062,7 +1071,7 @@ class TextJsonObject
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
-        [[noreturn]] void throw_error_at( const std::string &name, const std::string &err ) const;
+        [[noreturn]] void throw_error_at( std::string_view name, const std::string &err ) const;
         // seek to a value and return a pointer to the TextJsonIn (member must exist)
         TextJsonIn *get_raw( std::string_view name ) const;
         TextJsonValue get_member( std::string_view name ) const;
@@ -1071,14 +1080,14 @@ class TextJsonObject
         // values by name
         // variants with no fallback throw an error if the name is not found.
         // variants with a fallback return the fallback value in stead.
-        bool get_bool( const std::string &name ) const;
-        bool get_bool( const std::string &name, bool fallback ) const;
-        int get_int( const std::string &name ) const;
-        int get_int( const std::string &name, int fallback ) const;
-        double get_float( const std::string &name ) const;
-        double get_float( const std::string &name, double fallback ) const;
-        std::string get_string( const std::string &name ) const;
-        std::string get_string( const std::string &name, const std::string &fallback ) const;
+        bool get_bool( std::string_view name ) const;
+        bool get_bool( std::string_view name, bool fallback ) const;
+        int get_int( std::string_view name ) const;
+        int get_int( std::string_view name, int fallback ) const;
+        double get_float( std::string_view name ) const;
+        double get_float( std::string_view name, double fallback ) const;
+        std::string get_string( std::string_view name ) const;
+        std::string get_string( std::string_view name, const std::string &fallback ) const;
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value( const std::string &name, const E fallback ) const {
@@ -1098,13 +1107,13 @@ class TextJsonObject
 
         // containers by name
         // get_array returns empty array if the member is not found
-        TextJsonArray get_array( const std::string &name ) const;
-        std::vector<int> get_int_array( const std::string &name ) const;
-        std::vector<std::string> get_string_array( const std::string &name ) const;
+        TextJsonArray get_array( std::string_view name ) const;
+        std::vector<int> get_int_array( std::string_view name ) const;
+        std::vector<std::string> get_string_array( std::string_view name ) const;
         // returns a single element array if the sype is string instead of array
-        std::vector<std::string> get_as_string_array( const std::string &name ) const;
+        std::vector<std::string> get_as_string_array( std::string_view name ) const;
         // get_object returns empty object if not found
-        TextJsonObject get_object( const std::string &name ) const;
+        TextJsonObject get_object( std::string_view name ) const;
 
         // get_tags returns empty set if none found
         template<typename T = std::string, typename Res = std::set<T>>
@@ -1113,18 +1122,18 @@ class TextJsonObject
         // TODO: some sort of get_map(), maybe
 
         // type checking
-        bool has_null( const std::string &name ) const;
-        bool has_bool( const std::string &name ) const;
-        bool has_number( const std::string &name ) const;
-        bool has_int( const std::string &name ) const {
+        bool has_null( std::string_view name ) const;
+        bool has_bool( std::string_view name ) const;
+        bool has_number( std::string_view name ) const;
+        bool has_int( const std::string_view name ) const {
             return has_number( name );
         }
-        bool has_float( const std::string &name ) const {
+        bool has_float( const std::string_view name ) const {
             return has_number( name );
         }
-        bool has_string( const std::string &name ) const;
-        bool has_array( const std::string &name ) const;
-        bool has_object( const std::string &name ) const;
+        bool has_string( std::string_view name ) const;
+        bool has_array( std::string_view name ) const;
+        bool has_object( std::string_view name ) const;
 
         // non-fatally read values by reference
         // return true if the value was set.
@@ -1570,7 +1579,7 @@ Res TextJsonObject::get_tags( const std::string_view name ) const
  * array (which should be a string) add it to the given set.
  */
 void add_array_to_set( std::set<std::string> &, const TextJsonObject &json,
-                       const std::string &name );
+                       std::string_view name );
 
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 

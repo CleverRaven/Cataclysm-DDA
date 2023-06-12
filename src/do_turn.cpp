@@ -296,14 +296,7 @@ void monmove()
     // The remaining monsters are all alive, but may be outside of the reality bubble.
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
-    for( monster &critter : g->all_monsters() ) {
-        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
-            critter.posy() < 0 - MAPSIZE_Y / 6 ||
-            critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
-            critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
-            g->despawn_monster( critter );
-        }
-    }
+    g->despawn_nonlocal_monsters();
 
     // Now, do active NPCs.
     for( npc &guy : g->all_npcs() ) {
@@ -447,6 +440,8 @@ bool do_turn()
     mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();
+    // Set the last PC z-level position value (used in character.cpp for "fine_detail_vision_mod" NPCs function override) Check will compare last turn and current Z-levels
+    get_player_character().last_pc_zlev = get_player_character().pos().z;
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
@@ -696,6 +691,10 @@ bool do_turn()
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
+        for( npc &guy : g->all_npcs() ) {
+            guy.update_morale();
+            guy.check_and_recover_morale();
+        }
     }
 
     if( calendar::once_every( 9_turns ) ) {

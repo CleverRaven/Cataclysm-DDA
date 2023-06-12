@@ -83,8 +83,6 @@
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
-    "armor_bash": 4,
-    "armor_elec": 1,
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_batrachian_sample_small",
     "path_settings": { "max_dist": 5 },
@@ -92,7 +90,8 @@
     "zombify_into": "mon_zombullfrog",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ],
+    "armor": { "bash": 4, "electric": 1 }
   },
   {
     "id": "mon_frog_mega",
@@ -117,19 +116,20 @@
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
-    "armor_bash": 8,
-    "armor_cut": 3,
-    "armor_bullet": 2,
-    "armor_elec": 1,
     "vision_night": 10,
     "regenerates": 4,
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_batrachian_sample_huge",
     "path_settings": { "max_dist": 5 },
     "zombify_into": "mon_frog_mother",
-    "special_attacks": [ [ "RANGED_PULL", 10 ], { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 12, "min_consider_range": 2 } ],
+    "grab_strength": 50,
+    "special_attacks": [
+      { "id": "ranged_pull", "cooldown": 10, "range": 3 },
+      { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 12, "min_consider_range": 2 }
+    ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
+    "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS" ],
+    "armor": { "bash": 8, "cut": 3, "bullet": 2, "electric": 1 }
   },
   {
     "id": "mon_gator",
@@ -154,30 +154,28 @@
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "dodge": 2,
-    "armor_bash": 6,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "vision_day": 3,
     "vision_night": 35,
     "harvest": "mutant_mammal_large_leather",
     "dissect": "dissect_lizard_sample_large",
     "path_settings": { "max_dist": 8 },
+    "grab_strength": 50,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "infection_chance": 50
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_rattlesnake",
@@ -240,10 +238,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 1,
-    "armor_bash": 2,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 1,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "mutant_animal_large_noskin",
@@ -262,7 +256,8 @@
     "baby_flags": [ "SPRING" ],
     "upgrades": { "half_life": 65, "into": "mon_rattlesnake_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ],
+    "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
     "id": "mon_rattlesnake_mega",
@@ -289,32 +284,27 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "stab", "amount": 8 } ],
     "dodge": 5,
-    "armor_bash": 3,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 1,
     "vision_day": 35,
     "vision_night": 35,
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_lizard_sample_large",
+    "//grab": "Pretty small, considering the description, but multiple teeth sound grabby",
+    "grab_strength": 35,
     "special_attacks": [
       [ "RATTLE", 2 ],
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 8,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 32, "armor_multiplier": 0.1 } ],
-        "effects": [
-          { "id": "grabbed", "duration": 800 },
-          { "id": "venom_dmg", "duration": 2200 },
-          { "id": "venom_weaken", "duration": 9000 }
-        ],
+        "effects": [ { "id": "venom_dmg", "duration": 2200 }, { "id": "venom_weaken", "duration": 9000 } ],
         "infection_chance": 100
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 2, "baby_timer": 4 },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ],
+    "armor": { "bash": 3, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
     "id": "mon_sewer_snake",
@@ -396,11 +386,11 @@
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
-    "armor_bash": 4,
     "harvest": "mutant_animal_large_noskin",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ],
+    "armor": { "bash": 4 }
   }
 ]

@@ -746,7 +746,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     for( size_t i = 0; i < skillslist.size() && count < 3; i++ ) {
         if( !skillslist[ i ]->is_combat_skill() ) {
             std::string skill_str = string_format( "%s: %d", skillslist[i]->name(),
-                                                   get_skill_level( skillslist[i]->ident() ) );
+                                                   static_cast<int>( get_skill_level( skillslist[i]->ident() ) ) );
             skill_strs.push_back( skill_str );
             count += 1;
         }
@@ -1004,10 +1004,12 @@ void faction_manager::display() const
         lore.clear();
         for( const auto &elem : player_character.get_snippets() ) {
             std::optional<translation> name = SNIPPET.get_name_by_id( elem );
-            if( !name->empty() ) {
-                lore.emplace_back( elem, name->translated() );
-            } else {
-                lore.emplace_back( elem, elem.str() );
+            if( name.has_value() ) {
+                if( !name->empty() ) {
+                    lore.emplace_back( elem, name->translated() );
+                } else {
+                    lore.emplace_back( elem, elem.str() );
+                }
             }
         }
         auto compare_second =
@@ -1058,9 +1060,9 @@ void faction_manager::display() const
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
-            // necessary to use increment_and_wrap
+            // necessary to use inc_clamp_wrap
             static_assert( static_cast<int>( tab_mode::FIRST_TAB ) == 0 );
-            tab = increment_and_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::NUM_TABS );
+            tab = inc_clamp_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::NUM_TABS );
             selection = 0;
         } else if( navigate_ui_list( action, selection, 10, active_vec_size, true ) ) {
         } else if( action == "CONFIRM" ) {

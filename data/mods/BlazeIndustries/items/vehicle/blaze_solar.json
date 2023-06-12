@@ -10,11 +10,11 @@
     "price": 120000,
     "price_postapoc": 1000,
     "to_hit": -4,
-    "bashing": 1,
     "flags": [ "NO_REPAIR" ],
     "material": [ "glass" ],
     "symbol": "]",
-    "color": "yellow"
+    "color": "yellow",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "reinforced_solar_array",

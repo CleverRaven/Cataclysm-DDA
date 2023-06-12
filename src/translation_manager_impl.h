@@ -20,7 +20,7 @@ class TranslationManager::Impl
         std::optional<std::pair<std::size_t, std::size_t>> LookupString( const char *query ) const;
 
         std::unordered_map<std::string, std::vector<std::string>> mo_files;
-        static std::string LanguageCodeOfPath( const std::string &path );
+        static std::string LanguageCodeOfPath( std::string_view path );
         void ScanTranslationDocuments();
         std::string ConstructContextualQuery( const char *context, const char *message ) const;
         void Reset();

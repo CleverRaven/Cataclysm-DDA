@@ -24,14 +24,14 @@
     "price": 95000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9x21mm" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sr1vektor_mag_18rd" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sr1vektor_mag_18rd" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "aa_12",
@@ -46,7 +46,6 @@
     "price": 189000,
     "price_postapoc": 8500,
     "to_hit": -1,
-    "bashing": 14,
     "material": [ "steel" ],
     "dispersion": 358,
     "durability": 7,
@@ -55,7 +54,6 @@
     "min_cycle_recoil": 1250,
     "barrel_volume": "81 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "mechanism", 4 ],
@@ -66,7 +64,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "aa12_box_mag", "aa12_drum_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "aa12_box_mag", "aa12_drum_mag" ] } ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "hammer_turret_system",
@@ -81,7 +80,6 @@
     "price": 180000,
     "price_postapoc": 17550,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel" ],
     "dispersion": 358,
     "durability": 8,
@@ -89,8 +87,9 @@
     "energy_drain": "1 kJ",
     "reload": 200,
     "default_mods": [ "bars" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "rail mount", 1 ] ],
     "flags": [ "MOUNTED_GUN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "aa12_vehicle_drum" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "aa12_vehicle_drum" ] } ],
+    "melee_damage": { "bash": 9 }
   }
 ]

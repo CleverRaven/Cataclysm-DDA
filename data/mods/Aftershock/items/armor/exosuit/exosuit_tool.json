@@ -8,8 +8,6 @@
     "longest_side": "25 cm",
     "price": 1000,
     "price_postapoc": 100,
-    "bashing": 2,
-    "cutting": 6,
     "material": [ "qt_steel" ],
     "symbol": ",",
     "color": "light_gray",
@@ -32,6 +30,7 @@
         "default_magazine": "afs_cartridge"
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "USE_UPS" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "USE_UPS" ],
+    "melee_damage": { "bash": 2, "cut": 6 }
   }
 ]

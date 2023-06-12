@@ -75,14 +75,14 @@ std::string base_camps::faction_encode_abs( const expansion_data &e, int number 
     return faction_encode_short( e.type ) + std::to_string( number );
 }
 
-std::string base_camps::faction_decode( const std::string &full_type )
+std::string base_camps::faction_decode( const std::string_view full_type )
 {
     if( full_type.size() < ( prefix_len + 2 ) ) {
         return "camp";
     }
     int last_bar = full_type.find_last_of( '_' );
 
-    return full_type.substr( prefix_len, size_t( last_bar - prefix_len ) );
+    return std::string{ full_type.substr( prefix_len, size_t( last_bar - prefix_len ) ) };
 }
 
 time_duration base_camps::to_workdays( const time_duration &work_time )
@@ -139,13 +139,13 @@ void basecamp::set_by_radio( bool access_by_radio )
 // find the last underbar, strip off the prefix of faction_base_ (which is 13 chars),
 // and the pull out the $TYPE and $CURLEVEL
 // This is legacy support for existing camps; future camps don't use cur_level at all
-expansion_data basecamp::parse_expansion( const std::string &terrain,
+expansion_data basecamp::parse_expansion( const std::string_view terrain,
         const tripoint_abs_omt &new_pos )
 {
     expansion_data e;
     size_t last_bar = terrain.find_last_of( '_' );
     e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
-    e.cur_level = std::stoi( "0" + terrain.substr( last_bar + 1 ) );
+    e.cur_level = std::stoi( str_cat( "0", terrain.substr( last_bar + 1 ) ) );
     e.pos = new_pos;
     return e;
 }
@@ -176,7 +176,7 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &n
     update_resources( bldg );
 }
 
-void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_type )
+void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view camp_type )
 {
     query_new_name( true );
     omt_pos = p;

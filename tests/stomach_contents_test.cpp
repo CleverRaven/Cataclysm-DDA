@@ -27,17 +27,23 @@ static void reset_time()
 {
     calendar::turn = calendar::start_of_cataclysm;
     Character &player_character = get_player_character();
-    player_character.set_stored_kcal( player_character.get_healthy_kcal() );
     player_character.set_hunger( 0 );
     clear_avatar();
 }
 
 static void pass_time( Character &p, time_duration amt )
 {
-    for( time_duration turns = 1_turns; turns < amt; turns += 1_turns ) {
-        calendar::turn += 1_turns;
-        p.update_body();
+    constexpr time_duration time_chunk = 1_minutes;
+
+    // make sure we start spinning aligned to minutes, so that calendar::once_every
+    // in Character::update_body works correctly, 997 is a randomly picked prime
+    REQUIRE( to_seconds<int64_t>( calendar::turn - calendar::turn_zero + 997 * time_chunk ) % 60 == 0 );
+
+    while( amt > 0_seconds ) {
+        p.update_body( calendar::turn, calendar::turn + time_chunk );
         p.update_health();
+        calendar::turn += time_chunk;
+        amt -= time_chunk;
     }
 }
 
@@ -109,8 +115,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     clear_stomach( dummy );
     dummy.reset_activity_level();
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
-    calendar::turn += 1_seconds;
-    dummy.update_body( calendar::turn, calendar::turn );
+    dummy.update_body( calendar::turn, calendar::turn + 1_seconds );
     dummy.set_activity_level( 1.0 );
 
     CAPTURE( dummy.metabolic_rate_base() );

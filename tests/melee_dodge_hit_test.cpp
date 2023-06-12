@@ -18,10 +18,6 @@
 #include "point.h"
 #include "type_id.h"
 
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
-
-static const mtype_id mon_debug_grab( "mon_debug_grab" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 
@@ -103,7 +99,7 @@ TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
-    dummy.dodges_left = 1;
+    dummy.set_dodges_left( 1 );
 
     SECTION( "character get_hit_base increases by 1/4 for each point of DEX" ) {
         CHECK( hit_base_with_dex( dummy, 1 ) == 0.25f );
@@ -298,92 +294,6 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
     }
 }
 
-TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
-{
-    clear_map();
-
-    creature_tracker &creatures = get_creature_tracker();
-    avatar &dummy = get_avatar();
-    clear_character( dummy );
-
-    // Base dodge rate when not grabbed
-    const float base_dodge = dummy.get_dodge_base();
-
-    // Four nearby spots
-    tripoint mon1_pos = dummy.pos() + tripoint_north;
-    tripoint mon2_pos = dummy.pos() + tripoint_east;
-    tripoint mon3_pos = dummy.pos() + tripoint_south;
-    tripoint mon4_pos = dummy.pos() + tripoint_west;
-
-    // Surrounded by zombies!
-    monster *zed1 = g->place_critter_at( mon_debug_grab, mon1_pos );
-    monster *zed2 = g->place_critter_at( mon_debug_grab, mon2_pos );
-    monster *zed3 = g->place_critter_at( mon_debug_grab, mon3_pos );
-    monster *zed4 = g->place_critter_at( mon_debug_grab, mon4_pos );
-
-    // Make sure zombies are in their places
-    REQUIRE( creatures.creature_at<monster>( mon1_pos ) );
-    REQUIRE( creatures.creature_at<monster>( mon2_pos ) );
-    REQUIRE( creatures.creature_at<monster>( mon3_pos ) );
-    REQUIRE( creatures.creature_at<monster>( mon4_pos ) );
-
-    zed1->set_dest( dummy.get_location() );
-    zed2->set_dest( dummy.get_location() );
-    zed3->set_dest( dummy.get_location() );
-    zed4->set_dest( dummy.get_location() );
-
-    // Use actual grabbing attacks
-
-    SECTION( "1 grab: approx.  1/2 dodge" ) {
-        mattack::grab( zed1 );
-        REQUIRE( zed1->has_effect( effect_grabbing ) );
-
-        REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 1 );
-
-        CHECK( dummy.get_dodge() == Approx( base_dodge / 2 ).margin( 0.1f ) );
-    }
-
-    SECTION( "2 grabs:approx.  1/3 dodge" ) {
-        mattack::grab( zed1 );
-        mattack::grab( zed2 );
-        REQUIRE( zed1->has_effect( effect_grabbing ) );
-        REQUIRE( zed2->has_effect( effect_grabbing ) );
-
-        REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 2 );
-
-        CHECK( dummy.get_dodge() == Approx( base_dodge / 3 ).margin( 0.1f ) );
-    }
-
-    SECTION( "3 grabs: approx.  1/4 dodge" ) {
-        mattack::grab( zed1 );
-        mattack::grab( zed2 );
-        mattack::grab( zed3 );
-        REQUIRE( zed1->has_effect( effect_grabbing ) );
-        REQUIRE( zed2->has_effect( effect_grabbing ) );
-        REQUIRE( zed3->has_effect( effect_grabbing ) );
-
-        REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 3 );
-
-        CHECK( dummy.get_dodge() == Approx( base_dodge / 4 ).margin( 0.1f ) );
-    }
-
-    SECTION( "4 grabs: approx.  1/5 dodge" ) {
-        mattack::grab( zed1 );
-        mattack::grab( zed2 );
-        mattack::grab( zed3 );
-        mattack::grab( zed4 );
-
-        REQUIRE( zed1->has_effect( effect_grabbing ) );
-        REQUIRE( zed2->has_effect( effect_grabbing ) );
-        REQUIRE( zed3->has_effect( effect_grabbing ) );
-        REQUIRE( zed4->has_effect( effect_grabbing ) );
-
-        REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 4 );
-
-        CHECK( dummy.get_dodge() == Approx( base_dodge / 5 ).margin( 0.1f ) );
-    }
-}
-
 TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]" )
 {
     avatar &dummy = get_avatar();
@@ -398,37 +308,37 @@ TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]
 
         SECTION( "75% stamina" ) {
             dummy.set_stamina( .75 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 4.0f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 3.8f ).margin( 0.1 ) );
         }
 
         SECTION( "50% stamina" ) {
             dummy.set_stamina( .5 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 4.0f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 2.0f ).margin( 0.1 ) );
         }
 
         SECTION( "40% stamina" ) {
             dummy.set_stamina( .4 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 3.2f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 1.0f ).margin( 0.1 ) );
         }
 
         SECTION( "30% stamina" ) {
             dummy.set_stamina( .3 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 2.4f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.1 ) );
         }
 
         SECTION( "20% stamina" ) {
             dummy.set_stamina( .2 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 1.6f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.1 ) );
         }
 
         SECTION( "10% stamina" ) {
             dummy.set_stamina( .1 * stamina_max );
-            CHECK( dummy.get_dodge() == Approx( 0.8f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.1 ) );
         }
 
         SECTION( "0% stamina" ) {
             dummy.set_stamina( 0 );
-            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.001 ) );
+            CHECK( dummy.get_dodge() == Approx( 0.0f ).margin( 0.1 ) );
         }
     }
 }

@@ -648,22 +648,19 @@
     "id": "dissect_crustacean_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [
-      { "drop": "fish_sample_single", "type": "mutagen_group" },
-      { "drop": "insect_sample_single", "type": "mutagen_group" }
-    ]
+    "entries": [ { "drop": "crustacean_sample_single", "type": "mutagen_group" } ]
   },
   {
     "id": "dissect_crustacean_small",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ { "drop": "fish_sample_small", "type": "mutagen_group" }, { "drop": "insect_sample_small", "type": "mutagen_group" } ]
+    "entries": [ { "drop": "crustacean_sample_small", "type": "mutagen_group" } ]
   },
   {
     "id": "dissect_crustacean_large",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ { "drop": "fish_sample_large", "type": "mutagen_group" }, { "drop": "insect_sample_large", "type": "mutagen_group" } ]
+    "entries": [ { "drop": "crustacean_sample_large", "type": "mutagen_group" } ]
   },
   {
     "id": "dissect_flying_rodent_single",

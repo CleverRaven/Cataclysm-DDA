@@ -7,7 +7,10 @@
     "subcategory": "CSC_APPLIANCE_UTILITY",
     "copy-from": "minifridge",
     "skills_required": [ "fabrication", 4 ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 },
+      { "proficiency": "prof_appliance_repair", "required": false, "skill_penalty": 0 }
+    ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -36,7 +39,10 @@
     "subcategory": "CSC_APPLIANCE_UTILITY",
     "copy-from": "minifreezer",
     "skills_required": [ "fabrication", 4 ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 },
+      { "proficiency": "prof_appliance_repair", "required": false, "skill_penalty": 0 }
+    ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -69,6 +75,7 @@
     "category": "CC_APPLIANCE",
     "subcategory": "CSC_APPLIANCE_LIGHTING",
     "skills_required": [ [ "fabrication", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair" } ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -92,6 +99,7 @@
     "category": "CC_APPLIANCE",
     "subcategory": "CSC_APPLIANCE_LIGHTING",
     "skills_required": [ [ "fabrication", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair" } ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -117,7 +125,7 @@
     "skills_required": [ [ "electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_appliance_repair" } ],
     "components": [ [ [ "frame", 1 ] ], [ [ "recharge_station", 1 ] ] ]
   },
   {
@@ -134,7 +142,7 @@
     "skills_required": [ [ "electronics", 1 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_appliance_repair" } ],
     "components": [ [ [ "frame_wood", 1 ] ], [ [ "battery_charger", 1 ] ] ]
   }
 ]

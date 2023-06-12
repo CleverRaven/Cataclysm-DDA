@@ -13,13 +13,13 @@
     "weight": "657 g",
     "volume": "250 ml",
     "longest_side": "8 cm",
-    "bashing": 7,
     "damage": { "damage_type": "stab", "amount": 7 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "AMMO",
@@ -40,9 +40,9 @@
     "weight": "15768 g",
     "volume": "6 L",
     "longest_side": "30 cm",
-    "bashing": 28,
     "to_hit": -2,
-    "qualities": [ [ "ANVIL", 1 ] ]
+    "qualities": [ [ "ANVIL", 1 ] ],
+    "melee_damage": { "bash": 28 }
   },
   {
     "type": "GENERIC",
@@ -71,8 +71,8 @@
     "material": [ "stone" ],
     "volume": "250 ml",
     "longest_side": "40 cm",
-    "bashing": 7,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -88,8 +88,8 @@
     "material": [ "stone" ],
     "volume": "36 L",
     "longest_side": "2000 cm",
-    "bashing": 28,
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" }
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 28 }
   },
   {
     "type": "GENERIC",
@@ -105,8 +105,8 @@
     "material": [ "stone" ],
     "volume": "250 ml",
     "longest_side": "40 cm",
-    "bashing": 7,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -122,7 +122,7 @@
     "material": [ "stone" ],
     "volume": "36 L",
     "longest_side": "2000 cm",
-    "bashing": 28,
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" }
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 28 }
   }
 ]

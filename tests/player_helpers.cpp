@@ -23,6 +23,7 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "profession.h"
 #include "ret_val.h"
 #include "stomach.h"
 #include "type_id.h"
@@ -81,6 +82,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.stomach.empty();
     dummy.guts.empty();
     dummy.clear_vitamins();
+    dummy.update_body( calendar::turn, calendar::turn ); // sets last_updated to current turn
     if( !skip_nutrition ) {
         item food( "debug_nutrition" );
         dummy.consume( food );
@@ -116,6 +118,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     // Make sure we don't carry around weird effects.
     dummy.clear_effects();
+    dummy.set_underwater( false );
 
     // Make stats nominal.
     dummy.str_max = 8;
@@ -129,9 +132,13 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     dummy.cash = 0;
 
+    dummy.prof = profession::generic();
+
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
     dummy.clear_values();
+    dummy.magic = pimpl<known_magic>();
+    dummy.forget_all_recipes();
 }
 
 void arm_shooter( npc &shooter, const std::string &gun_type,

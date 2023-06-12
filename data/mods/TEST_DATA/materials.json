@@ -1,0 +1,9 @@
+[
+  {
+    "type": "material",
+    "id": "lycra_resist_test_fire",
+    "name": "Lycra",
+    "copy-from": "lycra",
+    "resist": { "bash": 2, "cut": 2, "acid": 9, "heat": 2, "bullet": 2, "test_fire": 2 }
+  }
+]

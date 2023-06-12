@@ -1,0 +1,50 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "crashing_ship_locker_card",
+    "symbol": ",",
+    "color": "blue",
+    "name": { "str": "ID card" },
+    "description": "This is your personal ID card.  The reverse side describes the protocol for using it; this grants you access to the barracks locker room.",
+    "price": 60000,
+    "flags": [ "AFS_CS_LOCKER_CARD" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "crashing_ship_armory_card",
+    "symbol": ",",
+    "color": "red",
+    "name": { "str": "ID card" },
+    "description": "This is an ID card you found.  The reverse side describes the protocol for using it; this grants you access to the barracks locker room.",
+    "price": 60000,
+    "flags": [ "AFS_CS_ARMORY_CARD" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "crashing_ship_exobay_card",
+    "symbol": ",",
+    "color": "yellow",
+    "name": { "str": "ID card" },
+    "description": "This is an ID card you found.  The reverse side describes the protocol for using it; this grants you access to the workshop's exosuit storage bay.",
+    "price": 60000,
+    "flags": [ "AFS_CS_EXOBAY_CARD" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
+  }
+]

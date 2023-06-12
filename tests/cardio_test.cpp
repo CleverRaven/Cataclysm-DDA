@@ -149,7 +149,7 @@ TEST_CASE( "base cardio", "[cardio][base]" )
 
     // Ensure no initial effects that would affect cardio
     REQUIRE( they.get_lifestyle() == 0 );
-    REQUIRE( they.get_skill_level( skill_swimming ) == 0 );
+    REQUIRE( static_cast<int>( they.get_skill_level( skill_swimming ) ) == 0 );
     // Ensure starting cardio are what we expect
     REQUIRE( they.get_cardiofit() == 1000 );
 
@@ -186,7 +186,7 @@ TEST_CASE( "cardio is and isn't affected by certain traits", "[cardio][traits]" 
 
     // Ensure no initial effects that would affect cardio
     REQUIRE( they.get_lifestyle() == 0 );
-    REQUIRE( they.get_skill_level( skill_swimming ) == 0 );
+    REQUIRE( static_cast<int>( they.get_skill_level( skill_swimming ) ) == 0 );
     // Ensure starting cardio are what we expect
     REQUIRE( they.get_cardiofit() == 1000 );
 

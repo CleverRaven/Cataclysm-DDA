@@ -32,16 +32,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "school": "KELVINIST" }, "/", { "const": -6 } ] }
-          }
-        ]
-      }
-    ],
+    "enchantments": [ "KELVINIST" ],
     "cancels": [ "STORMSHAPER" ],
     "spells_learned": [ [ "create_rune_kelvinist", 1 ] ]
   },
@@ -54,16 +45,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "ARMOR_ELEC",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "school": "STORMSHAPER" }, "/", { "const": -6 } ] }
-          }
-        ]
-      }
-    ],
+    "enchantments": [ "STORMSHAPER" ],
     "cancels": [ "KELVINIST" ],
     "spells_learned": [ [ "create_rune_stormshaper", 1 ] ]
   },

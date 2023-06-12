@@ -69,7 +69,7 @@ bool string_id<Trait_group>::is_valid() const
 
 static void extract_mod(
     const JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
-    const std::string &mod_type, bool active, const std::string &type_key )
+    const std::string_view mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
     if( val != 0 ) {
@@ -226,7 +226,7 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
 
 mut_transform::mut_transform() = default;
 
-bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
+bool mut_transform::load( const JsonObject &jsobj, const std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -240,7 +240,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
 
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
-    read_condition<dialogue>( jsobj, "condition", trigger, false );
+    read_condition( jsobj, "condition", trigger, false );
     if( jsobj.has_object( "msg_on" ) ) {
         JsonObject jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );
@@ -486,9 +486,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
+    for( JsonValue jv : jo.get_array( "processed_eocs" ) ) {
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+    }
+
     for( JsonValue jv : jo.get_array( "deactivated_eocs" ) ) {
         deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
+
+    optional( jo, was_loaded, "activated_is_setup", activated_is_setup, false );
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
@@ -497,7 +503,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
-        no_cbm_on_bp.emplace( bodypart_str_id( s ) );
+        no_cbm_on_bp.emplace( s );
     }
 
     optional( jo, was_loaded, "category", category, string_id_reader<mutation_category_trait> {} );
@@ -575,7 +581,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( JsonObject ao : jo.get_array( "armor" ) ) {
-        const resistances res = load_resistances_instance( ao );
+        std::set<std::string> ignored_by_resist = { "part_types", "parts" };
+        const resistances res = load_resistances_instance( ao, ignored_by_resist );
         // Set damage resistances for all body parts of the specified type(s)
         for( const std::string &type_string : ao.get_tags( "part_types" ) ) {
             for( const body_part_type &bp : body_part_type::get_all() ) {
@@ -593,7 +600,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( const JsonValue jv : jo.get_array( "integrated_armor" ) ) {
-        integrated_armor.emplace_back( itype_id( jv ) );
+        integrated_armor.emplace_back( jv );
     }
 
     for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {
@@ -855,6 +862,7 @@ const mutation_variant *mutation_branch::pick_variant_menu() const
     menu.desc_enabled = true;
     menu.text = string_format( _( "Pick variant for: %s" ), name() );
     std::vector<const mutation_variant *> options;
+    options.reserve( variants.size() );
     for( const std::pair<const std::string, mutation_variant> &var : variants ) {
         options.emplace_back( &var.second );
     }
@@ -884,6 +892,7 @@ void mutation_branch::reset_all()
 std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
+    ret.reserve( raw_messages.size() );
     for( const translation &msg : raw_messages ) {
         ret.push_back( msg.translated() );
     }
@@ -963,14 +972,22 @@ const trait_replacement &mutation_branch::trait_migration( const trait_id &tid )
 
 void mutation_branch::finalize()
 {
+    for( auto &armr : armor ) {
+        finalize_damage_map( armr.second.resist_vals );
+    }
+}
+
+void mutation_branch::finalize_all()
+{
+    trait_factory.finalize();
     for( const mutation_branch &branch : get_all() ) {
         for( const mutation_category_id &cat : branch.category ) {
-            mutations_category[cat].push_back( trait_id( branch.id ) );
+            mutations_category[cat].emplace_back( branch.id );
         }
         // Don't include dummy mutations for the ANY category, since they have a very specific use case
         // Otherwise, the system will prioritize them
         if( !branch.dummy ) {
-            mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+            mutations_category[mutation_category_ANY].emplace_back( branch.id );
         }
     }
     finalize_trait_blacklist();

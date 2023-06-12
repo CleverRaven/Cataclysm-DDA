@@ -1,11 +1,14 @@
 #include "avatar.h"
 #include "character_martial_arts.h"
+#include "make_static.h"
 #include "martialarts.h"
 #include "mutation.h"
 #include "options.h"
 #include "player_difficulty.h"
 #include "profession.h"
 #include "skill.h"
+
+static const damage_type_id damage_bash( "bash" );
 
 static const profession_id profession_unemployed( "unemployed" );
 
@@ -25,7 +28,6 @@ void player_difficulty::npc_from_avatar( const avatar &u, npc &dummy )
     dummy.dex_max = u.dex_max;
     dummy.int_max = u.int_max;
     dummy.per_max = u.per_max;
-    dummy.reset_stats();
 
 
     // set skills
@@ -42,6 +44,7 @@ void player_difficulty::npc_from_avatar( const avatar &u, npc &dummy )
         dummy.set_mutation( t );
     }
 
+    dummy.reset();
     dummy.initialize();
 }
 
@@ -121,10 +124,10 @@ double player_difficulty::calc_armor_value( const Character &u )
     // check any other items the character has on them
     if( u.prof ) {
         for( const item &i : u.prof->items( true, std::vector<trait_id>() ) ) {
-            armor_val += head_protection * i.resist( damage_type::BASH, false, bodypart_id( "head" ) );
-            armor_val += torso_protection * i.resist( damage_type::BASH, false, bodypart_id( "torso" ) );
-            armor_val += arms_protection * i.resist( damage_type::BASH, false, bodypart_id( "arm_r" ) );
-            armor_val += legs_protection * i.resist( damage_type::BASH, false, bodypart_id( "leg_r" ) );
+            armor_val += head_protection * i.resist( damage_bash, false, bodypart_id( "head" ) );
+            armor_val += torso_protection * i.resist( damage_bash, false, bodypart_id( "torso" ) );
+            armor_val += arms_protection * i.resist( damage_bash, false, bodypart_id( "arm_r" ) );
+            armor_val += legs_protection * i.resist( damage_bash, false, bodypart_id( "leg_r" ) );
         }
     }
 
@@ -353,6 +356,11 @@ std::string player_difficulty::format_output( float percent_band, float per )
         output = string_format( "%2f: %s", per, output );
     }
     return output;
+}
+
+const npc &player_difficulty::get_average_npc()
+{
+    return average;
 }
 
 std::string player_difficulty::difficulty_to_string( const avatar &u ) const

@@ -31,11 +31,11 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
     p.process_turn();
 
     CHECK( p.get_dex() == enc_test.dex_before + p.get_dex_base() * 2 + 25 );
-    CHECK( get_talker_for( p )->trial_chance_mod( "lie" ) == static_cast<int>( (
-                enc_test.lie_before + 15 ) * 1.5 ) );
-    CHECK( get_talker_for( p )->trial_chance_mod( "persuade" ) == static_cast<int>( (
+    CHECK( get_talker_for( p )->trial_chance_mod( "lie" ) == static_cast<int>( round( (
+                enc_test.lie_before + 15 ) * 1.5 ) ) );
+    CHECK( get_talker_for( p )->trial_chance_mod( "persuade" ) == static_cast<int>( round( (
                 enc_test.persuade_before + 15 ) *
-            1.5 ) );
+            1.5 ) ) );
     CHECK( get_talker_for( p )->trial_chance_mod( "intimidate" ) == static_cast<int>( (
                 enc_test.intimidate_before + 1 )
             * 1.5 ) );

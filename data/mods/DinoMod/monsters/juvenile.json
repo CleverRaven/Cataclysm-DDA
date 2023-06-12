@@ -474,9 +474,8 @@
     "type": "MONSTER",
     "copy-from": "mon_amargasaurus_juvenile",
     "zombify_into": "mon_zalamosaurus_juvenile",
-    "armor_bash": 7,
-    "armor_cut": 9,
-    "upgrades": { "age_grow": 365, "into": "mon_alamosaurus" }
+    "upgrades": { "age_grow": 365, "into": "mon_alamosaurus" },
+    "armor": { "bash": 7, "cut": 9 }
   },
   {
     "id": "mon_stegosaurus_juvenile",

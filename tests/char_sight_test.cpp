@@ -10,6 +10,7 @@
 #include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "options_helpers.h"
 #include "player_helpers.h"
 #include "type_id.h"
 
@@ -55,6 +56,7 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
     clear_avatar();
     clear_map();
     g->reset_light_level();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     SECTION( "full daylight" ) {
         // Set clock to noon
@@ -117,6 +119,7 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     clear_avatar();
     clear_map();
     g->reset_light_level();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     GIVEN( "it is midnight with a new moon" ) {
         calendar::turn = calendar::turn_zero;
@@ -212,6 +215,7 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
     clear_avatar();
     clear_map();
     g->reset_light_level();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     float light_here = 0.0f;
 

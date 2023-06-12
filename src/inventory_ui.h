@@ -202,6 +202,7 @@ class inventory_entry
         struct entry_cell_cache_t {
             nc_color color = c_unset;
             std::vector<std::string> text;
+            int lang_version = 0;
         };
 
         const entry_cell_cache_t &get_entry_cell_cache( inventory_selector_preset const &preset ) const;
@@ -443,7 +444,7 @@ class inventory_column
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
         int reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet );
-        int reassign_custom_invlets( int cur_idx, const std::string &pickup_chars );
+        int reassign_custom_invlets( int cur_idx, std::string_view pickup_chars );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**

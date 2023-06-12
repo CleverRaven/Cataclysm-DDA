@@ -108,7 +108,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.set_skill_level( skill_traps, skill_level );
 
             REQUIRE( dummy.get_per() == perception );
-            REQUIRE( dummy.get_skill_level( skill_traps ) == skill_level );
+            REQUIRE( static_cast<int>( dummy.get_skill_level( skill_traps ) ) == skill_level );
             if( has_proficiency )
             {
                 dummy.add_proficiency( proficiency_prof_safecracking );
@@ -576,7 +576,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
         boltcutting_activity_actor act{tripoint_zero, torch};
         act.testing = true;
-        dummy.assign_activity( player_activity( act ) );
+        dummy.assign_activity( act );
     };
 
     SECTION( "boltcut start checks" ) {
@@ -840,7 +840,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
         hacksaw_activity_actor act{tripoint_zero, torch};
         act.testing = true;
-        dummy.assign_activity( player_activity( act ) );
+        dummy.assign_activity( act );
     };
 
     SECTION( "hacksaw start checks" ) {
@@ -1106,7 +1106,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
         oxytorch_activity_actor act{tripoint_zero, torch};
         act.testing = true;
-        dummy.assign_activity( player_activity( act ) );
+        dummy.assign_activity( act );
     };
 
     SECTION( "oxytorch start checks" ) {
@@ -1370,7 +1370,7 @@ TEST_CASE( "prying", "[activity][prying]" )
     const tripoint &target = tripoint_zero ) -> void {
         prying_activity_actor act{target, tool};
         act.testing = true;
-        dummy.assign_activity( player_activity( act ) );
+        dummy.assign_activity( act );
     };
 
     SECTION( "prying time tests" ) {

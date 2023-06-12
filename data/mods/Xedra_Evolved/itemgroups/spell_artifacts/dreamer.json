@@ -94,7 +94,8 @@
     "entries": [
       { "item": "magick_8_ball", "prob": 50 },
       { "item": "glass_dagger_paperweight", "prob": 100 },
-      { "item": "artifact_dreamer_clairvoyance", "prob": 30 }
+      { "item": "artifact_dreamer_clairvoyance", "prob": 30 },
+      { "item": "artifact_dreamer_clairvoyance_eff", "prob": 50 }
     ]
   },
   {

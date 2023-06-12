@@ -257,8 +257,8 @@ static void pick_up_from_feet( Character &you, const std::string &id )
     REQUIRE( found );
 
     you.moves = 100;
-    you.assign_activity( player_activity( pickup_activity_actor( { item_location( map_cursor( you.pos() ), found ) }, { 0 },
-                                          you.pos(), false ) ) );
+    const std::vector<item_location> target_items = { item_location( map_cursor( you.pos() ), found ) };
+    you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos(), false ) );
     you.activity.do_turn( you );
 
     REQUIRE( items.size() == size_before - 1 );

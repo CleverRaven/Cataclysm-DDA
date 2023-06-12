@@ -98,7 +98,7 @@ void weather_type::check() const
     }
 }
 
-void weather_type::load( const JsonObject &jo, const std::string & )
+void weather_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "id",  id );
@@ -138,7 +138,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
                    unicode_codepoint_from_symbol_reader );
     }
     optional( jo, was_loaded, "required_weathers", required_weathers );
-    read_condition<dialogue>( jo, "condition", condition, true );
+    read_condition( jo, "condition", condition, true );
 }
 
 void weather_types::reset()

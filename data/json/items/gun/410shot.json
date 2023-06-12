@@ -12,14 +12,14 @@
     "price": 189000,
     "price_postapoc": 7000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
     "durability": 7,
     "barrel_volume": "750 ml",
     "ammo": [ "410shot" ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga410mag_10rd", "saiga410mag_30rd" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga410mag_10rd", "saiga410mag_30rd" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "shotgun_410",

@@ -57,7 +57,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 2 survival skill" ) {
             player_character.set_skill_level( skill_survival, 2 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 2 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 2 );
 
             THEN( "they cannot see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod" );
@@ -66,7 +66,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 3 survival skill" ) {
             player_character.set_skill_level( skill_survival, 3 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 3 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 3 );
 
             THEN( "they see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod (poisonous)" );
@@ -82,7 +82,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 4 survival skill" ) {
             player_character.set_skill_level( skill_survival, 4 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 4 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 4 );
 
             THEN( "they cannot see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (fresh)" );
@@ -91,7 +91,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 5 survival skill" ) {
             player_character.set_skill_level( skill_survival, 5 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 5 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 5 );
 
             THEN( "they see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (hallucinogenic) (fresh)" );

@@ -16,8 +16,6 @@
     "color": "light_cyan",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 15,
-    "armor_elec": 1,
     "bleed_rate": 30,
     "vision_day": 30,
     "vision_night": 12,
@@ -39,7 +37,8 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant_bloom",
     "dissect": "dissect_plant_sample_large",
-    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "QUEEN", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "QUEEN", "HARDTOSHOOT" ],
+    "armor": { "bash": 15, "electric": 1 }
   },
   {
     "id": "mon_leech_stalk",
@@ -58,8 +57,6 @@
     "color": "light_blue",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 15,
-    "armor_elec": 1,
     "bleed_rate": 30,
     "vision_day": 30,
     "vision_night": 8,
@@ -79,7 +76,8 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
-    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ],
+    "armor": { "bash": 15, "electric": 1 }
   },
   {
     "id": "mon_leech_radio",
@@ -98,8 +96,6 @@
     "color": "light_blue",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 15,
-    "armor_elec": 1,
     "bleed_rate": 30,
     "vision_day": 30,
     "vision_night": 8,
@@ -107,7 +103,8 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
-    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ],
+    "armor": { "bash": 15, "electric": 1 }
   },
   {
     "id": "mon_leech_pod_cluster",
@@ -126,7 +123,6 @@
     "color": "white",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 15,
     "luminance": 60,
     "special_attacks": [
       {
@@ -141,7 +137,8 @@
     ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
-    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE" ]
+    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 15 }
   },
   {
     "id": "mon_leech_root_runner",
@@ -163,8 +160,6 @@
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 2,
-    "armor_bash": 15,
-    "armor_elec": 2,
     "luminance": 60,
     "vision_day": 30,
     "vision_night": 5,
@@ -185,7 +180,8 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
-    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ],
+    "armor": { "bash": 15, "electric": 2 }
   },
   {
     "id": "mon_leech_root_drone",
@@ -206,8 +202,6 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 2,
-    "armor_bash": 15,
-    "armor_elec": 2,
     "luminance": 60,
     "vision_day": 30,
     "vision_night": 5,
@@ -227,6 +221,7 @@
     ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
-    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ],
+    "armor": { "bash": 15, "electric": 2 }
   }
 ]
