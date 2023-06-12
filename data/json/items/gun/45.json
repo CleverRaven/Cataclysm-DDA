@@ -532,7 +532,6 @@
   {
     "id": "greasegun",
     "looks_like": "hk_mp5",
-    "barrel_length": "203 mm"
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": ".45 WWII SMG" },
@@ -549,6 +548,7 @@
     "weight": "3700 g",
     "volume": "2003 ml",
     "longest_side": "740 mm",
+    "barrel_length": "203 mm",
     "price": 2300000,
     "price_postapoc": 4000,
     "to_hit": -2,
