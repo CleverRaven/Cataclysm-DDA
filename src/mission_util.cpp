@@ -94,14 +94,6 @@ static void reveal_any_target( mission *miss, const std::vector<std::string> &om
     reveal_target( miss, random_entry( omter_ids ) );
 }
 
-bool mission_util::reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
-                                overmapbuffer &omb )
-{
-    const tripoint_abs_omt source_road = overmap_buffer.find_closest( source, "road", 3, false );
-    const tripoint_abs_omt dest_road = overmap_buffer.find_closest( dest, "road", 3, false );
-    return omb.reveal_route( source_road, dest_road );
-}
-
 /**
  * Reveal the cloest overmap terrain of a type and return the its location
  */
@@ -461,6 +453,14 @@ void mission_util::set_reveal_any( const JsonArray &ja,
     funcs.emplace_back( mission_func );
 }
 
+void mission_util::set_reveal_road( const JsonArray &ja,
+                                   std::vector<std::function<void( mission *miss )>> &funcs )
+{
+    const auto mission_func = [ terrain ]( mission * miss ) {
+        reveal_route( miss, terrain );
+    };
+}
+
 void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
@@ -516,8 +516,7 @@ bool mission_util::load_funcs( const JsonObject &jo,
     
     if( jo.has_string( "reveal_road" ) ) {
         const std::string target_reveal_road = jo.get_string( "reveal_road" );
-        const tripoint_abs_omt reveal_road_tri = reveal_destination( target_reveal_road );
-        reveal_route( miss, reveal_road_tri );
+        set_reveal_road( target_reveal_road, funcs );
     }
 
     if( jo.has_object( "update_mapgen" ) ) {
