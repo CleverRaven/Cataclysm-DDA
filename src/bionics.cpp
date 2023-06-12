@@ -2892,6 +2892,8 @@ bionic &Character::bionic_at_index( int i )
 void Character::clear_bionics()
 {
     my_bionics->clear();
+    update_last_bionic_uid();
+    update_bionic_power_capacity();
 }
 
 void reset_bionics()
