@@ -97,7 +97,7 @@
     "parent": "bp_null",
     "side": 1,
     "opposite": "karma_hand",
-    "name_multiple": "karma hands",
-    "name": "right wrist"
+    "name": "karma hand",
+    "name_multiple": "karma hands"
   }
 ]
