@@ -163,6 +163,8 @@ tripoint_abs_omt target_om_ter_random(
     tripoint_abs_omt loc = overmap::invalid_tripoint );
 void set_reveal( const std::string &terrain,
                  std::vector<std::function<void( mission *miss )>> &funcs );
+void set_reveal_road( const std::string &terrain,
+                 std::vector<std::function<void( mission *miss )>> &funcs );
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
 mission_target_params parse_mission_om_target( const JsonObject &jo );
