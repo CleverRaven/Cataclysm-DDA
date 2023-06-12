@@ -3733,7 +3733,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             }
             if( !act->targets.empty() ) {
                 item &it = *act->targets.front();
-                if( &it && !it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                if( &it != nullptr && !it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
                     you->consume_charges( it, it.type->charges_to_use() );
                 }
             }
