@@ -97,7 +97,6 @@ class gunmod_location
 struct islot_tool {
     std::set<ammotype> ammo_id;
 
-    std::optional<itype_id> revert_to;
     translation revert_msg;
 
     itype_id subtype;
@@ -1287,6 +1286,8 @@ struct itype {
 
         /** Default countdown interval (if any) for this item type */
         time_duration countdown_interval = 0_seconds;
+        /** If set the item will revert to this after countdown*/
+        std::optional<itype_id> revert_to;
 
         /**
         * Space occupied by items of this type

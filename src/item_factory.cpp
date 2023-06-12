@@ -2333,11 +2333,7 @@ void Item_factory::check_definitions() const
             for( const ammotype &at : type->tool->ammo_id ) {
                 check_ammo_type( msg, at );
             }
-            if( type->tool->revert_to && ( !has_template( *type->tool->revert_to ) ||
-                                           type->tool->revert_to->is_null() ) ) {
-                msg += string_format( "invalid revert_to property %s\n", type->tool->revert_to->c_str() );
-            }
-            if( !type->tool->revert_msg.empty() && !type->tool->revert_to ) {
+            if( !type->tool->revert_msg.empty() && !type->revert_to ) {
                 msg += "cannot specify revert_msg without revert_to\n";
             }
             if( !type->tool->subtype.is_empty() && !has_template( type->tool->subtype ) ) {
@@ -2971,7 +2967,6 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
     assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
     assign( jo, "power_draw", slot.power_draw, strict, 0_W );
-    assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
 
@@ -4166,6 +4161,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
+    assign( jo, "revert_to", def.revert_to, strict );
 
     if( jo.has_string( "countdown_action" ) ) {
         def.countdown_action = usage_from_string( jo.get_string( "countdown_action" ) );

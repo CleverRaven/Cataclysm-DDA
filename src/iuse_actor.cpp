@@ -352,7 +352,9 @@ void iuse_transform::do_transform( Character &p, item &it ) const
         }
     }
 
-    obj->countdown_point = calendar::turn + target_timer;
+    if( target_timer > 0_seconds ) {
+        obj->countdown_point = calendar::turn + target_timer;
+    }
     obj->active = active || obj->has_temperature() || target_timer > 0_seconds;
     if( p.is_worn( *obj ) ) {
         if( !obj->is_armor() ) {
