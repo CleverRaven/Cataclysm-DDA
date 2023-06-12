@@ -108,6 +108,7 @@ enum class event_type : int {
     releases_subspace_specimens,
     removes_cbm,
     seals_hazardous_material_sarcophagus,
+    spellcasting_finish,
     telefrags_creature,
     teleglow_teleports,
     teleports_into_wall,
@@ -177,7 +178,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 92,
+static_assert( static_cast<int>( event_type::num_event_types ) == 93,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -735,6 +736,16 @@ struct event_spec<event_type::removes_cbm> {
 
 template<>
 struct event_spec<event_type::seals_hazardous_material_sarcophagus> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::spellcasting_finish> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id },
+            { "school", cata_variant_type::trait_id }
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::telefrags_creature> {

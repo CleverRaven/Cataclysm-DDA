@@ -1769,7 +1769,6 @@ void known_magic::serialize( JsonOut &json ) const
         json.start_object();
         json.member( "id", pair.second.id() );
         json.member( "xp", pair.second.xp() );
-        json.member( "level_adjustment", pair.second.get_temp_level_adjustment() );
         json.end_object();
     }
     json.end_array();
@@ -1786,12 +1785,10 @@ void known_magic::deserialize( const JsonObject &data )
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
-        int level_adjustment = jo.get_int( "level_adjustment" );
         if( knows_spell( sp ) ) {
             spellbook[sp].set_exp( xp );
-            spellbook[sp].set_temp_level_adjustment( level_adjustment );
         } else {
-            spellbook.emplace( sp, spell( sp, xp, level_adjustment ) );
+            spellbook.emplace( sp, spell( sp, xp ) );
         }
     }
     data.read( "invlets", invlets );

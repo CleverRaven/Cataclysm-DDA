@@ -1745,8 +1745,12 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         } else if( checked_value == "item_count" ) {
             const itype_id item_id( jo.get_string( "item" ) );
             return [is_npc, item_id]( dialogue const & d ) {
-                return std::max( d.actor( is_npc )->charges_of( item_id ),
-                                 d.actor( is_npc )->get_amount( item_id ) );
+                return d.actor( is_npc )->get_amount( item_id );
+            };
+        } else if( checked_value == "charge_count" ) {
+            const itype_id item_id( jo.get_string( "item" ) );
+            return [is_npc, item_id]( dialogue const & d ) {
+                return d.actor( is_npc )->charges_of( item_id );
             };
         } else if( checked_value == "exp" ) {
             return [is_npc]( dialogue const & d ) {

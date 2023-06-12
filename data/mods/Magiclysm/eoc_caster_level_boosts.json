@@ -1,0 +1,64 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "limit_caster_level_boost",
+    "num_args": 2,
+    "return": "floor( min(_0, ( 1 + ( _1 / 5 ) ) ) )",
+    "//": "Limits caster level boost to 1 + (highest level of spell in the relevant school) / 5"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_magus_caster_level_boost",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "MAGUS" },
+    "effect": [
+      { "math": [ "u_magus_level_boost", "=", "u_val('item_count', 'item: magus_booster_1_active') + u_val('item_count', 'item: magus_booster_2_active') * 2" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: MAGUS')", "=", "limit_caster_level_boost(u_magus_level_boost, u_val('spell_level', 'school: MAGUS') )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_kelvinist_caster_level_boost",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "KELVINIST" },
+    "effect": [
+      { "math": [ "u_kelvinist_level_boost", "=", "u_val('item_count', 'item: kelvinist_booster_1_active') + u_val('item_count', 'item: kelvinist_booster_2_active') * 2" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: KELVINIST')", "=", "limit_caster_level_boost(u_kelvinist_level_boost, u_val('spell_level', 'school: KELVINIST') )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_technomancer_caster_level_boost",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "TECHNOMANCER" },
+    "effect": [
+      { "math": [ "u_technomancer_level_boost", "=", "max( 0, u_val('effect_intensity', 'effect: technomancer_cl_booster_effect') ) + u_val('charge_count', 'item: technomancer_booster_2_active') / 5" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TECHNOMANCER')", "=", "limit_caster_level_boost(u_technomancer_level_boost, u_val('spell_level', 'school: TECHNOMANCER') )" ] },
+      { "math": [ "u_doodad_boost", "=", "max( 0, u_val('spell_level_adjustment', 'school: TECHNOMANCER') - max( 0, u_val('effect_intensity', 'effect: technomancer_cl_booster_effect') ) )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_technomancer_caster_level_boost_finish_casting",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "and": [ { "u_has_trait": "TECHNOMANCER" }, { "compare_string": [ "TECHNOMANCER", { "context_val": "school" } ] } ] },
+    "effect": [
+      { "u_consume_item": "technomancer_booster_2_active", "charges": { "math": [ "floor( u_doodad_boost ) * 5" ] }, "count": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_biomancer_caster_level_boost",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "BIOMANCER" },
+    "effect": [
+      { "math": [ "u_biomancer_level_boost", "=", "max( 0, u_val('effect_intensity', 'effect: biomancer_cl_booster_effect') )" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: BIOMANCER')", "=", "limit_caster_level_boost(u_biomancer_level_boost, u_val('spell_level', 'school: BIOMANCER') )" ] }
+    ]
+  }
+]

@@ -666,7 +666,9 @@
     "desc": [ "Your technomancer spells are empowered." ],
     "remove_message": "Your technomancer boost fades.",
     "rating": "good",
-    "max_intensity": 25
+    "show_intensity": true,
+    "max_intensity": 25,
+    "int_add_val": 1
   },
   {
     "type": "effect_type",
@@ -675,6 +677,8 @@
     "desc": [ "Your biomancer spells are empowered." ],
     "remove_message": "Your biomancer boost fades.",
     "rating": "good",
-    "max_intensity": 25
+    "show_intensity": true,
+    "max_intensity": 25,
+    "int_add_val": 1
   }
 ]

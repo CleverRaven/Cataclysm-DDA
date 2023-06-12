@@ -97,6 +97,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::releases_subspace_specimens: return "releases_subspace_specimens";
         case event_type::removes_cbm: return "removes_cbm";
         case event_type::seals_hazardous_material_sarcophagus: return "seals_hazardous_material_sarcophagus";
+        case event_type::spellcasting_finish: return "spellcasting_finish";
         case event_type::telefrags_creature: return "telefrags_creature";
         case event_type::teleglow_teleports: return "teleglow_teleports";
         case event_type::teleports_into_wall: return "teleports_into_wall";
@@ -129,7 +130,7 @@ DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 92,
+static_assert( static_cast<int>( event_type::num_event_types ) == 93,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -187,6 +188,7 @@ DEFINE_EVENT_FIELDS( player_fails_conduct )
 DEFINE_EVENT_FIELDS( player_gets_achievement )
 DEFINE_EVENT_FIELDS( player_levels_spell )
 DEFINE_EVENT_FIELDS( removes_cbm )
+DEFINE_EVENT_FIELDS( spellcasting_finish )
 DEFINE_EVENT_FIELDS( telefrags_creature )
 DEFINE_EVENT_FIELDS( teleports_into_wall )
 DEFINE_EVENT_FIELDS( uses_debug_menu )
