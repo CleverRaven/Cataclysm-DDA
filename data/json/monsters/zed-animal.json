@@ -468,8 +468,8 @@
   {
    "id": "mon_zombie_sheep",
    "type": "MONSTER",
-   "name": {"str": "zombie sheep"},
-   "description": "This sheep's once pure white wool is now barely hanging by its rotten flesh, held together by dried mud and blood. Its legs now buckle as the rotten muscles have a hard time sustaining the rest of the body.",
+   "name": { "str": "zombie sheep" },
+   "description": "This sheep's once pure white wool is now barely hanging by its rotten flesh, held together by dried mud and blood. Its legs now buckles as the rotten muscles have a hard time sustaining the rest of the body.",
    "looks_like": "mon_sheep",
    "default_faction": "zombie",
    "bodytype": "dog",
@@ -499,7 +499,7 @@
   {
    "id": "mon_zombie_goat",
    "type": "MONSTER",
-   "name": {"str": "zombie goat"},
+   "name": { "str": "zombie goat" },
    "description": "The moving corpse of what once was a goat is now left stumbling around, with pich black empty eyes, looking for anything alive to kill.",
    "looks_like": "mon_goat",
    "default_faction": "zombie",
