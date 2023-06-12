@@ -141,29 +141,6 @@ class unpack_actor : public iuse_actor
         void info( const item &, std::vector<iteminfo> &dump ) const override;
 };
 
-class countdown_actor : public iuse_actor
-{
-    public:
-        explicit countdown_actor( const std::string &type = "countdown" ) : iuse_actor( type ) {}
-
-        /** if specified overrides default action name */
-        translation name;
-
-        /** Time before countdown action (defaults to @ref itype::countdown_interval) */
-        time_duration countdown_interval = 0_seconds;
-
-        /** message if player sees activation with %s replaced by item name */
-        translation message;
-
-        ~countdown_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
-        std::string get_name() const override;
-        void info( const item &, std::vector<iteminfo> & ) const override;
-};
-
 class message_iuse : public iuse_actor
 {
     public:

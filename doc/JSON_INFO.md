@@ -4171,19 +4171,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 
 Use actions can be used with a timer delay.
 
-
-
-Timer can be set by player action with `"countdown"` use action. This timer is set when player activates it.
-```
-"use_action": {
-    "type": "countdown"
-	"name": "push button", // Optional visible name for the action.
-	"message": "You push the button", // Optional message shown from the action
-    "countdown_interval": "5 seconds"  // Sets timer on item to this
-}
-```
-
-Item `"transform"` action can also set and start the timer.
+Item `"transform"` action can set and start the timer.
 ```
 "use_action": {
     "type": "transform"

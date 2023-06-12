@@ -1806,7 +1806,6 @@ void Item_factory::init()
     add_actor( std::make_unique<inscribe_actor>() );
     add_actor( std::make_unique<iuse_transform>() );
     add_actor( std::make_unique<unpack_actor>() );
-    add_actor( std::make_unique<countdown_actor>() );
     add_actor( std::make_unique<message_iuse>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
