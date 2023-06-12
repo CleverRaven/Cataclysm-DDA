@@ -107,7 +107,7 @@
     "volume": "439 ml",
     "longest_side": "88 mm",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "plastic", "powder" ],
+    "material": [ "plastic", "lead", "powder" ],
     "symbol": "=",
     "color": "red",
     "count": 20,
