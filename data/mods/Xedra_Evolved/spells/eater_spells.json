@@ -103,6 +103,7 @@
     "description": "Restore some mana when you consume a whole dreamdross ingot.",
     "valid_targets": [ "self" ],
     "min_damage": 5000,
+    "max_damage": 5000,
     "effect": "recover_energy",
     "effect_str": "MANA",
     "shape": "blast",

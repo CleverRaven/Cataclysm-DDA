@@ -1254,6 +1254,19 @@
     ]
   },
   {
+    "id": "nested_plr16",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "plr16", "charges-min": 0, "charges-max": 10 },
+      { "group": "stanag_10_random" },
+      { "group": "stanag_10_random", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
     "id": "nested_garand",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

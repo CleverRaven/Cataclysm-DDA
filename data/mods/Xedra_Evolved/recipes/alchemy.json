@@ -52,7 +52,6 @@
     "difficulty": 3,
     "time": "1 m",
     "batch_time_factors": [ 50, 4 ],
-    "autolearn": true,
     "result_mult": 6,
     "flags": [ "SECRET" ],
     "components": [ [ [ "energy_drink", 3 ] ], [ [ "vodka", 3 ], [ "tequila", 3 ] ], [ [ "lotus_blossom", 1 ] ] ]

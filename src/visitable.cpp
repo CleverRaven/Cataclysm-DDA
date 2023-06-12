@@ -374,7 +374,7 @@ VisitResponse item_contents::visit_contents( const std::function<VisitResponse( 
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             // anything that is not CONTAINER is accessible only via its specific accessor
-            return VisitResponse::NEXT;
+            continue;
         }
         switch( pocket.visit_contents( func, parent ) ) {
             case VisitResponse::ABORT:

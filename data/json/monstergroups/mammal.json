@@ -137,6 +137,11 @@
     ]
   },
   {
+    "name": "GROUP_HORSES_STABLES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_null", "weight": 50 }, { "group": "GROUP_HORSES", "weight": 50, "ends": "14 days" } ]
+  },
+  {
     "name": "GROUP_MOOSE",
     "type": "monstergroup",
     "monsters": [

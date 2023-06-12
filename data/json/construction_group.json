@@ -251,6 +251,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_showjump_end",
+    "name": "Build Show Jump End"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_showjump",
+    "name": "Place Show Jump"
+  },
+  {
+    "type": "construction_group",
     "id": "build_entertainment_center",
     "name": "Build Entertainment Center"
   },
