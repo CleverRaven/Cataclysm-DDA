@@ -129,6 +129,17 @@ struct expansion_salt_water_pipe {
     std::vector<expansion_salt_water_pipe_segment> segments;
 };
 
+class basecamp_map
+{
+        friend basecamp;
+    private:
+        std::unique_ptr<map> map_;
+    public:
+        basecamp_map() = default;
+        basecamp_map( const basecamp_map & );
+        basecamp_map &operator=( const basecamp_map & );
+};
+
 class basecamp
 {
     public:
@@ -137,26 +148,6 @@ class basecamp
         basecamp( const std::string &name_, const tripoint &bb_pos_,
                   const std::vector<point> &directions_,
                   const std::map<point, expansion_data> &expansions_ );
-        // Maunally added a copy constuctors and operator=.
-        // This is to make it possible to have a std::unique_ptr in this class.
-        // Only copy those member variables whose values are assigned in basecamp::deserialize().
-        basecamp( const basecamp &bcp ): directions( bcp.directions ),
-            hidden_missions( bcp.hidden_missions ),
-            fortifications( bcp.fortifications ), salt_water_pipes( bcp.salt_water_pipes ), name( bcp.name ),
-            omt_pos( bcp.omt_pos ), bb_pos( bcp.bb_pos ),
-            expansions( bcp.expansions ), dumping_spot( bcp.dumping_spot ) {};
-        basecamp &operator=( const basecamp &bcp ) {
-            directions = bcp.directions;
-            name = bcp.name;
-            hidden_missions = bcp.hidden_missions;
-            fortifications = bcp.fortifications;
-            salt_water_pipes = bcp.salt_water_pipes;
-            omt_pos = bcp.omt_pos;
-            bb_pos = bcp.bb_pos;
-            expansions = bcp.expansions;
-            dumping_spot = bcp.dumping_spot;
-            return *this;
-        };
         inline bool is_valid() const {
             return !name.empty() && omt_pos != tripoint_abs_omt();
         }
@@ -439,7 +430,7 @@ class basecamp
         tripoint bb_pos;
         std::map<point, expansion_data> expansions;
         comp_list camp_workers; // NOLINT(cata-serialize)
-        std::unique_ptr<map> camp_map; // NOLINT(cata-serialize)
+        basecamp_map camp_map; // NOLINT(cata-serialize)
         tripoint_abs_ms dumping_spot;
         std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
         std::unordered_set<tripoint_abs_ms> src_set; // NOLINT(cata-serialize)

@@ -112,6 +112,14 @@ int base_camps::max_upgrade_by_type( const std::string &type )
 
 basecamp::basecamp() = default;
 
+basecamp_map::basecamp_map( const basecamp_map & ) {}
+
+basecamp_map &basecamp_map::operator=( const basecamp_map & )
+{
+    map_.reset();
+    return *this;
+}
+
 basecamp::basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )
 {
@@ -770,19 +778,19 @@ void basecamp::form_crafting_inventory( map &target_map )
 map &basecamp::get_camp_map()
 {
     if( by_radio ) {
-        if( !camp_map ) {
-            camp_map = std::make_unique<map>();
-            camp_map->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
+        if( !camp_map.map_ ) {
+            camp_map.map_ = std::make_unique<map>();
+            camp_map.map_->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
         }
-        return *camp_map;
+        return *camp_map.map_;
     }
     return get_map();
 }
 
 void basecamp::unload_camp_map()
 {
-    if( camp_map ) {
-        camp_map.reset();
+    if( camp_map.map_ ) {
+        camp_map.map_.reset();
     }
 }
 
