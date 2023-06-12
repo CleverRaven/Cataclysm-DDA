@@ -348,7 +348,7 @@
     "id": "greasegun32mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": ".45 WWII SMG  32-round magazine" },
+    "name": { "str": ".45 WWII SMG 32-round magazine" },
     "description": "A standard 32-round magazine for the .45 WWII submachine gun.",
     "variant_type": "gun",
     "variants": [
