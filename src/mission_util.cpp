@@ -66,27 +66,29 @@ static void reveal_route( mission *miss, const tripoint_abs_omt &destination )
     }
 }
 
-static void reveal_target( mission *miss, const std::string &omter_id, optional integer argument chance defaults to 3 )
+static void reveal_target( mission *miss, const std::string &omter_id )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
-	const tripoint_abs_omt destination = reveal_destination( omter_id );
-    
+    if( p == nullptr ) {
+        debugmsg( "couldn't find an NPC!" );
+        return;
+    }
+
+    const tripoint_abs_omt destination = reveal_destination( omter_id );
     if( destination != overmap::invalid_tripoint ) {
         const oter_id oter = overmap_buffer.ter( destination );
-		if( p != nullptr ) {
-			add_msg( _( "%s has marked the only %s known to them on your map." ), p->get_name(),
-					oter->get_name() );
-		}
+        add_msg( _( "%s has marked the only %s known to them on your map." ), p->get_name(),
+                 oter->get_name() );
         miss->set_target( destination );
-        if( one_in( chance ) ) {
+        if( one_in( 3 ) ) {
             reveal_route( miss, destination );
         }
-    } // No else error here?
+    }
 }
 
-static void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids, optional integer argument chance defaults to 3 )
+static void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
 {
-    reveal_target( miss, random_entry( omter_ids ), chance if it exists );
+    reveal_target( miss, random_entry( omter_ids ) );
 }
 
 bool mission_util::reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
@@ -504,9 +506,7 @@ bool mission_util::load_funcs( const JsonObject &jo,
         set_reveal( target_terrain, funcs );
     } else if( jo.has_member( "reveal_om_ter" ) ) {
         set_reveal_any( jo.get_array( "reveal_om_ter" ), funcs );
-    }
-
-	if( jo.has_member( "assign_mission_target" ) ) {
+    } else if( jo.has_member( "assign_mission_target" ) ) {
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
         set_assign_om_target( mission_target, funcs );
     }
