@@ -507,7 +507,7 @@
       {
         "text": "We're here.  Let's do it!",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "mission_complete", { "u_has_items": { "item": "tinder" } } ] }
+        "condition": { "and": [ "mission_complete", { "u_has_items": { "item": "tinder", "count": 1 } } ] }
       },
       { "text": "Be patient, <name_g>, we're getting there soon.", "topic": "TALK_DONE" }
     ]
