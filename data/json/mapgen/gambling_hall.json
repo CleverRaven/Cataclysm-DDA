@@ -137,11 +137,11 @@
         "|..&...#C*******#......3",
         "|......#*******C#......3",
         "|......#*******C#----5-3",
-        "|..=...#*C***>**#       ",
+        "|..=...#*C***v**#       ",
         "|------##########       "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down", "#": "t_wall_w", "+": "t_door_locked_alarm", "*": "t_concrete", "C": "t_concrete" },
+      "terrain": { "#": "t_wall_w", "+": "t_door_locked_alarm", "*": "t_concrete", "C": "t_concrete" },
       "place_nested": [
         {
           "chunks": [
@@ -193,9 +193,7 @@
         "       ..........       ",
         "       ..........       "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_flat_roof" },
-      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
+      "palettes": [ "roof_palette" ]
     }
   },
   {

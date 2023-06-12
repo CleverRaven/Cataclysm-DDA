@@ -112,14 +112,14 @@
         " |...............3      ",
         " |...............3      ",
         " |........##D###.3      ",
-        " |........#__vv#.3      ",
-        " |........#v_pp#.3      ",
-        " |........#p>vp#.3      ",
+        " |........#__TT#.3      ",
+        " |........#T_pp#.3      ",
+        " |........#pvTp#.3      ",
         " |--------######-3      "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_wall_w", "p": "t_floor", "v": "t_floor", ">": "t_ladder_down", "D": "t_door_locked" },
-      "furniture": { "v": "f_floor_lamp", "p": "f_rack_coat" },
+      "terrain": { "#": "t_wall_w", "p": "t_floor", "T": "t_floor", "D": "t_door_locked" },
+      "furniture": { "T": "f_floor_lamp", "p": "f_rack_coat" },
       "place_nested": [
         {
           "chunks": [

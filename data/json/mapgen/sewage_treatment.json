@@ -296,7 +296,7 @@
         "                         -...................-  ",
         "                         -...................-  ",
         "                         -.................HHH  ",
-        "                         -.................BvH  ",
+        "                         -.................+vH  ",
         "                         -.................HHH  ",
         "                         -...................-  ",
         "                         -...................-  ",
@@ -337,7 +337,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "X": "t_radio_tower", "H": "t_sconc_wall", "B": "t_door_metal_c" },
+      "terrain": { "X": "t_radio_tower", "H": "t_sconc_wall" },
       "place_nested": [
         {
           "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 50 ], [ "roof_4x4_utility_1", 40 ] ],
