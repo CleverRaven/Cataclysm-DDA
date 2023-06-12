@@ -7,6 +7,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <climits>
 
 #include "units_fwd.h"
 
