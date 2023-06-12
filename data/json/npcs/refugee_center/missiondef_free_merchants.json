@@ -10,7 +10,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_special": "evac_center", "om_terrain": "evac_center_13", "reveal_radius": 3, "search_range": 400, "z": 0 },
-      "reveal_om_ter": "refctr_road"
+      "reveal_road": "refctr_road"
     },
     "origins": [ "ORIGIN_COMPUTER" ],
     "end": { "effect": [ { "u_add_var": "found_refugee_center", "value": "yes" } ] }

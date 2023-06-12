@@ -51,18 +51,21 @@ static tripoint_abs_omt reveal_destination( const std::string &type )
 static void reveal_route( mission *miss, const tripoint_abs_omt &destination )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
-    if( p == nullptr ) {
-        debugmsg( "couldn't find an NPC!" );
-        return;
-    }
-
+	const bool npc_exists = p == nullptr;
     const tripoint_abs_omt source = get_player_character().global_omt_location();
-
     const tripoint_abs_omt source_road = overmap_buffer.find_closest( source, "road", 3, false );
     const tripoint_abs_omt dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s also marks the road that leads to it…" ), p->get_name() );
+        if( npc_exists ) {
+            add_msg( _( "You also mark the road that leads to it…" ) );
+        } else {
+            add_msg( _( "%s also marks the road that leads to it…" ), p->get_name() );
+        }
+    } else if( npc_exists ) {
+        add_msg( _( "You can't figure out how to get there though…" ) );
+    } else {
+            add_msg( _( "%s doesn't know the exact way there though…" ), p->get_name() );
     }
 }
 
@@ -509,6 +512,12 @@ bool mission_util::load_funcs( const JsonObject &jo,
     } else if( jo.has_member( "assign_mission_target" ) ) {
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
         set_assign_om_target( mission_target, funcs );
+    }
+    
+    if( jo.has_string( "reveal_road" ) ) {
+        const std::string target_reveal_road = jo.get_string( "reveal_road" );
+        const tripoint_abs_omt reveal_road_tri = reveal_destination( target_reveal_road );
+        reveal_route( miss, reveal_road_tri );
     }
 
     if( jo.has_object( "update_mapgen" ) ) {
