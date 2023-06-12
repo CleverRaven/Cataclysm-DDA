@@ -1236,6 +1236,9 @@
           "stanag100drum",
           "stanag150",
           "ar10mag_20rd",
+          "ar10mag_10rd",
+          "ar10mag_25rd",
+          "ar10mag_50rd",
           "ar10_makeshiftmag",
           "survivor223mag"
         ]
