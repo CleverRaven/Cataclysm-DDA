@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".30-06 Springfield" },
     "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge has excellent accuracy, range, and stopping power making it popular with hunters and snipers for well over a century.",
-    "weight": "20 g",
+    "weight": "25 g",
     "volume": "192 ml",
     "longest_side": "85 mm",
     "price": 160,
