@@ -23,7 +23,7 @@
     "drench_capacity": 0,
     "is_limb": true,
     "base_hp": 100,
-    "smash_efficiency": 1.5
+    "smash_efficiency": 1.5,
     "smash_message": "You elbow-smash the %s.",
     "effects_on_hit": [
       {
