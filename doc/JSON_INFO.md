@@ -4197,7 +4197,7 @@ Once the duration of the timer has passed the `"countdown_action"` is executed. 
 }
 ```
 
-Additionally `"revert_to"` can be defined in item definitions (not in use action). The item is deactivated and turned to this type after the `"countdown_action"`. If no revert_to is specified the item is destroyed. Only valid for TOOL type items.
+Additionally `"revert_to"` can be defined in item definitions (not in use action). The item is deactivated and turned to this type after the `"countdown_action"`. If no revert_to is specified the item is destroyed.
 
 ### Random Descriptions
 
