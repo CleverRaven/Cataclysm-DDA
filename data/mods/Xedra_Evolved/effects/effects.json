@@ -613,14 +613,6 @@
     "enchantments": [ { "emitter": "emit_blood_karma" } ]
   },
   {
-    "type": "effect_type",
-    "id": "grabbing_karma_arm",
-    "name": [ "Grabbing Karma Arm" ],
-    "show_in_info": true,
-    "desc": [ "You're trying to grab an ethereal karma arm.  It surely doesn't work." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
     "type": "mutation",
     "id": "karma_arms",
     "name": { "str": "Karma" },
