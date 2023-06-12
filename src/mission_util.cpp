@@ -66,29 +66,27 @@ static void reveal_route( mission *miss, const tripoint_abs_omt &destination )
     }
 }
 
-static void reveal_target( mission *miss, const std::string &omter_id )
+static void reveal_target( mission *miss, const std::string &omter_id, optional integer argument chance defaults to 3 )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
-    if( p == nullptr ) {
-        debugmsg( "couldn't find an NPC!" );
-        return;
-    }
-
-    const tripoint_abs_omt destination = reveal_destination( omter_id );
+	const tripoint_abs_omt destination = reveal_destination( omter_id );
+    
     if( destination != overmap::invalid_tripoint ) {
         const oter_id oter = overmap_buffer.ter( destination );
-        add_msg( _( "%s has marked the only %s known to them on your map." ), p->get_name(),
-                 oter->get_name() );
+		if( p != nullptr ) {
+			add_msg( _( "%s has marked the only %s known to them on your map." ), p->get_name(),
+					oter->get_name() );
+		}
         miss->set_target( destination );
-        if( one_in( 3 ) ) {
+        if( one_in( chance ) ) {
             reveal_route( miss, destination );
         }
-    }
+    } // No else error here?
 }
 
-static void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
+static void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids, optional integer argument chance defaults to 3 )
 {
-    reveal_target( miss, random_entry( omter_ids ) );
+    reveal_target( miss, random_entry( omter_ids ), chance if it exists );
 }
 
 bool mission_util::reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
