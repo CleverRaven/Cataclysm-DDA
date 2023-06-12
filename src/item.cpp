@@ -646,10 +646,6 @@ item &item::activate()
         return *this; // no-op
     }
 
-    if( type->countdown_interval > 0_seconds ) {
-        countdown_point = calendar::turn + type->countdown_interval;
-    }
-
     active = true;
 
     return *this;
