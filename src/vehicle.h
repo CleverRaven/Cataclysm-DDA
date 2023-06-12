@@ -2028,7 +2028,7 @@ class vehicle
         // Master list of parts installed in the vehicle.
         std::vector<vehicle_part> parts; // NOLINT(cata-serialize)
         // Used in savegame.cpp to only save real parts to json
-        std::vector<vehicle_part> real_parts() const;
+        std::vector<std::reference_wrapper<const vehicle_part>> real_parts() const;
         // Map of edge parts and their adjacency information
         std::map<point, vpart_edge_info> edges; // NOLINT(cata-serialize)
         // For a given mount point, returns its adjacency info
