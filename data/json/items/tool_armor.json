@@ -1201,7 +1201,7 @@
       "need_charges_msg": "\"Illumination disabled, low power.\""
     },
     "material_thickness": 15,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
+    "flags": [ "STURDY", "NORMAL", "RAINPROOF", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
   },
   {
     "id": "helmet_eod_on",
