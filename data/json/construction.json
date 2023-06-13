@@ -2234,7 +2234,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "80 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ "wood_panel", 5 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 10 ] ] ],
+    "components": [ [ [ "wood_panel", 6 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 10 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_chest"
   },
