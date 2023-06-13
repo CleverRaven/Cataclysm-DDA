@@ -70,6 +70,18 @@
     "vitamins": [  ],
     "material": [ "water" ],
     "freezing_point": -8,
-    "use_action": { "type": "cast_spell", "spell_id": "learn_blood_of_saints", "no_fail": true, "level": 1 }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the blood.",
+      "effect_on_conditions": [
+        {
+          "id": "learn_blood_of_saints",
+          "effect": [
+            { "u_message": "You imbibed the concoction and you feel your veins flex in a warm glow." },
+            { "u_add_trait": "BLOOD_OF_SAINTS" }
+          ]
+        }
+      ]
+    }
   }
 ]

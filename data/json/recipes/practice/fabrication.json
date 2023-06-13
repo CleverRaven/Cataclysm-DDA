@@ -73,9 +73,10 @@
       { "proficiency": "prof_welding_basic", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
+    "//": "240cm of welding",
     "components": [ [ [ "sheet_metal_small", 24 ] ] ],
     "byproducts": [ [ "scrap", 6 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
+    "using": [ [ "welding_standard", 240 ] ],
     "autolearn": [ [ "fabrication", 3 ] ],
     "book_learn": [ [ "textbook_fabrication", 2 ] ]
   },
@@ -95,9 +96,10 @@
       { "proficiency": "prof_welding", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
+    "//": "300cm of welding",
     "components": [ [ [ "sheet_metal_small", 30 ] ] ],
     "byproducts": [ [ "scrap", 9 ] ],
-    "using": [ [ "welding_standard", 15 ] ],
+    "using": [ [ "welding_standard", 300 ] ],
     "autolearn": [ [ "fabrication", 5 ] ],
     "book_learn": [ [ "welding_book", 4 ] ]
   }

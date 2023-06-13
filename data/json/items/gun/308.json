@@ -444,7 +444,12 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 2700,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ar10mag_20rd", "ar10_makeshiftmag" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "ar10mag_20rd", "ar10mag_10rd", "ar10mag_25rd", "ar10mag_50rd", "ar10_makeshiftmag" ]
+      }
+    ],
     "melee_damage": { "bash": 12 }
   }
 ]

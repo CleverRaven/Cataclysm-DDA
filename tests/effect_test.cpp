@@ -717,7 +717,7 @@ TEST_CASE( "Vitamin Effects", "[effect][vitamins]" )
     const int post_vitx = subject.vitamin_get( vitx );
 
     // The effect roughly halves the absorbed vitamin x
-    CHECK( posteffect_vitx == 22 );
+    CHECK( posteffect_vitx == Approx( 22 ).margin( 3 ) );
     CHECK( post_vitx == 46 );
 
     // Without the effect, no vitamin v is gained

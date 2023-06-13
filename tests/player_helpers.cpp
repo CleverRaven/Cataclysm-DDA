@@ -82,6 +82,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.stomach.empty();
     dummy.guts.empty();
     dummy.clear_vitamins();
+    dummy.update_body( calendar::turn, calendar::turn ); // sets last_updated to current turn
     if( !skip_nutrition ) {
         item food( "debug_nutrition" );
         dummy.consume( food );

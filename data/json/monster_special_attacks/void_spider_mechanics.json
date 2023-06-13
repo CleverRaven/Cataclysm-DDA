@@ -119,12 +119,14 @@
     "id": "mon_void_weaver_death",
     "name": { "str": "Void Weaver Death" },
     "description": "Ends the fight.",
-    "valid_targets": [ "self", "ground" ],
+    "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "base_casting_time": 75,
     "min_range": 15,
     "max_range": 15,
+    "min_aoe": 30,
+    "max_aoe": 30,
     "shape": "blast",
     "effect": "effect_on_condition",
     "effect_str": "EOC_VOID_SPIDER_ON_DEATH"
@@ -225,18 +227,6 @@
                 "max_radius": 4,
                 "lifespan": [ "15 seconds", "25 seconds" ]
               }
-            ]
-          },
-          {
-            "id": "dissolve_void_spider_lair",
-            "condition": { "and": [ { "one_in_chance": 600 }, { "math": [ "void_spider_lairs_visited", "<=", "void_spider_killed" ] } ] },
-            "effect": [
-              { "u_message": "The cavern folds itself beyond perception.", "popup": true },
-              {
-                "u_location_variable": { "global_val": "nether_glass" },
-                "target_params": { "om_terrain": "nether_glass_deep", "z": -10, "search_range": 400, "min_distance": 1 }
-              },
-              { "u_teleport": { "global_val": "nether_glass" }, "force": true }
             ]
           }
         ]
@@ -352,10 +342,26 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_ON_DEATH",
-    "global": true,
     "effect": [
       { "queue_eocs": "EOC_VOID_SPIDER_KILLED", "time_in_future": "0 seconds" },
-      { "queue_eocs": "EOC_VOID_SPIDER_RESET_VARS", "time_in_future": "2 hours" }
+      { "queue_eocs": "EOC_VOID_SPIDER_RESET_VARS", "time_in_future": "2 hours" },
+      { "queue_eocs": "EOC_DISSOLVE_VOID_SPIDER_LAIR", "time_in_future": "20 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DISSOLVE_VOID_SPIDER_LAIR",
+    "effect": [
+      { "u_message": "The cavern folds itself beyond perception.", "popup": true },
+      {
+        "u_location_variable": { "global_val": "nether_glass" },
+        "target_params": { "om_terrain": "nether_glass_deep", "z": -10, "search_range": 400, "min_distance": 1 }
+      },
+      { "u_teleport": { "global_val": "nether_glass" }, "force": true },
+      {
+        "mapgen_update": "microlab_portal_elevator_physics_shift",
+        "om_terrain": "microlab_portal_elevator_physics_glass"
+      }
     ]
   },
   {

@@ -957,15 +957,19 @@
     "description": "A tall bow made from very finely grained black wood.  Its large asymmetrical limbs are improperly shaped to fire arrows of regular length, and they require incredible strength to pull back.",
     "price": "10 USD",
     "ammo": "strange_arrow",
+    "material": [ "wood", "monolith_heavy" ],
     "min_strength": 15,
-    "weight": "3200 g",
+    "weight": "22 kg",
     "volume": "6250 ml",
     "longest_side": "218 cm",
     "price_postapoc": 2000,
     "armor_data": {
       "armor": [
         {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "material": [
+            { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 },
+            { "type": "monolith_heavy", "covered_by_mat": 10, "thickness": 2.0 }
+          ],
           "encumbrance": 25,
           "coverage": 14,
           "covers": [ "torso" ],
