@@ -109,7 +109,7 @@
         "     F                                                                                          ",
         "     F                   222222222222222222222222222523                                         "
       ],
-      "palettes": [ "mil_base_roof_palette" ]
+      "palettes": [ "roof_palette", "mil_base_roof_palette" ]
     }
   },
   {
@@ -451,12 +451,12 @@
         "     F                                                                                          ",
         "     F                                                                                          ",
         "     F                                                       ''''                               ",
-        "     F                                              Z''''Z   ''''                               ",
-        "     F                                              '    '   ''''                               ",
-        "     F                                              '    '                                      ",
-        "     F                                              '    '                                      ",
-        "     F                                              '><  '   ''''                               ",
-        "     F                                              Z''''Z   ''''                               ",
+        "     F                                             :R,,,,R   ''''                               ",
+        "     F                                              ,    ,   ''''                               ",
+        "     F                                              ,    ,                                      ",
+        "     F                                              aaaa ,                                      ",
+        "     F                                              a≷,a ,:  ''''                               ",
+        "     F                                              Raaa,R   ''''                               ",
         "     F                                                       ''''                               ",
         "     F                                                                                          ",
         "     F                                                                                          ",
@@ -511,7 +511,8 @@
         "                                                                                                ",
         "                                                                                                "
       ],
-      "palettes": [ "mil_base_roof_palette" ]
+      "palettes": [ "roof_palette" ],
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
     }
   },
   {

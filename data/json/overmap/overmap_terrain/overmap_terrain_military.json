@@ -449,11 +449,6 @@
       "mil_base_3g",
       "mil_base_3h1",
       "mil_base_3h",
-      "mil_base_3i1",
-      "mil_base_3i2",
-      "mil_base_3i3",
-      "mil_base_3i4",
-      "mil_base_3i",
       "mil_base_3j1",
       "mil_base_3j",
       "mil_base_3k1",
@@ -568,14 +563,6 @@
       "mil_base_8j",
       "mil_base_8k1",
       "mil_base_8k",
-      "mil_base_minefield_e",
-      "mil_base_minefield_n",
-      "mil_base_minefield_ne",
-      "mil_base_minefield_nw",
-      "mil_base_minefield_s",
-      "mil_base_minefield_se",
-      "mil_base_minefield_sw",
-      "mil_base_minefield_w",
       "mil_base_road_entrance",
       "mil_base_tunnels_a",
       "mil_base_tunnels_b",
@@ -591,5 +578,56 @@
     "sym": "M",
     "color": "red",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_3i", "mil_base_3i1", "mil_base_3i2", "mil_base_3i3", "mil_base_3i4" ],
+    "name": "military base radio tower",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_mil_base_minefield",
+    "name": "military base minefield",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_nw",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "┌"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_minefield_s", "mil_base_minefield_n" ],
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_ne",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_minefield_e", "mil_base_minefield_w" ],
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "│"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_se",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "┘"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_base_minefield_sw",
+    "copy-from": "generic_mil_base_minefield",
+    "sym": "└"
   }
 ]
