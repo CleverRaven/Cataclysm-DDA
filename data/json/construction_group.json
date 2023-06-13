@@ -116,6 +116,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_chest",
+    "name": "Build Wooden Chest"
+  },
+  {
+    "type": "construction_group",
     "id": "build_chickenwire_fence",
     "name": "Build Chickenwire Fence"
   },
