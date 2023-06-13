@@ -11,6 +11,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_nether_glass_floor_clairvoyance",
+    "name": "black glass",
+    "description": "An endless expanse of black glass.  It perfectly reflects the darkness around it.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 2,
+    "emissions": [ "emit_clairvoyant" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "EMITTER" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_nether_glass_floor_basalt",
     "name": "black glass",
     "description": "An endless expanse of black glass.  It perfectly reflects the darkness around it.",

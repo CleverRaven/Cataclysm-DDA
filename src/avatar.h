@@ -222,6 +222,8 @@ class avatar : public Character
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
         void clear_identified();
+        // clears nutrition related values e.g. calorie_diary, consumption_history...
+        void clear_nutrition();
 
         void add_snippet( snippet_id snippet );
         bool has_seen_snippet( const snippet_id &snippet ) const;

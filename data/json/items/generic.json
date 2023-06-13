@@ -131,7 +131,7 @@
     "symbol": ",",
     "material": [ "paper" ],
     "volume": "50 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -224,6 +224,24 @@
   },
   {
     "type": "GENERIC",
+    "id": "nre_anomaly_printout_data",
+    "copy-from": "small_printout_portal_storm_data",
+    "name": { "str": "NRE anomaly printout" },
+    "description": "A long sequence of overlapping numbers plotted in thermal paper, at times so densely-packed that they disappear into thick blots of oxide-colored ink.  The printed values increased along rhythmical waves, but the number 5 is always skipped.",
+    "weight": "10 g",
+    "volume": "50 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "nre_zero_reading_printout",
+    "copy-from": "small_printout_portal_storm_data",
+    "name": { "str": "NRE zero reading" },
+    "description": "A long near uniform sequence of evenly spaced zeroes plotted in thermal paper.  The monotony is rarely broken by small numbered series.",
+    "weight": "10 g",
+    "volume": "50 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -233,7 +251,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED", "TINDER" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -248,7 +266,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "volume": "100 ml",
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -261,7 +279,7 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "100 ml",
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -274,7 +292,7 @@
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -1609,6 +1627,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "TINDER" ],
     "volume": "6 ml",
     "longest_side": "297 mm",
     "ammo_type": "paper"
@@ -2845,7 +2864,7 @@
     "category": "spare_parts",
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "TINDER" ],
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2
@@ -2860,6 +2879,7 @@
     "price": 100,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "TINDER" ],
     "weight": "80 g",
     "volume": "500 ml"
   },

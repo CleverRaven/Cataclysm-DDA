@@ -714,6 +714,12 @@
     "default": "extinguishing_agent"
   },
   {
+    "type": "ammunition_type",
+    "id": "teargas_spray",
+    "name": "tear gas spray",
+    "default": "teargas_spray"
+  },
+  {
     "id": "tinder",
     "name": "tinder",
     "default": "tinder",

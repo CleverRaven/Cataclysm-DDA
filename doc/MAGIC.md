@@ -735,7 +735,7 @@ This enchantment adds the dexterity value to strength: a character with str 8 an
     "values": [
       {
         "value": "LUMINATION",
-        "add": { "arithmetic": [ { "global_val": "monsters_nearby", "radius": 25 }, "*", { "const": 20 } ] }
+        "add": { "math": [ "u_monsters_nearby('radius': 25) * 20" ] }
       }
     ]
   }

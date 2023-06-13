@@ -3,7 +3,6 @@
     "id": "door",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
-    "broken_symbol": "&",
     "categories": [ "hull" ],
     "color": "cyan",
     "damage_modifier": 80,
@@ -15,39 +14,34 @@
     "location": "center",
     "looks_like": "t_door_metal_c",
     "name": { "str": "door" },
+    "//": "30cm of weld per quadrant of damage",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "size": "2500 ml",
-    "symbol": "+",
-    "symbols": {
-      "ne": "+",
-      "nw": "+",
-      "se": "+",
-      "sw": "+",
-      "vertical_left": "+",
-      "vertical_right": "+",
-      "front": "+",
-      "front_left": "+",
-      "front_right": "+",
-      "horizontal_front": "+",
-      "horizontal_2": "+",
-      "horizontal_rear": "+",
-      "left": "+",
-      "right": "+",
-      "rear": "+",
-      "wheel_left": "+",
-      "wheel_right": "+"
-    },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door",
-    "id": "door_full",
-    "looks_like": "door",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ],
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "+", "symbols_broken": "&" },
+      { "id": "front_left", "label": "Front Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "front_right", "label": "Front Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "left", "label": "Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "right", "label": "Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "rear", "label": "Rear", "symbols": "+", "symbols_broken": "&" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "+", "symbols_broken": "&" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "+", "symbols_broken": "&" },
+      { "id": "horizontal_front", "label": "Front Horizontal", "symbols": "+", "symbols_broken": "&" },
+      { "id": "horizontal_2", "label": "Thick Horizontal", "symbols": "+", "symbols_broken": "&" },
+      { "id": "horizontal_rear", "label": "Rear Horizontal", "symbols": "+", "symbols_broken": "&" },
+      { "id": "ne", "label": "Front Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "nw", "label": "Front Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "se", "label": "Rear Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "sw", "label": "Rear Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "wheel_left", "label": "Wheel Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "wheel_right", "label": "Wheel Right", "symbols": "+", "symbols_broken": "&" }
+    ]
   },
   {
     "copy-from": "door",
@@ -60,9 +54,9 @@
     "folded_volume": "2500 ml",
     "breaks_into": "ig_vp_cloth",
     "requirements": {
-      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 },
     "delete": { "flags": [ "WINDOW" ] }
@@ -83,13 +77,8 @@
     "name": { "str": "opaque door" },
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_opaque",
-    "id": "door_opaque_full",
-    "looks_like": "door_opaque",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   },
   {
     "id": "hddoor",
@@ -100,17 +89,14 @@
     "durability": 600,
     "item": "hdframe",
     "name": { "str": "heavy-duty door" },
+    "//": "40cm of weld per quadrant of damage",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "hddoor",
-    "id": "hddoor_full",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   },
   {
     "id": "hddoor_opaque",
@@ -121,12 +107,8 @@
     "name": { "str": "heavy-duty opaque door" },
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "hddoor_opaque",
-    "id": "hddoor_opaque_full",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   },
   {
     "id": "door_internal",
@@ -143,10 +125,19 @@
     "description": "A strong door.  A window lets you see through it when closed.",
     "durability": 420,
     "name": { "str": "hatch" },
+    "//": "30cm of weld per quadrant of damage, 4x that to install",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "15 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "size": "37500 ml",
     "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED" ] },
@@ -173,10 +164,19 @@
     "item": "hdframe",
     "looks_like": "hatch",
     "name": { "str": "heavy-duty hatch" },
+    "//": "40cm of weld per quadrant of damage, 4x that to install",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "80 m",
+        "using": [ [ "welding_standard", 160 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "type": "vehicle_part"
   },

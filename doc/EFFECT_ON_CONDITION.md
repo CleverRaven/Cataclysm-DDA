@@ -146,3 +146,11 @@ uses_debug_menu | | { "debug_menu_option", `debug_menu_index` }, |
 u_var_changed | | { "var", `string` }, { "value", `string` }, |
 vehicle_moves | | { "avatar_on_board", `bool` }, { "avatar_is_driving", `bool` }, { "avatar_remote_control", `bool` }, { "is_flying_aircraft", `bool` }, { "is_floating_watercraft", `bool` }, { "is_on_rails", `bool` }, { "is_falling", `bool` }, { "is_sinking", `bool` }, { "is_skidding", `bool` }, { "velocity", `int` }, // vehicle current velocity, mph * 100 { "z", `int` }, |
 
+## Context Variables For Other EOCs
+Other EOCs have some variables as well that they have access to, they are as follows:
+
+EOC            | Context Variables |
+--------------------- | ----------- |
+mutation: "activated_eocs" | { "this", `mutation_id` }
+mutation: "processed_eocs" | { "this", `mutation_id` }
+mutation: "deactivated_eocs" | { "this", `mutation_id` }
