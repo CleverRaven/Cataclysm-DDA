@@ -429,7 +429,7 @@
     "type": "effect_type",
     "name": [ "Dream Gorging" ],
     "desc": [
-      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>restore from traumas</color> faster"
+      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>recover from traumas</color> faster"
     ],
     "apply_message": "A huge warm wave moves from your stomach through your body.",
     "remove_message": "The warm feeling fades away.",
@@ -452,7 +452,7 @@
     "type": "effect_type",
     "id": "spell_stamina_eff",
     "name": [ "Circulatory" ],
-    "desc": [ "You can't get out of <color_green>breath</color>." ],
+    "desc": [ "You can't run out of <color_green>breath</color>." ],
     "apply_message": "You feel a deep energy in your muscles, exuberant and coiled.",
     "remove_message": "The energy in your body fades away.",
     "rating": "good",
@@ -617,7 +617,7 @@
     "id": "karma_arms",
     "name": { "str": "Karma" },
     "points": 1,
-    "description": "An ethereal hands appear behind you back, making you looks like an ancient god.",
+    "description": "Ethereal hands appear behind you back, making you looks like an ancient god.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -638,7 +638,7 @@
     "id": "spell_karma_arms_eff",
     "name": [ "" ],
     "desc": [ "" ],
-    "apply_message": "An ethereal, transparent arms grow from your shoulders, and <color_cyan>glow<color>.",
+    "apply_message": "Ethereal, transparent arms grow from your shoulders, and <color_cyan>glow<color>.",
     "remove_message": "The cyan arms grow dim, and finally disappear.",
     "rating": "good",
     "enchantments": [ { "mutations": [ "karma_arms" ] } ]

@@ -57,7 +57,7 @@
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "arrow_metal_sharpened_fletched",
-    "description": "A dreamforged arrow with razor-sharp tip.",
+    "description": "A dreamforged arrow with a razor-sharp tip.",
     "material": [ "steel" ],
     "volume": "40 ml",
     "price_postapoc": 250,

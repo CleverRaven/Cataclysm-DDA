@@ -7,7 +7,7 @@
       { "u_spawn_item": "dreamer_artifact", "use_item_group": true },
       { "math": [ "u_val('vitamin', 'name:dreamer_vit')", "-=", "300" ] },
       {
-        "u_message": "You pulled your powers into a matter, and something outside instigate item in your hand.",
+        "u_message": "You pulled your powers into this world and something from outside placed an object in your hand.",
         "type": "info"
       }
     ],

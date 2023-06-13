@@ -22,7 +22,7 @@
           "id": "EOC_MESSAGE_SCORE_TIMER",
           "effect": [
             {
-              "u_message": "Something sparked in your head, and you realise interesting property of dreamdross.  Maybe you can forge something new?",
+              "u_message": "Something sparked in your head, and you realize an interesting property of dreamdross.  Maybe you can forge something new?",
               "type": "info"
             }
           ]
@@ -99,7 +99,7 @@
           "id": "EOC_DREAMSMITH_MESSAGE_POSITIVE",
           "effect": [
             {
-              "u_message": "A brilliant idea about the dreamdross properties hit your head, and you think you know how to utilize one now.",
+              "u_message": "A brilliant idea about the properties of dreamdross  hits your head, and you think you know how to utilize it now.",
               "type": "good"
             }
           ]
