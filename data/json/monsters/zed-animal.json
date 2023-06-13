@@ -509,6 +509,7 @@
     "weight": "75 kg",
     "hp": 70,
     "speed": 140,
+    "attack_cost": 140,
     "material": [ "flesh" ],
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "symbol": "G",
