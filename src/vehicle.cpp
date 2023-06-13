@@ -205,6 +205,16 @@ vehicle::vehicle() : vehicle( get_map(), vproto_id() )
 
 vehicle::~vehicle() = default;
 
+turret_cpu::~turret_cpu() = default;
+
+turret_cpu &turret_cpu::operator=( const turret_cpu & )
+{
+    brain.reset();
+    return *this;
+}
+
+turret_cpu::turret_cpu( const turret_cpu & ) {}
+
 safe_reference<vehicle> vehicle::get_safe_reference()
 {
     return anchor.reference_to( this );
