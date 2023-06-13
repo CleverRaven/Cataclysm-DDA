@@ -26,7 +26,6 @@
     "id": "seat",
     "breaks_into": "ig_vp_seat",
     "broken_color": "red",
-    "broken_symbol": "*",
     "categories": [ "operations", "passengers" ],
     "color": "red",
     "comfort": 2,
@@ -39,6 +38,7 @@
     "item": "seat",
     "location": "center",
     "looks_like": "reclining_seat",
+    "//": "weld repairs would mostly be the frame and springs of the seat, so low 6cm cost per quadrant",
     "name": { "str": "seat" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -50,19 +50,17 @@
       }
     },
     "size": "25 L",
-    "symbol": "#",
-    "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#", "rear": "#" },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat",
-    "id": "seat_swivel_chair",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat",
-    "id": "seat_windshield",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" }, { "id": "swivel_chair", "label": "Swivel Chair" } ],
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "#", "symbols_broken": "*" },
+      { "id": "vertical", "label": "Vertical", "symbols": "#", "symbols_broken": "*" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "#", "symbols_broken": "*" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "#", "symbols_broken": "*" },
+      { "id": "left", "label": "Left", "symbols": "#", "symbols_broken": "*" },
+      { "id": "right", "label": "Right", "symbols": "#", "symbols_broken": "*" },
+      { "id": "rear", "label": "Rear", "symbols": "#", "symbols_broken": "*" }
+    ]
   },
   {
     "id": "seat_leather",
@@ -70,12 +68,8 @@
     "copy-from": "seat",
     "item": "seat_leather",
     "name": { "str": "leather seat" },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_leather",
-    "id": "seat_windshield_leather",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
     "id": "reclining_seat",
@@ -87,12 +81,8 @@
     "name": { "str": "reclining seat" },
     "size": "6250 ml",
     "extend": { "flags": [ "BED" ] },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat",
-    "id": "reclining_seat_windshield",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
     "id": "reclining_seat_leather",
@@ -101,12 +91,8 @@
     "item": "seat_leather",
     "looks_like": "seat_leather",
     "name": { "str": "reclining leather seat" },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_leather",
-    "id": "reclining_seat_windshield_leather",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
     "id": "seat_back",
@@ -136,6 +122,7 @@
     "durability": 80,
     "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
     "folded_volume": "1250 ml",
+    "//": "weld repairs would mostly be the frame, so low 4cm cost per quadrant",
     "comfort": 1,
     "item": "saddle",
     "requirements": {
@@ -143,29 +130,20 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "20 s",
+        "time": "20 m",
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
       }
     },
     "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "size": "0 ml",
     "extend": { "flags": [ "NONBELTABLE" ] },
-    "delete": { "flags": [ "BELTABLE", "CARGO" ] }
-  },
-  {
-    "copy-from": "saddle",
-    "id": "saddle_pedal",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "saddle",
-    "id": "saddle_motor",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "saddle",
-    "id": "saddle_scooter",
-    "type": "vehicle_part"
+    "delete": { "flags": [ "BELTABLE", "CARGO" ] },
+    "variants_bases": [  ],
+    "variants": [
+      { "id": "pedal", "label": "Pedals", "symbols": "#", "symbols_broken": "*" },
+      { "id": "motor", "label": "Motorcycle", "symbols": "#", "symbols_broken": "*" },
+      { "id": "scooter", "label": "Scooter", "symbols": "#", "symbols_broken": "*" }
+    ]
   },
   {
     "type": "vehicle_part",
@@ -179,7 +157,8 @@
     "item": "sheet",
     "folded_volume": "2500 ml",
     "location": "anywhere",
-    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
+    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ],
+    "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
   {
     "id": "metal_bench",
@@ -190,11 +169,12 @@
     "description": "A steel bench with ankle and wrist restraints built in.  It looks very uncomfortable.",
     "durability": 450,
     "item": "steel_plate",
+    "//": "more metal here so bigger weld cost - 20cm weld per damage quadrant",
     "name": { "str": "steel bench" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "size": "0 ml",
     "delete": { "flags": [ "CARGO" ] },

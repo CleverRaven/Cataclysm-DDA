@@ -254,9 +254,7 @@
         "                                                                        ",
         "                                                                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_stairs_down" },
-      "furniture": {  }
+      "palettes": [ "roof_palette" ]
     }
   },
   {

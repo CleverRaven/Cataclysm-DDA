@@ -6785,8 +6785,9 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     int veh_part = 0;
     const vehicle *veh = veh_at_internal( p, veh_part );
     if( veh != nullptr ) {
-        sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
-        tercol = veh->part_color( veh_part );
+        const vpart_display vd = veh->get_display_of_tile( veh->part( veh_part ).mount );
+        sym = vd.symbol_curses;
+        tercol = vd.color;
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
 
         if( !veh->forward_velocity() && !veh->player_in_control( player_character )
@@ -6861,12 +6862,11 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
         sym = '.';
         tercol = curr_furn.color();
     } else if( ( veh = veh_at_internal( p, part_below ) ) != nullptr ) {
+        const vpart_position vpp( const_cast<vehicle &>( *veh ), part_below );
+        const vpart_display vd = veh->get_display_of_tile( vpp.mount(), true, true, false );
         const int roof = veh->roof_at_part( part_below );
-        const int displayed_part = roof >= 0 ? roof : part_below;
-        sym = special_symbol( veh->face.dir_symbol( veh->part_sym( displayed_part, true ) ) );
-        tercol = ( roof >= 0 ||
-                   vpart_position( const_cast<vehicle &>( *veh ),
-                                   part_below ).obstacle_at_part() ) ? c_light_gray : c_light_gray_cyan;
+        sym = vd.symbol_curses;
+        tercol = roof >= 0 || vpp.obstacle_at_part() ? c_light_gray : c_light_gray_cyan;
     } else if( curr_ter.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) ) {
         if( curr_ter.has_flag( ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL ) ) {
             sym = AUTO_WALL_PLACEHOLDER;
@@ -7353,7 +7353,9 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     // with entities at the edges
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+            const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+            const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+            for( int gridz = zmin; gridz <= zmax; gridz++ ) {
                 actualize( tripoint( point( gridx, gridy ), gridz ) );
                 if( pump_events ) {
                     inp_mngr.pump_events();
@@ -7840,10 +7842,18 @@ void map::grow_plant( const tripoint &p )
     if( seed == items.end() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         // TODO: Fix point types
-        const oter_id ot =
-            overmap_buffer.ter( project_to<coords::omt>( tripoint_abs_ms( getabs( p ) ) ) );
-        dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z
-                       << " (within overmap terrain " << ot.id().str() << ") has no seed data";
+        const tripoint_abs_ms ms_pos( getabs( p ) );
+        const tripoint_abs_sm sm_pos = project_to<coords::sm>( ms_pos );
+        const oter_id ot = overmap_buffer.ter( project_to<coords::omt>( ms_pos ) );
+        dbg( D_ERROR ) << "plant furniture has no seed item.  "
+                       << "furniture: " << furn.id.str()
+                       << ", submap absolute: " << sm_pos
+                       << ", map square absolute: " << ms_pos
+                       << ", class map map square relative: " << p
+                       << ", overmap terrain: " << ot.id().str()
+        << ", other items: " << enumerate_as_string( items, []( const item & it ) {
+            return it.display_name();
+        } );
         i_clear( p );
         furn_set( p, f_null );
         return;
