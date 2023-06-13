@@ -797,6 +797,13 @@ void avatar::identify( const item &item )
     }
 }
 
+void avatar::clear_nutrition()
+{
+    calorie_diary.clear();
+    calorie_diary.emplace_front();
+    consumption_history.clear();
+}
+
 void avatar::clear_identified()
 {
     items_identified.clear();
