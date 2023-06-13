@@ -1184,7 +1184,7 @@
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
-        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 20.0 } ],
         "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 15,
@@ -1192,7 +1192,7 @@
         "rigid_layer_only": true
       },
       {
-        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 20.0 } ],
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 5,
@@ -1201,7 +1201,7 @@
       }
     ],
     "warmth": 65,
-    "material": [ "kevlar_rigid", "lvl4ballisticglass", "plastic_pad" ],
+    "material": [ "kevlar_rigid", "plastic", "plastic_pad" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 3,
