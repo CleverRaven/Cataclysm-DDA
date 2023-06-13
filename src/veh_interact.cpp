@@ -554,7 +554,7 @@ void veh_interact::do_main_loop()
 void veh_interact::cache_tool_availability()
 {
     Character &player_character = get_player_character();
-    crafting_inv = player_character.crafting_inventory();
+    crafting_inv = &player_character.crafting_inventory();
 
     cache_tool_availability_update_lifting( player_character.pos() );
     int mech_jack = 0;
@@ -2158,7 +2158,7 @@ int veh_interact::part_at( const point &d )
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
     bool engine_reqs_met = true;
-    bool can_make = vpart.install_requirements().can_make_with_inventory( crafting_inv,
+    bool can_make = vpart.install_requirements().can_make_with_inventory( *crafting_inv,
                     is_crafting_component );
     bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
 
