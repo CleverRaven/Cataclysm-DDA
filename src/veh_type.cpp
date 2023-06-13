@@ -827,7 +827,7 @@ void vpart_info::check()
             }
         }
 
-        for( const auto &e : part.install_reqs ) {
+        for( const auto &e : part.removal_reqs ) {
             if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified removal requirements %s",
                           part.id.c_str(), e.first.c_str() );
