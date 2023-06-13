@@ -301,18 +301,9 @@
     }
   },
   {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "map_extras": {
-      "forest": { "extras": { "mx_crater": 0 } },
-      "forest_thick": { "extras": { "mx_crater": 0 } },
-      "forest_water": { "extras": { "mx_crater": 0 } },
-      "field": { "extras": { "mx_crater": 0 } },
-      "road": { "extras": { "mx_crater": 0 } },
-      "build": { "extras": { "mx_crater": 0 } },
-      "research_facility_lot": { "extras": { "mx_crater": 0 } },
-      "research_facility_interior": { "extras": { "mx_crater": 0 } },
-      "agricultural": { "extras": { "mx_crater": 0 } }
-    }
+    "id": "mx_crater",
+    "type": "map_extra",
+    "copy-from": "mx_crater",
+    "generator": {  }
   }
 ]
