@@ -2825,6 +2825,10 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
     ava.movecounter = 0;
 
     // workaround for mbstowcs to process multibyte utf-8 chars
+    std::locale const &oldloc = std::locale();
+    on_out_of_scope reset_loc( [&oldloc]() {
+        std::locale::global( oldloc );
+    } );
     char *result = setlocale( LC_ALL, "" );
     REQUIRE( result );
 
@@ -2899,7 +2903,4 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
             test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, true );
         }
     }
-
-    result = setlocale( LC_ALL, "C" );
-    REQUIRE( result );
 }
