@@ -7176,7 +7176,7 @@ time_duration vehicle::unfolding_time() const
 item vehicle::get_folded_item() const
 {
     item folded( "generic_folded_vehicle", calendar::turn );
-    const std::vector<vehicle_part> parts = real_parts();
+    const std::vector<std::reference_wrapper<const vehicle_part>> &parts = real_parts();
     try {
         std::ostringstream veh_data;
         JsonOut json( veh_data );
@@ -7709,14 +7709,14 @@ int vehicle::part_count_real_cached() const
     return static_cast<int>( parts.size() - fake_parts.size() );
 }
 
-std::vector<vehicle_part> vehicle::real_parts() const
+std::vector<std::reference_wrapper<const vehicle_part>> vehicle::real_parts() const
 {
-    std::vector<vehicle_part> ret;
+    std::vector<std::reference_wrapper<const vehicle_part>> ret;
     for( const vehicle_part &vp : parts ) {
         if( vp.removed || vp.is_fake ) {
             continue;
         }
-        ret.emplace_back( vp );
+        ret.emplace_back( std::ref( vp ) );
     }
     return ret;
 }
