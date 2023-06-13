@@ -28,7 +28,14 @@
       "type": "reveal_map",
       "radius": 90,
       "message": "You add the hidden stations to your map",
-      "terrain": [ "lab_subway", "microlab_sub_connector", "microlab_sub_station", "central_lab_train_depot", "lab_train_depot" ]
+      "terrain": [
+        "lab_subway",
+        "microlab_sub_connector",
+        "microlab_sub_station",
+        "central_lab_train_depot",
+        "lab_train_depot",
+        "underground_lab_cargo_stationA"
+      ]
     }
   },
   {
@@ -46,10 +53,11 @@
         "road",
         "bridge",
         "fema_entrance",
-        "bunker",
-        "outpost",
+        { "om_terrain": "bunker", "om_terrain_match_type": "TYPE" },
+        "helipad_nw",
+        { "om_terrain": "outpost", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "silo", "om_terrain_match_type": "TYPE" },
-        { "om_terrain": "shelter", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "shelter", "om_terrain_match_type": "PREFIX" },
         "police",
         "mil_base_road_entrance"
       ],
@@ -84,12 +92,13 @@
         "hiway",
         "road",
         "bridge",
-        { "om_terrain": "shelter", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "shelter", "om_terrain_match_type": "PREFIX" },
         "hospital",
         "school",
         "police",
         { "om_terrain": "sub_station", "om_terrain_match_type": "TYPE" },
-        "bank"
+        "bank",
+        "town_hall"
       ],
       "message": "You add roads and points of interest to your map."
     }
@@ -110,6 +119,21 @@
     }
   },
   {
+    "id": "sewermap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "drainage system map" },
+    "looks_like": "roadmap",
+    "description": "A map of sewers formerly used by public maintenance workers.  Using it will add sewer systems and facilities to your map.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [ { "om_terrain": "sewer", "om_terrain_match_type": "TYPE" }, "cs_open_sewer", "sewage_treatment", "manhole", "pump_station" ],
+      "message": "You add sewer systems and facilities to your map."
+    }
+  },
+  {
     "id": "trailmap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
@@ -119,7 +143,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
-      "terrain": [ "forest_trail", "trailhead" ],
+      "terrain": [ "forest_trail", "trailhead", "trail_intersection" ],
       "message": "You add trails and trailheads to your map."
     }
   },
@@ -133,7 +157,18 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
-      "terrain": [ "hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
+      "terrain": [
+        "hiway",
+        "road",
+        "bridge",
+        "hotel_tower",
+        "s_restaurant",
+        "cathedral",
+        "s_restaurant_fast",
+        "megastore",
+        "museum",
+        "zoo"
+      ],
       "message": "You add roads and tourist attractions to your map."
     }
   },
@@ -153,8 +188,9 @@
         "bridge",
         "s_restaurant_coffee",
         "s_restaurant",
-        { "om_terrain": "bar", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "bar", "om_terrain_match_type": "PREFIX" },
         "s_pizza_parlor",
+		"s_diner"
         "s_restaurant_fast"
       ],
       "message": "You add roads and restaurants to your map."
@@ -213,7 +249,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
-      "terrain": [ "bridge", "road", "s_restaurant_coffee", "s_restaurant_fast", "s_restaurant", "s_pizza_parlor", "s_diner", "bar" ],
+      "terrain": [ "bridge", "road", "s_restaurant_coffee", "s_restaurant_fast", "s_restaurant", "s_pizza_parlor", "s_diner", { "om_terrain": "bar", "om_terrain_match_type": "PREFIX" } ],
       "message": "You add roads and local restaurants, diners and bars to your map."
     }
   },
@@ -222,13 +258,83 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "food shopping advertising brochure" },
-    "description": "A small brochure advertising for local food shopping possibilities with an address below each entry.  Using it will add roads an local grocery and convenience stores as well as bakeries to your map.",
+    "description": "A small brochure advertising for local food shopping possibilities with an address below each entry.  Using it will add roads, local grocery, convenience stores and bakeries to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
       "terrain": [ "bridge", "road", "s_grocery", "trailer_commercial", "bakery" ],
-      "message": "You add roads and local grocery and convenience stores as well as bakeries to your map."
+      "message": "You add roads, local grocery and convenience stores as well as bakeries to your map."
+    }
+  },
+  {
+    "id": "buylocalpamphlet",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "buy local pamphlet" },
+    "description": "A small pamphlet advertising local goods and produce and places to purchase them. Using it will add roads, markets, butchers, bakers and craft shops to your map.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [ "bridge", "road", "bakery", "s_butcher", "craft_shop", "cs_market" ],
+      "message": "You add roads, markets, butchers, bakers and craft shops to your map."
+    }
+  },
+  {
+    "id": "getactivepamphlet",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "get active pamphlet" },
+    "description": "A small pamphlet advertising various local buisnesses encouraging you to get fit. Using it will add roads, gyms and pools along with shops where you can buy sporting gear to your map.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [ "bridge", "road", "s_bike_shop", "gym_fitness", "gym", "dojo", "pool", "s_dive_shop", "s_sports" ],
+      "message": "You add roads, gyms and pools along with shops where you can buy sporting gear to your map."
+    }
+  },
+  {
+    "id": "petpamphlet",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "pet pamphlet" },
+    "description": "A small pamphlet advertising the benefits of different pets and local pet related facilities and shops. Using it will add roads, pet shops, animal shelters, parks, trailheads and vets to your map.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [ "bridge", "road", "park", "veterinarian", "NatureTrail", "trailhead", "s_petstore", "animalshelter" ],
+      "message": "You add roads, gyms and pools along with shops where you can buy sporting gear to your map."
+    }
+  },
+  {
+    "id": "nightlifepamphlet",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "nightlife pamphlet" },
+    "description": "A small pamphlet advertising different pets and local pet related facilities and shops. Using it will add roads, pet shops, animal shelters, parks, trailheads and vets to your map.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [ "bridge", "road", { "om_terrain": "bar", "om_terrain_match_type": "PREFIX" }, "music_venue", "car_theater", "gambling_hall" ],
+      "message": "You add roads, gyms and pools along with shops where you can buy sporting gear to your map."
+    }
+  },
+  {
+    "id": "gunnutpamphlet",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "gun nut pamphlet" },
+    "description": "A small pamphlet advertising current shooting related events and giving directions to local shooting facilities funded by SOMESHOOTINGASSOCIATION. Using it will add roads, gun stores, shooting ranges, outdoorsman stores and any shows to your map.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [ "bridge", "road", "s_gun", "s_hunting", "s_camping", "shootingrange", "gun show" ],
+      "message": "You add roads, gyms and pools along with shops where you can buy sporting gear to your map."
     }
   },
   {
@@ -241,7 +347,14 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
-      "terrain": [ "bridge", "road", { "om_terrain": "museum", "om_terrain_match_type": "TYPE" }, "s_antique", "s_library" ],
+      "terrain": [
+        "bridge",
+        "road",
+        { "om_terrain": "museum", "om_terrain_match_type": "TYPE" },
+        "s_antique",
+        "s_library",
+        { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }
+      ],
       "message": "You add roads and local museums, libraries and antique stores to your map."
     }
   },
