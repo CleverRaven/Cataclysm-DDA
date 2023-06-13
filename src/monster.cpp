@@ -2601,9 +2601,8 @@ void monster::die( Creature *nkiller )
     }
     mission::on_creature_death( *this );
 
-    // Also, perform our death function
-    if( is_hallucination() || lifespan_end ) {
-        //Hallucinations always just disappear
+    // Hallucinations always just disappear
+    if( is_hallucination() ) {
         mdeath::disappear( *this );
         return;
     }
