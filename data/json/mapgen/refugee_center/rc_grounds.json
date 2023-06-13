@@ -207,7 +207,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "refctr_S3e" ] ],
-	"//": "Temporary map until I unhardcode the locate mission",
+    "//": "Temporary map until I unhardcode the locate mission",
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
