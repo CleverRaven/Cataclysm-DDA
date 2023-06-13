@@ -178,6 +178,8 @@ constexpr bool operator>( op_t const &lhs, paren const &rhs )
     return !std::holds_alternative<paren>( lhs ) || std::less<paren> {}( rhs, std::get<paren>( lhs ) );
 }
 
+namespace math_opers
+{
 constexpr double neg( double /* zero */, double r )
 {
     return -r;
@@ -218,18 +220,56 @@ inline double math_pow( double l, double r )
     return std::pow( l, r );
 }
 
-constexpr std::array<binary_op, 6> binary_ops{
-    binary_op{ "+", 2, binary_op::associativity::left, add },
-    binary_op{ "-", 2, binary_op::associativity::left, sub },
-    binary_op{ "*", 3, binary_op::associativity::left, mul },
-    binary_op{ "/", 3, binary_op::associativity::left, div },
-    binary_op{ "%", 3, binary_op::associativity::right, mod },
-    binary_op{ "^", 4, binary_op::associativity::right, math_pow },
+inline double lt( double l, double r )
+{
+    return static_cast<double>( l < r );
+}
+
+inline double lte( double l, double r )
+{
+    return static_cast<double>( l <= r );
+}
+
+inline double gt( double l, double r )
+{
+    return static_cast<double>( l > r );
+}
+
+inline double gte( double l, double r )
+{
+    return static_cast<double>( l >= r );
+}
+
+inline double eq( double l, double r )
+{
+    return static_cast<double>( l == r );
+}
+
+inline double neq( double l, double r )
+{
+    return static_cast<double>( l != r );
+}
+
+} // namespace math_opers
+
+constexpr std::array<binary_op, 12> binary_ops{
+    binary_op{ "<", 1, binary_op::associativity::left, math_opers::lt },
+    binary_op{ "<=", 1, binary_op::associativity::left, math_opers::lte },
+    binary_op{ ">", 1, binary_op::associativity::left, math_opers::gt },
+    binary_op{ ">=", 1, binary_op::associativity::left, math_opers::gte },
+    binary_op{ "==", 1, binary_op::associativity::left, math_opers::eq },
+    binary_op{ "!=", 1, binary_op::associativity::left, math_opers::neq },
+    binary_op{ "+", 2, binary_op::associativity::left, math_opers::add },
+    binary_op{ "-", 2, binary_op::associativity::left, math_opers::sub },
+    binary_op{ "*", 3, binary_op::associativity::left, math_opers::mul },
+    binary_op{ "/", 3, binary_op::associativity::left, math_opers::div },
+    binary_op{ "%", 3, binary_op::associativity::right, math_opers::mod },
+    binary_op{ "^", 4, binary_op::associativity::right, math_opers::math_pow },
 };
 
 constexpr std::array<unary_op, 2> prefix_unary_ops{
-    unary_op{ "+", pos },
-    unary_op{ "-", neg },
+    unary_op{ "+", math_opers::pos },
+    unary_op{ "-", math_opers::neg },
 };
 
 

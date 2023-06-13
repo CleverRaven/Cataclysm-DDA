@@ -36,6 +36,11 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 114 ) );
     CHECK( testexp.parse( "50 % 3" ) );
     CHECK( testexp.eval( d ) == Approx( 2 ) );
+    // boolean
+    CHECK( testexp.parse( "1 > 2" ) );
+    CHECK( testexp.eval( d ) == Approx( 0 ) );
+    CHECK( testexp.parse( "(1 <= 2) * 3" ) );
+    CHECK( testexp.eval( d ) == Approx( 3 ) );
 
     // unary
     CHECK( testexp.parse( "-50" ) );
@@ -170,6 +175,8 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "'1':'2'" ) );
         CHECK_FALSE( testexp.parse( "2 2*2" ) ); // stray space inside variable name
         CHECK_FALSE( testexp.parse( "2+++2" ) );
+        CHECK_FALSE( testexp.parse( "1=2" ) );
+        CHECK_FALSE( testexp.parse( "1===2" ) );
         CHECK( testexp.parse( "2+3" ) );
         testexp.assign( d, 10 ); // assignment called on eval tree should not crash
     } );

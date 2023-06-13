@@ -327,7 +327,7 @@ void math_exp::math_exp_impl::maybe_first_argument()
 
 void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
 {
-    constexpr std::string_view expression_separators = "+-*/^,()%':";
+    constexpr std::string_view expression_separators = "+-*/^,()%':><=!";
     state = {};
     for( std::string_view const token : tokenize( str, expression_separators ) ) {
         last_token = token;
