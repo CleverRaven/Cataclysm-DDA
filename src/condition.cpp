@@ -2941,6 +2941,16 @@ void conditional_t::set_is_on_terrain( const JsonObject &jo, const std::string &
     };
 }
 
+void conditional_t::set_is_on_terrain_with_flag( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [terrain_type, is_npc]( dialogue const & d ) {
+        map &here = get_map();
+        return here.ter( d.actor( is_npc )->pos() )->has_flag( terrain_type.evaluate( d ) );
+    };
+}
+
 void conditional_t::set_is_in_field( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -3206,6 +3216,10 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_is_on_terrain( jo, "u_is_on_terrain" );
     } else if( jo.has_string( "npc_is_on_terrain" ) ) {
         set_is_on_terrain( jo, "npc_is_on_terrain", is_npc );
+    } else if( jo.has_string( "u_is_on_terrain_with_flag" ) ) {
+        set_is_on_terrain_with_flag( jo, "u_is_on_terrain_with_flag" );
+    } else if( jo.has_string( "npc_is_on_terrain_with_flag" ) ) {
+        set_is_on_terrain_with_flag( jo, "npc_is_on_terrain_with_flag", is_npc );
     } else if( jo.has_string( "u_is_in_field" ) ) {
         set_is_in_field( jo, "u_is_in_field" );
     } else if( jo.has_string( "npc_is_in_field" ) ) {
