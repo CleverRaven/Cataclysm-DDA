@@ -1430,6 +1430,19 @@ Common math functions are supported:
 
 Function composition is also supported, for example `sin( rng(0, max( 0.5, u_sin_var ) ) )`
 
+#### Ternary and inline boolean operators
+Inline comparison operators evaluate as 1 for true and 0 for false.
+
+Ternary operators take the form `condition ? true_value : false_value`. They are right-associative so a chained ternary like `a ? b : c ? d :e` is parsed as `a ? b : (c ? d : e)`.
+
+Examples:
+```JSON
+    "//0": "returns 5 if u_blorg is greater than 4, otherwise 0",
+    { "math": [ "( u_blorg > 4 ) * 5" ] },
+    "//1": "returns rng( 0.5, 5 ) if u_blorg is greater than 5, otherwise rand(100)"
+    { "math": [ "u_blorg > 5 ? rng( 0.5, 5 ) : rand(100)" ] },
+```
+
 #### Dialogue functions
 Dialogue functions return or manipulate game values. They are scoped just like [variables](#variables).
 
