@@ -1958,45 +1958,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_npc_anger();
             };
-        } else if( checked_value == "monsters_nearby" ) {
-            std::optional<var_info> target_var;
-            if( jo.has_object( "target_var" ) ) {
-                read_var_info( jo.get_member( "target_var" ) );
-            }
-            str_or_var id;
-            if( jo.has_member( "id" ) ) {
-                id = get_str_or_var( jo.get_member( "id" ), "id", false, "" );
-            } else {
-                id.str_val = "";
-            }
-            dbl_or_var radius_dov;
-            dbl_or_var number_dov;
-            if constexpr( std::is_same_v<JsonObject, J> ) {
-                radius_dov = get_dbl_or_var( jo, "radius", false, 10000 );
-                number_dov = get_dbl_or_var( jo, "number", false, 1 );
-            }
-            return [target_var, radius_dov, id, number_dov, is_npc]( dialogue & d ) {
-                tripoint_abs_ms loc;
-                if( target_var.has_value() ) {
-                    loc = get_tripoint_from_var( target_var, d );
-                } else {
-                    loc = d.actor( is_npc )->global_pos();
-                }
-
-                int radius = radius_dov.evaluate( d );
-                std::vector<Creature *> targets = g->get_creatures_if( [&radius, id, &d,
-                         loc]( const Creature & critter ) {
-                    if( critter.is_monster() ) {
-                        // friendly to the player, not a target for us
-                        return critter.as_monster()->friendly == 0 &&
-                               radius >= rl_dist( critter.get_location(), loc ) &&
-                               ( id.evaluate( d ).empty() ||
-                                 critter.as_monster()->type->id == mtype_id( id.evaluate( d ) ) );
-                    }
-                    return false;
-                } );
-                return static_cast<int>( targets.size() );
-            };
         } else if( checked_value == "spell_level" ) {
             if( jo.has_member( "school" ) ) {
                 const std::string school_name = jo.get_string( "school" );

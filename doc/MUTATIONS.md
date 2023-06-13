@@ -297,6 +297,10 @@ These fields are optional, but are very frequently used in mutations and their c
 
 There are many, many optional fields present for mutations to let them do all sorts of things. You can see them documented above.
 
+### EOC details
+
+Mutations support EOC on activate, deactivate and for processing. As well for each of those the EOC has access to the context variable `this` which is the ID of the mutation itself.
+
 ### Sample trait: Example Sleep
 
 ```json

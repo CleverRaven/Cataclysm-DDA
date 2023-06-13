@@ -472,6 +472,11 @@
   },
   {
     "type": "item_action",
+    "id": "MACE",
+    "name": { "str": "Spray" }
+  },
+  {
+    "type": "item_action",
     "id": "EYEDROPS",
     "name": { "str": "Use" }
   },

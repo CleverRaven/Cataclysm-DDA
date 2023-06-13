@@ -185,7 +185,7 @@
               "and": [
                 { "u_has_effect": "webbed" },
                 { "one_in_chance": 6 },
-                { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, "<", { "const": 1 } ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
                 { "math": [ "void_spider_lairs_visited", ">", "void_spider_killed" ] }
               ]
             },
@@ -199,7 +199,7 @@
             "condition": {
               "and": [
                 { "one_in_chance": 120 },
-                { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, "<", { "const": 1 } ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
                 { "math": [ "void_spider_lairs_visited", ">", "void_spider_killed" ] }
               ]
             },
@@ -213,10 +213,8 @@
             "condition": {
               "and": [
                 { "or": [ { "u_has_effect": "webbed" }, { "u_has_effect": "grabbed" } ] },
-                { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, "=", { "const": 1 } ] },
-                {
-                  "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider_maw" }, "<", { "const": 4 } ]
-                }
+                { "math": [ "u_monsters_nearby('mon_void_spider')", "==", "1" ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider_maw')", "<", "4" ] }
               ]
             },
             "effect": [
@@ -277,7 +275,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_DISTURBED_NEST",
     "global": true,
-    "condition": { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, ">=", { "const": 1 } ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_void_spider')", ">=", "1" ] },
     "effect": [
       { "u_message": "The shadows of frenzied limbs slip into reality", "type": "info" },
       {

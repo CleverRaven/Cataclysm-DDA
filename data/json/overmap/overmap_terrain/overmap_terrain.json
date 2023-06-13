@@ -187,6 +187,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "special_air",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "looks_like": "open_air",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "riverside_dwelling",
       "riverside_dwelling1",

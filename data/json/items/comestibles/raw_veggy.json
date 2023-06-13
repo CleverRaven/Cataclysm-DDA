@@ -1166,5 +1166,26 @@
     "volume": "4500 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_bottle_gourd"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "eggplant",
+    "name": { "str_sp": "eggplant" },
+    "comestible_type": "FOOD",
+    "weight": "194 g",
+    "volume": "250 ml",
+    "price": 20,
+    "price_postapoc": 50,
+    "color": "black",
+    "material": [ "veggy" ],
+    "calories": 40,
+    "spoils_in": "20 days",
+    "description": "A normal and healthy purple eggplant.",
+    "healthy": -1,
+    "symbol": "e",
+    "looks_like": "eggplant",
+    "flags": [ "RAW" ],
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ], [ "vitC", 10 ] ],
+    "fun": -5
   }
 ]

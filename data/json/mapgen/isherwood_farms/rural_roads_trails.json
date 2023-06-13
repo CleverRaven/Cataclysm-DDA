@@ -393,6 +393,12 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "pasture",
+    "object": { "predecessor_mapgen": "field" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "special_forest",
     "object": { "predecessor_mapgen": "forest" }
   },
@@ -401,5 +407,11 @@
     "method": "json",
     "om_terrain": "special_forest_thick",
     "object": { "predecessor_mapgen": "forest_thick" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "special_air",
+    "object": { "predecessor_mapgen": "open_air" }
   }
 ]

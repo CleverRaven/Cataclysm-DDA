@@ -21,8 +21,6 @@
     "type": "vehicle_part",
     "name": { "str": "standing lamp" },
     "item": "test_standing_lamp",
-    "symbol": "*",
-    "broken_symbol": "-",
     "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "blue",
@@ -38,7 +36,8 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
   },
   {
     "type": "TOOL",
@@ -70,10 +69,8 @@
     "type": "vehicle_part",
     "id": "test_power_cord",
     "name": { "str": "power cord" },
-    "symbol": "{",
     "categories": [ "other" ],
     "color": "yellow",
-    "broken_symbol": "s",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
     "epower": "0 W",
@@ -81,7 +78,8 @@
     "durability": 120,
     "description": "A power cord sticking out of an appliance.  You need to plug it in a powered grid for the appliance to work properly.",
     "item": "test_power_cord",
-    "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ]
+    "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "variants": [ { "symbols": "{", "symbols_broken": "s" } ]
   },
   {
     "type": "TOOL",
@@ -103,10 +101,8 @@
     "type": "vehicle_part",
     "id": "test_extension_cable",
     "name": { "str": "extension cord" },
-    "symbol": "{",
     "categories": [ "other" ],
     "color": "yellow",
-    "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
     "epower": "1 kW",
@@ -116,7 +112,8 @@
     "item": "test_extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
-    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
+    "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
     "type": "TOOL",
@@ -148,10 +145,8 @@
     "type": "vehicle_part",
     "id": "test_power_cord_25_loss",
     "name": { "str": "test 25% loss extension cord part" },
-    "symbol": "{",
     "categories": [ "other" ],
     "color": "yellow",
-    "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
     "epower": "25 kW",
@@ -161,6 +156,7 @@
     "item": "test_power_cord_25_loss",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
-    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
+    "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   }
 ]

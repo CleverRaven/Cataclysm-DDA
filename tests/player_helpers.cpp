@@ -25,6 +25,7 @@
 #include "point.h"
 #include "profession.h"
 #include "ret_val.h"
+#include "skill.h"
 #include "stomach.h"
 #include "type_id.h"
 
@@ -82,6 +83,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.stomach.empty();
     dummy.guts.empty();
     dummy.clear_vitamins();
+    dummy.health_tally = 0;
     dummy.update_body( calendar::turn, calendar::turn ); // sets last_updated to current turn
     if( !skip_nutrition ) {
         item food( "debug_nutrition" );
@@ -94,7 +96,9 @@ void clear_character( Character &dummy, bool skip_nutrition )
     // However, the above does not set stored kcal
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
-    dummy.empty_skills();
+    dummy.prof = profession::generic();
+    dummy.hobbies.clear();
+    dummy._skills->clear();
     dummy.martial_arts_data->clear_styles();
     dummy.clear_morale();
     dummy.clear_bionics();
@@ -131,8 +135,6 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_per_bonus( 0 );
 
     dummy.cash = 0;
-
-    dummy.prof = profession::generic();
 
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
@@ -190,8 +192,10 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
 
 void clear_avatar()
 {
-    clear_character( get_avatar() );
-    get_avatar().clear_identified();
+    avatar &avatar = get_avatar();
+    clear_character( avatar );
+    avatar.clear_identified();
+    avatar.clear_nutrition();
 }
 
 void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
