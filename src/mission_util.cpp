@@ -456,8 +456,11 @@ void mission_util::set_reveal_any( const JsonArray &ja,
 void mission_util::set_reveal_road( const std::string &terrain,
                                std::vector<std::function<void( mission *miss )>> &funcs )
 {
+	const tripoint_abs_omt destination = reveal_destination( terrain );
     const auto mission_func = [ terrain ]( mission * miss ) {
-        reveal_route( miss, terrain );
+		if( destination != overmap::invalid_tripoint ) {
+			reveal_route( miss, destination );
+		}
     };
 }
 
