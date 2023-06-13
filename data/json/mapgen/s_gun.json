@@ -61,7 +61,7 @@
         "  |..................3  ",
         "  |..................3  ",
         "  5...............1113  ",
-        "  |...............1>13  ",
+        "  |...............1v13  ",
         "  |...............1013  ",
         "  |...............1+13  ",
         "  |..............32223  ",
@@ -71,7 +71,7 @@
         "  |222222222222222      "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down", "1": "t_wall_w", "+": "t_door_metal_pickable", "0": "t_thconc_floor" },
+      "terrain": { "1": "t_wall_w", "+": "t_door_metal_pickable", "0": "t_thconc_floor" },
       "place_nested": [
         {
           "chunks": [
@@ -233,7 +233,7 @@
         "  |..................3  ",
         "  |..................3  ",
         "  |.1111.............3  ",
-        "  |.+0>1.............3  ",
+        "  |.+0v1.............3  ",
         "  |.1111.............5  ",
         "  |------------------3  ",
         "                        ",
@@ -241,7 +241,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down", "1": "t_wall_w", "+": "t_door_metal_pickable", "0": "t_thconc_floor" },
+      "terrain": { "1": "t_wall_w", "+": "t_door_metal_pickable", "0": "t_thconc_floor" },
       "place_nested": [
         {
           "chunks": [
@@ -401,7 +401,6 @@
         "  |-----------------3   "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "?": "t_open_air_rooved" },
       "place_nested": [
         {
           "chunks": [

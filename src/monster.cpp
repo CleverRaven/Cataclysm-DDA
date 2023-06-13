@@ -1095,7 +1095,15 @@ bool monster::has_flag( const m_flag f ) const
 
 bool monster::has_flag( const flag_id f ) const
 {
-    return has_effect_with_flag( f );
+    std::optional<m_flag>checked = io::string_to_enum_optional<m_flag>( f.c_str() );
+    add_msg_debug( debugmode::DF_MONSTER,
+                   "Monster %s checked for flag %s", name(),
+                   f.c_str() );
+    if( checked.has_value() ) {
+        return  has_flag( checked.value() );
+    } else {
+        return has_effect_with_flag( f );
+    }
 }
 
 bool monster::can_see() const

@@ -1178,6 +1178,61 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "helmet_riding",
+    "repairs_like": "nomex_hood",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "riding helmet" },
+    "description": "A helmet designed to protect from falls and kicks involving horses, has a small peak to protect from glare",
+    "weight": "660 g",
+    "volume": "1800 ml",
+    "price": 7000,
+    "price_postapoc": 300,
+    "techniques": [ "WBLOCK_1" ],
+    "material": [ "plastic", "epoxy", "plastic_pad" ],
+    "symbol": "[",
+    "looks_like": "helmet_bike",
+    "non_functional": "helmet_riding_peakless",
+    "color": "dark_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 }
+        ],
+        "encumbrance_modifiers": [ "NONE" ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 }
+        ],
+        "encumbrance_modifiers": [ "NONE" ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "coverage": 90
+      }
+    ],
+    "warmth": 20,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "helmet_riding_peakless",
+    "type": "ARMOR",
+    "copy-from": "helmet_riding",
+    "name": { "str": "jockey skull cap" },
+    "description": "A helmet designed to protect from falls and kicks involving horses.",
+    "weight": "650 g",
+    "volume": "1750 ml",
+    "delete": { "flags": [ "SUN_GLASSES" ] }
+  },
+  {
     "id": "helmet_nasal",
     "type": "ARMOR",
     "category": "armor",

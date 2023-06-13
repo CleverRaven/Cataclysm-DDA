@@ -432,6 +432,7 @@ canina
 cannelured
 caparison
 caprison
+capsicum
 carabiner
 carabiners
 carapace
@@ -1360,6 +1361,8 @@ hygroscopic
 hyolith
 hypacrosaurus
 hyperaggressive
+hyperboloid
+hyperboloids
 hyperdimensional
 hypergeometric
 hypermedia
@@ -1842,6 +1845,7 @@ multiplier
 multipronged
 multitool
 multiversal
+mundanity
 murderball
 murdersaw
 musculoskeletal
@@ -1974,6 +1978,7 @@ offroad
 ohms
 oignon
 oleaginous
+oleoresin
 olieribos
 olor
 omnivore

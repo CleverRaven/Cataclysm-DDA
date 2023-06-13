@@ -4,6 +4,7 @@
 #include "effect_on_condition.h"
 #include "game.h"
 #include "map_helpers.h"
+#include "mutation.h"
 #include "timed_event.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -16,6 +17,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
+static const effect_on_condition_id
+effect_on_condition_EOC_activate_mutation_to_start_test( "EOC_activate_mutation_to_start_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
 static const effect_on_condition_id
@@ -57,6 +60,10 @@ static const mtype_id mon_zombie( "mon_zombie" );
 static const recipe_id recipe_cattail_jelly( "cattail_jelly" );
 
 static const skill_id skill_survival( "survival" );
+
+static const trait_id trait_process_mutation( "process_mutation" );
+static const trait_id trait_process_mutation_two( "process_mutation_two" );
+
 
 namespace
 {
@@ -258,6 +265,7 @@ TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
     CHECK( d.get_value( "npctalk_var_simple" ).empty() );
 }
 
+
 TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 {
     clear_avatar();
@@ -265,6 +273,8 @@ TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
+
+
     globvars.clear_global_values();
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
@@ -310,7 +320,47 @@ TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 4 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 9 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 0 ) );
+}
 
+TEST_CASE( "EOC_mutation_test", "[eoc][mutations]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+
+    avatar &me = get_avatar();
+
+    // test activation
+    globvars.clear_global_values();
+    me.toggle_trait( trait_process_mutation_two );
+    me.activate_mutation( trait_process_mutation_two );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
+               1 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation_two" );
+
+    // test process
+    globvars.clear_global_values();
+    me.suffer();
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
+               1 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation_two" );
+
+    // test deactivate
+    globvars.clear_global_values();
+    me.deactivate_mutation( trait_process_mutation_two );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
+               1 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation_two" );
+
+    // more complex test
+    globvars.clear_global_values();
+    me.toggle_trait( trait_process_mutation );
+    effect_on_condition_EOC_activate_mutation_to_start_test->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
+               1 ) );
+    CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation" );
 }
 
 TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )

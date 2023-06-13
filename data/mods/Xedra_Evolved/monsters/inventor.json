@@ -62,7 +62,7 @@
     "id": "mon_shotgunbot",
     "type": "MONSTER",
     "name": { "str": "shotgun bot" },
-    "description": "Heavy, but quick drone of a four legs, that hold a massive shotgun system above himself.  Effectively a machinegun with legs.",
+    "description": "Heavy, but quick drone of a two legs, that hold a massive shotgun system above himself.  Effectively a machinegun with legs.",
     "copy-from": "mon_sniperbot",
     "species": [ "ROBOT" ],
     "tracking_distance": 4,

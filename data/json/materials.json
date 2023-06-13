@@ -1447,9 +1447,9 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
-      { "fuel": 0.6, "smoke": 1, "burn": 0.025, "volume_per_turn": "200 ml" },
-      { "fuel": 1.2, "smoke": 1, "burn": 0.05, "volume_per_turn": "825 ml" },
-      { "fuel": 1.8, "smoke": 1, "burn": 0.075 }
+      { "fuel": 1.1, "smoke": 1, "burn": 0.025 },
+      { "fuel": 2.2, "smoke": 1, "burn": 0.05 },
+      { "fuel": 3.3, "smoke": 1, "burn": 0.075 }
     ],
     "burn_products": [ [ "ash", 0.013 ] ],
     "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 0, "bullet": 1 }
