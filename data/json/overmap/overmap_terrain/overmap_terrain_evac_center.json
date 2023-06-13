@@ -8,51 +8,9 @@
   },
   {
     "type": "overmap_terrain",
-    "abstract": "generic_evac_center_road",
-    "copy-from": "generic_evac_center",
-    "name": "road",
-    "looks_like": "road",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "abstract": "generic_evac_center_fence",
-    "copy-from": "generic_evac_center",
+    "abstract": "generic_fence",
     "name": "fence",
     "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_1",
-    "copy-from": "generic_evac_center_road",
-    "sym": "┌"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "evac_center_2", "evac_center_3", "evac_center_4", "evac_center_22", "evac_center_24" ],
-    "copy-from": "generic_evac_center_road",
-    "sym": "─"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_5",
-    "copy-from": "generic_evac_center_road",
-    "sym": "┐"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "evac_center_6",
-      "evac_center_10",
-      "evac_center_11",
-      "evac_center_15",
-      "evac_center_16",
-      "evac_center_20",
-      "refctr_S3e",
-      "refctr_road"
-    ],
-    "copy-from": "generic_evac_center_road",
-    "sym": "│"
   },
   {
     "type": "overmap_terrain",
@@ -91,24 +49,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "evac_center_21",
-    "copy-from": "generic_evac_center_road",
-    "sym": "└"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_23",
-    "copy-from": "generic_evac_center_road",
-    "sym": "┬"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_25",
-    "copy-from": "generic_evac_center_road",
-    "sym": "┘"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "refctr_field",
     "see_cost": 2,
     "name": "field",
@@ -120,37 +60,37 @@
   {
     "type": "overmap_terrain",
     "id": "refctr_fence_NW",
-    "copy-from": "generic_evac_center_fence",
+    "copy-from": "generic_fence",
     "sym": "┌"
   },
   {
     "type": "overmap_terrain",
     "id": [ "refctr_fence_h", "refctr_fence_entrance_L", "refctr_fence_entrance_R" ],
-    "copy-from": "generic_evac_center_fence",
+    "copy-from": "generic_fence",
     "sym": "─"
   },
   {
     "type": "overmap_terrain",
     "id": "refctr_fence_NE",
-    "copy-from": "generic_evac_center_fence",
+    "copy-from": "generic_fence",
     "sym": "┐"
   },
   {
     "type": "overmap_terrain",
     "id": "refctr_fence_v",
-    "copy-from": "generic_evac_center_fence",
+    "copy-from": "generic_fence",
     "sym": "│"
   },
   {
     "type": "overmap_terrain",
     "id": "refctr_fence_SE",
-    "copy-from": "generic_evac_center_fence",
+    "copy-from": "generic_fence",
     "sym": "┘"
   },
   {
     "type": "overmap_terrain",
     "id": "refctr_fence_SW",
-    "copy-from": "generic_evac_center_fence",
+    "copy-from": "generic_fence",
     "sym": "└"
   }
 ]
