@@ -213,7 +213,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
     "target": "BIOLUM1",                      // Trait_id of the mutation this one will transform into.
     "msg_transform": "You turn your photophore OFF.", // Message displayed upon transformation.
     "active": false,                          // If true, mutation will start powered when activated (turn ON).
-    "moves": 100                              // Moves cost per activation (default: 0).
+    "moves": 100,                              // Moves cost per activation (default: 0).
+    "safe": false                              // If true the transformation will use the normal mutation progression rules - removing conflicting traits, requiring thresholds (but not using any vitamins or causing instability)
   },
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
