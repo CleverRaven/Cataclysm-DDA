@@ -48,6 +48,7 @@
       "evac_center_15",
       "evac_center_16",
       "evac_center_20",
+      "refctr_S3e",
       "refctr_road"
     ],
     "copy-from": "generic_evac_center_road",
