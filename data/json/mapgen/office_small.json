@@ -114,7 +114,7 @@
         "|........M.............3",
         "|-|..................3-3",
         "  |..............%%%%3  ",
-        "  |..............+*>%3  ",
+        "  |..............+*v%3  ",
         "  |..............%%%%3  ",
         "|25..................323",
         "|......................3",
@@ -128,7 +128,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "%": "t_brick_wall", ">": "t_ladder_down", "+": "t_door_c", "*": "t_concrete" },
+      "terrain": { "%": "t_brick_wall", "+": "t_door_c", "*": "t_concrete" },
       "nested": {
         "U": { "chunks": [ "roof_2x2_infrastructure" ] },
         "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
