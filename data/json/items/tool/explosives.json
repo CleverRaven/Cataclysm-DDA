@@ -111,6 +111,7 @@
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Light fuse" },
     "explode_in_fire": true,
     "explosion": { "power": 938 },
+    "flags": [ "TRADER_AVOID", "BOMB" ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 938 } },
     "melee_damage": { "bash": 4 }
   },
@@ -159,6 +160,7 @@
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Pull pin" },
     "explode_in_fire": true,
     "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } },
+    "flags": [ "TRADER_AVOID", "BOMB" ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } } },
     "melee_damage": { "bash": 4 }
   },
