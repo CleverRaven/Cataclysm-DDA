@@ -299,5 +299,20 @@
       "ter_furn_transforms": { "r": { "transform": "mapgen_test" } },
       "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ]
     }
+  },
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "map_extras": {
+      "forest": { "extras": { "mx_crater": 0 } },
+      "forest_thick": { "extras": { "mx_crater": 0 } },
+      "forest_water": { "extras": { "mx_crater": 0 } },
+      "field": { "extras": { "mx_crater": 0 } },
+      "road": { "extras": { "mx_crater": 0 } },
+      "build": { "extras": { "mx_crater": 0 } },
+      "research_facility_lot": { "extras": { "mx_crater": 0 } },
+      "research_facility_interior": { "extras": { "mx_crater": 0 } },
+      "agricultural": { "extras": { "mx_crater": 0 } }
+    }
   }
 ]
