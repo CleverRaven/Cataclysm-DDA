@@ -17,7 +17,16 @@
           "dreamdross_lump",
           "forged_dreamstuff_ingot"
         ],
-        "type": "recipe"
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_MESSAGE_SCORE_TIMER",
+          "effect": [
+            {
+              "u_message": "Something sparked in your head, and you realize an interesting property of dreamdross.  Maybe you can forge something new?",
+              "type": "info"
+            }
+          ]
+        }
       }
     ]
   },
@@ -79,17 +88,27 @@
           "dreamforged_helmet_ench",
           "dreamforged_plate_armor_ench",
           "dreamforged_armguard_plate_ench",
-          "dreamforged_boots_ench"
+          "dreamforged_boots_ench",
+          "dreamforged_longbow",
+          "arrow_dreamforged",
+          "dreamforged_crossbow",
+          "bolt_dreamforged"
         ],
-        "type": "recipe"
-      },
-      {
-        "u_message": "A brilliant idea about the dreamdross properties hit your head, and you think you know how to utilize one now.",
-        "type": "info"
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_MESSAGE_POSITIVE",
+          "effect": [
+            {
+              "u_message": "A brilliant idea about the properties of dreamdross  hits your head, and you think you know how to utilize it now.",
+              "type": "good"
+            }
+          ]
+        }
       },
       { "math": [ "DREAMSMITH_RECIPE_SCORE", "=", "0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "100" ] }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You tried to test a new idea, but it failed.  Try again.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -114,11 +133,16 @@
           "dreamforged_q_staff_exp",
           "dreamforged_armguard_plate_gunslinger"
         ],
-        "type": "recipe"
-      },
-      {
-        "u_message": "You found pretty smart way to utilize a dreamdross abilities, and you can't wait to use it.",
-        "type": "info"
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_SUPER_MESSAGE_POSITIVE",
+          "effect": [
+            {
+              "u_message": "You found a pretty smart way to utilize dreamdross' abilities, and you can't wait to use it.",
+              "type": "good"
+            }
+          ]
+        }
       },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", "=", "0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET", "+=", "200" ] }
