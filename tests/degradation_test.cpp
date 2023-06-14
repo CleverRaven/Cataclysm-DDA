@@ -426,6 +426,8 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
         item gun( itype_test_glock_degrade );
         clear_character( u );
         u.set_skill_level( skill_mechanics, 10 );
+        clear_map();
+        set_time_to_day();
 
         WHEN( "0 damage / 0 degradation" ) {
             gun.set_damage( 0 );
