@@ -4200,7 +4200,8 @@
     "name": "arming swords",
     "description": "Recipes for making arming swords.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_arming_sword", "mc_arming_sword", "hc_arming_sword", "ch_arming_sword", "qt_arming_sword" ]
+    "nested_category_data": [ "lc_arming_sword", "mc_arming_sword", "hc_arming_sword", "ch_arming_sword", "qt_arming_sword" ],
+    "difficulty": 7
   },
   {
     "id": "nested_broadsword",
@@ -4211,7 +4212,8 @@
     "name": "broadswords",
     "description": "Recipes for making broadswords.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_broadsword", "mc_broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ]
+    "nested_category_data": [ "lc_broadsword", "mc_broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ],
+    "difficulty": 7
   },
   {
     "id": "nested_cavalry_sabre",
@@ -4222,7 +4224,8 @@
     "name": "cavalry sabres",
     "description": "Recipes for making cavalry sabres.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_cavalry_sabre", "mc_cavalry_sabre", "hc_cavalry_sabre", "ch_cavalry_sabre", "qt_cavalry_sabre" ]
+    "nested_category_data": [ "lc_cavalry_sabre", "mc_cavalry_sabre", "hc_cavalry_sabre", "ch_cavalry_sabre", "qt_cavalry_sabre" ],
+    "difficulty": 7
   },
   {
     "id": "nested_cutlass",
@@ -4233,7 +4236,8 @@
     "name": "cutlasses",
     "description": "Recipes for making cutlasses.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ]
+    "nested_category_data": [ "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ],
+    "difficulty": 7
   },
   {
     "id": "nested_estoc",
@@ -4255,7 +4259,8 @@
     "name": "falxes",
     "description": "Recipes for making falxes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_falx", "mc_falx", "hc_falx", "ch_falx", "qt_falx" ]
+    "nested_category_data": [ "lc_falx", "mc_falx", "hc_falx", "ch_falx", "qt_falx" ],
+    "difficulty": 7
   },
   {
     "id": "nested_jian",
@@ -4266,7 +4271,8 @@
     "name": "jians",
     "description": "Recipes for making jians.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_jian", "mc_jian", "hc_jian", "ch_jian", "qt_jian" ]
+    "nested_category_data": [ "lc_jian", "mc_jian", "hc_jian", "ch_jian", "qt_jian" ],
+    "difficulty": 7
   },
   {
     "id": "nested_katana",
@@ -4277,7 +4283,8 @@
     "name": "katanas",
     "description": "Recipes for making katanas.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_katana", "mc_katana", "hc_katana", "ch_katana", "qt_katana" ]
+    "nested_category_data": [ "lc_katana", "mc_katana", "hc_katana", "ch_katana", "qt_katana" ],
+    "difficulty": 7
   },
   {
     "id": "nested_kriegsmesser",
@@ -4288,7 +4295,8 @@
     "name": "kriegsmessers",
     "description": "Recipes for making kriegsmessers.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_kriegsmesser", "mc_kriegsmesser", "hc_kriegsmesser", "ch_kriegsmesser", "qt_kriegsmesser" ]
+    "nested_category_data": [ "lc_kriegsmesser", "mc_kriegsmesser", "hc_kriegsmesser", "ch_kriegsmesser", "qt_kriegsmesser" ],
+    "difficulty": 5
   },
   {
     "id": "nested_longsword",
@@ -4299,7 +4307,8 @@
     "name": "longswords",
     "description": "Recipes for making longswords.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_longsword", "mc_longsword", "hc_longsword", "ch_longsword", "qt_longsword" ]
+    "nested_category_data": [ "lc_longsword", "mc_longsword", "hc_longsword", "ch_longsword", "qt_longsword" ],
+    "difficulty": 7
   },
   {
     "id": "nested_nodachi",
@@ -4310,7 +4319,8 @@
     "name": "nodachis",
     "description": "Recipes for making nodachis.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_nodachi", "mc_nodachi", "hc_nodachi", "ch_nodachi", "qt_nodachi" ]
+    "nested_category_data": [ "lc_nodachi", "mc_nodachi", "hc_nodachi", "ch_nodachi", "qt_nodachi" ],
+    "difficulty": 7
   },
   {
     "id": "nested_rapier",
@@ -4332,7 +4342,8 @@
     "name": "scimitars",
     "description": "Recipes for making scimitars.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_scimitar", "mc_scimitar", "hc_scimitar", "ch_scimitar", "qt_scimitar" ]
+    "nested_category_data": [ "lc_scimitar", "mc_scimitar", "hc_scimitar", "ch_scimitar", "qt_scimitar" ],
+    "difficulty": 7
   },
   {
     "id": "nested_wakizashi",
@@ -4343,7 +4354,8 @@
     "name": "wakizashis",
     "description": "Recipes for making wakizashis.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_wakizashi", "mc_wakizashi", "hc_wakizashi", "ch_wakizashi", "qt_wakizashi" ]
+    "nested_category_data": [ "lc_wakizashi", "mc_wakizashi", "hc_wakizashi", "ch_wakizashi", "qt_wakizashi" ],
+    "difficulty": 7
   },
   {
     "id": "nested_zweihander",
@@ -4354,7 +4366,19 @@
     "name": "zweihänders",
     "description": "Recipes for making zweihänders.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ]
+    "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_methanol_tank",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "name": "methanol fuel cartridges",
+    "description": "Recipes related to refilling methanol fuel cartridges.",
+    "skill_used": "mechanics",
+    "nested_category_data": [ "5l_methanol_tank", "10l_methanol_tank", "28l_methanol_tank", "60l_methanol_tank" ]
   },
   {
     "id": "nested_aluminum_scrap",
@@ -4732,6 +4756,45 @@
     "description": "Recipes related to constructing all wooden posts.",
     "skill_used": "fabrication",
     "nested_category_data": [ "nested_posts_short", "nested_posts_normal", "wooden_post_long" ]
+  },
+  {
+    "id": "nested_bots",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "name": "inactive bots",
+    "description": "Recipes related to constructing deployable robots.",
+    "skill_used": "electronics",
+    "nested_category_data": [
+      "bot_crows_m240",
+      "bot_rifleturret",
+      "bot_c4_hack",
+      "bot_hazmatbot",
+      "bot_EMP_hack",
+      "bot_eyebot",
+      "bot_flashbang_hack",
+      "bot_grenade_hack",
+      "bot_grocerybot",
+      "bot_science_bot",
+      "bot_talon_m202a1",
+      "bot_antimateriel",
+      "bot_manhack",
+      "bot_dispatch",
+      "bot_dispatch_military",
+      "bot_turret_searchlight",
+      "bot_molebot",
+      "bot_mininuke_hack",
+      "bot_nursebot",
+      "bot_copbot",
+      "bot_riotbot",
+      "bot_skitterbot",
+      "bot_secubot",
+      "bot_tazer_hack",
+      "bot_gasbomb_hack",
+      "bot_turret"
+    ],
+    "difficulty": 3
   },
   {
     "id": "nested_planks_all",
