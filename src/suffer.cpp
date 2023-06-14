@@ -282,6 +282,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
         // if you haven't deactivated then run the EOC
         for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
             dialogue d( get_talker_for( you ), nullptr );
+            d.set_value( "npctalk_var_this", mut_id.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {
@@ -1284,8 +1285,8 @@ void suffer::from_other_mutations( Character &you )
 void suffer::from_radiation( Character &you )
 {
     map &here = get_map();
-    // checking for radioactive items in inventory
-    const float item_radiation = you.leak_level();
+    // get radioactive leak level of your inventory
+    float item_radiation = you.get_leak_level();
     const int map_radiation = here.get_radiation( you.pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 

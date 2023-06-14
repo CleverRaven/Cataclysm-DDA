@@ -390,6 +390,7 @@ bugout
 buildups
 builtin
 bulette
+bulkiness
 bullhead
 bullpup
 bumbles
@@ -432,6 +433,7 @@ canina
 cannelured
 caparison
 caprison
+capsicum
 carabiner
 carabiners
 carapace
@@ -814,6 +816,7 @@ drivetrain
 dromaeosaurid
 dromaeosaurus
 droppers
+drotik
 drowse
 druidic
 druidry
@@ -935,6 +938,8 @@ excretions
 exhorts
 existentialists
 exoplanet
+exobay
+exodii
 exosuit
 exosuits
 expansionary
@@ -1358,6 +1363,8 @@ hygroscopic
 hyolith
 hypacrosaurus
 hyperaggressive
+hyperboloid
+hyperboloids
 hyperdimensional
 hypergeometric
 hypermedia
@@ -1840,6 +1847,7 @@ multiplier
 multipronged
 multitool
 multiversal
+mundanity
 murderball
 murdersaw
 musculoskeletal
@@ -1972,6 +1980,7 @@ offroad
 ohms
 oignon
 oleaginous
+oleoresin
 olieribos
 olor
 omnivore
@@ -2307,6 +2316,8 @@ raggiana
 railguns
 raincatcher
 rainsuit
+raketa
+raketas
 randomize
 randomizes
 rangehands
@@ -2842,6 +2853,7 @@ testbed
 tetradrachm
 tetrahedron
 th
+thaumaturgical 
 thawb
 themm
 therizinosaurus

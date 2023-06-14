@@ -3,12 +3,12 @@
     "abstract": "vehicle_alternator",
     "type": "vehicle_part",
     "fuel_type": "battery",
-    "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
     "categories": [ "energy" ],
     "description": "An alternator.",
-    "flags": [ "ALTERNATOR" ]
+    "flags": [ "ALTERNATOR" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
   },
   {
     "id": "alternator_bicycle",
@@ -74,6 +74,7 @@
     "power": "-1492 W",
     "epower": "780 W",
     "damage_modifier": 80,
+    "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 3, 6 ] },
@@ -81,11 +82,11 @@
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "60 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 6 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 6 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
     "damage_reduction": { "all": 20 }
@@ -101,6 +102,7 @@
     "power": "-2238 W",
     "epower": "1320 W",
     "damage_modifier": 80,
+    "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -108,7 +110,7 @@
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "60 m",
@@ -133,9 +135,10 @@
       { "item": "steel_chunk", "count": [ 10, 18 ] },
       { "item": "scrap", "count": [ 10, 18 ] }
     ],
+    "//1": "30 cm weld to repair per damage quadrant",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",

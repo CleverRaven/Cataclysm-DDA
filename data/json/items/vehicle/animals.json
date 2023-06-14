@@ -17,5 +17,25 @@
     "width": 4,
     "looks_like": "foldframe",
     "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "yoke_harness_heavyduty",
+    "type": "WHEEL",
+    "name": { "str": "reinforced yoke and harness", "str_pl": "reinforced yokes and harnesses" },
+    "category": "veh_parts",
+    "description": "Heavy steel beams and harness to attach a sufficiently large creature to a wheeled vehicle, allowing them to pull it along, reinforced to withstand the rigors of the apocalypse and ill-advised off-roading.  You would still need separate armor for said creature to wear.",
+    "weight": "35000 g",
+    "//": "calculating weight: yoke_harness (1000g) + frame (20 000g) + scrap (50g)x35 OR steel_lump(1000g)x5 + pipe(1250g)x2 + chain(3628)x2. Total 1: 32506g. Total 2: 35756g. With rounding and fudge factor: 35000g. Previus eyeballed guess before doing any of this math was 30000g.",
+    "volume": "20 L",
+    "price": 60000,
+    "price_postapoc": 1000,
+    "to_hit": -4,
+    "material": [ "leather", "steel" ],
+    "symbol": "H",
+    "color": "light_gray",
+    "diameter": 8,
+    "width": 4,
+    "looks_like": "yoke_harness",
+    "melee_damage": { "bash": 15 }
   }
 ]

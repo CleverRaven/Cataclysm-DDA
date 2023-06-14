@@ -73,7 +73,6 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent" },
       "place_items": [ { "item": "roof_trash", "x": [ 3, 19 ], "y": [ 3, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -164,7 +163,6 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent" },
       "place_nested": [
         {
           "chunks": [
@@ -253,7 +251,6 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent" },
       "place_items": [ { "item": "roof_trash", "x": [ 7, 13 ], "y": [ 5, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -393,7 +390,6 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent" },
       "place_items": [ { "item": "roof_trash", "x": [ 7, 15 ], "y": [ 4, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -470,9 +466,9 @@
         " |....................3 ",
         " |....................3 ",
         " |....................3 ",
-        " |.....^..............4 ",
+        " |.....&..............4 ",
         " |---5-----%%%%%%+%%%%% ",
-        "           %>%LL__z___% ",
+        "           %>%SS__z___% ",
         "           %_%__z___z_% ",
         "           %___z____zz% ",
         "           %zz_ddddzzz% ",
@@ -483,23 +479,15 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "%": "t_wall_b",
-        ">": "t_stairs_down",
-        "H": "t_wall_glass",
-        "z": "t_floor",
-        "L": "t_floor",
-        "d": "t_floor",
-        "+": "t_door_c"
-      },
-      "furniture": { "^": "f_roof_turbine_vent", "z": "f_cardboard_box", "d": "f_mannequin" },
+      "terrain": { "%": "t_wall_b", "H": "t_wall_glass", "z": "t_floor", "S": "t_floor", "d": "t_floor", "+": "t_door_c" },
+      "furniture": { "z": "f_cardboard_box", "d": "f_mannequin" },
       "items": {
         "z": [
           { "item": "dresses_womens", "chance": 70 },
           { "item": "shirts_summer_womens", "chance": 70 },
           { "item": "pants_summer_womens", "chance": 70 }
         ],
-        "L": { "item": "SUS_kitchen_sink", "chance": 70 }
+        "S": { "item": "SUS_kitchen_sink", "chance": 70 }
       },
       "place_nested": [
         {
@@ -549,8 +537,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
+      "palettes": [ "roof_palette" ]
     }
   },
   {
@@ -690,7 +677,6 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" },
       "place_nested": [
         {
           "chunks": [
@@ -779,7 +765,6 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster" },
       "place_nested": [
         {
           "chunks": [

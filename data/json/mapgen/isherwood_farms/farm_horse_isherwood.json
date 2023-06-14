@@ -145,18 +145,7 @@
         "m": { "item": { "item": "soybean_seed" }, "furniture": "f_planter_harvest" },
         "u": { "item": { "item": "seed_beans" }, "furniture": "f_planter_harvest" }
       },
-      "items": {
-        "k": { "item": "office", "chance": 30 },
-        "f": { "item": "fridge", "chance": 30 },
-        "o": { "item": "oven", "chance": 30 },
-        "8": { "item": "ranch_homebooks", "chance": 30 },
-        "r": { "item": "restaur_kitchen", "chance": 30 },
-        "c": { "item": "kitchen_counters", "chance": 30 },
-        "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
-        "2": { "item": "metal_workshop", "chance": 30, "repeat": [ 2, 4 ] },
-        "7": { "item": "horse_gear", "chance": 30 },
-        "^": { "item": "horse_gear", "chance": 30 }
-      },
+      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] } },
       "place_loot": [
         { "item": "television", "x": 17, "y": 88, "chance": 100 },
         { "item": "stepladder", "x": 67, "y": 43, "chance": 100 },
@@ -380,7 +369,7 @@
         "     |-vv-|-v-v-|_____  ",
         "     |@*hk|@@**d|_____  ",
         "     |@**k|***hkv_____  ",
-        "     vd**8|8***k|_____  ",
+        "     vd**8|8w**k|_____  ",
         "     |-+------+-|_____  ",
         "     v**********|_____  ",
         "     |---|-+-|*8|_____  ",
@@ -390,7 +379,7 @@
         "     |-+------*8|_____  ",
         "     |>*********|______ ",
         "     |---+-------______ ",
-        "     |@@****d|_________ ",
+        "     |@@****w|_________ ",
         "     v@@****yv_________ ",
         "     |n*****d|_________ ",
         "     |--1n1---_________ ",
@@ -403,15 +392,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "_": "t_shingle_flat_roof", "*": "t_floor", " ": "t_open_air", ">": "t_stairs_down" },
-      "items": {
-        "@": { "item": "bed", "chance": 50, "repeat": [ 1, 2 ] },
-        "D": { "item": "trash_cart", "chance": 50 },
-        "B": { "item": "shower", "chance": 40, "repeat": [ 2, 4 ] },
-        "d": { "item": "dresser", "chance": 70, "repeat": [ 2, 4 ] },
-        "8": { "item": "homebooks", "chance": 70, "repeat": [ 2, 4 ] },
-        "k": { "item": "bedroom", "chance": 60, "repeat": [ 2, 4 ] },
-        "S": { "item": "softdrugs", "chance": 60, "repeat": [ 2, 4 ] }
-      }
+      "items": { "k": { "item": "bedroom", "chance": 60, "repeat": [ 2, 4 ] }, "D": { "item": "trash_cart", "chance": 50 } }
     }
   },
   {

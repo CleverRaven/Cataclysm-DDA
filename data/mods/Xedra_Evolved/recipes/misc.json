@@ -11,6 +11,7 @@
     "time": "4 h",
     "skill_used": "deduction",
     "difficulty": 2,
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
@@ -23,6 +24,7 @@
     "time": "10 m",
     "skill_used": "deduction",
     "difficulty": 2,
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_MISC"
   },
@@ -35,6 +37,7 @@
     "time": "2 h",
     "skill_used": "deduction",
     "difficulty": 2,
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_MISC"
   }

@@ -132,7 +132,7 @@ dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &mem
             ret_val.arithmetic_val = arith;
         } else if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
-            ret_val.math_val->from_json( jo, "math" );
+            ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
         } else {
             ret_val.var_val = read_var_info( jo );
         }
@@ -186,7 +186,7 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
             ret_val.arithmetic_val = arith;
         } else if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
-            ret_val.math_val->from_json( jo, "math" );
+            ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
         } else {
             ret_val.var_val = read_var_info( jo );
         }
@@ -443,6 +443,26 @@ void conditional_t::set_has_flag( const JsonObject &jo, const std::string &membe
             return actor->crossed_threshold();
         }
         return actor->has_flag( json_character_flag( trait_flag_to_check.evaluate( d ) ) );
+    };
+}
+
+void conditional_t::set_has_species( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
+{
+    str_or_var species_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [species_to_check, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        return actor->has_species( species_id( species_to_check.evaluate( d ) ) );
+    };
+}
+
+void conditional_t::set_bodytype( const JsonObject &jo, const std::string &member,
+                                  bool is_npc )
+{
+    str_or_var bt_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [bt_to_check, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        return actor->bodytype( bodytype_id( bt_to_check.evaluate( d ) ) );
     };
 }
 
@@ -1434,7 +1454,7 @@ void conditional_t::set_compare_num( const JsonObject &jo, const std::string_vie
 void conditional_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
-    math.from_json( jo, member, true );
+    math.from_json( jo, member, eoc_math::type_t::compare );
     condition = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
@@ -1898,6 +1918,14 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_bmi_permil();
             };
+        } else if( checked_value == "size" ) {
+            return [is_npc]( dialogue const & d ) {
+                return d.actor( is_npc )->get_size();
+            };
+        } else if( checked_value == "grab_strength" ) {
+            return [is_npc]( dialogue const & d ) {
+                return d.actor( is_npc )->get_grab_strength();
+            };
         } else if( checked_value == "fine_detail_vision_mod" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_fine_detail_vision_mod();
@@ -1929,45 +1957,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         } else if( checked_value == "npc_anger" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_npc_anger();
-            };
-        } else if( checked_value == "monsters_nearby" ) {
-            std::optional<var_info> target_var;
-            if( jo.has_object( "target_var" ) ) {
-                read_var_info( jo.get_member( "target_var" ) );
-            }
-            str_or_var id;
-            if( jo.has_member( "id" ) ) {
-                id = get_str_or_var( jo.get_member( "id" ), "id", false, "" );
-            } else {
-                id.str_val = "";
-            }
-            dbl_or_var radius_dov;
-            dbl_or_var number_dov;
-            if constexpr( std::is_same_v<JsonObject, J> ) {
-                radius_dov = get_dbl_or_var( jo, "radius", false, 10000 );
-                number_dov = get_dbl_or_var( jo, "number", false, 1 );
-            }
-            return [target_var, radius_dov, id, number_dov, is_npc]( dialogue & d ) {
-                tripoint_abs_ms loc;
-                if( target_var.has_value() ) {
-                    loc = get_tripoint_from_var( target_var, d );
-                } else {
-                    loc = d.actor( is_npc )->global_pos();
-                }
-
-                int radius = radius_dov.evaluate( d );
-                std::vector<Creature *> targets = g->get_creatures_if( [&radius, id, &d,
-                         loc]( const Creature & critter ) {
-                    if( critter.is_monster() ) {
-                        // friendly to the player, not a target for us
-                        return critter.as_monster()->friendly == 0 &&
-                               radius >= rl_dist( critter.get_location(), loc ) &&
-                               ( id.evaluate( d ).empty() ||
-                                 critter.as_monster()->type->id == mtype_id( id.evaluate( d ) ) );
-                    }
-                    return false;
-                } );
-                return static_cast<int>( targets.size() );
             };
         } else if( checked_value == "spell_level" ) {
             if( jo.has_member( "school" ) ) {
@@ -2088,7 +2077,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         // no recursive math through shim
         if constexpr( std::is_same_v<JsonObject, J> ) {
             eoc_math math;
-            math.from_json( jo, "math" );
+            math.from_json( jo, "math", eoc_math::type_t::ret );
             return [math = std::move( math )]( dialogue & d ) {
                 return math.act( d );
             };
@@ -2662,13 +2651,31 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
 void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
-    math.from_json( jo, member );
+    math.from_json( jo, member, eoc_math::type_t::assign );
     function = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
 }
 
-void eoc_math::from_json( const JsonObject &jo, std::string_view member, bool conditional )
+void eoc_math::_validate_type( JsonArray const &objects, type_t type_ ) const
+{
+    if( type_ != type_t::compare && action >= oper::equal ) {
+        objects.throw_error( "Comparison operators can only be used in conditional statements" );
+    } else if( type_ == type_t::compare && action < oper::equal ) {
+        if( action == oper::assign ) {
+            objects.throw_error(
+                R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
+        } else {
+            objects.throw_error( "Only comparison operators can be used in conditional statements" );
+        }
+    } else if( type_ == type_t::ret && action > oper::ret ) {
+        objects.throw_error( "Only return expressions are allowed in this context" );
+    } else if( type_ != type_t::ret && action == oper::ret ) {
+        objects.throw_error( "Return expression in assignment context has no effect" );
+    }
+}
+
+void eoc_math::from_json( const JsonObject &jo, std::string_view member, type_t type_ )
 {
     JsonArray const objects = jo.get_array( member );
     if( objects.size() > 3 ) {
@@ -2720,17 +2727,7 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member, bool co
             return;
         }
     }
-    if( !conditional && action >= oper::equal ) {
-        objects.throw_error( "Comparison operators can only be used in conditional statements" );
-    }
-    if( conditional && action < oper::equal ) {
-        if( action == oper::assign ) {
-            objects.throw_error(
-                R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
-        } else {
-            objects.throw_error( "Only comparison operators can be used in conditional statements" );
-        }
-    }
+    _validate_type( objects, type_ );
     bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
     lhs = defer_math( objects.get_string( 0 ), lhs_assign );
     if( action >= oper::plus_assign && action <= oper::decrease ) {
@@ -2992,6 +2989,14 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_flag( jo, "u_has_flag" );
     } else if( jo.has_member( "npc_has_flag" ) ) {
         set_has_flag( jo, "npc_has_flag", true );
+    } else if( jo.has_member( "u_has_species" ) ) {
+        set_has_species( jo, "u_has_species" );
+    } else if( jo.has_member( "npc_has_species" ) ) {
+        set_has_species( jo, "npc_has_species", true );
+    } else if( jo.has_member( "u_bodytype" ) ) {
+        set_bodytype( jo, "u_bodytype" );
+    } else if( jo.has_member( "npc_bodytype" ) ) {
+        set_bodytype( jo, "npc_bodytype", true );
     } else if( jo.has_member( "npc_has_class" ) ) {
         set_npc_has_class( jo, "npc_has_class", true );
     } else if( jo.has_member( "u_has_class" ) ) {

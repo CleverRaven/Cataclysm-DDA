@@ -1509,7 +1509,6 @@
   },
   {
     "id": "armguard_cut_resistant",
-    "repairs_like": "armguard_soft",
     "type": "ARMOR",
     "name": { "str": "pair of cut-resistant arm sleeves", "str_pl": "pairs of cut-resistant arm sleeves" },
     "description": "A long pair of cut-resistant Kevlar sleeves with thumbholes.  Useful for chainsaw protection.",
@@ -1992,7 +1991,6 @@
   },
   {
     "id": "survivor_adhoc_leather_sleeves",
-    "repairs_like": "longshirt",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "leather-padded sleeves" },

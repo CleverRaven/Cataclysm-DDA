@@ -91,7 +91,8 @@
       { "item": "airhorn", "prob": 5 },
       { "item": "rope_30", "prob": 5 },
       { "item": "sm_extinguisher", "prob": 5 },
-      { "group": "cop_melee", "prob": 60 }
+      { "group": "cop_melee", "prob": 60 },
+      { "item": "teargas_sprayer", "prob": 50, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -211,7 +212,8 @@
           { "item": "flashbang", "prob": 10 },
           { "item": "gasbomb", "prob": 10 },
           { "item": "sm_extinguisher", "prob": 5 },
-          { "item": "rope_30", "prob": 10 }
+          { "item": "rope_30", "prob": 10 },
+          { "item": "teargas_sprayer", "prob": 30, "charges": [ 1, 10 ] }
         ],
         "prob": 30
       },
