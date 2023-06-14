@@ -6282,7 +6282,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         menu.desc_enabled = true;
         menu.desc_lines_hint = 0; // Let uilist handle description height
         constexpr int fold_width = 80;
-        time_duration final_time = 1_hour;
+        time_duration final_time = 1_hours; //just in case this somehow winds up undefined
 
         for( const mending_option &opt : mending_options ) {
             const fault_fix &fix = opt.fix;
@@ -6312,14 +6312,14 @@ void Character::mend_item( item_location &&obj, bool interactive )
             final_time = fix.time;
             // if an item has a time saver flag multiply total time by that flag's time factor
             for( const auto &[flag_id, mult] : fix.time_save_flags ) {
-                if( obj->has_flag( auto.first ) ) {
-                    final_time *= auto.second;
+                if( obj->has_flag( flag_id ) ) {
+                    final_time *= mult;
                 }
             }
             // if you have a time saver prof multiply total time by that prof's time factor
             for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
-                if( has_proficiency( auto.first ) ) {
-                    final_time *= auto.second;
+                if( has_proficiency( proficiency_id ) ) {
+                    final_time *= mult;
                 }
             }
             descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
