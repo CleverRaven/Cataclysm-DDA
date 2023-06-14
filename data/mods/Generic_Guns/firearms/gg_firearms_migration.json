@@ -392,12 +392,24 @@
     "replace": "shot_double"
   },
   {
-    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot" ],
+    "id": [ "pipe_double_shotgun", "revolver_shotgun", "afs_drotik_shotpistol", "ashot" ],
     "type": "MIGRATION",
     "replace": "shot_pipe_double"
   },
   {
-    "id": [ "saiga_410", "rm120c", "rm228", "rm20", "bigun", "saiga_12", "tavor_12", "aa_12", "bigun", "USAS_12" ],
+    "id": [
+      "saiga_410",
+      "rm120c",
+      "rm228",
+      "rm20",
+      "bigun",
+      "saiga_12",
+      "afs_raketa_shotgun",
+      "tavor_12",
+      "aa_12",
+      "bigun",
+      "USAS_12"
+    ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
   },
