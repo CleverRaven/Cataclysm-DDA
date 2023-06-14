@@ -1998,6 +1998,7 @@ void mapgen_forest( mapgendata &dat )
     int max_factor = 0;
     if( !dat.region.forest_composition.biomes.empty() ) {
         std::vector<int> factors;
+        factors.reserve( dat.region.forest_composition.biomes.size() );
         for( const auto &b : dat.region.forest_composition.biomes ) {
             factors.push_back( b.second.sparseness_adjacency_factor );
         }

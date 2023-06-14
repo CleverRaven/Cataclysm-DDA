@@ -64,7 +64,7 @@
     "id": "f_cleat",
     "type": "furniture",
     "name": "cleat",
-    "description": "A small horn cleat with two “horns” extending parallel to the deck or the axis of the spar, and resembling a small anvil.  They are used to secure mooring lines, ropes, and similar.",
+    "description": "A small horn cleat with two \"horns\" extending parallel to the deck or the axis of the spar, and resembling a small anvil.  They are used to secure mooring lines, ropes, and similar.",
     "symbol": "B",
     "color": "light_gray",
     "looks_like": "f_bitts",

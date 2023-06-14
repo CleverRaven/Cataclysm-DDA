@@ -1060,6 +1060,7 @@ static vitamin_applied_effect applied_from_rate( const bool reduced, const int i
 std::vector<vitamin_applied_effect> effect::vit_effects( const bool reduced ) const
 {
     std::vector<vitamin_applied_effect> ret;
+    ret.reserve( eff_type->vitamin_data.size() );
     for( const vitamin_rate_effect &vreff : eff_type->vitamin_data ) {
         ret.push_back( applied_from_rate( reduced, intensity, vreff ) );
     }

@@ -824,8 +824,8 @@
                   "case": 0,
                   "effect": [
                     { "u_message": "Your reflection clears the way between you two." },
-                    { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
-                    { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
+                    { "u_location_variable": { "global_val": "first" } },
+                    { "npc_location_variable": { "global_val": "second" } },
                     {
                       "transform_line": "clear_portal_walls",
                       "first": { "global_val": "first" },

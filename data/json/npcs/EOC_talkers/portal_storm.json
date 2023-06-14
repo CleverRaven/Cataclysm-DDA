@@ -3,6 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_PORTAL_STORM",
     "dynamic_line": "&You feel a presence both inside yourself and somewhere far far away.",
+    "speaker_effect": { "effect": { "run_eocs": [ "capture_generic_nre_anomaly" ] }, "sentinel": "first_contact" },
     "responses": [ { "text": "Contact it.", "topic": "TALK_PORTAL_STORM_CONVERSATION" }, { "text": "Ignore it.", "topic": "TALK_DONE" } ]
   },
   {

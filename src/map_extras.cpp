@@ -70,12 +70,7 @@ static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
 static const item_group_id Item_spawn_data_army_bed( "army_bed" );
 static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
-static const item_group_id Item_spawn_data_grenades( "grenades" );
-static const item_group_id Item_spawn_data_guns_rifle_milspec( "guns_rifle_milspec" );
 static const item_group_id Item_spawn_data_map_extra_casings( "map_extra_casings" );
-static const item_group_id Item_spawn_data_mil_armor( "mil_armor" );
-static const item_group_id Item_spawn_data_mil_bulk( "mil_bulk" );
-static const item_group_id Item_spawn_data_mil_food( "mil_food" );
 static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
@@ -129,7 +124,6 @@ static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
 static const map_extra_id map_extra_mx_reed( "mx_reed" );
 static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
-static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
 static const mongroup_id GROUP_DERMATIK( "GROUP_DERMATIK" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
@@ -583,62 +577,6 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
     }
 
     return false;
-}
-
-static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
-{
-    const bool intact = x_in_y( 40,
-                                std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 50 );
-
-    int num_crates = rng( 1, 5 );
-    for( int i = 0; i < num_crates; i++ ) {
-        const auto p = random_point( m, [&m]( const tripoint & n ) {
-            return m.passable( n );
-        } );
-        if( !p ) {
-            break;
-        }
-
-        if( intact ) {
-            m.furn_set( p->xy(), f_crate_c );
-            item_group_id item_group;
-            switch( rng( 1, 10 ) ) {
-                case 1:
-                    item_group = Item_spawn_data_mil_bulk;
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                    item_group = Item_spawn_data_mil_food;
-                    break;
-                case 5:
-                case 6:
-                case 7:
-                    item_group = Item_spawn_data_grenades;
-                    break;
-                case 8:
-                case 9:
-                    item_group = Item_spawn_data_mil_armor;
-                    break;
-                case 10:
-                    item_group = Item_spawn_data_guns_rifle_milspec;
-                    break;
-            }
-            int items_created = 0;
-            for( int i = 0; i < 10 && items_created < 2; i++ ) {
-                items_created +=
-                    m.place_items( item_group, 80, *p, *p, true, calendar::start_of_cataclysm,
-                                   100 ).size();
-            }
-            if( m.i_at( *p ).empty() ) {
-                m.destroy( *p, true );
-            }
-        } else {
-            m.furn_set( p->xy(), f_crate_o );
-        }
-    }
-
-    return true;
 }
 
 static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
@@ -2475,7 +2413,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_mayhem, mx_mayhem },
     { map_extra_mx_bandits_block, mx_bandits_block },
     { map_extra_mx_minefield, mx_minefield },
-    { map_extra_mx_supplydrop, mx_supplydrop },
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
     { map_extra_mx_house_wasp, mx_house_wasp },

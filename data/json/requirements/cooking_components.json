@@ -1108,7 +1108,8 @@
         [ "irradiated_zucchini", 1 ],
         [ "carrot_wild", 1 ],
         [ "wild_garlic", 2 ],
-        [ "spinach", 1 ]
+        [ "spinach", 1 ],
+        [ "japanese_knotweed_stem", 1 ]
       ]
     ]
   },

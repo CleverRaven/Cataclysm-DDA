@@ -11,6 +11,21 @@
   },
   {
     "type": "effect_type",
+    "id": "xtr_str_aspirin",
+    "max_duration": "4 m",
+    "base_mods": {
+      "pkill_tick": [ 42 ],
+      "pkill_min": [ 1 ],
+      "pkill_max_val": [ 15 ],
+      "hurt_tick": [ 42 ],
+      "hurt_min": [ -1 ],
+      "hurt_max": [ -5 ]
+    },
+    "rating": "good",
+    "blood_analysis_description": "Strange Painkiller"
+  },
+  {
+    "type": "effect_type",
     "id": "blood_spiders",
     "name": [ "Blood Spiders" ],
     "desc": [
@@ -35,6 +50,12 @@
       "health_amount": [ -2, -12 ]
     },
     "blood_analysis_description": "Unknown Hemolytic Parasite"
+  },
+  {
+    "type": "effect_type",
+    "id": "curesome",
+    "removes_effects": [ "common_cold", "flu" ],
+    "base_mods": { "pkill_min": [ 5 ] }
   },
   {
     "type": "effect_type",
@@ -119,6 +140,16 @@
   },
   {
     "type": "effect_type",
+    "id": "mental_exhaustion",
+    "//": "Prevents you from learning new alchemy recipes.",
+    "name": [ "Mental Exhaustion" ],
+    "desc": [ "You have recently realized a new alchemical recipe and your thoughts are scattered." ],
+    "remove_message": "Your mind feels normal enough that you could focus on new alchemy ideas once again.",
+    "max_intensity": 1,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "dreamer_eff",
     "name": [ "Matter Twist", "Matter Deformation", "Dimensional Shift", "Dimensional Chasm", "Reality Gateway" ],
     "desc": [
@@ -184,6 +215,47 @@
   },
   {
     "type": "effect_type",
+    "id": "cheval_overdose",
+    "//": "Intensity 1 is a standard dosage of the drug.  Further intensities reflect taking pills while the first dose hasn't worn off.  It is not wise to do so.",
+    "name": [ "Energized", "Enflamed", "Arythmic", "Tachycardiac" ],
+    "apply_message": "These magickal trucker pills have kicked in and you feel great!",
+    "decay_messages": [
+      [
+        "These magickal trucker pills have worn off and you feel rough.  It might be best to go ahead and sleep through the hangover as best you can.",
+        "bad"
+      ],
+      [
+        "Aside from any leftover pain and damage that was done to your body by overdosing your feeling pretty good now.",
+        "good"
+      ],
+      [ "Your heartbeat slows into a somewhat normal rhythm but your skin is still on fire.", "good" ],
+      [ "The pain in your chest subsides but your heart is still beating in a concerning fashion.", "good" ]
+    ],
+    "rating": "mixed",
+    "max_intensity": 4,
+    "blood_analysis_description": "Patient has dangerous levels of multiple chemicals in their blood.  Sedation and restraint suggested.",
+    "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "stim_amount": [ 1 ], "stim_tick": [ 500 ], "stim_max_val": [ 50 ] },
+    "scaling_mods": {
+      "perspiration_amount": [ 6 ],
+      "perspiration_min": [ 1 ],
+      "perspiration_chance": [ 2 ],
+      "perspiration_tick": [ 1500 ],
+      "pain_amount": [ 10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 2 ],
+      "pain_tick": [ 6000 ],
+      "stim_max_val": [ 100 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "cheval_withdrawal",
+    "rating": "bad",
+    "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
+    "base_mods": { "speed_mod": [ -15 ], "str_mod": [ -1 ], "stim_amount": [ -1 ], "stim_tick": [ 500 ], "stim_max_val": [ -50 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "poisoned_blood",
     "//": "Should happen if you consume blood treatments after gaining Vampire4 trait.  Currently unobtainable.",
     "name": [ "Poisoned blood" ],
@@ -230,7 +302,7 @@
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
     "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
-    "resist_traits": [ "ACIDBLOOD" ],
+    "resist_traits": [ "ACIDBLOOD", "BLOOD_OF_SAINTS" ],
     "resist_effects": [ "blood_treatment" ],
     "blocks_effects": [ "cold", "flu" ],
     "max_intensity": 3,
@@ -501,5 +573,27 @@
     "description": "Nothing can slow you down, and your pain sensations are dull.",
     "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
     "flags": [ "STEADY" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "wicked_quick_hands",
+    "name": [ "Wicked Quick Hands" ],
+    "desc": [ "Your hands move wicked quick!" ],
+    "apply_message": "Your reflexes are heightened!",
+    "remove_message": "Your reflexes return to normal.",
+    "rating": "good",
+    "removes_effects": [ "terrible_strength" ],
+    "base_mods": { "dex_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "terrible_strength",
+    "name": [ "terrible strength" ],
+    "desc": [ "You have a terrible strength!" ],
+    "apply_message": "You feel strong!",
+    "remove_message": "Your strength deflates.",
+    "rating": "good",
+    "removes_effects": [ "wicked_quick_hands" ],
+    "base_mods": { "str_mod": [ 4 ] }
   }
 ]
