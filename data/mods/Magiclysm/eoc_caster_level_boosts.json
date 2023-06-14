@@ -191,11 +191,7 @@
           },
           {
             "id": "EOC_earthshaper_caster_level_boost_5",
-            "condition": {
-              "or": [
-                { "u_is_on_terrain": "t_pit" }
-              ]
-            },
+            "condition": { "or": [ { "u_is_on_terrain": "t_pit" } ] },
             "effect": { "math": [ "u_level_boost", "=", "5" ] }
           }
         ]
