@@ -144,6 +144,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+    - [Delayed Item Actions](#delayed-item-actions)
     - [Random Descriptions](#random-descriptions)
 - [`json/` JSONs](#json-jsons)
     - [Harvest](#harvest)
@@ -4167,11 +4168,11 @@ The contents of use_action fields can either be a string indicating a built-in f
     }
 ```
 
-#### Delayed item action
+#### Delayed Item Actions
 
-Use actions can be used with a timer delay.
+Item use actions can be used with a timer delay.
 
-Item `"transform"` action can set and start the timer.
+Item `"transform"` action can set and start the timer. This timer starts when the player activates the item.
 ```
 "use_action": {
     "type": "transform"
