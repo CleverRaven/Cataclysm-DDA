@@ -237,7 +237,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 }
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
-                              const sub_bodypart_id &sbp, int roll )
+                              const sub_bodypart_id &sbp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
