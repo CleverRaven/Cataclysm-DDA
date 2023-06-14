@@ -3150,8 +3150,10 @@ void item::io( Archive &archive )
     // Migrate items with timer. #66161
     // Do not remove this migration until all timer items are migrated to countdown_action
     if( active && type->countdown_action && countdown_point == calendar::turn_max ) {
-        countdown_point  = calendar::turn + time_duration::from_seconds( charges );
+        countdown_point  = calendar::turn + time_duration::from_seconds( charges ) +
+                           time_duration::from_seconds( item_counter );
         charges = 0;
+        item_counter = 0;
     }
 
     if( charges != 0 && !type->can_have_charges() ) {
