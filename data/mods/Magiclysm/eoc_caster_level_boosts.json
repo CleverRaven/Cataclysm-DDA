@@ -1,17 +1,9 @@
 [
   {
-    "type": "effect_on_condition",
-    "id": "EOC_apply_caster_level_boost",
-    "condition": { "expects_vars": [ "level_boost", "school" ] },
-    "effect": [
-      {
-        "math": [
-          "u_val('spell_level_adjustment', 'school: _school ')",
-          "=",
-          "floor( min(_level_boost, u_val('spell_level', 'school: _school') )"
-        ]
-      }
-    ],
+    "type": "jmath_function",
+    "id": "limit_caster_level_boost",
+    "num_args": 2,
+    "return": "floor( min(_0, ( 1 + ( _1 / 5 ) ) ) )",
     "//": "Limits caster level boost to 1 + (highest level of spell in the relevant school) / 5"
   },
   {
@@ -28,7 +20,13 @@
           "u_val('item_count', 'item: magus_booster_1_active') + u_val('item_count', 'item: magus_booster_2_active') * 2"
         ]
       },
-      { "run_eoc_with": "EOC_apply_caster_level_boost", "variables": { "level_boost": {"u_val": "level_boost"}, "school": "MAGUS" }}
+      {
+        "math": [
+          "u_val('spell_level_adjustment', 'school: MAGUS')",
+          "=",
+          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: MAGUS') )"
+        ]
+      }
     ]
   },
   {
@@ -45,7 +43,13 @@
           "u_val('item_count', 'item: kelvinist_booster_1_active') + u_val('item_count', 'item: kelvinist_booster_2_active') * 2"
         ]
       },
-      { "run_eoc_with": "EOC_apply_caster_level_boost", "variables": { "level_boost": {"u_val": "level_boost"}, "school": "KELVINIST" }}
+      {
+        "math": [
+          "u_val('spell_level_adjustment', 'school: KELVINIST')",
+          "=",
+          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: KELVINIST') )"
+        ]
+      }
     ]
   },
   {
@@ -62,12 +66,18 @@
           "max( 0, u_val('effect_intensity', 'effect: technomancer_cl_booster_effect') ) + u_val('charge_count', 'item: technomancer_booster_2_active') / 5"
         ]
       },
-      { "run_eoc_with": "EOC_apply_caster_level_boost", "variables": { "level_boost": {"u_val": "level_boost"}, "school": "TECHNOMANCER" }},
+      {
+        "math": [
+          "u_val('spell_level_adjustment', 'school: TECHNOMANCER')",
+          "=",
+          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: TECHNOMANCER') )"
+        ]
+      },
       {
         "math": [
           "u_doodad_boost",
           "=",
-          "max( 0, u_val('spell_level_adjustment', 'school: TECHNOMANCER') - max( 0, u_val('effect_intensity', 'effect: technomancer_cl_booster_effect') ) )"
+          "max( 0, limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: TECHNOMANCER') ) - max( 0, u_val('effect_intensity', 'effect: technomancer_cl_booster_effect') ) )"
         ]
       }
     ]
@@ -93,10 +103,114 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "BIOMANCER" },
     "effect": [
+      { "math": [ "u_level_boost", "=", "max( 0, u_val('effect_intensity', 'effect: biomancer_cl_booster_effect') )" ] },
       {
-        "math": [ "u_level_boost", "=", "max( 0, u_val('effect_intensity', 'effect: biomancer_cl_booster_effect') )" ]
+        "math": [
+          "u_val('spell_level_adjustment', 'school: BIOMANCER')",
+          "=",
+          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: BIOMANCER') )"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_animist_caster_level_boost",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "ANIMIST" },
+    "effect": [
+      { "math": [ "u_level_boost", "=", "u_val('field_strength', 'field: fd_blood')" ] },
+      {
+        "math": [
+          "u_val('spell_level_adjustment', 'school: ANIMIST')",
+          "=",
+          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: ANIMIST') )"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stormshaper_caster_level_boost",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "STORMSHAPER" }, "u_is_outside" ] },
+    "effect": [
+      { "math": [ "u_level_boost", "=", "weather('precipitation') * 2" ] },
+      {
+        "math": [
+          "u_val('spell_level_adjustment', 'school: STORMSHAPER')",
+          "=",
+          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: STORMSHAPER') )"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_earthshaper_caster_level_boost",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "EARTHSHAPER" },
+    "effect": [
+      { "math": [ "u_level_boost", "=", "max(0, -u_val('pos_z') )" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_earthshaper_caster_level_boost_1",
+            "condition": {
+              "or": [
+                { "u_is_on_terrain": "t_dirt" },
+                { "u_is_on_terrain": "t_sand" },
+                { "u_is_on_terrain": "t_sandbox" },
+                { "u_is_on_terrain": "t_mud" },
+                { "u_is_on_terrain": "t_rock_floor_no_roof" },
+                { "u_is_on_terrain": "t_dirtfloor_no_roof" }
+              ]
+            },
+            "effect": { "math": [ "u_level_boost", "=", "1" ] }
+          },
+          {
+            "id": "EOC_earthshaper_caster_level_boost_2",
+            "condition": {
+              "or": [
+                { "u_is_on_terrain": "t_clay" },
+                { "u_is_on_terrain": "t_claymound" },
+                { "u_is_on_terrain": "t_sandmound" },
+                { "u_is_on_terrain": "t_dirtmoundfloor" },
+                { "u_is_on_terrain": "t_dirtmound" }
+              ]
+            },
+            "effect": { "math": [ "u_level_boost", "=", "2" ] }
+          },
+          {
+            "id": "EOC_earthshaper_caster_level_boost_3",
+            "condition": {
+              "or": [
+                { "u_is_on_terrain": "t_pit_shallow" }
+              ]
+            },
+            "effect": { "math": [ "u_level_boost", "=", "3" ] }
+          },
+          {
+            "id": "EOC_earthshaper_caster_level_boost_5",
+            "condition": {
+              "or": [
+                { "u_is_on_terrain": "t_pit" }
+              ]
+            },
+            "effect": { "math": [ "u_level_boost", "=", "5" ] }
+          }
+        ]
       },
-      { "run_eoc_with": "EOC_apply_caster_level_boost", "variables": { "level_boost": {"u_val": "level_boost"}, "school": "BIOMANCER" }}
+      {
+        "math": [
+          "u_val('spell_level_adjustment', 'school: EARTHSHAPER')",
+          "=",
+          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: EARTHSHAPER') )"
+        ]
+      }
     ]
   },
   {
@@ -111,7 +225,15 @@
         "run_eocs": [
           {
             "id": "EOC_druid_caster_level_boost_1",
-            "condition": { "or": [ { "u_is_on_terrain": "t_grass" }, { "u_is_on_terrain": "t_grass_white" }, { "u_is_on_terrain": "t_moss" } ] },
+            "condition": {
+              "or": [
+                { "u_is_on_terrain": "t_grass" },
+                { "u_is_on_terrain": "t_grass_white" },
+                { "u_is_on_terrain": "t_moss" },
+                { "u_is_on_terrain": "t_moss_underground" },
+                { "u_is_on_terrain": "t_forestfloor" }
+              ]
+            },
             "effect": { "math": [ "u_level_boost", "=", "1" ] }
           },
           {
@@ -154,7 +276,13 @@
           }
         ]
       },
-      { "run_eoc_with": "EOC_apply_caster_level_boost", "variables": { "level_boost": {"u_val": "level_boost"}, "school": "DRUID" }}
+      {
+        "math": [
+          "u_val('spell_level_adjustment', 'school: DRUID')",
+          "=",
+          "limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: DRUID') )"
+        ]
+      }
     ]
   }
 ]

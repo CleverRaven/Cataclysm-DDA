@@ -1962,6 +1962,20 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_npc_anger();
             };
+        } else if( checked_value == "field_strength" ) {
+            if( jo.has_member( "field" ) ) {
+                field_type_id ft = field_type_id( jo.get_string( "field" ) );
+                return [is_npc, ft]( dialogue const & d ) {
+                    map &here = get_map();
+                    for( const std::pair<const field_type_id, field_entry> &f : here.field_at( d.actor(
+                                is_npc )->pos() ) ) {
+                        if( f.second.get_field_type() == ft ) {
+                            return f.second.get_field_intensity();
+                        }
+                    }
+                    return 0;
+                };
+            }
         } else if( checked_value == "spell_level" ) {
             if( jo.has_member( "school" ) ) {
                 const std::string school_name = jo.get_string( "school" );
