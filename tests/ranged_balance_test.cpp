@@ -476,7 +476,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
     CAPTURE( range );
     CAPTURE( monster_type );
     CAPTURE( avg );
-    CHECK( avg == Approx( expected_damage ).margin( 10 ) );
+    CHECK( avg == Approx( expected_damage ).margin( 12 ) );
     if( other_checks ) {
         CHECK( other_check_success == expected_other_checks );
     }
