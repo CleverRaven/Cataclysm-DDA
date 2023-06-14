@@ -31,7 +31,6 @@
   },
   {
     "id": "stockpot_helmet",
-    "repairs_like": "mc_helm_close",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pot great helm" },
@@ -108,7 +107,6 @@
   },
   {
     "id": "headgear",
-    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": { "str": "headgear" },
     "description": "Lightweight sports headgear designed to protect the head while sparring.",
@@ -159,7 +157,6 @@
   },
   {
     "id": "helmet_army",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "army helmet" },
@@ -306,7 +303,6 @@
   },
   {
     "id": "tac_fullhelmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tactical full helmet" },
@@ -334,7 +330,6 @@
   },
   {
     "id": "tac_helmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tactical helmet" },
@@ -432,7 +427,6 @@
   },
   {
     "id": "firehelmet",
-    "repairs_like": "nomex_hood",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "firefighter helmet" },
@@ -473,7 +467,6 @@
   },
   {
     "id": "helmet_ball",
-    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "baseball helmet" },
@@ -586,7 +579,6 @@
   },
   {
     "id": "helmet_bike",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "bike helmet" },
@@ -792,7 +784,6 @@
   },
   {
     "id": "helmet_football",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football helmet" },
@@ -1048,7 +1039,6 @@
   },
   {
     "id": "helmet_liner",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "helmet liner" },
     "description": "A cloth liner worn inside a helmet to help keep your head warm in cold climates.",
@@ -1069,7 +1059,6 @@
   },
   {
     "id": "helmet_motor",
-    "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "full-face motorcycle helmet" },
@@ -1160,7 +1149,6 @@
   {
     "id": "helmet_motor_raised",
     "//": "Can't use copy-from and armor_portion_data at the same time, clear up this item once #43144 will be merged",
-    "repairs_like": "nomex_hood",
     "looks_like": "helmet_motor",
     "type": "TOOL_ARMOR",
     "category": "armor",
@@ -1617,7 +1605,6 @@
   },
   {
     "id": "helmet_skid",
-    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "skid lid" },
@@ -1645,7 +1632,6 @@
   },
   {
     "id": "pickelhaube",
-    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pickelhaube", "str_pl": "pickelhauben" },
@@ -2301,7 +2287,6 @@
   },
   {
     "id": "airsoft_helmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "airsoft helmet" },
