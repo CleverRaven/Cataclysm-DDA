@@ -20,12 +20,13 @@
         "max_contains_weight": "5 kg",
         "max_item_length": "100 cm",
         "holster": true,
-        "flag_restriction": [ "SHEATH_AXE" ]
+        "flag_restriction": [ "SHEATH_AXE" ],
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath axe", "holster_msg": "You sheath your %s" },
     "flags": [ "NONCONDUCTIVE", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "baldric",
@@ -469,11 +470,12 @@
         "flag_restriction": [ "SHEATH_SPEAR" ],
         "max_contains_volume": "4000 ml",
         "max_contains_weight": "4 kg",
-        "max_item_length": "200 cm"
+        "max_item_length": "250 cm",
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   }
 ]

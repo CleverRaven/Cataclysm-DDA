@@ -3,6 +3,7 @@
 #include "fire.h"
 #include "item.h"
 #include "cata_catch.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "projectile.h"
 
@@ -70,6 +71,7 @@ TEST_CASE( "Portioned material flammability", "[material]" )
 
 TEST_CASE( "Glass portion breakability", "[material] [slow]" )
 {
+    clear_creatures();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     item mostly_glass( "test_glass_pipe_mostly_glass" );
     item mostly_steel( "test_glass_pipe_mostly_steel" );

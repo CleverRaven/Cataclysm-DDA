@@ -135,6 +135,34 @@
     ]
   },
   {
+    "id": "kids_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "kids_books",
+    "extend": { "entries": [ { "item": "book_teens_deduction", "prob": 4 } ] }
+  },
+  {
+    "id": "homebooks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "homebooks",
+    "extend": { "entries": [ { "item": "manual_deduction", "prob": 1 }, { "item": "mag_deduction", "prob": 10 } ] }
+  },
+  {
+    "id": "religious_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "religious_books",
+    "extend": { "entries": [ { "item": "book_deduction_black_iron_prison", "prob": 1 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "softdrugs",
+    "subtype": "distribution",
+    "copy-from": "softdrugs",
+    "extend": { "entries": [ { "item": "truckstop_viagra", "prob": 15 } ] }
+  },
+  {
     "type": "item_group",
     "subtype": "distribution",
     "id": "xed_notes",
@@ -284,7 +312,7 @@
     "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "costume_misc_items",
     "subtype": "distribution",
-    "extend": { "items": [ [ "wolf_mask", 5 ], [ "magicians_hat", 5 ], [ "syringe_artifact", 5 ], [ "foil_hat", 1 ] ] }
+    "extend": { "items": [ [ "magicians_hat", 5 ] ] }
   },
   {
     "id": "homebooks",
@@ -292,15 +320,7 @@
     "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "homebooks",
     "subtype": "distribution",
-    "extend": {
-      "entries": [
-        { "item": "book_inventor", "prob": 1 },
-        { "item": "money_strap_magic", "prob": 1 },
-        { "item": "firmament_driver_book", "prob": 1 },
-        { "item": "ray_diagrams", "prob": 1 },
-        { "item": "eater_book_artifact", "prob": 1 }
-      ]
-    }
+    "extend": { "entries": [ { "item": "firmament_driver_book", "prob": 1 }, { "item": "eater_book_artifact", "prob": 1 } ] }
   },
   {
     "id": "renfield_glock_mags",

@@ -5,7 +5,6 @@
     "name": { "str": "vehicle tank (2L)" },
     "item": "metal_tank_little",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 75,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
@@ -13,6 +12,7 @@
     "damage_modifier": 80,
     "folded_volume": "2 L",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "//": "weld repairs would involve patching up holes, for a small tank assume 5cm squares (20 cm weld total)",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -20,10 +20,11 @@
         "using": [ [ "vehicle_wrench_1", 1 ], [ "drilling_standard", 10 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 26, "stab": 8 }
+    "damage_reduction": { "all": 26, "stab": 8 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_small",
@@ -31,7 +32,6 @@
     "name": { "str": "vehicle tank (10L)" },
     "item": "jerrycan",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 100,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
@@ -48,7 +48,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "soldering_standard", 5 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 9, "stab": 0 }
+    "damage_reduction": { "all": 9, "stab": 0 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_medium",
@@ -56,12 +57,12 @@
     "name": { "str": "vehicle tank (20L)" },
     "item": "jerrycan_big",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 120,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "categories": [ "movement" ],
     "damage_modifier": 80,
+    "//": "weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
@@ -74,10 +75,11 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 40 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 28, "stab": 10 }
+    "damage_reduction": { "all": 28, "stab": 10 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank",
@@ -85,7 +87,6 @@
     "name": { "str": "vehicle tank (60L)" },
     "item": "metal_tank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
@@ -96,6 +97,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
+    "//": "weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -103,10 +105,11 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "fridgetank",
@@ -114,7 +117,6 @@
     "name": { "str": "refrigerated tank (60L)" },
     "item": "fridgetank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
@@ -126,6 +128,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
+    "//": "weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -133,10 +136,11 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "heattank",
@@ -155,19 +159,24 @@
     "name": { "str": "external tank (100L)" },
     "item": "30gal_drum",
     "location": "structure",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 160,
     "description": "A storage space for holding liquids, mounted outside the vehicle's walls and armor.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "categories": [ "movement" ],
+    "//": "45cm weld install. weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
     "damage_modifier": 80,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 50 ], [ "drilling_standard", 50 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FLUIDTANK" ],
-    "damage_reduction": { "all": 30, "stab": 12 }
+    "damage_reduction": { "all": 30, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "afs_small_roof_external_tank",
@@ -202,7 +211,6 @@
     "name": { "str": "wooden barrel (100L)" },
     "item": "wooden_barrel",
     "location": "center",
-    "symbol": "O",
     "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
@@ -220,7 +228,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 18, "stab": 12 }
+    "damage_reduction": { "all": 18, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_30gal_drum",
@@ -228,7 +237,6 @@
     "name": { "str": "steel drum (100L)" },
     "item": "30gal_drum",
     "location": "fuel_source",
-    "symbol": "0",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "broken_color": "red",
@@ -239,13 +247,19 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
+    "//": "50cm weld install. weld repairs would involve patching up holes, for a medium-large tank assume 10cm squares (40 cm weld total)",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 50 ], [ "drilling_standard", 50 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 30, "stab": 12 }
+    "damage_reduction": { "all": 30, "stab": 12 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_55gal_drum",
@@ -258,7 +272,7 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 10 ] }
     ],
-    "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE", "AIRCRAFT_REPAIRABLE_NOPROF" ],
+    "flags": [ "FLUIDTANK", "OBSTACLE", "AIRCRAFT_REPAIRABLE_NOPROF" ],
     "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
@@ -267,25 +281,30 @@
     "name": { "str": "fuel bunker" },
     "item": "fuel_bunker",
     "location": "fuel_source",
-    "symbol": "O",
     "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
     "looks_like": "tank",
     "durability": 150,
-    "description": "A small tank for pressurized gasses.",
+    "description": "A bin for holding solid fuel.",
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
+    "//": "80cm weld install. weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "40 m",
+        "using": [ [ "welding_standard", 80 ], [ "drilling_standard", 50 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
-    "damage_reduction": { "all": 24, "stab": 18 }
+    "damage_reduction": { "all": 24, "stab": 18 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "small_pressure_tank",
@@ -294,7 +313,6 @@
     "//": "1 gallon tank.",
     "item": "small_propane_tank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A tank for pressurized gasses.",
@@ -313,10 +331,11 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "GASTANK" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "large_pressure_tank",
@@ -325,7 +344,6 @@
     "//": "20 gallon tank.",
     "item": "large_propane_tank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A large tank for pressurized gasses.",
@@ -343,10 +361,11 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "xl_pressure_tank",
@@ -355,7 +374,6 @@
     "//": "100 gallon ASME tank.",
     "item": "xl_propane_tank",
     "location": "fuel_source",
-    "symbol": "O",
     "broken_color": "red",
     "durability": 150,
     "description": "A large tank for pressurized gasses.",
@@ -373,10 +391,11 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "GASTANK" ],
-    "damage_reduction": { "all": 28, "stab": 12 }
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "tank_55gal_drum_aluminum",
@@ -384,7 +403,12 @@
     "type": "vehicle_part",
     "name": { "str": "aluminum tank (200L)" },
     "item": "55gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ], [ "drilling_standard", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "tank_30gal_drum_aluminum",
@@ -392,7 +416,12 @@
     "type": "vehicle_part",
     "name": { "str": "aluminum tank (100L)" },
     "item": "30gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "external_tank_small_aluminum",
@@ -401,7 +430,12 @@
     "name": { "str": "external aluminum tank (100L)" },
     "looks_like": "afs_roof_external_tank",
     "item": "30gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ], [ "drilling_standard", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "afs_small_roof_external_tank_aluminum",
@@ -409,7 +443,12 @@
     "type": "vehicle_part",
     "name": { "str": "roof-mounted external aluminum tank (100L)" },
     "item": "30gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "external_tank_aluminum",
@@ -417,7 +456,12 @@
     "type": "vehicle_part",
     "name": { "str": "external aluminum tank (200L)" },
     "item": "55gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ], [ "drilling_standard", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "afs_roof_external_tank_aluminum",
@@ -425,6 +469,11 @@
     "type": "vehicle_part",
     "name": { "str": "roof-mounted external aluminum tank (200L)" },
     "item": "55gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ], [ "drilling_standard", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   }
 ]

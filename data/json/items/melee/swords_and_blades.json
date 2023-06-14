@@ -2702,6 +2702,22 @@
     "price_postapoc": 250
   },
   {
+    "id": "jade_nagamaki",
+    "type": "TOOL",
+    "copy-from": "qt_katana",
+    "name": { "str_sp": "jade nagamaki" },
+    "description": "A master smith painstaikingly flaked its flowing blade from meteoric sea-green stone.  The hilt's cordage is speckled by gold flakes from the tummultous waters where the blade was whet, and the chosen tsuba depicts an all-devouring snake.",
+    "weight": "3258 g",
+    "volume": "3250 ml",
+    "longest_side": "140 cm",
+    "material": [ "monolith" ],
+    "//": "The stone blade isnt fully solid, and the idea is it gets AOE techniques and reach attacks from that (besides actually being quite long), should normally be inferior DPS wise vs a katana or nodachi.",
+    "flags": [ "SPEAR", "REACH_ATTACK", "UNBREAKABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "SPIN" ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
+    "melee_damage": { "bash": 10, "cut": 32 }
+  },
+  {
     "id": "zweihander_fake",
     "copy-from": "zweihander",
     "type": "GENERIC",

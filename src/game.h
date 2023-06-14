@@ -671,6 +671,7 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap() const;
+        void toggle_language_to_en();
         bool is_tileset_isometric() const;
         void reload_tileset();
         void temp_exit_fullscreen();

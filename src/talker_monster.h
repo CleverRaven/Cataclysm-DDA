@@ -49,11 +49,15 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
         std::string get_value( const std::string &var_name ) const override;
 
         bool has_flag( const flag_id &f ) const override;
+        bool has_species( const species_id &species ) const override;
+        bool bodytype( const bodytype_id &bt ) const override;
 
         std::string short_description() const override;
         int get_anger() const override;
         int morale_cur() const override;
         int get_friendly() const override;
+        int get_size() const override;
+        int get_grab_strength() const override;
         bool will_talk_to_u( const Character &u, bool force ) override;
         std::vector<std::string> get_topics( bool radio_contact ) override;
         int get_cur_hp( const bodypart_id & ) const override;
@@ -95,6 +99,7 @@ class talker_monster: public talker_cloner<talker_monster, talker_monster_const>
         void set_anger( int ) override;
         void set_morale( int ) override;
         void set_friendly( int ) override;
+        void die() override;
     protected:
         talker_monster() = default;
         monster *me_mon;

@@ -17,7 +17,7 @@ static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
 static const itype_id itype_box_cigarette( "box_cigarette" );
 static const itype_id itype_box_small( "box_small" );
-static const itype_id itype_can_food( "can_food" );
+static const itype_id itype_can_medium( "can_medium" );
 static const itype_id itype_can_tuna( "can_tuna" );
 static const itype_id itype_candy2( "candy2" );
 static const itype_id itype_candycigarette( "candycigarette" );
@@ -386,16 +386,16 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
     }
     // small tin can (sealed) > canned tuna fish (WL), canned meat
     WHEN( "there is a sealed container on the ground containing items whitelisted in auto-pickup rules" ) {
-        item item_small_tin_can = item( itype_can_food );
+        item item_medium_tin_can = item( itype_can_medium );
         unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
         unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
 
         // insert items inside can and seal it
-        item_small_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
-        item_small_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
-        item_small_tin_can.seal();
+        item_medium_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
+        item_medium_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
+        item_medium_tin_can.seal();
 
-        unique_item item_sealed_tuna = unique_item( item_small_tin_can );
+        unique_item item_sealed_tuna = unique_item( item_medium_tin_can );
         REQUIRE( item_sealed_tuna.spawn_item( ground ) );
 
         add_autopickup_rule( item_canned_tuna.get(), true );
@@ -408,17 +408,17 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
     }
     // small tin can (sealed) > canned tuna fish (WL), canned meat
     WHEN( "there is a sealed container on the ground containing no whitelisted items" ) {
-        item item_small_tin_can = item( itype_can_food );
+        item item_medium_tin_can = item( itype_can_medium );
         item item_bottle_plastic = item( itype_bottle_plastic );
         unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
         unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
 
         // insert items inside can and seal it
-        item_small_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
-        item_small_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
-        item_small_tin_can.seal();
+        item_medium_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
+        item_medium_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
+        item_medium_tin_can.seal();
 
-        unique_item item_sealed_tuna = unique_item( item_small_tin_can );
+        unique_item item_sealed_tuna = unique_item( item_medium_tin_can );
         REQUIRE( item_sealed_tuna.spawn_item( ground ) );
         // autopickup something other than the sealed items
         unique_item item_red_herring = unique_item( item_bottle_plastic );

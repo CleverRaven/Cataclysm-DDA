@@ -87,7 +87,7 @@
     "om_terrain": "gym_roof",
     "weight": 200,
     "object": {
-      "fill_ter": "t_flat_roof",
+      "fill_ter": "t_floor",
       "rows": [
         "                        ",
         "                        ",
@@ -114,33 +114,16 @@
         "  |....&.=.#_>_#...:.3  ",
         "  |--------#####-----3  "
       ],
+      "palettes": [ "roof_palette" ],
       "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
         "#": "t_wall_g",
         "+": "t_door_locked",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_stairs_down",
-        "5": "t_gutter_drop",
-        "_": "t_floor",
-        "s": "t_floor",
-        "t": "t_floor",
-        "0": "t_floor",
-        "4": "t_gutter_downspout"
+        "&": "t_flat_roof",
+        "=": "t_flat_roof",
+        "X": "t_flat_roof",
+        ":": "t_flat_roof"
       },
-      "furniture": {
-        "&": "f_roof_turbine_vent",
-        ":": "f_cellphone_booster",
-        "X": "f_small_satelitte_dish",
-        "=": "f_vent_pipe",
-        "b": "f_bench",
-        "s": "f_sofa",
-        "t": "f_table",
-        "0": "f_floor_canvas"
-      },
+      "furniture": { "0": "f_floor_canvas" },
       "place_loot": [ { "item": "television", "x": 16, "y": 19 } ],
       "place_nested": [
         {
@@ -196,15 +179,7 @@
         "           |...3        ",
         "           -----        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

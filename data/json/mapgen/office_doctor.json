@@ -90,25 +90,12 @@
         "   |.................3  ",
         "   |.................3  ",
         "   |####.........&...3  ",
-        "   |#>_+......=......5  ",
+        "   |#v_+......=......5  ",
         "   |####-------------3  ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "o": "t_glass_roof",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "#": "t_wall_w",
-        "_": "t_floor",
-        "+": "t_door_locked",
-        ">": "t_ladder_down",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe" },
+      "palettes": [ "roof_palette" ],
+      "terrain": { "#": "t_wall_w", "+": "t_door_locked" },
       "place_items": [ { "item": "roof_trash", "x": [ 5, 18 ], "y": [ 4, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -212,33 +199,14 @@
         "   |................3   ",
         "   |................3   ",
         "   |.........##+##..3   ",
-        "   |....=&...#_>_#..3   ",
+        "   |....=&...#_v_#..3   ",
         "   5.........#####..3   ",
         "   |----------------3   ",
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "o": "t_glass_roof",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "#": "t_wall_w",
-        "_": "t_floor",
-        "+": "t_door_locked",
-        ">": "t_ladder_down",
-        "5": "t_gutter_drop"
-      },
-      "furniture": {
-        "&": "f_roof_turbine_vent",
-        ":": "f_cellphone_booster",
-        "X": "f_small_satelitte_dish",
-        "=": "f_vent_pipe",
-        "A": "f_air_conditioner"
-      },
+      "palettes": [ "roof_palette" ],
+      "terrain": { "#": "t_wall_w", "+": "t_door_locked" },
       "place_items": [ { "item": "roof_trash", "x": [ 5, 18 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -296,7 +264,7 @@
       ],
       "palettes": [ "office_doctor" ],
       "terrain": { "?": "t_floor", "/": "t_floor", "Y": "t_floor", "A": "t_floor", "R": "t_floor", "'": "t_door_glass_o" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
+      "furniture": { "?": "f_bed", "/": "f_bed", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
       "computers": {
         "5": {
           "name": "Medical Supply Access",
@@ -311,7 +279,6 @@
         "o": { "item": "doctors_books", "chance": 60 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
         "C": { "item": "dresser", "chance": 75 },
-        "O": { "item": "bionics", "chance": 40 },
         "T": { "item": "office_breakroom", "chance": 80 },
         "f": { "item": "office_paper", "chance": 90 },
         "H": [
@@ -374,38 +341,16 @@
         "                        ",
         "                        "
       ],
+      "palettes": [ "roof_palette" ],
       "terrain": {
-        ".": "t_flat_roof",
         "=": "t_flat_roof",
         "&": "t_flat_roof",
         "A": "t_flat_roof",
-        " ": "t_open_air",
-        "o": "t_glass_roof",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_stairs_down",
         "#": "t_wall_b",
-        "_": "t_floor",
         "w": "t_wall_glass",
-        "+": "t_door_glass_frosted_lab_c",
-        "4": "t_gutter_downspout",
-        "5": "t_gutter_drop"
+        "+": "t_door_glass_frosted_lab_c"
       },
-      "furniture": {
-        "&": "f_roof_turbine_vent",
-        "=": "f_vent_pipe",
-        "b": "f_bed",
-        "t": "f_table",
-        "c": "f_armchair",
-        "f": "f_filing_cabinet",
-        "?": "f_autodoc",
-        "L": "f_locker",
-        "/": "f_autodoc_couch",
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "A": "f_air_conditioner"
-      },
+      "furniture": { "b": "f_bed", "c": "f_armchair", "f": "f_filing_cabinet", "?": "f_bed", "/": "f_bed" },
       "items": {
         "b": { "item": "hospital_bed", "chance": 60 },
         "f": { "item": "office_paper", "chance": 70 },
@@ -452,17 +397,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "o": "t_glass_roof",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

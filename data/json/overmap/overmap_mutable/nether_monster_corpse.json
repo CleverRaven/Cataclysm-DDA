@@ -7,11 +7,10 @@
     "city_distance": [ 20, 30 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC" ],
+    "flags": [ "WILDERNESS" ],
     "check_for_locations_area": [
       { "type": [ "land", "road" ], "from": [ 0, 0, 0 ], "to": [ 0, 0, 0 ] },
-      { "type": [ "subterranean_empty" ], "from": [ -11, -5, -1 ], "to": [ 11, 5, -1 ] },
-      { "type": [ "subterranean_empty" ], "from": [ -5, -11, -1 ], "to": [ 5, 11, -1 ] }
+      { "type": [ "subterranean_empty" ], "from": [ -15, -15, -1 ], "to": [ 15, 15, -1 ] }
     ],
     "check_for_locations": [  ],
     "joins": [

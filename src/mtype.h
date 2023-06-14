@@ -101,6 +101,7 @@ enum m_flag : int {
     MF_ACIDTRAIL,           // Leaves a trail of acid
     MF_SHORTACIDTRAIL,      // Leaves an intermittent trail of acid
     MF_FIREPROOF,           // Immune to fire
+    MF_IRONWROUGHT,         // Immune to cold iron and does cold iron damage instead of any cutting damage
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_SMALLSLUDGETRAIL,    // Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving
@@ -177,6 +178,7 @@ enum m_flag : int {
     MF_ALL_SEEING,          // This monster can see everything within its vision range regardless of light or obstacles
     MF_NEVER_WANDER,        // This monster will never join wandering hordes.
     MF_CONVERSATION,        // This monster can engage in conversation.  Will need to have chat_topics as well.
+    MF_SILENT_DISAPPEAR,    // This monster will disappear without printing any message.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

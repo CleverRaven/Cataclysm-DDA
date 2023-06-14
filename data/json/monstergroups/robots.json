@@ -52,5 +52,10 @@
     "type": "monstergroup",
     "name": "GROUP_TURRET_RIOT",
     "monsters": [ { "monster": "mon_turret_riot", "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TURRET_SEARCHLIGHT",
+    "monsters": [ { "monster": "mon_turret_searchlight", "cost_multiplier": 0 } ]
   }
 ]

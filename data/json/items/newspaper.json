@@ -41,7 +41,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ],
     "weight": "12 mg",
     "volume": "1 ml"
   },
@@ -285,7 +285,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
     "weight": "1 g",
     "volume": "2 ml"
   },
@@ -402,35 +402,6 @@
     "name": { "str": "note" },
     "snippet_category": "death_note",
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
-    "price": 0,
-    "price_postapoc": 0,
-    "looks_like": "survnote",
-    "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
-    "volume": "10 ml"
-  },
-  {
-    "type": "GENERIC",
-    "id": "bookmark_note_catalytic",
-    "category": "books",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "note" },
-    "description": "A scrap of paper stuffed in a book.  It mentions some locations you might be able to find a reactor like one described on this page.",
-    "use_action": {
-      "type": "reveal_map",
-      "radius": 185,
-      "terrain": [
-        "lab_surface_brick_blockC3",
-        "lab_surface_brick_block2A0",
-        "lab_surface_brick_block2B0",
-        "lab_surface_brick_block2C0",
-        "lab_surface_brick_block2D0",
-        "lab_surface_brick_block2E0"
-      ],
-      "message": "You add the locations to your map."
-    },
     "price": 0,
     "price_postapoc": 0,
     "looks_like": "survnote",

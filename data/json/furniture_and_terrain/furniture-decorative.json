@@ -64,7 +64,7 @@
     "id": "f_cleat",
     "type": "furniture",
     "name": "cleat",
-    "description": "A small horn cleat with two “horns” extending parallel to the deck or the axis of the spar, and resembling a small anvil.  They are used to secure mooring lines, ropes, and similar.",
+    "description": "A small horn cleat with two \"horns\" extending parallel to the deck or the axis of the spar, and resembling a small anvil.  They are used to secure mooring lines, ropes, and similar.",
     "symbol": "B",
     "color": "light_gray",
     "looks_like": "f_bitts",
@@ -206,7 +206,7 @@
   {
     "type": "furniture",
     "id": "f_floor_lamp",
-    "name": "floor lamp",
+    "name": "standing lamp",
     "symbol": "T",
     "looks_like": "f_rack_coat",
     "description": "A light mounted on the top of a metal pole, this would be plugged into a wall socket to illuminate a room.",

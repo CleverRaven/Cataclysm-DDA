@@ -718,9 +718,12 @@ construction_id construction_menu( const bool blueprint )
             }
         }
         isnew = false;
+        static int lang_version = detail::get_current_language_version();
 
-        if( update_info ) {
+        //lang check here is needed to redraw the menu when using "Toggle language to English" option
+        if( update_info || lang_version != detail::get_current_language_version() ) {
             update_info = false;
+            lang_version = detail::get_current_language_version();
 
             notes.clear();
             if( tabindex == tabcount - 1 && !filter.empty() ) {
@@ -994,7 +997,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         // Gift components
         for( const auto &it : con.requirements->get_components() ) {
-            used.emplace_back( item( it.front().type ) );
+            used.emplace_back( it.front().type );
         }
     } else {
         // Use up the components
@@ -1393,10 +1396,10 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
         debugmsg( "constructing failed: add_vehicle returned null" );
         return;
     }
-    item base = components.front();
+    const item &base = components.front();
 
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( base.typeId() ), std::move( base ) );
+    veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.

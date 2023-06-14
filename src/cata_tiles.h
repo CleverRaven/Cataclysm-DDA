@@ -405,8 +405,10 @@ class cata_tiles
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
 
     protected:
-        /** How many rows and columns of tiles fit into given dimensions **/
-        void get_window_tile_counts( int width, int height, int &columns, int &rows ) const;
+        /** How many rows and columns of tiles fit into given dimensions, fully or partially shown **/
+        point get_window_tile_counts( const point &size ) const;
+        /** How many rows and columns of tiles can be fully shown in the given dimensions **/
+        point get_window_full_tile_counts( const point &size ) const;
 
         std::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
@@ -448,7 +450,7 @@ class cata_tiles
                                   const std::string &variant, const point &offset );
         bool draw_from_id_string_internal( const std::string &id, const tripoint &pos, int subtile,
                                            int rota,
-                                           lit_level ll, int retract, bool apply_night_vision_goggles );
+                                           lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d );
         bool draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
                                            const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                            lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
@@ -530,6 +532,7 @@ class cata_tiles
                              const std::array<bool, 5> &invisible );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
                                              const std::array<bool, 5> &invisible );
+        void draw_zlevel_overlay( const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );
 

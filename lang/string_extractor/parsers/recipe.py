@@ -1,14 +1,26 @@
 from ..write_text import write_text
 
 
+def extract_eoc_id(json):
+    if type(json) is str:
+        return json  # eoc id
+    elif type(json) is dict and "id" in json:
+        return json.get("id")  # eoc defined inline
+    else:
+        raise Exception("result_eocs member missing id")
+
+
 def result_hint(json):
     hint = json.get("result", json.get("result_eocs", None))
-    if type(hint) is list:
-        hint = ", ".join(hint)
     if hint is None:
         raise Exception("no result hint for recipe translation,"
                         " needs 'result' or 'result_eocs' defined")
-    return hint
+    if type(hint) is str:
+        return hint
+    elif type(hint) is list:
+        return ", ".join(map(extract_eoc_id, hint))
+    else:
+        raise Exception("recipe's result_eocs has unsupported form")
 
 
 def parse_recipe(json, origin):

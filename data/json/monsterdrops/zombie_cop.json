@@ -91,7 +91,8 @@
       { "item": "airhorn", "prob": 5 },
       { "item": "rope_30", "prob": 5 },
       { "item": "sm_extinguisher", "prob": 5 },
-      { "group": "cop_melee", "prob": 60 }
+      { "group": "cop_melee", "prob": 60 },
+      { "item": "teargas_sprayer", "prob": 50, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -211,7 +212,8 @@
           { "item": "flashbang", "prob": 10 },
           { "item": "gasbomb", "prob": 10 },
           { "item": "sm_extinguisher", "prob": 5 },
-          { "item": "rope_30", "prob": 10 }
+          { "item": "rope_30", "prob": 10 },
+          { "item": "teargas_sprayer", "prob": 30, "charges": [ 1, 10 ] }
         ],
         "prob": 30
       },
@@ -284,7 +286,7 @@
       {
         "distribution": [
           { "item": "tank_top", "prob": 30 },
-          { "item": "army_top", "prob": 40 },
+          { "item": "tank_top", "variant": "tank_top_camo", "prob": 40 },
           { "item": "tshirt", "prob": 20 },
           { "item": "longshirt", "prob": 10 },
           { "item": "thermal_shirt", "prob": 10 }

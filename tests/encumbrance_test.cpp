@@ -89,6 +89,7 @@ static constexpr int jacket_jean_e = 9;
 static constexpr int ballistic = 6;
 static constexpr int load_bearing = 2;
 static constexpr int plate = 2;
+static constexpr int complex_phase = 10;
 
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {
@@ -112,6 +113,12 @@ TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
     test_encumbrance( { "test_longshirt", "test_ballistic_vest" }, "torso", longshirt_e + ballistic );
     test_encumbrance( { "test_longshirt", "test_load_bearing_vest" }, "torso",
                       longshirt_e + load_bearing );
+}
+
+TEST_CASE( "Complicated with split layers no conflict", "[encumbrance]" )
+{
+    test_encumbrance( { "test_complex_phase", "test_ballistic_vest" }, "torso",
+                      ballistic + complex_phase );
 }
 
 // make sure ordering still works with pockets

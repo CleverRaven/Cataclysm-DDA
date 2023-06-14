@@ -48,6 +48,7 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
     case item_pocket::pocket_type::CORPSE: return "CORPSE";
     case item_pocket::pocket_type::SOFTWARE: return "SOFTWARE";
     case item_pocket::pocket_type::EBOOK: return "EBOOK";
+    case item_pocket::pocket_type::CABLE: return "CABLE";
     case item_pocket::pocket_type::MIGRATION: return "MIGRATION";
     case item_pocket::pocket_type::LAST: break;
     }
@@ -1303,6 +1304,15 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         }
     }
 
+    if( data->type == item_pocket::pocket_type::CABLE ) {
+        if( it.has_flag( flag_CABLE_SPOOL ) ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_MOD, _( "only certain cables can go into cable pocket" ) );
+        }
+    }
+
     if( data->type == item_pocket::pocket_type::MOD ) {
         if( it.is_toolmod() || it.is_gunmod() ) {
             return ret_val<item_pocket::contain_code>::make_success();
@@ -1638,10 +1648,31 @@ std::optional<item> item_pocket::remove_item( const item_location &it )
     return remove_item( *it );
 }
 
-void item_pocket::overflow( const tripoint &pos )
+static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
+        const item_location &loc )
+{
+    if( loc ) {
+        item_pocket *parent_pocket = loc.parent_pocket();
+        if( parent_pocket && parent_pocket->can_contain( it ).success() ) {
+            add_msg( m_bad, _( "Your %1$s falls into your %2$s." ), it.tname(), loc.parent_item()->tname() );
+            loc.parent_pocket()->insert_item( it );
+            return;
+        }
+        if( loc.where() == item_location::type::container ) {
+            move_to_parent_pocket_recursive( pos, it, loc.parent_item() );
+            return;
+        }
+    }
+
+    map &here = get_map();
+    add_msg( m_bad, _( "Your %s falls to the ground." ), it.tname() );
+    here.add_item_or_charges( pos, it );
+}
+
+void item_pocket::overflow( const tripoint &pos, const item_location &loc )
 {
     if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
-        is_type( pocket_type::EBOOK ) ) {
+        is_type( pocket_type::EBOOK ) || is_type( pocket_type::CABLE ) ) {
         return;
     }
     if( empty() ) {
@@ -1651,18 +1682,21 @@ void item_pocket::overflow( const tripoint &pos )
 
     // overflow recursively
     for( item &it : contents ) {
-        it.overflow( pos );
+        if( loc ) {
+            item_location content_loc( loc, &it );
+            content_loc.overflow();
+        } else {
+            it.overflow( pos );
+        }
     }
 
-    map &here = get_map();
     // first remove items that shouldn't be in there anyway
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         ret_val<contain_code> ret_contain = can_contain( *iter );
         if( is_type( pocket_type::MIGRATION ) || ( !ret_contain.success() &&
                 ret_contain.value() != contain_code::ERR_NO_SPACE &&
                 ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
-            add_msg( m_bad, _( "Your %s falls to the ground." ), iter->tname() );
-            here.add_item_or_charges( pos, *iter );
+            move_to_parent_pocket_recursive( pos, *iter, loc );
             iter = contents.erase( iter );
         } else {
             ++iter;
@@ -1691,8 +1725,7 @@ void item_pocket::overflow( const tripoint &pos )
             if( overflow_count > 0 ) {
                 ammo.charges -= overflow_count;
                 item dropped_ammo( ammo.typeId(), ammo.birthday(), overflow_count );
-                add_msg( m_bad, _( "Your %s falls to the ground." ), iter->tname() );
-                here.add_item_or_charges( pos, contents.front() );
+                move_to_parent_pocket_recursive( pos, *iter, loc );
                 total_qty -= overflow_count;
             }
             if( ammo.count() == 0 ) {
@@ -1711,8 +1744,7 @@ void item_pocket::overflow( const tripoint &pos )
             return left.volume() > right.volume();
         } );
         while( remaining_volume() < 0_ml && !contents.empty() ) {
-            add_msg( m_bad, _( "Your %s falls to the ground." ), contents.front().tname() );
-            here.add_item_or_charges( pos, contents.front() );
+            move_to_parent_pocket_recursive( pos, contents.front(), loc );
             contents.pop_front();
         }
     }
@@ -1721,8 +1753,7 @@ void item_pocket::overflow( const tripoint &pos )
             return left.weight() > right.weight();
         } );
         while( remaining_weight() < 0_gram && !contents.empty() ) {
-            add_msg( m_bad, _( "Your %s falls to the ground." ), contents.front().tname() );
-            here.add_item_or_charges( pos, contents.front() );
+            move_to_parent_pocket_recursive( pos, contents.front(), loc );
             contents.pop_front();
         }
     }
@@ -1746,7 +1777,8 @@ void item_pocket::on_contents_changed()
 
 bool item_pocket::spill_contents( const tripoint &pos )
 {
-    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ) {
+    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ||
+        is_type( pocket_type::CABLE ) ) {
         return false;
     }
 
@@ -1803,7 +1835,8 @@ void item_pocket::process( map &here, Character *carrier, const tripoint &pos, f
     }
 }
 
-void item_pocket::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
+void item_pocket::leak( map &here, Character *carrier, const tripoint &pos,
+                        item_pocket *pocke )
 {
     std::vector<item *> erases;
     for( auto iter = contents.begin(); iter != contents.end(); ) {
@@ -2203,7 +2236,8 @@ std::vector<item_pocket::favorite_settings>::iterator item_pocket::find_preset(
     return iter;
 }
 
-void item_pocket::delete_preset( const std::vector<item_pocket::favorite_settings>::iterator iter )
+void item_pocket::delete_preset( const std::vector<item_pocket::favorite_settings>::iterator
+                                 iter )
 {
     pocket_presets.erase( iter );
     save_presets();
@@ -2211,7 +2245,7 @@ void item_pocket::delete_preset( const std::vector<item_pocket::favorite_setting
 
 void item_pocket::load_presets()
 {
-    cata::ifstream fin;
+    std::ifstream fin;
     cata_path file = PATH_INFO::pocket_presets();
 
     fs::path file_path = file.get_unrelative_path();

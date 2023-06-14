@@ -12,11 +12,13 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "fault.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
@@ -40,24 +42,13 @@ static const itype_id itype_battery( "battery" );
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : id( vpart_id::NULL_ID() ) {}
+    : vehicle_part( vpart_id::NULL_ID(), item( vpart_id::NULL_ID()->base_item ) ) { }
 
-vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, const point &dp,
-                            item &&obj )
-    : mount( dp ), id( vp ), variant( variant_id ), base( std::move( obj ) )
+vehicle_part::vehicle_part( const vpart_id &type, item &&base )
+    : info_( &type.obj() )
 {
-    // Mark base item as being installed as a vehicle part
-    base.set_flag( flag_VEHICLE );
-
-    if( base.typeId() != vp->base_item ) {
-        debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
-                  vp->base_item.c_str(), base.typeId().c_str() );
-    }
-}
-
-vehicle_part::operator bool() const
-{
-    return id != vpart_id::NULL_ID();
+    set_base( std::move( base ) );
+    variant = info_->variant_default;
 }
 
 const item &vehicle_part::get_base() const
@@ -65,9 +56,15 @@ const item &vehicle_part::get_base() const
     return base;
 }
 
-void vehicle_part::set_base( const item &new_base )
+void vehicle_part::set_base( item &&new_base )
 {
-    base = new_base;
+    if( new_base.typeId() != info().base_item ) {
+        debugmsg( "new base '%s' doesn't match part type '%s', this is a bug",
+                  new_base.typeId().str(), info().get_id().str() );
+        return;
+    }
+    base = std::move( new_base );
+    base.set_flag( flag_VEHICLE );
 }
 
 item vehicle_part::properties_to_item() const
@@ -77,23 +74,52 @@ item vehicle_part::properties_to_item() const
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( flag_CABLE_SPOOL ) && !tmp.has_flag( flag_TOW_CABLE ) ) {
+    if( tmp.has_flag( flag_CABLE_SPOOL ) ) {
         map &here = get_map();
-        const tripoint local_pos = here.getlocal( target.first );
-        if( !here.veh_at( local_pos ) ) {
-            // That vehicle ain't there no more.
-            tmp.set_flag( flag_NO_DROP );
+        tmp.link = cata::make_value<item::link_data>();
+
+        // Tow cables have these variables assigned in invalidate_towing, which calls properties_to_item.
+        if( !tmp.has_flag( flag_TOW_CABLE ) ) {
+            const tripoint local_pos = here.getlocal( target.first );
+            const optional_vpart_position target_vp = here.veh_at( local_pos );
+            if( !target_vp ) {
+                // That vehicle ain't there no more.
+                tmp.set_flag( flag_NO_DROP );
+            } else {
+                tmp.link->t_mount = target_vp->mount();
+            }
+            tmp.link->t_abs_pos = tripoint_abs_ms( target.second );
+            tmp.link->s_state = link_state::no_link;
+            tmp.link->t_state = link_state::vehicle_port;
         }
 
-        tmp.set_var( "source_x", target.first.x );
-        tmp.set_var( "source_y", target.first.y );
-        tmp.set_var( "source_z", target.first.z );
-        tmp.set_var( "state", "pay_out_cable" );
+        bool iuse_found = false;
+        const use_function *iuse = tmp.type->get_use( "link_up" );
+        if( iuse != nullptr ) {
+            const link_up_actor *actor_ptr =
+                static_cast<const link_up_actor *>( iuse->get_actor_ptr() );
+            if( actor_ptr != nullptr ) {
+                iuse_found = true;
+                tmp.link->max_length = actor_ptr->cable_length;
+                tmp.link->charge_efficiency = actor_ptr->charge_efficiency;
+                tmp.link->charge_rate = actor_ptr->charge_rate.value();
+                tmp.link->charge_interval = actor_ptr->charge_rate == 0_W ? -1 :
+                                            std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( actor_ptr->charge_rate.value() ) +
+                                                      0.5 ) ) );
+            }
+        }
+        if( !iuse_found ) {
+            debugmsg( "Could not find link_up iuse data for %s!  Using default values.", tmp.tname() );
+            tmp.link->max_length = tmp.type->maximum_charges();
+        }
+
+        tmp.link->last_processed = calendar::turn;
         tmp.active = true;
     }
 
-    // quantize damage to the middle of each damage_level so that items will stack nicely
+    // quantize damage and degradation to the middle of each damage_level so that items will stack nicely
     tmp.set_damage( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
+    tmp.set_degradation( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
     return tmp;
 }
 
@@ -116,11 +142,18 @@ std::string vehicle_part::name( bool with_prefix ) const
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
-    if( base.is_faulty() ) {
-        res += _( " (faulty)" );
+    for( const fault_id &f : base.faults ) {
+        const std::string prefix = f->item_prefix();
+        if( !prefix.empty() ) {
+            res += " (" + prefix + ")";
+            break;
+        }
     }
     if( is_leaking() ) {
         res += _( " (draining)" );
+    }
+    if( debug_mode ) {
+        res += "{" + variant + "}";
     }
     return res;
 }
@@ -587,18 +620,7 @@ bool vehicle_part::is_seat() const
 
 const vpart_info &vehicle_part::info() const
 {
-    static const vpart_info info_none = vpart_info();
-    if( !info_cache ) {
-        // segmentation fault occurs here during severe vehicle crash
-        // probably this part is removed/destroyed?
-        if( !id.is_null() && id.is_valid() ) {
-            info_cache = &id.obj();
-        } else {
-            info_cache = nullptr;
-            return info_none;
-        }
-    }
-    return *info_cache;
+    return *info_;
 }
 
 void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_degradation )

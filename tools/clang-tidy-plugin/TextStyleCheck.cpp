@@ -1,6 +1,6 @@
 #include "TextStyleCheck.h"
 
-#include <ClangTidy.h>
+#include <clang-tidy/ClangTidy.h>
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/Expr.h>
 #include <clang/AST/ExprCXX.h>
@@ -93,12 +93,12 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
     }
 
     // ignore wide/u16/u32 strings
-    if( ( !text.isAscii() && !text.isUTF8() ) || text.getCharByteWidth() != 1 ) {
+    if( ( text.isWide() || text.isUTF16() || text.isUTF32() ) || text.getCharByteWidth() != 1 ) {
         return;
     }
 
     // disable fix-its for utf8 strings to avoid removing the u8 prefix
-    bool fixit = text.isAscii();
+    bool fixit = !text.isUTF8();
     for( size_t i = 0; fixit && i < text.getNumConcatenated(); ++i ) {
         const SourceLocation &loc = text.getStrTokenLoc( i );
         if( !loc.isMacroID() && SrcMgr.getCharacterData( loc )[0] == 'R' ) {

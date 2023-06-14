@@ -2,9 +2,9 @@
 
 Vehicle prototypes are used to spawn stock vehicles. After a vehicle has been spawned, it is saved in a different format.
 
-Vehicle prototypes do not currently accept copy-from
+`copy-from` may be used in a limited form to copy fields from a "parent" definition; first the copy-from data is applied and then the parts, items and zones fields are appended on top of the `copy-from` data.
 
-## vehicle prototypes
+## Vehicle prototypes
 
 ```C++
 "type": "vehicle",
@@ -16,17 +16,17 @@ Vehicle prototypes do not currently accept copy-from
     "o#o"
 ],
 "parts": [                                 // Parts list
-    { "x": 0, "y": 0, "part": "frame" },   // Part definition, positive x direction is up,
-    { "x": 0, "y": 0, "part": "seat" },    // positive y is to the right
-    { "x": 0, "y": 0, "part": "controls"}, // See vehicle_parts.json for part ids
-    { "x": 1, "y": 1, "part": "veh_tools_workshop", "tools": [ "welder" ] },  // spawn attached tools
-    { "x": 0, "y": 1, "parts": [ "frame", "seat" ] }, // Arrays of parts on the same space
+    { "x": 0, "y": 0, "parts": [ "frame" ] },   // Part definition, positive x direction is up,
+    { "x": 0, "y": 0, "parts": [ "seat" ] },    // positive y is to the right
+    { "x": 0, "y": 0, "parts": [ "controls" ] }, // See vehicle_parts.json for part ids
+    { "x": 1, "y": 1, "parts": [ "veh_tools_workshop", "tools": [ "welder" ] ] },  // spawn attached tools
+    { "x": 0, "y": 1, "parts": [ "frame", "seat" ] },
     { "x": 0, "y": 1, "parts": [ { "part": "tank", "fuel": "gasoline" }, "battery_car" ] },
-    { "x": 0, "y": 1, "part": "stereo" },  // parts arrays and part may be mixed on the same space
-    { "x": 1, "y": 0, "parts": [ "frame_cover", "wheel_mount_medium", "wheel" ] },
-    { "x": 1, "y": 1, "parts": [ "frame_cross", "wheel_mount_medium", "wheel" ] },
-    { "x": -1, "y": 0, "parts": [ "frame_cover", "wheel_mount_medium", "wheel" ] },
-    { "x": -1, "y": 1, "parts": [ "frame_cross", "wheel_mount_medium", "wheel" ] }
+    { "x": 0, "y": 1, "parts": [ "stereo" ] }, // order matters - see below
+    { "x": 1, "y": 0, "parts": [ "frame#cover", "wheel_mount_medium", "wheel" ] },
+    { "x": 1, "y": 1, "parts": [ "frame#cross", "wheel_mount_medium", "wheel" ] },
+    { "x": -1, "y": 0, "parts": [ "frame#cover", "wheel_mount_medium", "wheel" ] },
+    { "x": -1, "y": 1, "parts": [ "frame#cross", "wheel_mount_medium", "wheel" ] }
 ],
 "items": [                                 // Item spawn list
     { "x": 0, "y": 0, "items": "helmet_army" },   // individual item
@@ -39,26 +39,56 @@ Vehicle prototypes do not currently accept copy-from
 ]
 ```
 
-.* Important! *. Vehicle parts must be defined in the same order you would install them in the game (ie, frames and mount points first).  You also cannot break the normal rules of installation (you can't stack non-stackable part flags).
+### Part order
+
+.* Important! *.
+Vehicle parts must be defined in the same order you would install them in the game: a wheel hub must be added prior to the wheel, but after the frame.  You also cannot break the normal rules of installation (you can't stack non-stackable part flags).
 
 ### Parts list
 The part list contains an arbitrary number of lines. Each line is of the form:
-    { "x": X, "y": Y, "part": PARTID, ... }
-or
-    { "x": X, "y": Y, "parts": [ PARTID1, ... ] }
+{ "x": X, "y": Y, "parts": [ "PARTID1", { "part": "PARTID2", "fuel": "gasoline", ... }, "PARTID3"... ] }
 
-In the first form, the line defines a single part at location X,Y of vehicle part type PARTID. It can have the optional "ammo", "ammo_types", "ammo_qty", or "fuel" keys with an appropriate value following.
+The line defines parts at location X,Y. Strings, like "PARTID1" and "PARTID3", spawn parts with no extra options. PARTID2 is using object form, this way optional keys can be used to define extra options (see below for a list).
 
-In the second form, the line defines several parts at location X, Y. Each part is either defined by its PARTID string, or can be an object of the form
-    { "part": PARTID, ... }
-with any of the optional keys  "ammo", "ammo_types", "ammo_qty", or "fuel" as above.
+Several different lines can have the same X, Y co-ordinates and each one adds additional parts to that location.
 
-Several different lines can have the same X, Y co-ordinates and each one adds additional parts to that location. Parts must be added in the correct order ie: A wheel hub must be added prior to the wheel, but after the frame.
+### Extra options
 
-#### PARTID and variants
-Some parts can be installed with different symbols (and tileset sprites) in different locations.  The different symbols can either be different parts (usually generated with copy-from) or the same part with a `"symbols"` or `"standard_symbols"` entry.  In the latter case, the different symbols are variants of the part.
+#### Turrets
 
-If a part has variants, the specific variant can be specified in the vehicle prototype by appending the variant to the part id after a `_` symbol.  Thus, `"frame_cross"` is the `"cross"` variant of the `"frame"` part.
+`ammo` - integer in range of [0-100], percent chance of turret spawning with ammo, 100 always spawns ammo.
+
+`ammo_types` - an array of itype_id strings, random ammo type will be chosen to spawn
+
+`ammo_qty` - an array of 2 integers, representing min and max amount of ammo to spawn
+
+#### Fuel tanks
+
+`fuel`, an itype_id string - for liquid tank parts, which liquid type to fill the tank with
+
+#### VEH_TOOLS parts
+
+`tools`, an array of itype_id strings - for VEH_TOOLS parts, which tool types should spawn attached
+
+### Part variants
+Some parts can have multiple variants; each variant can define the symbols and broken symbols, also each variant is a tileset sprite, if the tileset defines one for the variant.
+
+If a part has variants, the specific variant can be specified in the vehicle prototype by appending the variant to the part id after a `#` symbol.  Thus, `"frame#cross"` is the `"cross"` variant of the `"frame"` part.
+
+Variants perform a mini-lookup chain by slicing variant string until the next `_` from the right until a match is found.
+For example the tileset lookups for `seat_leather#windshield_left` are as follows:
+
+* `vp_seat_leather_windshield_left`
+
+* `vp_seat_leather_windshield`
+
+( At this point variant is completely gone and default tile is looked for: )
+
+* `vp_seat_leather`
+
+( If still no match is found then the `looks_like` field of `vp_seat_leather` is used and tileset looks for: )
+
+* `vp_seat`
 
 ### Items list
 The items list contains an arbitrary number of lines. Each line is of the form:

@@ -336,6 +336,7 @@ std::optional<std::list<item>::iterator> Character::wear_item( const item &to_we
         bool interactive, bool do_calc_encumbrance )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
         if( interactive ) {
@@ -723,7 +724,7 @@ bool Character::is_wearing_active_optcloak() const
 }
 
 static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const item &it,
-                        std::map<bodypart_id, layer_level> &highest_layer_so_far, const Character &c )
+                        std::map<sub_bodypart_id, layer_level> &highest_layer_so_far, const Character &c )
 {
     body_part_set covered_parts = it.get_covered_body_parts();
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
@@ -752,22 +753,46 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
             // do the sublayers of this armor conflict
             bool conflicts = false;
 
+            // check if we've already added conflict for the layer and body part since each sbp is check individually
+            std::map<layer_level, bool> bpcovered;
+
             // add the sublocations to the overall body part layer and update if we are conflicting
-            if( !bp->sub_parts.empty() && item_layer >= highest_layer_so_far[bp] ) {
-                conflicts = vals[bp].add_sub_locations( item_layer, it.get_covered_sub_body_parts() );
-            } else {
-                // the body part doesn't have sublocations it for sure conflicts
-                // if its on the wrong layer it for sure conflicts
-                conflicts = true;
-            }
+            for( sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
+                if( std::count_if( bp->sub_parts.begin(),
+                bp->sub_parts.end(), [sbp]( const sub_bodypart_str_id & bpid ) {
+                return sbp.id() == bpid;
+                } ) == 0 ) {
+                    // the sub part isn't part of the bodypart we are checking
+                    continue;
+                }
+                // bit hacky but needed since we are doing one layer at a time
+                std::vector<layer_level> ll;
+                ll.push_back( item_layer );
+                if( !it.has_layer( ll, sbp ) ) {
+                    // skip this layer and sbp if it doesn't cover it
+                    continue;
+                }
 
-            highest_layer_so_far[bp] = std::max( highest_layer_so_far[bp], item_layer );
+                if( item_layer >= highest_layer_so_far[sbp] ) {
+                    conflicts = vals[bp].add_sub_location( item_layer, sbp );
+                } else {
+                    // if it is on a lower layer it conflicts for sure
+                    conflicts = true;
+                }
 
-            // Apply layering penalty to this layer, as well as any layer worn
-            // within it that would normally be worn outside of it.
-            for( layer_level penalty_layer = item_layer;
-                 penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
-                vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
+                highest_layer_so_far[sbp] = std::max( highest_layer_so_far[sbp], item_layer );
+
+                // Apply layering penalty to this layer, as well as any layer worn
+                // within it that would normally be worn outside of it.
+                for( layer_level penalty_layer = item_layer;
+                     penalty_layer <= highest_layer_so_far[sbp]; ++penalty_layer ) {
+
+                    // make sure we haven't already found a subpart that covers and would cause penalty
+                    if( !bpcovered[penalty_layer] ) {
+                        vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
+                        bpcovered[penalty_layer] = true;
+                    }
+                }
             }
         }
         vals[bp].armor_encumbrance += encumber_val;
@@ -809,7 +834,7 @@ void outfit::item_encumb( std::map<bodypart_id, encumbrance_data> &vals,
 
     // Track highest layer observed so far so we can penalize out-of-order
     // items
-    std::map<bodypart_id, layer_level> highest_layer_so_far;
+    std::map<sub_bodypart_id, layer_level> highest_layer_so_far;
 
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
         if( w_it == new_item_position ) {
@@ -864,6 +889,15 @@ bool outfit::is_worn( const itype_id &clothing ) const
     }
     return false;
 }
+bool outfit::is_worn_module( const item &thing ) const
+
+{
+    return thing.has_flag( flag_CANT_WEAR ) &&
+    std::any_of( worn.cbegin(), worn.cend(), [&thing]( item const & elem ) {
+        return elem.contained_where( thing ) != nullptr;
+    } );
+}
+
 
 bool outfit::is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const
 {
@@ -1975,10 +2009,10 @@ void outfit::best_pocket( Character &guy, const item &it, const item *avoid,
     }
 }
 
-void outfit::overflow( const tripoint &pos )
+void outfit::overflow( Character &guy )
 {
-    for( item &clothing : worn ) {
-        clothing.overflow( pos );
+    for( item_location &clothing : top_items_loc( guy ) ) {
+        clothing.overflow();
     }
 }
 

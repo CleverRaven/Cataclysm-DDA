@@ -62,7 +62,7 @@
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -87,7 +87,7 @@
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -119,7 +119,7 @@
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -151,7 +151,7 @@
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -183,7 +183,7 @@
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -215,7 +215,7 @@
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
@@ -779,22 +779,20 @@
   },
   {
     "id": "gloves_medical",
-    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": { "str": "pair of medical gloves", "str_pl": "pairs of medical gloves" },
     "description": "A pair of thin latex gloves, designed to limit the spread of disease.  Too fragile to protect you from much else.",
-    "weight": "10 g",
-    "volume": "2 ml",
-    "price": 1000,
+    "weight": "3 g",
+    "volume": "5 ml",
+    "price": 10,
     "price_postapoc": 10,
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "white",
     "material_thickness": 0.1,
     "environmental_protection": 2,
-    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT", "FRAGILE", "NO_REPAIR" ],
     "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1005,7 +1003,7 @@
     "warmth": 25,
     "material_thickness": 2,
     "environmental_protection": 5,
-    "flags": [ "WATERPROOF", "STURDY" ],
+    "flags": [ "WATERPROOF", "STURDY", "VARSIZE" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1026,8 +1024,8 @@
     "warmth": 10,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
-    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "flags": [ "STURDY", "VARSIZE" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wraps",
@@ -1132,7 +1130,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "FANCY" ]
   },
   {
     "id": "mittens",
@@ -1873,8 +1871,8 @@
     "symbol": "[",
     "looks_like": "gloves_tactical",
     "color": "dark_gray",
-    "warmth": 20,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "warmth": 5,
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "encumbrance": 4,

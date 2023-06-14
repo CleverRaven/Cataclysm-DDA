@@ -525,6 +525,41 @@
   },
   {
     "type": "TOOL_ARMOR",
+    "id": "smart_watch",
+    "name": { "str": "smart watch", "str_pl": "smart watches" },
+    "category": "clothing",
+    "volume": "125 ml",
+    "description": "A touchscreen watch that comes with many uses, such as a calendar, alarm, and even a fitness app, for when you want to check your health on the go!",
+    "weight": "61 g",
+    "to_hit": -1,
+    "color": "light_gray",
+    "sided": true,
+    "price": 10000,
+    "price_postapoc": 150,
+    "material": [ { "type": "plastic", "portion": 75 }, { "type": "aluminum", "portion": 25 } ],
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK",
+      "BELTED",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "OVERSIZE",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "WATER_BREAK",
+      "CALORIES_INTAKE",
+      "ELECTRONIC"
+    ],
+    "symbol": "[",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": [ "CAMERA", "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 80 } } ],
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+  },
+  {
+    "type": "TOOL_ARMOR",
     "id": "fitness_band",
     "name": { "str": "fitness band" },
     "category": "clothing",
@@ -1374,7 +1409,14 @@
     "material": [ "ceramic", "kevlar" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_atomic_battery_cell"
+      }
+    ],
     "ammo": "battery",
     "use_action": {
       "type": "transform",
@@ -2206,7 +2248,7 @@
     "price": 92000,
     "price_postapoc": 3500,
     "material": [ "plastic", "steel" ],
-    "repairs_like": "UPS_off",
+    "repairs_like": "UPS_OFF",
     "weight": "1020 g",
     "volume": "1 L",
     "to_hit": -3,
@@ -2236,7 +2278,7 @@
   {
     "id": "goggles_nv_on",
     "copy-from": "goggles_nv",
-    "repairs_like": "UPS_off",
+    "repairs_like": "UPS_OFF",
     "type": "TOOL_ARMOR",
     "name": { "str_pl": "pairs of light amp goggles (on)", "str": "pair of light amp goggles (on)" },
     "description": "A pair of battery-powered light amplifying goggles with an infrared illuminator, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
@@ -2261,7 +2303,7 @@
     "price": 92000,
     "price_postapoc": 2500,
     "material": [ "plastic", "steel" ],
-    "repairs_like": "UPS_off",
+    "repairs_like": "UPS_OFF",
     "weight": "1240 g",
     "volume": "1 L",
     "to_hit": -3,
@@ -2291,7 +2333,7 @@
   {
     "id": "goggles_ir_on",
     "copy-from": "goggles_ir",
-    "repairs_like": "UPS_off",
+    "repairs_like": "UPS_OFF",
     "type": "TOOL_ARMOR",
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",

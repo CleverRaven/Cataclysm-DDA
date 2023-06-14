@@ -758,7 +758,7 @@
   {
     "type": "furniture",
     "id": "f_arc_furnace",
-    "name": "electric arc furnace",
+    "name": "industrial arc furnace",
     "looks_like": "f_machinery_heavy",
     "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.  Can be used in recipes instead of a forge, when supplied with power from a UPS.",
     "symbol": "0",
@@ -822,7 +822,7 @@
     "id": "f_drill_press",
     "name": "drill press",
     "looks_like": "f_machinery_light",
-    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking.  You can take this down and plug it into a power grid to use it.",
+    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking.  You can take this down and plug it into your own power grid to use it.",
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": -1,
@@ -1642,7 +1642,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
-      "items": [ { "item": "chain", "count": 1 }, { "item": "block_and_tackle", "count": 1 }, { "item": "nuts_bolts", "count": 2 } ]
+      "items": [ { "item": "chain", "count": 1 }, { "item": "block_and_tackle", "count": 1 }, { "item": "nuts_bolts", "charges": 2 } ]
     },
     "crafting_pseudo_item": "fake_lift_heavy"
   }

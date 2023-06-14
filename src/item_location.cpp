@@ -957,6 +957,11 @@ bool item_location::eventually_contains( item_location loc ) const
     return false;
 }
 
+void item_location::overflow()
+{
+    get_item()->overflow( position(), *this );
+}
+
 item_location::type item_location::where() const
 {
     return ptr->where();

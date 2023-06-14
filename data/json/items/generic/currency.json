@@ -13,6 +13,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": "$",
+    "flags": [ "BANK_NOTE_SHAPED" ],
     "material": [ "paper" ]
   },
   {
@@ -29,6 +30,7 @@
     "to_hit": -3,
     "color": "yellow",
     "symbol": "$",
+    "flags": [ "COIN_SHAPED" ],
     "material": [ "gold" ]
   },
   {
@@ -44,6 +46,7 @@
     "to_hit": -3,
     "color": "brown",
     "symbol": "$",
+    "flags": [ "COIN_SHAPED" ],
     "material": [ "copper" ]
   },
   {
@@ -59,6 +62,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": "$",
+    "flags": [ "BANK_NOTE_SHAPED" ],
     "material": [ "paper" ]
   },
   {
@@ -74,6 +78,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": "$",
+    "flags": [ "CREDIT_CARD_SHAPED" ],
     "material": [ "paper" ]
   },
   {
@@ -89,7 +94,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "brown",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -105,7 +110,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -121,7 +126,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -137,7 +142,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -153,7 +158,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -169,7 +174,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -185,6 +190,7 @@
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
+    "flags": [ "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -200,6 +206,7 @@
     "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
+    "flags": [ "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -238,7 +245,7 @@
     "symbol": "$",
     "color": "green",
     "to_hit": -3,
-    "flags": [ "OLD_CURRENCY" ]
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -251,7 +258,7 @@
     "symbol": "$",
     "price": 200,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -264,7 +271,7 @@
     "symbol": "$",
     "price": 500,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -277,7 +284,7 @@
     "symbol": "$",
     "price": 1000,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -290,7 +297,7 @@
     "symbol": "$",
     "price": 2000,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -303,7 +310,7 @@
     "symbol": "$",
     "price": 5000,
     "price_postapoc": 1,
-    "flags": [ "OLD_CURRENCY" ]
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -316,7 +323,7 @@
     "symbol": "$",
     "price": 10000,
     "price_postapoc": 1,
-    "flags": [ "OLD_CURRENCY" ]
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -333,7 +340,7 @@
     "material": [ "paper" ],
     "price": 10000,
     "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_STRAP_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -413,11 +420,13 @@
     "name": { "str": "merch currency strap" },
     "description": "A hundred Free Merchant Certified Notes held together by an improvised currency strap.  This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
     "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "copy-from": "FMCNote",
     "color": "white",
-    "symbol": "$",
     "price": 500000,
-    "price_postapoc": 25000
+    "price_postapoc": 25000,
+    "weight": "100 g",
+    "volume": "113 ml",
+    "flags": [ "BANK_NOTE_STRAP_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -514,11 +523,12 @@
     "name": { "str": "merch currency bundle" },
     "description": "A thousand Free Merchant Certified Notes, divided evenly between ten improvised currency straps, and bundled together with rubber bands.  This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
     "looks_like": "money_bundle_one",
-    "copy-from": "money_bundle_one",
+    "copy-from": "money_strap_FMCNote",
     "color": "green",
-    "symbol": "$",
     "price": 5000000,
-    "price_postapoc": 250000
+    "price_postapoc": 250000,
+    "weight": "1000 g",
+    "volume": "1129 ml"
   },
   {
     "type": "GENERIC",
