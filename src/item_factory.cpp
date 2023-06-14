@@ -2391,8 +2391,6 @@ void Item_factory::check_definitions() const
         elem.second->check_consistency();
         inp_mngr.pump_events();
     }
-
-
 }
 
 //Returns the template with the given identification tag
