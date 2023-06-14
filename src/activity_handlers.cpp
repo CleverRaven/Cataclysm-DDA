@@ -2526,6 +2526,8 @@ void activity_handlers::heat_item_finish( player_activity *act, Character *you )
 
 void activity_handlers::mend_item_finish( player_activity *act, Character *you )
 {
+    time_duration final_time;
+
     act->set_to_null();
     if( act->targets.size() != 1 ) {
         debugmsg( "invalid arguments to ACT_MEND_ITEM" );
@@ -2586,6 +2588,10 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
 
     for( const auto &[skill_id, level] : fix.skills ) {
         you->practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
+    }
+
+    for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
+         you->practice_proficiency( auto.first, fix.time );
     }
 
     add_msg( m_good, fix.success_msg.translated(), target.tname( 1, false ),
