@@ -67,9 +67,6 @@
     "name": "active demolition charge",
     "looks_like": "c4armed",
     "description": "A powerful explosive with a highly focused blast radius, often used for mining or demolition work.  It's currently active.",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "turns_per_charge": 1,
     "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 3000, "max_noise": 250, "distance_factor": 0.3 } },
     "extend": { "flags": [ "TRADER_AVOID" ] }
@@ -136,9 +133,6 @@
     "material": [ "superalloy" ],
     "symbol": "*",
     "color": "green",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": {
       "type": "explosion",
