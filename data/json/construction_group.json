@@ -116,6 +116,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_chest",
+    "name": "Build Wooden Chest"
+  },
+  {
+    "type": "construction_group",
     "id": "build_chickenwire_fence",
     "name": "Build Chickenwire Fence"
   },
@@ -248,6 +253,16 @@
     "type": "construction_group",
     "id": "build_earthbag_wall",
     "name": "Build Earthbag Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_showjump_end",
+    "name": "Build Show Jump End"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_showjump",
+    "name": "Place Show Jump"
   },
   {
     "type": "construction_group",
@@ -1353,6 +1368,11 @@
     "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_standing_directed_floodlight",
+    "name": "Place Standing Directed Floodlight"
   },
   {
     "type": "construction_group",

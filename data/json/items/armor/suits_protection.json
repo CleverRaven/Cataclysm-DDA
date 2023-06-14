@@ -1532,7 +1532,6 @@
   },
   {
     "id": "beekeeping_suit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "beekeeping suit" },
     "description": "A white suit commonly worn by professional beekeepers with straps on your ankles and wrists to prevent bees from flying in.  It's not a very tough fabric, but it's lightweight and has plenty of storage thanks to a chest pocket.",
@@ -4817,7 +4816,8 @@
   },
   {
     "id": "cleansuit",
-    "repairs_like": "fsurvivor_suit",
+    "repairs_like": "bunker_coat",
+    "//": "Should be somewhat more difficult to repair than ordinary plastic",
     "type": "ARMOR",
     "name": { "str": "cleansuit" },
     "description": "A simple hazardous materials handling suit.  Though somewhat restrictive and fragile, wearing it will provide excellent protection against ambient radiation.",
@@ -6794,7 +6794,8 @@
   },
   {
     "id": "hazmat_suit",
-    "repairs_like": "fsurvivor_suit",
+    "//": "Should be substantially more difficult to repair than ordinary plastic - ch_steel is difficulty 7",
+    "repairs_like": "ch_steel_lump",
     "type": "ARMOR",
     "name": { "str": "hazmat suit" },
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
@@ -6857,7 +6858,6 @@
   },
   {
     "id": "robofac_enviro_suit",
-    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "Hub 01 environmental suit" },
     "description": "A lightweight environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
@@ -7010,7 +7010,6 @@
   },
   {
     "id": "robofac_enviro_suit_casual",
-    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "robofac_enviro_suit",
     "name": { "str": "Hub 01 environmental suit (casual)", "str_pl": "Hub 01 environmental suits (casual)" },
@@ -7139,7 +7138,6 @@
   },
   {
     "id": "suit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "suit" },
     "description": "A full-body cotton suit.  Makes the apocalypse a truly gentlemanly experience.",
@@ -7173,7 +7171,6 @@
   },
   {
     "id": "touring_suit",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "track touring suit" },
     "description": "A leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.  The leather is stiff but makes the armor much sturdier and more protective than lighter counterparts.",
@@ -7240,7 +7237,6 @@
   },
   {
     "id": "officer_uniform",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "dress uniform" },
     "description": "A military officer's dress uniform from before the Cataclysm, complete with rank and ribbons.  Just looking at it gives you an air of authority.  Perhaps not the most practical military wear, but a very stylish option.",
@@ -7275,7 +7271,6 @@
   },
   {
     "id": "mil_flight_suit",
-    "repairs_like": "nomex_suit",
     "type": "ARMOR",
     "name": { "str": "military flight suit" },
     "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
@@ -7360,7 +7355,6 @@
   {
     "id": "armor_nomad_plate_on",
     "copy-from": "armor_nomad_plate",
-    "repairs_like": "armor_nomad_plate",
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
@@ -7430,7 +7424,6 @@
   {
     "id": "armor_nomad_lightplate_on",
     "copy-from": "armor_nomad_lightplate",
-    "repairs_like": "armor_nomad_lightplate",
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
@@ -7500,7 +7493,6 @@
   {
     "id": "armor_nomad_heavyplate_on",
     "copy-from": "armor_nomad_heavyplate",
-    "repairs_like": "armor_nomad_heavyplate",
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
@@ -7520,7 +7512,6 @@
     "name": { "str": "nomad chainmail", "str_pl": "suits of nomad chainmail" },
     "weight": "17200 g",
     "volume": "7000 ml",
-    "repairs_like": "armor_nomad_lightplate",
     "description": "A full body multilayered chainmail hauberk.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
@@ -7569,7 +7560,6 @@
   {
     "id": "armor_nomad_chainmail_on",
     "copy-from": "armor_nomad_chainmail",
-    "repairs_like": "armor_nomad_chainmail",
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad chainmail (on)", "str_pl": "suits of nomad chainmail (on)" },
     "revert_to": "armor_nomad_chainmail",

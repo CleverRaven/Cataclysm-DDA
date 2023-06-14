@@ -1743,39 +1743,40 @@ bool Creature::has_effect_with_flag( const flag_id &flag ) const
     } );
 }
 
-std::vector<effect> Creature::get_effects_with_flag( const flag_id &flag ) const
+std::vector<std::reference_wrapper<const effect>> Creature::get_effects_with_flag(
+            const flag_id &flag ) const
 {
-    std::vector<effect> effs;
+    std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
         if( !elem.first->has_flag( flag ) ) {
             continue;
         }
         for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            effs.push_back( _it.second );
+            effs.emplace_back( _it.second );
         }
     }
     return effs;
 }
 
-std::vector<effect> Creature::get_effects() const
+std::vector<std::reference_wrapper<const effect>> Creature::get_effects() const
 {
-    std::vector<effect> effs;
+    std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
         for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            effs.push_back( _it.second );
+            effs.emplace_back( _it.second );
         }
     }
     return effs;
 }
 
-std::vector<effect> Creature::get_effects_from_bp( const bodypart_id &bp ) const
+std::vector<std::reference_wrapper<const effect>> Creature::get_effects_from_bp(
+            const bodypart_id &bp ) const
 {
-    std::vector<effect> effs;
+    std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
-        for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            if( _it.first == bp ) {
-                effs.push_back( _it.second );
-            }
+        const auto iter = elem.second.find( bp );
+        if( iter != elem.second.end() ) {
+            effs.emplace_back( iter->second );
         }
     }
     return effs;

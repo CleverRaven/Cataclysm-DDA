@@ -50,7 +50,7 @@ static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 
 static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
-static const vpart_id vpart_halfboard_horizontal( "halfboard_horizontal" );
+static const vpart_id vpart_halfboard( "halfboard" );
 static const vpart_id vpart_tank_test( "tank_test" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
@@ -62,8 +62,7 @@ TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
     // Picking halfboard_horizontal as a vpart which is likely to remain
     // defined via copy-from, and which should have non-zero damage reduction.
-    const vpart_info &vp = vpart_halfboard_horizontal.obj();
-    CHECK( vp.damage_reduction.at( damage_bash ) != 0.f );
+    CHECK( vpart_halfboard->damage_reduction.at( damage_bash ) != 0.f );
 }
 
 TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicle_parts]" )

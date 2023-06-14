@@ -843,7 +843,6 @@
       "palettes": [ "roof_palette" ],
       "terrain": {
         "<": "t_ladder_up",
-        ">": "t_stairs_down",
         "#": "t_strconc_wall",
         "+": "t_door_metal_c",
         "_": "t_thconc_floor",
@@ -878,7 +877,7 @@
         "    .............       ",
         "    ................    ",
         "    ................##  ",
-        "    ................>#  ",
+        "    ................v#  ",
         "    ................##  ",
         "    ................    ",
         "                        ",
@@ -897,8 +896,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

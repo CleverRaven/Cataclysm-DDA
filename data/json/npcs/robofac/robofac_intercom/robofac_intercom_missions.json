@@ -724,7 +724,7 @@
         "text": "You've got a deal.  I'll track down your robot.",
         "effect": [
           { "assign_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" },
-          { "u_spawn_item": "UPS_off", "count": 1 },
+          { "u_spawn_item": "UPS_OFF", "count": 1 },
           { "u_spawn_item": "heavy_battery_cell", "count": 1 },
           { "u_spawn_item": "robofac_yrax_deactivation_manual", "count": 1 },
           { "u_spawn_item": "hm12", "count": 1 }

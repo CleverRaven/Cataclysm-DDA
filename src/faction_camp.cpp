@@ -226,7 +226,7 @@ static int om_harvest_ter_break( npc &comp, const tripoint_abs_omt &omt_tgt, con
 static mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt,
                                    int chance = 100,
                                    bool take = true );
-static void apply_camp_ownership( const tripoint &camp_pos, int radius );
+static void apply_camp_ownership( map &here, const tripoint &camp_pos, int radius );
 /*
  * Counts or cuts trees into trunks and trunks into logs
  * @param omt_tgt the targeted OM tile
@@ -720,30 +720,16 @@ void talk_function::basecamp_mission( npc &p )
     }
     basecamp *bcp = *temp_camp;
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
-    if( bcp->get_dumping_spot() == tripoint_abs_ms{} ) {
-        map &here = get_map();
-        zone_manager &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
-            mgr.cache_vzones();
-        }
-        tripoint src_loc;
-        const tripoint_abs_ms abspos = p.get_location();
-        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
-            const std::unordered_set<tripoint_abs_ms> &src_set =
-                mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const std::vector<tripoint_abs_ms> &src_sorted =
-                get_sorted_tiles_by_distance( abspos, src_set );
-            // Find the nearest unsorted zone to dump objects at
-            if( !src_sorted.empty() ) {
-                src_loc = here.getlocal( src_sorted.front() );
-            }
-        }
-        bcp->set_dumping_spot( here.getglobal( src_loc ) );
-    }
-    bcp->get_available_missions( mission_key );
+    map &here = bcp->get_camp_map();
+    bcp->form_storage_zones( here, p.get_location() );
+    bcp->get_available_missions( mission_key, here );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
-        bcp->handle_mission( { mission_key.cur_key.id.id, false } );
+        bcp->handle_mission( mission_key.cur_key.id );
     }
+    here.save();
+    // This is to make sure the basecamp::camp_map is always usable and valid.
+    // Otherwise when quick saving unloads submaps, basecamp::camp_map is still valid but becomes unusable.
+    bcp->unload_camp_map();
 }
 
 void basecamp::add_available_recipes( mission_data &mission_key, mission_kind kind,
@@ -1352,14 +1338,14 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     }
 }
 
-void basecamp::get_available_missions( mission_data &mission_key )
+void basecamp::get_available_missions( mission_data &mission_key, map &here )
 {
     std::string entry;
 
     const point &base_dir = base_camps::base_dir;
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
-    reset_camp_resources();
+    reset_camp_resources( here );
 
     // Missions that belong exclusively to the central tile
     {
@@ -1748,14 +1734,19 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
         if( must_feed ) {
             camp_food_supply( duration, exertion_level );
         }
-
-        map *target_map = &get_map();
-        for( item *i : equipment ) {
-            int count = i->count();
-            target_map->use_charges( target_map->getlocal( get_dumping_spot() ), basecamp::inv_range,
-                                     i->typeId(), count );
+        if( !equipment.empty() ) {
+            map &target_map = get_camp_map();
+            std::vector<tripoint> src_set_pt;
+            src_set_pt.resize( src_set.size() );
+            for( const tripoint_abs_ms &p : src_set ) {
+                src_set_pt.emplace_back( target_map.getlocal( p ) );
+            }
+            for( item *i : equipment ) {
+                int count = i->count();
+                target_map.use_charges( src_set_pt, i->typeId(), count );
+            }
+            target_map.save();
         }
-        target_map->save();
     }
     return comp;
 }
@@ -3381,7 +3372,7 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
     }
     update_provides( bldg, e->second );
     update_resources( bldg );
-
+    overmap_buffer.ter_set( upos, oter_id( bldg ) );
     const std::string msg = _( "returns from upgrading the camp having earned a bit of "
                                "experience…" );
 
@@ -4695,11 +4686,7 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint &tar
 bool basecamp::validate_sort_points()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    map &here = get_map();
-    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
-        mgr.cache_vzones();
-    }
-    tripoint src_loc = here.getlocal( bb_pos ) + point_north;
+    map *here = &get_map();
     const tripoint_abs_ms abspos = get_player_character().get_location();
     if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
         !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
@@ -4709,16 +4696,8 @@ bool basecamp::validate_sort_points()
             return false;
         }
     } else {
-        const std::unordered_set<tripoint_abs_ms> &src_set =
-            mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-        const std::vector<tripoint_abs_ms> &src_sorted =
-            get_sorted_tiles_by_distance( abspos, src_set );
-        // Find the nearest unsorted zone to dump objects at
-        if( !src_sorted.empty() ) {
-            src_loc = here.getlocal( src_sorted.front() );
-        }
+        form_storage_zones( *here, abspos );
     }
-    set_dumping_spot( here.getglobal( src_loc ) );
     return true;
 }
 
@@ -5230,44 +5209,16 @@ int camp_morale( int change )
 
 void basecamp::place_results( const item &result )
 {
-    if( by_radio ) {
-        tinymap target_bay;
-        target_bay.load( project_to<coords::sm>( omt_pos ), false );
-        const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
-        target_bay.add_item_or_charges( new_spot, result, true );
-        apply_camp_ownership( new_spot, 10 );
-        target_bay.save();
-    } else {
-        map &here = get_map();
-        zone_manager &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
-            mgr.cache_vzones();
-        }
-        Character &player_character = get_player_character();
-        const tripoint_abs_ms abspos = player_character.get_location();
-        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
-            const std::unordered_set<tripoint_abs_ms> &src_set =
-                mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const std::vector<tripoint_abs_ms> &src_sorted =
-                get_sorted_tiles_by_distance( abspos, src_set );
-            // Find the nearest unsorted zone to dump objects at
-            for( const tripoint_abs_ms &src : src_sorted ) {
-                const tripoint &src_loc = here.getlocal( src );
-                here.add_item_or_charges( src_loc, result, true );
-                apply_camp_ownership( src_loc, 10 );
-                break;
-            }
-            //or dump them at players feet
-        } else {
-            here.add_item_or_charges( player_character.pos(), result, true );
-            apply_camp_ownership( player_character.pos(), 0 );
-        }
-    }
+    map &target_bay = get_camp_map();
+    form_storage_zones( target_bay, target_bay.getglobal( target_bay.getlocal( bb_pos ) ) );
+    const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
+    target_bay.add_item_or_charges( new_spot, result, true );
+    apply_camp_ownership( target_bay, new_spot, 10 );
+    target_bay.save();
 }
 
-void apply_camp_ownership( const tripoint &camp_pos, int radius )
+void apply_camp_ownership( map &here, const tripoint &camp_pos, int radius )
 {
-    map &here = get_map();
     for( const tripoint &p : here.points_in_rectangle( camp_pos + point( -radius, -radius ),
             camp_pos + point( radius, radius ) ) ) {
         map_stack items = here.i_at( p.xy() );

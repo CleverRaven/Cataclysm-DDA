@@ -1,0 +1,137 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "special_deep_rock",
+    "//": "For placing terrain lookalikes that unlike placing said terrain don't allow mapgen intended for the naturally found version",
+    "name": "solid rock",
+    "looks_like": "deep_rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_rock",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "looks_like": "empty_rock",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_earth",
+    "name": "solid earth",
+    "sym": "#",
+    "color": "brown",
+    "looks_like": "solid_earth",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_field",
+    "copy-from": "generic_open_land",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "looks_like": "field",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "special_forest", "lab_subway_vent_shaft_surface" ],
+    "copy-from": "generic_forest",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "looks_like": "forest",
+    "see_cost": 3,
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest_thick",
+    "copy-from": "generic_forest",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "looks_like": "forest_thick",
+    "see_cost": 4,
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "special_air", "lab_subway_vent_shaft_roof" ],
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "looks_like": "open_air",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_road",
+    "name": "road",
+    "looks_like": "road",
+    "color": "dark_gray",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_1",
+    "copy-from": "generic_road",
+    "sym": "┌"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "evac_center_2", "evac_center_3", "evac_center_4", "evac_center_22", "evac_center_24" ],
+    "copy-from": "generic_road",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_5",
+    "copy-from": "generic_road",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "evac_center_6",
+      "evac_center_10",
+      "evac_center_11",
+      "evac_center_15",
+      "evac_center_16",
+      "evac_center_20",
+      "refctr_S3e",
+      "refctr_road"
+    ],
+    "copy-from": "generic_road",
+    "sym": "│"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_21",
+    "copy-from": "generic_road",
+    "sym": "└"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_23",
+    "copy-from": "generic_road",
+    "sym": "┬"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_25",
+    "copy-from": "generic_road",
+    "sym": "┘"
+  }
+]

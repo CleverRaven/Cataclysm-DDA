@@ -203,8 +203,8 @@
         "|": "t_nether_basalt",
         ",": "t_nether_glass_floor",
         "B": "t_nether_glass_wall",
-        "A": "t_nether_glass_floor",
-        "b": "t_nether_glass_floor"
+        "A": "t_nether_glass_floor_clairvoyance",
+        "b": "t_nether_glass_floor_clairvoyance"
       },
       "items": {
         "A": { "item": "void_spider_corpse_mayor_loot", "chance": 100 },

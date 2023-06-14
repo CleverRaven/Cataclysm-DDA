@@ -2710,12 +2710,8 @@ See [MUTATIONS.md](MUTATIONS.md)
 Vehicle components when installed on a vehicle.
 
 ```C++
-"id": "wheel",                // Unique identifier
+"id": "wheel",                // Unique identifier, must not contain a # symbol
 "name": "wheel",              // Displayed name
-"symbol": "0",                // (Optional) ASCII character displayed when part is working
-"symbols": {                  // (Optional) ASCII characters displayed when the part is working,
-  "left": "0", "right": "0"   // listed by variant suffix.  See below for more on variants
-                              // must have symbol or symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
 "bonus": 100,                 // Function depends on part type:
@@ -2726,7 +2722,6 @@ Vehicle components when installed on a vehicle.
                               // recharger part charging speed in watts
                               // funnel part water collection area in mm^2
 "color": "dark_gray",         // Color used when part is working
-"broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
 "location": "fuel_source",    // Optional. One of the checks used when determining if a part 
                               // can be installed on a given tile. A part cannot be installed
@@ -2793,23 +2788,31 @@ Vehicle components when installed on a vehicle.
   "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
   "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
 },
+"variants_bases": [ // variant bases to generate (see below)
+  { "id": "scooter", "label": "Scooter" },
+  { "id": "bike", "label": "bike" }
+],
+"variants": [
+    {
+        "id": "front",         // variant id (must be unique in this part)
+        "label": "Front",      // label to display for ui
+        "symbols": "oooooooo", // symbols when part isn't broken
+        "symbols_broken": "x"  // symbols when part is broken
+    },
+    { "id": "rear", "label": "Rear", "symbols": "o", "symbols_broken": "x" }
+]
 ```
 
 #### Symbols and Variants
-Vehicle parts can have multiple identical variants that use different symbols (and potentially
-tileset sprites).  They are declared by the "symbols" object.
-Variants are used in the vehicle prototype as a suffix following the part id (ie `id_variant`), such as `"frame_nw"` or `"halfboard_cover"`.
+Vehicle parts can have cosmetic variants that use different symbols and tileset sprites.  They are declared by the "variants" object.  Variants are used in the vehicle prototype as a suffix following the part id (ie `id#variant`), for example `"frame#nw"` or `"halfboard#cover"`.
 
-Otherwise, variants can use any of the following suffices:
-```
-"cover", "cross", "cross_unconnected", "front", "rear", "left," "right",
-"horizontal",  "horizontal_front", "horizontal_front_edge",
-"horizontal_rear", "horizontal_rear_edge",
-"horizontal_2", "horizontal_2_front", "horizontal_2_rear",
-"vertical", "vertical_right", "vertical_left", "vertical_T_right", "vertical_T_left",
-"vertical_2", "vertical_2_right", "vertical_2_left",
-"ne", "nw", "se", "sw", "ne_edge", "nw_edge", "se_edge", "sw_edge"
-```
+`symbols` and `symbols_broken` can be either a string of 1 character or 8 characters long (length is measured in console characters). A 1 character string is equivalent to 8 characters one where all characters are equal to first. An 8 character string represents the 8 symbols used for parts which can rotate; `abcdefgh` will put `a` when part is rotated north, `b` for NE, `c` for east etc.
+
+A subset of unicode box drawing characters is supported as symbols: `│ ─ ┼ ┌ ┐ ┘ └`, thick vertical and thick horizontal lines `┃ ━` are partially supported, they're rendered as `H` and `=` because there are no equivalents in curses ACS encoding.
+
+Variant bases are for generating extra variants from the specified ones, in the example above will make part loader perform cartesian product between each base and each of the variants, making finalized variants list the following: `[ "front", "rear", "scooter_front", "scooter_rear", "bike_front", "bike_rear" ]`, the base's `label` field is appended to the variant's label.
+
+For more details on how tilesets interact with variants and ids look into [VEHICLES_JSON.md](VEHICLES_JSON.md#part-variants) "Part Variants" section.
 
 Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
 #### The following optional fields are specific to CARGO parts.
