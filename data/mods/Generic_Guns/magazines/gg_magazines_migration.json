@@ -167,8 +167,8 @@
       "mp5_10_mag",
       "tdi_10mm_mag",
       "robofac60",
-	  "greasegun30mag",
-	  "greasegun32mag"
+      "greasegun30mag",
+      "greasegun32mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_smg_mag"
