@@ -4572,7 +4572,7 @@
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 33, 100 ],
     "rotate": false,
-    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
