@@ -54,10 +54,7 @@
     "symbol": ";",
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
-    "countdown_action": {
-      "type": "explosion",
-      "explosion": { "power": 2000 }
-    },
+    "countdown_action": { "type": "explosion", "explosion": { "power": 2000 } },
     "flags": [ "TRADER_AVOID" ]
   },
   {
