@@ -77,6 +77,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
+    dummy.clear_bionics();
 
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
@@ -101,7 +102,6 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy._skills->clear();
     dummy.martial_arts_data->clear_styles();
     dummy.clear_morale();
-    dummy.clear_bionics();
     dummy.activity.set_to_null();
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
