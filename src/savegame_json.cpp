@@ -3147,6 +3147,13 @@ void item::io( Archive &archive )
         active = true;
     }
 
+    // Migrate items with timer. #66161
+    // Do not remove this migration until all timer items are migrated to countdown_action
+    if( charges != 0 && type->countdown_action && countdown_point == calendar::turn_max ) {
+        countdown_point  = calendar::turn + time_duration::from_seconds( charges );
+        charges = 0;
+    }
+
     if( charges != 0 && !type->can_have_charges() ) {
         // Types that are known to have charges, but should not have them.
         // We fix it here, but it's expected from bugged saves and does not require a message.
