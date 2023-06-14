@@ -230,7 +230,7 @@ void fault_fix::check_consistency()
                           fix_id.str(), proficiency_id.str() );
             }
             if( mult < 0 ) {
-                debugmsg( "fault_fix '%s' has negative mend time if posessing proficiency '%s'",
+                debugmsg( "fault_fix '%s' has negative mend time if possessing proficiency '%s'",
                           fix_id.str(), proficiency_id.str() );
             }
         }
@@ -240,7 +240,7 @@ void fault_fix::check_consistency()
                           fix_id.str(), flag_id.str() );
             }
             if( mult < 0 ) {
-                debugmsg( "fault_fix '%s' has negative mend time if posessing flag '%s'",
+                debugmsg( "fault_fix '%s' has negative mend time if item possesses flag '%s'",
                           fix_id.str(), flag_id.str() );
             }
         }
