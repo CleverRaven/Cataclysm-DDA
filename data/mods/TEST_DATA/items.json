@@ -11,6 +11,9 @@
     "price_postapoc": 1000000,
     "symbol": "*",
     "color": "green",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
     "flags": [ "BOMB", "DANGEROUS" ]
   },
   {
