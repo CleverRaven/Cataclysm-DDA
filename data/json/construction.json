@@ -2228,6 +2228,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_chest",
+    "group": "build_chest",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "80 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "wood_panel", 6 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 10 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chest"
+  },
+  {
+    "type": "construction",
     "id": "constr_table",
     "group": "build_table",
     "category": "FURN",
