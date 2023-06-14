@@ -112,8 +112,12 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder_rust" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+
+static const flag_id json_flag_BLACKPOWDER( "BLACKPOWDER" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_case_hardened_steel( "case_hardened_steel" );
@@ -728,6 +732,7 @@ bool Character::handle_gun_damage( item &it )
             if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
                 it.faults.erase( fault_gun_dirt );
                 it.faults.insert( fault_gun_blackpowder );
+                it.faults.insert( fault_gun_blackpowder_rust );
             }
             // end fouling mechanics
         }
@@ -2019,6 +2024,10 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( !!ammo->ammo->casing ) {
         const itype_id casing = *ammo->ammo->casing;
+        // blackpowder can gum up casings too
+        if( *ammo->ammo->has_flag( json_flag_BLACKPOWDER ) ) {
+            casing.set_flag( json_flag_FILTHY );
+        }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
             weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
                                     item_pocket::pocket_type::MAGAZINE );
