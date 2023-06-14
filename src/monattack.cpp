@@ -142,7 +142,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_under_operation( "under_operation" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
@@ -170,8 +169,6 @@ static const itype_id itype_mininuke_act( "mininuke_act" );
 
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
-
-static const matec_id tec_none( "tec_none" );
 
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_ch_steel( "ch_steel" );
