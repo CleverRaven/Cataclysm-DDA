@@ -620,6 +620,12 @@ item &item::convert( const itype_id &new_type )
     temp.update_modified_pockets();
     temp.contents.combine( contents, true );
     contents = temp.contents;
+
+    if( temp.type->countdown_interval > 0_seconds ) {
+        countdown_point = calendar::turn + type->countdown_interval;
+        active = true;
+    }
+
     return *this;
 }
 
@@ -13239,10 +13245,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
             countdown_point = calendar::turn_max;
             if( type->revert_to ) {
+                active = false;
                 convert( *type->revert_to );
 
-                // Deactivate and check if it has some reason to be active item
-                active = false;
                 active = needs_processing();
             } else {
                 return true;

@@ -65,7 +65,7 @@ class iuse_transform : public iuse_actor
         /** if this has values, set remaining ammo of @ref target to one of them chosen at random (after transformation) */
         std::vector<int> random_ammo_qty;
 
-        /** if positive set transformed item active and start countdown */
+        /** if positive set transformed item active and start countdown for countdown_action*/
         time_duration target_timer = 0_seconds;
 
         /** if both this and ammo_qty are specified then set @ref target to this specific ammo */

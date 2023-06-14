@@ -2365,6 +2365,11 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( type->revert_to && ( !has_template( *type->revert_to ) ||
+                                 type->revert_to->is_null() ) ) {
+            msg += string_format( "invalid revert_to property %s\n does not exist", type->revert_to->c_str() );
+        }
+
         if( msg.empty() ) {
             continue;
         }
@@ -2386,6 +2391,8 @@ void Item_factory::check_definitions() const
         elem.second->check_consistency();
         inp_mngr.pump_events();
     }
+
+
 }
 
 //Returns the template with the given identification tag

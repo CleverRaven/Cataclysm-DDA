@@ -47,7 +47,8 @@
     "damage_verb": "crumbles as blood oozes from its insides",
     "//": "transforms over a day",
     "countdown_interval": "24 hours",
-    "countdown_action": { "type": "transform", "target": "migo_plate_overgrown", "msg": "The iridescent carapace plate expands as it grows." },
+    "countdown_action": { "type": "message", "message": "The iridescent carapace plate expands as it grows." },
+    "revert_to": "migo_plate_overgrown",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "armor": [
       {
@@ -80,7 +81,8 @@
     "damage_verb": "crumbles as blood oozes from its insides",
     "//": "transforms over a day",
     "countdown_interval": "24 hours",
-    "countdown_action": { "type": "transform", "target": "migo_plate", "msg": "The iridescent carapace plate expands as it grows." },
+    "countdown_action": { "type": "message", "message": "The iridescent carapace plate expands as it grows." },
+    "revert_to": "migo_plate",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "armor": [
       {
@@ -111,7 +113,8 @@
     "material_thickness": 4,
     "//": "transforms over a day",
     "countdown_interval": "24 hours",
-    "countdown_action": { "type": "transform", "target": "migo_plate_undergrown", "msg": "The plate of scarred flesh expands as it grows." },
+    "countdown_action": { "type": "message", "message": "The plate of scarred flesh expands as it grows." },
+    "revert_to": "migo_plate_undergrown",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "armor": [
       {

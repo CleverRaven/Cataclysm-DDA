@@ -1284,7 +1284,7 @@ struct itype {
 
         phase_id phase = phase_id::SOLID; // e.g. solid, liquid, gas
 
-        /** Default countdown interval (if any) for this item type */
+        /** If positive starts countdown to countdown_action at item creation */
         time_duration countdown_interval = 0_seconds;
 
         /**
