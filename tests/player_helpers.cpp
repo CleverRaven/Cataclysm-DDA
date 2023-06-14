@@ -104,12 +104,15 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.martial_arts_data->clear_styles();
     dummy.clear_morale();
     dummy.activity.set_to_null();
+    dummy.backlog.clear();
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
+    dummy.set_moves( 0 );
+    dummy.oxygen = dummy.get_oxygen_max();
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
     }
@@ -142,6 +145,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.clear_values();
     dummy.magic = pimpl<known_magic>();
     dummy.forget_all_recipes();
+    dummy.set_focus( dummy.calc_focus_equilibrium() );
 }
 
 void arm_shooter( npc &shooter, const std::string &gun_type,
