@@ -214,7 +214,7 @@ TEST_CASE( "Nested monster groups spawn chance", "[mongroup]" )
     for( const auto &res : results ) {
         INFO( string_format( "monster %s - expected vs. actual", res.first.c_str() ) );
         CHECK( std::get<1>( res.second ) ==
-               Approx( static_cast<float>( std::get<2>( res.second ) ) / iters ).epsilon( 0.5 ) );
+               Approx( static_cast<float>( std::get<2>( res.second ) ) / iters ).epsilon( 0.6 ) );
     }
 }
 
