@@ -10,7 +10,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                                                                                                ",
         "                                                                                                ",
@@ -109,7 +109,8 @@
         "     F                                                                                          ",
         "     F                   222222222222222222222222222523                                         "
       ],
-      "palettes": [ "roof_palette", "mil_base_roof_palette" ]
+      "palettes": [ "roof_palette" ],
+      "terrain": { ",": "t_thconc_floor", "/": "t_strconc_wall", "w": "t_window", "F": "t_fence_barbed" }
     }
   },
   {
@@ -123,7 +124,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                                                                                                ",
         "                                                                                                ",
@@ -222,7 +223,8 @@
         "                                                                                          F     ",
         "                                                                                          F     "
       ],
-      "palettes": [ "mil_base_roof_palette" ]
+      "palettes": [ "roof_palette" ],
+      "terrain": { ",": "t_thconc_floor", "/": "t_strconc_wall", "w": "t_window", "F": "t_fence_barbed" }
     }
   },
   {
@@ -235,7 +237,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "     F                   |............................3                                         ",
         "     F                   |.........................=..3                                         ",
@@ -288,7 +290,7 @@
         "     F                         ::::::::::::::::::::::::::////::::::::::::                       ",
         "     F                         ::::::::::::::::::::::::::/,>/::::::::::::                       ",
         "     F                         ::::::::::::::::::::::::::/e,/::::::::::::                      |",
-        "     F                         :::::::::::::::::::::::::://D/::::::::::::                      |",
+        "     F                         :::::::::::::::::::::::::://+/::::::::::::                      |",
         "     F                         ::::::::::::::::::::::::::::::::::::::::::                      |",
         "     F                         ::::::::::::::::::::::::::::::::::::::::::                      |",
         "     F                         ::::::::::::::::::::::::::::::::::::::::::                      |",
@@ -310,7 +312,16 @@
         "     F                         :::::::::::::::::::::::::::::::::::                              ",
         "     F                         :::::::::::::::::::::::::::::::::::                              "
       ],
-      "palettes": [ "mil_base_roof_palette" ]
+      "palettes": [ "roof_palette" ],
+      "terrain": {
+        ",": "t_thconc_floor",
+        ":": "t_concrete",
+        "/": "t_strconc_wall",
+        "w": "t_window",
+        "+": "t_door_metal_locked",
+        "e": "t_gates_mech_control",
+        "F": "t_fence_barbed"
+      }
     }
   },
   {
@@ -323,7 +334,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                                                                                          F     ",
         "                                                                                          F     ",
@@ -398,7 +409,8 @@
         "                                                                                          F     ",
         "                                                                                          F     "
       ],
-      "palettes": [ "mil_base_roof_palette" ]
+      "palettes": [ "roof_palette" ],
+      "terrain": { ",": "t_thconc_floor", ":": "t_concrete", "/": "t_strconc_wall", "w": "t_window", "F": "t_fence_barbed" }
     }
   },
   {
@@ -412,7 +424,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "     F                         :::::::::::::::::::::::::::::::::::                              ",
         "     F                                                                                          ",
@@ -429,7 +441,7 @@
         "     F                                                |.................3                       ",
         "     F                                                |.................3                       ",
         "     F                                                |///..............3                       ",
-        "     F                                                |/>d..............3                       ",
+        "     F                                                |/>+..............3                       ",
         "     F                                                |///..............3                       ",
         "     F                                                |.................3                       ",
         "     F                                          2222225.................3                       ",
@@ -451,12 +463,12 @@
         "     F                                                                                          ",
         "     F                                                                                          ",
         "     F                                                       ''''                               ",
-        "     F                                             :R,,,,R   ''''                               ",
-        "     F                                              ,    ,   ''''                               ",
-        "     F                                              ,    ,                                      ",
-        "     F                                              aaaa ,                                      ",
-        "     F                                              a≷,a ,:  ''''                               ",
-        "     F                                              Raaa,R   ''''                               ",
+        "     F                                             :R''''R   ''''                               ",
+        "     F                                              '    '   ''''                               ",
+        "     F                                              '    '                                      ",
+        "     F                                              aaaa '                                      ",
+        "     F                                              a≷'a ':  ''''                               ",
+        "     F                                              Raaa'R   ''''                               ",
         "     F                                                       ''''                               ",
         "     F                                                                                          ",
         "     F                                                                                          ",
@@ -512,7 +524,17 @@
         "                                                                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
+      "terrain": {
+        ",": "t_thconc_floor",
+        ":": "t_concrete",
+        "'": "t_metal_floor_no_roof",
+        "/": "t_strconc_wall",
+        "w": "t_window",
+        "F": "t_fence_barbed",
+        "R": "t_radio_tower",
+        "a": "t_railing",
+        "≷": "t_ladder_up_down"
+      }
     }
   },
   {
@@ -526,7 +548,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "2222222222222222222222222225                                                              F     ",
         "|..........................3                                                              F     ",
@@ -625,7 +647,8 @@
         "                                                                                                ",
         "                                                                                                "
       ],
-      "palettes": [ "mil_base_roof_palette" ]
+      "palettes": [ "roof_palette" ],
+      "terrain": { ",": "t_thconc_floor", "/": "t_strconc_wall", "w": "t_window", "F": "t_fence_barbed" }
     }
   }
 ]
