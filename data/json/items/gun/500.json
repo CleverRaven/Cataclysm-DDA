@@ -21,7 +21,6 @@
     "price": 329900,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "500" ],
@@ -31,7 +30,6 @@
     "blackpowder_tolerance": 32,
     "clip_size": 7,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -45,7 +43,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "500": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "500": 7 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "sw_500",
@@ -68,7 +67,6 @@
     "price": 90000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "bashing": 12,
     "longest_side": "407 mm",
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -78,15 +76,7 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -94,6 +84,7 @@
         "ammo_restriction": { "500": 5 },
         "allowed_speedloaders": [ "500_speedloader5" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   }
 ]

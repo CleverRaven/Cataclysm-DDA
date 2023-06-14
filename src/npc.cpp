@@ -312,10 +312,10 @@ void npc_template::load( const JsonObject &jsobj )
     guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
-        guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
+        guy.miss_ids.emplace_back( jsobj.get_string( "mission_offered" ) );
     } else if( jsobj.has_array( "mission_offered" ) ) {
         for( const std::string line : jsobj.get_array( "mission_offered" ) ) {
-            guy.miss_ids.emplace_back( mission_type_id( line ) );
+            guy.miss_ids.emplace_back( line );
         }
     }
     if( jsobj.has_string( "talk_radio" ) ) {
@@ -838,7 +838,12 @@ void npc::randomize( const npc_class_id &type )
 
     set_body();
     recalc_hp();
-
+    randomize_height();
+    int days_since_cata = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    double time_influence = days_since_cata >= 180 ? 3.0 : 6.0 - 3.0 * days_since_cata / 180.0;
+    double weight_percent = std::clamp<double>( chi_squared_roll( time_influence ) / 5.0,
+                            0.2, 5.0 );
+    set_stored_kcal( weight_percent * get_healthy_kcal() );
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
@@ -882,7 +887,6 @@ void npc::randomize( const npc_class_id &type )
     }
 
     set_base_age( rng( 18, 55 ) );
-    randomize_height();
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
@@ -1040,12 +1044,6 @@ void starting_inv( npc &who, const npc_class_id &type )
         return;
     }
 
-    item lighter( "lighter" );
-    // Set lighter ammo
-    if( !lighter.ammo_default().is_null() ) {
-        lighter.ammo_set( lighter.ammo_default(), rng( 10, 100 ) );
-    }
-    res.emplace_back( lighter );
     // If wielding a gun, get some additional ammo for it
     const item_location weapon = who.get_wielded_item();
     if( weapon && weapon->is_gun() ) {
@@ -1356,7 +1354,7 @@ time_duration npc::time_to_read( const item &book, const Character &reader ) con
     return retval;
 }
 
-void npc::do_npc_read()
+void npc::do_npc_read( bool ebook )
 {
     // Can read items from inventory or within one tile (including in vehicles)
     Character *npc_player = as_character();
@@ -1364,7 +1362,20 @@ void npc::do_npc_read()
         return;
     }
 
-    item_location book = game_menus::inv::read( *npc_player );
+    item_location book;
+    item_location ereader;
+
+    if( !ebook ) {
+        book = game_menus::inv::read( *npc_player );
+    } else {
+        ereader = game_menus::inv::ereader_to_use( *npc_player );
+        if( !ereader ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        book = game_menus::inv::ebookread( *npc_player, ereader );
+    }
+
     if( !book ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -1382,18 +1393,10 @@ void npc::do_npc_read()
 
         // NPCs can't read to other NPCs yet
         const time_duration time_taken = time_to_read( *book, *this );
-        item_location ereader = {};
 
         // NPCs read until they gain a level
-        assign_activity(
-            player_activity(
-                read_activity_actor(
-                    to_moves<int>( time_taken ),
-                    book,
-                    ereader,
-                    true,
-                    getID().get_value()
-                ) ) );
+        read_activity_actor actor( time_taken, book, ereader, true, getID().get_value() );
+        assign_activity( actor );
 
     } else {
         for( const std::string &reason : fail_reasons ) {
@@ -1503,7 +1506,7 @@ bool npc::wield( item &it )
     } else {
         to_wield = it;
     }
-
+    invalidate_leak_level_cache();
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
     item_location weapon = get_wielded_item();
@@ -1609,15 +1612,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
     }
 
     ///\EFFECT_STR increases NPC fear of the player
-    if( you.str_max >= 16 ) {
-        npc_values.fear += 2;
-    } else if( you.str_max >= 12 ) {
-        npc_values.fear += 1;
-    } else if( you.str_max <= 3 ) {
-        npc_values.fear -= 3;
-    } else if( you.str_max <= 5 ) {
-        npc_values.fear -= 1;
-    }
+    npc_values.fear += ( you.str_max / 4 ) - 2;
 
     // is your health low
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
@@ -1894,10 +1889,10 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon && weapon->is_gun() ) {
-        units::energy ups_drain = weapon->get_gun_ups_drain();
-        if( ups_drain > 0_kJ ) {
-            units::energy ups_charges = available_ups();
-            needrank[need_ammo] = static_cast<double>( ups_charges / ups_drain );
+        units::energy energy_drain = weapon->get_gun_energy_drain();
+        if( energy_drain > 0_kJ ) {
+            units::energy energy_charges = weapon->energy_remaining( this );
+            needrank[need_ammo] = static_cast<double>( energy_charges / energy_drain );
         } else {
             const ammotype ammo_type = weapon->ammo_type();
             if( ammo_type != ammotype::NULL_ID() ) {
@@ -2660,7 +2655,8 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        int dmg = get_wielded_item() ? get_wielded_item()->damage_melee( damage_type::BASH ) : 0;
+        int dmg = get_wielded_item() ? get_wielded_item()->damage_melee( STATIC(
+                      damage_type_id( "bash" ) ) ) : 0;
         return str_cur + dmg;
     }
 
@@ -3006,6 +3002,7 @@ void npc::die( Creature *nkiller )
                 }
             }
             my_fac->remove_member( getID() );
+            my_fac = nullptr;
         }
     }
     dead = true;

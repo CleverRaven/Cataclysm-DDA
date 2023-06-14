@@ -182,6 +182,10 @@ void attach_bag_to( monster &z )
     }
 
     item &it = *loc;
+    if( it.weight() > z.weight_capacity() ) {
+        add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
+        return;
+    }
     z.storage_item = cata::make_value<item>( it );
     add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     player_character.i_rem( &it );
@@ -345,8 +349,7 @@ void play_with( monster &z )
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
     const std::string &petstr = z.type->petfood.pet;
-    player_character.assign_activity(
-        player_activity( play_with_pet_activity_actor( pet_name, petstr ) ) );
+    player_character.assign_activity( play_with_pet_activity_actor( pet_name, petstr ) );
 }
 
 void cull( monster &z )
@@ -475,8 +478,7 @@ void milk_source( monster &source_mon )
             source_mon.add_effect( effect_tied, 1_turns, true );
             str_values.emplace_back( "temp_tie" );
         }
-        player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
-                                          str_values ) ) );
+        player_character.assign_activity( milk_activity_actor( moves, coords, str_values ) );
 
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
@@ -499,7 +501,7 @@ void shear_animal( monster &z )
         z.add_effect( effect_tied, 1_turns, true );
     }
 
-    guy.assign_activity( player_activity( shearing_activity_actor( z.pos(), !monster_tied ) ) );
+    guy.assign_activity( shearing_activity_actor( z.pos(), !monster_tied ) );
 }
 
 void remove_battery( monster &z )
@@ -910,7 +912,8 @@ bool monexamine::mfriend_menu( monster &z )
         swap_pos = 0,
         push_monster,
         rename,
-        attack
+        attack,
+        talk_to
     };
 
     uilist amenu;
@@ -922,7 +925,9 @@ bool monexamine::mfriend_menu( monster &z )
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
-
+    if( !z.type->chat_topics.empty() ) {
+        amenu.addentry( talk_to, true, 'c', _( "Talk to %s" ), pet_name );
+    }
     amenu.query();
     const int choice = amenu.ret;
 
@@ -940,6 +945,9 @@ bool monexamine::mfriend_menu( monster &z )
             if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
                 get_player_character().melee_attack( z, true );
             }
+            break;
+        case talk_to:
+            get_avatar().talk_to( get_talker_for( z ) );
             break;
         default:
             break;

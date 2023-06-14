@@ -98,7 +98,7 @@
   },
   {
     "id": "toolset",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "category": "armor",
     "weight": "200 g",
     "volume": "125 ml",
@@ -123,8 +123,6 @@
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "integrated multitool" },
     "description": "Integrated bionic tools implanted in your fingers.",
-    "bashing": 1,
-    "cutting": 3,
     "to_hit": -1,
     "armor": [
       {
@@ -185,6 +183,10 @@
         "move_cost": 1000,
         "tool_quality": 10
       }
-    ]
+    ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 20,
+    "charged_qualities": [ [ "WELD", 2 ] ],
+    "melee_damage": { "bash": 1, "cut": 3 }
   }
 ]

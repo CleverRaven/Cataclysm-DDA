@@ -1,0 +1,14 @@
+[
+  {
+    "id": "sweet_fruit_fresh",
+    "type": "requirement",
+    "//": "Sweet, unprocessed fruit, roughly by mass.",
+    "extend": { "components": [ [ [ "hawthorn_berries", 1 ], [ "fig", 1 ] ] ] }
+  },
+  {
+    "id": "veggy_green",
+    "type": "requirement",
+    "//": "anything you would consider a leafy green vegetable",
+    "extend": { "components": [ [ [ "hawthorn_petals", 1 ] ] ] }
+  }
+]

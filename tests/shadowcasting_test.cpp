@@ -232,7 +232,8 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
 
     const point offset( 65, 65 );
 
-    const auto start1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start1 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
         oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offset.x, offset.y, 0 );
@@ -247,15 +248,18 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
         oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offset.x, offset.y, 0 );
         oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offset.x, offset.y, 0 );
     }
-    const auto end1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end1 =
+        std::chrono::high_resolution_clock::now();
 
-    const auto start2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start2 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_squares_experiment, transparency_cache, offset );
     }
-    const auto end2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end2 =
+        std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
         const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
@@ -308,22 +312,26 @@ static void shadowcasting_float_quad(
 
     const point offset( 65, 65 );
 
-    const auto start1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start1 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         castLightAll<float, four_quadrants, sight_calc, sight_check, update_light_quadrants,
                      accumulate_transparency>(
                          lit_squares_quad, transparency_cache, offset );
     }
-    const auto end1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end1 =
+        std::chrono::high_resolution_clock::now();
 
-    const auto start2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start2 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light,
                      accumulate_transparency>(
                          lit_squares_float, transparency_cache, offset );
     }
-    const auto end2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end2 =
+        std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
         const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
@@ -368,12 +376,14 @@ static void do_3d_benchmark(
         floor_caches[z + OVERMAP_DEPTH] = &grids->floor_cache[z + OVERMAP_DEPTH];
     }
 
-    const auto start = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
     }
-    const auto end = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
         const long long diff =
@@ -438,13 +448,15 @@ static void shadowcasting_3d_2d( const int iterations )
 
     const tripoint offset( 65, 65, 0 );
 
-    const auto start1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start1 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_squares_control, transparency_cache, offset.xy() );
     }
-    const auto end1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end1 =
+        std::chrono::high_resolution_clock::now();
 
     const tripoint origin( offset );
     array_of_grids_of<const float> transparency_caches;
@@ -457,13 +469,15 @@ static void shadowcasting_3d_2d( const int iterations )
         floor_caches[z + OVERMAP_DEPTH] = &floor_cache;
     }
 
-    const auto start2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start2 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the newer algorithm.
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
     }
-    const auto end2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end2 =
+        std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
         const long long diff1 =

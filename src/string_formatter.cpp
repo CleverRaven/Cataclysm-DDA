@@ -4,6 +4,7 @@
 #include <exception>
 
 #include "cata_assert.h"
+#include "cata_utility.h"
 
 char cata::string_formatter::consume_next_input()
 {
@@ -59,7 +60,7 @@ std::optional<int> cata::string_formatter::read_argument_index()
     }
 }
 
-int cata::string_formatter::parse_integer( )
+int cata::string_formatter::parse_integer()
 {
     int result = 0;
     while( has_digit() ) {
@@ -101,10 +102,11 @@ std::optional<int> cata::string_formatter::read_precision()
     return read_number_or_argument_index();
 }
 
-void cata::string_formatter::throw_error( const std::string &msg ) const
+void cata::string_formatter::throw_error( const std::string_view msg ) const
 {
-    throw std::runtime_error( msg + " at: \"" + format.substr( 0,
-                              current_index_in_format ) + "|" + format.substr( current_index_in_format ) + "\"" );
+    throw std::runtime_error(
+        str_cat( msg, " at: \"", format.substr( 0, current_index_in_format ), "|",
+                 format.substr( current_index_in_format ), "\"" ) );
 }
 
 std::string cata::handle_string_format_error()

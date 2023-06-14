@@ -5,8 +5,6 @@
     "name": { "str": "aisle lights" },
     "item": "flashlight",
     "location": "on_ceiling",
-    "symbol": "*",
-    "broken_symbol": "*",
     "categories": [ "lighting" ],
     "color": "white",
     "durability": 20,
@@ -20,7 +18,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
-    "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
   },
   {
     "id": "atomic_lamp",
@@ -28,8 +27,6 @@
     "name": { "str": "atomic lamp" },
     "item": "atomic_lamp",
     "location": "on_ceiling",
-    "symbol": "*",
-    "broken_symbol": "*",
     "categories": [ "lighting" ],
     "color": "light_blue",
     "durability": 20,
@@ -42,7 +39,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 5 ] ] }
     },
-    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
   },
   {
     "id": "atomic_light",
@@ -60,8 +58,6 @@
     "name": { "str": "floodlight" },
     "item": "floodlight",
     "location": "on_roof",
-    "symbol": "*",
-    "broken_symbol": "-",
     "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "blue",
@@ -81,7 +77,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
-    "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
   },
   {
     "id": "directed_floodlight",
@@ -100,8 +97,6 @@
     "type": "vehicle_part",
     "name": { "str": "headlight" },
     "item": "car_headlight",
-    "symbol": "*",
-    "broken_symbol": "*",
     "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "white",
@@ -117,15 +112,14 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
-    "flags": [ "CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
   },
   {
     "id": "motorcycle_headlight",
     "type": "vehicle_part",
     "name": { "str": "motorcycle headlight" },
     "item": "motorcycle_headlight",
-    "symbol": "*",
-    "broken_symbol": "*",
     "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "white",
@@ -141,7 +135,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
   },
   {
     "id": "wide_headlight",
@@ -179,8 +174,6 @@
     "type": "vehicle_part",
     "categories": [ "lighting" ],
     "location": "on_roof",
-    "symbol": "*",
-    "broken_symbol": "-",
     "durability": 20,
     "description": "Emergency lights, like a police car's or ambulance's, mounted on the vehicle's roof.  Flashes between red and blue when turned on, attracting attention without illuminating the area.",
     "//": "essentially a pair of overpowered RGB LED flashlights",
@@ -201,7 +194,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
     "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ],
-    "damage_reduction": { "all": 6 }
+    "damage_reduction": { "all": 6 },
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
   },
   {
     "id": "light_blue",

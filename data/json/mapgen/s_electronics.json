@@ -92,7 +92,6 @@
         { "item": "electronics", "x": [ 14, 17 ], "y": 14, "chance": 85, "repeat": [ 1, 4 ] },
         { "item": "snacks", "x": 16, "y": 9, "chance": 85 },
         { "item": "magazines", "x": 16, "y": 9, "chance": 60, "repeat": [ 1, 8 ] },
-        { "item": "autodoc_installation_programs", "x": 21, "y": [ 12, 13 ], "chance": 85, "repeat": [ 1, 4 ] },
         { "item": "trash", "x": 18, "y": 15, "chance": 65 },
         { "item": "trash", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 },
         { "item": "cash_register_random", "x": 17, "y": [ 11, 13 ], "chance": 100 }
@@ -129,16 +128,14 @@
         " |....................3 ",
         " |....................3 ",
         " |...............:....3 ",
-        " |.=..........%....X..3 ",
+        " |.=..........N....X..3 ",
         " |.....3###-----------3 ",
-        " 5..&..3#>#             ",
+        " 5..&..3#v#             ",
         " |.....3                ",
         " |-----3                ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down" },
-      "furniture": { "%": "f_TV_antenna" },
       "place_nested": [
         {
           "chunks": [
@@ -272,11 +269,10 @@
         "   |............U....3  ",
         "   |.................3  ",
         "   |------###--------3  ",
-        "          #>#           ",
+        "          #v#           ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down" },
       "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
       "place_nested": [
         {

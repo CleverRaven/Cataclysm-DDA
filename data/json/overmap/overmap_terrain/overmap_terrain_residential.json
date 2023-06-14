@@ -576,60 +576,64 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "apartments_tower_roof_any",
+    "name": "apartment tower roof",
+    "sym": "A",
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "apartments_con_tower_000",
       "apartments_con_tower_002",
-      "apartments_con_tower_004",
       "apartments_con_tower_010",
       "apartments_con_tower_011",
       "apartments_con_tower_012",
       "apartments_con_tower_013",
-      "apartments_con_tower_014",
       "apartments_con_tower_100",
       "apartments_con_tower_102",
-      "apartments_con_tower_104",
       "apartments_con_tower_110",
       "apartments_con_tower_111",
       "apartments_con_tower_112",
       "apartments_con_tower_113",
-      "apartments_con_tower_114",
       "apartments_mod_tower_000",
       "apartments_mod_tower_001",
-      "apartments_mod_tower_003",
       "apartments_mod_tower_010",
       "apartments_mod_tower_011",
       "apartments_mod_tower_012",
-      "apartments_mod_tower_013",
       "apartments_mod_tower_100",
       "apartments_mod_tower_101",
-      "apartments_mod_tower_103",
       "apartments_mod_tower_110",
       "apartments_mod_tower_111",
       "apartments_mod_tower_112",
-      "apartments_mod_tower_113"
+      "s_apt",
+      "s_apt_2ndfloor",
+      "s_apt_2",
+      "s_apt_2_2ndfloor"
     ],
     "copy-from": "apartments_tower_any"
   },
   {
     "type": "overmap_terrain",
     "id": [
-      "s_apt",
-      "s_apt_2ndfloor",
+      "apartments_con_tower_004",
+      "apartments_con_tower_014",
+      "apartments_con_tower_104",
+      "apartments_con_tower_114",
+      "apartments_con_tower_015",
+      "apartments_mod_tower_003",
+      "apartments_mod_tower_013",
+      "apartments_mod_tower_103",
+      "apartments_mod_tower_113",
       "s_apt_roof",
       "s_apt_2_upper_roof",
-      "s_apt_2",
-      "s_apt_2_2ndfloor",
       "s_apt_2_roof",
       "s_apt_upper_roof"
     ],
-    "copy-from": "apartments_tower_any"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "apartments_con_tower_015",
-    "name": "open air",
-    "sym": ".",
-    "color": "blue"
+    "copy-from": "apartments_tower_roof_any"
   },
   {
     "type": "overmap_terrain",
@@ -646,7 +650,14 @@
       "apartment_complex_straight_stairs_even",
       "apartment_complex_straight_stairs_odd",
       "apartment_complex_center_stairs_even",
-      "apartment_complex_center_stairs_odd",
+      "apartment_complex_center_stairs_odd"
+    ],
+    "copy-from": "apartments_tower_any",
+    "name": "apartment complex"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "apartment_complex_corner_roof",
       "apartment_complex_corner_inner_roof",
       "apartment_complex_straight_roof",
@@ -657,14 +668,45 @@
       "apartment_complex_center_stairs_odd_roof",
       "apartment_complex_center_stairs_roof_+1"
     ],
+    "copy-from": "apartments_tower_roof_any",
+    "name": "apartment complex roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "apartment_complex_garage_corner_gate_L",
+      "apartment_complex_garage_corner_gate_R",
+      "apartment_complex_garage_corner",
+      "apartment_complex_garage_straight",
+      "apartment_complex_garage_straight_wall",
+      "apartment_complex_garage_straight_wallALT",
+      "apartment_complex_garage_straight_gate_wallALT",
+      "apartment_complex_garage_corner_inner_wall",
+      "apartment_complex_garage_corner_inner_wallALT"
+    ],
     "copy-from": "apartments_tower_any",
-    "name": "apartment complex"
+    "name": "apartment complex - parking garage",
+    "sym": "O",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "apartment_complex_garage_straight_gate",
+      "apartment_complex_garage_straight_gate_wall",
+      "apartment_complex_garage_corner_inner"
+    ],
+    "copy-from": "apartments_tower_any",
+    "name": "apartment complex - parking garage",
+    "sym": "O",
+    "color": "dark_gray",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": "apartment_complex_courtyard",
     "copy-from": "generic_city_building",
-    "name": "courtyard",
+    "name": "apartment complex - courtyard",
     "sym": "O",
     "color": "light_gray"
   },

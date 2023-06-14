@@ -33,12 +33,11 @@
     "description": "A makeshift assembly of criniere, peytral and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly cow.  Acid-resistant but brittle.",
     "price": 145000,
     "price_postapoc": 10000,
-    "material": [ "acidchitin", "steel" ],
+    "material": [ "acidchitin" ],
     "weight": "40 kg",
     "volume": "180 L",
     "material_thickness": 5,
-    "environmental_protection": 7,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "environmental_protection": 7
   },
   {
     "type": "PET_ARMOR",

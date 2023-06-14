@@ -133,24 +133,14 @@
         "|.A............3        ",
         "|..............3        ",
         "|..............3        ",
-        "|>.............3        ",
+        "|v.............3        ",
         "|..............3        ",
         "|..............3        ",
         "|..............3        ",
         "|.=............3        ",
         "----------------        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_ladder_down",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "A": "f_air_conditioner" },
+      "palettes": [ "roof_palette" ],
       "place_items": [ { "item": "roof_trash", "x": [ 4, 13 ], "y": [ 3, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -302,21 +292,12 @@
         "      |................3",
         "..... |-|..............3",
         ".....   |.........||||||",
-        ".....   |.....###>#     ",
+        ".....   |.....###v#     ",
         ".....   ------#####     ",
         ".....                   "
       ],
-      "terrain": {
-        ".": "t_tar_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "#": "t_grate",
-        ">": "t_ladder_down"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster", "X": "f_small_satelitte_dish", "A": "f_air_conditioner" },
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" },
       "place_items": [ { "item": "roof_trash", "x": [ 7, 20 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {

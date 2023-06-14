@@ -28,5 +28,13 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "heavy_load_bearing_vest", 1 ] ], [ [ "single_sling", 1 ] ] ]
+  },
+  {
+    "result": "runner_bag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "25 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_canvas", 6 ] ], [ [ "thread_canvas", 40 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
   }
 ]

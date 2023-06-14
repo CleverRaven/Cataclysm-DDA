@@ -171,16 +171,14 @@ extern template struct pos_dir<tripoint_rel_omt>;
 using om_pos_dir = pos_dir<tripoint_om_omt>;
 using rel_pos_dir = pos_dir<tripoint_rel_omt>;
 
-namespace std
-{
 template<typename Tripoint>
-struct hash<pos_dir<Tripoint>> {
-    size_t operator()( const pos_dir<Tripoint> &p ) const {
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+struct std::hash<pos_dir<Tripoint>> {
+    std::size_t operator()( const pos_dir<Tripoint> &p ) const {
         cata::tuple_hash h;
         return h( std::make_tuple( p.p, p.dir ) );
     }
 };
-} // namespace std
 
 class overmap
 {
@@ -222,7 +220,7 @@ class overmap
          * @returns A vector of terrain coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching terrain is found.
          */
-        std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel ) const;
+        std::vector<point_abs_omt> find_terrain( std::string_view term, int zlevel ) const;
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         // ter has bounds checking, and returns ot_null when out of bounds.

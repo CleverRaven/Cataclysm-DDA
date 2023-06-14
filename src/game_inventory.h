@@ -116,6 +116,8 @@ item_location disassemble( Character &you );
 item_location gun_to_modify( Character &you, const item &gunmod );
 /** Book reading menu. */
 item_location read( Character &you );
+/** E-Book reading menu. */
+item_location ereader_to_use( Character &you );
 /** eBook reading menu. */
 item_location ebookread( Character &you, item_location &ereader );
 /** Menu for stealing stuff. */
@@ -134,6 +136,9 @@ item_location saw_barrel( Character &you, item &tool );
 item_location saw_stock( Character &you, item &tool );
 /** Choosing an item to attach to a load bearing vest. */
 item_location molle_attach( Character &you, item &tool );
+/** Choosing an item to attach to a vehicle tool station. */
+item_location veh_tool_attach( Character &you, const std::string &vp_name,
+                               const std::set<itype_id> &allowed_types );
 /** Choose item to wear. */
 item_location wear( Character &you, const bodypart_id &bp = bodypart_id( "bp_null" ) );
 /** Choose item to take off. */

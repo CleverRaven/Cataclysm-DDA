@@ -1,29 +1,34 @@
 #ifndef CATA_SRC_MATH_PARSER_SHIM_H
 #define CATA_SRC_MATH_PARSER_SHIM_H
 
+#include <limits>
 #include <map>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <vector>
 
-#include "json.h"
+#include "flexbuffer_json.h"
+
+struct diag_value;
 
 // temporary shim that pretends to be a JsonObject for the purpose of reusing code between the new
 // "math" and the old "arithmetic"/"compare_num"/"u_val"
 class kwargs_shim
 {
     public:
-        explicit kwargs_shim( std::vector<std::string> const &tokens, char scope );
+        explicit kwargs_shim( std::vector<diag_value> const &tokens, char scope );
 
         std::string get_string( std::string_view key ) const;
-        double get_float( std::string_view key ) const;
+        double get_float( std::string_view key, double def = 0 ) const;
         int get_int( std::string_view key, int def = 0 ) const;
 
         bool has_string( std::string_view key ) const {
             return _get_string( key ).has_value();
         }
         bool has_int( std::string_view key ) const {
-            return has_string( key );
+            constexpr int min_int = std::numeric_limits<int>::min();
+            return get_int( key, min_int ) != min_int;
         }
         bool has_member( std::string_view key ) const {
             return has_string( key );

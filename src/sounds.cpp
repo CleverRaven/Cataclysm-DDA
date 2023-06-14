@@ -91,6 +91,8 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
 static const material_id material_hflesh( "hflesh" );
@@ -179,7 +181,6 @@ static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvest
 
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 
 struct monster_sound_event {
     int volume;
@@ -324,10 +325,10 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
     }
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
-    recent_sounds.emplace_back( std::make_pair( p, monster_sound_event{ vol, is_provocative( category ) } ) );
-    sounds_since_last_turn.emplace_back( std::make_pair( p,
+    recent_sounds.emplace_back( p, monster_sound_event{ vol, is_provocative( category ) } );
+    sounds_since_last_turn.emplace_back( p,
                                          sound_event { vol, category, description, ambient,
-                                                 false, id, variant, seas_str } ) );
+                                                 false, id, variant, seas_str } );
 }
 
 void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
@@ -341,8 +342,8 @@ void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
 {
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
-    sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
-                                         sound_t::movement, footstep, false, true, "", "", seas_str} ) );
+    sounds_since_last_turn.emplace_back( p, sound_event { volume,
+                                         sound_t::movement, footstep, false, true, "", "", seas_str} );
 }
 
 template <typename C>
@@ -561,7 +562,7 @@ void sounds::process_sound_markers( Character *you )
             if( is_sound_deafening && !you->is_immune_effect( effect_deaf ) ) {
                 you->add_effect( effect_deaf, std::min( 4_minutes,
                                                         time_duration::from_turns( felt_volume - 130 ) / 8 ) );
-                if( !you->has_trait( trait_NOPAIN ) ) {
+                if( !you->has_flag( json_flag_PAIN_IMMUNE ) ) {
                     you->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( you->get_pain() < 10 ) {
                         you->mod_pain( rng( 0, 2 ) );

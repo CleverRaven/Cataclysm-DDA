@@ -12,7 +12,6 @@
     "price": 35000,
     "price_postapoc": 1000,
     "to_hit": -4,
-    "bashing": 50,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -25,6 +24,7 @@
     "reload": 30000,
     "valid_mod_locations": [  ],
     "flags": [ "MOUNTED_GUN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "cannon": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "cannon": 1 } } ],
+    "melee_damage": { "bash": 50 }
   }
 ]

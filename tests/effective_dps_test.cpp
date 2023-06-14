@@ -258,11 +258,11 @@ static void make_experienced_tester( avatar &test_guy )
     REQUIRE( test_guy.get_str() == 10 );
     REQUIRE( test_guy.get_dex() == 10 );
     REQUIRE( test_guy.get_per() == 10 );
-    REQUIRE( test_guy.get_skill_level( skill_bashing ) == 4 );
-    REQUIRE( test_guy.get_skill_level( skill_cutting ) == 4 );
-    REQUIRE( test_guy.get_skill_level( skill_stabbing ) == 4 );
-    REQUIRE( test_guy.get_skill_level( skill_unarmed ) == 4 );
-    REQUIRE( test_guy.get_skill_level( skill_melee ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_bashing ) ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_cutting ) ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_stabbing ) ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_unarmed ) ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_melee ) ) == 4 );
 }
 /*
  * A super tedious set of test cases to make sure that weapon values do not drift too far out

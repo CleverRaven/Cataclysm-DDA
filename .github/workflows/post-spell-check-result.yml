@@ -39,7 +39,7 @@ jobs:
           name: spell_check_output
       - name: 'Comment on PR'
         if: steps.set-spell-check-retcode.outputs.spell-check-retcode >= 1
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6.3.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

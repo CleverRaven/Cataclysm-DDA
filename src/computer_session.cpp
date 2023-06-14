@@ -226,7 +226,7 @@ bool computer_session::hack_attempt( Character &you, int Security ) const
     if( Security == -1 ) {
         Security = comp.security;    // Set to main system security if no value passed
     }
-    const int hack_skill = you.get_skill_level( skill_computer );
+    const int hack_skill = round( you.get_skill_level( skill_computer ) );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance

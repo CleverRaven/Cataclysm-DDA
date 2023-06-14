@@ -3,6 +3,7 @@
 #include "calendar.h"
 #include "json.h"
 #include "string_formatter.h"
+#include "units_utility.h"
 
 namespace units
 {
@@ -14,6 +15,12 @@ void volume::serialize( JsonOut &jsout ) const
     } else {
         jsout.write( string_format( "%d ml", value_ ) );
     }
+}
+
+template<>
+void volume::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::volume_units );
 }
 
 template<>
@@ -121,6 +128,29 @@ void angle::deserialize( const JsonValue &jv )
     *this = read_from_json_string( jv, units::angle_units );
 }
 
+int angle_to_dir4( units::angle direction )
+{
+    // ensure direction is in range [0,360)
+    const units::angle dir = fmod( fmod( direction, 360_degrees ) + 360_degrees, 360_degrees );
+
+    // adjust and round values near diagonals before comparison to avoid floating point error
+    if( round_to_multiple_of( dir - 45_degrees, 1.5_degrees ) == 0_degrees ||
+        round_to_multiple_of( dir - 135_degrees, 1.5_degrees ) == 0_degrees ) {
+        return 1;
+    }
+    if( round_to_multiple_of( dir - 225_degrees, 1.5_degrees ) == 0_degrees ||
+        round_to_multiple_of( dir - 315_degrees, 1.5_degrees ) == 0_degrees ) {
+        return 3;
+    }
+
+    return std::fmod( 4 + ( direction + 45_degrees ) / 90_degrees, 4 );
+}
+
+int angle_to_dir8( units::angle direction )
+{
+    return std::fmod( 8 + ( direction + 22.5_degrees ) / 45_degrees, 8 );
+}
+
 std::string display( const units::energy &v )
 {
     const int kj = units::to_kilojoule( v );
@@ -177,6 +207,27 @@ time_duration operator/( const units::energy &energy, const units::power &power 
     const int64_t mj = to_millijoule( energy );
     const int64_t mw = to_milliwatt( power );
     return time_duration::from_seconds( mj / mw );
+}
+
+units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 )
+{
+    return from_kelvin_delta( to_kelvin( T1 ) - to_kelvin( T2 ) );
+}
+
+units::temperature operator+( const units::temperature &T, const units::temperature_delta &T_delta )
+{
+    return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
+}
+
+units::temperature operator+( const units::temperature_delta &T_delta, const units::temperature &T )
+{
+    return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
+}
+
+units::temperature &operator+=( units::temperature &T, const units::temperature_delta &T_delta )
+{
+    T = T + T_delta;
+    return T;
 }
 
 } // namespace units

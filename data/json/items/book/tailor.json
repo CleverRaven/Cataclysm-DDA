@@ -88,7 +88,6 @@
     "volume": "2 L",
     "price": 9200,
     "price_postapoc": 1000,
-    "bashing": 8,
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "looks_like": "isherwood_herbal_remedies",
@@ -98,7 +97,8 @@
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "tailor_japanese",
@@ -110,7 +110,6 @@
     "volume": "1500 ml",
     "price": 8000,
     "price_postapoc": 500,
-    "bashing": 8,
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "looks_like": "glassblowing_book",
@@ -119,7 +118,8 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": "40 m"
+    "time": "40 m",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "recipe_fauxfur",
@@ -131,7 +131,6 @@
     "volume": "1 L",
     "price": 5000,
     "price_postapoc": 250,
-    "bashing": 5,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "glassblowing_book",
@@ -142,7 +141,8 @@
     "proficiencies": [ { "proficiency": "prof_furriery", "time_factor": 0.2, "fail_factor": 0.2, "include_prereqs": false } ],
     "intelligence": 7,
     "time": "20 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "textbook_tailor",
@@ -154,7 +154,6 @@
     "volume": "2 L",
     "price": 6000,
     "price_postapoc": 1500,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
@@ -167,7 +166,8 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "scots_tailor",
@@ -179,7 +179,6 @@
     "volume": "2 L",
     "price": 3000,
     "price_postapoc": 550,
-    "bashing": 5,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
@@ -189,7 +188,8 @@
     "max_level": 5,
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "dieselpunk_tailor",
@@ -201,7 +201,6 @@
     "volume": "2 L",
     "price": 6000,
     "price_postapoc": 1500,
-    "bashing": 4,
     "material": [ "paper", "cardboard", "leather" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
@@ -214,7 +213,8 @@
     "required_level": 2,
     "max_level": 5,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "abstract": "exodii_blueprint",

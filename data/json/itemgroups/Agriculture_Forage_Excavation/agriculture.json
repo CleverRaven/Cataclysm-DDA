@@ -192,5 +192,11 @@
       { "item": "wooden_barrel", "prob": 100, "sealed": true },
       { "item": "juice_pulp", "prob": 100, "charges": [ 7, 77 ], "container-item": "wooden_barrel" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "sometimes_manure",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_manure", "prob": 1 } ]
   }
 ]

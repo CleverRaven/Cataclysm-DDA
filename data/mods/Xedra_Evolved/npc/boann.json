@@ -1,0 +1,118 @@
+[
+  {
+    "type": "npc",
+    "id": "boann",
+    "name_unique": "Lady Boann",
+    "class": "xe_fae_noblewoman_boann",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_BOANN_1",
+    "mission_offered": "MISSION_BRING_BOANN_JABBERWOCK_HEART",
+    "gender": "female"
+  },
+  {
+    "type": "npc_class",
+    "id": "xe_fae_noblewoman_boann",
+    "name": "fae noblewoman",
+    "job_description": "I'm in charge of the faeries of my court.",
+    "common": false,
+    "traits": [ [ "hair_blond_long", 100 ], [ "SKIN_DARK", 100 ] ],
+    "bonus_dex": { "rng": [ 4, 10 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BOANN_1",
+    "dynamic_line": "I came here with my court when the Hedge between our worlds thinned and the border marches expanded.  They came for conquest and I came here for coexistence.",
+    "responses": [
+      { "text": "So you're a good faerie?", "topic": "TALK_BOANN_2" },
+      { "text": "How can I join your court?", "topic": "TALK_BOANN_JOIN" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BOANN_2",
+    "dynamic_line": "Some of my kind might find that word pejorative, but it's what you've called us for so very long.  It had been quite a while since we were last able to come in numbers to this world, until the last few years.",
+    "responses": [
+      { "text": "Why were you able to return?", "topic": "TALK_BOANN_3" },
+      { "text": "How can I join your court?", "topic": "TALK_BOANN_JOIN" },
+      { "text": "Well those of us who aren't faeries have other places to be now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BOANN_3",
+    "dynamic_line": "The same thing that is causing the portal storms made travel between our worlds easier again.  We have to engage in fairly strenous decontamination procedures on our way back but we've had those in place for aeons.",
+    "responses": [
+      { "text": "Decontamination?  You can leave here and not worry about the risen dead?", "topic": "TALK_BOANN_4" },
+      { "text": "How can I join your court?  I want to leave here when you do!", "topic": "TALK_BOANN_JOIN" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BOANN_4",
+    "dynamic_line": "If we die here, we will rise just like you, we are within the belly of the beast, so to speak here.  But yes when we go elsewhere we don't bring this with us, that would be rude.",
+    "responses": [
+      { "text": "Please take me away with you.", "topic": "TALK_BOANN_JOIN" },
+      { "text": "I haven't decided if I believe you or not but I'll see you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BOANN_JOIN",
+    "dynamic_line": "Well you can't just join by asking, you need to accomplish a series of progressively more difficult quests, bringing me trophies and relics proving your worth to join our ranks.",
+    "responses": [
+      { "text": "Do you have a quest for me now?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_BRING_BOANN_JABBERWOCK_HEART",
+    "type": "mission_definition",
+    "name": { "str": "Bring me the heart of a Jabberwock" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 8,
+    "value": 0,
+    "item": "jabberwock_heart",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "forest_thick",
+        "om_terrain_replace": "forest",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 90,
+        "min_distance": 5,
+        "z": 0
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": [
+        { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" },
+        { "u_spawn_item": "horse_tack", "count": 1 }
+      ]
+    },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Kill a great beast in my honor and I'll reward you as a new member of my court.",
+      "offer": "Prove to me that you have the heart of a knight.  Bring me the putrid heart of a Jabberwock.",
+      "accepted": "I had no doubts in you.",
+      "rejected": "You may change your mind at a later date.",
+      "advice": "You will need incredible melee skills to handle this or an impressive gun.",
+      "inquire": "Have you brought me the favor I requested?",
+      "success": "I'm pleased to grant you Melian mount of your own.",
+      "success_lie": "I don't think so…",
+      "failure": "Quitting already?"
+    }
+  }
+]

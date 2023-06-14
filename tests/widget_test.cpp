@@ -140,7 +140,7 @@ static std::vector<std::string> scrape_win_at(
     cata_cursesport::WINDOW *win = static_cast<cata_cursesport::WINDOW *>( w.get() );
 
     for( int i = origin.y; i < rows && static_cast<size_t>( i ) < win->line.size(); i++ ) {
-        lines.emplace_back( std::string() );
+        lines.emplace_back( );
         for( int j = origin.x; j < cols && static_cast<size_t>( j ) < win->line[i].chars.size(); j++ ) {
             lines[i] += win->line[i].chars[j].ch;
         }
@@ -1308,7 +1308,7 @@ TEST_CASE( "widgets showing Sun and Moon position", "[widget]" )
 // Bodypart status strings are pulled from a std::map, which is
 // not guaranteed to be sorted in a deterministic way.
 // Just check if the layout string contains the specified status conditions.
-static void check_bp_has_status( const std::string &layout,
+static void check_bp_has_status( const std::string_view layout,
                                  const std::vector<std::string> &stat_str )
 {
     for( const std::string &stat : stat_str ) {
@@ -2825,7 +2825,12 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
     ava.movecounter = 0;
 
     // workaround for mbstowcs to process multibyte utf-8 chars
-    setlocale( LC_ALL, "" );
+    std::locale const &oldloc = std::locale();
+    on_out_of_scope reset_loc( [&oldloc]() {
+        std::locale::global( oldloc );
+    } );
+    char *result = setlocale( LC_ALL, "" );
+    REQUIRE( result );
 
     SECTION( "without flag" ) {
         const widget_id &wgt = widget_test_layout_nopad_noflag;
@@ -2898,6 +2903,4 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
             test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, true );
         }
     }
-
-    setlocale( LC_ALL, "C" );
 }

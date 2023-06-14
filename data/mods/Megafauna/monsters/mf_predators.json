@@ -21,8 +21,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 2,
     "melee_damage": [
       { "damage_type": "cut", "amount": 6.0, "armor_penetration": 3 },
       { "damage_type": "stab", "amount": 5.0, "armor_penetration": 3 }
@@ -53,7 +51,8 @@
       "WARM",
       "CANPLAY",
       "GROUP_MORALE"
-    ]
+    ],
+    "armor": { "bash": 2, "cut": 2 }
   },
   {
     "id": "mon_direwolf_cub",
@@ -101,16 +100,15 @@
       { "damage_type": "cut", "amount": 4.0, "armor_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 },
       { "damage_type": "stab", "amount": 8.0, "armor_penetration": 8 }
     ],
+    "grab_strength": 35,
     "special_attacks": [
       { "id": "cut_throat" },
       { "id": "impale", "cooldown": 10 },
       [ "LUNGE", 10 ],
-      [ "GRAB", 10 ],
+      { "id": "bite_grab" },
       { "type": "leap", "cooldown": 10, "max_range": 4 }
     ],
     "dodge": 3,
-    "armor_bash": 6,
-    "armor_stab": 4,
     "vision_day": 30,
     "vision_night": 15,
     "tracking_distance": 5,
@@ -129,13 +127,15 @@
       "GOODHEARING",
       "KEENNOSE",
       "ANIMAL",
+      "GRABS",
       "PATH_AVOID_DANGER_1",
       "PATH_AVOID_FIRE",
       "KEEP_DISTANCE",
       "WARM",
       "PET_MOUNTABLE",
       "CANPLAY"
-    ]
+    ],
+    "armor": { "bash": 6, "stab": 4 }
   },
   {
     "id": "mon_sabcat_cub",
@@ -196,8 +196,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8.0, "armor_penetration": 2 } ],
     "dodge": 4,
-    "armor_bash": 5,
-    "armor_stab": 3,
     "vision_day": 22,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
@@ -219,7 +217,8 @@
       "PATH_AVOID_FIRE",
       "WARM",
       "HIT_AND_RUN"
-    ]
+    ],
+    "armor": { "bash": 5, "stab": 3 }
   },
   {
     "id": "mon_cave_lion_cub",

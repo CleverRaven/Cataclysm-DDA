@@ -24,6 +24,7 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
                              bool death_drops = true );
 void clear_vehicles( map *target = nullptr );
 void build_test_map( const ter_id &terrain );
+void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_id &bottom );
 void player_add_headlamp();
 void player_wear_blindfold();
 void set_time_to_day();

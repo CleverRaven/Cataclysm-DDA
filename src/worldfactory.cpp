@@ -382,7 +382,7 @@ void worldfactory::init()
 
     // This returns files as well, but they are going to be discarded later as
     // we look for files *within* these dirs. If it's a file, there won't be
-    // be any of those inside it and is_save_dir will return false.
+    // any files inside it and is_save_dir will return false.
     for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
         if( !is_save_dir( dir ) ) {
             continue;
@@ -408,7 +408,10 @@ void worldfactory::init()
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-                rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() );
+                if( rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() ) ) {
+                    debugmsg( "Error while moving world files: %s.  World may have been corrupted",
+                              strerror( errno ) );
+                }
             }
             newworld->world_saves = old_world.world_saves;
             newworld->WORLD_OPTIONS = old_world.WORLD_OPTIONS;
@@ -435,6 +438,7 @@ const std::map<std::string, std::unique_ptr<WORLD>> &worldfactory::get_all_world
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
+    result.reserve( all_worlds.size() );
     for( const auto &elem : all_worlds ) {
         result.push_back( elem.first );
     }
@@ -1367,7 +1371,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( navigate_ui_list( action, cursel[active_header], scroll_rate, recmax, true ) ) {
             recalc_start = true;
         } else if( action == "LEFT" || action == "RIGHT" ) {
-            active_header = increment_and_wrap( active_header, action == "RIGHT", headers.size() );
+            active_header = inc_clamp_wrap( active_header, action == "RIGHT", headers.size() );
             recalc_start = true;
         } else if( action == "CONFIRM" ) {
             const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
@@ -1816,7 +1820,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         } else if( action == "PICK_MODS" ) {
             show_worldgen_tab_modselection( w_confirmation, world, false );
         } else if( action == "ADVANCED_SETTINGS" ) {
-            auto WOPTIONS_OLD = world->WORLD_OPTIONS;
+            options_manager::options_container WOPTIONS_OLD = world->WORLD_OPTIONS;
             show_worldgen_tab_options( w_confirmation, world, false );
             for( auto &iter : WOPTIONS_OLD ) {
                 if( iter.second != world->WORLD_OPTIONS[iter.first] ) {
@@ -2028,6 +2032,7 @@ void load_external_option( const JsonObject &jo )
     if( jo.has_member( "info" ) ) {
         jo.get_string( "info" );
     }
+    options_manager::update_options_cache();
 }
 
 mod_manager &worldfactory::get_mod_manager()
@@ -2070,7 +2075,7 @@ size_t worldfactory::get_world_index( const std::string &name )
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden( const std::string &candidate )
+static bool isForbidden( const std::string_view candidate )
 {
     return candidate.find( PATH_INFO::worldoptions() ) != std::string::npos ||
            candidate.find( "mods.json" ) != std::string::npos;

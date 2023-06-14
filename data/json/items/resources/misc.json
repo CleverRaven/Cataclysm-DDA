@@ -10,11 +10,11 @@
     "symbol": ",",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "cutting": 10,
     "flags": [ "SPEAR", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": 3000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "melee_damage": { "stab": 10 }
   },
   {
     "type": "GENERIC",
@@ -30,9 +30,9 @@
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "volume": "1250 ml",
-    "bashing": 4,
     "price": 2400,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -45,10 +45,9 @@
     "flags": [ "TRADER_AVOID" ],
     "weight": "750 g",
     "volume": "250 ml",
-    "bashing": 5,
-    "cutting": 2,
     "to_hit": -1,
-    "qualities": [ [ "BUTCHER", -66 ] ]
+    "qualities": [ [ "BUTCHER", -66 ] ],
+    "melee_damage": { "bash": 5, "cut": 2 }
   },
   {
     "type": "GENERIC",
@@ -61,11 +60,11 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": 500,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "melee_damage": { "stab": 8 }
   },
   {
     "id": "incendiary",
@@ -145,10 +144,9 @@
     "weight": "500 g",
     "volume": "250 ml",
     "longest_side": "8 cm",
-    "bashing": 5,
-    "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ],
+    "melee_damage": { "bash": 5, "cut": 3 }
   },
   {
     "id": "sole_rubber",
@@ -249,11 +247,11 @@
     "symbol": ",",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": 1000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "melee_damage": { "stab": 8 }
   },
   {
     "type": "GENERIC",
@@ -265,9 +263,9 @@
     "material": [ "steel" ],
     "weight": "1814 g",
     "volume": "200 ml",
-    "bashing": 15,
     "to_hit": -5,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 15 }
   },
   {
     "id": "radio_car_wheel",

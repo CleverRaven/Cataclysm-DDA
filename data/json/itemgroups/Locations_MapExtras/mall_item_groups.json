@@ -266,6 +266,7 @@
       [ "string_6", 50 ],
       [ "leather", 10 ],
       [ "fur", 7 ],
+      [ "sheet_leather", 20 ],
       [ "tanned_hide", 20 ],
       [ "tanned_pelt", 20 ]
     ]
@@ -329,7 +330,7 @@
       { "item": "cell_phone", "prob": 60, "charges": 150 },
       { "item": "smart_phone", "prob": 60, "charges": 120 },
       [ "wristwatch", 60 ],
-      [ "mobile_memory_card_used", 10 ],
+      [ "memory_card", 10 ],
       [ "fitness_band", 5 ]
     ]
   },

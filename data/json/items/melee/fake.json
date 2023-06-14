@@ -9,11 +9,10 @@
     "symbol": "{",
     "material": [ "superalloy" ],
     "volume": "500 ml",
-    "bashing": 8,
-    "cutting": 16,
-    "flags": [ "STAB", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID", "ZERO_WEIGHT", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "BIONIC_WEAPON_MELEE", "TRADER_AVOID", "ZERO_WEIGHT", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "BIONIC_WEAPONRY", "CLAWS" ],
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
+    "melee_damage": { "bash": 8, "stab": 16 }
   },
   {
     "type": "GENERIC",
@@ -28,9 +27,9 @@
     "techniques": [ "WBLOCK_2" ],
     "volume": "750 ml",
     "longest_side": "30 cm",
-    "cutting": 28,
-    "flags": [ "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "flags": [ "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "BIONIC_WEAPON_MELEE", "TRADER_AVOID" ],
     "weapon_category": [ "BIONIC_WEAPONRY", "BIONIC_SWORDS" ],
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 22 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 22 ] ],
+    "melee_damage": { "cut": 28 }
   }
 ]

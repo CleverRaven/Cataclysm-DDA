@@ -48,21 +48,20 @@ static float get_avg_degradation( const itype_id &it, int count, int damage )
     return deg / count;
 }
 
-TEST_CASE( "Damage level thresholds", "[item][damage_level]" )
+TEST_CASE( "Damage indicator thresholds", "[item][damage_level]" )
 {
     struct damage_level_threshold {
         int min_damage;
         int max_damage;
-        std::string expect_symbol;
-        nc_color expect_color;
+        std::string expect_indicator;
     };
     const std::vector<damage_level_threshold> thresholds {
-        {    0,    0, R"(++)", c_green       },
-        {    1,  999, R"(||)", c_light_green },
-        { 1000, 1999, R"(|\)", c_yellow      },
-        { 2000, 2999, R"(|.)", c_light_red   },
-        { 3000, 3999, R"(\.)", c_red         },
-        { 4000, 4000, R"(XX)", c_dark_gray   },
+        {    0,    0, "<color_c_green>++</color>" },
+        {    1,  999, "<color_c_light_green>||</color>" },
+        { 1000, 1999, "<color_c_yellow>|\\</color>" },
+        { 2000, 2999, "<color_c_light_red>|.</color>" },
+        { 3000, 3999, "<color_c_red>\\.</color>" },
+        { 4000, 4000, "<color_c_dark_gray>XX</color>" },
     };
     item it( itype_test_baseball );
     CHECK( it.damage() == 0 );
@@ -71,14 +70,12 @@ TEST_CASE( "Damage level thresholds", "[item][damage_level]" )
         it.set_damage( dmg );
         CHECK( it.damage() == dmg );
         CAPTURE( it.damage() );
-        CAPTURE( it.damage_level() );
-        CAPTURE( it.damage_symbol() );
+        CAPTURE( it.damage_indicator() );
         bool matched_threshold = false;
         for( size_t i = 0; i < thresholds.size(); i++ ) {
             const damage_level_threshold &threshold = thresholds[i];
             if( threshold.min_damage <= dmg && dmg <= threshold.max_damage ) {
-                CHECK( it.damage_symbol() == threshold.expect_symbol );
-                CHECK( it.damage_color() == threshold.expect_color );
+                CHECK( it.damage_indicator() == threshold.expect_indicator );
                 CHECK( it.damage_level() == static_cast<int>( i ) );
                 matched_threshold = true;
                 break;

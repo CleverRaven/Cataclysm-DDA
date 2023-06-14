@@ -12,7 +12,6 @@
     "price": 64100,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -21,22 +20,15 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
         "ammo_restriction": { "454": 5, "410shot": 5, "45colt": 5 },
         "allowed_speedloaders": [ "454_speedloader5" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "raging_judge",

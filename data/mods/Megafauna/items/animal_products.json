@@ -15,9 +15,9 @@
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "80 L",
     "longest_side": "2500 cm",
-    "bashing": 45,
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 96 ] ]
+    "vitamins": [ [ "calcium", 96 ] ],
+    "melee_damage": { "bash": 45 }
   },
   {
     "type": "COMESTIBLE",
@@ -62,8 +62,8 @@
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "36 L",
     "longest_side": "2000 cm",
-    "bashing": 35,
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 96 ] ]
+    "vitamins": [ [ "calcium", 96 ] ],
+    "melee_damage": { "bash": 35 }
   }
 ]

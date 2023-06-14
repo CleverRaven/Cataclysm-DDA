@@ -1034,7 +1034,7 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
     //     10 < 25 mph : decelerating toward 10
     // Text color indicates how much the engine is straining beyond its safe velocity.
     vehicle *veh = display::vehicle_driven( u );
-    if( veh && veh->cruise_on ) {
+    if( veh ) {
         int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
         int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
         const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
@@ -1061,7 +1061,7 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     nc_color fuel_color = c_light_gray;
 
     vehicle *veh = display::vehicle_driven( u );
-    if( veh && veh->cruise_on ) {
+    if( veh ) {
         itype_id fuel_type = itype_id::NULL_ID();
         // FIXME: Move this to a vehicle helper function like get_active_engine
         for( const int p : veh->engines ) {
@@ -1124,7 +1124,8 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
     return std::make_pair( weight_text, weight_color );
 }
 
-std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string &note_text )
+std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string_view
+        note_text )
 {
     std::string ter_sym = "N";
     nc_color ter_color = c_yellow;
@@ -1175,7 +1176,7 @@ std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::
             colorStart = symbolIndex + 1;
         }
 
-        std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
+        std::string_view sym = note_text.substr( colorStart, colorIndex - colorStart );
 
         if( sym.length() == 2 ) {
             if( sym == "br" ) {
@@ -1186,7 +1187,7 @@ std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::
                 ter_color = c_dark_gray;
             }
         } else {
-            char colorID = sym.c_str()[0];
+            char colorID = sym[0];
             if( colorID == 'r' ) {
                 ter_color = c_light_red;
             } else if( colorID == 'R' ) {
@@ -1783,7 +1784,7 @@ std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     weather_manager &weather = get_weather();
     double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
+                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos() ) );
 
     // Wind descriptor followed by a directional arrow
     const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(

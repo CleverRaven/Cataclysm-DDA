@@ -94,6 +94,7 @@ enum class debug_menu_index : int {
     TEST_MAP_EXTRA_DISTRIBUTION,
     NESTED_MAPGEN,
     VEHICLE_BATTERY_CHARGE,
+    VEHICLE_DELETE,
     GENERATE_EFFECT_LIST,
     EDIT_CAMP_LARDER,
     WRITE_GLOBAL_EOCS,
@@ -117,7 +118,7 @@ void debug();
 
 /* Splits a string by @param delimiter and push_back's the elements into _Container */
 template<typename Container>
-Container string_to_iterable( const std::string &str, const std::string &delimiter )
+Container string_to_iterable( const std::string_view str, const std::string_view delimiter )
 {
     Container res;
 
@@ -125,12 +126,12 @@ Container string_to_iterable( const std::string &str, const std::string &delimit
     size_t start = 0;
     while( ( pos = str.find( delimiter, start ) ) != std::string::npos ) {
         if( pos > start ) {
-            res.push_back( str.substr( start, pos - start ) );
+            res.emplace_back( str.substr( start, pos - start ) );
         }
         start = pos + delimiter.length();
     }
     if( start != str.length() ) {
-        res.push_back( str.substr( start, str.length() - start ) );
+        res.emplace_back( str.substr( start, str.length() - start ) );
     }
 
     return res;
@@ -141,7 +142,7 @@ Container string_to_iterable( const std::string &str, const std::string &delimit
  * @param f is callable that is called to transform each value
  * */
 template<typename Container, typename Mapper>
-std::string iterable_to_string( const Container &values, const std::string &delimiter,
+std::string iterable_to_string( const Container &values, const std::string_view delimiter,
                                 const Mapper &f )
 {
     std::string res;
@@ -155,9 +156,9 @@ std::string iterable_to_string( const Container &values, const std::string &deli
 }
 
 template<typename Container>
-std::string iterable_to_string( const Container &values, const std::string &delimiter )
+std::string iterable_to_string( const Container &values, const std::string_view delimiter )
 {
-    return iterable_to_string( values, delimiter, []( const std::string & f ) {
+    return iterable_to_string( values, delimiter, []( const std::string_view f ) {
         return f;
     } );
 }

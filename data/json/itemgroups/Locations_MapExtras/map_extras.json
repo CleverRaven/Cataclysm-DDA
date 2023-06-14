@@ -31,7 +31,7 @@
       { "group": "college_camping", "prob": 80 },
       { "group": "SUS_book_nonf_soft", "prob": 20 },
       { "item": "pride_flag", "prob": 5 },
-      { "item": "national_flag", "prob": 4 },
+      { "item": "national_flag", "prob": 2 },
       { "item": "corpse", "damage": 4 }
     ]
   },
@@ -113,6 +113,12 @@
     "subtype": "collection",
     "id": "female_underwear",
     "groups": [ "female_underwear_top", "female_underwear_bottom" ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "female_underwear_child",
+    "groups": [ "female_underwear_top_child", "female_underwear_bottom" ]
   },
   {
     "type": "item_group",

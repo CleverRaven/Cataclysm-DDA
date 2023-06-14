@@ -78,7 +78,7 @@ static bool doFunctionsMatch( const FunctionDecl *Callee, const FunctionDecl *Ot
 
         if( CalleeParamI == MinArg - SkipArgs ) {
             std::string ShortTypeName = IsTripoint ? "tripoint" : "point";
-            std::string ExpectedTypeName = "const struct " + ShortTypeName + " &";
+            std::string ExpectedTypeName = "const " + ShortTypeName + " &";
             if( OtherCalleeParam->getType().getAsString() != ExpectedTypeName ) {
                 return false;
             }

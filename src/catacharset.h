@@ -25,8 +25,7 @@ inline uint32_t UTF8_getch( const std::string &str )
 }
 // convert cursorx value to byte position
 int cursorx_to_position( const char *line, int cursorx, int *prevpos = nullptr, int maxlen = -1 );
-int utf8_width( const char *s, bool ignore_tags = false );
-int utf8_width( const std::string &str, bool ignore_tags = false );
+int utf8_width( std::string_view str, bool ignore_tags = false );
 int utf8_width( const utf8_wrapper &str, bool ignore_tags = false );
 
 std::string left_justify( const std::string &str, int width, bool ignore_tags = false );
@@ -54,8 +53,8 @@ std::string wstr_to_utf8( const std::wstring &wstr );
 
 std::string wstr_to_native( const std::wstring &wstr );
 
-std::string utf32_to_utf8( const std::u32string &str );
-std::u32string utf8_to_utf32( const std::string &str );
+std::string utf32_to_utf8( std::u32string_view str );
+std::u32string utf8_to_utf32( std::string_view str );
 
 // Split the given string into displayed characters.  Each element of the returned vector
 // contains one 'regular' codepoint and all subsequent combining characters.

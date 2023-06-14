@@ -45,7 +45,7 @@
       [ "camera_bag", 10 ],
       { "item": "eink_tablet_pc", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 15, "charges": [ 0, 500 ] },
-      [ "mobile_memory_card", 50 ],
+      [ "memory_card_unread", 50 ],
       [ "usb_drive", 50 ],
       { "item": "mp3", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 50, "charges": [ 0, 100 ] },
@@ -64,7 +64,8 @@
       [ "hairbrush", 25 ],
       [ "comb_pocket", 50 ],
       [ "ankle_wallet_pouch", 1 ],
-      { "group": "lunchbox_with_contents", "prob": 50 }
+      { "group": "lunchbox_with_contents", "prob": 50 },
+      { "item": "teargas_sprayer", "prob": 10, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -84,6 +85,46 @@
       { "group": "wallet_duct_tape_full", "prob": 1 },
       { "item": "ankle_wallet_pouch", "prob": 1 },
       { "item": "drink_hobo", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "child_items_pockets",
+    "//": "Stuff that kids would have in their pockets or otherwise carry on them when they turned. NOT for items that they could have been carrying in their hands - those would have fallen out of their grasp once they died.",
+    "items": [
+      { "group": "candy_chocolate", "prob": 200 },
+      { "group": "toastems", "prob": 25 },
+      { "item": "cookies", "prob": 80, "charges": [ 1, 4 ] },
+      { "item": "licorice", "prob": 10, "charges": [ 1, 4 ] },
+      { "item": "mp3", "prob": 80, "charges": [ 0, 100 ] },
+      { "item": "portable_game", "prob": 30, "charges": [ 0, 100 ] },
+      { "group": "softdrinks_canned", "prob": 55 },
+      { "group": "softdrinks_bottled", "prob": 30 },
+      [ "backpack", 48 ],
+      [ "purse", 20 ],
+      [ "slingpack", 19 ],
+      [ "travelpack", 10 ],
+      [ "petpack", 1 ],
+      [ "armrig", 3 ],
+      [ "leg_small_bag", 3 ],
+      [ "leg_bag", 1 ],
+      [ "bookstrap", 1 ],
+      [ "pockknife", 14 ],
+      [ "knife_swissarmy", 10 ],
+      [ "teleumbrella", 2 ],
+      [ "usb_drive", 10 ],
+      { "group": "writing_utensils", "prob": 40 },
+      { "group": "child_schoolbag_1", "prob": 500 },
+      { "group": "child_schoolbag_2", "prob": 150 },
+      { "group": "child_bugout_bag_1", "prob": 100 },
+      { "group": "child_bugout_bag_2", "prob": 25 },
+      [ "novel_pulp", 16 ],
+      [ "elbow_pads", 20 ],
+      [ "knee_pads", 20 ],
+      { "item": "radiocontrol", "prob": 5, "charges": [ 0, 100 ] },
+      [ "RPG_die", 1 ],
+      [ "metal_RPG_die", 1 ],
+      [ "deck_of_cards", 1 ]
     ]
   },
   {
@@ -119,8 +160,6 @@
       { "group": "writing_utensils", "prob": 40 },
       { "group": "child_schoolbag_1", "prob": 500 },
       { "group": "child_schoolbag_2", "prob": 150 },
-      { "group": "child_bugout_bag_1", "prob": 100 },
-      { "group": "child_bugout_bag_2", "prob": 25 },
       [ "novel_pulp", 16 ],
       { "group": "toy_radio_car", "prob": 1 },
       { "group": "toy_makerspace_kit", "prob": 1 },
@@ -155,6 +194,7 @@
       { "item": "hat_ball", "prob": 10 },
       { "item": "hat_golf", "prob": 5 },
       { "item": "helmet_bike", "prob": 70 },
+      { "item": "helmet_riding", "prob": 5 },
       { "group": "helmet_bike_modified", "prob": 10 }
     ]
   },
@@ -351,7 +391,8 @@
       { "item": "tinderbox", "prob": 1, "charges": [ 0, 100 ] },
       [ "flint_steel", 5 ],
       [ "bottle_metal", 5 ],
-      [ "wallet_travel", 10 ]
+      [ "wallet_travel", 10 ],
+      { "item": "teargas_sprayer", "prob": 5, "charges": 10 }
     ]
   }
 ]

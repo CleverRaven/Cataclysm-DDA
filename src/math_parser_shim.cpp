@@ -1,18 +1,18 @@
 #include "math_parser_shim.h"
+#include "math_parser_diag.h"
 #include "math_parser_func.h"
 
 #include <map>
 #include <string_view>
 
-#include "condition.h"
 #include "json_loader.h"
 #include "string_formatter.h"
 
-kwargs_shim::kwargs_shim( std::vector<std::string> const &tokens, char scope )
+kwargs_shim::kwargs_shim( std::vector<diag_value> const &tokens, char scope )
 {
     bool positional = false;
-    for( std::string_view const token : tokens ) {
-        std::vector<std::string_view> parts = tokenize( token, ":", false );
+    for( diag_value const &token : tokens ) {
+        std::vector<std::string_view> parts = tokenize( token.str(), ":", false );
         if( parts.size() == 1 && !positional ) {
             kwargs.emplace(
                 // NOLINTNEXTLINE(cata-translate-string-literal): not a user-visible string
@@ -22,7 +22,7 @@ kwargs_shim::kwargs_shim( std::vector<std::string> const &tokens, char scope )
         } else if( parts.size() == 2 ) {
             kwargs.emplace( parts[0], parts[1] );
         } else {
-            debugmsg( "Too many parts in token %.*s", token.size(), token.data() );
+            debugmsg( "Too many parts in token %s", token.str() );
         }
     }
 }
@@ -57,22 +57,30 @@ std::string kwargs_shim::get_string( std::string_view key ) const
     return {};
 }
 
-double kwargs_shim::get_float( std::string_view key ) const
+namespace
 {
-    std::optional<std::string> get = _get_string( key );
-    if( get && !get->empty() ) {
-        return std::stod( *get );
+template<typename T>
+T _ret_t( std::optional<std::string> const &get, T def )
+{
+    if( !get || get->empty() ) {
+        return def;
     }
-    return 0;
+    try {
+        return std::stod( *get );
+    } catch( std::invalid_argument const &/* ex */ ) {
+        return def;
+    }
+}
+} // namespace
+
+double kwargs_shim::get_float( std::string_view key, double def ) const
+{
+    return _ret_t( _get_string( key ), def );
 }
 
 int kwargs_shim::get_int( std::string_view key, int def ) const
 {
-    std::optional<std::string> get = _get_string( key );
-    if( get && !get->empty() ) {
-        return std::stoi( *get );
-    }
-    return def;
+    return _ret_t( _get_string( key ), def );
 }
 
 std::optional<std::string> kwargs_shim::_get_string( std::string_view key ) const

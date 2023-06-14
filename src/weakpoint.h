@@ -124,13 +124,13 @@ struct weakpoint {
     // Percent chance of hitting the weakpoint. Can be increased by skill.
     float coverage = 100.0f;
     // Multiplier for existing armor values. Defaults to 1.
-    std::array<float, static_cast<int>( damage_type::NUM )> armor_mult;
+    std::map<damage_type_id, float> armor_mult;
     // Flat penalty to armor values. Applied after the multiplier.
-    std::array<float, static_cast<int>( damage_type::NUM )> armor_penalty;
+    std::map<damage_type_id, float> armor_penalty;
     // Damage multipliers. Applied after armor.
-    std::array<float, static_cast<int>( damage_type::NUM )> damage_mult;
+    std::map<damage_type_id, float> damage_mult;
     // Critical damage multipliers. Applied after armor instead of damage_mult, if the attack is a crit.
-    std::array<float, static_cast<int>( damage_type::NUM )>crit_mult;
+    std::map<damage_type_id, float> crit_mult;
     // A list of required effects.
     std::vector<efftype_id> required_effects;
     // A list of effects that may trigger by hitting this weak point.
@@ -171,16 +171,18 @@ struct weakpoints {
     // load inline definition
     void load( const JsonArray &ja );
     void remove( const JsonArray &ja );
+    void finalize();
 
     /********************* weakpoint_set handling ****************************/
     // load standalone JSON type
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     void add_from_set( const weakpoints_id &set_id, bool replace_id );
     void add_from_set( const weakpoints &set, bool replace_id );
     void del_from_set( const weakpoints_id &set_id );
     void del_from_set( const weakpoints &set );
     static void load_weakpoint_sets( const JsonObject &jo, const std::string &src );
     static void reset();
+    static void finalize_all();
     static const std::vector<weakpoints> &get_all();
 };
 

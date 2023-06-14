@@ -13,6 +13,7 @@
 #include "item_pocket.h"
 #include "map_helpers.h"
 #include "npc.h"
+#include "options_helpers.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "ret_val.h"
@@ -486,9 +487,11 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         // Connect to empty ups. Bionic shouldn't work
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
-        item_location ups = dummy.i_add( item( "UPS_off" ) );
+        item_location ups = dummy.i_add( item( "UPS_ON" ) );
         item_location cable = dummy.i_add( item( "jumper_cable" ) );
-        cable->set_var( "state", "UPS_link" );
+        cable->link = cata::make_value<item::link_data>();
+        cable->link->s_state = link_state::ups;
+        cable->link->t_state = link_state::bio_cable;
         ups->set_var( "cable", "plugged_in" );
         cable->active = true;
 
@@ -537,6 +540,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         // Midday for solar test
         clear_map();
         g->reset_light_level();
+        scoped_weather_override weather_clear( WEATHER_CLEAR );
         calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
@@ -547,7 +551,9 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         item_location solar_pack = dummy.top_items_loc()[1];
         REQUIRE( solar_pack->typeId() == itype_solarpack_on );
         item_location cable = dummy.i_add( item( "jumper_cable" ) );
-        cable->set_var( "state", "solar_pack_link" );
+        cable->link = cata::make_value<item::link_data>();
+        cable->link->s_state = link_state::solarpack;
+        cable->link->t_state = link_state::bio_cable;
         solar_pack->set_var( "cable", "plugged_in" );
         cable->active = true;
 

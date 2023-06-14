@@ -33,6 +33,18 @@
     "price_postapoc": 50
   },
   {
+    "id": "five-point_harness",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": { "str": "5-point harness", "str_pl": "5-point harnesses" },
+    "description": "A harness made of five belts meant to be mounted on vehicle to fasten a passenger securely to their seat.",
+    "material": [ "nylon", "steel" ],
+    "weight": "2204 g",
+    "volume": "750 ml",
+    "price": 10000,
+    "price_postapoc": 5000
+  },
+  {
     "id": "filter_air",
     "copy-from": "spare_part",
     "type": "GENERIC",
@@ -126,10 +138,10 @@
     "material": [ "steel" ],
     "weight": "7 kg",
     "volume": "3 L",
-    "bashing": 16,
     "to_hit": -4,
     "price": 10000,
-    "price_postapoc": 2000
+    "price_postapoc": 2000,
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "nitrogen_membrane_filter",
@@ -140,10 +152,10 @@
     "material": [ "steel" ],
     "weight": "2 kg",
     "volume": "500 ml",
-    "bashing": 12,
     "longest_side": "60 cm",
     "price": 40000,
-    "price_postapoc": 2000
+    "price_postapoc": 2000,
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "magnet",
@@ -169,9 +181,9 @@
     "material": [ "steel" ],
     "weight": "4 kg",
     "volume": "500 ml",
-    "bashing": 16,
     "price": 5000,
-    "price_postapoc": 2000
+    "price_postapoc": 2000,
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "hd_pipe_fittings",

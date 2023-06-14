@@ -449,7 +449,7 @@
     "charges": 60,
     "byproducts": [ [ "ruined_chunks", 2 ] ],
     "//": "Charcuterie: The Craft of Salting, Smoking, and Curing would be a good book for someone to use for further meat products recipes.",
-    "book_learn": [ [ "offalcooking", 3 ] ],
+    "book_learn": { "offalcooking": { "skill_level": 3 }, "scots_cookbook": { "skill_level": 3 } },
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "meat_stomach", 1, "LIST" ] ], [ [ "salt", 20 ] ], [ [ "water_clean", 2 ] ] ]
   },

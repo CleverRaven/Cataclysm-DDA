@@ -95,7 +95,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "cable", 2 ] ],
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "e_scrap", 1 ] ]
     ]
   },
@@ -218,7 +218,7 @@
     "skills_required": [ "computer", 5 ],
     "difficulty": 8,
     "time": "1 h",
-    "reversible": true,
+    "reversible": { "time": "20 m" },
     "//": "as with mp3, no learning how to encode the software from taking it apart",
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
@@ -305,7 +305,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "blade", 2 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
@@ -361,7 +361,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "chain", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "cable", 4 ] ],
@@ -389,7 +389,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "circsaw_blade", 1 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
@@ -604,7 +604,7 @@
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "25 m",
+    "time": "60 m",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [
@@ -613,7 +613,8 @@
       [ "advanced_electronics", 5 ],
       [ "textbook_electronics", 5 ]
     ],
-    "using": [ [ "welding_standard", 10 ] ],
+    "//": "130cm weld",
+    "using": [ [ "welding_standard", 130 ] ],
     "proficiencies": [
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_welding" },
@@ -623,7 +624,7 @@
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "motor_small", 1 ] ],
-      [ [ "UPS_off", 1 ] ],
+      [ [ "UPS_OFF", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "cable", 12 ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
@@ -638,18 +639,19 @@
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": "20 m",
+    "time": "40 m",
     "reversible": true,
     "decomp_learn": 4,
+    "//": "100cm weld",
     "book_learn": [
       [ "textbook_mechanics", 4 ],
       [ "textbook_carpentry", 4 ],
       [ "advanced_electronics", 3 ],
       [ "textbook_electronics", 3 ]
     ],
-    "using": [ [ "welding_standard", 10 ] ],
+    "using": [ [ "welding_standard", 100 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor_small", 1 ] ], [ [ "cable", 12 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "motor_tiny", 1 ] ], [ [ "cable", 12 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -795,7 +797,6 @@
     "components": [
       [ [ "superglue", 4 ], [ "bone_glue", 4 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
       [ [ "motor_micro", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "receiver", 1 ] ],
@@ -835,7 +836,8 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
+    "//": "30cm weld",
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
     "components": [

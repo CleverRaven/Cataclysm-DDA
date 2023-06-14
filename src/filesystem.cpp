@@ -130,14 +130,14 @@ const char *cata_files::eol()
 
 std::string read_entire_file( const std::string &path )
 {
-    cata::ifstream infile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
+    std::ifstream infile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
     return std::string( std::istreambuf_iterator<char>( infile ),
                         std::istreambuf_iterator<char>() );
 }
 
 std::string read_entire_file( const fs::path &path )
 {
-    cata::ifstream infile( path, std::ifstream::in | std::ifstream::binary );
+    std::ifstream infile( path, std::ifstream::in | std::ifstream::binary );
     return std::string( std::istreambuf_iterator<char>( infile ),
                         std::istreambuf_iterator<char>() );
 }
@@ -244,7 +244,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
     std::vector<std::string> results;
 
     while( !directories.empty() ) {
-        const fs::path path = std::move( directories.front() );
+        const fs::path path = fs::u8path( directories.front() );
         directories.pop_front();
 
         const std::ptrdiff_t n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
@@ -252,7 +252,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 
         // We could use fs::recursive_directory_iterator maybe
         for_each_dir_entry( path, [&]( const fs::directory_entry & entry ) {
-            const auto full_path = entry.path().generic_u8string();
+            const std::string full_path = entry.path().generic_u8string();
 
             // don't add files ending in '~'.
             if( full_path.back() == '~' ) {
@@ -478,8 +478,8 @@ std::vector<cata_path> get_directories_with( const std::vector<std::string> &pat
 
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
-    cata::ifstream source_stream( fs::u8path( source_path ),
-                                  std::ifstream::in | std::ifstream::binary );
+    std::ifstream source_stream( fs::u8path( source_path ),
+                                 std::ifstream::in | std::ifstream::binary );
     if( !source_stream ) {
         return false;
     }
@@ -490,8 +490,8 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
 
 bool copy_file( const cata_path &source_path, const cata_path &dest_path )
 {
-    cata::ifstream source_stream( source_path.get_unrelative_path(),
-                                  std::ifstream::in | std::ifstream::binary );
+    std::ifstream source_stream( source_path.get_unrelative_path(),
+                                 std::ifstream::in | std::ifstream::binary );
     if( !source_stream ) {
         return false;
     }
@@ -517,25 +517,3 @@ std::string ensure_valid_file_name( const std::string &file_name )
 
     return new_file_name;
 }
-
-#if defined(_WIN32) && defined(__GLIBCXX__)
-// GLIBCXX does not offer the wchar_t extension for fstream paths
-std::string cata::_details::path_to_native( const fs::path &p )
-{
-    if( GetACP() == 65001 ) { // utf-8 code page
-        return p.u8string();
-    } else {
-        return wstr_to_native( p.wstring() );
-    }
-}
-#elif defined(_WIN32)
-std::wstring cata::_details::path_to_native( const fs::path &p )
-{
-    return p.wstring();
-}
-#else
-std::string cata::_details::path_to_native( const fs::path &p )
-{
-    return p.u8string();
-}
-#endif

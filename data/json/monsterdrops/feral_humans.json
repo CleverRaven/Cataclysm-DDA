@@ -84,8 +84,7 @@
           { "group": "dissection", "prob": 50 },
           { "group": "electronics", "prob": 40 },
           { "group": "radio", "prob": 15 },
-          { "group": "textbooks", "prob": 25 },
-          { "group": "autodoc_installation_programs", "prob": 5 }
+          { "group": "textbooks", "prob": 25 }
         ]
       },
       { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
@@ -641,7 +640,7 @@
     "magazine": 100,
     "ammo": 10,
     "id": "feral_autogun",
-    "items": [ [ "m4_carbine", 500 ], [ "ar15", 500 ] ]
+    "items": [ [ "modular_m4_carbine", 500 ], [ "modular_ar15", 500 ] ]
   },
   {
     "type": "item_group",

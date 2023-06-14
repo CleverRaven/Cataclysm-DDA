@@ -29,6 +29,20 @@ class JsonObject;
 class Character;
 class vehicle;
 
+template <typename T> class generic_factory;
+
+namespace vehicles
+{
+// separator for variant when loading vehicle prototypes part array and map memory
+// if part 'id' or 'abstract' fields contain it an error is raised
+constexpr char variant_separator = '#';
+
+void load_prototype( const JsonObject &jo, const std::string &src );
+void reset_prototypes();
+void finalize_prototypes();
+const std::vector<vehicle_prototype> &get_all_prototypes();
+} // namespace vehicles
+
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
@@ -83,6 +97,7 @@ enum vpart_bitflags : int {
     VPFLAG_RAIL,
     VPFLAG_TURRET_CONTROLS,
     VPFLAG_ROOF,
+    VPFLAG_CABLE_PORTS,
 
     NUM_VPFLAGS
 };
@@ -110,18 +125,16 @@ struct vpslot_engine {
 };
 
 struct veh_ter_mod {
-    /* movecost for moving through this terrain (overrides current terrain movecost)
-                     * if movecost <= 0 ignore this parameter */
-    int movecost;
-    // penalty while not on this terrain (adds to movecost)
-    int penalty;
+    std::string terrain_flag; // terrain flag this mod block applies to
+    int move_override;        // override when on flagged terrain, ignored if 0
+    int move_penalty;         // penalty added when not on flagged terrain, ignored if 0
 };
 
 struct vpslot_wheel {
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
-    float or_rating = 0.0f;
+    std::vector<veh_ter_mod> terrain_mod;
+    float offroad_rating = 0.5f;
 };
 
 struct vpslot_rotor {
@@ -136,6 +149,10 @@ struct vpslot_workbench {
     units::volume allowed_volume = 0_ml;
 };
 
+struct vpslot_toolkit {
+    std::set<itype_id> allowed_types;
+};
+
 struct transform_terrain_data {
     std::set<std::string> pre_flags;
     std::string post_terrain;
@@ -144,60 +161,6 @@ struct transform_terrain_data {
     int post_field_intensity = 0;
     time_duration post_field_age = 0_turns;
 };
-
-const std::vector<std::pair<std::string, translation>> vpart_variants = {
-    { "cover_left", to_translation( "vpart_variants", "Cover Left" ) },
-    { "cover_right", to_translation( "vpart_variants", "Cover Right" ) },
-    { "hatch_wheel_left", to_translation( "vpart_variants", "Hatchback Wheel Left" ) },
-    { "hatch_wheel_right", to_translation( "vpart_variants", "Hatchback Wheel Right" ) },
-    { "wheel_left", to_translation( "vpart_variants", "Wheel Left" ) },
-    { "wheel_right", to_translation( "vpart_variants", "Wheel Right" ) },
-    { "cross_unconnected", to_translation( "vpart_variants", "Unconnected Cross" ) },
-    { "cross", to_translation( "vpart_variants", "Cross" ) },
-    { "horizontal_front_edge", to_translation( "vpart_variants", "Front Edge Horizontal" ) },
-    { "horizontal_front", to_translation( "vpart_variants", "Front Horizontal" ) },
-    { "horizontal_rear_edge", to_translation( "vpart_variants", "Rear Edge Horizontal" ) },
-    { "horizontal_rear", to_translation( "vpart_variants", "Rear Horizontal" ) },
-    { "horizontal_2_front", to_translation( "vpart_variants", "Front Thick Horizontal" ) },
-    { "horizontal_2_rear", to_translation( "vpart_variants", "Rear Thick Horizontal" ) },
-    { "ne_edge", to_translation( "vpart_variants", "Front Right Corner" ) },
-    { "nw_edge", to_translation( "vpart_variants", "Front Left Corner" ) },
-    { "se_edge", to_translation( "vpart_variants", "Rear Right Corner" ) },
-    { "sw_edge", to_translation( "vpart_variants", "Rear Left Corner" ) },
-    { "vertical_right", to_translation( "vpart_variants", "Right Vertical" ) },
-    { "vertical_left", to_translation( "vpart_variants", "Left Vertical" ) },
-    { "vertical_2_right", to_translation( "vpart_variants", "Right Thick Vertical" ) },
-    { "vertical_2_left", to_translation( "vpart_variants", "Left Thick Vertical" ) },
-    { "vertical_T_right", to_translation( "vpart_variants", "Right T Joint" ) },
-    { "vertical_T_left", to_translation( "vpart_variants", "Left T Joint" ) },
-    { "front_right", to_translation( "vpart_variants", "Front Right" ) },
-    { "front_left", to_translation( "vpart_variants", "Front Left" ) },
-    { "rear_right", to_translation( "vpart_variants", "Rear Right" ) },
-    { "rear_left", to_translation( "vpart_variants", "Rear Left" ) },
-    // these have to be last to avoid false positives
-    { "cover", to_translation( "vpart_variants", "Cover" ) },
-    { "vertical", to_translation( "vpart_variants", "Vertical" ) },
-    { "horizontal", to_translation( "vpart_variants", "Horizontal" ) },
-    { "vertical_2", to_translation( "vpart_variants", "Thick Vertical" ) },
-    { "horizontal_2", to_translation( "vpart_variants", "Thick Horizontal" ) },
-    { "ne", to_translation( "vpart_variants", "Front Right" ) },
-    { "nw", to_translation( "vpart_variants", "Front Left" ) },
-    { "se", to_translation( "vpart_variants", "Rear Right" ) },
-    { "sw", to_translation( "vpart_variants", "Rear Left" ) },
-    { "front", to_translation( "vpart_variants", "Front" ) },
-    { "rear", to_translation( "vpart_variants", "Rear" ) },
-    { "left", to_translation( "vpart_variants", "Left" ) },
-    { "right", to_translation( "vpart_variants", "Right" ) }
-};
-
-const std::map<std::string, int> vpart_variants_standard = {
-    { "cover", '^' }, { "cross", 'c' },
-    { "horizontal", 'h' }, { "horizontal_2", '=' }, { "vertical", 'j' }, { "vertical_2", 'H' },
-    { "ne", 'u' }, { "nw", 'y' }, { "se", 'n' }, { "sw", 'b' }
-};
-std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid );
-std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid );
-std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid );
 
 class vpart_category
 {
@@ -231,6 +194,33 @@ class vpart_category
         int priority_ = 0; // order of tab in the UI
 };
 
+class vpart_variant
+{
+    public:
+        std::string id;
+        std::array<char32_t, 8> symbols;
+        std::array<char32_t, 8> symbols_broken;
+
+        std::string get_label() const;
+
+        // @param direction facing angle, 0 = north, 90 = east...
+        // @param is_broken if true returns the broken symbol else
+        // @returns unicode symbol for this variant given a direction and broken status
+        char32_t get_symbol( units::angle direction, bool is_broken ) const;
+
+        // @param direction facing angle, 0 = north, 90 = east...
+        // @param is_broken whether to return the broken symbol
+        // @returns ncurses ACS code for this variant given a direction and broken status
+        int get_symbol_curses( units::angle direction, bool is_broken ) const;
+        // @returns ncurses ACS code for a unicode \p sym symbol
+        static int get_symbol_curses( char32_t sym );
+
+    private:
+        std::string label_;
+        friend class vpart_info;
+        void load( const JsonObject &jo, bool was_loaded );
+};
+
 class vpart_info
 {
     public:
@@ -239,6 +229,7 @@ class vpart_info
         static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
         static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
         static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load_toolkit( std::optional<vpslot_toolkit> &tkptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
@@ -249,7 +240,7 @@ class vpart_info
         /** Translated name of a part */
         std::string name() const;
 
-        vpart_id get_id() const {
+        const vpart_id &get_id() const {
             return id;
         }
 
@@ -263,13 +254,6 @@ class vpart_info
             return bitflags.test( flag );
         }
         void set_flag( const std::string &flag );
-
-        bool has_tool( const itype_id &tool ) const {
-            return std::find_if( pseudo_tools.cbegin(),
-            pseudo_tools.cend(), [&tool]( std::pair<itype_id, int>p ) {
-                return p.first == tool;
-            } ) != pseudo_tools.cend();
-        }
 
         /** Gets all categories of this part */
         const std::set<std::string> &get_categories() const;
@@ -319,8 +303,8 @@ class vpart_info
          */
         float wheel_rolling_resistance() const;
         int wheel_area() const;
-        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
-        float wheel_or_rating() const;
+        const std::vector<veh_ter_mod> &wheel_terrain_modifiers() const;
+        float wheel_offroad_rating() const;
         /** @name rotor specific functions
         */
         int rotor_diameter() const;
@@ -328,6 +312,7 @@ class vpart_info
          * Getter for optional workbench info
          */
         const std::optional<vpslot_workbench> &get_workbench_info() const;
+        const std::optional<vpslot_toolkit> &get_toolkit_info() const;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 
@@ -339,6 +324,7 @@ class vpart_info
         time_duration get_folding_time() const;
         // @returns time required for unfolding this part
         time_duration get_unfolding_time() const;
+
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -366,6 +352,7 @@ class vpart_info
         std::optional<vpslot_wheel> wheel_info;
         std::optional<vpslot_rotor> rotor_info;
         std::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_toolkit> toolkit_info;
 
         /** Unique identifier for this part */
         vpart_id id;
@@ -374,8 +361,11 @@ class vpart_info
         translation name_;
 
     public:
-        /* map of standard variant names to symbols */
-        std::map<std::string, int> symbols;
+        std::map<std::string, vpart_variant> variants;
+        // default variant to use when no variant is selected
+        std::string variant_default;
+        // used in vpart_info::finalize() to generate cosmetic variants sets
+        std::vector<std::pair<std::string, std::string>> variants_bases;
 
         /** Required skills to install, repair, or remove this component */
         std::map<skill_id, int> install_skills;
@@ -386,7 +376,7 @@ class vpart_info
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
-        std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
+        std::map<damage_type_id, float> damage_reduction = {};
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
@@ -432,14 +422,6 @@ class vpart_info
 
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;
-
-        /**
-         * Symbol of part which will be translated as follows:
-         * y, u, n, b to NW, NE, SE, SW lines correspondingly
-         * h, j, c to horizontal, vertical, cross correspondingly
-         */
-        int sym = 0;
-        int sym_broken = '#';
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
@@ -493,9 +475,6 @@ class vpart_info
         int z_order = 0;
         // Display order in vehicle interact display
         int list_order = 0;
-
-        /** Legacy parts don't specify installation requirements */
-        bool legacy = true;
 };
 
 struct vehicle_item_spawn {
@@ -516,41 +495,39 @@ struct vehicle_item_spawn {
  * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
  */
 struct vehicle_prototype {
-    struct part_def {
-        point pos;
-        vpart_id part;
-        std::string variant;
-        int with_ammo = 0;
-        std::set<itype_id> ammo_types;
-        std::pair<int, int> ammo_qty = { -1, -1 };
-        itype_id fuel = itype_id::NULL_ID();
-    };
+    public:
+        struct part_def {
+            point pos;
+            vpart_id part;
+            std::string variant;
+            int with_ammo = 0;
+            std::set<itype_id> ammo_types;
+            std::pair<int, int> ammo_qty = { -1, -1 };
+            itype_id fuel = itype_id::NULL_ID();
+            std::vector<itype_id> tools;
+        };
 
-    struct zone_def {
-        zone_type_id zone_type;
-        std::string name;
-        std::string filter;
-        point pt;
-    };
+        struct zone_def {
+            zone_type_id zone_type;
+            std::string name;
+            std::string filter;
+            point pt;
+        };
 
-    vehicle_prototype();
-    vehicle_prototype( vehicle_prototype && ) noexcept;
-    ~vehicle_prototype();
+        vproto_id id;
+        translation name;
+        std::vector<part_def> parts;
+        std::vector<vehicle_item_spawn> item_spawns;
+        std::vector<zone_def> zone_defs;
 
-    vehicle_prototype &operator=( vehicle_prototype && ) noexcept( string_is_noexcept );
+        shared_ptr_fast<vehicle> blueprint;
 
-    translation name;
-    std::vector<part_def> parts;
-    std::vector<vehicle_item_spawn> item_spawns;
-    std::vector<zone_def> zone_defs;
-
-    std::unique_ptr<vehicle> blueprint;
-
-    static void load( const JsonObject &jo );
-    static void reset();
-    static void finalize();
-
-    static std::vector<vproto_id> get_all();
+        void load( const JsonObject &jo, std::string_view src );
+    private:
+        bool was_loaded = false; // used by generic_factory
+        std::vector<std::pair<vproto_id, mod_id>> src;
+        friend class generic_factory<vehicle_prototype>;
+        friend struct mod_tracker;
 };
 
 /**
@@ -560,6 +537,11 @@ struct vehicle_prototype {
 class vpart_migration
 {
     public:
+        vpart_id part_id_old;
+        vpart_id part_id_new;
+        std::optional<std::string> variant;
+        std::vector<itype_id> add_veh_tools;
+
         /** Handler for loading "vehicle_part_migration" type of json object */
         static void load( const JsonObject &jo );
 
@@ -569,11 +551,11 @@ class vpart_migration
         /** Finalizes migrations */
         static void finalize();
 
-        /** Map of deprecated vpart_id to their replacement vpart_id */
-        static const std::map<vpart_id, vpart_id> &get_migrations();
+        /** Checks migrations */
+        static void check();
 
-        /** Find vpart_id with all migrations applied. */
-        static vpart_id migrate( const vpart_id &original );
+        /** Find the last migration entry of the given vpart_id */
+        static const vpart_migration *find_migration( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

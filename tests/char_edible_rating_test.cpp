@@ -486,12 +486,12 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
             dummy.toggle_trait( trait_SAPROPHAGE );
             REQUIRE( dummy.has_trait( trait_SAPROPHAGE ) );
 
-            THEN( "they can eat it, but would prefer it to be more rotten" ) {
+            THEN( "they can eat it, and like that it is rotten" ) {
                 expect_can_eat( dummy, toastem_rotten );
 
                 auto conseq = dummy.will_eat( toastem_rotten, false );
-                CHECK( conseq.value() == ALLERGY_WEAK );
-                CHECK( conseq.str() == "Your stomach won't be happy (not rotten enough)." );
+                CHECK( conseq.value() == EDIBLE );
+                CHECK( conseq.str().empty() );
             }
         }
     }

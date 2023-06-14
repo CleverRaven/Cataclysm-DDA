@@ -195,7 +195,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
     const recipe *r = &recipe_magazine_battery_light_mod.obj();
     avatar dummy;
 
-    REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
+    REQUIRE( static_cast<int>( dummy.get_skill_level( r->skill_used ) ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
     REQUIRE( r->skill_used );
 
@@ -316,7 +316,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     const recipe *r = &recipe_brew_mead.obj();
     avatar dummy;
 
-    REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
+    REQUIRE( static_cast<int>( dummy.get_skill_level( r->skill_used ) ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
     REQUIRE( r->skill_used );
 
@@ -403,7 +403,8 @@ static void grant_skills_to_character( Character &you, const recipe &r, int offs
         you.set_knowledge_level( skl.first, apply_offset( skl.second, offset ) );
     }
     // and just in case "used" skill difficulty is higher, set that too
-    int value = apply_offset( std::max( r.difficulty, you.get_skill_level( r.skill_used ) ), offset );
+    int value = apply_offset( std::max( r.difficulty,
+                                        static_cast<int>( you.get_skill_level( r.skill_used ) ) ), offset );
     you.set_skill_level( r.skill_used, value );
     you.set_knowledge_level( r.skill_used, value );
 }
@@ -480,7 +481,8 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     int turns = 0;
     while( player_character.activity.id() == ACT_CRAFT ) {
         if( turns >= interrupt_after_turns ||
-            ( skill_level >= 0 && player_character.get_skill_level( rid->skill_used ) > skill_level ) ) {
+            ( skill_level >= 0 &&
+              static_cast<int>( player_character.get_skill_level( rid->skill_used ) ) > skill_level ) ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
@@ -524,7 +526,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
     avatar &ch = get_avatar();
     // Set skill above requirement so that skill training doesn't steal any focus
     ch.set_skill_level( skill_fabrication, 1 );
-    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
+    REQUIRE( rec->get_skill_cap() < static_cast<int>( ch.get_skill_level( rec->skill_used ) ) );
 
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
@@ -558,7 +560,7 @@ TEST_CASE( "proficiency_gain_long_craft", "[crafting][proficiency]" )
     avatar &ch = get_avatar();
     // Set skill above requirement so that skill training doesn't steal any focus
     ch.set_skill_level( skill_fabrication, 1 );
-    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
+    REQUIRE( rec->get_skill_cap() < static_cast<int>( ch.get_skill_level( rec->skill_used ) ) );
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
     test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
@@ -722,10 +724,10 @@ TEST_CASE( "crafting_failure_rates_match_calculated", "[crafting][random]" )
     const recipe_id armor_qt_lightplate( "armor_qt_lightplate_test_no_tools" );
 
     // Skill zero recipes
-    test_chances_for( makeshift_crowbar, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f );
-    test_chances_for( meat_cooked, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f );
-    test_chances_for( club_wooden_large, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f );
-    test_chances_for( nailboard, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f, 50.f );
+    test_chances_for( makeshift_crowbar, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    test_chances_for( meat_cooked, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    test_chances_for( club_wooden_large, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    test_chances_for( nailboard, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
     // Recipes requring various degrees of skill and proficiencies
     test_chances_for( cudgel, 82.5, 72.f, 50.f, 50.f, 21.f, 21.f, 2.25 );
     test_chances_for( pumpkin_muffins, 92.5, 82.f, 67.f, 50.f, 43.f, 21.f, 2.25 );
@@ -738,7 +740,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     avatar dummy;
     clear_character( dummy );
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
-    item_location ups = dummy.i_add( item( "UPS_off" ) );
+    item_location ups = dummy.i_add( item( "UPS_ON" ) );
     item ups_mag( ups->magazine_default() );
     ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
     ret_val<void> result = ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -760,7 +762,7 @@ TEST_CASE( "UPS modded tools", "[crafting][ups]" )
     tripoint const test_loc = dummy.pos();
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
-    item ups = GENERATE( item( "UPS_off" ), item( "test_ups" ) );
+    item ups = GENERATE( item( "UPS_ON" ), item( "test_ups" ) );
     CAPTURE( ups.typeId() );
     item_location ups_loc;
     if( ups_on_ground ) {
@@ -818,7 +820,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         tools.insert( tools.end(), 5, item( "cable" ) );
         tools.insert( tools.end(), 2, item( "polycarbonate_sheet" ) );
         tools.insert( tools.end(), 1, item( "knife_paring" ) );
-        tools.emplace_back( "motor_tiny" );
+        tools.emplace_back( "motor_micro" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
 
@@ -1159,7 +1161,7 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
     int previous_knowledge = level.knowledgeExperience( true );
     do {
         actual_turns_taken += actually_test_craft( test_recipe, INT_MAX, starting_skill_level );
-        if( you.get_skill_level( skill_used ) == starting_skill_level ) {
+        if( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level ) {
             int new_exercise = level.exercise( true );
             REQUIRE( previous_exercise < new_exercise );
             previous_exercise = new_exercise;
@@ -1170,13 +1172,14 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
             previous_knowledge = new_knowledge;
         }
         give_tools( tools );
-    } while( you.get_skill_level( skill_used ) == starting_skill_level );
+    } while( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level );
     CAPTURE( test_recipe.str() );
     CAPTURE( expected_turns_taken );
     CAPTURE( grant_optional_proficiencies );
-    CHECK( you.get_skill_level( skill_used ) == starting_skill_level + 1 );
+    CHECK( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level + 1 );
     // since your knowledge and skill were the same to start, your theory should come out the same as skill in the end.
-    CHECK( you.get_knowledge_level( skill_used ) == you.get_skill_level( skill_used ) );
+    CHECK( you.get_knowledge_level( skill_used ) == static_cast<int>( you.get_skill_level(
+                skill_used ) ) );
     CHECK( actual_turns_taken == expected_turns_taken );
 }
 
@@ -1382,6 +1385,7 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
 static void clear_and_setup( Character &c, map &m, item &tool )
 {
     clear_character( c );
+    c.get_learned_recipes(); // cache auto-learned recipes
     c.set_skill_level( skill_fabrication, 10 );
     c.wield( tool );
     m.i_clear( c.pos() );
@@ -2120,8 +2124,8 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
     std::vector<item> tools;
     tools.insert( tools.end(), 10, tool_with_ammo( "hotplate", 500 ) );
     tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
-    tools.emplace_back( item( "pot_canning" ) );
-    tools.emplace_back( item( "knife_butcher" ) );
+    tools.emplace_back( "pot_canning" );
+    tools.emplace_back( "knife_butcher" );
 
     GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
 

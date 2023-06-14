@@ -18,7 +18,6 @@
     "weight": "10500 g",
     "volume": "4L",
     "price_postapoc": 10000,
-    "bashing": 12,
     "to_hit": -2,
     "range": 25,
     "ranged_damage": { "damage_type": "stab", "amount": 22, "armor_penetration": 60 },
@@ -27,7 +26,6 @@
     "clip_size": 25,
     "reload": 200,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
@@ -36,7 +34,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "plasma_rifle",
@@ -57,7 +56,6 @@
     "weight": "4535 g",
     "volume": "3750 ml",
     "price_postapoc": 8000,
-    "bashing": 12,
     "to_hit": -1,
     "ranged_damage": { "damage_type": "stab", "amount": 5 },
     "dispersion": 60,
@@ -66,7 +64,6 @@
     "clip_size": 25,
     "reload": 700,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -76,6 +73,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]
