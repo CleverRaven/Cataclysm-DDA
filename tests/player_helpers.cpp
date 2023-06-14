@@ -74,6 +74,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     // delete all worn items.
     dummy.worn.clear();
     dummy.calc_encumbrance();
+    dummy.invalidate_crafting_inventory();
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
