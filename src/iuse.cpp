@@ -3866,7 +3866,7 @@ std::optional<int> iuse::mininuke( Character *p, item *it, bool, const tripoint 
                           to_string( time_duration::from_turns( time ) ) );
     get_event_bus().send<event_type::activates_mininuke>( p->getID() );
     it->convert( itype_mininuke_act );
-    it->charges = time;
+    it->countdown_point = calendar::turn + time_duration::from_seconds( time );
     it->active = true;
     return 1;
 }
