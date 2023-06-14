@@ -53,14 +53,9 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 9,
-    "max_charges": 9,
-    "turns_per_charge": 1,
-    "use_action": {
+    "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
+    "countdown_action": {
       "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
       "explosion": { "power": 2000 }
     },
     "flags": [ "TRADER_AVOID" ]
