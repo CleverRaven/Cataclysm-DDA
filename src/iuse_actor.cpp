@@ -1372,8 +1372,7 @@ std::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
     }
 
     // skill gains are handled by the activity, but stored here in the index field
-    const int potential_skill_gain =
-        moves_modifier + moves_cost_fast / 100.0 + 2;
+    const int potential_skill_gain = moves_modifier * ( std::min( 10.0, moves_cost_fast / 100.0 ) + 2 );
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
     p.activity.targets.emplace_back( p, &it );
