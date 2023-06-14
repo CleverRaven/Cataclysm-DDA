@@ -1,3 +1,4 @@
+
 # Contents
 
 - [Creating new NPCs](#creating-new-npcs)
@@ -1013,6 +1014,7 @@ Condition | Type | Description
 `"u_can_see"`<br/>`"npc_can_see"` | simple string | `true` if the player character or NPC is not blind and is either not sleeping or has the see_sleep trait.
 `"u_is_deaf"`<br/>`"npc_is_deaf"` | simple string | `true` if the player character or NPC can't hear.
 `"u_is_on_terrain"`<br/>`"npc_is_on_terrain"` | string or [variable object](#variable-object) | `true` if the player character or NPC is on terrain named `"u_is_on_terrain"` or `"npc_is_on_terrain"`.
+`"u_is_on_terrain_with_flag"`<br/>`"npc_is_on_terrain_with_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC is on terrain with flag named `"u_is_on_terrain_with_flag"` or `"npc_is_on_terrain_with_flag"`.
 `"u_is_in_field"`<br/>`"npc_is_in_field"` | string or [variable object](#variable-object) | `true` if the player character or NPC is in a field of type `"u_is_in_field"` or `"npc_is_in_field"`..
 `"u_query"`<br/>`"npc_query", default : bool` | string or [variable object](#variable-object) | if the player character or NPC is the avatar will popup a yes/no query with the provided message and users response is used as the return value.  If called for a non avatar will return `default`.<br/><br/>Example:<pre>"condition": { "u_query": "Should we test?", "default": true },</pre>
 
@@ -1315,6 +1317,7 @@ Example | Description
 `"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
 `"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
 `"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
+`"u_val": "charge_count"` | Number of charges of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
 `"u_val": "exp"` | Total experience earned.
 `"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply againt the current intensity.
 `"u_val": "addiction_turns", "addiction": "caffeine"` | Current duration left (in turns) for the given addiction.
@@ -1335,6 +1338,7 @@ Example | Description
 `"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
 `"u_val": "size"` | Size category from 1 (tiny) to 5 (huge). Read-only.
 `"u_val": "grab_strength"` | Grab strength as defined in the monster definition. Read-only, returns false on characters.
+`"u_val": "field_strength"` | Strength of a field on the tile the player or NPC is standing on. `field` must be specified. read only.
 `"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
 `"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
 `"u_val": "spell_level_adjustment"` | Temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is reccomended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value. When an NPC consider what spell to cast they will be considered the primary talker, so their values are manipulated with `u_val` the same way the player's values are. Optional params: `school` makes it only apply to a given school. `spell` makes it only apply to a given spell.
@@ -1449,7 +1453,7 @@ _function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariabl
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/> Variables are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
 | pain()     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
 | skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`<br/>`"condition": { "math": [ "u_skill(someskill)", ">=", "5"] }`|
-| weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
+| weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/>`precipitation` (in mm / h) either 0.5 (very_light ), 1.5 (light), or 3 (heavy). Read only.<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
 
 ##### u_val shim
 There is a `val()` shim available that can cover the missing arithmetic functions from `u_val` and `npc_val`:
