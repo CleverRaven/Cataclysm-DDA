@@ -262,7 +262,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "flak helmet" },
-    "description": "A M1 combat helmet, famously worn by American soldiers in the Second World War as well as the Korean and Vietnam wars.  Its steel construction has rendered it outdated by modern military standards, but it still remains popular among guerilla fighters, collectors and war re-enactors.",
+    "description": "A simple helmet meant to protect the head from fragmentation and impacts.  Its simple steel construction renders it outdated by modern military standards.",
     "weight": "1400 g",
     "volume": "1900 ml",
     "longest_side": "28 cm",
@@ -274,7 +274,7 @@
     "repairs_with": [ "hc_steel" ],
     "symbol": "[",
     "looks_like": "helmet_army",
-    "color": "green",
+    "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 1.12,
     "flags": [ "VARSIZE", "STURDY", "PADDED" ],
@@ -284,6 +284,22 @@
         "coverage": 100,
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
+    "variants": [
+      {
+        "id": "helmet_m1",
+        "name": { "str": "M1 helmet" },
+        "description": "A M1 combat helmet, famously worn by American soldiers in the Second World War as well as the Korean and Vietnam wars.  Inferior to modern helmets, but it still remains popular among guerilla fighters, collectors and war re-enactors.",
+        "color": "green",
+        "weight": 10
+      },
+      {
+        "id": "helmet_ssh",
+        "name": { "str": "SSh-68 helmet" },
+        "description": "An old SSh-68 combat helmet from the Soviet Union, likely brought to The States by a collector or migrant.  It is designed to protect against shrapnel and some small arms and will do little to stop a rifle round.",
+        "color": "light_red",
+        "weight": 5
       }
     ],
     "melee_damage": { "bash": 2 }
