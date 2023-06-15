@@ -216,7 +216,7 @@
         "      "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ { "param": "fbml_2_construction_palette" } ]
+       "palettes": [ { "param": "fbml_2_construction_palette" } ]
     }
   },
   {
