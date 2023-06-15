@@ -4179,6 +4179,17 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
+    if( jo.has_string( "tick_action" ) ) {
+        def.tick_action = usage_from_string( jo.get_string( "tick_action" ) );
+
+    } else if( jo.has_object( "tick_action" ) ) {
+        JsonObject tmp = jo.get_object( "tick_action" );
+        use_function fun = usage_from_object( tmp ).second;
+        if( fun ) {
+            def.tick_action = fun;
+        }
+    }
+
     if( jo.has_string( "drop_action" ) ) {
         def.drop_action = usage_from_string( jo.get_string( "drop_action" ) );
 

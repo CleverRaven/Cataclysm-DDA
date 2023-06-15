@@ -13129,6 +13129,9 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         ammo_consume( energy, pos, carrier );
     }
 
+    if( type->tick_action ) {
+        type->tick_action.call( *carrier, *this, true, pos );
+    }
     type->tick( carrier != nullptr ? *carrier : player_character, *this, pos );
     return false;
 }
