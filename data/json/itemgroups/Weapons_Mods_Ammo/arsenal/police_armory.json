@@ -46,7 +46,11 @@
     "id": "police_armory_any_9mm",
     "//": "Pick one of multiple interchangeable 9mm variants and its ammo.",
     "subtype": "distribution",
-    "entries": [ { "group": "police_armory_usp_9mm" }, { "group": "police_armory_glock_19" }, { "group": "police_armory_m9" } ]
+    "entries": [
+      { "group": "police_armory_usp_9mm", "prob": 25 },
+      { "group": "police_armory_glock_19", "prob": 50 },
+      { "group": "police_armory_m9", "prob": 25 }
+    ]
   },
   {
     "type": "item_group",
@@ -324,7 +328,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "fn57mag",
-    "entries": [ { "item": "57mm_ss", "charges": [ 20, 20 ] } ]
+    "entries": [ { "item": "57mm", "charges": [ 20, 20 ] } ]
   },
   {
     "id": "police_armory_full_fn57mag_57mm_ss",
@@ -417,7 +421,7 @@
       { "item": "glock_22" },
       { "item": "glock_22", "prob": 50 },
       { "item": "glock_22", "prob": 25 },
-      { "item": "sig40mag", "count": [ 1, 6 ] },
+      { "item": "glock40mag", "count": [ 1, 6 ] },
       { "group": "police_armory_full_glock40mag_40sw", "count": [ 0, 4 ] },
       { "group": "police_armory_full_glock40mag_40fmj", "count": [ 0, 4 ] },
       { "group": "police_armory_boxes_40sw" },
