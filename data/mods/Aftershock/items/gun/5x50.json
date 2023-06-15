@@ -8,7 +8,7 @@
     "description": "A slick, miniature derringer designed as a backup weapon for covert operations and close-range assassination.  It will fire up to four 5x50mm penetrators simultaneously, to devastating effect.",
     "dispersion": 410,
     "range": -48,
-    "valid_mod_locations": [ [ "accessories", 2 ] ],
+    "valid_mod_locations": [  ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "MULTI", "4 rd.", 4 ] ],
     "clip_size": 4,
     "flags": [ "NEVER_JAMS", "RELOAD_ONE", "RELOAD_EJECT" ],
@@ -39,7 +39,6 @@
     "barrel_volume": "250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -78,7 +77,6 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

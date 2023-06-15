@@ -25,14 +25,7 @@
     "blackpowder_tolerance": 60,
     "clip_size": 2,
     "reload": 200,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "underbarrel", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "rail mount", 1 ], [ "stock mount", 1 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 2 } } ],
@@ -59,8 +52,8 @@
     "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
+      [ "belt_clip", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
@@ -127,7 +120,6 @@
     "blackpowder_tolerance": 56,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
@@ -174,7 +166,6 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
@@ -211,7 +202,6 @@
     "blackpowder_tolerance": 56,
     "clip_size": 5,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
@@ -253,7 +243,6 @@
     "blackpowder_tolerance": 56,
     "clip_size": 7,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],

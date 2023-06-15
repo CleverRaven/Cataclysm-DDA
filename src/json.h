@@ -786,6 +786,13 @@ class JsonOut
             v.serialize( *this );
         }
 
+        /// Overload to be able to write reference_wrapper as normal references.
+        template<typename T>
+        auto write( const std::reference_wrapper<const T> &v ) -> decltype( v.get().serialize( *this ),
+                void() ) {
+            v.get().serialize( *this );
+        }
+
         template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
         void write( T val ) {
             write( static_cast<typename std::underlying_type<T>::type>( val ) );

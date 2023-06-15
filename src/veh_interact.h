@@ -56,8 +56,8 @@ class veh_interact
         static player_activity run( vehicle &veh, const point &p );
 
         /** Prompt for a part matching the selector function */
-        static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
-                                          const std::string &title = std::string() );
+        static std::optional<vpart_reference> select_part( const vehicle &veh, const part_selector &sel,
+                const std::string &title = std::string() );
 
         static void complete_vehicle( Character &you );
 
@@ -82,7 +82,6 @@ class veh_interact
 
         const vehicle_part *sel_vehicle_part = nullptr;
         const vpart_info *sel_vpart_info = nullptr;
-        std::string sel_vpart_variant;
 
         // Command currently being run by the player
         char sel_cmd = ' ';
@@ -119,7 +118,7 @@ class veh_interact
         std::unique_ptr<remove_info_t> remove_info;
 
         vehicle *veh;
-        inventory crafting_inv;
+        const inventory *crafting_inv;
         input_context main_context;
 
         // maximum weight capacity of available lifting equipment (if any)
@@ -265,14 +264,6 @@ class veh_interact
          * Updated whenever the cursor moves. */
         std::vector<const vpart_info *> can_mount;
 
-        /* Maps part names to vparts representing different shapes of a part.
-         * Used to slim down installable parts list. Only built once. */
-        std::map< std::string, std::vector<const vpart_info *> > vpart_shapes;
-
-        /* Vector of all wheel types. Used for changing wheels, so it only needs
-         * to be built once. */
-        std::vector<const vpart_info *> wheel_types;
-
         /* Vector of vparts in the current square that can be repaired. Strictly a
          * subset of parts_here.
          * Can probably be removed entirely, otherwise is a vector<vehicle_part>.
@@ -301,5 +292,8 @@ class veh_interact
 };
 
 void act_vehicle_siphon( vehicle *veh );
+
+void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
+                  const std::optional<point> &part_placement = std::nullopt );
 
 #endif // CATA_SRC_VEH_INTERACT_H

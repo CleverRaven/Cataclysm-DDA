@@ -50,7 +50,6 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -117,7 +116,6 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
@@ -154,7 +152,6 @@
     "durability": 7,
     "min_cycle_recoil": 504,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -198,7 +195,6 @@
     "loudness": 25,
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -239,7 +235,6 @@
     "clip_size": 6,
     "reload": 200,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],

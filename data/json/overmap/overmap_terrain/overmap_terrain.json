@@ -157,36 +157,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "special_field",
-    "name": "field",
-    "sym": ".",
-    "color": "brown",
-    "looks_like": "field",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_forest",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "looks_like": "forest",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_forest_thick",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "looks_like": "forest_thick",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": [
       "riverside_dwelling",
       "riverside_dwelling1",
@@ -349,7 +319,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_basement_residential1", "lodge_basement_residential2" ],
+    "id": [
+      "lodge_basement_residential1",
+      "lodge_basement_residential2",
+      "lodge_basement_residential3",
+      "lodge_basement_residential4"
+    ],
     "name": "hunting lodge basement",
     "copy-from": "generic_forest",
     "sym": "L",
@@ -607,6 +582,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "survivor_forest_camp" ],
+    "name": "survivor forest camp",
+    "sym": "+",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ],
     "name": "swamp shack roof",
     "sym": "+",
@@ -823,16 +807,6 @@
     "sym": ".",
     "color": "blue",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_surface",
-    "copy-from": "forest"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_roof",
-    "copy-from": "open_air"
   },
   {
     "type": "overmap_terrain",

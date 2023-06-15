@@ -51,7 +51,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 1 ], [ "SAW_W", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
     "use_action": [ "MAKEMOUND" ],
     "melee_damage": { "bash": 10, "cut": 6 }
@@ -148,7 +148,6 @@
   {
     "id": "scythe_fake",
     "copy-from": "scythe",
-    "repairs_like": "scythe",
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
@@ -165,7 +164,6 @@
   {
     "id": "scythe_toy",
     "type": "GENERIC",
-    "repairs_like": "makeshift_scythe_war",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "grim reaper's scythe" },
@@ -198,7 +196,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
     "melee_damage": { "bash": 14, "cut": 3 }
   },
   {

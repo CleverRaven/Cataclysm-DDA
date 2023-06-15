@@ -90,7 +90,7 @@ vehicle_part *most_repairable_part( vehicle &veh, Character &who )
     return vp_most_damaged != nullptr ? vp_most_damaged : vp_broken;
 }
 
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::string &variant )
+bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
 {
     int part_index = veh.index_of_part( &pt );
     const vpart_info &vp = pt.info();
@@ -133,27 +133,29 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
     }
 
     // If part is broken, it will be destroyed and references invalidated
-    std::string partname = pt.name( false );
+    const std::string partname = pt.name( false );
     const std::string startdurability = pt.get_base().damage_indicator();
-    bool wasbroken = pt.is_broken();
-    if( wasbroken ) {
-        const units::angle dir = pt.direction;
-        point loc = pt.mount;
-        vpart_id replacement_id = pt.info().get_id();
+    if( pt.is_broken() ) {
+        const vpart_id vpid = pt.info().get_id();
+        const point mount = pt.mount;
+        const units::angle direction = pt.direction;
+        const std::string variant = pt.variant;
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
-        const int partnum = veh.install_part( loc, replacement_id, std::move( base ), variant );
-        veh.part( partnum ).direction = dir;
+        const int partnum = veh.install_part( mount, vpid, std::move( base ) );
+        if( partnum >= 0 ) {
+            vehicle_part &vp = veh.part( partnum );
+            vp.direction = direction;
+            vp.variant = variant;
+        }
         veh.part_removal_cleanup();
+        who.add_msg_if_player( m_good, _( "You replace the %1$s's %2$s. (was %3$s)" ),
+                               veh.name, partname, startdurability );
     } else {
         veh.set_hp( pt, pt.info().durability, true );
+        who.add_msg_if_player( m_good, _( "You repair the %1$s's %2$s. (was %3$s)" ),
+                               veh.name, partname, startdurability );
     }
-
-    // TODO: NPC doing that
-    who.add_msg_if_player( m_good,
-                           wasbroken ? _( "You replace the %1$s's %2$s. (was %3$s)" ) :
-                           _( "You repair the %1$s's %2$s. (was %3$s)" ), veh.name,
-                           partname, startdurability );
     return true;
 }
 

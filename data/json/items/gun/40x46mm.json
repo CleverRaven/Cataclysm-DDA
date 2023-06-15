@@ -20,7 +20,6 @@
     "clip_size": 1,
     "reload": 350,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -78,7 +77,6 @@
     "clip_size": 1,
     "reload": 250,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -111,7 +109,6 @@
     "clip_size": 6,
     "reload": 300,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -144,7 +141,6 @@
     "blackpowder_tolerance": 60,
     "clip_size": 4,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

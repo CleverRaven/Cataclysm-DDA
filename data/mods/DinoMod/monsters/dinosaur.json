@@ -279,7 +279,7 @@
     "zombify_into": "mon_ziats",
     "special_attacks": [
       { "id": "bio_op_takedown", "cooldown": 20 },
-      [ "RANGED_PULL", 20 ],
+      { "id": "ranged_pull", "cooldown": 20 },
       [ "GRAB_DRAG", 10 ],
       { "id": "teeth_rip", "cooldown": 10 }
     ],
@@ -2448,8 +2448,21 @@
     "reproduction": { "baby_monster": "mon_mosasaurus_hatchling", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "LUNGE", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "PUSH_MON" ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 7 }, [ "LUNGE", 10 ] ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "GRABS",
+      "BASHES",
+      "DESTROYS",
+      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "PUSH_MON"
+    ],
     "harvest": "dino_large_pred",
     "dissect": "dissect_mosasaurus_large",
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],

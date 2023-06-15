@@ -65,7 +65,10 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
@@ -586,7 +589,7 @@ void monster::plan()
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    const auto actual_faction = friendly == 0 ? faction : STATIC( mfaction_str_id( "player" ) );
+    const mfaction_id actual_faction = friendly == 0 ? faction : STATIC( mfaction_str_id( "player" ) );
     const auto &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
         DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "
@@ -894,20 +897,22 @@ void monster::move()
     if( friendly > 0 ) {
         --friendly;
     }
-
-    // don't move if a passenger in a moving vehicle
-    optional_vpart_position vp = here.veh_at( pos() );
-    bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
-                                           true ) );
-    if( vp && ( ( friendly != 0 && vp->vehicle().is_moving() &&
-                  vp->vehicle().get_monster( vp->part_index() ) ) ||
-                // Don't move if harnessed, even if vehicle is stationary
-                has_effect( effect_harnessed ) ) ) {
-        moves = 0;
-        return;
-        // If harnessed monster finds itself moved from the harness point, the harness probably broke!
-    } else if( !harness_part && has_effect( effect_harnessed ) ) {
-        remove_effect( effect_harnessed );
+    const optional_vpart_position ovp = here.veh_at( pos() );
+    if( has_effect( effect_harnessed ) ) {
+        if( !ovp.part_with_feature( "ANIMAL_CTRL", true ) ) {
+            remove_effect( effect_harnessed ); // the harness part probably broke
+        } else {
+            moves = 0;
+            return; // don't move if harnessed
+        }
+    }
+    const std::optional<vpart_reference> vp_boardable = ovp.part_with_feature( "BOARDABLE", true );
+    if( vp_boardable && friendly != 0 ) {
+        const vehicle &veh = vp_boardable->vehicle();
+        if( veh.is_moving() && veh.get_monster( vp_boardable->part_index() ) ) {
+            moves = 0;
+            return; // don't move if friendly and passenger in a moving vehicle
+        }
     }
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
@@ -1334,6 +1339,7 @@ tripoint monster::scent_move()
     const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
     const std::set<scenttype_id> &ignored_scents = type->scents_ignored;
 
+    std::vector<tripoint> sdirection;
     std::vector<tripoint> smoves;
 
     int bestsmell = 10; // Squares with smell 0 are not eligible targets.
@@ -1351,9 +1357,8 @@ tripoint monster::scent_move()
     }
 
     tripoint next( -1, -1, posz() );
-    // When the scent is *either* too strong or too weak, can't follow it.
-    if( ( !fleeing && scent_here > smell_threshold ) ||
-        ( scent_here == 0 ) ) {
+    // Scent is too weak, can't follow it.
+    if( scent_here == 0 ) {
         return next;
     }
     // Check for the scent type being compatible.
@@ -1384,20 +1389,33 @@ tripoint monster::scent_move()
 
     const bool can_bash = bash_skill() > 0;
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
-        int smell = scents.get( dest );
+    if( !fleeing && scent_here > smell_threshold ) {
+        // Smell too strong to track, wander around
+        sdirection.push_back( pos() );
+    } else {
+        // Get direction of scent
+        for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
+            int smell = scents.get( dest );
 
-        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
-            continue;
-        }
-        if( here.valid_move( pos(), dest, can_bash, true ) &&
-            ( can_move_to( dest ) || ( dest == player_character.pos() ) ||
-              ( can_bash && here.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
+            if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
+                continue;
+            }
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
-                smoves.clear();
-                smoves.push_back( dest );
+                sdirection.clear();
+                sdirection.push_back( dest );
                 bestsmell = smell;
             } else if( ( !fleeing && smell == bestsmell ) || ( fleeing && smell == bestsmell ) ) {
+                sdirection.push_back( dest );
+            }
+        }
+    }
+
+    for( const tripoint &direction : sdirection ) {
+        // Add some randomness to make creatures zigzag towards the source
+        for( const tripoint &dest : here.points_in_radius( direction, 1 ) ) {
+            if( here.valid_move( pos(), dest, can_bash, true ) &&
+                ( can_move_to( dest ) || ( dest == player_character.pos() ) ||
+                  ( can_bash && here.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
                 smoves.push_back( dest );
             }
         }
@@ -1616,8 +1634,15 @@ bool monster::attack_at( const tripoint &p )
     }
 
     Character &player_character = get_player_character();
-    if( p == player_character.pos() && sees( player_character ) ) {
-        return melee_attack( player_character );
+    const bool sees_player = sees( player_character );
+    // Targeting player location
+    if( p == player_character.pos() ) {
+        if( sees_player ) {
+            return melee_attack( player_character );
+        } else {
+            // Creature stumbles into a player it cannot see, briefly becoming aware of their location
+            return stumble_invis( player_character );
+        }
     }
 
     creature_tracker &creatures = get_creature_tracker();
@@ -1651,6 +1676,13 @@ bool monster::attack_at( const tripoint &p )
         // later on not hitting allied NPCs would be cool.
         guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
         return melee_attack( *guy );
+    }
+
+    // Attack last known position despite empty
+    if( has_effect( effect_stumbled_into_invisible ) &&
+        get_map().has_field_at( p, field_fd_last_known ) && !sees_player &&
+        attitude_to( player_character ) == Attitude::HOSTILE ) {
+        return attack_air( p );
     }
 
     // Nothing to attack.

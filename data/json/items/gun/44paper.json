@@ -42,7 +42,6 @@
     "blackpowder_tolerance": 56,
     "clip_size": 9,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],

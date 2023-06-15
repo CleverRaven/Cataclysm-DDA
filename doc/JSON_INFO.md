@@ -33,8 +33,9 @@ Use the `Home` key to return to the top.
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
       - [Character Modifiers - Value](#character-modifiers---value)
-    - [Damage Types](#damage-types)
     - [Bionics](#bionics)
+    - [Damage Types](#damage-types)
+    - [Damage Info Ordering](#damage-info-ordering)
     - [Dreams](#dreams)
     - [Disease](#disease)
     - [Emitters](#emitters)
@@ -42,8 +43,11 @@ Use the `Home` key to return to the top.
     - [Item Category](#item-category)
     - [Item Properties](#item-properties)
     - [Item Variables](#item-variables)
+    - [Item faults](#item-faults)
+    - [Item fault fixes](#item-fault-fixes)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
+      - [Burn data](#burn-data)
     - [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
       - [Monster/Subgroup definition](#monstersubgroup-definition)
@@ -127,6 +131,7 @@ Use the `Home` key to return to the top.
     - [Comestibles](#comestibles)
     - [Containers](#containers)
     - [Melee](#melee)
+    - [Memory Cards](#memory-cards)
     - [Gun](#gun)
     - [Gunmod](#gunmod)
     - [Batteries](#batteries)
@@ -790,6 +795,7 @@ reference at least one body part or sub body part.
 | `encumbrance_text`     | (_mandatory_) Message printed when the limb reaches 40 encumbrance.
 | `encumbrance_threshold`| (_optional_) Encumbrance value where the limb's scores start scaling based on encumbrance. Default 0, meaning scaling from the first point of encumbrance.
 | `encumbrance_limit`    | (_optional_) When encumbrance reaches or surpasses this value the limb stops contributing its scores. Default 100.
+| `grabbing_effect`      | (_optional_) Effect id of the `GRAB_FILTER` effect to apply to a monster grabbing this limb, necessary for adequate grab removal (see `MONSTER_SPECIAL_ATTACKS.md` for the grab logic). 
 | `hp_bar_ui_text`       | (_mandatory_) How it's displayed next to the hp bar in the panel.
 | `main_part`            | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
 | `connected_to`         | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
@@ -1341,6 +1347,48 @@ the item is spawned the variables set on the prototype no longer affect the item
 a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
 flag is set.
 
+### Item faults
+
+Faults can be defined for more specialized damage of an item.
+
+```C++
+{
+  "type": "fault",
+  "id": "fault_gun_chamber_spent", // unique id for the fault
+  "name": { "str": "Spent casing in chamber" }, // fault name for display
+  "description": "This gun currently...", // fault description
+  "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
+  "flags": [ "JAMMED_GUN" ] // optional flags, see below
+}
+```
+
+`flags` trigger hardcoded C++ chunks that provide effects, see [JSON_FLAGS.md](JSON_FLAGS.md#faults) for a list of possible flags.
+
+### Item fault fixes
+
+Fault fixes are methods to fix faults, the fixes can optionally add other faults, modify damage, degradation and item variables.
+
+```C++
+{
+  "type": "fault_fix",
+  "id": "mend_gun_fouling_clean", // unique id for the fix
+  "name": "Clean fouling", // name for display
+  "success_msg": "You clean your %s.", // message printed when fix is applied
+  "time": "50 m", // time to apply fix
+  "faults_removed": [ "fault_gun_dirt", "fault_gun_blackpowder" ], // faults removed when fix is applied
+  "faults_added": [ "fault_gun_unlubricated" ], // faults added when fix is applied
+  "skills": { "mechanics": 1 }, // skills required to apply fix
+  "set_variables": { "dirt": "0" }, // sets the variables on the item when fix is applied
+  "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
+  "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
+  "mod_degradation": 50 // degradation to modify on item when fix is applied, can be negative to reduce degradation
+}
+```
+
+`requirements` is an array of requirements, they can be specified in 2 ways:
+* An array specifying an already defined requirement by it's id and a multiplier, `[ "gun_lubrication", 2 ]` will add `gun_lubrication` requirement and multiply the components and tools ammo required by 2.
+* Inline object specifying the requirement in the same way [recipes define it](#recipe-requirements)
+
 ### Materials
 
 | Identifier             | Description
@@ -1416,6 +1464,24 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
         "size_factor": 0.1       // size factor - larger numbers make the remaining fuel increase explosion power more
     }
 }
+```
+
+#### Burn data
+
+Every material can have burn data that determines how it interacts with fire. Fundamentally, the intensity, smoke production, and longevity of fires depends on the volume of consumed items. However, these values allow for certain items to burn more for a given volume, or even put out or inhibit the growth of fires.
+
+Note that burn_data is defined per material, but items may be made of multiple materials. For such cases, each material of the item will be calculated separately, as if it was multiple items each corresponding to a single material.
+
+```C++
+"burn_data": [
+    { "immune": true,                    // Defaults to false, optional boolean. If true, makes the resulting material immune to fire. As such it can neither provide fuel nor be burned or damaged.
+	"fuel": 300,                     // Float value that determines how much time and intensity this material adds to a fire. Negative values will subtract fuel from the fire, smothering it. 
+	                                 // Items with a phase ID of liquid should be made of materials with a value of >= 200 if they are intended to be flammable.
+	"smoke": 0,                      // Float value, determines how much smoke this material produces when burning.
+	"volume_per_turn": "750 ml",     // If non-zero and lower than item's volume, scale burning by volume_per_turn / volume
+	"burn": 1 }                      // Float value, determines how quickly a fire will convert items made of this material to fuel. Does not affect the total fuel provided by a given
+                                         // volume of a given material.
+    ],
 ```
 
 ### Monster Groups
@@ -2644,13 +2710,8 @@ See [MUTATIONS.md](MUTATIONS.md)
 Vehicle components when installed on a vehicle.
 
 ```C++
-"id": "wheel",                // Unique identifier
+"id": "wheel",                // Unique identifier, must not contain a # symbol
 "name": "wheel",              // Displayed name
-"symbol": "0",                // (Optional) ASCII character displayed when part is working
-"symbols": {                  // (Optional) ASCII characters displayed when the part is working,
-  "left": "0", "right": "0"   // listed by variant suffix.  See below for more on variants
-"standard_symbols": false,     // (Optional) Use the standard ASCII characters for variants
-                              // must have one of symbol, symbols, or standard_symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
 "bonus": 100,                 // Function depends on part type:
@@ -2661,8 +2722,10 @@ Vehicle components when installed on a vehicle.
                               // recharger part charging speed in watts
                               // funnel part water collection area in mm^2
 "color": "dark_gray",         // Color used when part is working
-"broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
+"location": "fuel_source",    // Optional. One of the checks used when determining if a part 
+                              // can be installed on a given tile. A part cannot be installed
+                              // if any existing part occupies the same location.
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
                               // part hits something, as a percentage. Higher = more damage to
                               // creature struck
@@ -2725,29 +2788,31 @@ Vehicle components when installed on a vehicle.
   "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
   "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
 },
+"variants_bases": [ // variant bases to generate (see below)
+  { "id": "scooter", "label": "Scooter" },
+  { "id": "bike", "label": "bike" }
+],
+"variants": [
+    {
+        "id": "front",         // variant id (must be unique in this part)
+        "label": "Front",      // label to display for ui
+        "symbols": "oooooooo", // symbols when part isn't broken
+        "symbols_broken": "x"  // symbols when part is broken
+    },
+    { "id": "rear", "label": "Rear", "symbols": "o", "symbols_broken": "x" }
+]
 ```
 
 #### Symbols and Variants
-Vehicle parts can have multiple identical variants that use different symbols (and potentially
-tileset sprites).  They are declared by the `"standard_symbols"` boolean or the "symbols" object.
-Variants are used in the vehicle prototype as a suffix following the part id (ie `id_variant`), such as `"frame_nw"` or `"halfboard_cover"`.
+Vehicle parts can have cosmetic variants that use different symbols and tileset sprites.  They are declared by the "variants" object.  Variants are used in the vehicle prototype as a suffix following the part id (ie `id#variant`), for example `"frame#nw"` or `"halfboard#cover"`.
 
-setting `"standard_symbols"` to true gives the vehicle the following variants:
-```
-"cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=", "vertical": "j",
-"vertical_2": "H", "ne": "u", "nw": "y", "se": "n", "sw": "b"
-```
+`symbols` and `symbols_broken` can be either a string of 1 character or 8 characters long (length is measured in console characters). A 1 character string is equivalent to 8 characters one where all characters are equal to first. An 8 character string represents the 8 symbols used for parts which can rotate; `abcdefgh` will put `a` when part is rotated north, `b` for NE, `c` for east etc.
 
-Otherwise, variants can use any of the following suffices:
-```
-"cover", "cross", "cross_unconnected", "front", "rear", "left," "right",
-"horizontal",  "horizontal_front", "horizontal_front_edge",
-"horizontal_rear", "horizontal_rear_edge",
-"horizontal_2", "horizontal_2_front", "horizontal_2_rear",
-"vertical", "vertical_right", "vertical_left", "vertical_T_right", "vertical_T_left",
-"vertical_2", "vertical_2_right", "vertical_2_left",
-"ne", "nw", "se", "sw", "ne_edge", "nw_edge", "se_edge", "sw_edge"
-```
+A subset of unicode box drawing characters is supported as symbols: `│ ─ ┼ ┌ ┐ ┘ └`, thick vertical and thick horizontal lines `┃ ━` are partially supported, they're rendered as `H` and `=` because there are no equivalents in curses ACS encoding.
+
+Variant bases are for generating extra variants from the specified ones, in the example above will make part loader perform cartesian product between each base and each of the variants, making finalized variants list the following: `[ "front", "rear", "scooter_front", "scooter_rear", "bike_front", "bike_rear" ]`, the base's `label` field is appended to the variant's label.
+
+For more details on how tilesets interact with variants and ids look into [VEHICLES_JSON.md](VEHICLES_JSON.md#part-variants) "Part Variants" section.
 
 Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
 #### The following optional fields are specific to CARGO parts.
@@ -2788,8 +2853,8 @@ Unless specified as optional, the following fields are mandatory for parts with 
 
 #### The following optional fields are specific to WHEELs.
 ```c++
-"wheel_type": "standard",     // Must be one of "standard", "rigid", "racing", "off_road", "treads", or "rail".
-                              // Indicates the class of wheel for determining off-road performance.
+"wheel_offroad_rating": 0.5,  // multiplier of wheel performance offroad
+"wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] }, // see below
 "contact_area": 153,          // The surface area of the wheel in contact with the ground under
                               // normal conditions in cm^2.  Wheels with higher contact area
                               // perform better off-road.
@@ -2797,13 +2862,17 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // resistance increases vehicle drag linearly as vehicle weight
                               // and speed increase.
 ```
-The following `wheel_types` are available:
-* `standard`: typical car wheel with some grooves, intended primarily for road use.  Large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
-* `rigid`: hard roller wheel like a caster that only performs well on smooth, flat surface.  Massive penalty when not on a FLAT tile, moderate penalty when not on a ROAD tile.
-* `racing`: a smooth, ungrooved tile for maximum traction under optimum conditions.  Very large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
-* `off_road`: a knobbed, heavily grooved tire for maximum traction under a wide variety of conditions.  Moderate penalty when not on a FLAT tile, tiny penalty when not a ROAD tile.
-* `treads`: a link in a continuous track.  moderate penalty when not on a FLAT tile, no penalty when not on a ROAD tile.
-* `rail`: a rigid metal wheel with a flange on one edge, meant to keep it on a railroad track.  No penalty when on a RAIL tile, extreme penalty when not on a RAIL tile.
+
+`wheel_terrain_modifiers` field provides a way to modify wheel traction according to the flags set on terrain tile under each wheel.
+
+The key is one of the terrain flags, the list of flags can be found in [JSON_FLAGS.md](JSON_FLAGS.md#furniture-and-terrain).
+
+The value expects an array of length 2. The first element is a modifier override applied when wheel is on the flagged terrain, the second element is an additive modifier penalty applied when wheel is NOT on flagged terrain, values of 0 are ignored. The modifier is applied over a base value provided by `map::move_cost_ter_furn`.
+
+Examples:
+* Standard `wheel` has the field set to `{ "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] }`. If wheel is not on terrain flagged `FLAT` then the traction is 1/4 of base value. If not on terrain flagged `ROAD` then it's 1/2 of base value. If neither flag is present then traction will be 1/6 of base value. If terrain is flagged with both `ROAD` and `FLAT` then the base value from `map::move_cost_ter_furn` is used.
+* `rail_wheel` has the field set to `{ "RAIL": [ 2, 8 ] }`. If wheel is on terrain flagged `RAIL` the traction is overriden to be 1/2 of value calculated by `map::move_cost_ter_furn`, this value is the first element and considered an override, so if there had been modifiers applied prior to this they are ignored. If on terrain not flagged with `RAIL` then traction will be 1/8 of base value.
+
 
 #### The following optional fields are specific to ROTORs.
 ```c++
@@ -3445,7 +3514,6 @@ CBMs can be defined like this:
 "type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
 ...                         // same entries as above for the generic item.
 // Only COMESTIBLE type items may define the following fields:
-"addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
@@ -3454,7 +3522,8 @@ CBMs can be defined like this:
 "consumption_effect_on_conditions" : [ "EOC_1" ],  // Effect on conditions to run after consuming.  Inline or string id supported
 "quench" : 0,               // Thirst quenched
 "healthy" : -2,             // Health effects (used for sickness chances)
-"addiction_potential" : 80, // Ability to cause addictions
+"addiction_potential" : 80, // Default strength for this item to cause addictions
+"addiction_type" : [ "crack", { "addiction": "cocaine", "potential": 5 } ], // Addiction types (if no potential is given, the "addiction_potential" field is used to determine the strength of that addiction)
 "monotony_penalty" : 0,     // (Optional, default: 2) Fun is reduced by this number for each one you've consumed in the last 48 hours.
                             // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
 "calories" : 0,             // Hunger satisfied (in kcal)
@@ -3538,6 +3607,28 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 "flags" : ["CHOP"],    // Indicates special effects
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
 ```
+### Memory Cards
+
+Memory card information can be defined on any GENERIC item by adding an object named `memory_card`, this field does not support `extend`/`remove`, only override.
+
+```C++
+"id": "memory_card_unread",
+"name": "memory card (unread)",
+// ...
+"memory_card": {
+  "data_chance": 0.5,                  // 50% chance to contain data
+  "on_read_convert_to": "memory_card", // converted to this itype_id on read
+  "photos_chance": 0.33,               // 33% chance to contain new photos
+  "photos_amount": 3,                  // contains between 1 and 3 new photos
+  "songs_chance": 0.33,                // 33% chance to contain new songs
+  "songs_amount": 4,                   // contains between 1 and 4 new songs
+  "recipes_chance": 0.33,              // 33% chance to contain new recipes
+  "recipes_amount": 5,                 // contains between 1 and 5 new recipes
+  "recipes_level_min": 4,              // recipes will have at least level 4
+  "recipes_level_max": 8,              // recipes will have at most level 8
+  "recipes_categories": [ "CC_FOOD" ]  // recipes from CC_FOOD category
+}
+```
 
 ### Gun
 
@@ -3568,7 +3659,7 @@ Guns can be defined like this:
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
 "barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
-"valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
+"valid_mod_locations": [ [ "brass catcher", 1 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 "loudness": 10             // Amount of noise produced by this gun when firing. If no value is defined, then it's calculated based on loudness value from loaded ammo. Final loudness is calculated as gun loudness + gunmod loudness + ammo loudness. If final loudness is 0, then the gun is completely silent.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
@@ -3602,7 +3693,6 @@ Gun mods can be defined like this:
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "range_multiplier": 1.2,       // Optional field multiplying base gun range
-"recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
 "energy_drain_modifier": "200 kJ",  // Optional field increasing or decreasing base gun energy consumption (per shot) by adding given value. This addition is not multiplied by energy_drains_multiplier.
 "energy_drains_multiplier": 2.5, // Optional field increasing or decreasing base gun energy consumption (per shot) by multiplying by given value.
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
@@ -3613,6 +3703,7 @@ Gun mods can be defined like this:
 "consume_divisor": 10,         // Divide damage against mod by this amount (default 1)
 "handling_modifier": 4,        // Improve gun handling. For example a forward grip might have 6, a bipod 18
 "mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
+"barrel_length": "45 mm"       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
 ```
 
 Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
@@ -3902,6 +3993,24 @@ The contents of use_action fields can either be a string indicating a built-in f
     "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
     "moves": 50, // how many move points the action takes.
     "radius": 1 // maximum radius for random npc placement.
+},
+"use_action": {
+    "type": "link_up", // Connect item to a vehicle or appliance, such as plugging a chargeable device into a power source.
+    "cable_type": "generic_device_cable" // The item type of the cable created with this action ( Optional, defaults to "generic_device_cable" ).
+    "cable_length": 5 // Maximum length of the cable ( Optional, defaults to 2 ).
+    "charge_rate": "60 W" // Charge rate in watts. A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
+                          // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
+                          // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid ( Optional, defaults to "0 W" ).
+    "efficiency": 7 // one_in(this) chance to fail adding 1 charge every charge interval ( Optional, defaults to 7, which is around 85% efficiency ).
+    "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect" ).
+    "targets": [ // Array of link_states that are valid connection points of the cable ( Optional, defaults to only allowing disconnection ).
+        "no_link",         // Must be included to allow letting the player manually disconnect the cable.
+        "vehicle_port",    // Can connect to a vehicle's cable ports / electrical controls or an appliance.
+        "vehicle_battery", // Can connect to a vehicle's battery or an appliance.
+        "vehicle_tow",     // Can be used as a tow cable between two vehicles.
+        "bio_cable",       // Can connect to a cable system bionic.
+        "ups",             // Can link to a UPS.
+        "solarpack",       // Can link to a worn solar pack.
 },
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
@@ -5293,6 +5402,16 @@ For overmap specials add an entry to `data/json/obsoletion/migration_overmap_spe
     "new_id": "cs_open_sewer",
     "//": "Removed <when> - this will migrate to 'new_id'"
   },
+```
+
+For EOC/dialogue variables you can use `var_migration`. This currently only migrates **Character**, and **Global** vars. If "to" isn't provided the variable will be migrated to a key of "NULL_VALUE".
+
+```json
+{
+    "type": "var_migration",
+    "from": "temp_var",
+    "to": "new_temp_var"
+}
 ```
 
 For recipes, deleting the recipe is enough.

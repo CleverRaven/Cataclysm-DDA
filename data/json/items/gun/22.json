@@ -33,7 +33,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -87,7 +86,6 @@
     "blackpowder_tolerance": 56,
     "clip_size": 19,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -144,8 +142,8 @@
     "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
+      [ "belt_clip", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
@@ -186,7 +184,6 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
@@ -234,7 +231,6 @@
     "min_cycle_recoil": 39,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -316,7 +312,6 @@
     "durability": 8,
     "min_cycle_recoil": 39,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],

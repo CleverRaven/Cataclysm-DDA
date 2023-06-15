@@ -48,7 +48,7 @@ struct damage_type {
     static void load_damage_types( const JsonObject &jo, const std::string &src );
     static void reset();
     static void check();
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view );
     static const std::vector<damage_type> &get_all();
 };
 
@@ -69,7 +69,7 @@ struct damage_info_order {
     struct damage_info_order_entry {
         int order = -1;
         bool show_type = false;
-        void load( const JsonObject &jo, const std::string &member );
+        void load( const JsonObject &jo, std::string_view member );
     };
     damage_info_order_id id;
     damage_type_id dmg_type = damage_type_id::NULL_ID();
@@ -86,7 +86,7 @@ struct damage_info_order {
     static void reset();
     static void finalize_all();
     void finalize();
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     static const std::vector<damage_info_order> &get_all();
     static const std::vector<damage_info_order> &get_all( info_type sort_by );
 };

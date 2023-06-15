@@ -94,6 +94,7 @@ static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_sleep_deprived( "sleep_deprived" );
@@ -149,7 +150,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = object_type::NONE;
-    calorie_diary.push_front( daily_calories{} );
+    calorie_diary.emplace_front( );
     a_diary = nullptr;
 }
 
@@ -796,6 +797,13 @@ void avatar::identify( const item &item )
     }
 }
 
+void avatar::clear_nutrition()
+{
+    calorie_diary.clear();
+    calorie_diary.emplace_front();
+    consumption_history.clear();
+}
+
 void avatar::clear_identified()
 {
     items_identified.clear();
@@ -857,6 +865,21 @@ void avatar::vomit()
         add_msg( m_warning, _( "You retched, but your stomach is empty." ) );
     }
     Character::vomit();
+}
+
+bool avatar::try_break_relax_gas( const std::string &msg_success, const std::string &msg_failure )
+{
+    const effect &pacify = get_effect( effect_relax_gas, body_part_mouth );
+    if( pacify.is_null() ) {
+        return true;
+    } else if( one_in( pacify.get_intensity() ) ) {
+        add_msg( m_good, msg_success );
+        return true;
+    } else {
+        mod_moves( std::max( 0, pacify.get_intensity() * 10 + rng( -30, 30 ) ) );
+        add_msg( m_bad, msg_failure );
+        return false;
+    }
 }
 
 nc_color avatar::basic_symbol_color() const
@@ -1327,6 +1350,7 @@ bool avatar::wield( item_location target )
 bool avatar::wield( item &target )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     return wield( target,
                   item_handling_cost( target, true,
                                       is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
@@ -1504,7 +1528,7 @@ void avatar::update_cardio_acc()
 
 void avatar::advance_daily_calories()
 {
-    calorie_diary.push_front( daily_calories{} );
+    calorie_diary.emplace_front( );
     if( calorie_diary.size() > 30 ) {
         calorie_diary.pop_back();
     }

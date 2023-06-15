@@ -1,7 +1,6 @@
 [
   {
     "id": "10gal_hat",
-    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": { "str": "ten-gallon hat" },
     "description": "These may not be the Great Plains, but you can still be the Boss with this high-crowned, wide-brimmed hat.",
@@ -60,7 +59,6 @@
   },
   {
     "id": "beret",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "beret" },
     "description": "A soft cotton hat.  Commonly worn by armed forces and existentialists.",
@@ -111,7 +109,6 @@
   },
   {
     "id": "bowhat",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "bowler hat" },
     "description": "The only hat for a made man.  Look like a real good fella while laughing in the face of your foes!",
@@ -165,6 +162,21 @@
     "type": "ARMOR",
     "name": { "str": "cowboy hat" },
     "description": "Whether yer hunting varmints, fixing up the ranch, or heading into the sunset, this is the hat for the job.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_cowboy_hat",
+        "name": { "str": "cowboy hat" },
+        "description": "Whether yer hunting varmints, fixing up the ranch, or heading into the sunset, this is the hat for the job.",
+        "weight": 30
+      },
+      {
+        "id": "flag_cowboy_hat",
+        "name": { "str_sp": "American cowboy hat" },
+        "description": "This hat has traded its original classic looks for a red, white, and blue pattern with a band of golden stars embossed about its lip; suitable headwear for only the most serious of patriots.",
+        "append": true
+      }
+    ],
     "weight": "390 g",
     "volume": "2 L",
     "price": 9500,
@@ -208,7 +220,6 @@
   },
   {
     "id": "eboshi",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "eboshi" },
     "description": "A high, black cap with a very narrow top.  Traditionally worn by Shinto priests.",
@@ -286,7 +297,6 @@
   },
   {
     "id": "hat_ball",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "baseball cap" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
@@ -335,7 +345,6 @@
   },
   {
     "id": "hat_chef",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "toque" },
     "description": "A traditional chef's hat, standing tall and proud against the vulgarities of the world.",
@@ -560,9 +569,9 @@
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "max_contains_volume": "300 ml",
-        "max_contains_weight": "300 g",
+        "max_contains_weight": "400 g",
         "max_item_length": "14 cm",
-        "moves": 250,
+        "moves": 100,
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
@@ -744,9 +753,9 @@
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "max_contains_volume": "300 ml",
-        "max_contains_weight": "300 g",
+        "max_contains_weight": "400 g",
         "max_item_length": "14 cm",
-        "moves": 250,
+        "moves": 100,
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
@@ -928,7 +937,6 @@
   },
   {
     "id": "hat_newsboy",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "newsboy cap" },
     "description": "A slouching wool cap with a short front brim, traditionally associated with newspaper delivery boys.  Quite warm.",
@@ -980,7 +988,6 @@
   },
   {
     "id": "hat_sombrero",
-    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": { "str": "sombrero" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a sombrero, sorry.  But brimmed gear gets the anti-glare flag!",
@@ -1009,7 +1016,6 @@
   },
   {
     "id": "kippah",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "kippah" },
     "description": "A thin, rounded skullcap.  A traditional headdress in Judaism.",
@@ -1029,7 +1035,6 @@
   },
   {
     "id": "kufi",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "kufi cap" },
     "description": "A brimless, short and rounded cap.",
@@ -1055,7 +1060,6 @@
   },
   {
     "id": "maid_hat",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "French maid hat" },
     "description": "A frilly white headpiece.",
@@ -1081,7 +1085,6 @@
   },
   {
     "id": "porkpie",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "porkpie hat" },
     "description": "A flat-topped hat with circular indent and a narrow brim.  Most popular in the 40s and 50s, still common among those in the mod scene, hipsters, and people named Heisenberg.",
@@ -1108,7 +1111,6 @@
   },
   {
     "id": "postman_hat",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "mail carrier hat" },
     "description": "A traditional mail carrier's cap, with the US postal service logo embroidered on the front above the plastic brim.  A symbol of a bygone world.",
@@ -1212,7 +1214,6 @@
   },
   {
     "id": "tophat",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "top hat" },
     "//": "No, you're not wearing anything over your top hat.",
@@ -1266,7 +1267,6 @@
   },
   {
     "id": "turban",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "turban" },
     "description": "Cloth wound around the head, worn by people of many cultures worldwide.  Some historical examples could be huge and ostentatious, but this one is a very simple design.",
@@ -1294,7 +1294,6 @@
   },
   {
     "id": "hat_golf",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "golf cap" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",

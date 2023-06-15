@@ -2,10 +2,9 @@
 #define CATA_TOOLS_CLANG_TIDY_PLUGIN_USESTRINGVIEWCHECK_H
 
 #include <clang/ASTMatchers/ASTMatchFinder.h>
+#include <clang-tidy/ClangTidy.h>
+#include <clang-tidy/ClangTidyCheck.h>
 #include <llvm/ADT/StringRef.h>
-
-#include "ClangTidy.h"
-#include "ClangTidyCheck.h"
 
 namespace clang
 {

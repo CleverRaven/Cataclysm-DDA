@@ -233,6 +233,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string_view member
     assign( j, "target", target );
     assign( j, "msg_transform", msg_transform );
     assign( j, "active", active );
+    optional( j, false, "safe", safe, false );
     assign( j, "moves", moves );
 
     return true;
@@ -486,9 +487,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
+    for( JsonValue jv : jo.get_array( "processed_eocs" ) ) {
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+    }
+
     for( JsonValue jv : jo.get_array( "deactivated_eocs" ) ) {
         deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
+
+    optional( jo, was_loaded, "activated_is_setup", activated_is_setup, false );
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
@@ -497,7 +504,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
-        no_cbm_on_bp.emplace( bodypart_str_id( s ) );
+        no_cbm_on_bp.emplace( s );
     }
 
     optional( jo, was_loaded, "category", category, string_id_reader<mutation_category_trait> {} );
@@ -594,7 +601,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( const JsonValue jv : jo.get_array( "integrated_armor" ) ) {
-        integrated_armor.emplace_back( itype_id( jv ) );
+        integrated_armor.emplace_back( jv );
     }
 
     for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {
@@ -856,6 +863,7 @@ const mutation_variant *mutation_branch::pick_variant_menu() const
     menu.desc_enabled = true;
     menu.text = string_format( _( "Pick variant for: %s" ), name() );
     std::vector<const mutation_variant *> options;
+    options.reserve( variants.size() );
     for( const std::pair<const std::string, mutation_variant> &var : variants ) {
         options.emplace_back( &var.second );
     }
@@ -885,6 +893,7 @@ void mutation_branch::reset_all()
 std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
+    ret.reserve( raw_messages.size() );
     for( const translation &msg : raw_messages ) {
         ret.push_back( msg.translated() );
     }
@@ -974,12 +983,12 @@ void mutation_branch::finalize_all()
     trait_factory.finalize();
     for( const mutation_branch &branch : get_all() ) {
         for( const mutation_category_id &cat : branch.category ) {
-            mutations_category[cat].push_back( trait_id( branch.id ) );
+            mutations_category[cat].emplace_back( branch.id );
         }
         // Don't include dummy mutations for the ANY category, since they have a very specific use case
         // Otherwise, the system will prioritize them
         if( !branch.dummy ) {
-            mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+            mutations_category[mutation_category_ANY].emplace_back( branch.id );
         }
     }
     finalize_trait_blacklist();

@@ -174,7 +174,7 @@
       { "text": "What are you doing here?", "topic": "TALK_CARAVAN_REFUGEE_B1_Job" },
       {
         "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
-        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speaking" },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speech" },
         "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
         "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
       },
@@ -189,7 +189,7 @@
       { "text": "So you're not attached right now?", "topic": "TALK_CARAVAN_REFUGEE_B1_Attached" },
       {
         "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
-        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speaking" },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speech" },
         "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
         "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
       },
@@ -213,7 +213,7 @@
     "responses": [
       {
         "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
-        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speaking" },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speech" },
         "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
         "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
       },
@@ -267,7 +267,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_CARAVAN_REFUGEE_C",
+    "id": "TALK_CARAVAN_REFUGEE_C1",
     "dynamic_line": "Hey man.  Do you have any heroin?  I'm in a bit of a bind.",
     "responses": [
       { "text": "Oh, uh, sorry.", "topic": "TALK_DONE" },

@@ -1378,13 +1378,15 @@ void init_mapdata()
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_string( "examine_action" ) ) {
+        examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
     } else if( jo.has_object( "examine_action" ) ) {
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
         examine_func = iexamine_functions_from_string( "invalid" );
-    } else {
+    } else if( !was_loaded ) {
+        examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( "none" );
     }
 

@@ -25,7 +25,6 @@
     "clip_size": 150,
     "reload": 500,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],

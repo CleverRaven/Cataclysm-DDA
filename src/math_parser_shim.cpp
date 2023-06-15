@@ -1,18 +1,18 @@
 #include "math_parser_shim.h"
+#include "math_parser_diag.h"
 #include "math_parser_func.h"
 
 #include <map>
 #include <string_view>
 
-#include "condition.h"
 #include "json_loader.h"
 #include "string_formatter.h"
 
-kwargs_shim::kwargs_shim( std::vector<std::string> const &tokens, char scope )
+kwargs_shim::kwargs_shim( std::vector<diag_value> const &tokens, char scope )
 {
     bool positional = false;
-    for( std::string_view const token : tokens ) {
-        std::vector<std::string_view> parts = tokenize( token, ":", false );
+    for( diag_value const &token : tokens ) {
+        std::vector<std::string_view> parts = tokenize( token.str(), ":", false );
         if( parts.size() == 1 && !positional ) {
             kwargs.emplace(
                 // NOLINTNEXTLINE(cata-translate-string-literal): not a user-visible string
@@ -22,7 +22,7 @@ kwargs_shim::kwargs_shim( std::vector<std::string> const &tokens, char scope )
         } else if( parts.size() == 2 ) {
             kwargs.emplace( parts[0], parts[1] );
         } else {
-            debugmsg( "Too many parts in token %.*s", token.size(), token.data() );
+            debugmsg( "Too many parts in token %s", token.str() );
         }
     }
 }

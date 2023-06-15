@@ -491,6 +491,7 @@ static mapgen_factory oter_mapgen;
 
 std::map<nested_mapgen_id, nested_mapgen> nested_mapgens;
 std::map<update_mapgen_id, update_mapgen> update_mapgens;
+static std::unordered_map<std::string, tripoint_abs_ms> queued_points;
 
 template<>
 bool string_id<nested_mapgen>::is_valid() const
@@ -951,7 +952,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
                    tmpop == JMAPGEN_SETMAP_FIELD_REMOVE || tmpop == JMAPGEN_SETMAP_CREATURE_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
-            string_val = "npctalk_var_" + pjo.get_string( "id" );
+            string_val = pjo.get_string( "id" );
         } else {
             std::string tmpid = pjo.get_string( "id" );
             switch( tmpop ) {
@@ -1402,6 +1403,7 @@ class mapgen_value
 
             std::vector<StringId> all_possible_results( const mapgen_parameters & ) const override {
                 std::vector<StringId> result;
+                result.reserve( cases.size() );
                 for( const std::pair<const std::string, StringId> &p : cases ) {
                     result.push_back( p.second );
                 }
@@ -3045,7 +3047,7 @@ class jmapgen_computer : public jmapgen_piece
             }
             if( jsi.has_array( "eocs" ) ) {
                 for( const std::string &eoc : jsi.get_string_array( "eocs" ) ) {
-                    eocs.emplace_back( effect_on_condition_id( eoc ) );
+                    eocs.emplace_back( eoc );
                 }
             }
             if( jsi.has_array( "chat_topics" ) ) {
@@ -3295,6 +3297,26 @@ class jmapgen_zone : public jmapgen_piece
 };
 
 /**
+ * Place a variable
+ */
+class jmapgen_variable : public jmapgen_piece
+{
+    public:
+        std::string name;
+        jmapgen_variable( const JsonObject &jsi, const std::string_view &/*context*/ ) {
+            name = jsi.get_string( "name" );
+        }
+        mapgen_phase phase() const override {
+            return mapgen_phase::zones;
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
+            queued_points[name] = dat.m.getglobal( tripoint( x.val, y.val,
+                                                   dat.m.get_abs_sub().z() ) );
+        }
+};
+
+/**
  * Removes vehicles
  */
 class jmapgen_remove_vehicles : public jmapgen_piece
@@ -3303,7 +3325,7 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         std::vector<vproto_id> vehicles_to_remove;
         jmapgen_remove_vehicles( const JsonObject &jo, const std::string_view/*context*/ ) {
             for( std::string item_id : jo.get_string_array( "vehicles" ) ) {
-                vehicles_to_remove.emplace_back( vproto_id( item_id ) );
+                vehicles_to_remove.emplace_back( item_id );
             }
         }
         mapgen_phase phase() const override {
@@ -4408,6 +4430,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_translate>( jo, "translate_ter", context_ );
     objects.load_objects<jmapgen_zone>( jo, "place_zones", context_ );
     objects.load_objects<jmapgen_ter_furn_transform>( jo, "place_ter_furn_transforms", context_ );
+    objects.load_objects<jmapgen_variable>( jo, "place_variables", context_ );
     // Needs to be last as it affects other placed items
     objects.load_objects<jmapgen_faction>( jo, "faction_owner", context_ );
 
@@ -4675,7 +4698,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             break;
             case JMAPGEN_SETMAP_VARIABLE: {
                 tripoint point( x_get(), y_get(), m.get_abs_sub().z() );
-                get_globals().set_global_value( string_val, m.getabs( point ).to_string() );
+                queued_points[string_val] = m.getglobal( point );
             }
             break;
             case JMAPGEN_SETMAP_LINE_TER: {
@@ -4994,6 +5017,7 @@ void mapgen_function_json::generate( mapgendata &md )
     if( ter.is_rotatable() || ter.is_linear() ) {
         m->rotate( ter.get_rotation() );
     }
+    set_queued_points();
 }
 
 bool mapgen_function_json::expects_predecessor() const
@@ -5627,7 +5651,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // We spare some terrain to make it look better visually.
@@ -5654,7 +5678,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( const point & p ) {
                             if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
@@ -6551,7 +6575,8 @@ std::vector<item *> map::place_items(
 std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, const tripoint &p,
         const time_point &turn )
 {
-    const auto items = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
+    const std::vector<item> items =
+        item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
     return spawn_items( p, items );
 }
 
@@ -6762,8 +6787,14 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     const point target_point = first_veh_parts.front()->mount;
                     const point source_point = parts_to_move.front()->mount;
                     for( const vehicle_part *vp : parts_to_move ) {
+                        const vpart_info &vpi = vp->info();
                         // TODO: change mount points to be tripoint
-                        first_veh->install_part( target_point, *vp );
+                        const ret_val<void> valid_mount = first_veh->can_mount( target_point, vpi );
+                        if( valid_mount.success() ) {
+                            // make a copy so we don't interfere with veh_to_add->remove_part below
+                            first_veh->install_part( target_point, vehicle_part( *vp ) );
+                        }
+                        // ignore parts that would make invalid vehicle configuration
                     }
 
                     if( !handler_ptr ) {
@@ -6963,6 +6994,28 @@ void map::rotate( int turns, const bool setpos_safe )
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();
     mgr.rotate_zones( *this, turns );
+
+    std::unordered_map<std::string, tripoint_abs_ms> temp_points = queued_points;
+    queued_points.clear();
+    for( std::pair<const std::string, tripoint_abs_ms> &queued_point : temp_points ) {
+        //This is all just a copy of the section rotating NPCs above
+        real_coords np_rc;
+        np_rc.fromabs( queued_point.second.xy().raw() );
+        // Note: We are rotating the entire overmap square (2x2 of submaps)
+        if( np_rc.om_pos != rc.om_pos || queued_point.second.z() != abs_sub.z() ) {
+            continue;
+        }
+        point old( np_rc.sub_pos );
+        if( np_rc.om_sub.x % 2 != 0 ) {
+            old.x += SEEX;
+        }
+        if( np_rc.om_sub.y % 2 != 0 ) {
+            old.y += SEEY;
+        }
+        const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
+        queued_points[queued_point.first] = tripoint_abs_ms( getabs( tripoint( new_pos,
+                                            abs_sub.z() ) ) );
+    }
 }
 
 /**
@@ -7792,6 +7845,15 @@ bool run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, mapgendat
         return false;
     }
     return update_function->second.funcs()[0]->update_map( dat, point_zero, cancel_on_collision );
+}
+
+void set_queued_points()
+{
+    global_variables &globvars = get_globals();
+    for( std::pair<const std::string, tripoint_abs_ms> &queued_point : queued_points ) {
+        globvars.set_global_value( "npctalk_var_" + queued_point.first, queued_point.second.to_string() );
+    }
+    queued_points.clear();
 }
 
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(

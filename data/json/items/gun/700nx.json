@@ -22,7 +22,6 @@
     "reload": 300,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],

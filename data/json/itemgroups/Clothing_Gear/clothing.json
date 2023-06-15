@@ -87,7 +87,7 @@
       { "item": "hat_fur", "prob": 50 },
       { "item": "hat_hunting", "prob": 75 },
       { "item": "hat_knit", "prob": 25 },
-      { "item": "army_top", "prob": 50 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 50 },
       { "item": "long_underpants", "prob": 50 },
       { "item": "long_undertop", "prob": 50 },
       { "item": "gloves_liner", "prob": 50 },
@@ -111,6 +111,36 @@
       { "item": "armrig", "prob": 10 },
       { "item": "ankle_wallet_pouch", "prob": 5 },
       { "item": "pants_hiking", "prob": 10 }
+    ]
+  },
+  {
+    "id": "clothing_riding",
+    "type": "item_group",
+    "//": "Clothes that horse riders wear.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "helmet_riding", "prob": 50 },
+      { "item": "helmet_riding_peakless", "prob": 50 },
+      { "item": "hat_hunting", "prob": 15 },
+      { "item": "knit_scarf", "prob": 25 },
+      { "item": "long_knit_scarf", "prob": 25 },
+      { "item": "longshirt", "prob": 50 },
+      { "item": "jacket_flannel", "prob": 50 },
+      { "item": "coat_winter", "prob": 25 },
+      { "item": "peacoat", "prob": 25 },
+      { "item": "gloves_wool", "prob": 25 },
+      { "item": "gloves_leather", "prob": 25 },
+      { "item": "leather_belt", "prob": 25 },
+      { "item": "breeches", "prob": 50 },
+      { "item": "pants_hiking", "prob": 50 },
+      { "item": "socks_wool", "prob": 25 },
+      { "item": "boots_hiking", "prob": 50 },
+      { "item": "boots_western", "prob": 50 },
+      { "item": "knee_high_boots", "prob": 50 },
+      { "item": "boots", "prob": 25 },
+      { "item": "boots_winter", "prob": 25 },
+      { "item": "boots_steel", "prob": 15 },
+      { "item": "sneakers_steel", "prob": 15 }
     ]
   },
   {
@@ -537,6 +567,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "ammo_satchel", "prob": 40 },
+      { "item": "ammo_pouch", "prob": 40 },
       { "item": "backpack", "prob": 20 },
       { "item": "camelbak", "prob": 40 },
       { "item": "chestpouch", "prob": 40 },
@@ -559,7 +590,8 @@
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
       { "item": "game_watch", "prob": 20, "charges": [ 0, 50 ] },
-      { "item": "fitness_band", "prob": 10 }
+      { "item": "fitness_band", "prob": 10 },
+      { "item": "smart_watch", "prob": 10, "charges": [ 0, 80 ] }
     ]
   },
   {
@@ -1325,7 +1357,7 @@
     "entries": [
       { "item": "camisole", "prob": 5 },
       { "item": "halter_top", "prob": 5 },
-      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
       { "item": "cheerleader_top_short", "prob": 1 }
     ]
   },
@@ -1421,12 +1453,17 @@
     "type": "item_group",
     "id": "pants_female",
     "subtype": "distribution",
+    "entries": [ { "item": "nanoskirt", "prob": 10 }, { "group": "pants_female_child", "prob": 290 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants_female_child",
+    "subtype": "distribution",
     "entries": [
       { "group": "pants_male", "prob": 200 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "leggings", "prob": 15 },
-      { "item": "nanoskirt", "prob": 10 },
       { "item": "cheerleader_skirt", "prob": 1 },
       { "item": "cheerleader_skirt_short", "prob": 1 },
       { "group": "costume_skirts", "prob": 200, "event": "halloween" }
@@ -1462,6 +1499,8 @@
       [ "collarpin", 10 ],
       [ "undershirt", 70 ],
       [ "boxer_shorts", 50 ],
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 5 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
       [ "briefs", 40 ],
       [ "boxer_briefs", 45 ],
       [ "swim_briefs", 10 ],
@@ -1472,6 +1511,8 @@
       [ "bikini_bottom_short", 5 ],
       [ "panties", 70 ],
       [ "boy_shorts", 25 ],
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 70, "event": "independence_day" },
       [ "gown", 1 ],
       [ "long_glove_white", 1 ],
       [ "veil_wedding", 1 ],
@@ -1514,6 +1555,8 @@
       [ "tophat", 10 ],
       [ "bowhat", 10 ],
       [ "cowboy_hat", 10 ],
+      { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 2 },
+      { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 70, "event": "independence_day" },
       [ "bullwhip", 1 ],
       [ "10gal_hat", 3 ],
       [ "glasses_monocle", 2 ],
@@ -1626,7 +1669,7 @@
       [ "cheerleader_skirt_short", 1 ],
       [ "flag_pants", 5 ],
       [ "trousers_ninja", 1 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
       [ "flag_jumpsuit", 2 ],
       [ "jumpsuit_skeleton", 1 ],
@@ -1913,6 +1956,8 @@
       [ "tophat", 50 ],
       [ "bowhat", 50 ],
       [ "cowboy_hat", 100 ],
+      { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 5 },
+      { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 150, "event": "independence_day" },
       [ "10gal_hat", 10 ],
       [ "kufi", 10 ],
       [ "kippah", 30 ],
@@ -2055,6 +2100,11 @@
   {
     "type": "item_group",
     "id": "female_underwear_top",
+    "items": [ [ "corset", 5 ], [ "corset_waist", 5 ], { "group": "female_underwear_top_child", "prob": 190 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_top_child",
     "items": [
       [ "bra", 70 ],
       [ "sports_bra", 50 ],
@@ -2064,8 +2114,6 @@
       [ "bikini_top_short", 1 ],
       [ "bikini_top_leather", 3 ],
       [ "bikini_top_fur", 2 ],
-      [ "corset", 5 ],
-      [ "corset_waist", 5 ],
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 70, "event": "independence_day" }
     ]
   },
@@ -2075,6 +2123,8 @@
     "items": [
       [ "panties", 70 ],
       [ "boy_shorts", 50 ],
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 70, "event": "independence_day" },
       [ "bikini_bottom", 5 ],
       [ "bikini_bottom_short", 1 ],
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 70, "event": "independence_day" }
@@ -2090,6 +2140,8 @@
     "id": "male_underwear_bottom",
     "items": [
       [ "boxer_shorts", 70 ],
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 5 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
       [ "briefs", 30 ],
       [ "boxer_briefs", 50 ],
       [ "long_underpants", 20 ],
@@ -2117,6 +2169,8 @@
       { "item": "tophat", "prob": 5 },
       { "item": "bowhat", "prob": 10 },
       { "item": "cowboy_hat", "prob": 10 },
+      { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 1 },
+      { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 70, "event": "independence_day" },
       { "item": "boots_western", "prob": 8 },
       { "item": "glasses_monocle", "prob": 2 },
       { "item": "pants_leather", "prob": 60 },
@@ -2134,6 +2188,8 @@
       { "item": "bra", "prob": 30 },
       { "item": "undershirt", "prob": 30 },
       { "item": "boxer_shorts", "prob": 30 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 2 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
       { "item": "briefs", "prob": 15 },
       { "item": "boxer_briefs", "prob": 20 },
       { "item": "swim_briefs", "prob": 10 },
@@ -2144,6 +2200,8 @@
       { "item": "bikini_bottom_short", "prob": 5 },
       { "item": "panties", "prob": 30 },
       { "item": "boy_shorts", "prob": 25 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 70, "event": "independence_day" },
       { "item": "sweatshirt", "prob": 75 },
       { "item": "sweater", "prob": 75 },
       { "item": "turtleneck", "prob": 25 },
@@ -2263,7 +2321,7 @@
       { "item": "winter_pants_army", "prob": 10 },
       { "item": "winter_jacket_army", "prob": 10 },
       { "item": "winter_gloves_army", "prob": 10 },
-      { "item": "army_top", "prob": 20 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       { "item": "tux", "prob": 1 },
       { "item": "gown", "prob": 1 },
       { "item": "long_glove_white", "prob": 1 },
@@ -2347,7 +2405,7 @@
       { "item": "cheerleader_skirt_short", "prob": 1 },
       { "item": "flag_pants", "prob": 5 },
       { "item": "trousers_ninja", "prob": 1 },
-      { "item": "cheerleader_top", "prob": 5 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       { "item": "cheerleader_top_short", "prob": 1 },
       { "item": "flag_jumpsuit", "prob": 2 },
       { "item": "jumpsuit_skeleton", "prob": 1 },
@@ -2429,7 +2487,7 @@
       [ "rashguard", 25 ],
       [ "thermal_shirt", 20 ],
       [ "under_armor", 15 ],
-      [ "army_top", 6 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 6 },
       [ "tank_top", 6 ],
       [ "halter_top", 6 ],
       [ "tshirt", 6 ],
@@ -2705,7 +2763,7 @@
       [ "winter_pants_army", 30 ],
       [ "winter_jacket_army", 30 ],
       [ "winter_gloves_army", 30 ],
-      [ "army_top", 30 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
       [ "kevlar", 10 ],
       { "group": "military_ballistic_vest", "prob": 30 },
       [ "vest", 15 ],
@@ -2713,7 +2771,7 @@
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "backpack", 38 ],
-      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
       { "group": "molle_backpacks_and_accessories", "prob": 8 },
       [ "duffelbag", 15 ],
@@ -2749,7 +2807,7 @@
       { "item": "mess_kit", "prob": 9 },
       [ "backpack", 38 ],
       [ "briefcase", 10 ],
-      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
@@ -2787,7 +2845,7 @@
       [ "molle_pack", 8 ],
       [ "under_armor", 20 ],
       [ "power_armor_basic", 5 ],
-      [ "army_top", 30 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
       [ "elbow_pads", 20 ]
     ]
   },
@@ -2883,7 +2941,8 @@
       [ "legpouch_large", 6 ],
       [ "chestpouch", 9 ],
       [ "ammo_satchel", 4 ],
-      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
+      [ "ammo_pouch", 4 ],
+      { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
       [ "molle_pack", 8 ],
       [ "legrig", 10 ],
@@ -3413,6 +3472,8 @@
       [ "bra", 30 ],
       [ "undershirt", 30 ],
       [ "boxer_shorts", 30 ],
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 2 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
       [ "briefs", 15 ],
       [ "boxer_briefs", 20 ],
       [ "swim_briefs", 10 ],
@@ -3423,6 +3484,8 @@
       [ "bikini_bottom_short", 5 ],
       [ "panties", 30 ],
       [ "boy_shorts", 25 ],
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 70, "event": "independence_day" },
       [ "sweatshirt", 75 ],
       [ "sweater", 75 ],
       [ "turtleneck", 40 ],
@@ -3457,7 +3520,7 @@
       [ "corset_waist", 10 ],
       [ "leg_bag", 8 ],
       [ "pants_army", 10 ],
-      [ "army_top", 20 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       [ "tux", 1 ],
       [ "gown", 1 ],
       [ "kasaya", 1 ],
@@ -3514,7 +3577,7 @@
       [ "cheerleader_skirt_short", 1 ],
       [ "flag_pants", 5 ],
       [ "trousers_ninja", 1 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
       [ "flag_jumpsuit", 2 ],
       [ "jumpsuit_skeleton", 1 ],
@@ -3554,8 +3617,12 @@
     "items": [
       [ "bandana", 25 ],
       [ "boxer_shorts", 25 ],
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 5 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
       [ "boxer_briefs", 25 ],
       [ "boy_shorts", 25 ],
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 70, "event": "independence_day" },
       [ "bra", 25 ],
       [ "socks", 45 ],
       [ "socks_ankle", 30 ],
@@ -3633,6 +3700,8 @@
           { "item": "fedora", "prob": 40 },
           { "item": "hat_newsboy", "prob": 5 },
           { "item": "cowboy_hat", "prob": 20 },
+          { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 2 },
+          { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 70, "event": "independence_day" },
           { "item": "straw_fedora", "prob": 5 },
           { "item": "hat_golf", "prob": 15 },
           { "item": "straw_hat", "prob": 15 },
@@ -3738,7 +3807,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "halter_top", "prob": 30 },
-      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
       { "item": "cheerleader_top_short", "prob": 1 }
     ]
   },
@@ -3766,6 +3835,8 @@
       { "item": "bikini_bottom", "prob": 30 },
       { "item": "bikini_bottom_short", "prob": 10 },
       { "item": "boy_shorts", "prob": 30 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 100, "event": "independence_day" },
       { "item": "bra", "prob": 60 },
       { "item": "panties", "prob": 70 },
       { "item": "bikini_top", "prob": 30 },
@@ -3792,6 +3863,8 @@
     "items": [
       { "item": "boxer_briefs", "prob": 30 },
       { "item": "boxer_shorts", "prob": 50 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 5 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
       { "item": "briefs", "prob": 50 },
       { "item": "trunks", "prob": 10 },
       { "item": "swim_briefs", "prob": 5 },
@@ -3928,9 +4001,12 @@
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },
           { "item": "ammo_satchel", "prob": 10 },
+          { "item": "ammo_pouch", "prob": 10 },
           { "item": "chestrig", "prob": 20 },
+          { "item": "chestrig", "variant": "flag_chestrig", "prob": 2 },
           { "item": "dive_bag", "prob": 50 },
-          { "item": "petpack", "prob": 50 }
+          { "item": "petpack", "prob": 50 },
+          { "item": "chestrig", "variant": "flag_chestrig", "prob": 70, "event": "independence_day" }
         ],
         "prob": 30
       },
@@ -4124,7 +4200,7 @@
         "distribution": [
           { "item": "vest", "prob": 80 },
           { "item": "vest_leather", "prob": 20 },
-          { "item": "army_top", "prob": 40 },
+          { "item": "tank_top", "variant": "tank_top_camo", "prob": 40 },
           { "item": "blazer", "prob": 70 }
         ],
         "prob": 40

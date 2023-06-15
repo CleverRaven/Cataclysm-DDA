@@ -55,7 +55,7 @@
     "type": "TOOL",
     "name": { "str": "fire axe" },
     "description": "A large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
-    "weight": "2520 g",
+    "weight": "3448 g",
     "volume": "2 L",
     "price": 20000,
     "longest_side": "90 cm",
@@ -79,7 +79,7 @@
         "holster": true
       }
     ],
-    "melee_damage": { "bash": 17, "cut": 34 }
+    "melee_damage": { "bash": 18, "cut": 37 }
   },
   {
     "id": "halligan",

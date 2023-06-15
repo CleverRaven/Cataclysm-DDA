@@ -61,8 +61,7 @@
     "price_postapoc": 2500,
     "material": [ "acidchitin" ],
     "weight": "5362 g",
-    "environmental_protection": 7,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "environmental_protection": 7
   },
   {
     "type": "PET_ARMOR",

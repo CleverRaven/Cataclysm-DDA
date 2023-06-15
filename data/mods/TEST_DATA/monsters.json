@@ -46,6 +46,24 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_test_tech_grabber",
+    "name": { "str": "MA tech dialog condition test monster" },
+    "description": "It exists only to somehow grab you despite not having any grab strength",
+    "default_faction": "zombie",
+    "material": [ "flesh" ],
+    "species": [ "HUMAN", "ZOMBIE" ],
+    "symbol": "D",
+    "volume": "81500 ml",
+    "speed": 100,
+    "melee_skill": 1000,
+    "melee_dice": 0,
+    "morale": 100,
+    "aggression": 100,
+    "grab_strength": 0,
+    "special_attacks": [ { "id": "grab" } ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_test_mattack_dialog",
     "name": { "str": "mattack dialog condition test monster" },
     "description": "It exists only to try and mostly fail to attack you, in a dialog-y way",
@@ -296,13 +314,14 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 7 }, [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_cop_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
       "HEARS",
+      "GRABS",
       "SMELLS",
       "STUMBLES",
       "WARM",
@@ -315,14 +334,6 @@
       "FILTHY"
     ],
     "armor": { "bash": 6, "cut": 6, "stab": 6, "bullet": 6 }
-  },
-  {
-    "id": "mon_debug_grab",
-    "type": "MONSTER",
-    "copy-from": "debug_mon",
-    "name": { "str": "debug grabber" },
-    "melee_skill": 200,
-    "special_attacks": [ [ "GRAB", 0 ] ]
   },
   {
     "id": "mon_debug_memory",

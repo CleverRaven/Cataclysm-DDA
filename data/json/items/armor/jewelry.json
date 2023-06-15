@@ -1879,17 +1879,16 @@
     "type": "ARMOR",
     "name": { "str": "badge template" },
     "description": "This is a template for police/medical badges.  If found in a game, it is a bug.",
-    "weight": "315 g",
-    "volume": "37 ml",
+    "weight": "60 g",
+    "volume": "8 ml",
     "price": 5000,
     "price_postapoc": 700,
     "material": [ "brass" ],
     "symbol": "[",
     "color": "yellow",
-    "//": "should cover TORSO but give no encumbrance penalties. weight/volume are based on circle 2.75 in diameter and 1 cm thickness brass. Though some objects that copy from this may say they're different materials in the description, assume the material to be plated over the brass.",
+    "//": "typical badges are 1-4 oz and are usually brass with a possible very thin precious metal plating.",
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "badge_deputy",

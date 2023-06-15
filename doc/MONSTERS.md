@@ -60,7 +60,7 @@ Property                 | Description
 `armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
-`families`               | (array of objects) Weakpoint families that the monster belongs to
+`families`               | (array of objects or strings) Weakpoint families that the monster belongs to
 `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
 `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `3`.
@@ -402,7 +402,7 @@ In the example above, the `"humanoid"` weakpoint set is applied as a base, then 
 Weakpoints only match if they share the same id, so it's important to define the weakpoint's id field if you plan to overwrite previous weakpoints.
 
 ## "families"
-(array of objects, optional)
+(array of objects or strings, optional)
 
 Weakpoint families that the monster belongs to.
 
@@ -412,6 +412,8 @@ Field              | Description
 `proficiency`      | The proficiency ID corresponding to the family.
 `bonus`            | The bonus to weak point skill, if the attacker has the proficiency.
 `penalty`          | The penalty to weak point skill, if the attacker lacks the proficiency.
+
+`"families": [ "prof_intro_biology" ]` is equivalent to `"families": [ { "proficiency": "prof_intro_biology" } ]`
 
 ## "vision_day", "vision_night"
 (integer, optional)

@@ -24,7 +24,7 @@
             "prob": 25
           },
           {
-            "collection": [ { "item": "welder" }, { "item": "medium_plus_battery_cell", "count": [ 1, 3 ], "prob": 80, "charges": [ 0, 500 ] } ],
+            "collection": [ { "item": "welder" }, { "item": "medium_storage_battery", "count": [ 1, 3 ], "prob": 80, "charges": [ 0, 10000 ] } ],
             "prob": 60
           },
           {

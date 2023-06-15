@@ -382,7 +382,7 @@ void worldfactory::init()
 
     // This returns files as well, but they are going to be discarded later as
     // we look for files *within* these dirs. If it's a file, there won't be
-    // be any of those inside it and is_save_dir will return false.
+    // any files inside it and is_save_dir will return false.
     for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
         if( !is_save_dir( dir ) ) {
             continue;
@@ -408,7 +408,10 @@ void worldfactory::init()
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-                rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() );
+                if( rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() ) ) {
+                    debugmsg( "Error while moving world files: %s.  World may have been corrupted",
+                              strerror( errno ) );
+                }
             }
             newworld->world_saves = old_world.world_saves;
             newworld->WORLD_OPTIONS = old_world.WORLD_OPTIONS;
@@ -435,6 +438,7 @@ const std::map<std::string, std::unique_ptr<WORLD>> &worldfactory::get_all_world
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
+    result.reserve( all_worlds.size() );
     for( const auto &elem : all_worlds ) {
         result.push_back( elem.first );
     }
@@ -1816,7 +1820,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         } else if( action == "PICK_MODS" ) {
             show_worldgen_tab_modselection( w_confirmation, world, false );
         } else if( action == "ADVANCED_SETTINGS" ) {
-            auto WOPTIONS_OLD = world->WORLD_OPTIONS;
+            options_manager::options_container WOPTIONS_OLD = world->WORLD_OPTIONS;
             show_worldgen_tab_options( w_confirmation, world, false );
             for( auto &iter : WOPTIONS_OLD ) {
                 if( iter.second != world->WORLD_OPTIONS[iter.first] ) {

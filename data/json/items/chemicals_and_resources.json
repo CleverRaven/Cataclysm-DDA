@@ -79,7 +79,7 @@
     "category": "spare_parts",
     "price": 200,
     "price_postapoc": 10,
-    "name": { "str_sp": "cement" },
+    "name": { "str_sp": "cement powder" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Portland is most likely long gone, but its memory persists in cement.  This ubiquitous binder can be used for all kinds of advanced masonry.  Just add water.",
@@ -1904,8 +1904,8 @@
     "container": "test_tube",
     "symbol": ";",
     "color": "light_gray",
-    "price": 2000,
-    "price_postapoc": 20000,
+    "price": "20 USD",
+    "price_postapoc": "2 USD",
     "count": 1,
     "stack_size": 1
   },
@@ -1969,7 +1969,7 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "liquid_soap",
     "name": { "str_sp": "liquid soap" },
     "category": "chems",
@@ -1984,9 +1984,9 @@
     "price_postapoc": 0,
     "volume": "250 ml",
     "phase": "liquid",
-    "ammo_type": "components",
     "flags": [ "DETERGENT" ],
-    "count": 5
+    "comestible_type": "INVALID",
+    "charges": 5
   },
   {
     "id": "pine_resin",

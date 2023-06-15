@@ -176,6 +176,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_penblack",
+    "entries": [ { "item": "pen", "ammo-item": "black_pen_ink", "charges": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "full_rebreather_mask",
     "entries": [ { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 60 } ]
   },
@@ -194,6 +200,37 @@
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_tac338",
+    "entries": [
+      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "charges": 5 },
+      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "charges": 5 },
+      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "charges": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mags_50beowulf_ar15",
+    "entries": [
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 },
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 },
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mags_ruger_arr",
+    "entries": [
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 },
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 },
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 },
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 }
     ]
   },
   {
@@ -604,6 +641,7 @@
     "type": "profession",
     "id": "sheltered_survivor",
     "name": "Sheltered Survivor",
+    "requirement": "achievement_survive_28_days",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering.  Now it is winter - time to face the world above.",
     "points": 4,
     "proficiencies": [ "prof_fibers", "prof_knitting", "prof_carving" ],
@@ -635,6 +673,7 @@
     "type": "profession",
     "id": "sheltered_militia",
     "name": "Sheltered Militia",
+    "requirement": "achievement_survive_28_days",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter with your collection of guns.  You've spent the past months eating canned food and practicing your aim.  Now it is winter - time to face the world above.",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv" ],
@@ -1000,6 +1039,7 @@
     "type": "profession",
     "id": "major-general",
     "name": "Major General",
+    "requirement": "achievement_reach_military_bunker",
     "description": "You worked your way up through the ranks from a no-name private to a big shot Major General, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -1042,6 +1082,7 @@
     "type": "profession",
     "id": "marine",
     "name": { "male": "Marine Infantryman", "female": "Marine Infantrywoman" },
+    "requirement": "achievement_reach_military_bunker",
     "description": "You are one of the few and the proud: a member of the US Marine Corps.  Now that military command has collapsed in on itself as far as you can tell, you suppose that it falls to you to carry the memory of the Corps forward into the future.  Semper fi.",
     "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -1059,7 +1100,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "combat_shirt",
           "jacket_army_modern",
           "hat_navy",
@@ -1073,6 +1113,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "military_ballistic_vest_pristine" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "apants_MARPAT" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -1081,7 +1122,7 @@
           { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
           {
-            "item": "m4_carbine",
+            "item": "m4_cqbr",
             "variant": "m4_cqbr",
             "ammo-item": "556",
             "charges": 30,
@@ -1098,6 +1139,7 @@
     "type": "profession",
     "id": "sailor",
     "name": "Navy Sailor",
+    "requirement": "achievement_reach_aircraft_carrier",
     "description": "You’re a sailor of the US Navy, and spent the last few years working shipside aboard an aircraft carrier.  Though you're trained in combat, maintenance of the vessel has been your primary duty.  After some event beyond your understanding, the carrier has become a floating graveyard in the middle of nowhere.  This is going to take more than a cup of coffee and a monkey wrench to fix.",
     "points": 4,
     "proficiencies": [ "prof_pneumatics", "prof_basic_engines", "prof_metalworking", "prof_welding_basic", "prof_welding" ],
@@ -1113,7 +1155,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "combat_shirt",
           "jacket_army_modern",
           "hat_navy",
@@ -1125,6 +1166,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "wrench_large" },
           { "item": "screwdriver" },
@@ -1141,6 +1183,7 @@
     "type": "profession",
     "id": "diver_navy",
     "name": "Navy Diver",
+    "requirement": "achievement_reach_aircraft_carrier",
     "description": "You were a member of a Naval Special Warfare diving group, a skilled soldier adept at underwater infiltration and marine combat.  You were suiting up for a practice dive when the aircraft carrier you were stationed on was somehow flung from the Yellow Sea to who knows where.  You seem to be the only one who survived with your sanity intact, but it's not safe to stay here.  At least you're already dressed to abandon ship.",
     "points": 3,
     "proficiencies": [ "prof_spotting", "prof_gunsmithing_basic" ],
@@ -1181,6 +1224,7 @@
     "type": "profession",
     "id": "veteran",
     "name": "Military Veteran",
+    "requirement": "achievement_reach_military_bunker",
     "description": "After being discharged from the armed forces, you were sent to a veterans' hospital for treatment.  Just when you thought you'd overcome your traumas and readjusted to civilian life, the world has come to an end and your worst nightmare has become a reality: life in an endless battlefield.",
     "points": 2,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -1207,6 +1251,7 @@
     "type": "profession",
     "id": "recruit",
     "name": "Military Recruit",
+    "requirement": "achievement_reach_military_bunker",
     "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -1243,8 +1288,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1259,6 +1304,7 @@
     "type": "profession",
     "id": "combat-mechanic",
     "name": "Combat Mechanic",
+    "requirement": "achievement_reach_military_bunker",
     "description": "Early in your military career, you were hand-picked for extra training in the mechanic's trade, keeping the armor running.  It's been years since you last touched a rifle, and the dead men are marching again…",
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_welding_basic", "prof_welding" ],
@@ -1308,6 +1354,7 @@
     "type": "profession",
     "id": "combat-engineer",
     "name": "Combat Engineer",
+    "requirement": "achievement_reach_military_bunker",
     "description": "Your job was simple: Keep the army moving.  You built bridges, you built roads, you destroyed fortifications, and you cleared mines.  It has been years since you last handled a rifle in basic training; now might be the time to dust off those skills.",
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_trapsetting", "prof_disarming", "prof_spotting" ],
@@ -1354,6 +1401,7 @@
     "type": "profession",
     "id": "nco",
     "name": "Non-Commissioned Officer",
+    "requirement": "achievement_reach_military_bunker",
     "description": "You're a veteran of several peacekeeping missions.  You led your squad as a sort of parental figure, and they relied on you to give orders and keep them alive.  You failed them.  And now you're alone.",
     "points": 7,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
@@ -1408,6 +1456,7 @@
     "type": "profession",
     "id": "rifleman",
     "name": "Rifleman",
+    "requirement": "achievement_reach_military_bunker",
     "description": "When you were young, you dreamed of being a soldier.  War is hell and hell is war, but you never thought it would be this bad.",
     "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
@@ -1444,8 +1493,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1458,20 +1507,20 @@
   },
   {
     "type": "profession",
-    "id": "seal",
-    "name": "Navy SEAL",
-    "description": "You were a member of the SEALs; a key component of the US Navy’s special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
+    "id": "seal_sniper",
+    "name": "Navy SEAL Marksmen",
+    "description": "Recruited into the ranks of the US Navy’s Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care" ],
     "skills": [
-      { "level": 6, "name": "gun" },
-      { "level": 6, "name": "rifle" },
+      { "level": 8, "name": "gun" },
+      { "level": 8, "name": "rifle" },
       { "level": 4, "name": "melee" },
-      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "pistol" },
       { "level": 3, "name": "stabbing" },
       { "level": 3, "name": "dodge" },
       { "level": 4, "name": "firstaid" },
-      { "level": 4, "name": "survival" },
+      { "level": 5, "name": "survival" },
       { "level": 3, "name": "throw" },
       { "level": 5, "name": "swimming" }
     ],
@@ -1494,6 +1543,58 @@
           { "group": "charged_two_way_radio" },
           { "group": "charged_powered_earmuffs" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "legpouch_large", "contents-group": "army_mags_tac338" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "p226_9mm", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
+          { "item": "p226mag_15rd_9x19mm", "ammo-item": "9mm", "charges": 15, "count": 2 },
+          { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "seal",
+    "name": "Navy SEAL",
+    "requirement": "achievement_reach_aircraft_carrier",
+    "description": "You were a member of the SEALs; a key component of the US Navy’s special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
+    "points": 8,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care" ],
+    "skills": [
+      { "level": 6, "name": "gun" },
+      { "level": 6, "name": "rifle" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 4, "name": "firstaid" },
+      { "level": 4, "name": "survival" },
+      { "level": 3, "name": "throw" },
+      { "level": 5, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "combat_shirt",
+          "tac_fullhelmet",
+          "mask_ski",
+          "gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "diving_watch",
+          "load_bearing_vest",
+          "boots_combat",
+          "webbing_belt"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "group": "charged_powered_earmuffs" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
+          { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "grenade" },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "goggles_nv" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -1502,7 +1603,7 @@
           { "item": "p226_9mm", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "p226mag_15rd_9x19mm", "ammo-item": "9mm", "charges": 15, "count": 2 },
           {
-            "item": "m4_carbine",
+            "item": "m4_cqbr",
             "variant": "m4_cqbr",
             "ammo-item": "556",
             "charges": 30,
@@ -1519,6 +1620,7 @@
     "type": "profession",
     "id": "specops",
     "name": "Special Operator",
+    "requirement": "achievement_reach_military_base",
     "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming", "prof_spotting" ],
@@ -1593,6 +1695,7 @@
     "type": "profession",
     "id": "rescuer",
     "name": { "male": "Rescuer", "female": "Rescuer" },
+    "requirement": "achievement_reach_mi-Go_encampment",
     "description": "You were ready.  You went in determined to find and rescue your friends.  Now the atmosphere in these twisting corridors grows heavy, and you don't feel quite so confident anymore.  You might be the one in need of a rescue soon.",
     "points": 3,
     "skills": [
@@ -1608,8 +1711,8 @@
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": "shoulder_strap"
@@ -1632,7 +1735,14 @@
     "description": "Fresh out of med school, you've got little in the way of practical experience and just a handful of first-aid supplies.  You just hope it will be enough if 'physician, heal thyself' turns out to be more literal than you expected.",
     "points": 2,
     "skills": [ { "level": 4, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans"
+    ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -1662,6 +1772,7 @@
     "type": "profession",
     "id": "gangster",
     "name": "Gangster",
+    "requirement": "achievement_kill_100_monsters",
     "description": "The boss always said he could rely on you to pull through on the tough jobs.  Shame he got himself smoked.  No problem; the world's always got a place for someone with your kind of talents.",
     "points": 3,
     "skills": [
@@ -1704,6 +1815,7 @@
     "type": "profession",
     "id": "security",
     "name": "Security Guard",
+    "requirement": "achievement_reach_megastore",
     "description": "You had a boring, underpaid job watching cameras and patrolling hallways, but things have suddenly gotten a lot more dangerous.  You have some useful equipment, but you've never had any call to use it until now.",
     "points": 1,
     "items": {
@@ -1774,6 +1886,7 @@
     "type": "profession",
     "id": "survivalist",
     "name": "Survivalist",
+    "requirement": "achievement_survive_28_days",
     "description": "Living off the land, far from civilization, is nothing new to you.  The only difference is all the monsters that suddenly want you dead.  Your equipment is basic, but versatile… except that your canteen's run out!",
     "points": 5,
     "proficiencies": [
@@ -1861,6 +1974,7 @@
     "type": "profession",
     "id": "k9_cop",
     "name": "K9 Officer",
+    "requirement": "achievement_reach_police_station",
     "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended, and none of that matters anymore.  Your loyal dog is still at your side, though, ready to face the Cataclysm with you.",
     "points": 4,
     "skills": [
@@ -1893,6 +2007,7 @@
     "type": "profession",
     "id": "horse_cop",
     "name": "Mounted Police Officer",
+    "requirement": "achievement_reach_police_station",
     "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have eachother.",
     "points": 5,
     "skills": [
@@ -1985,6 +2100,7 @@
     "type": "profession",
     "id": "cop",
     "name": "Police Officer",
+    "requirement": "achievement_reach_police_station",
     "description": "Just a small-town deputy, you got the call and were ready to come to the rescue.  Soon it was you who needed rescuing, and you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
     "points": 2,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
@@ -2010,6 +2126,7 @@
     "type": "profession",
     "id": "detective",
     "name": "Police Detective",
+    "requirement": "achievement_reach_police_station",
     "description": "You were on the brink of a major breakthrough in your latest homicide case when the Cataclysm struck.  Now your prime suspect is dead.  Everyone's dead.  You could really use a smoke.",
     "points": 4,
     "traits": [ "PROF_PD_DET" ],
@@ -2050,6 +2167,7 @@
     "type": "profession",
     "id": "swat",
     "name": "SWAT Officer",
+    "requirement": "achievement_reach_police_station",
     "description": "As a member of the police force's most elite division, you are more than adequately trained and equipped to survive the brutal onslaught of the apocalypse.  Unfortunately, the chain of command has broken down; your only mission now is to stay alive.",
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
@@ -2099,6 +2217,7 @@
     "type": "profession",
     "id": "swat_heavy",
     "name": "SWAT CQC Specialist",
+    "requirement": "achievement_reach_police_station",
     "description": "As a member of the police force's most elite division, you were given special training and became an expert in close-quarters combat.  Unfortunately, the chain of command has broken down; your only mission now is to stay alive.",
     "points": 5,
     "skills": [
@@ -2145,6 +2264,7 @@
     "type": "profession",
     "id": "sniper_police",
     "name": "Police Sniper",
+    "requirement": "achievement_reach_police_station",
     "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well-placed bullet.  Now your own life is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
@@ -2188,6 +2308,7 @@
     "type": "profession",
     "id": "riot_police",
     "name": "Riot Control Officer",
+    "requirement": "achievement_reach_police_station",
     "description": "The riots were brutal, even before the dead rose and started to devour the living.  The line you were holding broke.  It was only through a bit of luck and a lot of head-bashing that you got away in one piece, and the worst is yet to come.",
     "points": 5,
     "skills": [
@@ -2230,6 +2351,7 @@
     "type": "profession",
     "id": "cop_motor",
     "name": "Motorized Police Officer",
+    "requirement": "achievement_reach_police_station",
     "description": "Just a small-town deputy, you got the call and were ready to ride to the rescue.  Soon it was you who needed rescuing, and you had to abandon your motorcycle to escape.  Who's going to respect your authority when the government this badge represents doesn't exist anymore?",
     "points": 2,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
@@ -2322,7 +2444,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "knit_scarf",
           "socks",
           "boots_steel",
@@ -2337,7 +2458,8 @@
           { "group": "charged_smart_phone" },
           { "item": "compbow_low", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver", "contents-group": "quiver_bow_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2355,17 +2477,7 @@
     "skills": [ { "level": 2, "name": "rifle" }, { "level": 1, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [
-          "army_top",
-          "knit_scarf",
-          "socks",
-          "boots_steel",
-          "pants_cargo",
-          "jacket_flannel",
-          "hat_hunting",
-          "wristwatch",
-          "single_sling"
-        ],
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "single_sling" ],
         "entries": [
           { "group": "charged_smart_phone" },
           {
@@ -2376,7 +2488,8 @@
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "quiver", "contents-group": "quiver_crossbow_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2393,17 +2506,7 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "shotgun" } ],
     "items": {
       "both": {
-        "items": [
-          "army_top",
-          "knit_scarf",
-          "socks",
-          "boots_steel",
-          "pants_cargo",
-          "jacket_flannel",
-          "hat_hunting",
-          "wristwatch",
-          "back_holster"
-        ],
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -2415,7 +2518,8 @@
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2430,6 +2534,36 @@
     "description": "Ever since you were a child you loved hunting, and you fancy yourself a crack shot.  Why, if the world ended, there's nothing you'd want at your side more than your trusty rifle.  So, when it did, you made sure to bring it along.",
     "points": 2,
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
+    "items": {
+      "both": {
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          {
+            "item": "remington700_270",
+            "ammo-item": "270win_jsp",
+            "charges": 4,
+            "contents-item": "shoulder_strap",
+            "custom-flags": [ "no_auto_equip" ]
+          },
+          { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    },
+    "missions": [ "MISSION_HUNTER" ]
+  },
+  {
+    "type": "profession",
+    "id": "conversion_hunter",
+    "name": "Big-Bore Hunter",
+    "description": "You always harbored a passion for hunting and a particular fondness for big-bore rifle calibers and affordable conversion kits.  Whether it was their cost-effective nature or the simple, testosterone-amplifying notion that you could retool your rifle to belt out .50-caliber bullets, you preferred them for your hunting trips.  Now, with your converted rifle in hand, you fancy that there isn't any game too large for you to take down.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" } ],
     "items": {
       "both": {
         "items": [
@@ -2447,13 +2581,13 @@
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           {
-            "item": "remington700_270",
-            "ammo-item": "270win_jsp",
-            "charges": 4,
+            "item": "ar15_50",
+            "ammo-item": "50beowulf_xtp",
+            "charges": 10,
             "contents-item": "shoulder_strap",
             "custom-flags": [ "no_auto_equip" ]
           },
-          { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
+          { "item": "chestrig", "contents-group": "mags_50beowulf_ar15" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -2617,6 +2751,7 @@
     "id": "cop_car",
     "type": "profession",
     "name": "Police Interceptor",
+    "requirement": "achievement_reach_police_station",
     "description": "An on-duty officer, you received the call and were ready to respond to the robbery.  It all went to shit, your backup got eaten, and you were lucky to escape with your life and patrol car.",
     "points": 6,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "driving" } ],
@@ -2643,6 +2778,7 @@
     "type": "profession",
     "id": "militia_car",
     "name": "Militia",
+    "requirement": "achievement_survive_28_days",
     "description": "You and a group of like-minded individuals built a hideout in the woods from which to launch looting raids in a jury-rigged pickup.  The last run went bad, and now all your comrades are dead.  Every breath you take now is an act of rebellion against the cruelty of this doomed world.  Do not let that flame of hope perish inside you.",
     "points": 8,
     "skills": [
@@ -2677,7 +2813,7 @@
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "chestrig", "contents-group": "army_mags_m4" },
           { "item": "lighter", "charges": 100 },
-          { "item": "ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
+          { "item": "modular_ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2807,17 +2943,7 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "tshirt_text",
-          "socks",
-          "sneakers",
-          "mbag",
-          "caffeine",
-          "caff_gum",
-          "mobile_memory_card_encrypted",
-          "usb_drive"
-        ],
+        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "caffeine", "caff_gum", "memory_card", "usb_drive" ],
         "entries": [
           { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
           { "group": "charged_smart_phone" },
@@ -3684,6 +3810,7 @@
     "type": "profession",
     "id": "national_guard",
     "name": "National Guardsman",
+    "requirement": "achievement_reach_military_bunker",
     "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the dead.",
     "points": 3,
     "skills": [
@@ -3710,6 +3837,7 @@
     "type": "profession",
     "id": "winter_scavenger",
     "name": "Hardened Scavenger",
+    "requirement": "achievement_survive_91_days",
     "description": "One of the lucky few who escaped the Cataclysm, you made a life for yourself amidst the ruins of civilization.  Whether through force, guile, or luck, you've obtained the best gear you could find.",
     "points": 8,
     "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knitting", "prof_closures" ],
@@ -3749,6 +3877,7 @@
     "type": "profession",
     "id": "winter_army",
     "name": "Military Holdout",
+    "requirement": "achievement_reach_military_bunker",
     "description": "You must have paid attention to your survival training in boot camp; otherwise, you would never have lived long enough to outlast the chain of command and find yourself in this predicament.  The only mission now is to survive.",
     "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -3781,7 +3910,12 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4_carbine", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
+          {
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
+            "ammo-item": "556",
+            "contents-item": "shoulder_strap"
+          },
           { "group": "charged_two_way_radio" },
           { "item": "chestrig", "contents-group": "army_mags_m4" }
         ]
@@ -3816,6 +3950,7 @@
     "type": "profession",
     "id": "naturalist",
     "name": "Naturalist",
+    "requirement": "achievement_survive_91_days",
     "description": "Over long years of self-imposed exile in the wilderness, you have come to an understanding with Mother Nature.  The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
     "points": 7,
     "skills": [
@@ -4064,6 +4199,7 @@
     "type": "profession",
     "id": "jr_survivalist",
     "name": "Survivalist Jr.",
+    "requirement": "achievement_survive_7_days",
     "description": "Your parents were crazy preppers who thought some \"Cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
     "points": 3,
     "skills": [
@@ -4586,6 +4722,7 @@
     "type": "profession",
     "id": "mil_marksman",
     "name": "Military Marksman",
+    "requirement": "achievement_reach_military_bunker",
     "description": "You like to think of yourself as a sniper, but really you're just infantry with a bigger gun.  That said, a big gun is a definite advantage now.",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -4634,6 +4771,7 @@
     "type": "profession",
     "id": "mil_auto_rifleman",
     "name": "Military Automatic Rifleman",
+    "requirement": "achievement_reach_military_bunker",
     "description": "You were trusted with a big-ass, belt-fed machine gun and plenty of ammo to lay down suppressing fire for your team.  Now that it's going to be much harder to resupply, you should probably be more selective with the ol' spray-and-pray.",
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -4685,6 +4823,7 @@
     "type": "profession",
     "id": "mil_grenadier",
     "name": "Military Grenadier",
+    "requirement": "achievement_reach_military_bunker",
     "description": "There's no kill like overkill, and not many people in this world can boast that they have a grenade launcher and know how to use it.  Just try not to blow yourself up, that would be really embarrassing.",
     "points": 3,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -4737,6 +4876,7 @@
     "type": "profession",
     "id": "mil_breacher",
     "name": "Military Breacher",
+    "requirement": "achievement_reach_military_bunker",
     "description": "Doors and windows everywhere dare not speak your name.  You're going to be breaking into buildings for supplies rather than combat operations now, but the principle is about the same.",
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -4788,6 +4928,7 @@
     "type": "profession",
     "id": "mil_sniper",
     "name": "Military Sniper",
+    "requirement": "achievement_reach_military_bunker",
     "description": "You're a crack shot with a rifle, and the farther you can stay away from zombies, the better.  The only thing stopping you is limited ammo, so you should try to find a place to restock sooner or later.",
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic" ],
@@ -4842,6 +4983,7 @@
     "type": "profession",
     "id": "mil_hacker",
     "name": "Military Hacker",
+    "requirement": "achievement_reach_military_bunker",
     "description": "'Hacker' is a silly pop-culture name, popularized by Hollywood and people with little to no knowledge of what your job entails.  You prefer 'Electronic Warfare Specialist,' though nobody's really left to make the distinction.",
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_elec_soldering", "prof_appliance_repair" ],
@@ -4943,6 +5085,7 @@
     "type": "profession",
     "id": "mili_pilot",
     "name": "Military Pilot",
+    "requirement": "achievement_reach_military_bunker",
     "description": "You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next.  You knew it was only a matter of time before the horrors patrolling the skies shot you down.",
     "points": 5,
     "skills": [
@@ -4995,7 +5138,14 @@
       { "level": 1, "name": "electronics" },
       { "level": 3, "name": "firstaid" }
     ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans"
+    ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
@@ -5014,7 +5164,14 @@
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 3, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans"
+    ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -5046,6 +5203,7 @@
     "type": "profession",
     "id": "mili_medic",
     "name": "Combat Medic",
+    "requirement": "achievement_reach_military_bunker",
     "description": "You were on the front lines when everything happened, patching up the wounded and providing support.  But they wouldn't stop coming.  Now you're on your own.",
     "points": 5,
     "skills": [
@@ -5064,7 +5222,8 @@
       "prof_wound_care_expert",
       "prof_intro_biology",
       "prof_physiology",
-      "prof_burn_care"
+      "prof_burn_care",
+      "prof_dissect_humans"
     ],
     "items": {
       "both": {
@@ -5100,8 +5259,8 @@
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556_mk262",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -5173,7 +5332,14 @@
     "description": "You were deployed to autopsy one of the rioters showing feral behavior before being put down.  When they got back up, you knew this was out of your pay grade.",
     "points": 5,
     "skills": [ { "level": 5, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans"
+    ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -5349,7 +5515,10 @@
     "points": 2,
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "speech" }, { "level": 3, "name": "swimming" } ],
     "items": {
-      "both": { "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
+      "both": {
+        "items": [ "pom_poms", "socks_ankle", "sneakers" ],
+        "entries": [ { "item": "tank_top", "variant": "tank_top_cheerleader" } ]
+      },
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
     },
@@ -5359,7 +5528,7 @@
     "type": "profession",
     "id": "patriot",
     "name": "Patriot",
-    "description": "You are a true American patriot, dressed in star-spangled clothing from head to toe.  The government has fallen, but the spirit of the nation lives on within its people.",
+    "description": "You are a true American patriot, dressed with star-spangled clothing from head to toe.  The government has fallen, but the nation lives on with its people.",
     "points": -1,
     "items": {
       "both": {
@@ -5375,9 +5544,32 @@
   },
   {
     "type": "profession",
+    "id": "prepped_patriot",
+    "name": "Prepped Patriot",
+    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
+    "items": {
+      "both": {
+        "items": [ "american_flag", "slippers" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "mask_dust", "variant": "flag_mask_dust" },
+          { "item": "chestrig", "variant": "flag_chestrig", "contents-group": "mags_ruger_arr" },
+          { "item": "cowboy_hat", "variant": "flag_cowboy_hat" },
+          { "item": "leg_bag", "variant": "flag_leg_bag" },
+          { "item": "ruger_arr", "ammo-item": "450_ftx", "charges": 3, "contents-item": "shoulder_strap" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts", "variant": "flag_boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "boy_shorts", "variant": "flag_boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "cowboy",
     "name": "Cowboy",
-    "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch in your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
+    "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch on your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
@@ -5538,6 +5730,7 @@
     "type": "profession",
     "id": "hitman",
     "name": { "male": "Hitman", "female": "Hitwoman" },
+    "requirement": "achievement_kill_100_monsters",
     "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
     "points": 5,
     "skills": [
@@ -5596,6 +5789,7 @@
     "type": "profession",
     "id": "assassin",
     "name": "Assassin",
+    "requirement": "achievement_kill_100_monsters",
     "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
     "points": 5,
     "skills": [
@@ -5717,6 +5911,32 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "officeworker",
+    "name": "Office Worker",
+    "description": "You felt years of your life being sapped away, slaving at your computer as you subsisted on a daily pot of coffee, microwave burritos and an endless supply of crumpled paper to toss.  Perhaps the Cataclysm is a refreshing change of pace…",
+    "points": 1,
+    "skills": [
+      { "level": 1, "name": "computer" },
+      { "level": 1, "name": "speech" },
+      { "level": 1, "name": "throw" },
+      { "level": 1, "name": "cooking" }
+    ],
+    "addictions": [ { "intensity": 10, "type": "caffeine" } ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "undershirt", "pants", "socks", "tie_clipon", "dress_shoes" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_penblack" },
+          { "item": "coffee", "container-item": "coffeepot" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "panties", "bra" ]
     }
   }
 ]

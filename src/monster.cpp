@@ -88,8 +88,6 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_emp( "emp" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -121,6 +119,8 @@ static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
 static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
+static const flag_id json_flag_GRAB( "GRAB" );
+static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
@@ -1095,7 +1095,15 @@ bool monster::has_flag( const m_flag f ) const
 
 bool monster::has_flag( const flag_id f ) const
 {
-    return has_effect_with_flag( f );
+    std::optional<m_flag>checked = io::string_to_enum_optional<m_flag>( f.c_str() );
+    add_msg_debug( debugmode::DF_MONSTER,
+                   "Monster %s checked for flag %s", name(),
+                   f.c_str() );
+    if( checked.has_value() ) {
+        return  has_flag( checked.value() );
+    } else {
+        return has_effect_with_flag( f );
+    }
 }
 
 bool monster::can_see() const
@@ -1732,7 +1740,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
         return false;
     }
 
-    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    const int monster_hit_roll = melee::melee_hit_range( accuracy );
+    int hitspread = target.deal_melee_attack( this, monster_hit_roll );
     if( type->melee_dice == 0 ) {
         // We don't hit, so just return
         return true;
@@ -1766,21 +1775,23 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
-        bool target_dodging = target.dodge_roll() > 0.0;
+        bool monster_missed = monster_hit_roll < 0.0;
         // Miss
         if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_avatar() ) {
-                if( target_dodging ) {
-                    add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : _( "something" ) );
-                } else {
+                if( monster_missed ) {
                     add_msg( _( "%s misses you." ), u_see_me ? disp_name( false, true ) : _( "Something" ) );
+                } else {
+                    add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : _( "something" ) );
                 }
-            } else if( target.is_npc() && target_dodging ) {
-                add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name(), u_see_me ? name() : _( "something" ) );
-            } else {
-                add_msg( _( "%1$s misses %2$s!" ),
-                         u_see_me ? disp_name( false, true ) : _( "Something" ), target.disp_name() );
+            } else if( target.is_npc() ) {
+                if( monster_missed ) {
+                    add_msg( _( "%1$s misses %2$s!" ),
+                             u_see_me ? disp_name( false, true ) : _( "Something" ), target.disp_name() );
+                } else {
+                    add_msg( _( "%1$s dodges %2$s attack." ),
+                             target.disp_name(), u_see_me ? name() : _( "something" ) );
+                }
             }
         } else if( target.is_avatar() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
@@ -2089,8 +2100,6 @@ bool monster::move_effects( bool )
     if( has_effect( effect_lightsnare ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 12 ) ) {
             remove_effect( effect_lightsnare );
-            here.spawn_item( pos(), "string_36" );
-            here.spawn_item( pos(), "snare_trigger" );
             if( u_see_me ) {
                 add_msg( _( "The %s escapes the light snare!" ), name() );
             }
@@ -2146,15 +2155,21 @@ bool monster::move_effects( bool )
             remove_effect( effect_in_pit );
         }
     }
-    if( has_effect( effect_grabbed ) ) {
-        if( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ||
-            !one_in( 4 ) ) {
-            return false;
-        } else {
-            if( u_see_me ) {
-                add_msg( _( "The %s breaks free from the grab!" ), name() );
+    if( has_effect_with_flag( json_flag_GRAB ) ) {
+        // Pretty hacky, but monsters have no stats
+        for( const effect &grab : get_effects_with_flag( json_flag_GRAB ) ) {
+            int monster = type->melee_skill + type->melee_damage.total_damage();
+            int grabber = get_effect_int( grab.get_id() );
+            add_msg_debug( debugmode::DF_MONSTER, "%s attempting to break grab %s, success %d in intensity %d",
+                           get_name(), grab.get_id().c_str(), monster, grabber );
+            if( !x_in_y( monster, grabber ) ) {
+                return false;
+            } else {
+                if( u_see_me ) {
+                    add_msg( _( "The %s breaks free from the grab!" ), name() );
+                }
+                remove_effect( grab.get_id() );
             }
-            remove_effect( effect_grabbed );
         }
     }
     return true;
@@ -2428,11 +2443,21 @@ void monster::process_turn()
     }
     creature_tracker &creatures = get_creature_tracker();
     // Persist grabs as long as there's an adjacent target.
-    if( has_effect( effect_grabbing ) ) {
+    if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
+        bool remove = true;
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const Character *const you = creatures.creature_at<Character>( dest );
-            if( you && you->has_effect( effect_grabbed ) ) {
-                add_effect( effect_grabbing, 2_turns );
+            const Creature *const you = creatures.creature_at<Creature>( dest );
+            if( you && you->has_effect_with_flag( json_flag_GRAB ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Grabbed creature %s found, persisting grab.",
+                               you->get_name() );
+                remove = false;
+            }
+        }
+        if( remove ) {
+            for( const effect &eff : get_effects_with_flag( json_flag_GRAB_FILTER ) ) {
+                const efftype_id effid = eff.get_id();
+                remove_effect( effid );
+                add_msg_debug( debugmode::DF_MATTACK, "Grab filter effect %s removed.", effid.c_str() );
             }
         }
     }
@@ -2456,7 +2481,7 @@ void monster::process_turn()
                 if( zap != pos() ) {
                     explosion_handler::emp_blast( zap ); // Fries electronics due to the intensity of the field
                 }
-                const auto t = here.ter( zap );
+                const ter_id t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
                         explosion_handler::explosion( this, pos(), 40, 0.8, true );
@@ -2523,17 +2548,19 @@ void monster::die( Creature *nkiller )
     }
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    if( has_effect( effect_grabbing ) ) {
-        remove_effect( effect_grabbing );
+    if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
+        // Need to filter out which limb we were grabbing before death
         for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
-            Character *you = creatures.creature_at<Character>( player_pos );
-            if( !you || !you->has_effect( effect_grabbed ) ) {
+            Creature *you = creatures.creature_at( player_pos );
+            if( !you || !you->has_effect_with_flag( json_flag_GRAB ) ) {
                 continue;
             }
+            // ...but if there are no grabbers around we can just skip to the end
             bool grabbed = false;
             for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
                 const monster *const mon = creatures.creature_at<monster>( mon_pos );
-                if( mon && mon->has_effect( effect_grabbing ) ) {
+                // No persisting our grabs from beyond the grave, but we also don't get to remove the effect early
+                if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon != this ) {
                     grabbed = true;
                     break;
                 }
@@ -2541,7 +2568,18 @@ void monster::die( Creature *nkiller )
             if( !grabbed ) {
                 you->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
                                             _( "The last enemy holding <npcname> collapses!" ) );
-                you->remove_effect( effect_grabbed );
+                // A loop for safety
+                for( const effect &grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
+                    you->remove_effect( grab.get_id() );
+                }
+                continue;
+            }
+            // Iterate through all your grabs to figure out which one this critter held
+            for( const effect &grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
+                if( has_effect( grab.get_bp()->grabbing_effect ) ) {
+                    const effect_type effid = *grab.get_effect_type();
+                    you->remove_effect( effid.id, grab.get_bp() );
+                }
             }
         }
     }
@@ -2563,9 +2601,8 @@ void monster::die( Creature *nkiller )
     }
     mission::on_creature_death( *this );
 
-    // Also, perform our death function
-    if( is_hallucination() || lifespan_end ) {
-        //Hallucinations always just disappear
+    // Hallucinations always just disappear
+    if( is_hallucination() ) {
         mdeath::disappear( *this );
         return;
     }
@@ -2617,15 +2654,12 @@ void monster::die( Creature *nkiller )
         move_special_item_to_inv( storage_item );
         move_special_item_to_inv( tied_item );
 
-        if( has_effect( effect_lightsnare ) ) {
-            add_item( item( "string_36", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
         if( has_effect( effect_heavysnare ) ) {
             add_item( item( "rope_6", calendar::turn_zero ) );
             add_item( item( "snare_trigger", calendar::turn_zero ) );
         }
     }
+
 
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse.get_item() );

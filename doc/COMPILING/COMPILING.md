@@ -657,8 +657,8 @@ If building with tiles also install:
 Compiling:
 
 ```bash
-gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 # ncurses build
-gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 TILES=1 # tiles build
+gmake RELEASE=1 BSD=1 CLANG=1 TESTS=0 # ncurses build
+gmake RELEASE=1 BSD=1 CLANG=1 TESTS=0 TILES=1 # tiles build
 ```
 
 You may get an out of memory error when compiling with an underprivileged user,

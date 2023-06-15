@@ -460,7 +460,7 @@ class overmapbuffer
          * Spawn monsters from the overmap onto the main map (game::m).
          * p is an absolute *submap* coordinate.
          */
-        void spawn_monster( const tripoint_abs_sm &p );
+        void spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal = false );
         /**
          * Despawn the monster back onto the overmap. The monsters position
          * (monster::pos()) is interpreted as relative to the main map.

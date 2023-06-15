@@ -199,8 +199,8 @@
       "place_loot": [
         { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },
         {
-          "item": "m4_carbine",
-          "variant": "m4a1",
+          "item": "modular_m4_carbine",
+          "variant": "modular_m4a1",
           "x": 12,
           "y": [ 9, 11 ],
           "magazine": 100,
@@ -299,5 +299,11 @@
       "ter_furn_transforms": { "r": { "transform": "mapgen_test" } },
       "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ]
     }
+  },
+  {
+    "id": "mx_crater",
+    "type": "map_extra",
+    "copy-from": "mx_crater",
+    "generator": {  }
   }
 ]

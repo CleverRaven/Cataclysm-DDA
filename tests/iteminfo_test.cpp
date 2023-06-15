@@ -707,18 +707,18 @@ TEST_CASE( "techniques when wielded", "[iteminfo][weapon][techniques]" )
            "--\n"
            "<color_c_white>Techniques when wielded</color>:"
            " <color_c_light_blue>Brutal Strike</color>:"
-           " <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color>,"
+           " <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color> <color_c_cyan>* Only works on a <color_c_cyan>non-stunned mundane</color> target of <color_c_cyan>similar or smaller</color> size, may fail on enemies grabbing you</color>,"
            " <color_c_light_blue>Sweep Attack</color>:"
-           " <color_c_cyan>Down 2 turns</color>, and"
+           " <color_c_cyan>Down 2 turns</color> <color_c_cyan>* Only works on a <color_c_cyan>non-downed humanoid</color> target of <color_c_cyan>similar or smaller</color> size incapable of flight</color>, and"
            " <color_c_light_blue>Block</color>:"
-           " <color_c_cyan>Medium blocking ability</color>\n" );
+           " <color_c_cyan>Medium blocking ability</color> <color_c_cyan></color>\n" );
 
     item plank( "test_2x4" );
     CHECK( item_info_str( plank, { iteminfo_parts::DESCRIPTION_TECHNIQUES } ) ==
            "--\n"
            "<color_c_white>Techniques when wielded</color>:"
            " <color_c_light_blue>Block</color>:"
-           " <color_c_cyan>Medium blocking ability</color>\n" );
+           " <color_c_cyan>Medium blocking ability</color> <color_c_cyan></color>\n" );
 }
 
 static std::vector<bodypart_id> bodyparts_to_check()
@@ -1651,8 +1651,6 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
         CHECK( item_info_str( compbow, { iteminfo_parts::DESCRIPTION_GUN_MODS } ) ==
                "--\n"
                "<color_c_white>Mods</color>:\n"
-               "<color_cyan># </color>accessories:\n"
-               "    <color_dark_gray>[-empty-]</color> <color_dark_gray>[-empty-]</color>\n"
                "<color_cyan># </color>dampening:\n"
                "    <color_dark_gray>[-empty-]</color>\n"
                "<color_cyan># </color>sights:\n"

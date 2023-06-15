@@ -373,7 +373,7 @@
     "range": 14,
     "dispersion": 850,
     "durability": 6,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
     "extend": { "flags": [ "USE_UPS" ] },
     "melee_damage": { "bash": 12 }
@@ -406,7 +406,6 @@
     "clip_size": 1,
     "reload": 900,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -431,7 +430,16 @@
     "price": 3500,
     "price_postapoc": 500,
     "material": [ "nanotubes" ],
-    "flags": [ "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USE_UPS" ],
+    "flags": [
+      "REACH_ATTACK",
+      "REACH3",
+      "NONCONDUCTIVE",
+      "BIONIC_WEAPON",
+      "BIONIC_WEAPON_MELEE",
+      "UNBREAKABLE_MELEE",
+      "TRADER_AVOID",
+      "USE_UPS"
+    ],
     "techniques": [ "WBLOCK_1", "WIDE", "SPIN", "RAPID" ],
     "to_hit": { "grip": "bad", "length": "long", "surface": "every", "balance": "clumsy" },
     "weapon_category": [ "BIONIC_WEAPONRY" ],

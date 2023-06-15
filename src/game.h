@@ -570,7 +570,7 @@ class game
         void water_affect_items( Character &ch ) const;
 
         /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const units::angle &dir, float flvel,
+        bool fling_creature( Creature *c, const units::angle &dir, float flvel,
                              bool controlled = false );
 
         float natural_light_level( int zlev ) const;
@@ -671,6 +671,7 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap() const;
+        void toggle_language_to_en();
         bool is_tileset_isometric() const;
         void reload_tileset();
         void temp_exit_fullscreen();
@@ -949,6 +950,8 @@ class game
          * point to a different monster after calling this (or to no monster at all).
          */
         void despawn_monster( monster &critter );
+        // Despawn all monsters not in the reality bubble
+        void despawn_nonlocal_monsters();
     private:
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items

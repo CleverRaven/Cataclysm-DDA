@@ -278,7 +278,7 @@
     "charges": 4,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "bad_food", 6 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ]
   },
   {
     "type": "COMESTIBLE",

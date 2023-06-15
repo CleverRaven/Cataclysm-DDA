@@ -21,7 +21,6 @@
     "min_cycle_recoil": 16875,
     "reload": 400,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "sights", 1 ],

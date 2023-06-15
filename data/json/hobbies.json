@@ -69,11 +69,20 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "caffiend",
+    "name": "Caffeine Fiend",
+    "description": "Caffeine gave you life and without it you are nothing.  Your dependence upon it was so extreme that you can barely function in its absence and you've done lasting psychological harm to yourself.  You'd better find a steady supply, and fast.",
+    "points": -1,
+    "traits": [ "STIMBOOST", "SLEEPY" ],
+    "addictions": [ { "intensity": 50, "type": "caffeine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "caffeine_junkie",
     "name": "Caffeine Dependence",
     "description": "Coffee was your faithful companion every morning, and without it you feel like a zombie.  Thanks to all the actual zombies shambling about, getting your caffeine fix will be much harder now.",
     "points": -1,
-    "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ]
   },
   {
@@ -261,6 +270,16 @@
     "description": "You enjoyed cooking for yourself and others.  The grocery stores are closed for good, so you might need to start getting creative with your recipes.",
     "points": 2,
     "proficiencies": [ "prof_baking", "prof_baking_bread", "prof_baking_desserts_1", "prof_food_prep", "prof_knife_skills" ],
+    "skills": [ { "level": 3, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cheesemaking",
+    "name": "Cheesemaking",
+    "description": "The art of producing the finest quality cheeses has been passed down through your family for generations.  How useful these skills will be in the apocalypse remains to *brie* seen.",
+    "points": 2,
+    "proficiencies": [ "prof_food_prep", "prof_cheesemaking_1", "prof_cheesemaking_2" ],
     "skills": [ { "level": 3, "name": "cooking" } ]
   },
   {
@@ -616,6 +635,16 @@
     "description": "With enough time and materials, you could make a boat from scratch.  These undead can't swim, right?",
     "skills": [ { "level": 3, "name": "fabrication" } ],
     "proficiencies": [ "prof_carving", "prof_carpentry_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "home_improvement",
+    "name": "Home Improvement",
+    "points": 2,
+    "description": "You'd fix up any holes and appliances in your own home with nothing but your two hands and some elbow grease.  You did it to save money on repairmen, but now it seems you'll do it to save your life.",
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "mechanics" }, { "level": 1, "name": "electronics" } ],
+    "proficiencies": [ "prof_carpentry_basic", "prof_appliance_repair" ]
   },
   {
     "type": "profession",

@@ -26,7 +26,6 @@
     "built_in_mods": [ "combination_gun_shotgun" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "conversion", 1 ],

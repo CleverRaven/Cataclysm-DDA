@@ -105,7 +105,7 @@
     "durability": 10,
     "loudness": 8,
     "reload": 500,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "ammo_to_fire": 0,
@@ -137,16 +137,7 @@
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "ammo_to_fire": 0,
     "energy_drain": "10 kJ",
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "default_mods": [ "red_dot_sight" ],
     "pocket_data": [
       {
@@ -178,16 +169,7 @@
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "energy_drain": "30 kJ",
     "built_in_mods": [ "afs_holo_aim_assist" ],
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -224,7 +206,7 @@
     "clip_size": 1,
     "reload": 300,
     "loudness": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_82mm_flashbulb": 1 } } ],
     "melee_damage": { "bash": 8 }
   },
@@ -244,7 +226,7 @@
     "extend": { "ammo_effects": [ "TACTICAL_LASER_EXPLOSION" ] },
     "ammo_to_fire": 0,
     "energy_drain": "50 kJ",
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "default_mods": [ "red_dot_sight" ],
     "pocket_data": [
       {
@@ -271,16 +253,7 @@
     "ammo_to_fire": 0,
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "energy_drain": "5 kJ",
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

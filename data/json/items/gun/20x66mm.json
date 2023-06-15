@@ -25,7 +25,6 @@
     "clip_size": 5,
     "barrel_volume": "750 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -62,7 +61,6 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 2 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -101,7 +99,6 @@
     "durability": 9,
     "default_mods": [ "pistol_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],

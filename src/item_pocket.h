@@ -44,6 +44,7 @@ class item_pocket
             CORPSE, // the "corpse" pocket - bionics embedded in a corpse
             SOFTWARE, // software put into usb or some such
             EBOOK, // holds electronic books for a device or usb
+            CABLE, // pocket for storing power/data cables and handling their connections
             MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
             LAST
         };
@@ -291,7 +292,7 @@ class item_pocket
         std::optional<item> remove_item( const item &it );
         std::optional<item> remove_item( const item_location &it );
         // spills any contents that can't fit into the pocket, largest items first
-        void overflow( const tripoint &pos );
+        void overflow( const tripoint &pos, const item_location &loc );
         bool spill_contents( const tripoint &pos );
         void on_pickup( Character &guy, item *avoid = nullptr );
         void on_contents_changed();

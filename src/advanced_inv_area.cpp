@@ -109,6 +109,7 @@ void advanced_inv_area::init()
             }
             break;
         case AIM_CONTAINER:
+        case AIM_CONTAINER2:
             // set container position based on location
             set_container_position();
             // location always valid, actual check is done in canputitems()
@@ -206,7 +207,8 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     // e.g. dragged vehicle (to the south) and AIM_SOUTH are the same.
     if( id != AIM_INVENTORY && other.id != AIM_INVENTORY &&
         id != AIM_WORN && other.id != AIM_WORN &&
-        id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
+        ( id != AIM_CONTAINER && other.id != AIM_CONTAINER ) &&
+        ( id != AIM_CONTAINER2 && other.id != AIM_CONTAINER2 ) ) {
         //     have a vehicle?...     ...do the cargo index and pos match?...    ...at least pos?
         return veh == other.veh ? pos == other.pos && vstor == other.vstor : pos == other.pos;
     }
@@ -218,7 +220,8 @@ bool advanced_inv_area::canputitems( const item_location &container ) const
 {
     bool canputitems = false;
     switch( id ) {
-        case AIM_CONTAINER: {
+        case AIM_CONTAINER:
+        case AIM_CONTAINER2: {
             if( container ) {
                 if( container.get_item()->is_container() ) {
                     canputitems = true;
@@ -312,7 +315,7 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
     std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
     for( item &elem : items ) {
-        const auto id = elem.typeId();
+        const itype_id id = elem.typeId();
         auto iter = cache.find( id );
         bool got_stacked = false;
         // cache entry exists

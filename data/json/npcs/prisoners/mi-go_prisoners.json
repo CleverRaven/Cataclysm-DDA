@@ -16,12 +16,7 @@
     "name": { "str": "Prisoner" },
     "common": false,
     "job_description": "I'm just trying to survive.",
-    "traits": [
-      { "group": "BG_survival_story_EVACUEE" },
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
-      { "trait": "GETS_RANDOM_MISSION" }
-    ],
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 3 ] }, { "constant": -5 } ] } } ],
     "worn_override": "naked_prisoner",
     "carry_override": "naked_prisoner",

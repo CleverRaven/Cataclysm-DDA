@@ -25,6 +25,24 @@
   },
   {
     "type": "ammunition_type",
+    "id": "50beowulf",
+    "name": "12.7x42mm",
+    "default": "50beowulf_xtp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "450",
+    "name": ".450 Bushmaster",
+    "default": "450_ftx"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "338lapua",
+    "name": ".338 Lapua",
+    "default": "338lapua_hpbt"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"
@@ -58,6 +76,12 @@
     "id": "arrow",
     "name": "arrows",
     "default": "arrow_wood"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "strange_arrow",
+    "name": "strange arrows",
+    "default": "arrow_meteor"
   },
   {
     "type": "ammunition_type",
@@ -688,6 +712,12 @@
     "id": "extinguishing_agent",
     "name": "extinguishing agent",
     "default": "extinguishing_agent"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "teargas_spray",
+    "name": "tear gas spray",
+    "default": "teargas_spray"
   },
   {
     "id": "tinder",
