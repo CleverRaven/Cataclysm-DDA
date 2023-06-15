@@ -1363,7 +1363,7 @@
     "name": { "str_sp": "elastic potential energy" },
     "symbol": "=",
     "color": "yellow",
-    "description": "Some free-floating elastic potential energy. ",
+    "description": "Some free-floating elastic potential energy.",
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "material": [ "battery" ],
     "effects": [ "COOKOFF" ],

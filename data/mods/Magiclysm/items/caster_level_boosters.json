@@ -78,7 +78,7 @@
     "looks_like": "alarmclock",
     "type": "TOOL",
     "name": { "str": "magus's clockwork contraption" },
-    "description": "This intricate contraption consists of fine gears, screw drivers, belts, pulleys, springs and other clockwork parts moving in a mesmerizing dance.  The gearwork is contained in a casing of magically treated glass and gives off a soft ticking noise. An elegantly drawn magus rune in the center is being spun and rotated in a neverending complex dance of arcane energy.  The wind-up key extending from the casing slowly spins back into its original position.  You feel empowered, as your caster level of magus spells is boosted by 2.",
+    "description": "This intricate contraption consists of fine gears, screw drivers, belts, pulleys, springs and other clockwork parts moving in a mesmerizing dance.  The gearwork is contained in a casing of magically treated glass and gives off a soft ticking noise.  An elegantly drawn magus rune in the center is being spun and rotated in a neverending complex dance of arcane energy.  The wind-up key extending from the casing slowly spins back into its original position.  You feel empowered, as your caster level of magus spells is boosted by 2.",
     "weight": "500 g",
     "volume": "250 ml",
     "price": 200,
