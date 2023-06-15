@@ -94,7 +94,7 @@ std::optional<int> clear_rubble( Character *, item *, bool, const tripoint & );
 std::optional<int> coin_flip( Character *, item *, bool, const tripoint & );
 std::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & );
 std::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
-std::optional<int> combatsaw_deactivate( Character *, item *, bool, const tripoint & );
+std::optional<int> toolweapon_deactivate( Character *, item *, bool, const tripoint & );
 std::optional<int> contacts( Character *, item *, bool, const tripoint & );
 std::optional<int> crowbar( Character *, item *, bool, const tripoint & );
 std::optional<int> crowbar_weak( Character *, item *, bool, const tripoint & );

@@ -3138,19 +3138,6 @@ std::optional<int> iuse::trimmer_off( Character *p, item *it, bool, const tripoi
                            _( "You yank the cord, but nothing happens." ) );
 }
 
-static int toolweapon_deactivate( Character &p, item &it, const tripoint &pos,
-                                  const bool works_underwater )
-{
-    if( it.typeId() == itype_chainsaw_on ) {
-        sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( pos ) );
-        sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
-        sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
-    }
-    p.add_msg_if_player( _( "Your %s goes quiet." ), it.tname() );
-    it.convert( *it.type->tool->revert_to ).active = false;
-    return 0; // Don't consume charges when turning off.
-}
-
 static int toolweapon_running( Character &p, item &it, const tripoint &pos,
                                const bool works_underwater, const int sound_chance, const int volume,  const std::string &sound,
                                const bool double_charge_cost = false )
@@ -3206,9 +3193,16 @@ std::optional<int> iuse::combatsaw_on( Character *p, item *it, bool, const tripo
     return toolweapon_running( *p, *it, pos, false, 12, 18, _( "Your combat chainsaw growls." ) );
 }
 
-std::optional<int> iuse::combatsaw_deactivate( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_deactivate( *p, *it, pos, false );
+    if( it->typeId() == itype_chainsaw_on ) {
+        sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( pos ) );
+        sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
+        sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
+    }
+    p->add_msg_if_player( _( "Your %s goes quiet." ), it->tname() );
+    it->convert( *it->type->tool->revert_to ).active = false;
+    return 0; // Don't consume charges when turning off.
 }
 
 std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, bool t, const tripoint & )

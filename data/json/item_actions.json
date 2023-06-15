@@ -382,7 +382,7 @@
   },
   {
     "type": "item_action",
-    "id": "COMBATSAW_DEACTIVATE",
+    "id": "TOOLWEAPON_DEACTIVATE",
     "name": { "str": "Turn off" }
   },
   {
