@@ -1500,7 +1500,7 @@ void Character::mount_creature( monster &z )
         add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
     }
     if( is_avatar() ) {
-        if(player_avatar.is_hauling() ) {
+        if( player_avatar.is_hauling() ) {
             player_avatar.stop_hauling();
         }
         g->place_player( pnt );
