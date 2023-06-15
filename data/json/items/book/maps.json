@@ -55,6 +55,7 @@
         { "om_terrain": "bunker", "om_terrain_match_type": "TYPE" },
         "helipad_nw",
         { "om_terrain": "outpost", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "outpost_cross", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "silo", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "shelter", "om_terrain_match_type": "PREFIX" },
         "police",
@@ -98,6 +99,9 @@
       "radius": 90,
       "terrain": [
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "s_gas", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "s_gas_rural", "om_terrain_match_type": "TYPE" },
+        "roadstop",
         "bridge",
         "hospital",
         "school",
