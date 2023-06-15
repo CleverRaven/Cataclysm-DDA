@@ -286,6 +286,8 @@ TEST_CASE( "weary_recovery_mutations", "[weary][activities][mutations]" )
 
 TEST_CASE( "weary_recovery", "[weary][activities]" )
 {
+    calendar::turn = calendar::start_of_game;
+    clear_avatar();
     avatar &guy = get_avatar();
 
     tasklist soldier_8h;

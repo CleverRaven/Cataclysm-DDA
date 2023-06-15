@@ -553,7 +553,7 @@ Character::Character() :
 
     move_mode = move_mode_walk;
     next_expected_position = std::nullopt;
-    crafting_cache.time = calendar::before_time_starts;
+    invalidate_crafting_inventory();
 
     set_power_level( 0_kJ );
     cash = 0;

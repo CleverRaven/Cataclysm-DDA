@@ -2869,6 +2869,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    update_last_bionic_uid();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     calc_encumbrance();
@@ -2891,9 +2892,10 @@ bionic &Character::bionic_at_index( int i )
 
 void Character::clear_bionics()
 {
-    my_bionics->clear();
-    update_last_bionic_uid();
-    update_bionic_power_capacity();
+    set_max_power_level_modifier( 0_kJ );
+    while( !my_bionics->empty() ) {
+        remove_bionic( my_bionics->front() );
+    }
 }
 
 void reset_bionics()

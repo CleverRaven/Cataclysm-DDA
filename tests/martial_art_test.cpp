@@ -81,12 +81,12 @@ TEST_CASE( "Martial art required weapon categories", "[martial_arts]" )
 
 TEST_CASE( "Martial art technique conditionals", "[martial_arts]" )
 {
+    clear_map();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     const tripoint target_1_pos = dude_pos + tripoint_east;
     const tripoint target_2_pos = dude_pos + tripoint_north;
     const tripoint target_3_pos = dude_pos + tripoint_west;
     clear_character( dude, true );
-    clear_creatures();
     dude.martial_arts_data->add_martialart( test_style_ma1 );
     dude.martial_arts_data->set_style( test_style_ma1, false );
     REQUIRE( dude.get_size() == 3 );
