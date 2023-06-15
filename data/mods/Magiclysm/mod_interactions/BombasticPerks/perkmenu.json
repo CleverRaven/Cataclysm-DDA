@@ -39,7 +39,7 @@
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_DRUID"
       },
       {
-        "condition": { "and":  [ { "not": { "u_has_trait": "perk_caster_level_up_biomancer" } }, { "u_has_trait": "BIOMANCER" } ] },
+        "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_biomancer" } }, { "u_has_trait": "BIOMANCER" } ] },
         "text": "Gain [<trait_name:[perk_caster_level_up_biomancer]>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_BIOMANCER"
       }
