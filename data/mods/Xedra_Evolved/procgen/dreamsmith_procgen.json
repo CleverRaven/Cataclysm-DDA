@@ -64,14 +64,6 @@
       {
         "weight": 100,
         "min_value": 1,
-        "max_value": 15,
-        "type": "MELEE_DAMAGE",
-        "increment": 1,
-        "power_per_increment": 200
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
         "max_value": 10,
         "type": "ITEM_DAMAGE_ACID",
         "increment": 1,
