@@ -4,7 +4,10 @@
     "looks_like": "fire_drill",
     "//": "cheap and reusable, but doesn't last very long",
     "type": "TOOL",
-    "name": { "str": "magus's elastic potential energy contraption (off)", "str_pl": "magus's elastic potential energy contraptions (off)" },
+    "name": {
+      "str": "magus's elastic potential energy contraption (off)",
+      "str_pl": "magus's elastic potential energy contraptions (off)"
+    },
     "description": "This elaborate contraption of wooden sticks under tension and tightly wound strings has a pebble with a magus rune on in its center.  Once activated, this device will transform the stored elastic potential energy into arcane energy, boosting your caster level of magus spells by 1 for as long as the stored energy lasts.",
     "weight": "250 g",
     "volume": "250 ml",
