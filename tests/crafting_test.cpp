@@ -379,14 +379,14 @@ static void give_tools( const std::vector<item> &tools )
     std::vector<item> boil;
     for( const item &gear : tools ) {
         if( gear.get_quality( qual_BOIL, false ) == 0 ) {
-            player_character.i_add( gear );
+            REQUIRE( player_character.i_add( gear ) );
         } else {
             boil.emplace_back( gear );
         }
     }
     // add BOIL tools later so that they don't contain anything
     for( const item &gear : boil ) {
-        player_character.i_add( gear );
+        REQUIRE( player_character.i_add( gear ) );
     }
 }
 
@@ -436,11 +436,16 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     player_character.moves--;
     const inventory &crafting_inv = player_character.crafting_inventory();
 
-    bool can_craft_with_crafting_inv = r.deduped_requirements().can_make_with_inventory(
-                                           crafting_inv, r.get_component_filter() );
+    bool can_craft_with_crafting_inv = r.deduped_requirements()
+                                       .can_make_with_inventory( crafting_inv, r.get_component_filter() );
+    const std::string missing_alt_reqs = enumerate_as_string( r.deduped_requirements().alternatives(),
+    []( const requirement_data & rd ) {
+        return string_format( "req id: '%s' missing: %s", rd.id().str(), rd.list_missing() );
+    } );
+    CAPTURE( missing_alt_reqs );
     REQUIRE( can_craft_with_crafting_inv == expect_craftable );
-    bool can_craft_with_temp_inv = r.deduped_requirements().can_make_with_inventory(
-                                       temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
+    bool can_craft_with_temp_inv = r.deduped_requirements()
+                                   .can_make_with_inventory( temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
     REQUIRE( can_craft_with_temp_inv == expect_craftable );
 }
 
@@ -2138,7 +2143,8 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
-        tools.insert( tools.end(), 1, water_clean );
+        item &bottle = tools.emplace_back( "bottle_plastic" ); // water container
+        bottle.get_contents().insert_item( item( itype_water_clean ), item_pocket::pocket_type::CONTAINER );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );
@@ -2164,7 +2170,8 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
-        tools.insert( tools.end(), 1, water_clean );
+        item &bottle = tools.emplace_back( "bottle_plastic" ); // water container
+        bottle.get_contents().insert_item( item( itype_water_clean ), item_pocket::pocket_type::CONTAINER );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );
