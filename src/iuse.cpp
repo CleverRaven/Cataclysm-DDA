@@ -3155,11 +3155,6 @@ static int toolweapon_running( Character &p, item &it, const tripoint &pos,
     return 0; // Ammo consumption handled elsewhere
 }
 
-std::optional<int> iuse::combatsaw_on( Character *p, item *it, bool, const tripoint &pos )
-{
-    return toolweapon_running( *p, *it, pos, false, 12, 18, _( "Your combat chainsaw growls." ) );
-}
-
 std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, bool, const tripoint &pos )
 {
     if( it->typeId() == itype_chainsaw_on ) {
@@ -3172,32 +3167,37 @@ std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, bool, co
     return 0; // Don't consume charges when turning off.
 }
 
-std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::combatsaw_on( Character *p, item *it, bool, const tripoint &pos )
+{
+    return toolweapon_running( *p, *it, pos, false, 12, 18, _( "Your combat chainsaw growls." ) );
+}
+
+std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
     return toolweapon_running( *p, *it, pos, false, 12, 18, _( "Your electric combat chainsaw growls." ) );
 }
 
-std::optional<int> iuse::chainsaw_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::chainsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
     return toolweapon_running( *p, *it, pos, false, 15, 12, _( "Your chainsaw rumbles." ) );
 }
 
-std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
     return toolweapon_running( *p, *it, pos, false, 5, 12, _( "Your electric chainsaw rumbles." ) );
 }
 
-std::optional<int> iuse::carver_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::carver_on( Character *p, item *it, bool, const tripoint &pos )
 {
     return toolweapon_running( *p, *it, pos, true, 10, 8, _( "Your electric carver buzzes." ) );
 }
 
-std::optional<int> iuse::trimmer_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::trimmer_on( Character *p, item *it, bool, const tripoint &pos )
 {
     return toolweapon_running( *p, *it, pos, true,15, 10, _( "Your hedge trimmer rumbles." ) );
 }
 
-std::optional<int> iuse::circsaw_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::circsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
     return toolweapon_running( *p, *it, pos,  true, 15, 7, _( "Your circular saw buzzes." ) );
 }
