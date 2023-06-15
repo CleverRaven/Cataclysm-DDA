@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Fissure_Corp",
+    "name": "Fissure Corp",
+    "authors": [ "BombasticSlacks" ],
+    "maintainers": [ "BombasticSlacks" ],
+    "description": "An overhaul mod where you explore and scavenge a tainted world to appease your supervisor.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]
