@@ -4097,7 +4097,11 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
 
 void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::string_view member )
 {
-    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
+    std::vector<str_or_var> eocs;
+    for( const JsonValue &jv : jo.get_array( member ) ) {
+        eocs.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+    }
+
     if( eocs.empty() ) {
         jo.throw_error( "Invalid input for run_eocs" );
     }
@@ -4106,6 +4110,13 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
     if( jo.has_array( "names" ) ) {
         for( const JsonValue &jv : jo.get_array( "names" ) ) {
             eoc_names.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+        }
+    }
+
+    std::vector<str_or_var> eoc_descriptions;
+    if( jo.has_array( "descriptions" ) ) {
+        for( const JsonValue &jv : jo.get_array( "descriptions" ) ) {
+            eoc_descriptions.push_back( get_str_or_var( jv, jv.get_string(), true ) );
         }
     }
 
@@ -4125,6 +4136,10 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
         jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and names needs to be identical, or names need to be empty" );
     }
 
+    if( !eoc_descriptions.empty() && eoc_descriptions.size() != eocs.size() ) {
+        jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and descriptions needs to be identical, or descriptions need to be empty" );
+    }
+
     if( !eoc_keys.empty() && eoc_keys.size() != eocs.size() ) {
         jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
     }
@@ -4138,30 +4153,64 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
         }
     }
 
+    bool hide_failing = false;
+    if( jo.has_bool( "hide_failing" ) ) {
+        hide_failing = jo.get_bool( "hide_failing" );
+    }
+
     std::string title = jo.get_string( "title", _( "Select an option." ) );
 
-    function = [eocs, context, title, eoc_names, eoc_keys]( dialogue const & d ) {
+    function = [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
+          hide_failing]( dialogue & d ) {
         uilist eoc_list;
 
         eoc_list.text = title;
         eoc_list.allow_cancel = false;
+        eoc_list.desc_enabled = !eoc_descriptions.empty();
 
-        for( int i = 0; i < eocs.size(); i++ ) {
-            if( eoc_keys.empty() ) {
-                eoc_list.entries.emplace_back( i, true, std::nullopt,
-                                               ( eoc_names.empty() ? eocs[i].str() : eoc_names[i].evaluate( d ) ) );
+        for( size_t i = 0; i < eocs.size(); i++ ) {
+            effect_on_condition_id eoc_id = effect_on_condition_id( eocs[i].evaluate( d ) );
+
+            // check and set condition
+            bool display = false;
+            if( eoc_id->has_condition ) {
+                // if it has a condition check that it is true
+                display = eoc_id->test_condition( d );
             } else {
-                eoc_list.entries.emplace_back( i, true, eoc_keys[i],
-                                               ( eoc_names.empty() ? eocs[i].str() : eoc_names[i].evaluate( d ) ) );
+                display = true;
+            }
+
+            if( hide_failing && !display ) {
+                // skip hidden entries
+                continue;
+            }
+
+            std::string description = "";
+            if( !eoc_descriptions.empty() ) {
+                description = eoc_descriptions[i].evaluate( d );
+            }
+
+            if( eoc_keys.empty() ) {
+                eoc_list.entries.emplace_back( i, display, std::nullopt,
+                                               ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
+            } else {
+                eoc_list.entries.emplace_back( i, display, eoc_keys[i],
+                                               ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
             }
         }
         dialogue newDialog( d );
         for( const auto &val : context ) {
             newDialog.set_value( val.first, val.second.evaluate( d ) );
         }
+        if( eoc_list.entries.empty() ) {
+            // if we have no entries should exit with error
+            debugmsg( "No options for EOC_LIST" );
+            return;
+        }
+
         eoc_list.query();
 
-        eocs[eoc_list.ret]->activate( newDialog );
+        effect_on_condition_id( eocs[eoc_list.ret].evaluate( d ) )->activate( newDialog );
     };
 }
 
