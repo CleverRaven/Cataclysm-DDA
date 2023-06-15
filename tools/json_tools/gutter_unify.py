@@ -4,8 +4,12 @@
 
 Unifies "2", "3", "|" old gutters into "-" on maps using the roof_palette
 which don't define their own terrain definition for said characters.
-Prints the names of maps using palettes alongside roof_palette for manual correcting.
-Can be run in /json and /mods
+
+Prints the names of maps that use other palettes
+alongside roof_palette to be corrected manually.
+
+Can be run in /json and /mods, to run on specific maps
+just temporarily move them to their own folder.
 
 """
 import argparse
