@@ -4,7 +4,7 @@
 
 Unifies "2", "3", "|" old gutters into "-" on maps using the roof_palette
 which don't define their own terrain definition for said characters.
-Prints maps using palettes alongside roof_palette for manual correcting.
+Prints the names of maps using palettes alongside roof_palette for manual correcting.
 Can be run in /json and /mods
 
 """
