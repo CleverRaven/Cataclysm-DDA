@@ -162,28 +162,23 @@
   },
   {
     "type": "item_action",
-    "id": "CARVER_ON",
-    "name": { "str": "Turn off" }
+    "id": "CARVER_ON"
   },
   {
     "type": "item_action",
-    "id": "TRIMMER_ON",
-    "name": { "str": "Turn off" }
+    "id": "TRIMMER_ON"
   },
   {
     "type": "item_action",
-    "id": "CIRCSAW_ON",
-    "name": { "str": "Turn off" }
+    "id": "CIRCSAW_ON"
   },
   {
     "type": "item_action",
-    "id": "CHAINSAW_ON",
-    "name": { "str": "Turn off" }
+    "id": "CHAINSAW_ON"
   },
   {
     "type": "item_action",
-    "id": "ELEC_CHAINSAW_ON",
-    "name": { "str": "Turn off" }
+    "id": "ELEC_CHAINSAW_ON"
   },
   {
     "type": "item_action",
@@ -377,8 +372,7 @@
   },
   {
     "type": "item_action",
-    "id": "COMBATSAW_ON",
-    "name": { "str": "Turn off" }
+    "id": "COMBATSAW_ON"
   },
   {
     "type": "item_action",
@@ -387,12 +381,12 @@
   },
   {
     "type": "item_action",
-    "id": "E_COMBATSAW_OFF"
+    "id": "E_COMBATSAW_OFF",
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
-    "id": "E_COMBATSAW_ON",
-    "name": { "str": "Turn off" }
+    "id": "E_COMBATSAW_ON"
   },
   {
     "type": "item_action",
