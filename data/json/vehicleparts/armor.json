@@ -5,21 +5,21 @@
     "name": { "str": "rebar reinforcement" },
     "item": "rebar_plate",
     "location": "armor",
-    "symbol": "X",
-    "broken_symbol": "*",
     "categories": [ "warfare" ],
     "color": "dark_gray",
     "broken_color": "light_gray",
     "durability": 150,
     "folded_volume": "1 L",
+    "//": "4x80cm rebars arranged in a # or //// pattern. Half the surface area is welded (40 cm per rebar)",
     "breaks_into": [ { "item": "rebar", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 8 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 160 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "7 m", "using": [ [ "repair_welding_rebar", 1 ] ] }
     },
     "flags": [ "ARMOR" ],
-    "damage_reduction": { "all": 10, "cut": 45, "stab": 45 }
+    "damage_reduction": { "all": 10, "cut": 45, "stab": 45 },
+    "variants": [ { "symbols": "X", "symbols_broken": "*" } ]
   },
   {
     "id": "spring_plate",
@@ -27,21 +27,21 @@
     "name": { "str": "shock absorber" },
     "item": "spring_plate",
     "location": "armor",
-    "symbol": "X",
-    "broken_symbol": "*",
     "categories": [ "warfare" ],
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "durability": 340,
     "bonus": 50,
     "description": "A system of springs and pads, intended to cushion the effects of collisions on the interior of your vehicle.",
+    "//": "1x1m sq metal plate + 3 9cm springs ~= 400cm weld or so, 50 cm per damage quadrant to repair",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 5 ] }, { "item": "spring", "count": [ 0, 4 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "70 m", "using": [ [ "welding_standard", 400 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "flags": [ "SHOCK_ABSORBER" ],
-    "damage_reduction": { "all": 25 }
+    "damage_reduction": { "all": 25 },
+    "variants": [ { "symbols": "X", "symbols_broken": "*" } ]
   }
 ]

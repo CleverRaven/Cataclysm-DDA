@@ -33,6 +33,8 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_activate_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_deactivate_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_learn_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_forget_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_mutate( const JsonObject &jo, const std::string &member, bool is_npc = false );

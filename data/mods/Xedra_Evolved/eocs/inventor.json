@@ -52,7 +52,7 @@
       {
         "u_roll_remainder": [
           "helmet_inventor",
-          "inventor_electric_fist",
+          "inventor_fists",
           "wolf_mask",
           "magnetic_holster",
           "bio_launcher",
@@ -132,6 +132,7 @@
           "inventor_heavy_cell",
           "inventor_welder",
           "heater_tool",
+          "inventor_electric_fist",
           "inventor_research_energy_2"
         ],
         "type": "recipe",

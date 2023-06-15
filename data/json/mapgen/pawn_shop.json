@@ -111,10 +111,9 @@
         " |..................X.3 ",
         " |..........&=........3 ",
         " |-------------###----3 ",
-        "               #>#      "
+        "               #v#      "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down" },
       "place_items": [ { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 8, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -260,10 +259,9 @@
         " |...=............&...3 ",
         " |....................3 ",
         " |---------###--------- ",
-        "           #>#          "
+        "           #v#          "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down" },
       "place_items": [ { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 8, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -465,14 +463,13 @@
         "     |.............3    ",
         "     |.............3    ",
         "     |--###--------3    ",
-        "        #>#             ",
+        "        #v#             ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down" },
       "place_items": [ { "item": "roof_trash", "x": [ 6, 18 ], "y": [ 6, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {

@@ -205,6 +205,16 @@ vehicle::vehicle() : vehicle( get_map(), vproto_id() )
 
 vehicle::~vehicle() = default;
 
+turret_cpu::~turret_cpu() = default;
+
+turret_cpu &turret_cpu::operator=( const turret_cpu & )
+{
+    brain.reset();
+    return *this;
+}
+
+turret_cpu::turret_cpu( const turret_cpu & ) {}
+
 safe_reference<vehicle> vehicle::get_safe_reference()
 {
     return anchor.reference_to( this );
@@ -2540,6 +2550,17 @@ int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken ) c
     for( const int p : parts_at_relative( vp.mount, /* use_cache = */ true ) ) {
         const vehicle_part &vp_here = this->part( p );
         if( vp_here.info().has_flag( flag ) && !( unbroken && vp_here.is_broken() ) ) {
+            return p;
+        }
+    }
+    return -1;
+}
+
+int vehicle::part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const
+{
+    for( const int p : parts_at_relative( pt, /* use_cache = */ true ) ) {
+        const vehicle_part &vp_here = this->part( p );
+        if( vp_here.info().has_flag( f ) && !( unbroken && vp_here.is_broken() ) ) {
             return p;
         }
     }
@@ -7165,7 +7186,7 @@ time_duration vehicle::unfolding_time() const
 item vehicle::get_folded_item() const
 {
     item folded( "generic_folded_vehicle", calendar::turn );
-    const std::vector<vehicle_part> parts = real_parts();
+    const std::vector<std::reference_wrapper<const vehicle_part>> &parts = real_parts();
     try {
         std::ostringstream veh_data;
         JsonOut json( veh_data );
@@ -7211,15 +7232,8 @@ item vehicle::get_folded_item() const
 
 bool vehicle::restore_folded_parts( const item &it )
 {
-    const std::string data = it.get_var( "folded_parts" );
-    try {
-        JsonValue json = json_loader::from_string( data );
-        parts.clear();
-        json.read( parts );
-    } catch( const JsonError &e ) {
-        debugmsg( "Error restoring folded vehicle parts: %s", e.c_str() );
-        return false;
-    }
+    const JsonValue jv_parts = json_loader::from_string( it.get_var( "folded_parts" ) );
+    deserialize_parts( static_cast<JsonArray>( jv_parts ) );
 
     // item should have snapshot of average part damage in item var. take difference of current
     // item's damage and snapshotted damage, then randomly apply to parts in chunks to roughly match.
@@ -7705,14 +7719,14 @@ int vehicle::part_count_real_cached() const
     return static_cast<int>( parts.size() - fake_parts.size() );
 }
 
-std::vector<vehicle_part> vehicle::real_parts() const
+std::vector<std::reference_wrapper<const vehicle_part>> vehicle::real_parts() const
 {
-    std::vector<vehicle_part> ret;
+    std::vector<std::reference_wrapper<const vehicle_part>> ret;
     for( const vehicle_part &vp : parts ) {
         if( vp.removed || vp.is_fake ) {
             continue;
         }
-        ret.emplace_back( vp );
+        ret.emplace_back( std::ref( vp ) );
     }
     return ret;
 }

@@ -31,6 +31,47 @@
     ]
   },
   {
+    "id": "aura_futuresight",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "precognitive aura" },
+    "description": "A precognitive aura that allows you to dodge things you didn't see coming.",
+    "weight": "100 g",
+    "volume": "25 L",
+    "material": [ "dreamstuff" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 5,
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "mutations": [ "FUTURESIGHT" ],
+          "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
+        }
+      ]
+    },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
     "id": "rapier_dreamdross",
     "type": "TOOL",
     "name": { "str": "dreamdross rapier" },

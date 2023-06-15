@@ -1,7 +1,6 @@
 [
   {
     "id": "antarvasa",
-    "repairs_like": "pants",
     "type": "ARMOR",
     "name": { "str": "antarvasa" },
     "description": "A traditional, ankle-length Buddhist skirt.  The bottom protrudes, and appears in the rough shape of a triangle.",
@@ -37,7 +36,6 @@
   },
   {
     "id": "b_shorts",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "basketball shorts" },
     "description": "A pair of basketball shorts.  Comfortable and light.",
@@ -113,7 +111,6 @@
   },
   {
     "id": "cheerleader_skirt",
-    "repairs_like": "skirt",
     "type": "ARMOR",
     "name": { "str": "cheerleader skirt" },
     "description": "A breezy red cheerleader skirt.  Easy to move in, and of an acceptable length for most real cheerleading.",
@@ -135,7 +132,6 @@
   },
   {
     "id": "cheerleader_skirt_short",
-    "repairs_like": "skirt",
     "type": "ARMOR",
     "name": { "str": "short cheerleader skirt" },
     "description": "A very short and breezy red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to safely practice cheerleading in this.",
@@ -156,7 +152,6 @@
   },
   {
     "id": "fishing_waders",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of fishing waders", "str_pl": "pairs of fishing waders" },
     "description": "Waterproof plastic fishing waders with a single large front pocket.",
@@ -190,7 +185,6 @@
   },
   {
     "id": "flag_pants",
-    "repairs_like": "pants",
     "type": "ARMOR",
     "name": { "str_sp": "flag pants" },
     "description": "A pair of pants embroidered with an American flag pattern.",
@@ -352,7 +346,6 @@
   },
   {
     "id": "jeans_red",
-    "repairs_like": "pants_leather",
     "type": "ARMOR",
     "name": { "str_sp": "red jeans" },
     "description": "A pair of tight-fitting candy-apple-red jeans with two deep pockets.",
@@ -551,7 +544,6 @@
   },
   {
     "id": "nanoskirt",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "nanoskirt" },
     "description": "Apparently the microskirt wasn't short enough.",
@@ -569,7 +561,6 @@
   },
   {
     "id": "pants",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "pants" },
     "description": "A pair of khaki pants.  Slightly warmer than jeans.",
@@ -619,7 +610,6 @@
   },
   {
     "id": "pants_army",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "army pants" },
     "description": "A tough pair of pants lined with pockets.  Favored by the military.",
@@ -766,7 +756,6 @@
   },
   {
     "id": "pants_checkered",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "checkered pants" },
     "description": "In a pinch, these pants can be used for an impromptu game of checkers.",
@@ -876,7 +865,6 @@
   {
     "id": "trousers_ninja",
     "type": "ARMOR",
-    "repairs_like": "pants",
     "name": { "str_sp": "ninja trousers" },
     "description": "A pair of black trousers with calf and waistband ties.  Comfortable to use but lacks pockets.",
     "weight": "400 g",
@@ -930,7 +918,6 @@
   },
   {
     "id": "pants_ski",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "ski pants" },
     "description": "A pair of pants meant for alpine skiing.",
@@ -980,7 +967,6 @@
   },
   {
     "id": "police_breeches",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "police breeches" },
     "description": "A pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
@@ -1006,7 +992,6 @@
   },
   {
     "id": "postman_shorts",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "mail carrier shorts" },
     "description": "A pair of dark blue shorts, the kind used by postal service workers.",
@@ -1341,7 +1326,6 @@
   },
   {
     "id": "skirt",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "skirt" },
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
@@ -1385,7 +1369,6 @@
   },
   {
     "id": "skirt_leather",
-    "repairs_like": "pants_leather",
     "type": "ARMOR",
     "name": { "str": "leather skirt" },
     "description": "A very short leather skirt, clearly designed to look good, not be practical.",
@@ -1412,7 +1395,6 @@
   },
   {
     "id": "striped_pants",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "striped pants" },
     "description": "A pair of pants with horizontal black and white stripes.",
@@ -1462,7 +1444,6 @@
   },
   {
     "id": "technician_pants_gray",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "work pants", "str_pl": "pairs of work pants" },
     "description": "A pair of gray canvas work pants.",
@@ -1517,7 +1498,6 @@
   },
   {
     "id": "winter_pants_army",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "army winter pants" },
     "description": "A tough pair of pants lined with pockets, thickly padded for warmth.  Favored by the military.",
@@ -1599,7 +1579,6 @@
   },
   {
     "id": "pants_hiking",
-    "repairs_like": "pants",
     "type": "ARMOR",
     "name": { "str": "hiking pants", "str_pl": "pairs of hiking pants" },
     "description": "A water-resistant pair of lightweight, flexible hiking pants with a good number of pockets.",

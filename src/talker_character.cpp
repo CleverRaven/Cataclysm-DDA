@@ -246,6 +246,16 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
+void talker_character::activate_mutation( const trait_id &trait )
+{
+    me_chr->activate_mutation( trait );
+}
+
+void talker_character::deactivate_mutation( const trait_id &trait )
+{
+    me_chr->deactivate_mutation( trait );
+}
+
 bool talker_character_const::has_flag( const json_character_flag &trait_flag_to_check ) const
 {
     return me_chr_const->has_flag( trait_flag_to_check );

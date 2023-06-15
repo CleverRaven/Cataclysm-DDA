@@ -195,6 +195,8 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
+        void activate_mutation( const trait_id &trait ) override;
+        void deactivate_mutation( const trait_id &trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;
         void learn_recipe( const recipe_id &recipe_to_learn ) override;
         void forget_recipe( const recipe_id &recipe_to_forget ) override;

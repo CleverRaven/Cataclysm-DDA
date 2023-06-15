@@ -1,7 +1,6 @@
 [
   {
     "id": "xedra_jumpsuit",
-    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
