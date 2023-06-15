@@ -1497,7 +1497,7 @@ void Character::mount_creature( monster &z )
             item mechwep = item( z.type->mech_weapon );
             set_wielded_item( mechwep );
         }
-        add_msg_if_player(m_good, _("You hear your %s whir to life."), z.get_name());
+        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
     }
     if( is_avatar() ) {
         if(player_avatar.is_hauling() ) {
