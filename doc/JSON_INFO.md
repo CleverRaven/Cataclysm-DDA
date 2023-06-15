@@ -4166,6 +4166,11 @@ The contents of use_action fields can either be a string indicating a built-in f
     "description" :"This debugs the game", // usage description
     "effect_on_conditions" : ["test_cond"] // ids of the effect_on_conditions to activate
     }
+"use_action": {
+    "type": "message",      // Displays message text
+    "message": "Read this.",// Message that is shown
+    "name": "Light fuse"    // Optional name for the action. Default "Activate".
+}
 ```
 
 #### Delayed Item Actions
