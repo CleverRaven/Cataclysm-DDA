@@ -332,6 +332,13 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_EMPTY_REVERT",
     "global": true,
+    "condition": {
+      "or": [
+        { "u_at_om_location": "void_spider_lair_entrance" },
+        { "u_at_om_location": "void_spider_lair_a1" },
+        { "u_at_om_location": "void_spider_lair_a2" }
+      ]
+    },
     "effect": [
       { "u_cast_spell": { "id": "void_spider_empty_revert", "hit_self": true } },
       { "queue_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
