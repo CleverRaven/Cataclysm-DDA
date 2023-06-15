@@ -9,7 +9,7 @@
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_ANIMIST"
       },
       {
-        "condition": { "and":  [ { "not": { "u_has_trait": "perk_caster_level_up_magus" } }, { "u_has_trait": "MAGUS" } ] },
+        "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_magus" } }, { "u_has_trait": "MAGUS" } ] },
         "text": "Gain [<trait_name:[perk_caster_level_up_magus]>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_MAGUS"
       },
