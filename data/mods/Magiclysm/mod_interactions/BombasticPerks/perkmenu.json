@@ -19,7 +19,7 @@
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_STORMSHAPER"
       },
       {
-        "condition": { "and":  [ { "not": { "u_has_trait": "perk_caster_level_up_kelvinist" } }, { "u_has_trait": "KELVINIST" } ] },
+        "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_kelvinist" } }, { "u_has_trait": "KELVINIST" } ] },
         "text": "Gain [<trait_name:[perk_caster_level_up_kelvinist]>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_KELVINIST"
       },
