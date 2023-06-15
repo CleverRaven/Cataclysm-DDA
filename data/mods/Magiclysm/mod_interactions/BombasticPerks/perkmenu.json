@@ -34,7 +34,7 @@
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_TECHNOMANCER"
       },
       {
-        "condition": { "and":  [ { "not": { "u_has_trait": "perk_caster_level_up_druid" } }, { "u_has_trait": "DRUID" } ] },
+        "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_druid" } }, { "u_has_trait": "DRUID" } ] },
         "text": "Gain [<trait_name:[perk_caster_level_up_druid]>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_DRUID"
       },
