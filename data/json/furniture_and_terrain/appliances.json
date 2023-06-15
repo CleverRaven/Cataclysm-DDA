@@ -393,7 +393,7 @@
     "id": "ap_catalytic_cracking_reactor",
     "name": { "str": "catalytic cracking reactor" },
     "looks_like": "f_catalytic_cracking_reactor",
-    "symbol": "Y",
+    "variants": [ { "symbols": "Y", "symbols_broken": "x" } ]
     "color": "light_cyan",
     "categories": [ "utility" ],
     "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.",
