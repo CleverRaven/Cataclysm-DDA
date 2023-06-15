@@ -1487,9 +1487,9 @@ void Character::mount_creature( monster &z )
     }
     mounted_creature = mons;
     mons->mounted_player = this;
-    if ( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
-        add_msg(m_warning, _("You let go of the grabbed object."));
-        player_avatar.grab(object_type::NONE);
+    if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
+        add_msg( m_warning, _( "You let go of the grabbed object." ) );
+        player_avatar.grab( object_type::NONE );
     }
     add_msg_if_player(m_good, _("You climb on the %s."), z.get_name());
     if (z.has_flag(MF_RIDEABLE_MECH)) {
