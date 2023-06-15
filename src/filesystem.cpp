@@ -166,11 +166,6 @@ void for_each_dir_entry( const fs::path &path, Function &&function )
         function( dir_entry );
     }
 }
-template <typename Function>
-void for_each_dir_entry( const std::string &path, Function &&function )
-{
-    for_each_dir_entry( fs::u8path( path ), std::forward < Function && > ( function ) );
-}
 
 //--------------------------------------------------------------------------------------------------
 // Returns true if entry is a directory, false otherwise.
