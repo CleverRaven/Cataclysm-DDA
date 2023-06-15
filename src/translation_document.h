@@ -4,10 +4,10 @@
 
 #if defined(LOCALIZE)
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
-#include <cstdint>
 
 #include "translation_plural_evaluator.h"
 
