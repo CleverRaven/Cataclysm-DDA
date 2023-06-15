@@ -3138,6 +3138,36 @@ std::optional<int> iuse::trimmer_off( Character *p, item *it, bool, const tripoi
                            _( "You yank the cord, but nothing happens." ) );
 }
 
+static int toolweapon_deactivate( Character &p, item &it, const tripoint &pos,
+                                  const bool works_underwater )
+{
+    if( it.typeId() == itype_chainsaw_on ) {
+        sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( pos ) );
+        sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
+        sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
+    }
+    p.add_msg_if_player( _( "Your %s goes quiet." ), it.tname() );
+    it.convert( *it.type->tool->revert_to ).active = false;
+    return 0; // Don't consume charges when turning off.
+}
+
+static int toolweapon_running( Character &p, item &it, const tripoint &pos,
+                               const bool works_underwater, const int sound_chance, const int volume,  const std::string &sound,
+                               const bool double_charge_cost = false )
+{
+    if( double_charge_cost && it.ammo_sufficient( &p ) ) {
+        it.ammo_consume( 1, pos, &p );
+    }
+    if( !works_underwater && p.is_underwater() ) {
+        p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), it.tname() );
+        it.convert( *it.type->tool->revert_to ).active = false;
+    } else if( one_in( sound_chance ) ) {
+        sounds::ambient_sound( pos, volume, sounds::sound_t::activity, sound );
+    }
+
+    return 0; // Ammo consumption handled elsewhere
+}
+
 static int toolweapon_on( Character &p, item &it, const bool t,
                           const std::string &tname, const bool works_underwater,
                           const int sound_chance, const int volume,
@@ -3170,18 +3200,21 @@ static int toolweapon_on( Character &p, item &it, const bool t,
     return 1;
 }
 
-std::optional<int> iuse::combatsaw_on( Character *p, item *it, bool t, const tripoint & )
+
+std::optional<int> iuse::combatsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_on( *p, *it, t, _( "combat chainsaw" ),
-                          false,
-                          12, 18, _( "Your combat chainsaw growls." ) );
+    return toolweapon_running( *p, *it, pos, false, 12, 18, _( "Your combat chainsaw growls." ) );
+}
+
+std::optional<int> iuse::combatsaw_deactivate( Character *p, item *it, bool, const tripoint &pos )
+{
+    return toolweapon_deactivate( *p, *it, pos, false );
 }
 
 std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, bool t, const tripoint & )
 {
-    return toolweapon_on( *p, *it, t, _( "electric combat chainsaw" ),
-                          false,
-                          12, 18, _( "Your electric combat chainsaw growls." ) );
+    return toolweapon_on( *p, *it, t, _( "electric combat chainsaw" ), false, 12, 18,
+                          _( "Your electric combat chainsaw growls." ) );
 }
 
 std::optional<int> iuse::chainsaw_on( Character *p, item *it, bool t, const tripoint & )

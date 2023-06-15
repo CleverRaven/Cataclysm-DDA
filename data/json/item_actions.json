@@ -382,8 +382,12 @@
   },
   {
     "type": "item_action",
-    "id": "E_COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
+    "id": "COMBATSAW_DEACTIVATE",
+    "name": { "str": "Turn off" }
+  },
+  {
+    "type": "item_action",
+    "id": "E_COMBATSAW_OFF"
   },
   {
     "type": "item_action",
