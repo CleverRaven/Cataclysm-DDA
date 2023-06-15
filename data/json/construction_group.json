@@ -116,6 +116,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_chest",
+    "name": "Build Wooden Chest"
+  },
+  {
+    "type": "construction_group",
     "id": "build_chickenwire_fence",
     "name": "Build Chickenwire Fence"
   },
@@ -1363,6 +1368,11 @@
     "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_standing_directed_floodlight",
+    "name": "Place Standing Directed Floodlight"
   },
   {
     "type": "construction_group",

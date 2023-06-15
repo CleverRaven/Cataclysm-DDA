@@ -5604,14 +5604,13 @@ std::list<item_location> map::items_with( const tripoint &p,
     }
     return ret;
 }
-
-std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id &type,
+std::list<item> map::use_amount( const std::vector<tripoint> &reachable_pts, const itype_id &type,
                                  int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
 {
     std::list<item> ret;
     if( select_ind && !type->count_by_charges() ) {
         std::vector<item_location> locs;
-        for( const tripoint &p : points_in_radius( origin, range ) ) {
+        for( const tripoint &p : reachable_pts ) {
             std::list<item_location> tmp = items_with( p, [&filter, &type]( const item & it ) -> bool {
                 return filter( it ) && it.typeId() == type;
             } );
@@ -5633,15 +5632,18 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
             locs.erase( locs.begin() + imenu.ret );
         }
     }
-    for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
-        for( const tripoint &p : points_in_radius( origin, radius ) ) {
-            if( rl_dist( origin, p ) >= radius ) {
-                std::list<item> tmp = use_amount_square( p, type, quantity, filter );
-                ret.splice( ret.end(), tmp );
-            }
-        }
+    for( const tripoint &p : reachable_pts ) {
+        std::list<item> tmp = use_amount_square( p, type, quantity, filter );
+        ret.splice( ret.end(), tmp );
     }
     return ret;
+}
+std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id &type,
+                                 int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
+{
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    return use_amount( reachable_pts, type, quantity, filter, select_ind );
 }
 
 static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &quantity,
@@ -5704,16 +5706,12 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     }
 }
 
-std::list<item> map::use_charges( const tripoint &origin, const int range,
+std::list<item> map::use_charges( const std::vector<tripoint> &reachable_pts,
                                   const itype_id &type, int &quantity,
                                   const std::function<bool( const item & )> &filter,
                                   basecamp *bcp, bool in_tools )
 {
     std::list<item> ret;
-
-    // populate a grid of spots that can be reached
-    std::vector<tripoint> reachable_pts;
-    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
 
     // We prefer infinite map sources where available, so search for those
     // first
@@ -5764,13 +5762,22 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     return ret;
 }
 
-units::energy map::consume_ups( const tripoint &origin, const int range, units::energy qty )
+std::list<item> map::use_charges( const tripoint &origin, const int range,
+                                  const itype_id &type, int &quantity,
+                                  const std::function<bool( const item & )> &filter,
+                                  basecamp *bcp, bool in_tools )
+{
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    return use_charges( reachable_pts, type, quantity, filter, bcp, in_tools );
+}
+
+units::energy map::consume_ups( const std::vector<tripoint> &reachable_pts, units::energy qty )
 {
     const units::energy wanted_qty = qty;
 
     // populate a grid of spots that can be reached
-    std::vector<tripoint> reachable_pts;
-    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
 
     for( const tripoint &p : reachable_pts ) {
         if( accessible_items( p ) ) {
@@ -5778,7 +5785,7 @@ units::energy map::consume_ups( const tripoint &origin, const int range, units::
             map_stack items = i_at( p );
             for( item &elem : items ) {
                 if( elem.has_flag( flag_IS_UPS ) ) {
-                    qty -=  elem.energy_consume( qty, p, nullptr );
+                    qty -= elem.energy_consume( qty, p, nullptr );
                     if( qty <= 0_J ) {
                         break;
                     }
@@ -5788,6 +5795,14 @@ units::energy map::consume_ups( const tripoint &origin, const int range, units::
     }
 
     return wanted_qty - qty;
+}
+
+units::energy map::consume_ups( const tripoint &origin, const int range, units::energy qty )
+{
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    return consume_ups( reachable_pts, qty );
 }
 
 std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )

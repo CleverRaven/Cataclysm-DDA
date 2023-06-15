@@ -1240,8 +1240,9 @@ class Character : public Creature, public visitable
         // Do the mutation updates necessary when adding a mutation (nonspecific cache updates)
         void do_mutation_updates();
         void unset_mutation( const trait_id & );
-        /**Unset switched mutation and set target mutation instead*/
-        void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
+        /**Unset switched mutation and set target mutation instead, if safe mutates towards the target mutation*/
+        void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered,
+                               bool safe = false );
 
         bool can_power_mutation( const trait_id &mut ) const;
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -3264,6 +3265,9 @@ class Character : public Creature, public visitable
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE, bool select_ind = false );
+        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+                                       const std::function<bool( const item & )> &filter = return_true<item>,
+                                       const std::vector<tripoint> &reachable_pts = {}, bool select_ind = false );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id> );
@@ -3280,6 +3284,8 @@ class Character : public Creature, public visitable
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
+        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                            const std::vector<tripoint> &reachable_pts = {},   basecamp *bcp = nullptr );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1 );
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */

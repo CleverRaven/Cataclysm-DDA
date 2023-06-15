@@ -1389,5 +1389,77 @@
       }
     ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "rdb_223",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "5.56x45mm bullpup rifle" },
+    "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the AR-15 platform and a 5.56x45mm cartridge.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rdb_223",
+        "name": { "str_sp": "Kel-Tec RDB" },
+        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines from the AR-15 platform and the 5.56 NATO cartridge.  The name stands for rifle, downward-ejection, bullpup, and its design was intended to incorporate some technical solutions, such as downward case ejection and convenience for left-handers, to solve some problems with bullpup guns.  However, the good idea's execution is not as perfect as the manufacturer (and user) would like.  No good idea from Kel-Tec is immune to Kel-Tec manufacturing issues, sadly.",
+        "weight": 1
+      }
+    ],
+    "weight": "3200 g",
+    "volume": "3421 ml",
+    "longest_side": "693 mm",
+    "barrel_length": "439 mm",
+    "price": 100000,
+    "price_postapoc": 5500,
+    "to_hit": -2,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "dispersion": 180,
+    "sight_dispersion": 500,
+    "durability": 6,
+    "min_cycle_recoil": 1350,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 2 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ],
+    "melee_damage": { "bash": 10 }
   }
 ]

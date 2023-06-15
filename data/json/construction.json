@@ -2228,6 +2228,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_chest",
+    "group": "build_chest",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "80 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "wood_panel", 6 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 10 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chest"
+  },
+  {
+    "type": "construction",
     "id": "constr_table",
     "group": "build_table",
     "category": "FURN",
@@ -5386,6 +5398,18 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 s",
     "components": [ [ [ "standing_floodlight", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_standing_directed_floodlight",
+    "group": "place_standing_directed_floodlight",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "standing_directed_floodlight", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "NO_EXERCISE"

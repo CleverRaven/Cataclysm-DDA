@@ -147,6 +147,7 @@
     "id": [
       "2_shot_special",
       "rifle_38",
+      "rifle_380",
       "rifle_40",
       "smg_40",
       "surv_six_shooter",
@@ -154,7 +155,9 @@
       "smg_45",
       "surv_hand_cannon",
       "rifle_9mm",
-      "smg_9mm"
+      "smg_9mm",
+      "rifle_32",
+      "rifle_9x18"
     ],
     "type": "MIGRATION",
     "replace": "pistol_pipe_smg"
@@ -354,6 +357,8 @@
       "zpapm90",
       "zpap85",
       "papm77",
+      "rfb_308",
+      "rdb_223",
       "plr16"
     ],
     "type": "MIGRATION",

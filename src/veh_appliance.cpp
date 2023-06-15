@@ -12,6 +12,7 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "veh_appliance.h"
+#include "veh_interact.h"
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
@@ -31,6 +32,7 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_WIRING( "WIRING" );
+static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
 
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
@@ -51,6 +53,8 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
 
 void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
 {
+
+    const vpart_info &vpinfo = vpart.obj();
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
@@ -61,11 +65,12 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     veh->add_tag( flag_APPLIANCE );
 
+    int partnum = -1;
     if( base ) {
         item copied = *base;
-        veh->install_part( point_zero, vpart, std::move( copied ) );
+        partnum = veh->install_part( point_zero, vpart, std::move( copied ) );
     } else {
-        veh->install_part( point_zero, vpart );
+        partnum = veh->install_part( point_zero, vpart );
     }
     veh->name = vpart->name();
     veh->last_update = calendar::turn;
@@ -88,6 +93,11 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
                 connected_vehicles.insert( &veh_target );
             }
         }
+    }
+
+    // Make some lighting appliances directed
+    if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
+        orient_part( veh, vpinfo, partnum );
     }
 }
 

@@ -273,12 +273,18 @@ void Character::unset_mutation( const trait_id &trait_ )
 }
 
 void Character::switch_mutations( const trait_id &switched, const trait_id &target,
-                                  bool start_powered )
+                                  bool start_powered, bool safe )
 {
+    // Always lose the transformed trait
     unset_mutation( switched );
-
-    set_mutation( target );
-    my_mutations[target].powered = start_powered;
+    if( safe ) {
+        mutate_towards( target, mutation_category_ANY, nullptr, false );
+    } else {
+        set_mutation( target );
+    }
+    if( has_trait( target ) ) {
+        my_mutations[target].powered = start_powered;
+    }
 }
 
 bool Character::can_power_mutation( const trait_id &mut ) const
@@ -802,7 +808,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( mdata.transform ) {
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( - trans->moves );
-        switch_mutations( mut, trans->target, trans->active );
+        switch_mutations( mut, trans->target, trans->active, trans->safe );
 
         if( !mdata.transform->msg_transform.empty() ) {
             add_msg_if_player( m_neutral, mdata.transform->msg_transform );
@@ -938,7 +944,7 @@ void Character::deactivate_mutation( const trait_id &mut )
     if( mdata.transform ) {
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( -trans->moves );
-        switch_mutations( mut, trans->target, trans->active );
+        switch_mutations( mut, trans->target, trans->active, trans->safe );
     }
 
     if( !mut->enchantments.empty() ) {

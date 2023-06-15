@@ -487,7 +487,8 @@
       { "group": "nested_zpapm90", "prob": 1 },
       { "group": "nested_converted_ar15", "prob": 6 },
       { "group": "nested_converted_mdrx", "prob": 1 },
-      { "group": "nested_converted_cz600", "prob": 1 }
+      { "group": "nested_converted_cz600", "prob": 1 },
+      { "group": "nested_rdb_223", "prob": 1 }
     ]
   },
   {
@@ -528,7 +529,8 @@
       { "item": "bren2_556", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "mdrx", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "cz600", "prob": 1, "charges-min": 0, "charges-max": 10 },
-      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 }
+      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "rdb_223", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -566,7 +568,8 @@
       { "item": "savage112", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
       { "group": "nested_mdrx_with_kits", "prob": 10 },
-      { "group": "nested_cz600_with_kits", "prob": 10 }
+      { "group": "nested_cz600_with_kits", "prob": 10 },
+      { "item": "rdb_223", "prob": 30, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -645,7 +648,8 @@
       { "item": "axmc", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
       { "group": "nested_mdrx_with_kits", "prob": 10 },
-      { "group": "nested_axmc_with_kits", "prob": 10 }
+      { "group": "nested_axmc_with_kits", "prob": 10 },
+      { "item": "rfb_308", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
