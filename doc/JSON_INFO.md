@@ -144,6 +144,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+    - [Tick Actions](#tick-actions)
     - [Random Descriptions](#random-descriptions)
 - [`json/` JSONs](#json-jsons)
     - [Harvest](#harvest)
@@ -4166,6 +4167,12 @@ The contents of use_action fields can either be a string indicating a built-in f
     "effect_on_conditions" : ["test_cond"] // ids of the effect_on_conditions to activate
     }
 ```
+
+### Tick Actions
+
+`"tick_action"` of active tools is executed once on every turn. This action can be any use_action but some of them may not work properly when not executed by player.
+
+The `"use_action"` of active tools is also executed on every turn. This is deprecated and should not be used.
 
 ### Random Descriptions
 
