@@ -6253,6 +6253,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
     }
 
+    time_duration final_time = 1_hours; //just in case this somehow winds up undefined
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
@@ -6282,7 +6283,6 @@ void Character::mend_item( item_location &&obj, bool interactive )
         menu.desc_enabled = true;
         menu.desc_lines_hint = 0; // Let uilist handle description height
         constexpr int fold_width = 80;
-        time_duration final_time = 1_hours; //just in case this somehow winds up undefined
 
         for( const mending_option &opt : mending_options ) {
             const fault_fix &fix = opt.fix;
@@ -6370,6 +6370,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
+        
         assign_activity( ACT_MEND_ITEM, to_moves<int>( final_time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( fix.id_ );
