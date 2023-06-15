@@ -1486,6 +1486,14 @@ void Character::mount_creature( monster &z )
     }
     mounted_creature = mons;
     mons->mounted_player = this;
+    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
+    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+        if( !z.type->mech_weapon.is_empty() ) {
+            item mechwep = item( z.type->mech_weapon );
+            set_wielded_item( mechwep );
+        }
+        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
+    }
     if( is_avatar() ) {
         avatar &player_character = get_avatar();
         if( player_character.is_hauling() ) {
@@ -1501,14 +1509,6 @@ void Character::mount_creature( monster &z )
         guy.setpos( pnt );
     }
     z.facing = facing;
-    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( !z.type->mech_weapon.is_empty() ) {
-            item mechwep = item( z.type->mech_weapon );
-            set_wielded_item( mechwep );
-        }
-        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
-    }
     // some rideable mechs have night-vision
     recalc_sight_limits();
     if( is_avatar() && z.has_flag( MF_MECH_RECON_VISION ) ) {
