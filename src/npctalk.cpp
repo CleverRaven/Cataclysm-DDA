@@ -4095,6 +4095,76 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
     };
 }
 
+void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::string_view member )
+{
+    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
+    if( eocs.empty() ) {
+        jo.throw_error( "Invalid input for run_eocs" );
+    }
+
+    std::vector<str_or_var> eoc_names;
+    if( jo.has_array( "names" ) ) {
+        for( const JsonValue &jv : jo.get_array( "names" ) ) {
+            eoc_names.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+        }
+    }
+
+    std::vector<char> eoc_keys;
+    if( jo.has_array( "keys" ) ) {
+        for( const JsonValue &jv : jo.get_array( "keys" ) ) {
+            std::string val = jv.get_string();
+            if( val.size() != 1 ) {
+                jo.throw_error( "Invalid input for run_eoc_selector, key strings must be exactly 1 character." );
+            } else {
+                eoc_keys.push_back( val[0] );
+            }
+        }
+    }
+
+    if( !eoc_names.empty() && eoc_names.size() != eocs.size() ) {
+        jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and names needs to be identical, or names need to be empty" );
+    }
+
+    if( !eoc_keys.empty() && eoc_keys.size() != eocs.size() ) {
+        jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
+    }
+
+    std::unordered_map<std::string, str_or_var> context;
+    if( jo.has_object( "variables" ) ) {
+        const JsonObject &variables = jo.get_object( "variables" );
+        for( const JsonMember &jv : variables ) {
+            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
+                                                  true );
+        }
+    }
+
+    std::string title = jo.get_string( "title", _( "Select an option." ) );
+
+    function = [eocs, context, title, eoc_names, eoc_keys]( dialogue const & d ) {
+        uilist eoc_list;
+
+        eoc_list.text = title;
+        eoc_list.allow_cancel = false;
+
+        for( int i = 0; i < eocs.size(); i++ ) {
+            if( eoc_keys.empty() ) {
+                eoc_list.entries.emplace_back( i, true, std::nullopt,
+                                               ( eoc_names.empty() ? eocs[i].str() : eoc_names[i].evaluate( d ) ) );
+            } else {
+                eoc_list.entries.emplace_back( i, true, eoc_keys[i],
+                                               ( eoc_names.empty() ? eocs[i].str() : eoc_names[i].evaluate( d ) ) );
+            }
+        }
+        dialogue newDialog( d );
+        for( const auto &val : context ) {
+            newDialog.set_value( val.first, val.second.evaluate( d ) );
+        }
+        eoc_list.query();
+
+        eocs[eoc_list.ret]->activate( newDialog );
+    };
+}
+
 void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::string_view member )
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
@@ -5053,6 +5123,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_run_eocs( jo, "run_eocs" );
         } else if( jo.has_member( "run_eoc_with" ) ) {
             subeffect_fun.set_run_eoc_with( jo, "run_eoc_with" );
+        } else if( jo.has_member( "run_eoc_selector" ) ) {
+            subeffect_fun.set_run_eoc_selector( jo, "run_eoc_selector" );
         } else if( jo.has_array( "queue_eocs" ) || jo.has_member( "queue_eocs" ) ) {
             subeffect_fun.set_queue_eocs( jo, "queue_eocs" );
         } else if( jo.has_member( "queue_eoc_with" ) ) {
