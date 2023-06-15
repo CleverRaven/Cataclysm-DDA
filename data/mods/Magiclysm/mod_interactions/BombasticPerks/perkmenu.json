@@ -29,7 +29,7 @@
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_EARTHSHAPER"
       },
       {
-        "condition": { "and":  [ { "not": { "u_has_trait": "perk_caster_level_up_technomancer" } }, { "u_has_trait": "TECHNOMANCER" } ] },
+        "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_technomancer" } }, { "u_has_trait": "TECHNOMANCER" } ] },
         "text": "Gain [<trait_name:[perk_caster_level_up_technomancer]>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_TECHNOMANCER"
       },
