@@ -3174,7 +3174,8 @@ std::optional<int> iuse::combatsaw_on( Character *p, item *it, bool, const tripo
 
 std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_running( *p, *it, pos, false, 12, 18, _( "Your electric combat chainsaw growls." ) );
+    return toolweapon_running( *p, *it, pos, false, 12, 18,
+                               _( "Your electric combat chainsaw growls." ) );
 }
 
 std::optional<int> iuse::chainsaw_on( Character *p, item *it, bool, const tripoint &pos )
@@ -3194,7 +3195,7 @@ std::optional<int> iuse::carver_on( Character *p, item *it, bool, const tripoint
 
 std::optional<int> iuse::trimmer_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_running( *p, *it, pos, true,15, 10, _( "Your hedge trimmer rumbles." ) );
+    return toolweapon_running( *p, *it, pos, true, 15, 10, _( "Your hedge trimmer rumbles." ) );
 }
 
 std::optional<int> iuse::circsaw_on( Character *p, item *it, bool, const tripoint &pos )
