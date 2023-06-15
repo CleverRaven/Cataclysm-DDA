@@ -716,7 +716,7 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "homeless camp",
     "sym": "H",
-    "color": "i_green"
+    "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
