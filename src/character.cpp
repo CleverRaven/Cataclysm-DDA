@@ -1509,7 +1509,7 @@ void Character::mount_creature( monster &z )
         guy.setpos( pnt );
     }
     z.facing = facing;
-    // some rideable mechs have night-vision
+    // some rideable mechs have night-vision 
     recalc_sight_limits();
     if( is_avatar() && z.has_flag( MF_MECH_RECON_VISION ) ) {
         // mech night-vision counts as optics for overmap sight range.
