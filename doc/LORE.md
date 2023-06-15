@@ -16,6 +16,7 @@
 | --- | ---| --- |
 | Can I join the Exodii? | Not at this time, though they will continue to provide quests as the player's relationship with them improves. | 06/15/2023 |
 | Why does Rubik talk like that? Why can't I talk to the quads? | Exodii are not a homogenous group with a single spoken language. Rubik happens to speak as close to modern English as any Exodii, though there are some phrases that don't translate well. | 06/15/2023 |
+| What do the Exodii eat? | --- | --- |
 
 ## Hub 01
 
