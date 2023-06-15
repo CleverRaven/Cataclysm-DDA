@@ -2631,7 +2631,7 @@
       { "item": "enfield_303mag", "prob": 5 },
       { "group": "on_hand_303" }
     ]
-  }
+  },
   {
     "id": "nested_greasegun",
     "type": "item_group",
