@@ -14,7 +14,7 @@
       "deserter_city_office_roofb"
     ],
     "name": "deserter outpost",
-    "sym": "B",
+    "sym": "D",
     "color": "brown",
     "see_cost": 5,
     "flags": [ "SIDEWALK" ]
