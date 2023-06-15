@@ -152,12 +152,12 @@
       "drag_grab_break_distance": 2,
       "grab_effect": "null"
     },
-    "hit_dmg_u": "",
-    "hit_dmg_npc": "",
+    "hit_dmg_u": "%1$s drags you!",
+    "hit_dmg_npc": "%1$s drags <npcname>!",
     "miss_msg_u": "",
     "miss_msg_npc": "",
-    "no_dmg_msg_u": "",
-    "no_dmg_msg_npc": ""
+    "no_dmg_msg_u": "%1$s drags you!",
+    "no_dmg_msg_npc": "%1$s drags <npcname>!"
   },
   {
     "type": "monster_attack",
