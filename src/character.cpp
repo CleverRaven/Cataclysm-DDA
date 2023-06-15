@@ -1463,7 +1463,8 @@ player_activity Character::get_destination_activity() const
 }
 
 void Character::mount_creature( monster &z )
-{
+{   
+    avatar& player_avatar = get_avatar();
     tripoint pnt = z.pos();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
@@ -1486,22 +1487,21 @@ void Character::mount_creature( monster &z )
     }
     mounted_creature = mons;
     mons->mounted_player = this;
-    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( !z.type->mech_weapon.is_empty() ) {
-            item mechwep = item( z.type->mech_weapon );
-            set_wielded_item( mechwep );
+    if ( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
+        add_msg(m_warning, _("You let go of the grabbed object."));
+        player_avatar.grab(object_type::NONE);
+    }
+    add_msg_if_player(m_good, _("You climb on the %s."), z.get_name());
+    if (z.has_flag(MF_RIDEABLE_MECH)) {
+        if (!z.type->mech_weapon.is_empty()) {
+            item mechwep = item(z.type->mech_weapon);
+            set_wielded_item(mechwep);
         }
-        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
+        add_msg_if_player(m_good, _("You hear your %s whir to life."), z.get_name());
     }
     if( is_avatar() ) {
-        avatar &player_character = get_avatar();
-        if( player_character.is_hauling() ) {
-            player_character.stop_hauling();
-        }
-        if( player_character.get_grab_type() != object_type::NONE ) {
-            add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            player_character.grab( object_type::NONE );
+        if(player_avatar.is_hauling() ) {
+            player_avatar.stop_hauling();
         }
         g->place_player( pnt );
     } else {
