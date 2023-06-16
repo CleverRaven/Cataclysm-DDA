@@ -62,7 +62,8 @@
       { "point": [ 1, 1, 1 ], "overmap": "deserter_city_office_2fb_north" },
       { "point": [ 1, 1, 2 ], "overmap": "deserter_city_office_3fb_north" },
       { "point": [ 1, 1, 3 ], "overmap": "deserter_city_office_roofb_north" }
-    ]
+    ],
+    "flags": [ "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "city_building",
