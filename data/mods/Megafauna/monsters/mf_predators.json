@@ -310,7 +310,7 @@
   {
     "type": "MONSTER",
     "id": "mon_titanis_walleri",
-    "name": { "str": "titanis walleri" },
+    "name": { "str": "titanis walleri", "str_pl": "titani walleri" },
     "species": "BIRD",
     "default_faction": "mega_bird",
     "bodytype": "ostrich",
