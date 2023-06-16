@@ -1492,6 +1492,7 @@ void Character::mount_creature( monster &z )
         add_msg( m_warning, _( "You let go of the grabbed object." ) );
         player_avatar.grab( object_type::NONE );
     }
+    
     add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
     if( z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( !z.type->mech_weapon.is_empty() ) {
