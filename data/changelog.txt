@@ -24,7 +24,6 @@ Allow zones to interact across multiple Z levels
 Creatures can stumble into invisible players to discover them
 Add molting for exoskeleton mutations
 3D vision of lower levels with distance fog
-Rework and expand NRE data recordings
 Rework MA tech requirements
 
 
@@ -47,14 +46,7 @@ Added a new location called survivor forest camp
 Addition of non-NPC civilians for lore reasons
 Nether spiders as a new bossfight for the game.
 New conversion kits, guns, and calibres
-Add new gun, Kel-Tec PLR16
-New starts and a new location for Aftershock
-increase items that spawn inside vehicles
-Adding Japanese Knotweed to additional veggy recipes.
-Minor edits to crashing ship
-Make the horse farm mutable and add variance to it as well as flavour through the introduction of some riding gear and vehicle changes. Collab with @Armokorguest.
-Add new AR-10 type magazines
-tear gas spray
+Crashing ship start for Aftershock
 
 
 ## Interface:
@@ -92,11 +84,6 @@ Open multiple containers in Advanced Inventory Manager
 [Aftershock] Elemental bionic weapons.
 [Bombastic Perks] Adds the recycler perk
 [Xedra Evolved] Revamped the inventor class
-[DinoMod] move Red
-The No Railstations mod is now loaded by default
-Adds a new perk to the perk mod
-[DinoMod] fix NPC gear
-Adds deduction skill books
 
 
 ## Balance:
@@ -115,10 +102,6 @@ Add a more accessible holy symbol mission, replacing the small relic one
 Most materials now burn at least a little slower than gunpowder
 stationary monsters don't let you train throwing to high levels
 player can drag heavier vehicles
-9mm smgs have more range
-Kerosene recipe is less absurd
-apply real world cm values to various welding recipes in game
-Police armories have more guns & bullets
 
 
 ## Bugfixes:
@@ -160,20 +143,11 @@ Fix unicode path encoding error in Windows MinGW build
 Difficulty 0 recipes are no longer arbitrarily difficult
 Make EOC u_sell_item() actually transfers the items' ownership
 Improving NPC shooting frequency
-Shady mercenary doesn't take the human sample allowing the player to reuse it over and over.
-giving coffee pot item an actual item chance to spawn
-Minor corrections to exosuit modules
-Fix containers with non-CONTAINER pockets skipping active items
-Machine gun semi auto mods don't override the default burst
-UPS no longer gets automatically drained when in inventory
-badges don't get in the way of equipment
-Corrects s_garage_roof_2 terrain definitions
 
 
 ## Performance:
 Make `Character::best_item_with_quality` examine items non-recursively
 Refactor effect types to use map indirection and enums instead of strings
-Cache crafting speed's workbench multiplier
 
 
 ## Infrastructure:
