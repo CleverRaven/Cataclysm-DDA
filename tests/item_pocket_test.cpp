@@ -2235,9 +2235,10 @@ TEST_CASE( "picking up items respects pocket autoinsert settings", "[pocket][ite
 
 TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
 {
+    clear_map();
+    clear_avatar();
     map &m = get_map();
     Character &u = get_player_character();
-    clear_character( u, true );
     item water( "water" );
     item cont_jug( "test_jug_plastic" );
     item cont_suit( "test_robofac_armor_rig" );

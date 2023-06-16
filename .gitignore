@@ -144,6 +144,9 @@ __pycache__
 # vimdiff backup
 *.orig
 
+# obsidian.md files
+.obsidian
+
 # OSX
 Cataclysm.app
 build-data/osx/AppIcon.icns

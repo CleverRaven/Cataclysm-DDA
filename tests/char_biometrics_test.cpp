@@ -104,6 +104,7 @@ static int bmr_at_act_level( Character &dummy, float activity_level )
     dummy.reset_activity_level();
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     dummy.update_body( calendar::turn, calendar::turn );
+    dummy.update_body( calendar::turn, calendar::turn + 10_minutes );
     dummy.set_activity_level( activity_level );
 
     return dummy.get_bmr();

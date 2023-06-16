@@ -1617,6 +1617,20 @@ std::list<const item *> item_contents::all_known_contents() const
     } );
 }
 
+std::list<item *> item_contents::all_ablative_armor()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
+std::list<const item *> item_contents::all_ablative_armor() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
 item &item_contents::legacy_front()
 {
     if( empty() ) {
@@ -1913,6 +1927,20 @@ std::vector<item_pocket *> item_contents::get_all_standard_pockets()
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_standard_type();
+    } );
+}
+
+std::vector<const item_pocket *> item_contents::get_all_ablative_pockets() const
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
+std::vector<item_pocket *> item_contents::get_all_ablative_pockets()
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_ablative();
     } );
 }
 

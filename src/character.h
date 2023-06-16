@@ -1143,7 +1143,7 @@ class Character : public Creature, public visitable
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
         bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, const sub_bodypart_id &sbp,
-                           int roll );
+                           int roll ) const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * If the armor is fully destroyed it is replaced
@@ -3674,6 +3674,7 @@ class Character : public Creature, public visitable
         struct weighted_int_list<std::string> melee_miss_reasons;
 
         struct crafting_cache_type {
+            bool valid = false; // other fields are only valid if this flag is true
             time_point time;
             int moves;
             tripoint position;

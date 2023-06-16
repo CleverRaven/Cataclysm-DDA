@@ -574,7 +574,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     if( src_pos == tripoint_zero ) {
         inv_pos = pos();
     }
-    if( moves == crafting_cache.moves
+    if( crafting_cache.valid
+        && moves == crafting_cache.moves
         && radius == crafting_cache.radius
         && calendar::turn == crafting_cache.time
         && inv_pos == crafting_cache.position ) {
@@ -615,6 +616,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
     }
 
+    crafting_cache.valid = true;
     crafting_cache.moves = moves;
     crafting_cache.time = calendar::turn;
     crafting_cache.position = inv_pos;
@@ -624,7 +626,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
 
 void Character::invalidate_crafting_inventory()
 {
-    crafting_cache.time = calendar::before_time_starts;
+    crafting_cache.valid = false;
+    crafting_cache.crafting_inventory->clear();
 }
 
 void Character::make_craft( const recipe_id &id_to_make, int batch_size,
