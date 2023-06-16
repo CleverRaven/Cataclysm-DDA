@@ -252,13 +252,11 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the book" ) {
                 THEN( "he finds it!" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r ) );
                 }
                 THEN( "it's easier in the book" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).get_custom_difficulty( r ) == 2 );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
@@ -269,8 +267,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 craftbook.remove_item();
 
                 THEN( "he can't brew the recipe anymore" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK_FALSE( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r ) );
                 }
             }
@@ -289,8 +286,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the tablet" ) {
                 THEN( "he finds it!" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r2 ) );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
@@ -301,8 +297,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 eink.remove_item();
 
                 THEN( "he can't make the recipe anymore" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK_FALSE( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r2 ) );
                 }
             }
@@ -333,8 +328,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         const auto helpers( dummy.get_crafting_helpers() );
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
-        // update the crafting inventory cache
-        dummy.moves++;
+        dummy.invalidate_crafting_inventory();
         REQUIRE_FALSE( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
         REQUIRE_FALSE( who.knows_recipe( r ) );
 
@@ -345,8 +339,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 who.learn_recipe( r );
 
                 THEN( "he helps you" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
                 }
             }
@@ -357,8 +350,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 REQUIRE_FALSE( cookbook->type->book->recipes.empty() );
 
                 THEN( "he shows it to you" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
                 }
             }
@@ -388,6 +380,7 @@ static void give_tools( const std::vector<item> &tools )
     for( const item &gear : boil ) {
         REQUIRE( player_character.i_add( gear ) );
     }
+    player_character.invalidate_crafting_inventory();
 }
 
 static int apply_offset( int skill, int offset )
@@ -433,7 +426,6 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     }
 
     give_tools( tools );
-    player_character.moves--;
     const inventory &crafting_inv = player_character.crafting_inventory();
 
     bool can_craft_with_crafting_inv = r.deduped_requirements()

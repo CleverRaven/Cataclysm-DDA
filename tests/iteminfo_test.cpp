@@ -2602,8 +2602,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
                 item_location textbook = player_character.i_add( item( "textbook_chemistry" ) );
                 player_character.identify( *textbook );
                 REQUIRE( player_character.has_identified( itype_textbook_chemistry ) );
-                // update the crafting inventory cache
-                player_character.moves++;
+                player_character.invalidate_crafting_inventory();
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
                     CHECK( item_info_str( *iodine, crafting ) ==
