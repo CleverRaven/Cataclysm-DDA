@@ -2666,8 +2666,8 @@
     "ammo": 100,
     "entries": [
       { "item": "greasegun", "charges-min": 0, "charges-max": 30 },
-      { "group": "greasegun30mag" },
-      { "group": "greasegun30mag", "prob": 50 },
+      { "item": "greasegun30mag" },
+      { "item": "greasegun30mag", "prob": 50 },
       { "group": "on_hand_45" }
     ]
   }
