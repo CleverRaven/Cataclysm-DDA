@@ -35,5 +35,5 @@
     "base_faction": "animal",
     "hate": [ "small_animal", "herbivore", "mega_herbivore" ],
     "by_mood": [ "felidae", "canidae", "fish", "human"]
-  },
+  }
 ]
