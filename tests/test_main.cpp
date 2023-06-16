@@ -393,7 +393,12 @@ int main( int argc, const char *argv[] )
     if( result == 0 || dont_save ) {
         world_generator->delete_world( world_name, true );
     } else {
-        DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
+        if( g->save() ) {
+            DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
+        } else {
+            DebugLog( D_ERROR, DC_ALL ) << "Test world " << world_name << " failed to save.";
+            result = 1;
+        }
     }
 
     std::chrono::duration<double> elapsed_seconds = end - start;
