@@ -2264,13 +2264,13 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     int temp_level_adjust = sp.get_temp_level_adjustment();
     std::string temp_level_adjust_string;
     if( temp_level_adjust < 0 ) {
-        temp_level_adjust_string = " -" + std::to_string( -temp_level_adjust );
+        temp_level_adjust_string = " (-" + std::to_string( -temp_level_adjust ) + ")";
     } else if( temp_level_adjust > 0 ) {
-        temp_level_adjust_string = " +" + std::to_string( temp_level_adjust );
+        temp_level_adjust_string = " (+" + std::to_string( temp_level_adjust ) + ")";
     }
 
     info_txt.emplace_back(
-        colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_level(),
+        colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
                                             sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
                              string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
     info_txt.emplace_back(
