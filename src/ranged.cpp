@@ -2021,7 +2021,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( !!ammo->ammo->casing ) {
-        item *casing = item( *ammo->ammo->casing );
+        const item casing = item( *ammo->ammo->casing );
         // blackpowder can gum up casings too
         //if( *ammo->has_flag( json_flag_BLACKPOWDER ) ) {
         if( weap.ammo_effects().count( "BLACKPOWDER" ) ) {
