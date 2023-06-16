@@ -271,18 +271,18 @@
     "//": "tests adding a variable, that's in another variable",
     "effect": [
       { "set_string_var": "key1", "target_var": { "context_val": "testing" } },
-      { "math": [ "v_testing", "++" ] },
-      { "math": [ "key2", "=", "v_testing + v_testing" ] },
+      { "math": [ "v_testing", "=", "5" ] },
+      { "math": [ "key2", "=", "key1 + v_testing" ] },
       { "set_string_var": "u_key1", "target_var": { "context_val": "testing" } },
-      { "math": [ "v_testing", "++" ] },
-      { "math": [ "global_u", "=", "v_testing + v_testing" ] },
+      { "math": [ "v_testing", "=", "3" ] },
+      { "math": [ "global_u", "=", "u_key1 + v_testing" ] },
       { "set_string_var": "_key1", "target_var": { "context_val": "testing" } },
-      { "math": [ "v_testing", "++" ] },
-      { "math": [ "global_context", "=", "v_testing + v_testing" ] },
+      { "math": [ "v_testing", "=", "2" ] },
+      { "math": [ "global_context", "=", "_key1 + v_testing" ] },
       { "set_string_var": "v_key1", "target_var": { "context_val": "testing" } },
       { "set_string_var": "_key2", "target_var": { "context_val": "key1" } },
-      { "math": [ "v_testing", "++" ] },
-      { "math": [ "global_nested", "=", "v_testing + v_testing" ] }
+      { "math": [ "v_testing", "=", "1" ] },
+      { "math": [ "global_nested", "=", "_key2 + v_testing" ] }
     ]
   },
   {

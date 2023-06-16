@@ -485,10 +485,10 @@ TEST_CASE( "EOC_increment_var_var", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
 
     CHECK( effect_on_condition_EOC_increment_var_var->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_global_u" ) ) == Approx( 2 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_global_context" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 5 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 10 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_global_u" ) ) == Approx( 6 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_global_context" ) ) == Approx( 4 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_global_nested" ) ) == Approx( 2 ) );
 }
 
