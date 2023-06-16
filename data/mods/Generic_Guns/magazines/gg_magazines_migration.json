@@ -166,7 +166,9 @@
       "skorpion82mag",
       "mp5_10_mag",
       "tdi_10mm_mag",
-      "robofac60"
+      "robofac60",
+      "greasegun30mag",
+      "greasegun32mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_smg_mag"
