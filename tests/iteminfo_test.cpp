@@ -271,7 +271,7 @@ TEST_CASE( "item requirements", "[iteminfo][requirements]" )
 
 // Functions:
 // item::basic_info
-TEST_CASE( "item contents", "[iteminfo][contents]" )
+TEST_CASE( "iteminfo contents", "[iteminfo][contents]" )
 {
     clear_avatar();
 
