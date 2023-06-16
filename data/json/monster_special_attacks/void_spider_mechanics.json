@@ -184,7 +184,7 @@
               "and": [
                 { "u_has_effect": "webbed" },
                 { "one_in_chance": 6 },
-                { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, "<", { "const": 1 } ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
                 { "math": [ "void_spider_killed", "!=", "1" ] }
               ]
             },
@@ -198,7 +198,7 @@
             "condition": {
               "and": [
                 { "one_in_chance": 120 },
-                { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, "<", { "const": 1 } ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
                 { "math": [ "void_spider_killed", "!=", "1" ] }
               ]
             },
