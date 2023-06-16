@@ -73,7 +73,7 @@
     "melee_damage": [ { "damage_type": "stab", "amount": 4.0 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 270, "into": "mon_direwolf" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREED", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREED", "WARM", "CANPLAY", "KEENNOSE" ]
   },
   {
     "id": "mon_sabcat",
@@ -312,11 +312,11 @@
     "id": "mon_titanis_walleri",
     "name": { "str": "titanis walleri" },
     "species": "BIRD",
-    "default_faction": "bear",
+    "default_faction": "mega_bird",
     "bodytype": "ostrich",
     "symbol": "T",
     "color": "blue_green",
-    "volume": "126 l",
+    "volume": "150 l",
     "weight": "150 kg",
     "material": "flesh",
     "aggression": 0,
@@ -339,7 +339,11 @@
     "harvest": "bird_large",
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
-    "petfood": { "food": [ "CATFOOD" ], "feed": "The %s seems to like you!  It clicks its beak a few times and lowers its head, allowing you to pet it." },
+    "petfood": { 
+      "food": [ "CATFOOD" ], 
+      "feed": "The %s seems to like you!  It clicks its beak a few times and lowers its head, allowing you to pet it.",
+      "pet": "The %s bows to you, clicking its beak while you pat their massive head."
+    },
     "categories": [ "WILDLIFE" ],
     "armor": { "bash": 3, "cut": 2 }
   },
@@ -349,8 +353,8 @@
     "copy-from": "mon_titanis_walleri",
     "name": { "str": "titanis walleri chick" },
     "description": "A juvenile titanis walleri.  It is already large for a bird, but it is still far from its parent.",
-    "default_faction": "dog",
-    "volume": "31 L",
+    "default_faction": "mega_bird",
+    "volume": "36 L",
     "weight": "36 kg",
     "hp": 35,
     "speed": 130,
