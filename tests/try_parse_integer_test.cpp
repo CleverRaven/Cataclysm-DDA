@@ -2,9 +2,10 @@
 #include "cata_scope_helpers.h"
 #include "try_parse_integer.h"
 
-// NOLINTNEXTLINE(modernize-avoid-c-arrays)
-TEMPLATE_TEST_CASE( "try_parse_int_simple_parsing", "[try_parse_integer]", int, long, long long )
+template<typename TestType>
+void try_parse_int_simple_parsing()
 {
+    CAPTURE( demangle( typeid( TestType ).name() ) );
     std::locale const &oldloc = std::locale();
     on_out_of_scope reset_loc( [&oldloc]() {
         std::locale::global( oldloc );
@@ -69,9 +70,17 @@ TEMPLATE_TEST_CASE( "try_parse_int_simple_parsing", "[try_parse_integer]", int, 
     }
 }
 
-// NOLINTNEXTLINE(modernize-avoid-c-arrays)
-TEMPLATE_TEST_CASE( "try_parse_int_locale_parsing", "[try_parse_integer]", int, long, long long )
+TEST_CASE( "try_parse_int_simple_parsing", "[try_parse_integer]" )
 {
+    try_parse_int_simple_parsing<int>();
+    try_parse_int_simple_parsing<long>();
+    try_parse_int_simple_parsing<long long>();
+}
+
+template<typename TestType>
+void try_parse_int_locale_parsing()
+{
+    CAPTURE( demangle( typeid( TestType ).name() ) );
     std::locale const &oldloc = std::locale();
     on_out_of_scope reset_loc( [&oldloc]() {
         std::locale::global( oldloc );
@@ -123,4 +132,11 @@ TEMPLATE_TEST_CASE( "try_parse_int_locale_parsing", "[try_parse_integer]", int, 
             CHECK( result.str() == "Stray characters after integer in '1,234'" );
         }
     }
+}
+
+TEST_CASE( "try_parse_int_locale_parsing", "[try_parse_integer]" )
+{
+    try_parse_int_locale_parsing<int>();
+    try_parse_int_locale_parsing<long>();
+    try_parse_int_locale_parsing<long long>();
 }
