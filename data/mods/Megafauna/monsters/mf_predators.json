@@ -360,8 +360,8 @@
     "harvest": "bird_large",
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
-    "petfood": { 
-      "food": [ "CATFOOD" ], 
+    "petfood": {
+      "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  It clicks its beak a few times and lowers its head, allowing you to pet it.",
       "pet": "The %s bows to you, clicking its beak while you pat their massive head."
     },
