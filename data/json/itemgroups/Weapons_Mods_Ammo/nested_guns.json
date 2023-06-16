@@ -2657,5 +2657,18 @@
       { "item": "falmag", "prob": 50 },
       { "group": "on_hand_308" }
     ]
+  },
+  {
+    "id": "nested_greasegun",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "greasegun", "charges-min": 0, "charges-max": 30 },
+      { "item": "greasegun30mag" },
+      { "item": "greasegun30mag", "prob": 50 },
+      { "group": "on_hand_45" }
+    ]
   }
 ]

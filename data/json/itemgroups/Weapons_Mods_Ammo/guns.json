@@ -413,10 +413,11 @@
     "subtype": "distribution",
     "//": "Imported or otherwise very obscure SMGs.",
     "items": [
-      { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 0 },
+      { "item": "ppsh", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_mp5_10_semi", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 0 },
       { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 0 },
+      { "item": "greasegun", "prob": 150, "charges-min": 0, "charges-max": 0 },
       { "group": "guns_smg_collectible", "prob": 1 }
     ]
   },

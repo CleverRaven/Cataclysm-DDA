@@ -528,5 +528,53 @@
       { "magazine_well": "107 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_21mag", "glock_21mag26" ] }
     ],
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "greasegun",
+    "looks_like": "hk_mp5",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": ".45 WWII SMG" },
+    "description": "A WWII submachine gun, lacking semi-auto fire selector and chambered in .45 ACP.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "greasegun",
+        "name": { "str": "M3 SMG" },
+        "description": "An American-made submachine gun developed during WWII as an alternative to Thompson M1928A1 and used at least till early 1990s.  Simple, cheap, and somewhat crude, the M3 was still quite an effective weapon, mostly made from sheet metal to reduce costs and speed up production.  In times of active use, it was considered as a disposable weapon, which is more expedient to replace than to repair.  Unfortunately, you cannot afford such wastefulness, unlike this submachine gun, which is devoid of even a fire selector for semi-auto fire.",
+        "weight": 1
+      }
+    ],
+    "weight": "3700 g",
+    "volume": "2003 ml",
+    "longest_side": "740 mm",
+    "barrel_length": "203 mm",
+    "price": 2300000,
+    "price_postapoc": 4000,
+    "to_hit": -2,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "45" ],
+    "skill": "smg",
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 500,
+    "durability": 7,
+    "min_cycle_recoil": 540,
+    "modes": [ [ "DEFAULT", "auto", 2 ] ],
+    "built_in_mods": [ "wire_stock" ],
+    "valid_mod_locations": [
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "greasegun30mag", "greasegun32mag" ] } ],
+    "melee_damage": { "bash": 9 }
   }
 ]
