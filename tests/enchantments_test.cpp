@@ -65,7 +65,7 @@ static enchant_test set_enc_test( avatar &p )
     return enc_test;
 }
 
-TEST_CASE( "worn enchantments", "[enchantments][worn][items]" )
+TEST_CASE( "worn_enchantments", "[enchantments][worn][items]" )
 {
     avatar p;
     clear_character( p );
@@ -84,7 +84,7 @@ TEST_CASE( "worn enchantments", "[enchantments][worn][items]" )
 
 }
 
-TEST_CASE( "bionic enchantments", "[enchantments][bionics]" )
+TEST_CASE( "bionic_enchantments", "[enchantments][bionics]" )
 {
     avatar p;
     clear_character( p );
@@ -99,7 +99,7 @@ TEST_CASE( "bionic enchantments", "[enchantments][bionics]" )
     test_generic_ench( p, enc_test );
 }
 
-TEST_CASE( "mutation enchantments", "[enchantments][mutations]" )
+TEST_CASE( "mutation_enchantments", "[enchantments][mutations]" )
 {
     avatar p;
     clear_character( p );

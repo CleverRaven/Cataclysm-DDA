@@ -27,7 +27,7 @@
 // The times of sunrise and sunset will naturally depend on the current time of year; this aspect is
 // covered by the "sunrise and sunset" and solstice/equinox tests later in this file. Here we simply
 // use the first day of spring as a baseline.
-TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
+TEST_CASE( "daily_solar_cycle", "[sun][night][dawn][day][dusk]" )
 {
     // Use sunrise/sunset on the first day (spring equinox)
     const time_point midnight = calendar::turn_zero;
@@ -128,7 +128,7 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
 }
 
 // The calendar `sunlight` function returns light level for both sun and moon.
-TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
+TEST_CASE( "sunlight_and_moonlight", "[sun][sunlight][moonlight]" )
 {
     // Use sunrise/sunset on the first day (spring equinox)
     const time_point midnight = calendar::turn_zero;
@@ -211,7 +211,7 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
 }
 
 // sanity-check seasonally-adjusted maximum daylight level
-TEST_CASE( "noon sunlight levels", "[sun][daylight][equinox][solstice]" )
+TEST_CASE( "noon_sunlight_levels", "[sun][daylight][equinox][solstice]" )
 {
     const time_duration one_season = calendar::season_length();
     const time_point spring = calendar::turn_zero;
@@ -258,7 +258,7 @@ TEST_CASE( "noon sunlight levels", "[sun][daylight][equinox][solstice]" )
 
 // The times of sunrise and sunset vary throughout the year. Equinoxes occur on the
 // first day of spring and autumn, and solstices occur on the first day of summer and winter.
-TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
+TEST_CASE( "sunrise_and_sunset", "[sun][sunrise][sunset][equinox][solstice]" )
 {
     // Due to the "NN_days" math below, this test requires a default 91-day season length
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -400,7 +400,7 @@ TEST_CASE( "sun_highest_at_noon", "[sun]" )
     }
 }
 
-TEST_CASE( "noon_sun_doesn't_move_much", "[sun]" )
+TEST_CASE( "noon_sun_does_not_move_much", "[sun]" )
 {
     rl_vec2d noon_angle = checked_sunlight_angle( first_noon );
     for( int i = 1; i < 1000; ++i ) {

@@ -132,7 +132,7 @@ TEST_CASE( "test_normalized_angle", "[line]" )
 }
 
 // NOLINTNEXTLINE(readability-function-size)
-TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum", "[line]" )
+TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" )
 {
     // Test the unit cube, which are the only values this function is valid for.
     REQUIRE( make_xyz_unit( tripoint( -1, -1, 1 ) ) == direction::ABOVENORTHWEST );

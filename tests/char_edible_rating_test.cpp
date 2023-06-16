@@ -55,7 +55,7 @@ static void expect_will_eat( avatar &dummy, item &food, const std::string &expec
     CHECK( rate_will.value() == expect_rating );
 }
 
-TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
+TEST_CASE( "cannot_eat_non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
 {
     avatar dummy;
     GIVEN( "something not edible" ) {
@@ -67,7 +67,7 @@ TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonf
     }
 }
 
-TEST_CASE( "cannot eat dirty food", "[can_eat][edible_rating][dirty]" )
+TEST_CASE( "cannot_eat_dirty_food", "[can_eat][edible_rating][dirty]" )
 {
     avatar dummy;
 
@@ -82,7 +82,7 @@ TEST_CASE( "cannot eat dirty food", "[can_eat][edible_rating][dirty]" )
     }
 }
 
-TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]" )
+TEST_CASE( "who_can_eat_while_underwater", "[can_eat][edible_rating][underwater]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -123,7 +123,7 @@ TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]
     }
 }
 
-TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
+TEST_CASE( "when_frozen_food_can_be_eaten", "[can_eat][edible_rating][frozen]" )
 {
     avatar dummy;
 
@@ -206,7 +206,7 @@ TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
     }
 }
 
-TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedible][animal]" )
+TEST_CASE( "who_can_eat_inedible_animal_food", "[can_eat][edible_rating][inedible][animal]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -258,7 +258,7 @@ TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedibl
     }
 }
 
-TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
+TEST_CASE( "what_herbivores_can_eat", "[can_eat][edible_rating][herbivore]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -285,7 +285,7 @@ TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
     }
 }
 
-TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
+TEST_CASE( "what_carnivores_can_eat", "[can_eat][edible_rating][carnivore]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -334,7 +334,7 @@ TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
     }
 }
 
-TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating][mycus]" )
+TEST_CASE( "what_you_can_eat_with_a_mycus_dependency", "[can_eat][edible_rating][mycus]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -359,7 +359,7 @@ TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating]
     }
 }
 
-TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][proboscis]" )
+TEST_CASE( "what_you_can_drink_with_a_proboscis", "[can_eat][edible_rating][proboscis]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -411,7 +411,7 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
     }
 }
 
-TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
+TEST_CASE( "can_eat_with_nausea", "[will_eat][edible_rating][nausea]" )
 {
     avatar dummy;
     item toastem( "toastem" );
@@ -428,7 +428,7 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
     }
 }
 
-TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
+TEST_CASE( "can_eat_with_allergies", "[will_eat][edible_rating][allergy]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -446,7 +446,7 @@ TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
     }
 }
 
-TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
+TEST_CASE( "who_will_eat_rotten_food", "[will_eat][edible_rating][rotten]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -497,7 +497,7 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
     }
 }
 
-TEST_CASE( "who will eat cooked human flesh", "[will_eat][edible_rating][cannibal]" )
+TEST_CASE( "who_will_eat_cooked_human_flesh", "[will_eat][edible_rating][cannibal]" )
 {
     avatar dummy;
     dummy.set_body();
