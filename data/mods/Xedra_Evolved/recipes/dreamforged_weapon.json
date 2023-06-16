@@ -3,6 +3,7 @@
     "type": "recipe",
     "result": "dreamdross_bo",
     "activity_level": "ACTIVE_EXERCISE",
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" } ],
     "components": [
       [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ],
       [ [ "stick_long", 1 ], [ "plank_long", 1 ], [ "long_pole", 1 ] ]
@@ -30,7 +31,6 @@
     "type": "recipe",
     "result": "dreamdross_club",
     "copy-from": "dreamdross_bo",
-    "activity_level": "ACTIVE_EXERCISE",
     "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ], [ [ "hammer", 1 ], [ "pipe", 1 ], [ "rebar", 1 ] ] ],
     "time": "3 h",
     "flags": [ "SECRET" ],
@@ -41,6 +41,7 @@
     "name": "dreamforged long sword",
     "id": "dreamforged_longsword_ench",
     "activity_level": "ACTIVE_EXERCISE",
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_weapon" } ],
     "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
@@ -50,11 +51,10 @@
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
-    "time": "1 d 7 h",
+    "time": "10 h",
     "flags": [ "SECRET" ],
     "skill_used": "deduction",
     "difficulty": 6,
-    "//": "TODO: add proficiency for weapon dreamforging",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
   },
@@ -74,7 +74,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 4,
     "flags": [ "SECRET" ],
-    "time": "21 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
@@ -92,7 +92,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 7 h"
+    "time": "11 h"
   },
   {
     "type": "recipe",
@@ -107,7 +107,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 4 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
@@ -125,7 +125,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 7,
     "flags": [ "SECRET" ],
-    "time": "1 d 12 h"
+    "time": "12 h"
   },
   {
     "type": "recipe",
@@ -140,7 +140,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 7,
     "flags": [ "SECRET" ],
-    "time": "1 d 9 h"
+    "time": "11 h"
   },
   {
     "type": "recipe",
@@ -158,7 +158,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 10 h"
+    "time": "13 h"
   },
   {
     "type": "recipe",
@@ -171,7 +171,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 4,
     "flags": [ "SECRET" ],
-    "time": "17 h"
+    "time": "6 h"
   },
   {
     "type": "recipe",
@@ -189,7 +189,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "1 d 1 h"
+    "time": "8 h"
   },
   {
     "type": "recipe",
@@ -204,7 +204,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 4,
     "flags": [ "SECRET" ],
-    "time": "1 d 4 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
@@ -222,7 +222,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "1 d 3 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
@@ -240,7 +240,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "1 d 5 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
@@ -258,7 +258,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "1 d 8 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
@@ -273,7 +273,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 14 h"
+    "time": "12 h"
   },
   {
     "type": "recipe",
@@ -291,7 +291,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "16 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
@@ -304,7 +304,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "13 h"
+    "time": "10 h"
   },
   {
     "type": "recipe",
@@ -319,7 +319,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 4,
     "flags": [ "SECRET" ],
-    "time": "14 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
@@ -337,7 +337,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "18 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
@@ -352,7 +352,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "21 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
@@ -367,7 +367,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "19 h"
+    "time": "6 h"
   },
   {
     "type": "recipe",
@@ -385,7 +385,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "18 h"
+    "time": "5 h"
   },
   {
     "type": "recipe",
@@ -403,7 +403,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 19 h"
+    "time": "16 h"
   },
   {
     "type": "recipe",
@@ -421,7 +421,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 9 h"
+    "time": "13 h"
   },
   {
     "type": "recipe",
@@ -439,7 +439,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 7,
     "flags": [ "SECRET" ],
-    "time": "2 d 1 h"
+    "time": "20 h"
   },
   {
     "type": "recipe",
@@ -457,15 +457,56 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "18 h"
+    "time": "7 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_longbow",
+    "copy-from": "dreamforged_longsword_ench",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
+    "difficulty": 5,
+    "time": "6 h"
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_dreamforged",
+    "copy-from": "dreamforged_longsword_ench",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 2 ] ] ],
+    "difficulty": 5,
+    "time": "3 m"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_crossbow",
+    "copy-from": "dreamforged_longsword_ench",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
+    "difficulty": 5,
+    "time": "6 h"
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_dreamforged",
+    "copy-from": "dreamforged_longsword_ench",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 2 ] ] ],
+    "difficulty": 5,
+    "time": "3 m"
   },
   {
     "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
     "result": "dreamforged_knuckle_berserk",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_dreamsmithing" },
+      { "proficiency": "prof_dreamsmithing_weapon" },
+      { "proficiency": "prof_dreamsmithing_peak" }
+    ],
     "components": [ [ [ "forged_dreamstuff_ingot", 4 ] ] ],
-    "time": "3 d 6 h",
+    "time": "1 d 2 h",
     "skill_used": "deduction",
     "difficulty": 5,
     "flags": [ "SECRET" ],
@@ -481,7 +522,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 6 ] ] ],
     "difficulty": 9,
     "flags": [ "SECRET" ],
-    "time": "4 d 4 h"
+    "time": "1 d 12 h"
   },
   {
     "type": "recipe",
@@ -491,7 +532,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 9,
     "flags": [ "SECRET" ],
-    "time": "4 d 6 h"
+    "time": "1 d 1 h"
   },
   {
     "type": "recipe",
@@ -501,6 +542,6 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 6 ] ] ],
     "difficulty": 8,
     "flags": [ "SECRET" ],
-    "time": "4 d 11 h"
+    "time": "1 d 3 h"
   }
 ]

@@ -188,7 +188,6 @@
   },
   {
     "id": "bunker_pants",
-    "repairs_like": "pants_leather",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "turnout trousers" },
@@ -746,7 +745,6 @@
     "material": [ "fancy_bronze", "leather" ],
     "symbol": "[",
     "looks_like": "chainmail_legs",
-    "repairs_like": "legguard_bronze",
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
@@ -804,7 +802,6 @@
   },
   {
     "id": "fencing_pants",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "name": { "str_sp": "fencing pants" },
     "description": "A pair of reinforced pants used by fencers to prevent injuries.  They don't cover the lower leg.",
@@ -1385,7 +1382,6 @@
   },
   {
     "id": "motorbike_pants",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "motorcycle jeans", "str_pl": "pairs of motorcycle jeans" },
     "description": "A pair of thick jeans interwoven with Kevlar for added durability and sporting integrated kneepads and flank protection, typically worn by motorcyclists to protect from road rash.",
@@ -1972,7 +1968,6 @@
   },
   {
     "id": "survivor_adhoc_leather_pants",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "leather-padded pants", "str_pl": "pairs of leather-padded pants" },
     "description": "A pair of tough canvas pants with sections from leather pants affixed, excluding the joints.  Offers mild protection without compromising mobility too much, but a lot of the pockets have been removed to make room for the leather.",

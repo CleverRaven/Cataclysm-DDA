@@ -569,7 +569,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_last_amigara_death",
-    "condition": { "compare_num": [ { "global_val": "monsters_nearby", "id": "mon_amigara_horror" }, "<", { "const": 1 } ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror')", "<", "1" ] },
     "effect": [
       { "mapgen_update": "amigara_death" },
       { "u_lose_effect": "effect_amigara" },
@@ -722,7 +722,7 @@
       {
         "run_eocs": {
           "id": "EOC_HALLUCINATION_ATTACKS",
-          "condition": { "compare_num": [ { "global_val": "monsters_nearby" }, ">", { "const": 1 } ] },
+          "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
           "effect": [
             {
               "u_spawn_monster": "GROUP_YOUR_FEARS",

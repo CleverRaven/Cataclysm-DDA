@@ -1,5 +1,7 @@
 #include "map_helpers.h"
 
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <list>
 #include <map>
@@ -146,10 +148,10 @@ void clear_map_and_put_player_underground()
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,
                              const bool death_drops )
 {
-    monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
-    added->death_drops = death_drops;
-    cata_assert( added );
-    return *added;
+    monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );
+    REQUIRE( test_monster_ptr );
+    test_monster_ptr->death_drops = death_drops;
+    return *test_monster_ptr;
 }
 
 // Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given

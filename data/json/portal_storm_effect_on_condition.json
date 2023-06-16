@@ -1011,31 +1011,10 @@
       "and": [
         { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
         {
-          "compare_num": [
-            { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_pale_reflection" },
+          "math": [
+            "monsters_nearby('mon_pale_reflection', 'mon_twisted_reflection', 'mon_dark_reflection', 'mon_better_half', 'location': dungeon_loc)",
             "<",
-            { "const": 1 }
-          ]
-        },
-        {
-          "compare_num": [
-            { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_twisted_reflection" },
-            "<",
-            { "const": 1 }
-          ]
-        },
-        {
-          "compare_num": [
-            { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_dark_reflection" },
-            "<",
-            { "const": 1 }
-          ]
-        },
-        {
-          "compare_num": [
-            { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_better_half" },
-            "<",
-            { "const": 1 }
+            "1"
           ]
         }
       ]
@@ -1107,12 +1086,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_SHADOW_SPAWN",
     "global": true,
-    "condition": {
-      "and": [
-        { "u_has_trait": "TAINTED_SHADOW" },
-        { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_tainted_shadow" }, "<", { "const": 1 } ] }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "TAINTED_SHADOW" }, { "math": [ "u_monsters_nearby('mon_tainted_shadow')", "<", "1" ] } ] },
     "effect": [
       {
         "u_spawn_monster": "mon_tainted_shadow",

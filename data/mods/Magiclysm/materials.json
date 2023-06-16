@@ -33,7 +33,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "100 ml" },
       { "fuel": 2, "smoke": 4, "burn": 2 }
     ],
-    "resist": { "bash": 3, "cut": 7, "acid": 40, "heat": 1, "bullet": 6, "electric": 2 }
+    "resist": { "bash": 3, "cut": 7, "acid": 40, "heat": 1, "bullet": 6, "electric": 2 },
+    "repair_difficulty": 4
   },
   {
     "type": "material",
@@ -52,7 +53,8 @@
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "100 ml" }
     ],
-    "resist": { "bash": 8, "cut": 9, "acid": 40, "heat": 4, "bullet": 8, "electric": 3 }
+    "resist": { "bash": 8, "cut": 9, "acid": 40, "heat": 4, "bullet": 8, "electric": 3 },
+    "repair_difficulty": 6
   },
   {
     "type": "material",
@@ -75,7 +77,8 @@
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 5 }
     ],
-    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 0, "bullet": 10, "electric": 3 }
+    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 0, "bullet": 10, "electric": 3 },
+    "repair_difficulty": 3
   },
   {
     "type": "material",
@@ -97,7 +100,8 @@
       { "fuel": 1, "smoke": 3, "burn": 1 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
     ],
-    "resist": { "bash": 1, "cut": 10, "acid": 3, "heat": 18, "bullet": 8, "electric": 2 }
+    "resist": { "bash": 1, "cut": 10, "acid": 3, "heat": 18, "bullet": 8, "electric": 2 },
+    "repair_difficulty": 8
   },
   {
     "type": "material",
@@ -113,7 +117,8 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap_bronze", 1 ] ],
-    "resist": { "bash": 13, "cut": 20, "acid": 7, "heat": 3, "bullet": 16, "electric": 0 }
+    "resist": { "bash": 13, "cut": 20, "acid": 7, "heat": 3, "bullet": 16, "electric": 0 },
+    "repair_difficulty": 7
   },
   {
     "type": "material",
@@ -128,7 +133,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 }
+    "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 },
+    "repair_difficulty": 7
   },
   {
     "type": "material",
@@ -143,7 +149,8 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 10, "cut": 6, "acid": 6, "heat": 0, "bullet": 19, "electric": 10 }
+    "resist": { "bash": 10, "cut": 6, "acid": 6, "heat": 0, "bullet": 19, "electric": 10 },
+    "repair_difficulty": 5
   },
   {
     "type": "material",

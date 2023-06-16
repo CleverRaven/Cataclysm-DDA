@@ -274,7 +274,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "+": "t_door_locked", "#": "t_brick_wall", "'": "t_thconc_floor", "R": "t_railing", ">": "t_stairs_down" },
+      "terrain": { "+": "t_door_locked", "#": "t_brick_wall", "'": "t_thconc_floor", "R": "t_railing" },
       "furniture": { "x": "f_console_broken", "X": "f_generator_broken", "N": "f_machinery_heavy" },
       "place_nested": [
         { "chunks": [ [ "roof_16x16_help", 3 ], [ "null", 10 ] ], "x": [ 4, 8 ], "y": [ 30, 38 ] },

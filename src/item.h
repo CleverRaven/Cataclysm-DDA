@@ -815,7 +815,8 @@ class item : public visitable
         std::vector<item_pocket *> get_all_contained_pockets();
         std::vector<const item_pocket *> get_all_standard_pockets() const;
         std::vector<item_pocket *> get_all_standard_pockets();
-
+        std::vector<item_pocket *> get_all_ablative_pockets();
+        std::vector<const item_pocket *> get_all_ablative_pockets() const;
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -2802,6 +2803,9 @@ class item : public visitable
         /** returns a list of pointers to all visible or remembered top-level items */
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
+
+        std::list<item *> all_ablative_armor();
+        std::list<const item *> all_ablative_armor() const;
 
         void clear_items();
         bool empty() const;

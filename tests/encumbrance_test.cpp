@@ -107,6 +107,13 @@ TEST_CASE( "plate_encumbrance", "[encumbrance]" )
     test_encumbrance_items( { with_plates }, "torso", ballistic + plate );
 }
 
+TEST_CASE( "off_limb_ablative_encumbrance", "[encumbrance]" )
+{
+    item with_plates( "test_ghost_vest" );
+    with_plates.force_insert_item( item( "test_plate_skirt" ), item_pocket::pocket_type::CONTAINER );
+    test_encumbrance_items( { with_plates }, "leg_l", plate );
+}
+
 TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
 {
     test_encumbrance( { "test_longshirt", "test_jacket_jean" }, "torso", longshirt_e + jacket_jean_e );

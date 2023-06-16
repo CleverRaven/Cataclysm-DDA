@@ -2869,6 +2869,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    update_last_bionic_uid();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     calc_encumbrance();
@@ -2891,7 +2892,10 @@ bionic &Character::bionic_at_index( int i )
 
 void Character::clear_bionics()
 {
-    my_bionics->clear();
+    set_max_power_level_modifier( 0_kJ );
+    while( !my_bionics->empty() ) {
+        remove_bionic( my_bionics->front() );
+    }
 }
 
 void reset_bionics()
@@ -3136,8 +3140,13 @@ static bionic_id migrate_bionic_id( const bionic_id &original )
 void bionic::deserialize( const JsonObject &jo )
 {
     id = migrate_bionic_id( bionic_id( jo.get_string( "id" ) ) );
+    if( !id.is_valid() ) {
+        debugmsg( "deserialized bionic id '%s' doesn't exist and has no migration", id.str() );
+        id = bionic_id::NULL_ID(); // remove it
+    }
     if( id.is_null() ) {
-        return; // obsoleted bionic
+        jo.allow_omitted_members();
+        return; // obsoleted bionics migrated to bionic_id::NULL_ID ids
     }
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );

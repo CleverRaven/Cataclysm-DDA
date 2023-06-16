@@ -553,7 +553,7 @@ Character::Character() :
 
     move_mode = move_mode_walk;
     next_expected_position = std::nullopt;
-    crafting_cache.time = calendar::before_time_starts;
+    invalidate_crafting_inventory();
 
     set_power_level( 0_kJ );
     cash = 0;
@@ -574,6 +574,8 @@ Character::Character() :
     last_batch = 0;
     death_drops = true;
     nv_cached = false;
+    leak_level = 0.0f;
+    leak_level_dirty = true;
     volume = 0;
     set_value( "THIEF_MODE", "THIEF_ASK" );
 	last_pc_zlev = 0; // Z-level on the last turn (used in character.cpp for "fine_detail_vision_mod" NPCs function override)																										  
@@ -585,6 +587,7 @@ Character::Character() :
     if( !!g && json_flag::is_ready() ) {
         recalc_sight_limits();
         calc_encumbrance();
+        worn.recalc_ablative_blocking(this);
     }
 }
 // *INDENT-ON*
@@ -2150,6 +2153,9 @@ void Character::process_turn()
     if( activity.targets.empty() && activity.do_drop_invalid_inventory() ) {
         drop_invalid_inventory();
     }
+    if( leak_level_dirty ) {
+        calculate_leak_level();
+    }
     process_items();
     leak_items();
     // Didn't just pick something up
@@ -2784,6 +2790,7 @@ std::vector<item_location> Character::nearby( const
 std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     return worn.remove_worn_items_with( filter, *this );
 }
 
@@ -6393,10 +6400,9 @@ void Character::mod_rad( int mod )
     set_rad( std::max( 0, get_rad() + mod ) );
 }
 
-float Character::leak_level() const
+void Character::calculate_leak_level()
 {
-    float ret = 0.f;
-
+    float ret = 0.0f;
     // This is bad way to calculate radiation and should be rewritten some day.
     for( const item_location &item_loc : const_cast<Character *>( this )->all_items_loc() ) {
         const item *it = item_loc.get_item();
@@ -6408,8 +6414,18 @@ float Character::leak_level() const
             }
         }
     }
+    leak_level_dirty = false;
+    leak_level = ret;
+}
 
-    return ret;
+float Character::get_leak_level() const
+{
+    return leak_level;
+}
+
+void Character::invalidate_leak_level_cache()
+{
+    leak_level_dirty = true;
 }
 
 int Character::get_stamina() const
@@ -9036,6 +9052,7 @@ void Character::on_worn_item_washed( const item &it )
 void Character::on_item_wear( const item &it )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
         // flag these mutations to be added at the start of the next turn
         // without doing this you still count as wearing the item providing
@@ -9048,6 +9065,7 @@ void Character::on_item_wear( const item &it )
 void Character::on_item_takeoff( const item &it )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this, true ) ) {
         // flag these mutations to be removed at the start of the next turn
         // without doing this you still count as wearing the item providing
