@@ -4185,7 +4185,7 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
                 continue;
             }
 
-            std::string description = "";
+            std::string description;
             if( !eoc_descriptions.empty() ) {
                 description = eoc_descriptions[i].evaluate( d );
             }
