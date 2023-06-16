@@ -339,7 +339,7 @@
       { "id": "mutant_hoof" },
       "scratch_grab_required"
     ],
-    "description": "A large predatory flightless bird with monstrous beak and strong legs. Truly, the dinosaurs never went extinct, they just grew more feathers.",
+    "description": "A large predatory flightless bird with monstrous beak and strong legs.  Truly, the dinosaurs never went extinct, they just grew more feathers.",
     "reproduction": { "baby_egg": "egg_titanis_walleri", "baby_count": 1, "baby_timer": 540 },
     "baby_flags": [ "SUMMER" ],
     "flags": [
