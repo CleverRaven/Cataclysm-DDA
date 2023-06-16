@@ -1465,12 +1465,14 @@ player_activity Character::get_destination_activity() const
 
 void Character::mount_creature( monster &z )
 {
+    avatar &player_avatar = get_avatar();
     tripoint pnt = z.pos();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
         add_msg_debug( debugmode::DF_CHARACTER, "mount_creature(): monster not found in critter_tracker" );
         return;
     }
+
     add_effect( effect_riding, 1_turns, true );
     z.add_effect( effect_ridden, 1_turns, true );
     if( z.has_effect( effect_tied ) ) {
@@ -1487,21 +1489,10 @@ void Character::mount_creature( monster &z )
     }
     mounted_creature = mons;
     mons->mounted_player = this;
-    if( is_avatar() ) {
-        avatar &player_character = get_avatar();
-        if( player_character.is_hauling() ) {
-            player_character.stop_hauling();
-        }
-        if( player_character.get_grab_type() != object_type::NONE ) {
-            add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            player_character.grab( object_type::NONE );
-        }
-        g->place_player( pnt );
-    } else {
-        npc &guy = dynamic_cast<npc &>( *this );
-        guy.setpos( pnt );
+    if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
+        add_msg( m_warning, _( "You let go of the grabbed object." ) );
+        player_avatar.grab( object_type::NONE );
     }
-    z.facing = facing;
     add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
     if( z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( !z.type->mech_weapon.is_empty() ) {
@@ -1510,6 +1501,16 @@ void Character::mount_creature( monster &z )
         }
         add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
     }
+    if( is_avatar() ) {
+        if( player_avatar.is_hauling() ) {
+            player_avatar.stop_hauling();
+        }
+        g->place_player( pnt );
+    } else {
+        npc &guy = dynamic_cast<npc &>( *this );
+        guy.setpos( pnt );
+    }
+    z.facing = facing;
     // some rideable mechs have night-vision
     recalc_sight_limits();
     if( is_avatar() && z.has_flag( MF_MECH_RECON_VISION ) ) {
