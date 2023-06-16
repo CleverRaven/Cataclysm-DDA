@@ -330,7 +330,15 @@
     "dodge": 3,
     "luminance": 0,
     "hp": 150,
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "LUNGE", 10 ], { "id": "bite_grab" }, [ "BIO_OP_TAKEDOWN", 20 ], [ "GRAB_DRAG", 15 ], { "id": "mutant_hoof" }, "scratch_grab_required"],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "LUNGE", 10 ],
+      { "id": "bite_grab" },
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      [ "GRAB_DRAG", 15 ],
+      { "id": "mutant_hoof" },
+      "scratch_grab_required"
+    ],
     "description": "A large predatory flightless bird with monstrous beak and strong legs. Truly, the dinosaurs never went extinct, they just grew more feathers.",
     "reproduction": { "baby_egg": "egg_titanis_walleri", "baby_count": 1, "baby_timer": 540 },
     "baby_flags": [ "SUMMER" ],
