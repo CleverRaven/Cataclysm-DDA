@@ -270,7 +270,7 @@
     "warmth": 0,
     "longest_side": "40 cm",
     "material_thickness": 3,
-    "flags": [ "STURDY", "BELTED" ],
+    "flags": [ "STURDY", "BELTED", "MUNDANE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -322,15 +322,21 @@
       },
       {
         "description": "Floating clip (seems like anything would fit).",
-        "magazine_well": "1500 ml",
-        "max_contains_volume": "3 L",
+        "max_contains_volume": "4 L",
         "max_contains_weight": "10 kg",
-        "max_item_length": "130 cm",
+        "max_item_length": "150 cm",
         "min_item_length": "30 cm",
         "moves": 80,
         "holster": true,
         "volume_encumber_modifier": 0.5,
         "weight_multiplier": 0.0
+      },
+      {
+        "description": "Large Quiver.",
+        "weight_multiplier": 0.0,
+        "ammo_restriction": { "strange_arrow": 5 },
+        "moves": 40,
+        "volume_encumber_modifier": 0.2
       },
       {
         "pocket_type": "CONTAINER",
@@ -351,7 +357,7 @@
     "name": { "str": "filtering menpo" },
     "category": "armor",
     "description": "A sealed mask with strange filtering components on the front turned up in the shape of horns.  Inscryptions mark the glass of the lenses creating spiral patterns that blur the vision.",
-    "flags": [ "SLEEP_IGNORE" ],
+    "flags": [ "SLEEP_IGNORE", "MUNDANE" ],
     "weight": "897 g",
     "volume": "1 L",
     "price": 4900,

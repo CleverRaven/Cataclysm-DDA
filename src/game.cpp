@@ -11384,7 +11384,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                            enchant_vals::mod::KNOCKBACK_RESIST );
         if( knockback_resist >= 1 ) {
             // you are immune
-            return;
+            return false;
         }
 
         // 1.0 knockback resist is immune, 0 is normal
