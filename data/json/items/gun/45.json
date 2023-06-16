@@ -535,7 +535,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": ".45 WWII SMG" },
-    "description": "A WWII submachine gun, lacking semi-auto fire selector and chambered in .45 ACP.  ",
+    "description": "A WWII submachine gun, lacking semi-auto fire selector and chambered in .45 ACP.",
     "variant_type": "gun",
     "variants": [
       {
