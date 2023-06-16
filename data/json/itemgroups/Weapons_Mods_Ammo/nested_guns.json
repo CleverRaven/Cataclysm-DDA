@@ -2657,7 +2657,7 @@
       { "item": "falmag", "prob": 50 },
       { "group": "on_hand_308" }
     ]
-  }
+  },
   {
     "id": "nested_greasegun",
     "type": "item_group",
