@@ -6370,7 +6370,6 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        
         assign_activity( ACT_MEND_ITEM, to_moves<int>( final_time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( fix.id_ );
