@@ -38,7 +38,7 @@
     "description": "A large egg laid by a titanis walleri.  Prized for its big, nutritious yolk.",
     "quench": 14,
     "calories": 2100,
-    "volume": "1.8 l",
+    "volume": "1800 ml",
     "rot_spawn": "GROUP_EGG_TITANIS_WALLERI"
   },
   {
