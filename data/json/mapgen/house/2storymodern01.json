@@ -535,7 +535,7 @@
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",
         "                        ",
@@ -562,7 +562,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof", "~": "t_shingle_flat_roof", "N": "t_shingle_flat_roof" },
+      "terrain": { ".": "t_shingle_flat_roof" },
       "rotation": [ 2 ]
     }
   }
