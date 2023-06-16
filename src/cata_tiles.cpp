@@ -5007,11 +5007,9 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         { "opengles2", to_translation( "opengles2" ) },
     };
     int numRenderDrivers = SDL_GetNumRenderDrivers();
-    DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
     for( int ii = 0; ii < numRenderDrivers; ii++ ) {
         SDL_RendererInfo ri;
         SDL_GetRenderDriverInfo( ii, &ri );
-        DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
         // First default renderer name we will put first on the list. We can use it later as
         // default value.
         if( ri.name == default_renderer_names.front().first ) {
@@ -5019,8 +5017,11 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         } else {
             renderer_names.emplace_back( ri.name, no_translation( ri.name ) );
         }
-
     }
+    DebugLog( D_INFO, DC_ALL ) << "SDL render devices: " << enumerate_as_string( renderer_names,
+    []( const options_manager::id_and_option & iao ) {
+        return iao.first;
+    }, enumeration_conjunction::none );
 
     return renderer_names.empty() ? default_renderer_names : renderer_names;
 }
