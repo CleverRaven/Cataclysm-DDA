@@ -13248,9 +13248,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             if( type->revert_to ) {
                 convert( *type->revert_to );
 
-                if( !active ) {
-                    active = needs_processing();
-                }
+                active = needs_processing();
             } else {
                 return true;
             }
