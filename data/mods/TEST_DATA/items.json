@@ -4490,5 +4490,22 @@
       }
     ],
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_rock_cheese",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "TEST rock cheese" },
+    "description": "A rock that runs into cheese via timer.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "stone" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "melee_damage": { "bash": 1 },
+    "revert_to": "cheese_hard"
   }
 ]
