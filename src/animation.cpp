@@ -881,7 +881,7 @@ void game::draw_async_anim( const tripoint &p, const std::string &tile_id, const
 
     if( !use_tiles ) {
         if( !ncstr.empty() ) {
-            hit_animation( get_avatar(), p, nccol, ncstr );
+            g->init_draw_async_anim_curses( p, ncstr, nccol );
         }
         return;
     }
@@ -894,7 +894,7 @@ void game::draw_async_anim( const tripoint &p, const std::string &, const std::s
                             const nc_color &nccol )
 {
     if( !ncstr.empty() ) {
-        hit_animation( get_avatar(), p, nccol, ncstr );
+        g->init_draw_async_anim_curses( p, ncstr, nccol );
     }
 }
 #endif
