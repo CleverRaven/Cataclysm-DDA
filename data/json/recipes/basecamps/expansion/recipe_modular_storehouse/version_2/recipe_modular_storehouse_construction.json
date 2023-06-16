@@ -315,13 +315,13 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbms_2_9_construction",
-    "description": "Let's extend our storage building with a nineth section.",
+    "description": "Let's extend our storage building with a ninth section.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbms_2_9_construction",
-    "blueprint_name": "nineth storage section",
+    "blueprint_name": "ninth storage section",
     "blueprint_parameter_names": {
       "fbms_2_construction_palette": {
         "fbms_2_concrete_palette": "Concrete walls and roof",
