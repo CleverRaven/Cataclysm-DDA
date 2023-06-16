@@ -731,7 +731,6 @@ bool Character::handle_gun_damage( item &it )
             if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
                 it.faults.erase( fault_gun_dirt );
                 it.faults.insert( fault_gun_blackpowder );
-                it.faults.insert( fault_gun_blackpowder_rust );
             }
             // end fouling mechanics
         }
@@ -2022,22 +2021,22 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( !!ammo->ammo->casing ) {
-        const itype_id casing = *ammo->ammo->casing;
+        item casing = item( *ammo->ammo->casing );
         // blackpowder can gum up casings too
-        if( *ammo->ammo->has_flag( json_flag_BLACKPOWDER ) ) {
+        if( *ammo->has_flag( json_flag_BLACKPOWDER ) ) {
             casing.set_flag( json_flag_FILTHY );
         }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
-            weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
+            weap.force_insert_item( casing.set_flag( flag_CASING ),
                                     item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
-            if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
-                brass_catcher->put_in( item( casing ), item_pocket::pocket_type::CONTAINER );
+            if( brass_catcher && brass_catcher->can_contain( casing ) ) {
+                brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
             } else if( cargo.empty() ) {
-                here.add_item_or_charges( eject, item( casing ) );
+                here.add_item_or_charges( eject, casing );
             } else {
-                vp->vehicle().add_item( *cargo.front(), item( casing ) );
+                vp->vehicle().add_item( *cargo.front(), casing );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
