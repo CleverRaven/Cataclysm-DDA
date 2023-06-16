@@ -76,7 +76,7 @@
       "type": "transform",
       "target_charges": 400,
       "target_ammo": "elastic_potential_energy",
-      "moves" : 500 
+      "moves": 500
     }
   },
   {
