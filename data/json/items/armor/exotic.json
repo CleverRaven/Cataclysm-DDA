@@ -354,7 +354,7 @@
   {
     "id": "armor_star_samurai_mask",
     "type": "TOOL_ARMOR",
-    "name": { "str": "filtering menpo" },
+    "name": { "str_sp": "filtering menpo" },
     "category": "armor",
     "description": "A sealed mask with strange filtering components on the front turned up in the shape of horns.  Inscriptions mark the glass of the lenses creating spiral patterns that blur the vision.",
     "flags": [ "SLEEP_IGNORE", "MUNDANE" ],
