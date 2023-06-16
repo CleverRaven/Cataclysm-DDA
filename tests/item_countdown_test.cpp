@@ -4,7 +4,7 @@
 #include "map.h"
 
 
-TEST_CASE( "countdown_action triggering", "[item]" )
+TEST_CASE( "countdown_action_triggering", "[item]" )
 {
     item grenade( "grenade_act" );
     grenade.active = true;
@@ -28,7 +28,7 @@ TEST_CASE( "countdown_action triggering", "[item]" )
     }
 }
 
-TEST_CASE( "countdown_action revert_to", "[item]" )
+TEST_CASE( "countdown_action_revert_to", "[item]" )
 {
     SECTION( "revert to inert item" ) {
         item test_item( "arrow_flamming" );
