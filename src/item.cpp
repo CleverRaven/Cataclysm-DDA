@@ -13137,7 +13137,7 @@ bool item::process_blackpowder_fouling( Character *carrier )
 {
     //at low fouling about 24 hours to rust to XX. Down to 4 at very high fouling levels.
     int dirt_factor = static_cast<int>( get_var( "dirt", 0 ) / 2000 );
-    if( damage() < max_damage() && ( dirt_factor + rng( 0, 21600 ) >= 21600 ) ) ) {
+    if( damage() < max_damage() && ( dirt_factor + rng( 0, 21600 ) >= 21600 ) ) {
         inc_damage();
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
