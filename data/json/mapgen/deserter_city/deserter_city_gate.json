@@ -44,7 +44,7 @@
         ]
       },
       "place_npcs": [ { "class": "deserter", "x": 9, "y": 22 }, { "class": "deserter", "x": 16, "y": 15 } ],
-      "place_vehicles": [ { "vehicle": "bandit_vehicles", "x": 10, "y": 13, "chance": 40, "rotation": 0, "status": 0 } ]
+      "place_vehicles": [ { "vehicle": "military_vehicles", "x": 10, "y": 13, "chance": 40, "rotation": 0, "status": 0 } ]
     }
   }
 ]
