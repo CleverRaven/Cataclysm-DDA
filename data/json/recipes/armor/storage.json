@@ -135,6 +135,25 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
+    "result": "dry_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "6 h 40 m",
+    "autolearn": true,
+    "reversible": { "time": "35 m" },
+    "book_learn": [ [ "plastics_book", 1 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 20 ], [ "clasps", 1 ], [ "waterproofing_plastic_sheets", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
     "result": "fanny",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1737,6 +1756,29 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 80 ] ]
+    ]
+  },
+  {
+    "result": "survivor_dry_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 4 ],
+    "time": "7 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 120 ], [ "tailoring_lycra_patchwork", 10 ], [ "fastener_small", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "components": [
+      [ [ "lycra_patch", 50 ] ],
+      [ [ "dry_bag", 1 ] ],
+      [ [ "plastic_sheet", 4 ] ],
+      [ [ "duct_tape", 120 ] ]
     ]
   },
   {
