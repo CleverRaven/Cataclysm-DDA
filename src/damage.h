@@ -80,7 +80,7 @@ struct damage_info_order {
     damage_info_order_entry pet_prot_info;
     damage_info_order_entry melee_combat_info;
     damage_info_order_entry ablative_info;
-    bool was_loaded;
+    bool was_loaded = false;
 
     static void load_damage_info_orders( const JsonObject &jo, const std::string &src );
     static void reset();
