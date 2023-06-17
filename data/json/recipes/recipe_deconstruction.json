@@ -4885,6 +4885,21 @@
     ]
   },
   {
+    "result": "heavy_lathe",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "120 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 8 ] ],
+      [ [ "steel_chunk", 12 ] ],
+      [ [ "steel_lump", 6 ] ],
+      [ [ "scrap", 16 ] ],
+      [ [ "steel_plate", 4 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
     "result": "hydraulic_press",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
