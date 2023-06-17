@@ -3206,8 +3206,11 @@ void vehicle::set_submap_moved( const tripoint &p )
 
 units::mass vehicle::total_mass() const
 {
+    // local_center_of_mass() is more frequently called
+    // than rotated_center_of_mass().
+    // To improve performance, refresh mass_center_no_precalc.
     if( mass_dirty ) {
-        calc_mass_center( true );
+        calc_mass_center( false );
     }
 
     return mass_cache;
@@ -5250,16 +5253,21 @@ void vehicle::idle( bool on_map )
     power_parts();
     Character &player_character = get_player_character();
     if( engine_on && total_power() > 0_W ) {
-        int idle_rate = alternator_load;
-        if( idle_rate < 10 ) {
-            idle_rate = 10;    // minimum idle is 1% of full throttle
-        }
-        if( has_engine_type_not( fuel_type_muscle, true ) ) {
-            consume_fuel( idle_rate, true );
-        }
+        // Consume fuel at here only if the vehicle is not thrusting.
+        // See the condition under which vehicle::thrust() is called in vehicle::gain_moves().
+        if( !( ( player_in_control( player_character ) || is_following || is_patrolling ) &&
+               cruise_velocity != 0 ) ) {
+            int idle_rate = alternator_load;
+            if( idle_rate < 10 ) {
+                idle_rate = 10;    // minimum idle is 1% of full throttle
+            }
+            if( has_engine_type_not( fuel_type_muscle, true ) ) {
+                consume_fuel( idle_rate, true );
+            }
 
-        if( on_map ) {
-            noise_and_smoke( idle_rate, 1_turns );
+            if( on_map ) {
+                noise_and_smoke( idle_rate, 1_turns );
+            }
         }
     } else {
         if( engine_on &&
