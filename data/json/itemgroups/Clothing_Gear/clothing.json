@@ -2659,7 +2659,7 @@
     "type": "item_group",
     "id": "diving_accessories",
     "//": "Only diving appropriate accesories.",
-    "items": [ [ "dive_bag", 25 ], [ "diving_watch", 25 ], [ "small_scuba_tank", 25 ], [ "scuba_tank", 25 ] ]
+    "items": [ [ "dive_bag", 25 ], [ "dry_bag", 25 ], [ "dry_duffelbag", 25 ], [ "dry_bag_large", 15 ], [ "diving_watch", 25 ], [ "small_scuba_tank", 25 ], [ "scuba_tank", 25 ] ]
   },
   {
     "type": "item_group",
@@ -3266,6 +3266,9 @@
       [ "survivor_rucksack", 4 ],
       [ "survivor_duffel_bag", 3 ],
       [ "dive_bag", 10 ],
+      [ "dry_bag", 10 ],
+      [ "dry_duffelbag", 10 ],
+      [ "dry_bag_large", 5 ],
       [ "runner_bag", 20 ],
       [ "molle_pack", 12 ],
       [ "backpack", 40 ],
