@@ -617,6 +617,7 @@
     "id": "karma_arms",
     "name": { "str": "Karma" },
     "points": 1,
+    "visibility": 10,
     "description": "Ethereal hands appear behind you back, making you looks like an ancient god.",
     "valid": false,
     "starting_trait": false,
