@@ -6,6 +6,7 @@ Use the `Home` key to return to the top.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
+- [JSON INFO](#json-info)
 - [Introduction](#introduction)
   - [Overall structure](#overall-structure)
   - [Common properties](#common-properties)
@@ -24,11 +25,11 @@ Use the `Home` key to return to the top.
   - [`data/json/vehicles/`](#datajsonvehicles)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   - [`data/json/` JSONs](#datajson-jsons)
-    - [Ascii_arts](#ascii_arts)
+    - [Ascii\_arts](#ascii_arts)
     - [Addiction types](#addiction-types)
     - [Body Graphs](#body-graphs)
       - [Graph Parts](#graph-parts)
-    - [Body_parts](#body_parts)
+    - [Body\_parts](#body_parts)
 - [On-hit Effects](#on-hit-effects)
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
@@ -78,14 +79,14 @@ Use the `Home` key to return to the top.
       - [Defining common requirements](#defining-common-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
     - [Constructions](#constructions)
-    - [Scent_types](#scent_types)
+    - [Scent\_types](#scent_types)
     - [Scores, Achievements, and Conducts](#scores-achievements-and-conducts)
       - [`event_transformation`](#event_transformation)
       - [`event_statistic`](#event_statistic)
       - [`score`](#score)
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
-    - [Skills](#skills)
+    - [Skills](#skills-1)
     - [Speed Description](#speed-description)
     - [Mood Face](#mood-face)
     - [Tool Qualities](#tool-qualities)
@@ -116,7 +117,7 @@ Use the `Home` key to return to the top.
     - [Armor](#armor)
       - [Armor Portion Data](#armor-portion-data)
         - [Encumbrance](#encumbrance)
-        - [Encumbrance_modifiers](#encumbrance_modifiers)
+        - [Encumbrance\_modifiers](#encumbrance_modifiers)
         - [Coverage](#coverage)
         - [Covers](#covers)
         - [Specifically Covers](#specifically-covers)
@@ -127,7 +128,7 @@ Use the `Home` key to return to the top.
     - [Books](#books)
       - [Conditional Naming](#conditional-naming)
       - [Color Key](#color-key)
-      - [CBMs](#cbms)
+      - [CBMs](#cbms-1)
     - [Comestibles](#comestibles)
     - [Containers](#containers)
     - [Melee](#melee)
@@ -224,18 +225,18 @@ Use the `Home` key to return to the top.
         - [`base`](#base)
         - [`growth_multiplier`](#growth_multiplier)
         - [`harvest_multiplier`](#harvest_multiplier)
-    - [clothing_mod](#clothing_mod)
+    - [clothing\_mod](#clothing_mod)
 - [Scenarios](#scenarios)
   - [`description`](#description-1)
   - [`name`](#name-2)
   - [`points`](#points-1)
   - [`items`](#items-3)
   - [`flags`](#flags-2)
-  - [`cbms`](#cbms-1)
+  - [`cbms`](#cbms-2)
   - [`traits`, `forced_traits`, `forbidden_traits`](#traits-forced_traits-forbidden_traits)
   - [`allowed_locs`](#allowed_locs)
   - [`start_name`](#start_name)
-  - [`professions`](#professions)
+  - [`professions`](#professions-1)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement-1)
   - [`eocs`](#eocs)
@@ -243,7 +244,7 @@ Use the `Home` key to return to the top.
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
-  - [`terrain`](#terrain)
+  - [`terrain`](#terrain-1)
   - [`city_sizes`](#city_sizes)
   - [`city_distance`](#city_distance)
   - [`allowed_z_levels`](#allowed_z_levels)
@@ -3581,6 +3582,8 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 	// If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
+
+    "inherits_flags": true // if a pocket inherits flags it means any flags that the items inside have contribute to the item that has the pockets itself.
   }
 ]
 ```

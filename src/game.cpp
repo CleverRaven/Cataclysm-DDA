@@ -5620,14 +5620,14 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     m.unboard_vehicle( u.pos() );
     u.moves -= 200;
     // Dive three tiles in the direction of tox and toy
-    fling_creature( &u, d, 30, true );
+    fling_creature( &u, d, 30, true, true );
     // Hit the ground according to vehicle speed
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) ) {
         if( veh->velocity > 0 ) {
-            fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ) );
+            fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ), false, true );
         } else {
             fling_creature( &u, veh->face.dir() + 180_degrees,
-                            -( veh->velocity ) / static_cast<float>( 100 ) );
+                            -( veh->velocity ) / static_cast<float>( 100 ), false, true );
         }
     }
 }
@@ -11335,7 +11335,8 @@ void game::water_affect_items( Character &ch ) const
     }
 }
 
-bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
+bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled,
+                           bool intentional )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
@@ -11365,12 +11366,30 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         }
     }
 
+
+
     bool thru = true;
     const bool is_u = c == &u;
     // Don't animate critters getting bashed if animations are off
     const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
 
     Character *you = dynamic_cast<Character *>( c );
+
+    // at this point we should check if knockback immune
+    // assuming that the shove wasn't intentional
+    if( !intentional && you != nullptr ) {
+
+        double knockback_resist = 0.0;
+        knockback_resist = you->calculate_by_enchantment( knockback_resist,
+                           enchant_vals::mod::KNOCKBACK_RESIST );
+        if( knockback_resist >= 1 ) {
+            // you are immune
+            return false;
+        }
+
+        // 1.0 knockback resist is immune, 0 is normal
+        flvel *= 1 - knockback_resist;
+    }
 
     tileray tdir( dir );
     int range = flvel / 10;
