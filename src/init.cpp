@@ -501,16 +501,14 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
     // the first loaded mode might provide a vehicle that uses that frame
     // But not the other way round.
 
-    // get a list of all files in the directory
-    std::vector<cata_path> files = get_files_from_path( ".json", path, true, true );
-    if( files.empty() ) {
-        std::ifstream tmp( path.get_unrelative_path(), std::ios::in );
-        if( tmp ) {
-            // path is actually a file, don't checking the extension,
-            // assume we want to load this file anyway
-            files.push_back( path );
-        }
+    std::vector<cata_path> files;
+    if( dir_exist( path.get_unrelative_path() ) ) {
+        const std::vector<cata_path> dir_files = get_files_from_path( ".json", path, true, true );
+        files.insert( files.end(), dir_files.begin(), dir_files.end() );
+    } else if( file_exist( path.get_unrelative_path() ) ) {
+        files.emplace_back( path );
     }
+
     // iterate over each file
     for( const cata_path &file : files ) {
         try {

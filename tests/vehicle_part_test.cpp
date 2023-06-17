@@ -129,7 +129,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     clear_avatar();
     clear_map();
     clear_vehicles();
-    set_time( midday );
+    set_time_to_day();
 
     const tripoint test_origin( 60, 60, 0 );
     Character &character = get_player_character();
@@ -174,9 +174,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     veh.discharge_battery( 500000 );
     veh.charge_battery( give_battery );
 
-    // Bust cache on crafting_inventory()
-    character.mod_moves( 1 );
-
+    character.invalidate_crafting_inventory();
     const inventory &crafting_inv = character.crafting_inventory();
     bool can_craft = recipe
                      .deduped_requirements()
