@@ -933,7 +933,7 @@
     "id": "dry_bag",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "//": "based on KastKing Regular Cyclone Seal Dry Bag"
+    "//": "based on KastKing Regular Cyclone Seal Dry Bag",
     "name": { "str": "dry bag" },
     "description": "A lightweight watertight backpack, commonly worn by swimmers and divers.",
     "weight": "580 g",
@@ -1018,7 +1018,7 @@
     {
     "id": "dry_duffelbag",
     "type": "ARMOR",
-    "//": "based on Aonyx 60 Waterproof Duffel Bag"
+    "//": "based on Aonyx 60 Waterproof Duffel Bag",
     "name": { "str": "dry duffel bag" },
     "description": "An enormous watertight duffel bag. Capable of floating. Provides plenty of storage, but is severely encumbering.",
     "weight": "1300 g",
