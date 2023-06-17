@@ -5200,6 +5200,9 @@ static bool process_map_items( map &here, item_stack &items, safe_reference<item
                 items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
             }
         }
+        if( parent != nullptr ) {
+            parent->on_contents_changed();
+        }
         return true;
     }
     // Item not destroyed

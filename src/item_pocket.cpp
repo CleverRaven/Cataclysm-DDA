@@ -2544,6 +2544,16 @@ void item_pocket::favorite_settings::set_preset_name( const std::string &s )
     preset_name = s;
 }
 
+void item_pocket::favorite_settings::set_was_edited()
+{
+    player_edited = true;
+}
+
+bool item_pocket::favorite_settings::was_edited() const
+{
+    return player_edited;
+}
+
 const std::optional<std::string> &item_pocket::favorite_settings::get_preset_name() const
 {
     return preset_name;
