@@ -11,7 +11,6 @@ enum class holiday : int;
 const std::string SAVE_MASTER( "master.gsav" );
 const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
 const std::string SAVE_EXTENSION( ".sav" );
-const std::string SAVE_EXTENSION_MAP_MEMORY( ".mm" );
 const std::string SAVE_EXTENSION_LOG( ".log" );
 const std::string SAVE_EXTENSION_WEATHER( ".weather" );
 const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );

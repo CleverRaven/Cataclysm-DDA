@@ -1267,8 +1267,7 @@ std::string vpart_variant::get_label() const
 
 char32_t vpart_variant::get_symbol( units::angle direction, bool is_broken ) const
 {
-    // offset by 90 degrees to match vehicle facing zeroed to the east
-    const int dir8 = units::angle_to_dir8( direction );
+    const int dir8 = angle_to_dir8( direction );
     return is_broken ? symbols_broken[dir8] : symbols[dir8];
 }
 
@@ -1292,7 +1291,7 @@ static int utf32_to_ncurses_ACS( char32_t sym )
 
 int vpart_variant::get_symbol_curses( units::angle direction, bool is_broken ) const
 {
-    return utf32_to_ncurses_ACS( get_symbol( direction, is_broken ) );
+    return get_symbol_curses( get_symbol( direction, is_broken ) );
 }
 
 int vpart_variant::get_symbol_curses( char32_t sym )
