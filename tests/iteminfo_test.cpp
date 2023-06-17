@@ -2547,7 +2547,7 @@ TEST_CASE( "item description flags", "[iteminfo][flags]" )
            " <color_c_cyan>radiation</color>.\n"
            "* This clothing is designed to keep you <color_c_cyan>dry</color> in the rain.\n"
            "* This clothing <color_c_cyan>won't let water through</color>."
-           "  Unless you jump in the river or something like that.\n" );
+           "  Even if you jump into a river.\n" );
 }
 
 // Functions:
