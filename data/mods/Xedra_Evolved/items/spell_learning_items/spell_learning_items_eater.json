@@ -50,7 +50,7 @@
     "id": "glass_berries",
     "type": "GENERIC",
     "category": "artifacts",
-    "looks_like": "marble"
+    "looks_like": "marble",
     "name": { "str": "box of glass berries", "str_pl": "boxes of glass berries" },
     "description": "A box full of glass berries, when you get distracted you find yourself crunching them in your mouth.  Each one tastes like a mouthful of blood that slowly changes to espresso.",
     "weight": "50 g",
