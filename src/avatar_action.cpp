@@ -165,7 +165,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If any leg broken without crutches and not already on the ground topple over
-    if( ( you.get_working_leg_count() < 2 && !you.is_prone() &&
+    if( ( !you.enough_working_legs() && !you.is_prone() &&
           !( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_CRUTCHES ) ) ) ) {
         you.set_movement_mode( move_mode_prone );
         you.add_msg_if_player( m_bad,

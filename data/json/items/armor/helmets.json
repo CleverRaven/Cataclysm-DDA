@@ -31,7 +31,6 @@
   },
   {
     "id": "stockpot_helmet",
-    "repairs_like": "mc_helm_close",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pot great helm" },
@@ -108,7 +107,6 @@
   },
   {
     "id": "headgear",
-    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": { "str": "headgear" },
     "description": "Lightweight sports headgear designed to protect the head while sparring.",
@@ -159,13 +157,13 @@
   },
   {
     "id": "helmet_army",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "army helmet" },
     "description": "A heavy helmet that provides excellent protection from all sorts of damage.  It is labeled as the advanced combat helmet.",
     "weight": "1383 g",
     "volume": "1750 ml",
+    "longest_side": "28 cm",
     "price": 15000,
     "price_postapoc": 1500,
     "to_hit": -1,
@@ -248,7 +246,7 @@
         "max_contains_volume": "300 ml",
         "max_contains_weight": "400 g",
         "max_item_length": "14 cm",
-        "moves": 250,
+        "moves": 100,
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
@@ -256,8 +254,55 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "helmet_army_outdated",
+    "repairs_like": "helmet_barbute",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "flak helmet" },
+    "description": "A simple helmet meant to protect the head from fragmentation and impacts.  Its simple steel construction renders it outdated by modern military standards.",
+    "weight": "1400 g",
+    "volume": "1900 ml",
+    "longest_side": "28 cm",
+    "price": 20000,
+    "//": "assuming this is an antique and not a cheap replica",
+    "price_postapoc": 1200,
+    "to_hit": -1,
+    "material": [ "hc_steel", "cotton" ],
+    "repairs_with": [ "hc_steel" ],
+    "symbol": "[",
+    "looks_like": "helmet_army",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 1.12,
+    "flags": [ "VARSIZE", "STURDY", "PADDED" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
+    "variants": [
+      {
+        "id": "helmet_m1",
+        "name": { "str": "M1 helmet" },
+        "description": "A M1 combat helmet, famously worn by American soldiers in the Second World War as well as the Korean and Vietnam wars.  Inferior to modern helmets, but it still remains popular among guerilla fighters, collectors and war re-enactors.",
+        "color": "green",
+        "weight": 10
+      },
+      {
+        "id": "helmet_ssh",
+        "name": { "str": "SSh-68 helmet" },
+        "description": "An old SSh-68 combat helmet from the Soviet Union, likely brought to The States by a collector or migrant.  It is designed to protect against shrapnel and some small arms and will do little to stop a rifle round.",
+        "color": "light_red",
+        "weight": 5
+      }
+    ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "tac_fullhelmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tactical full helmet" },
@@ -285,7 +330,6 @@
   },
   {
     "id": "tac_helmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tactical helmet" },
@@ -374,7 +418,7 @@
         "max_contains_volume": "300 ml",
         "max_contains_weight": "400 g",
         "max_item_length": "14 cm",
-        "moves": 250,
+        "moves": 100,
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
@@ -383,7 +427,6 @@
   },
   {
     "id": "firehelmet",
-    "repairs_like": "nomex_hood",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "firefighter helmet" },
@@ -424,7 +467,6 @@
   },
   {
     "id": "helmet_ball",
-    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "baseball helmet" },
@@ -537,7 +579,6 @@
   },
   {
     "id": "helmet_bike",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "bike helmet" },
@@ -743,7 +784,6 @@
   },
   {
     "id": "helmet_football",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football helmet" },
@@ -999,7 +1039,6 @@
   },
   {
     "id": "helmet_liner",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "helmet liner" },
     "description": "A cloth liner worn inside a helmet to help keep your head warm in cold climates.",
@@ -1020,7 +1059,6 @@
   },
   {
     "id": "helmet_motor",
-    "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "full-face motorcycle helmet" },
@@ -1111,7 +1149,6 @@
   {
     "id": "helmet_motor_raised",
     "//": "Can't use copy-from and armor_portion_data at the same time, clear up this item once #43144 will be merged",
-    "repairs_like": "nomex_hood",
     "looks_like": "helmet_motor",
     "type": "TOOL_ARMOR",
     "category": "armor",
@@ -1568,7 +1605,6 @@
   },
   {
     "id": "helmet_skid",
-    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "skid lid" },
@@ -1596,7 +1632,6 @@
   },
   {
     "id": "pickelhaube",
-    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pickelhaube", "str_pl": "pickelhauben" },
@@ -2252,7 +2287,6 @@
   },
   {
     "id": "airsoft_helmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "airsoft helmet" },

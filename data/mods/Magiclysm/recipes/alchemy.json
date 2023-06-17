@@ -135,5 +135,27 @@
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "demon_chitin_piece", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "biomancer_booster_sludge",
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "rune_biomancer", -1 ] ] ],
+    "components": [
+      [ [ "mana_energy_weak", 1, "LIST" ] ],
+      [ [ "edible_blood", 3, "LIST" ] ],
+      [ [ "meat_raw_steak", 1, "LIST" ] ],
+      [ [ "edible_bonemarrow", 1, "LIST" ] ]
+    ],
+    "time": "30 m",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "skills_required": [ "spellcraft", 2 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER",
+    "autolearn": true,
+    "result_mult": 10
   }
 ]

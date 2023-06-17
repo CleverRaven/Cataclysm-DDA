@@ -159,7 +159,6 @@
       "terrain": {
         "#": "t_brick_wall",
         "o": "t_wall_glass",
-        ">": "t_stairs_down",
         "+": "t_door_c",
         "R": "t_glass_railing",
         ";": "t_open_air_rooved",

@@ -65,6 +65,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -1626,18 +1627,19 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         int cur_zlevel = -OVERMAP_DEPTH;
         do {
             int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
-            // Every z-level, start drawing from the bottom-most layer
-            for( auto f : drawing_layers ) {
-                int iter = -OVERMAP_DEPTH;
-                do {
-                    for( tile_render_info &p : draw_points_3d[iter] ) {
-                        tripoint draw_loc = p.pos;
-                        draw_loc.z = cur_zlevel;
-                        ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible ); //!!
+            // Iterate through all relevant points
+            int iter = -OVERMAP_DEPTH;
+            do {
+                for( tile_render_info &p : draw_points_3d[iter] ) {
+                    tripoint draw_loc = p.pos;
+                    draw_loc.z = cur_zlevel;
+                    // Draw each layer
+                    for( auto f : drawing_layers ) {
+                        ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible );
                     }
-                    iter += 1;
-                } while( iter <= cur_zlevel );
-            }
+                }
+                iter += 1;
+            } while( iter <= cur_zlevel );
             cur_zlevel += 1;
         } while( cur_zlevel <= center.z );
     }
@@ -2228,8 +2230,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                     if( subtile == open_ ) {
                         sym = '\'';
                     } else {
-                        const units::angle direction = units::from_degrees( rota ) + 90_degrees;
-                        sym = vv.get_symbol_curses( direction, subtile == broken );
+                        sym = vv.get_symbol_curses( 90_degrees * rota, subtile == broken );
                     }
                     col = vpi.color;
                     subtile = -1;
@@ -2431,10 +2432,6 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                     seed = simple_point_hash( vp->mount() );
                 }
             }
-
-            // convert vehicle 360-degree direction (0=E,45=SE, etc) to 4-way tile
-            // rotation (0=N,1=W,etc)
-            rota = 3 - units::angle_to_dir4( units::from_degrees( rota ) );
         }
         break;
         case TILE_CATEGORY::FURNITURE: {
@@ -2765,6 +2762,48 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
     return true;
 }
 
+bool cata_tiles::has_memory_at( const tripoint &p ) const
+{
+    const memorized_tile &mt = get_avatar().get_memorized_tile( get_map().getabs( p ) );
+    return !mt.get_ter_id().empty() || !mt.get_dec_id().empty();
+}
+
+const memorized_tile &cata_tiles::get_terrain_memory_at( const tripoint &p ) const
+{
+    const memorized_tile &mt = get_avatar().get_memorized_tile( get_map().getabs( p ) );
+    if( !mt.get_ter_id().empty() ) {
+        return mt;
+    }
+    return mm_submap::default_tile;
+}
+
+const memorized_tile &cata_tiles::get_furniture_memory_at( const tripoint &p ) const
+{
+    const memorized_tile &mt = get_avatar().get_memorized_tile( get_map().getabs( p ) );
+    if( string_starts_with( mt.get_dec_id(), "f_" ) ) {
+        return mt;
+    }
+    return mm_submap::default_tile;
+}
+
+const memorized_tile &cata_tiles::get_trap_memory_at( const tripoint &p ) const
+{
+    const memorized_tile &mt = get_avatar().get_memorized_tile( get_map().getabs( p ) );
+    if( string_starts_with( mt.get_dec_id(), "tr_" ) ) {
+        return mt;
+    }
+    return mm_submap::default_tile;
+}
+
+const memorized_tile &cata_tiles::get_vpart_memory_at( const tripoint &p ) const
+{
+    const memorized_tile &mt = get_avatar().get_memorized_tile( get_map().getabs( p ) );
+    if( string_starts_with( mt.get_dec_id(), "vp_" ) ) {
+        return mt;
+    }
+    return mm_submap::default_tile;
+}
+
 bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
                                      const std::array<bool, 5> &invisible )
 {
@@ -2868,7 +2907,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             // do something to get other terrain orientation values
         }
         if( here.check_seen_cache( p ) ) {
-            get_avatar().memorize_tile( here.getabs( p ), tname, subtile, rotation );
+            get_avatar().memorize_terrain( here.getabs( p ), tname, subtile, rotation );
         }
         // draw the actual terrain if there's no override
         if( !neighborhood_overridden ) {
@@ -2900,120 +2939,16 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             return draw_from_id_string( tname, TILE_CATEGORY::TERRAIN, empty_string, p, subtile,
                                         rotation, lit, nv, height_3d );
         }
-    } else if( invisible[0] && has_terrain_memory_at( p ) ) {
+    } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const memorized_terrain_tile &t = get_terrain_memory_at( p );
-        return draw_from_id_string(
-                   t.tile, TILE_CATEGORY::TERRAIN, empty_string, p, t.subtile, t.rotation,
-                   lit_level::MEMORIZED, nv_goggles_activated, height_3d );
-    }
-    return false;
-}
-
-bool cata_tiles::has_memory_at( const tripoint &p ) const
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
-        return !t.tile.empty();
-    }
-    return false;
-}
-
-bool cata_tiles::has_terrain_memory_at( const tripoint &p ) const
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "t_" ) ) {
-            return true;
+        const memorized_tile &mt = get_terrain_memory_at( p );
+        if( !mt.get_ter_id().empty() ) {
+            return draw_from_id_string(
+                       mt.get_ter_id(), TILE_CATEGORY::TERRAIN, empty_string, p, mt.get_ter_subtile(),
+                       mt.get_ter_rotation(), lit_level::MEMORIZED, nv_goggles_activated, height_3d );
         }
     }
     return false;
-}
-
-bool cata_tiles::has_furniture_memory_at( const tripoint &p ) const
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "f_" ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool cata_tiles::has_trap_memory_at( const tripoint &p ) const
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "tr_" ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool cata_tiles::has_vpart_memory_at( const tripoint &p ) const
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "vp_" ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-memorized_terrain_tile cata_tiles::get_terrain_memory_at( const tripoint &p ) const
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "t_" ) ) {
-            return t;
-        }
-    }
-    return {};
-}
-
-memorized_terrain_tile cata_tiles::get_furniture_memory_at( const tripoint &p ) const
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "f_" ) ) {
-            return t;
-        }
-    }
-    return {};
-}
-
-memorized_terrain_tile cata_tiles::get_trap_memory_at( const tripoint &p ) const
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "tr_" ) ) {
-            return t;
-        }
-    }
-    return {};
-}
-
-memorized_terrain_tile cata_tiles::get_vpart_memory_at( const tripoint &p ) const
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "vp_" ) ) {
-            return t;
-        }
-    }
-    return {};
 }
 
 bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &height_3d,
@@ -3055,7 +2990,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         if( !( you.get_grab_type() == object_type::FURNITURE
                && p == you.pos() + you.grab_point )
             && here.check_seen_cache( p ) ) {
-            you.memorize_tile( here.getabs( p ), fname, subtile, rotation );
+            you.memorize_decoration( here.getabs( p ), fname, subtile, rotation );
         }
         // draw the actual furniture if there's no override
         if( !neighborhood_overridden ) {
@@ -3099,12 +3034,14 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             return draw_from_id_string( fname, TILE_CATEGORY::FURNITURE, empty_string, p, subtile,
                                         rotation, lit, nv, height_3d );
         }
-    } else if( invisible[0] && has_furniture_memory_at( p ) ) {
+    } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const memorized_terrain_tile &t = get_furniture_memory_at( p );
-        return draw_from_id_string(
-                   t.tile, TILE_CATEGORY::FURNITURE, empty_string, p, t.subtile, t.rotation,
-                   lit_level::MEMORIZED, nv_goggles_activated, height_3d );
+        const memorized_tile &mt = get_furniture_memory_at( p );
+        if( !mt.get_dec_id().empty() ) {
+            return draw_from_id_string(
+                       mt.get_dec_id(), TILE_CATEGORY::FURNITURE, empty_string, p, mt.get_dec_subtile(),
+                       mt.get_dec_rotation(), lit_level::MEMORIZED, nv_goggles_activated, height_3d );
+        }
     }
     return false;
 }
@@ -3140,7 +3077,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation, 0 );
         const std::string trname = tr.loadid.id().str();
         if( here.check_seen_cache( p ) ) {
-            you.memorize_tile( here.getabs( p ), trname, subtile, rotation );
+            you.memorize_decoration( here.getabs( p ), trname, subtile, rotation );
         }
         // draw the actual trap if there's no override
         if( !neighborhood_overridden ) {
@@ -3177,12 +3114,14 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
             return draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, subtile,
                                         rotation, lit, nv, height_3d );
         }
-    } else if( invisible[0] && has_trap_memory_at( p ) ) {
+    } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const memorized_terrain_tile &t = get_trap_memory_at( p );
-        return draw_from_id_string(
-                   t.tile, TILE_CATEGORY::TRAP, empty_string, p, t.subtile, t.rotation,
-                   lit_level::MEMORIZED, nv_goggles_activated, height_3d );
+        const memorized_tile &mt = get_trap_memory_at( p );
+        if( !mt.get_dec_id().empty() ) {
+            return draw_from_id_string(
+                       mt.get_dec_id(), TILE_CATEGORY::TRAP, empty_string, p, mt.get_dec_subtile(), mt.get_dec_rotation(),
+                       lit_level::MEMORIZED, nv_goggles_activated, height_3d );
+        }
     }
     return false;
 }
@@ -3196,7 +3135,7 @@ bool cata_tiles::draw_part_con( const tripoint &p, const lit_level ll, int &heig
         avatar &you = get_avatar();
         std::string const &trname = tr_unfinished_construction.str();;
         if( here.check_seen_cache( p ) ) {
-            you.memorize_tile( here.getabs( p ), trname, 0, 0 );
+            you.memorize_decoration( here.getabs( p ), trname, 0, 0 );
         }
         return draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, 0,
                                     0, ll, nv_goggles_activated, height_3d );
@@ -3566,13 +3505,13 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const vpart_display vd = veh.get_display_of_tile( ovp->mount() );
         if( !vd.id.is_null() ) {
             const int subtile = vd.is_open ? open_ : vd.is_broken ? broken : 0;
-            const int rotation = std::round( to_degrees( veh.face.dir() ) );
+            const int rotation = angle_to_dir4( 270_degrees - veh.face.dir() );
             avatar &you = get_avatar();
             if( !veh.forward_velocity() && !veh.player_in_control( you )
                 && !( you.get_grab_type() == object_type::VEHICLE
                       && veh.get_points().count( you.pos() + you.grab_point ) )
                 && here.check_seen_cache( p ) ) {
-                you.memorize_tile( here.getabs( p ), vd.get_tileset_id(), subtile, rotation );
+                you.memorize_decoration( here.getabs( p ), vd.get_tileset_id(), subtile, rotation );
             }
             if( !overridden ) {
                 int height_3d_temp = 0;
@@ -3595,7 +3534,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         if( vp2 ) {
             const char part_mod = std::get<1>( override->second );
             const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-            const units::angle rotation = std::get<2>( override->second );
+            const int rotation = angle_to_dir4( 270_degrees - std::get<2>( override->second ) );
             const int draw_highlight = std::get<3>( override->second );
             const std::string vpname = "vp_" + vp2.str();
             // tile overrides are never memorized
@@ -3603,7 +3542,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             int height_3d_temp = 0;
             const bool ret =
                 draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
-                                     to_degrees( rotation ), lit_level::LIT, false, height_3d_temp );
+                                     rotation, lit_level::LIT, false, height_3d_temp );
             if( !roof ) {
                 height_3d = height_3d_temp;
             }
@@ -3612,20 +3551,23 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             }
             return ret;
         }
-    } else if( !roof && invisible[0] && has_vpart_memory_at( p ) ) {
+    } else if( !roof && invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const memorized_terrain_tile &t = get_vpart_memory_at( p );
-        int height_3d_temp = 0;
-        std::string_view tid = t.tile;
-        std::string_view tvar;
-        const size_t variant_separator = tid.find( vehicles::variant_separator );
-        if( variant_separator != std::string::npos ) {
-            tvar = tid.substr( variant_separator + 1 );
-            tid = tid.substr( 0, variant_separator );
+        const memorized_tile &t = get_vpart_memory_at( p );
+        std::string_view tid = t.get_dec_id();
+        if( !tid.empty() ) {
+            int height_3d_temp = 0;
+            std::string_view tvar;
+            const size_t variant_separator = tid.find( vehicles::variant_separator );
+            if( variant_separator != std::string::npos ) {
+                tvar = tid.substr( variant_separator + 1 );
+                tid = tid.substr( 0, variant_separator );
+            }
+            return draw_from_id_string(
+                       std::string( tid ), TILE_CATEGORY::VEHICLE_PART, empty_string, p, t.get_dec_subtile(),
+                       t.get_dec_rotation(), lit_level::MEMORIZED, nv_goggles_activated, height_3d_temp, 0,
+                       std::string( tvar ) );
         }
-        return draw_from_id_string(
-                   std::string( tid ), TILE_CATEGORY::VEHICLE_PART, empty_string, p, t.subtile, t.rotation,
-                   lit_level::MEMORIZED, nv_goggles_activated, height_3d_temp, 0, std::string( tvar ) );
     }
     return false;
 }
@@ -5006,11 +4948,9 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         { "opengles2", to_translation( "opengles2" ) },
     };
     int numRenderDrivers = SDL_GetNumRenderDrivers();
-    DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
     for( int ii = 0; ii < numRenderDrivers; ii++ ) {
         SDL_RendererInfo ri;
         SDL_GetRenderDriverInfo( ii, &ri );
-        DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
         // First default renderer name we will put first on the list. We can use it later as
         // default value.
         if( ri.name == default_renderer_names.front().first ) {
@@ -5018,8 +4958,11 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         } else {
             renderer_names.emplace_back( ri.name, no_translation( ri.name ) );
         }
-
     }
+    DebugLog( D_INFO, DC_ALL ) << "SDL render devices: " << enumerate_as_string( renderer_names,
+    []( const options_manager::id_and_option & iao ) {
+        return iao.first;
+    }, enumeration_conjunction::none );
 
     return renderer_names.empty() ? default_renderer_names : renderer_names;
 }

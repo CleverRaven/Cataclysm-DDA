@@ -274,7 +274,7 @@
         "   |.................f..........││││........3   ",
         "   |.................f.........││MM│........3   ",
         "   5--------│+│~.....f.........+,,,│--------5   ",
-        "       ###H#│>│~.....f.........│KKK│#H###       ",
+        "       ###v#│>│~.....f.........│KKK│#v###       ",
         "       #####│││fffgfff.........│││││#####       ",
         "   5222222222......................2222222225   ",
         "   |........................................3   ",
@@ -302,17 +302,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "H": "t_ladder_down",
-        "f": "t_chainfence",
-        "g": "t_chaingate_c",
-        "│": "t_wall_metal",
-        ">": "t_stairs_down",
-        "+": "t_door_locked",
-        ",": "t_thconc_floor",
-        "M": "t_thconc_floor",
-        "K": "t_thconc_floor"
-      },
+      "terrain": { "│": "t_wall_metal", "+": "t_door_locked", ",": "t_thconc_floor", "M": "t_thconc_floor", "K": "t_thconc_floor" },
       "furniture": { "K": "f_generator_broken", "M": "f_machinery_heavy" },
       "nested": {
         "Đ": {

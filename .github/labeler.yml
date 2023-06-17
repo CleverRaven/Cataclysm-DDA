@@ -276,3 +276,6 @@
   - "**/**vehicle**"
   - "**/vehicle**"
   - "src/veh_**"
+ 
+"Game: Defense Mode":
+  - "src/gamemode_defense**"

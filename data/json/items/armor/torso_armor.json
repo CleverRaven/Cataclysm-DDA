@@ -378,7 +378,6 @@
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "armor_lorica",
-    "repairs_like": "armor_cuirass",
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
@@ -1063,7 +1062,6 @@
   },
   {
     "id": "chestguard_hard",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "hard chest guard" },
@@ -1225,7 +1223,6 @@
   },
   {
     "id": "fencing_jacket",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "fencing jacket" },
     "description": "A padded jacket with a zipper on the back, used by fencers to prevent accidents.",
@@ -1317,7 +1314,6 @@
   },
   {
     "id": "jacket_leather_tire",
-    "repairs_like": "jacket_leather",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "tire leather jacket" },
@@ -1381,7 +1377,6 @@
   },
   {
     "id": "lame_foil",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "lamé (foil)", "str_pl": "lamés (foil)" },
     "description": "A thin, lightweight conductive vest with the zipper on the back used by fencers for electronic scoring.  Its outer layer is a woven mix of sturdy cotton and stainless steel strands.",
@@ -1399,7 +1394,6 @@
   },
   {
     "id": "lame_saber",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "lamé (saber)", "str_pl": "lamés (saber)" },
     "description": "A thin, lightweight conductive jacket used by fencers for electronic scoring.  Its outer layer is a woven mix of sturdy cotton and stainless steel strands.",
@@ -1417,7 +1411,6 @@
   },
   {
     "id": "football_armor",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football armor" },
@@ -1459,7 +1452,6 @@
   },
   {
     "id": "kevlar",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Kevlar vest" },
@@ -1505,7 +1497,6 @@
   },
   {
     "id": "motorbike_armor",
-    "repairs_like": "under_armor",
     "type": "ARMOR",
     "name": { "str": "motorcycle armor" },
     "description": "A light jacket made of a stretch mesh covered in plastic pads meant for motorcyclists.  Made to be much more comfortable to wear than leather alternatives, but the underlying lycra isn't protective at all.",
@@ -1545,7 +1536,6 @@
   },
   {
     "id": "plastron_cotton",
-    "repairs_like": "vambrace_larmor",
     "type": "ARMOR",
     "name": { "str": "underarm protector" },
     "description": "A sturdy cotton plastron that protects much of the torso, the dominant shoulder, and underarm while fencing.",
@@ -1616,7 +1606,6 @@
   },
   {
     "id": "jacket_eod",
-    "repairs_like": "survivor_suit",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "EOD jacket" },
@@ -1636,7 +1625,6 @@
   },
   {
     "id": "jacket_eod_light",
-    "repairs_like": "lsurvivor_suit",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "light EOD jacket" },
@@ -2265,7 +2253,6 @@
   },
   {
     "id": "survivor_adhoc_leather_shirt",
-    "repairs_like": "longshirt",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "leather-padded shirt" },
@@ -2313,7 +2300,6 @@
   },
   {
     "id": "survivor_adhoc_leather_torso",
-    "repairs_like": "longshirt",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "leather-padded sleeveless shirt" },
@@ -2344,7 +2330,6 @@
   },
   {
     "id": "armor_riot_torso",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot chest guard" },

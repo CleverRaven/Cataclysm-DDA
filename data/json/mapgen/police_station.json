@@ -71,10 +71,10 @@
         "c": { "item": "kitchen", "chance": 40, "repeat": [ 2, 4 ] },
         "1": { "item": "cop_items", "chance": 80, "repeat": [ 5, 8 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 4 ] },
-        "{": { "item": "police_armory_any_sniperrifle", "chance": 75, "repeat": [ 2, 4 ] },
-        "}": { "item": "police_armory_any_assaultrifle", "chance": 80, "repeat": [ 2, 4 ] },
-        "[": { "item": "police_armory_any_pistol", "chance": 80, "repeat": [ 2, 4 ] },
-        "]": { "item": "police_armory_any_shotgun", "chance": 75, "repeat": [ 2, 4 ] },
+        "{": { "item": "police_armory_any_sniperrifle", "chance": 90 },
+        "}": { "item": "police_armory_any_assaultrifle", "chance": 90 },
+        "[": { "item": "police_armory_any_pistol", "chance": 95 },
+        "]": { "item": "police_armory_any_shotgun", "chance": 85 },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] }
       },
       "item": { "/": { "item": "american_flag" } },
@@ -134,16 +134,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster", "X": "f_small_satelitte_dish", "=": "f_vent_pipe" },
+      "palettes": [ "roof_palette" ],
       "place_items": [ { "item": "roof_trash", "x": [ 3, 17 ], "y": [ 7, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -325,6 +316,8 @@
         "l": "f_locker",
         "L": "f_locker",
         "[": "f_locker",
+        "{": "f_locker",
+        "]": "f_locker",
         "2": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "3": [ "f_gunsafe_ml", "f_gun_safe_el" ],
         "9": [ "f_gunsafe_ml", "f_gun_safe_el" ],
@@ -421,22 +414,7 @@
         "|.......3               ",
         "--------5               "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      },
-      "furniture": {
-        "&": "f_roof_turbine_vent",
-        ":": "f_cellphone_booster",
-        "X": "f_small_satelitte_dish",
-        "=": "f_vent_pipe",
-        "A": "f_air_conditioner"
-      }
+      "palettes": [ "roof_palette" ]
     }
   },
   {
@@ -575,13 +553,13 @@
         "|.................3     ",
         "|.................3     ",
         "|......############     ",
-        "|......#s_T#p&_=_=#     ",
+        "|......#s_T#y&_=_=#     ",
         "|......#__S#b_____#     ",
-        "|......##+##b__:_A#     ",
-        "|......#b________A#     ",
+        "|......##+##b__:_M#     ",
+        "|......#b________M#     ",
         "|......###+#####+##     ",
-        "|............4#W_p#     ",
-        "|............3#U_>#     ",
+        "|............4#W_y#     ",
+        "|............3#A_v#     ",
         "|............5#####     ",
         "|............3          ",
         "|............3          ",
@@ -595,33 +573,16 @@
         "|............3          ",
         "|------------3          "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        "_": "t_floor",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_ladder_down",
-        "4": "t_gutter_downspout",
-        "#": "t_brick_wall",
-        "+": "t_door_locked",
-        "5": "t_gutter_drop"
-      },
+      "palettes": [ "roof_palette" ],
+      "terrain": { "#": "t_brick_wall", "+": "t_door_locked" },
       "furniture": {
         "&": [ "f_ergometer", "f_ergometer_mechanical" ],
         ":": "f_exercise",
-        "b": "f_bench",
         "=": [ "f_treadmill", "f_treadmill_mechanical" ],
-        "A": "f_bigmirror",
+        "M": "f_bigmirror",
         "s": "f_shower",
-        "S": "f_sink",
-        "p": "f_indoor_plant",
-        "U": "f_air_conditioner",
         "W": "f_water_heater"
       },
-      "toilets": { "T": {  } },
       "place_nested": [
         {
           "chunks": [
@@ -670,16 +631,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

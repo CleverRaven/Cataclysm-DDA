@@ -324,8 +324,8 @@
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 28 },
     "variants": [
-      { "id": "horizontal", "label": "Horizontal", "symbols": "┃┃━━┃┃━━", "symbols_broken": "#" },
-      { "id": "vertical", "label": "Vertical", "symbols": "━━┃┃━━┃┃", "symbols_broken": "#" }
+      { "id": "horizontal", "label": "Horizontal", "symbols": "┃┃━┃┃┃━┃", "symbols_broken": "#" },
+      { "id": "vertical", "label": "Vertical", "symbols": "━━┃━━━┃━", "symbols_broken": "#" }
     ]
   },
   {

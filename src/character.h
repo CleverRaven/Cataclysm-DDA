@@ -777,6 +777,8 @@ class Character : public Creature, public visitable
 
         // true if the character produces electrical radiation
         bool is_electrical() const override;
+        // true if the character is from the nether
+        bool is_nether() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
@@ -1143,7 +1145,7 @@ class Character : public Creature, public visitable
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
         bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, const sub_bodypart_id &sbp,
-                           int roll );
+                           int roll ) const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * If the armor is fully destroyed it is replaced
@@ -1240,8 +1242,9 @@ class Character : public Creature, public visitable
         // Do the mutation updates necessary when adding a mutation (nonspecific cache updates)
         void do_mutation_updates();
         void unset_mutation( const trait_id & );
-        /**Unset switched mutation and set target mutation instead*/
-        void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
+        /**Unset switched mutation and set target mutation instead, if safe mutates towards the target mutation*/
+        void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered,
+                               bool safe = false );
 
         bool can_power_mutation( const trait_id &mut ) const;
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -1286,9 +1289,12 @@ class Character : public Creature, public visitable
         // Return all the limb special attacks the character has, if the parent limb isn't too encumbered
         std::set<matec_id> get_limb_techs() const;
         int get_working_arm_count() const;
+        /** Returns true if enough of your legs are working
+          * Currently requires all, new morphologies could be different
+          */
+        bool enough_working_legs() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        bool has_limb( const bodypart_id &limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
@@ -2325,6 +2331,8 @@ class Character : public Creature, public visitable
         bool is_immune_damage( const damage_type_id & ) const override;
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
+        /** Returns true if the player is immune to knockdowns */
+        bool is_knockdown_immune() const;
         /** Returns true if the player's melee skill increases the bash damage weapon cap */
         bool is_melee_bash_damage_cap_bonus() const;
 
@@ -3264,6 +3272,9 @@ class Character : public Creature, public visitable
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE, bool select_ind = false );
+        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+                                       const std::function<bool( const item & )> &filter = return_true<item>,
+                                       const std::vector<tripoint> &reachable_pts = {}, bool select_ind = false );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id> );
@@ -3280,6 +3291,8 @@ class Character : public Creature, public visitable
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
+        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                            const std::vector<tripoint> &reachable_pts = {},   basecamp *bcp = nullptr );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1 );
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
@@ -3668,6 +3681,7 @@ class Character : public Creature, public visitable
         struct weighted_int_list<std::string> melee_miss_reasons;
 
         struct crafting_cache_type {
+            bool valid = false; // other fields are only valid if this flag is true
             time_point time;
             int moves;
             tripoint position;

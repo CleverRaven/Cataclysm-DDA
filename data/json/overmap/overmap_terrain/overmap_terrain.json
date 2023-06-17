@@ -157,45 +157,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "special_field",
-    "name": "field",
-    "sym": ".",
-    "color": "brown",
-    "looks_like": "field",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_forest",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "looks_like": "forest",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_forest_thick",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "looks_like": "forest_thick",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_air",
-    "name": "open air",
-    "sym": ".",
-    "color": "blue",
-    "looks_like": "open_air",
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": [
       "riverside_dwelling",
       "riverside_dwelling1",
@@ -846,16 +807,6 @@
     "sym": ".",
     "color": "blue",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_surface",
-    "copy-from": "forest"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_roof",
-    "copy-from": "open_air"
   },
   {
     "type": "overmap_terrain",

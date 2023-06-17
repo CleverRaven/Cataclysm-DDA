@@ -118,7 +118,7 @@ class veh_interact
         std::unique_ptr<remove_info_t> remove_info;
 
         vehicle *veh;
-        inventory crafting_inv;
+        const inventory *crafting_inv;
         input_context main_context;
 
         // maximum weight capacity of available lifting equipment (if any)
@@ -292,5 +292,8 @@ class veh_interact
 };
 
 void act_vehicle_siphon( vehicle *veh );
+
+void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
+                  const std::optional<point> &part_placement = std::nullopt );
 
 #endif // CATA_SRC_VEH_INTERACT_H
