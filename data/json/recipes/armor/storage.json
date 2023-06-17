@@ -146,12 +146,13 @@
     "autolearn": true,
     "reversible": { "time": "35 m" },
     "book_learn": [ [ "plastics_book", 1 ] ],
-    "using": [ [ "tailoring_nylon_patchwork", 20 ], [ "clasps", 1 ], [ "waterproofing_plastic_sheets", 10 ] ],
+    "using": [ [ "sewing_standard", 100 ], [ "tailoring_lycra_patchwork", 20 ], [ "clasps", 1 ], [ "waterproofing_plastic_sheets", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_plasticworking" }
-    ]
+    ],
+    "components": [ [ [ "duct_tape", 200 ] ] ]
   },
   {
     "result": "fanny",
