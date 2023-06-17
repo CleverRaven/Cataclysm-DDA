@@ -388,10 +388,13 @@ input_context game::get_player_input( std::string &action )
 
             // Remove asynchronous animations after animation delay if no input
             if( current_turn.async_anim_timeout() ) {
+                g->void_async_anim_curses();
 #if defined(TILES)
                 tilecontext->void_async_anim();
+#else
+                // Curses does not redraw itself so do it here
+                g->invalidate_main_ui_adaptor();
 #endif
-                g->void_async_anim_curses();
             }
 
             ui_manager::redraw_invalidated();
@@ -2851,10 +2854,13 @@ bool game::handle_action()
 
     // Remove asynchronous animations if any action taken before the input timeout
     // Otherwise repeated input can cause animations to accumulate as the timeout is never reached
+    g->void_async_anim_curses();
 #if defined(TILES)
     tilecontext->void_async_anim();
+#else
+    // Curses does not redraw itself so do it here
+    g->invalidate_main_ui_adaptor();
 #endif
-    g->void_async_anim_curses();
 
     bool veh_ctrl = has_vehicle_control( player_character );
 

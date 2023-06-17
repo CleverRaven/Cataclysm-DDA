@@ -3808,10 +3808,6 @@ void game::draw_async_anim_curses()
 void game::void_async_anim_curses()
 {
     async_anim_layer_curses.clear();
-#if !defined(TILES)
-    // Curses does not redraw itself so do it here
-    ui_manager::redraw();
-#endif
 }
 
 void game::draw( ui_adaptor &ui )

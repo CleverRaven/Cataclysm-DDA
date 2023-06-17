@@ -262,7 +262,8 @@ class game
         void draw_async_anim_curses();
         void void_async_anim_curses();
     protected:
-        std::map<tripoint, std::pair <std::string, nc_color>> async_anim_layer_curses;
+        std::map<tripoint, std::pair <std::string, nc_color>>
+                async_anim_layer_curses; // NOLINT(cata-serialize)
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
