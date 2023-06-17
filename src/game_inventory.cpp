@@ -1777,10 +1777,6 @@ class attach_molle_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
 
-            if( !loc.get_item()->empty() ) {
-                return "item needs to be empty.";
-            }
-
             if( actor->size - vest->get_contents().get_additional_space_used() < loc->get_pocket_size() ) {
                 return "not enough space left on the vest.";
             }
