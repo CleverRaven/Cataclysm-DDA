@@ -1266,6 +1266,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_heavy_lathe",
+    "name": "Place Power Lathe"
+  },
+  {
+    "type": "construction_group",
     "id": "place_air_compressor",
     "name": "Place Air Compressor"
   },
