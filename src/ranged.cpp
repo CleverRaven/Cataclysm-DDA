@@ -115,7 +115,6 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
-static const flag_id json_flag_BLACKPOWDER( "BLACKPOWDER" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const material_id material_budget_steel( "budget_steel" );
@@ -2023,7 +2022,6 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( !!ammo->ammo->casing ) {
         item casing = item( *ammo->ammo->casing );
         // blackpowder can gum up casings too
-        //if( *ammo->has_flag( json_flag_BLACKPOWDER ) ) {
         if( weap.ammo_effects().count( "BLACKPOWDER" ) ) {
             casing.set_flag( json_flag_FILTHY );
         }
@@ -2032,7 +2030,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
                                     item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
-            if( brass_catcher && brass_catcher->can_contain( casing ) ) {
+            if( brass_catcher && brass_catcher->can_contain( *ammo->ammo->casing.obj() ) ) {
                 brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
             } else if( cargo.empty() ) {
                 here.add_item_or_charges( eject, casing );
