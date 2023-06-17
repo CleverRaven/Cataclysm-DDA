@@ -634,6 +634,7 @@
       [ "dive_bag", 10 ],
       [ "dry_bag", 10 ],
       [ "dry_duffelbag", 10 ],
+      [ "dry_bag_large", 5 ],
       { "item": "rebreather", "prob": 2, "charges": [ 0, 60 ] },
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
