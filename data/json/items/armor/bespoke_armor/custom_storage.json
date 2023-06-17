@@ -349,7 +349,7 @@
   {
     "id": "survivor_dry_bag",
     "type": "ARMOR",
-    "//": "custom-made, but the design is inspired by GVANCA Waterproof Dry Bag Backpack and Lee Valley Waterproof Dry Bag Backpack"
+    "//": "custom-made, but the design is inspired by GVANCA Waterproof Dry Bag Backpack and Lee Valley Waterproof Dry Bag Backpack",
     "name": { "str": "survivor dry bag" },
     "description": "A custom-built lightweight watertight backpack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "620 g",
