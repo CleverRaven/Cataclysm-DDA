@@ -2179,5 +2179,9 @@
     "id": "BANK_NOTE_STRAP_SHAPED",
     "type": "json_flag",
     "restriction": "Item must be shaped like a bank note strap"
+  },
+  {
+    "id": "WHOLE_BODY_SUIT",
+    "type": "json_flag"
   }
 ]

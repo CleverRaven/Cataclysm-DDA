@@ -970,7 +970,7 @@
     "color": "light_red",
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE" ],
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "WHOLE_BODY_SUIT" ],
     "armor": [
       {
         "encumbrance": 30,
@@ -1002,7 +1002,7 @@
     "color": "light_red",
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ],
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "WHOLE_BODY_SUIT" ],
     "armor": [
       {
         "encumbrance": 30,

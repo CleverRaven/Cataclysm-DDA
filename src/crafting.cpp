@@ -85,6 +85,7 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const efftype_id effect_contacts( "contacts" );
 
 static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
+static const flag_id json_flag_WHOLE_BODY_SUIT( "WHOLE_BODY_SUIT" );
 
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_plut_cell( "plut_cell" );
@@ -267,13 +268,15 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
 
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
-    const bool integrated_armor_affects_hands =
+    const bool non_detachable_gloves =
+        get_avatar().worn_with_flag( json_flag_WHOLE_BODY_SUIT ) ||
+        // TODO: make this check for non-basic hands too
         get_avatar().worn_with_flag( json_flag_INTEGRATED, bodypart_id( "hand_l" ) ) ||
         get_avatar().worn_with_flag( json_flag_INTEGRATED, bodypart_id( "hand_r" ) );
 
     const float result = morale_crafting_speed_multiplier( rec ) *
                          lighting_craft_speed_multiplier( rec ) *
-                         ( integrated_armor_affects_hands ? get_limb_score( limb_score_manip ) : 1 );
+                         ( non_detachable_gloves ? get_limb_score( limb_score_manip ) : 1 );
     add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %.1f, crafting speed multiplier %1f",
                    get_limb_score( limb_score_manip ), result );
 
@@ -298,12 +301,14 @@ float Character::crafting_speed_multiplier( const item &craft,
     const float morale_multi = morale_crafting_speed_multiplier( rec );
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
-    const bool integrated_armor_affects_hands =
+    const bool non_detachable_gloves =
+        get_avatar().worn_with_flag( json_flag_WHOLE_BODY_SUIT ) ||
+        // TODO: make this check for non-basic hands too
         get_avatar().worn_with_flag( json_flag_INTEGRATED, bodypart_id( "hand_l" ) ) ||
         get_avatar().worn_with_flag( json_flag_INTEGRATED, bodypart_id( "hand_r" ) );
 
     const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
-                              ( integrated_armor_affects_hands ? get_limb_score( limb_score_manip ) : 1 );
+                              ( non_detachable_gloves ? get_limb_score( limb_score_manip ) : 1 );
 
     if( light_multi <= 0.0f ) {
         add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );

@@ -37,7 +37,7 @@
     "color": "blue",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "WHOLE_BODY_SUIT" ],
     "armor": [
       {
         "coverage": 100,
@@ -573,7 +573,7 @@
     "color": "dark_gray",
     "warmth": 20,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "WHOLE_BODY_SUIT" ],
     "armor": [
       {
         "coverage": 100,

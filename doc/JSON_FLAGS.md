@@ -387,6 +387,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
 - ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus reducing morale from being wet.
+- ```WHOLE_BODY_SUIT``` This item covers torso, hands, and legs (and sometimes head). Character can't free his hands or legs without taking off the suit.
 
 
 ## Bionics
