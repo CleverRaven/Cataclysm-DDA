@@ -144,6 +144,7 @@ static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_HORROR( "HORROR" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MIGO( "MIGO" );
@@ -152,6 +153,7 @@ static const species_id species_NETHER( "NETHER" );
 static const species_id species_PLANT( "PLANT" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+static const species_id species_nether_player_hate( "nether_player_hate" );
 
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
@@ -3074,6 +3076,12 @@ bool monster::is_hallucination() const
 bool monster::is_electrical() const
 {
     return in_species( species_ROBOT ) || has_flag( MF_ELECTRIC ) || in_species( species_CYBORG );
+}
+
+bool monster::is_nether() const
+{
+    return in_species( species_HORROR ) || in_species( species_NETHER ) ||
+           in_species( species_nether_player_hate );
 }
 
 field_type_id monster::bloodType() const

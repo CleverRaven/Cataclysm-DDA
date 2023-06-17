@@ -255,7 +255,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     }
 }
 
-TEST_CASE( "Mattack dialog condition test", "[mattack]" )
+TEST_CASE( "Mattack_dialog_condition_test", "[mattack]" )
 {
     clear_map();
     clear_creatures();
@@ -296,7 +296,7 @@ TEST_CASE( "Mattack dialog condition test", "[mattack]" )
     CHECK( !attack->call( test_monster ) );
 }
 
-TEST_CASE( "Targeted grab removal test", "[mattack][grab]" )
+TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
 {
 
     const std::string grabber_left = "mon_debug_grabber_left";
@@ -337,7 +337,7 @@ TEST_CASE( "Targeted grab removal test", "[mattack][grab]" )
     REQUIRE( !you.has_effect( effect_grabbed, body_part_arm_l ) );
 }
 
-TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
+TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
 {
     // Set up further from the target
     const tripoint target_location = attacker_location + tripoint{ 4, 0, 0 };
@@ -412,7 +412,7 @@ TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
 }
 
 
-TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
+TEST_CASE( "Grab_breaks_against_weak_grabbers", "[mattack][grab]" )
 {
     const tripoint target_location = attacker_location + tripoint_east;
     const tripoint attacker_location_n = target_location + tripoint_north;
@@ -553,7 +553,7 @@ TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
     }
 }
 
-TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
+TEST_CASE( "Grab_breaks_against_midline_grabbers", "[mattack][grab]" )
 {
     const tripoint target_location = attacker_location + tripoint_east;
     const tripoint attacker_location_n = target_location + tripoint_north;
@@ -691,7 +691,7 @@ TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
     }
 }
 
-TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
+TEST_CASE( "Grab_breaks_against_strong_grabbers", "[mattack][grab]" )
 {
     const tripoint target_location = attacker_location + tripoint_east;
     const tripoint attacker_location_n = target_location + tripoint_north;

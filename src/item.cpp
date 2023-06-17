@@ -288,7 +288,9 @@ item::item() : bday( calendar::start_of_cataclysm )
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
     contents = item_contents( type->pockets );
-    item_counter = type->countdown_interval;
+    if( type->countdown_interval > 0_seconds ) {
+        countdown_point = calendar::turn + type->countdown_interval;
+    }
     item_vars = type->item_variables;
 
     if( has_flag( flag_CORPSE ) ) {
@@ -618,6 +620,12 @@ item &item::convert( const itype_id &new_type )
     temp.update_modified_pockets();
     temp.contents.combine( contents, true );
     contents = temp.contents;
+
+    if( temp.type->countdown_interval > 0_seconds ) {
+        countdown_point = calendar::turn + type->countdown_interval;
+        active = true;
+    }
+
     return *this;
 }
 
@@ -627,11 +635,11 @@ item &item::deactivate( const Character *ch, bool alert )
         return *this; // no-op
     }
 
-    if( is_tool() && type->tool->revert_to ) {
+    if( type->revert_to ) {
         if( ch && alert && !type->tool->revert_msg.empty() ) {
             ch->add_msg_if_player( m_info, type->tool->revert_msg.translated(), tname() );
         }
-        convert( *type->tool->revert_to );
+        convert( *type->revert_to );
         active = false;
 
     }
@@ -642,10 +650,6 @@ item &item::activate()
 {
     if( active ) {
         return *this; // no-op
-    }
-
-    if( type->countdown_interval > 0 ) {
-        item_counter = type->countdown_interval;
     }
 
     active = true;
@@ -2284,6 +2288,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
+            if( countdown_point != calendar::turn_max ) {
+                info.emplace_back( "BASE", _( "countdown: " ), "", iteminfo::lower_is_better,
+                                   to_seconds<int>( countdown_point - calendar::turn ) );
+            }
 
             const std::string tags_listed = enumerate_as_string( item_tags,
             []( const flag_id & f ) {
@@ -12809,8 +12817,8 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
             convert( itype_joint_roach );
         }
     } else { // transform (lit) items
-        if( type->tool->revert_to ) {
-            convert( *type->tool->revert_to );
+        if( type->revert_to ) {
+            convert( *type->revert_to );
         } else {
             type->invoke( carrier != nullptr ? *carrier : get_avatar(), *this, pos, "transform" );
         }
@@ -13020,54 +13028,54 @@ int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int t
     if( !link || link->charge_rate == 0 || turns_elapsed < 1 || link->charge_interval < 1 ) {
         return 0;
     }
-    const item *parent_mag = linked_item.magazine_current();
-    if( !parent_mag ) {
-        return 0;
+
+    if( !linked_item.is_battery() ) {
+        const item *parent_mag = linked_item.magazine_current();
+        if( !parent_mag || !parent_mag->has_flag( flag_RECHARGE ) ) {
+            return 0;
+        }
     }
 
     const bool power_in = link->charge_rate > 0;
+    if( power_in ? linked_item.ammo_remaining() >= linked_item.ammo_capacity( ammo_battery ) :
+        linked_item.ammo_remaining() <= 0 ) {
+        return 0;
+    }
 
-    if( ( power_in && parent_mag->has_flag( flag_RECHARGE ) &&
-          linked_item.ammo_remaining() < linked_item.ammo_capacity( ammo_battery ) ) ||
-        ( !power_in && linked_item.ammo_remaining() > 0 ) ) {
+    // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
+    // spent ouside the reality bubble it should be applied as a percentage of the total instead.
+    bool short_time_passed = turns_elapsed <= link->charge_interval;
 
-        // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
-        // spent ouside the reality bubble it should be applied as a percentage of the total instead.
-        // This is used for determining which to do.
-        bool short_time_passed = turns_elapsed <= link->charge_interval;
-
-        if( !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) &&
-            short_time_passed ) {
-            return link->charge_rate;
-        }
-
-        // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
-        int transfer_total = short_time_passed ? 1 :
-                             ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
-
-        if( power_in ) {
-            const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
-            // Around 85% efficient by default; a few of the discharges don't actually recharge
-            if( battery_deficit == 0 && !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
-                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + transfer_total );
-            }
-        } else {
-            // Around 85% efficient by default; a few of the discharges don't actually charge
-            if( !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
-                const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
-                if( battery_surplus == 0 ) {
-                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
-                }
-            } else {
-                const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
-                if( linked_levels.first < linked_levels.second ) {
-                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
-                }
-            }
-        }
+    if( !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) &&
+        short_time_passed ) {
         return link->charge_rate;
     }
-    return 0;
+
+    // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
+    int transfer_total = short_time_passed ? 1 :
+                         ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
+
+    if( power_in ) {
+        const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
+        // Around 85% efficient by default; a few of the discharges don't actually recharge
+        if( battery_deficit == 0 && !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+            linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + transfer_total );
+        }
+    } else {
+        // Around 85% efficient by default; a few of the discharges don't actually charge
+        if( !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+            const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
+            if( battery_surplus == 0 ) {
+                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
+            }
+        } else {
+            const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
+            if( linked_levels.first < linked_levels.second ) {
+                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
+            }
+        }
+    }
+    return link->charge_rate;
 }
 
 bool item::reset_cable( Character *p, item *parent_item, const bool loose_message,
@@ -13147,8 +13155,8 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
 bool item::process_wet( Character * /*carrier*/, const tripoint & /*pos*/ )
 {
     if( item_counter == 0 ) {
-        if( is_tool() && type->tool->revert_to ) {
-            convert( *type->tool->revert_to );
+        if( type->revert_to ) {
+            convert( *type->revert_to );
         }
         unset_flag( flag_WET );
         active = false;
@@ -13173,7 +13181,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         }
 
         // invoking the object can convert the item to another type
-        const bool had_revert_to = type->tool->revert_to.has_value();
+        const bool had_revert_to = type->revert_to.has_value();
         type->invoke( carrier != nullptr ? *carrier : player_character, *this, pos );
         if( carrier ) {
             carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
@@ -13304,9 +13312,17 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             item_counter--;
         }
 
-        if( item_counter == 0 && type->countdown_action ) {
-            type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
-            if( type->countdown_destroy ) {
+        if( calendar::turn >= countdown_point ) {
+            active = false;
+            if( type->countdown_action ) {
+                type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
+            }
+            countdown_point = calendar::turn_max;
+            if( type->revert_to ) {
+                convert( *type->revert_to );
+
+                active = needs_processing();
+            } else {
                 return true;
             }
         }

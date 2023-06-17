@@ -42,6 +42,24 @@
     "restriction": "Item must be an armored mantle"
   },
   {
+    "id": "STAR_PLATE",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance plate"
+  },
+  {
+    "id": "STAR_SHOULDER",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance shoulder"
+  },
+  {
+    "id": "STAR_SKIRT",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance skirt"
+  },
+  {
     "id": "ABLATIVE_MEDIUM",
     "type": "json_flag",
     "info": "This plate will fit in <info>medium</info> armor pockets",
@@ -2179,5 +2197,20 @@
     "id": "BANK_NOTE_STRAP_SHAPED",
     "type": "json_flag",
     "restriction": "Item must be shaped like a bank note strap"
+  },
+  {
+    "id": "GASFILTER_SM",
+    "type": "json_flag",
+    "info": "A small-sized gasmask filter."
+  },
+  {
+    "id": "GASFILTER_MED",
+    "type": "json_flag",
+    "info": "A medium-sized gasmask filter."
+  },
+  {
+    "id": "REBREATHER_CART",
+    "type": "json_flag",
+    "info": "A filter for a rebreather."
   }
 ]

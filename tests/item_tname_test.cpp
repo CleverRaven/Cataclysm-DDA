@@ -45,7 +45,7 @@ static const skill_id skill_survival( "survival" );
 // - used, lit, plugged in, active, sawn-off
 // - favorite *
 
-TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
+TEST_CASE( "food_with_hidden_effects", "[item][tname][hidden]" )
 {
     Character &player_character = get_player_character();
     player_character.clear_mutations();
@@ -100,7 +100,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
     }
 }
 
-TEST_CASE( "items with a temperature flag", "[item][tname][temperature]" )
+TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
 {
     GIVEN( "food that can melt" ) {
         item shake( "milkshake" );
@@ -231,7 +231,7 @@ TEST_CASE( "items with a temperature flag", "[item][tname][temperature]" )
     }
 }
 
-TEST_CASE( "wet item", "[item][tname][wet]" )
+TEST_CASE( "wet_item", "[item][tname][wet]" )
 {
     item rag( "rag" );
     rag.set_flag( flag_WET );
@@ -240,7 +240,7 @@ TEST_CASE( "wet item", "[item][tname][wet]" )
     CHECK( rag.tname() == "rag (wet)" );
 }
 
-TEST_CASE( "filthy item", "[item][tname][filthy]" )
+TEST_CASE( "filthy_item", "[item][tname][filthy]" )
 {
     item rag( "rag" );
     rag.set_flag( flag_FILTHY );
@@ -249,7 +249,7 @@ TEST_CASE( "filthy item", "[item][tname][filthy]" )
     CHECK( rag.tname() == "rag (filthy)" );
 }
 
-TEST_CASE( "diamond item", "[item][tname][diamond]" )
+TEST_CASE( "diamond_item", "[item][tname][diamond]" )
 {
     item katana( "katana" );
     katana.set_flag( flag_DIAMOND );
@@ -258,7 +258,7 @@ TEST_CASE( "diamond item", "[item][tname][diamond]" )
     CHECK( katana.tname() == "diamond katana" );
 }
 
-TEST_CASE( "truncated item name", "[item][tname][truncate]" )
+TEST_CASE( "truncated_item_name", "[item][tname][truncate]" )
 {
     SECTION( "plain item name can be truncated" ) {
         item katana( "katana" );
@@ -270,7 +270,7 @@ TEST_CASE( "truncated item name", "[item][tname][truncate]" )
     // TODO: color-coded or otherwise embellished item name can be truncated
 }
 
-TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
+TEST_CASE( "engine_displacement_volume", "[item][tname][engine]" )
 {
     item vtwin = item( "v2_combustion" );
     item v12diesel = item( "v12_diesel" );
@@ -285,7 +285,7 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
     CHECK( turbine.tname() == "27L 1,350 HP gas turbine engine" );
 }
 
-TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
+TEST_CASE( "wheel_diameter", "[item][tname][wheel]" )
 {
     item wheel17 = item( "wheel" );
     item wheel24 = item( "wheel_wide" );
@@ -300,7 +300,7 @@ TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
     CHECK( wheel32.tname() == "32\" armored wheel" );
 }
 
-TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
+TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
 {
     GIVEN( "some clothing" ) {
         item shirt( "longshirt" );
@@ -445,7 +445,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
     }
 }
 
-TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
+TEST_CASE( "weapon_fouling", "[item][tname][fouling][dirt]" )
 {
     GIVEN( "a gun with potential fouling" ) {
         item gun( "hk_mp5" );

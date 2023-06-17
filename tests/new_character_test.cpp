@@ -216,7 +216,7 @@ TEST_CASE( "starting_items", "[slow]" )
     REQUIRE( failures.empty() );
 }
 
-TEST_CASE( "Generated character with category mutations", "[mutation]" )
+TEST_CASE( "Generated_character_with_category_mutations", "[mutation]" )
 {
     REQUIRE( !trait_TAIL_FLUFFY.obj().category.empty() );
     avatar u = get_sanitized_player();

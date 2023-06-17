@@ -295,6 +295,11 @@ var_info read_var_info( const JsonObject &jo )
         if( name.empty() ) {
             name = get_talk_varname( jo, "global_val", false, empty );
         }
+    } else if( jo.has_member( "var_val" ) ) {
+        type = var_type::var;
+        if( name.empty() ) {
+            name = get_talk_varname( jo, "var_val", false, empty );
+        }
     } else if( jo.has_member( "context_val" ) ) {
         type = var_type::context;
         if( name.empty() ) {
@@ -320,9 +325,16 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
                       const std::string &value )
 {
     global_variables &globvars = get_globals();
+    std::string ret;
+    var_info vinfo( var_type::global, "" );
     switch( type ) {
         case var_type::global:
             globvars.set_global_value( name, value );
+            break;
+        case var_type::var:
+            ret = d->get_value( name );
+            vinfo = process_variable( ret );
+            write_var_value( vinfo.type, vinfo.name, talk, d, value );
             break;
         case var_type::u:
         case var_type::npc:
@@ -1818,8 +1830,12 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         } else if( checked_value == "item_count" ) {
             const itype_id item_id( jo.get_string( "item" ) );
             return [is_npc, item_id]( dialogue const & d ) {
-                return std::max( d.actor( is_npc )->charges_of( item_id ),
-                                 d.actor( is_npc )->get_amount( item_id ) );
+                return d.actor( is_npc )->get_amount( item_id );
+            };
+        } else if( checked_value == "charge_count" ) {
+            const itype_id item_id( jo.get_string( "item" ) );
+            return [is_npc, item_id]( dialogue const & d ) {
+                return d.actor( is_npc )->charges_of( item_id );
             };
         } else if( checked_value == "exp" ) {
             return [is_npc]( dialogue const & d ) {
@@ -1958,6 +1974,20 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_npc_anger();
             };
+        } else if( checked_value == "field_strength" ) {
+            if( jo.has_member( "field" ) ) {
+                field_type_id ft = field_type_id( jo.get_string( "field" ) );
+                return [is_npc, ft]( dialogue const & d ) {
+                    map &here = get_map();
+                    for( const std::pair<const field_type_id, field_entry> &f : here.field_at( d.actor(
+                                is_npc )->pos() ) ) {
+                        if( f.second.get_field_type() == ft ) {
+                            return f.second.get_field_intensity();
+                        }
+                    }
+                    return 0;
+                };
+            }
         } else if( checked_value == "spell_level" ) {
             if( jo.has_member( "school" ) ) {
                 const std::string school_name = jo.get_string( "school" );
@@ -1974,6 +2004,36 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             } else {
                 return [is_npc]( dialogue & d ) {
                     return d.actor( is_npc )->get_highest_spell_level();
+                };
+            }
+        } else if( checked_value == "spell_level_adjustment" ) {
+            if( jo.has_member( "school" ) ) {
+                const std::string school_name = jo.get_string( "school" );
+                const trait_id spell_school( school_name );
+                return [is_npc, spell_school]( dialogue & d ) {
+                    std::map<trait_id, double>::iterator it =
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.find( spell_school );
+                    if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.end() ) {
+                        return it->second;
+                    } else {
+                        return 0.0;
+                    }
+                };
+            } else if( jo.has_member( "spell" ) ) {
+                const std::string spell_name = jo.get_string( "spell" );
+                const spell_id this_spell_id( spell_name );
+                return [is_npc, this_spell_id]( dialogue & d ) {
+                    std::map<spell_id, double>::iterator it =
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.find( this_spell_id );
+                    if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.end() ) {
+                        return it->second;
+                    } else {
+                        return 0.0;
+                    }
+                };
+            } else {
+                return [is_npc]( dialogue & d ) {
+                    return d.actor( is_npc )->get_character()->magic->caster_level_adjustment;
                 };
             }
         } else if( checked_value == "spell_exp" ) {
@@ -2193,6 +2253,9 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         } else if( jo.has_member( "global_val" ) ) {
             type = var_type::global;
             checked_value = jo.get_string( "global_val" );
+        } else if( jo.has_member( "var_val" ) ) {
+            type = var_type::var;
+            checked_value = jo.get_string( "var_val" );
         } else if( jo.has_member( "context_val" ) ) {
             type = var_type::context;
             checked_value = jo.get_string( "context_val" );
@@ -2432,6 +2495,37 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             return [is_npc, min, max, this_spell_id]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_spell_level( this_spell_id, handle_min_max( d, input, min, max ) );
             };
+        } else if( checked_value == "spell_level_adjustment" ) {
+            if( jo.has_member( "school" ) ) {
+                const std::string school_name = jo.get_string( "school" );
+                const trait_id spell_school( school_name );
+                return [is_npc, min, max, spell_school]( dialogue & d, double input ) {
+                    std::map<trait_id, double>::iterator it =
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.find( spell_school );
+                    if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.end() ) {
+                        it->second = handle_min_max( d, input, min, max );
+                    } else {
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.insert( { spell_school, handle_min_max( d, input, min, max ) } );
+                    }
+                };
+            } else if( jo.has_member( "spell" ) ) {
+                const std::string spell_name = jo.get_string( "spell" );
+                const spell_id this_spell_id( spell_name );
+                return [is_npc, min, max, this_spell_id]( dialogue & d, double input ) {
+                    std::map<spell_id, double>::iterator it =
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.find( this_spell_id );
+                    if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.end() ) {
+                        it->second = handle_min_max( d, input, min, max );
+                    } else {
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.insert( { this_spell_id, handle_min_max( d, input, min, max ) } );
+                    }
+                };
+            } else {
+                return [is_npc, min, max]( dialogue & d, double input ) {
+                    d.actor( is_npc )->get_character()->magic->caster_level_adjustment =
+                        handle_min_max( d, input, min, max );
+                };
+            }
         } else if( checked_value == "spell_exp" ) {
             const std::string spell_name = jo.get_string( "spell" );
             const spell_id this_spell_id( spell_name );
@@ -2890,6 +2984,16 @@ void conditional_t::set_is_on_terrain( const JsonObject &jo, const std::string &
     };
 }
 
+void conditional_t::set_is_on_terrain_with_flag( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [terrain_type, is_npc]( dialogue const & d ) {
+        map &here = get_map();
+        return here.ter( d.actor( is_npc )->pos() )->has_flag( terrain_type.evaluate( d ) );
+    };
+}
+
 void conditional_t::set_is_in_field( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -3161,6 +3265,10 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_is_on_terrain( jo, "u_is_on_terrain" );
     } else if( jo.has_member( "npc_is_on_terrain" ) ) {
         set_is_on_terrain( jo, "npc_is_on_terrain", is_npc );
+    } else if( jo.has_member( "u_is_on_terrain_with_flag" ) ) {
+        set_is_on_terrain_with_flag( jo, "u_is_on_terrain_with_flag" );
+    } else if( jo.has_member( "npc_is_on_terrain_with_flag" ) ) {
+        set_is_on_terrain_with_flag( jo, "npc_is_on_terrain_with_flag", is_npc );
     } else if( jo.has_member( "u_is_in_field" ) ) {
         set_is_in_field( jo, "u_is_in_field" );
     } else if( jo.has_member( "npc_is_in_field" ) ) {
