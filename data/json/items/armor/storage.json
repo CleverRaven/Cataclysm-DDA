@@ -1033,7 +1033,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "60 L",
-        "max_contains_weight": "60 kg",
+        "max_contains_weight": "90 kg",
         "max_item_length": "65 cm",
         "magazine_well": "5 L",
         "moves": 450
