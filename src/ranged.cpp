@@ -2030,7 +2030,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
                                     item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
-            if( brass_catcher && brass_catcher->can_contain( *ammo->ammo->casing.obj() ) ) {
+            if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
                 brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
             } else if( cargo.empty() ) {
                 here.add_item_or_charges( eject, casing );
