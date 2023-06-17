@@ -227,7 +227,10 @@
     "id": "heavy_lathe_tool",
     "type": "TOOL",
     "copy-from": "fake_appliance_tool",
-    "name": { "str": "power lathe" }
+    "name": { "str": "power lathe" },
+    "charges_per_use": 150,
+    "charged_qualities": [ [ "DRILL", 6 ] ],
+    "qualities": [ [ "VISE", 3 ] ]
   },
   {
     "id": "air_compressor_tool",
