@@ -192,6 +192,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "heavy_lathe",
+    "looks_like": "f_heavy_lathe",
+    "symbol": "7",
+    "description": "An industrial-grade lathe, rightfully called \"mother of all machines\".  It is capable of cutting threads, drilling holes, creating faces and many other designs.  Needs to be placed and plugged into a power source.",
+    "color": "black_red",
+    "name": { "str": "disconnected power lathe"},
+    "material": [ "steel" ],
+    "longest_side": "1580 mm",
+    "volume": "500 L",
+    "weight": "200 kg"
+  },
+  {
+    "type": "GENERIC",
     "id": "air_compressor",
     "looks_like": "f_standing_tank",
     "symbol": "7",
