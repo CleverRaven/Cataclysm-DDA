@@ -979,6 +979,9 @@ class Character : public Creature, public visitable
         /** Returns a random valid technique */
         matec_id pick_technique( Creature &t, const item_location &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
+        // Houses the actual picking logic and returns the vector of eligable techniques
+        std::vector<matec_id> evaluate_techniques( Creature &t, const item_location &weap,
+                bool crit = false, bool dodge_counter = false, bool block_counter = false );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item_location &cur_weapon );
 
@@ -1140,7 +1143,7 @@ class Character : public Creature, public visitable
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
         bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, const sub_bodypart_id &sbp,
-                           int roll );
+                           int roll ) const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * If the armor is fully destroyed it is replaced
@@ -1237,8 +1240,9 @@ class Character : public Creature, public visitable
         // Do the mutation updates necessary when adding a mutation (nonspecific cache updates)
         void do_mutation_updates();
         void unset_mutation( const trait_id & );
-        /**Unset switched mutation and set target mutation instead*/
-        void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
+        /**Unset switched mutation and set target mutation instead, if safe mutates towards the target mutation*/
+        void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered,
+                               bool safe = false );
 
         bool can_power_mutation( const trait_id &mut ) const;
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -1283,9 +1287,12 @@ class Character : public Creature, public visitable
         // Return all the limb special attacks the character has, if the parent limb isn't too encumbered
         std::set<matec_id> get_limb_techs() const;
         int get_working_arm_count() const;
+        /** Returns true if enough of your legs are working
+          * Currently requires all, new morphologies could be different
+          */
+        bool enough_working_legs() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        bool has_limb( const bodypart_id &limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
@@ -2165,8 +2172,6 @@ class Character : public Creature, public visitable
 
         bool covered_with_flag( const flag_id &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
-        // Amount of radiation (mSv) leaked from carried items.
-        float leak_level() const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
@@ -2452,7 +2457,6 @@ class Character : public Creature, public visitable
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
         bool hauling = false;
-
         tripoint view_offset;
 
         player_activity stashed_outbounds_activity;
@@ -3108,6 +3112,7 @@ class Character : public Creature, public visitable
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
         void forget_recipe( const recipe *rec );
+        void forget_all_recipes();
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
         bool can_decomp_learn( const recipe &rec ) const;
@@ -3263,6 +3268,9 @@ class Character : public Creature, public visitable
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE, bool select_ind = false );
+        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+                                       const std::function<bool( const item & )> &filter = return_true<item>,
+                                       const std::vector<tripoint> &reachable_pts = {}, bool select_ind = false );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id> );
@@ -3279,6 +3287,8 @@ class Character : public Creature, public visitable
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
+        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                            const std::vector<tripoint> &reachable_pts = {},   basecamp *bcp = nullptr );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1 );
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
@@ -3298,6 +3308,19 @@ class Character : public Creature, public visitable
         bool irradiate( float rads, bool bypass = false );
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
         void mend( int rate_multiplier );
+
+    private:
+        // Amount of radiation (mSv) leaked from carried items.
+        float leak_level = 0.0f;
+        /** Signify that leak_level needs refreshing. Set to true on inventory change. */
+        bool leak_level_dirty = true;
+    public:
+        float get_leak_level() const;
+        /** Iterate through the character inventory to get its leak level */
+        void calculate_leak_level();
+        /** Sets leak_level_dirty to true */
+        void invalidate_leak_level_cache();
+
 
         /** Creates an auditory hallucination */
         void sound_hallu();
@@ -3654,6 +3677,7 @@ class Character : public Creature, public visitable
         struct weighted_int_list<std::string> melee_miss_reasons;
 
         struct crafting_cache_type {
+            bool valid = false; // other fields are only valid if this flag is true
             time_point time;
             int moves;
             tripoint position;

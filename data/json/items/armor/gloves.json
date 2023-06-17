@@ -1,7 +1,6 @@
 [
   {
     "id": "beekeeping_gloves",
-    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": { "str": "pair of beekeeping gloves", "str_pl": "pairs of beekeeping gloves" },
     "description": "A pair of white beekeeping gloves made out of smooth leather.",
@@ -22,7 +21,6 @@
   },
   {
     "id": "boxing_gloves",
-    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of boxing gloves", "str_pl": "pairs of boxing gloves" },
     "description": "A pair of big, red, 8 oz. boxing gloves made from thick leather.",
@@ -237,7 +235,6 @@
   },
   {
     "id": "fire_gauntlets",
-    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of fire gauntlets", "str_pl": "pairs of fire gauntlets" },
@@ -340,7 +337,6 @@
   },
   {
     "id": "gloves_claws",
-    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": { "str": "pair of claw gloves", "str_pl": "pairs of claw gloves" },
     "description": "A pair of well-made black stretch vinyl gloves, with black steel claws connected to the fingers.  Used in BDSM performances or as part of a costume.",
@@ -360,7 +356,6 @@
   },
   {
     "id": "gauntlet_fencing",
-    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "fencing gauntlet" },
     "description": "A single suede glove with a sturdy cotton wrist, padded back, and well-fitting fingers.",
@@ -380,7 +375,6 @@
   },
   {
     "id": "gauntlet_fencing_l",
-    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "fencing gauntlet (left)", "str_pl": "fencing gauntlets (left)" },
     "description": "A single suede glove with a sturdy cotton wrist, padded back, and well-fitting fingers.  This one is left-handed.",
@@ -643,7 +637,6 @@
   },
   {
     "id": "glove_jackson",
-    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": { "str": "white glove" },
     "description": "A single white glove covered with hundreds of rhinestones.",
@@ -798,7 +791,6 @@
   {
     "id": "gloves_black",
     "type": "ARMOR",
-    "repairs_like": "gloves_light",
     "name": { "str": "pair of black gloves", "str_pl": "pairs of black gloves" },
     "description": "A pair of black cotton gloves.",
     "weight": "118 g",
@@ -891,7 +883,6 @@
   },
   {
     "id": "gloves_rubber",
-    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rubber gloves", "str_pl": "pairs of rubber gloves" },
     "description": "A pair of rubber gloves, often used while cleaning with caustic materials.",
@@ -912,7 +903,6 @@
   },
   {
     "id": "gloves_tactical",
-    "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of tactical gloves", "str_pl": "pairs of tactical gloves" },
@@ -934,7 +924,6 @@
   },
   {
     "id": "gloves_winter",
-    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": { "str": "pair of winter gloves", "str_pl": "pairs of winter gloves" },
     "description": "A pair of padded cotton gloves.  Toasty!",
@@ -1008,7 +997,6 @@
   },
   {
     "id": "gloves_cut_resistant",
-    "repairs_like": "gloves_plate",
     "type": "ARMOR",
     "name": { "str": "pair of cut-resistant gloves", "str_pl": "pairs of cut-resistant gloves" },
     "description": "A pair of cut-resistant gloves, useful for butchery or routine work with bladed objects.",
@@ -1105,7 +1093,6 @@
   },
   {
     "id": "long_glove_white",
-    "repairs_like": "arm_warmers",
     "type": "ARMOR",
     "name": { "str": "pair of extra long white gloves", "str_pl": "pairs of extra long white gloves" },
     "description": "Long white costume gloves.",
@@ -1182,7 +1169,6 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "material": [ "cotton", "faux_fur" ],
-    "repairs_like": "gloves_light",
     "symbol": "[",
     "looks_like": "gloves_fur",
     "color": "red",
@@ -1275,7 +1261,6 @@
   },
   {
     "id": "winter_gloves_army",
-    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": { "str": "pair of army winter gloves", "str_pl": "pairs of army winter gloves" },
     "description": "A pair of padded gloves.  Favored by the military.",
@@ -1306,7 +1291,6 @@
   {
     "id": "gloves_skeleton",
     "type": "ARMOR",
-    "repairs_like": "gloves_light",
     "name": { "str": "pair of skeleton gloves", "str_pl": "pairs of skeleton gloves" },
     "description": "A pair of black costume gloves with a skeletal hand pattern printed on them.",
     "copy-from": "gloves_liner",
@@ -1319,7 +1303,6 @@
   },
   {
     "id": "gloves_golf",
-    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": { "str": "pair of golfing gloves", "str_pl": "pairs of golfing gloves" },
     "description": "A thin pair of black leather golfing gloves.",
@@ -1857,7 +1840,6 @@
   },
   {
     "id": "gloves_airsoft",
-    "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of airsoft gloves", "str_pl": "pairs of airsoft gloves" },

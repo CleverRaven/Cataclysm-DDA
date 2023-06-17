@@ -2631,5 +2631,44 @@
       { "item": "enfield_303mag", "prob": 5 },
       { "group": "on_hand_303" }
     ]
+  },
+  {
+    "id": "nested_rdb_223",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "rdb_223", "charges-min": 0, "charges-max": 30, "contents-group": "sights_rifle" },
+      { "group": "stanag_30_random" },
+      { "group": "stanag_30_random", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_rfb_308",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "rfb_308", "charges-min": 0, "charges-max": 20, "contents-group": "sights_rifle" },
+      { "item": "falmag" },
+      { "item": "falmag", "prob": 50 },
+      { "group": "on_hand_308" }
+    ]
+  },
+  {
+    "id": "nested_greasegun",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "greasegun", "charges-min": 0, "charges-max": 30 },
+      { "item": "greasegun30mag" },
+      { "item": "greasegun30mag", "prob": 50 },
+      { "group": "on_hand_45" }
+    ]
   }
 ]

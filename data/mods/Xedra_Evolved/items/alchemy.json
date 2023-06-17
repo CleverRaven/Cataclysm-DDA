@@ -243,7 +243,19 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "cast_spell", "spell_id": "extend_life", "no_fail": true, "level": 1 }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the potion.",
+      "effect_on_conditions": [
+        {
+          "id": "extend_life",
+          "effect": [
+            { "u_message": "You imbibed the concoction and you feel your chakras align and your DNA de-age." },
+            { "u_add_trait": "EXTEND_LIFE" }
+          ]
+        }
+      ]
+    }
   },
   {
     "id": "potion_dex",
@@ -252,7 +264,7 @@
     "description": "This is a potion of wicked quick hands.  It will increase your dexterity for 50 minutes.",
     "copy-from": "life_extension_potion",
     "calories": 25,
-    "use_action": { "type": "cast_spell", "spell_id": "potion_dex", "no_fail": true, "level": 25 },
+    "use_action": { "type": "cast_spell", "spell_id": "wicked_quick_hands", "no_fail": true, "level": 0 },
     "color": "green",
     "price": 3000
   },
@@ -260,7 +272,7 @@
     "id": "potion_strength",
     "name": { "str": "potion of terrible strength", "str_pl": "potions of terrible strength" },
     "description": "This is a potion of terrible strength.  It will increase your strength for 50 minutes.",
-    "use_action": { "type": "cast_spell", "spell_id": "potion_strength", "no_fail": true, "level": 25 },
+    "use_action": { "type": "cast_spell", "spell_id": "terrible_strength", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "color": "red",
     "calories": 50,
@@ -269,8 +281,8 @@
   {
     "id": "hares_leap_potion",
     "name": { "str": "potion of hare's leap", "str_pl": "potions of hare's leap" },
-    "description": "This is a potion of hare's leap.  It will increase your strength for 50 minutes.",
-    "use_action": { "type": "cast_spell", "spell_id": "spell_hare_leap", "no_fail": true, "level": 25 },
+    "description": "This is a potion of hare's leap.  It allows you to jump afar from danger.",
+    "use_action": { "type": "cast_spell", "spell_id": "spell_hare_leap", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "color": "green_yellow",
     "calories": 50,
@@ -280,7 +292,16 @@
     "id": "hyde_formula",
     "name": { "str": "Hyde Formula", "str_pl": "Hyde Formulae" },
     "description": "This is a transmutation potion that will bring your best attributes to the forefront.",
-    "use_action": { "type": "cast_spell", "spell_id": "spell_hyde_formula", "no_fail": true, "level": 1 },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the formula.",
+      "effect_on_conditions": [
+        {
+          "id": "hyde_formula",
+          "effect": [ { "u_message": "You imbibed the concoction and you feel your inner self unleashed." }, { "u_add_trait": "HYDE" } ]
+        }
+      ]
+    },
     "type": "COMESTIBLE",
     "color": "green_yellow",
     "calories": 50,

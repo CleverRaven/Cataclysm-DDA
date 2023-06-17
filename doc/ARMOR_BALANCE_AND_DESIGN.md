@@ -49,7 +49,6 @@ here is an example armor to look at:
 ```json
 {
   "id": "dress_shirt",
-  "repairs_like": "tshirt",
   "type": "ARMOR",
   "name": { "str": "dress shirt" },
   "description": "A white button-down shirt with long sleeves.  Looks professional!",
@@ -251,14 +250,14 @@ The robofac greaves, mantles, skirts and vambraces use this.
 
 ### Repairs
 #### Explanation
-Clothing repairs are inherited from their material type, while the difficulty and required skills are inherited from their crafting recipe. In cases where a piece of clothing or armor is not craftable, the ``repairs-like`` flag can be used to specify a recipe from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
+Clothing repairs are inherited from their material type.  Needed materials and repair difficulty are based on these materials (you can make a repair with any material it is made of, but the difficulty is whatever is the hardest part of it to repair).  In cases where the repair difficulty does not match that of its materials the ``repairs-like`` flag can be used to specify an item from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
 
 #### Example
-
+The leather belt repairs like a leather patch because steel is more difficult to repair than leather, but the steel belt buckle is exceedingly unlikely to sustain damage compared to the leather majority of the belt.
 ```json
 {
-  "id": "dress_shirt",
-  "repairs_like": "tshirt"
+  "id": "belt_leather",
+  "repairs_like": "leather"
 }
 ```
 
@@ -493,7 +492,6 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
 {
   "id": "survivor_light_on",
   "copy-from": "survivor_light",
-  "repairs_like": "survivor_light",
   "type": "TOOL_ARMOR",
   "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
   "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",

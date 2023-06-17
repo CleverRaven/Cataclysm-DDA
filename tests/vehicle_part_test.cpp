@@ -50,7 +50,7 @@ static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 
 static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
-static const vpart_id vpart_halfboard_horizontal( "halfboard_horizontal" );
+static const vpart_id vpart_halfboard( "halfboard" );
 static const vpart_id vpart_tank_test( "tank_test" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
@@ -62,8 +62,7 @@ TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
     // Picking halfboard_horizontal as a vpart which is likely to remain
     // defined via copy-from, and which should have non-zero damage reduction.
-    const vpart_info &vp = vpart_halfboard_horizontal.obj();
-    CHECK( vp.damage_reduction.at( damage_bash ) != 0.f );
+    CHECK( vpart_halfboard->damage_reduction.at( damage_bash ) != 0.f );
 }
 
 TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicle_parts]" )
@@ -130,7 +129,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     clear_avatar();
     clear_map();
     clear_vehicles();
-    set_time( midday );
+    set_time_to_day();
 
     const tripoint test_origin( 60, 60, 0 );
     Character &character = get_player_character();
@@ -175,9 +174,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     veh.discharge_battery( 500000 );
     veh.charge_battery( give_battery );
 
-    // Bust cache on crafting_inventory()
-    character.mod_moves( 1 );
-
+    character.invalidate_crafting_inventory();
     const inventory &crafting_inv = character.crafting_inventory();
     bool can_craft = recipe
                      .deduped_requirements()

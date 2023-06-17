@@ -145,11 +145,10 @@
         "  |...................3 ",
         "  |...................3 ",
         "  |.R.5-------####..U.3 ",
-        "  |...3     ####>#....3 ",
+        "  |...3     ####v#....3 ",
         "  |---3          |----3 "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down" },
       "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
       "place_nested": [
         {

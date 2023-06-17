@@ -929,5 +929,14 @@
     "name": { "str_sp": "bottle gourd seeds" },
     "description": "Some bottle gourd seeds.",
     "seed_data": { "plant_name": "bottle gourd", "fruit": "raw_bottle_gourd", "byproducts": [ "withered" ], "grow": "60 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_eggplant",
+    "copy-from": "seed",
+    "price": 70,
+    "name": { "str_sp": "eggplant seeds" },
+    "description": "Some eggplant seeds.",
+    "seed_data": { "plant_name": "eggplant", "fruit": "eggplant", "byproducts": [ "withered" ], "grow": "60 days" }
   }
 ]

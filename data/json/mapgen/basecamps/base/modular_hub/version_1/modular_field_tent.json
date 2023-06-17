@@ -1,11 +1,5 @@
 [
   {
-    "type": "palette",
-    "id": "fbmh_tent_palette",
-    "terrain": { " ": "t_dirt", ".": "t_dirtfloor", "+": "t_dirtfloor", "w": "t_dirtfloor" },
-    "furniture": { " ": "f_clear", ".": "f_clear", "+": "f_canvas_door", "w": "f_canvas_wall" }
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_large_tent_east",
@@ -19,6 +13,7 @@
         " w...w",
         " wwwww"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmh_tent_palette" ]
     }
   },
@@ -54,6 +49,7 @@
         "w...w ",
         "wwwww "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmh_tent_palette" ]
     }
   },

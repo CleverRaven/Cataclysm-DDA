@@ -1925,7 +1925,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
         const std::string title = "Base Missions";
         mission_data mission_key;
         temp_camp->set_by_radio( false );
-        temp_camp->get_available_missions( mission_key );
+        temp_camp->get_available_missions( mission_key, here );
         if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
                 "FACTION_CAMP", title ) ) {
             temp_camp->handle_mission( mission_key.cur_key.id );
@@ -5443,9 +5443,9 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( static_cast<int>( patient.leak_level() ) ) {
+            if( static_cast<int>( patient.get_leak_level() ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
-                       static_cast<int>( patient.leak_level() ) );
+                       static_cast<int>( patient.get_leak_level() ) );
             }
             break;
         }

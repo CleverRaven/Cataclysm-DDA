@@ -33,6 +33,8 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_activate_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_deactivate_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_learn_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_forget_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_mutate( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -171,13 +173,19 @@ struct eoc_math {
 
         invalid,
     };
+    enum class type_t : int {
+        ret = 0,
+        compare,
+        assign,
+    };
     std::shared_ptr<math_exp> lhs;
     std::shared_ptr<math_exp> mhs;
     std::shared_ptr<math_exp> rhs;
     eoc_math::oper action = oper::invalid;
 
-    void from_json( const JsonObject &jo, std::string_view member, bool conditional = false );
+    void from_json( const JsonObject &jo, std::string_view member, type_t type_ );
     double act( dialogue &d ) const;
+    void _validate_type( JsonArray const &objects, type_t type_ ) const;
 };
 
 struct dbl_or_var_part {

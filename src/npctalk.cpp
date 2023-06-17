@@ -2470,6 +2470,25 @@ void talk_effect_fun_t::set_add_trait( const JsonObject &jo, const std::string &
     };
 }
 
+void talk_effect_fun_t::set_activate_trait( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, new_trait]( dialogue const & d ) {
+        d.actor( is_npc )->activate_mutation( trait_id( new_trait.evaluate( d ) ) );
+    };
+}
+
+
+void talk_effect_fun_t::set_deactivate_trait( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, new_trait]( dialogue const & d ) {
+        d.actor( is_npc )->deactivate_mutation( trait_id( new_trait.evaluate( d ) ) );
+    };
+}
+
 void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -4874,7 +4893,15 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_remove_trait( jo, "u_lose_trait" );
     } else if( jo.has_member( "npc_lose_trait" ) ) {
         subeffect_fun.set_remove_trait( jo, "npc_lose_trait", is_npc );
-    } else if( jo.has_member( "u_mutate" ) || jo.has_array( "u_mutate" ) ) {
+    } else if( jo.has_member( "u_deactivate_trait" ) ) {
+        subeffect_fun.set_deactivate_trait( jo, "u_deactivate_trait" );
+    } else if( jo.has_member( "npc_deactivate_trait" ) ) {
+        subeffect_fun.set_deactivate_trait( jo, "npc_deactivate_trait", is_npc );
+    } else if( jo.has_member( "u_activate_trait" ) ) {
+        subeffect_fun.set_activate_trait( jo, "u_activate_trait" );
+    } else if( jo.has_member( "npc_activate_trait" ) ) {
+        subeffect_fun.set_activate_trait( jo, "npc_activate_trait", is_npc );
+    } else if( jo.has_member( "u_mutate" ) ) {
         subeffect_fun.set_mutate( jo, "u_mutate" );
     } else if( jo.has_member( "npc_mutate" ) || jo.has_array( "npc_mutate" ) ) {
         subeffect_fun.set_mutate( jo, "npc_mutate", is_npc );
@@ -5140,6 +5167,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_mining ),
             WRAP( do_mopping ),
             WRAP( do_read ),
+            WRAP( do_eread ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
             WRAP( assign_guard ),

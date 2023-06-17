@@ -1372,8 +1372,7 @@ std::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
     }
 
     // skill gains are handled by the activity, but stored here in the index field
-    const int potential_skill_gain =
-        moves_modifier + moves_cost_fast / 100.0 + 2;
+    const int potential_skill_gain = moves_modifier * ( std::min( 10.0, moves_cost_fast / 100.0 ) + 2 );
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
     p.activity.targets.emplace_back( p, &it );
@@ -2781,94 +2780,47 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
 }
 
 // Find the difficulty of the recipe for the item type.
-// If the recipe is not known by the player, +1 to difficulty
-// If player doesn't meet the requirements of the recipe, +1 to difficulty
-// Returns -1 if no recipe is found
-static std::pair<int, bool> find_repair_difficulty( const Character &pl, const itype &it,
-        bool training )
+// Base difficulty is the repair difficulty of the hardest thing to repair it is made of.
+// if the training variable is true, then we're just repairing the easiest part of the thing.
+// so instead take the easiest thing to repair it is made of.
+static std::pair<int, bool> find_repair_difficulty( const itype &it )
 {
-    int min = -1;
-    const int def_diff = 5;
-    const itype_id iid = it.get_id();
-    bool found = false;
+    int difficulty = -1;
     bool difficulty_defined = false;
 
-    if( !it.recipes.empty() ) {
-        for( const recipe_id &rid : it.recipes ) {
-            const recipe &r = recipe_id( rid ).obj();
-            if( !r ) {
-                continue;
+    if( !it.materials.empty() ) {
+        for( const auto &mats : it.materials ) {
+            if( mats.first->repair_difficulty() && difficulty < mats.first->repair_difficulty() ) {
+                difficulty = mats.first->repair_difficulty();
+                difficulty_defined = true;
             }
-            // If this is the first time we found a recipe
-            if( !found ) {
-                min = def_diff;
-                found = true;
-            }
-
-            int cur_difficulty = r.difficulty;
-
-            // Recipes with difficulty 0 are not present. Difficulty is considered undefined.
-            difficulty_defined = cur_difficulty != 0 || difficulty_defined;
-
-            if( !training && !pl.knows_recipe( &r ) ) {
-                cur_difficulty++;
-            }
-
-            if( !training && !pl.has_recipe_requirements( r ) ) {
-                cur_difficulty++;
-            }
-            min = std::min( cur_difficulty, min );
         }
     }
 
-    recipe uncraft_recipe = recipe_dictionary::get_uncraft( iid );
-    if( uncraft_recipe ) {
-        found = true;
-        int uncraft_difficulty = uncraft_recipe.difficulty;
-        if( difficulty_defined ) {
-            // Both craft recipe and uncraft recipe are defined, dividing by the sum
-            if( uncraft_difficulty > 0 ) {
-                min = std::max( 1, min + uncraft_difficulty ) / 2;
-            }
-        } else {
-            difficulty_defined = uncraft_difficulty != 0;
-            min = def_diff;
-        }
-    }
-
-    //Couldn't find recipe, try to find from obsolete recipes
-    if( !found ) {
-        auto obsoletes = recipe_dict.find_obsoletes( iid );
-        if( !obsoletes.empty() ) {
-            min = def_diff;
-        }
-    }
-    return { min, difficulty_defined };
+    return { difficulty, difficulty_defined };
 }
 
-// Returns the level of the lowest level recipe that results in item of `fix`'s type
+// Returns the level of the most difficult material to repair in the item
 // Or if it has a repairs_like, the lowest level recipe that results in that.
-// If the recipe doesn't exist, difficulty is 10
-int repair_item_actor::repair_recipe_difficulty( const Character &pl,
-        const item &fix, bool training ) const
+// If none exist the difficulty is 10
+int repair_item_actor::repair_recipe_difficulty( const item &fix ) const
 {
     std::pair<int, bool> ret;
-    ret = find_repair_difficulty( pl, *fix.type, training );
+    ret = find_repair_difficulty( *fix.type );
     int diff = ret.first;
     bool defined = ret.second;
 
-    // See if there's a repairs_like that has a recipe
+    // See if there's a repairs_like that has a defined difficulty
     if( !defined && !fix.type->repairs_like.is_empty() ) {
-        ret = find_repair_difficulty( pl, fix.type->repairs_like.obj(), training );
+        ret = find_repair_difficulty( fix.type->repairs_like.obj() );
         if( ret.second ) {
             diff = ret.first;
-        } else {
-            diff = std::min( std::max( 0, diff ), ret.first );
+            defined = true;
         }
     }
 
-    // If we still don't find a recipe, difficulty is 10
-    if( diff == -1 ) {
+    // If we still don't find a difficulty, difficulty is 10
+    if( !defined ) {
         diff = 10;
     }
 
@@ -2941,7 +2893,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     /** @EFFECT_TAILOR randomly improves clothing repair efforts */
     /** @EFFECT_MECHANICS randomly improves metal repair efforts */
     const float skill = pl.get_skill_level( used_skill );
-    const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
+    const int material_difficulty = repair_recipe_difficulty( fix );
     int action_difficulty = 0;
     switch( action_type ) {
         case RT_NOTHING: /* fallthrough */
@@ -2957,7 +2909,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
             break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
-            action_difficulty = recipe_difficulty;
+            action_difficulty = material_difficulty;
             break;
         default:
             // 5 is obsoleted reinforcing, remove after 0.H
@@ -2965,16 +2917,24 @@ std::pair<float, float> repair_item_actor::repair_chance(
             break;
     }
 
-    const int difficulty = recipe_difficulty + action_difficulty;
-    // Sample numbers:
-    // Item   | Damage | Skill | Dex | Success | Failure
-    // Hoodie |    2   |   3   |  10 |   6%    |   0%
-    // Hazmat |    1   |   10  |  10 |   8%    |   0%
-    // Hazmat |    1   |   5   |  20 |   0%    |   2%
-    // t-shirt|    4   |   1   |  5  |   2%    |   3%
-    // Duster |    2   |   5   |  5  |   10%   |   0%
-    // Duster |    2   |   2   |  10 |   4%    |   1%
-    // Duster | Refit  |   2   |  10 |   0%    |   N/A
+    const int difficulty = material_difficulty + action_difficulty;
+    // Sample numbers - cotton and wool have diff 1, plastic diff 3 and kevlar diff 4:
+    // This assumes that training is false, and under almost all circumstances that should be the case
+    // Item     | Damage | Skill | Dex | Success | Failure
+    // Hoodie   |   1    |   0   |  8  |  4.0%   |  1.4%
+    // Hoodie   | Refit  |   0   |  8  |  2.0%   |  2.4%
+    // Hoodie   | Refit  |   2   |  8  |  6.0%   |  0.4%
+    // Hoodie   | Refit  |   2   |  12 |  6.0%   |  0.0%
+    // Hoodie   | Refit  |   4   |  8  |  10.0%  |  0.0%
+    // Socks    |   3    |   0   |  8  |  2.0%   |  2.4%
+    // Boots    |   1    |   0   |  8  |  0.0%   |  3.4%
+    // Raincoat | Refit  |   2   |  8  |  2.0%   |  2.4%
+    // Raincoat | Refit  |   2   |  12 |  2.0%   |  1.6%
+    // Ski mask | Refit  |   2   |  8  |  4.0%   |  1.4%
+    // Raincoat | Refit  |   2   |  8  |  4.0%   |  1.4%
+    // Turnout  | Refit  |   2   |  8  |  0.0%   |  4.4%
+    // Turnout  | Refit  |   4   |  8  |  2.0%   |  2.4%
+
     float success_chance = ( 10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f ) / 100.0f;
     /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
     float damage_chance = ( difficulty - skill - ( tool_quality + pl.dex_cur ) / 5.0f ) / 100.0f;
@@ -3078,7 +3038,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         action = default_action( *fix, current_skill_level );
     }
     const auto chance = repair_chance( pl, *fix, action );
-    int practice_amount = repair_recipe_difficulty( pl, *fix, true ) / 2 + 1;
+    int practice_amount = repair_recipe_difficulty( *fix ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,

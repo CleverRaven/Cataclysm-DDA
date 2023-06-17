@@ -36,6 +36,11 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 114 ) );
     CHECK( testexp.parse( "50 % 3" ) );
     CHECK( testexp.eval( d ) == Approx( 2 ) );
+    // boolean
+    CHECK( testexp.parse( "1 > 2" ) );
+    CHECK( testexp.eval( d ) == Approx( 0 ) );
+    CHECK( testexp.parse( "(1 <= 2) * 3" ) );
+    CHECK( testexp.eval( d ) == Approx( 3 ) );
 
     // unary
     CHECK( testexp.parse( "-50" ) );
@@ -56,6 +61,30 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 5 ) );
     CHECK( testexp.parse( "2+-3" ) ); // equivalent to 2+(-3)
     CHECK( testexp.eval( d ) == Approx( -1 ) );
+
+    //ternary
+    CHECK( testexp.parse( "0?1:2" ) );
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
+    CHECK( testexp.parse( "0==0?1:2" ) );
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
+    CHECK( testexp.parse( "1?0?-1:-2:1" ) );
+    CHECK( testexp.eval( d ) == Approx( -2 ) );
+    CHECK( testexp.parse( "1?1?-1:-2:1" ) );
+    CHECK( testexp.eval( d ) == Approx( -1 ) );
+    CHECK( testexp.parse( "0?0?-1:-2:1" ) );
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
+    CHECK( testexp.parse( "0?(0?(-1):-2):1" ) );
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
+    CHECK( testexp.parse( "1==1?2:3?4:5" ) );
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
+    CHECK( testexp.parse( "0?2:3?4:5" ) );
+    CHECK( testexp.eval( d ) == Approx( 4 ) );
+    CHECK( testexp.parse( "0?2:0?4:5" ) );
+    CHECK( testexp.eval( d ) == Approx( 5 ) );
+    CHECK( testexp.parse( "(1==1?2:3)?4:5" ) );
+    CHECK( testexp.eval( d ) == Approx( 4 ) );
+    CHECK( testexp.parse( "1==1?2:(3?4:5)" ) );
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
 
     // functions
     CHECK( testexp.parse( "_test_()" ) ); // nullary test function
@@ -131,6 +160,8 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 6 ) );
     CHECK( testexp.parse( "_test_diag_('1':3.5*sin(pi/2))" ) );  // sub-expression kwarg
     CHECK( testexp.eval( d ) == Approx( 3.5 ) );
+    CHECK( testexp.parse( "_test_diag_('1':0==0?1:2)" ) );  // ternary kwarg
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
     CHECK( testexp.parse( "_test_diag_('1':2*_test_diag_('2':'3'))" ) );  // kwarg compounding
     CHECK( testexp.eval( d ) == Approx( 6 ) );
 
@@ -170,6 +201,11 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "'1':'2'" ) );
         CHECK_FALSE( testexp.parse( "2 2*2" ) ); // stray space inside variable name
         CHECK_FALSE( testexp.parse( "2+++2" ) );
+        CHECK_FALSE( testexp.parse( "1=2" ) );
+        CHECK_FALSE( testexp.parse( "1===2" ) );
+        CHECK_FALSE( testexp.parse( "0?" ) );
+        CHECK_FALSE( testexp.parse( "0?1" ) );
+        CHECK_FALSE( testexp.parse( "0?1:" ) );
         CHECK( testexp.parse( "2+3" ) );
         testexp.assign( d, 10 ); // assignment called on eval tree should not crash
     } );

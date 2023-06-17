@@ -1,7 +1,6 @@
 [
   {
     "id": "bunker_coat",
-    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "turnout coat" },
@@ -50,7 +49,6 @@
   },
   {
     "id": "cassock",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "cassock" },
     "description": "A piece of clerical clothing, usually worn by Christian priests.",
@@ -166,7 +164,6 @@
   },
   {
     "id": "coat_fur_sf",
-    "repairs_like": "jacket_leather",
     "type": "ARMOR",
     "name": { "str": "sable coat" },
     "description": "A very well-made fur coat, featuring thick panels of sable fur.  Very warm and very good-looking.",
@@ -207,7 +204,6 @@
   },
   {
     "id": "coat_lab",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "lab coat" },
     "description": "A long white coat with several large pockets.  Comes with a very nice pocket protector.",
@@ -297,7 +293,6 @@
   },
   {
     "id": "folding_poncho",
-    "repairs_like": "sheet",
     "type": "ARMOR",
     "category": "clothing",
     "symbol": "[",
@@ -379,7 +374,6 @@
   },
   {
     "id": "coat_winter",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "winter coat" },
     "description": "A padded coat with deep pockets and a hood.  Very warm.",
@@ -799,7 +793,6 @@
   },
   {
     "id": "hakama_gi",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "hakama" },
     "description": "Plain black hakama for use in kendo and other martial arts.",
@@ -899,7 +892,6 @@
   },
   {
     "id": "jacket_army",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "army jacket" },
     "description": "A vintage army jacket, or at least a copy of one, with lots of pockets.  Favored by the military.",
@@ -966,7 +958,6 @@
   },
   {
     "id": "jacket_army_modern",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "combat blouse" },
     "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
@@ -1027,7 +1018,6 @@
   },
   {
     "id": "jacket_chef",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "chef's jacket" },
     "description": "A double-breasted uniform to protect against the heat of the kitchen.",
@@ -1134,7 +1124,6 @@
   },
   {
     "id": "jacket_evac",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "emergency jacket" },
     "description": "A bright, cheaply made FEMA-issue windbreaker jacket with a hood.  One size, fits none.  Helps keep you unfrozen & visible for rescuers.",
@@ -1172,7 +1161,6 @@
   },
   {
     "id": "jacket_flannel",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "flannel jacket" },
     "description": "A jacket made from flannel-style denim, favored by outdoorsy types.",
@@ -1210,7 +1198,6 @@
   },
   {
     "id": "jacket_jean",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "jean jacket" },
     "description": "A jacket made from denim.",
@@ -1256,7 +1243,6 @@
   },
   {
     "id": "jacket_ninja",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "ninja jacket" },
     "description": "This is a wrap over black jacket.  Commonly used by stealthy individuals hiding in the dark of the night.  It includes a pair of cotton gauntlets and a sash.",
@@ -1357,7 +1343,6 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
-    "repairs_like": "jacket_leather",
     "color": "red",
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 15, 20 ] },
@@ -1388,7 +1373,6 @@
   },
   {
     "id": "jacket_light",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "light jacket" },
     "description": "A thin cotton jacket with a hood.  Good for brisk weather.",
@@ -1426,7 +1410,6 @@
   },
   {
     "id": "jacket_windbreaker",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "windbreaker" },
     "description": "A light synthetic jacket with a hood.  Not very warm, but will keep out the rain.",
@@ -1472,7 +1455,6 @@
   },
   {
     "id": "judo_gi",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "judo gi" },
     "description": "Plain white judo gi.",
@@ -1496,7 +1478,6 @@
   },
   {
     "id": "karate_gi",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "karate gi" },
     "description": "Plain white karate gi.  Made from loose and flowing cotton.",
@@ -1520,7 +1501,6 @@
   },
   {
     "id": "kariginu",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "kariginu" },
     "description": "A traditional, ankle-length Shinto robe with several layers and very wide sleeves.",
@@ -1540,7 +1520,6 @@
   },
   {
     "id": "kasaya",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "kasaya" },
     "description": "A traditional, ankle-length Buddhist robe, stitched together from three pieces of traditional saffron dyed cloth.",
@@ -1570,7 +1549,6 @@
   },
   {
     "id": "keikogi",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "keikogi" },
     "description": "Plain white keikogi for use in martial arts.",
@@ -1704,7 +1682,6 @@
   },
   {
     "id": "kittel",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "kittel" },
     "description": "A white, knee-length cotton robe, traditionally worn by Jews on special occasions.",
@@ -1737,7 +1714,6 @@
     "type": "ARMOR",
     "name": { "str": "leather police jacket" },
     "description": "A thick and heavy leather jacket emblazoned with the insignia of the local police force.",
-    "repairs_like": "jacket_leather",
     "weight": "1450 g",
     "volume": "4500 ml",
     "price": 17900,
@@ -1823,7 +1799,6 @@
   },
   {
     "id": "robe",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "robe" },
     "description": "A loose-fitting outer garment with sleeves and a mysterious amount of well-hidden pockets.",
@@ -1909,7 +1884,6 @@
   },
   {
     "id": "ghost_robe",
-    "repairs_like": "cloak",
     "type": "ARMOR",
     "name": { "str": "ghost's robe" },
     "description": "A white hooded ghost's robe characteristic of souls that haunt the living world.",
@@ -1946,7 +1920,6 @@
   },
   {
     "id": "ghost_robe_sheet",
-    "repairs_like": "sheet",
     "type": "ARMOR",
     "name": { "str": "cheap ghost's robe" },
     "description": "A cheap ghost costume comprised of a white sheet with two eye holes cut out.  A simple hat is worn underneath to keep the sheet in place.",
@@ -1985,7 +1958,6 @@
   },
   {
     "id": "grim_reaper_robe",
-    "repairs_like": "cloak",
     "type": "ARMOR",
     "name": { "str": "grim reaper's robe" },
     "description": "A black hooded grim reaper's robe with a face cover to hide the user's lack of facial skin.  It pairs nicely with a scythe.  Use it to remove the face cover and show yourself before your victims.",
@@ -2030,7 +2002,6 @@
   {
     "id": "grim_reaper_robe_faceless",
     "copy-from": "grim_reaper_robe",
-    "repairs_like": "cloak",
     "type": "ARMOR",
     "name": { "str": "grim reaper's robe (faceless)", "str_pl": "grim reaper's robes (faceless)" },
     "description": "A black hooded grim reaper's robe with the face cover removed to show user's lack of facial skin.  It pairs nicely with a scythe.  Use it to hide your lack of facial features.",
@@ -2062,7 +2033,6 @@
   },
   {
     "id": "robe_wizard",
-    "repairs_like": "robe",
     "type": "ARMOR",
     "name": { "str": "wizard robe" },
     "description": "A mysterious and arcane-looking robe, signifying status in the wizarding world.  It has a hood and some pockets for your magical artifacts.",
@@ -2118,7 +2088,6 @@
   },
   {
     "id": "samghati",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "samghati" },
     "description": "A traditional, double-layered Buddhist coat.  Used as an outer cloak for various occasions.",
@@ -2252,7 +2221,6 @@
   },
   {
     "id": "ski_jacket",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "ski jacket" },
     "description": "An insulated, breathable hoodie made for alpine skiing.  Very warm, and with sizable pockets.",
@@ -2754,7 +2722,6 @@
   },
   {
     "id": "thawb",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "thawb" },
     "description": "A long, loose-fitting robe with wide sleeves.  A traditional Arab garment.",
@@ -2976,7 +2943,6 @@
   },
   {
     "id": "tux",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "tuxedo" },
     "description": "A full-body tuxedo.  Makes the apocalypse feel a little more classy.",
@@ -3044,7 +3010,6 @@
   },
   {
     "id": "waistcoat",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "waistcoat" },
     "description": "An elegant waistcoat.  Ideal for those occasions when wearing only a shirt would be too casual and a suit would be overdoing it.",
@@ -3094,7 +3059,6 @@
   },
   {
     "id": "winter_jacket_army",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "army winter jacket" },
     "description": "A hooded jacket with lots of pockets, thickly padded for warmth.  Favored by the military.",
