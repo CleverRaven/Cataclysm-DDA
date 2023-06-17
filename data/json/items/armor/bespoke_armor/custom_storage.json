@@ -70,7 +70,7 @@
     "id": "survivor_dry_duffelbag",
     "type": "ARMOR",
     "name": { "str": "survivor dry duffel bag" },
-    "description": "A custom-built heavy watertight duffel bag.  Durable and carefully crafted to hold as much stuff as possible. Capable of floating. Provides plenty of storage, but is severely encumbering.",
+    "description": "A custom-built heavy watertight duffel bag.  Durable and carefully crafted to hold as much stuff as possible.  Capable of floating.  Provides plenty of storage, but is severely encumbering.",
     "weight": "1400 g",
     "volume": "10800 ml",
     "price": 30000,
