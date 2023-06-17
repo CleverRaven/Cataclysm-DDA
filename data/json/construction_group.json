@@ -1716,6 +1716,11 @@
   },
   {
     "type": "construction_group",
+    "id": "clear_rubble",
+    "name": "Clear rubble"
+  },
+  {
+    "type": "construction_group",
     "id": "build_bench_wooden",
     "name": "Build a wooden bench"
   },

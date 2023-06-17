@@ -91,7 +91,7 @@
   },
   {
     "type": "vehicle_part_migration",
-    "from": "basketsm_bike_rear",
+    "from": "basketsm_bike",
     "to": "basketsm",
     "variant": "bike_rear"
   },

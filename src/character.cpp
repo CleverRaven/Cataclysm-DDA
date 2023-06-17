@@ -5513,7 +5513,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     // FIXME: Hardcoded damage types
     if( eff == effect_downed ) {
-        return has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+        return is_knockdown_immune();
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_heat );
     } else if( eff == effect_deaf ) {
@@ -5552,6 +5552,16 @@ bool Character::is_rad_immune() const
 {
     bool has_helmet = false;
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( flag_RAD_PROOF );
+}
+
+bool Character::is_knockdown_immune() const
+{
+    // hard code for old tentacle mutation
+    bool knockdown_immune = has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+
+    // if we have 1.0 or greater knockdown resist
+    knockdown_immune |= calculate_by_enchantment( 0.0, enchant_vals::mod::KNOCKDOWN_RESIST ) >= 1;
+    return knockdown_immune;
 }
 
 int Character::throw_range( const item &it ) const
@@ -5687,7 +5697,12 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
     const double motion_vision_range = calculate_by_enchantment( 0.0,
                                        enchant_vals::mod::MOTION_VISION_RANGE );
+    const double sight_range_nether = calculate_by_enchantment( 0.0,
+                                      enchant_vals::mod::SIGHT_RANGE_NETHER );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
         return true;
     }
     if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
@@ -11160,6 +11175,12 @@ bool Character::is_hallucination() const
 }
 
 bool Character::is_electrical() const
+{
+    // for now this is false. In the future should have rules
+    return false;
+}
+
+bool Character::is_nether() const
 {
     // for now this is false. In the future should have rules
     return false;

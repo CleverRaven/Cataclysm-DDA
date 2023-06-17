@@ -166,6 +166,18 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "spearfisher",
+    "base_faction": "nether",
+    "by_mood": [ "nether_fish_symbiote" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nether_fish_symbiote",
+    "base_faction": "nether",
+    "by_mood": [ "spearfisher" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "nether_player_hate",
     "//": "These creatures aren't necessarily sentient in and of themselves or are drawn to sentient life in and around dimensional breaches.",
     "base_faction": "nether",

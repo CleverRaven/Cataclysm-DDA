@@ -480,6 +480,9 @@ class monster : public Creature
 
         bool is_electrical() const override;    // true if the monster produces electric radiation
 
+        bool is_nether() const override;    // true if the monster is from the nether
+
+
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
 

@@ -31,6 +31,7 @@
 #include "dispersion.h"
 #include "effect.h"
 #include "enums.h"
+#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
@@ -1507,6 +1508,11 @@ void npc::evaluate_best_weapon( const Creature *target )
         }
         return VisitResponse::NEXT;
     } );
+    if( magic->spells().empty() ) {
+        magic->clear_opens_spellbook_data();
+        get_event_bus().send<event_type::opens_spellbook>( getID() );
+        magic->evaluate_opens_spellbook_data();
+    }
     for( const spell_id &sp : magic->spells() ) {
         compare( std::make_shared<npc_attack_spell>( sp ) );
     }
