@@ -48,7 +48,7 @@ static float get_avg_degradation( const itype_id &it, int count, int damage )
     return deg / count;
 }
 
-TEST_CASE( "Damage indicator thresholds", "[item][damage_level]" )
+TEST_CASE( "Damage_indicator_thresholds", "[item][damage_level]" )
 {
     struct damage_level_threshold {
         int min_damage;
@@ -85,7 +85,7 @@ TEST_CASE( "Damage indicator thresholds", "[item][damage_level]" )
     }
 }
 
-TEST_CASE( "Degradation on spawned items", "[item][degradation]" )
+TEST_CASE( "Degradation_on_spawned_items", "[item][degradation]" )
 {
     clear_map();
 
@@ -136,7 +136,7 @@ static void add_x_dmg_levels( item &it, int lvls )
     }
 }
 
-TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
+TEST_CASE( "Items_that_get_damaged_gain_degradation", "[item][degradation]" )
 {
     GIVEN( "An item with default degradation rate" ) {
         item it( itype_test_baseball );
@@ -242,7 +242,7 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
 }
 
 // Testing activity_handlers::repair_item_finish / repair_item_actor::repair
-TEST_CASE( "Repairing degraded items", "[item][degradation]" )
+TEST_CASE( "Repairing_degraded_items", "[item][degradation]" )
 {
     // Setup map
     clear_map();
@@ -400,7 +400,7 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
 }
 
 // Testing activity_handlers::repair_item_finish / repair_item_actor::repair
-TEST_CASE( "Repairing items with specific requirements", "[item][degradation]" )
+TEST_CASE( "Repairing_items_with_specific_requirements", "[item][degradation]" )
 {
     Character &u = get_player_character();
     item fix( itype_test_steelball );
@@ -423,7 +423,7 @@ TEST_CASE( "Repairing items with specific requirements", "[item][degradation]" )
 }
 
 // Testing iuse::gun_repair
-TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
+TEST_CASE( "Gun_repair_with_degradation", "[item][degradation]" )
 {
     GIVEN( "Gun with normal degradation" ) {
         Character &u = get_player_character();

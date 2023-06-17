@@ -32,7 +32,7 @@ static std::string get_section_name( const spawn_type &type )
     return "unknown type";
 }
 
-TEST_CASE( "correct amounts of an item spawn inside a container", "[item_spawn]" )
+TEST_CASE( "correct_amounts_of_an_item_spawn_inside_a_container", "[item_spawn]" )
 {
     REQUIRE_FALSE( test_data::container_spawn_data.empty() );
 

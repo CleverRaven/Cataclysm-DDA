@@ -36,7 +36,7 @@ static const flag_id json_flag_PSEUDO( "PSEUDO" );
 static const itype_id itype_solarpack_on( "solarpack_on" );
 static const itype_id itype_test_backpack( "test_backpack" );
 
-TEST_CASE( "Bionic power capacity", "[bionics] [power]" )
+TEST_CASE( "Bionic_power_capacity", "[bionics] [power]" )
 {
     avatar &dummy = get_avatar();
 
@@ -93,7 +93,7 @@ TEST_CASE( "Bionic power capacity", "[bionics] [power]" )
     }
 }
 
-TEST_CASE( "bionic UIDs", "[bionics]" )
+TEST_CASE( "bionic_UIDs", "[bionics]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
@@ -128,7 +128,7 @@ TEST_CASE( "bionic UIDs", "[bionics]" )
     }
 }
 
-TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
+TEST_CASE( "bionic_weapons", "[bionics] [weapon] [item]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
@@ -329,7 +329,7 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
     }
 }
 
-TEST_CASE( "included bionics", "[bionics]" )
+TEST_CASE( "included_bionics", "[bionics]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
@@ -361,7 +361,7 @@ TEST_CASE( "included bionics", "[bionics]" )
     }
 }
 
-TEST_CASE( "fueled bionics", "[bionics] [item]" )
+TEST_CASE( "fueled_bionics", "[bionics] [item]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
