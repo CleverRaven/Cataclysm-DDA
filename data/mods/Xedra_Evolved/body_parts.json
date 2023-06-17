@@ -50,6 +50,7 @@
     "hp_bar_ui_text": "UP L K ARM",
     "main_part": "karma_arm_up_l",
     "connected_to": "torso",
+    "limb_type": "arm",
     "opposite_part": "karma_arm_up_r",
     "side": "left",
     "sub_parts": [ "karma_hand" ]
@@ -68,6 +69,7 @@
     "hp_bar_ui_text": "LW r K ARM",
     "main_part": "karma_arm_lw_r",
     "connected_to": "torso",
+    "limb_type": "arm",
     "opposite_part": "karma_arm_lw_l",
     "side": "right",
     "sub_parts": [ "karma_hand" ]
@@ -86,6 +88,7 @@
     "hp_bar_ui_text": "LW L K ARM",
     "main_part": "karma_arm_lw_l",
     "connected_to": "torso",
+    "limb_type": "arm",
     "opposite_part": "karma_arm_lw_r",
     "side": "left",
     "sub_parts": [ "karma_hand" ]
