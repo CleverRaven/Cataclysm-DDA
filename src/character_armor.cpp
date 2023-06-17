@@ -237,14 +237,9 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 }
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
-                              const sub_bodypart_id &sbp, int roll )
+                              const sub_bodypart_id &sbp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
-
-    // if the armor location has ablative armor apply that first
-    if( armor.is_ablative() ) {
-        ablative_armor_absorb( du, armor, sbp, roll );
-    }
 
     // if the core armor is missed then exit
     if( roll > armor.get_coverage( sbp, ctype ) ) {
@@ -292,9 +287,9 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
-    for( item_pocket *const pocket : armor.get_all_contained_pockets() ) {
+    for( item_pocket *const pocket : armor.get_all_ablative_pockets() ) {
         // if the pocket is ablative and not empty we should use its values
-        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+        if( !pocket->empty() ) {
             // get the contained plate
             item &ablative_armor = pocket->front();
 

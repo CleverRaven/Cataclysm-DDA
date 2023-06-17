@@ -6,6 +6,7 @@ Use the `Home` key to return to the top.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
+- [JSON INFO](#json-info)
 - [Introduction](#introduction)
   - [Overall structure](#overall-structure)
   - [Common properties](#common-properties)
@@ -24,11 +25,11 @@ Use the `Home` key to return to the top.
   - [`data/json/vehicles/`](#datajsonvehicles)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   - [`data/json/` JSONs](#datajson-jsons)
-    - [Ascii_arts](#ascii_arts)
+    - [Ascii\_arts](#ascii_arts)
     - [Addiction types](#addiction-types)
     - [Body Graphs](#body-graphs)
       - [Graph Parts](#graph-parts)
-    - [Body_parts](#body_parts)
+    - [Body\_parts](#body_parts)
 - [On-hit Effects](#on-hit-effects)
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
@@ -78,14 +79,14 @@ Use the `Home` key to return to the top.
       - [Defining common requirements](#defining-common-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
     - [Constructions](#constructions)
-    - [Scent_types](#scent_types)
+    - [Scent\_types](#scent_types)
     - [Scores, Achievements, and Conducts](#scores-achievements-and-conducts)
       - [`event_transformation`](#event_transformation)
       - [`event_statistic`](#event_statistic)
       - [`score`](#score)
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
-    - [Skills](#skills)
+    - [Skills](#skills-1)
     - [Speed Description](#speed-description)
     - [Mood Face](#mood-face)
     - [Tool Qualities](#tool-qualities)
@@ -116,7 +117,7 @@ Use the `Home` key to return to the top.
     - [Armor](#armor)
       - [Armor Portion Data](#armor-portion-data)
         - [Encumbrance](#encumbrance)
-        - [Encumbrance_modifiers](#encumbrance_modifiers)
+        - [Encumbrance\_modifiers](#encumbrance_modifiers)
         - [Coverage](#coverage)
         - [Covers](#covers)
         - [Specifically Covers](#specifically-covers)
@@ -127,7 +128,7 @@ Use the `Home` key to return to the top.
     - [Books](#books)
       - [Conditional Naming](#conditional-naming)
       - [Color Key](#color-key)
-      - [CBMs](#cbms)
+      - [CBMs](#cbms-1)
     - [Comestibles](#comestibles)
     - [Containers](#containers)
     - [Melee](#melee)
@@ -145,6 +146,7 @@ Use the `Home` key to return to the top.
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
     - [Tick Actions](#tick-actions)
+    - [Delayed Item Actions](#delayed-item-actions)
     - [Random Descriptions](#random-descriptions)
 - [`json/` JSONs](#json-jsons)
     - [Harvest](#harvest)
@@ -225,18 +227,18 @@ Use the `Home` key to return to the top.
         - [`base`](#base)
         - [`growth_multiplier`](#growth_multiplier)
         - [`harvest_multiplier`](#harvest_multiplier)
-    - [clothing_mod](#clothing_mod)
+    - [clothing\_mod](#clothing_mod)
 - [Scenarios](#scenarios)
   - [`description`](#description-1)
   - [`name`](#name-2)
   - [`points`](#points-1)
   - [`items`](#items-3)
   - [`flags`](#flags-2)
-  - [`cbms`](#cbms-1)
+  - [`cbms`](#cbms-2)
   - [`traits`, `forced_traits`, `forbidden_traits`](#traits-forced_traits-forbidden_traits)
   - [`allowed_locs`](#allowed_locs)
   - [`start_name`](#start_name)
-  - [`professions`](#professions)
+  - [`professions`](#professions-1)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement-1)
   - [`eocs`](#eocs)
@@ -244,7 +246,7 @@ Use the `Home` key to return to the top.
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
-  - [`terrain`](#terrain)
+  - [`terrain`](#terrain-1)
   - [`city_sizes`](#city_sizes)
   - [`city_distance`](#city_distance)
   - [`allowed_z_levels`](#allowed_z_levels)
@@ -2807,7 +2809,7 @@ Vehicle components when installed on a vehicle.
 #### Symbols and Variants
 Vehicle parts can have cosmetic variants that use different symbols and tileset sprites.  They are declared by the "variants" object.  Variants are used in the vehicle prototype as a suffix following the part id (ie `id#variant`), for example `"frame#nw"` or `"halfboard#cover"`.
 
-`symbols` and `symbols_broken` can be either a string of 1 character or 8 characters long (length is measured in console characters). A 1 character string is equivalent to 8 characters one where all characters are equal to first. An 8 character string represents the 8 symbols used for parts which can rotate; `abcdefgh` will put `a` when part is rotated north, `b` for NE, `c` for east etc.
+`symbols` and `symbols_broken` can be either a string of 1 character (A 1 character string is effectively 8 of that characters) or 8 characters long. The length is measured in console characters. An 8 character string represents the 8 symbols used for parts which can rotate; `abcdefgh` will put `a` when part is rotated north, `b` for NW, `c` for west, `d` for SW etc.
 
 A subset of unicode box drawing characters is supported as symbols: `│ ─ ┼ ┌ ┐ ┘ └`, thick vertical and thick horizontal lines `┃ ━` are partially supported, they're rendered as `H` and `=` because there are no equivalents in curses ACS encoding.
 
@@ -3582,6 +3584,8 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 	// If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
+
+    "inherits_flags": true // if a pocket inherits flags it means any flags that the items inside have contribute to the item that has the pockets itself.
   }
 ]
 ```
@@ -4166,13 +4170,50 @@ The contents of use_action fields can either be a string indicating a built-in f
     "description" :"This debugs the game", // usage description
     "effect_on_conditions" : ["test_cond"] // ids of the effect_on_conditions to activate
     }
+"use_action": {
+    "type": "message",      // Displays message text
+    "message": "Read this.",// Message that is shown
+    "name": "Light fuse"    // Optional name for the action. Default "Activate".
+}
 ```
 
-### Tick Actions
+  ### Tick Actions
 
 `"tick_action"` of active tools is executed once on every turn. This action can be any use_action but some of them may not work properly when not executed by player.
 
 The `"use_action"` of active tools is also executed on every turn. This is deprecated and should not be used.
+  
+#### Delayed Item Actions
+
+Item use actions can be used with a timer delay.
+
+Item `"transform"` action can set and start the timer. This timer starts when the player activates the item.
+```
+"use_action": {
+    "type": "transform"
+    "target": "grenade_act",
+    "target_timer": "5 seconds"  // Sets timer on item to this
+}
+```
+
+Timer inherent to the item itself can be set by defining `"countdown_interval"` in item json. This timer is started at the birth of the item.
+
+```
+    "id": "migo_plate_undergrown",
+    "name": { "str": "undergrown iridescent carapace plate" },
+    "countdown_interval": "24 hours",
+```
+
+Once the duration of the timer has passed the `"countdown_action"` is executed. This action can be any use action but many actions do not behave well when they are not triggered by the player.
+
+```
+"countdown_action": {
+    "type": "explosion",
+    "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.08 } }
+}
+```
+
+Additionally `"revert_to"` can be defined in item definitions (not in use action). The item is deactivated and turned to this type after the `"countdown_action"`. If no revert_to is specified the item is destroyed.
 
 ### Random Descriptions
 

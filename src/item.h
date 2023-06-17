@@ -815,7 +815,8 @@ class item : public visitable
         std::vector<item_pocket *> get_all_contained_pockets();
         std::vector<const item_pocket *> get_all_standard_pockets() const;
         std::vector<item_pocket *> get_all_standard_pockets();
-
+        std::vector<item_pocket *> get_all_ablative_pockets();
+        std::vector<const item_pocket *> get_all_ablative_pockets() const;
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -2803,6 +2804,9 @@ class item : public visitable
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
 
+        std::list<item *> all_ablative_armor();
+        std::list<const item *> all_ablative_armor() const;
+
         void clear_items();
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
@@ -2978,6 +2982,10 @@ class item : public visitable
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
+
+        // Time point at which countdown_action is triggered
+        time_point countdown_point = calendar::turn_max;
+
         units::specific_energy specific_energy = units::from_joule_per_gram(
                     -10 ); // Specific energy J/g. Negative value for unprocessed.
         units::temperature temperature = units::from_kelvin( 0 );       // Temperature of the item .

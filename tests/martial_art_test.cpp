@@ -30,7 +30,7 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 
-TEST_CASE( "martial arts", "[martial_arts]" )
+TEST_CASE( "martial_arts", "[martial_arts]" )
 {
     SECTION( "martial art valid weapon" ) {
         GIVEN( "a weapon that fits the martial art" ) {
@@ -43,7 +43,7 @@ TEST_CASE( "martial arts", "[martial_arts]" )
     }
 }
 
-TEST_CASE( "Martial art required weapon categories", "[martial_arts]" )
+TEST_CASE( "Martial_art_required_weapon_categories", "[martial_arts]" )
 {
     SECTION( "Weapon categories required for buff" ) {
         REQUIRE( !test_style_ma1->onmiss_buffs.empty() );
@@ -79,7 +79,7 @@ TEST_CASE( "Martial art required weapon categories", "[martial_arts]" )
     }
 }
 
-TEST_CASE( "Martial art technique conditionals", "[martial_arts]" )
+TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
 {
     clear_map();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );

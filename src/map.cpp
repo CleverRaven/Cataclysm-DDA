@@ -504,9 +504,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
             for( const tripoint &pt : veh->get_points() ) {
-                // FIXME: allow memorizing all objects in a tile and only clear
-                // vehicle memory here.
-                get_avatar().clear_memorized_tile( getabs( pt ) );
+                get_avatar().memorize_clear_vehicles( getabs( pt ) );
                 set_memory_seen_cache_dirty( pt );
             }
             ch.vehicle_list.erase( veh );
@@ -1825,13 +1823,13 @@ uint8_t map::get_known_connections( const tripoint &p,
     if( use_tiles ) {
         is_memorized =
         [&]( const tripoint & q ) {
-            return !player_character.get_memorized_tile( getabs( q ) ).tile.empty();
+            return !player_character.get_memorized_tile( getabs( q ) ).get_ter_id().empty();
         };
     } else {
 #endif
         is_memorized =
         [&]( const tripoint & q ) {
-            return player_character.get_memorized_symbol( getabs( q ) );
+            return player_character.get_memorized_tile( getabs( q ) ).symbol != 0;
         };
 #ifdef TILES
     }
@@ -1910,12 +1908,12 @@ uint8_t map::get_known_connections_f( const tripoint &p,
 #ifdef TILES
     if( use_tiles ) {
         is_memorized = [&]( const tripoint & q ) {
-            return !player_character.get_memorized_tile( getabs( q ) ).tile.empty();
+            return !player_character.get_memorized_tile( getabs( q ) ).get_dec_id().empty();
         };
     } else {
 #endif
         is_memorized = [&]( const tripoint & q ) {
-            return player_character.get_memorized_symbol( getabs( q ) );
+            return player_character.get_memorized_tile( getabs( q ) ).symbol != 0;
         };
 #ifdef TILES
     }
@@ -6471,23 +6469,13 @@ visibility_type map::get_visibility( const lit_level ll,
     return visibility_type::HIDDEN;
 }
 
-static bool has_memory_at( const tripoint &p )
+static std::optional<char32_t> get_memory_at( const tripoint &p )
 {
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        int t = you.get_memorized_symbol( get_map().getabs( p ) );
-        return t != 0;
+    const memorized_tile &mt = get_avatar().get_memorized_tile( get_map().getabs( p ) );
+    if( mt.symbol != 0 ) {
+        return mt.symbol;
     }
-    return false;
-}
-
-static int get_memory_at( const tripoint &p )
-{
-    avatar &you = get_avatar();
-    if( you.should_show_map_memory() ) {
-        return you.get_memorized_symbol( get_map().getabs( p ) );
-    }
-    return ' ';
+    return std::nullopt;
 }
 
 void map::draw( const catacurses::window &w, const tripoint &center )
@@ -6528,8 +6516,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     const auto draw_background = [&]( const tripoint & p ) {
         int sym = ' ';
         nc_color col = c_black;
-        if( has_memory_at( p ) ) {
-            sym = get_memory_at( p );
+        if( const std::optional<char32_t> memorized_symbol = get_memory_at( p ) ) {
+            sym = *memorized_symbol;
             col = c_brown;
         }
         wputch( w, col, sym );

@@ -490,14 +490,10 @@ class cata_tiles
 
         /** Map memory */
         bool has_memory_at( const tripoint &p ) const;
-        bool has_terrain_memory_at( const tripoint &p ) const;
-        bool has_furniture_memory_at( const tripoint &p ) const;
-        bool has_trap_memory_at( const tripoint &p ) const;
-        bool has_vpart_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_terrain_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_furniture_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_trap_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_vpart_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_terrain_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_furniture_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_trap_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_vpart_memory_at( const tripoint &p ) const;
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;

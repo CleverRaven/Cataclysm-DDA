@@ -87,7 +87,7 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.empty() );
 }
 
-TEST_CASE( "overflow on combine", "[item]" )
+TEST_CASE( "overflow_on_combine", "[item]" )
 {
     clear_map();
     tripoint origin{ 60, 60, 0 };
@@ -104,7 +104,7 @@ TEST_CASE( "overflow on combine", "[item]" )
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
-TEST_CASE( "overflow test", "[item]" )
+TEST_CASE( "overflow_test", "[item]" )
 {
     tripoint origin{ 60, 60, 0 };
     item purse( itype_purse );
@@ -116,7 +116,7 @@ TEST_CASE( "overflow test", "[item]" )
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
-TEST_CASE( "overflow test into parent item", "[item]" )
+TEST_CASE( "overflow_test_into_parent_item", "[item]" )
 {
     clear_map();
     tripoint origin{ 60, 60, 0 };

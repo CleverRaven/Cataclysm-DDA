@@ -316,6 +316,8 @@
         "l": "f_locker",
         "L": "f_locker",
         "[": "f_locker",
+        "{": "f_locker",
+        "]": "f_locker",
         "2": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "3": [ "f_gunsafe_ml", "f_gun_safe_el" ],
         "9": [ "f_gunsafe_ml", "f_gun_safe_el" ],

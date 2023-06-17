@@ -21,15 +21,6 @@
 
 bool assure_dir_exist( const std::string &path )
 {
-    // TEMPORARY until we drop VS2019 support
-    // VS2019 std::filesystem doesn't handle trailing slashes well in this
-    // situation.  We think this is a bug.  Work around it by removing the
-    // trailing slash if present.
-    if( string_ends_with( path, "/" ) ) {
-        std::string p = path;
-        p.pop_back();
-        return assure_dir_exist( fs::u8path( p ) );
-    }
     return assure_dir_exist( fs::u8path( path ) );
 }
 
@@ -38,10 +29,26 @@ bool assure_dir_exist( const cata_path &path )
     return assure_dir_exist( path.get_unrelative_path() );
 }
 
-bool assure_dir_exist( const fs::path &p )
+bool assure_dir_exist( const fs::path &path )
 {
     std::error_code ec;
-    bool ret = fs::is_directory( p, ec ) || ( !fs::exists( p, ec ) && fs::create_directories( p, ec ) );
+    bool exists{false};
+    bool created{false};
+    const fs::path p = fs::u8path( as_norm_dir( path ) );
+    bool is_dir{ fs::is_directory( p, ec ) };
+    if( !is_dir ) {
+        exists = fs::exists( p, ec );
+        if( !exists ) {
+            created = fs::create_directories( p, ec );
+            if( !created ) {
+                // TEMPORARY until we drop VS2019 support
+                // VS2019 std::filesystem doesn't handle trailing slashes well in this
+                // situation.  We think this is a bug.  Work around it by checking again
+                created = fs::exists( p, ec );
+            }
+        }
+    }
+    bool ret = is_dir || ( !exists && created );
     return !ec && ret;
 }
 
@@ -69,6 +76,18 @@ bool file_exist( const cata_path &path )
 {
     const fs::path unrelative_path = path.get_unrelative_path();
     return fs::exists( unrelative_path ) && !fs::is_directory( unrelative_path );
+}
+
+std::string as_norm_dir( const std::string &path )
+{
+    fs::path dir = fs::u8path( path ) / fs::path{};
+    fs::path norm = dir.lexically_normal();
+    return norm.generic_u8string();
+}
+
+std::string as_norm_dir( const fs::path &path )
+{
+    return as_norm_dir( path.u8string() );
 }
 
 bool remove_file( const std::string &path )
@@ -165,11 +184,6 @@ void for_each_dir_entry( const fs::path &path, Function &&function )
     for( const fs::directory_entry &dir_entry : dir_iter ) {
         function( dir_entry );
     }
-}
-template <typename Function>
-void for_each_dir_entry( const std::string &path, Function &&function )
-{
-    for_each_dir_entry( fs::u8path( path ), std::forward < Function && > ( function ) );
 }
 
 //--------------------------------------------------------------------------------------------------

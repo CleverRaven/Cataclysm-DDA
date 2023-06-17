@@ -562,7 +562,9 @@
       [ "rpk74mag", 10 ],
       [ "skorpion61mag", 10 ],
       [ "skorpion82mag", 10 ],
-      [ "tokarevmag", 10 ]
+      [ "tokarevmag", 10 ],
+      [ "greasegun30mag", 5 ],
+      [ "greasegun32mag", 2 ]
     ]
   },
   {

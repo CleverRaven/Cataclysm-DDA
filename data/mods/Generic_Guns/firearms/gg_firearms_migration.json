@@ -182,7 +182,8 @@
       "bt_apc9k",
       "colt_ro635",
       "mp40",
-      "mp18"
+      "mp18",
+      "greasegun"
     ],
     "type": "MIGRATION",
     "replace": "pistol_smg"
