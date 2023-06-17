@@ -2976,6 +2976,7 @@ void item::io( Archive &archive )
     archive.io( "active", active, false );
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
+    archive.io( "countdown_point", countdown_point, calendar::turn_max );
     archive.io( "wetness", wetness, 0 );
     archive.io( "contents_linked", contents_linked, false );
     archive.io( "dropped_from", dropped_from, harvest_drop_type_id::NULL_ID() );
@@ -3146,6 +3147,15 @@ void item::io( Archive &archive )
     // Activate corpses from old saves
     if( is_corpse() && !active ) {
         active = true;
+    }
+
+    // Migrate items with timer. #66161
+    // Do not remove this migration until all timer items are migrated to countdown_action
+    if( active && type->countdown_action && countdown_point == calendar::turn_max ) {
+        countdown_point  = calendar::turn + time_duration::from_seconds( charges ) +
+                           time_duration::from_seconds( item_counter );
+        charges = 0;
+        item_counter = 0;
     }
 
     if( charges != 0 && !type->can_have_charges() ) {
