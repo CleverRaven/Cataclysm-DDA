@@ -350,7 +350,7 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "15 cm",
         "description": "Small splashproof outer pocket.",
-        "moves": 200
+        "moves": 250
       }
     ],
     "material_thickness": 2,
