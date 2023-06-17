@@ -890,7 +890,7 @@
     "id": "WATERPROOF",
     "type": "json_flag",
     "//": "Prevents the covered body-part(s) from getting wet in any circumstance.",
-    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
+    "info": "This clothing <info>won't let water through</info>.  Even if you jump into a river."
   },
   {
     "id": "WATER_FRIENDLY",
