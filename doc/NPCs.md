@@ -1234,7 +1234,7 @@ Condition | Type | Description
 ## Utility Structures
 
 ### Variable Object
-`variable_object`: This is either an object, an `arithmetic`/`math` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+`variable_object`: This is either an object, an `arithmetic`/`math` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, `var_val` or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, `var_val` tries to resolve a variable stored in a `context_val` (more explanation bellow), if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
 
 Example:
 ```json
@@ -1248,6 +1248,20 @@ Example:
   }
 ]
 ```
+
+#### var_val
+var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
+| Name | Type | Value |
+| --- | --- | --- |
+| ref | context_val | key1 |
+| ref2 | context_val | u_key2 |
+| key1 | global_val | SOME TEXT |
+| key2 | u_val | SOME OTHER TEXT |
+
+If you access "ref" as a context val it will have the value of "key1", if you access it as a var_val it will have a value of "SOME TEXT". 
+If you access "ref2" as a context val it will have the value of "u_key2", if you access it as a var_val it will have a value of "SOME OTHER TEXT". 
+
+The values for var_val use the same syntax for scope that math [variables](#variables) do.
 
 ### Mutators
 `mutators`: take in an ammount of data and provide you with a relevant string. This can be used to get information about items, monsters, etc. from the id, or other data. Mutators can be used anywhere that a string [variable object](#variable-object) can be used. Mutators take the form:
@@ -1397,7 +1411,7 @@ If `operator` is `==`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
 `lhs` and `rhs` are evaluated independently and the result of `operator` is passed on to the parent object.
 
 #### Variables
-Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, `n_myvar` is scoped on the beta talker, and `_var` is a context variable.
+Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, `n_myvar` is scoped on the beta talker, and `_var` is a context variable, `v_var` is a [var_val](#var_val).
 
 Examples:
 ```JSON

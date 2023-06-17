@@ -295,6 +295,11 @@ var_info read_var_info( const JsonObject &jo )
         if( name.empty() ) {
             name = get_talk_varname( jo, "global_val", false, empty );
         }
+    } else if( jo.has_member( "var_val" ) ) {
+        type = var_type::var;
+        if( name.empty() ) {
+            name = get_talk_varname( jo, "var_val", false, empty );
+        }
     } else if( jo.has_member( "context_val" ) ) {
         type = var_type::context;
         if( name.empty() ) {
@@ -320,9 +325,16 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
                       const std::string &value )
 {
     global_variables &globvars = get_globals();
+    std::string ret;
+    var_info vinfo( var_type::global, "" );
     switch( type ) {
         case var_type::global:
             globvars.set_global_value( name, value );
+            break;
+        case var_type::var:
+            ret = d->get_value( name );
+            vinfo = process_variable( ret );
+            write_var_value( vinfo.type, vinfo.name, talk, d, value );
             break;
         case var_type::u:
         case var_type::npc:
@@ -2241,6 +2253,9 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         } else if( jo.has_member( "global_val" ) ) {
             type = var_type::global;
             checked_value = jo.get_string( "global_val" );
+        } else if( jo.has_member( "var_val" ) ) {
+            type = var_type::var;
+            checked_value = jo.get_string( "var_val" );
         } else if( jo.has_member( "context_val" ) ) {
             type = var_type::context;
             checked_value = jo.get_string( "context_val" );
