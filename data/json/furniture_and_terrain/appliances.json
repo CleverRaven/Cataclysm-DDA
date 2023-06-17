@@ -417,7 +417,6 @@
     "id": "ap_heavy_lathe",
     "name": "power lathe",
     "looks_like": "f_heavy_lathe",
-    "symbol": "7",
     "color": "cyan_red",
     "categories": [ "utility" ],
     "description": "An industrial-grade lathe, rightfully called \"mother of all machines\".  It is capable of cutting threads, drilling holes, creating faces and many other designs.  Plugged in and ready to go.",
