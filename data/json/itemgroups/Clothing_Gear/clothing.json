@@ -2659,7 +2659,15 @@
     "type": "item_group",
     "id": "diving_accessories",
     "//": "Only diving appropriate accesories.",
-    "items": [ [ "dive_bag", 25 ], [ "dry_bag", 25 ], [ "dry_duffelbag", 25 ], [ "dry_bag_large", 15 ], [ "diving_watch", 25 ], [ "small_scuba_tank", 25 ], [ "scuba_tank", 25 ] ]
+    "items": [
+      [ "dive_bag", 25 ],
+      [ "dry_bag", 25 ],
+      [ "dry_duffelbag", 25 ],
+      [ "dry_bag_large", 15 ],
+      [ "diving_watch", 25 ],
+      [ "small_scuba_tank", 25 ],
+      [ "scuba_tank", 25 ]
+    ]
   },
   {
     "type": "item_group",
