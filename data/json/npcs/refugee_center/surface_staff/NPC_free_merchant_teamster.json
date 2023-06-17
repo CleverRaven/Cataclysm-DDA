@@ -271,7 +271,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 540 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -296,7 +296,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 540 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -321,7 +321,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 540 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -346,7 +346,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "isolated_road", "om_terrain": "isolated_house_farm_gunsmith", "reveal_radius": 2, "search_range": 400 },
+      "assign_mission_target": { "om_special": "isolated_road", "om_terrain": "isolated_house_farm_gunsmith", "reveal_radius": 2, "search_range": 540 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
