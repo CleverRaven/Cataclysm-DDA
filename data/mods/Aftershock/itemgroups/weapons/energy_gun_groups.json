@@ -67,6 +67,16 @@
     ]
   },
   {
+    "id": "afs_civilian_laser_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [
+      [ "afs_bootleg_cartridge", 80 ],
+      [ "afs_compact_cartridge", 10 ]
+    ]
+  },
+  {
     "id": "afs_any_plasma_mag",
     "type": "item_group",
     "subtype": "distribution",
@@ -87,6 +97,13 @@
     "subtype": "distribution",
     "ammo": 100,
     "items": [ [ "afs_voltaic_cartridge", 30 ] ]
+  },
+  {
+    "id": "afs_civilian_plasma_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [ [ "afs_40g_plasma_civ", 10 ] ]
   },
   {
     "type": "item_group",

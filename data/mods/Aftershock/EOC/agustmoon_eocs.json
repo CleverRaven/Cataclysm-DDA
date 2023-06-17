@@ -1,0 +1,69 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_FIND_PORT_AUGUSTMOON",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "math": [ "searched_port_augustmoon", "!=", "1" ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "Port_augustmoon" },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 380 },
+        "terrain": "t_elevator",
+        "target_max_radius": 26
+      },
+      {
+        "u_location_variable": { "global_val": "Port_augustmoon_cargo" },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 380 },
+        "terrain": "t_intermodal_crate_scripted_destination",
+        "target_max_radius": 26
+      },
+      { "math": [ "searched_port_augustmoon", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_AUGUSTMOON_SHUTTLE_TP",
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "crate_loc" },
+        "terrain": "t_intermodal_crate_scripted_source",
+        "target_max_radius": 24
+      },
+      {
+        "u_map_run_item_eocs": "all",
+        "loc": { "context_val": "crate_loc" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "true_eocs": [ { "id": "EOC_AFS_AUGUSTMOON_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "Port_augustmoon_cargo" } } ] } ]
+      },
+      { "u_cast_spell": { "id": "AFS_AUGUSTMOON_NPC_TP_SPELL", "hit_self": true } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_TEST_AUGUSTMOON_CARGO_TP",
+    "effect": [ { "u_teleport": { "global_val": "Port_augustmoon_cargo" }, "force": true } ]
+  },
+  {
+    "id": "AFS_AUGUSTMOON_NPC_TP_SPELL",
+    "type": "SPELL",
+    "name": "Augustmoon NPC TP Spell",
+    "description": "Sends an NPCs to Port Augustmoon",
+    "valid_targets": [ "ally", "self" ],
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "shape": "blast",
+    "min_aoe": 15,
+    "max_aoe": 15,
+    "min_range": 10,
+    "max_range": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TEST_AUGUSTMOON_TP"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_TEST_AUGUSTMOON_TP",
+    "condition": "u_following",
+    "effect": [ { "u_teleport": { "global_val": "Port_augustmoon" } } ]
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "augustmoon_shuttle_ground",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ### ##          ",
+        "        ##|||##         ",
+        "       ##||A||##        ",
+        "       #||313||#        ",
+        "       #|||2|||##       ",
+        "       ##||2||##        ",
+        "      ####              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "|": "t_afs_space_ship_hull_wall",
+        "2": "t_afs_space_ship_hatch_c",
+        "1": "t_intermodal_crate_scripted_destination",
+        "3": "t_metal_floor",
+        "A": "t_augustmoon_shuttle_console",
+        "#": "t_dirtmound"
+      }
+    }
+  }
+]

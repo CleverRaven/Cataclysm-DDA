@@ -120,5 +120,29 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [ [ "afs_magnetic_choke", 10 ] ]
+  },
+  {
+    "id": "afs_civilian_ballistic_s_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_10mm_caseless_FMJ", 20 ], [ "afs_10mm_caseless_JHP", 40 ] ]
+  },
+  {
+    "id": "afs_civilian_ballistic_m_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_7.50mm_caseless", 10 ], [ "afs_7.50mm_rp", 40 ], [ "shot_00", 5 ], [ "shot_slug", 5 ], [ "shot_beanbag", 5 ] ] 
+  },
+  {
+    "id": "afs_civilian_ballistic_h_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_25mm_shot", 40 ] ]
   }
 ]
