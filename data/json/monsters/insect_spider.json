@@ -361,7 +361,7 @@
     "reproduction": { "baby_egg": "egg_roach", "baby_count": 3, "baby_timer": 7 },
     "death_function": { "effect": { "id": "death_preg_roach", "hit_self": true } },
     "delete": { "flags": [ "SMALL_HIDER" ] },
-    "special_attacks": [ [ "EAT_FOOD", 40 ],  [ "EAT_CARRION", 40 ] ]
+    "special_attacks": [ [ "EAT_FOOD", 40 ], [ "EAT_CARRION", 40 ] ]
   },
   {
     "id": "mon_bee_small",
