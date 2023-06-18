@@ -257,7 +257,7 @@
     "upgrades": { "age_grow": 30, "into": "mon_skittering_plague" },
     "fear_triggers": [ "BRIGHT_LIGHT" ],
     "extend": { "flags": [ "EATS", "SMALL_HIDER" ] },
-    "special_attacks": [ [ "EAT_FOOD", 120 ],  [ "EAT_CARRION", 120 ] ]
+    "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ]
   },
   {
     "id": "mon_plague_vector",
