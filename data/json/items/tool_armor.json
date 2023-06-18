@@ -2548,13 +2548,11 @@
     "environmental_protection": 4,
     "armor": [
       {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "eyes" ],
         "rigid_layer_only": true,
         "coverage": 100,
-        "encumbrance": 5 
+        "encumbrance": 5
       },
       {
         "material": [
