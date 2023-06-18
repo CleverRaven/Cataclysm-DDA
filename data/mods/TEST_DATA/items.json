@@ -3562,6 +3562,35 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] }
   },
   {
+    "id": "test_knife_combat",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "combat knife", "str_pl": "combat knives" },
+    "description": "A military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
+    "weight": "558 g",
+    "volume": "500 ml",
+    "longest_side": "30 cm",
+    "price": 10000,
+    "price_postapoc": 1250,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "5 s"
+    },
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "techniques": [ "RAPID" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 4, "stab": 26 }
+  },
+  {
     "id": "test_armor_chitin",
     "type": "ARMOR",
     "category": "armor",

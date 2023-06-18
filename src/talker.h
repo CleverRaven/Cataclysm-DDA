@@ -516,8 +516,8 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
-        virtual void attack_target( Creature &t, bool allow_special, const matec_id &force_technique,
-                                    bool allow_unarmed, int forced_movecost ) {}
+        virtual void attack_target( Creature &, bool, const matec_id &,
+                                    bool, int ) {}
 
         virtual int attack_speed() const {
             return 0;
@@ -643,8 +643,8 @@ class talker
         }
         virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
         virtual void die() {}
-        virtual matec_id get_random_technique( Creature &t, bool crit, bool dodge_counter,
-                                               bool block_counter, const std::vector<matec_id> &blacklist = {} ) const {
+        virtual matec_id get_random_technique( Creature &, bool, bool,
+                                               bool, const std::vector<matec_id> & = {} ) const {
             return matec_id();
         }
         virtual void learn_martial_art( const matype_id & ) const {}

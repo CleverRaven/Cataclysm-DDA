@@ -1506,8 +1506,8 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
 
         return [blacklist, crit, dodge_counter, block_counter]( const dialogue & d ) {
             std::vector<matec_id> bl;
-            for( str_or_var sv : blacklist ) {
-                bl.emplace_back( matec_id( sv.evaluate( d ) ) );
+            for( const str_or_var &sv : blacklist ) {
+                bl.push_back( matec_id( sv.evaluate( d ) ) );
             }
             return d.actor( false )->get_random_technique( *d.actor( true )->get_creature(), crit,
                     dodge_counter, block_counter, bl ).str();
@@ -1516,7 +1516,7 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
         return [ma]( const dialogue & d ) {
-            return matec_id( ma.evaluate( d ) )->get_description();
+            return matec_id( ma.evaluate( d ) )->description.translated();
         };
     } else if( jo.get_string( "mutator" ) == "ma_technique_name" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
@@ -1524,7 +1524,7 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
         return [ma]( const dialogue & d ) {
             return matec_id( ma.evaluate( d ) )->name.translated();
         };
-    } 
+    }
 
     jo.throw_error( "unrecognized string mutator in " + jo.str() );
     return []( const dialogue & ) {
