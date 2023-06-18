@@ -254,7 +254,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, bool t, const tr
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
                     p->add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
-                                         p->mutation_name( mut ) );
+                                          p->mutation_name( mut ) );
                     return std::nullopt;
                 }
             }
@@ -290,7 +290,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, bool t, const tr
     if( possess && need_fire && p->has_trait( trait_PYROMANIA ) ) {
         if( one_in( 2 ) ) {
             p->add_msg_if_player( m_mixed,
-                                 _( "You light a fire, but it isn't enough.  You need to light more." ) );
+                                  _( "You light a fire, but it isn't enough.  You need to light more." ) );
         } else {
             p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
             p->add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
@@ -600,7 +600,7 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, bool t, const tr
         if( p->has_item( it ) ) {
             if( no_deactivate_msg.empty() ) {
                 p->add_msg_if_player( m_warning,
-                                     _( "You've already set the %s's timer you might want to get away from it." ), it.tname() );
+                                      _( "You've already set the %s's timer you might want to get away from it." ), it.tname() );
             } else {
                 p->add_msg_if_player( m_info, no_deactivate_msg.translated(), it.tname() );
             }
@@ -733,20 +733,20 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it, bool, const t
     for( const auto &tool : need_these ) {
         if( !p->has_amount( tool.first, 1 ) ) {
             p->add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
-                                     _( "I need a %1$s to consume %2$s!" ),
-                                     item::nname( tool.first ),
-                                     it.type_name( 1 ) );
+                                      _( "I need a %1$s to consume %2$s!" ),
+                                      item::nname( tool.first ),
+                                      it.type_name( 1 ) );
             return std::nullopt;
         }
     }
     for( const auto &consumable : charges_needed ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_charges( consumable.first, ( consumable.second == -1 ) ?
-                            1 : consumable.second ) ) {
+                             1 : consumable.second ) ) {
             p->add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
-                                     _( "I need a %1$s to consume %2$s!" ),
-                                     item::nname( consumable.first ),
-                                     it.type_name( 1 ) );
+                                      _( "I need a %1$s to consume %2$s!" ),
+                                      item::nname( consumable.first ),
+                                      it.type_name( 1 ) );
             return std::nullopt;
         }
     }
@@ -871,7 +871,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, bool, const 
         // place_critter_around returns the same pointer as its parameter (or null)
         if( !g->place_critter_around( newmon_ptr, p->pos(), 1 ) ) {
             p->add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
-                                 newmon.name() );
+                                  newmon.name() );
             return std::nullopt;
         }
     } else {
@@ -896,8 +896,8 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, bool, const 
             if( available == 0 ) {
                 amdef.second = 0;
                 p->add_msg_if_player( m_info,
-                                     _( "If you had standard factory-built %1$s bullets, you could load the %2$s." ),
-                                     ammo_item.type_name( 2 ), newmon.name() );
+                                      _( "If you had standard factory-built %1$s bullets, you could load the %2$s." ),
+                                      ammo_item.type_name( 2 ), newmon.name() );
                 continue;
             }
             // Don't load more than the default from the monster definition.
@@ -905,9 +905,9 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, bool, const 
             p->use_charges( amdef.first, ammo_item.charges );
             //~ First %s is the ammo item (with plural form and count included), second is the monster name
             p->add_msg_if_player( n_gettext( "You load %1$d x %2$s round into the %3$s.",
-                                            "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
-                                 ammo_item.charges, ammo_item.type_name( ammo_item.charges ),
-                                 newmon.name() );
+                                             "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
+                                  ammo_item.charges, ammo_item.type_name( ammo_item.charges ),
+                                  newmon.name() );
             amdef.second = ammo_item.charges;
         }
     }
@@ -1044,7 +1044,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it, bool,
 
     if( pnt == p->pos() ) {
         p->add_msg_if_player( m_info,
-                             _( "You attempt to become one with the furniture.  It doesn't work." ) );
+                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
         return std::nullopt;
     }
 
@@ -1054,7 +1054,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it, bool,
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
         // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
         p->add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ),
-                             veh_there.value().vehicle().disp_name(), it.tname() );
+                              veh_there.value().vehicle().disp_name(), it.tname() );
         return std::nullopt;
     }
 
@@ -1086,11 +1086,11 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it, bool,
             if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
                 here.mop_spills( tripoint_bub_ms( pnt ) );
                 p->add_msg_if_player( m_info,
-                                     _( "You mopped up the spill with a nearby mop when deploying furniture." ) );
+                                      _( "You mopped up the spill with a nearby mop when deploying furniture." ) );
                 p->moves -= 15;
             } else {
                 p->add_msg_if_player( m_info,
-                                     _( "You need a mop to clean up liquids before deploying furniture." ) );
+                                      _( "You need a mop to clean up liquids before deploying furniture." ) );
                 return std::nullopt;
             }
         }
@@ -1252,7 +1252,7 @@ void firestarter_actor::resolve_firestarter_use( Character *p, const tripoint_bu
         } else {
             if( one_in( 4 ) ) {
                 p->add_msg_if_player( m_mixed,
-                                     _( "You light a fire, but it isn't enough.  You need to light more." ) );
+                                      _( "You light a fire, but it isn't enough.  You need to light more." ) );
             } else {
                 p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
                 p->add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
@@ -1336,11 +1336,11 @@ std::optional<int> firestarter_actor::use( Character *p, item &it, bool t,
         // If more than 1 minute, inform the player
         const int minutes = moves / to_moves<int>( 1_minutes );
         p->add_msg_if_player( m_info, need_sunlight ?
-                             n_gettext( "If the current weather holds, it will take around %d minute to light a fire.",
-                                        "If the current weather holds, it will take around %d minutes to light a fire.", minutes ) :
-                             n_gettext( "At your skill level, it will take around %d minute to light a fire.",
-                                        "At your skill level, it will take around %d minutes to light a fire.", minutes ),
-                             minutes );
+                              n_gettext( "If the current weather holds, it will take around %d minute to light a fire.",
+                                         "If the current weather holds, it will take around %d minutes to light a fire.", minutes ) :
+                              n_gettext( "At your skill level, it will take around %d minute to light a fire.",
+                                         "At your skill level, it will take around %d minutes to light a fire.", minutes ),
+                              minutes );
     } else if( moves < to_moves<int>( 2_turns ) && get_map().is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
@@ -1351,7 +1351,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it, bool t,
     // skill gains are handled by the activity, but stored here in the index field
     const int potential_skill_gain = moves_modifier * ( std::min( 10.0, moves_cost_fast / 100.0 ) + 2 );
     p->assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
-                       0, it.tname() );
+                        0, it.tname() );
     p->activity.targets.emplace_back( *p, &it );
     p->activity.values.push_back( g->natural_light_level( pos.z() ) );
     p->activity.placement = get_map().getglobal( pos );
@@ -2019,14 +2019,14 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
 
     if( p->is_mounted() ) {
         p->add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
-                                 _( "<npcname> can't play music while mounted." ) );
+                                  _( "<npcname> can't play music while mounted." ) );
         it.active = false;
         return std::nullopt;
     }
     if( p->is_underwater() ) {
         p->add_msg_player_or_npc( m_bad,
-                                 _( "You can't play music underwater." ),
-                                 _( "<npcname> can't play music underwater." ) );
+                                  _( "You can't play music underwater." ),
+                                  _( "<npcname> can't play music underwater." ) );
         it.active = false;
         return std::nullopt;
     }
@@ -2036,17 +2036,17 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
     if( p->has_effect( effect_sleep ) || p->has_effect( effect_stunned ) ||
         p->has_effect( effect_asthma ) ) {
         p->add_msg_player_or_npc( m_bad,
-                                 _( "You stop playing your %s." ),
-                                 _( "<npcname> stops playing their %s." ),
-                                 it.display_name() );
+                                  _( "You stop playing your %s." ),
+                                  _( "<npcname> stops playing their %s." ),
+                                  it.display_name() );
         it.active = false;
         return std::nullopt;
     }
 
     if( !t && it.active ) {
         p->add_msg_player_or_npc( _( "You stop playing your %s." ),
-                                 _( "<npcname> stops playing their %s." ),
-                                 it.display_name() );
+                                  _( "<npcname> stops playing their %s." ),
+                                  it.display_name() );
         it.active = false;
         return std::nullopt;
     }
@@ -2056,9 +2056,9 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
     const int inv_pos = p->get_item_position( &it );
     if( inv_pos >= 0 || inv_pos == INT_MIN ) {
         p->add_msg_player_or_npc( m_bad,
-                                 _( "You need to hold or wear %s to play it." ),
-                                 _( "<npcname> needs to hold or wear %s to play it." ),
-                                 it.display_name() );
+                                  _( "You need to hold or wear %s to play it." ),
+                                  _( "<npcname> needs to hold or wear %s to play it." ),
+                                  it.display_name() );
         it.active = false;
         return std::nullopt;
     }
@@ -2066,9 +2066,9 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
     // At speed this low you can't coordinate your actions well enough to play the instrument
     if( p->get_speed() <= 25 + speed_penalty ) {
         p->add_msg_player_or_npc( m_bad,
-                                 _( "You feel too weak to play your %s." ),
-                                 _( "<npcname> feels too weak to play their %s." ),
-                                 it.display_name() );
+                                  _( "You feel too weak to play your %s." ),
+                                  _( "<npcname> feels too weak to play their %s." ),
+                                  it.display_name() );
         it.active = false;
         return std::nullopt;
     }
@@ -2080,9 +2080,9 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
 
     if( !it.active ) {
         p->add_msg_player_or_npc( m_good,
-                                 _( "You start playing your %s." ),
-                                 _( "<npcname> starts playing their %s." ),
-                                 it.display_name() );
+                                  _( "You start playing your %s." ),
+                                  _( "<npcname> starts playing their %s." ),
+                                  it.display_name() );
         it.active = true;
     }
 
@@ -2275,7 +2275,7 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, bool, const tri
         spell &studying = p->magic->get_spell( spell_id( spells[action] ) );
         if( studying.get_difficulty( *p ) < static_cast<int>( p->get_skill_level( studying.skill() ) ) ) {
             p->handle_skill_warning( studying.skill(),
-                                    true ); // show the skill warning on start reading, since we don't show it during
+                                     true ); // show the skill warning on start reading, since we don't show it during
         }
     }
     study_spell.moves_left = study_spell.moves_total;
@@ -3771,8 +3771,8 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, bool, const tr
                 0 ) ) {
             if( !is_allowed( *p, t, it.tname() ) ) {
                 p->add_msg_if_player( m_info,
-                                     _( "That trap needs a space in %d tiles radius to be clear, centered %d tiles from you." ),
-                                     outer_layer_trap.obj().get_trap_radius(), distance_to_trap_center );
+                                      _( "That trap needs a space in %d tiles radius to be clear, centered %d tiles from you." ),
+                                      outer_layer_trap.obj().get_trap_radius(), distance_to_trap_center );
                 return std::nullopt;
             }
         }
@@ -3788,9 +3788,10 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, bool, const tr
 
     p->add_msg_if_player( m_info, data.done_message.translated(), here.tername( pos ) );
     p->practice( skill_traps, data.practice );
-    p->practice_proficiency( proficiency_prof_traps, time_duration::from_seconds( data.practice * 30 ) );
+    p->practice_proficiency( proficiency_prof_traps,
+                             time_duration::from_seconds( data.practice * 30 ) );
     p->practice_proficiency( proficiency_prof_trapsetting,
-                            time_duration::from_seconds( data.practice * 30 ) );
+                             time_duration::from_seconds( data.practice * 30 ) );
 
     //Total time to set the trap will be determined by player's skills and proficiencies
     int move_cost_final = std::round( ( data.moves * std::min( 1,
@@ -4267,7 +4268,7 @@ ret_val<void> modify_gunmods_actor::can_use( const Character &p, const item &it,
         return ret_val<void>::make_failure( _( "None of the mods can be modified." ) );
     }
 
-     if( p.is_worn(
+    if( p.is_worn(
             it ) ) { // I don't know if modifying really needs this but its for future proofing.
         return ret_val<void>::make_failure( _( "Has to be taken off first." ) );
     }
@@ -4390,8 +4391,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             if( query_yn( is_cable_item ? string_format( _( "Reel in the %s?" ), it.label( 1 ) ) :
                           string_format( _( "Reel in the %s's cable?" ), it.label( 1 ) ) ) ) {
                 p->assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
-                                                    cable->charges - respool_length ) * respool_time_per_square, item_location{*p, cable},
-                                                    is_cable_item ? item_location::nowhere : item_location{*p, &it} ) ) );
+                                                     cable->charges - respool_length ) * respool_time_per_square, item_location{*p, cable},
+                                                     is_cable_item ? item_location::nowhere : item_location{*p, &it} ) ) );
             }
             return 0;
         }
@@ -4405,8 +4406,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
                     it.reset_cable( p );
                     if( cable->link && cable->link->s_state == link_state::needs_reeling ) {
                         p->assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
-                                                            cable->charges - respool_length ) * respool_time_per_square, item_location{*p, cable},
-                                                            is_cable_item ? item_location::nowhere : item_location{*p, &it} ) ) );
+                                                             cable->charges - respool_length ) * respool_time_per_square, item_location{*p, cable},
+                                                             is_cable_item ? item_location::nowhere : item_location{*p, &it} ) ) );
                     } else {
                         p->add_msg_if_player( m_info, string_format( _( "You detach the %s." ), it.label( 1 ) ) );
                     }
@@ -4417,11 +4418,11 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
                     it.reset_cables( p );
                     if( cable->link && cable->link->s_state == link_state::needs_reeling ) {
                         p->assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
-                                                            cable->charges - respool_length ) * respool_time_per_square, item_location{*p, cable},
-                                                            is_cable_item ? item_location::nowhere : item_location{*p, &it} ) ) );
+                                                             cable->charges - respool_length ) * respool_time_per_square, item_location{*p, cable},
+                                                             is_cable_item ? item_location::nowhere : item_location{*p, &it} ) ) );
                     } else {
                         p->add_msg_if_player( m_info, string_format( _( "You gather the cable up with the %s." ),
-                                             it.label( 1 ) ) );
+                                              it.label( 1 ) ) );
                     }
                     return 0;
                 }
@@ -4548,12 +4549,12 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             // Cables that are too long need to be manually rewound before reuse.
             // 2 seconds per square
             p->assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
-                                                cable->charges - respool_length ) * respool_time_per_square, item_location{*p, cable},
-                                                is_cable_item ? item_location::nowhere : item_location{*p, &it} ) ) );
+                                                 cable->charges - respool_length ) * respool_time_per_square, item_location{*p, cable},
+                                                 is_cable_item ? item_location::nowhere : item_location{*p, &it} ) ) );
             return 0;
         } else {
             p->add_msg_if_player( m_info, is_cable_item ? string_format( _( "You detach the %s." ),
-                                 it.label( 1 ) ) : string_format( _( "You gather the cable up with the %s." ), it.label( 1 ) ) );
+                                  it.label( 1 ) ) : string_format( _( "You gather the cable up with the %s." ), it.label( 1 ) ) );
         }
         return 0;
     }
@@ -4611,10 +4612,10 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
         if( !can_link( pnt ) ) {
             if( choice == 0 && t_vp && t_vp->vehicle().has_part( "CABLE_PORTS" ) ) {
                 p->add_msg_if_player( m_info,
-                                     _( "You can't attach it there; try the dashboard or electronics controls." ) );
+                                      _( "You can't attach it there; try the dashboard or electronics controls." ) );
             } else if( choice == 1 && t_vp && t_vp->vehicle().batteries.empty() ) {
                 p->add_msg_if_player( m_info,
-                                     _( "You can't attach it there; try the battery." ) );
+                                      _( "You can't attach it there; try the battery." ) );
             } else {
                 p->add_msg_if_player( m_info, _( "You can't attach it there." ) );
             }
@@ -4631,7 +4632,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
 
             if( cable->link->has_no_links() ) {
                 p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.label( 1 ),
-                                     t_vp->vehicle().name );
+                                      t_vp->vehicle().name );
             } else if( cable->link->has_state( link_state::bio_cable ) ) {
                 p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), t_vp->vehicle().name );
                 cable->link->s_state = link_state::bio_cable;
@@ -4675,7 +4676,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
                 if( vpr.part().target.first == prev_target.first &&
                     vpr.part().target.second == prev_target.second ) {
                     p->add_msg_if_player( m_warning, _( "The %1$s and %2$s are already connected." ),
-                                         target_veh->name, prev_veh->name );
+                                          target_veh->name, prev_veh->name );
                     return std::nullopt;
                 }
             }
@@ -4707,7 +4708,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             target_veh->install_part( vcoords, std::move( target_part ) );
 
             p->add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
-                                 prev_veh->name, target_veh->name );
+                                  prev_veh->name, target_veh->name );
 
             return 1; // Let the cable be destroyed.
         }
@@ -4755,7 +4756,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             // Starting a new tow cable connection.
 
             p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.label( 1 ),
-                                 t_vp->vehicle().name );
+                                  t_vp->vehicle().name );
             if( choice == 10 ) {
                 cable->link->s_state = link_state::vehicle_tow; // Assign towing vehicle.
             } else {
@@ -4814,7 +4815,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
 
             if( p->has_item( it ) ) {
                 p->add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
-                                     prev_veh->name, target_veh->name );
+                                      prev_veh->name, target_veh->name );
             }
             if( choice == 10 ) {
                 target_veh->tow_data.set_towing( target_veh, prev_veh );
@@ -5104,7 +5105,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, bool, const 
     item &mod = *loc;
     if( &mod == &it ) {
         p->add_msg_if_player( m_info,
-                             _( "This can be used to repair or modify other items, not itself." ) );
+                              _( "This can be used to repair or modify other items, not itself." ) );
         return std::nullopt;
     }
 
@@ -5259,7 +5260,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, bool, const 
         const bool destroyed = mod.inc_damage();
         const std::string resultdurability = mod.durability_indicator( true );
         p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!  ( %s-> %s)" ),
-                             mod.tname( 1, false ), startdurability, resultdurability );
+                              mod.tname( 1, false ), startdurability, resultdurability );
         if( destroyed ) {
             p->add_msg_if_player( m_bad, _( "You destroy it!" ) );
             p->i_rem_keep_contents( &mod );
@@ -5269,12 +5270,12 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, bool, const 
         return thread_needed / 2;
     } else if( rn <= 10 ) {
         p->add_msg_if_player( m_bad,
-                             _( "You fail to modify the clothing, and you waste thread and materials." ) );
+                              _( "You fail to modify the clothing, and you waste thread and materials." ) );
         p->consume_items( comps, 1, is_crafting_component );
         return thread_needed;
     } else if( rn <= 14 ) {
         p->add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
-                             mod.tname() );
+                              mod.tname() );
         p->consume_items( comps, 1, is_crafting_component );
         mod.set_flag( the_mod );
         mod.update_clothing_mod_val();
