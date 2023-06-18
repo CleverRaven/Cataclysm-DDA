@@ -3682,10 +3682,10 @@ std::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
 
 std::optional<int> iuse::acidbomb_act( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( !p->has_item( *it ) ) {
+    if( !p ) {
         it->charges = -1;
         map &here = get_map();
-        for( const tripoint &tmp : here.points_in_radius( pos.x == -999 ? p->pos() : pos, 1 ) ) {
+        for( const tripoint &tmp : here.points_in_radius( pos, 1 ) ) {
             here.add_field( tmp, fd_acid, 3 );
         }
         return 1;
