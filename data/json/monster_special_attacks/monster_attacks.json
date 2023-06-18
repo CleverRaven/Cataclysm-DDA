@@ -113,7 +113,7 @@
     "attack_type": "melee",
     "id": "grab_drag",
     "cooldown": 10,
-    "//": "Drag moves will consume full move costs, don't penalize the attack itself.",
+    "//": "Drag moves will consume full move costs anyway, don't penalize the attack itself.",
     "move_cost": 0,
     "hitsize_min": 4,
     "condition": { "not": { "u_has_flag": "GRAB_FILTER" } },
