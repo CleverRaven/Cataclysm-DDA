@@ -48,6 +48,7 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
     case item_pocket::pocket_type::CORPSE: return "CORPSE";
     case item_pocket::pocket_type::SOFTWARE: return "SOFTWARE";
     case item_pocket::pocket_type::EBOOK: return "EBOOK";
+    case item_pocket::pocket_type::CABLE: return "CABLE";
     case item_pocket::pocket_type::MIGRATION: return "MIGRATION";
     case item_pocket::pocket_type::LAST: break;
     }
@@ -1122,6 +1123,16 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
             }
         }
     }
+    if( !no_rigid.empty() ) {
+        std::vector<sub_bodypart_id> no_rigid_vec( no_rigid.begin(), no_rigid.end() );
+        std::set<translation, localized_comparator> to_print = body_part_type::consolidate( no_rigid_vec );
+        std::string bps = enumerate_as_string( to_print.begin(),
+        to_print.end(), []( const translation & t ) {
+            return t.translated();
+        } );
+        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can't put hard armor on: %s</bold>:" ),
+                           bps ) );
+    }
 }
 
 void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
@@ -1303,6 +1314,15 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         }
     }
 
+    if( data->type == item_pocket::pocket_type::CABLE ) {
+        if( it.has_flag( flag_CABLE_SPOOL ) ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_MOD, _( "only certain cables can go into cable pocket" ) );
+        }
+    }
+
     if( data->type == item_pocket::pocket_type::MOD ) {
         if( it.is_toolmod() || it.is_gunmod() ) {
             return ret_val<item_pocket::contain_code>::make_success();
@@ -1414,6 +1434,20 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_NO_SPACE, _( "ablative pocket already contains a plate" ) );
         }
+    }
+
+    if( data->ablative ) {
+        if( it.is_rigid() ) {
+            for( const sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
+                if( it.is_bp_rigid( sbp ) && std::count( no_rigid.begin(), no_rigid.end(), sbp ) != 0 ) {
+                    return ret_val<item_pocket::contain_code>::make_failure(
+                               contain_code::ERR_NO_SPACE,
+                               _( "ablative pocket is being worn with hard armor can't support hard plate" ) );
+                }
+            }
+        }
+
+        return ret_val<item_pocket::contain_code>::make_success();
     }
 
     if( data->holster && !contents.empty() ) {
@@ -1662,7 +1696,7 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
 void item_pocket::overflow( const tripoint &pos, const item_location &loc )
 {
     if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
-        is_type( pocket_type::EBOOK ) ) {
+        is_type( pocket_type::EBOOK ) || is_type( pocket_type::CABLE ) ) {
         return;
     }
     if( empty() ) {
@@ -1767,7 +1801,8 @@ void item_pocket::on_contents_changed()
 
 bool item_pocket::spill_contents( const tripoint &pos )
 {
-    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ) {
+    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ||
+        is_type( pocket_type::CABLE ) ) {
         return false;
     }
 
@@ -2232,9 +2267,14 @@ void item_pocket::delete_preset( const std::vector<item_pocket::favorite_setting
     save_presets();
 }
 
+void item_pocket::set_no_rigid( const std::set<sub_bodypart_id> &is_no_rigid )
+{
+    no_rigid = is_no_rigid;
+}
+
 void item_pocket::load_presets()
 {
-    cata::ifstream fin;
+    std::ifstream fin;
     cata_path file = PATH_INFO::pocket_presets();
 
     fs::path file_path = file.get_unrelative_path();

@@ -291,5 +291,33 @@
         "text": "This lifeless body is covered in myriads of uneven scratches.  Some of them look pretty swollen."
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "corpse_void_mummified",
+    "symbol": "%",
+    "color": "white",
+    "name": { "str": "mummified corpse" },
+    "description": "Waxen skin drapes the remnants of an unknowable death.",
+    "looks_like": "corpse_generic_human",
+    "category": "other",
+    "material": [ "hflesh" ],
+    "price": 0,
+    "volume": "30 L",
+    "weight": "32 kg",
+    "flags": [ "TRADER_AVOID", "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "moves": 100,
+        "max_contains_volume": "1650 L",
+        "max_contains_weight": "4000 kg",
+        "max_item_volume": "500 L",
+        "max_item_length": "60 meter",
+        "rigid": false,
+        "forbidden": true,
+        "transparent": true
+      }
+    ]
   }
 ]

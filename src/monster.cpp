@@ -144,6 +144,7 @@ static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_HORROR( "HORROR" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MIGO( "MIGO" );
@@ -152,6 +153,7 @@ static const species_id species_NETHER( "NETHER" );
 static const species_id species_PLANT( "PLANT" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+static const species_id species_nether_player_hate( "nether_player_hate" );
 
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
@@ -1095,7 +1097,15 @@ bool monster::has_flag( const m_flag f ) const
 
 bool monster::has_flag( const flag_id f ) const
 {
-    return has_effect_with_flag( f );
+    std::optional<m_flag>checked = io::string_to_enum_optional<m_flag>( f.c_str() );
+    add_msg_debug( debugmode::DF_MONSTER,
+                   "Monster %s checked for flag %s", name(),
+                   f.c_str() );
+    if( checked.has_value() ) {
+        return  has_flag( checked.value() );
+    } else {
+        return has_effect_with_flag( f );
+    }
 }
 
 bool monster::can_see() const
@@ -1732,7 +1742,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
         return false;
     }
 
-    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    const int monster_hit_roll = melee::melee_hit_range( accuracy );
+    int hitspread = target.deal_melee_attack( this, monster_hit_roll );
     if( type->melee_dice == 0 ) {
         // We don't hit, so just return
         return true;
@@ -1766,21 +1777,23 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
-        bool target_dodging = target.dodge_roll() > 0.0;
+        bool monster_missed = monster_hit_roll < 0.0;
         // Miss
         if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_avatar() ) {
-                if( target_dodging ) {
-                    add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : _( "something" ) );
-                } else {
+                if( monster_missed ) {
                     add_msg( _( "%s misses you." ), u_see_me ? disp_name( false, true ) : _( "Something" ) );
+                } else {
+                    add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : _( "something" ) );
                 }
-            } else if( target.is_npc() && target_dodging ) {
-                add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name(), u_see_me ? name() : _( "something" ) );
-            } else {
-                add_msg( _( "%1$s misses %2$s!" ),
-                         u_see_me ? disp_name( false, true ) : _( "Something" ), target.disp_name() );
+            } else if( target.is_npc() ) {
+                if( monster_missed ) {
+                    add_msg( _( "%1$s misses %2$s!" ),
+                             u_see_me ? disp_name( false, true ) : _( "Something" ), target.disp_name() );
+                } else {
+                    add_msg( _( "%1$s dodges %2$s attack." ),
+                             target.disp_name(), u_see_me ? name() : _( "something" ) );
+                }
             }
         } else if( target.is_avatar() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
@@ -2089,8 +2102,6 @@ bool monster::move_effects( bool )
     if( has_effect( effect_lightsnare ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 12 ) ) {
             remove_effect( effect_lightsnare );
-            here.spawn_item( pos(), "string_36" );
-            here.spawn_item( pos(), "snare_trigger" );
             if( u_see_me ) {
                 add_msg( _( "The %s escapes the light snare!" ), name() );
             }
@@ -2472,7 +2483,7 @@ void monster::process_turn()
                 if( zap != pos() ) {
                     explosion_handler::emp_blast( zap ); // Fries electronics due to the intensity of the field
                 }
-                const auto t = here.ter( zap );
+                const ter_id t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
                         explosion_handler::explosion( this, pos(), 40, 0.8, true );
@@ -2592,9 +2603,8 @@ void monster::die( Creature *nkiller )
     }
     mission::on_creature_death( *this );
 
-    // Also, perform our death function
-    if( is_hallucination() || lifespan_end ) {
-        //Hallucinations always just disappear
+    // Hallucinations always just disappear
+    if( is_hallucination() ) {
         mdeath::disappear( *this );
         return;
     }
@@ -2646,15 +2656,12 @@ void monster::die( Creature *nkiller )
         move_special_item_to_inv( storage_item );
         move_special_item_to_inv( tied_item );
 
-        if( has_effect( effect_lightsnare ) ) {
-            add_item( item( "string_36", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
         if( has_effect( effect_heavysnare ) ) {
             add_item( item( "rope_6", calendar::turn_zero ) );
             add_item( item( "snare_trigger", calendar::turn_zero ) );
         }
     }
+
 
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse.get_item() );
@@ -3069,6 +3076,12 @@ bool monster::is_hallucination() const
 bool monster::is_electrical() const
 {
     return in_species( species_ROBOT ) || has_flag( MF_ELECTRIC ) || in_species( species_CYBORG );
+}
+
+bool monster::is_nether() const
+{
+    return in_species( species_HORROR ) || in_species( species_NETHER ) ||
+           in_species( species_nether_player_hate );
 }
 
 field_type_id monster::bloodType() const

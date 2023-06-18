@@ -275,7 +275,8 @@
     "skills_required": [ "melee", 1 ],
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ], [ "cordage_superior", 2 ] ],
+    "//": "20cm weld",
+    "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 1 ], [ "cordage_superior", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "simple_spear_pipe", 1 ] ] ]
@@ -290,7 +291,8 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "//": "10cm weld",
+    "using": [ [ "welding_standard", 10 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "spike", 1 ] ] ]
@@ -579,7 +581,8 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ] ],
+    "//": "5cm weld",
+    "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "FILE", "level": 1 } ],
     "components": [ [ [ "rebar", 1 ] ], [ [ "sharp_rebar", 1 ] ] ]

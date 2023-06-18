@@ -31,6 +31,11 @@
     "info": "You can install a seat belt or five part harness here to help keep you in your seat during a collision."
   },
   {
+    "id": "CABLE_PORTS",
+    "type": "json_flag",
+    "info": "You can connect electrical cables to this part."
+  },
+  {
     "id": "CARGO",
     "type": "json_flag",
     "info": "You can store items here."
@@ -429,14 +434,16 @@
   },
   {
     "id": "NO_INSTALL_PLAYER",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Part can't be installed by player but visible in install menu (e.g. helicopter rotors)."
+  },
+  {
+    "id": "NO_INSTALL_HIDDEN",
+    "type": "json_flag",
+    "//": "Part can't be installed by player and hidden in install menu (e.g. power cords, inflatable boat parts, summoned vehicle parts)."
   },
   {
     "id": "NO_ROOF_NEEDED",
-    "type": "json_flag"
-  },
-  {
-    "id": "NOINSTALL",
     "type": "json_flag"
   },
   {
@@ -461,10 +468,6 @@
   },
   {
     "id": "OPENCLOSE_INSIDE",
-    "type": "json_flag"
-  },
-  {
-    "id": "OVER",
     "type": "json_flag"
   },
   {

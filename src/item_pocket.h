@@ -44,6 +44,7 @@ class item_pocket
             CORPSE, // the "corpse" pocket - bionics embedded in a corpse
             SOFTWARE, // software put into usb or some such
             EBOOK, // holds electronic books for a device or usb
+            CABLE, // pocket for storing power/data cables and handling their connections
             MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
             LAST
         };
@@ -397,6 +398,9 @@ class item_pocket
         static void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter );
         static std::vector<item_pocket::favorite_settings> pocket_presets;
 
+        // Set wether rigid items are blocked in the pocket
+        void set_no_rigid( const std::set<sub_bodypart_id> &is_no_rigid );
+
         // should the name of this pocket be used as a description
         bool name_as_description = false; // NOLINT(cata-serialize)
     private:
@@ -407,6 +411,8 @@ class item_pocket
         // the items inside the pocket
         std::list<item> contents;
         bool _sealed = false;
+        // list of sub body parts that can't currently support rigid ablative armor
+        std::set<sub_bodypart_id> no_rigid;
 };
 
 /**

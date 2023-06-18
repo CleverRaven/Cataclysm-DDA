@@ -150,7 +150,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = object_type::NONE;
-    calorie_diary.push_front( daily_calories{} );
+    calorie_diary.emplace_front( );
     a_diary = nullptr;
 }
 
@@ -274,30 +274,34 @@ void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
     player_map_memory->prepare_region( p1, p2 );
 }
 
-const memorized_terrain_tile &avatar::get_memorized_tile( const tripoint &pos ) const
+const memorized_tile &avatar::get_memorized_tile( const tripoint &p ) const
 {
-    return player_map_memory->get_tile( pos );
+    if( should_show_map_memory() ) {
+        return player_map_memory->get_tile( p );
+    }
+    return mm_submap::default_tile;
 }
 
-void avatar::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation )
+void avatar::memorize_terrain( const tripoint &p, const std::string_view id,
+                               int subtile, int rotation )
 {
-    player_map_memory->memorize_tile( pos, ter, subtile, rotation );
+    player_map_memory->set_tile_terrain( p, id, subtile, rotation );
 }
 
-void avatar::memorize_symbol( const tripoint &pos, const int symbol )
+void avatar::memorize_decoration( const tripoint &p, const std::string_view id,
+                                  int subtile, int rotation )
 {
-    player_map_memory->memorize_symbol( pos, symbol );
+    player_map_memory->set_tile_decoration( p, id, subtile, rotation );
 }
 
-int avatar::get_memorized_symbol( const tripoint &p ) const
+void avatar::memorize_symbol( const tripoint &p, char32_t symbol )
 {
-    return player_map_memory->get_symbol( p );
+    player_map_memory->set_tile_symbol( p, symbol );
 }
 
-void avatar::clear_memorized_tile( const tripoint &pos )
+void avatar::memorize_clear_vehicles( const tripoint &p )
 {
-    player_map_memory->clear_memorized_tile( pos );
+    player_map_memory->clear_tile_vehicles( p );
 }
 
 std::vector<mission *> avatar::get_active_missions() const
@@ -680,19 +684,17 @@ void avatar::grab( object_type grab_type, const tripoint &grab_point )
     [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
-            const optional_vpart_position vp = m.veh_at( pos() + gpoint );
-            if( vp ) {
-                const vehicle &veh = vp->vehicle();
-                for( const tripoint &target : veh.get_points() ) {
+            if( const optional_vpart_position ovp = m.veh_at( pos() + gpoint ) ) {
+                for( const tripoint &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        clear_memorized_tile( m.getabs( target ) );
+                        memorize_clear_vehicles( m.getabs( target ) );
                     }
                     m.set_memory_seen_cache_dirty( target );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                clear_memorized_tile( m.getabs( pos() + gpoint ) );
+                memorize_clear_vehicles( m.getabs( pos() + gpoint ) );
             }
             m.set_memory_seen_cache_dirty( pos() + gpoint );
         }
@@ -795,6 +797,13 @@ void avatar::identify( const item &item )
     if( num_total_recipes < reading->recipes.size() ) {
         add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
     }
+}
+
+void avatar::clear_nutrition()
+{
+    calorie_diary.clear();
+    calorie_diary.emplace_front();
+    consumption_history.clear();
 }
 
 void avatar::clear_identified()
@@ -1343,6 +1352,7 @@ bool avatar::wield( item_location target )
 bool avatar::wield( item &target )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     return wield( target,
                   item_handling_cost( target, true,
                                       is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
@@ -1520,7 +1530,7 @@ void avatar::update_cardio_acc()
 
 void avatar::advance_daily_calories()
 {
-    calorie_diary.push_front( daily_calories{} );
+    calorie_diary.emplace_front( );
     if( calorie_diary.size() > 30 ) {
         calorie_diary.pop_back();
     }

@@ -843,6 +843,7 @@
         { "u_sell_item": "cattail_stalk", "count": 80 },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
+        { "u_message": "You learn how to craft cattail jelly.", "popup": true },
         { "u_spawn_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
       ]
     },
@@ -916,5 +917,16 @@
     "value": 0,
     "invisible_on_complete": true,
     "start": { "assign_mission_target": { "var": { "global_val": "portal_dungeon" } } }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER",
+    "type": "mission_definition",
+    "name": { "str": "Center of the storm" },
+    "goal": "MGOAL_CONDITION",
+    "description": "This is the center of the portal storm, you could find it upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
+    "difficulty": 0,
+    "value": 0,
+    "invisible_on_complete": true,
+    "start": { "assign_mission_target": { "var": { "global_val": "portal_storm_center" } } }
   }
 ]

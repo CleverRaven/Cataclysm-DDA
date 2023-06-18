@@ -426,6 +426,8 @@
     "weight": "120 kg",
     "hp": 150,
     "speed": 110,
+    "color": "white_red",
+    "diff": 5,
     "melee_dice_sides": 6,
     "bleed_rate": 20,
     "grab_strength": 35,

@@ -102,7 +102,7 @@ static const time_point day_time = calendar::turn_zero + 9_hours + 30_minutes;
 using namespace map_test_case_common;
 using namespace map_test_case_common::tiles;
 
-auto static const ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
+static const tile_predicate ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
 
 static bool spawn_moncam( map_test_case::tile tile )
 {

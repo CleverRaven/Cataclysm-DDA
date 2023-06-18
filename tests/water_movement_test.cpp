@@ -29,11 +29,11 @@ static void setup_test_lake()
     REQUIRE( here.ter( test_origin + tripoint( 0, 0, -2 ) ) == t_lake_bed );
 }
 
-TEST_CASE( "avatar diving", "[diving]" )
+TEST_CASE( "avatar_diving", "[diving]" )
 {
+    clear_avatar();
     setup_test_lake();
 
-    clear_avatar();
     Character &dummy = get_player_character();
     map &here = get_map();
     constexpr tripoint test_origin( 60, 60, 0 );
@@ -153,6 +153,7 @@ static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
 static const skill_id skill_swimming( "swimming" );
+static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 
 struct swimmer_stats {
     int strength = 0;
@@ -319,6 +320,7 @@ static void configure_swimmer( avatar &swimmer, const move_mode_id move_mode,
         swimmer.add_profession_items();
     }
 
+    swimmer.toggle_trait( trait_DISIMMUNE ); // random diseases can flake the test
     swimmer.set_movement_mode( move_mode );
 }
 
@@ -346,8 +348,8 @@ static std::vector<swim_scenario> generate_scenarios()
             for( const std::pair<const std::string, swimmer_skills> &skills : skills_map ) {
                 for( const std::pair<const std::string, swimmer_gear> &gear : gear_map ) {
                     for( const std::pair<const std::string, swimmer_traits> &traits : traits_map ) {
-                        scenarios.emplace_back( swim_scenario( move_mode, stats.first, skills.first, gear.first,
-                                                               traits.first ) );
+                        scenarios.emplace_back( move_mode, stats.first, skills.first, gear.first,
+                                                traits.first );
                     }
                 }
             }
@@ -901,7 +903,7 @@ static std::map<std::string, swim_result> expected_results = {
     {"move: walk, stats: minimum, skills: professional, gear: none, traits: webbed hands and feet", swim_result{74, 364}},
 };
 
-TEST_CASE( "check swim move cost and distance values", "[swimming][slow]" )
+TEST_CASE( "check_swim_move_cost_and_distance_values", "[swimming][slow]" )
 {
     setup_test_lake();
 
@@ -918,7 +920,7 @@ TEST_CASE( "check swim move cost and distance values", "[swimming][slow]" )
 }
 
 // This "test" is used to generate the expected_results map above.
-TEST_CASE( "generate swim move cost and distance values", "[.]" )
+TEST_CASE( "generate_swim_move_cost_and_distance_values", "[.]" )
 {
     setup_test_lake();
 
@@ -936,13 +938,13 @@ TEST_CASE( "generate swim move cost and distance values", "[.]" )
     }
 }
 
-TEST_CASE( "export scenario swim move cost and distance values", "[.]" )
+TEST_CASE( "export_scenario_swim_move_cost_and_distance_values", "[.]" )
 {
     setup_test_lake();
 
     avatar &dummy = get_avatar();
 
-    cata::ofstream testfile;
+    std::ofstream testfile;
     testfile.open( fs::u8path( "swim-scenarios.csv" ), std::ofstream::trunc );
     testfile << "scenario, move cost, steps" << std::endl;
 
@@ -961,13 +963,13 @@ TEST_CASE( "export scenario swim move cost and distance values", "[.]" )
 // assert anything here (yet) but for informational purposes it is
 // interesting to see the data as a slightly better "gut-check". Our
 // "professional swimmer" doesn't swim very well.
-TEST_CASE( "export profession swim cost and distance", "[.]" )
+TEST_CASE( "export_profession_swim_cost_and_distance", "[.]" )
 {
     setup_test_lake();
 
     avatar &dummy = get_avatar();
 
-    cata::ofstream testfile;
+    std::ofstream testfile;
     testfile.open( fs::u8path( "swim-profession.csv" ), std::ofstream::trunc );
     testfile << "profession, move cost, steps" << std::endl;
 
@@ -997,13 +999,13 @@ TEST_CASE( "export profession swim cost and distance", "[.]" )
 }
 
 // This "test" exports swim move cost and distance data to csv for analysis and review.
-TEST_CASE( "export swim move cost and distance data", "[.]" )
+TEST_CASE( "export_swim_move_cost_and_distance_data", "[.]" )
 {
     setup_test_lake();
 
     avatar &dummy = get_avatar();
 
-    cata::ofstream testfile;
+    std::ofstream testfile;
     testfile.open( fs::u8path( "swim-skill.csv" ), std::ofstream::trunc );
     testfile << "athletics, move cost, steps" << std::endl;
     for( int i = 0; i <= 10; i++ ) {

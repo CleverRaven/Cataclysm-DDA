@@ -100,7 +100,7 @@ struct pathfinder {
         layer.gscore[index] = gscore;
         layer.parent[index] = from;
         layer.score [index] = score;
-        open.push( std::make_pair( score, to ) );
+        open.emplace( score, to );
     }
 
     void close_point( const tripoint &p ) {

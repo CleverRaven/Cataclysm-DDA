@@ -160,7 +160,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
                             tags.pop_back();
                         }
                     } else {
-                        auto tag_end = rawwline.find( '>', tag_pos );
+                        size_t tag_end = rawwline.find( '>', tag_pos );
                         if( tag_end != std::string::npos ) {
                             tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 - tag_pos ) );
                         }
@@ -1263,35 +1263,6 @@ char rand_char()
             return '^';
     }
     return '?';
-}
-
-// this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
-// h, j, c to horizontal, vertical, cross correspondingly
-int special_symbol( int sym )
-{
-    switch( sym ) {
-        case 'j':
-            return LINE_XOXO;
-        case 'h':
-            return LINE_OXOX;
-        case 'c':
-            return LINE_XXXX;
-        case 'y':
-            return LINE_OXXO;
-        case 'u':
-            return LINE_OOXX;
-        case 'n':
-            return LINE_XOOX;
-        case 'b':
-            return LINE_XXOO;
-        default:
-            return sym;
-    }
-}
-
-int special_symbol( char sym )
-{
-    return special_symbol( static_cast<uint8_t>( sym ) );
 }
 
 template<typename Predicate>

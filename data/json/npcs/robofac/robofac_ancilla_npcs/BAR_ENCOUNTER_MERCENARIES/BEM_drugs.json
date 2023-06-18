@@ -3,7 +3,7 @@
     "type": "npc_class",
     "id": "NC_BEM_DRUGRUNNER",
     "name": { "str": "Mercenary" },
-    "job_description": "Drugrunning for the name of Hub 01 and money, mostly money.",
+    "job_description": "Drug running for the name of Hub 01 and money, mostly money.",
     "common": false,
     "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ -1, 1 ] },
@@ -53,9 +53,9 @@
   {
     "id": [ "BEM_DRUGRUNNER_1" ],
     "type": "talk_topic",
-    "dynamic_line": "&This visitor seems way more watchful than normal.  You can notice zip bags peeking out from <mypossesivepronoun> overcoat, they are clearly pushing something.  It takes not much longer for them to notice you in kind.\n\"You want something?  Or just gawking?\"",
+    "dynamic_line": "&This visitor seems way more watchful than normal.  You notice zip bags peeking out from <mypossesivepronoun> overcoat, they are clearly pushing something.  It doesn't take much longer for them to notice you in kind.\n\"You want something?  Or just gawking?\"",
     "responses": [
-      { "text": "Sure, let see what you offer", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "Sure, let see what you offer.", "topic": "TALK_DONE", "effect": "start_trade" },
       { "text": "Not interested.", "topic": "TALK_DONE" }
     ]
   }

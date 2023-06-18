@@ -183,14 +183,14 @@
     "description": "A lightweight box, labelled with a big, shiny image of an ammunition cartridge.",
     "//": "20x308mm, 100x9mm",
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "weight": "17 g",
+    "weight": "34 g",
     "volume": "175 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "170 ml",
-        "max_contains_weight": "800 g",
+        "max_contains_weight": "1600 g",
         "max_item_length": "100 mm"
       }
     ],
@@ -205,14 +205,14 @@
     "name": { "str": "mini ammo box", "str_pl": "mini ammo boxes" },
     "//": "30x223 clips or 50x223 or 20x300",
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "weight": "14 g",
+    "weight": "28 g",
     "volume": "235 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "230 ml",
-        "max_contains_weight": "800 g",
+        "max_contains_weight": "1600 g",
         "max_item_length": "100 mm"
       }
     ]
@@ -224,7 +224,7 @@
     "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
     "//": "10x50bmg, 20x12 gauge",
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "weight": "22 g",
+    "weight": "44 g",
     "volume": "480 ml",
     "longest_side": "14 cm",
     "pocket_data": [
@@ -232,9 +232,50 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "470 ml",
-        "max_contains_weight": "2000 g",
+        "max_contains_weight": "4000 g",
         "max_item_length": "14 cm"
       }
     ]
+  },
+  {
+    "id": "55gal_drum_rubber",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "collapsible drum" },
+    "description": "A beige collapsible drum with a water valve and D-Rings.  Text on its top clearly says \"POTABLE WATER ONLY\".",
+    "weight": "16 kg",
+    "volume": "23 L",
+    "price": 39500,
+    "price_postapoc": 250,
+    "//": "todo: replace with some better rubber material",
+    "material": [ { "type": "rubber", "portion": 9 }, { "type": "steel", "portion": 1 } ],
+    "symbol": "0",
+    "color": "yellow",
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": false,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "500 kg"
+      }
+    ]
+  },
+  {
+    "id": "432gal_drum_rubber",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "big collapsible drum" },
+    "description": "A black collapsible drum with a valve and D-Rings.  Yellow text on its top clearly says \"FLAMMABLE\".  Empty and collapsed, it could be moved elsewhere.",
+    "weight": "125 kg",
+    "volume": "180 L",
+    "price": 39500,
+    "price_postapoc": 250,
+    "//": "todo: replace with some better rubber material",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_432gal_drum_rubber" },
+    "material": [ { "type": "rubber", "portion": 9 }, { "type": "steel", "portion": 1 } ],
+    "symbol": "0"
   }
 ]

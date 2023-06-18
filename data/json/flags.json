@@ -1,5 +1,35 @@
 [
   {
+    "id": "ABLATIVE_CHAINMAIL_ARMS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_ELBOWS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_LEGS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_KNEES",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_TORSO",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
     "id": "ABLATIVE_LARGE",
     "type": "json_flag",
     "info": "This plate will fit in <info>large</info> armor pockets",
@@ -10,6 +40,24 @@
     "type": "json_flag",
     "info": "This will hook to a <info>Hub 01 proprietary</info> mantle connector",
     "restriction": "Item must be an armored mantle"
+  },
+  {
+    "id": "STAR_PLATE",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance plate"
+  },
+  {
+    "id": "STAR_SHOULDER",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance shoulder"
+  },
+  {
+    "id": "STAR_SKIRT",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance skirt"
   },
   {
     "id": "ABLATIVE_MEDIUM",
@@ -308,8 +356,14 @@
   {
     "id": "HELMET_HEAD_ATTACHMENT",
     "type": "json_flag",
-    "info": "This item is attachable in <info>tactical helmets </info> as a flashlight.",
+    "info": "This item is attachable in <info>tactical helmets</info> as a flashlight.",
     "restriction": "Item must be some kind of flashlight"
+  },
+  {
+    "id": "HELMET_AVENTAIL",
+    "type": "json_flag",
+    "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",
+    "restriction": "Item must be some kind of chainmail veil"
   },
   {
     "id": "COLD_IMMUNE",
@@ -596,35 +650,13 @@
   },
   {
     "id": "MC_MOBILE",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_RANDOM_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_SCIENCE_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Can be used to <info>store data</info> for other devices."
   },
   {
     "id": "MC_HAS_DATA",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_MAY_BE_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_TURN_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Some of your data is <info>stored</info> here."
   },
   {
     "id": "NO_PARASITES",
@@ -864,7 +896,7 @@
     "id": "WATERPROOF",
     "type": "json_flag",
     "//": "Prevents the covered body-part(s) from getting wet in any circumstance.",
-    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
+    "info": "This clothing <info>won't let water through</info>.  Even if you jump into a river."
   },
   {
     "id": "WATER_FRIENDLY",
@@ -1175,6 +1207,10 @@
   },
   {
     "id": "CABLE_SPOOL",
+    "type": "json_flag"
+  },
+  {
+    "id": "AUTO_DELETE_CABLE",
     "type": "json_flag"
   },
   {
@@ -1572,10 +1608,6 @@
   },
   {
     "id": "POWERED",
-    "type": "json_flag"
-  },
-  {
-    "id": "POWER_CORD",
     "type": "json_flag"
   },
   {
@@ -2136,5 +2168,55 @@
   {
     "id": "ELECTRONIC",
     "type": "json_flag"
+  },
+  {
+    "id": "AFS_CS_LOCKER_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's locker room."
+  },
+  {
+    "id": "AFS_CS_ARMORY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's armory."
+  },
+  {
+    "id": "AFS_CS_EXOBAY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's exobay."
+  },
+  {
+    "id": "CREDIT_CARD_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a credit card"
+  },
+  {
+    "id": "BANK_NOTE_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a bank note"
+  },
+  {
+    "id": "COIN_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a coin"
+  },
+  {
+    "id": "BANK_NOTE_STRAP_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a bank note strap"
+  },
+  {
+    "id": "GASFILTER_SM",
+    "type": "json_flag",
+    "info": "A small-sized gasmask filter."
+  },
+  {
+    "id": "GASFILTER_MED",
+    "type": "json_flag",
+    "info": "A medium-sized gasmask filter."
+  },
+  {
+    "id": "REBREATHER_CART",
+    "type": "json_flag",
+    "info": "A filter for a rebreather."
   }
 ]

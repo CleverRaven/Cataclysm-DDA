@@ -176,14 +176,20 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_penblack",
+    "entries": [ { "item": "pen", "ammo-item": "black_pen_ink", "charges": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "full_rebreather_mask",
-    "entries": [ { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 60 } ]
+    "entries": [ { "item": "rebreather", "ammo-item": "rebreather_cartridge", "charges": 30 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "full_gasmask",
-    "entries": [ { "item": "mask_gas", "ammo-item": "gasfilter_m", "charges": 100 } ]
+    "entries": [ { "item": "mask_gas", "ammo-item": "gasfilter_med", "charges": 100 } ]
   },
   {
     "type": "item_group",
@@ -194,6 +200,37 @@
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
       { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_tac338",
+    "entries": [
+      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "charges": 5 },
+      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "charges": 5 },
+      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "charges": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mags_50beowulf_ar15",
+    "entries": [
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 },
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 },
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mags_ruger_arr",
+    "entries": [
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 },
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 },
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 },
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 }
     ]
   },
   {
@@ -1063,7 +1100,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "combat_shirt",
           "jacket_army_modern",
           "hat_navy",
@@ -1077,6 +1113,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "military_ballistic_vest_pristine" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "apants_MARPAT" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -1085,7 +1122,7 @@
           { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
           {
-            "item": "m4_carbine",
+            "item": "m4_cqbr",
             "variant": "m4_cqbr",
             "ammo-item": "556",
             "charges": 30,
@@ -1118,7 +1155,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "combat_shirt",
           "jacket_army_modern",
           "hat_navy",
@@ -1130,6 +1166,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "wrench_large" },
           { "item": "screwdriver" },
@@ -1251,8 +1288,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1456,8 +1493,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1467,6 +1504,57 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "seal_sniper",
+    "name": "Navy SEAL Marksmen",
+    "description": "Recruited into the ranks of the US Navy’s Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
+    "points": 8,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care" ],
+    "skills": [
+      { "level": 8, "name": "gun" },
+      { "level": 8, "name": "rifle" },
+      { "level": 4, "name": "melee" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 4, "name": "firstaid" },
+      { "level": 5, "name": "survival" },
+      { "level": 3, "name": "throw" },
+      { "level": 5, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "army_top",
+          "combat_shirt",
+          "tac_fullhelmet",
+          "mask_ski",
+          "gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "diving_watch",
+          "load_bearing_vest",
+          "boots_combat",
+          "webbing_belt"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "group": "charged_powered_earmuffs" },
+          { "item": "pants_army", "variant": "mil_pants_navy" },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "legpouch_large", "contents-group": "army_mags_tac338" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "p226_9mm", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
+          { "item": "p226mag_15rd_9x19mm", "ammo-item": "9mm", "charges": 15, "count": 2 },
+          { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -1491,7 +1579,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "combat_shirt",
           "tac_fullhelmet",
           "mask_ski",
@@ -1506,6 +1593,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "charged_powered_earmuffs" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "grenade" },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "goggles_nv" },
@@ -1515,7 +1603,7 @@
           { "item": "p226_9mm", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "p226mag_15rd_9x19mm", "ammo-item": "9mm", "charges": 15, "count": 2 },
           {
-            "item": "m4_carbine",
+            "item": "m4_cqbr",
             "variant": "m4_cqbr",
             "ammo-item": "556",
             "charges": 30,
@@ -1623,8 +1711,8 @@
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": "shoulder_strap"
@@ -1647,7 +1735,14 @@
     "description": "Fresh out of med school, you've got little in the way of practical experience and just a handful of first-aid supplies.  You just hope it will be enough if 'physician, heal thyself' turns out to be more literal than you expected.",
     "points": 2,
     "skills": [ { "level": 4, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans"
+    ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -2349,7 +2444,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "knit_scarf",
           "socks",
           "boots_steel",
@@ -2364,7 +2458,8 @@
           { "group": "charged_smart_phone" },
           { "item": "compbow_low", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver", "contents-group": "quiver_bow_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2382,17 +2477,7 @@
     "skills": [ { "level": 2, "name": "rifle" }, { "level": 1, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [
-          "army_top",
-          "knit_scarf",
-          "socks",
-          "boots_steel",
-          "pants_cargo",
-          "jacket_flannel",
-          "hat_hunting",
-          "wristwatch",
-          "single_sling"
-        ],
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "single_sling" ],
         "entries": [
           { "group": "charged_smart_phone" },
           {
@@ -2403,7 +2488,8 @@
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "quiver", "contents-group": "quiver_crossbow_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2420,17 +2506,7 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "shotgun" } ],
     "items": {
       "both": {
-        "items": [
-          "army_top",
-          "knit_scarf",
-          "socks",
-          "boots_steel",
-          "pants_cargo",
-          "jacket_flannel",
-          "hat_hunting",
-          "wristwatch",
-          "back_holster"
-        ],
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -2442,7 +2518,8 @@
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2457,6 +2534,36 @@
     "description": "Ever since you were a child you loved hunting, and you fancy yourself a crack shot.  Why, if the world ended, there's nothing you'd want at your side more than your trusty rifle.  So, when it did, you made sure to bring it along.",
     "points": 2,
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
+    "items": {
+      "both": {
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          {
+            "item": "remington700_270",
+            "ammo-item": "270win_jsp",
+            "charges": 4,
+            "contents-item": "shoulder_strap",
+            "custom-flags": [ "no_auto_equip" ]
+          },
+          { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    },
+    "missions": [ "MISSION_HUNTER" ]
+  },
+  {
+    "type": "profession",
+    "id": "conversion_hunter",
+    "name": "Big-Bore Hunter",
+    "description": "You always harbored a passion for hunting and a particular fondness for big-bore rifle calibers and affordable conversion kits.  Whether it was their cost-effective nature or the simple, testosterone-amplifying notion that you could retool your rifle to belt out .50-caliber bullets, you preferred them for your hunting trips.  Now, with your converted rifle in hand, you fancy that there isn't any game too large for you to take down.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" } ],
     "items": {
       "both": {
         "items": [
@@ -2474,13 +2581,13 @@
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           {
-            "item": "remington700_270",
-            "ammo-item": "270win_jsp",
-            "charges": 4,
+            "item": "ar15_50",
+            "ammo-item": "50beowulf_xtp",
+            "charges": 10,
             "contents-item": "shoulder_strap",
             "custom-flags": [ "no_auto_equip" ]
           },
-          { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
+          { "item": "chestrig", "contents-group": "mags_50beowulf_ar15" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -2706,7 +2813,7 @@
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "chestrig", "contents-group": "army_mags_m4" },
           { "item": "lighter", "charges": 100 },
-          { "item": "ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
+          { "item": "modular_ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2836,17 +2943,7 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "tshirt_text",
-          "socks",
-          "sneakers",
-          "mbag",
-          "caffeine",
-          "caff_gum",
-          "mobile_memory_card_encrypted",
-          "usb_drive"
-        ],
+        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "caffeine", "caff_gum", "memory_card", "usb_drive" ],
         "entries": [
           { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
           { "group": "charged_smart_phone" },
@@ -3813,7 +3910,12 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4_carbine", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
+          {
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
+            "ammo-item": "556",
+            "contents-item": "shoulder_strap"
+          },
           { "group": "charged_two_way_radio" },
           { "item": "chestrig", "contents-group": "army_mags_m4" }
         ]
@@ -5036,7 +5138,14 @@
       { "level": 1, "name": "electronics" },
       { "level": 3, "name": "firstaid" }
     ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans"
+    ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
@@ -5055,7 +5164,14 @@
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 3, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans"
+    ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -5106,7 +5222,8 @@
       "prof_wound_care_expert",
       "prof_intro_biology",
       "prof_physiology",
-      "prof_burn_care"
+      "prof_burn_care",
+      "prof_dissect_humans"
     ],
     "items": {
       "both": {
@@ -5142,8 +5259,8 @@
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556_mk262",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -5215,12 +5332,19 @@
     "description": "You were deployed to autopsy one of the rioters showing feral behavior before being put down.  When they got back up, you knew this was out of your pay grade.",
     "points": 5,
     "skills": [ { "level": 5, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans"
+    ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
         "items": [ "jumpsuit", "hazmat_suit", "socks", "gloves_medical", "wristwatch", "glasses_safety", "scalpel" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_filter", "ammo-item": "gasfilter_s", "charges": 100 } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_filter", "ammo-item": "gasfilter_sm", "charges": 100 } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -5337,7 +5461,7 @@
       "both": {
         "items": [ "xedra_enviro_suit", "socks", "union_suit" ],
         "entries": [
-          { "item": "mask_gas", "ammo-item": "gasfilter_m", "charges": 5 },
+          { "item": "mask_gas", "ammo-item": "gasfilter_med", "charges": 100 },
           {
             "item": "light_minus_battery_cell",
             "ammo-item": "battery",
@@ -5391,7 +5515,10 @@
     "points": 2,
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "speech" }, { "level": 3, "name": "swimming" } ],
     "items": {
-      "both": { "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
+      "both": {
+        "items": [ "pom_poms", "socks_ankle", "sneakers" ],
+        "entries": [ { "item": "tank_top", "variant": "tank_top_cheerleader" } ]
+      },
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
     },
@@ -5401,7 +5528,7 @@
     "type": "profession",
     "id": "patriot",
     "name": "Patriot",
-    "description": "You are a true American patriot, dressed in star-spangled clothing from head to toe.  The government has fallen, but the spirit of the nation lives on within its people.",
+    "description": "You are a true American patriot, dressed with star-spangled clothing from head to toe.  The government has fallen, but the nation lives on with its people.",
     "points": -1,
     "items": {
       "both": {
@@ -5417,9 +5544,32 @@
   },
   {
     "type": "profession",
+    "id": "prepped_patriot",
+    "name": "Prepped Patriot",
+    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
+    "items": {
+      "both": {
+        "items": [ "american_flag", "slippers" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "mask_dust", "variant": "flag_mask_dust" },
+          { "item": "chestrig", "variant": "flag_chestrig", "contents-group": "mags_ruger_arr" },
+          { "item": "cowboy_hat", "variant": "flag_cowboy_hat" },
+          { "item": "leg_bag", "variant": "flag_leg_bag" },
+          { "item": "ruger_arr", "ammo-item": "450_ftx", "charges": 3, "contents-item": "shoulder_strap" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts", "variant": "flag_boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "boy_shorts", "variant": "flag_boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "cowboy",
     "name": "Cowboy",
-    "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch in your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
+    "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch on your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
@@ -5761,6 +5911,32 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "officeworker",
+    "name": "Office Worker",
+    "description": "You felt years of your life being sapped away, slaving at your computer as you subsisted on a daily pot of coffee, microwave burritos and an endless supply of crumpled paper to toss.  Perhaps the Cataclysm is a refreshing change of pace…",
+    "points": 1,
+    "skills": [
+      { "level": 1, "name": "computer" },
+      { "level": 1, "name": "speech" },
+      { "level": 1, "name": "throw" },
+      { "level": 1, "name": "cooking" }
+    ],
+    "addictions": [ { "intensity": 10, "type": "caffeine" } ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "undershirt", "pants", "socks", "tie_clipon", "dress_shoes" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_penblack" },
+          { "item": "coffee", "container-item": "coffeepot" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "panties", "bra" ]
     }
   }
 ]

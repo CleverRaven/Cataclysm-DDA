@@ -50,7 +50,7 @@ static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 
 static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
-static const vpart_id vpart_halfboard_horizontal( "halfboard_horizontal" );
+static const vpart_id vpart_halfboard( "halfboard" );
 static const vpart_id vpart_tank_test( "tank_test" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
@@ -62,8 +62,7 @@ TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
     // Picking halfboard_horizontal as a vpart which is likely to remain
     // defined via copy-from, and which should have non-zero damage reduction.
-    const vpart_info &vp = vpart_halfboard_horizontal.obj();
-    CHECK( vp.damage_reduction.at( damage_bash ) != 0.f );
+    CHECK( vpart_halfboard->damage_reduction.at( damage_bash ) != 0.f );
 }
 
 TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicle_parts]" )
@@ -130,7 +129,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     clear_avatar();
     clear_map();
     clear_vehicles();
-    set_time( midday );
+    set_time_to_day();
 
     const tripoint test_origin( 60, 60, 0 );
     Character &character = get_player_character();
@@ -175,9 +174,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     veh.discharge_battery( 500000 );
     veh.charge_battery( give_battery );
 
-    // Bust cache on crafting_inventory()
-    character.mod_moves( 1 );
-
+    character.invalidate_crafting_inventory();
     const inventory &crafting_inv = character.crafting_inventory();
     bool can_craft = recipe
                      .deduped_requirements()
@@ -304,7 +301,7 @@ static void check_part_ammo_capacity( vpart_id part_type, itype_id item_type, am
     CAPTURE( part_type );
     CAPTURE( item_type );
     CAPTURE( ammo_type );
-    vehicle_part test_part( part_type, "", point_zero, item( item_type ) );
+    vehicle_part test_part( part_type, item( item_type ) );
     CHECK( expected_count == test_part.ammo_capacity( ammo_type ) );
 }
 
@@ -319,7 +316,7 @@ TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
 TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
 {
     GIVEN( "tank is empty" ) {
-        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        vehicle_part vp( vpart_tank_test, item( itype_metal_tank_test ) );
         REQUIRE( vp.ammo_remaining() == 0 );
         THEN( "ammo_current ammotype is always null" ) {
             CHECK( vp.ammo_current().is_null() );
@@ -333,10 +330,10 @@ TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
     }
 
     GIVEN( "tank is not empty" ) {
-        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        vehicle_part vp( vpart_tank_test, item( itype_metal_tank_test ) );
         item tank( itype_metal_tank_test );
         REQUIRE( tank.fill_with( item( itype_water_clean ), 100 ) == 100 );
-        vp.set_base( tank );
+        vp.set_base( std::move( tank ) );
         REQUIRE( vp.ammo_remaining() == 100 );
 
         THEN( "ammo_current is not null" ) {

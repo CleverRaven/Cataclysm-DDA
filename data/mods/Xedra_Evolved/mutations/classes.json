@@ -4,11 +4,11 @@
     "id": "DREAMER",
     "name": "Dreamer",
     "points": 0,
-    "description": "Dreamers are people able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Gains a spell to summon dreamdross scraps on demand",
+    "description": "Dreamers are people able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Their power scales with their natural perception and intellect.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "mana_modifier": 500,
+    "enchantments": [ "BONUS_DREAMER" ],
     "cancels": [ "EATER" ],
     "moncams": [
       [ "mon_shifter", 100 ],
@@ -26,12 +26,11 @@
     "id": "EATER",
     "name": "Eater of Dreams",
     "points": 0,
-    "description": "These people are aware of this cross-dimensional contamination and while they can't pull anything over and make new things, they can eat anything they find in our world that doesn't belong and gain abilities and powers from that consumption.  They have larger than normal mana pools but regen that mana much slower as a result, they can cast a spell to convert dreamdross scraps directly into mana.",
+    "description": "These people are aware of this cross-dimensional contamination and while they can't pull anything over and make new things, they can eat anything they find in our world that doesn't belong and gain abilities and powers from that consumption.  They have larger than normal mana pools but regen that mana much slower as a result, they can cast a spell to convert dreamdross scraps directly into mana.  Their powers scales with their natural strength and dexterity.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "mana_modifier": 1500,
-    "mana_regen_multiplier": 0.2,
+    "enchantments": [ "BONUS_EATER" ],
     "cancels": [ "DREAMER" ],
     "spells_learned": [ [ "eat_dreamdross", 0 ] ]
   },
@@ -44,9 +43,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "mana_modifier": 500,
-    "cancels": [ "INVENTOR" ],
-    "spells_learned": [ [ "forge_dreamdross", 0 ], [ "research_dreamdross", 0 ] ]
+    "enchantments": [ "BONUS_DREAMSMITH" ],
+    "cancels": [ "INVENTOR" ]
   },
   {
     "type": "mutation",
@@ -57,8 +55,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "mana_modifier": 500,
+    "enchantments": [ "BONUS_INVENTOR" ],
     "cancels": [ "DREAMSMITH" ],
-    "vitamin_rates": [ [ "creative_spark", -604800 ] ]
+    "vitamin_rates": [ [ "creative_spark", -302400 ] ]
   }
 ]

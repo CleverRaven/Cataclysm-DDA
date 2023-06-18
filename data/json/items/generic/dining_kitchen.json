@@ -175,9 +175,14 @@
     "symbol": "u",
     "description": "A ceramic coffee cup with a logo on the side.",
     "copy-from": "base_ceramic_dish",
+    "weight": "318 g",
+    "volume": "475 ml",
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "330 ml",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
@@ -236,7 +241,8 @@
       },
       { "id": "mug25", "text": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it." },
       { "id": "mug26", "text": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/Black-Novelty-Coffee-Homeyes-Ceramic/dp/B0B6CWNKCP/ref=sr_1_51?keywords=ceramic%2Bmug&qid=1684583367&sr=8-51&th=1"
   },
   {
     "type": "GENERIC",
@@ -471,9 +477,15 @@
     "id": "fork",
     "name": { "str": "fork" },
     "description": "A fork, if you stab something with it, you eat it right away.  Wait… nevermind.",
+    "weight": "43 g",
+    "volume": "45 ml",
+    "longest_side": "21 cm",
+    "price": 75,
     "copy-from": "base_silverware",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "bash": 2, "stab": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 1 },
+    "//": "Based on https://www.amazon.com/Stainless-Silverware-Flatware-Dishwasher-Restaurant/dp/B086D4PV2G/ref=sr_1_6?crid=18H1OA6OULCBH&keywords=fork&qid=1684410017&sprefix=fo%2Caps%2C365&sr=8-6&th=1"
   },
   {
     "type": "GENERIC",
@@ -495,8 +507,14 @@
     "id": "spoon",
     "name": { "str": "spoon" },
     "description": "Do not try to bend the spoon.  That is impossible.",
+    "weight": "43 g",
+    "volume": "70 ml",
+    "longest_side": "19 cm",
+    "price": 69,
     "copy-from": "base_silverware",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B0886HQRD3/ref=emc_b_5_i?th=1"
   },
   {
     "type": "GENERIC",
@@ -536,9 +554,15 @@
     "id": "knife_butter",
     "name": { "str": "butter knife", "str_pl": "butter knives" },
     "description": "A dull knife, absolutely worthless in combat.  Excellent for spreading soft things on bread.",
+    "weight": "71 g",
+    "volume": "75 ml",
+    "longest_side": "21 cm",
+    "price": "4 USD",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "copy-from": "base_silverware",
-    "melee_damage": { "bash": 2, "stab": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 1 },
+    "//": "Based on https://www.amazon.com/Stainless-Spreader-Multifunctional-Chopping-Serrated/dp/B08NFVGSRJ/ref=sr_1_6?crid=1GUK0X805PBB&keywords=butter%2Bknife&qid=1684409167&sprefix=butter%2Bknife%2Caps%2C274&sr=8-6&th=1"
   },
   {
     "type": "GENERIC",
@@ -572,7 +596,14 @@
     "flags": [ "SHEATH_KNIFE" ],
     "looks_like": "fork",
     "copy-from": "base_silverware",
-    "melee_damage": { "bash": 2, "stab": 1 }
+    "weight": "130 g",
+    "volume": "800 ml",
+    "//1": "Lower than what the amazon link implies but I refuse to believe it's 1l of volume. 800ml is probably way overkill either way, since it has plenty of empty space that this calculation does not account for.",
+    "longest_side": "23 cm",
+    "price": "9 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 1 },
+    "//2": "Based on https://www.amazon.com/Cooking-Light-Wine-Professional-Opener/dp/B081R28ZLP/ref=sr_1_12?crid=1XEV9UEX382A&keywords=corkscrew&qid=1684583858&sprefix=corkscrew%2Caps%2C236&sr=8-12"
   },
   {
     "type": "GENERIC",
@@ -590,8 +621,13 @@
     "id": "bottle_opener",
     "name": { "str": "bottle opener" },
     "description": "A simple lever for popping open bottles.",
+    "weight": "64 g",
+    "volume": "93 ml",
+    "longest_side": "18 cm",
+    "price": "4 USD",
     "looks_like": "fork",
     "copy-from": "base_silverware",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "snippet_category": [
       { "id": "bottleopener1", "text": "This bottle opener is shaped like a zombie head, the mouth pops open the bottle." },
       { "id": "bottleopener2", "text": "This bottle opener is shaped like a lightsaber." },
@@ -608,7 +644,8 @@
       { "id": "bottleopener7", "text": "This bottle opener reads 'I'd rather be drinking whiskey'." },
       { "id": "bottleopener8", "text": "This bottle opener is shaped like a phaser." },
       { "id": "bottleopener9", "text": "This novelty bottle opener is designed to look like a hobo clown." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/AmazonCommercial-Stainless-Steel-Bottle-Opener/dp/B087QF9SWM/ref=sr_1_27?crid=3FSB1YEYIF4T8&keywords=bottle%2Bopener&qid=1684578611&sprefix=bottle%2Bopener%2Caps%2C229&sr=8-27&th=1"
   },
   {
     "type": "GENERIC",
@@ -641,14 +678,15 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "symbol": "X",
     "color": "light_gray",
-    "price": 100,
+    "price": "1 USD",
     "price_postapoc": 0,
-    "weight": "28 g",
-    "volume": "15 ml",
+    "weight": "11 g",
+    "volume": "40 ml",
     "longest_side": "23 cm",
     "material": [ "wood" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 1, "stab": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 1 },
+    "//": "Based on https://www.amazon.com/Fuji-Merchandise-Quality-Wooden-Chopsticks/dp/B07N47CN44/ref=sr_1_8?crid=28MLMFZEJET90&keywords=chopsticks%2Bsingle%2Bpair&qid=1683476295&sprefix=chopsticks%2Bsingle%2Bpai%2Caps%2C210&sr=8-8&th=1"
   },
   {
     "type": "GENERIC",
@@ -665,8 +703,15 @@
     "id": "whisk",
     "name": { "str": "whisk" },
     "description": "A tool designed for finely mixing ingredients or introducing air into the blend.  Also known as a 'wire whip', but it's a less effective weapon than that name makes it sound.",
+    "weight": "90 g",
+    "volume": "220 ml",
+    "//1": "Volume calculated as a cylinder with ~3cm diameter and 30.5cm length",
+    "longest_side": "31 cm",
+    "price": "6 USD",
     "looks_like": "spoon",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//2": "Based on https://www.dimensions.com/element/ikea-koncis-whisk"
   },
   {
     "type": "GENERIC",
@@ -866,18 +911,18 @@
     "category": "tools",
     "name": { "str": "canning pot" },
     "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
-    "weight": "5625 g",
-    "volume": "26250 ml",
-    "longest_side": "32 cm",
-    "price": 20000,
-    "to_hit": -2,
+    "weight": "5540 g",
+    "volume": "32570 ml",
+    "longest_side": "40 cm",
+    "price": "112 USD",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
       {
         "max_contains_volume": "25 L",
-        "max_contains_weight": "25 kg",
+        "max_contains_weight": "50 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -886,7 +931,8 @@
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "//": "Based on https://www.amazon.co.uk/Stainless-Fitted-Tri-Ply-Composite-17Litre/dp/B087X1Y9MN/ref=sr_1_1?crid=17CCGCR5CTO4U&keywords=25l%2Bcanning%2Bpot&qid=1684580110&sprefix=25l%2Bcanning%2Bpo%2Caps%2C92&sr=8-1&th=1"
   },
   {
     "id": "pot_canning_clay",
@@ -1068,6 +1114,21 @@
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "coffeepot",
+    "name": { "str": "coffee pot" },
+    "description": "A glass pot for making a cup of joe.",
+    "copy-from": "base_cookpot",
+    "material": [ "glass" ],
+    "color": "light_gray",
+    "weight": "676 g",
+    "volume": "3100 ml",
+    "melee_damage": { "bash": 5 },
+    "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "6 kg", "watertight": true, "rigid": true } ],
+    "delete": { "qualities": [ [ "COOK", 3 ] ] }
   },
   {
     "id": "colander_steel",

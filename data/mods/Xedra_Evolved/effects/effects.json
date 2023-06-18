@@ -11,6 +11,21 @@
   },
   {
     "type": "effect_type",
+    "id": "xtr_str_aspirin",
+    "max_duration": "4 m",
+    "base_mods": {
+      "pkill_tick": [ 42 ],
+      "pkill_min": [ 1 ],
+      "pkill_max_val": [ 15 ],
+      "hurt_tick": [ 42 ],
+      "hurt_min": [ -1 ],
+      "hurt_max": [ -5 ]
+    },
+    "rating": "good",
+    "blood_analysis_description": "Strange Painkiller"
+  },
+  {
+    "type": "effect_type",
     "id": "blood_spiders",
     "name": [ "Blood Spiders" ],
     "desc": [
@@ -35,6 +50,12 @@
       "health_amount": [ -2, -12 ]
     },
     "blood_analysis_description": "Unknown Hemolytic Parasite"
+  },
+  {
+    "type": "effect_type",
+    "id": "curesome",
+    "removes_effects": [ "common_cold", "flu" ],
+    "base_mods": { "pkill_min": [ 5 ] }
   },
   {
     "type": "effect_type",
@@ -115,7 +136,18 @@
       "Your brain can't hold any more brilliance."
     ],
     "max_intensity": 3,
+    "apply_message": "A great idea has illuminated your mind, it's probably a good time to pick up your laptop and do some calculations.",
     "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "mental_exhaustion",
+    "//": "Prevents you from learning new alchemy recipes.",
+    "name": [ "Mental Exhaustion" ],
+    "desc": [ "You have recently realized a new alchemical recipe and your thoughts are scattered." ],
+    "remove_message": "Your mind feels normal enough that you could focus on new alchemy ideas once again.",
+    "max_intensity": 1,
+    "rating": "bad"
   },
   {
     "type": "effect_type",
@@ -146,7 +178,8 @@
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape and your eyes return to their usual hue.",
     "rating": "good",
-    "flags": [ "NIGHT_VISION" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ]
   },
   {
     "type": "effect_type",
@@ -181,6 +214,47 @@
     "blood_analysis_description": "Patient has had extensive battlefield blood transfusions.  Serious risk of bloodborne infections.",
     "base_mods": { "speed_mod": [ -10 ], "dex_mod": [ -1 ], "dodge_mod": [ -1 ] },
     "scaling_mods": { "speed_mod": [ -20 ], "dex_mod": [ -1 ], "dodge_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "cheval_overdose",
+    "//": "Intensity 1 is a standard dosage of the drug.  Further intensities reflect taking pills while the first dose hasn't worn off.  It is not wise to do so.",
+    "name": [ "Energized", "Enflamed", "Arythmic", "Tachycardiac" ],
+    "apply_message": "These magickal trucker pills have kicked in and you feel great!",
+    "decay_messages": [
+      [
+        "These magickal trucker pills have worn off and you feel rough.  It might be best to go ahead and sleep through the hangover as best you can.",
+        "bad"
+      ],
+      [
+        "Aside from any leftover pain and damage that was done to your body by overdosing your feeling pretty good now.",
+        "good"
+      ],
+      [ "Your heartbeat slows into a somewhat normal rhythm but your skin is still on fire.", "good" ],
+      [ "The pain in your chest subsides but your heart is still beating in a concerning fashion.", "good" ]
+    ],
+    "rating": "mixed",
+    "max_intensity": 4,
+    "blood_analysis_description": "Patient has dangerous levels of multiple chemicals in their blood.  Sedation and restraint suggested.",
+    "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "stim_amount": [ 1 ], "stim_tick": [ 500 ], "stim_max_val": [ 50 ] },
+    "scaling_mods": {
+      "perspiration_amount": [ 6 ],
+      "perspiration_min": [ 1 ],
+      "perspiration_chance": [ 2 ],
+      "perspiration_tick": [ 1500 ],
+      "pain_amount": [ 10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 2 ],
+      "pain_tick": [ 6000 ],
+      "stim_max_val": [ 100 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "cheval_withdrawal",
+    "rating": "bad",
+    "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
+    "base_mods": { "speed_mod": [ -15 ], "str_mod": [ -1 ], "stim_amount": [ -1 ], "stim_tick": [ 500 ], "stim_max_val": [ -50 ] }
   },
   {
     "type": "effect_type",
@@ -230,7 +304,7 @@
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
     "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
-    "resist_traits": [ "ACIDBLOOD" ],
+    "resist_traits": [ "ACIDBLOOD", "BLOOD_OF_SAINTS" ],
     "resist_effects": [ "blood_treatment" ],
     "blocks_effects": [ "cold", "flu" ],
     "max_intensity": 3,
@@ -355,7 +429,7 @@
     "type": "effect_type",
     "name": [ "Dream Gorging" ],
     "desc": [
-      "You ate a whole dreamdross ingot.  It is too much for your body, but temporarily you have a +6 to your strength and better regeneration."
+      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>recover from traumas</color> faster"
     ],
     "apply_message": "A huge warm wave moves from your stomach through your body.",
     "remove_message": "The warm feeling fades away.",
@@ -372,25 +446,20 @@
     "apply_message": "AAAAARGH!!",
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.1 }, { "limb_score": "night_vis", "modifier": 0.1 } ],
-    "base_mods": { "str_mod": [ 4 ], "dex_mod": [ 4 ], "per_mod": [ -8 ] }
+    "base_mods": { "str_mod": [ 6 ], "dex_mod": [ 6 ], "per_mod": [ -8 ] }
   },
   {
     "type": "effect_type",
     "id": "spell_stamina_eff",
     "name": [ "Circulatory" ],
-    "desc": [ "You can't get tired." ],
+    "desc": [ "You can't run out of <color_green>breath</color>." ],
     "apply_message": "You feel a deep energy in your muscles, exuberant and coiled.",
     "remove_message": "The energy in your body fades away.",
     "rating": "good",
-    "//": "+0.1x smamina regen for each level",
+    "//": "+0.2x smamina regen for each level",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "REGEN_STAMINA",
-            "multiply": { "arithmetic": [ { "u_val": "spell_level", "spell": "spell_stamina_wonder" }, "/", { "const": 10 } ] }
-          }
-        ]
+        "values": [ { "value": "REGEN_STAMINA", "multiply": { "math": [ "u_val('spell_level', 'spell: spell_stamina_wonder') / 5" ] } } ]
       }
     ]
   },
@@ -398,25 +467,41 @@
     "id": "effect_dodge",
     "type": "effect_type",
     "name": [ "Dodge" ],
-    "desc": [ "Shun their attacks." ],
+    "desc": [ "<color_green>Shun</color> their attacks." ],
     "apply_message": "Your reaction speed is increased.",
     "remove_message": "Your reaction speed turns back to normal.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+    "//": "+1 dodge initially, +1 each 6 levels",
+    "enchantments": [
+      {
+        "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "(u_val('spell_level', 'spell: spell_dodge') / 6 ) + 1" ] } } ]
+      }
+    ]
   },
   {
     "id": "effect_endurance",
     "type": "effect_type",
     "name": [ "Endurance" ],
-    "desc": [ "Take the blows.  Don’t let the world kill you." ],
+    "desc": [ "Take the blows.  <color_red>Don’t let the world kill you<color>.  Your skin can stop a few attacks." ],
     "apply_message": "Your sense of touch is blunted for a bit, but your skin feels more dense.",
     "remove_message": "The sturdy feeling is gone.",
     "rating": "good",
     "show_intensity": false,
+    "//": "+1 armor for each lvl",
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_BASH", "add": -12 }, { "value": "ARMOR_CUT", "add": -12 }, { "value": "ARMOR_STAB", "add": -12 } ]
+        "values": [
+          { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_BULLET", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_ACID", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_BIO", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_COLD", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_ELEC", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_HEAT", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } }
+        ]
       }
     ]
   },
@@ -424,17 +509,23 @@
     "id": "spell_melee_damage",
     "type": "effect_type",
     "name": [ "Physical Instrument" ],
-    "desc": [ "Your body is a tool of destruction.  Use it effectively." ],
+    "desc": [
+      "Your body is a tool of destruction.  <color_red>Use it effectively<color>.  Your attacks are faster and deadlier, and your dodging ability is better."
+    ],
     "apply_message": "You can feel a bubbling energy in your muscles.",
     "remove_message": "The feelings in your muscles subside.",
     "rating": "good",
     "show_intensity": false,
+    "//": "+2 atk speed for each level, +1 dodge each 10 levels, +5% melee damage every level",
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "add": 20 },
-          { "value": "BONUS_DODGE", "add": 2 },
-          { "value": "MELEE_DAMAGE", "multiply": 0.5 }
+          { "value": "ATTACK_SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') * 2" ] } },
+          { "value": "BONUS_DODGE", "add": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') / 10" ] } },
+          {
+            "value": "MELEE_DAMAGE",
+            "multiply": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') / 20" ] }
+          }
         ]
       }
     ]
@@ -443,21 +534,14 @@
     "type": "effect_type",
     "id": "spell_speed_eff",
     "name": [ "Rush" ],
-    "desc": [ "A burst of speed and stamina." ],
-    "apply_message": "Your lungs seem to gain capacity and your legs feel longer.",
+    "desc": [ "A burst of <color_green>speed<color>." ],
+    "apply_message": "You feel your legs are much longer now.",
     "remove_message": "Your body shrinks back into its normal space.",
     "rating": "good",
     "show_intensity": false,
-    "//": "+3 speed for each level",
+    "//": "+5 speed for each level",
     "enchantments": [
-      {
-        "values": [
-          {
-            "value": "SPEED",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spell_speed_wonder" }, "*", { "const": 3 } ] }
-          }
-        ]
-      }
+      { "values": [ { "value": "SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_speed_wonder') * 5" ] } } ] }
     ]
   },
   {
@@ -492,8 +576,71 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Nothing can move you from your path.",
+    "description": "<color_green>Nothing can slow you down<color>, and your <color_red>pain<color> sensations are dull.",
     "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
     "flags": [ "STEADY" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "wicked_quick_hands",
+    "name": [ "Wicked Quick Hands" ],
+    "desc": [ "Your hands move wicked quick!" ],
+    "apply_message": "Your reflexes are heightened!",
+    "remove_message": "Your reflexes return to normal.",
+    "rating": "good",
+    "removes_effects": [ "terrible_strength" ],
+    "base_mods": { "dex_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "terrible_strength",
+    "name": [ "Terrible Strength" ],
+    "desc": [ "You have a terrible strength!" ],
+    "apply_message": "You feel strong!",
+    "remove_message": "Your strength deflates.",
+    "rating": "good",
+    "removes_effects": [ "wicked_quick_hands" ],
+    "base_mods": { "str_mod": [ 4 ] }
+  },
+  {
+    "id": "bleed_karma",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Just to make karma arms drop a proper liquid when damaged",
+    "show_intensity": false,
+    "show_in_info": false,
+    "enchantments": [ { "emitter": "emit_blood_karma" } ]
+  },
+  {
+    "type": "mutation",
+    "id": "karma_arms",
+    "name": { "str": "Karma" },
+    "points": 1,
+    "description": "Ethereal hands appear behind you back, making you looks like an ancient god.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "karma_arm_up_r" },
+          { "gain": "karma_arm_up_l" },
+          { "gain": "karma_arm_lw_r" },
+          { "gain": "karma_arm_lw_l" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "spell_karma_arms_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "Ethereal, transparent arms grow from your shoulders, and <color_cyan>glow<color>.",
+    "remove_message": "The cyan arms grow dim, and finally disappear.",
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "karma_arms" ] } ]
   }
 ]

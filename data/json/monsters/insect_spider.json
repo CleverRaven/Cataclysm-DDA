@@ -3076,12 +3076,12 @@
       {
         "id": "stag_smash",
         "throw_strength": 60,
-        "hit_dmg_u": "The %1$s rams you in the %2$s!",
-        "hit_dmg_npc": "The %1$s rams <npcname> in the %2$s!",
-        "no_dmg_msg_u": "The %1$s rams your %2$s, but you hold steady!",
-        "no_dmg_msg_npc": "The %1$s rams <npcname>'s %2$s, but they hold steady!",
-        "miss_msg_u": "The %s flicks its horns at you, but you dodge!",
-        "miss_msg_npc": "The %s flicks its horns at <npcname>, but they dodge!"
+        "hit_dmg_u": "%1$s rams you in the %2$s!",
+        "hit_dmg_npc": "%1$s rams <npcname> in the %2$s!",
+        "no_dmg_msg_u": "%1$s rams your %2$s, but you hold steady!",
+        "no_dmg_msg_npc": "%1$s rams <npcname>'s %2$s, but they hold steady!",
+        "miss_msg_u": "%s flicks its horns at you, but you dodge!",
+        "miss_msg_npc": "%s flicks its horns at <npcname>, but they dodge!"
       }
     ],
     "upgrades": { "half_life": 60, "into": "mon_stag_beetle_mega" },
@@ -3453,7 +3453,7 @@
     "weight": "75 kg",
     "hp": 30,
     "symbol": "C",
-    "color": "green",
+    "color": "light_green",
     "speed": 30,
     "dissect": "dissect_insect_sample_large",
     "upgrades": { "age_grow": 20, "into": "mon_butterfly_cocoon" },
@@ -3597,7 +3597,7 @@
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "mutant_shellfish",
-    "dissect": "dissect_insect_sample_single",
+    "dissect": "dissect_crustacean_single",
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
     "reproduction": { "baby_monster": "mon_woodlouse_manca", "baby_count": 5, "baby_timer": 210 },

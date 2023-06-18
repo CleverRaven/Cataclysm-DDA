@@ -450,7 +450,7 @@ class cata_tiles
                                   const std::string &variant, const point &offset );
         bool draw_from_id_string_internal( const std::string &id, const tripoint &pos, int subtile,
                                            int rota,
-                                           lit_level ll, int retract, bool apply_night_vision_goggles );
+                                           lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d );
         bool draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
                                            const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                            lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
@@ -490,14 +490,10 @@ class cata_tiles
 
         /** Map memory */
         bool has_memory_at( const tripoint &p ) const;
-        bool has_terrain_memory_at( const tripoint &p ) const;
-        bool has_furniture_memory_at( const tripoint &p ) const;
-        bool has_trap_memory_at( const tripoint &p ) const;
-        bool has_vpart_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_terrain_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_furniture_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_trap_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_vpart_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_terrain_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_furniture_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_trap_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_vpart_memory_at( const tripoint &p ) const;
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
@@ -532,6 +528,7 @@ class cata_tiles
                              const std::array<bool, 5> &invisible );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
                                              const std::array<bool, 5> &invisible );
+        void draw_zlevel_overlay( const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );
 
@@ -582,6 +579,10 @@ class cata_tiles
         void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
         void draw_zones_frame();
         void void_zones();
+
+        void init_draw_async_anim( const tripoint &p, const std::string &tile_id );
+        void draw_async_anim();
+        void void_async_anim();
 
         void init_draw_radiation_override( const tripoint &p, int rad );
         void void_radiation_override();
@@ -712,11 +713,13 @@ class cata_tiles
         bool do_draw_weather = false;
         bool do_draw_sct = false;
         bool do_draw_zones = false;
+        bool do_draw_async_anim = false;
 
         tripoint exp_pos;
         int exp_rad = 0;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
+        std::map<tripoint, std::string> async_anim_layer;
 
         tripoint bul_pos;
         std::string bul_id;

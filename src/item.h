@@ -65,6 +65,7 @@ struct tripoint;
 template<typename T>
 class ret_val;
 template <typename T> struct enum_traits;
+class vehicle;
 
 namespace enchant_vals
 {
@@ -84,6 +85,7 @@ class map;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
+enum class link_state : int;
 
 enum clothing_mod_type : int;
 
@@ -813,7 +815,8 @@ class item : public visitable
         std::vector<item_pocket *> get_all_contained_pockets();
         std::vector<const item_pocket *> get_all_standard_pockets() const;
         std::vector<item_pocket *> get_all_standard_pockets();
-
+        std::vector<item_pocket *> get_all_ablative_pockets();
+        std::vector<const item_pocket *> get_all_ablative_pockets() const;
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -1306,6 +1309,13 @@ class item : public visitable
         // @see itype::damage_level()
         int damage_level() const;
 
+        // modifies melee weapon damage to account for item's damage
+        float damage_adjusted_melee_weapon_damage( float value ) const;
+        // modifies gun damage to account for item's damage
+        float damage_adjusted_gun_damage( float value ) const;
+        // modifies armor resist to account for item's damage
+        float damage_adjusted_armor_resist( float value ) const;
+
         // @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ )
         int max_damage() const;
 
@@ -1402,15 +1412,66 @@ class item : public visitable
 
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
+        struct link_data {
+            /// State of the link's source, the end usually represented by the cable item. @ref link_state.
+            link_state s_state = link_state::no_link;
+            /// State of the link's target, the end represented by t_abs_pos, @ref link_state.
+            link_state t_state = link_state::no_link;
+            /// The last turn process_cable was called on this cable. Used for time the cable spends outside the bubble.
+            time_point last_processed = calendar::turn;
+            /// Absolute position of the linked target vehicle/appliance.
+            tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
+            /// Reality bubble position of the link's source cable item.
+            tripoint s_bub_pos = tripoint_min; // NOLINT(cata-serialize)
+            /// A safe reference to the link's target vehicle. Will recreate itself whenever the vehicle enters the bubble.
+            safe_reference<vehicle> t_veh_safe; // NOLINT(cata-serialize)
+            /// The linked part's mount offset on the target vehicle.
+            point t_mount = point_zero;
+            /// The maximum length of the cable. Set during initialization.
+            int max_length = 2;
+            /// The cable's charge rate in watts. Set during initialization.
+            int charge_rate = 0;
+            /// The turn interval between charges. Set during initialization.
+            int charge_interval = -1;
+            /// one_in(this) chance to fail adding 1 charge. Set during initialization.
+            int charge_efficiency = 7;
+
+            bool has_state( link_state state ) const {
+                return s_state == state || t_state == state;
+            }
+            bool has_states( link_state i_state_, link_state t_state_ ) const {
+                return s_state == i_state_ && t_state == t_state_;
+            }
+            bool has_no_links() const {
+                return s_state == link_state::no_link && t_state == link_state::no_link;
+            }
+
+            void serialize( JsonOut &jsout ) const;
+            void deserialize( const JsonObject &data );
+        };
+        cata::value_ptr<link_data> link;
         /**
-         * Gets the point (vehicle tile) the cable is connected to.
-         * Returns nothing if not connected to anything.
+         * Brings a cable item back to its initial state.
+         * @return True if the cable should be deleted.
          */
-        std::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
+        bool reset_cable( Character *p = nullptr, item *parent_item = nullptr,
+                          bool loose_message = false, tripoint sees_point = tripoint_zero );
         /**
-         * Helper to bring a cable back to its initial state.
-         */
-        void reset_cable( Character *p );
+        * Resets all of an items cables.
+        */
+        void reset_cables( Character *p );
+
+        /**
+        * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
+        * @brief A positive link.charge_rate will charge the item at the expense of the vehicle,
+        * while a negative link.charge_rate will charge the vehicle at the expense of the item.
+        *
+        * @param linked_item The item that contains the linking cable.
+        * @param linked_veh The vehicle the item is connected to.
+        * @param turns_elapsed The number of turns the link has spent outside the reality bubble. Default 1.
+        * @return The amount of power given or taken to be displayed; ignores turns_elapsed and inefficiency.
+        */
+        int charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed = 1 );
 
         /**
          * Whether the item should be processed (by calling @ref process).
@@ -1469,7 +1530,6 @@ class item : public visitable
         bool is_fuel() const;
         bool is_toolmod() const;
 
-        bool is_faulty() const;
         bool is_irremovable() const;
 
         /** Returns true if the item is broken and can't be activated or used in crafting */
@@ -1743,6 +1803,18 @@ class item : public visitable
         /** Removes all item variables. */
         void clear_vars();
         /*@}*/
+
+        struct extended_photo_def {
+            int quality = 0;
+            std::string name;
+            std::string description;
+
+            void deserialize( const JsonObject &obj );
+            void serialize( JsonOut &jsout ) const;
+        };
+        bool read_extended_photos( std::vector<extended_photo_def> &extended_photos,
+                                   const std::string &var_name, bool insert_at_begin ) const;
+        void write_extended_photos( const std::vector<extended_photo_def> &, const std::string & );
 
         /**
          * @name Item flags
@@ -2230,8 +2302,10 @@ class item : public visitable
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
          * @param carrier is used for UPS and bionic power for tools
+         * @param cable_links Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const Character *carrier = nullptr ) const;
+        int ammo_remaining( const Character *carrier = nullptr, bool cable_links = false ) const;
+        int ammo_remaining( bool cable_links ) const;
 
         /**
          * ammo capacity for a specific ammo
@@ -2272,7 +2346,6 @@ class item : public visitable
          * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
         bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
-
         bool ammo_sufficient( const Character *carrier, const std::string &method, int qty = 1 ) const;
 
         /**
@@ -2731,6 +2804,9 @@ class item : public visitable
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
 
+        std::list<item *> all_ablative_armor();
+        std::list<const item *> all_ablative_armor() const;
+
         void clear_items();
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
@@ -2830,8 +2906,9 @@ class item : public visitable
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( map &here, Character *carrier, const tripoint &pos );
         bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
-        bool process_cable( map &here, Character *carrier, const tripoint &pos );
-        bool process_UPS( Character *carrier, const tripoint &pos );
+        bool process_cable( map &here, Character *carrier, const tripoint &pos,
+                            item *parent_item = nullptr );
+        bool process_linked_item( Character *carrier, const tripoint &pos, link_state required_state );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
 
@@ -2905,6 +2982,10 @@ class item : public visitable
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
+
+        // Time point at which countdown_action is triggered
+        time_point countdown_point = calendar::turn_max;
+
         units::specific_energy specific_energy = units::from_joule_per_gram(
                     -10 ); // Specific energy J/g. Negative value for unprocessed.
         units::temperature temperature = units::from_kelvin( 0 );       // Temperature of the item .
@@ -2912,6 +2993,9 @@ class item : public visitable
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
         int wetness = 0;           // Turns until this item is completely dry.
+
+        // This contains a cable with an active link. Is NOT true for linked cable items themselves.
+        bool contents_linked = false;
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 

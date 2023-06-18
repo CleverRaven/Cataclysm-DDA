@@ -10,6 +10,7 @@
     "weight": "5443 g",
     "volume": "6182 ml",
     "longest_side": "1187 mm",
+    "barrel_length": "610 mm",
     "price": 1701000,
     "price_postapoc": 3750,
     "to_hit": -1,
@@ -33,6 +34,7 @@
     "weight": "3730 g",
     "volume": "3761 ml",
     "longest_side": "1183 mm",
+    "barrel_length": "660 mm",
     "price": 259500,
     "price_postapoc": 5500,
     "to_hit": -1,
@@ -71,6 +73,7 @@
     "weight": "3520 g",
     "volume": "3205 ml",
     "longest_side": "1198 mm",
+    "barrel_length": "610 mm",
     "price": 46000,
     "price_postapoc": 3250,
     "to_hit": -1,
@@ -97,6 +100,56 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "ruger_pr",
+    "looks_like": "ar15",
+    "copy-from": "rifle_manual",
+    "type": "GUN",
+    "name": "Ruger Precision Rifle",
+    "//": "No generic variant for this rifle, as the brand name is already pretty generic in and of itself.",
+    "description": "Originally introduced to the Ruger gun corporation’s family of high-end marksman rifles in 2015, the Ruger Precision Rifle is a modern and highly modular long-range bolt-action weapon.  By incorporating a unique in-line recoil path that manages recoil from the rear of the receiver to the buttstock, as opposed to traditional bedding, the rifle offers maximal accuracy potential, while the arm's additional bells and whistles, an incorporated marksman’s trigger, muzzle brake, and this particular rifle's powerhouse chambering of .300 Win Mag, help to make the most from any long-range engagement.",
+    "weight": "6890 g",
+    "volume": "9800 ml",
+    "longest_side": "1245 mm",
+    "barrel_length": "660 mm",
+    "price": 253900,
+    "price_postapoc": 5500,
+    "to_hit": -2,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "symbol": "-",
+    "color": "black",
+    "ammo": [ "300" ],
+    "dispersion": 70,
+    "durability": 8,
+    "default_mods": [ "match_trigger", "high_end_folding_stock", "muzzle_brake" ],
+    "barrel_volume": "456 ml",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "stock accessory", 2 ],
+      [ "stock", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "magazine_well": "300 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ruger_pr_mag" ]
+      }
+    ],
     "melee_damage": { "bash": 12 }
   }
 ]

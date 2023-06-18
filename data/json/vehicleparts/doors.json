@@ -1,9 +1,8 @@
 [
   {
-    "abstract": "door_abstract",
+    "id": "door",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
-    "broken_symbol": "&",
     "categories": [ "hull" ],
     "color": "cyan",
     "damage_modifier": 80,
@@ -15,65 +14,55 @@
     "location": "center",
     "looks_like": "t_door_metal_c",
     "name": { "str": "door" },
+    "//": "30cm of weld per quadrant of damage",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "size": "2500 ml",
-    "symbol": "+",
-    "symbols": {
-      "ne": "+",
-      "nw": "+",
-      "se": "+",
-      "sw": "+",
-      "vertical_left": "+",
-      "vertical_right": "+",
-      "front": "+",
-      "front_left": "+",
-      "front_right": "+",
-      "rear": "+"
-    },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door_full",
-    "looks_like": "door",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "abstract": "cloth_door_abstract",
     "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ],
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "+", "symbols_broken": "&" },
+      { "id": "front_left", "label": "Front Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "front_right", "label": "Front Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "left", "label": "Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "right", "label": "Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "rear", "label": "Rear", "symbols": "+", "symbols_broken": "&" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "+", "symbols_broken": "&" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "+", "symbols_broken": "&" },
+      { "id": "horizontal_front", "label": "Front Horizontal", "symbols": "+", "symbols_broken": "&" },
+      { "id": "horizontal_2", "label": "Thick Horizontal", "symbols": "+", "symbols_broken": "&" },
+      { "id": "horizontal_rear", "label": "Rear Horizontal", "symbols": "+", "symbols_broken": "&" },
+      { "id": "ne", "label": "Front Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "nw", "label": "Front Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "se", "label": "Rear Right", "symbols": "+", "symbols_broken": "&" },
+      { "id": "sw", "label": "Rear Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "wheel_left", "label": "Wheel Left", "symbols": "+", "symbols_broken": "&" },
+      { "id": "wheel_right", "label": "Wheel Right", "symbols": "+", "symbols_broken": "&" }
+    ]
+  },
+  {
+    "copy-from": "door",
+    "id": "cloth_flap_door",
+    "type": "vehicle_part",
+    "name": { "str": "cloth flap door" },
+    "description": "A cloth sheet that can be fastened into a closed position to act as a door.",
     "item": "sheet",
-    "broken_color": "dark_gray",
     "durability": 15,
     "folded_volume": "2500 ml",
     "breaks_into": "ig_vp_cloth",
     "requirements": {
-      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 },
-    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "DOOR" ]
+    "delete": { "flags": [ "WINDOW" ] }
   },
   {
-    "copy-from": "cloth_door_abstract",
-    "id": "cloth_flap_door",
-    "looks_like": "door",
-    "type": "vehicle_part",
-    "name": { "str": "cloth flap door" },
-    "description": "A cloth sheet that can be fastened into a closed position to act as a door."
-  },
-  {
-    "copy-from": "cloth_door_abstract",
+    "copy-from": "cloth_flap_door",
     "id": "cloth_curtain_door",
     "looks_like": "door",
     "type": "vehicle_part",
@@ -81,243 +70,224 @@
     "description": "A cloth sheet that can be slid into a closed position to act as a door."
   },
   {
-    "abstract": "door_opaque_abstract",
-    "breaks_into": "ig_vp_frame",
-    "broken_color": "cyan",
-    "broken_symbol": "&",
-    "categories": [ "hull" ],
-    "color": "cyan",
-    "damage_modifier": 80,
-    "damage_reduction": { "all": 20 },
+    "id": "door_opaque",
+    "copy-from": "door",
     "description": "A door.  Solid construction means you can't see through it when closed.",
     "durability": 240,
-    "flags": [ "CARGO", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "DOOR" ],
-    "item": "frame",
-    "location": "center",
-    "looks_like": "door",
     "name": { "str": "opaque door" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
-    },
-    "size": "2500 ml",
-    "symbol": "+",
-    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
-    "type": "vehicle_part"
+    "extend": { "flags": [ "OPAQUE" ] },
+    "delete": { "flags": [ "WINDOW" ] },
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   },
   {
-    "copy-from": "door_opaque_abstract",
-    "id": "door_opaque",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_opaque_abstract",
-    "id": "door_opaque_full",
-    "looks_like": "door_opaque",
-    "type": "vehicle_part"
-  },
-  {
-    "abstract": "hddoor_abstract",
+    "id": "hddoor",
+    "copy-from": "door",
     "breaks_into": "ig_vp_hdframe",
-    "broken_color": "cyan",
-    "broken_symbol": "&",
-    "categories": [ "hull" ],
-    "color": "cyan",
-    "damage_modifier": 80,
     "damage_reduction": { "all": 30 },
     "description": "A strong door.  Has a window so you can see out of it, even when closed.",
     "durability": 600,
-    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR" ],
     "item": "hdframe",
-    "location": "center",
-    "looks_like": "door",
     "name": { "str": "heavy-duty door" },
+    "//": "40cm of weld per quadrant of damage",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
-    "size": "2500 ml",
-    "symbol": "+",
-    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   },
   {
-    "copy-from": "hddoor_abstract",
-    "id": "hddoor",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "hddoor_abstract",
-    "id": "hddoor_full",
-    "looks_like": "hddoor",
-    "type": "vehicle_part"
-  },
-  {
-    "abstract": "hddoor_opaque_abstract",
-    "breaks_into": "ig_vp_hdframe",
-    "broken_color": "cyan",
-    "broken_symbol": "&",
-    "categories": [ "hull" ],
-    "color": "cyan",
-    "damage_modifier": 80,
-    "damage_reduction": { "all": 30 },
+    "id": "hddoor_opaque",
+    "copy-from": "hddoor",
     "description": "A strong door.  Solid construction means you can't see through it when closed.",
     "durability": 660,
-    "flags": [ "CARGO", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "DOOR" ],
-    "item": "hdframe",
-    "location": "center",
     "looks_like": "door_opaque",
     "name": { "str": "heavy-duty opaque door" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
-    },
-    "size": "2500 ml",
-    "symbol": "+",
-    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "hddoor_opaque_abstract",
-    "id": "hddoor_opaque",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "hddoor_opaque_abstract",
-    "id": "hddoor_opaque_full",
-    "looks_like": "hddoor_opaque",
-    "type": "vehicle_part"
+    "extend": { "flags": [ "OPAQUE" ] },
+    "delete": { "flags": [ "WINDOW" ] },
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
   },
   {
     "id": "door_internal",
-    "breaks_into": "ig_vp_frame",
-    "broken_color": "cyan",
-    "broken_symbol": "&",
-    "categories": [ "hull" ],
-    "color": "cyan",
+    "copy-from": "door_opaque",
     "damage_modifier": 75,
-    "damage_reduction": { "all": 20 },
     "description": "An interior door.  Solid construction means you can't see through it when closed.",
     "durability": 240,
-    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE", "DOOR" ],
-    "item": "frame",
-    "location": "center",
-    "looks_like": "door",
     "name": { "str": "internal door" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
-    },
-    "symbol": "+",
-    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
     "id": "hatch",
-    "breaks_into": "ig_vp_frame",
-    "broken_color": "light_gray",
-    "broken_symbol": "&",
-    "categories": [ "hull" ],
-    "color": "light_gray",
-    "damage_modifier": 80,
-    "damage_reduction": { "all": 20 },
+    "copy-from": "door",
     "description": "A strong door.  A window lets you see through it when closed.",
     "durability": 420,
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "DOOR", "WINDOW" ],
-    "item": "frame",
-    "location": "center",
-    "looks_like": "door",
     "name": { "str": "hatch" },
+    "//": "30cm of weld per quadrant of damage, 4x that to install",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "15 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "size": "37500 ml",
-    "symbol": "+",
-    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
+    "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED" ] },
     "type": "vehicle_part"
   },
   {
     "id": "hatch_opaque",
-    "breaks_into": "ig_vp_frame",
-    "broken_color": "light_gray",
-    "broken_symbol": "&",
-    "categories": [ "hull" ],
-    "color": "light_gray",
-    "damage_modifier": 80,
-    "damage_reduction": { "all": 20 },
+    "copy-from": "hatch",
     "description": "A strong door.  Solid construction means you can't see through it when closed.",
     "durability": 450,
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE", "DOOR" ],
-    "item": "frame",
-    "location": "center",
     "looks_like": "door_opaque",
     "name": { "str": "opaque hatch" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
-    },
-    "size": "37500 ml",
-    "symbol": "+",
-    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
+    "extend": { "flags": [ "OPAQUE" ] },
+    "delete": { "flags": [ "WINDOW" ] },
     "type": "vehicle_part"
   },
   {
     "id": "hdhatch",
+    "copy-from": "hatch",
     "breaks_into": "ig_vp_hdframe",
-    "broken_color": "dark_gray",
-    "broken_symbol": "&",
-    "categories": [ "hull" ],
-    "color": "dark_gray",
-    "damage_modifier": 80,
     "damage_reduction": { "all": 30 },
     "description": "A very strong door.  A window lets you see through it when closed.",
     "durability": 900,
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "DOOR", "WINDOW" ],
     "item": "hdframe",
-    "location": "center",
     "looks_like": "hatch",
     "name": { "str": "heavy-duty hatch" },
+    "//": "40cm of weld per quadrant of damage, 4x that to install",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "80 m",
+        "using": [ [ "welding_standard", 160 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
-    "size": "37500 ml",
-    "symbol": "+",
-    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
     "id": "hdhatch_opaque",
-    "breaks_into": "ig_vp_hdframe",
-    "broken_color": "dark_gray",
-    "broken_symbol": "&",
-    "categories": [ "hull" ],
-    "color": "dark_gray",
-    "damage_modifier": 80,
-    "damage_reduction": { "all": 30 },
+    "copy-from": "hdhatch",
     "description": "A very strong door.  Solid construction means you can't see through it when closed.",
     "durability": 1000,
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE", "DOOR" ],
-    "item": "hdframe",
-    "location": "center",
     "looks_like": "hatch_opaque",
     "name": { "str": "heavy-duty opaque hatch" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
-    },
-    "size": "37500 ml",
-    "symbol": "+",
-    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
+    "extend": { "flags": [ "OPAQUE" ] },
+    "delete": { "flags": [ "WINDOW" ] },
     "type": "vehicle_part"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_wood",
+    "copy-from": "door",
+    "name": { "str": "wooden door" },
+    "looks_like": "t_door_c",
+    "color": "brown",
+    "broken_color": "brown",
+    "damage_modifier": 75,
+    "durability": 160,
+    "size": "0 ml",
+    "description": "A door.  Has a window so you can see out of it, even when closed.",
+    "item": "frame_wood",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
+    "extend": { "flags": [ "SIMPLE_PART" ] },
+    "delete": { "flags": [ "CARGO" ] },
+    "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_wood_opaque",
+    "copy-from": "door_wood",
+    "name": { "str": "opaque wooden door" },
+    "durability": 170,
+    "description": "A door.  Solid construction means you can't see through it when closed.",
+    "size": "0 ml",
+    "extend": { "flags": [ "OPAQUE" ] },
+    "delete": { "flags": [ "WINDOW" ] },
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_trunk",
+    "copy-from": "hatch",
+    "name": { "str": "trunk door" },
+    "durability": 150,
+    "size": "0 ml",
+    "description": "A short door.  You can always see over it, open or closed.",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "extend": { "flags": [ "LOW_FINAL_AIR_DRAG", "SIMPLE_PART", "NO_ROOF_NEEDED" ] },
+    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "hddoor_trunk",
+    "copy-from": "door_trunk",
+    "name": { "str": "heavy-duty trunk door" },
+    "durability": 750,
+    "description": "A strong, short door.  You can always see over it, open or closed.",
+    "item": "hdframe",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+    },
+    "breaks_into": "ig_vp_hdframe",
+    "delete": { "flags": [ "NO_ROOF_NEEDED" ] },
+    "damage_reduction": { "all": 30 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_shutter",
+    "copy-from": "hatch",
+    "name": { "str": "shutter door" },
+    "size": "0 ml",
+    "durability": 95,
+    "description": "A strong door.  Solid construction means you can't see through it when closed.",
+    "item": "sheet_metal",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "breaks_into": "ig_vp_sheet_metal",
+    "extend": { "flags": [ "OPAQUE", "SIMPLE_PART" ] },
+    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO", "WINDOW" ] },
+    "damage_reduction": { "all": 7 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_sliding",
+    "copy-from": "door_trunk",
+    "name": { "str": "sliding door" },
+    "looks_like": "door",
+    "durability": 150,
+    "description": "A door.  A window lets you see through it when closed.",
+    "item": "frame",
+    "breaks_into": "ig_vp_frame",
+    "delete": { "flags": [ "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW" ] }
   }
 ]

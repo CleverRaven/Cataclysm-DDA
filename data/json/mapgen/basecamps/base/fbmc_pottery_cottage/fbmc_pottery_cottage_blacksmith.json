@@ -13,7 +13,7 @@
         "w.... ",
         "wwwww "
       ],
-      "palettes": [ "fbmh_log_palette" ]
+      "palettes": [ "fbmh_0_log_palette" ]
     }
   },
   {
@@ -30,7 +30,7 @@
         "w.... ",
         "wwwww "
       ],
-      "palettes": [ "fbmh_metal_palette" ]
+      "palettes": [ "fbmh_0_metal_palette" ]
     }
   },
   {
@@ -47,7 +47,7 @@
         "w.... ",
         "wwwww "
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": [ "fbmh_0_migo_resin_palette" ]
     }
   },
   {
@@ -64,7 +64,7 @@
         "w.... ",
         "wwwww "
       ],
-      "palettes": [ "fbmh_rammed_earth_palette" ]
+      "palettes": [ "fbmh_0_rammed_earth_palette" ]
     }
   },
   {
@@ -81,7 +81,7 @@
         "w.... ",
         "wwwww "
       ],
-      "palettes": [ "fbmh_rock_palette" ]
+      "palettes": [ "fbmh_0_rock_palette" ]
     }
   },
   {
@@ -98,7 +98,7 @@
         "w.... ",
         "wwwww "
       ],
-      "palettes": [ "fbmh_wad_palette" ]
+      "palettes": [ "fbmh_0_wad_palette" ]
     }
   },
   {
@@ -115,7 +115,7 @@
         "w.... ",
         "wwwww "
       ],
-      "palettes": [ "fbmh_wood_palette" ]
+      "palettes": [ "fbmh_0_wood_palette" ]
     }
   },
   {

@@ -95,7 +95,7 @@
       { "group": "gunmod_energy", "prob": 40 },
       { "item": "plut_cell", "prob": 30, "charges": [ 1, 5 ] },
       [ "plasma", 30 ],
-      [ "UPS_off", 20 ]
+      [ "UPS_OFF", 20 ]
     ]
   },
   {
@@ -512,7 +512,7 @@
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
       [ "rope_30", 5 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 10 ],
       [ "leotard", 5 ],
       [ "cheerleader_skirt", 5 ],
@@ -594,7 +594,7 @@
       [ "screwdriver", 40 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "manual_electronics", 20 ],
-      [ "mobile_memory_card", 20 ],
+      [ "memory_card_unread", 20 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
       [ "survnote", 1 ]
@@ -632,7 +632,7 @@
       { "item": "scuba_tank", "prob": 5, "charges": [ 0, 60 ] },
       { "item": "small_scuba_tank", "prob": 5, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],
-      { "item": "rebreather", "prob": 2, "charges": [ 0, 60 ] },
+      { "item": "rebreather", "prob": 2, "ammo-item": "rebreather_cartridge", "charges": 100 },
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
       [ "hand_pump", 10 ],
@@ -696,9 +696,7 @@
       [ "receiver", 25 ],
       [ "small_lcd_screen", 10 ],
       [ "large_lcd_screen", 10 ],
-      [ "mobile_memory_card", 35 ],
-      [ "mobile_memory_card_used", 35 ],
-      [ "mobile_memory_card_encrypted", 35 ],
+      [ "memory_card_unread", 80 ],
       { "item": "radiocontrol", "prob": 15, "charges-min": 0, "charges-max": 25 },
       { "item": "radio_car", "prob": 15, "charges-min": 0, "charges-max": 25 },
       [ "RAM", 45 ],
@@ -956,7 +954,7 @@
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
       [ "atomic_light", 1 ],
       { "item": "eink_tablet_pc", "prob": 1, "charges": [ 0, 100 ] },
-      [ "mobile_memory_card", 5 ],
+      [ "memory_card_unread", 5 ],
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 35, "charges-min": 0 },
       [ "cotton_patchwork", 1 ],
@@ -992,8 +990,8 @@
     "type": "item_group",
     "id": "sewer",
     "items": [
-      [ "mutagen", 8 ],
-      [ "fetus", 1 ],
+      [ "crack", 8 ],
+      { "group": "book_mag_tech", "prob": 20 },
       [ "joint", 20 ],
       [ "mag_porn", 20 ],
       [ "cotton_patchwork", 1 ],
@@ -1007,7 +1005,7 @@
       [ "55gal_drum", 10 ],
       [ "30gal_drum", 15 ],
       { "group": "tools_toolbox", "prob": 1 },
-      [ "recipe_elfa", 2 ]
+      [ "decoy_elfa", 2 ]
     ]
   },
   {
@@ -1366,7 +1364,7 @@
       { "item": "jackhammer", "prob": 2, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 1, "charges": [ 0, 7920 ] },
       [ "dynamite", 5 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, 500 ] },
@@ -1832,7 +1830,7 @@
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 4, "charges": [ 0, 50 ] },
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
       [ "flyer", 10 ],
       [ "hazmat_suit", 5 ],
       [ "e_tool", 5 ],
@@ -1925,8 +1923,8 @@
       { "item": "cell_phone", "prob": 7, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 54, "charges": [ 0, 150 ] },
       { "item": "eink_tablet_pc", "prob": 15, "charges": [ 0, 100 ] },
-      [ "mobile_memory_card", 40 ],
-      [ "mobile_memory_card_science", 10 ],
+      [ "memory_card_unread", 40 ],
+      [ "memory_card_science", 10 ],
       [ "standard_template_construct", 5 ],
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
@@ -2059,7 +2057,7 @@
       [ "frisbee", 10 ],
       [ "disc_golf", 10 ],
       [ "pom_poms", 10 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 1 ],

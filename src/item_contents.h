@@ -114,6 +114,10 @@ class item_contents
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
 
+        // returns all the ablative armor in pockets
+        std::list<item *> all_ablative_armor();
+        std::list<const item *> all_ablative_armor() const;
+
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */
@@ -127,6 +131,9 @@ class item_contents
 
         std::vector<item *> ebooks();
         std::vector<const item *> ebooks() const;
+
+        std::vector<item *> cables( bool active_only = false );
+        std::vector<const item *> cables( bool active_only = false ) const;
 
         void update_modified_pockets( const std::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
@@ -180,6 +187,8 @@ class item_contents
         std::vector<item_pocket *> get_all_contained_pockets();
         std::vector<const item_pocket *> get_all_standard_pockets() const;
         std::vector<item_pocket *> get_all_standard_pockets();
+        std::vector<const item_pocket *> get_all_ablative_pockets() const;
+        std::vector<item_pocket *> get_all_ablative_pockets();
         std::vector<const item_pocket *>
         get_pockets( std::function<bool( item_pocket const & )> const &filter ) const;
         std::vector<item_pocket *>
@@ -238,7 +247,7 @@ class item_contents
          * volume, length, weight, ammo type, and all other physical restrictions.  This is
          * synonymous with the success of item_contents::can_contain with that item.
          *
-         * For the MOD, CORPSE, SOFTWARE, and MIGRATION pocket types, if contents have such a
+         * For the MOD, CORPSE, SOFTWARE, CABLE, and MIGRATION pocket types, if contents have such a
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */

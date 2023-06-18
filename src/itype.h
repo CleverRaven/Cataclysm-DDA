@@ -97,7 +97,6 @@ class gunmod_location
 struct islot_tool {
     std::set<ammotype> ammo_id;
 
-    std::optional<itype_id> revert_to;
     translation revert_msg;
 
     itype_id subtype;
@@ -1084,6 +1083,23 @@ class islot_milling
         void deserialize( const JsonObject &jo );
 };
 
+struct memory_card_info {
+    float data_chance;
+    itype_id on_read_convert_to;
+
+    float photos_chance;
+    int photos_amount;
+
+    float songs_chance;
+    int songs_amount;
+
+    float recipes_chance;
+    int recipes_amount;
+    int recipes_level_min;
+    int recipes_level_max;
+    std::set<std::string> recipes_categories;
+};
+
 struct itype {
         friend class Item_factory;
         friend struct mod_tracker;
@@ -1155,7 +1171,7 @@ struct itype {
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
 
-        // What item this item repairs like if it doesn't have a recipe
+        // Rather than use its own materials to determine repair difficulty, the item uses this item's materials
         itype_id repairs_like;
 
         std::string snippet_category;
@@ -1242,6 +1258,8 @@ struct itype {
         FlagsSetType item_tags;
 
     public:
+        // memory card related per-type static data
+        cata::value_ptr<memory_card_info> memory_card_data;
         // How should the item explode
         explosion_data explosion;
 
@@ -1266,8 +1284,14 @@ struct itype {
 
         phase_id phase = phase_id::SOLID; // e.g. solid, liquid, gas
 
-        /** Default countdown interval (if any) for item */
-        int countdown_interval = 0;
+        /** If positive starts countdown to countdown_action at item creation */
+        time_duration countdown_interval = 0_seconds;
+
+        /**
+        * If set the item will revert to this after countdown. If not set the item is deleted.
+        * Tools revert to this when they run out of charges
+        */
+        std::optional<itype_id> revert_to;
 
         /**
         * Space occupied by items of this type
@@ -1332,9 +1356,6 @@ struct itype {
 
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
-
-        /** Is item destroyed after the countdown action is run? */
-        bool countdown_destroy = false;
 
         // used for generic_factory for copy-from
         bool was_loaded = false;

@@ -280,5 +280,19 @@
     "material": [ "rubber", "steel" ],
     "symbol": "o",
     "color": "dark_gray"
+  },
+  {
+    "id": "armor_star_samurai_helmet_destroyed",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "destroyed ryūsei kabuto" },
+    "description": "A conical shaped massive slab of inscrutable rock now in two pieces, strange metallic tubes visibly on display.  Something seems to have cracked it from the inside out.",
+    "weight": "150 kg",
+    "volume": "4000 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
+    "symbol": ",",
+    "color": "dark_gray"
   }
 ]

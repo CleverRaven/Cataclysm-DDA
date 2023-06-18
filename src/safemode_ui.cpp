@@ -404,15 +404,15 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 }
             } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == Categories::SOUND ||
                        !current_tab[line].whitelist ) ) {
-                const auto text = string_input_popup()
-                                  .title( _( "Proximity Distance (0=max view distance)" ) )
-                                  .width( 4 )
-                                  .text( std::to_string( current_tab[line].proximity ) )
-                                  .description( _( "Option: " ) + std::to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
-                                                " " + get_options().get_option( "SAFEMODEPROXIMITY" ).getDefaultText() )
-                                  .max_length( 3 )
-                                  .only_digits( true )
-                                  .query_string();
+                const std::string text = string_input_popup()
+                                         .title( _( "Proximity Distance (0=max view distance)" ) )
+                                         .width( 4 )
+                                         .text( std::to_string( current_tab[line].proximity ) )
+                                         .description( _( "Option: " ) + std::to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
+                                                       " " + get_options().get_option( "SAFEMODEPROXIMITY" ).getDefaultText() )
+                                         .max_length( 3 )
+                                         .only_digits( true )
+                                         .query_string();
                 if( text.empty() ) {
                     current_tab[line].proximity = get_option<int>( "SAFEMODEPROXIMITY" );
                 } else {
@@ -811,7 +811,7 @@ void safemode::load( const bool is_character_in )
 {
     is_character = is_character_in;
 
-    cata::ifstream fin;
+    std::ifstream fin;
     cata_path file = PATH_INFO::safemode();
     if( is_character ) {
         file = PATH_INFO::player_base_save_path_path() + ".sfm.json";

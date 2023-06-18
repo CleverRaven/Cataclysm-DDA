@@ -248,8 +248,10 @@ void DynamicDataLoader::initialize()
     add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
     add( "jmath_function", &jmath_func::load_func );
+    add( "var_migration", &global_variables::load_migrations );
     add( "connect_group", &connect_group::load );
-    add( "fault", &fault::load_fault );
+    add( "fault", &fault::load );
+    add( "fault_fix", &fault_fix::load );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
@@ -499,16 +501,14 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
     // the first loaded mode might provide a vehicle that uses that frame
     // But not the other way round.
 
-    // get a list of all files in the directory
-    std::vector<cata_path> files = get_files_from_path( ".json", path, true, true );
-    if( files.empty() ) {
-        cata::ifstream tmp( path.get_unrelative_path(), std::ios::in );
-        if( tmp ) {
-            // path is actually a file, don't checking the extension,
-            // assume we want to load this file anyway
-            files.push_back( path );
-        }
+    std::vector<cata_path> files;
+    if( dir_exist( path.get_unrelative_path() ) ) {
+        const std::vector<cata_path> dir_files = get_files_from_path( ".json", path, true, true );
+        files.insert( files.end(), dir_files.begin(), dir_files.end() );
+    } else if( file_exist( path.get_unrelative_path() ) ) {
+        files.emplace_back( path );
     }
+
     // iterate over each file
     for( const cata_path &file : files ) {
         try {
@@ -574,6 +574,7 @@ void DynamicDataLoader::unload_data()
     effect_on_conditions::reset();
     event_transformation::reset();
     faction_template::reset();
+    fault_fix::reset();
     fault::reset();
     field_types::reset();
     gates::reset();
@@ -745,6 +746,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Achievements" ), &achievement::finalize },
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
+            { _( "Fault fixes" ), &fault_fix::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -795,8 +797,10 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Materials" ), &materials::check },
-            { _( "Engine faults" ), &fault::check_consistency },
+            { _( "Faults" ), &fault::check_consistency },
+            { _( "Fault fixes" ), &fault_fix::check_consistency },
             { _( "Vehicle parts" ), &vpart_info::check },
+            { _( "Vehicle part migrations" ), &vpart_migration::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
             { _( "Mapgen palettes" ), &mapgen_palette::check_definitions },
             {

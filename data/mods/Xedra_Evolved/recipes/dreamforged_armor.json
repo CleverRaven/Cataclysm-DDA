@@ -4,11 +4,11 @@
     "activity_level": "ACTIVE_EXERCISE",
     "result": "dreamforged_ballistic_plate",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_armor" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
-    "time": "18 h",
+    "time": "6 h",
     "skill_used": "deduction",
     "difficulty": 4,
-    "//": "TODO: add proficiency for armor dreamforging",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ARMOR"
@@ -18,8 +18,9 @@
     "result": "dreamforged_ballistic_plate_small",
     "activity_level": "ACTIVE_EXERCISE",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_armor" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
-    "time": "14 h",
+    "time": "5 h",
     "skill_used": "deduction",
     "difficulty": 4,
     "flags": [ "SECRET" ],
@@ -31,6 +32,7 @@
     "name": "dreamforged full helmet",
     "id": "dreamforged_fullhelmet_ench",
     "activity_level": "ACTIVE_EXERCISE",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_fullhelmet_ench",
@@ -38,25 +40,27 @@
       }
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_armor" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
-    "time": "2 d 5 h",
+    "time": "16 h",
     "skill_used": "deduction",
     "difficulty": 5,
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_WEAPONS"
+    "subcategory": "CSC_XEDRA_ARMOR"
   },
   {
     "type": "recipe",
     "name": "dreamforged helmet",
     "id": "dreamforged_helmet_ench",
     "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_helmet_ench", "effect": [ { "u_spawn_item": "dreamforged_helmet_ench", "use_item_group": true } ] }
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
-    "time": "1 d 18 h",
+    "time": "8 h",
     "difficulty": 4,
     "flags": [ "SECRET" ]
   },
@@ -65,6 +69,7 @@
     "name": "dreamforged plate armor",
     "id": "dreamforged_plate_armor_ench",
     "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_plate_armor_ench",
@@ -73,7 +78,7 @@
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 8 ] ] ],
-    "time": "3 d 19 h",
+    "time": "22 h",
     "flags": [ "SECRET" ],
     "difficulty": 7
   },
@@ -82,6 +87,7 @@
     "name": "dreamforged plate armor",
     "id": "dreamforged_armguard_plate_ench",
     "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_armguard_plate_ench",
@@ -90,7 +96,7 @@
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "1 d 14 h",
+    "time": "11 h",
     "flags": [ "SECRET" ],
     "difficulty": 5
   },
@@ -99,12 +105,13 @@
     "name": "dreamforged boots",
     "id": "dreamforged_boots_ench",
     "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_boots_ench", "effect": [ { "u_spawn_item": "dreamforged_boots_ench", "use_item_group": true } ] }
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "1 d 17 h",
+    "time": "12 h",
     "flags": [ "SECRET" ],
     "difficulty": 5
   },
@@ -113,8 +120,13 @@
     "activity_level": "ACTIVE_EXERCISE",
     "result": "dreamforged_helmet_berserker",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_dreamsmithing" },
+      { "proficiency": "prof_dreamsmithing_armor" },
+      { "proficiency": "prof_dreamsmithing_peak" }
+    ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
-    "time": "2 d 19 h",
+    "time": "1 d 1 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "flags": [ "SECRET" ],
@@ -127,7 +139,7 @@
     "result": "dreamforged_armguard_plate_berserk",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "3 d 5 h",
+    "time": "1 d 5 h",
     "flags": [ "SECRET" ],
     "difficulty": 8
   },
@@ -137,7 +149,7 @@
     "result": "dreamforged_boots_berserk",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "3 d 3 h",
+    "time": "1 d 3 h",
     "flags": [ "SECRET" ],
     "difficulty": 7
   },
@@ -147,7 +159,7 @@
     "result": "dreamforged_fullhelmet_arcane",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "3 d 9 h",
+    "time": "1 d 9 h",
     "flags": [ "SECRET" ],
     "difficulty": 7
   },
@@ -157,7 +169,7 @@
     "result": "dreamforged_armguard_plate_gunslinger",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
-    "time": "6 d 6 h",
+    "time": "2 d 6 h",
     "flags": [ "SECRET" ],
     "difficulty": 6
   }

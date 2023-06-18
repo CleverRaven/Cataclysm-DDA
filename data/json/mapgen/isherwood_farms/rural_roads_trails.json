@@ -387,19 +387,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "special_field",
+    "om_terrain": "pasture",
     "object": { "predecessor_mapgen": "field" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "special_forest",
-    "object": { "predecessor_mapgen": "forest" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "special_forest_thick",
-    "object": { "predecessor_mapgen": "forest_thick" }
   }
 ]

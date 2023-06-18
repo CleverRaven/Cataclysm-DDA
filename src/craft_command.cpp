@@ -300,9 +300,9 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                                     iname = tmp_i.tname( 1U, true );
                                 }
                                 if( const std::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
-                                    veh_items.emplace_back( std::pair<const vpart_reference, item>( vp.value(), tmp_i ) );
+                                    veh_items.emplace_back( vp.value(), tmp_i );
                                 } else {
-                                    map_items.emplace_back( std::pair<const tripoint, item>( p, tmp_i ) );
+                                    map_items.emplace_back( p, tmp_i );
                                 }
                             }
                             if( cont_not_empty && ( no_prompt || !query_yn( liq_cont_msg, iname ) ) ) {

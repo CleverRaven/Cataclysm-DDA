@@ -1617,6 +1617,20 @@ std::list<const item *> item_contents::all_known_contents() const
     } );
 }
 
+std::list<item *> item_contents::all_ablative_armor()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
+std::list<const item *> item_contents::all_ablative_armor() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
 item &item_contents::legacy_front()
 {
     if( empty() ) {
@@ -1719,6 +1733,36 @@ std::vector<const item *> item_contents::ebooks() const
         }
     }
     return ebooks;
+}
+
+std::vector<item *> item_contents::cables( bool active_only )
+{
+    std::vector<item *> cables;
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CABLE ) ) {
+            for( item *it : pocket.all_items_top() ) {
+                if( !active_only || it->active ) {
+                    cables.emplace_back( it );
+                }
+            }
+        }
+    }
+    return cables;
+}
+
+std::vector<const item *> item_contents::cables( bool active_only ) const
+{
+    std::vector<const item *> cables;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CABLE ) ) {
+            for( const item *it : pocket.all_items_top() ) {
+                if( !active_only || it->active ) {
+                    cables.emplace_back( it );
+                }
+            }
+        }
+    }
+    return cables;
 }
 
 void item_contents::update_modified_pockets(
@@ -1886,10 +1930,25 @@ std::vector<item_pocket *> item_contents::get_all_standard_pockets()
     } );
 }
 
+std::vector<const item_pocket *> item_contents::get_all_ablative_pockets() const
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
+std::vector<item_pocket *> item_contents::get_all_ablative_pockets()
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
 std::vector<const item *> item_contents::get_added_pockets() const
 {
     std::vector<const item *> items_added;
 
+    items_added.reserve( additional_pockets.size() );
     for( const item &it : additional_pockets ) {
         items_added.push_back( &it );
     }
@@ -1912,6 +1971,7 @@ void item_contents::add_pocket( const item &pocket_item )
     additional_pockets_volume += total_nonrigid_volume;
     additional_pockets_space_used += pocket_item.get_pocket_size();
     additional_pockets.push_back( pocket_item );
+    additional_pockets.back().clear_items();
 
 }
 

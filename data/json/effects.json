@@ -424,6 +424,15 @@
   },
   {
     "type": "effect_type",
+    "id": "grabbing_gastropod_foot",
+    "name": [ "Grabbing G. Foot" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "desc": [ "You're grabbing the snail like lower body of somebody." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
     "id": "grabbing_appendix",
     "name": [ "Grabbing" ],
     "show_in_info": true,
@@ -509,6 +518,13 @@
   },
   {
     "type": "effect_type",
+    "id": "maimed_arm",
+    "name": [ "Broken Arm" ],
+    "//": "Disables base grabs and scratches",
+    "desc": [ "Your arms are broken.  Your imaginary monster arms, so this is probably a bug." ]
+  },
+  {
+    "type": "effect_type",
     "id": "maimed_mandible",
     "name": [ "Maimed Mandibles" ],
     "//": "Given by weakpoints, used to disable bites if specified in the bite def",
@@ -535,6 +551,12 @@
     "//": "Hardcoded effect handled by monster::flies via effect flag",
     "desc": [ "Your wings are useless, robbing you of unlimited flight." ],
     "flags": [ "DISABLE_FLIGHT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "stumbled_into_invisible",
+    "name": [ "Stumbled Into Invisible Player" ],
+    "desc": [ "This creature has stumbled into an invisible player and is now aware of their presence." ]
   },
   {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
@@ -2522,7 +2544,7 @@
     "desc": [ "You're covered in thick goo!" ],
     "apply_message": "You're covered in thick goo!",
     "rating": "bad",
-    "miss_messages": [ [ "This goo makes you slip", 2 ] ],
+    "miss_messages": [ [ "This goo makes you slip.", 2 ] ],
     "base_mods": { "dex_mod": [ -2 ], "speed_mod": [ -25 ], "vomit_chance": [ 2100 ] },
     "show_in_info": true,
     "limb_score_mods": [
@@ -4191,5 +4213,53 @@
     "desc": [ "You are covered in glowing nether spores!" ],
     "apply_message": "The glowing spores settle on you!",
     "rating": "bad"
+  },
+  {
+    "id": "lightsnare",
+    "type": "effect_type",
+    "name": [ "Snared" ],
+    "desc": [ "For such a tiny creature, you're in a very big pickle." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "//": "Don't multiply speed by 0 or else the effect will never be removed for creatures with 0 damage(e.g. rabbits)",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "molting",
+    "name": [ "Molting" ],
+    "desc": [ "You feel a strong urge to hide somewhere safe." ],
+    "apply_message": "Your chitin plating itches against your body.",
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 15 ]
+    },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.95 }, { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "molting_imminent",
+    "name": [ "Imminent Molting" ],
+    "desc": [ "Seek shelter, you will be helpless when it begins." ],
+    "apply_message": "You can hardly move in your tightening exoskeleton, and you feel a strong impulse to hunker down somewhere safe.",
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -2 ],
+      "dex_mod": [ -3 ],
+      "str_mod": [ -3 ],
+      "speed_mod": [ -30 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 35 ]
+    },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.75 }, { "limb_score": "manip", "modifier": 0.75 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

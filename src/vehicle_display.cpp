@@ -34,122 +34,99 @@ std::string vehicle::disp_name() const
     return string_format( _( "the %s" ), name );
 }
 
-char vehicle::part_sym( const int p, const bool exact, const bool include_fake ) const
+vpart_display::vpart_display()
+    : id( vpart_id::NULL_ID() )
+    , variant( vpart_id::NULL_ID()->variants.begin()->second ) {}
+
+vpart_display::vpart_display( const vehicle_part &vp )
+    : id( vp.info().get_id() )
+    , variant( vp.info().variants.at( vp.variant ) ) {}
+
+std::string vpart_display::get_tileset_id() const
 {
-    if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
-        return ' ';
+    std::string res;
+    const size_t variant_size = variant.id.size();
+    res.reserve( 4 + id.str().size() + variant_size );
+    res.append( "vp_" );
+    res.append( id.str() );
+    if( variant_size > 0 ) {
+        res.append( 1, vehicles::variant_separator );
+        res.append( variant.id );
     }
-
-    int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
-    if( displayed_part == -1 ) {
-        displayed_part = p;
-    }
-
-    const vehicle_part &vp = parts.at( displayed_part );
-    const vpart_info &vp_info = part_info( displayed_part );
-
-    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && vp.open ) {
-        // open door
-        return '\'';
-    } else {
-        if( vp.is_broken() ) {
-            return vp_info.sym_broken;
-        } else if( vp.variant.empty() ) {
-            return vp_info.sym;
-        } else {
-            const auto vp_symbol = vp_info.symbols.find( vp.variant );
-            if( vp_symbol == vp_info.symbols.end() ) {
-                return vp_info.sym;
-            } else {
-                return vp_symbol->second;
-            }
-        }
-    }
+    return res;
 }
 
-// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
-// during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
-// second denotes if it is open or damaged
-std::string vehicle::part_id_string( const int p, char &part_mod, bool below_roof, bool roof ) const
+vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool include_fake,
+        bool below_roof, bool roof ) const
 {
-    part_mod = 0;
-    if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
-        return "";
+    const int part_idx = part_displayed_at( dp, include_fake, below_roof, roof );
+    if( part_idx == -1 ) {
+        debugmsg( "no display part at mount (%d, %d)", dp.x, dp.y );
+        return {};
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount, true, below_roof, roof );
-    if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
-        parts[ displayed_part ].removed ) {
-        return "";
+    const vehicle_part &vp = part( part_idx );
+    const vpart_info &vpi = vp.info();
+
+    auto variant_it = vpi.variants.find( vp.variant );
+    if( variant_it == vpi.variants.end() ) {
+        // shouldn't happen but just in case...
+        variant_it = vpi.variants.begin();
+        const std::string fallback_variant = variant_it->first;
+        debugmsg( "part '%s' uses non-existent variant '%s' setting to '%s'",
+                  vpi.get_id().str(), vp.variant, fallback_variant );
+        vehicle_part &vp_cast = const_cast<vehicle_part &>( vp );
+        vp_cast.variant = fallback_variant;
     }
+    const vpart_variant &vv = variant_it->second;
 
-    const vehicle_part &vp = parts.at( displayed_part );
+    vpart_display ret( vp );
+    ret.is_broken = vp.is_broken();
+    ret.is_open = vp.open && vpi.has_flag( VPFLAG_OPENABLE );
+    ret.color = ret.is_broken ? vpi.color_broken : vpi.color;
 
-    if( part_flag( displayed_part, VPFLAG_OPENABLE ) && vp.open ) {
-        // open
-        part_mod = 1;
-    } else if( vp.is_broken() ) {
-        // broken
-        part_mod = 2;
-    }
-
-    return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
-}
-
-nc_color vehicle::part_color( const int p, const bool exact, const bool include_fake ) const
-{
-    if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
-        return c_black;
-    }
-
-    nc_color col;
-
-    int parm = -1;
-
-    //If armoring is present and the option is set, it colors the visible part
-    if( get_option<bool>( "VEHICLE_ARMOR_COLOR" ) ) {
-        parm = part_with_feature( p, VPFLAG_ARMOR, false );
-    }
-
-    if( parm >= 0 ) {
-        col = part_info( parm ).color;
+    if( ret.is_open ) { // open door (or similar OPENABLE part)
+        ret.symbol = '\'';
+        ret.symbol_curses = '\'';
     } else {
-        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
-
-        if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ) {
-            return c_black;
-        }
-        if( parts[displayed_part].blood > 200 ) {
-            col = c_red;
-        } else if( parts[displayed_part].blood > 0 ) {
-            col = c_light_red;
-        } else if( parts[displayed_part].is_broken() ) {
-            col = part_info( displayed_part ).color_broken;
-        } else {
-            col = part_info( displayed_part ).color;
-        }
-
+        const units::angle direction = rotate ? 270_degrees - face.dir() : 0_degrees;
+        ret.symbol = vv.get_symbol( direction, ret.is_broken );
+        ret.symbol_curses = vpart_variant::get_symbol_curses( ret.symbol );
     }
 
-    if( exact ) {
-        return col;
-    }
-
-    // curtains turn windshields gray
-    int curtains = part_with_feature( p, VPFLAG_CURTAIN, false );
+    // curtain color override
+    const int curtains = part_with_feature( dp, VPFLAG_CURTAIN, true );
     if( curtains >= 0 ) {
-        if( part_with_feature( p, VPFLAG_WINDOW, true ) >= 0 && !parts[curtains].open ) {
-            col = part_info( curtains ).color;
+        const vehicle_part &vp_curtain = parts[curtains];
+        if( !vp_curtain.open && part_with_feature( dp, VPFLAG_WINDOW, true ) >= 0 ) {
+            ret.color = vp_curtain.info().color;
         }
     }
 
-    //Invert colors for cargo parts with stuff in them
-    int cargo_part = part_with_feature( p, VPFLAG_CARGO, true );
-    if( cargo_part > 0 && !get_items( cargo_part ).empty() ) {
-        return invert_color( col );
-    } else {
-        return col;
+    // armor color override
+    if( get_option<bool>( "VEHICLE_ARMOR_COLOR" ) ) {
+        const int parm = part_with_feature( dp, VPFLAG_ARMOR, true );
+        if( parm != -1 ) {
+            const vehicle_part &vp_armor = parts[parm];
+            ret.color = vp_armor.info().color;
+        }
     }
+
+    // blood color override
+    if( vp.blood > 200 ) {
+        ret.color = c_red;
+    } else if( vp.blood > 0 ) {
+        ret.color = c_light_red;
+    }
+
+    // if cargo has items color is inverted
+    const int cargo_part = part_with_feature( dp, VPFLAG_CARGO, true );
+    if( cargo_part >= 0 && !get_items( cargo_part ).empty() ) {
+        ret.has_cargo = true;
+        ret.color = invert_color( ret.color );
+    }
+
+    return ret;
 }
 
 /**

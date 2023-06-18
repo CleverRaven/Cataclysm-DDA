@@ -38,39 +38,88 @@ TEST_CASE( "map_memory_defaults", "[map_memory]" )
 {
     map_memory memory;
     memory.prepare_region( p1, p2 );
-    CHECK( memory.get_symbol( p1 ) == 0 );
-    memorized_terrain_tile default_tile = memory.get_tile( p1 );
-    CHECK( default_tile.tile.empty() );
-    CHECK( default_tile.subtile == 0 );
-    CHECK( default_tile.rotation == 0 );
+    CHECK( memory.get_tile( p1 ).symbol == 0 );
+    memorized_tile default_tile = memory.get_tile( p1 );
+    CHECK( default_tile.symbol == 0 );
+    CHECK( default_tile.get_ter_id().empty() );
+    CHECK( default_tile.get_ter_subtile() == 0 );
+    CHECK( default_tile.get_ter_rotation() == 0 );
+    CHECK( default_tile.get_dec_id().empty() );
+    CHECK( default_tile.get_dec_subtile() == 0 );
+    CHECK( default_tile.get_dec_rotation() == 0 );
 }
 
 TEST_CASE( "map_memory_remembers", "[map_memory]" )
 {
     map_memory memory;
     memory.prepare_region( p1, p2 );
-    memory.memorize_symbol( p1, 1 );
-    memory.memorize_symbol( p2, 2 );
-    CHECK( memory.get_symbol( p1 ) == 1 );
-    CHECK( memory.get_symbol( p2 ) == 2 );
+    memory.set_tile_symbol( p1, 1 );
+    memory.set_tile_symbol( p2, 2 );
+    CHECK( memory.get_tile( p1 ).symbol == 1 );
+    CHECK( memory.get_tile( p2 ).symbol == 2 );
+
+    const memorized_tile &mt = memory.get_tile( p2 );
+
+    memory.set_tile_decoration( p2, "foo", 42, 3 );
+    CHECK( mt.get_dec_id() == "foo" );
+    CHECK( mt.get_dec_subtile() == 42 );
+    CHECK( mt.get_dec_rotation() == 3 );
+    CHECK( mt.get_ter_id().empty() );
+    CHECK( mt.get_ter_subtile() == 0 );
+    CHECK( mt.get_ter_rotation() == 0 );
+
+    memory.set_tile_terrain( p2, "t_foo", 43, 2 );
+    CHECK( mt.get_dec_id() == "foo" );
+    CHECK( mt.get_dec_subtile() == 42 );
+    CHECK( mt.get_dec_rotation() == 3 );
+    CHECK( mt.get_ter_id() == "t_foo" );
+    CHECK( mt.get_ter_subtile() == 43 );
+    CHECK( mt.get_ter_rotation() == 2 );
+
+    memory.set_tile_decoration( p2, "bar", 44, 1 );
+    CHECK( mt.get_dec_id() == "bar" );
+    CHECK( mt.get_dec_subtile() == 44 );
+    CHECK( mt.get_dec_rotation() == 1 );
+    CHECK( mt.get_ter_id() == "t_foo" );
+    CHECK( mt.get_ter_subtile() == 43 );
+    CHECK( mt.get_ter_rotation() == 2 );
 }
 
 TEST_CASE( "map_memory_overwrites", "[map_memory]" )
 {
     map_memory memory;
     memory.prepare_region( p1, p2 );
-    memory.memorize_symbol( p1, 1 );
-    memory.memorize_symbol( p2, 2 );
-    memory.memorize_symbol( p2, 3 );
-    CHECK( memory.get_symbol( p1 ) == 1 );
-    CHECK( memory.get_symbol( p2 ) == 3 );
+    memory.set_tile_symbol( p1, 1 );
+    memory.set_tile_symbol( p2, 2 );
+    memory.set_tile_symbol( p2, 3 );
+    CHECK( memory.get_tile( p1 ).symbol == 1 );
+    CHECK( memory.get_tile( p2 ).symbol == 3 );
 }
 
 TEST_CASE( "map_memory_forgets", "[map_memory]" )
 {
     map_memory memory;
-    memory.memorize_symbol( tripoint_zero, 1 );
-    memory.memorize_symbol( p3, 1 );
+    memory.prepare_region( p1, p2 );
+    memory.set_tile_decoration( p1, "vp_foo", 42, 3 );
+    memory.set_tile_terrain( p1, "t_foo", 43, 2 );
+    const memorized_tile &mt = memory.get_tile( p1 );
+    CHECK( mt.symbol == 0 );
+    CHECK( mt.get_ter_id() == "t_foo" );
+    CHECK( mt.get_ter_subtile() == 43 );
+    CHECK( mt.get_ter_rotation() == 2 );
+    CHECK( mt.get_dec_id() == "vp_foo" );
+    CHECK( mt.get_dec_subtile() == 42 );
+    CHECK( mt.get_dec_rotation() == 3 );
+    memory.set_tile_symbol( p1, 1 );
+    CHECK( mt.symbol == 1 );
+    memory.clear_tile_vehicles( p1 );
+    CHECK( mt.symbol == 0 );
+    CHECK( mt.get_ter_id() == "t_foo" );
+    CHECK( mt.get_ter_subtile() == 43 );
+    CHECK( mt.get_ter_rotation() == 2 );
+    CHECK( mt.get_dec_id().empty() );
+    CHECK( mt.get_dec_subtile() == 0 );
+    CHECK( mt.get_dec_rotation() == 0 );
 }
 
 // TODO: map memory save / load
@@ -81,13 +130,15 @@ TEST_CASE( "lru_cache_perf", "[.]" )
 {
     constexpr int max_size = 1000000;
     lru_cache<tripoint, int> symbol_cache;
-    const auto start1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start1 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < 1000000; ++i ) {
         for( int j = -60; j <= 60; ++j ) {
             symbol_cache.insert( max_size, { i, j, 0 }, 1 );
         }
     }
-    const auto end1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end1 =
+        std::chrono::high_resolution_clock::now();
     const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
                             ( end1 - start1 ).count();
     printf( "completed %d insertions in %lld microseconds.\n", max_size, diff1 );

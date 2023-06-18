@@ -43,6 +43,8 @@ Use the `Home` key to return to the top.
     - [Item Category](#item-category)
     - [Item Properties](#item-properties)
     - [Item Variables](#item-variables)
+    - [Item faults](#item-faults)
+    - [Item fault fixes](#item-fault-fixes)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
       - [Burn data](#burn-data)
@@ -129,6 +131,7 @@ Use the `Home` key to return to the top.
     - [Comestibles](#comestibles)
     - [Containers](#containers)
     - [Melee](#melee)
+    - [Memory Cards](#memory-cards)
     - [Gun](#gun)
     - [Gunmod](#gunmod)
     - [Batteries](#batteries)
@@ -141,6 +144,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+      - [Delayed Item Actions](#delayed-item-actions)
     - [Random Descriptions](#random-descriptions)
 - [`json/` JSONs](#json-jsons)
     - [Harvest](#harvest)
@@ -1343,6 +1347,48 @@ This will make any item instantiated from that prototype get assigned this varia
 the item is spawned the variables set on the prototype no longer affect the item's variables,
 a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
 flag is set.
+
+### Item faults
+
+Faults can be defined for more specialized damage of an item.
+
+```C++
+{
+  "type": "fault",
+  "id": "fault_gun_chamber_spent", // unique id for the fault
+  "name": { "str": "Spent casing in chamber" }, // fault name for display
+  "description": "This gun currently...", // fault description
+  "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
+  "flags": [ "JAMMED_GUN" ] // optional flags, see below
+}
+```
+
+`flags` trigger hardcoded C++ chunks that provide effects, see [JSON_FLAGS.md](JSON_FLAGS.md#faults) for a list of possible flags.
+
+### Item fault fixes
+
+Fault fixes are methods to fix faults, the fixes can optionally add other faults, modify damage, degradation and item variables.
+
+```C++
+{
+  "type": "fault_fix",
+  "id": "mend_gun_fouling_clean", // unique id for the fix
+  "name": "Clean fouling", // name for display
+  "success_msg": "You clean your %s.", // message printed when fix is applied
+  "time": "50 m", // time to apply fix
+  "faults_removed": [ "fault_gun_dirt", "fault_gun_blackpowder" ], // faults removed when fix is applied
+  "faults_added": [ "fault_gun_unlubricated" ], // faults added when fix is applied
+  "skills": { "mechanics": 1 }, // skills required to apply fix
+  "set_variables": { "dirt": "0" }, // sets the variables on the item when fix is applied
+  "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
+  "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
+  "mod_degradation": 50 // degradation to modify on item when fix is applied, can be negative to reduce degradation
+}
+```
+
+`requirements` is an array of requirements, they can be specified in 2 ways:
+* An array specifying an already defined requirement by it's id and a multiplier, `[ "gun_lubrication", 2 ]` will add `gun_lubrication` requirement and multiply the components and tools ammo required by 2.
+* Inline object specifying the requirement in the same way [recipes define it](#recipe-requirements)
 
 ### Materials
 
@@ -2665,13 +2711,8 @@ See [MUTATIONS.md](MUTATIONS.md)
 Vehicle components when installed on a vehicle.
 
 ```C++
-"id": "wheel",                // Unique identifier
+"id": "wheel",                // Unique identifier, must not contain a # symbol
 "name": "wheel",              // Displayed name
-"symbol": "0",                // (Optional) ASCII character displayed when part is working
-"symbols": {                  // (Optional) ASCII characters displayed when the part is working,
-  "left": "0", "right": "0"   // listed by variant suffix.  See below for more on variants
-"standard_symbols": false,     // (Optional) Use the standard ASCII characters for variants
-                              // must have one of symbol, symbols, or standard_symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
 "bonus": 100,                 // Function depends on part type:
@@ -2682,7 +2723,6 @@ Vehicle components when installed on a vehicle.
                               // recharger part charging speed in watts
                               // funnel part water collection area in mm^2
 "color": "dark_gray",         // Color used when part is working
-"broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
 "location": "fuel_source",    // Optional. One of the checks used when determining if a part 
                               // can be installed on a given tile. A part cannot be installed
@@ -2749,29 +2789,31 @@ Vehicle components when installed on a vehicle.
   "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
   "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
 },
+"variants_bases": [ // variant bases to generate (see below)
+  { "id": "scooter", "label": "Scooter" },
+  { "id": "bike", "label": "bike" }
+],
+"variants": [
+    {
+        "id": "front",         // variant id (must be unique in this part)
+        "label": "Front",      // label to display for ui
+        "symbols": "oooooooo", // symbols when part isn't broken
+        "symbols_broken": "x"  // symbols when part is broken
+    },
+    { "id": "rear", "label": "Rear", "symbols": "o", "symbols_broken": "x" }
+]
 ```
 
 #### Symbols and Variants
-Vehicle parts can have multiple identical variants that use different symbols (and potentially
-tileset sprites).  They are declared by the `"standard_symbols"` boolean or the "symbols" object.
-Variants are used in the vehicle prototype as a suffix following the part id (ie `id_variant`), such as `"frame_nw"` or `"halfboard_cover"`.
+Vehicle parts can have cosmetic variants that use different symbols and tileset sprites.  They are declared by the "variants" object.  Variants are used in the vehicle prototype as a suffix following the part id (ie `id#variant`), for example `"frame#nw"` or `"halfboard#cover"`.
 
-setting `"standard_symbols"` to true gives the vehicle the following variants:
-```
-"cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=", "vertical": "j",
-"vertical_2": "H", "ne": "u", "nw": "y", "se": "n", "sw": "b"
-```
+`symbols` and `symbols_broken` can be either a string of 1 character (A 1 character string is effectively 8 of that characters) or 8 characters long. The length is measured in console characters. An 8 character string represents the 8 symbols used for parts which can rotate; `abcdefgh` will put `a` when part is rotated north, `b` for NW, `c` for west, `d` for SW etc.
 
-Otherwise, variants can use any of the following suffices:
-```
-"cover", "cross", "cross_unconnected", "front", "rear", "left," "right",
-"horizontal",  "horizontal_front", "horizontal_front_edge",
-"horizontal_rear", "horizontal_rear_edge",
-"horizontal_2", "horizontal_2_front", "horizontal_2_rear",
-"vertical", "vertical_right", "vertical_left", "vertical_T_right", "vertical_T_left",
-"vertical_2", "vertical_2_right", "vertical_2_left",
-"ne", "nw", "se", "sw", "ne_edge", "nw_edge", "se_edge", "sw_edge"
-```
+A subset of unicode box drawing characters is supported as symbols: `│ ─ ┼ ┌ ┐ ┘ └`, thick vertical and thick horizontal lines `┃ ━` are partially supported, they're rendered as `H` and `=` because there are no equivalents in curses ACS encoding.
+
+Variant bases are for generating extra variants from the specified ones, in the example above will make part loader perform cartesian product between each base and each of the variants, making finalized variants list the following: `[ "front", "rear", "scooter_front", "scooter_rear", "bike_front", "bike_rear" ]`, the base's `label` field is appended to the variant's label.
+
+For more details on how tilesets interact with variants and ids look into [VEHICLES_JSON.md](VEHICLES_JSON.md#part-variants) "Part Variants" section.
 
 Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
 #### The following optional fields are specific to CARGO parts.
@@ -3540,6 +3582,8 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 	// If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
+
+    "inherits_flags": true // if a pocket inherits flags it means any flags that the items inside have contribute to the item that has the pockets itself.
   }
 ]
 ```
@@ -3565,6 +3609,28 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 },
 "flags" : ["CHOP"],    // Indicates special effects
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
+```
+### Memory Cards
+
+Memory card information can be defined on any GENERIC item by adding an object named `memory_card`, this field does not support `extend`/`remove`, only override.
+
+```C++
+"id": "memory_card_unread",
+"name": "memory card (unread)",
+// ...
+"memory_card": {
+  "data_chance": 0.5,                  // 50% chance to contain data
+  "on_read_convert_to": "memory_card", // converted to this itype_id on read
+  "photos_chance": 0.33,               // 33% chance to contain new photos
+  "photos_amount": 3,                  // contains between 1 and 3 new photos
+  "songs_chance": 0.33,                // 33% chance to contain new songs
+  "songs_amount": 4,                   // contains between 1 and 4 new songs
+  "recipes_chance": 0.33,              // 33% chance to contain new recipes
+  "recipes_amount": 5,                 // contains between 1 and 5 new recipes
+  "recipes_level_min": 4,              // recipes will have at least level 4
+  "recipes_level_max": 8,              // recipes will have at most level 8
+  "recipes_categories": [ "CC_FOOD" ]  // recipes from CC_FOOD category
+}
 ```
 
 ### Gun
@@ -3931,6 +3997,24 @@ The contents of use_action fields can either be a string indicating a built-in f
     "moves": 50, // how many move points the action takes.
     "radius": 1 // maximum radius for random npc placement.
 },
+"use_action": {
+    "type": "link_up", // Connect item to a vehicle or appliance, such as plugging a chargeable device into a power source.
+    "cable_type": "generic_device_cable" // The item type of the cable created with this action ( Optional, defaults to "generic_device_cable" ).
+    "cable_length": 5 // Maximum length of the cable ( Optional, defaults to 2 ).
+    "charge_rate": "60 W" // Charge rate in watts. A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
+                          // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
+                          // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid ( Optional, defaults to "0 W" ).
+    "efficiency": 7 // one_in(this) chance to fail adding 1 charge every charge interval ( Optional, defaults to 7, which is around 85% efficiency ).
+    "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect" ).
+    "targets": [ // Array of link_states that are valid connection points of the cable ( Optional, defaults to only allowing disconnection ).
+        "no_link",         // Must be included to allow letting the player manually disconnect the cable.
+        "vehicle_port",    // Can connect to a vehicle's cable ports / electrical controls or an appliance.
+        "vehicle_battery", // Can connect to a vehicle's battery or an appliance.
+        "vehicle_tow",     // Can be used as a tow cable between two vehicles.
+        "bio_cable",       // Can connect to a cable system bionic.
+        "ups",             // Can link to a UPS.
+        "solarpack",       // Can link to a worn solar pack.
+},
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
@@ -4084,7 +4168,44 @@ The contents of use_action fields can either be a string indicating a built-in f
     "description" :"This debugs the game", // usage description
     "effect_on_conditions" : ["test_cond"] // ids of the effect_on_conditions to activate
     }
+"use_action": {
+    "type": "message",      // Displays message text
+    "message": "Read this.",// Message that is shown
+    "name": "Light fuse"    // Optional name for the action. Default "Activate".
+}
 ```
+
+#### Delayed Item Actions
+
+Item use actions can be used with a timer delay.
+
+Item `"transform"` action can set and start the timer. This timer starts when the player activates the item.
+```
+"use_action": {
+    "type": "transform"
+    "target": "grenade_act",
+    "target_timer": "5 seconds"  // Sets timer on item to this
+}
+```
+
+Timer inherent to the item itself can be set by defining `"countdown_interval"` in item json. This timer is started at the birth of the item.
+
+```
+    "id": "migo_plate_undergrown",
+    "name": { "str": "undergrown iridescent carapace plate" },
+    "countdown_interval": "24 hours",
+```
+
+Once the duration of the timer has passed the `"countdown_action"` is executed. This action can be any use action but many actions do not behave well when they are not triggered by the player.
+
+```
+"countdown_action": {
+    "type": "explosion",
+    "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.08 } }
+}
+```
+
+Additionally `"revert_to"` can be defined in item definitions (not in use action). The item is deactivated and turned to this type after the `"countdown_action"`. If no revert_to is specified the item is destroyed.
 
 ### Random Descriptions
 
@@ -5321,6 +5442,16 @@ For overmap specials add an entry to `data/json/obsoletion/migration_overmap_spe
     "new_id": "cs_open_sewer",
     "//": "Removed <when> - this will migrate to 'new_id'"
   },
+```
+
+For EOC/dialogue variables you can use `var_migration`. This currently only migrates **Character**, and **Global** vars. If "to" isn't provided the variable will be migrated to a key of "NULL_VALUE".
+
+```json
+{
+    "type": "var_migration",
+    "from": "temp_var",
+    "to": "new_temp_var"
+}
 ```
 
 For recipes, deleting the recipe is enough.

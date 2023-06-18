@@ -58,8 +58,9 @@
     "time": "5 h",
     "reversible": true,
     "decomp_learn": 4,
+    "//": "80cm weld",
     "book_learn": [ [ "book_icef", 3 ], [ "textbook_mechanics", 3 ], [ "textbook_carpentry", 3 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
+    "using": [ [ "welding_standard", 80 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -85,8 +86,9 @@
     "time": "5 h",
     "reversible": true,
     "decomp_learn": 4,
+    "//": "75cm weld",
     "book_learn": [ [ "book_icef", 3 ], [ "textbook_mechanics", 3 ], [ "textbook_carpentry", 3 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
+    "using": [ [ "welding_standard", 75 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -106,8 +108,9 @@
     "time": "6 h",
     "reversible": true,
     "decomp_learn": 5,
+    "//": "80cm weld",
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "textbook_carpentry", 5 ], [ "book_icef", 6 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
+    "using": [ [ "welding_standard", 80 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -151,8 +154,9 @@
     "difficulty": 5,
     "skills_required": [ "mechanics", 2 ],
     "time": "2 h",
+    "//": "30cm weld",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 5 ], [ "manual_mechanics", 4 ] ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "hose", 1 ] ], [ [ "scrap", 10 ] ] ]
   },
@@ -573,8 +577,9 @@
     "skills_required": [ "mechanics", 2 ],
     "time": "200 m",
     "reversible": true,
+    "//": "50cm weld",
     "book_learn": [ [ "manual_mechanics", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
-    "using": [ [ "welding_standard", 5 ] ],
+    "using": [ [ "welding_standard", 50 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
@@ -631,8 +636,9 @@
     "skills_required": [ [ "mechanics", 2 ], [ "electronics", 2 ] ],
     "time": "6 h",
     "reversible": true,
+    "//": "150cm weld",
     "book_learn": [ [ "adv_chemistry", 5 ], [ "recipe_labchem", 5 ] ],
-    "using": [ [ "welding_standard", 5 ], [ "soldering_standard", 5 ] ],
+    "using": [ [ "welding_standard", 150 ], [ "soldering_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic" },
@@ -672,8 +678,9 @@
     "skills_required": [ [ "mechanics", 8 ], [ "chemistry", 6 ], [ "electronics", 3 ] ],
     "time": "20 h",
     "reversible": true,
+    "//": "220cm weld",
     "book_learn": [ [ "adv_chemistry", 7 ], [ "recipe_labchem", 7 ] ],
-    "using": [ [ "welding_standard", 20 ], [ "soldering_standard", 10 ] ],
+    "using": [ [ "welding_standard", 220 ], [ "soldering_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic" },
@@ -703,7 +710,7 @@
       [ [ "pressure_gauge", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "steel_grille", 16 ] ],
-      [ [ "element", 16 ] ],
+      [ [ "element", 16 ], [ "crude_heating_element", 24 ] ],
       [ [ "cable", 50 ] ]
     ]
   },
@@ -718,8 +725,9 @@
     "skills_required": [ [ "mechanics", 8 ], [ "chemistry", 6 ], [ "electronics", 3 ] ],
     "time": "20 h",
     "reversible": true,
+    "//": "200cm weld",
     "book_learn": [ [ "adv_chemistry", 7 ], [ "recipe_labchem", 7 ] ],
-    "using": [ [ "welding_standard", 20 ], [ "soldering_standard", 10 ] ],
+    "using": [ [ "welding_standard", 200 ], [ "soldering_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic" },
@@ -769,8 +777,9 @@
     "skills_required": [ [ "mechanics", 2 ], [ "electronics", 2 ] ],
     "time": "6 h",
     "reversible": true,
+    "//": "150cm weld",
     "book_learn": [ [ "adv_chemistry", 5 ], [ "recipe_labchem", 5 ] ],
-    "using": [ [ "welding_standard", 5 ], [ "soldering_standard", 5 ] ],
+    "using": [ [ "welding_standard", 150 ], [ "soldering_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic" },
@@ -811,11 +820,12 @@
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 2 ],
     "difficulty": 4,
-    "time": "20 m",
+    "time": "30 m",
     "reversible": true,
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "using": [ [ "welding_standard", 1 ], [ "forging_standard", 1 ] ],
+    "//": "50cm weld",
+    "using": [ [ "welding_standard", 50 ], [ "forging_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -894,11 +904,12 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 m",
+    "//": "20cm weld",
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ] ],
+    "using": [ [ "welding_alloys", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1058,7 +1069,8 @@
     "autolearn": false,
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
-    "using": [ [ "welding_standard", 5 ], [ "blacksmithing_standard", 2 ], [ "steel_standard", 5 ] ],
+    "//": "90cm weld",
+    "using": [ [ "welding_standard", 90 ], [ "blacksmithing_standard", 2 ], [ "steel_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1094,7 +1106,8 @@
     "autolearn": false,
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
-    "using": [ [ "welding_standard", 10 ], [ "blacksmithing_standard", 5 ], [ "steel_standard", 10 ] ],
+    "//": "110cm weld",
+    "using": [ [ "welding_standard", 110 ], [ "blacksmithing_standard", 5 ], [ "steel_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1150,8 +1163,9 @@
     "time": "12 h",
     "autolearn": false,
     "reversible": true,
+    "//": "100cm weld",
     "book_learn": [ [ "textbook_extraction", 3 ] ],
-    "using": [ [ "welding_standard", 10 ], [ "blacksmithing_standard", 5 ] ],
+    "using": [ [ "welding_standard", 100 ], [ "blacksmithing_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1185,8 +1199,9 @@
     "time": "12 h",
     "autolearn": false,
     "reversible": true,
+    "//": "100cm weld",
     "book_learn": [ [ "textbook_extraction", 3 ] ],
-    "using": [ [ "welding_standard", 10 ], [ "blacksmithing_standard", 5 ] ],
+    "using": [ [ "welding_standard", 100 ], [ "blacksmithing_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "HAMMER_FINE", "level": 1 },
@@ -1266,7 +1281,8 @@
     "autolearn": false,
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
-    "using": [ [ "welding_standard", 5 ], [ "blacksmithing_standard", 2 ], [ "steel_standard", 5 ] ],
+    "//": "150cm weld",
+    "using": [ [ "welding_standard", 150 ], [ "blacksmithing_standard", 2 ], [ "steel_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1285,7 +1301,7 @@
       [ [ "hose", 2 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "vac_pump", 1 ] ],
-      [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
+      [ [ "element", 3 ], [ "crude_heating_element", 4 ] ],
       [ [ "sheet_metal", 3 ] ],
       [ [ "glass_sheet", 1 ] ]
     ]
@@ -1347,6 +1363,7 @@
     "skills_required": [ [ "mechanics", 5 ], [ "electronics", 3 ] ],
     "time": "4 h",
     "autolearn": [ [ "mechanics", 5 ], [ "electronics", 3 ] ],
+    "//": "130cm weld",
     "book_learn": [
       [ "manual_mechanics", 3 ],
       [ "textbook_mechanics", 2 ],
@@ -1354,7 +1371,7 @@
       [ "textbook_electronics", 4 ],
       [ "textbook_carpentry", 5 ]
     ],
-    "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 20 ] ],
+    "using": [ [ "welding_standard", 130 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },

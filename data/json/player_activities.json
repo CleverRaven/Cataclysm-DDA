@@ -1013,6 +1013,16 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_DATA_HANDLING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "downloading data",
+    "suspendable": false,
+    "auto_needs": true,
+    "no_resume": true,
+    "based_on": "time"
+  },
+  {
     "id": "ACT_MIGRATION_CANCEL",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -1095,6 +1105,13 @@
     "no_resume": true,
     "refuel_fires": false,
     "auto_needs": false
+  },
+  {
+    "id": "ACT_REEL_CABLE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "reeling cable",
+    "based_on": "speed"
   },
   {
     "id": "ACT_GENERIC_EOC",

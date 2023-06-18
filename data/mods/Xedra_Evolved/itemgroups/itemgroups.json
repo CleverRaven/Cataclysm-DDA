@@ -135,6 +135,34 @@
     ]
   },
   {
+    "id": "kids_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "kids_books",
+    "extend": { "entries": [ { "item": "book_teens_deduction", "prob": 4 } ] }
+  },
+  {
+    "id": "homebooks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "homebooks",
+    "extend": { "entries": [ { "item": "manual_deduction", "prob": 1 }, { "item": "mag_deduction", "prob": 10 } ] }
+  },
+  {
+    "id": "religious_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "religious_books",
+    "extend": { "entries": [ { "item": "book_deduction_black_iron_prison", "prob": 1 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "softdrugs",
+    "subtype": "distribution",
+    "copy-from": "softdrugs",
+    "extend": { "entries": [ { "item": "truckstop_viagra", "prob": 15 } ] }
+  },
+  {
     "type": "item_group",
     "subtype": "distribution",
     "id": "xed_notes",

@@ -23,6 +23,7 @@
       { "item": "tactical_holster", "prob": 20 },
       { "item": "gas_mask_pouch", "prob": 10 },
       { "item": "tactical_grenade_pouch", "prob": 40 },
+      { "item": "tactical_shotshell_pouch", "prob": 40 },
       { "item": "grenade_pouch", "prob": 10 },
       { "item": "triple_stacker_pouch", "prob": 10 },
       { "item": "dump_pouch", "prob": 20 },

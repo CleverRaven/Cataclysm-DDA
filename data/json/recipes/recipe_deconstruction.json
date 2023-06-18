@@ -127,7 +127,7 @@
     "result": "corkscrew",
     "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
     "result": "cufflinks",
@@ -1211,7 +1211,7 @@
       [ [ "gun_module", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "m16a4", 1 ] ],
+      [ [ "modular_m16a4", 1 ] ],
       [ [ "canister_empty", 1 ] ]
     ]
   },
@@ -1716,7 +1716,7 @@
       [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
       [ [ "tazer", 1 ] ],
-      [ [ "m4_carbine", 1 ] ],
+      [ [ "modular_m4_carbine", 1 ] ],
       [ [ "pamd68", 1 ] ],
       [ [ "power_supply", 20 ] ],
       [ [ "amplifier", 5 ] ],
@@ -2146,7 +2146,7 @@
       [ [ "scrap_aluminum", 1 ] ],
       [ [ "light_plus_battery_cell", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
-      [ [ "mobile_memory_card", 1 ] ],
+      [ [ "memory_card", 1 ] ],
       [ [ "processor", 1 ] ]
     ]
   },
@@ -2181,13 +2181,6 @@
   },
   {
     "result": "ceramic_cup",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
-  },
-  {
-    "result": "ceramic_mug",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "3 s",
@@ -2615,14 +2608,6 @@
     "components": [ [ [ "leather", 4 ] ], [ [ "string_6", 3 ] ] ]
   },
   {
-    "result": "fork",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "12 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "glass",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -2648,7 +2633,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 5 ] ] ]
+    "components": [ [ [ "glass_shard", 12 ] ] ]
   },
   {
     "result": "bottle_glass",
@@ -2669,7 +2654,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 3 ] ] ]
   },
   {
     "result": "beaker",
@@ -4094,14 +4079,6 @@
     "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "canister_empty", 1 ] ] ]
   },
   {
-    "result": "spoon",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "12 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "spork",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -4371,7 +4348,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "wine_glass",
@@ -4521,7 +4498,8 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 s",
-    "components": [ [ [ "cotton_patchwork", 1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton", 1 ] ], [ [ "scrap_cotton", 26 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -5035,8 +5013,6 @@
     "result": "pot",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 20 ] ] ]
@@ -5045,11 +5021,9 @@
     "result": "pot_canning",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "5 m",
+    "time": "15 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "steel_lump", 3 ] ], [ [ "steel_chunk", 6 ] ], [ [ "scrap", 10 ] ] ]
   },
   {
     "result": "fluid_preserved_brain",
@@ -7595,5 +7569,13 @@
     "time": "2 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet_canvas", 3 ] ], [ [ "thread_canvas", 40 ] ] ]
+  },
+  {
+    "result": "steel_lump",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 4 ] ] ]
   }
 ]

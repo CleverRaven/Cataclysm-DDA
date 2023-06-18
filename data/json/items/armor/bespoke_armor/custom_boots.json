@@ -4,21 +4,54 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of light survivor boots", "str_pl": "pairs of light survivor boots" },
-    "description": "A pair of customized, Kevlar-armored cloth boots.  Favoring comfort over protection, these boots will keep you moving and agile, even when knee-deep in the dead.",
+    "description": "A pair of custom-made Kevlar-armored boots with a chemical-resistant layer and rubber toes.  Will keep you highly mobile without the worry of zombie acid dissolving your feet.",
     "weight": "1120 g",
     "volume": "2 L",
     "price": 24000,
     "price_postapoc": 5000,
     "to_hit": -1,
-    "material": [ "kevlar", "cotton" ],
+    "material": [ "kevlar", "nomex", "leather" ],
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "green",
     "warmth": 15,
-    "material_thickness": 4,
-    "environmental_protection": 3,
+    "material_thickness": 1.5,
+    "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_arch_r", "foot_arch_l", "foot_heel_r", "foot_heel_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.1 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.1 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 0.6 }
+        ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 5.0 }
+        ],
+        "coverage": 100
+      }
+    ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -43,29 +76,62 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of survivor boots", "str_pl": "pairs of survivor boots" },
-    "description": "A pair of customized leather boots armored with Kevlar.  Balancing comfort and protection, these boots will keep you alive, even when knee-deep in the dead.",
+    "description": "A pair of custom-made boots constructed of thick Kevlar and a chemical resistant layer, featuring steel toes for extra protection.  Keeps your feet safe from the myriad dangers of the apocalypse.",
     "weight": "1330 g",
     "volume": "2500 ml",
     "price": 24000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "material": [ "kevlar", "leather" ],
+    "material": [ "kevlar", "nomex", "leather", "steel" ],
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "brown",
-    "warmth": 15,
-    "material_thickness": 3.5,
-    "environmental_protection": 3,
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 6,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 24, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_arch_r", "foot_arch_l", "foot_heel_r", "foot_heel_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "encumbrance": 20,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "boots_xlsurvivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of XL survivor boots", "str_pl": "pairs of XL survivor boots" },
-    "description": "A massive pair of customized leather boots armored with Kevlar.  Balancing comfort and protection, these boots will keep you alive even when knee-deep in the dead.",
+    "description": "A pair of huge, custom-made boots constructed of thick Kevlar and a chemical resistant layer, featuring steel toes for extra protection.  Keeps your feet safe from the myriad dangers of the apocalypse.",
     "weight": "2460 g",
     "volume": "5 L",
     "price": 24000,
@@ -96,13 +162,50 @@
     "id": "boots_wsurvivor_nofur",
     "type": "ARMOR",
     "name": { "str": "pair of faux fur winter survivor boots", "str_pl": "pairs of faux fur winter survivor boots" },
-    "description": "A pair of customized, Kevlar-armored boots.  Warm thanks to a faux-fur lining, these will keep you alive even when knee-deep in the dead.",
+    "description": "A pair of customized, Kevlar-armored boots with a chemical-resistant layer and steel toes.  Warm thanks to the faux-fur lining, and quite protective due to the thick materials, though perhaps a little hard to move in.",
     "copy-from": "boots_wsurvivor",
-    "material": [ "kevlar", "faux_fur" ],
+    "material": [ "leather", "leather", "nomex", "faux_fur", "steel" ],
     "symbol": "[",
     "warmth": 50,
     "looks_like": "boots_fur",
-    "color": "pink"
+    "color": "pink",
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_arch_r", "foot_arch_l", "foot_heel_r", "foot_heel_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "encumbrance": 35,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "xl_boots_wsurvivor_nofur",
@@ -131,21 +234,57 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of winter survivor boots", "str_pl": "pairs of winter survivor boots" },
-    "description": "A pair of customized, Kevlar-armored boots.  Warm thanks to the real fur lining, these will keep you alive, even when knee-deep in the dead.",
+    "description": "A pair of customized, Kevlar-armored boots with a chemical-resistant layer and steel toes.  Warm thanks to the real fur lining, and quite protective due to the thick materials, though perhaps a little hard to move in.",
     "weight": "1760 g",
     "volume": "3500 ml",
     "price": 24000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "material": [ "kevlar", "fur" ],
+    "material": [ "kevlar", "leather", "nomex", "fur", "steel" ],
     "symbol": "[",
     "looks_like": "boots_fur",
     "color": "light_gray",
     "warmth": 75,
     "material_thickness": 5,
-    "environmental_protection": 5,
+    "environmental_protection": 6,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 38, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_arch_r", "foot_arch_l", "foot_heel_r", "foot_heel_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "fur", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "encumbrance": 35,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "fur", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "fur", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
+      }
+    ],
     "melee_damage": { "bash": 1 }
   },
   {
