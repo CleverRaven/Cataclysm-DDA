@@ -436,7 +436,16 @@
     "symbol": "#",
     "description": "A standard gas-powered oven, commonly used for heating and cooking food.  This one has an attached microwave.  With the state of nearby gas lines unknown, it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out.",
     "color": "dark_gray",
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT", "SMALL_HIDE" ],
+    "flags": [
+      "PLACE_ITEM",
+      "TRANSPARENT",
+      "EASY_DECONSTRUCT",
+      "CONTAINER",
+      "BLOCKSDOOR",
+      "MOUNTABLE",
+      "NO_SELF_CONNECT",
+      "SMALL_HIDE"
+    ],
     "deconstruct": { "items": [ { "item": "microwave", "count": 1 } ], "furn_set": "f_gas_oven" },
     "bash": {
       "str_min": 8,
