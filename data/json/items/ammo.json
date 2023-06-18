@@ -1132,11 +1132,11 @@
     "symbol": "=",
     "color": "white",
     "description": "Granulated mixture of slaked lime, potassium hydroxide and/or sodium hydroxide that is used as CO2 scrubbing agent in rebreathers.",
-    "volume": "500 ml",
-    "weight": "24 g",
-    "//": "Density is 2.48 g/cm3, decreased to account for its granularity",
+    "volume": "5 ml",
+    "weight": "12 g",
+    "//": "Density is 2.48 g/cm3, rounded down to account for its granularity",
     "ammo_type": "rebreather_filter",
-    "count": 50
+    "count": 100
   },
   {
     "type": "AMMO",
@@ -1148,7 +1148,7 @@
     "material": [ "powder" ],
     "symbol": "=",
     "color": "white",
-    "description": "Potassium superoxide powder, used as oxygen regenerating agent in rebreathers. Keep away from water.",
+    "description": "Potassium superoxide powder, used as oxygen regenerating agent in rebreathers.  Keep away from water.",
     "volume": "100 ml",
     "weight": "21 g",
     "//": "Density is 2.14 g/cm3, rounded down to account for it being powder",
