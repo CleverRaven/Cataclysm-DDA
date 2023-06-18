@@ -1831,9 +1831,11 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
             if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pos ) ) {
                 return 0;
             }
+			
+			avatar &player = get_avatar();
 
             int success = -50;
-            const float surv = p->get_skill_level( skill_survival );
+            const float surv = player.get_skill_level( skill_survival );
             const int attempts = rng( it->ammo_remaining(), it->ammo_remaining() * it->ammo_remaining() );
             for( int i = 0; i < attempts; i++ ) {
                 /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
@@ -1859,7 +1861,7 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
 
             if( fishes == 0 ) {
                 it->ammo_consume( it->ammo_remaining(), pos, p );
-                p->practice( skill_survival, rng( 5, 15 ) );
+                player.practice( skill_survival, rng( 5, 15 ) );
 
                 return 0;
             }
@@ -1868,7 +1870,7 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
             std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
             std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
             for( int i = 0; i < fishes; i++ ) {
-                p->practice( skill_survival, rng( 3, 10 ) );
+                player.practice( skill_survival, rng( 3, 10 ) );
                 if( !fishables.empty() ) {
                     monster *chosen_fish = random_entry( fishables );
                     // reduce the abstract fish_population marker of that fish
