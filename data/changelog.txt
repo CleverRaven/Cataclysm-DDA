@@ -84,6 +84,8 @@ Open multiple containers in Advanced Inventory Manager
 [Aftershock] Elemental bionic weapons.
 [Bombastic Perks] Adds the recycler perk
 [Xedra Evolved] Revamped the inventor class
+Alchemy Perks for Xedra Evolved
+Bombastic Perks adds Playstyle Perks
 
 
 ## Balance:
