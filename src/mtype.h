@@ -54,6 +54,7 @@ enum class mon_trigger : int {
     SOUND,              // Heard a sound
     PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
     MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
+    BRIGHT_LIGHT,       // Brightness in monster's tile is equal to daylight or brighter
 
     LAST               // This item must always remain last.
 };
@@ -153,6 +154,7 @@ enum m_flag : int {
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
     MF_DOGFOOD,             // This monster will respond to the dog whistle.
+    MF_EATS,                // This monster will eat and digest food.
     MF_MILKABLE,            // This monster is milkable.
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
@@ -169,6 +171,7 @@ enum m_flag : int {
     MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
     MF_CAMOUFLAGE,          // This monster is hard to spot, even in broad daylight
     MF_WATER_CAMOUFLAGE,    // This monster is hard to spot if it is underwater, especially if you aren't
+    MF_SMALL_HIDER,         // This monster can scurry under furniture with the SMALL_HIDE flag
     MF_ATTACK_UPPER,        // This monster is capable of hitting upper limbs
     MF_ATTACK_LOWER,        // This monster is incapable of hitting upper limbs regardless of other factors
     MF_DEADLY_VIRUS,        // This monster can inflict the zombie_virus effect
@@ -329,6 +332,8 @@ struct mtype {
         int speed = 0;          /** e.g. human = 100 */
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
+        int stomach_size = 0;         /** how many times this monster will eat */
+        int amount_eaten = 0;         /** how many times it has eaten */
 
         // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
         int tracking_distance = 8;

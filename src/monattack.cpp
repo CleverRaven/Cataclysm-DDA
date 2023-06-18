@@ -451,13 +451,46 @@ bool mattack::eat_food( monster *z )
                 continue;
             }
             //Don't eat own eggs
-            if( z->type->baby_egg != item.type->get_id() ) {
+            if( z->has_flag( MF_EATS ) && z->type->baby_egg != item.type->get_id() && z->amount_eaten < z->stomach_size ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
-                    here.use_charges( p, 0, item.type->get_id(), consumed );
+                    z->amount_eaten += 1;
+                    here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
-                    here.use_amount( p, 0, item.type->get_id(), consumed );
+                    z->amount_eaten += 1;
+                    here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
+                return true;
+            }
+            if( !z->has_flag( MF_EATS ) && z->type->baby_egg != item.type->get_id() ) {
+                int consumed = 1;
+                if( item.count_by_charges() ) {
+                    here.use_charges( p, 1, item.type->get_id(), consumed );
+                } else {
+                    here.use_amount( p, 1, item.type->get_id(), consumed );
+                }
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool mattack::eat_carrion( monster *z )
+{
+    map &here = get_map();
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
+        // Don't snap up food RIGHT under the player's nose.
+        if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
+            continue;
+        }
+        map_stack items = here.i_at( p );
+        for( item &item : items ) {
+            //If it's a whole corpse, just nibble on it. TODO: Completely eaten corpses should leave bones and other inedibles.
+            if( item.has_flag( flag_CORPSE ) && z->amount_eaten < z->stomach_size ) {
+                item.mod_damage( 300 );
+                z->amount_eaten += 1;
+                add_msg_if_player_sees( *z, _( "The %1s gnaws on a corpse." ), z->name() );
                 return true;
             }
         }
