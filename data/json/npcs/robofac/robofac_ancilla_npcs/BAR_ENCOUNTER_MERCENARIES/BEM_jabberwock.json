@@ -7,7 +7,7 @@
     "difficulty": 5,
     "value": 200000,
     "urgent": true,
-    "description": "A traumatized mercenary has claimed to have seen what you assume to be powerful monster.  Maybe you should investigate this for the benefit of everyone.",
+    "description": "A traumatized mercenary has claimed to have seen what you assume to be a powerful monster.  Maybe you should investigate this for the benefit of everyone.",
     "start": {
       "assign_mission_target": {
         "om_terrain": "forest_thick",
@@ -47,12 +47,12 @@
         "context": "bem",
         "value": "yes",
         "yes": "&You see one more traumatized face, all too many and too frequent for any help to be worthwhile.",
-        "no": "&The mercenary stares intently at stain in the ceiling, firmly clutching a now cold cup of soup.  No one else seems to be very concerned about this."
+        "no": "&The mercenary stares intently at a stain in the ceiling, firmly clutching a now cold cup of soup.  No one else seems to be very concerned about this."
       }
     },
     "responses": [
       {
-        "text": "Attempt a friendly approach",
+        "text": "Attempt a friendly approach.",
         "topic": "BEM_JABBERWOCK_2",
         "condition": {
           "not": {
@@ -71,14 +71,14 @@
     "type": "talk_topic",
     "dynamic_line": "&<mypronoun> seems completely lost to the present, but you can't help but notice their gear is caked with mud and broken twigs.  It doesnt look like you'll be getting much conversation from this one.",
     "responses": [
-      { "text": "Press on in search of a reaction", "topic": "BEM_JABBERWOCK_3" },
+      { "text": "Press on in search of a reaction.", "topic": "BEM_JABBERWOCK_3" },
       { "text": "Try to find someone more interested in conversation.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BEM_JABBERWOCK_3",
     "type": "talk_topic",
-    "dynamic_line": "&Continued prodding manages to extract a baffling response from your interlocutor \"I- I-ve seen it, the god of our new world, a god of flesh and bone.  <mypronoun> says with a maddened glare, as if this where some sort of shocking revelation.\"",
+    "dynamic_line": "&Continued prodding manages to extract a baffling response from your interlocutor \"I- I-ve seen it, the god of our new world, a god of flesh and bone.\" <mypronoun> says with a maddened glare, as though this were some sort of shocking revelation.",
     "responses": [
       {
         "text": "Show your map to the mercenary, and have them mark where they saw this \"god\".",
