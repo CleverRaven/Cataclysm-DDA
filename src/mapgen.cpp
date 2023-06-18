@@ -618,6 +618,14 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
         jio.allow_omitted_members();
         return nullptr; // nothing
     }
+	if(jio.has_member( "starts" ) ) {
+		time_duration starts = read_from_json_string<time_duration>( jio.get_member( "starts" ), time_duration::units );
+		mgweight *= calendar::turn < calendar::start_of_cataclysm + starts ? 0 : 1;
+	}
+	if(jio.has_member( "ends" ) ) {
+		time_duration ends = read_from_json_string<time_duration>( jio.get_member( "ends" ), time_duration::units );
+		mgweight *= calendar::turn >= calendar::start_of_cataclysm + ends ? 0 : 1;
+	}
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "builtin" ) {
         if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
