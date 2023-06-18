@@ -1655,7 +1655,7 @@
         "default_magazine": "rebreather_cartridge_o2"
       }
     ],
-    "ammo": "rebreather_filter",
+    "ammo": [ "rebreather_filter", "rebreather_o2_regenerator" ],
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -1707,7 +1707,7 @@
         "default_magazine": "rebreather_cartridge_o2"
       }
     ],
-    "ammo": "rebreather_filter",
+    "ammo": [ "rebreather_filter", "rebreather_o2_regenerator" ],
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -1765,7 +1765,7 @@
         "default_magazine": "rebreather_cartridge_o2"
       }
     ],
-    "ammo": "rebreather_filter",
+    "ammo": [ "rebreather_filter", "rebreather_o2_regenerator" ],
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -2534,7 +2534,7 @@
         "default_magazine": "rebreather_cartridge_o2"
       }
     ],
-    "ammo": "rebreather_filter",
+    "ammo": [ "rebreather_filter", "rebreather_o2_regenerator" ],
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
