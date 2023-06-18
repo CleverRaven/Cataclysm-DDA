@@ -1020,7 +1020,7 @@
     "type": "ARMOR",
     "//": "based on Aonyx 60 Waterproof Duffel Bag",
     "name": { "str": "dry duffel bag" },
-    "description": "A huge watertight duffel bag. Capable of floating. Provides plenty of storage, but is severely encumbering.",
+    "description": "A huge watertight duffel bag.  Capable of floating.  Provides plenty of storage, but is severely encumbering.",
     "weight": "1300 g",
     "volume": "10500 ml",
     "price": 18000,
