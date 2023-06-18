@@ -3742,11 +3742,11 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const trip
                 const int intensity = 1 + one_in( 3 ) + one_in( 5 );
                 here.add_field( pt, fd_fire, intensity );
             }
-         avatar &player = get_avatar();
-		 if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
+            avatar &player = get_avatar();
+            if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
                 player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-				player.rem_morale( MORALE_PYROMANIA_NOFIRE );
-				add_msg( m_good, _( "Fire…  Good…" ) );
+                player.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                add_msg( m_good, _( "Fire…  Good…" ) );
             }
             return 1;
         }
@@ -7695,7 +7695,9 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
             /** @EFFECT_INT increases chance of checking multi-cooker on time */
 
             /** @EFFECT_SURVIVAL increases chance of checking multi-cooker on time */
-            if( p->int_cur + p->get_skill_level( skill_cooking ) + p->get_skill_level( skill_survival ) > 16 ) {
+            avatar &player = get_avatar();
+            if( player.int_cur + player.get_skill_level( skill_cooking ) + player.get_skill_level(
+                    skill_survival ) > 16 ) {
                 add_msg( m_info, _( "The multi-cooker should be finishing shortly…" ) );
             }
         }
