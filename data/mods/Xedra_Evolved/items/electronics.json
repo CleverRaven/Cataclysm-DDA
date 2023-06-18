@@ -5,7 +5,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "xedra laptop" },
-    "description": "Heavy, dark laptop, with swappable battery slot.  Back panel is labled \"PROPERTY OF XEDRA\".  It uses non-standart OS, so there's not much you can use it without reinstalling.",
+    "description": "Heavy, dark laptop, with swappable battery slot.  Back panel is labeled \"PROPERTY OF XEDRA\".  It uses non-standard OS, so there's not much you can use it without reinstalling.",
     "symbol": ",",
     "color": "dark_gray",
     "use_action": [

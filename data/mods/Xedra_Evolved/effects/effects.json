@@ -686,7 +686,7 @@
     "name": [ "" ],
     "desc": [ "" ],
     "apply_message": "You feel like your spine stretched enormously.",
-    "remove_message": "Your devil tail dissapear in the air.",
+    "remove_message": "Your devil tail disappear in the air.",
     "rating": "good",
     "enchantments": [ { "mutations": [ "devil_tail" ] } ]
   }

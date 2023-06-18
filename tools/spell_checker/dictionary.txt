@@ -2379,6 +2379,7 @@ regia
 regrows
 regurgitates
 reimpose
+reinstalling
 remodulator
 rended
 renderer
@@ -3223,6 +3224,7 @@ wyrmling
 wyrms
 x
 xamine
+xedra
 xenobiology
 xiph
 xiphos
