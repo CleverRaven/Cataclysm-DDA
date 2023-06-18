@@ -3375,7 +3375,7 @@ std::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint 
                                 rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
 
         sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
-        if( !p->can_hear( pos, 6 ) ) {
+        if( !get_avatar().can_hear( pos, 6 ) ) {
             // can not hear it, but may have alarmed other creatures
             return 1;
         }
