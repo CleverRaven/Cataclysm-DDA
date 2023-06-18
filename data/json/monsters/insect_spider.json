@@ -234,7 +234,7 @@
     "upgrades": { "half_life": 42, "into": "mon_plague_vector" },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "BRIGHT_LIGHT" ],
-    "special_attacks": [ [ "EAT_FOOD", 60 ],  [ "EAT_CARRION", 60 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ] ],
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "EATS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 5, "cut": 7, "bullet": 6 }
