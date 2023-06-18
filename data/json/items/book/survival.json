@@ -9,7 +9,6 @@
     "volume": "2 L",
     "price": 920,
     "price_postapoc": 3750,
-    "bashing": 8,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "manual_gun",
@@ -19,7 +18,8 @@
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
-    "fun": -3
+    "fun": -3,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "fun_survival",
@@ -143,7 +143,6 @@
     "volume": "2 L",
     "price": 920,
     "price_postapoc": 1250,
-    "bashing": 8,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "manual_dodge",
@@ -157,7 +156,8 @@
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "textbook_survival",
@@ -169,7 +169,6 @@
     "volume": "2 L",
     "price": 6000,
     "price_postapoc": 1750,
-    "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
@@ -178,7 +177,8 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "textbook_botany",
@@ -230,7 +230,6 @@
     "volume": "1250 ml",
     "price": 50000,
     "price_postapoc": 1500,
-    "bashing": 5,
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "looks_like": "scots_cookbook",
@@ -240,6 +239,7 @@
     "max_level": 5,
     "intelligence": 8,
     "time": "20 m",
-    "fun": 4
+    "fun": 4,
+    "melee_damage": { "bash": 5 }
   }
 ]

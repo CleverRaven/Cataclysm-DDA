@@ -22,10 +22,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 6,
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "armor_elec": 1,
     "bleed_rate": 75,
     "vision_day": 25,
     "vision_night": 5,
@@ -48,7 +44,8 @@
     "regenerates": 1,
     "regen_morale": true,
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CAN_OPEN_DOORS", "WARM", "BASHES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CAN_OPEN_DOORS", "WARM", "BASHES" ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
   },
   {
     "id": "mon_mutant_evolved",
@@ -71,10 +68,6 @@
     "melee_dice": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 25 } ],
     "dodge": 5,
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "armor_elec": 3,
     "bleed_rate": 50,
     "vision_night": 15,
     "dissect": "dissect_ursine_sample_large",
@@ -95,7 +88,8 @@
       "flags": [ "SMELLS", "KEENNOSE", "PUSH_MON", "PUSH_VEH", "CAN_OPEN_DOORS" ],
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ]
     },
-    "delete": { "flags": [ "HIT_AND_RUN" ] }
+    "delete": { "flags": [ "HIT_AND_RUN" ] },
+    "armor": { "stab": 8, "bash": 12, "cut": 8, "bullet": 6, "electric": 3 }
   },
   {
     "id": "mon_mutant_antler",
@@ -120,11 +114,6 @@
     "melee_dice_sides": 3,
     "special_attacks": [ { "id": "mutant_antler" }, { "id": "mutant_hoof" } ],
     "dodge": 6,
-    "armor_bash": 10,
-    "armor_cut": 11,
-    "armor_stab": 8,
-    "armor_bullet": 5,
-    "armor_elec": 2,
     "bleed_rate": 70,
     "vision_day": 25,
     "vision_night": 8,
@@ -135,7 +124,8 @@
     "anger_triggers": [ "HOSTILE_SEEN", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "WARM", "SWARMS", "GROUP_MORALE", "BASHES", "GROUP_BASH", "HIT_AND_RUN", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "WARM", "SWARMS", "GROUP_MORALE", "BASHES", "GROUP_BASH", "HIT_AND_RUN", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 10, "cut": 11, "stab": 8, "bullet": 5, "electric": 2 }
   },
   {
     "id": "mon_mutant_arthropod",
@@ -153,10 +143,11 @@
     "speed": 105,
     "melee_skill": 10,
     "melee_dice": 3,
+    "grab_strength": 50,
     "special_attacks": [
       { "id": "mutant_stinger" },
       { "id": "mutant_spinneret" },
-      [ "GRAB", 10 ],
+      { "id": "grab" },
       {
         "type": "bite",
         "cooldown": 10,
@@ -168,10 +159,6 @@
       }
     ],
     "dodge": 7,
-    "armor_bash": 11,
-    "armor_cut": 18,
-    "armor_stab": 12,
-    "armor_bullet": 12,
     "bleed_rate": 50,
     "vision_night": 20,
     "harvest": "mutant_human",
@@ -179,7 +166,8 @@
     "emit_fields": [ { "emit_id": "emit_web_small", "delay": "5 s" } ],
     "death_drops": "mon_mutant_evolved_death_drops",
     "extend": { "flags": [ "CLIMBS", "SMELLS", "KEENNOSE", "WEBWALK" ], "anger_triggers": [ "PLAYER_WEAK", "HURT" ] },
-    "delete": { "flags": [ "HIT_AND_RUN", "WARM" ] }
+    "delete": { "flags": [ "HIT_AND_RUN", "WARM" ] },
+    "armor": { "electric": 2, "bash": 11, "cut": 18, "stab": 12, "bullet": 12 }
   },
   {
     "id": "mon_mutant_camouflaged",
@@ -210,11 +198,11 @@
       }
     ],
     "dodge": 9,
-    "armor_elec": 1,
     "vision_night": 15,
     "harvest": "mutant_human",
     "dissect": "dissect_chimera_sample_large",
-    "extend": { "flags": [ "CAMOUFLAGE", "CLIMBS", "SMELLS", "KEENNOSE", "HARDTOSHOOT" ] }
+    "extend": { "flags": [ "CAMOUFLAGE", "CLIMBS", "SMELLS", "KEENNOSE", "HARDTOSHOOT" ] },
+    "armor": { "bash": 10, "cut": 11, "stab": 8, "bullet": 5, "electric": 1 }
   },
   {
     "id": "mon_mutant_alpha",
@@ -241,16 +229,13 @@
         "monster_message": "The mutant gestures at you and barks a few orders, sending its pack of mutants into a frenzy."
       }
     ],
-    "armor_bash": 3,
-    "armor_cut": 3,
-    "armor_stab": 1,
-    "armor_bullet": 0,
     "tracking_distance": 4,
     "regenerates": 1,
     "dissect": "dissect_alpha_sample_large",
     "zombify_into": "mon_zombie_scientist",
     "extend": { "flags": [ "CAN_OPEN_DOORS", "KEEP_DISTANCE" ], "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_DIED" ] },
-    "delete": { "flags": [ "HIT_AND_RUN", "BASHES", "GROUP_BASH" ] }
+    "delete": { "flags": [ "HIT_AND_RUN", "BASHES", "GROUP_BASH" ] },
+    "armor": { "electric": 2, "bash": 3, "cut": 3, "stab": 1, "bullet": 0 }
   },
   {
     "id": "mon_mutant_alpha_boss",
@@ -288,23 +273,20 @@
     "morale": 80,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
+    "grab_strength": 75,
     "special_attacks": [
+      { "id": "grab", "cooldown": 15 },
+      { "id": "grab_2", "cooldown": 15 },
+      { "id": "ranged_pull", "cooldown": 10 },
       { "id": "tentacle", "move_cost": 60, "range": 4, "no_adjacent": true },
-      [ "RANGED_PULL", 10 ],
-      [ "GRAB_DRAG", 15 ],
-      [ "GRAB", 15 ]
+      [ "GRAB_DRAG", 15 ]
     ],
     "dodge": 1,
-    "armor_bash": 22,
-    "armor_cut": 45,
-    "armor_stab": 30,
-    "armor_bullet": 70,
-    "armor_fire": 50,
-    "armor_elec": 6,
     "harvest": "mutant_human",
     "dissect": "dissect_gastropod_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
     "delete": { "flags": [ "HIT_AND_RUN" ], "fear_triggers": [ "FIRE" ] },
-    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF" ] }
+    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF" ] },
+    "armor": { "bash": 22, "cut": 45, "stab": 30, "heat": 50, "bullet": 70, "electric": 6 }
   }
 ]

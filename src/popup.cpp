@@ -334,7 +334,7 @@ query_popup::result query_popup::query_once()
     if( cancel && res.action == "QUIT" ) {
         res.wait_input = false;
     } else if( res.action == "LEFT" || res.action == "RIGHT" ) {
-        cur = increment_and_wrap( cur, res.action == "RIGHT", options.size() );
+        cur = inc_clamp_wrap( cur, res.action == "RIGHT", options.size() );
     } else if( res.action == "CONFIRM" ) {
         if( cur < options.size() ) {
             res.wait_input = false;

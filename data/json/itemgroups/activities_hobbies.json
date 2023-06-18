@@ -14,7 +14,7 @@
       [ "boxing_gloves", 35 ],
       [ "pool_cue", 30 ],
       [ "bat_metal", 60 ],
-      [ "cheerleader_top", 10 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 10 },
       [ "cheerleader_top_short", 2 ],
       [ "cheerleader_skirt", 10 ],
       [ "cheerleader_skirt_short", 2 ],
@@ -318,7 +318,7 @@
       { "item": "water_purifier", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "beartrap", 5 ],
-      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
       [ "string_36", 40 ],
       [ "longbow", 5 ],
       [ "compbow", 1 ],
@@ -381,8 +381,8 @@
       { "item": "scuba_tank", "prob": 20, "charges": [ 0, 60 ] },
       { "item": "small_scuba_tank", "prob": 10, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],
-      { "item": "rebreather", "prob": 3, "charges": [ 0, 60 ] },
-      [ "rebreather_filter", 2 ],
+      { "item": "rebreather", "prob": 3 },
+      [ "rebreather_cartridge", 2 ],
       { "group": "tools_fishingrods_portable", "prob": 20 },
       [ "fishing_waders", 12 ],
       { "item": "gasoline_lantern", "prob": 5, "charges-min": 0 },
@@ -435,7 +435,8 @@
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 30 },
       { "group": "premium_contents", "prob": 3 },
       { "item": "ar_glasses_basic", "prob": 1, "charges-min": 0 },
-      { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 }
+      { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 },
+      [ "light_snare_kit", 5 ]
     ]
   },
   {

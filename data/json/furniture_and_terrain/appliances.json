@@ -17,11 +17,9 @@
     "type": "vehicle_part",
     "id": "ap_fridge",
     "name": { "str": "refrigerator" },
-    "symbol": "H",
     "looks_like": "f_fridge",
     "categories": [ "cargo" ],
     "color": "light_blue",
-    "broken_symbol": "#",
     "broken_color": "light_blue",
     "damage_modifier": 80,
     "durability": 100,
@@ -52,7 +50,8 @@
       { "item": "scrap_copper", "count": [ 1, 2 ] },
       { "item": "motor_tiny", "prob": 25 }
     ],
-    "damage_reduction": { "all": 32 }
+    "damage_reduction": { "all": 32 },
+    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
@@ -64,11 +63,9 @@
     "type": "vehicle_part",
     "id": "ap_freezer",
     "name": { "str": "freezer" },
-    "symbol": "H",
     "looks_like": "f_fridge",
     "categories": [ "cargo" ],
     "color": "blue",
-    "broken_symbol": "#",
     "broken_color": "blue",
     "damage_modifier": 80,
     "durability": 100,
@@ -97,7 +94,8 @@
       { "item": "cu_pipe", "count": [ 2, 4 ] },
       { "item": "scrap_copper", "count": [ 1, 2 ] }
     ],
-    "damage_reduction": { "all": 32 }
+    "damage_reduction": { "all": 32 },
+    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
@@ -110,10 +108,8 @@
     "name": { "str": "oven" },
     "categories": [ "utility" ],
     "description": "A standard electric convection-based oven, commonly used for heating and cooking food.  It's plugged in and ready to go.",
-    "symbol": "#",
     "color": "dark_gray",
     "broken_color": "dark_gray_white",
-    "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
@@ -132,14 +128,14 @@
       { "item": "cable", "charges": [ 1, 3 ] }
     ],
     "size": "50 L",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
     "id": "ap_water_purifier",
     "name": { "str": "stationary water purifier" },
     "categories": [ "utility" ],
     "description": "This device effectively sterilizes water.  Activate it to clean all water in a connected tank, at the cost of some electricity.",
-    "symbol": "W",
     "color": "white",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
@@ -159,17 +155,16 @@
       { "item": "scrap_copper", "count": [ 0, 2 ] },
       { "item": "water_faucet", "count": [ 0, 1 ] }
     ],
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants": [ { "symbols": "W", "symbols_broken": "#" } ]
   },
   {
     "id": "ap_arcade_machine",
     "name": { "str": "arcade machine" },
     "categories": [ "utility" ],
     "description": "A bulky upright arcade cabinet, brightly painted and slightly worn with age.  Ready to be played.",
-    "symbol": "6",
     "color": "red",
     "broken_color": "red",
-    "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 10 },
     "durability": 80,
@@ -187,7 +182,8 @@
       { "item": "power_supply", "prob": 50 },
       { "item": "RAM", "count": [ 0, 2 ] }
     ],
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants": [ { "symbols": "6", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
@@ -222,12 +218,10 @@
     "id": "ap_drill_press",
     "name": { "str": "drill press" },
     "looks_like": "f_machinery_light",
-    "symbol": "7",
     "color": "yellow_red",
     "categories": [ "utility" ],
     "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects, from industrial fabrication to home woodworking.  Plugged in and ready to go.",
     "broken_color": "yellow_red",
-    "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
@@ -241,19 +235,18 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_tablesaw",
     "name": { "str": "table saw" },
     "looks_like": "f_machinery_light",
-    "symbol": "7",
     "color": "yellow_red",
     "categories": [ "utility" ],
     "description": "A rotating sawblade set into a large, flat table.  Used for making straight, measured cuts, it's a key tool in any carpenter's arsenal.  Plugged in and ready to go.",
     "broken_color": "yellow_red",
-    "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
@@ -267,19 +260,18 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_mitresaw",
     "name": { "str": "mitre saw" },
     "looks_like": "f_machinery_light",
-    "symbol": "7",
     "color": "yellow_cyan",
     "categories": [ "utility" ],
     "description": "A circular sawblade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry.  Plugged in and ready to go.",
     "broken_color": "yellow_cyan",
-    "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
@@ -293,19 +285,18 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_bandsaw",
     "name": { "str": "band saw" },
     "looks_like": "f_machinery_light",
-    "symbol": "7",
     "color": "yellow_cyan",
     "categories": [ "utility" ],
-    "description": "A circular sawblade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry.  Plugged in and ready to go.",
+    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle.  Plugged in and ready to go.",
     "broken_color": "yellow_cyan",
-    "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
@@ -319,19 +310,18 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_router",
-    "name": { "str": "router" },
+    "name": { "str": "router table" },
     "looks_like": "f_machinery_light",
-    "symbol": "7",
     "color": "yellow_green",
     "categories": [ "utility" ],
     "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves.  Plugged in and ready to go.",
     "broken_color": "yellow_green",
-    "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
@@ -345,19 +335,18 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_planer",
     "name": { "str": "planer" },
     "looks_like": "f_machinery_light",
-    "symbol": "7",
     "color": "yellow_white",
     "categories": [ "utility" ],
     "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width, particularly great if working with raw lumber stock, but also good just for shaving wood down to size.  Plugged in and ready to go.",
     "broken_color": "yellow_white",
-    "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
@@ -371,19 +360,18 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_jointer",
     "name": { "str": "jointer" },
     "looks_like": "f_machinery_light",
-    "symbol": "7",
     "color": "yellow_magenta",
     "categories": [ "utility" ],
     "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it nice and smooth.  Plugged in and ready to go.",
     "broken_color": "yellow_magenta",
-    "broken_symbol": "x",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
     "durability": 80,
@@ -397,14 +385,14 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_hydraulic_press",
     "name": { "str": "hydraulic press" },
     "looks_like": "f_hydraulic_press",
-    "symbol": "7",
     "color": "black_red",
     "categories": [ "utility" ],
     "description": "If you really want to squash something a lot, this is exactly the right industrial tool for you.  Plugged in and ready to go.",
@@ -421,14 +409,14 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_plate", "count": [ 1, 2 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_air_compressor",
     "name": { "str": "air compressor" },
     "looks_like": "f_standing_tank",
-    "symbol": "7",
     "color": "black_yellow",
     "categories": [ "utility" ],
     "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.  Plugged in and ready to go.",
@@ -445,7 +433,8 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
       { "item": "steel_plate", "count": [ 2, 4 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
@@ -472,8 +461,6 @@
     "item": "electrolyzer_makeshift",
     "description": "A makeshift appliance which decomposes water into oxygen and hydrogen via electrolysis of sodium hydroxide solution, with a power cord to connect it to an electric grid.",
     "categories": [ "utility" ],
-    "symbol": "&",
-    "broken_symbol": "x",
     "color": "green",
     "broken_color": "green",
     "damage_modifier": 10,
@@ -488,7 +475,8 @@
       { "item": "sheet_metal_small", "count": [ 4, 8 ] },
       { "item": "pipe", "count": [ 0, 1 ] },
       { "item": "cable", "charges": [ 150, 300 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
     "id": "ap_ammonia_machine_reactor",
@@ -497,8 +485,6 @@
     "item": "ammonia_machine_reactor",
     "description": "A huge appliance built from salvaged industrial equipment, which produces ammonia via the Haber-Bosch process from hydrogen and nitrogen.  It has a power cord to connect it to an electric grid.",
     "categories": [ "utility" ],
-    "symbol": "&",
-    "broken_symbol": "x",
     "color": "green",
     "broken_color": "green",
     "damage_modifier": 10,
@@ -516,7 +502,8 @@
       { "item": "steel_grille", "count": [ 6, 10 ] },
       { "item": "element", "count": [ 6, 10 ] },
       { "item": "cable", "charges": [ 15, 30 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
     "id": "ap_ammonia_machine_pipework",
@@ -525,8 +512,6 @@
     "item": "ammonia_machine_pipework",
     "description": "A rather complicated system of thick-walled pipes, powerful compressors, and wiring, meant to interface with a reactor producing ammonia from nitrogen and hydrogen via the Haber-Bosch process, with a power cord to connect it to an electric grid.",
     "categories": [ "utility" ],
-    "symbol": "&",
-    "broken_symbol": "x",
     "color": "green",
     "broken_color": "green",
     "damage_modifier": 10,
@@ -549,7 +534,8 @@
       { "item": "sheet_metal_small", "count": [ 1, 3 ] },
       { "item": "pressure_gauge", "count": [ 0, 1 ] },
       { "item": "cable", "charges": [ 100, 200 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
     "id": "ap_nitrogen_generator",
@@ -558,8 +544,6 @@
     "item": "nitrogen_generator",
     "description": "A large makeshift appliance which captures nitrogen from the air for use in chemistry projects, with a power cord to connect it to an electric grid.",
     "categories": [ "utility" ],
-    "symbol": "&",
-    "broken_symbol": "x",
     "color": "green",
     "broken_color": "green",
     "damage_modifier": 10,
@@ -579,16 +563,15 @@
       { "item": "nitrogen_membrane_filter", "prob": 25 },
       { "item": "cable", "charges": [ 4, 8 ] },
       { "item": "salt", "charges": [ 2000, 3000 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "power_cord",
     "name": { "str": "power cord" },
-    "symbol": "{",
     "categories": [ "other" ],
     "color": "yellow",
-    "broken_symbol": "s",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
     "epower": "0 W",
@@ -596,15 +579,14 @@
     "durability": 120,
     "description": "A power cord sticking out of an appliance.  You need to plug it into a powered grid for the appliance to work properly.",
     "item": "power_cord",
-    "flags": [ "NOINSTALL", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ]
+    "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "variants": [ { "symbols": "{", "symbols_broken": "s" } ]
   },
   {
     "id": "ap_standing_lamp",
     "type": "vehicle_part",
     "name": { "str": "standing lamp" },
     "item": "standing_lamp",
-    "symbol": "*",
-    "broken_symbol": "-",
     "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "blue",
@@ -620,7 +602,8 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
   },
   {
     "id": "ap_standing_floodlight",
@@ -630,168 +613,176 @@
     "description": "A large, heavy light that illuminates a wide area around it when switched on.",
     "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "copy-from": "floodlight",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "5 s" } }
+  },
+  {
+    "id": "ap_standing_directed_floodlight",
+    "type": "vehicle_part",
+    "name": { "str": "standing directed floodlight" },
+    "item": "standing_directed_floodlight",
+    "description": "A large, heavy light that illuminates a wide semicircle around it when switched on.",
+    "copy-from": "directed_floodlight",
+    "flags": [ "HALF_CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "requirements": { "removal": { "time": "5 s" } }
   },
   {
     "id": "ap_wall_wiring",
     "type": "vehicle_part",
     "name": { "str": "wall wirings" },
     "item": "wall_wiring",
-    "symbol": "_",
     "categories": [ "other" ],
-    "broken_symbol": "/",
     "color": "white",
     "broken_color": "red",
     "durability": 20,
     "description": "Electric wires embedded in the wall.",
-    "flags": [ "APPLIANCE", "OBSTACLE" ]
+    "flags": [ "APPLIANCE", "OBSTACLE" ],
+    "variants": [ { "symbols": "_", "symbols_broken": "/" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_solar_panel",
     "name": { "str": "solar panel" },
-    "symbol": "#",
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel",
     "proportional": { "epower": 1.2 },
-    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_reinforced_solar_panel",
     "name": { "str": "reinforced solar panel" },
-    "symbol": "#",
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A reinforced solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "reinforced_solar_panel",
     "proportional": { "epower": 1.2 },
-    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_solar_panel_v2",
     "name": { "str": "advanced solar panel" },
-    "symbol": "#",
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A high-performance solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel_v2",
     "proportional": { "epower": 1.2 },
-    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_reinforced_solar_panel_v2",
     "name": { "str": "advanced reinforced solar panel" },
-    "symbol": "#",
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A high-performance reinforced solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "reinforced_solar_panel_v2",
     "proportional": { "epower": 1.2 },
-    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+    "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_wind_turbine",
     "name": { "str": "wind turbine" },
-    "symbol": "T",
     "location": "structure",
     "color": "yellow",
     "flags": [ "WIND_TURBINE", "OBSTACLE", "APPLIANCE" ],
     "description": "A mounted wind turbine, ready to power other appliances.",
     "copy-from": "wind_turbine",
-    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "T", "symbols_broken": "X" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_xl_wind_turbine",
     "name": { "str": "large wind turbine" },
-    "symbol": "Y",
     "location": "structure",
     "color": "yellow",
     "flags": [ "WIND_TURBINE", "OBSTACLE", "APPLIANCE" ],
     "description": "A large mounted wind turbine, ready to power other appliances.",
     "copy-from": "xl_wind_turbine",
-    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "Y", "symbols_broken": "X" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_water_wheel",
     "name": { "str": "water wheel" },
-    "symbol": "x",
     "location": "structure",
     "color": "yellow",
     "flags": [ "WATER_WHEEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A mounted water wheel, ready to power other appliances.",
     "copy-from": "water_wheel",
-    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "x", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_xl_water_wheel",
     "name": { "str": "large water wheel" },
-    "symbol": "x",
     "location": "structure",
     "color": "yellow",
     "flags": [ "WATER_WHEEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A mounted large water wheel, ready to power other appliances.",
     "copy-from": "xl_water_wheel",
-    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "x", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_battery_small",
     "name": { "str": "small grid battery" },
-    "symbol": "b",
     "color": "white",
     "flags": [ "APPLIANCE" ],
     "description": "A small battery to store electrical power in a static power grid.",
     "copy-from": "small_storage_battery",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "b", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_battery_medium",
     "name": { "str": "medium grid battery" },
-    "symbol": "B",
     "color": "yellow",
     "flags": [ "APPLIANCE" ],
     "description": "A medium battery to store electrical power in a static power grid.",
     "copy-from": "medium_storage_battery",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_battery",
     "name": { "str": "large grid battery" },
-    "symbol": "B",
     "color": "light_red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "description": "A large battery to store electrical power in a static power grid.",
     "copy-from": "storage_battery",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_battery_large",
     "name": { "str": "very large grid battery" },
-    "symbol": "B",
     "color": "red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "description": "A very large battery to store electrical power in a static power grid.",
     "copy-from": "large_storage_battery",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_battery_car",
     "name": { "str": "car grid battery" },
     "categories": [ "energy" ],
-    "symbol": "B",
     "looks_like": "battery_car",
     "color": "red",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
@@ -803,13 +794,13 @@
       { "item": "scrap", "count": [ 6, 9 ] }
     ],
     "durability": 120,
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_washing_machine",
     "name": { "str": "washing machine" },
-    "symbol": "W",
     "looks_like": "f_washer",
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "WASHING_MACHINE", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
@@ -817,43 +808,42 @@
     "size": "135 L",
     "copy-from": "washing_machine",
     "item": "household_washing_machine",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "W", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_dishwasher",
     "name": { "str": "dishwasher" },
     "looks_like": "f_dishwasher",
-    "symbol": "D",
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "DISHWASHER", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "description": "An appliance used to clean dishes, plugged into a power supply and using internal tanks.",
     "size": "120 L",
     "copy-from": "dishwasher",
     "item": "household_dishwasher",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "D", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_autoclave",
     "name": { "str": "small autoclave" },
     "looks_like": "f_autoclave",
-    "symbol": "D",
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "AUTOCLAVE", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
-    "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks",
+    "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks.",
     "copy-from": "autoclave",
     "item": "autoclave",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "D", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_foot_locker_recharge_station",
     "name": { "str": "foot locker recharging station" },
-    "symbol": "o",
     "categories": [ "cargo" ],
     "color": "light_green",
-    "broken_symbol": "#",
     "broken_color": "blue",
     "damage_modifier": 10,
     "durability": 40,
@@ -869,16 +859,15 @@
       { "item": "scrap", "count": [ 5, 7 ] }
     ],
     "damage_reduction": { "all": 10 },
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_box_battery_charger",
     "name": { "str": "box battery charger" },
-    "symbol": "o",
     "categories": [ "cargo" ],
     "color": "light_green",
-    "broken_symbol": "#",
     "broken_color": "blue",
     "damage_modifier": 10,
     "durability": 20,
@@ -896,17 +885,16 @@
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
     "damage_reduction": { "all": 5 },
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_compact_ASRG_containment",
     "name": { "str": "advanced Stirling radioisotope generator" },
     "looks_like": "f_compact_ASRG_containment",
-    "symbol": "0",
     "categories": [ "energy" ],
     "color": "green_white",
-    "broken_symbol": "#",
     "broken_color": "blue",
     "location": "structure",
     "damage_modifier": 80,
@@ -928,7 +916,8 @@
       { "item": "plutonium", "charges": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
-    "damage_reduction": { "all": 60 }
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
   },
   {
     "id": "app_microwave",
@@ -939,8 +928,6 @@
     "description": "A microwave connected to a power grid, ready to cook some food.",
     "categories": [ "utility" ],
     "location": "center",
-    "symbol": "Y",
-    "broken_symbol": "x",
     "color": "green",
     "broken_color": "blue",
     "damage_modifier": 10,
@@ -965,16 +952,15 @@
       { "item": "element", "count": [ 0, 2 ] },
       { "item": "glass_shard", "prob": 50 },
       { "item": "motor_micro", "prob": 25 }
-    ]
+    ],
+    "variants": [ { "symbols": "Y", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_oxygen_concentrator",
     "name": { "str": "oxygen concentrator" },
-    "symbol": "&",
     "color": "light_gray",
     "categories": [ "utility" ],
-    "broken_symbol": "#",
     "broken_color": "dark_gray",
     "damage_modifier": 35,
     "durability": 100,
@@ -987,16 +973,15 @@
       { "item": "scrap", "count": [ 4, 8 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] }
     ],
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 40 },
+    "variants": [ { "symbols": "&", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_hd_compressor_unit",
     "name": { "str": "high pressure compressor unit" },
-    "symbol": "&",
     "color": "light_gray",
     "categories": [ "utility" ],
-    "broken_symbol": "#",
     "broken_color": "dark_gray",
     "damage_modifier": 45,
     "durability": 150,
@@ -1010,6 +995,7 @@
       { "item": "steel_chunk", "count": [ 8, 16 ] },
       { "item": "sheet_metal_small", "count": [ 1, 4 ] }
     ],
-    "damage_reduction": { "all": 50 }
+    "damage_reduction": { "all": 50 },
+    "variants": [ { "symbols": "&", "symbols_broken": "#" } ]
   }
 ]

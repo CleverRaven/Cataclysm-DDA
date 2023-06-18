@@ -24,14 +24,12 @@
     "attack_effs": [ { "id": "blood_spiders", "duration": 40000, "affect_hit_bp": true } ],
     "//": "5 hits to max intensity, 6 hits to max duration",
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 6,
-    "armor_bullet": 5,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "fungalize_into": "mon_spider_fungus",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 2, "cut": 6, "bullet": 5 }
   },
   {
     "id": "mon_shifter",
@@ -54,8 +52,6 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 16 } ],
     "dodge": 4,
-    "armor_bash": 1,
-    "armor_elec": 1,
     "vision_day": 30,
     "vision_night": 10,
     "special_attacks": [
@@ -75,7 +71,8 @@
       }
     ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE" ],
+    "armor": { "bash": 1, "electric": 1 }
   },
   {
     "id": "mon_duplicator",
@@ -99,10 +96,6 @@
     "melee_dice": 0,
     "melee_dice_sides": 0,
     "dodge": 1,
-    "armor_bash": 2,
-    "armor_cut": 1,
-    "armor_bullet": 1,
-    "armor_elec": 2,
     "vision_night": 15,
     "special_attacks": [
       {
@@ -114,7 +107,8 @@
       }
     ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE", "KEEP_DISTANCE", "PACIFIST" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE", "KEEP_DISTANCE", "PACIFIST" ],
+    "armor": { "bash": 2, "cut": 1, "bullet": 1, "electric": 2 }
   },
   {
     "id": "mon_duplicator_pawn",
@@ -140,13 +134,10 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "special_attacks": [ [ "DISAPPEAR", 35 ] ],
     "dodge": 1,
-    "armor_bash": 2,
-    "armor_cut": 1,
-    "armor_bullet": 1,
-    "armor_elec": 2,
     "vision_night": 18,
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE" ],
+    "armor": { "bash": 2, "cut": 1, "bullet": 1, "electric": 2 }
   },
   {
     "id": "mon_ophanim",
@@ -169,10 +160,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 4,
     "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true } ],
     "death_function": {
       "effect": { "id": "ophanim_death", "hit_self": true },
@@ -181,7 +168,8 @@
     },
     "regenerates": 25,
     "regen_morale": true,
-    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "FLIES", "ACIDPROOF", "NOHEAD", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "FLIES", "ACIDPROOF", "NOHEAD", "NOGIB" ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 4 }
   },
   {
     "id": "mon_sapient_light",
@@ -202,8 +190,6 @@
     "melee_dice": 0,
     "melee_dice_sides": 0,
     "dodge": 4,
-    "armor_bash": 1,
-    "armor_elec": 1,
     "vision_day": 60,
     "vision_night": 60,
     "luminance": 60,
@@ -211,7 +197,8 @@
     "path_settings": { "max_dist": 60, "allow_open_doors": true, "avoid_traps": true, "allow_climb_stairs": true },
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "sapient_light_damage" }, "cooldown": 5 } ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE", "ALL_SEEING", "KEEP_DISTANCE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE", "ALL_SEEING", "KEEP_DISTANCE" ],
+    "armor": { "bash": 1, "electric": 1 }
   },
   {
     "id": "mon_rat_king",

@@ -95,7 +95,7 @@ void VehicleGroup::reset()
     vgroups.clear();
 }
 
-VehicleFacings::VehicleFacings( const JsonObject &jo, const std::string &key )
+VehicleFacings::VehicleFacings( const JsonObject &jo, const std::string_view key )
 {
     if( jo.has_array( key ) ) {
         for( const int i : jo.get_array( key ) ) {
@@ -226,12 +226,12 @@ void VehicleSpawn::apply( const vspawn_id &id, map &m, const std::string &terrai
 namespace VehicleSpawnFunction
 {
 
-static void builtin_no_vehicles( map &, const std::string & )
+static void builtin_no_vehicles( map &, const std::string_view )
 {}
 
-static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
+static void builtin_jackknifed_semi( map &m, const std::string_view terrainid )
 {
-    const VehicleLocation *loc = vplacement_id( terrainid + "_semi" ).obj().pick();
+    const VehicleLocation *loc = vplacement_id( str_cat( terrainid, "_semi" ) ).obj().pick();
     if( !loc ) {
         debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle.  placement %s_semi",
                   terrainid );
@@ -263,7 +263,7 @@ static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
                    units::fmod( facing + 90_degrees, 360_degrees ), -1, 1 );
 }
 
-static void builtin_pileup( map &m, const std::string &, const std::string &vg )
+static void builtin_pileup( map &m, const std::string_view, const std::string_view vg )
 {
     vehicle *last_added_car = nullptr;
     const int num_cars = rng( 5, 12 );
@@ -285,17 +285,17 @@ static void builtin_pileup( map &m, const std::string &, const std::string &vg )
     }
 }
 
-static void builtin_citypileup( map &m, const std::string &t )
+static void builtin_citypileup( map &m, const std::string_view t )
 {
     builtin_pileup( m, t, "city_pileup" );
 }
 
-static void builtin_policepileup( map &m, const std::string &t )
+static void builtin_policepileup( map &m, const std::string_view t )
 {
     builtin_pileup( m, t, "police_pileup" );
 }
 
-static void builtin_parkinglot( map &m, const std::string & )
+static void builtin_parkinglot( map &m, const std::string_view )
 {
     for( int v = 0; v < rng( 1, 4 ); v++ ) {
         tripoint pos_p;

@@ -8,7 +8,7 @@
     "volume": "1 L",
     "weight": "1 kg",
     "to_hit": -1,
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xe_art_rod",
@@ -20,7 +20,7 @@
     "weight": "300 g",
     "longest_side": "75 cm",
     "to_hit": 1,
-    "bashing": 5
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "xe_art_monitor",
@@ -52,7 +52,7 @@
     "weight": "300 g",
     "longest_side": "65 cm",
     "to_hit": 1,
-    "bashing": 5
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "xe_art_disc",
@@ -63,7 +63,7 @@
     "volume": "340 ml",
     "weight": "575 g",
     "to_hit": -1,
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xe_art_instrument",
@@ -94,7 +94,7 @@
     "volume": "1 L",
     "weight": "800 g",
     "to_hit": -2,
-    "cutting": 3
+    "melee_damage": { "cut": 3 }
   },
   {
     "id": "xe_art_jelly",
@@ -116,7 +116,7 @@
     "weight": "300 g",
     "longest_side": "30 cm",
     "to_hit": -4,
-    "bashing": 4
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xe_art_pin",
@@ -128,7 +128,7 @@
     "weight": "50 mg",
     "longest_side": "2 cm",
     "to_hit": -5,
-    "cutting": 1
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "xe_art_tube",
@@ -139,7 +139,7 @@
     "volume": "188 ml",
     "weight": "50 mg",
     "longest_side": "15 cm",
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xe_art_pyramid",
@@ -150,7 +150,7 @@
     "volume": "1 L",
     "weight": "1 kg",
     "to_hit": -1,
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xe_art_crystal",
@@ -161,7 +161,7 @@
     "volume": "500 ml",
     "weight": "400 g",
     "to_hit": -1,
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xe_art_knot",
@@ -171,7 +171,7 @@
     "symbol": "b",
     "volume": "400 ml",
     "weight": "400 g",
-    "bashing": 2
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xe_art_crescent",

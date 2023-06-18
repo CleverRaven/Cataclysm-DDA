@@ -33,6 +33,8 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "do_turn.h"
+#include "event.h"
+#include "event_bus.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
@@ -606,7 +608,14 @@ int main( int argc, const char *argv[] )
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
+#if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
     flatbuffers::ClassicLocale::Get();
+#endif
+
+    on_out_of_scope json_member_reporting_guard{ [] {
+            // Disable reporting unvisited members if stack unwinding leaves main early.
+            Json::globally_report_unvisited_members( false );
+        } };
 
 #if defined(_WIN32) and defined(TILES)
     const HANDLE std_output { GetStdHandle( STD_OUTPUT_HANDLE ) }, std_error { GetStdHandle( STD_ERROR_HANDLE ) };
@@ -628,9 +637,6 @@ int main( int argc, const char *argv[] )
     // On Android first launch, we copy all data files from the APK into the app's writeable folder so std::io stuff works.
     // Use the external storage so it's publicly modifiable data (so users can mess with installed data, save games etc.)
     std::string external_storage_path( SDL_AndroidGetExternalStoragePath() );
-    if( external_storage_path.back() != '/' ) {
-        external_storage_path += '/';
-    }
 
     PATH_INFO::init_base_path( external_storage_path );
 #else
@@ -738,7 +744,7 @@ int main( int argc, const char *argv[] )
         get_options().load();
     }
 
-    set_language();
+    set_language_from_options();
 
     rng_set_engine_seed( cli.seed );
 
@@ -776,9 +782,13 @@ int main( int argc, const char *argv[] )
 
     // Now we do the actual game.
 
+#if defined(DEBUG_CURSES_CURSOR)
+    catacurses::curs_set( 2 );
+#else
     // I have no clue what this comment is on about
     // Any value works well enough for debugging at least
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
+#endif
 
 #if !defined(_WIN32)
     struct sigaction sigIntHandler;
@@ -791,7 +801,7 @@ int main( int argc, const char *argv[] )
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
         select_language();
-        set_language();
+        set_language_from_options();
     }
 #endif
     replay_buffered_debugmsg_prompts();
@@ -812,6 +822,7 @@ int main( int argc, const char *argv[] )
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+        get_event_bus().send<event_type::game_begin>( getVersionString() );
         while( !do_turn() );
     }
 

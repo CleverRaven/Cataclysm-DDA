@@ -16,6 +16,7 @@
     "skill_used": "cooking",
     "batch_time_factors": [ 65, 4 ],
     "difficulty": 2,
+    "flags": [ "SECRET" ],
     "skills_required": [ "cooking", 2 ],
     "book_learn": [ [ "grimy_recipe", 1 ] ],
     "category": "CC_CHEM",

@@ -62,9 +62,14 @@ json_formatter
 *.vcxproj.filters
 *.lastbuildstate
 .vs/
-.vscode/
 Directory.Build.props
 Directory.Build.targets
+
+# Visual Studio Code
+.vscode/
+.vscode/**
+!.vscode/settings.json
+!.vscode/extensions.json
 
 # Visual Studio project files
 /msvc-full-features/**/
@@ -143,6 +148,9 @@ __pycache__
 
 # vimdiff backup
 *.orig
+
+# obsidian.md files
+.obsidian
 
 # OSX
 Cataclysm.app

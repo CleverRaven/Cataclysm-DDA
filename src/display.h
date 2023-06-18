@@ -181,7 +181,7 @@ nc_color encumb_color( int level );
 std::pair<std::string, nc_color> overmap_tile_symbol_color( const avatar &u,
         const tripoint_abs_omt &omt, bool edge_tile, bool &found_mi );
 // Colorized symbol for an overmap note, given its full text
-std::pair<std::string, nc_color> overmap_note_symbol_color( const std::string &note_text );
+std::pair<std::string, nc_color> overmap_note_symbol_color( std::string_view note_text );
 // Mission marker position as an offset within an overmap of given width and height
 point mission_arrow_offset( const avatar &you, int width, int height );
 // Fully colorized newline-separated overmap string of the given size, centered on character

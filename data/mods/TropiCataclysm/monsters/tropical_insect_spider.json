@@ -32,14 +32,13 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 10,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "special_attacks": [ { "id": "impale" } ],
     "fungalize_into": "mon_scorpion_fungus",
-    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ],
+    "armor": { "bash": 4, "cut": 10 }
   },
   {
     "id": "mon_termite_nymph",
@@ -91,10 +90,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 10,
-    "armor_bullet": 8,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
     "vision_day": 5,
@@ -104,7 +99,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "fungalize_into": "mon_termite_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 5, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
     "id": "mon_termite_soldier",
@@ -127,10 +123,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "armor_bash": 10,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 2,
     "bleed_rate": 80,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
@@ -139,19 +131,19 @@
     "harvest": "arachnid",
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 3, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 5, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "infection_chance": 50
       }
     ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_termite_shooter",
@@ -174,10 +166,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "armor_bash": 10,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 2,
     "bleed_rate": 80,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
@@ -193,7 +181,8 @@
       }
     ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_termite_alate",
@@ -216,10 +205,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "armor_bash": 10,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 2,
     "bleed_rate": 80,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
@@ -228,7 +213,8 @@
     "harvest": "arachnid",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "upgrades": { "half_life": 15, "into_group": "GROUP_TERMITE_ALATE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS", "GROUP_MORALE", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS", "GROUP_MORALE", "HARDTOSHOOT" ],
+    "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_termite_king",
@@ -242,15 +228,16 @@
     "symbol": "T",
     "color": "light_gray",
     "melee_dice": 2,
-    "armor_elec": 4,
     "bleed_rate": 60,
+    "grab_strength": 75,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
       [ "BIO_OP_TAKEDOWN", 20 ],
-      [ "RANGED_PULL", 20 ],
-      [ "GRAB", 5 ]
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab", "cooldown": 5 }
     ],
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] }
+    "extend": { "flags": [ "DESTROYS", "GRABS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] },
+    "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 4 }
   },
   {
     "id": "mon_termite_queen",
@@ -272,16 +259,13 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 1,
-    "armor_bash": 6,
-    "armor_cut": 14,
-    "armor_bullet": 11,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
     "harvest": "arachnid",
     "reproduction": { "baby_egg": "egg_termite", "baby_count": 3, "baby_timer": 1 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 6, "cut": 14, "bullet": 11, "electric": 3 }
   },
   {
     "id": "mon_onicophore",
@@ -304,7 +288,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "special_attacks": [
       {
@@ -317,7 +300,8 @@
     "upgrades": { "half_life": 20, "into": "mon_onicophore_giant" },
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "CLIMBS" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_onicophore_giant",
@@ -340,8 +324,6 @@
     "melee_dice": 5,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 6,
-    "armor_cut": 3,
     "harvest": "meatslug",
     "special_attacks": [
       {
@@ -353,6 +335,7 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "CLIMBS" ],
+    "armor": { "bash": 6, "cut": 3 }
   }
 ]

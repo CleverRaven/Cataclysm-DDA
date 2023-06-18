@@ -125,7 +125,7 @@ void trap::load_trap( const JsonObject &jo, const std::string &src )
     trap_factory.load( jo, src );
 }
 
-void trap::load( const JsonObject &jo, const std::string & )
+void trap::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
@@ -179,7 +179,7 @@ void trap::load( const JsonObject &jo, const std::string & )
             charges = 1;
         }
         if( !item_type.is_empty() && quantity > 0 && charges > 0 ) {
-            components.emplace_back( std::make_tuple( item_type, quantity, charges ) );
+            components.emplace_back( item_type, quantity, charges );
         }
     }
     if( jo.has_object( "vehicle_data" ) ) {

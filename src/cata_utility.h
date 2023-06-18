@@ -109,8 +109,8 @@ bool isBetween( int test, int down, int up );
  * @return true if the query string is found at least once within the subject
  *         string, otherwise returns false
  */
-bool lcmatch( const std::string &str, const std::string &qry );
-bool lcmatch( const translation &str, const std::string &qry );
+bool lcmatch( std::string_view str, std::string_view qry );
+bool lcmatch( const translation &str, std::string_view qry );
 
 /**
  * Matches text case insensitive with the include/exclude rules of the filter
@@ -125,7 +125,7 @@ bool lcmatch( const translation &str, const std::string &qry );
  *
  * @return true if include/exclude rules pass. See Example.
  */
-bool match_include_exclude( const std::string &text, std::string filter );
+bool match_include_exclude( std::string_view text, std::string filter );
 
 /**
  * Basic logistic function.
@@ -238,6 +238,28 @@ template<typename T>
 constexpr T lerp_clamped( const T &min, const T &max, float t )
 {
     return lerp( min, max, clamp( t, 0.0f, 1.0f ) );
+}
+
+// Inverse of \p lerp, unbounded so it may extrapolate, returns 0.0f if min == max
+// @returns linear factor for interpolating between \p min and \p max to reach \p value
+template<typename T>
+constexpr float inverse_lerp( const T &min, const T &max, const T &value )
+{
+    if( max == min ) {
+        return 0.0f; // avoids a NaN
+    }
+    return ( value - min ) / ( max - min );
+}
+
+// Remaps \p value from range of \p i_min to \p i_max to a range between \p o_min and \p o_max
+// uses unclamped linear interpolation, so output value may be beyond output range if value is
+// outside input range.
+template<typename Tin, typename Tout>
+constexpr Tout linear_remap( const Tin &i_min, const Tin &i_max,
+                             const Tout &o_min, const Tout &o_max, Tin value )
+{
+    const float t = inverse_lerp( i_min, i_max, value );
+    return lerp( o_min, o_max, t );
 }
 
 /**
@@ -444,6 +466,11 @@ bool string_empty_or_whitespace( const std::string &s );
 /** strcmp, but for string_view objects.  In C++20 this can be replaced with
  * operator<=> */
 int string_view_cmp( std::string_view, std::string_view );
+
+template<typename Integer>
+Integer svto( std::string_view );
+
+extern template int svto<int>( std::string_view );
 
 /** Used as a default filter in various functions */
 template<typename T>
@@ -661,5 +688,15 @@ T aggregate( const std::vector<T> &values, aggregate_type agg_func )
             return T();
     }
 }
+
+// overload pattern for std::variant from https://en.cppreference.com/w/cpp/utility/variant/visit
+template <class... Ts>
+struct overloaded : Ts... {
+    using Ts::operator()...;
+};
+template <class... Ts>
+explicit overloaded( Ts... ) -> overloaded<Ts...>;
+
+std::optional<double> svtod( std::string_view token );
 
 #endif // CATA_SRC_CATA_UTILITY_H

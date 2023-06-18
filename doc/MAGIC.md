@@ -1,30 +1,31 @@
 # How to add magic to a mod
 
-- [Spells](#spells)
-- [The template spell](#the-template-spell)
-- [Mandatory fields](#mandatory-fields)
-  - [Spell effects](#spell-effects)
-  - [Spell shape](#spell-shape)
-- [Common fields](#common-fields)
-  - [Spell Flags](#spell-flags)
-  - [Damage Types](#damage-types)
-  - [Spell level](#spell-level)
-  - [Learning Spells](#learning-spells)
-  - [Extra spell effects](#extra-spell-effects)
-- [Adding spells to professions and NPCs](#adding-spells-to-professions-and-npcs)
-- [Examples](#examples)
-  - [Summon spell](#summon-spell)
-  - [Typical attack](#typical-attack)
-  - [Consecutive spell casting](#consecutive-spell-casting)
-  - [Random spell casting](#random-spell-casting)
-  - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
-  - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
-  - [Monster spells](#monster-spells)
-- [Enchantments](#enchantments)
-  - [The `relic_data` field](#the-relic_data-field)
-  - [Variables](#variables)
-  - [ID values](#id-values)
-  - [Enchantment value examples](#enchantment-value-examples)
+- [How to add magic to a mod](#how-to-add-magic-to-a-mod)
+  - [Spells](#spells)
+  - [The template spell](#the-template-spell)
+  - [Mandatory fields](#mandatory-fields)
+    - [Spell effects](#spell-effects)
+    - [Spell shape](#spell-shape)
+  - [Common fields](#common-fields)
+    - [Spell Flags](#spell-flags)
+    - [Damage Types](#damage-types)
+    - [Spell level](#spell-level)
+    - [Learning Spells](#learning-spells)
+    - [Extra spell effects](#extra-spell-effects)
+  - [Adding spells to professions and NPCs](#adding-spells-to-professions-and-npcs)
+  - [Examples](#examples)
+    - [Summon spell](#summon-spell)
+    - [Typical attack](#typical-attack)
+    - [Consecutive spell casting](#consecutive-spell-casting)
+    - [Random spell casting](#random-spell-casting)
+    - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
+    - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
+    - [Monster spells](#monster-spells)
+  - [Enchantments](#enchantments)
+    - [The `relic_data` field](#the-relic_data-field)
+    - [Variables](#variables)
+    - [ID values](#id-values)
+    - [Enchantment value examples](#enchantment-value-examples)
 
 
 ## Spells
@@ -629,7 +630,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "id": "ENCH_INVISIBILITY",
     "condition": "ALWAYS",
     "has": "WIELD",
-    "hit_you_effect": [ { "id": "AEA_FIREBALL" } ],
+    "hit_you_effect": [ { "id": "AEA_FIREBALL", "hit_self": true, "once_in": 12 } ],
     "hit_me_effect": [ { "id": "AEA_HEAL" } ],
     "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": -5 } ],
     "emitter": "emit_AEP_SMOKE",
@@ -734,7 +735,7 @@ This enchantment adds the dexterity value to strength: a character with str 8 an
     "values": [
       {
         "value": "LUMINATION",
-        "add": { "arithmetic": [ { "global_val": "monsters_nearby", "radius": 25 }, "*", { "const": 20 } ] }
+        "add": { "math": [ "u_monsters_nearby('radius': 25) * 20" ] }
       }
     ]
   }
@@ -784,6 +785,7 @@ Character status value  | Description
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
 `BONUS_DODGE`           | Affects the number of dodges you can perform.
 `CARRY_WEIGHT`          | Affect the summary weight player can carry. `"add": 1000` adds 1 kg of weight to carry.
+`COMBAT_CATCHUP`        | Affects the rate at which you relearn combat skills (multiplier)
 `CLIMATE_CONTROL_HEAT`  | Moves body temperature up towards comfortable by number of warmth units up to value.
 `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
 `DEXTERITY`             | Affects the dexterity stat.
@@ -802,10 +804,14 @@ Character status value  | Description
 `EXTRA_HEAT`            | 
 `EXTRA_STAB`            | 
 `EXTRA_ELEC_PAIN`       | Multiplier on electric damage received, the result is applied as extra pain.
-`FALL_DAMAGE`           | Affects the ammount of fall damage you take.
+`EVASION`               | Flat chance for your character to dodge incoming attacks regardless of other modifiers. From 0.0 (no evasion chance) to 1.0 (100% evasion chance).
+`FALL_DAMAGE`           | Affects the amount of fall damage you take.
 `FATIGUE`               | 
 `FOOTSTEP_NOISE`        | 
+`FORCEFIELD`            | Chance your character reduces incoming damage to 0. From 0.0 (no chance), to 1.0 (100% chance to avoid attacks).
 `HUNGER`                | 
+`KNOCKBACK_RESIST`      | The amount knockback effects you, 0 is the regular amount, -100 would be double effect, 100 would be no effect
+`KNOCKDOWN_RESIST`      | The amount knockdown effects you, currently *only* having 100 or greater knockdown_resist makes you immune to knockdown
 `LEARNING_FOCUS`        | Amount of bonus focus you have for learning purposes.
 `LUMINATION`            | Character produces light.
 `MAX_HP`                | 
@@ -821,6 +827,7 @@ Character status value  | Description
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `SHOUT_NOISE`           | 
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
+`SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
 `MOTION_VISION_RANGE `  | Reveals all monsters as a red `?` within the specified radius.
 `SLEEPY`                | The higher this the easier you fall asleep.
 `SKILL_RUST_RESIST`     | Chance / 100 to resist skill rust.
@@ -828,12 +835,12 @@ Character status value  | Description
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
-`RECOIL_MODIFIER`       | Affects recoil when shooting a gun. Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
+`RECOIL_MODIFIER`       | Affects recoil when shooting a gun. Positive value increase the dispersion, negative decrease one.
 `REGEN_HP`              | Affects the rate you recover hp.
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
 `THIRST`                | 
-`WEAPON_DISPERSION`     | Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
+`WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
 
 
 Melee-only enchantment values | Description

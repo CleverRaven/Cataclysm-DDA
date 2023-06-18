@@ -730,7 +730,7 @@
       { "item": "socks" },
       { "item": "boots_steel" },
       { "item": "pants_cargo" },
-      { "item": "army_top" },
+      { "item": "tank_top", "variant": "tank_top_camo" },
       { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
       { "item": "jacket_army" },
       { "item": "knit_scarf" },
@@ -1006,7 +1006,7 @@
     "subtype": "collection",
     "//": "camping itemgroup modified to remove junk/common/lengthy items.",
     "items": [
-      { "item": "rebreather", "prob": 3, "charges-min": 30 },
+      { "item": "rebreather", "prob": 3, "ammo-item": "rebreather_cartridge" },
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
       { "item": "misc_repairkit", "prob": 20, "charges-min": 25 },
       { "item": "bbgun", "prob": 15, "charges-min": 100 },

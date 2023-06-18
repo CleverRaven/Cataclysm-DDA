@@ -3,7 +3,6 @@
     "type": "talk_topic",
     "id": [
       "TALK_GODCO_Julian_Leave",
-      "TALK_GODCO_Julian_Joinee",
       "TALK_GODCO_Julian_2",
       "TALK_GODCO_Julian_Story",
       "TALK_GODCO_Julian_Leader",
@@ -20,7 +19,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting" } }
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
           ]
         }
       }
@@ -44,7 +43,7 @@
         "condition": {
           "and": [
             { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting" } }
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
           ]
         },
         "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
@@ -52,7 +51,7 @@
       {
         "text": "Nice to meet you, Julian.  I'm seeking asylum.",
         "topic": "TALK_GODCO_Julian_Join",
-        "condition": { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting" } },
+        "condition": { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
         "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
@@ -61,7 +60,7 @@
         "condition": {
           "and": [
             { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting" }
+            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
           ]
         },
         "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }

@@ -51,7 +51,7 @@
     "speaker_effect": { "effect": [ { "u_add_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" } ] },
     "responses": [
       {
-        "text": "What's it you are doing here?",
+        "text": "What are you doing here?",
         "topic": "TALK_ANCILLA_HQ_GUARD_AskJob",
         "condition": { "not": { "u_has_any_trait": [ "PROF_FED" ] } }
       },
@@ -70,11 +70,11 @@
     "id": "TALK_ANCILLA_HQ_GUARD_AskJob",
     "type": "talk_topic",
     "dynamic_line": [
-      "Me?  Just standing around, looking scary.  Even think Im doing a good job?\n\nDon't answer that.",
-      "Just making sure people don't ask stupid questions",
+      "Me?  Just standing around, looking scary.  Think I'm doing a good job?\n\nDon't answer that.",
+      "Just making sure people don't ask stupid questions.",
       "I'm just on watch, move along.",
       "Getting paid for standing around.  And you are getting in the way.",
-      "A few of us joined up to make this a safe house, and its just my turn watching the gates.",
+      "A few of us joined up to make this a safe house, and it's just my turn watching the gates.",
       "Just go down to the Terminal if you want in."
     ]
   },

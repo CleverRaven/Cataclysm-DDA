@@ -94,6 +94,12 @@ static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_stab( "stab" );
+
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -620,7 +626,7 @@ bool mattack::acid( monster *z )
     projectile proj;
     proj.speed = 10;
     // Mostly just for momentum
-    proj.impact.add_damage( damage_type::ACID, 5 );
+    proj.impact.add_damage( damage_acid, 5 );
     proj.range = 10;
     proj.proj_effects.insert( "NO_OVERSHOOT" );
     dealt_projectile_attack dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 },
@@ -665,20 +671,21 @@ bool mattack::acid_barf( monster *z )
     // Make sure it happens before uncanny dodge
     get_map().add_field( target->pos(), fd_acid, 1 );
 
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_acid, rng( 5, 12 ) );
+
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        _( "The %s barfs acid at you, but you dodge!" ),
                                        _( "The %s barfs acid at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_type::ACID, rng( 5, 12 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = target->deal_damage( z,  hit, dam_inst ).total_damage();
@@ -735,7 +742,7 @@ bool mattack::acid_accurate( monster *z )
     proj.range = 10;
     proj.proj_effects.insert( "BLINDS_EYES" );
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
-    proj.impact.add_damage( damage_type::ACID, rng( 3, 5 ) );
+    proj.impact.add_damage( damage_acid, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 8000.0 * range }, z );
 
@@ -872,7 +879,7 @@ bool mattack::pull_metal_weapon( monster *z )
                     item pulled_weapon = foe->remove_weapon();
                     projectile proj;
                     proj.speed = 50;
-                    proj.impact = damage_instance::physical( pulled_weapon.weight() / 250_gram, 0, 0, 0 );
+                    proj.impact = damage_instance( damage_bash, pulled_weapon.weight() / 250_gram );
                     // make the projectile stop one tile short to prevent hitting the monster
                     proj.range = rl_dist( foe->pos(), z->pos() ) - 1;
                     proj.proj_effects = { { "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" } };
@@ -927,16 +934,14 @@ bool mattack::boomer( monster *z )
             return true;
         }
     }
-    if( !target->uncanny_dodge() ) {
-        ///\EFFECT_DODGE increases chance to avoid boomer effect
-        if( rng( 0, 10 ) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
-        } else if( u_see ) {
-            target->add_msg_player_or_npc( _( "You dodge it!" ),
-                                           _( "<npcname> dodges it!" ) );
-        }
-        target->on_dodge( z, 5 );
+
+    if( !target->dodge_check( z ) ) {
+        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
+    } else if( u_see ) {
+        target->add_msg_player_or_npc( _( "You dodge it!" ),
+                                       _( "<npcname> dodges it!" ) );
     }
+    target->on_dodge( z, 5 );
 
     return true;
 }
@@ -969,22 +974,20 @@ bool mattack::boomer_glow( monster *z )
             return true;
         }
     }
-    if( !target->uncanny_dodge() ) {
-        ///\EFFECT_DODGE increases chance to avoid glowing boomer effect
-        if( rng( 0, 10 ) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
-            target->on_dodge( z, 5 );
-            for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                const bodypart_id &bp = target->random_body_part();
-                target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
-                if( target->has_effect( effect_glowing ) ) {
-                    break;
-                }
+
+    if( !target->dodge_check( z ) ) {
+        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
+        target->on_dodge( z, 5 );
+        for( int i = 0; i < rng( 2, 4 ); i++ ) {
+            const bodypart_id &bp = target->random_body_part();
+            target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
+            if( target->has_effect( effect_glowing ) ) {
+                break;
             }
-        } else {
-            target->add_msg_player_or_npc( _( "You dodge it!" ),
-                                           _( "<npcname> dodges it!" ) );
         }
+    } else {
+        target->add_msg_player_or_npc( _( "You dodge it!" ),
+                                       _( "<npcname> dodges it!" ) );
     }
 
     return true;
@@ -1161,11 +1164,10 @@ bool mattack::smash( monster *z )
     z->moves -= 400;
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z ) ) {
         target->add_msg_player_or_npc( _( "The %s takes a powerful swing at you, but you dodge it!" ),
                                        _( "The %s takes a powerful swing at <npcname>, who dodges it!" ),
                                        z->name() );
-
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
@@ -1498,7 +1500,7 @@ bool mattack::growplants( monster *z )
                                         //~ %s is bodypart name in accusative.
                                         _( "A tree bursts forth from the earth and pierces <npcname>'s %s!" ),
                                         body_part_name_accusative( hit ) );
-        critter->deal_damage( z, hit, damage_instance( damage_type::STAB, rng( 10, 30 ) ) );
+        critter->deal_damage( z, hit, damage_instance( damage_stab, rng( 10, 30 ) ) );
     }
 
     // 1 in 5 chance of making existing vegetation grow larger
@@ -1506,7 +1508,7 @@ bool mattack::growplants( monster *z )
         return true;
     }
     for( const tripoint &p : here.points_in_radius( z->pos(), 5 ) ) {
-        const auto ter = here.ter( p );
+        const ter_id ter = here.ter( p );
         if( ter != t_tree_young && ter != t_underbrush ) {
             // Skip as soon as possible to avoid all the checks
             continue;
@@ -1533,7 +1535,7 @@ bool mattack::growplants( monster *z )
                                                 //~ %s is bodypart name in accusative.
                                                 _( "Underbrush grows into a tree, and it pierces <npcname>'s %s!" ),
                                                 body_part_name_accusative( hit ) );
-                critter->deal_damage( z, hit, damage_instance( damage_type::STAB, rng( 10, 30 ) ) );
+                critter->deal_damage( z, hit, damage_instance( damage_stab, rng( 10, 30 ) ) );
             }
         }
     }
@@ -1598,8 +1600,8 @@ bool mattack::vine( monster *z )
                                             z->name(),
                                             body_part_name_accusative( bphit ) );
             damage_instance d;
-            d.add_damage( damage_type::CUT, 8 );
-            d.add_damage( damage_type::BASH, 8 );
+            d.add_damage( damage_cut, 8 );
+            d.add_damage( damage_bash, 8 );
             critter->deal_damage( z, bphit, d );
             critter->check_dead_state();
             z->moves -= 100;
@@ -1647,7 +1649,7 @@ bool mattack::spit_sap( monster *z )
     proj.speed = 10;
     proj.range = 12;
     proj.proj_effects.insert( "APPLY_SAP" );
-    proj.impact.add_damage( damage_type::ACID, rng( 5, 10 ) );
+    proj.impact.add_damage( damage_acid, rng( 5, 10 ) );
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 150 }, z );
 
     return true;
@@ -1875,16 +1877,17 @@ bool mattack::fungus_inject( monster *z )
     add_msg( m_warning, _( "The %s jabs at you with a needlelike point!" ), z->name() );
     z->moves -= 150;
 
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_cut, rng( 5, 11 ) );
+
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_type::CUT, rng( 5, 11 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = player_character.deal_damage( z, hit, dam_inst ).total_damage();
@@ -1929,16 +1932,17 @@ bool mattack::fungus_bristle( monster *z )
              target->disp_name() );
     z->moves -= 150;
 
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_cut, rng( 7, 16 ) );
+
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_type::CUT, rng( 7, 16 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
@@ -2082,7 +2086,7 @@ bool mattack::fungus_fortify( monster *z )
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "A fungal tendril bursts forth from the earth and pierces your %s!" ),
                      body_part_name_accusative( hit ) );
-            player_character.deal_damage( z,  hit, damage_instance( damage_type::CUT, rng( 5, 11 ) ) );
+            player_character.deal_damage( z,  hit, damage_instance( damage_cut, rng( 5, 11 ) ) );
             player_character.check_dead_state();
             // Probably doesn't have spores available *just* yet.  Let's be nice.
         } else if( monster *const tendril = g->place_critter_at( mon_fungal_tendril, hit_pos ) ) {
@@ -2096,16 +2100,17 @@ bool mattack::fungus_fortify( monster *z )
              z->name() );
     z->moves -= 150;
 
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_stab, rng( 15, 21 ) );
+
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_type::STAB, rng( 15, 21 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = player_character.deal_damage( z, hit, dam_inst ).total_damage();
@@ -2138,18 +2143,19 @@ bool mattack::impale( monster *z )
 
     z->moves -= 80;
 
-    if( dodge_check( z, target ) ) {
+    bodypart_id hit = bodypart_id( "torso" );
+    damage_instance dam_inst = damage_instance( damage_stab, rng( 10, 20 ), rng( 5, 15 ), .5 );
+
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
-    bodypart_id hit = bodypart_id( "torso" );
-    damage_instance dam_inst = damage_instance( damage_type::STAB, rng( 10, 20 ), rng( 5, 15 ), .5 );
     target->block_hit( z, hit, dam_inst );
 
     int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
@@ -2198,7 +2204,7 @@ bool mattack::dermatik( monster *z )
     }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z ) ) {
         if( target->is_avatar() ) {
             add_msg( _( "The %s tries to land on you, but you dodge." ), z->name() );
         }
@@ -2237,7 +2243,7 @@ bool mattack::dermatik( monster *z )
 
     // Can the bug penetrate our armor?
     const bodypart_id targeted = target->get_random_body_part();
-    if( 4 < player_character.get_armor_cut( targeted ) / 3 ) {
+    if( 4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
         //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _( "The %1$s lands on your %2$s, but can't penetrate your armor." ),
                                    z->name(), body_part_name_accusative( targeted ) );
@@ -2633,16 +2639,17 @@ bool mattack::tentacle( monster *z )
                                    z->name() );
     z->moves -= 100;
 
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_bash, rng( 10, 20 ) );
+
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_type::BASH, rng( 10, 20 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
@@ -2712,14 +2719,14 @@ bool mattack::ranged_pull( monster *z )
         }
     }
 
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z ) ) {
         z->moves -= 200;
         game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you, but you dodge!" ),
                                        _( "The %s's arms fly out at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
@@ -2831,12 +2838,12 @@ bool mattack::grab( monster *z )
     z->moves -= 80;
 
     const game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z ) ) {
         target->add_msg_player_or_npc( msg_type, _( "The %s gropes at you, but you dodge!" ),
                                        _( "The %s gropes at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
@@ -2976,7 +2983,7 @@ bool mattack::gene_sting( monster *z )
     z->moves -= 150;
 
     damage_instance dam = damage_instance();
-    dam.add_damage( damage_type::STAB, 6, 10, 0.6, 1 );
+    dam.add_damage( damage_stab, 6, 10, 0.6, 1 );
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
@@ -2997,7 +3004,7 @@ bool mattack::para_sting( monster *z )
     z->moves -= 150;
 
     damage_instance dam = damage_instance();
-    dam.add_damage( damage_type::STAB, 6, 8, 0.8, 1 );
+    dam.add_damage( damage_stab, 6, 8, 0.8, 1 );
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         target->add_msg_if_player( m_bad, _( "You feel poison enter your body!" ) );
@@ -3462,8 +3469,9 @@ void mattack::taze( monster *z, Creature *target )
     };
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
-    const bool tazer_was_dodged = dice( 10, 10 ) < dice( target->get_dodge(), 10 );
-    const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
+    const bool tazer_was_dodged = target->dodge_check( z );
+    const int tazer_resistance = target->get_armor_type( damage_bash,
+                                 bodypart_id( "torso" ) );
     const bool tazer_was_armored = dice( 15, 10 ) < dice( tazer_resistance, 10 );
 
     if( tazer_was_dodged || target->uncanny_dodge() ) {
@@ -3478,9 +3486,8 @@ void mattack::taze( monster *z, Creature *target )
         return;
     }
 
-    int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
-                                   rng( 1,
-                                        5 ) ) ).total_damage();
+    int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_electric,
+                                   rng( 1, 5 ) ) ).total_damage();
     if( dam == 0 ) {
         target->add_msg_player_or_npc( _( "The %s unsuccessfully attempts to shock you." ),
                                        _( "The %s unsuccessfully attempts to shock <npcname>." ),
@@ -4330,8 +4337,11 @@ bool mattack::stretch_bite( monster *z )
         }
     }
 
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_stab, rng( 5, 15 ) );
+
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         z->moves -= 150;
         z->add_effect( effect_stunned, 3_turns );
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
@@ -4340,12 +4350,10 @@ bool mattack::stretch_bite( monster *z )
                                        _( "The %s's head extends to bite <npcname>, but they dodge and the head sails past!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_type::STAB, rng( 5, 15 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
@@ -4431,16 +4439,17 @@ bool mattack::flesh_golem( monster *z )
                             z->name(), target->disp_name() );
     z->moves -= 100;
 
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_bash, rng( 5, 10 ) );
+
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_type::BASH, rng( 5, 10 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
@@ -4552,16 +4561,17 @@ bool mattack::lunge( monster *z )
 
     z->moves -= 100;
 
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_bash, rng( 3, 7 ) );
+
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         target->add_msg_player_or_npc( _( "The %1$s lunges at you, but you sidestep it!" ),
                                        _( "The %1$s lunges at <npcname>, but they sidestep it!" ), z->name() );
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_type::BASH, rng( 3, 7 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
@@ -4625,8 +4635,11 @@ bool mattack::longswipe( monster *z )
 
             z->moves -= 150;
 
+            bodypart_id hit = target->get_random_body_part();
+            damage_instance dam_inst = damage_instance( damage_cut, rng( 3, 7 ) );
+
             // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-            if( dodge_check( z, target ) ) {
+            if( target->dodge_check( z, hit, dam_inst ) ) {
                 target->add_msg_player_or_npc( _( "The %s thrusts a claw at you, but you evade it!" ),
                                                _( "The %s thrusts a claw at <npcname>, but they evade it!" ),
                                                z->name() );
@@ -4634,8 +4647,6 @@ bool mattack::longswipe( monster *z )
                 return true;
             }
 
-            bodypart_id hit = target->get_random_body_part();
-            damage_instance dam_inst = damage_instance( damage_type::CUT, rng( 3, 7 ) );
             target->block_hit( z, hit, dam_inst );
 
             int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
@@ -4661,16 +4672,17 @@ bool mattack::longswipe( monster *z )
     }
     z->moves -= 100;
 
+    bodypart_id hit = bodypart_id( "head" );
+    damage_instance dam_inst = damage_instance( damage_cut, rng( 6, 10 ) );
+
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         target->add_msg_player_or_npc( _( "The %s slashes at your neck!  You duck!" ),
                                        _( "The %s slashes at <npcname>'s neck!  They duck!" ), z->name() );
         target->on_dodge( z, z->type->melee_skill );
         return true;
     }
 
-    bodypart_id hit = bodypart_id( "head" );
-    damage_instance dam_inst = damage_instance( damage_type::CUT, rng( 6, 10 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
@@ -4771,25 +4783,25 @@ bool mattack::darkman( monster *z )
     // What do we say?
     switch( rng( 1, 7 ) ) {
         case 1:
-            add_msg( _( "\"Stop it please\"" ) );
+            add_msg( _( "\"Stop it please.\"" ) );
             break;
         case 2:
-            add_msg( _( "\"Let us help you\"" ) );
+            add_msg( _( "\"Let us help you.\"" ) );
             break;
         case 3:
-            add_msg( _( "\"We wish you no harm\"" ) );
+            add_msg( _( "\"We wish you no harm.\"" ) );
             break;
         case 4:
-            add_msg( _( "\"Do not fear\"" ) );
+            add_msg( _( "\"Do not fear.\"" ) );
             break;
         case 5:
-            add_msg( _( "\"We can help you\"" ) );
+            add_msg( _( "\"We can help you.\"" ) );
             break;
         case 6:
-            add_msg( _( "\"We are friendly\"" ) );
+            add_msg( _( "\"We are friendly.\"" ) );
             break;
         case 7:
-            add_msg( _( "\"Please dont\"" ) );
+            add_msg( _( "\"Please don't.\"" ) );
             break;
     }
     player_character.add_effect( effect_darkness, 1_turns, true );
@@ -5058,13 +5070,18 @@ bool mattack::evolve_kill_strike( monster *z )
 
     z->moves -= 100;
 
-    if( dodge_check( z, target ) ) {
+    damage_instance damage( z->type->melee_damage );
+    damage.mult_damage( 1.33f );
+    damage.add( damage_instance( damage_stab, dice( z->type->melee_dice, z->type->melee_sides ),
+                                 rng( 5, 15 ), 1.0, 0.5 ) );
+
+    if( target->dodge_check( z, bodypart_id( "torso" ), damage ) ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
@@ -5072,11 +5089,7 @@ bool mattack::evolve_kill_strike( monster *z )
     }
     tripoint const target_pos = target->pos();
     const std::string target_name = target->disp_name();
-    damage_instance damage( z->type->melee_damage );
-    damage.mult_damage( 1.33f );
-    damage.add( damage_instance( damage_type::STAB, dice( z->type->melee_dice, z->type->melee_sides ),
-                                 rng( 5,
-                                      15 ), 1.0, 0.5 ) );
+
     int damage_dealt = target->deal_damage( z, bodypart_id( "torso" ), damage ).total_damage();
     if( damage_dealt > 0 ) {
         game_message_type msg_type = target->is_avatar() ? m_bad : m_warning;
@@ -5328,7 +5341,7 @@ bool mattack::bio_op_takedown( monster *z )
     z->moves -= 100;
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
         target->on_dodge( z, z->type->melee_skill );
@@ -5339,9 +5352,9 @@ bool mattack::bio_op_takedown( monster *z )
         // Handle mons earlier - less to check for
         dam = rng( 6, 18 );
         // Always aim for the torso
-        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
+        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_bash, dam ) );
         // Two hits - "leg" and torso
-        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
+        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_bash, dam ) );
         target->add_effect( effect_downed, 3_turns );
         if( seen ) {
             add_msg( _( "%1$s slams %2$s to the ground!" ), z->name(), target->disp_name() );
@@ -5362,7 +5375,7 @@ bool mattack::bio_op_takedown( monster *z )
     target->add_msg_if_player( m_bad, _( "The %1$s kicks your %2$s for %3$d damage…" ),
                                z->name(),
                                body_part_name_accusative( hit ), dam );
-    foe->deal_damage( z,  hit, damage_instance( damage_type::BASH, dam ) );
+    foe->deal_damage( z,  hit, damage_instance( damage_bash, dam ) );
     // At this point, Martial Arts or Tentacle Bracing can make this much less painful
     if( target->has_grab_break_tec() ) {
         Character *pl = dynamic_cast<Character *>( target );
@@ -5392,12 +5405,12 @@ bool mattack::bio_op_takedown( monster *z )
             dam = rng( 9, 21 );
             target->add_msg_if_player( m_bad, _( "and slams you, face first, to the ground for %d damage!" ),
                                        dam );
-            foe->deal_damage( z, bodypart_id( "head" ), damage_instance( damage_type::BASH, dam ) );
+            foe->deal_damage( z, bodypart_id( "head" ), damage_instance( damage_bash, dam ) );
         } else {
             hit = bodypart_id( "torso" );
             dam = rng( 6, 18 );
             target->add_msg_if_player( m_bad, _( "and slams you to the ground for %d damage!" ), dam );
-            foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
+            foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_bash, dam ) );
         }
         foe->add_effect( effect_downed, 3_turns );
     } else if( !foe->is_armed() ||
@@ -5406,7 +5419,7 @@ bool mattack::bio_op_takedown( monster *z )
         hit = bodypart_id( "torso" );
         dam = rng( 3, 9 );
         target->add_msg_if_player( m_bad, _( "and slams you for %d damage!" ), dam );
-        foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
+        foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_bash, dam ) );
     }
     target->on_hit( z, hit,  z->type->melee_skill );
     foe->check_dead_state();
@@ -5436,7 +5449,7 @@ bool mattack::bio_op_impale( monster *z )
     z->moves -= 100;
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
         target->on_dodge( z, z->type->melee_skill );
@@ -5455,7 +5468,7 @@ bool mattack::bio_op_impale( monster *z )
 
     if( foe == nullptr ) {
         // Handle mons earlier - less to check for
-        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::STAB, dam ) );
+        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_stab, dam ) );
         if( do_bleed ) {
             target->add_effect( effect_source( z ), effect_bleed, rng( 3_minutes, 10_minutes ),
                                 target->get_random_body_part_of_type( body_part_type::type::torso ) );
@@ -5469,7 +5482,7 @@ bool mattack::bio_op_impale( monster *z )
 
     const bodypart_id hit = target->get_random_body_part( true );
 
-    t_dam = foe->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
+    t_dam = foe->deal_damage( z, hit, damage_instance( damage_stab, dam ) ).total_damage();
 
     target->add_msg_player_or_npc( _( "The %1$s tries to impale your %2$s…" ),
                                    _( "The %1$s tries to impale <npcname>'s %2$s…" ),
@@ -5520,7 +5533,7 @@ bool mattack::bio_op_disarm( monster *z )
     z->moves -= 100;
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( dodge_check( z, target ) ) {
+    if( target->dodge_check( z ) ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
         target->on_dodge( z, z->type->melee_skill );
@@ -5887,7 +5900,10 @@ bool mattack::stretch_attack( monster *z )
                                    _( "The %s thrusts its arm at <npcname>." ),
                                    z->name() );
 
-    if( dodge_check( z, target ) ) {
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_stab, rng( 5, 10 ) );
+
+    if( target->dodge_check( z, hit, dam_inst ) ) {
         target->add_msg_player_or_npc( msg_type, _( "You evade the stretched arm and it sails past you!" ),
                                        _( "<npcname> evades the stretched arm!" ) );
         target->on_dodge( z, z->type->melee_skill );
@@ -5896,8 +5912,6 @@ bool mattack::stretch_attack( monster *z )
         return true;
     }
 
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_type::STAB, rng( 5, 10 ) );
     target->block_hit( z, hit, dam_inst );
 
     int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
@@ -5986,18 +6000,6 @@ bool mattack::doot( monster *z )
     sounds::sound( z->pos(), 200, sounds::sound_t::music, _( "DOOT." ), false, "music_instrument",
                    "trumpet" );
     return true;
-}
-
-bool mattack::dodge_check( monster *z, Creature *target )
-{
-    // If successfully uncanny dodged, no need to calculate dodge chance
-    if( target->uncanny_dodge() ) {
-        return true;
-    }
-
-    ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
-    float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
-    return dodge > 0.0 && rng( 0, 10000 ) < 10000 / ( 1 + 99 * std::exp( -.6 * dodge ) );
 }
 
 bool mattack::speaker( monster *z )

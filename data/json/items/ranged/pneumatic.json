@@ -18,7 +18,6 @@
     "weight": "1000 g",
     "volume": "1500 ml",
     "longest_side": "90 cm",
-    "bashing": 9,
     "to_hit": -1,
     "range": 12,
     "dispersion": 150,
@@ -26,7 +25,6 @@
     "clip_size": 150,
     "reload": 500,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
@@ -34,6 +32,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "BB": 150 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "BB": 150 } } ],
+    "melee_damage": { "bash": 9 }
   }
 ]

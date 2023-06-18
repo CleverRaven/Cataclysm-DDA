@@ -27,7 +27,7 @@ unsigned int xor_rand()
     return w = w ^ ( w >> 19 ) ^ ( t ^ ( t >> 8 ) );
 }
 
-TEST_CASE( "colony basics", "[colony]" )
+TEST_CASE( "colony_basics", "[colony]" )
 {
     cata::colony<int *> test_colony;
 
@@ -269,7 +269,7 @@ TEST_CASE( "colony basics", "[colony]" )
     CHECK( test_colony_2.max_size() > test_colony_2.size() );
 }
 
-TEST_CASE( "colony insert and erase", "[colony]" )
+TEST_CASE( "colony_insert_and_erase", "[colony]" )
 {
     cata::colony<int> test_colony;
 
@@ -504,7 +504,7 @@ TEST_CASE( "colony insert and erase", "[colony]" )
     CHECK( test_colony.size() == static_cast<size_t>( count ) );
 }
 
-TEST_CASE( "colony range erase", "[colony]" )
+TEST_CASE( "colony_range_erase", "[colony]" )
 {
     cata::colony<int> test_colony;
 
@@ -767,7 +767,7 @@ TEST_CASE( "colony range erase", "[colony]" )
     CHECK( test_colony.size() == 10 );
 }
 
-TEST_CASE( "colony sort", "[colony]" )
+TEST_CASE( "colony_sort", "[colony]" )
 {
     cata::colony<int> test_colony;
 
@@ -809,7 +809,7 @@ TEST_CASE( "colony sort", "[colony]" )
     CHECK( sorted );
 }
 
-TEST_CASE( "colony insertion methods", "[colony]" )
+TEST_CASE( "colony_insertion_methods", "[colony]" )
 {
     cata::colony<int> test_colony = {1, 2, 3};
 
@@ -892,7 +892,7 @@ TEST_CASE( "colony insertion methods", "[colony]" )
     CHECK( sum == 12060 );
 }
 
-TEST_CASE( "colony perfect forwarding", "[colony]" )
+TEST_CASE( "colony_perfect_forwarding", "[colony]" )
 {
     cata::colony<perfect_forwarding_test> test_colony;
 
@@ -905,7 +905,7 @@ TEST_CASE( "colony perfect forwarding", "[colony]" )
     CHECK( lvalueref == 1 );
 }
 
-TEST_CASE( "colony emplace", "[colony]" )
+TEST_CASE( "colony_emplace", "[colony]" )
 {
     cata::colony<small_struct> test_colony;
     int sum1 = 0;
@@ -926,7 +926,7 @@ TEST_CASE( "colony emplace", "[colony]" )
     CHECK( test_colony.size() == 100 );
 }
 
-TEST_CASE( "colony group size and capacity", "[colony]" )
+TEST_CASE( "colony_group_size_and_capacity", "[colony]" )
 {
     cata::colony<int> test_colony;
     test_colony.change_group_sizes( 50, 100 );
@@ -969,7 +969,7 @@ TEST_CASE( "colony group size and capacity", "[colony]" )
     CHECK( test_colony.capacity() == 3400 );
 }
 
-TEST_CASE( "colony splice", "[colony]" )
+TEST_CASE( "colony_splice", "[colony]" )
 {
     cata::colony<int> test_colony_1;
     cata::colony<int> test_colony_2;

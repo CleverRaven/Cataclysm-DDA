@@ -287,7 +287,7 @@
         "   |.&..............3   ",
         "   |.=..............3   ",
         "   -5----...........3   ",
-        "        |......>....3   ",
+        "        |......v....3   ",
         "        |...........3   ",
         "        |...........3   ",
         "        |.......3---3   ",
@@ -299,17 +299,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_ladder_down",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe" },
+      "palettes": [ "roof_palette" ],
       "place_nested": [
         {
           "chunks": [

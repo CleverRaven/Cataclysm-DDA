@@ -431,28 +431,11 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
             env_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
         }
     }
-    if( jsobj.has_array( "bash_protec" ) ) {
-        // clear data first so that copy-from can override it
-        bash_protec.clear();
-        for( JsonArray ja : jsobj.get_array( "bash_protec" ) ) {
-            bash_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                                 ja.get_int( 1 ) );
-        }
-    }
-    if( jsobj.has_array( "cut_protec" ) ) {
-        // clear data first so that copy-from can override it
-        cut_protec.clear();
-        for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
-            cut_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                                ja.get_int( 1 ) );
-        }
-    }
-    if( jsobj.has_array( "bullet_protec" ) ) {
-        // clear data first so that copy-from can override it
-        bullet_protec.clear();
-        for( JsonArray ja : jsobj.get_array( "bullet_protec" ) ) {
-            bullet_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                                   ja.get_int( 1 ) );
+    if( jsobj.has_array( "protec" ) ) {
+        protec.clear();
+        for( JsonArray ja : jsobj.get_array( "protec" ) ) {
+            protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
+                            load_resistances_instance( ja.get_object( 1 ) ) );
         }
     }
     if( jsobj.has_object( "social_modifiers" ) ) {
@@ -474,6 +457,13 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     }
 }
 
+void bionic_data::finalize()
+{
+    for( auto &p : protec ) {
+        finalize_damage_map( p.second.resist_vals );
+    }
+}
+
 void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
 {
     bionic_factory.load( jo, src );
@@ -481,13 +471,18 @@ void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
 
 std::map<bionic_id, bionic_id> bionic_data::migrations;
 
-void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string & )
+void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string_view )
 {
     const bionic_id from( jo.get_string( "from" ) );
     const bionic_id to = jo.has_string( "to" )
                          ? bionic_id( jo.get_string( "to" ) )
                          : bionic_id::NULL_ID();
     migrations.emplace( from, to );
+}
+
+void bionic_data::finalize_bionic()
+{
+    bionic_factory.finalize();
 }
 
 const std::vector<bionic_data> &bionic_data::get_all()
@@ -1038,7 +1033,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( it->weight() < weight_cap &&
                     it->made_of_any( affected_materials ) ) {
-                    affected.emplace_back( std::make_pair( *it, p ) );
+                    affected.emplace_back( *it, p );
                     stack.erase( it );
                     break;
                 }
@@ -1048,7 +1043,9 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         for( const std::pair<item, tripoint> &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
-            proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
+            proj.impact = damage_instance();
+            // FIXME: Hardcoded damage type
+            proj.impact.add_damage( STATIC( damage_type_id( "bash" ) ), pr.first.weight() / 250_gram );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos() ) - 1;
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
@@ -1066,8 +1063,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         std::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
         if( target.has_value() ) {
             add_msg_activate();
-            assign_activity(
-                player_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) ) );
+            assign_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) );
             if( close_bionics_ui ) {
                 *close_bionics_ui = true;
             }
@@ -1097,7 +1093,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         weather_manager &weather = get_weather();
         const units::temperature player_local_temp = weather.get_temperature( player_character.pos() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                              cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
+                              cur_om_ter, get_location(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
         const w_point weatherPoint = *weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -1145,45 +1141,41 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
             for( item *cable : cables ) {
-                const std::string state = cable->get_var( "state" );
-                if( state == "cable_charger" ) {
-                    add_msg_if_player( m_info,
-                                       _( "Cable is plugged-in to the CBM but it has to be also connected to the power source." ) );
-                }
-                if( state == "cable_charger_link" ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
-                }
-                if( state == "solar_pack_link" ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
-                }
-                if( state == "UPS_link" ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
-                }
-                if( state == "solar_pack" || state == "UPS" ) {
-                    add_msg_if_player( m_info,
-                                       _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
-                }
-                if( state == "pay_out_cable" ) {
-                    add_msg_if_player( m_info,
-                                       _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
-                }
-                if( state == "attach_first" ) {
+                if( !cable->link || cable->link->has_no_links() ) {
                     free_cable = true;
+                } else if( cable->link->has_states( link_state::no_link, link_state::bio_cable ) ) {
+                    add_msg_if_player( m_info,
+                                       _( "You have a cable attached to your CBM but it also has to be connected to a power source." ) );
+                } else if( cable->link->has_states( link_state::solarpack, link_state::bio_cable ) ) {
+                    add_msg_activate();
+                    success = true;
+                    add_msg_if_player( m_info,
+                                       _( "You are attached to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
+                } else if( cable->link->has_states( link_state::ups, link_state::bio_cable ) ) {
+                    add_msg_activate();
+                    success = true;
+                    add_msg_if_player( m_info,
+                                       _( "You are attached to a UPS.  It will charge you if it has some juice in it." ) );
+                } else if( cable->link->has_states( link_state::bio_cable, link_state::vehicle_battery ) ||
+                           cable->link->has_states( link_state::bio_cable, link_state::vehicle_port ) ) {
+                    add_msg_activate();
+                    success = true;
+                    add_msg_if_player( m_info,
+                                       _( "You are attached to a vehicle.  It will charge you if it has some juice in it." ) );
+                } else if( cable->link->s_state == link_state::solarpack ||
+                           cable->link->s_state == link_state::ups ) {
+                    add_msg_if_player( m_info,
+                                       _( "You have a cable attached to a portable power source, but you also need to connect it to your CBM." ) );
+                } else if( cable->link->t_state == link_state::vehicle_battery ||
+                           cable->link->t_state == link_state::vehicle_port ) {
+                    add_msg_if_player( m_info,
+                                       _( "You have a cable attached to a vehicle, but you also need to connect it to your CBM." ) );
                 }
             }
 
-            if( free_cable ) {
+            if( free_cable && !success ) {
                 add_msg_if_player( m_info,
-                                   _( "You have at least one free cable in your inventory that you could use to plug yourself in." ) );
+                                   _( "You have at least one free cable in your inventory that you could use to connect yourself." ) );
             }
         }
         if( !success ) {
@@ -1476,7 +1468,7 @@ void Character::burn_fuel( bionic &bio )
     if( energy_gain == 0_J && solar_powered && !g->is_sheltered( pos() ) ) {
         // Some sort of solar source
 
-        const weather_type_id &wtype = current_weather( pos() );
+        const weather_type_id &wtype = current_weather( get_location() );
         float intensity = incident_sun_irradiance( wtype, calendar::turn ); // W/m2
 
         if( !result.connected_solar.empty() ) {
@@ -1518,7 +1510,7 @@ void Character::burn_fuel( bionic &bio )
         }
         weather_manager &weather = get_weather();
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                              overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
+                              overmap_buffer.ter( global_omt_location() ), get_location(), weather.winddirection,
                               g->is_sheltered( pos() ) );
         energy_gain = 1_kJ * windpower;
     }
@@ -2792,6 +2784,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         }
     }
 
+    invalidate_pseudo_items();
     update_bionic_power_capacity();
 
     calc_encumbrance();
@@ -2804,8 +2797,6 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         recalculate_enchantment_cache();
     }
     effect_on_conditions::process_reactivate( *this );
-
-    invalidate_pseudo_items();
 
     return bio_uid;
 }
@@ -2878,6 +2869,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    update_last_bionic_uid();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     calc_encumbrance();
@@ -2900,7 +2892,10 @@ bionic &Character::bionic_at_index( int i )
 
 void Character::clear_bionics()
 {
-    my_bionics->clear();
+    set_max_power_level_modifier( 0_kJ );
+    while( !my_bionics->empty() ) {
+        remove_bionic( my_bionics->front() );
+    }
 }
 
 void reset_bionics()
@@ -3015,6 +3010,7 @@ std::optional<item> bionic::uninstall_weapon()
 std::vector<const item *> bionic::get_available_pseudo_items( bool include_weapon ) const
 {
     std::vector<const item *> ret;
+    ret.reserve( passive_pseudo_items.size() );
     for( const item &pseudo : passive_pseudo_items ) {
         ret.push_back( &pseudo );
     }
@@ -3111,6 +3107,7 @@ void bionic::serialize( JsonOut &json ) const
     if( is_safe_fuel_on() ) {
         json.member( "safe_fuel_threshold", safe_fuel_threshold );
     }
+    json.member( "show_sprite", show_sprite );
 
     if( has_weapon() ) {
         json.member( "weapon", weapon );
@@ -3143,8 +3140,13 @@ static bionic_id migrate_bionic_id( const bionic_id &original )
 void bionic::deserialize( const JsonObject &jo )
 {
     id = migrate_bionic_id( bionic_id( jo.get_string( "id" ) ) );
+    if( !id.is_valid() ) {
+        debugmsg( "deserialized bionic id '%s' doesn't exist and has no migration", id.str() );
+        id = bionic_id::NULL_ID(); // remove it
+    }
     if( id.is_null() ) {
-        return; // obsoleted bionic
+        jo.allow_omitted_members();
+        return; // obsoleted bionics migrated to bionic_id::NULL_ID ids
     }
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
@@ -3161,6 +3163,9 @@ void bionic::deserialize( const JsonObject &jo )
     }
     if( jo.has_float( "safe_fuel_threshold" ) ) {
         safe_fuel_threshold = jo.get_float( "safe_fuel_threshold" );
+    }
+    if( jo.has_bool( "show_sprite" ) ) {
+        show_sprite = jo.get_bool( "show_sprite" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
         for( const std::string line : jo.get_array( "bionic_tags" ) ) {
@@ -3335,7 +3340,7 @@ std::vector<item *> Character::get_cable_ups()
     std::vector<item *> stored_fuels;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.get_var( "state" ) == "UPS_link";
+        return it.link && it.link->has_states( link_state::ups, link_state::bio_cable );
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3368,14 +3373,14 @@ std::vector<item *> Character::get_cable_solar()
     std::vector<item *> solar_sources;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.get_var( "state" ) == "solar_pack_link";
+        return it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable );
     } );
     int n = cables.size();
     if( n == 0 ) {
         return solar_sources;
     }
 
-    // There is no way to check which cable is connected to which ups
+    // There is no way to check which cable is connected to which solar pack
     // So if there are multiple cables and some of them are only partially connected this may add wrong solar pack
     for( item_location it : all_items_loc() ) {
         if( it->has_flag( flag_SOLARPACK_ON ) && it->get_var( "cable" ) == "plugged_in" ) {
@@ -3399,7 +3404,9 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     std::vector<vehicle *> remote_vehicles;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.get_var( "state" ) == "cable_charger_link";
+        return it.link && it.link->has_state( link_state::bio_cable ) &&
+               ( it.link->has_state( link_state::vehicle_battery ) ||
+                 it.link->has_state( link_state::vehicle_port ) );
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3409,9 +3416,10 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     map &here = get_map();
 
     for( const item *cable : cables ) {
-        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( target ) {
-            const optional_vpart_position vp = here.veh_at( *target );
+        if( cable->link->t_veh_safe ) {
+            remote_vehicles.emplace_back( cable->link->t_veh_safe.get() );
+        } else {
+            const optional_vpart_position vp = here.veh_at( cable->link->t_abs_pos );
             if( vp ) {
                 remote_vehicles.emplace_back( &vp->vehicle() );
             }
@@ -3443,29 +3451,13 @@ bionic_uid Character::get_weapon_bionic_uid() const
     return weapon_bionic_uid;
 }
 
-float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
+float Character::bionic_armor_bonus( const bodypart_id &bp, const damage_type_id &dt ) const
 {
     float result = 0.0f;
-    if( dt == damage_type::CUT || dt == damage_type::STAB ) {
-        for( const bionic_id &bid : get_bionics() ) {
-            const auto cut_prot = bid->cut_protec.find( bp.id() );
-            if( cut_prot != bid->cut_protec.end() ) {
-                result += cut_prot->second;
-            }
-        }
-    } else if( dt == damage_type::BASH ) {
-        for( const bionic_id &bid : get_bionics() ) {
-            const auto bash_prot = bid->bash_protec.find( bp.id() );
-            if( bash_prot != bid->bash_protec.end() ) {
-                result += bash_prot->second;
-            }
-        }
-    } else if( dt == damage_type::BULLET ) {
-        for( const bionic_id &bid : get_bionics() ) {
-            const auto bullet_prot = bid->bullet_protec.find( bp.id() );
-            if( bullet_prot != bid->bullet_protec.end() ) {
-                result += bullet_prot->second;
-            }
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto prot = bid->protec.find( bp.id() );
+        if( prot != bid->protec.end() ) {
+            result += prot->second.type_resist( dt );
         }
     }
 

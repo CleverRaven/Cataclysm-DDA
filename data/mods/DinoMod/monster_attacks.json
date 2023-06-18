@@ -35,7 +35,7 @@
     "miss_msg_npc": "%1$s tries to rip a gash into <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s tries to rip your %2$s with its sharp teeth, but fails to penetrate your armor!",
     "no_dmg_msg_npc": "%1$s tries to rip a gash into <npcname>, but fails to penetrate their armor!",
-    "required_effects_any": [ "grabbing" ],
+    "condition": { "u_has_flag": "GRAB_FILTER" },
     "dodgeable": false,
     "blockable": true
   },
@@ -79,7 +79,7 @@
     "miss_msg_npc": "%1$s tries to pull away a large chunk of flesh from <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s tries to pull your %2$s apart with its sharp teeth, but fails to penetrate your armor!",
     "no_dmg_msg_npc": "%1$s tries to pull away a large chunk of flesh from <npcname>, but fails to penetrate their armor!",
-    "required_effects_any": [ "grabbing" ],
+    "condition": { "u_has_flag": "GRAB_FILTER" },
     "dodgeable": false,
     "blockable": true
   },

@@ -12,14 +12,14 @@
     "price_postapoc": 500,
     "install_time": "10 m",
     "to_hit": 1,
-    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
     "dispersion_modifier": -1,
-    "handling_modifier": 1
+    "handling_modifier": 1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "folding_stock",
@@ -205,14 +205,14 @@
     "price_postapoc": 500,
     "install_time": "5 m",
     "to_hit": 1,
-    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
     "handling_modifier": 4,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "cheek_pad",
@@ -227,7 +227,6 @@
     "price_postapoc": 500,
     "install_time": "3 m",
     "to_hit": 1,
-    "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -235,7 +234,8 @@
     "mod_targets": [ "rifle" ],
     "dispersion_modifier": -1,
     "handling_modifier": 2,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "butt_hook",
@@ -379,7 +379,7 @@
       "moves": 300
     },
     "handling_modifier": -10,
-    "flags": [ "FOLDED_STOCK" ]
+    "//": "This mod shouldn’t get a folding stock flag. The deployed version of this mod adds extra length to the base gun item, which this folded version removes to simulate the greatly shorter length of the sub2000 when collapsed. Adding a folding stock flag will remove another 20 cm from the base gun, making it only 19 cm long."
   },
   {
     "id": "m26_mass_stock",
@@ -394,13 +394,13 @@
     "price_postapoc": 500,
     "install_time": "5 m",
     "to_hit": 1,
-    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "m26_mass_standalone" ],
     "handling_modifier": 4,
-    "min_skills": [ [ "shotgun", 2 ] ]
+    "min_skills": [ [ "shotgun", 2 ] ],
+    "melee_damage": { "bash": 6 }
   }
 ]

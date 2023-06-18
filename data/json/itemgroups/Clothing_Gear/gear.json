@@ -8,6 +8,7 @@
       [ "40x46mm_m433", 5 ],
       [ "40x46mm_m651", 10 ],
       [ "ammo_satchel", 5 ],
+      [ "ammo_pouch", 5 ],
       [ "bootstrap", 5 ],
       [ "chestpouch", 5 ],
       [ "flashbang", 30 ],
@@ -30,7 +31,8 @@
       [ "suppressor", 25 ],
       [ "suppressor_compact", 20 ],
       [ "tac_fullhelmet", 5 ],
-      [ "tac_helmet", 10 ]
+      [ "tac_helmet", 10 ],
+      { "item": "teargas_sprayer", "prob": 25, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -72,7 +74,8 @@
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
       [ "plastichoboreel", 5 ],
-      [ "survivormap", 5 ]
+      [ "survivormap", 5 ],
+      { "item": "teargas_sprayer", "prob": 25, "charges": [ 9, 10 ] }
     ]
   },
   {
@@ -105,7 +108,6 @@
       { "item": "rx11_stimpack", "prob": 1, "charges-min": 0 },
       [ "flaregun", 5 ],
       [ "signal_flare", 5 ],
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 500 },
       { "item": "handflare", "prob": 20, "charges": 300 },
       { "item": "heavy_flashlight", "prob": 30, "charges": [ 0, 300 ] },
       { "item": "glowstick", "prob": 10, "charges": 1400 },
@@ -123,7 +125,7 @@
       [ "knee_pads", 5 ],
       [ "elbow_pads", 5 ],
       [ "legrig", 5 ],
-      { "item": "UPS_off", "prob": 7, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 7, "charges": [ 0, 1000 ] },
       [ "emer_blanket", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "tool_belt", 5 ],
@@ -149,7 +151,7 @@
       { "item": "rad_monitor", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "oxygen_tank", "prob": 10, "charges-min": 4 },
       { "item": "smoxygen_tank", "prob": 15, "charges-min": 2 },
-      [ "UPS_off", 2 ],
+      [ "UPS_OFF", 2 ],
       { "item": "prussian_blue", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "iodine", "prob": 50, "charges": [ 1, 10 ] }
     ]
@@ -192,7 +194,7 @@
         "prob": 85
       },
       {
-        "collection": [ { "item": "rebreather_filter", "prob": 50 }, { "item": "rebreather", "prob": 90, "charges": [ 10, 60 ] } ],
+        "collection": [ { "item": "rebreather_cartridge", "prob": 50, "charges": 100 }, { "item": "rebreather", "prob": 90 } ],
         "prob": 20
       },
       {

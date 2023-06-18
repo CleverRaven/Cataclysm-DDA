@@ -11,7 +11,9 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "make_static.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -19,12 +21,6 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
-
-static const itype_id itype_battery( "battery" );
-
-static const vpart_id vpart_storage_battery( "storage_battery" );
-
-static const vproto_id vehicle_prototype_none( "none" );
 
 static std::vector<const vpart_info *> all_turret_types()
 {
@@ -39,81 +35,63 @@ static std::vector<const vpart_info *> all_turret_types()
     return res;
 }
 
-static const vpart_info *tank_for_ammo( const itype_id &ammo_itype )
-{
-    item ammo( ammo_itype );
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( !vp.base_item ) {
-            continue;
-        }
-        item base_item( vp.base_item );
-        if( base_item.is_watertight_container() && base_item.can_contain( ammo ).success() ) {
-            return &vp;
-        }
-    }
-    return nullptr;
-}
-
-static void install_tank_with_ammo( vehicle *veh, const itype_id &ammo_itype )
-{
-    const vpart_info *tank = tank_for_ammo( ammo_itype );
-    REQUIRE( tank );
-    int tank_idx = veh->install_part( point_zero, tank->get_id(), "", true );
-    REQUIRE( tank_idx >= 0 );
-    vehicle_part &tank_part = veh->part( tank_idx );
-    CHECK( tank_part.is_tank() );
-    CHECK( tank_part.ammo_set( ammo_itype ) > 0 );
-}
-
-static void install_charged_battery( vehicle *veh )
-{
-    const int batt_idx = veh->install_part( point_zero, vpart_storage_battery, "", true );
-    REQUIRE( batt_idx >= 0 );
-    veh->part( batt_idx ).ammo_set( itype_battery, -1 );
-}
-
 // Install, reload and fire every possible vehicle turret.
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
+    clear_map();
     map &here = get_map();
     Character &player_character = get_player_character();
     for( const vpart_info *turret_vpi : all_turret_types() ) {
         SECTION( turret_vpi->name() ) {
-            vehicle *veh = here.add_vehicle( vehicle_prototype_none, point( 65, 65 ), 270_degrees );
+            vehicle *veh = here.add_vehicle( STATIC( vproto_id( "test_turret_rig" ) ),
+                                             point( 65, 65 ), 270_degrees, 0, 0, false, "", false );
             REQUIRE( veh );
 
-            const int turr_idx = veh->install_part( point_zero, turret_vpi->get_id(), "", true );
+            const int turr_idx = veh->install_part( point_zero, turret_vpi->get_id() );
             REQUIRE( turr_idx >= 0 );
-            CHECK( veh->part( turr_idx ).is_turret() );
+            vehicle_part &vp = veh->part( turr_idx );
+            CHECK( vp.is_turret() );
 
-            const itype *base_itype = veh->part( turr_idx ).get_base().type;
+            const itype *base_itype = vp.get_base().type;
             REQUIRE( base_itype );
             REQUIRE( base_itype->gun );
             if( base_itype->gun->energy_drain > 0_kJ || turret_vpi->has_flag( "USE_BATTERIES" ) ) {
-                install_charged_battery( veh );
+                const auto& [bat_current, bat_capacity] = veh->battery_power_level();
+                CHECK( bat_capacity > 0 );
+                veh->charge_battery( bat_capacity, /* apply_loss = */ false );
+                REQUIRE( veh->battery_left( /* apply_loss = */ false ) == bat_capacity );
             }
 
-            const itype_id ammo_itype = veh->part( turr_idx ).get_base().ammo_default();
+            const itype_id ammo_itype = vp.get_base().ammo_default();
             if( ammo_itype.is_null() ) {
                 // probably a pure energy weapon
                 CHECK( base_itype->gun->energy_drain > 0_kJ );
             } else if( turret_vpi->has_flag( "USE_TANKS" ) ) {
-                install_tank_with_ammo( veh, ammo_itype );
+                CAPTURE( ammo_itype.str() );
+                CAPTURE( veh->type.str() );
+                bool filled_tank = false;
+                for( const vpart_reference &vpr : veh->get_all_parts() ) {
+                    vehicle_part &vp = vpr.part();
+                    if( vp.is_tank() && vp.get_base().can_contain( item( ammo_itype ) ).success() ) {
+                        CHECK( vp.ammo_set( ammo_itype ) > 0 );
+                        filled_tank = true;
+                        break;
+                    }
+                }
+                REQUIRE( filled_tank );
             } else {
-                CHECK( veh->part( turr_idx ).ammo_set( ammo_itype ) > 0 );
+                CHECK( vp.ammo_set( ammo_itype ) > 0 );
             }
-            const bool default_ammo_is_RECYCLED = veh->part( turr_idx )
-                                                  .get_base().ammo_effects().count( "RECYCLED" ) > 0;
+            const bool default_ammo_is_RECYCLED = vp.get_base().ammo_effects().count( "RECYCLED" ) > 0;
             CAPTURE( default_ammo_is_RECYCLED );
             INFO( "RECYCLED ammo can sometimes misfire and very rarely fail this test" );
 
-            turret_data qry = veh->turret_query( veh->part( turr_idx ) );
+            turret_data qry = veh->turret_query( vp );
             REQUIRE( qry );
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            player_character.setpos( veh->global_part_pos3( turr_idx ) );
+            player_character.setpos( veh->global_part_pos3( vp ) );
             int shots_fired = 0;
             // 3 attempts to fire, to account for possible misfires
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {

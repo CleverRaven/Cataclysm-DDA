@@ -8,10 +8,10 @@
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 20,
-    "armor_elec": 2,
     "special_attacks": [ [ "SPIT_SAP", 10 ] ],
     "upgrades": { "age_grow": 14, "into": "mon_biollante_sprout" },
-    "death_drops": { "subtype": "collection", "groups": [ [ "biollante", 2 ] ] }
+    "death_drops": { "subtype": "collection", "groups": [ [ "biollante", 2 ] ] },
+    "armor": { "electric": 2 }
   },
   {
     "id": "mon_biollante_sprout",
@@ -44,13 +44,13 @@
     "aggression": 100,
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 3,
     "bleed_rate": 80,
     "harvest": "biollante",
     "dissect": "dissect_plant_sample_single",
     "special_attacks": [ [ "SPIT_SAP", 2 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "biollante", 8 ] ], "//": "80% chance of an item from group biollante" },
-    "flags": [ "NOHEAD", "IMMOBILE" ]
+    "flags": [ "NOHEAD", "IMMOBILE" ],
+    "armor": { "electric": 3 }
   },
   {
     "id": "mon_creeper_hub",
@@ -69,13 +69,12 @@
     "aggression": 100,
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 8,
-    "armor_elec": 2,
     "bleed_rate": 50,
     "harvest": "exempt",
     "special_attacks": [ [ "GROW_VINE", 60 ] ],
     "death_function": { "effect": { "id": "death_kill_vines", "hit_self": true, "min_level": 1 }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "NOHEAD", "IMMOBILE" ]
+    "flags": [ "NOHEAD", "IMMOBILE" ],
+    "armor": { "bash": 8, "electric": 2 }
   },
   {
     "id": "mon_creeper_vine",
@@ -94,13 +93,12 @@
     "aggression": 100,
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 2,
-    "armor_elec": 1,
     "bleed_rate": 80,
     "harvest": "exempt",
     "special_attacks": [ [ "VINE", 100 ] ],
     "death_function": { "effect": { "id": "death_kill_vines", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE" ]
+    "flags": [ "NOHEAD", "HARDTOSHOOT", "PLASTIC", "IMMOBILE" ],
+    "armor": { "bash": 2, "electric": 1 }
   },
   {
     "id": "mon_triffid_sprig",
@@ -122,10 +120,10 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "armor_elec": 1,
     "harvest": "triffid_small",
     "upgrades": { "age_grow": 14, "into": "mon_triffid_young" },
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_triffid_young",
@@ -146,14 +144,14 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_elec": 2,
     "bleed_rate": 75,
     "harvest": "triffid_paralytic",
     "dissect": "dissect_plant_sample_single",
     "upgrades": { "age_grow": 14, "into": "mon_triffid" },
     "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
     "fungalize_into": "mon_fungaloid",
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ],
+    "armor": { "electric": 2 }
   },
   {
     "id": "mon_triffid",
@@ -175,15 +173,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "triffid_paralytic",
     "dissect": "dissect_plant_sample_single",
     "fungalize_into": "mon_fungaloid",
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
+    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_triffid_queen",
@@ -205,16 +200,13 @@
     "melee_dice": 2,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "armor_elec": 4,
     "bleed_rate": 40,
     "harvest": "triffid_queen",
     "dissect": "dissect_plant_sample_small",
     "special_attacks": [ [ "GROWPLANTS", 20 ] ],
     "fungalize_into": "mon_fungaloid",
-    "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ]
+    "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 4 }
   },
   {
     "id": "mon_vinebeast",
@@ -235,14 +227,14 @@
     "melee_skill": 8,
     "melee_dice": 2,
     "melee_dice_sides": 10,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 3,
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "grab_2", "cooldown": 12 } ],
     "dodge": 4,
-    "armor_bash": 18,
     "bleed_rate": 10,
     "harvest": "triffid_small",
     "dissect": "dissect_plant_sample_single",
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ],
+    "armor": { "bash": 18, "electric": 3 }
   },
   {
     "id": "mon_fungal_fighter",
@@ -264,17 +256,14 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "armor_bullet": 5,
-    "armor_elec": 3,
     "bleed_rate": 60,
     "harvest": "triffid_fungal_fighter",
     "dissect": "dissect_plant_sample_single",
     "attack_effs": [ { "id": "paralyzepoison", "intensity": [ 3, 6 ], "duration": [ 20, 60 ] } ],
     "special_attacks": [ [ "PARA_STING", 10 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "fungal_sting", 80 ] ], "//": "80% chance of an item from group fungal_sting" },
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "CAN_DIG" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "CAN_DIG" ],
+    "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 3 }
   },
   {
     "id": "mon_triffid_flower",
@@ -294,13 +283,13 @@
     "aggression": 100,
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "bleed_rate": 60,
     "emit_fields": [ { "emit_id": "emit_pollen_stream", "delay": "1 s" } ],
     "harvest": "triffid_paralytic",
     "dissect": "dissect_plant_sample_small",
     "special_attacks": [ [ "SPIT_SAP", 3 ], [ "PARA_STING", 12 ] ],
-    "flags": [ "NOHEAD", "IMMOBILE" ]
+    "flags": [ "NOHEAD", "IMMOBILE" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_triffid_heart",
@@ -320,14 +309,11 @@
     "aggression": 100,
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 12,
-    "armor_cut": 16,
-    "armor_bullet": 13,
-    "armor_elec": 7,
     "harvest": "triffid_small",
     "dissect": "dissect_plant_sample_huge",
     "special_attacks": [ [ "TRIFFID_HEARTBEAT", 50 ] ],
     "death_function": { "effect": { "id": "death_triffid_heart", "hit_self": true } },
-    "flags": [ "NOHEAD", "IMMOBILE", "QUEEN" ]
+    "flags": [ "NOHEAD", "IMMOBILE", "QUEEN" ],
+    "armor": { "bash": 12, "cut": 16, "bullet": 13, "electric": 7 }
   }
 ]

@@ -52,11 +52,11 @@
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -10,
-    "bashing": 1,
     "material": [ "glass" ],
     "symbol": ",",
     "color": "cyan",
-    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+    "qualities": [ [ "SMOKE_PIPE", 1 ] ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "pipe_tobacco",
@@ -69,10 +69,10 @@
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": -10,
-    "bashing": 1,
     "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
-    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+    "qualities": [ [ "SMOKE_PIPE", 1 ] ],
+    "melee_damage": { "bash": 1 }
   }
 ]

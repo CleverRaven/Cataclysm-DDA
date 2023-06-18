@@ -57,10 +57,12 @@
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "15 m",
+    "time": "2 h",
     "autolearn": true,
+    "batch_time_factors": [ 75, 2 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "fat_tainted", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -724,6 +726,29 @@
     ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "lye_powder", 100 ] ] ],
     "charges": 3
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_sodium",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "120 m",
+    "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
+    "charges": 700,
+    "batch_time_factors": [ 60, 4 ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "electrolysis_kit", 1500 ] ], [ [ "surface_heat", 1, "LIST" ] ], [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "lye_powder", 1129 ] ], [ [ "lamp_oil", 350 ] ] ],
+    "//": "One battery charge is one kJ, one unit of surface_heat is 25 charges, 1129 lye powder is 30 grams, 25 kJ is needed to melt 30 grams of lye.",
+    "//1": "kerosene is used here because sodium metal needs to be suspended in a mineral oil to prevent it from reacting to air. It's half of the resulting sodium because the item itself is 50/50."
   },
   {
     "type": "recipe",
@@ -1439,17 +1464,25 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
     "difficulty": 4,
+    "charges": 500,
     "time": "1 h",
-    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_distilling" },
       { "proficiency": "prof_intro_chem_synth" }
     ],
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "splinter", 55 ] ], [ [ "water", 50 ], [ "water_clean", 50 ] ] ]
+    "//": "Heated to 78.3 degress C, water doesn't boil. 5x40 surface heat to bring the mixture to temp, +5x ish to keep it there for requisite time hour+.",
+    "//1": "6 kg wood to produce 500 ml of methanol at an material efficiency of about 8%, 25,000 kj per recipe or ~14 kwh per kg of methanol.",
+    "//2": "net energy efficiency of about 30% (it takes 10 joules to consolidate the wood into a 3 joules of higher energy density)",
+    "qualities": [ { "id": "DISTILL", "level": 2 } ],
+    "tools": [
+      [ [ "surface_heat", 1000, "LIST" ] ],
+      [ [ "thermometer", -1 ] ],
+      [ [ "ppe_gas", 2, "LIST" ] ],
+      [ [ "water", 40 ], [ "water_clean", 40 ] ]
+    ],
+    "components": [ [ [ "splinter", 40 ] ] ]
   },
   {
     "type": "recipe",
@@ -2411,7 +2444,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
-    "//": "electric arc furnace smelting, cooling, then grinding",
+    "//": "industrial arc furnace smelting, cooling, then grinding",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "60 m",

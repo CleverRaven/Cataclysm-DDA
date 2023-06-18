@@ -10,10 +10,10 @@
     "symbol": "0",
     "material": [ "cotton", "steel" ],
     "volume": "7500 ml",
-    "bashing": 4,
     "category": "veh_parts",
     "price": 35000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -33,9 +33,9 @@
     "weight": "300 g",
     "material": [ "plastic", "aluminum" ],
     "volume": "1250 ml",
-    "bashing": 2,
     "price": 2500,
     "price_postapoc": 250,
-    "copy-from": "seat"
+    "copy-from": "seat",
+    "melee_damage": { "bash": 2 }
   }
 ]

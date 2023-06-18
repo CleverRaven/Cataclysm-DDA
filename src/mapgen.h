@@ -81,12 +81,12 @@ struct jmapgen_int {
     /**
      * Throws as usually if the json is invalid or missing.
      */
-    jmapgen_int( const JsonObject &jo, const std::string &tag );
+    jmapgen_int( const JsonObject &jo, std::string_view tag );
     /**
      * Throws is the json is malformed (e.g. a string not an integer, but does not throw
      * if the member is just missing (the default values are used instead).
      */
-    jmapgen_int( const JsonObject &jo, const std::string &tag, const int &def_val,
+    jmapgen_int( const JsonObject &jo, std::string_view tag, const int &def_val,
                  const int &def_valmax );
 
     int get() const;
@@ -321,13 +321,13 @@ class mapgen_palette
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
          */
-        static mapgen_palette load_temp( const JsonObject &jo, const std::string &src,
+        static mapgen_palette load_temp( const JsonObject &jo, std::string_view src,
                                          const std::string &context );
         /**
          * Load a palette object and adds it to the global set of palettes.
          * If "palette" field is specified, those palettes will be loaded recursively.
          */
-        static void load( const JsonObject &jo, const std::string &src );
+        static void load( const JsonObject &jo, std::string_view src );
 
         /**
          * Returns a palette with given id. If not found, debugmsg and returns a dummy.
@@ -346,7 +346,7 @@ class mapgen_palette
         std::vector<mapgen_value<std::string>> palettes_used;
 
         static mapgen_palette load_internal(
-            const JsonObject &jo, const std::string &src, const std::string &context,
+            const JsonObject &jo, std::string_view src, const std::string &context,
             bool require_id, bool allow_recur );
 
         struct add_palette_context {
@@ -386,7 +386,7 @@ struct jmapgen_objects {
          * them in @ref objects.
          */
         template<typename PieceType>
-        void load_objects( const JsonArray &parray, const std::string &context );
+        void load_objects( const JsonArray &parray, std::string_view context );
 
         /**
          * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,

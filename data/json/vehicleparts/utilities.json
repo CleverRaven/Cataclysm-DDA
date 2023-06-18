@@ -7,12 +7,11 @@
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "broken_color": "light_gray",
-    "broken_symbol": "x",
     "categories": [ "utility" ],
     "color": "red",
     "damage_modifier": 10,
     "damage_reduction": { "all": 29 },
-    "description": "A electric forge for metalworking, powered by the vehicle's batteries.  With a hammer and other tools, you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
+    "description": "An electric forge for metalworking, powered by the vehicle's batteries.  With a hammer and other tools, you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE" ],
     "pseudo_tools": [ { "id": "forge" } ],
@@ -30,8 +29,8 @@
       }
     },
     "size": "50 L",
-    "symbol": "&",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
     "id": "veh_kiln",
@@ -41,7 +40,6 @@
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "broken_color": "light_gray",
-    "broken_symbol": "x",
     "categories": [ "utility" ],
     "color": "red",
     "damage_modifier": 10,
@@ -64,8 +62,8 @@
       }
     },
     "size": "50 L",
-    "symbol": "&",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
     "id": "veh_oil_press_electric",
@@ -75,8 +73,6 @@
     "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.",
     "categories": [ "utility" ],
     "location": "center",
-    "symbol": "Y",
-    "broken_symbol": "x",
     "color": "green",
     "broken_color": "green",
     "damage_modifier": 10,
@@ -102,17 +98,16 @@
       { "item": "element", "count": [ 0, 2 ] },
       { "item": "pipe", "prob": 50 },
       { "item": "motor_small", "prob": 25 }
-    ]
+    ],
+    "variants": [ { "symbols": "Y", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
     "id": "veh_binoculars",
     "name": { "str": "binoculars" },
-    "symbol": "8",
     "looks_like": "binoculars",
     "categories": [ "passengers" ],
     "color": "dark_gray",
-    "broken_symbol": "x",
     "broken_color": "light_gray",
     "damage_modifier": 1,
     "durability": 50,
@@ -126,6 +121,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 2, 5 ] } ]
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 2, 5 ] } ],
+    "variants": [ { "symbols": "8", "symbols_broken": "x" } ]
   }
 ]

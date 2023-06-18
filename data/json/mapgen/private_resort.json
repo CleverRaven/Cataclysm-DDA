@@ -410,7 +410,7 @@
         "                                                                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_concrete_railing", ">": "t_stairs_down" }
+      "terrain": { "#": "t_concrete_railing" }
     }
   },
   {

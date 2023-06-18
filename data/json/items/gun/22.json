@@ -21,7 +21,6 @@
     "price": 163000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 11,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -34,7 +33,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -51,7 +49,8 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "a180mag", "a180mag1", "a180mag2", "a180mag3", "a180mag4" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "marlin_9a",
@@ -76,7 +75,6 @@
     "price": 23000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -88,7 +86,6 @@
     "blackpowder_tolerance": 56,
     "clip_size": 19,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -111,7 +108,8 @@
         "ammo_restriction": { "22": 19 },
         "allowed_speedloaders": [ "marlin_tubeloader" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "moss_brownie",
@@ -135,7 +133,6 @@
     "price": 110000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "22" ],
@@ -145,8 +142,8 @@
     "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
+      [ "belt_clip", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
@@ -156,7 +153,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 4 } } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "rifle_22",
@@ -172,7 +170,6 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -187,7 +184,6 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
@@ -198,7 +194,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "ruger_1022",
@@ -223,7 +220,6 @@
     "price": 27000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -235,7 +231,6 @@
     "min_cycle_recoil": 39,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -252,7 +247,8 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "ruger_lcr_22",
@@ -306,7 +302,6 @@
     "price": 36000,
     "price_postapoc": 750,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -317,7 +312,6 @@
     "durability": 8,
     "min_cycle_recoil": 39,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -332,7 +326,8 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mosquitomag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mosquitomag" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "sw_22",
@@ -357,7 +352,6 @@
     "price": 35000,
     "price_postapoc": 750,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "aluminum", "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "22" ],
@@ -366,7 +360,8 @@
     "min_cycle_recoil": 39,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sw22mag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sw22mag" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "j22",
@@ -390,7 +385,6 @@
     "price": 7000,
     "price_postapoc": 750,
     "to_hit": -3,
-    "bashing": 1,
     "material": [ "budget_steel" ],
     "color": "dark_gray",
     "ammo": [ "22" ],
@@ -399,7 +393,8 @@
     "min_cycle_recoil": 39,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "magazine_well": "27 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "j22mag" ] } ]
+    "pocket_data": [ { "magazine_well": "27 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "j22mag" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "walther_p22",
@@ -423,7 +418,6 @@
     "price": 8500,
     "price_postapoc": 750,
     "to_hit": -3,
-    "bashing": 4,
     "material": [ "plastic", "zinc" ],
     "color": "dark_gray",
     "ammo": [ "22" ],
@@ -431,6 +425,7 @@
     "durability": 7,
     "min_cycle_recoil": 39,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ]
+    "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ],
+    "melee_damage": { "bash": 4 }
   }
 ]

@@ -9,11 +9,11 @@
     "symbol": ",",
     "material": [ "steel" ],
     "volume": "30 L",
-    "bashing": 4,
     "category": "veh_parts",
     "price": 12000,
     "price_postapoc": 1500,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -47,10 +47,10 @@
     "to_hit": -3,
     "symbol": ":",
     "volume": "75 L",
-    "bashing": 9,
     "price": 22000,
     "price_postapoc": 1500,
-    "copy-from": "motor"
+    "copy-from": "motor",
+    "melee_damage": { "bash": 9 }
   },
   {
     "type": "GENERIC",
@@ -59,10 +59,10 @@
     "description": "A light-duty electric motor.  Strong enough for an electric moped or golf cart.",
     "weight": "9 kg",
     "volume": "6 L",
-    "bashing": 1,
     "price": 2000,
     "price_postapoc": 500,
-    "copy-from": "motor"
+    "copy-from": "motor",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",

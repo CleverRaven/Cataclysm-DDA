@@ -89,6 +89,7 @@ enum class event_type : int {
     game_avatar_death,
     game_avatar_new,
     game_load,
+    game_begin,
     game_over,
     game_save,
     game_start,
@@ -98,6 +99,7 @@ enum class event_type : int {
     loses_addiction,
     npc_becomes_hostile,
     opens_portal,
+    opens_spellbook,
     opens_temple,
     player_fails_conduct,
     player_gets_achievement,
@@ -106,6 +108,7 @@ enum class event_type : int {
     releases_subspace_specimens,
     removes_cbm,
     seals_hazardous_material_sarcophagus,
+    spellcasting_finish,
     telefrags_creature,
     teleglow_teleports,
     teleports_into_wall,
@@ -175,7 +178,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 90,
+static_assert( static_cast<int>( event_type::num_event_types ) == 93,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -597,6 +600,14 @@ struct event_spec<event_type::game_load> {
 };
 
 template<>
+struct event_spec<event_type::game_begin> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = { {
+            { "cdda_version", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::game_over> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "total_time_played", cata_variant_type::chrono_seconds },
@@ -667,6 +678,14 @@ struct event_spec<event_type::npc_becomes_hostile> {
 };
 
 template<>
+struct event_spec<event_type::opens_spellbook> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = { {
+            { "character", cata_variant_type::character_id }
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::opens_portal> : event_spec_empty {};
 
 template<>
@@ -717,6 +736,16 @@ struct event_spec<event_type::removes_cbm> {
 
 template<>
 struct event_spec<event_type::seals_hazardous_material_sarcophagus> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::spellcasting_finish> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id },
+            { "school", cata_variant_type::trait_id }
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::telefrags_creature> {

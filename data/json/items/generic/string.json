@@ -162,6 +162,43 @@
     "proportional": { "price": 0.5 }
   },
   {
+    "id": "seatbelt",
+    "copy-from": "rope_6",
+    "type": "GENERIC",
+    "name": { "str": "seat belt" },
+    "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten passenger inside vehicles.",
+    "material": "nylon",
+    "weight": "800 g",
+    "volume": "696 ml",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 3,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
+    "pocket_data": [
+      {
+        "//": "Universal pocket, can store almost anything sans liquid, at the price of high move and encumbrance cost.",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "110 cm",
+        "moves": 2000,
+        "holster": true
+      }
+    ],
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Tie what to the rope?",
+      "holster_msg": "You use an elaborate knot to tie your %s to your %s"
+    },
+    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] }
+  },
+  {
     "id": "stick_fiber",
     "type": "COMESTIBLE",
     "category": "spare_parts",

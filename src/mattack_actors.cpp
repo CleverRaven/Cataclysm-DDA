@@ -4,6 +4,7 @@
 #include <limits>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "avatar.h"
@@ -32,9 +33,14 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
+#include "tileray.h"
 #include "translations.h"
+#include "ui_manager.h"
+#include "vehicle.h"
+#include "veh_type.h"
 #include "viewer.h"
 
+static const damage_type_id damage_bash( "bash" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
@@ -51,110 +57,13 @@ static const efftype_id effect_vampire_virus( "vampire_virus" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 static const efftype_id effect_zombie_virus( "zombie_virus" );
 
+static const flag_id json_flag_GRAB( "GRAB" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 static const trait_id trait_VAMPIRE( "VAMPIRE" );
-
-// Common helpers
-bool mattack_actor::check_self_conditions( monster &z ) const
-{
-    bool failed = true;
-    if( attack_chance != 100 && !x_in_y( attack_chance, 100 ) ) {
-        add_msg_debug( debugmode::DF_MATTACK, "%s's %s attack_chance roll failed (%d%% chance)", z.name(),
-                       id.c_str(), attack_chance );
-        return false;
-    }
-
-    for( const efftype_id &effect : required_effects_all ) {
-        if( !z.has_effect( effect ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Lack of required(all) effect %s", effect.c_str() );
-            return false;
-        }
-    }
-
-    for( const efftype_id &effect : forbidden_effects_any ) {
-        if( z.has_effect( effect ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Forbidden(any) effect %s found", effect.c_str() );
-            return false;
-        }
-    }
-
-    if( !forbidden_effects_all.empty() ) {
-        for( const efftype_id &effect : forbidden_effects_all ) {
-            if( !z.has_effect( effect ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Forbidden(all) effect %s not found", effect.c_str() );
-                failed = false;
-            }
-        }
-        if( failed ) {
-            add_msg_debug( debugmode::DF_MATTACK, "All forbidden(all) effects found" );
-            return false;
-        }
-    }
-    if( !required_effects_any.empty() ) {
-        failed = true;
-        for( const efftype_id &effect : required_effects_any ) {
-            if( z.has_effect( effect ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Required(any) effect %s found", effect.c_str() );
-                failed = false;
-            }
-        }
-        if( failed ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Lack of all required(any) effects" );
-            return false;
-        }
-    }
-    return true;
-}
-
-bool mattack_actor::check_target_conditions( Creature *target ) const
-{
-    bool failed = true;
-    for( const efftype_id &effect : target_forbidden_effects_any ) {
-        if( target->has_effect( effect ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Target forbidden(any) effect %s found", effect.c_str() );
-            return false;
-        }
-    }
-
-    for( const efftype_id &effect : target_required_effects_all ) {
-        if( !target->has_effect( effect ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Lack of target required(all) effect %s", effect.c_str() );
-            return false;
-        }
-    }
-
-    if( !target_forbidden_effects_all.empty() ) {
-        for( const efftype_id &effect : target_forbidden_effects_all ) {
-            if( !target->has_effect( effect ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Target forbidden(all) effect %s not found", effect.c_str() );
-                failed = false;
-            }
-        }
-        if( failed ) {
-            add_msg_debug( debugmode::DF_MATTACK, "All target forbidden(all) effects found" );
-            return false;
-        }
-    }
-
-    if( !target_required_effects_any.empty() ) {
-        failed = true;
-        for( const efftype_id &effect : target_required_effects_any ) {
-            if( target->has_effect( effect ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Target required(any) effect %s found", effect.c_str() );
-                failed = false;
-            }
-        }
-        if( failed ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Lack of all target required(any) effects" );
-            return false;
-        }
-    }
-
-    return true;
-}
 
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
 {
@@ -171,10 +80,12 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
     optional( obj, was_loaded, "message", message,
               to_translation( "The %s leaps!" ) );
-    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
-    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
-    optional( obj, was_loaded, "required_effects_any", required_effects_any );
-    optional( obj, was_loaded, "required_effects_all", required_effects_all );
+
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+
 
     if( obj.has_array( "self_effects" ) ) {
         for( JsonObject eff : obj.get_array( "self_effects" ) ) {
@@ -197,8 +108,12 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
 
-    if( !check_self_conditions( z ) ) {
-        return false;
+    if( has_condition ) {
+        dialogue d( get_talker_for( &z ), nullptr );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
     }
 
     std::vector<tripoint> options;
@@ -326,15 +241,13 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
               to_translation( "%1$s casts %2$s at %3$s!" ) );
     spell_data.trigger_message = monster_message;
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
-    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
-    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
-    optional( obj, was_loaded, "required_effects_any", required_effects_any );
-    optional( obj, was_loaded, "required_effects_all", required_effects_all );
-    optional( obj, was_loaded, "target_forbidden_effects_any", target_forbidden_effects_any );
-    optional( obj, was_loaded, "target_forbidden_effects_all", target_forbidden_effects_all );
-    optional( obj, was_loaded, "target_required_effects_any", target_required_effects_any );
-    optional( obj, was_loaded, "target_required_effects_all", target_required_effects_all );
     optional( obj, was_loaded, "allow_no_target", allow_no_target, false );
+
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+
 
 }
 
@@ -350,13 +263,15 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    if( !check_self_conditions( mon ) ) {
-        return false;
+    if( has_condition ) {
+        dialogue d( get_talker_for( &mon ),
+                    allow_no_target ? nullptr : get_talker_for( mon.attack_target() ) );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
     }
 
-    if( !allow_no_target && !check_target_conditions( mon.attack_target() ) ) {
-        return false;
-    }
 
     const tripoint target = ( spell_data.self ||
                               allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
@@ -383,9 +298,28 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     return true;
 }
 
+void grab::load_grab( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "grab_strength", grab_strength, -1 );
+    optional( jo, was_loaded, "pull_chance", pull_chance, -1 );
+    optional( jo, was_loaded, "grab_effect", grab_effect, effect_grabbed );
+    optional( jo, was_loaded, "pull_msg_u", pull_msg_u, to_translation( "%s pulls you in!" ) );
+    optional( jo, was_loaded, "pull_fail_msg_u", pull_fail_msg_u,
+              to_translation( "%s strains trying to pull you in but fails!" ) );
+    optional( jo, was_loaded, "pull_msg_npc", pull_msg_npc,
+              to_translation( "%s pulls <npcname> in!" ) );
+    optional( jo, was_loaded, "pull_fail_msg_npc", pull_fail_msg_npc,
+              to_translation( "%s strains trying to pull <npcname> in but fails!" ) );
+    optional( jo, was_loaded, "pull_weight_ratio", pull_weight_ratio, 0.75f );
+    was_loaded = true;
+}
+
+
 melee_actor::melee_actor()
 {
-    damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
+    damage_max_instance = damage_instance();
+    // FIXME: Hardcoded damage type
+    damage_max_instance.add_damage( damage_bash, 9 );
     min_mul = 0.5f;
     max_mul = 1.0f;
     move_cost = 100;
@@ -401,14 +335,6 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     }
 
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
-    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
-    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
-    optional( obj, was_loaded, "required_effects_any", required_effects_any );
-    optional( obj, was_loaded, "required_effects_all", required_effects_all );
-    optional( obj, was_loaded, "target_forbidden_effects_any", target_forbidden_effects_any );
-    optional( obj, was_loaded, "target_forbidden_effects_all", target_forbidden_effects_all );
-    optional( obj, was_loaded, "target_required_effects_any", target_required_effects_any );
-    optional( obj, was_loaded, "target_required_effects_all", target_required_effects_all );
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
     optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
@@ -419,7 +345,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "uncanny_dodgeable", uncanny_dodgeable, dodgeable );
     optional( obj, was_loaded, "blockable", blockable, true );
     optional( obj, was_loaded, "effects_require_dmg", effects_require_dmg, true );
-
+    optional( obj, was_loaded, "grab", is_grab, false );
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
 
@@ -443,6 +369,14 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "%s hits you with such a force that it sends you flying!" ) );
     optional( obj, was_loaded, "throw_msg_npc", throw_msg_npc,
               to_translation( "%s hits <npcname> with such a force that it sends them flying!" ) );
+
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+    if( is_grab ) {
+        grab_data.load_grab( obj.get_object( "grab_data" ) );
+    }
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
@@ -510,23 +444,17 @@ Creature *melee_actor::find_target( monster &z ) const
 
 bool melee_actor::call( monster &z ) const
 {
-    if( !check_self_conditions( z ) ) {
-        return false;
-    }
-
     Creature *target = find_target( z );
     if( target == nullptr ) {
         return false;
     }
 
-    if( !check_target_conditions( target ) ) {
-        return false;
-    }
-
-    // If we are biting, make sure the target is grabbed if our z is humanoid
-    if( dynamic_cast<const bite_actor *>( this ) && z.type->bodytype == "human" &&
-        !target->has_effect( effect_grabbed ) ) {
-        return false;
+    if( has_condition ) {
+        dialogue d( get_talker_for( &z ), get_talker_for( *target ) );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
     }
 
     z.mod_moves( -move_cost );
@@ -555,6 +483,10 @@ bool melee_actor::call( monster &z ) const
                              *body_parts.pick();
 
     bodypart_id bp_id = bodypart_id( bp_hit );
+    game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
+
+    add_msg_debug( debugmode::DF_MATTACK, "Accuracy %d, hitspread %d, dodgeable %s", acc, hitspread,
+                   dodgeable ? "true" : "false" );
 
     if( z.has_flag( MF_HIT_AND_RUN ) ) {
         z.add_effect( effect_run, 4_turns );
@@ -571,12 +503,165 @@ bool melee_actor::call( monster &z ) const
 
     if( dodgeable ) {
         if( hitspread < 0 ) {
-            game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                      sfx::get_heard_angle( z.pos() ) );
             target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, mon_name,
                                            body_part_name_accusative( bp_id ) );
             return true;
+        }
+    }
+
+    if( is_grab ) {
+        int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
+                                grab_data.grab_strength;
+        add_msg_debug( debugmode::DF_MATTACK,
+                       "Grab attack targeting bp %s, grab strength %d, pull chance %d", bp_id->name,
+                       eff_grab_strength, grab_data.pull_chance );
+
+        // No second grabs on monsters
+        if( target->is_monster() && target->has_effect_with_flag( json_flag_GRAB ) ) {
+            return false;
+        }
+        // Filter out already-grabbed bodyparts
+        if( target->has_effect_with_flag( json_flag_GRAB, bp_id ) ) {
+            // Iterate through eligable targets to look for a non-grabbed one, fail if none are found
+            add_msg_debug( debugmode::DF_MATTACK, "Target bodypart %s already grabbed",
+                           bp_id->name );
+            for( const bodypart_id bp : target->get_all_eligable_parts( hitsize_min, hitsize_max,
+                    attack_upper ) ) {
+                if( target->has_effect_with_flag( json_flag_GRAB, bp ) ) {
+                    add_msg_debug( debugmode::DF_MATTACK, "Alternative target bodypart %s already grabbed",
+                                   bp->name );
+                    continue;
+                } else {
+                    bp_hit = bp.id();
+                    bp_id = bp;
+                    add_msg_debug( debugmode::DF_MATTACK, "Retargeted to ungrabbed %s",
+                                   bp->name );
+                }
+            }
+            // Couldn't find an eligable limb, fail loudly
+            if( target->has_effect_with_flag( json_flag_GRAB, bp_id ) ) {
+                target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, mon_name,
+                                               body_part_name_accusative( bp_id ) );
+                return true;
+            }
+        }
+
+        // Let's see if we manage to pull if we are a pull in the first place
+        if( grab_data.pull_chance > -1 && x_in_y( grab_data.pull_chance, 100 ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Pull chance roll succeeded, weight limit %.1f g",
+                           to_gram( z.get_weight() ) * grab_data.pull_weight_ratio );
+            // If we're already grabbed check if the pull breaks the existing grabs
+            // Iterate through grabs one by one, fail if we can't break one
+            if( target->has_effect_with_flag( json_flag_GRAB ) ) {
+                for( const effect &eff : target->get_effects_with_flag( json_flag_GRAB ) ) {
+                    if( !x_in_y( eff_grab_strength / 2.0f, eff.get_intensity() ) ) {
+                        target->add_msg_player_or_npc( msg_type,
+                                                       _( "%1s tries to drag you, but something holds you in place!" ),
+                                                       _( "%1s tries to drag <npcname>, but something holds them in place!" ),
+                                                       z.disp_name( false, true ) );
+                        return true;
+
+                    } else {
+                        target->remove_effect( eff.get_id(), eff.get_bp() );
+                    }
+                }
+            }
+            // If we got here you weren't grabbed or the puller broke every grab
+            if( target->get_weight() <= z.get_weight() * grab_data.pull_weight_ratio ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Pull under weight limit, target weight %d g",
+                               to_gram( target->get_weight() ) );
+                //This is where the actual pull code comes - move to a helper?
+                map &here = get_map();
+                bool seen = get_player_view().sees( z );
+
+                // Handle seatbelts TODO: tear you out depending on grab str?
+                Character *foe = dynamic_cast<Character *>( target );
+                const optional_vpart_position veh_part = here.veh_at( target->pos() );
+                if( foe && foe->in_vehicle && veh_part ) {
+                    const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
+                    if( vp_seatbelt ) {
+                        z.moves -= move_cost * 2;
+                        foe->add_msg_player_or_npc( msg_type, _( "%1s tries to drag you, but is stopped by your %2s!" ),
+                                                    _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
+                                                    z.disp_name( false, true ), vp_seatbelt->part().name( false ) );
+                        add_msg_debug( debugmode::DF_MATTACK, "Target on vehicle part with seatbelt, attack failed" );
+                        return true;
+                    }
+                }
+
+                int pull_range = std::min( range, rl_dist( z.pos(), target->pos() ) + 1 );
+                tripoint pt = target->pos();
+                while( pull_range > 0 ) {
+                    // Recalculate the ray each step
+                    // We can't depend on either the target position being constant (obviously),
+                    // but neither on z pos staying constant, because we may want to shift the map mid-pull
+                    const units::angle dir = coord_to_angle( target->pos(), z.pos() );
+                    tileray tdir( dir );
+                    tdir.advance();
+                    pt.x = target->posx() + tdir.dx();
+                    pt.y = target->posy() + tdir.dy();
+                    //Cancel the grab if the space is occupied by something
+                    if( !g->is_empty( pt ) ) {
+                        break;
+                    }
+
+                    if( foe != nullptr ) {
+                        if( foe->in_vehicle ) {
+                            here.unboard_vehicle( foe->pos() );
+                        }
+
+                        if( foe->is_avatar() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
+                                                  pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
+                            g->update_map( pt.x, pt.y );
+                        }
+                    }
+
+                    target->setpos( pt );
+                    pull_range--;
+                    if( foe != nullptr && foe->is_avatar() && seen ) {
+                        g->invalidate_main_ui_adaptor();
+                        inp_mngr.pump_events();
+                        ui_manager::redraw_invalidated();
+                        refresh_display();
+                    }
+                }
+                // If we're in a vehicle after being dragged, board us onto it
+                // This prevents us from being run over by our own vehicle if we're dragged out of it
+                if( foe != nullptr && !foe->in_vehicle &&
+                    here.veh_at( pt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+                    here.board_vehicle( pt, foe );
+                }
+                // The monster might drag a target that's not on it's z level
+                // So if they leave them on open air, make them fall
+                here.creature_on_trap( *target );
+
+                target->add_msg_player_or_npc( msg_type, grab_data.pull_msg_u, grab_data.pull_msg_npc, mon_name,
+                                               target->disp_name() );
+            } else {
+                // Fail and reset the cooldown if we're too chonky
+                target->add_msg_player_or_npc( msg_type, grab_data.pull_fail_msg_u, grab_data.pull_fail_msg_npc,
+                                               mon_name );
+                return true;
+            }
+        } else if( grab_data.pull_chance > -1 ) {
+            // We failed the pull chance roll, return false to select a different attack
+            add_msg_debug( debugmode::DF_MATTACK, "Pull chance roll failed.", grab_data.pull_chance );
+            return false;
+        }
+
+        // Pulls failed before this, no ranged grabs yet
+        if( !target->is_monster() ) {
+            z.add_effect( bp_id->grabbing_effect, 1_days, true, 1 );
+            add_msg_debug( debugmode::DF_MATTACK, "Added grabbing filter effect %s",
+                           bp_id->grabbing_effect.c_str() );
+            // Add grabbed - permanent, removal handled in try_remove_grab on move/wait
+            target->add_effect( grab_data.grab_effect, 1_days, bp_id, true, eff_grab_strength );
+        } else {
+            // Monsters don't have limb scores, no need to target limbs
+            target->add_effect( grab_data.grab_effect, 1_days, body_part_bp_null, true, eff_grab_strength );
+            z.add_effect( effect_grabbing, 1_days, true, 1 );
         }
     }
 
@@ -605,10 +690,9 @@ bool melee_actor::call( monster &z ) const
             z.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first, eff.duration.second ) ),
                           eff.permanent,
                           rng( eff.intensity.first, eff.intensity.second ) );
-            target->add_msg_if_player( m_mixed, eff.message, mon_name );
+            target->add_msg_if_player( msg_type, eff.message, mon_name );
         }
     }
-
     int damage_total = dealt_damage.total_damage();
     add_msg_debug( debugmode::DF_MATTACK, "%s's melee_attack did %d damage", z.name(), damage_total );
     if( damage_total > 0 ) {
@@ -616,7 +700,7 @@ bool melee_actor::call( monster &z ) const
     } else {
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, mon_name,
+        target->add_msg_player_or_npc( msg_type, no_dmg_msg_u, no_dmg_msg_npc, mon_name,
                                        body_part_name_accusative( bp_id ) );
         if( !effects_require_dmg ) {
             for( const mon_effect_data &eff : effects ) {
@@ -630,37 +714,36 @@ bool melee_actor::call( monster &z ) const
         }
     }
     if( throw_strength > 0 ) {
-        z.remove_effect( effect_grabbing );
-        g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
-                           throw_strength );
-        target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, mon_name );
+        if( g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
+                               throw_strength ) ) {
+            target->add_msg_player_or_npc( msg_type, throw_msg_u, throw_msg_npc, mon_name );
 
-        // Items strapped to you may fall off as you hit the ground
-        // when you break out of a grab you have a chance to lose some things from your pockets
-        // that are hanging off your character
-        if( target->is_avatar() ) {
-            std::vector<item_pocket *> pd = target->as_character()->worn.grab_drop_pockets();
-            // if we have items that can be pulled off
-            if( !pd.empty() ) {
-                // choose an item to be ripped off
-                int index = rng( 0, pd.size() - 1 );
-                // the chance the monster knocks an item off
-                int chance = rng( 0, z.type->melee_sides * z.type->melee_dice );
-                // the chance the pocket resists
-                int sturdiness = rng( 0, pd[index]->get_pocket_data()->ripoff );
-                // the item is ripped off your character
-                if( sturdiness < chance ) {
-                    float path_distance = rng_float( 0, 1.0 );
-                    tripoint vector = target->pos() - z.pos();
-                    vector = tripoint( vector.x * path_distance, vector.y * path_distance, vector.z * path_distance );
-                    pd[index]->spill_contents( z.pos() + vector );
-                    add_msg( m_bad, _( "As you hit the ground something comes loose and is knocked away from you!" ) );
-                    popup( _( "As you hit the ground something comes loose and is knocked away from you!" ) );
+            // Items strapped to you may fall off as you hit the ground
+            // when you break out of a grab you have a chance to lose some things from your pockets
+            // that are hanging off your character
+            if( target->is_avatar() ) {
+                std::vector<item_pocket *> pd = target->as_character()->worn.grab_drop_pockets();
+                // if we have items that can be pulled off
+                if( !pd.empty() ) {
+                    // choose an item to be ripped off
+                    int index = rng( 0, pd.size() - 1 );
+                    // the chance the monster knocks an item off
+                    int chance = rng( 0, z.type->melee_sides * z.type->melee_dice );
+                    // the chance the pocket resists
+                    int sturdiness = rng( 0, pd[index]->get_pocket_data()->ripoff );
+                    // the item is ripped off your character
+                    if( sturdiness < chance ) {
+                        float path_distance = rng_float( 0, 1.0 );
+                        tripoint vector = target->pos() - z.pos();
+                        vector = tripoint( vector.x * path_distance, vector.y * path_distance, vector.z * path_distance );
+                        pd[index]->spill_contents( z.pos() + vector );
+                        add_msg( m_bad, _( "As you hit the ground something comes loose and is knocked away from you!" ) );
+                        popup( _( "As you hit the ground something comes loose and is knocked away from you!" ) );
+                    }
                 }
             }
         }
     }
-
     return true;
 }
 
@@ -716,20 +799,24 @@ void bite_actor::load_internal( const JsonObject &obj, const std::string &src )
     if( hitsize_min == -1 ) {
         hitsize_min = 1;
     }
-    infection_chance = obj.get_int( "infection_chance", 5 );
+    optional( obj, was_loaded, "infection_chance", infection_chance, 5 );
 }
 
 void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
     melee_actor::on_damage( z, target, dealt );
+    add_msg_debug( debugmode::DF_MATTACK, "Bite-type attack, infection chance %d", infection_chance );
 
     if( x_in_y( infection_chance, 100 ) ) {
         const bodypart_id &hit = dealt.bp_hit;
         if( target.has_effect( effect_bite, hit.id() ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Incrementing bitten effect on %s", hit->name );
             target.add_effect( effect_bite, 40_minutes, hit, true );
         } else if( target.has_effect( effect_infected, hit.id() ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Incrementing infected effect on %s", hit->name );
             target.add_effect( effect_infected, 25_minutes, hit, true );
         } else {
+            add_msg_debug( debugmode::DF_MATTACK, "Added bitten effect to %s", hit->name );
             target.add_effect( effect_bite, 1_turns, hit, true );
         }
     }

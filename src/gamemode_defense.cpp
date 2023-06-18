@@ -58,7 +58,7 @@ static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
-static const overmap_special_id overmap_special_Mansion_Wild( "Mansion_Wild" );
+static const overmap_special_id overmap_special_Mansion_Road_1( "Mansion_Road_1" );
 static const overmap_special_id overmap_special_bar( "bar" );
 static const overmap_special_id overmap_special_hospital( "hospital" );
 static const overmap_special_id
@@ -280,7 +280,7 @@ void defense_game::init_map()
             break;
 
         case DEFLOC_MANSION:
-            defloc_special = overmap_special_Mansion_Wild;
+            defloc_special = overmap_special_Mansion_Road_1;
             break;
     }
     starting_om.place_special_forced( defloc_special, defloc_pos, om_direction::type::north );
@@ -531,7 +531,7 @@ void defense_game::setup()
                 case 0:
                     // Scenario selection
                     if( action == "LEFT" || action == "RIGHT" ) {
-                        style = increment_and_wrap( style, action == "RIGHT", NUM_DEFENSE_STYLES );
+                        style = inc_clamp_wrap( style, action == "RIGHT", NUM_DEFENSE_STYLES );
                     }
                     init_to_style( style );
                     break;
@@ -539,21 +539,21 @@ void defense_game::setup()
                 case 1:
                     // Location selection
                     if( action == "LEFT" || action == "RIGHT" ) {
-                        location = increment_and_wrap( location, action == "RIGHT", NUM_DEFENSE_LOCATIONS );
+                        location = inc_clamp_wrap( location, action == "RIGHT", NUM_DEFENSE_LOCATIONS );
                     }
                     break;
 
                 case 2:
                     // Difficulty of the first wave
                     if( action == "LEFT" || action == "RIGHT" ) {
-                        initial_difficulty = increment_and_clamp( initial_difficulty, action == "RIGHT" ? 5 : -5, 1000 );
+                        initial_difficulty = inc_clamp( initial_difficulty, action == "RIGHT" ? 5 : -5, 1000 );
                     }
                     break;
 
                 case 3:
                     // Wave Difficulty
                     if( action == "LEFT" || action == "RIGHT" ) {
-                        wave_difficulty = increment_and_clamp( wave_difficulty, action == "RIGHT" ? 5 : -5, 1000 );
+                        wave_difficulty = inc_clamp( wave_difficulty, action == "RIGHT" ? 5 : -5, 1000 );
                     }
                     break;
 
@@ -568,25 +568,25 @@ void defense_game::setup()
 
                 case 5:
                     if( action == "LEFT" || action == "RIGHT" ) {
-                        waves_between_caravans = increment_and_clamp( waves_between_caravans, action == "RIGHT", 1, 50 );
+                        waves_between_caravans = inc_clamp( waves_between_caravans, action == "RIGHT", 1, 50 );
                     }
                     break;
 
                 case 6:
                     if( action == "LEFT" || action == "RIGHT" ) {
-                        initial_cash = increment_and_clamp( initial_cash, action == "LEFT" ? -100 : 100, 1000000 );
+                        initial_cash = inc_clamp( initial_cash, action == "LEFT" ? -100 : 100, 1000000 );
                     }
                     break;
 
                 case 7:
                     if( action == "LEFT" || action == "RIGHT" ) {
-                        cash_per_wave = increment_and_clamp( cash_per_wave, action == "LEFT" ? -100 : 100, 1000000 );
+                        cash_per_wave = inc_clamp( cash_per_wave, action == "LEFT" ? -100 : 100, 1000000 );
                     }
                     break;
 
                 case 8:
                     if( action == "LEFT" || action == "RIGHT" ) {
-                        cash_increase = increment_and_clamp( cash_increase, action == "LEFT" ? -50 : 50, 1000000 );
+                        cash_increase = inc_clamp( cash_increase, action == "LEFT" ? -50 : 50, 1000000 );
                     }
                     break;
 

@@ -888,6 +888,12 @@
         "effect": "do_read"
       },
       {
+        "text": "Please study from an e-book.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_eread"
+      },
+      {
         "text": "Please start deconstructing any vehicles in a deconstruction zone.",
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },

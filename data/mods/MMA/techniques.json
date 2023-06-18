@@ -135,6 +135,31 @@
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "crit_tec": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "stunned" } },
+        {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "NETHER" } },
+            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "MIGO" } },
+            { "not": { "npc_has_species": "SLIME" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "PLANT" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "CYBORG" } },
+            { "not": { "npc_has_species": "HALLUCINATION" } },
+            { "not": { "npc_has_species": "HORROR" } },
+            { "not": { "npc_has_species": "ABERRATION" } },
+            { "not": { "npc_has_species": "KRAKEN" } }
+          ]
+        }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.25 },
@@ -151,6 +176,31 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "crit_tec": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "stunned" } },
+        {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "NETHER" } },
+            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "MIGO" } },
+            { "not": { "npc_has_species": "SLIME" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "PLANT" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "CYBORG" } },
+            { "not": { "npc_has_species": "HALLUCINATION" } },
+            { "not": { "npc_has_species": "HORROR" } },
+            { "not": { "npc_has_species": "ABERRATION" } },
+            { "not": { "npc_has_species": "KRAKEN" } }
+          ]
+        }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.4 },
@@ -213,6 +263,31 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "stunned" } },
+        {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "NETHER" } },
+            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "MIGO" } },
+            { "not": { "npc_has_species": "SLIME" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "PLANT" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "CYBORG" } },
+            { "not": { "npc_has_species": "HALLUCINATION" } },
+            { "not": { "npc_has_species": "HORROR" } },
+            { "not": { "npc_has_species": "ABERRATION" } },
+            { "not": { "npc_has_species": "KRAKEN" } }
+          ]
+        }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
     "flat_bonuses": [
       { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 1.0 },
@@ -293,6 +368,15 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "downed" } },
+        { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
     "attack_vectors_random": [ "FOOT", "LOWER_LEG" ]
   },
@@ -305,6 +389,31 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "stunned" } },
+        {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "NETHER" } },
+            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "MIGO" } },
+            { "not": { "npc_has_species": "SLIME" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "PLANT" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "CYBORG" } },
+            { "not": { "npc_has_species": "HALLUCINATION" } },
+            { "not": { "npc_has_species": "HORROR" } },
+            { "not": { "npc_has_species": "ABERRATION" } },
+            { "not": { "npc_has_species": "KRAKEN" } }
+          ]
+        }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
     "attack_vectors": [ "WEAPON", "HAND" ]
   },
@@ -317,6 +426,29 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "downed" } },
+        {
+          "or": [
+            {
+              "and": [
+                { "npc_has_flag": "GRAB_FILTER" },
+                { "u_has_flag": "GRAB" },
+                {
+                  "roll_contested": { "math": [ "u_val('strength')" ] },
+                  "die_size": 20,
+                  "difficulty": { "math": [ "n_val('grab_strength')" ] }
+                }
+              ]
+            },
+            { "not": { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } }
+          ]
+        }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-downed</info> target of <info>similar or smaller</info> size, may fail on enemies grabbing you",
     "down_dur": 2,
     "knockback_dist": 2,
     "mult_bonuses": [
@@ -336,6 +468,29 @@
     "unarmed_allowed": true,
     "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
     "crit_tec": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "downed" } },
+        {
+          "or": [
+            {
+              "and": [
+                { "npc_has_flag": "GRAB_FILTER" },
+                { "u_has_flag": "GRAB" },
+                {
+                  "roll_contested": { "math": [ "u_val('strength')" ] },
+                  "die_size": 20,
+                  "difficulty": { "math": [ "n_val('grab_strength')" ] }
+                }
+              ]
+            },
+            { "not": { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } }
+          ]
+        }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-downed</info> target of <info>similar or smaller</info> size, may fail on enemies grabbing you",
     "down_dur": 2,
     "knockback_dist": 4,
     "powerful_knockback": true,
@@ -396,6 +551,31 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "stunned" } },
+        {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "NETHER" } },
+            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "MIGO" } },
+            { "not": { "npc_has_species": "SLIME" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "PLANT" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "CYBORG" } },
+            { "not": { "npc_has_species": "HALLUCINATION" } },
+            { "not": { "npc_has_species": "HORROR" } },
+            { "not": { "npc_has_species": "ABERRATION" } },
+            { "not": { "npc_has_species": "KRAKEN" } }
+          ]
+        }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
     "attack_vectors": [ "WEAPON", "HAND" ]
   },
@@ -408,6 +588,8 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
+    "condition": { "not": { "npc_has_effect": "downed" } },
+    "condition_desc": "* Only works on a <info>non-downed</info> target",
     "down_dur": 1,
     "knockback_dist": 2,
     "mult_bonuses": [
