@@ -566,6 +566,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
     clear_avatar();
     avatar &dummy = get_avatar();
+    dummy.oxygen = 0;
     item inhaler( "inhaler" );
     inhaler.ammo_set( itype_albuterol );
     REQUIRE( inhaler.ammo_remaining() > 0 );

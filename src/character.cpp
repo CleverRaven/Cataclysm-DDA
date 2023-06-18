@@ -260,6 +260,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_smoke( "smoke" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
@@ -299,6 +300,7 @@ static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
@@ -652,8 +654,16 @@ int Character::get_oxygen_max() const
 
 bool Character::can_recover_oxygen() const
 {
-    return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
-           !has_effect_with_flag( json_flag_GRAB );
+    if( get_limb_score( limb_score_breathing ) <= 0.5f || has_effect_with_flag( json_flag_GRAB ) ) {
+        return false;
+    }
+
+    if( is_underwater() ) {
+        return has_flag( json_flag_GILLS );
+    } else {
+        return !get_map().get_field( pos(),
+                                     fd_smoke ); // TODO: potentially take into account other suffocating fields.
+    }
 }
 
 void Character::randomize_heartrate()
@@ -5526,6 +5536,9 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_corroding ) {
         return is_immune_damage( damage_acid ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
+    } else if( eff ==
+               effect_smoke ) { // TODO: potentially take into account other fields that could be negated if you can hold breath.
+        return oxygen > 5;
     }
     for( const json_character_flag &flag : eff->immune_flags ) {
         if( has_flag( flag ) ) {
