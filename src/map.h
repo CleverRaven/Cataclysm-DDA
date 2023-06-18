@@ -1320,6 +1320,7 @@ class map
          * hot or perishable liquid to a container.
          */
         void make_active( item_location &loc );
+        void make_active( tripoint_abs_sm const &loc );
 
         /**
          * Update luminosity before and after item's transformation
