@@ -3782,6 +3782,34 @@ static shared_ptr_fast<game::draw_callback_t> create_trail_callback(
     } );
 }
 
+void game::init_draw_async_anim_curses( const tripoint &p, const std::string &ncstr,
+                                        const nc_color &nccol )
+{
+    std::pair <std::string, nc_color> anim( ncstr, nccol );
+    async_anim_layer_curses[p] = anim;
+}
+
+void game::draw_async_anim_curses()
+{
+    // game::draw_async_anim_curses can be called multiple times, storing each animation to be played in async_anim_layer_curses
+    // Iterate through every animation in async_anim_layer
+    for( const auto &anim : async_anim_layer_curses ) {
+        const tripoint p = anim.first - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(),
+                           -u.posz() );
+        const std::string ncstr = anim.second.first;
+        const nc_color nccol = anim.second.second;
+
+        mvwprintz( w_terrain, p.xy(), nccol, ncstr );
+        //shared_ptr_fast<game::draw_callback_t> hit_cb = make_shared_fast<game::draw_callback_t>( [&]() { mvwprintz( w_terrain, p.xy(), nccol, ncstr ); } );
+        //g->add_draw_callback( hit_cb );
+    }
+}
+
+void game::void_async_anim_curses()
+{
+    async_anim_layer_curses.clear();
+}
+
 void game::draw( ui_adaptor &ui )
 {
     if( test_mode ) {
@@ -3804,6 +3832,7 @@ void game::draw( ui_adaptor &ui )
             it = draw_callbacks.erase( it );
         }
     }
+    draw_async_anim_curses();
     wnoutrefresh( w_terrain );
 
     draw_panels( true );
@@ -10404,29 +10433,27 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
         // Add trail animation when sprinting
         if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
-            std::map<tripoint, nc_color> area_color;
-            area_color[oldpos] = c_black;
             if( u.posy() < oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_nw" );
+                    draw_async_anim( oldpos, "run_nw", "\\", c_light_gray );
                 } else if( u.posx() == oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_n" );
+                    draw_async_anim( oldpos, "run_n", "|", c_light_gray );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_ne" );
+                    draw_async_anim( oldpos, "run_ne", "/", c_light_gray );
                 }
             } else if( u.posy() == oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_w" );
+                    draw_async_anim( oldpos, "run_w", "-", c_light_gray );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_e" );
+                    draw_async_anim( oldpos, "run_e", "-", c_light_gray );
                 }
             } else {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_sw" );
+                    draw_async_anim( oldpos, "run_sw", "/", c_light_gray );
                 } else if( u.posx() == oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_s" );
+                    draw_async_anim( oldpos, "run_s", "|", c_light_gray );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_se" );
+                    draw_async_anim( oldpos, "run_se", "\\", c_light_gray );
                 }
             }
         }
