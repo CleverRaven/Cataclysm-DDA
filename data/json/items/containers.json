@@ -308,7 +308,7 @@
     "//": "For reference was used Extrawheel Dry bag Sailor 80L",
     "name": { "str": "large dry bag" },
     "looks_like": "bag_canvas",
-    "description": "A huge watertight bag made of strong plastic. Commonly used in activities with high risk of wetting the equipment, such as kayaking.",
+    "description": "A huge watertight bag made of strong plastic.  Commonly used in activities with high risk of wetting the equipment, such as kayaking.",
     "weight": "1500 g",
     "volume": "1500 ml",
     "longest_side": "35 cm",
