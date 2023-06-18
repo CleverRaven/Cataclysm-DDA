@@ -10,16 +10,15 @@ struct int_distribution_impl {
     virtual int minimum() const = 0;
     virtual int sample() = 0;
     virtual std::string description() const = 0;
-};
-
-int bound_distribution( int lo, int hi, int random ) {
-	if (random < lo) {
-		return lo;
-	} else if( random > hi ) {
-		return hi;
-	}
+	int bound_distribution( int lo, int hi, int random ) {
+		if (random < lo) {
+			return lo;
+		} else if( random > hi ) {
+			return hi;
+		}
 	return random;
-}
+	}
+};
 
 struct fixed_distribution : int_distribution_impl {
     int value;
@@ -43,10 +42,10 @@ struct fixed_distribution : int_distribution_impl {
 };
 
 struct uniform_distribution : int_distribution_impl {
-    std::uniform_int_distribution<int> dist;
+    std::uniform_int_distribution<int> uniform;
 
     explicit uniform_distribution( int a, int b )
-        : dist( a, b )
+        : uniform( a, b )
     {}
 
     int minimum() const override {
@@ -54,55 +53,55 @@ struct uniform_distribution : int_distribution_impl {
     }
 
     int sample() override {
-        return dist( rng_get_engine() );
+        return uniform( rng_get_engine() );
     }
 
     std::string description() const override {
         // NOLINTNEXTLINE(cata-translate-string-literal)
-        return string_format( "Uniform(%d,%d)", dist.a(), dist.b());
+        return string_format( "Uniform(%d,%d)", uniform.a(), uniform.b());
     }
 };
 
 struct binomial_distribution : int_distribution_impl {
-    std::binomial_distribution<int> dist;
+    std::binomial_distribution<> binomial;
 	
-    explicit binomial_distribution( int lo, int hi, int t, double p )
-        : bound_distribution( lo, hi, dist( t, p ) )
-		
-    {}
+    explicit binomial_distribution( int lo, int hi, int t, double p ) {
+		int result_binomial = binomial( t, p )
+		return bound_distribution( lo, hi, result_binomial );
+	}
 	
     int minimum() const override {
         return 0;
     }
 
     int sample() override {
-        return dist( rng_get_engine() );
+        return binomial( rng_get_engine() );
     }
 
     std::string description() const override {
         // NOLINTNEXTLINE(cata-translate-string-literal)
-        return string_format( "Binomial(%d,%.0f)", dist.t(), dist.p());
+        return string_format( "Binomial(%d,%.0f)", binomial.t(), binomial.p());
     }
 };
 
 struct poisson_distribution : int_distribution_impl {
-    std::poisson_distribution<int> dist;
+    std::poisson_distribution<int> poisson;
 
-    explicit poisson_distribution( double mean )
-        : bound_distribution( lo, hi, dist( mean ) )
-    {}
+    explicit poisson_distribution( int lo, int hi, double mean ) {
+		bound_distribution( lo, hi, poisson( mean ) );
+	}
 	
     int minimum() const override {
         return 0;
     }
 
     int sample() override {
-        return dist( rng_get_engine() );
+        return poisson( rng_get_engine() );
     }
 
     std::string description() const override {
         // NOLINTNEXTLINE(cata-translate-string-literal)
-        return string_format( "Poisson(%.0f)", dist.mean() );
+        return string_format( "Poisson(%.0f)", poisson.mean() );
     }
 };
 
