@@ -59,8 +59,7 @@ struct uniform_distribution : int_distribution_impl {
 struct binomial_distribution : int_distribution_impl {
     std::binomial_distribution<int> dist;
     explicit binomial_distribution( int lo, int hi, int t, double p )
-        : dist( t, p )
-    {
+        : dist( t, p ) {
         blo = lo;
         bhi = hi;
     }
