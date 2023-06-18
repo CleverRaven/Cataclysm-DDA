@@ -173,6 +173,9 @@ void int_distribution::deserialize( const JsonValue &jin )
 			}
 		}
 		if( jo.has_member( "poisson" ) ) {
+			if( jo.has_member( "binomial" ) ) {
+				jo.throw_error( "can't use multiple distribution types" );
+			}
 			double mean = jo.get_float( "poisson", 1.0 );
 			if( mean <= 0.0 ) {
 				jo.throw_error( "poisson mean must be greater than 0.0" );
