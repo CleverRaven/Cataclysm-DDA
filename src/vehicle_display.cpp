@@ -89,7 +89,7 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
         ret.symbol = '\'';
         ret.symbol_curses = '\'';
     } else {
-        const units::angle direction = rotate ? face.dir() + 90_degrees : 0_degrees;
+        const units::angle direction = rotate ? 270_degrees - face.dir() : 0_degrees;
         ret.symbol = vv.get_symbol( direction, ret.is_broken );
         ret.symbol_curses = vpart_variant::get_symbol_curses( ret.symbol );
     }

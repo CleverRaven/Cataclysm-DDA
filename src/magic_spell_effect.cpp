@@ -1448,7 +1448,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         // this is when the player stops caring altogether.
         const int max_kills = sp.damage( caster );
         // this determines how strong the morale penalty will be
-        const int guilt_mult = sp.get_level();
+        const int guilt_mult = sp.get_effective_level();
 
         // different message as we kill more of the same monster
         std::string msg = _( "You feel guilty for killing %s." ); // default guilt message

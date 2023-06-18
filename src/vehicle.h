@@ -234,6 +234,18 @@ enum class vp_flag : uint32_t {
     tracked_flag = 16 //carried vehicle part with tracking enabled
 };
 
+class turret_cpu
+{
+        friend vehicle_part;
+    private:
+        std::unique_ptr<npc> brain;
+    public:
+        turret_cpu() = default;
+        turret_cpu( const turret_cpu & );
+        turret_cpu &operator=( const turret_cpu & );
+        ~turret_cpu();
+};
+
 /**
  * Structure, describing vehicle part (i.e., wheel, seat)
  */
@@ -328,6 +340,8 @@ struct vehicle_part {
         /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
 
+        // No need to serialize this, it can simply be reinitialized after starting a new game.
+        turret_cpu cpu; //NOLINT(cata-serialize)
         /**
          * If this part is capable of wholly containing something, process the
          * items in there.
@@ -463,6 +477,13 @@ struct vehicle_part {
         bool is_unavailable( bool carried = true ) const;
         /** parts are available if they aren't unavailable */
         bool is_available( bool carried = true ) const;
+
+        /*
+         * @param veh the vehicle containing this part.
+         * @return npc object with suitable attributes for targeting a vehicle turret.
+        */
+        npc &get_targeting_npc( vehicle &veh );
+        /*@}*/
 
         /** how much blood covers part (in turns). */
         int blood = 0;
@@ -1844,13 +1865,6 @@ class vehicle
          */
         int turrets_aim_and_fire( std::vector<vehicle_part *> &turrets );
 
-        /*
-         * @param pt the vehicle part containing the turret we're trying to target.
-         * @return npc object with suitable attributes for targeting a vehicle turret.
-         */
-        npc get_targeting_npc( const vehicle_part &pt ) const;
-        /*@}*/
-
     public:
         /**
          *  Try to assign a crew member (who must be a player ally) to a specific seat
@@ -2028,7 +2042,7 @@ class vehicle
         // Master list of parts installed in the vehicle.
         std::vector<vehicle_part> parts; // NOLINT(cata-serialize)
         // Used in savegame.cpp to only save real parts to json
-        std::vector<vehicle_part> real_parts() const;
+        std::vector<std::reference_wrapper<const vehicle_part>> real_parts() const;
         // Map of edge parts and their adjacency information
         std::map<point, vpart_edge_info> edges; // NOLINT(cata-serialize)
         // For a given mount point, returns its adjacency info

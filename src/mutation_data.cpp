@@ -233,6 +233,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string_view member
     assign( j, "target", target );
     assign( j, "msg_transform", msg_transform );
     assign( j, "active", active );
+    optional( j, false, "safe", safe, false );
     assign( j, "moves", moves );
 
     return true;

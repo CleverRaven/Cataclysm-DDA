@@ -2582,7 +2582,7 @@
     "type": "item_group",
     "id": "diving_masks",
     "//": "Only diving appropriate masks, it needs to let the user breath underwater.",
-    "items": [ { "item": "rebreather", "prob": 100, "charges": [ 0, 60 ] } ]
+    "items": [ [ "rebreather", 100 ], [ "rebreather_cartridge", 100 ] ]
   },
   {
     "type": "item_group",

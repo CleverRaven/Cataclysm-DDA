@@ -107,6 +107,13 @@ TEST_CASE( "plate_encumbrance", "[encumbrance]" )
     test_encumbrance_items( { with_plates }, "torso", ballistic + plate );
 }
 
+TEST_CASE( "off_limb_ablative_encumbrance", "[encumbrance]" )
+{
+    item with_plates( "test_ghost_vest" );
+    with_plates.force_insert_item( item( "test_plate_skirt" ), item_pocket::pocket_type::CONTAINER );
+    test_encumbrance_items( { with_plates }, "leg_l", plate );
+}
+
 TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
 {
     test_encumbrance( { "test_longshirt", "test_jacket_jean" }, "torso", longshirt_e + jacket_jean_e );
@@ -115,7 +122,7 @@ TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
                       longshirt_e + load_bearing );
 }
 
-TEST_CASE( "Complicated with split layers no conflict", "[encumbrance]" )
+TEST_CASE( "Complicated_with_split_layers_no_conflict", "[encumbrance]" )
 {
     test_encumbrance( { "test_complex_phase", "test_ballistic_vest" }, "torso",
                       ballistic + complex_phase );

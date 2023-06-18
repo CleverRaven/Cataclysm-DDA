@@ -140,7 +140,7 @@ static void expect_cannot_insert( item_pocket &pocket, const item &it,
 // Functions:
 // item_pocket::can_contain
 //
-TEST_CASE( "max item length", "[pocket][max_item_length]" )
+TEST_CASE( "max_item_length", "[pocket][max_item_length]" )
 {
     // Test items with different lengths
     item screwdriver( "test_screwdriver" );
@@ -235,7 +235,7 @@ TEST_CASE( "max item length", "[pocket][max_item_length]" )
 // Functions:
 // item_pocket::can_contain
 //
-TEST_CASE( "max item volume", "[pocket][max_item_volume]" )
+TEST_CASE( "max_item_volume", "[pocket][max_item_volume]" )
 {
     // Test items
     item screwdriver( "test_screwdriver" );
@@ -313,7 +313,7 @@ TEST_CASE( "max item volume", "[pocket][max_item_volume]" )
 // Functions:
 // pocket_data::max_contains_volume
 //
-TEST_CASE( "max container volume", "[pocket][max_contains_volume]" )
+TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
 {
     // TODO: Add tests for having multiple ammo types in the ammo_restriction
 
@@ -358,7 +358,7 @@ TEST_CASE( "max container volume", "[pocket][max_contains_volume]" )
 // item_pocket::can_contain
 // item_pocket::insert_item
 //
-TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restriction]" )
+TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restriction]" )
 {
     pocket_data data_mag( item_pocket::pocket_type::MAGAZINE );
 
@@ -453,7 +453,7 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
 // item_pocket::can_contain
 // pocket_data::max_contains_volume
 //
-TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
+TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
 {
     // Items with BELT_CLIP flag
     item screwdriver( "test_screwdriver" );
@@ -580,7 +580,7 @@ TEST_CASE( "pocket with item flag restriction", "[pocket][flag_restriction]" )
 // item_pocket::can_contain
 // item_pocket::insert_item
 //
-TEST_CASE( "holster can contain one fitting item", "[pocket][holster]" )
+TEST_CASE( "holster_can_contain_one_fitting_item", "[pocket][holster]" )
 {
     // Start with a basic test handgun from data/mods/TEST_DATA/items.json
     item glock( "test_glock" );
@@ -668,7 +668,7 @@ TEST_CASE( "holster can contain one fitting item", "[pocket][holster]" )
 // Functions:
 // item_pocket::watertight
 //
-TEST_CASE( "pockets containing liquids", "[pocket][watertight][liquid]" )
+TEST_CASE( "pockets_containing_liquids", "[pocket][watertight][liquid]" )
 {
     // Liquids
     item ketchup( "ketchup", calendar::turn_zero, item::default_charges_tag{} );
@@ -768,7 +768,7 @@ TEST_CASE( "pockets containing liquids", "[pocket][watertight][liquid]" )
 // Functions:
 // item_pocket::airtight
 //
-TEST_CASE( "pockets containing gases", "[pocket][airtight][gas]" )
+TEST_CASE( "pockets_containing_gases", "[pocket][airtight][gas]" )
 {
     item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
 
@@ -821,7 +821,7 @@ TEST_CASE( "pockets containing gases", "[pocket][airtight][gas]" )
 // item_pocket::insert_item
 // item_pocket::item_size_modifier
 //
-TEST_CASE( "rigid and non-rigid or flexible pockets", "[pocket][rigid][flexible]" )
+TEST_CASE( "rigid_and_non-rigid_or_flexible_pockets", "[pocket][rigid][flexible]" )
 {
     item rock( "test_rock" );
 
@@ -926,7 +926,7 @@ TEST_CASE( "rigid and non-rigid or flexible pockets", "[pocket][rigid][flexible]
 // item_pocket::can_contain
 // item_pocket::insert_item
 //
-TEST_CASE( "corpse can contain anything", "[pocket][corpse]" )
+TEST_CASE( "corpse_can_contain_anything", "[pocket][corpse]" )
 {
     item rock( "test_rock" );
     item glock( "test_glock" );
@@ -958,7 +958,7 @@ TEST_CASE( "corpse can contain anything", "[pocket][corpse]" )
 // item_pocket::sealed
 // item_pocket::sealable
 //
-TEST_CASE( "sealed containers", "[pocket][seal]" )
+TEST_CASE( "sealed_containers", "[pocket][seal]" )
 {
     item water( "water" );
 
@@ -1045,7 +1045,7 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
 // Functions:
 // item_pocket::better_pocket
 //
-TEST_CASE( "when one pocket is better than another", "[pocket][better]" )
+TEST_CASE( "when_one_pocket_is_better_than_another", "[pocket][better]" )
 {
     // TODO:
     // settings.is_better_favorite() is top priority
@@ -1117,7 +1117,7 @@ static item_pocket *get_only_pocket( item &container )
     return pockets[0];
 }
 
-TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
+TEST_CASE( "best_pocket_in_item_contents", "[pocket][item][best]" )
 {
     item_location loc;
 
@@ -1236,7 +1236,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
 // item_pocket::favorite_settings::get_item_whitelist
 // item_pocket::favorite_settings::get_item_blacklist
 //
-TEST_CASE( "pocket favorites allow or restrict items", "[pocket][favorite][item]" )
+TEST_CASE( "pocket_favorites_allow_or_restrict_items", "[pocket][favorite][item]" )
 {
     item_location loc;
 
@@ -1398,7 +1398,7 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][favorite][item]
     }
 }
 
-TEST_CASE( "pocket favorites allow or restrict containers", "[pocket][favorite][item]" )
+TEST_CASE( "pocket_favorites_allow_or_restrict_containers", "[pocket][favorite][item]" )
 {
     item_pocket::favorite_settings settings;
 
@@ -1577,7 +1577,7 @@ static item *add_item_to_best_pocket( Character &dummy, const item &it )
 // Character::best_pocket( it, avoid )
 // NOTE: different syntax than item_contents::best_pocket
 // (Second argument is `avoid` item pointer, not parent item location)
-TEST_CASE( "character best pocket", "[pocket][character][best]" )
+TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
 {
     item_location loc;
     Character &dummy = get_player_character();
@@ -1717,7 +1717,7 @@ TEST_CASE( "character best pocket", "[pocket][character][best]" )
     }
 }
 
-TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
+TEST_CASE( "guns_and_gunmods", "[pocket][gunmod]" )
 {
     item m4a1( "m4_carbine" );
     item strap( "shoulder_strap" );
@@ -1726,7 +1726,7 @@ TEST_CASE( "guns and gunmods", "[pocket][gunmod]" )
     CHECK( m4a1.put_in( strap, item_pocket::pocket_type::MOD ).success() );
 }
 
-TEST_CASE( "usb drives and software", "[pocket][software]" )
+TEST_CASE( "usb_drives_and_software", "[pocket][software]" )
 {
     item usb( "usb_drive" );
     item software( "software_math" );
@@ -2222,7 +2222,7 @@ static void test_pickup_autoinsert( bool autopickup )
     }
 }
 
-TEST_CASE( "picking up items respects pocket autoinsert settings", "[pocket][item]" )
+TEST_CASE( "picking_up_items_respects_pocket_autoinsert_settings", "[pocket][item]" )
 {
     GIVEN( "autopickup" ) {
         test_pickup_autoinsert( true );
@@ -2233,11 +2233,12 @@ TEST_CASE( "picking up items respects pocket autoinsert settings", "[pocket][ite
     }
 }
 
-TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
+TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
 {
+    clear_map();
+    clear_avatar();
     map &m = get_map();
     Character &u = get_player_character();
-    clear_character( u, true );
     item water( "water" );
     item cont_jug( "test_jug_plastic" );
     item cont_suit( "test_robofac_armor_rig" );
@@ -2423,7 +2424,7 @@ static bool test_wallet_filled( Item_spawn_data *wallet_group )
     return wallets == 1;
 }
 
-TEST_CASE( "full wallet spawn test", "[pocket][item]" )
+TEST_CASE( "full_wallet_spawn_test", "[pocket][item]" )
 {
     const int iters = 100;
     const std::vector<Item_spawn_data *> groups = {
@@ -2451,7 +2452,7 @@ TEST_CASE( "full wallet spawn test", "[pocket][item]" )
     }
 }
 
-TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
+TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
 {
     avatar &u = get_avatar();
     item tool_belt( "test_tool_belt_pocket_mix" );
@@ -2594,7 +2595,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
     }
 }
 
-TEST_CASE( "item cannot contain contents it already has", "[item][pocket]" )
+TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
 {
     item backpack( "test_backpack" );
     item bottle( "bottle_plastic" );
@@ -2643,7 +2644,7 @@ TEST_CASE( "item cannot contain contents it already has", "[item][pocket]" )
     CHECK( !backpack_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
 }
 
-TEST_CASE( "Sawed off fits in large holster", "[item][pocket]" )
+TEST_CASE( "Sawed_off_fits_in_large_holster", "[item][pocket]" )
 {
     item double_barrel( "shotgun_d" );
     item large_holster( "XL_holster" );
@@ -2658,7 +2659,7 @@ TEST_CASE( "Sawed off fits in large holster", "[item][pocket]" )
 
 // this tests for cases where we try to find a nested pocket for items (when a parent pocket has some restrictions) and find a massive bag inside the parent pocket
 // need to make sure we don't try to fit things larger than the parent pockets remaining volume inside the child pocket if it is non-rigid
-TEST_CASE( "bag with restrictions and nested bag doesn't fit too large items", "[item][pocket]" )
+TEST_CASE( "bag_with_restrictions_and_nested_bag_does_not_fit_too_large_items", "[item][pocket]" )
 {
     item backpack( "test_backpack" );
     item backpack_two( "test_backpack" );
