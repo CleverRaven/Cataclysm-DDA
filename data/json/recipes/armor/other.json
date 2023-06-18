@@ -374,10 +374,10 @@
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" }
     ],
-    "charges": 12,
+    "charges": 48,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "chem_potassium", 45 ] ] ],
+    "components": [ [ [ "chem_potassium", 180 ] ] ],
     "//": "Potassium is just heated up until it reacts with the oxygen in air"
   },
   {
