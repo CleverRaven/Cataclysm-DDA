@@ -4094,7 +4094,7 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
 std::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
-        if( p->has_item( *it ) ) {
+        if( p ) {
             // mp3 player in inventory, we can listen
             play_music( *p, pos, 0, 20 );
             music::activate_music_id( music::music_id::mp3 );
