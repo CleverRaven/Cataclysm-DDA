@@ -192,8 +192,7 @@
     "name": { "str": "electric forge" },
     "description": "An electric forge, plugged in and ready to be used for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "looks_like": "veh_forge"
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ]
   },
   {
     "type": "vehicle_part",
