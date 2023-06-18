@@ -455,10 +455,7 @@
     "flags": [ "FULL_MAGAZINE" ],
     "time": "15 m",
     "autolearn": true,
-    "components": [
-      [ [ "rebreather_cartridge_regen", 1 ] ],
-      [ [ "rebreather_filler_ko2", 360 ] ]
-    ]
+    "components": [ [ [ "rebreather_cartridge_regen", 1 ] ], [ [ "rebreather_filler_ko2", 360 ] ] ]
   },
   {
     "result": "gasfilter_sm",
