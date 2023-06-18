@@ -33,6 +33,8 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_activate_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_deactivate_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_learn_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_forget_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_mutate( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -49,6 +51,7 @@ struct talk_effect_fun_t {
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_run_eocs( const JsonObject &jo, std::string_view member );
         void set_run_eoc_with( const JsonObject &jo, std::string_view member );
+        void set_run_eoc_selector( const JsonObject &jo, std::string_view member );
         void set_run_npc_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_queue_eocs( const JsonObject &jo, std::string_view member );
         void set_queue_eoc_with( const JsonObject &jo, std::string_view member );
@@ -139,6 +142,9 @@ struct var_info {
 };
 
 std::string read_var_value( const var_info &info, const dialogue &d );
+
+var_info process_variable( const std::string &type );
+
 
 struct str_or_var {
     std::optional<std::string> str_val;

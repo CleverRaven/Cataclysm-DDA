@@ -2470,6 +2470,25 @@ void talk_effect_fun_t::set_add_trait( const JsonObject &jo, const std::string &
     };
 }
 
+void talk_effect_fun_t::set_activate_trait( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, new_trait]( dialogue const & d ) {
+        d.actor( is_npc )->activate_mutation( trait_id( new_trait.evaluate( d ) ) );
+    };
+}
+
+
+void talk_effect_fun_t::set_deactivate_trait( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, new_trait]( dialogue const & d ) {
+        d.actor( is_npc )->deactivate_mutation( trait_id( new_trait.evaluate( d ) ) );
+    };
+}
+
 void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -4076,6 +4095,125 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
     };
 }
 
+void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::string_view member )
+{
+    std::vector<str_or_var> eocs;
+    for( const JsonValue &jv : jo.get_array( member ) ) {
+        eocs.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+    }
+
+    if( eocs.empty() ) {
+        jo.throw_error( "Invalid input for run_eocs" );
+    }
+
+    std::vector<str_or_var> eoc_names;
+    if( jo.has_array( "names" ) ) {
+        for( const JsonValue &jv : jo.get_array( "names" ) ) {
+            eoc_names.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+        }
+    }
+
+    std::vector<str_or_var> eoc_descriptions;
+    if( jo.has_array( "descriptions" ) ) {
+        for( const JsonValue &jv : jo.get_array( "descriptions" ) ) {
+            eoc_descriptions.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+        }
+    }
+
+    std::vector<char> eoc_keys;
+    if( jo.has_array( "keys" ) ) {
+        for( const JsonValue &jv : jo.get_array( "keys" ) ) {
+            std::string val = jv.get_string();
+            if( val.size() != 1 ) {
+                jo.throw_error( "Invalid input for run_eoc_selector, key strings must be exactly 1 character." );
+            } else {
+                eoc_keys.push_back( val[0] );
+            }
+        }
+    }
+
+    if( !eoc_names.empty() && eoc_names.size() != eocs.size() ) {
+        jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and names needs to be identical, or names need to be empty" );
+    }
+
+    if( !eoc_descriptions.empty() && eoc_descriptions.size() != eocs.size() ) {
+        jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and descriptions needs to be identical, or descriptions need to be empty" );
+    }
+
+    if( !eoc_keys.empty() && eoc_keys.size() != eocs.size() ) {
+        jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
+    }
+
+    std::unordered_map<std::string, str_or_var> context;
+    if( jo.has_object( "variables" ) ) {
+        const JsonObject &variables = jo.get_object( "variables" );
+        for( const JsonMember &jv : variables ) {
+            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
+                                                  true );
+        }
+    }
+
+    bool hide_failing = false;
+    if( jo.has_bool( "hide_failing" ) ) {
+        hide_failing = jo.get_bool( "hide_failing" );
+    }
+
+    std::string title = jo.get_string( "title", _( "Select an option." ) );
+
+    function = [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
+          hide_failing]( dialogue & d ) {
+        uilist eoc_list;
+
+        eoc_list.text = title;
+        eoc_list.allow_cancel = false;
+        eoc_list.desc_enabled = !eoc_descriptions.empty();
+
+        for( size_t i = 0; i < eocs.size(); i++ ) {
+            effect_on_condition_id eoc_id = effect_on_condition_id( eocs[i].evaluate( d ) );
+
+            // check and set condition
+            bool display = false;
+            if( eoc_id->has_condition ) {
+                // if it has a condition check that it is true
+                display = eoc_id->test_condition( d );
+            } else {
+                display = true;
+            }
+
+            if( hide_failing && !display ) {
+                // skip hidden entries
+                continue;
+            }
+
+            std::string description;
+            if( !eoc_descriptions.empty() ) {
+                description = eoc_descriptions[i].evaluate( d );
+            }
+
+            if( eoc_keys.empty() ) {
+                eoc_list.entries.emplace_back( i, display, std::nullopt,
+                                               ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
+            } else {
+                eoc_list.entries.emplace_back( i, display, eoc_keys[i],
+                                               ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
+            }
+        }
+        dialogue newDialog( d );
+        for( const auto &val : context ) {
+            newDialog.set_value( val.first, val.second.evaluate( d ) );
+        }
+        if( eoc_list.entries.empty() ) {
+            // if we have no entries should exit with error
+            debugmsg( "No options for EOC_LIST" );
+            return;
+        }
+
+        eoc_list.query();
+
+        effect_on_condition_id( eocs[eoc_list.ret].evaluate( d ) )->activate( newDialog );
+    };
+}
+
 void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::string_view member )
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
@@ -4874,7 +5012,15 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_remove_trait( jo, "u_lose_trait" );
     } else if( jo.has_member( "npc_lose_trait" ) ) {
         subeffect_fun.set_remove_trait( jo, "npc_lose_trait", is_npc );
-    } else if( jo.has_member( "u_mutate" ) || jo.has_array( "u_mutate" ) ) {
+    } else if( jo.has_member( "u_deactivate_trait" ) ) {
+        subeffect_fun.set_deactivate_trait( jo, "u_deactivate_trait" );
+    } else if( jo.has_member( "npc_deactivate_trait" ) ) {
+        subeffect_fun.set_deactivate_trait( jo, "npc_deactivate_trait", is_npc );
+    } else if( jo.has_member( "u_activate_trait" ) ) {
+        subeffect_fun.set_activate_trait( jo, "u_activate_trait" );
+    } else if( jo.has_member( "npc_activate_trait" ) ) {
+        subeffect_fun.set_activate_trait( jo, "npc_activate_trait", is_npc );
+    } else if( jo.has_member( "u_mutate" ) ) {
         subeffect_fun.set_mutate( jo, "u_mutate" );
     } else if( jo.has_member( "npc_mutate" ) || jo.has_array( "npc_mutate" ) ) {
         subeffect_fun.set_mutate( jo, "npc_mutate", is_npc );
@@ -5026,6 +5172,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_run_eocs( jo, "run_eocs" );
         } else if( jo.has_member( "run_eoc_with" ) ) {
             subeffect_fun.set_run_eoc_with( jo, "run_eoc_with" );
+        } else if( jo.has_member( "run_eoc_selector" ) ) {
+            subeffect_fun.set_run_eoc_selector( jo, "run_eoc_selector" );
         } else if( jo.has_array( "queue_eocs" ) || jo.has_member( "queue_eocs" ) ) {
             subeffect_fun.set_queue_eocs( jo, "queue_eocs" );
         } else if( jo.has_member( "queue_eoc_with" ) ) {
@@ -5140,6 +5288,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_mining ),
             WRAP( do_mopping ),
             WRAP( do_read ),
+            WRAP( do_eread ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
             WRAP( assign_guard ),

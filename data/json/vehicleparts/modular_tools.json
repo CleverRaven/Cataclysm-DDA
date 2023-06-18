@@ -91,7 +91,6 @@
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "broken_color": "light_cyan",
-    "broken_symbol": "x",
     "categories": [ "utility" ],
     "color": "light_cyan",
     "damage_modifier": 10,
@@ -140,7 +139,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 10 ] ]
       }
     },
-    "symbol": "&"
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",

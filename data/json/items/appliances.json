@@ -266,6 +266,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "standing_directed_floodlight",
+    "name": { "str": "disconnected standing directed floodlight" },
+    "description": "A large, heavy light designed to illuminate a wide semicircle in a chosen direction when plugged into a power outlet.",
+    "weight": "2750 g",
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "volume": "2 L",
+    "longest_side": "170 cm",
+    "price": 90000,
+    "price_postapoc": 1500,
+    "looks_like": "standing_floodlight",
+    "symbol": "F",
+    "color": "white",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
     "id": "wall_wiring",
     "name": { "str": "wall wiring" },
     "description": "Electric wires used to run power through walls.",

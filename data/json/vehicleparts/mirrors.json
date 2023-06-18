@@ -3,11 +3,8 @@
     "type": "vehicle_part",
     "id": "wing_mirror",
     "name": { "str": "wing mirror" },
-    "symbol": "o",
     "categories": [ "other" ],
     "color": "light_cyan",
-    "symbols": { "left": "o", "right": "o" },
-    "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
     "durability": 20,
@@ -21,16 +18,18 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE" ],
-    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ],
+    "variants": [
+      { "id": "left", "label": "Left", "symbols": "o", "symbols_broken": "*" },
+      { "id": "right", "label": "Right", "symbols": "o", "symbols_broken": "*" }
+    ]
   },
   {
     "type": "vehicle_part",
     "id": "inboard_mirror",
     "name": { "str": "inboard mirror" },
-    "symbol": "o",
     "categories": [ "other" ],
     "color": "light_cyan",
-    "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
     "durability": 30,
@@ -44,6 +43,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "VISION" ],
-    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ],
+    "variants": [ { "symbols": "o", "symbols_broken": "*" } ]
   }
 ]

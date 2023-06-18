@@ -42,6 +42,24 @@
     "restriction": "Item must be an armored mantle"
   },
   {
+    "id": "STAR_PLATE",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance plate"
+  },
+  {
+    "id": "STAR_SHOULDER",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance shoulder"
+  },
+  {
+    "id": "STAR_SKIRT",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance skirt"
+  },
+  {
     "id": "ABLATIVE_MEDIUM",
     "type": "json_flag",
     "info": "This plate will fit in <info>medium</info> armor pockets",
@@ -340,6 +358,12 @@
     "type": "json_flag",
     "info": "This item is attachable in <info>tactical helmets</info> as a flashlight.",
     "restriction": "Item must be some kind of flashlight"
+  },
+  {
+    "id": "HELMET_AVENTAIL",
+    "type": "json_flag",
+    "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",
+    "restriction": "Item must be some kind of chainmail veil"
   },
   {
     "id": "COLD_IMMUNE",
@@ -872,7 +896,7 @@
     "id": "WATERPROOF",
     "type": "json_flag",
     "//": "Prevents the covered body-part(s) from getting wet in any circumstance.",
-    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
+    "info": "This clothing <info>won't let water through</info>.  Even if you jump into a river."
   },
   {
     "id": "WATER_FRIENDLY",
@@ -2179,5 +2203,20 @@
     "id": "BANK_NOTE_STRAP_SHAPED",
     "type": "json_flag",
     "restriction": "Item must be shaped like a bank note strap"
+  },
+  {
+    "id": "GASFILTER_SM",
+    "type": "json_flag",
+    "info": "A small-sized gasmask filter."
+  },
+  {
+    "id": "GASFILTER_MED",
+    "type": "json_flag",
+    "info": "A medium-sized gasmask filter."
+  },
+  {
+    "id": "REBREATHER_CART",
+    "type": "json_flag",
+    "info": "A filter for a rebreather."
   }
 ]

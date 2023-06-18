@@ -167,6 +167,8 @@ class outfit
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
         std::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
                 bool interactive, bool do_calc_encumbrance, bool do_sort_items = true, bool quiet = false );
+        // go through each worn ablative item and set the pockets as disabled for rigid if some hard armor is also worn
+        void recalc_ablative_blocking( const Character *guy );
         /** Calculate and return any bodyparts that are currently uncomfortable. */
         std::unordered_set<bodypart_id> where_discomfort( const Character &guy ) const;
         // used in game::wield

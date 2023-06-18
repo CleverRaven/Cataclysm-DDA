@@ -352,5 +352,12 @@
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "raw_bottle_gourd", 1 ] ] ]
+  },
+  {
+    "result": "seed_eggplant",
+    "type": "recipe",
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "eggplant", 1 ] ] ],
+    "charges": 8
   }
 ]

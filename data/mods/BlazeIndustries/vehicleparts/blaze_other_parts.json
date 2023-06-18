@@ -3,11 +3,9 @@
     "type": "vehicle_part",
     "id": "cargo_rack_extended",
     "name": { "str": "cargo shelving" },
-    "symbol": "=",
     "looks_like": "box",
     "categories": [ "cargo" ],
     "color": "light_gray",
-    "broken_symbol": "#",
     "broken_color": "dark_gray",
     "durability": 250,
     "size": "2000 L",
@@ -24,7 +22,8 @@
       { "item": "steel_chunk", "count": [ 6, 16 ] },
       { "item": "scrap", "count": [ 6, 16 ] }
     ],
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 28 },
+    "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
@@ -38,7 +37,6 @@
     "id": "afs_fridge",
     "copy-from": "minifridge",
     "name": { "str": "refrigerator" },
-    "symbol": "{",
     "categories": [ "cargo" ],
     "color": "white",
     "broken_color": "white",
@@ -47,14 +45,14 @@
     "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
     "epower": "-100 W",
     "size": "300 L",
-    "item": "afs_fridge"
+    "item": "afs_fridge",
+    "variants": [ { "symbols": "{", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "afs_freezer",
     "copy-from": "minifreezer",
     "name": { "str": "freezer" },
-    "symbol": "{",
     "categories": [ "cargo" ],
     "color": "light_blue",
     "broken_color": "light_blue",
@@ -63,7 +61,8 @@
     "description": "A household fridge, converted to run at a much lower temperature and on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
     "epower": "-120 W",
     "size": "300 L",
-    "item": "afs_freezer"
+    "item": "afs_freezer",
+    "variants": [ { "symbols": "{", "symbols_broken": "#" } ]
   },
   {
     "id": "solar_array_part",
@@ -71,8 +70,6 @@
     "name": { "str": "solar array" },
     "item": "solar_array",
     "location": "structure",
-    "symbol": "#",
-    "broken_symbol": "x",
     "categories": [ "energy" ],
     "color": "yellow",
     "broken_color": "yellow",
@@ -96,7 +93,8 @@
         "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 3 ], [ "soldering_standard", 8 ] ]
       }
     },
-    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "EXTRA_DRAG" ]
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "INITIAL_PART", "PROTRUSION", "EXTRA_DRAG" ],
+    "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
     "id": "reinforced_solar_array_part",
@@ -187,8 +185,6 @@
     "name": { "str": "wiring" },
     "item": "wire",
     "location": "structure",
-    "symbol": ".",
-    "broken_symbol": "#",
     "categories": [ "hull", "energy" ],
     "color": "white",
     "broken_color": "white",
@@ -201,6 +197,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 s" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 s" }
     },
-    "flags": [ "INITIAL_PART", "AISLE" ]
+    "flags": [ "INITIAL_PART", "AISLE" ],
+    "variants": [ { "symbols": ".", "symbols_broken": "#" } ]
   }
 ]

@@ -1420,7 +1420,6 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "charges": 24,
-    "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",

@@ -125,6 +125,6 @@
     "type": "item_group",
     "id": "xe_dreamer_spell_tier4",
     "subtype": "distribution",
-    "entries": [  ]
+    "entries": [ { "item": "artifact_karma_arms", "prob": 50 } ]
   }
 ]
