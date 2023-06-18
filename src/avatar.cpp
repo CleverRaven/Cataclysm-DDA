@@ -432,7 +432,7 @@ bool avatar::read( item_location &book, item_location ereader )
     // spells are handled in a different place
     // src/iuse_actor.cpp -> learn_spell_actor::use
     if( book->get_use( "learn_spell" ) ) {
-        book->get_use( "learn_spell" )->call( *this, *book, book->active, pos() );
+        book->get_use( "learn_spell" )->call( this, *book, book->active, pos() );
         return true;
     }
 

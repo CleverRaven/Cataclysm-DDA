@@ -184,7 +184,7 @@ int itype::tick( Character &p, item &it, const tripoint &pos ) const
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
     for( const auto &method : use_methods ) {
-        const int val = method.second.call( p, it, true, pos ).value_or( 0 );
+        const int val = method.second.call( &p, it, true, pos ).value_or( 0 );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;
         } else {
@@ -225,7 +225,7 @@ std::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
         return 0;
     }
 
-    return use->call( p, it, false, pos );
+    return use->call( &p, it, false, pos );
 }
 
 std::string gun_type_type::name() const

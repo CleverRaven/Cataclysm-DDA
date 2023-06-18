@@ -5860,7 +5860,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
                 if( it->is_transformable() ) {
                     const use_function *readinglight = it->type->get_use( "transform" );
                     if( readinglight ) {
-                        readinglight->call( *p, *it, it->active, p->pos() );
+                        readinglight->call( p, *it, it->active, p->pos() );
                     }
                 }
                 it->activate();
@@ -8947,7 +8947,7 @@ std::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripoi
     if( p->fine_detail_vision_mod() > 4 && !it->active && it->is_transformable() ) {
         const use_function *readinglight = it->type->get_use( "transform" );
         if( readinglight ) {
-            readinglight->call( *p, *it, it->active, p->pos() );
+            readinglight->call( p, *it, it->active, p->pos() );
         }
     }
 
@@ -9129,7 +9129,7 @@ ret_val<void> use_function::can_call( const Character &p, const item &it, bool t
     return actor->can_use( p, it, t, pos );
 }
 
-std::optional<int> use_function::call( Character &p, item &it, bool active,
+std::optional<int> use_function::call( Character *p, item &it, bool active,
                                        const tripoint &pos ) const
 {
     return actor->use( p, it, active, pos );

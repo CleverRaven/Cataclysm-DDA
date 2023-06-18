@@ -519,7 +519,7 @@ void vehicle::plug_in( const tripoint &pos )
     item cord = init_cord( pos );
 
     if( cord.get_use( "link_up" ) ) {
-        cord.type->get_use( "link_up" )->call( get_player_character(), cord, false, pos );
+        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, false, pos );
     }
 }
 

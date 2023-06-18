@@ -1900,7 +1900,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
                                here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
         const ret_val<void> can_use = iuse_fn->can_call( you, *it, false, examp );
         if( can_use.success() ) {
-            iuse_fn->call( you, *it, false, examp );
+            iuse_fn->call( &you, *it, false, examp );
             return;
         } else {
             you.add_msg_if_player( m_bad, can_use.str() );
@@ -3273,7 +3273,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
                 you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
                 const ret_val<void> can_use = actor->can_use( you, *it, false, examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( you, *it, false, examp ).value_or( 0 );
+                    const int charges = actor->use( &you, *it, false, examp ).value_or( 0 );
                     you.use_charges( it->typeId(), charges );
                     return;
                 } else {
