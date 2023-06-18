@@ -1678,7 +1678,7 @@
     "name": { "str": "rebreather mask (on)", "str_pl": "rebreather masks (on)" },
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "WATER_FRIENDLY", "REBREATHER", "TRADER_AVOID" ],
-    "turns_per_charge": 110,
+    "turns_per_charge": 60,
     "revert_to": "rebreather",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather" },
     "environmental_protection": 15,
@@ -1730,7 +1730,7 @@
     "material": [ "plastic", "aluminum" ],
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  This model has been expanded substantially and can accommodate exotic anatomy.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "WATER_FRIENDLY", "REBREATHER", "OVERSIZE", "TRADER_AVOID" ],
-    "turns_per_charge": 110,
+    "turns_per_charge": 60,
     "revert_to": "rebreather_xl",
     "use_action": {
       "ammo_scale": 0,
@@ -1788,7 +1788,7 @@
     "name": { "str": "XS rebreather mask (on)", "str_pl": "XS rebreather masks (on)" },
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  This model has been shrunk dramatically to fit a smaller face.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "WATER_FRIENDLY", "REBREATHER", "UNDERSIZE", "TRADER_AVOID" ],
-    "turns_per_charge": 110,
+    "turns_per_charge": 60,
     "revert_to": "rebreather_xs",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather_xs" },
     "covers": [ "mouth" ],
@@ -2573,7 +2573,7 @@
     "name": { "str": "survivor divemask (on)", "str_pl": "survivor divemasks (on)" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES" ],
-    "turns_per_charge": 110,
+    "turns_per_charge": 60,
     "revert_to": "mask_h20survivor",
     "use_action": {
       "ammo_scale": 0,
@@ -2627,7 +2627,7 @@
     "name": { "str": "XL survivor divemask (on)", "str_pl": "XL survivor divemasks (on)" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from harm as well providing breathing gas while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES", "OVERSIZE", "TRADER_AVOID" ],
-    "turns_per_charge": 110,
+    "turns_per_charge": 60,
     "revert_to": "mask_h20survivorxl",
     "use_action": {
       "ammo_scale": 0,
@@ -2647,7 +2647,7 @@
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES", "UNDERSIZE", "TRADER_AVOID" ],
-    "turns_per_charge": 110,
+    "turns_per_charge": 60,
     "revert_to": "mask_h20survivorxs",
     "use_action": {
       "ammo_scale": 0,
