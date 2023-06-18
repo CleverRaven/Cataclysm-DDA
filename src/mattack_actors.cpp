@@ -461,7 +461,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
     const std::string mon_name = get_player_character().sees( z.pos() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
-    Character *foe = dynamic_cast<Character *>( target );
+    Character *foe = target->as_character();
     map &here = get_map();
 
     int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
@@ -608,7 +608,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             std::advance( intersect_iter, rng( 0, intersect.size() - 1 ) );
             tripoint target_square = random_entry<std::set<tripoint>>( intersect );
             if( z.can_move_to( target_square ) ) {
-                monster *zz = dynamic_cast<monster *>( target );
+                monster *zz = target->as_monster();
                 tripoint zpt = z.pos();
                 z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something

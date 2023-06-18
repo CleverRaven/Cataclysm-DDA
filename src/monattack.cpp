@@ -2967,7 +2967,7 @@ bool mattack::nurse_operate( monster *z )
                 }
             }
         } else {
-            z->type->special_attacks.at( "grab" ).operator * ().call( *z );
+            z->type->special_attacks.at( "grab" )->call( *z );
             // Check if we successfully grabbed the target
             if( target->has_effect( effect_grabbed ) ) {
                 z->dragged_foe_id = target->getID();
@@ -4956,7 +4956,7 @@ bool mattack::flesh_tendril( monster *z )
 
     if( ( distance_to_target == 2 || distance_to_target == 3 ) && one_in( 4 ) ) {
         //it pulls you towards itself and then knocks you away
-        bool pulled = z->type->special_attacks.at( "ranged_pull" ).operator * ().call( *z );
+        bool pulled = z->type->special_attacks.at( "ranged_pull" )->call( *z );
         if( pulled && one_in( 4 ) ) {
             sounds::sound( z->pos(), 60, sounds::sound_t::alarm, _( "a deafening roar!" ), false, "shout",
                            "roar" );
@@ -4969,7 +4969,7 @@ bool mattack::flesh_tendril( monster *z )
             g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                                z->type->melee_sides * z->type->melee_dice * 3 );
         } else {
-            z->type->special_attacks.at( "grab" ).operator * ().call( *z );
+            z->type->special_attacks.at( "grab" )->call( *z );
         }
     }
 
