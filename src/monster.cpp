@@ -580,10 +580,10 @@ void monster::refill_udders()
 
 void monster::digest_food()
 {
-if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
-    amount_eaten -= 1;
-    add_msg( _( "The %1s digests its food, and has %2s in its stomach." ), name(), amount_eaten );
-    stomach_timer = calendar::turn;
+    if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
+        amount_eaten -= 1;
+        add_msg( _( "The %1s digests its food, and has %2s in its stomach." ), name(), amount_eaten );
+        stomach_timer = calendar::turn;
     }
 }
 
