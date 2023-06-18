@@ -67,7 +67,7 @@
     "weight": "5 kg",
     "ammo_type": "rebreather_filter",
     "flags": [ "NO_SALVAGE", "NO_RELOAD", "REBREATHER_CART" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 120 } } ]
   },
   {
     "id": "rebreather_cartridge_o2",
@@ -84,6 +84,6 @@
     "weight": "5 kg",
     "ammo_type": "rebreather_filter",
     "flags": [ "NO_SALVAGE", "NO_RELOAD", "REBREATHER_CART" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 250 } } ]
   }
 ]
