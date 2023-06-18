@@ -4149,7 +4149,7 @@ std::optional<int> iuse::rpgdie( Character *you, item *die, bool, const tripoint
 std::optional<int> iuse::dive_tank( Character *p, item *it, bool t, const tripoint & )
 {
     if( t ) { // Normal use
-        if( p->is_worn( *it ) ) {
+        if( p ) {
             if( p->is_underwater() && p->oxygen < 10 ) {
                 p->oxygen += 20;
             }
