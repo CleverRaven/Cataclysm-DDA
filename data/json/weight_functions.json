@@ -1,0 +1,58 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "weight_start_14",
+    "condition": { "math": [ "u_dayssincestart", "<", "14" ] },
+    "effect": { "math": [ "u_weight", "=", 0 ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weight_end_14",
+    "condition": { "math": [ "u_dayssincestart", ">=", "14" ] },
+    "effect": { "math": [ "u_weight", "=", 0 ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weight_linear_pos_14",
+    "condition": { "math": [ "u_dayssincestart", "<", "14" ] },
+    "effect": { "math": [ "u_weight", "*=", "u_dayssincestart / 14" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weight_linear_neg_14",
+    "run_eocs": [
+      {
+        "id": "weight_linear_neg_14_first",
+        "condition": { "math": [ "u_dayssincestart", "<", "14" ] },
+        "effect": { "math": [ "u_weight", "*=", "1 - ( u_dayssincestart / 14 )" ] }
+      },
+      {
+        "id": "weight_linear_neg_14_last",
+        "condition": { "math": [ "u_dayssincestart", ">=", "14" ] },
+        "effect": { "math": [ "u_weight", "=", 0 ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weight_unlooted_120",
+    "effect": { "math": [ "u_weight", "*=", "u_dayssincestart < 120 ? 1 - ( ( 9 / 1200 ) * u_dayssincestart ) : 0.1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weight_partlooted_120",
+    "effect": {
+      "math": [
+        "u_weight",
+        "*=",
+        "u_dayssincestart < 120 ? 0.1 + ( ( 13 / 400 ) * u_dayssincestart ) - ( ( 19 / 72000 ) * ( u_dayssincestart ^ 2 ) ) : 0.1"
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weight_looted_120",
+    "condition": { "math": [ "u_dayssincestart", "<", "120" ] },
+    "effect": { "math": [ "u_weight", "*=", "u_dayssincestart / 120" ] }
+  }
+]
