@@ -4,20 +4,23 @@
     "id": "tower",
     "name": "tower",
     "color": "green",
-    "sym": "o"
+    "sym": "o",
+	"flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "uniform",
     "name": "uniform",
     "color": "red",
-    "sym": "u"
+    "sym": "u",
+	"flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "binomial",
     "name": "binomial",
     "color": "black",
-    "sym": "b"
+    "sym": "b",
+	"flags": [ "NO_ROTATE" ]
   }
 ]
