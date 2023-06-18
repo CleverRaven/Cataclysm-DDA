@@ -199,6 +199,8 @@ autosaves
 autoselect
 autoshotgun
 avellana
+aventail
+aventails
 avgas
 avians
 aving

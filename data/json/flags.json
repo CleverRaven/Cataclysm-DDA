@@ -360,6 +360,12 @@
     "restriction": "Item must be some kind of flashlight"
   },
   {
+    "id": "HELMET_AVENTAIL",
+    "type": "json_flag",
+    "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",
+    "restriction": "Item must be some kind of chainmail veil"
+  },
+  {
     "id": "COLD_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>low temperatures</info>."
@@ -890,7 +896,7 @@
     "id": "WATERPROOF",
     "type": "json_flag",
     "//": "Prevents the covered body-part(s) from getting wet in any circumstance.",
-    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
+    "info": "This clothing <info>won't let water through</info>.  Even if you jump into a river."
   },
   {
     "id": "WATER_FRIENDLY",

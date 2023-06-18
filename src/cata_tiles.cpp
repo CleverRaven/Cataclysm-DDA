@@ -1737,7 +1737,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
                    do_draw_cursor || do_draw_highlight || do_draw_weather ||
-                   do_draw_sct || do_draw_zones;
+                   do_draw_sct || do_draw_zones || do_draw_async_anim;
 
     draw_footsteps_frame( center );
     if( in_animation ) {
@@ -1777,6 +1777,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         if( do_draw_highlight ) {
             draw_highlight();
             void_highlight();
+        }
+        if( do_draw_async_anim ) {
+            draw_async_anim();
         }
     } else if( you.view_offset != tripoint_zero && !you.in_vehicle ) {
         // check to see if player is located at ter
@@ -3978,6 +3981,11 @@ void cata_tiles::init_draw_zones( const tripoint &_start, const tripoint &_end,
     zone_end = _end;
     zone_offset = _offset;
 }
+void cata_tiles::init_draw_async_anim( const tripoint &p, const std::string &tile_id )
+{
+    do_draw_async_anim = true;
+    async_anim_layer[ p ] = tile_id;
+}
 void cata_tiles::init_draw_radiation_override( const tripoint &p, const int rad )
 {
     radiation_override.emplace( p, rad );
@@ -4077,6 +4085,11 @@ void cata_tiles::void_sct()
 void cata_tiles::void_zones()
 {
     do_draw_zones = false;
+}
+void cata_tiles::void_async_anim()
+{
+    do_draw_async_anim = false;
+    async_anim_layer.clear();
 }
 void cata_tiles::void_radiation_override()
 {
@@ -4362,6 +4375,20 @@ void cata_tiles::draw_zones_frame()
         }
     }
 
+}
+
+void cata_tiles::draw_async_anim()
+{
+    // game::draw_async_anim can be called multiple times, storing each animation to be played in async_anim_layer
+    // Iterate through every tripoint-tileid pair in async_anim_layer
+    for( const auto &anim : async_anim_layer ) {
+        const tripoint p = anim.first;
+        const std::string tile_id = anim.second;
+        // Only draw if sprite found
+        if( find_tile_looks_like( tile_id, TILE_CATEGORY::NONE, "" ) ) {
+            draw_from_id_string( tile_id, p, 0, 0, lit_level::LIT, nv_goggles_activated );
+        }
+    }
 }
 
 void cata_tiles::draw_footsteps_frame( const tripoint &center )
