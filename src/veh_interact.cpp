@@ -177,7 +177,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( -dd.x );   // values[4]
     res.values.push_back( -dd.y );   // values[5]
     res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
-    res.str_values.emplace_back( vp->get_id().str() );
+    res.str_values.emplace_back( vp->id.str() );
     res.str_values.emplace_back( "" ); // previously stored the part variant, now obsolete
     res.targets.emplace_back( std::move( refill_target ) );
 
@@ -3267,7 +3267,7 @@ void veh_interact::complete_vehicle( Character &you )
         case 'o': {
             const bool appliance_removal = static_cast<char>( you.activity.index ) == 'O';
             const bool wall_wire_removal = appliance_removal &&
-                                           veh->part( vehicle_part ).info().get_id() == vpart_ap_wall_wiring;
+                                           veh->part( vehicle_part ).info().id == vpart_ap_wall_wiring;
             const inventory &inv = you.crafting_inventory();
             if( vehicle_part >= veh->part_count() ) {
                 vehicle_part = veh->get_next_shifted_index( vehicle_part, you );

@@ -1502,7 +1502,7 @@ void vehicles::finalize_prototypes()
                     if( !pt.variant.empty() ) { // only debugmsg if trying to select non-default variant
                         debugmsg( "veh prototype '%s' uses invalid variant '%s' for "
                                   "part '%s' defaulting to '%s'",
-                                  proto.name, pt.variant, vp.info().get_id().str(), vp.variant );
+                                  proto.name, pt.variant, vp.info().id.str(), vp.variant );
                     }
                 } else {
                     vp.variant = pt.variant;

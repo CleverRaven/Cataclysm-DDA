@@ -432,7 +432,7 @@ void veh_app_interact::refill()
     if( target ) {
         act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
         act.targets.push_back( target );
-        act.str_values.push_back( pt->info().get_id().str() );
+        act.str_values.push_back( pt->info().id.str() );
         const point q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
@@ -515,7 +515,7 @@ void veh_app_interact::remove()
         //~ Prompt the player if they want to remove the appliance. %s = appliance name.
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
         act = player_activity( ACT_VEHICLE, time, static_cast<int>( 'O' ) );
-        act.str_values.push_back( vpinfo.get_id().str() );
+        act.str_values.push_back( vpinfo.id.str() );
         const point q = veh->coord_translate( vp.mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
@@ -544,7 +544,7 @@ void veh_app_interact::unplug()
     int const part = veh->part_at( a_point );
     vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
     act = player_activity( ACT_VEHICLE, 1, static_cast<int>( 'u' ) );
-    act.str_values.push_back( vp.info().get_id().str() );
+    act.str_values.push_back( vp.info().id.str() );
     const point q = veh->coord_translate( vp.mount );
     map &here = get_map();
     for( const tripoint &p : veh->get_points( true ) ) {

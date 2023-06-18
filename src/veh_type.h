@@ -254,10 +254,6 @@ class vpart_info
         /** Translated name of a part */
         std::string name() const;
 
-        const vpart_id &get_id() const {
-            return id;
-        }
-
         const std::set<std::string> &get_flags() const {
             return flags;
         }

@@ -1343,7 +1343,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const vpart_info &vpi : vehicles::parts::get_all() ) {
         if( vpi.base_item == item_id && vpi.has_flag( flag_INITIAL_PART ) ) {
-            return vpi.get_id();
+            return vpi.id;
         }
     }
     // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
@@ -1351,7 +1351,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     // such type anyway).
     for( const vpart_info &vpi : vehicles::parts::get_all() ) {
         if( vpi.base_item == item_id ) {
-            return vpi.get_id();
+            return vpi.id;
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );

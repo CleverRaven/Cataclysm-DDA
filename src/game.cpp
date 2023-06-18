@@ -10365,7 +10365,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             if( auto displayed_part = vp_there.part_displayed() ) {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ),
                          displayed_part->part().name() );
-                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
+                sfx::do_obstacle( displayed_part->part().info().id.str() );
             } else {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ), m.name( dest_loc ) );
                 if( m.has_furn( dest_loc ) ) {
@@ -10378,7 +10378,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             if( auto displayed_part = vp_here.part_displayed() ) {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ),
                          displayed_part->part().name() );
-                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
+                sfx::do_obstacle( displayed_part->part().info().id.str() );
             } else {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ) );
                 if( m.has_furn( u.pos() ) ) {
