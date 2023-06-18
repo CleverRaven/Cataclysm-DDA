@@ -3719,11 +3719,12 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const 
         for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
             here.add_field( dest, fd_incendiary, 3 );
         }
-
-        if( p->has_trait( trait_PYROMANIA ) ) {
-            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
-            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+		
+		avatar &player = get_avatar();
+        if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
+            player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            player.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            add_msg( m_good, _( "Fire…  Good…" ) );
         }
     }
     return 0;
