@@ -330,7 +330,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "upgrades": { "age_grow": 35, "into": "mon_pregnant_giant_cockroach" },
-    "special_attacks": [ [ "EAT_FOOD", 60 ],  [ "EAT_CARRION", 60 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ] ],
     "zombify_into": "mon_meat_cocoon_small",
     "fear_triggers": [ "BRIGHT_LIGHT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "EATS", "PATH_AVOID_FIRE", "SMALL_HIDER" ],
