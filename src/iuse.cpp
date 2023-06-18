@@ -4149,7 +4149,7 @@ std::optional<int> iuse::rpgdie( Character *you, item *die, bool, const tripoint
 std::optional<int> iuse::dive_tank( Character *p, item *it, bool t, const tripoint & )
 {
     if( t ) { // Normal use
-        if( p ) {
+        if( p && p->is_worn( *it ) ) {
             if( p->is_underwater() && p->oxygen < 10 ) {
                 p->oxygen += 20;
             }
@@ -4244,7 +4244,7 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, bool t, const tr
 std::optional<int> iuse::gasmask( Character *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
-        if( p ) {
+        if( p && p->is_worn( *it ) ) {
             // calculate amount of absorbed gas per filter charge
             const field &gasfield = get_map().field_at( pos );
             for( const auto &dfield : gasfield ) {
