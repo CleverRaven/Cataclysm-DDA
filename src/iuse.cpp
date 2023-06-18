@@ -3126,7 +3126,7 @@ static int toolweapon_running( Character &p, item &it, const tripoint &pos,
     }
     if( !works_underwater && p.is_underwater() ) {
         p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), it.tname() );
-        it.convert( *it.type->tool->revert_to ).active = false;
+        it.convert( *it.type->revert_to ).active = false;
     } else if( one_in( sound_chance ) ) {
         sounds::ambient_sound( pos, volume, sounds::sound_t::activity, sound );
     }
@@ -3142,7 +3142,7 @@ std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, bool, co
         sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
     }
     p->add_msg_if_player( _( "Your %s goes quiet." ), it->tname() );
-    it->convert( *it->type->tool->revert_to ).active = false;
+    it->convert( *it->type->revert_to ).active = false;
     return 0; // Don't consume charges when turning off.
 }
 
@@ -3715,31 +3715,27 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const 
 
 std::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tripoint &pos )
 {
-    if( !t ) { // The Molotov is no longer active
-        if( it->charges > 0 ) { // Because the player tried to light it again
-            p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                                  it->tname() );
-            return std::nullopt;
-        } else { // It ran out of charges because it was thrown or dropped, so burst into flames
-            map &here = get_map();
-            for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
-                const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-                here.add_field( pt, fd_fire, intensity );
-            }
-            if( p->has_trait( trait_PYROMANIA ) ) {
-                p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                p->rem_morale( MORALE_PYROMANIA_NOFIRE );
-                p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
-            }
-            return 1;
+
+    if( !p ) {
+        // It was thrown or dropped, so burst into flames
+        map &here = get_map();
+        for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
+            const int intensity = 1 + one_in( 3 ) + one_in( 5 );
+            here.add_field( pt, fd_fire, intensity );
         }
-    } else if( p->has_item( *it ) && it->charges == 0 ) {
-        // Add a charge to stay lit, but has a 20% chance of going out harmlessly.
-        it->charges += 1;
-        if( one_in( 5 ) ) {
-            p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
-            it->convert( itype_molotov ).active = false;
+        avatar &player = get_avatar();
+        if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
+            player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            player.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            player.add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
+        return 1;
+    }
+
+    // 20% chance of going out harmlessly.
+    if( one_in( 5 ) ) {
+        p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
+        it->convert( itype_molotov ).active = false;
     }
     return 0;
 }
