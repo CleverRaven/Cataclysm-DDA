@@ -4242,7 +4242,7 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, bool t, const tr
 std::optional<int> iuse::gasmask( Character *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
-        if( p->is_worn( *it ) ) {
+        if( p ) {
             // calculate amount of absorbed gas per filter charge
             const field &gasfield = get_map().field_at( pos );
             for( const auto &dfield : gasfield ) {
