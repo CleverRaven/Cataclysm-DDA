@@ -64,7 +64,7 @@
     "description": "A replaceable CO2 scrubber cartridge for a rebreather, coupled with a 3 L pressurised tank.  This one has its tank filled with atmospheric air.",
     "material": [ "aluminum", "rubber", "steel" ],
     "volume": "6 L",
-    "weight": "5 kg",
+    "weight": "5500 g",
     "ammo_type": "rebreather_filter",
     "flags": [ "NO_SALVAGE", "NO_RELOAD", "REBREATHER_CART" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 50 } } ]
@@ -81,7 +81,7 @@
     "description": "A replaceable CO2 scrubber cartridge for a rebreather, coupled with a 3 L pressurised tank.  This one has its tank filled with oxygen.",
     "material": [ "aluminum", "rubber", "steel" ],
     "volume": "6 L",
-    "weight": "5 kg",
+    "weight": "5500 g",
     "ammo_type": "rebreather_filter",
     "flags": [ "NO_SALVAGE", "NO_RELOAD", "REBREATHER_CART" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 105 } } ]
