@@ -7,7 +7,6 @@
 
 struct int_distribution_impl;
 class JsonValue;
-int bound_distribution( int lo, int hi, int random );
 
 // This represents a probability distribution over the integers, which is
 // abstract and can be read from a JSON definition
