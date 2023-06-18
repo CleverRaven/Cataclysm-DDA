@@ -4227,11 +4227,25 @@ void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::strin
         }
     }
 
-    function = [eoc, context]( dialogue const & d ) {
+    std::optional<var_info> target_var;
+
+    if( jo.has_object( "beta_loc" ) ) {
+        target_var = read_var_info( jo.get_object( "beta_loc" ) );
+    }
+
+    function = [eoc, context, target_var]( dialogue const & d ) {
         dialogue newDialog( d );
+
+        tripoint_abs_ms target_location = get_tripoint_from_var( target_var, d );
+        Creature *c = get_creature_tracker().creature_at( target_location );
+        if( c ) {
+            newDialog = dialogue( d.actor( false )->clone(), get_talker_for( c ), d.get_conditionals(),
+                                  d.get_context() );
+        }
         for( const auto &val : context ) {
             newDialog.set_value( val.first, val.second.evaluate( d ) );
         }
+
         eoc->activate( newDialog );
     };
 }

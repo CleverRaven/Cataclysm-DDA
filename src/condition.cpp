@@ -1484,6 +1484,13 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
         return [option]( const dialogue & d ) {
             return get_option<std::string>( option.evaluate( d ) );
         };
+    } else if( jo.get_string( "mutator" ) == "loc_relative_u" ) {
+        str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
+        return [target]( const dialogue & d ) {
+            tripoint_abs_ms char_pos = get_map().getglobal( d.actor( false )->pos() );
+            tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
+            return target_pos.to_string();
+        };
     }
 
     jo.throw_error( "unrecognized string mutator in " + jo.str() );
