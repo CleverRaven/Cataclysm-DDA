@@ -150,8 +150,8 @@
     "move_cost_mod": -1,
     "coverage": 75,
     "required_str": 12,
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine", "SMALL_HIDE" },
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine" },
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "arcade_machine", "count": 1 } ] },
     "bash": {
       "str_min": 6,
