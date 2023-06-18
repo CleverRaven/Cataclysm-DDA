@@ -13181,7 +13181,8 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
         // invoking the object can convert the item to another type
         const bool had_revert_to = type->revert_to.has_value();
-        type->invoke( carrier != nullptr ? *carrier : get_avatar(), *this, pos ); //TODO remove this completely
+        type->invoke( carrier != nullptr ? *carrier : get_avatar(), *this,
+                      pos ); //TODO remove this completely
         if( carrier ) {
             carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
         }

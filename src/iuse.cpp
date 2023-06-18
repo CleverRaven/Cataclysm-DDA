@@ -1831,8 +1831,8 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
             if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pos ) ) {
                 return 0;
             }
-			
-			avatar &player = get_avatar();
+
+            avatar &player = get_avatar();
 
             int success = -50;
             const float surv = player.get_skill_level( skill_survival );
@@ -3721,8 +3721,8 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const 
         for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
             here.add_field( dest, fd_incendiary, 3 );
         }
-		
-		avatar &player = get_avatar();
+
+        avatar &player = get_avatar();
         if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
             player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
             player.rem_morale( MORALE_PYROMANIA_NOFIRE );
@@ -8734,11 +8734,11 @@ std::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const tripo
 
 std::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const tripoint & )
 {
-	// From item processing
+    // From item processing
     if( t ) {
         return std::nullopt;
     }
-	
+
     if( p->is_npc() ) {
         return std::nullopt;
     }
