@@ -144,10 +144,26 @@
       ],
       [
         { "name": "bin1", "chunk": [ { "overmap": "tower_bin1", "pos": [ 0, 0, 0 ] } ], "max": { "binomial": [ 3, 0.25 ] } },
-        { "name": "bin2", "chunk": [ { "overmap": "tower_bin2", "pos": [ 0, 0, 0 ] } ], "max": { "binomial": [ 3, 0.25 ] } },
-        { "name": "bin3", "chunk": [ { "overmap": "tower_bin3", "pos": [ 0, 0, 0 ] } ], "max": { "binomial": [ 3, 0.25 ] } },
-        { "name": "bin4", "chunk": [ { "overmap": "tower_bin4", "pos": [ 0, 0, 0 ] } ], "max": { "binomial": [ 3, 0.25 ] } },
-        { "name": "bin5", "chunk": [ { "overmap": "tower_bin5", "pos": [ 0, 0, 0 ] } ], "max": { "binomial": [ 3, 0.25 ] } }
+        {
+          "name": "bin2",
+          "chunk": [ { "overmap": "tower_bin2", "pos": [ 0, 0, 0 ] } ],
+          "max": { "binomial": [ 3, 0.25 ] }
+        },
+        {
+          "name": "bin3",
+          "chunk": [ { "overmap": "tower_bin3", "pos": [ 0, 0, 0 ] } ],
+          "max": { "binomial": [ 3, 0.25 ] }
+        },
+        {
+          "name": "bin4",
+          "chunk": [ { "overmap": "tower_bin4", "pos": [ 0, 0, 0 ] } ],
+          "max": { "binomial": [ 3, 0.25 ] }
+        },
+        {
+          "name": "bin5",
+          "chunk": [ { "overmap": "tower_bin5", "pos": [ 0, 0, 0 ] } ],
+          "max": { "binomial": [ 3, 0.25 ] }
+        }
       ],
       [ { "name": "cleanup", "chunk": [ { "overmap": "cleanup", "pos": [ 0, 0, 0 ] } ], "weight": 1 } ]
     ]
