@@ -3742,10 +3742,11 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const trip
                 const int intensity = 1 + one_in( 3 ) + one_in( 5 );
                 here.add_field( pt, fd_fire, intensity );
             }
-            if( p->has_trait( trait_PYROMANIA ) ) {
-                p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                p->rem_morale( MORALE_PYROMANIA_NOFIRE );
-                p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+         avatar &player = get_avatar();
+		 if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
+                player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+				player.rem_morale( MORALE_PYROMANIA_NOFIRE );
+				add_msg( m_good, _( "Fire…  Good…" ) );
             }
             return 1;
         }
