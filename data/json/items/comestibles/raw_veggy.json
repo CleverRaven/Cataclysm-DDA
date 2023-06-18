@@ -1143,5 +1143,26 @@
     "flags": [ "RAW" ],
     "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ], [ "vitC", 10 ] ],
     "fun": -5
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "eggplant_cut",
+    "name": { "str_sp": "cut eggplant" },
+    "comestible_type": "FOOD",
+    "weight": "193 g",
+    "volume": "249 ml",
+    "price": 10,
+    "price_postapoc": 10,
+    "color": "black",
+    "material": [ "veggy" ],
+    "calories": 40,
+    "spoils_in": "4 days",
+    "description": "A cut-up eggplant with many of the seeds picked out.",
+    "healthy": -1,
+    "symbol": "e",
+    "looks_like": "eggplant",
+    "flags": [ "RAW" ],
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ], [ "vitC", 10 ] ],
+    "fun": -5
   }
 ]
