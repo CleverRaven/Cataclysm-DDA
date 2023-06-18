@@ -10,6 +10,8 @@ struct int_distribution_impl {
     virtual int minimum() const = 0;
     virtual int sample() = 0;
     virtual std::string description() const = 0;
+	int blo = 0;
+	int bhi = INT_MAX;
 };
 
 struct fixed_distribution : int_distribution_impl {
@@ -60,7 +62,10 @@ struct binomial_distribution : int_distribution_impl {
     explicit binomial_distribution( int lo, int hi, int t, double p )
         : dist( t, p )
 		
-    {}
+    {
+		blo = lo;
+		bhi = hi;
+	}
 	
     int minimum() const override {
         return 0;
@@ -68,8 +73,8 @@ struct binomial_distribution : int_distribution_impl {
 
     int sample() override {
         int distvalue = dist( rng_get_engine() );
-		int rvalue = std::min( distvalue, hi );
-		rvalue = std::max( rvalue, lo );
+		int rvalue = std::min( distvalue, bhi );
+		rvalue = std::max( rvalue, blo );
         return rvalue;
     }
 
@@ -80,19 +85,22 @@ struct binomial_distribution : int_distribution_impl {
 };
 
 struct poisson_distribution : int_distribution_impl {
-    std::poisson_distribution<int> dist( double mean );
+    std::poisson_distribution<int> dist;
 
-    explicit poisson_distribution( int lo, int, hi, double mean )
+    explicit poisson_distribution( int lo, int hi, double mean )
 		: dist( mean )
-	{}
+	{
+		blo = lo;
+		bhi = hi;
+	}
 	
     int minimum() const override {
         return 0;
     }
 
     int sample() override {
-		int rvalue = std::min( dist( rng_get_engine() ), hi );
-		rvalue = std::max( rvalue, lo );
+		int rvalue = std::min( dist( rng_get_engine() ), bhi );
+		rvalue = std::max( rvalue, blo );
         return rvalue;
     }
 
@@ -159,7 +167,7 @@ void int_distribution::deserialize( const JsonValue &jin )
 			}
 			if( lo < 0 ) {
 				lo = 0;
-			]
+			}
 			if( lo >= hi ) {
 				jo.throw_error( "bounds array should be in order [ lo, hi ]" );
 			}
