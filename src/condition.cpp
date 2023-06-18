@@ -34,6 +34,7 @@
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
+#include "martialarts.h"
 #include "math_parser.h"
 #include "math_parser_shim.h"
 #include "mission.h"
@@ -1066,6 +1067,13 @@ void conditional_t::set_is_gender( bool is_male, bool is_npc )
     };
 }
 
+void conditional_t::set_is_alive( bool is_npc )
+{
+    condition = [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_is_alive();
+    };
+}
+
 void conditional_t::set_no_assigned_mission()
 {
     condition = []( dialogue const & d ) {
@@ -1484,7 +1492,39 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
         return [option]( const dialogue & d ) {
             return get_option<std::string>( option.evaluate( d ) );
         };
-    }
+    } else if( jo.get_string( "mutator" ) == "valid_technique" ) {
+        std::vector<str_or_var> blacklist;
+        if( jo.has_array( "blacklist" ) ) {
+            for( const JsonValue &jv : jo.get_array( "blacklist" ) ) {
+                blacklist.push_back( get_str_or_var( jv, "blacklist" ) );
+            }
+        }
+
+        bool crit = jo.get_bool( "crit", false );
+        bool dodge_counter = jo.get_bool( "dodge_counter", false );
+        bool block_counter = jo.get_bool( "block_counter", false );
+
+        return [blacklist, crit, dodge_counter, block_counter]( const dialogue & d ) {
+            std::vector<matec_id> bl;
+            for( str_or_var sv : blacklist ) {
+                bl.emplace_back( matec_id( sv.evaluate( d ) ) );
+            }
+            return d.actor( false )->get_random_technique( *d.actor( true )->get_creature(), crit,
+                    dodge_counter, block_counter, bl ).str();
+        };
+    } else if( jo.get_string( "mutator" ) == "ma_technique_description" ) {
+        str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
+
+        return [ma]( const dialogue & d ) {
+            return matec_id( ma.evaluate( d ) )->get_description();
+        };
+    } else if( jo.get_string( "mutator" ) == "ma_technique_name" ) {
+        str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
+
+        return [ma]( const dialogue & d ) {
+            return matec_id( ma.evaluate( d ) )->name.translated();
+        };
+    } 
 
     jo.throw_error( "unrecognized string mutator in " + jo.str() );
     return []( const dialogue & ) {
@@ -3438,6 +3478,10 @@ conditional_t::conditional_t( const std::string &type )
         set_is_deaf();
     } else if( type == "npc_is_deaf" ) {
         set_is_deaf( is_npc );
+    } else if( type == "u_is_alive" ) {
+        set_is_alive();
+    } else if( type == "npc_is_alive" ) {
+        set_is_alive( is_npc );
     } else {
         condition = []( dialogue const & ) {
             return false;
