@@ -1006,7 +1006,6 @@
       "byproducts": [ "withered" ],
       "grow": "60 days"
     }
-    "seed_data": { "plant_name": "bottle gourd", "fruit": "raw_bottle_gourd", "byproducts": [ "withered" ], "grow": "60 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -1015,6 +1014,6 @@
     "price": 70,
     "name": { "str_sp": "eggplant seeds" },
     "description": "Some eggplant seeds.",
-    "seed_data": { "plant_name": "eggplant", "fruit": "eggplant", "byproducts": [ "withered" ], "grow": "60 days" }
+    "seed_data": { "plant_name": "eggplant", "fruit": "eggplant", "seeds": false, "byproducts": [ "withered" ], "grow": "60 days" }
   }
 ]
