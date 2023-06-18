@@ -451,7 +451,8 @@ bool mattack::eat_food( monster *z )
                 continue;
             }
             //Don't eat own eggs
-            if( z->has_flag( MF_EATS ) && z->type->baby_egg != item.type->get_id() && z->amount_eaten < z->stomach_size ) {
+            if( z->has_flag( MF_EATS ) && z->type->baby_egg != item.type->get_id() &&
+                z->amount_eaten < z->stomach_size ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
                     z->amount_eaten += 1;

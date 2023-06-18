@@ -43,7 +43,16 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
     "deconstruct": { "items": [ { "item": "armchair", "count": 1 } ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH", "SMALL_HIDE" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "ORGANIC",
+      "MOUNTABLE",
+      "EASY_DECONSTRUCT",
+      "CAN_SIT",
+      "ALIGN_WORKBENCH",
+      "SMALL_HIDE"
+    ],
     "bash": {
       "str_min": 10,
       "str_max": 40,

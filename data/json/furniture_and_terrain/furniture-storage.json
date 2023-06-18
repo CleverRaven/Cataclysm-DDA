@@ -1501,7 +1501,17 @@
     "coverage": 60,
     "required_str": 40,
     "max_volume": "1000 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "FLAMMABLE",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "SHORT",
+      "SMALL_HIDE"
+    ],
     "examine_action": "locked_object",
     "//": "probably should remove locked_object, because it mention you can pry it when actually you can't",
     "deconstruct": {

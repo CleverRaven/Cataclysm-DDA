@@ -580,10 +580,10 @@ void monster::refill_udders()
 
 void monster::digest_food()
 {
-if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
-    amount_eaten -= 1;
-    add_msg( _( "The %1s digests its food, and has %2s in its stomach." ), name(), amount_eaten );
-    stomach_timer = calendar::turn;
+    if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
+        amount_eaten -= 1;
+        add_msg( _( "The %1s digests its food, and has %2s in its stomach." ), name(), amount_eaten );
+        stomach_timer = calendar::turn;
     }
 }
 
@@ -1523,7 +1523,7 @@ void monster::process_triggers()
     process_trigger( mon_trigger::BRIGHT_LIGHT, [this]() {
         int ret = 0;
         const tripoint lightcheck = this->pos();
-        static const int dim_light = round(.75 * default_daylight_level());
+        static const int dim_light = round( .75 * default_daylight_level() );
         int light = round( get_map().ambient_light_at( lightcheck ) );
         if( light >= ( dim_light ) ) {
             ret += 15;
