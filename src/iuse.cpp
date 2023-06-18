@@ -8731,12 +8731,12 @@ std::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const tripo
 
 std::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const tripoint & )
 {
-    if( p->is_npc() ) {
+	// From item processing
+    if( t ) {
         return std::nullopt;
     }
-
-    // From item processing
-    if( t ) {
+	
+    if( p->is_npc() ) {
         return std::nullopt;
     }
 
