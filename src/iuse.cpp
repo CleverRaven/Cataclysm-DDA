@@ -7073,6 +7073,14 @@ std::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const tripo
             add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
             return 1;
         }
+		
+		if( !p ){
+			// Active but not in use. Deactivate
+			sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
+            it->unset_flag( flag_NO_UNWIELD );
+            it->active = false;
+            return 1;
+		}
 
         if( it->charges == 0 ) {
 
