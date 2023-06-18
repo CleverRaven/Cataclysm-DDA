@@ -296,6 +296,30 @@ void vehicles::parts::load( const JsonObject &jo, const std::string &src )
     vpart_info_factory.load( jo, src );
 }
 
+void vpart_info::handle_inheritance( const vpart_info &copy_from,
+                                     const std::unordered_map<std::string, vpart_info> &abstracts )
+{
+    *this = copy_from; // use assignment operator, like the normal copy-from handling is done
+
+    // vehicle parts have special treatment; the following chunk tries to massage copy-from into
+    // looks_like: follows copy-from chain to find the first real part id and sets it as looks_like,
+    // or sets it to the last abstract, makes up to 5 jumps.
+    looks_like = copy_from.id.str();
+    for( int i = 0; i < 5; i++ ) {
+        if( vpart_info_factory.is_valid( vpart_id( looks_like ) ) ) {
+            break; // real part
+        }
+        const auto abstract_it = abstracts.find( looks_like );
+        if( abstract_it == abstracts.end() ) {
+            break; // looks_like might invalid vpart id (but valid furniture/terrain etc tile)
+        }
+        if( abstract_it->second.looks_like.empty() ) {
+            break; // abstract has no looks_like
+        }
+        looks_like = abstract_it->second.looks_like;
+    }
+}
+
 void vpart_info::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";

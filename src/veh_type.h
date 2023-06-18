@@ -248,6 +248,8 @@ class vpart_info
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
+        void handle_inheritance( const vpart_info &copy_from,
+                                 const std::unordered_map<std::string, vpart_info> &abstracts );
 
         static const std::map<vpart_id, vpart_info> &all();
 
