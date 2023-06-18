@@ -62,6 +62,13 @@
     "components": [ [ [ "cucumber", 1 ] ] ]
   },
   {
+    "result": "seed_eggplant",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "byproducts": [ [ "eggplant_cut", 1 ] ],
+    "components": [ [ [ "eggplant", 1 ] ] ]
+  },
+  {
     "result": "seed_oats",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
