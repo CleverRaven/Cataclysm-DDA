@@ -7347,6 +7347,13 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
 std::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tripoint & )
 {
     if( t ) {
+        if( !p ) {
+            // Player has dropped the controller
+            avatar &player = get_avatar();
+            it->active = false;
+            player.remove_value( "remote_controlling" );
+            return 1;
+        }
         if( !it->ammo_sufficient( p ) ) {
             it->active = false;
             p->remove_value( "remote_controlling" );
