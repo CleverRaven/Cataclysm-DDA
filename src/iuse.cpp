@@ -2328,7 +2328,7 @@ std::optional<int> iuse::mace( Character *p, item *it, bool, const tripoint & )
 
 std::optional<int> iuse::manage_exosuit( Character *p, item *it, bool, const tripoint & )
 {
-    if( !p->is_avatar() ) {
+    if( !p ) {
         return std::nullopt;
     }
     if( it->get_all_contained_pockets().empty() ) {
