@@ -82,7 +82,11 @@ std::string as_norm_dir( const std::string &path )
 {
     fs::path dir = fs::u8path( path ) / fs::path{};
     fs::path norm = dir.lexically_normal();
-    return norm.generic_u8string();
+    std::string ret = norm.generic_u8string();
+    if( "." == ret ) {
+        ret = "./"; // TODO Change the many places that use strings instead of paths
+    }
+    return ret;
 }
 
 std::string as_norm_dir( const fs::path &path )
