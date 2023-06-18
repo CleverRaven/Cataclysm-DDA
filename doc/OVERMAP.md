@@ -580,9 +580,19 @@ integer `max` and/or `weight`.
 
 Weight must always be a simple integer, but `max` may also be an object
 defining a probability distribution over integers.  Each time the special is
-spawned, a value is sampled from that distribution.  Currently only a Poisson
-distribution is supported, specified via an object such as `{ "poisson": 5 }`
-where 5 will be the mean of the distribution (λ).
+spawned, a value is sampled from that distribution.  Currently uniform, binomial
+and Poisson distributions are supported.  Uniform is specified by using an
+array such as `"max": [ 1, 5 ]` resulting in a 20% chance for each number
+between 1 and 5 being picked as the max.  Poisson and binomial are specified
+via an object such as `"max": { "poisson": 5 }` where 5 will be the mean of the
+poisson distribution (λ) or `"max": { "binomial": [ 5, 0.3 ] }` where 5 will be
+the number of trials and 0.3 the success probability of the binomial distribution
+( n, p ).  Hard bounds may be specified in addition to poisson or binomial to limit
+the range of possibilities, useful for guarenteeing a max of at least 1 or to prevent
+large values making overall size management difficult.  To do this add an array
+`bounds` such as`"max": { "poisson": 5, "bounds": [ 1, -1 ] }` in this case
+guarenteeing at least a max of 1 without bounding upper values. Any value that would
+fall outside of these bounds becomes the relevant bound (as opposed to being rerolled).
 
 Within each phase, the game looks for unsatisfied joins from the existing
 overmaps and attempts to find an overmap from amongst those available in its
