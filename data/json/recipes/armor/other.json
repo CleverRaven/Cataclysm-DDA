@@ -397,10 +397,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [
-      [ [ "rebreather_filler_soda_lime", 90 ] ],
-      [ [ "rebreather_cartridge_air", 1 ], [ "rebreather_cartridge_o2", 4 ] ]
-    ]
+    "components": [ [ [ "rebreather_filler_soda_lime", 90 ] ], [ [ "rebreather_cartridge_air", 1 ], [ "rebreather_cartridge_o2", 4 ] ] ]
   },
   {
     "result": "rebreather_cartridge_o2",
