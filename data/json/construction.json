@@ -5380,6 +5380,18 @@
   },
   {
     "type": "construction",
+    "id": "app_wall_light",
+    "group": "place_wall_light",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "wall_light", 1 ] ] ],
+    "pre_flags": "WALL",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",

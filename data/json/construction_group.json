@@ -1281,6 +1281,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_wall_light",
+    "name": "Place Wall Light"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_lamp",
     "name": "Place Standing Lamp"
   },
