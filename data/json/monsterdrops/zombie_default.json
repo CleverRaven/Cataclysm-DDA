@@ -249,7 +249,7 @@
       { "group": "softdrugs", "prob": 10 },
       { "group": "harddrugs", "prob": 5 },
       { "group": "phones", "prob": 85 },
-      { "group": "vending_food_items", "prob": 5 }
+      { "group": "zombie_pocket_food", "prob": 5 }
     ]
   },
   {
@@ -308,6 +308,20 @@
           }
         ]
       }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "pocket sized food items a person could have looted or kept with them.",
+    "id": "zombie_pocket_food",
+    "entries": [
+      { "group": "vending_food_items", "prob": 20 },
+      { "group": "sandwiches", "prob": 20 },
+      { "group": "fresh_produce", "prob": 15 },
+      { "group": "food_vendor_cart_kitchen", "prob": 15 },
+      { "group": "fridgesnacks", "prob": 15 },
+      { "group": "fast_food", "prob": 5 },
     ]
   }
 ]
