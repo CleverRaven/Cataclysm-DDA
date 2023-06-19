@@ -2023,7 +2023,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( !!ammo->ammo->casing ) {
         item casing = item( *ammo->ammo->casing );
         // blackpowder can gum up casings too
-        if( item( *ammo ).has_flag( flag_BRASS_CATCHER ) ) {
+        if( ammo.has_flag( flag_BLACKPOWDER ) ) {
             casing.set_flag( json_flag_FILTHY );
         }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
