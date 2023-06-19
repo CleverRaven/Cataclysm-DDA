@@ -9,7 +9,10 @@
         "text": "Gain [<trait_name:perk_STR_UP>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_STR_UP>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_STR_UP>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_STR_UP>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_STR_UP", "target_var": { "context_val": "trait_id" } },
           { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
@@ -21,7 +24,10 @@
         "text": "Gain [<trait_name:perk_DEX_UP>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_DEX_UP>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_DEX_UP>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_DEX_UP>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_DEX_UP", "target_var": { "context_val": "trait_id" } },
           { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
@@ -33,7 +39,10 @@
         "text": "Gain [<trait_name:perk_INT_UP>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_INT_UP>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_INT_UP>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_INT_UP>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_INT_UP", "target_var": { "context_val": "trait_id" } },
           { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
@@ -45,7 +54,10 @@
         "text": "Gain [<trait_name:perk_PER_UP>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_PER_UP>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_PER_UP>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_PER_UP>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_PER_UP", "target_var": { "context_val": "trait_id" } },
           { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
@@ -87,7 +99,10 @@
         "text": "Gain [<trait_name:perk_hauler>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_hauler>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_hauler>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_hauler>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_hauler", "target_var": { "context_val": "trait_id" } },
           { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
@@ -114,7 +129,10 @@
         "text": "Gain [<trait_name:perk_gymrat>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_gymrat>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_gymrat>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_gymrat>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_gymrat", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Requires athletics 3",
@@ -329,7 +347,10 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_quickdraw", "target_var": { "context_val": "trait_id" } },
-          { "set_string_var": "Requires handguns 2", "target_var": { "context_val": "trait_requirement_description" } },
+          {
+            "set_string_var": "Requires handguns 2",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
           { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('pistol')", ">=", "2" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -359,7 +380,10 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_recycler", "target_var": { "context_val": "trait_id" } },
-          { "set_string_var": "Requires survival 4", "target_var": { "context_val": "trait_requirement_description" } },
+          {
+            "set_string_var": "Requires survival 4",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
           { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('survival')", ">=", "4" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -369,7 +393,10 @@
         "text": "Gain [<trait_name:perk_tingly>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_tingly>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_tingly>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_tingly>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_tingly", "target_var": { "context_val": "trait_id" } },
           { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
@@ -423,7 +450,10 @@
         "text": "Gain [<trait_name:perk_popeye>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_popeye>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_popeye>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_popeye>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_popeye", "target_var": { "context_val": "trait_id" } },
           { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
@@ -512,7 +542,10 @@
         "text": "Gain [<trait_name:perk_empath>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_empath>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_empath>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_empath>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_empath", "target_var": { "context_val": "trait_id" } },
           { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
