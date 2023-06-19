@@ -115,7 +115,6 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
-static const flag_id json_flag_BLACKPOWDER( "BLACKPOWDER" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const material_id material_budget_steel( "budget_steel" );
@@ -2023,7 +2022,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( !!ammo->ammo->casing ) {
         item casing = item( *ammo->ammo->casing );
         // blackpowder can gum up casings too
-        if( ammo.has_flag( flag_BLACKPOWDER ) ) {
+        if( ( *ammo->ammo ).ammo_effects.count( "BLACKPOWDER" ) ) {
             casing.set_flag( json_flag_FILTHY );
         }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
