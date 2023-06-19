@@ -321,7 +321,7 @@
       { "group": "fresh_produce", "prob": 15 },
       { "group": "food_vendor_cart_kitchen", "prob": 15 },
       { "group": "fridgesnacks", "prob": 15 },
-      { "group": "fast_food", "prob": 5 },
+      { "group": "fast_food", "prob": 5 }
     ]
   }
 ]
