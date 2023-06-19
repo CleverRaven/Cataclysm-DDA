@@ -1206,6 +1206,7 @@ struct tile_render_info {
     int height_3d = 0;
     lit_level ll;
     std::array<bool, 5> invisible;
+    int draw_min_z = -OVERMAP_DEPTH;
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
                       const std::array<bool, 5> &inv )
         : pos( pos ), height_3d( height_3d ), ll( ll ), invisible( inv ) {
@@ -1614,23 +1615,20 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // Multi z-level draw mode
 
         // Categorize draw_points by lowest level to draw
-        std::map<int, std::vector<tile_render_info>> draw_points_3d;
         for( tile_render_info &p : draw_points ) {
             tripoint p_draw = p.pos;
             while( !here.dont_draw_lower_floor( p_draw ) && p.pos.z - p_draw.z < max_draw_depth ) {
                 p_draw.z -= 1;
             }
-            draw_points_3d[p_draw.z].emplace_back( p );
+            p.draw_min_z = p_draw.z;
         }
 
         // Start drawing from the bottom-most z-level
         int cur_zlevel = -OVERMAP_DEPTH;
         do {
             int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
-            // Iterate through all relevant points
-            int iter = -OVERMAP_DEPTH;
-            do {
-                for( tile_render_info &p : draw_points_3d[iter] ) {
+                for( tile_render_info &p : draw_points ) {
+                	if( cur_zlevel < p.draw_min_z ) { continue; }
                     tripoint draw_loc = p.pos;
                     draw_loc.z = cur_zlevel;
                     // Draw each layer
@@ -1638,8 +1636,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible );
                     }
                 }
-                iter += 1;
-            } while( iter <= cur_zlevel );
             cur_zlevel += 1;
         } while( cur_zlevel <= center.z );
     }
