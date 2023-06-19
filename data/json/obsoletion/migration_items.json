@@ -170,7 +170,7 @@
   {
     "id": "beverage_bag",
     "type": "MIGRATION",
-    "replace": "bag_zipper", 
-    "sealed": false 
+    "replace": "bag_zipper",
+    "sealed": false
   }
 ]
