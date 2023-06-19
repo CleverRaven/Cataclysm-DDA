@@ -2765,7 +2765,7 @@
         { "id": "cave_rat", "fg": 57 },
         { "id": "hive", "fg": 137 },
         { "id": "spider_pit", "fg": 268 },
-        { "id": "spider_pit_under", "fg": 328 },
+        { "id": "spider_pit_under", "fg": 330 },
         { "id": [ "slimepit", "slimepit_down", "slimepit_top", "slimepit_bottom" ], "fg": 204 },
         {
           "id": [ "triffid_grove", "triffid_grove_z2", "triffid_grove_z3", "triffid_grove_trunk", "triffid_grove_roof" ],
@@ -6115,6 +6115,8 @@
         { "id": "lake_water_cube", "fg": 316 },
         { "id": "lake_bed", "fg": 316 },
         { "id": "clear", "fg": 273 },
+        { "id": [ "portal_storm", "close_portal_storm" ], "fg": 208 },
+        { "id": [ "early_portal_storm", "distant_portal_storm" ], "fg": 206 },
         {
           "id": [ "dirt_road", "dirt_road_forest", "rural_road", "rural_road_forest" ],
           "fg": [ 72, 71, 72, 71 ],
@@ -6185,14 +6187,16 @@
         { "id": "unknown_terrain", "fg": 301 },
         { "id": "drizzle", "fg": 318 },
         { "id": "flurries", "fg": 319 },
-        { "id": "light_drizzle", "fg": 320 },
-        { "id": "lightning", "fg": 321 },
-        { "id": "rain", "fg": 322 },
-        { "id": "snowing", "fg": 323 },
-        { "id": "snowstorm", "fg": 324 },
-        { "id": "sunny", "fg": 325 },
-        { "id": "thunder", "fg": 326 },
-        { "id": "cloudy", "fg": 327 }
+        { "id": "fog", "fg": 320 },
+        { "id": "light_drizzle", "fg": 321 },
+        { "id": "lightning", "fg": 322 },
+        { "id": "mist", "fg": 323 },
+        { "id": "rain", "fg": 324 },
+        { "id": "snowing", "fg": 325 },
+        { "id": "snowstorm", "fg": 326 },
+        { "id": "sunny", "fg": 327 },
+        { "id": "thunder", "fg": 328 },
+        { "id": "cloudy", "fg": 329 }
       ]
     },
     {
