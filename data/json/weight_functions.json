@@ -1,58 +1,72 @@
 [
   {
-    "type": "effect_on_condition",
-    "id": "weight_start_14",
-    "condition": { "math": [ "u_dayssincestart", "<", "14" ] },
-    "effect": { "math": [ "u_weight", "=", 0 ] }
+    "type": "jmath_function",
+    "id": "weight_start",
+	"//": "These functions return a value between 0 and 1 to be multiplied with mapgen weights and hopefully in the future specials occurances and for use in mapgen value conditionals.  Usage weight_start( days of 0 weight ).  Sets weight from 0 to 'weight' after 'days of 0 weight' have passed.",
+    "num_args": 1,
+    "return": { " u_val('time_since_cataclysm: days') < _0 ? 0 : 1" }
   },
   {
-    "type": "effect_on_condition",
-    "id": "weight_end_14",
-    "condition": { "math": [ "u_dayssincestart", ">=", "14" ] },
-    "effect": { "math": [ "u_weight", "=", 0 ] }
+    "type": "jmath_function",
+    "id": "weight_end",
+	"//": "Usage weight_end( days until 0 weight ).  Sets weight from 'weight' to 0 after 'days until 0 weight' have passed.",
+    "num_args": 1,
+    "return": { "u_val('time_since_cataclysm: days') < _0 ? 1 : 0" }
   },
   {
-    "type": "effect_on_condition",
-    "id": "weight_linear_pos_14",
-    "condition": { "math": [ "u_dayssincestart", "<", "14" ] },
-    "effect": { "math": [ "u_weight", "*=", "u_dayssincestart / 14" ] }
+    "type": "jmath_function",
+    "id": "weight_linear_pos",
+	"//": "Usage weight_linear_pos( days until max weight ).  Linearly increases weight from 0 to 'weight' until 'days until max weight' have passed.",
+    "num_args": 1,
+    "return": { "u_val('time_since_cataclysm: days') < _0 ? u_val('time_since_cataclysm: days') / _0 : 1" }
   },
   {
-    "type": "effect_on_condition",
-    "id": "weight_linear_neg_14",
-    "run_eocs": [
-      {
-        "id": "weight_linear_neg_14_first",
-        "condition": { "math": [ "u_dayssincestart", "<", "14" ] },
-        "effect": { "math": [ "u_weight", "*=", "1 - ( u_dayssincestart / 14 )" ] }
-      },
-      {
-        "id": "weight_linear_neg_14_last",
-        "condition": { "math": [ "u_dayssincestart", ">=", "14" ] },
-        "effect": { "math": [ "u_weight", "=", 0 ] }
-      }
-    ]
+    "type": "jmath_function",
+    "id": "weight_linear_neg",
+	"//": "Usage weight_linear_neg( days until 0 weight ).  Linearly decreases weight from 'weight' to 0 until 'days until 0 weight' have passed.",
+    "num_args": 1,
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? 1 - ( u_val('time_since_cataclysm: days') / _0 ) : 0" }
   },
   {
-    "type": "effect_on_condition",
-    "id": "weight_unlooted_120",
-    "effect": { "math": [ "u_weight", "*=", "u_dayssincestart < 120 ? 1 - ( ( 9 / 1200 ) * u_dayssincestart ) : 0.1" ] }
+    "type": "jmath_function",
+    "id": "weight_linear_pos_from",
+	"//": "Usage weight_linear_pos_from( days until max weight, minimum multiplier ).  Linearly increases weight to 'weight' until 'days until max weight' such that it would start from 0 but starts at a flat 'minimum multiplier' * 'weight'.",
+    "num_args": 2,
+	"return": { " u_val('time_since_cataclysm: days') < _0 ? max( u_val('time_since_cataclysm: days') / _0, _1 ) : 1" }
+  }
+  {
+    "type": "jmath_function",
+    "id": "weight_linear_neg_until",
+	"//": "Usage weight_linear_neg_until( days until 0 weight, minimum multiplier ).  Linearly decreases weight from 'weight' such that it would reach 0 at 'days until 0 weight' but stops at 'minimum multiplier' * 'weight'.",
+    "num_args": 2,
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? max( 1 - ( u_val('time_since_cataclysm: days') / _0 ), _1 ) : _1" }
   },
   {
-    "type": "effect_on_condition",
-    "id": "weight_partlooted_120",
-    "effect": {
-      "math": [
-        "u_weight",
-        "*=",
-        "u_dayssincestart < 120 ? 0.1 + ( ( 13 / 400 ) * u_dayssincestart ) - ( ( 19 / 72000 ) * ( u_dayssincestart ^ 2 ) ) : 0.1"
-      ]
-    }
+    "type": "jmath_function",
+    "id": "weight_quadratic_pos",
+	"//": "Use completing the square to generalise",
+	"//": "Usage weight_quadratic_pos( days until max weight ).  Quadratically varies weight from 'weight' to 0 and back to 'weight' until 'days until max weight' have passed.",
+    "num_args": 1,
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? 0.1 + ( ( 13 / 400 ) * u_val('time_since_cataclysm: days') ) - ( ( 19 / 72000 ) * ( u_val('time_since_cataclysm: days') ^ 2 ) ) : 0.1" }
   },
   {
-    "type": "effect_on_condition",
-    "id": "weight_looted_120",
-    "condition": { "math": [ "u_dayssincestart", "<", "120" ] },
-    "effect": { "math": [ "u_weight", "*=", "u_dayssincestart / 120" ] }
+    "type": "jmath_function",
+    "id": "weight_quadratic_neg",
+	"//": "Usage weight_quadratic_pos( days until max weight ).  Quadratically varies weight from 0 to 'weight' and back to 0 until 'days until max weight' have passed.",
+    "num_args": 1,
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? 0.1 + ( ( 13 / 400 ) * u_val('time_since_cataclysm: days') ) - ( ( 19 / 72000 ) * ( u_val('time_since_cataclysm: days') ^ 2 ) ) : 0.1" }
+  }
+  {
+    "type": "jmath_function",
+    "id": "weight_quadratic_pos_from",
+	"//": "Usage weight_quadratic_pos( days until max weight, minimum multiplier ).  Quadratically varies weight from 'weight' to 'minimum multiplier' * 'weight' and back to 'weight' until 'days until max weight' have passed.",
+    "num_args": 2,
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? 0.1 + ( ( 13 / 400 ) * u_val('time_since_cataclysm: days') ) - ( ( 19 / 72000 ) * ( u_val('time_since_cataclysm: days') ^ 2 ) ) : 0.1" }
+  }
+  {
+    "type": "jmath_function",
+    "id": "weight_quadratic_neg_until",
+    "num_args": 2,
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? 0.1 + ( ( 13 / 400 ) * u_val('time_since_cataclysm: days') ) - ( ( 19 / 72000 ) * ( u_val('time_since_cataclysm: days') ^ 2 ) ) : 0.1" }
   }
 ]
