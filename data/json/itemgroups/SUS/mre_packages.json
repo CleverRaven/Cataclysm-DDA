@@ -67,18 +67,18 @@
       { "item": "matches", "charges": 20 },
       { "item": "napkin", "count": 8 },
       { "item": "gum", "charges": 2 },
-      { "item": "pur_tablets", "charges": 6, "container-item": "beverage_bag" },
-      { "item": "sugar", "charges": 2, "container-item": "beverage_bag" },
+      { "item": "pur_tablets", "charges": 6, "container-item": "bag_zipper" },
+      { "item": "sugar", "charges": 2, "container-item": "bag_zipper" },
       { "item": "spork" },
       {
         "distribution": [
-          { "item": "instant_coffee", "count": 2, "container-item": "beverage_bag" },
-          { "item": "herbal_tea_bag", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_bag", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_bag_chamomile", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_bag_dandelion", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_fruit_bag", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_green_bag", "count": 2, "container-item": "beverage_bag" }
+          { "item": "instant_coffee", "count": 2, "container-item": "bag_zipper" },
+          { "item": "herbal_tea_bag", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_bag", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_bag_chamomile", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_bag_dandelion", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_fruit_bag", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_green_bag", "count": 2, "container-item": "bag_zipper" }
         ]
       }
     ]
@@ -128,18 +128,18 @@
       { "item": "matches", "charges": [ 0, 20 ] },
       { "item": "napkin", "count": [ 0, 8 ] },
       { "item": "gum", "charges": [ 0, 2 ] },
-      { "item": "pur_tablets", "charges": [ 0, 6 ], "container-item": "beverage_bag" },
-      { "item": "sugar", "charges": [ 0, 2 ], "container-item": "beverage_bag" },
+      { "item": "pur_tablets", "charges": [ 0, 6 ], "container-item": "bag_zipper" },
+      { "item": "sugar", "charges": [ 0, 2 ], "container-item": "bag_zipper" },
       { "item": "spork" },
       {
         "distribution": [
-          { "item": "instant_coffee", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "herbal_tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_bag_chamomile", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_bag_dandelion", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_fruit_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_green_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" }
+          { "item": "instant_coffee", "count": [ 0, 2 ], "container-item": "bag_zipper" },
+          { "item": "herbal_tea_bag", "count": [ 0, 2 ], "container-item": "bag_zipper" },
+          { "item": "tea_bag", "count": [ 0, 2 ], "container-item": "bag_zipper" },
+          { "item": "tea_bag_chamomile", "count": [ 0, 2 ], "container-item": "bag_zipper" },
+          { "item": "tea_bag_dandelion", "count": [ 0, 2 ], "container-item": "bag_zipper" },
+          { "item": "tea_fruit_bag", "count": [ 0, 2 ], "container-item": "bag_zipper" },
+          { "item": "tea_green_bag", "count": [ 0, 2 ], "container-item": "bag_zipper" }
         ]
       }
     ]
