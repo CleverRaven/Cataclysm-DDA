@@ -1343,8 +1343,15 @@ class map
                                            const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type, int &quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
+        std::list<item> use_amount( const std::vector<tripoint> &reachable_pts, const itype_id &type,
+                                    int &quantity,
+                                    const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
+                                     basecamp *bcp = nullptr, bool in_tools = false );
+        std::list<item> use_charges( const std::vector<tripoint> &reachable_pts, const itype_id &type,
+                                     int &quantity,
+                                     const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr, bool in_tools = false );
 
         /** Find items located at point p (on map or in vehicles) that pass the filter */
@@ -1358,6 +1365,7 @@ class map
         * @param qty amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
         * @return Actual amount of energy consumed
         */
+        units::energy consume_ups( const std::vector<tripoint> &reachable_pts, units::energy qty );
         units::energy consume_ups( const tripoint &origin, int range, units::energy qty );
 
         /*@}*/
@@ -1847,8 +1855,8 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        void loadn( const tripoint &grid, bool update_vehicles, bool _actualize = true );
-        void loadn( const point &grid, bool update_vehicles, bool _actualize = true );
+        void loadn( const tripoint &grid, bool update_vehicles );
+        void loadn( const point &grid, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.

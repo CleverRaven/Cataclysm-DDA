@@ -31,6 +31,7 @@
 #include "dispersion.h"
 #include "effect.h"
 #include "enums.h"
+#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
@@ -121,7 +122,10 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_lsd( "lsd" );
@@ -161,6 +165,7 @@ enum npc_action : int {
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
+    npc_goto_to_this_pos,
     npc_goto_destination,
     npc_avoid_friendly_fire,
     npc_escape_explosion,
@@ -508,12 +513,11 @@ void npc::assess_danger()
             ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
-    if( sees( player_character.pos() ) ) {
-        if( is_enemy() ) {
-            ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
-        } else if( is_friendly( player_character ) ) {
-            ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-        }
+    if( is_friendly( player_character ) && sees( player_character.pos() ) ) {
+        ai_cache.friends.emplace_back( g->shared_from( player_character ) );
+    } else if( is_enemy() && sees( player_character ) ) {
+        // Unlike allies, hostile npcs should not see invisible players
+        ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
 
     for( const monster &critter : g->all_monsters() ) {
@@ -922,6 +926,10 @@ void npc::move()
                            return_guard_pos.x(), return_guard_pos.y() );
             action = npc_return_to_guard_pos;
         }
+    }
+
+    if( action == npc_undecided && is_walking_with() && goto_to_this_pos ) {
+        action = npc_goto_to_this_pos;
     }
 
     // check if in vehicle before doing any other follow activities
@@ -1374,6 +1382,16 @@ void npc::execute_action( npc_action action )
             mug_player( player_character );
             break;
 
+        case npc_goto_to_this_pos: {
+            update_path( get_map().getlocal( *goto_to_this_pos ) );
+            move_to_next();
+
+            if( get_location() == *goto_to_this_pos ) {
+                goto_to_this_pos = std::nullopt;
+            }
+            break;
+        }
+
         case npc_goto_destination:
             go_to_omt_destination();
             break;
@@ -1490,6 +1508,11 @@ void npc::evaluate_best_weapon( const Creature *target )
         }
         return VisitResponse::NEXT;
     } );
+    if( magic->spells().empty() ) {
+        magic->clear_opens_spellbook_data();
+        get_event_bus().send<event_type::opens_spellbook>( getID() );
+        magic->evaluate_opens_spellbook_data();
+    }
     for( const spell_id &sp : magic->spells() ) {
         compare( std::make_shared<npc_attack_spell>( sp ) );
     }
@@ -2072,9 +2095,7 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     if( !it.is_gun() ) {
         return res;
     }
-    if( confident_range_cache ) {
-        return *confident_range_cache;
-    }
+
     for( const auto &m : it.gun_all_modes() ) {
         res = std::max( res, confident_gun_mode_range( m.second, recoil ) );
     }
@@ -2333,7 +2354,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         if( critter->is_avatar() ) {
-            say( chatbin.snip_let_me_pass );
+            if( sees( *critter ) ) {
+                say( chatbin.snip_let_me_pass );
+            } else {
+                stumble_invis( *critter );
+            }
         }
 
         // Let NPCs push each other when non-hostile
@@ -2388,6 +2413,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     }
 
+    Character &player_character = get_player_character();
     if( p.z != posz() ) {
         // Z-level move
         // For now just teleport to the destination
@@ -2398,6 +2424,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
+    } else if( has_effect( effect_stumbled_into_invisible ) &&
+               here.has_field_at( p, field_fd_last_known ) && !sees( player_character ) &&
+               attitude_to( player_character ) == Attitude::HOSTILE ) {
+        attack_air( p );
+        move_pause();
     } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
@@ -4282,6 +4313,8 @@ std::string npc_action_name( npc_action action )
             return "Do nothing";
         case npc_do_attack:
             return "Attack";
+        case npc_goto_to_this_pos:
+            return "Go to position";
         case num_npc_actions:
             return "Unnamed action";
     }

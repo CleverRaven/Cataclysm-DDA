@@ -1,3 +1,4 @@
+
 # effect_on_condition
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
@@ -128,6 +129,7 @@ learns_martial_art | |  { "character", `character_id` }, { "martial_art", `matyp
 loses_addiction | | { "character", `character_id` }, { "add_type", `addiction_id` }, |
 npc_becomes_hostile | | { "npc", `character_id` }, { "npc_name", `string` }, |
 opens_portal | | NONE |
+opens_spellbook | | { "character", `character_id` } |
 opens_temple | | NONE |
 player_fails_conduct | | { "conduct", `achievement_id` }, { "achievements_enabled", `bool` }, |
 player_gets_achievement | | { "achievement", `achievement_id` }, { "achievements_enabled", `bool` }, |
@@ -136,6 +138,7 @@ reads_book | | { "character", `character_id` } |
 releases_subspace_specimens | | NONE |
 removes_cbm | |  { "character", `character_id` }, { "bionic", `bionic_id` }, |
 seals_hazardous_material_sarcophagus | | NONE |
+spellcasting_finish | | { "character", `character_id` }, { "spell", `spell_id` }, { "school", `trait_id` }  |
 telefrags_creature | | { "character", `character_id` }, { "victim_name", `string` }, |
 teleglow_teleports | | { "character", `character_id` } |
 teleports_into_wall | | { "character", `character_id` }, { "obstacle_name", `string` }, |
@@ -146,3 +149,11 @@ uses_debug_menu | | { "debug_menu_option", `debug_menu_index` }, |
 u_var_changed | | { "var", `string` }, { "value", `string` }, |
 vehicle_moves | | { "avatar_on_board", `bool` }, { "avatar_is_driving", `bool` }, { "avatar_remote_control", `bool` }, { "is_flying_aircraft", `bool` }, { "is_floating_watercraft", `bool` }, { "is_on_rails", `bool` }, { "is_falling", `bool` }, { "is_sinking", `bool` }, { "is_skidding", `bool` }, { "velocity", `int` }, // vehicle current velocity, mph * 100 { "z", `int` }, |
 
+## Context Variables For Other EOCs
+Other EOCs have some variables as well that they have access to, they are as follows:
+
+EOC            | Context Variables |
+--------------------- | ----------- |
+mutation: "activated_eocs" | { "this", `mutation_id` }
+mutation: "processed_eocs" | { "this", `mutation_id` }
+mutation: "deactivated_eocs" | { "this", `mutation_id` }

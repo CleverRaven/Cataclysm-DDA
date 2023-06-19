@@ -1733,6 +1733,7 @@ struct mutable_overmap_placement_rule_remainder {
 
     std::vector<tripoint_rel_omt> positions( om_direction::type rot ) const {
         std::vector<tripoint_rel_omt> result;
+        result.reserve( parent->pieces.size() );
         for( const mutable_overmap_placement_rule_piece &piece : parent->pieces ) {
             result.push_back( rotate( piece.pos, rot ) );
         }
@@ -2265,6 +2266,7 @@ struct mutable_overmap_phase {
 
     mutable_overmap_phase_remainder realise() const {
         std::vector<mutable_overmap_placement_rule_remainder> realised_rules;
+        realised_rules.reserve( rules.size() );
         for( const mutable_overmap_placement_rule &rule : rules ) {
             realised_rules.push_back( rule.realise() );
         }
@@ -3992,6 +3994,19 @@ void overmap::move_hordes()
                 continue;
             }
 
+            // Only monsters in the open (fields, forests, roads) are eligible to wander
+            const oter_id &om_here = ter( project_to<coords::omt>( p ) );
+            if( !is_ot_match( "field", om_here, ot_match_type::contains ) ) {
+                if( !is_ot_match( "road", om_here, ot_match_type::contains ) ) {
+                    if( !is_ot_match( "forest", om_here, ot_match_type::prefix ) ) {
+                        if( !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
+                            monster_map_it++;
+                            continue;
+                        }
+                    }
+                }
+            }
+
             // Scan for compatible hordes in this area, selecting the largest.
             mongroup *add_to_group = nullptr;
             auto group_bucket = zg.equal_range( p );
@@ -4050,13 +4065,18 @@ void overmap::move_nemesis()
         std::tie( omp, local_sm ) = project_remain<coords::om>( mg.abs_pos );
 
         // Decrease movement chance according to the terrain we're currently on.
+        // Hordes will tend toward roads / open fields and path around specials.
         const oter_id &walked_into = ter( project_to<coords::omt>( local_sm ) );
-        int movement_chance = 1;
-        if( walked_into == oter_forest || walked_into == oter_forest_water ) {
+        int movement_chance = 25;
+        if( is_ot_match( "road", walked_into, ot_match_type::contains ) ) {
+            movement_chance = 1;
+        } else if( is_ot_match( "field", walked_into, ot_match_type::contains ) ) {
             movement_chance = 3;
-        } else if( walked_into == oter_forest_thick ) {
+        } else if( is_ot_match( "forest", walked_into, ot_match_type::prefix ) ||
+                   is_ot_match( "swamp", walked_into, ot_match_type::prefix ) ||
+                   is_ot_match( "bridge", walked_into, ot_match_type::prefix ) ) {
             movement_chance = 6;
-        } else if( walked_into == oter_river_center ) {
+        } else if( is_ot_match( "river", walked_into, ot_match_type::prefix ) ) {
             movement_chance = 10;
         }
 
@@ -4231,7 +4251,7 @@ void overmap::place_forest_trails()
         if( !inbounds( p, 1 ) ) {
             return false;
         }
-        const auto current_terrain = ter( tripoint_om_omt( p, 0 ) );
+        const oter_id current_terrain = ter( tripoint_om_omt( p, 0 ) );
         return current_terrain == oter_forest || current_terrain == oter_forest_thick ||
                current_terrain == oter_forest_water;
     };

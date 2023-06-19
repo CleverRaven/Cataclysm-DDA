@@ -438,6 +438,7 @@
       { "item": "copper_pan", "prob": 30 },
       { "item": "dutch_oven", "prob": 5 },
       { "item": "kettle", "prob": 80 },
+      { "item": "coffeepot", "prob": 50 },
       { "item": "aluminum_pan", "prob": 15 },
       { "item": "pot_aluminum", "prob": 15 }
     ]
@@ -901,7 +902,7 @@
       { "item": "fishing_waders", "prob": 1 },
       { "item": "football_armor", "prob": 1 },
       { "item": "pom_poms", "prob": 1 },
-      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
       { "item": "cheerleader_top_short", "prob": 1 },
       { "item": "cheerleader_skirt", "prob": 1 },
       { "item": "cheerleader_skirt_short", "prob": 1 },

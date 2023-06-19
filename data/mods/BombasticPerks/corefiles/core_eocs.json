@@ -7,47 +7,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_level_up",
-    "condition": {
-      "compare_int": [ { "u_val": "var", "var_name": "available_exp" }, ">", { "u_val": "var", "var_name": "exp_to_perk" } ]
-    },
+    "condition": { "math": [ "u_available_exp", ">", "u_exp_to_perk" ] },
     "effect": [
       { "run_eocs": "EOC_give_perk_point" },
-      {
-        "arithmetic": [
-          { "u_val": "var", "var_name": "used_exp" },
-          "=",
-          { "u_val": "var", "var_name": "used_exp" },
-          "+",
-          { "u_val": "var", "var_name": "exp_to_perk" }
-        ]
-      },
-      {
-        "arithmetic": [
-          { "u_val": "var", "var_name": "available_exp" },
-          "=",
-          { "u_val": "exp" },
-          "-",
-          { "u_val": "var", "var_name": "used_exp" }
-        ]
-      },
-      {
-        "arithmetic": [
-          { "u_val": "var", "var_name": "exp_to_perk" },
-          "=",
-          { "u_val": "var", "var_name": "exp_to_perk" },
-          "+",
-          { "u_val": "var", "var_name": "exp_per_level" }
-        ]
-      },
-      {
-        "arithmetic": [
-          { "u_val": "var", "var_name": "current_level" },
-          "=",
-          { "u_val": "var", "var_name": "current_level" },
-          "+",
-          { "const": 1 }
-        ]
-      },
+      { "math": [ "u_used_exp", "+=", "u_exp_to_perk" ] },
+      { "math": [ "u_available_exp", "=", "u_val('exp') - u_used_exp" ] },
+      { "math": [ "u_exp_to_perk", "+=", "u_exp_per_level" ] },
+      { "math": [ "u_current_level", "+=", "1" ] },
       { "run_eocs": "EOC_level_up_notification" }
     ]
   },
@@ -62,18 +28,7 @@
     "id": "EOC_on_kill_check_exp",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "var", "var_name": "available_exp" },
-          "=",
-          { "u_val": "exp" },
-          "-",
-          { "u_val": "var", "var_name": "used_exp" }
-        ]
-      },
-      { "run_eocs": "EOC_level_up" }
-    ]
+    "effect": [ { "math": [ "u_available_exp", "=", "u_val('exp') - u_used_exp" ] }, { "run_eocs": "EOC_level_up" } ]
   },
   {
     "type": "effect_on_condition",
@@ -105,22 +60,20 @@
     "id": "EOC_give_perk_menu",
     "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
     "effect": [
-      { "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "const": 0 } ] },
-      { "arithmetic": [ { "u_val": "var", "var_name": "exp_to_perk" }, "=", { "const": 100 } ] },
-      { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 300 } ] },
-      { "arithmetic": [ { "u_val": "var", "var_name": "available_exp" }, "=", { "const": 0 } ] },
-      { "arithmetic": [ { "u_val": "var", "var_name": "current_level" }, "=", { "const": 0 } ] },
-      { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 0 } ] },
+      { "math": [ "u_num_perks", "=", "0" ] },
+      { "math": [ "u_exp_to_perk", "=", "100" ] },
+      { "math": [ "u_exp_per_level", "=", "300" ] },
+      { "math": [ "u_available_exp", "=", "0" ] },
+      { "math": [ "u_current_level", "=", "0" ] },
+      { "math": [ "u_no_playstyle", "=", "0" ] },
+      { "math": [ "u_playstyle_cost", "=", "3" ] },
+      { "math": [ "u_no_prerecs", "=", "0" ] },
       { "u_add_trait": "perk_perk_menu" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_give_perk_point",
-    "effect": [
-      {
-        "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "+", { "const": 1 } ]
-      }
-    ]
+    "effect": [ { "math": [ "u_num_perks", "++" ] } ]
   }
 ]

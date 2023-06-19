@@ -775,6 +775,7 @@ void game::setup()
     // reset kill counts
     kill_tracker_ptr->clear();
     achievements_tracker_ptr->clear();
+    eoc_events_ptr->clear();
     // reset follower list
     follower_ids.clear();
     scent.reset();
@@ -1294,14 +1295,7 @@ void game::calc_driving_offset( vehicle *veh )
         offset = veh->face_vec();
         velocity = veh->cruise_velocity;
     }
-    float rel_offset;
-    if( std::fabs( velocity ) < min_offset_vel ) {
-        rel_offset = 0;
-    } else if( std::fabs( velocity ) > max_offset_vel ) {
-        rel_offset = ( velocity > 0 ) ? 1 : -1;
-    } else {
-        rel_offset = ( velocity - min_offset_vel ) / ( max_offset_vel - min_offset_vel );
-    }
+    const float rel_offset = inverse_lerp( min_offset_vel, max_offset_vel, velocity );
     // Squeeze into the corners, by making the offset vector longer,
     // the PC is still in view as long as both offset.x and
     // offset.y are <= 1
@@ -2675,7 +2669,7 @@ bool game::is_game_over()
         // prevent pain from updating
         u.set_pain( 0 );
         // prevent dodging
-        u.dodges_left = 0;
+        u.set_dodges_left( 0 );
         return false;
     }
     if( uquit == QUIT_DIED ) {
@@ -3469,7 +3463,10 @@ void game::write_memorial_file( std::string sLastWords )
     std::time_t t = std::time( nullptr );
     tm current_time;
     localtime_r( &t, &current_time );
-    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
+    size_t result = std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
+    if( result == 0 ) {
+        cata_fatal( "Could not construct filename" );
+    }
     memorial_file_path << buffer;
 #endif
 
@@ -3785,6 +3782,34 @@ static shared_ptr_fast<game::draw_callback_t> create_trail_callback(
     } );
 }
 
+void game::init_draw_async_anim_curses( const tripoint &p, const std::string &ncstr,
+                                        const nc_color &nccol )
+{
+    std::pair <std::string, nc_color> anim( ncstr, nccol );
+    async_anim_layer_curses[p] = anim;
+}
+
+void game::draw_async_anim_curses()
+{
+    // game::draw_async_anim_curses can be called multiple times, storing each animation to be played in async_anim_layer_curses
+    // Iterate through every animation in async_anim_layer
+    for( const auto &anim : async_anim_layer_curses ) {
+        const tripoint p = anim.first - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(),
+                           -u.posz() );
+        const std::string ncstr = anim.second.first;
+        const nc_color nccol = anim.second.second;
+
+        mvwprintz( w_terrain, p.xy(), nccol, ncstr );
+        //shared_ptr_fast<game::draw_callback_t> hit_cb = make_shared_fast<game::draw_callback_t>( [&]() { mvwprintz( w_terrain, p.xy(), nccol, ncstr ); } );
+        //g->add_draw_callback( hit_cb );
+    }
+}
+
+void game::void_async_anim_curses()
+{
+    async_anim_layer_curses.clear();
+}
+
 void game::draw( ui_adaptor &ui )
 {
     if( test_mode ) {
@@ -3807,6 +3832,7 @@ void game::draw( ui_adaptor &ui )
             it = draw_callbacks.erase( it );
         }
     }
+    draw_async_anim_curses();
     wnoutrefresh( w_terrain );
 
     draw_panels( true );
@@ -5623,14 +5649,14 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     m.unboard_vehicle( u.pos() );
     u.moves -= 200;
     // Dive three tiles in the direction of tox and toy
-    fling_creature( &u, d, 30, true );
+    fling_creature( &u, d, 30, true, true );
     // Hit the ground according to vehicle speed
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) ) {
         if( veh->velocity > 0 ) {
-            fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ) );
+            fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ), false, true );
         } else {
             fling_creature( &u, veh->face.dir() + 180_degrees,
-                            -( veh->velocity ) / static_cast<float>( 100 ) );
+                            -( veh->velocity ) / static_cast<float>( 100 ), false, true );
         }
     }
 }
@@ -5723,9 +5749,8 @@ void game::control_vehicle()
     if( veh ) {
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
-        // FIXME: change map memory to memorize all memorizable objects and only erase vehicle part memory.
         for( const tripoint &target : veh->get_points() ) {
-            u.clear_memorized_tile( m.getabs( target ) );
+            u.memorize_clear_vehicles( m.getabs( target ) );
             m.set_memory_seen_cache_dirty( target );
         }
         veh->is_following = false;
@@ -7987,8 +8012,8 @@ bool game::take_screenshot() const
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
     // NOLINTNEXTLINE(cata-translate-string-literal)
-    const auto tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
-                               timestamp_now() );
+    const std::string tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
+                                      timestamp_now() );
 
     std::string file_name = ensure_valid_file_name( tmp_file_name );
     auto current_file_path = map_directory.str() + file_name;
@@ -10408,29 +10433,27 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
         // Add trail animation when sprinting
         if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
-            std::map<tripoint, nc_color> area_color;
-            area_color[oldpos] = c_black;
             if( u.posy() < oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_nw" );
+                    draw_async_anim( oldpos, "run_nw", "\\", c_light_gray );
                 } else if( u.posx() == oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_n" );
+                    draw_async_anim( oldpos, "run_n", "|", c_light_gray );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_ne" );
+                    draw_async_anim( oldpos, "run_ne", "/", c_light_gray );
                 }
             } else if( u.posy() == oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_w" );
+                    draw_async_anim( oldpos, "run_w", "-", c_light_gray );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_e" );
+                    draw_async_anim( oldpos, "run_e", "-", c_light_gray );
                 }
             } else {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_sw" );
+                    draw_async_anim( oldpos, "run_sw", "/", c_light_gray );
                 } else if( u.posx() == oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_s" );
+                    draw_async_anim( oldpos, "run_s", "|", c_light_gray );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_se" );
+                    draw_async_anim( oldpos, "run_se", "\\", c_light_gray );
                 }
             }
         }
@@ -11338,7 +11361,8 @@ void game::water_affect_items( Character &ch ) const
     }
 }
 
-bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
+bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled,
+                           bool intentional )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
@@ -11368,12 +11392,30 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         }
     }
 
+
+
     bool thru = true;
     const bool is_u = c == &u;
     // Don't animate critters getting bashed if animations are off
     const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
 
     Character *you = dynamic_cast<Character *>( c );
+
+    // at this point we should check if knockback immune
+    // assuming that the shove wasn't intentional
+    if( !intentional && you != nullptr ) {
+
+        double knockback_resist = 0.0;
+        knockback_resist = you->calculate_by_enchantment( knockback_resist,
+                           enchant_vals::mod::KNOCKBACK_RESIST );
+        if( knockback_resist >= 1 ) {
+            // you are immune
+            return false;
+        }
+
+        // 1.0 knockback resist is immune, 0 is normal
+        flvel *= 1 - knockback_resist;
+    }
 
     tileray tdir( dir );
     int range = flvel / 10;

@@ -364,13 +364,16 @@
     "symbol": "U",
     "color": "dark_gray",
     "looks_like": "household_water_heater",
-    "weight": "22700 g",
+    "weight": "500 kg",
     "volume": "500 L",
     "price": 20000,
     "to_hit": -5,
     "material": [ "steel" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_catalytic_cracking_reactor" },
     "qualities": [ [ "EXTRACT", 3 ] ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "large_storage_battery", "storage_battery" ] }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -682,7 +685,8 @@
   },
   {
     "id": "oxygen_cylinder",
-    "type": "TOOL",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "19050 g",
@@ -703,10 +707,9 @@
         "ammo_restriction": { "oxygen": 300 }
       }
     ],
-    "initial_charges": 300,
-    "max_charges": 300,
-    "charges_per_use": 1,
-    "use_action": [ "OXYGEN_BOTTLE" ],
+    "ammo_type": [ "oxygen" ],
+    "capacity": 300,
+    "count": 300,
     "melee_damage": { "bash": 10 }
   },
   {
@@ -1274,16 +1277,19 @@
     "category": "spare_parts",
     "name": { "str": "ring stand" },
     "description": "A heavy metal plate and a sturdy rod, for clamping lab stuff to.",
-    "weight": "900 g",
-    "volume": "550ml",
-    "price": 75,
+    "weight": "1100 g",
+    "volume": "3 L",
+    "//1": "The volume is lowered. The volume of the package of the attached amazon article is 5l+ but a lot of the parts are small enough to actually not take up much space. Yes, the number is relatively an asspull, but I refuse to believe a ring stand would be larger than a cooking pot in volume.",
+    "longest_side": "41 cm",
+    "price": "19 USD",
     "price_postapoc": 10,
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "looks_like": "rebar",
     "symbol": "l",
     "color": "light_gray",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "//2": "Based on https://www.amazon.com/QWORK-Laboratory-Stands-Support-Burette/dp/B08ZSC1H5F/ref=sr_1_3?crid=37KM69HA77UU2&keywords=ring%2Bstand&qid=1684348895&sprefix=ring%2Bstand%2Caps%2C389&sr=8-3&th=1"
   },
   {
     "id": "stand_ring_clamps",

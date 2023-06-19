@@ -141,8 +141,6 @@ static const skill_id skill_spellcraft( "spellcraft" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const species_id species_HUMAN( "HUMAN" );
-
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
 static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
@@ -571,7 +569,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed )
 {
-    if( get_working_leg_count() < 2 ) {
+    if( !enough_working_legs() ) {
         if( !movement_mode_is( move_mode_prone ) ) {
             add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
             set_movement_mode( move_mode_prone );
@@ -1138,16 +1136,7 @@ int Character::get_spell_resist() const
 
 float Character::get_dodge() const
 {
-    //If we're asleep or busy we can't dodge
-    if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( effect_winded ) || is_driving() ) {
-        add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
-        return 0.0f;
-    }
-
-    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( dodges_left <= 0 ) {
-        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+    if( !can_try_doge().success() ) {
         return 0.0f;
     }
 
@@ -1175,12 +1164,11 @@ float Character::get_dodge() const
         add_msg_debug( debugmode::DF_MELEE, "Dodge after speed penalty %.1f", ret );
     }
 
-    //Dodge decreases linearly to 0 when below 50% stamina.
-    const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
-    if( stamina_ratio <= .5 ) {
-        ret *= 2 * stamina_ratio;
-        add_msg_debug( debugmode::DF_MELEE, "Dodge after stamina penalty %.1f", ret );
-    }
+    //Dodge decreases logisticaly with stamina.
+    const double stamina_logistic = get_stamina_dodge_modifier();
+    ret *= stamina_logistic;
+
+    add_msg_debug( debugmode::DF_MELEE, "Dodge after stamina penalty %.1f", ret );
 
     // Reaction score of limbs influences dodge chances
     ret *= get_limb_score( limb_score_reaction );
@@ -1468,17 +1456,22 @@ void Character::roll_damage( const damage_type_id &dt, bool crit, damage_instanc
         di.add_damage( dt, other_dam, arpen, armor_mult, other_mul );
     }
 }
-
 matec_id Character::pick_technique( Creature &t, const item_location &weap, bool crit,
                                     bool dodge_counter, bool block_counter )
+{
+    std::vector<matec_id> possible = evaluate_techniques( t, weap, crit,
+                                     dodge_counter,  block_counter );
+    return random_entry( possible, tec_none );
+}
+std::vector<matec_id> Character::evaluate_techniques( Creature &t, const item_location &weap,
+        bool crit,
+        bool dodge_counter, bool block_counter )
 {
 
     const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap, *this );
 
     std::vector<matec_id> possible;
 
-    bool downed = t.has_effect( effect_downed );
-    bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = get_map().is_wall_adjacent( pos() );
     // this could be more robust but for now it should work fine
     bool is_loaded = weap && weap->is_magazine_full();
@@ -1486,28 +1479,43 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
         const ma_technique &tec = tec_id.obj();
+        add_msg_debug( debugmode::DF_MELEE, "Evaluating technique %s", tec.name );
 
         // ignore "dummy" techniques like WBLOCK_1
         if( tec.dummy ) {
+            add_msg_debug( debugmode::DF_MELEE, "Dummy technique, attack discarded" );
             continue;
         }
 
         // skip defensive techniques
         if( tec.defensive ) {
+            add_msg_debug( debugmode::DF_MELEE, "Defensive technique, attack discarded" );
             continue;
+        }
+
+        // Ignore this technique if we fail the doalog conditions
+        if( tec.has_condition ) {
+            dialogue d( get_talker_for( this ), get_talker_for( t ) );
+            if( !tec.condition( d ) ) {
+                add_msg_debug( debugmode::DF_MELEE, "Conditionas failed, attack discarded" );
+                continue;
+            }
         }
 
         // skip wall adjacent techniques if not next to a wall
         if( tec.wall_adjacent && !wall_adjacent ) {
+            add_msg_debug( debugmode::DF_MELEE, "No adjacent walls found, attack discarded" );
             continue;
         }
 
         // skip dodge counter techniques if it's not a dodge count, and vice versa
         if( dodge_counter != tec.dodge_counter ) {
+            add_msg_debug( debugmode::DF_MELEE, "Not a dodge counter, attack discarded" );
             continue;
         }
         // likewise for block counters
         if( block_counter != tec.block_counter ) {
+            add_msg_debug( debugmode::DF_MELEE, "Not a block counter, attack discarded" );
             continue;
         }
 
@@ -1520,6 +1528,8 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
             float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
             move_cost *= ( 1.0f / move_mult );
             if( get_moves() + get_speed() - move_cost < 0 ) {
+                add_msg_debug( debugmode::DF_MELEE,
+                               "Counter technique would exhaust remaining moves, attack discarded" );
                 continue;
             }
         }
@@ -1527,26 +1537,13 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
         // if critical then select only from critical tecs
         // but allow the technique if its crit ok
         if( !tec.crit_ok && ( crit != tec.crit_tec ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "Attack is%s critical, attack discarded", crit ? "" : "n't" );
             continue;
         }
 
         // if the technique needs a loaded weapon and it isn't loaded skip it
         if( tec.needs_ammo && !is_loaded ) {
-            continue;
-        }
-
-        // don't apply downing techniques to someone who's already downed
-        if( downed && tec.down_dur > 0 ) {
-            continue;
-        }
-
-        // don't apply "downed only" techniques to someone who's not downed
-        if( !downed && tec.downed_target ) {
-            continue;
-        }
-
-        // don't apply "stunned only" techniques to someone who's not stunned
-        if( !stunned && tec.stunned_target ) {
+            add_msg_debug( debugmode::DF_MELEE, "No ammo, attack discarded" );
             continue;
         }
 
@@ -1555,24 +1552,27 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
         // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
         // dice(p->dex_cur + p->get_skill_level("melee"),   10))
         if( tec.disarms && !t.has_weapon() ) {
+            add_msg_debug( debugmode::DF_MELEE,
+                           "Disarming technique against unarmed opponent, attack discarded" );
             continue;
         }
 
         if( tec.take_weapon && ( has_weapon() || !t.has_weapon() ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "Weapon-taking technique %s, attack discarded",
+                           has_weapon() ? "while armed" : "against an unarmed opponent" );
             continue;
         }
 
-        // Don't apply humanoid-only techniques to non-humanoids
-        if( tec.human_target && !t.in_species( species_HUMAN ) ) {
-            continue;
-        }
         // if aoe, check if there are valid targets
         if( !tec.aoe.empty() && !valid_aoe_technique( t, tec ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "AoE technique witout valid AoE targets, attack discarded" );
             continue;
         }
 
         // If we have negative weighting then roll to see if it's valid this time
         if( tec.weighting < 0 && !one_in( std::abs( tec.weighting ) ) ) {
+            add_msg_debug( debugmode::DF_MELEE,
+                           "Negative technique weighting failed weight roll, attack discarded" );
             continue;
         }
 
@@ -1581,6 +1581,7 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
         std::shuffle( shuffled_attack_vectors.begin(), shuffled_attack_vectors.end(), rng_get_engine() );
         if( martial_arts_data->get_valid_attack_vector( *this, tec.attack_vectors ) == "NONE" &&
             martial_arts_data->get_valid_attack_vector( *this, shuffled_attack_vectors ) == "NONE" ) {
+            add_msg_debug( debugmode::DF_MELEE, "No valid attack vector found, attack discarded" );
             continue;
         }
 
@@ -1596,7 +1597,7 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
         }
     }
 
-    return random_entry( possible, tec_none );
+    return possible;
 }
 
 bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique )
@@ -1749,10 +1750,11 @@ static void print_damage_info( const damage_instance &di )
     add_msg_debug( debugmode::DF_MELEE, "%stotal: %d", ss, total );
 }
 
-void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
+void Character::perform_technique( const ma_technique &technique, Creature &t,
+                                   damage_instance &di,
                                    int &move_cost, item_location &cur_weapon )
 {
-    add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
+    add_msg_debug( debugmode::DF_MELEE, "Chose technique %s\ndmg before tec:", technique.name );
     print_damage_info( di );
     int rep = rng( technique.repeat_min, technique.repeat_max );
     add_msg_debug( debugmode::DF_MELEE, "Tech repeats %d times", rep );
@@ -2465,7 +2467,8 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
     return ret;
 }
 
-std::string melee_message( const ma_technique &tec, Character &p, const dealt_damage_instance &ddi )
+std::string melee_message( const ma_technique &tec, Character &p,
+                           const dealt_damage_instance &ddi )
 {
     // Those could be extracted to a json
 

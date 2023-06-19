@@ -1,6 +1,6 @@
-// RUN: %check_clang_tidy %s cata-translator-comments %t -- --load=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-translator-comments %t -- --load=%cata_plugin -- -isystem %cata_include -DLOCALIZE
 
-#include "mock-translation.h"
+#include "translations.h"
 
 void foo()
 {

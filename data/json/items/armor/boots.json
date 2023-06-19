@@ -115,7 +115,6 @@
     "copy-from": "boots",
     "symbol": "[",
     "looks_like": "boots",
-    "repairs_like": "boots_survivor",
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
@@ -152,7 +151,6 @@
   },
   {
     "id": "boots_bunker",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of turnout boots", "str_pl": "pairs of turnout boots" },
@@ -287,7 +285,6 @@
   },
   {
     "id": "boots_combat",
-    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of combat boots", "str_pl": "pairs of combat boots" },
@@ -348,7 +345,6 @@
     "price_postapoc": 7000,
     "warmth": 10,
     "material": [ "steel", "nomex" ],
-    "repairs_like": "boots_survivor",
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
@@ -366,7 +362,6 @@
     "price": 2500,
     "to_hit": -1,
     "material": [ "plastic", "steel" ],
-    "repairs_like": "boots",
     "symbol": "[",
     "color": "brown",
     "warmth": 10,
@@ -452,7 +447,6 @@
   },
   {
     "id": "boots_hiking",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of hiking boots", "str_pl": "pairs of hiking boots" },
     "description": "Tough yet light leather boots, intended for outdoor activity.",
@@ -605,7 +599,6 @@
   },
   {
     "id": "boots_rubber",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of rubber boots", "str_pl": "pairs of rubber boots" },
     "description": "A pair of rubber boots, often used while cleaning with caustic materials.",
@@ -764,7 +757,6 @@
   },
   {
     "id": "boots_steel",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of steeltoed boots", "str_pl": "pairs of steeltoed boots" },
@@ -811,7 +803,6 @@
   },
   {
     "id": "sneakers_steel",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of steeltoed sneakers", "str_pl": "pairs of steeltoed sneakers" },
@@ -978,7 +969,6 @@
   },
   {
     "id": "cleats",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of cleats", "str_pl": "pairs of cleats" },
     "description": "Sport shoes with hard undersides and studs on the bottom designed to dig into grass.",
@@ -1028,7 +1018,6 @@
   },
   {
     "id": "golf_shoes",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of golf shoes", "str_pl": "pairs of golf shoes" },
     "description": "Snug sport shoes with hard ridges on the bottom.",
@@ -1119,7 +1108,6 @@
   },
   {
     "id": "clownshoes",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of clown shoes", "str_pl": "pairs of clown shoes" },
     "description": "Gigantic shoes fit for a clown.  Incredibly difficult to walk in.",
@@ -1180,7 +1168,6 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
-    "repairs_like": "boots",
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 1.5,
@@ -1214,7 +1201,6 @@
   },
   {
     "id": "dress_shoes",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of dress shoes", "str_pl": "pairs of dress shoes" },
     "description": "Fancy patent leather shoes.  Not designed for running.",
@@ -1268,7 +1254,6 @@
     "to_hit": -2,
     "symbol": "[",
     "looks_like": "sneakers",
-    "repairs_like": "boots",
     "color": "blue",
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
@@ -1301,7 +1286,6 @@
     "material": [ "rubber", "leather" ],
     "symbol": "[",
     "looks_like": "flip_flops",
-    "repairs_like": "flip_flops",
     "color": "brown",
     "material_thickness": 1,
     "environmental_protection": 1,
@@ -1433,7 +1417,6 @@
   },
   {
     "id": "heels",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of heels", "str_pl": "pairs of heels" },
     "description": "A pair of high heels.  Difficult to even walk in.",
@@ -1471,7 +1454,6 @@
   },
   {
     "id": "knee_high_boots",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of knee-high boots", "str_pl": "pairs of knee-high boots" },
     "description": "Very long leather boots that cover the lower legs, they are cumbersome to wear.",
@@ -1525,7 +1507,6 @@
   },
   {
     "id": "motor_police_boots",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of motorcycle police boots", "str_pl": "pairs of motorcycle police boots" },
     "description": "Custom-made knee-high leather boots issued to motor officers.  Warm, durable and quite tough.",
@@ -1589,7 +1570,6 @@
     "to_hit": -2,
     "symbol": "[",
     "looks_like": "flip_flops",
-    "repairs_like": "bastsandals",
     "color": "brown",
     "material_thickness": 1.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
@@ -1620,7 +1600,6 @@
   },
   {
     "id": "lowtops",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of lowtop tennis shoes", "str_pl": "pairs of lowtop tennis shoes" },
     "description": "Lightweight shoes made of cloth and rubber.",
@@ -1699,7 +1678,6 @@
   },
   {
     "id": "motorbike_boots",
-    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of motorcycle boots", "str_pl": "pairs of motorcycle boots" },
@@ -1750,7 +1728,6 @@
   },
   {
     "id": "roller_blades",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rollerblades", "str_pl": "pairs of rollerblades" },
     "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, take hits, or dodge effectively.",
@@ -1800,7 +1777,6 @@
   },
   {
     "id": "rollerskates",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rollerskates", "str_pl": "pairs of rollerskates" },
     "description": "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to take hits or to move on rough terrain.",
@@ -1890,7 +1866,6 @@
   },
   {
     "id": "shoes_bowling",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of bowling shoes", "str_pl": "pairs of bowling shoes" },
     "description": "A pair of flat-soled shoes designed to give you a grip on slippery surfaces.",
@@ -1938,7 +1913,6 @@
   },
   {
     "id": "slippers",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of slippers", "str_pl": "pairs of slippers" },
     "description": "Soft shoes that keep your feet warm.  Not suitable for running.",
@@ -1986,7 +1960,6 @@
   },
   {
     "id": "sneakers",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of sneakers", "str_pl": "pairs of sneakers" },
     "description": "Guaranteed to make you run faster and jump higher!",
@@ -2112,7 +2085,6 @@
   },
   {
     "id": "thigh_high_boots",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of thigh-high boots", "str_pl": "pairs of thigh-high boots" },
     "description": "Very long leather boots that reach past the knees, they are cumbersome to wear.",
@@ -2172,7 +2144,6 @@
   },
   {
     "id": "roller_shoes_off",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of heelys (off)", "str_pl": "pairs of heelys (off)" },
     "description": "A pair of sneakers with integrated wheels.  Currently the wheels are retracted, making these essentially normal lace-up athletic shoes.",
@@ -2310,7 +2281,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2353,7 +2324,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2405,7 +2376,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2457,7 +2428,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2508,7 +2479,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2559,7 +2530,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2745,7 +2716,6 @@
   },
   {
     "id": "socks_bowling",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of disposable bowling socks", "str_pl": "pairs of disposable bowling socks" },
     "description": "Cheap socks designed to be worn once and then thrown away.  They keep your feet clean, but are too thin to give any protection.",
@@ -2871,7 +2841,6 @@
   },
   {
     "id": "tabi_gi",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of gi tabi", "str_pl": "pairs of gi tabi" },
     "description": "A pair of white tabi, as used by martial arts practitioners.",

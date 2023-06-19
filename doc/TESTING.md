@@ -30,7 +30,7 @@ unit is a `TEST_CASE`. Each test `.cpp` file should define at least one test
 case, with a name, and an optional (but strongly encouraged) list of tags:
 
 ```cpp
-    TEST_CASE( "sweet junk food", "[food][junk][sweet]" )
+    TEST_CASE( "sweet_junk_food", "[food][junk][sweet]" )
     {
         // ...
     }
@@ -44,7 +44,7 @@ that encourages a high level of readability is the
 Here's an outline of what a test might look like using those:
 
 ```cpp
-    TEST_CASE( "sweet junk food", "[food][junk][sweet]" )
+    TEST_CASE( "sweet_junk_food", "[food][junk][sweet]" )
     {
         GIVEN( "character has a sweet tooth" ) {
 
@@ -66,7 +66,7 @@ expectations (the `THEN` part, naturally).
 Filling in the above with actual test code might look like this:
 
 ```cpp
-    TEST_CASE( "sweet junk food", "[food][junk][sweet]" )
+    TEST_CASE( "sweet_junk_food", "[food][junk][sweet]" )
     {
         avatar dummy;
         dummy.clear_morale();

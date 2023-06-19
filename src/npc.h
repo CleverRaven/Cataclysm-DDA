@@ -922,7 +922,7 @@ class npc : public Character
         bool wear_if_wanted( const item &it, std::string &reason );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         time_duration time_to_read( const item &book, const Character &reader ) const;
-        void do_npc_read();
+        void do_npc_read( bool ebook = false );
         void stow_item( item &it );
         bool wield( item &it ) override;
         void drop( const drop_locations &what, const tripoint &target,
@@ -1294,6 +1294,8 @@ class npc : public Character
 
         // Where we last saw the player
         std::optional<tripoint_abs_ms> last_player_seen_pos;
+        // Player orders a friendly NPC to move to this position
+        std::optional<tripoint_abs_ms> goto_to_this_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint

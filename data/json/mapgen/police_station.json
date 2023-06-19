@@ -19,10 +19,10 @@
         "|.....|#α#|#α#|#α#|----|",
         "|5.....................|",
         "|-=-|..|+-|-+|-+--|-+--|",
-        "|..1|..|.S|S.|t..c|....|",
-        "|..1|..|.t|t.|...c|Ccc.|",
-        "|..1|..|+-|-+|...c|.cc.|",
-        "|lll|..|.&|&.|cccc|.C..|",
+        "|[.1|..|.S|S.|t..c|....|",
+        "|[.1|..|.t|t.|...c|Ccc.|",
+        "|[.1|..|+-|-+|...c|.cc.|",
+        "|{}]|..|.&|&.|cccc|.C..|",
         "|----**----------------|",
         ",4,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -54,6 +54,10 @@
         "1": "f_locker",
         "l": "f_locker",
         "L": "f_locker",
+        "{": "f_locker",
+        "}": "f_locker",
+        "[": "f_locker",
+        "]": "f_locker",
         "C": "f_chair",
         "S": "f_sink",
         "t": "f_trashcan",
@@ -65,8 +69,12 @@
         ".": { "item": "badge_deputy", "chance": 5 },
         "t": { "item": "trash_cart", "chance": 50 },
         "c": { "item": "kitchen", "chance": 40, "repeat": [ 2, 4 ] },
-        "1": { "item": "cop_items", "chance": 70, "repeat": [ 2, 4 ] },
+        "1": { "item": "cop_items", "chance": 80, "repeat": [ 5, 8 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 4 ] },
+        "{": { "item": "police_armory_any_sniperrifle", "chance": 90 },
+        "}": { "item": "police_armory_any_assaultrifle", "chance": 90 },
+        "[": { "item": "police_armory_any_pistol", "chance": 95 },
+        "]": { "item": "police_armory_any_shotgun", "chance": 85 },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] }
       },
       "item": { "/": { "item": "american_flag" } },
@@ -126,16 +134,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster", "X": "f_small_satelitte_dish", "=": "f_vent_pipe" },
+      "palettes": [ "roof_palette" ],
       "place_items": [ { "item": "roof_trash", "x": [ 3, 17 ], "y": [ 7, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -211,6 +210,10 @@
         "1": "f_locker",
         "l": "f_locker",
         "L": "f_locker",
+        "{": "f_locker",
+        "}": "f_locker",
+        "[": "f_locker",
+        "]": "f_locker",
         "2": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "C": "f_chair",
         "S": "f_sink",
@@ -229,6 +232,10 @@
         "c": { "item": "kitchen", "chance": 40 },
         "1": { "item": "cop_items", "chance": 70 },
         "l": { "item": "cop_armory", "chance": 70 },
+        "{": { "item": "police_armory_any_sniperrifle", "chance": 90 },
+        "}": { "item": "police_armory_any_assaultrifle", "chance": 90 },
+        "[": { "item": "police_armory_any_pistol", "chance": 95 },
+        "]": { "item": "police_armory_any_shotgun", "chance": 85 },
         "L": { "item": "cop_evidence", "chance": 60 },
         "D": { "item": "vending_food_items", "chance": 70, "repeat": [ 4, 12 ] },
         "U": { "item": "vending_drink_items", "chance": 70, "repeat": [ 4, 12 ] }
@@ -264,7 +271,7 @@
         "                        ",
         "                        ",
         "|-----------W----------|",
-        "|1lll39lll3923|b..#.#.b|",
+        "|{111391[13]23|b..#.#.b|",
         "|1............|b..4.4.b|",
         "|1..bb|---|---|---|.|--|",
         "|--=--|bbb|bbb|bbb|.|bb|",
@@ -308,6 +315,9 @@
         "1": "f_locker",
         "l": "f_locker",
         "L": "f_locker",
+        "[": "f_locker",
+        "{": "f_locker",
+        "]": "f_locker",
         "2": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "3": [ "f_gunsafe_ml", "f_gun_safe_el" ],
         "9": [ "f_gunsafe_ml", "f_gun_safe_el" ],
@@ -328,16 +338,11 @@
       "toilets": { "&": {  } },
       "place_loot": [ { "item": "television", "x": 14, "y": 12, "chance": 100 }, { "item": "family_photo", "x": 5, "y": 4, "chance": 100 } ],
       "items": {
-        "3": [
-          { "item": "ammo_swat", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "guns_swat", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_common", "chance": 20, "repeat": [ 1, 2 ] }
-        ],
-        "9": [
-          { "item": "guns_cop", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "ammo_cop", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "guns_common", "chance": 20, "repeat": [ 1, 3 ] }
-        ],
+        "3": { "item": "police_armory_any_pistol", "chance": 100 },
+        "[": { "item": "police_armory_any_pistol", "chance": 90 },
+        "9": { "item": "police_armory_any_assaultrifle", "chance": 100 },
+        "{": { "item": "police_armory_any_sniperrifle", "chance": 80 },
+        "]": { "item": "police_armory_any_shotgun", "chance": 100 },
         "7": [
           { "item": "jewelry_front", "chance": 50, "repeat": [ 2, 3 ] },
           { "item": "stash_drugs", "chance": 50, "repeat": [ 2, 3 ] },
@@ -350,7 +355,7 @@
         "B": { "item": "bed", "chance": 30 },
         "b": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
         "^": { "item": "bedroom", "chance": 30, "repeat": [ 1, 2 ] },
-        "1": { "item": "cop_items", "chance": 30, "repeat": [ 1, 2 ] },
+        "1": { "item": "cop_items", "chance": 80, "repeat": [ 2, 4 ] },
         "l": { "item": "cop_armory", "chance": 30, "repeat": [ 1, 2 ] },
         "L": [
           { "item": "cop_evidence", "chance": 30, "repeat": [ 1, 2 ] },
@@ -409,22 +414,7 @@
         "|.......3               ",
         "--------5               "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      },
-      "furniture": {
-        "&": "f_roof_turbine_vent",
-        ":": "f_cellphone_booster",
-        "X": "f_small_satelitte_dish",
-        "=": "f_vent_pipe",
-        "A": "f_air_conditioner"
-      }
+      "palettes": [ "roof_palette" ]
     }
   },
   {
@@ -446,8 +436,8 @@
         "|#α#|#α#|.|#α#|#α#|,,,,,",
         "|.................|,,,,,",
         "|--------*------*-|,,,,,",
-        "|llll|5......+$|.<|,,,,,",
-        "|....=..|----|----|%%%%^",
+        "|{}[[|5......+$|.<|,,,,,",
+        "|]...=..|----|----|%%%%^",
         "|1111|..|tccf|4,,,,,,,,^",
         "|----|..|C...|,,,,,,,,,^",
         "|....|..|T..Y|,,,,,,,,,^",
@@ -489,6 +479,10 @@
         "1": "f_locker",
         "l": "f_locker",
         "L": "f_locker",
+        "{": "f_locker",
+        "}": "f_locker",
+        "[": "f_locker",
+        "]": "f_locker",
         "C": "f_chair",
         "T": "f_table",
         "D": "f_desk",
@@ -507,8 +501,12 @@
         "$": { "item": "cleaning", "chance": 50, "repeat": [ 2, 3 ] },
         "!": { "item": "alcohol_bottled_canned", "chance": 95, "repeat": [ 2, 3 ] },
         "t": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
-        "1": { "item": "cop_items", "chance": 70, "repeat": [ 2, 3 ] },
+        "1": { "item": "cop_items", "chance": 90, "repeat": [ 2, 4 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 3 ] },
+        "{": { "item": "police_armory_any_sniperrifle", "chance": 80 },
+        "}": { "item": "police_armory_any_assaultrifle", "chance": 80 },
+        "[": { "item": "police_armory_any_pistol", "chance": 90 },
+        "]": { "item": "police_armory_any_shotgun", "chance": 80 },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 3 ] },
         "D": { "item": "office", "chance": 60, "repeat": [ 2, 3 ] },
         "T": { "item": "dining", "chance": 60, "repeat": [ 2, 3 ] },
@@ -555,13 +553,13 @@
         "|.................3     ",
         "|.................3     ",
         "|......############     ",
-        "|......#s_T#p&_=_=#     ",
+        "|......#s_T#y&_=_=#     ",
         "|......#__S#b_____#     ",
-        "|......##+##b__:_A#     ",
-        "|......#b________A#     ",
+        "|......##+##b__:_M#     ",
+        "|......#b________M#     ",
         "|......###+#####+##     ",
-        "|............4#W_p#     ",
-        "|............3#U_>#     ",
+        "|............4#W_y#     ",
+        "|............3#A_v#     ",
         "|............5#####     ",
         "|............3          ",
         "|............3          ",
@@ -575,33 +573,16 @@
         "|............3          ",
         "|------------3          "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        "_": "t_floor",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_ladder_down",
-        "4": "t_gutter_downspout",
-        "#": "t_brick_wall",
-        "+": "t_door_locked",
-        "5": "t_gutter_drop"
-      },
+      "palettes": [ "roof_palette" ],
+      "terrain": { "#": "t_brick_wall", "+": "t_door_locked" },
       "furniture": {
         "&": [ "f_ergometer", "f_ergometer_mechanical" ],
         ":": "f_exercise",
-        "b": "f_bench",
         "=": [ "f_treadmill", "f_treadmill_mechanical" ],
-        "A": "f_bigmirror",
+        "M": "f_bigmirror",
         "s": "f_shower",
-        "S": "f_sink",
-        "p": "f_indoor_plant",
-        "U": "f_air_conditioner",
         "W": "f_water_heater"
       },
-      "toilets": { "T": {  } },
       "place_nested": [
         {
           "chunks": [
@@ -650,16 +631,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

@@ -148,7 +148,6 @@
   {
     "id": "scythe_fake",
     "copy-from": "scythe",
-    "repairs_like": "scythe",
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
@@ -165,7 +164,6 @@
   {
     "id": "scythe_toy",
     "type": "GENERIC",
-    "repairs_like": "makeshift_scythe_war",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "grim reaper's scythe" },

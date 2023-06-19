@@ -49,7 +49,17 @@
     "fungalize_into": "mon_cracked_mirror",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ],
-    "armor": { "bash": 6, "cut": 6, "stab": 6, "heat": 6, "bullet": 6, "electric": 2 }
+    "armor": {
+      "bash": 6,
+      "cut": 6,
+      "stab": 6,
+      "heat": 6,
+      "bullet": 6,
+      "electric": 2,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_changeling_bannerman",
@@ -64,7 +74,18 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "death_drops": "changeling_bannerman_death_drops",
-    "armor": { "stab": 6, "heat": 6, "electric": 2, "bash": 8, "cut": 8, "bullet": 8, "pure": 8 }
+    "armor": {
+      "stab": 6,
+      "heat": 6,
+      "electric": 2,
+      "bash": 8,
+      "cut": 8,
+      "bullet": 8,
+      "pure": 8,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_redcap_aspirant",
@@ -83,7 +104,18 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "special_attacks": [ { "id": "impale" } ],
     "death_drops": "changeling_redcap_aspirant_death_drops",
-    "armor": { "stab": 6, "heat": 6, "electric": 2, "bash": 12, "cut": 12, "bullet": 24, "pure": 16 }
+    "armor": {
+      "stab": 6,
+      "heat": 6,
+      "electric": 2,
+      "bash": 12,
+      "cut": 12,
+      "bullet": 24,
+      "pure": 16,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_pooka_aspirant",
@@ -102,7 +134,18 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
     "death_drops": "changeling_pooka_aspirant_death_drops",
-    "armor": { "stab": 6, "heat": 6, "electric": 2, "bash": 12, "cut": 12, "bullet": 24, "pure": 16 }
+    "armor": {
+      "stab": 6,
+      "heat": 6,
+      "electric": 2,
+      "bash": 12,
+      "cut": 12,
+      "bullet": 24,
+      "pure": 16,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_march_lord",
@@ -132,11 +175,22 @@
     "vision_day": 50,
     "vision_night": 6,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "hoary_blast", "min_level": 5 }, "cooldown": 10 } ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 }, "cooldown": 15 } ],
     "death_drops": "changeling_lord_death_drops",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ],
-    "armor": { "bash": 22, "cut": 36, "stab": 16, "heat": 90, "bullet": 36, "electric": 2, "pure": 160 }
+    "armor": {
+      "bash": 22,
+      "cut": 36,
+      "stab": 16,
+      "heat": 90,
+      "bullet": 36,
+      "electric": 2,
+      "pure": 160,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_draugr",
@@ -180,7 +234,16 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "armor": { "bash": 6, "cut": 6, "stab": 9, "bullet": 6, "electric": 2 }
+    "armor": {
+      "bash": 6,
+      "cut": 6,
+      "stab": 9,
+      "bullet": 6,
+      "electric": 2,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_cracked_mirror",
@@ -211,7 +274,16 @@
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab" } ],
     "death_drops": "changeling_death_drops",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ],
-    "armor": { "bash": 2, "cut": 9, "stab": 16, "bullet": 12, "electric": 20 }
+    "armor": {
+      "bash": 2,
+      "cut": 9,
+      "stab": 16,
+      "bullet": 12,
+      "electric": 20,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_fetch_child",
@@ -271,7 +343,7 @@
     "vision_night": 3,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s bursts into a rain of pollen!" },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES" ],
-    "armor": { "cut": 4, "bullet": 4 }
+    "armor": { "cut": 4, "bullet": 4, "xe_cold_iron_cut_damage": 0, "xe_cold_iron_bash_damage": 0, "xe_cold_iron_stab_damage": 0 }
   },
   {
     "id": "mon_fae_wolf",
@@ -304,7 +376,7 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "bite", "cooldown": 6 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN" ],
-    "armor": { "cut": 5, "bullet": 15 }
+    "armor": { "cut": 5, "bullet": 15, "xe_cold_iron_cut_damage": 0, "xe_cold_iron_bash_damage": 0, "xe_cold_iron_stab_damage": 0 }
   },
   {
     "id": "mon_goblin_spider",
@@ -338,7 +410,14 @@
     "weakpoint_sets": [ "wps_humanoid_head_small", "wps_arthropod_spider" ],
     "families": [ "prof_wp_demihuman" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "NIGHT_INVISIBILITY" ],
-    "armor": { "bash": 2, "cut": 6, "bullet": 8 }
+    "armor": {
+      "bash": 2,
+      "cut": 6,
+      "bullet": 8,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_xe_unicorn",
@@ -383,7 +462,17 @@
       "WARM",
       "HIT_AND_RUN"
     ],
-    "armor": { "bash": 8, "cut": 6, "bullet": 18, "electric": 9, "cold": 20, "pure": 10 }
+    "armor": {
+      "bash": 8,
+      "cut": 6,
+      "bullet": 18,
+      "electric": 9,
+      "cold": 20,
+      "pure": 10,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_xe_unicorn_foal",
@@ -419,7 +508,7 @@
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
     "petfood": { "food": [ "UNICORNFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ],
-    "armor": { "bash": 2, "electric": 1 }
+    "armor": { "bash": 2, "electric": 1, "xe_cold_iron_cut_damage": 0, "xe_cold_iron_bash_damage": 0, "xe_cold_iron_stab_damage": 0 }
   },
   {
     "id": "mon_xe_mavka",
@@ -504,6 +593,14 @@
       "COMBAT_MOUNT",
       "INSECTICIDEPROOF"
     ],
-    "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 2 }
+    "armor": {
+      "bash": 10,
+      "cut": 16,
+      "bullet": 13,
+      "electric": 2,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   }
 ]

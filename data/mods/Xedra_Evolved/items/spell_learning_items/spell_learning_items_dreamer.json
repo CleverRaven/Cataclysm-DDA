@@ -3,6 +3,7 @@
     "id": "magick_8_ball",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "magic_8_ball",
     "name": { "str": "Magick 8-Ball" },
     "description": "A fortune-telling device from the 1950s.  If you shake it and look at the bottom it will give you detailed step by step instructions on how to do… something.",
     "weight": "40 g",
@@ -12,13 +13,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "white",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "dream_armor" ] }
   },
   {
     "id": "glass_dagger_paperweight",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "knife_paring",
     "name": { "str": "glass dagger paperweight" },
     "description": "This paperweight in the shape of a small glass dagger emits a wet wheeze like a punctured lung when held.",
     "weight": "40 g",
@@ -29,13 +30,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "t",
     "color": "white",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "dream_dagger" ] }
   },
   {
     "id": "caravaggio_self_portrait",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "family_photo",
     "name": { "str": "Caravaggio on his deathbed", "str_pl": "copies of Caravaggio on his deathbed" },
     "description": "A previously unknown painting in Caravaggio's style of the artist himself lying prone on his deathbed as black ichor seeps from a sword wound in his side.  His own sword rests near his hand and his ever dying breath asks you to take up his blade.",
     "weight": "40 g",
@@ -46,7 +47,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "C",
     "color": "red_white",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "dream_blade" ] }
   },
   {
@@ -64,7 +64,6 @@
     "weight": "300 g",
     "volume": "750 ml",
     "to_hit": -3,
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] },
     "melee_damage": { "bash": 2 }
   },
@@ -85,7 +84,6 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ],
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_dreamer_clairvoyance" ] }
   },
   {
@@ -118,7 +116,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_shifter" ] }
   },
   {
@@ -126,6 +123,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "flashlight" },
+    "looks_like": "flashlight",
     "description": "This looks like a typical household flashlight.  It has no battery holder and it hums when you touch it.",
     "weight": "280 g",
     "volume": "270 ml",
@@ -135,7 +133,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_sapient_light" ] }
   },
   {
@@ -152,13 +149,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "make_constructed_hammer" ] }
   },
   {
     "id": "artifact_bubble",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "marble",
     "name": { "str": "bubble" },
     "description": "A small, transparent bubble.  It divides itself into two, then four, eight, sixteen, endlessly, before turning back to single bubble and repeating the process.",
     "weight": "1 g",
@@ -168,7 +165,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "white",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_duplicator" ] }
   },
   {
@@ -185,13 +181,13 @@
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": ")",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "color": "dark_gray"
   },
   {
     "id": "artifact_ophanim",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "toy_figurine",
     "name": "angel figurine",
     "description": "A delicate figurine of a renaissance angel.  It looks oddly human.",
     "weight": "45 g",
@@ -201,13 +197,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_ophanim" ] }
   },
   {
     "id": "artifact_winch",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "toy_figurine",
     "name": "action figurine",
     "description": "A small action figurine of a man with an old computer.  It appears he is attempting to hack it.",
     "weight": "90 g",
@@ -217,7 +213,22 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "black",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_winch" ] }
+  },
+  {
+    "id": "artifact_karma_arms",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "looks_like": "marble",
+    "name": "odd circle",
+    "description": "Circular unit of energy, surrounded by a few other circles that almost make a connection around the center.",
+    "weight": "90 g",
+    "volume": "190 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "cyan",
+    "use_action": { "type": "learn_spell", "spells": [ "spell_karma_arms" ] }
   }
 ]

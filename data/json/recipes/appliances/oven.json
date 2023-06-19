@@ -19,7 +19,7 @@
       [ [ "oven_door", 1 ] ],
       [ [ "oven_broiler_pan", 1 ] ],
       [ [ "heavy_wire_rack", 2 ] ],
-      [ [ "element", 4 ] ],
+      [ [ "element", 4 ], [ "crude_heating_element", 6 ] ],
       [ [ "cable", 1 ] ]
     ]
   },

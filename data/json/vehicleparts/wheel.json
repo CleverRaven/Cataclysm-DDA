@@ -3,11 +3,9 @@
     "type": "vehicle_part",
     "id": "wheel_mount_wood",
     "name": { "str": "wooden wheel mount" },
-    "symbol": "-",
     "categories": [ "movement" ],
     "color": "brown",
     "location": "axle",
-    "broken_symbol": "X",
     "broken_color": "light_gray",
     "damage_modifier": 40,
     "folded_volume": "250 ml",
@@ -21,7 +19,8 @@
     },
     "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "2x4", "count": [ 2, 5 ] } ],
-    "damage_reduction": { "all": 8 }
+    "damage_reduction": { "all": 8 },
+    "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
   {
     "id": "wheel_mount_wood_steerable",
@@ -34,25 +33,25 @@
     "type": "vehicle_part",
     "id": "wheel_mount_light",
     "name": { "str": "light wheel mount" },
-    "symbol": "-",
     "categories": [ "movement" ],
     "color": "light_gray",
     "location": "axle",
-    "broken_symbol": "X",
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "folded_volume": "250 ml",
     "durability": 120,
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
+    "//": "25cm weld as a conservative estimate (not much welding going on to affix bike parts).",
     "item": "wheel_mount_light",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "welding_standard", 3 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 25 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] } ],
-    "damage_reduction": { "all": 10 }
+    "damage_reduction": { "all": 10 },
+    "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
   {
     "id": "wheel_mount_light_steerable",
@@ -65,28 +64,32 @@
     "type": "vehicle_part",
     "id": "wheel_mount_medium",
     "name": { "str": "wheel hub assembly" },
-    "symbol": "-",
     "categories": [ "movement" ],
     "color": "light_gray",
     "location": "axle",
-    "broken_symbol": "X",
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 120,
     "description": "Connection where wheels can be connected on.  This particular one is fit for normal car wheels.",
     "item": "wheel_mount_medium",
+    "//": "100cm weld",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "welding_standard", 10 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 100 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "15 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 2, 5 ] } ],
-    "damage_reduction": { "all": 30 }
+    "damage_reduction": { "all": 30 },
+    "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
   {
     "id": "wheel_mount_medium_steerable",
@@ -99,28 +102,32 @@
     "type": "vehicle_part",
     "id": "wheel_mount_heavy",
     "name": { "str": "heavy wheel hub assembly" },
-    "symbol": "-",
     "categories": [ "movement" ],
     "color": "light_gray",
     "location": "axle",
-    "broken_symbol": "X",
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 120,
     "description": "Connection where wheels can be connected on.  This particular one is fit for large car wheels.",
     "item": "wheel_mount_heavy",
+    "//": "150cm weld",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 15 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 150 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "20 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 3, 7 ] } ],
-    "damage_reduction": { "all": 40 }
+    "damage_reduction": { "all": 40 },
+    "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
   {
     "id": "wheel_mount_heavy_steerable",
@@ -135,8 +142,6 @@
     "name": { "str": "rail wheel" },
     "item": "wheel_rail",
     "location": "under",
-    "symbol": "|",
-    "broken_symbol": "x",
     "durability": 180,
     "description": "A strong metal wheel.  A flange helps keep it on a rail, but makes it perform terribly when not on a rail.",
     "damage_modifier": 70,
@@ -149,10 +154,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "RAIL" ],
-    "damage_reduction": { "all": 66 }
+    "damage_reduction": { "all": 66 },
+    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
   },
   {
     "id": "rail_wheel_steerable",
@@ -167,7 +173,6 @@
     "name": { "str": "pair of small rail wheels" },
     "item": "wheel_rail_small_pair",
     "copy-from": "rail_wheel",
-    "symbol": "=",
     "durability": 150,
     "description": "A pair of small rail wheels.  It performs well when riding on a pair of small rails.  It performs terribly when not on a rail.  Moreover, you can't steer it.",
     "damage_modifier": 50,
@@ -175,9 +180,10 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "damage_reduction": { "all": 60 }
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "=", "symbols_broken": "x" } ]
   },
   {
     "id": "roller_drum",
@@ -185,8 +191,6 @@
     "name": { "str": "roller drum" },
     "item": "hd_steel_drum",
     "location": "center",
-    "symbol": "B",
-    "broken_symbol": "E",
     "categories": [ "movement" ],
     "color": "light_red",
     "durability": 7500,
@@ -198,16 +202,18 @@
       { "item": "scrap", "count": [ 50, 150 ] }
     ],
     "rolling_resistance": 0.125,
+    "//": "really big steel drum, assuming 100cm of weld per quadrant of damage.",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 15 ] ] }
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 10 ] ] }
     },
     "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "STEERABLE" ],
     "wheel_offroad_rating": 0.1,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
     "contact_area": 400,
-    "damage_reduction": { "all": 280 }
+    "damage_reduction": { "all": 280 },
+    "variants": [ { "symbols": "B", "symbols_broken": "E" } ]
   },
   {
     "id": "wheel",
@@ -215,8 +221,6 @@
     "name": { "str": "wheel" },
     "item": "wheel",
     "location": "under",
-    "symbol": "0",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 200,
@@ -233,10 +237,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
-    "damage_reduction": { "bash": 20 }
+    "damage_reduction": { "bash": 20 },
+    "variants": [ { "symbols": "0", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_slick",
@@ -256,8 +261,6 @@
     "item": "wheel_armor",
     "location": "under",
     "looks_like": "wheel",
-    "symbol": "0",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "green",
     "durability": 800,
@@ -274,10 +277,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "20 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
-    "damage_reduction": { "all": 60, "cut": 30, "stab": 16 }
+    "damage_reduction": { "all": 60, "cut": 30, "stab": 16 },
+    "variants": [ { "symbols": "0", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_barrow",
@@ -286,8 +290,6 @@
     "item": "wheel_barrow",
     "location": "under",
     "looks_like": "wheel_bicycle",
-    "symbol": "o",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 70,
@@ -302,19 +304,18 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
-    "damage_reduction": { "bash": 10 }
+    "damage_reduction": { "bash": 10 },
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
-    "abstract": "wheel_bicycle_abstract",
+    "id": "wheel_bicycle",
     "type": "vehicle_part",
     "name": { "str": "bicycle wheel" },
     "item": "wheel_bicycle",
     "location": "under",
-    "symbol": "|",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 40,
@@ -332,28 +333,18 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
-    "damage_reduction": { "bash": 6 }
-  },
-  {
-    "copy-from": "wheel_bicycle_abstract",
-    "id": "wheel_bicycle",
-    "looks_like": "wheel",
-    "symbol": "|",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wheel_bicycle_abstract",
-    "id": "wheel_bicycle_rear",
-    "looks_like": "wheel_bicycle",
-    "symbol": "|",
-    "type": "vehicle_part"
+    "damage_reduction": { "bash": 6 },
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "|\\-/|\\-/", "symbols_broken": "x" },
+      { "id": "rear", "label": "Rear", "symbols": "|\\-/|\\-/", "symbols_broken": "x" }
+    ]
   },
   {
     "id": "wheel_bicycle_or",
-    "copy-from": "wheel_bicycle_abstract",
+    "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
     "name": { "str": "off-road bicycle wheel" },
     "item": "wheel_bicycle_or",
@@ -362,19 +353,11 @@
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] }
   },
   {
-    "id": "wheel_bicycle_or_rear",
-    "copy-from": "wheel_bicycle_or",
-    "type": "vehicle_part",
-    "looks_like": "wheel_bicycle_rear"
-  },
-  {
     "id": "wheel_caster",
     "type": "vehicle_part",
     "name": { "str": "casters" },
     "item": "wheel_caster",
     "location": "under",
-    "symbol": "o",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 70,
@@ -395,7 +378,8 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "soldering_standard", 15 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ]
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_10",
@@ -403,8 +387,6 @@
     "name": { "str": "wheels" },
     "item": "wheel_10",
     "location": "under",
-    "symbol": "o",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 120,
@@ -423,19 +405,18 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ]
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
-    "abstract": "wheel_motorbike_abstract",
+    "id": "wheel_motorbike",
     "type": "vehicle_part",
     "name": { "str": "motorbike wheel" },
     "item": "wheel_motorbike",
     "location": "under",
     "looks_like": "wheel",
-    "symbol": "o",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 90,
@@ -452,28 +433,18 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
-    "damage_reduction": { "bash": 10 }
-  },
-  {
-    "copy-from": "wheel_motorbike_abstract",
-    "id": "wheel_motorbike",
-    "looks_like": "wheel",
-    "symbol": "o",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wheel_motorbike_abstract",
-    "id": "wheel_motorbike_rear",
-    "looks_like": "wheel",
-    "symbol": "o",
-    "type": "vehicle_part"
+    "damage_reduction": { "bash": 10 },
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "o", "symbols_broken": "x" },
+      { "id": "rear", "label": "Rear", "symbols": "o", "symbols_broken": "x" }
+    ]
   },
   {
     "id": "wheel_motorbike_or",
-    "copy-from": "wheel_motorbike_abstract",
+    "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
     "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",
@@ -483,19 +454,12 @@
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
   },
   {
-    "id": "wheel_motorbike_or_rear",
-    "copy-from": "wheel_motorbike_or",
-    "type": "vehicle_part"
-  },
-  {
-    "abstract": "wheel_small_abstract",
+    "id": "wheel_small",
     "type": "vehicle_part",
     "name": { "str": "small wheel" },
     "looks_like": "wheel",
     "item": "wheel_small",
     "location": "under",
-    "symbol": "o",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 70,
@@ -510,24 +474,14 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
-    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_WHEEL_MOUNT_LIGHT" ]
-  },
-  {
-    "copy-from": "wheel_small_abstract",
-    "id": "wheel_small",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wheel_small_abstract",
-    "id": "wheel_small_scooter",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wheel_small_abstract",
-    "id": "wheel_small_scooter_rear",
-    "type": "vehicle_part"
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "variants_bases": [ { "id": "scooter", "label": "Scooter" } ],
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "o", "symbols_broken": "x" },
+      { "id": "rear", "label": "Rear", "symbols": "o", "symbols_broken": "x" }
+    ]
   },
   {
     "id": "wheel_tricycle",
@@ -535,8 +489,6 @@
     "name": { "str": "tricycle wheels" },
     "item": "wheel_tricycle",
     "location": "under",
-    "symbol": "|",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 30,
@@ -552,7 +504,8 @@
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 10,
     "flags": [ "STABLE", "STEERABLE", "WHEEL", "NEEDS_JACKING" ],
-    "damage_reduction": { "bash": 8 }
+    "damage_reduction": { "bash": 8 },
+    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_unicycle",
@@ -561,8 +514,6 @@
     "item": "wheel_bicycle",
     "location": "under",
     "looks_like": "wheel_bicycle",
-    "symbol": "|",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 40,
@@ -583,7 +534,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
-    "damage_reduction": { "bash": 8 }
+    "damage_reduction": { "bash": 8 },
+    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_wheelchair",
@@ -592,8 +544,6 @@
     "item": "wheel_wheelchair",
     "location": "under",
     "looks_like": "wheel_bicycle",
-    "symbol": "|",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 40,
@@ -612,10 +562,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
-    "damage_reduction": { "bash": 6 }
+    "damage_reduction": { "bash": 6 },
+    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_wide",
@@ -624,8 +575,6 @@
     "item": "wheel_wide",
     "location": "under",
     "looks_like": "wheel",
-    "symbol": "O",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 400,
@@ -642,10 +591,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
-    "damage_reduction": { "bash": 25 }
+    "damage_reduction": { "bash": 25 },
+    "variants": [ { "symbols": "O", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_wide_or",
@@ -664,8 +614,6 @@
     "name": { "str": "wooden cart wheel" },
     "item": "wheel_wood",
     "location": "under",
-    "symbol": "|",
-    "broken_symbol": "x",
     "categories": [ "movement" ],
     "color": "brown",
     "broken_color": "brown",
@@ -683,7 +631,8 @@
     "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
     "contact_area": 60,
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
-    "damage_reduction": { "all": 14 }
+    "damage_reduction": { "all": 14 },
+    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_wood_b",

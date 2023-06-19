@@ -33,6 +33,8 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_activate_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_deactivate_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_learn_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_forget_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_mutate( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -49,6 +51,7 @@ struct talk_effect_fun_t {
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_run_eocs( const JsonObject &jo, std::string_view member );
         void set_run_eoc_with( const JsonObject &jo, std::string_view member );
+        void set_run_eoc_selector( const JsonObject &jo, std::string_view member );
         void set_run_npc_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_queue_eocs( const JsonObject &jo, std::string_view member );
         void set_queue_eoc_with( const JsonObject &jo, std::string_view member );
@@ -100,7 +103,8 @@ struct talk_effect_fun_t {
         void set_add_mission( const JsonObject &jo, const std::string &member );
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         void set_u_buy_monster( const JsonObject &jo, const std::string &member );
-        void set_u_learn_recipe( const JsonObject &jo, const std::string &member );
+        void set_learn_recipe( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_forget_recipe( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_first_topic( const JsonObject &jo, const std::string &member );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -139,6 +143,9 @@ struct var_info {
 
 std::string read_var_value( const var_info &info, const dialogue &d );
 
+var_info process_variable( const std::string &type );
+
+
 struct str_or_var {
     std::optional<std::string> str_val;
     std::optional<var_info> var_val;
@@ -170,13 +177,19 @@ struct eoc_math {
 
         invalid,
     };
+    enum class type_t : int {
+        ret = 0,
+        compare,
+        assign,
+    };
     std::shared_ptr<math_exp> lhs;
     std::shared_ptr<math_exp> mhs;
     std::shared_ptr<math_exp> rhs;
     eoc_math::oper action = oper::invalid;
 
-    void from_json( const JsonObject &jo, std::string_view member );
+    void from_json( const JsonObject &jo, std::string_view member, type_t type_ );
     double act( dialogue &d ) const;
+    void _validate_type( JsonArray const &objects, type_t type_ ) const;
 };
 
 struct dbl_or_var_part {

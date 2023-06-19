@@ -103,14 +103,14 @@
     "//": "acidic additives to lower PH and prevent the growth of botulinum, for a 3L jar.",
     "//1": "lemon is about 20-25% juice by weight. Formic acid is non toxic and can be safely ingested in dilute amounts.",
     "//2": "Even many pressure canning recipes should require this for safety.",
-    "tools": [ [ [ "chem_citric_acid", 6 ], [ "formic_acid", 2 ], [ "lemon", 1 ], [ "irradiated_lemon", 1 ], [ "vinegar", 6 ] ] ]
+    "components": [ [ [ "chem_citric_acid", 6 ], [ "formic_acid", 2 ], [ "lemon", 1 ], [ "irradiated_lemon", 1 ], [ "vinegar", 6 ] ] ]
   },
   {
     "id": "canning_acid_small",
     "type": "requirement",
     "//": "acidic additives to lower PH and prevent the growth of botulinum.",
     "//1": "Even many pressure canning recipes should require this for safety.",
-    "tools": [ [ [ "chem_citric_acid", 1 ], [ "vinegar", 1 ] ] ]
+    "components": [ [ [ "chem_citric_acid", 1 ], [ "vinegar", 1 ] ] ]
   },
   {
     "id": "canning_low_heat",
@@ -139,7 +139,7 @@
     "//5": "50% more energy used compared to low_heat canning. A 0.5L jar of meat would take about 1875kJ to can in ideal circumstances, compare to 1000kJ to cook normally or 4800kJ to dehydrate.",
     "tools": [
       [ [ "water_boiling_heat", 15, "LIST" ] ],
-      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ] ],
+      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ], [ "makeshift_pressure_cooker", -1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ]
@@ -165,7 +165,7 @@
     ],
     "tools": [
       [ [ "water_boiling_heat", 6, "LIST" ] ],
-      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ] ],
+      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ], [ "makeshift_pressure_cooker", -1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "can_sealer", -1 ] ],
       [ [ "tongs", -1 ] ]

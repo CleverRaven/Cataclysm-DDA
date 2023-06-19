@@ -88,6 +88,8 @@ struct mut_transform {
     bool active = false;
     /** subtracted from @ref Creature::moves when transformation is successful */
     int moves = 0;
+    // If true the transformation uses the "normal" mutation rules - canceling conflicting traits etc
+    bool safe = false;
     mut_transform();
     bool load( const JsonObject &jsobj, std::string_view member );
 };

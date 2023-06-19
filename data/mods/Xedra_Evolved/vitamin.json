@@ -25,6 +25,19 @@
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
   },
   {
+    "id": "cheval",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Cheval" },
+    "excess": "cheval_overdose",
+    "deficiency": "cheval_withdrawal",
+    "min": 0,
+    "max": 2000,
+    "rate": "1 m",
+    "disease": [ [ 1, 400 ] ],
+    "disease_excess": [ [ 401, 1000 ], [ 1001, 1300 ], [ 1301, 1600 ], [ 1601, 2000 ] ]
+  },
+  {
     "id": "creative_spark_research",
     "type": "vitamin",
     "//": "Processed sparks, it respond for inventor's researches of different items, recipes and spells.",

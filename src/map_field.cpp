@@ -1399,6 +1399,16 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     }
 }
 
+static void field_processor_fd_last_known( const tripoint &p, field_entry &cur,
+        field_proc_data &pd )
+{
+    ( void )pd;
+    Creature *const loc_creature = get_creature_tracker().creature_at( p, false );
+    // Remove field when duration expires or non-player creature enters
+    if( cur.get_field_age() > 5_seconds || ( loc_creature != nullptr && !loc_creature->is_avatar() ) ) {
+        cur.set_field_intensity( 0 );
+    }
+}
 // This entire function makes very little sense. Why are the rules the way they are? Why does walking into some things destroy them but not others?
 
 /*
@@ -2083,7 +2093,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
     using gas_blast = std::pair<float, tripoint>;
     std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp_first> open;
     std::set<tripoint> closed;
-    open.push( { 0.0f, center } );
+    open.emplace( 0.0f, center );
 
     const bool not_gas = type.obj().phase != phase_id::GAS;
 
@@ -2137,7 +2147,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     continue;
                 }
 
-                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
+                open.emplace( static_cast<float>( rl_dist( center, pt ) ), pt );
             }
         }
     }
@@ -2227,6 +2237,9 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
     if( ft.id == fd_fungicidal_gas ) {
         processors.push_back( &field_processor_fd_fungicidal_gas );
+    }
+    if( ft.id == fd_last_known ) {
+        processors.push_back( &field_processor_fd_last_known );
     }
 
     return processors;

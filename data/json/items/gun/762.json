@@ -114,7 +114,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_ONE" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
@@ -303,5 +303,58 @@
     "price": 170000,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "default_mods": [ "folding_stock", "rail_mount", "offset_sight_rail", "muzzle_brake" ]
+  },
+  {
+    "id": "bren2_762",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Bren 7.62mm carbine" },
+    "description": "A semi-automatic clone of the Czech Republic’s standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "bren2_762",
+        "name": { "str": "CZ Bren 2" },
+        "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former’s features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 7.62x39mm Soviet cartridge, this particular weapon possesses a compact 11-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles.",
+        "weight": 1
+      },
+      {
+        "id": "805_bren",
+        "name": { "str": "CZ 805 Bren" },
+        "description": "Strongly resembling the FN SCAR, with features and ergonomics inspired by the AR-18, this semi-automatic rifle is a civilian clone of the Czech Republic’s formerly standard infantry carbine and was produced by the same company.  Discontinued in 2018, the rifle features an included muzzle break and adjustable folding buttstock, with this particular version being chambered in 7.62x39mm."
+      }
+    ],
+    "weight": "2870 g",
+    "volume": "4200 ml",
+    "longest_side": "76 cm",
+    "price": 215500,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "color": "black",
+    "ammo": [ "762" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
+    "dispersion": 140,
+    "durability": 8,
+    "barrel_volume": "175 ml",
+    "default_mods": [ "folding_stock", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "stock accessory", 2 ],
+      [ "stock", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bren2_762mag30", "bren2_762mag10" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

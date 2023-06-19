@@ -111,7 +111,6 @@ static const itype_id itype_jp8( "jp8" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 static const mongroup_id GROUP_LAB( "GROUP_LAB" );
 static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
 static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
@@ -1403,6 +1402,7 @@ class mapgen_value
 
             std::vector<StringId> all_possible_results( const mapgen_parameters & ) const override {
                 std::vector<StringId> result;
+                result.reserve( cases.size() );
                 for( const std::pair<const std::string, StringId> &p : cases ) {
                     result.push_back( p.second );
                 }
@@ -3046,7 +3046,7 @@ class jmapgen_computer : public jmapgen_piece
             }
             if( jsi.has_array( "eocs" ) ) {
                 for( const std::string &eoc : jsi.get_string_array( "eocs" ) ) {
-                    eocs.emplace_back( effect_on_condition_id( eoc ) );
+                    eocs.emplace_back( eoc );
                 }
             }
             if( jsi.has_array( "chat_topics" ) ) {
@@ -3324,7 +3324,7 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         std::vector<vproto_id> vehicles_to_remove;
         jmapgen_remove_vehicles( const JsonObject &jo, const std::string_view/*context*/ ) {
             for( std::string item_id : jo.get_string_array( "vehicles" ) ) {
-                vehicles_to_remove.emplace_back( vproto_id( item_id ) );
+                vehicles_to_remove.emplace_back( item_id );
             }
         }
         mapgen_phase phase() const override {
@@ -5650,7 +5650,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // We spare some terrain to make it look better visually.
@@ -5677,7 +5677,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( const point & p ) {
                             if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
@@ -5744,53 +5744,6 @@ void map::draw_lab( mapgendata &dat )
                     if( !is_open_air( *center ) ) {
                         trap_set( *center, tr_portal );
                         create_anomaly( *center, random_entry( valid_props ), false );
-                    }
-                    break;
-                }
-                // radioactive accident.
-                case 6: {
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z() );
-                    if( has_flag_ter( ter_furn_flag::TFLAG_WALL, center.xy() ) ) {
-                        // just skip it, we don't want to risk embedding radiation out of sight.
-                        break;
-                    }
-                    draw_rough_circle( [this]( const point & p ) {
-                        set_radiation( p, 10 );
-                    }, center.xy(), rng( 7, 12 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 20 );
-                    }, center.xy(), rng( 5, 8 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 30 );
-                    }, center.xy(), rng( 2, 4 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 50 );
-                    }, center.xy(), 1 );
-                    draw_circle( [this]( const point & p ) {
-                        if( has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p ) ||
-                            has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p ) ||
-                            has_flag_ter( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
-                            return; // spare stairs and consoles.
-                        }
-                        make_rubble( {p, abs_sub.z() } );
-                        ter_set( p, t_thconc_floor );
-                    }, center.xy(), 1 );
-
-                    place_spawns( GROUP_HAZMATBOT, 1, center.xy() + point_west,
-                                  center.xy() + point_west, 1, true );
-                    place_spawns( GROUP_HAZMATBOT, 2, center.xy() + point_west,
-                                  center.xy() + point_west, 1, true );
-
-                    // damaged mininuke/plut thrown past edge of rubble so the player can see it.
-                    point marker( center.xy() + point( -2 + 4 * rng( 0, 1 ), rng( -2, 2 ) ) );
-                    if( one_in( 4 ) ) {
-                        spawn_item( marker,
-                                    "mininuke", 1, 1, calendar::turn_zero, rng( 2, 4 ) );
-                    } else {
-                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
-                        newliquid.charges = 1;
-                        add_item_or_charges( tripoint( marker, get_abs_sub().z() ),
-                                             newliquid );
                     }
                     break;
                 }
@@ -5964,10 +5917,6 @@ void map::draw_lab( mapgendata &dat )
                             spawn_item( point( SEEX - 1, SEEY ), "recipe_atomic_battery" );
                             spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         } else if( loot_variant < 89 ) {
-                            spawn_item( point( SEEX - 1, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX - 1, SEEY ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX, SEEY ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX, SEEY ), "recipe_atomic_battery" );
                             spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         }  else { // loot_variant between 90 and 96.
@@ -6574,7 +6523,8 @@ std::vector<item *> map::place_items(
 std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, const tripoint &p,
         const time_point &turn )
 {
-    const auto items = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
+    const std::vector<item> items =
+        item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
     return spawn_items( p, items );
 }
 
@@ -6785,8 +6735,14 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     const point target_point = first_veh_parts.front()->mount;
                     const point source_point = parts_to_move.front()->mount;
                     for( const vehicle_part *vp : parts_to_move ) {
+                        const vpart_info &vpi = vp->info();
                         // TODO: change mount points to be tripoint
-                        first_veh->install_part( target_point, *vp );
+                        const ret_val<void> valid_mount = first_veh->can_mount( target_point, vpi );
+                        if( valid_mount.success() ) {
+                            // make a copy so we don't interfere with veh_to_add->remove_part below
+                            first_veh->install_part( target_point, vehicle_part( *vp ) );
+                        }
+                        // ignore parts that would make invalid vehicle configuration
                     }
 
                     if( !handler_ptr ) {

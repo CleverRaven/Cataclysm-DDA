@@ -41,6 +41,7 @@ static const skill_id skill_unarmed( "unarmed" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
+static constexpr int test_margin = 75; // 7.5% margin on test outcomes
 
 static void reset_caches( int a_zlev, int t_zlev )
 {
@@ -203,7 +204,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     // You got a player
     Character &you = get_player_character();
     clear_avatar();
-    you.dodges_left = 1;
+    you.set_dodges_left( 1 ) ;
     REQUIRE( Approx( you.get_dodge() ) == 4.0 );
     you.setpos( target_location );
     const tripoint_abs_ms abs_target_location = you.get_location();
@@ -229,9 +230,10 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         epsilon_threshold threshold{ expected_damage, 2.5 };
         do {
             you.set_all_parts_hp_to_max();
+            you.set_stamina( you.get_stamina_max() ); // Resets stamina so dummy can keep dodging
             // Remove stagger/winded effects
             you.clear_effects();
-            you.dodges_left = 1;
+            you.set_dodges_left( 1 );
             int prev_hp = you.get_hp();
             // monster shoots the player
             REQUIRE( attack->call( test_monster ) == true );
@@ -253,7 +255,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     }
 }
 
-TEST_CASE( "Mattack dialog condition test", "[mattack]" )
+TEST_CASE( "Mattack_dialog_condition_test", "[mattack]" )
 {
     clear_map();
     clear_creatures();
@@ -294,7 +296,7 @@ TEST_CASE( "Mattack dialog condition test", "[mattack]" )
     CHECK( !attack->call( test_monster ) );
 }
 
-TEST_CASE( "Targeted grab removal test", "[mattack][grab]" )
+TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
 {
 
     const std::string grabber_left = "mon_debug_grabber_left";
@@ -335,7 +337,7 @@ TEST_CASE( "Targeted grab removal test", "[mattack][grab]" )
     REQUIRE( !you.has_effect( effect_grabbed, body_part_arm_l ) );
 }
 
-TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
+TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
 {
     // Set up further from the target
     const tripoint target_location = attacker_location + tripoint{ 4, 0, 0 };
@@ -410,7 +412,7 @@ TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
 }
 
 
-TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
+TEST_CASE( "Grab_breaks_against_weak_grabbers", "[mattack][grab]" )
 {
     const tripoint target_location = attacker_location + tripoint_east;
     const tripoint attacker_location_n = target_location + tripoint_north;
@@ -458,7 +460,7 @@ TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
         // Single zombie grabbing a starting survivor has about 50% chance to release on a turn
         // Actually higher for non-arm/torso grabs, but bundled works well enough
         INFO( "You should have about 40% chance to break a weak grab every turn as a starting character" );
-        CHECK( success == Approx( 400 ).margin( 50 ) );
+        CHECK( success == Approx( 400 ).margin( test_margin ) );
     }
     SECTION( "Starter character vs 3 weak grabs at the same time" ) {
         // Setup 3v1 test
@@ -489,7 +491,7 @@ TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You have about 5% chance to break three weak grabs on a single turn" );
-        CHECK( success == Approx( 50 ).margin( 50 ) );
+        CHECK( success == Approx( 50 ).margin( test_margin ) );
     }
     // Setup lategame character
     you.set_skill_level( skill_unarmed, 8 );
@@ -516,7 +518,7 @@ TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "100% chance to break a weak grab as a lategame character with grab breaks" );
-        CHECK( success == Approx( 1000 ).margin( 50 ) );
+        CHECK( success == Approx( 1000 ).margin( test_margin ) );
     }
     SECTION( "Lategame character vs 3 weak grabs at the same time" ) {
         // Setup 3v1 test
@@ -547,11 +549,11 @@ TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "99% chance to break three weak grabs on a single turn" );
-        CHECK( success == Approx( 990 ).margin( 50 ) );
+        CHECK( success == Approx( 990 ).margin( test_margin ) );
     }
 }
 
-TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
+TEST_CASE( "Grab_breaks_against_midline_grabbers", "[mattack][grab]" )
 {
     const tripoint target_location = attacker_location + tripoint_east;
     const tripoint attacker_location_n = target_location + tripoint_north;
@@ -596,7 +598,7 @@ TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You should have about 15% chance to break a mid-strength grab every turn as a starting character" );
-        CHECK( success == Approx( 150 ).margin( 50 ) );
+        CHECK( success == Approx( 150 ).margin( test_margin ) );
     }
     SECTION( "Starter character vs 3 mid grabs at the same time" ) {
         // Setup 3v1 test
@@ -627,7 +629,7 @@ TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You have about 5% chance to break three midline grabs on a single turn" );
-        CHECK( success == Approx( 50 ).margin( 50 ) );
+        CHECK( success == Approx( 50 ).margin( test_margin ) );
     }
     // Setup lategame character
     you.set_skill_level( skill_unarmed, 8 );
@@ -654,7 +656,7 @@ TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "80% chance to break a midline grab as a lategame character with grab breaks" );
-        CHECK( success == Approx( 800 ).margin( 50 ) );
+        CHECK( success == Approx( 800 ).margin( test_margin ) );
     }
     SECTION( "Lategame character vs 3 mid grabs at the same time" ) {
         // Setup 3v1 test
@@ -685,11 +687,11 @@ TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "25% chance to break three mid grabs on a single turn" );
-        CHECK( success == Approx( 250 ).margin( 50 ) );
+        CHECK( success == Approx( 250 ).margin( test_margin ) );
     }
 }
 
-TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
+TEST_CASE( "Grab_breaks_against_strong_grabbers", "[mattack][grab]" )
 {
     const tripoint target_location = attacker_location + tripoint_east;
     const tripoint attacker_location_n = target_location + tripoint_north;
@@ -733,7 +735,7 @@ TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You should have about 7,5% chance to break a max-strength grab every turn as a starting character" );
-        CHECK( success == Approx( 75 ).margin( 50 ) );
+        CHECK( success == Approx( 75 ).margin( test_margin ) );
     }
     SECTION( "Starter character vs 3 max-strength grabs at the same time" ) {
         you.clear_effects();
@@ -761,7 +763,7 @@ TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You have about 0% chance to break three max-strength grabs on a single turn" );
-        CHECK( success == Approx( 0 ).margin( 25 ) );
+        CHECK( success == Approx( 0 ).margin( test_margin / 2 ) );
     }
 
     you.set_skill_level( skill_unarmed, 8 );
@@ -787,7 +789,7 @@ TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "40% chance to break a max-strength grab as a lategame character with grab breaks" );
-        CHECK( success == Approx( 400 ).margin( 50 ) );
+        CHECK( success == Approx( 400 ).margin( test_margin ) );
     }
     SECTION( "Lategame character vs 3 max-strength grabs at the same time" ) {
         you.clear_effects();
@@ -814,6 +816,6 @@ TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "5% chance to break three max-strength grabs on a single turn" );
-        CHECK( success == Approx( 50 ).margin( 50 ) );
+        CHECK( success == Approx( 50 ).margin( test_margin ) );
     }
 }

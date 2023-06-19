@@ -130,6 +130,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RAIL", VPFLAG_RAIL },
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
     { "ROOF", VPFLAG_ROOF },
+    { "CABLE_PORTS", VPFLAG_CABLE_PORTS },
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -139,34 +140,6 @@ static std::map<vpart_id, vpart_info> abstract_parts;
 static std::map<vpart_id, vpart_migration> vpart_migrations;
 
 static DynamicDataLoader::deferred_json deferred;
-
-std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid )
-{
-    for( const auto &vp_variant_pair : vpart_variants ) {
-        const std::string &vp_variant = vp_variant_pair.first;
-        const size_t loc = vpid.rfind( "_" + vp_variant );
-        if( loc != std::string::npos && ( ( loc + vp_variant.size() + 1 ) == vpid.size() ) ) {
-            return std::make_pair( vpid.substr( 0, loc ), vp_variant );
-        }
-    }
-    return std::make_pair( vpid, "" );
-}
-
-std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid )
-{
-    std::string final_vpid;
-    std::string variant_id;
-    std::tie( final_vpid, variant_id ) = get_vpart_str_variant( vpid.str() );
-    return std::make_pair( vpart_id( final_vpid ), variant_id );
-}
-
-std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid )
-{
-    std::string final_vpid;
-    std::string variant_id;
-    std::tie( final_vpid, variant_id ) = get_vpart_str_variant( vpid );
-    return std::make_pair( vpart_id( final_vpid ), variant_id );
-}
 
 /** @relates string_id */
 template<>
@@ -181,16 +154,9 @@ const vpart_info &string_id<vpart_info>::obj() const
 {
     const auto found = vpart_info_all.find( *this );
     if( found == vpart_info_all.end() ) {
-        vpart_id base_id;
-        std::string variant;
-        std::tie( base_id, variant ) = get_vpart_id_variant( *this );
-        const auto var_found = vpart_info_all.find( base_id );
-        if( var_found == vpart_info_all.end() ) {
-            debugmsg( "Tried to get invalid vehicle part: %s", c_str() );
-            static const vpart_info null_part{};
-            return null_part;
-        }
-        return var_found->second;
+        debugmsg( "Tried to get invalid vehicle part: %s", c_str() );
+        static const vpart_info null_part{};
+        return null_part;
     }
     return found->second;
 }
@@ -362,19 +328,22 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    std::string temp_id;
-    std::string variant_id;
     if( jo.has_string( "abstract" ) ) {
-        def.id = vpart_id( jo.get_string( "abstract" ) );
-    } else {
-        temp_id = jo.get_string( "id" );
-        std::tie( def.id, variant_id ) = get_vpart_id_variant( temp_id );
-        if( !variant_id.empty() ) {
-            const auto base = vpart_info_all.find( def.id );
-            if( base != vpart_info_all.end() ) {
-                def = base->second;
-            }
+        const std::string abstract_str = jo.get_string( "abstract" );
+        if( abstract_str.find( vehicles::variant_separator ) != std::string::npos ) {
+            jo.throw_error_at(
+                "abstract", "uses reserved character " + std::string( 1, vehicles::variant_separator ) );
         }
+        def.id = vpart_id( abstract_str );
+    } else if( jo.has_string( "id" ) ) {
+        const std::string id_str = jo.get_string( "id" );
+        if( id_str.find( vehicles::variant_separator ) != std::string::npos ) {
+            jo.throw_error_at(
+                "id", "uses reserved character " + std::string( 1, vehicles::variant_separator ) );
+        }
+        def.id = vpart_id( id_str );
+    } else {
+        jo.throw_error( "vehicle part with no 'abstract' or 'id' field" );
     }
 
     assign( jo, "name", def.name_ );
@@ -396,10 +365,30 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "categories", def.categories );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
-
+    assign( jo, "color", def.color );
+    assign( jo, "broken_color", def.color_broken );
     assign( jo, "comfort", def.comfort );
     assign( jo, "floor_bedding_warmth", def.floor_bedding_warmth );
     assign( jo, "bonus_fire_warmth_feet", def.bonus_fire_warmth_feet );
+
+    if( jo.has_array( "variants" ) ) {
+        def.variants.clear();
+        for( const JsonObject jo_variant : jo.get_array( "variants" ) ) {
+            vpart_variant v;
+            v.load( jo_variant, true );
+            if( def.variant_default.empty() ) {
+                def.variant_default = v.id;
+            }
+            def.variants[v.id] = v;
+        }
+    }
+
+    if( jo.has_array( "variants_bases" ) ) {
+        def.variants_bases.clear();
+        for( const JsonObject jo : jo.get_array( "variants_bases" ) ) {
+            def.variants_bases.emplace_back( jo.get_string( "id" ), jo.get_string( "label" ) );
+        }
+    }
 
     if( jo.has_member( "transform_terrain" ) ) {
         JsonObject jttd = jo.get_object( "transform_terrain" );
@@ -432,41 +421,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
                        def.repair_moves );
     }
 
-    if( jo.has_string( "symbol" ) ) {
-        int symbol = jo.get_string( "symbol" )[ 0 ];
-        if( variant_id.empty() ) {
-            def.sym = symbol;
-        } else {
-            def.symbols[ variant_id ] = symbol;
-        }
-    }
-    if( jo.has_bool( "standard_symbols" ) && jo.get_bool( "standard_symbols" ) ) {
-        // Fallback symbol for unknown variant
-        def.sym = '=';
-        for( const auto &variant : vpart_variants_standard ) {
-            def.symbols[ variant.first ] = variant.second;
-        }
-    }
-    if( jo.has_object( "symbols" ) ) {
-        JsonObject jo_variants = jo.get_object( "symbols" );
-        for( const auto &vp_variant_pair : vpart_variants ) {
-            const std::string &vp_variant = vp_variant_pair.first;
-            if( jo_variants.has_string( vp_variant ) ) {
-                def.symbols[ vp_variant ] = static_cast<uint8_t>( jo_variants.get_string( vp_variant )[ 0 ] );
-            }
-        }
-    }
-    if( jo.has_string( "broken_symbol" ) ) {
-        def.sym_broken = static_cast<uint8_t>( jo.get_string( "broken_symbol" )[ 0 ] );
-    }
     jo.read( "looks_like", def.looks_like );
-
-    if( jo.has_member( "color" ) ) {
-        def.color = color_from_string( jo.get_string( "color" ) );
-    }
-    if( jo.has_member( "broken_color" ) ) {
-        def.color_broken = color_from_string( jo.get_string( "broken_color" ) );
-    }
 
     if( jo.has_member( "breaks_into" ) ) {
         def.breaks_into_group = item_group::load_item_group(
@@ -616,7 +571,7 @@ static std::string get_looks_like( const vpart_info &vpi, const itype &it )
             if( !at->default_ammotype() ) {
                 continue;
             }
-            const auto at_weight = at->default_ammotype()->weight;
+            const units::mass at_weight = at->default_ammotype()->weight;
             if( 15_gram > at_weight && at_weight > 3_gram ) {
                 return true; // detects g80 and coil gun
             }
@@ -655,10 +610,10 @@ void vpart_info::finalize()
         int mechanics_req = 3 + static_cast<int>( item->weight / 10_kilogram );
         int electronics_req = 0; // calculated below
 
-        // mark turrets with migrated-from or blacklisted items obsolete
+        // if turret base item is migrated-from or blacklisted hide it from install menu
         if( item_id != item_controller->migrate_id( item_id ) ||
             item_is_blacklisted( item->get_id() ) ) {
-            new_part.set_flag( "OBSOLETE" );
+            new_part.set_flag( "NO_INSTALL_HIDDEN" );
         }
 
         if( gun_uses_liquid_ammo( *item ) ) {
@@ -704,6 +659,7 @@ void vpart_info::finalize()
     }
 
     for( auto &e : vpart_info_all ) {
+        vpart_info &vpi = e.second;
         for( const auto &f : e.second.flags ) {
             auto b = vpart_bitflag_map.find( f );
             if( b != vpart_bitflag_map.end() ) {
@@ -783,6 +739,23 @@ void vpart_info::finalize()
                 }
             }
         }
+
+        // generate variant bases (cosmetic only feature for tilesets)
+        std::vector<vpart_variant> new_variants;
+        for( const auto &[base_id, base_label] : vpi.variants_bases ) {
+            for( const auto &[vvid, vv] : vpi.variants ) {
+                vpart_variant vv_copy = vv;
+                vv_copy.id = vv_copy.id.empty() ? base_id : base_id + "_" + vv_copy.id;
+                vv_copy.label_ = vv_copy.label_.empty() ? base_label : base_label + " " + vv_copy.label_;
+                new_variants.emplace_back( vv_copy );
+            }
+        }
+        for( const vpart_variant &vv : new_variants ) {
+            vpi.variants[vv.id] = vv;
+        }
+        if( vpi.variants.count( vpi.variant_default ) == 0 ) {
+            vpi.variant_default = vpi.variants.begin()->first;
+        }
     }
 }
 
@@ -807,6 +780,26 @@ void vpart_info::check()
 
         if( part.removal_moves < 0 ) {
             part.removal_moves = part.install_moves / 2;
+        }
+
+        if( part.variants.empty() ) {
+            debugmsg( "vehicle part %s defines no variants", part.id.str() );
+            vpart_variant vv;
+            vv.id = "";
+            vv.label_ = "Default";
+            vv.symbols.fill( '?' );
+            vv.symbols_broken.fill( '?' );
+            part.variants.emplace( vv.id, vv );
+        } else {
+            for( const auto&[vid, vv] : part.variants ) {
+                for( size_t i = 0; i < vv.symbols.size(); i++ ) {
+                    if( ( mk_wcwidth( vv.symbols[i] ) != 1 ) ||
+                        ( mk_wcwidth( vv.symbols_broken[i] ) != 1 ) ) {
+                        debugmsg( "vehicle part '%s' variant '%s' has symbol that is not 1 console cell wide",
+                                  part.id.str(), vid );
+                    }
+                }
+            }
         }
 
         for( auto &e : part.install_skills ) {
@@ -863,25 +856,6 @@ void vpart_info::check()
         for( const auto &f : part.get_flags() ) {
             if( !json_flag::get( f ) ) {
                 debugmsg( "vehicle part %s has unknown flag %s", part.id.c_str(), f.c_str() );
-            }
-        }
-        // Default symbol is always needed in case an unknown variant is encountered
-        if( part.sym == 0 ) {
-            debugmsg( "vehicle part %s does not define a symbol", part.id.c_str() );
-        } else if( mk_wcwidth( part.sym ) != 1 ) {
-            debugmsg( "vehicle part %s defined a symbol that is not 1 console cell wide.",
-                      part.id.str() );
-        }
-        if( part.sym_broken == 0 ) {
-            debugmsg( "vehicle part %s does not define a broken symbol", part.id.c_str() );
-        } else if( mk_wcwidth( part.sym_broken ) != 1 ) {
-            debugmsg( "vehicle part %s defined a broken symbol that is not 1 console cell wide.",
-                      part.id.str() );
-        }
-        for( const std::pair<const std::string, int> &sym : part.symbols ) {
-            if( mk_wcwidth( sym.second ) != 1 ) {
-                debugmsg( "vehicle part %s defined a variant symbol that is not 1 console cell wide.",
-                          part.id.str() );
             }
         }
         if( part.durability <= 0 ) {
@@ -1286,6 +1260,73 @@ time_duration vpart_info::get_unfolding_time() const
     return unfolding_time;
 }
 
+std::string vpart_variant::get_label() const
+{
+    return to_translation( "vpart_variants", label_ ).translated();
+}
+
+char32_t vpart_variant::get_symbol( units::angle direction, bool is_broken ) const
+{
+    const int dir8 = angle_to_dir8( direction );
+    return is_broken ? symbols_broken[dir8] : symbols[dir8];
+}
+
+static int utf32_to_ncurses_ACS( char32_t sym )
+{
+    switch( sym ) {
+        // *INDENT-OFF*
+        case 0x2500: return LINE_OXOX; // horizontal line
+        case 0x2501: return '=';       // horizontal line (heavy) no acs equivalent
+        case 0x2502: return LINE_XOXO; // vertical line
+        case 0x2503: return 'H';       // vertical line (heavy) no acs equivalent
+        case 0x253C: return LINE_XXXX; // cross/plus
+        case 0x250C: return LINE_OXXO; // upper left corner
+        case 0x2510: return LINE_OOXX; // upper right corner
+        case 0x2518: return LINE_XOOX; // lower right corner
+        case 0x2514: return LINE_XXOO; // lower left corner
+        default:     return static_cast<int>(sym);
+        // *INDENT-ON*
+    }
+}
+
+int vpart_variant::get_symbol_curses( units::angle direction, bool is_broken ) const
+{
+    return get_symbol_curses( get_symbol( direction, is_broken ) );
+}
+
+int vpart_variant::get_symbol_curses( char32_t sym )
+{
+    return utf32_to_ncurses_ACS( sym );
+}
+
+void vpart_variant::load( const JsonObject &jo, bool was_loaded )
+{
+    optional( jo, was_loaded, "id", id, "" );
+    optional( jo, was_loaded, "label", label_ );
+    const auto symbol_read = [&]( std::array<char32_t, 8> &dst, const std::string & member ) {
+        if( jo.has_string( member ) ) {
+            const std::vector<std::string> symbols = utf8_display_split( jo.get_string( member ) );
+            if( symbols.size() == 1 ) {
+                dst.fill( UTF8_getch( jo.get_string( member ) ) );
+            } else if( symbols.size() == 8 ) {
+                for( size_t i = 0; i < 8; i++ ) {
+                    dst[i] = UTF8_getch( symbols[i] );
+                }
+                return;
+            } else {
+                dst.fill( '?' );
+                jo.throw_error_at( "symbols",
+                                   string_format( "'%s' must be string with 1 or 8 characters", member ) );
+            }
+        } else {
+            dst.fill( '?' );
+            jo.throw_error( string_format( "'%s' is missing", member ) );
+        }
+    };
+    symbol_read( symbols, "symbols" );
+    symbol_read( symbols_broken, "symbols_broken" );
+}
+
 /** @relates string_id */
 template<>
 const vehicle_prototype &string_id<vehicle_prototype>::obj() const
@@ -1315,15 +1356,25 @@ void vehicles::reset_prototypes()
     vehicle_prototype_factory.reset();
 }
 
+static std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid )
+{
+    const size_t loc = vpid.rfind( vehicles::variant_separator );
+    return loc == std::string::npos
+           ? std::make_pair( vpid, "" )
+           : std::make_pair( vpid.substr( 0, loc ), vpid.substr( loc + 1 ) );
+}
+
 void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
     optional( jo, was_loaded, "name", name );
 
     const auto add_part_obj = [&]( const JsonObject & part, point pos ) {
+        const auto [id, variant] = get_vpart_str_variant( part.get_string( "part" ) );
         part_def pt;
+        pt.part = vpart_id( id );
+        pt.variant = variant;
         pt.pos = pos;
-        std::tie( pt.part, pt.variant ) = get_vpart_id_variant( part.get_string( "part" ) );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
         assign( part, "ammo_types", pt.ammo_types, true );
@@ -1335,10 +1386,11 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
     };
 
     const auto add_part_string = [&]( const std::string & part, point pos ) {
+        const auto [id, variant] = get_vpart_str_variant( part );
         part_def pt;
+        pt.part = vpart_id( id );
+        pt.variant = variant;
         pt.pos = pos;
-        std::tie( pt.part, pt.variant ) = get_vpart_id_variant( part );
-
         parts.emplace_back( pt );
     };
 
@@ -1352,6 +1404,8 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 
         if( part.has_string( "part" ) ) {
             add_part_obj( part, pos );
+            debugmsg( "vehicle prototype '%s' uses deprecated string definition for part"
+                      " '%s', use 'parts' array instead", id.str(), part.get_string( "part" ) );
         } else if( part.has_array( "parts" ) ) {
             for( const JsonValue entry : part.get_array( "parts" ) ) {
                 if( entry.test_string() ) {
@@ -1453,13 +1507,29 @@ void vehicles::finalize_prototypes()
                 continue;
             }
 
-            const int part_idx = blueprint.install_part( pt.pos, pt.part, pt.variant );
+            const int part_idx = blueprint.install_part( pt.pos, pt.part );
             if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
                           blueprint.part_count(), pt.pos.x, pt.pos.y );
             } else {
                 vehicle_part &vp = blueprint.part( part_idx );
+                const vpart_info &vpi = vp.info();
+
+                // try variant, if variant invalid default to first one
+                cata_assert( !vpi.variants.empty() );
+                const auto variant_it = vpi.variants.find( pt.variant );
+                if( variant_it == vpi.variants.end() ) {
+                    vp.variant = vpi.variants.begin()->first;
+                    if( !pt.variant.empty() ) { // only debugmsg if trying to select non-default variant
+                        debugmsg( "veh prototype '%s' uses invalid variant '%s' for "
+                                  "part '%s' defaulting to '%s'",
+                                  proto.name, pt.variant, vp.info().get_id().str(), vp.variant );
+                    }
+                } else {
+                    vp.variant = pt.variant;
+                }
+
                 for( const itype_id &it : pt.tools ) {
                     blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
                 }
@@ -1579,15 +1649,10 @@ void vpart_category::reset()
 void vpart_migration::load( const JsonObject &jo )
 {
     vpart_migration migration;
-    migration.part_id_old = vpart_id( jo.get_string( "from" ) );
-    migration.part_id_new = vpart_id( jo.get_string( "to" ) );
-
-    if( jo.has_array( "add_veh_tools" ) ) {
-        for( const std::string &tool_id : jo.get_string_array( "add_veh_tools" ) ) {
-            migration.add_veh_tools.emplace_back( tool_id );
-        }
-    }
-
+    mandatory( jo, /* was_loaded = */ true, "from", migration.part_id_old );
+    mandatory( jo, /* was_loaded = */ true, "to", migration.part_id_new );
+    optional( jo, /* was_loaded = */ true, "variant", migration.variant );
+    optional( jo, /* was_loaded = */ true, "add_veh_tools", migration.add_veh_tools );
     vpart_migrations.emplace( migration.part_id_old, migration );
 }
 
@@ -1599,17 +1664,27 @@ void vpart_migration::reset()
 void vpart_migration::finalize()
 {
     DynamicDataLoader::get_instance().load_deferred( deferred );
-
-    for( const auto &[from_id, migration] : vpart_migrations ) {
-        if( !migration.add_veh_tools.empty() &&
-            !migration.part_id_new->has_flag( "VEH_TOOLS" ) ) {
-            debugmsg( "vpart migration from id '%s' specified 'add_veh_tools' but target id '%s' is not a VEH_TOOLS part",
-                      from_id.str(), migration.part_id_new.str() );
-        }
-    }
-
     // erase the generic turret prototype vpart
     vpart_info_all.erase( vpart_turret_generic );
+}
+
+void vpart_migration::check()
+{
+    for( const auto &[from_id, _] : vpart_migrations ) {
+        const vpart_migration &vm = *find_migration( from_id );
+        if( !vm.part_id_new.is_valid() ) {
+            debugmsg( "vpart migration specifies invalid id '%s'", vm.part_id_new.str() );
+            continue;
+        }
+        if( !vm.add_veh_tools.empty() && !vm.part_id_new->has_flag( "VEH_TOOLS" ) ) {
+            debugmsg( "vpart migration from id '%s' specified 'add_veh_tools' but target id '%s' is not a VEH_TOOLS part",
+                      from_id.str(), vm.part_id_new.str() );
+        }
+        if( vm.variant && vm.part_id_new->variants.count( vm.variant.value() ) <= 0 ) {
+            debugmsg( "vpart migration chain from id '%s' to '%s' specifies invalid variant '%s'",
+                      from_id.str(), vm.part_id_new.str(), vm.variant.value() );
+        }
+    }
 }
 
 const vpart_migration *vpart_migration::find_migration( const vpart_id &original )

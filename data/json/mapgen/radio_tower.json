@@ -260,7 +260,7 @@
         "          a,,,,a        ",
         "          a,RR,a        ",
         "          a,RR,a        ",
-        "          a>,,,a        ",
+        "          av,,,a        ",
         "          aaaaaa        ",
         "                        ",
         "                        ",
@@ -279,7 +279,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_ladder_down" },
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof" },
       "place_nested": [
         {
           "chunks": [

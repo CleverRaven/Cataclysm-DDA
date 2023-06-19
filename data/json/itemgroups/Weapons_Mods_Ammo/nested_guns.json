@@ -1254,6 +1254,19 @@
     ]
   },
   {
+    "id": "nested_plr16",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "plr16", "charges-min": 0, "charges-max": 10 },
+      { "group": "stanag_10_random" },
+      { "group": "stanag_10_random", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
     "id": "nested_garand",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1273,7 +1286,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "garand", "charges-min": 0, "charges-max": 20 },
+      { "item": "ar10", "charges-min": 0, "charges-max": 20 },
       { "item": "ar10mag_20rd" },
       { "item": "ar10mag_20rd", "prob": 50 },
       { "group": "on_hand_308" }
@@ -1286,7 +1299,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "ar15", "charges-min": 0, "charges-max": 30 },
+      { "item": "modular_ar15", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1455,7 +1468,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "m16_auto_rifle", "variant": "acr", "charges-min": 0, "charges-max": 30 },
+      { "item": "modular_m16_auto_rifle", "variant": "modular_acr", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1565,7 +1578,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "m4_carbine", "variant": "m4a1", "charges-min": 0, "charges-max": 30 },
+      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1682,19 +1695,6 @@
     ]
   },
   {
-    "id": "nested_ar15_retool_300blk",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "ar15_retool_300blk", "charges-min": 0, "charges-max": 30 },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
-      { "group": "on_hand_300BLK" }
-    ]
-  },
-  {
     "id": "nested_iwi_tavor_x95_300blk",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1714,7 +1714,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "m27_assault_rifle", "variant": "h&k416a5", "charges-min": 0, "charges-max": 30 },
+      { "item": "modular_m27_assault_rifle", "variant": "modular_h&k416a5", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
@@ -1727,7 +1727,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "m27_assault_rifle", "variant": "m27iar", "charges-min": 0, "charges-max": 30 },
+      { "item": "modular_m27_assault_rifle", "variant": "modular_m27iar", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
@@ -2431,6 +2431,158 @@
     ]
   },
   {
+    "id": "nested_ruger_m77",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "ruger_m77", "charges-min": 0, "charges-max": 4 }, { "group": "on_hand_3006" } ]
+  },
+  {
+    "id": "nested_ruger_pr",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ruger_pr", "charges-min": 0, "charges-max": 5 },
+      { "item": "ruger_pr_mag" },
+      { "item": "ruger_pr_mag", "prob": 50 },
+      { "group": "on_hand_300" }
+    ]
+  },
+  {
+    "id": "nested_bren2_762",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bren2_762", "variant": "bren2_762", "charges-min": 0, "charges-max": 30 },
+      { "item": "bren2_762mag30" },
+      { "item": "bren2_762mag30", "prob": 50 },
+      { "group": "on_hand_762" }
+    ]
+  },
+  {
+    "id": "nested_805_bren",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bren2_762", "variant": "805_bren", "charges-min": 0, "charges-max": 30 },
+      { "item": "bren2_762mag30" },
+      { "item": "bren2_762mag30", "prob": 50 },
+      { "group": "on_hand_762" }
+    ]
+  },
+  {
+    "id": "nested_bren2_556",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bren2_556", "variant": "bren2_556", "charges-min": 0, "charges-max": 30 },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_mdrx",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mdrx", "charges-min": 0, "charges-max": 30 },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_tac338",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "tac338", "charges-min": 0, "charges-max": 5 },
+      { "item": "ai_338mag" },
+      { "item": "ai_338mag", "prob": 50 },
+      { "group": "on_hand_military_338lapua" }
+    ]
+  },
+  {
+    "id": "nested_savage112",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "savage112", "charges-min": 0, "charges-max": 1, "contents-item": [ "rifle_scope" ] },
+      { "group": "on_hand_338lapua" }
+    ]
+  },
+  {
+    "id": "nested_mrad_smr",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mrad_smr", "charges-min": 0, "charges-max": 10 },
+      { "item": "mrad_338lapua_mag" },
+      { "item": "mrad_338lapua_mag", "prob": 50 },
+      { "group": "on_hand_338lapua" }
+    ]
+  },
+  {
+    "id": "nested_axmc",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "axmc", "charges-min": 0, "charges-max": 10 },
+      { "item": "ai_338mag_10" },
+      { "item": "ai_338mag_10", "prob": 50 },
+      { "group": "on_hand_338lapua" }
+    ]
+  },
+  {
+    "id": "nested_ithaca37",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "remington_870", "variant": "ithaca37", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "nested_cz600",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "cz600", "charges-min": 0, "charges-max": 10 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_ruger_arr",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ruger_arr", "charges-min": 0, "charges-max": 3 },
+      { "item": "ruger_arr_mag" },
+      { "item": "ruger_arr_mag", "prob": 50 },
+      { "group": "on_hand_450" }
+    ]
+  },
+  {
     "id": "nested_mk3",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2478,6 +2630,45 @@
       { "item": "clip303_5rd", "prob": 50 },
       { "item": "enfield_303mag", "prob": 5 },
       { "group": "on_hand_303" }
+    ]
+  },
+  {
+    "id": "nested_rdb_223",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "rdb_223", "charges-min": 0, "charges-max": 30, "contents-group": "sights_rifle" },
+      { "group": "stanag_30_random" },
+      { "group": "stanag_30_random", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_rfb_308",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "rfb_308", "charges-min": 0, "charges-max": 20, "contents-group": "sights_rifle" },
+      { "item": "falmag" },
+      { "item": "falmag", "prob": 50 },
+      { "group": "on_hand_308" }
+    ]
+  },
+  {
+    "id": "nested_greasegun",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "greasegun", "charges-min": 0, "charges-max": 30 },
+      { "item": "greasegun30mag" },
+      { "item": "greasegun30mag", "prob": 50 },
+      { "group": "on_hand_45" }
     ]
   }
 ]
