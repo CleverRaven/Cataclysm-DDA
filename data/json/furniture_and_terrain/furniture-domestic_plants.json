@@ -181,7 +181,17 @@
     "looks_like": "f_plant_harvest",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST", "SMALL_HIDE" ],
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_HARVEST",
+      "SMALL_HIDE"
+    ],
     "examine_action": "harvest_plant_ex",
     "deconstruct": {
       "items": [
