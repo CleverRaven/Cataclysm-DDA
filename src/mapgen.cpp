@@ -613,27 +613,41 @@ std::shared_ptr<mapgen_function>
 load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset,
                       const point &total )
 {
-    int mgweight = jio.get_int( "weight", 1000 );
-    if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
-        jio.allow_omitted_members();
-        return nullptr; // nothing
-    }
-	if(jio.has_member( "starts" ) ) {
-		time_duration starts = read_from_json_string<time_duration>( jio.get_member( "starts" ), time_duration::units );
-		mgweight *= calendar::turn < calendar::start_of_cataclysm + starts ? 0 : 1;
-	}
-	if(jio.has_member( "ends" ) ) {
-		time_duration ends = read_from_json_string<time_duration>( jio.get_member( "ends" ), time_duration::units );
-		mgweight *= calendar::turn >= calendar::start_of_cataclysm + ends ? 0 : 1;
-	}
     const std::string mgtype = jio.get_string( "method" );
-    if( mgtype == "builtin" ) {
-        if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
-            return std::make_shared<mapgen_function_builtin>( ptr, mgweight );
-        } else {
-            jio.throw_error_at( "name", "function does not exist" );
-        }
+	if( mgtype == "builtin" ) {
+		int mgweight = jio.get_int( "weight", 1000 );
+		if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
+			jio.allow_omitted_members();
+			return nullptr; // nothing
+		}
+		if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
+			return std::make_shared<mapgen_function_builtin>( ptr, mgweight );
+		} else {
+			jio.throw_error_at( "name", "function does not exist" );
+		}
     } else if( mgtype == "json" ) {
+		if( jio.has_member( "weight_func" ) ) {
+			if( jio.has_member( "weight" ) {
+				jio.throw_error( "weight and weight_func are mutually exclusive" );
+			}
+			JsonObject mgweight = jio.get_object( "weight_func" ); // Object should contain the 'name' of the jmath function found in weight_functions.json to be called, 'arguments' to be passed to the function in an array and the basic 'weight' it multiplies.
+			// Add better checks to make sure this is valid before runtime
+			if( !mgweight.has_member( "name" ) {
+				mgweight.throw_error( "no weight function name found" );
+			}
+			if( !mgweight.has_member( "arguments" ) {
+				mgweight.throw_error( "no weight function arguements found" );
+			}
+			if( !mgweight.has_member( "weight" ) {
+				mgweight.throw_error( "no weight function weight found" );
+			}
+		} else {
+			int mgweight = jio.get_int( "weight", 1000 );
+			if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
+				jio.allow_omitted_members();
+				return nullptr; // nothing
+			}
+	    }
         if( !jio.has_object( "object" ) ) {
             jio.throw_error( R"(mapgen with method "json" must define key "object")" );
         }
