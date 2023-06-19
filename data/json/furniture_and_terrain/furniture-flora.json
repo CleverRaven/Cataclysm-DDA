@@ -321,7 +321,7 @@
     "floor_bedding_warmth": 50,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT", "SMALL_HIDE"  ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 2,
       "str_max": 6,
