@@ -235,7 +235,7 @@ void map_memory::set_tile_symbol( const tripoint &pos, char32_t symbol )
     sm.set_tile( p.loc, mt );
 }
 
-void map_memory::clear_tile_vehicles( const tripoint &pos )
+void map_memory::clear_tile_decoration( const tripoint &pos, std::string_view prefix )
 {
     const coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
@@ -243,7 +243,7 @@ void map_memory::clear_tile_vehicles( const tripoint &pos )
         return;
     }
     memorized_tile mt = sm.get_tile( p.loc );
-    if( string_starts_with( mt.get_dec_id(), "vp_" ) ) {
+    if( string_starts_with( mt.get_dec_id(), prefix ) ) {
         mt.set_dec_id( "" );
         mt.set_dec_rotation( 0 );
         mt.set_dec_subtile( 0 );
