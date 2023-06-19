@@ -96,10 +96,14 @@ inline const char *npgettext( const char *const context, const char *const msgid
 
 // Avoid using these functions from libintl.h which won't work because we have
 // our own implementations with different names.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wredundant-decls"
 [[deprecated( "Use _( ... ) instead" )]]
 char *gettext( const char *msgid );
 [[deprecated( "Use n_gettext( ... ) instead" )]]
 char *ngettext( const char *msgid, const char *msgid2, unsigned long int n );
+#pragma GCC diagnostic pop
 
 std::string locale_dir();
 
