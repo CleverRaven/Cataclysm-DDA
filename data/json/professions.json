@@ -183,13 +183,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "full_rebreather_mask",
-    "entries": [ { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 60 } ]
+    "entries": [ { "item": "rebreather", "ammo-item": "rebreather_cartridge", "charges": 30 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "full_gasmask",
-    "entries": [ { "item": "mask_gas", "ammo-item": "gasfilter_m", "charges": 100 } ]
+    "entries": [ { "item": "mask_gas", "ammo-item": "gasfilter_med", "charges": 100 } ]
   },
   {
     "type": "item_group",
@@ -5344,7 +5344,7 @@
     "items": {
       "both": {
         "items": [ "jumpsuit", "hazmat_suit", "socks", "gloves_medical", "wristwatch", "glasses_safety", "scalpel" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_filter", "ammo-item": "gasfilter_s", "charges": 100 } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_filter", "ammo-item": "gasfilter_sm", "charges": 100 } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -5461,7 +5461,7 @@
       "both": {
         "items": [ "xedra_enviro_suit", "socks", "union_suit" ],
         "entries": [
-          { "item": "mask_gas", "ammo-item": "gasfilter_m", "charges": 5 },
+          { "item": "mask_gas", "ammo-item": "gasfilter_med", "charges": 100 },
           {
             "item": "light_minus_battery_cell",
             "ammo-item": "battery",

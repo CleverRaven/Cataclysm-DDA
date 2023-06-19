@@ -967,7 +967,7 @@
     ],
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": 5,
@@ -1584,7 +1584,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 4,
@@ -1970,7 +1970,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -2199,7 +2199,7 @@
     ],
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -2527,7 +2527,7 @@
     ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS", "OVERSIZE" ],
     "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {

@@ -199,6 +199,8 @@ autosaves
 autoselect
 autoshotgun
 avellana
+aventail
+aventails
 avgas
 avians
 aving
@@ -2888,6 +2890,8 @@ tinamou
 tinning
 tiredly
 tireplate
+titani
+titanis
 titanochelon
 toecaps
 toggled
@@ -3134,6 +3138,7 @@ wabbits
 wacka
 wakizashi
 wakizashis
+walleri
 walleye
 wammles
 wanderin

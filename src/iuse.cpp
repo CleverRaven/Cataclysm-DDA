@@ -3675,7 +3675,7 @@ std::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( n_gettext( "You set the timer to %d second.",
                                      "You set the timer to %d seconds.", time ), time );
     it->convert( itype_c4armed );
-    it->charges = time;
+    it->countdown_point = calendar::turn + time_duration::from_seconds( time );
     it->active = true;
     return 1;
 }
@@ -3845,7 +3845,7 @@ std::optional<int> iuse::mininuke( Character *p, item *it, bool, const tripoint 
                           to_string( time_duration::from_turns( time ) ) );
     get_event_bus().send<event_type::activates_mininuke>( p->getID() );
     it->convert( itype_mininuke_act );
-    it->charges = time;
+    it->countdown_point = calendar::turn + time_duration::from_seconds( time );
     it->active = true;
     return 1;
 }
@@ -8881,8 +8881,9 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoi
     }
 
     const item_location book = game_menus::inv::titled_filter_menu(
-    [&ebooks]( const item & itm ) {
-        return itm.is_book() && itm.type->book->is_scannable && !ebooks.count( itm.typeId() );
+    [&ebooks, &p]( const item & itm ) {
+        return itm.is_book() && itm.type->book->is_scannable && !ebooks.count( itm.typeId() ) &&
+               itm.is_owned_by( *p, true );
     },
     *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
 
