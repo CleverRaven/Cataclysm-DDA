@@ -2191,10 +2191,10 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     // Parse any tags in challenge
     if( actor( true )->get_npc() ) {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
+        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(), *this,
                     topic.item_type );
     } else {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(),
+        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(), *this,
                     topic.item_type );
     }
     challenge = uppercase_first_letter( challenge );

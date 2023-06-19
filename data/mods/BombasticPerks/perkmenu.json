@@ -581,7 +581,11 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [ { "u_add_trait": { "context_val": "trait_id" } }, { "math": [ "u_num_perks", "--" ] } ]
       },
-      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      {
+        "text": "Go Back.",
+        "effect": [ { "set_string_var": "", "target_var": { "context_val": "trait_additional_details" } } ],
+        "topic": "TALK_PERK_MENU_MAIN"
+      },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   },
@@ -603,7 +607,11 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [ { "u_add_trait": { "context_val": "trait_id" } }, { "math": [ "u_num_perks", "-=", "u_playstyle_cost + 1" ] } ]
       },
-      { "text": "Go Back.", "topic": "TALK_PERK_MENU_PLAYSTYLE" },
+      {
+        "text": "Go Back.",
+        "effect": [ { "set_string_var": "", "target_var": { "context_val": "trait_additional_details" } } ],
+        "topic": "TALK_PERK_MENU_PLAYSTYLE"
+      },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   }
