@@ -100,7 +100,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
