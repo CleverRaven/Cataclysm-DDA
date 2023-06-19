@@ -509,7 +509,7 @@ void message_iuse::load( const JsonObject &obj )
 std::optional<int> message_iuse::use( Character *p, item &it, bool t,
                                       const tripoint &pos ) const
 {
-    if( t || !&p ) {
+    if( t || !p ) {
         return std::nullopt;
     }
 
