@@ -160,9 +160,11 @@ void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) cons
                 debugmsg( "vehiclefunction_json: unable to get location to place vehicle." );
                 return;
             }
-            m.add_vehicle( vehicle->pick(), loc->pick_point(), loc->pick_facing(), fuel, status );
+            const tripoint pos = tripoint( loc->pick_point(), m.get_abs_sub().z() );
+            m.add_vehicle( vehicle->pick(), pos, loc->pick_facing(), fuel, status );
         } else {
-            m.add_vehicle( vehicle->pick(), location->pick_point(), location->pick_facing(), fuel, status );
+            const tripoint pos = tripoint( location->pick_point(), m.get_abs_sub().z() );
+            m.add_vehicle( vehicle->pick(), pos, location->pick_facing(), fuel, status );
         }
     }
 }
@@ -242,8 +244,8 @@ static void builtin_jackknifed_semi( map &m, const std::string_view terrainid )
 
     const units::angle facing = loc->pick_facing();
     int facing_degrees = std::lround( to_degrees( facing ) );
-    const point semi_p = loc->pick_point();
-    point trailer_p;
+    const tripoint semi_p = tripoint( loc->pick_point(), m.get_abs_sub().z() );
+    tripoint trailer_p( 0, 0, semi_p.z );
 
     if( facing_degrees == 0 ) {
         trailer_p.x = semi_p.x + 4;
@@ -277,8 +279,8 @@ static void builtin_pileup( map &m, const std::string_view, const vgroup_id &vgi
             return;
         }
 
-        last_added_car = m.add_vehicle( vgid->pick(), loc->pick_point(),
-                                        loc->pick_facing(), -1, 1 );
+        const tripoint pos( loc->pick_point(), m.get_abs_sub().z() );
+        last_added_car = m.add_vehicle( vgid->pick(), pos, loc->pick_facing(), -1, 1 );
         if( last_added_car != nullptr ) {
             last_added_car->name = _( "pile-up" );
         } else {
