@@ -4,7 +4,7 @@
     "copy-from": "laptop",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "xedra laptop" },
+    "name": { "str": "XEDRA laptop" },
     "description": "Heavy, dark laptop, with swappable battery slot.  Back panel is labeled \"PROPERTY OF XEDRA\".  It uses non-standard OS, so there's not much you can use it without reinstalling.",
     "symbol": ",",
     "color": "dark_gray",

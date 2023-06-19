@@ -241,6 +241,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "lizard tail" },
+    "looks_like": "fur_cat_tail",
     "description": "Small lizard tail, that was ripped off.  Looks like someone's joke.",
     "weight": "3 g",
     "volume": "3 ml",
