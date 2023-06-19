@@ -63,11 +63,22 @@ bool active_item_cache::add( item &it, point location, item *parent,
             ret |= add( *pkit, location, &it, pockets );
         }
     }
-    if( it.processing_speed() == item::NO_PROCESSING ) {
+
+    int speed = it.processing_speed();
+    if( index_dirty.find( speed ) == index_dirty.end() ) {
+        index_dirty[speed] = true;
+    }
+    std::unordered_set<const item *> &target_index = active_items_index[speed];
+    std::list<item_reference> &target_list = active_items[speed];
+    if( index_dirty[speed] ) {
+        target_index.clear();
+        for( item_reference &iter : target_list ) {
+            target_index.emplace( iter.item_ref.get() );
+        }
+    }
+    if( speed == item::NO_PROCESSING ) {
         return ret;
     }
-    std::list<item_reference> &target_list = active_items[it.processing_speed()];
-    std::unordered_set<const item *> &target_index = active_items_index[it.processing_speed()];
     // If the item is already in the cache for some reason, don't add a second reference
     if( target_index.find( &it ) != target_index.end() ) {
         return true;
@@ -100,6 +111,7 @@ std::vector<item_reference> active_item_cache::get()
                 all_cached_items.emplace_back( *it );
                 ++it;
             } else {
+                index_dirty[kv.first] = true;
                 it = kv.second.erase( it );
             }
         }
@@ -125,6 +137,7 @@ std::vector<item_reference> active_item_cache::get_for_processing()
                 ++it;
             } else {
                 // The item has been destroyed, so remove the reference from the cache
+                index_dirty[kv.first] = true;
                 it = kv.second.erase( it );
             }
         }
