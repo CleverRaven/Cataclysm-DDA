@@ -47,26 +47,27 @@
 	"//": "Use completing the square to generalise",
 	"//": "Usage weight_quadratic_pos( days until max weight ).  Quadratically varies weight from 'weight' to 0 and back to 'weight' until 'days until max weight' have passed.",
     "num_args": 1,
-	"return": { "u_val('time_since_cataclysm: days') < _0 ? 0.1 + ( ( 13 / 400 ) * u_val('time_since_cataclysm: days') ) - ( ( 19 / 72000 ) * ( u_val('time_since_cataclysm: days') ^ 2 ) ) : 0.1" }
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? ( 1 / ( ( _0 / 2 ) ^ 2 ) ) * ( ( u_val('time_since_cataclysm: days') - ( _0 / 2 ) ) ^ 2 ) : 1" }
   },
   {
     "type": "jmath_function",
     "id": "weight_quadratic_neg",
-	"//": "Usage weight_quadratic_pos( days until max weight ).  Quadratically varies weight from 0 to 'weight' and back to 0 until 'days until max weight' have passed.",
+	"//": "Usage weight_quadratic_neg( days until 0 weight ).  Quadratically varies weight from 0 to 'weight' and back to 0 until 'days until 0 weight' have passed.",
     "num_args": 1,
-	"return": { "u_val('time_since_cataclysm: days') < _0 ? 0.1 + ( ( 13 / 400 ) * u_val('time_since_cataclysm: days') ) - ( ( 19 / 72000 ) * ( u_val('time_since_cataclysm: days') ^ 2 ) ) : 0.1" }
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? 1 - ( ( 1 / ( ( _0 / 2 ) ^ 2 ) ) * ( ( u_val('time_since_cataclysm: days') - ( _0 / 2 ) ) ^ 2 ) ) : 0" }
   }
   {
     "type": "jmath_function",
     "id": "weight_quadratic_pos_from",
-	"//": "Usage weight_quadratic_pos( days until max weight, minimum multiplier ).  Quadratically varies weight from 'weight' to 'minimum multiplier' * 'weight' and back to 'weight' until 'days until max weight' have passed.",
+	"//": "Usage weight_quadratic_pos_from( days until max weight, minimum multiplier ).  Quadratically varies weight from 'weight' to 0 and back to 'weight' until 'days until max weight' have passed but never returns less than 'minimum multiplier' * 'weight'.",
     "num_args": 2,
-	"return": { "u_val('time_since_cataclysm: days') < _0 ? 0.1 + ( ( 13 / 400 ) * u_val('time_since_cataclysm: days') ) - ( ( 19 / 72000 ) * ( u_val('time_since_cataclysm: days') ^ 2 ) ) : 0.1" }
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? max( _1, ( 1 / ( ( _0 / 2 ) ^ 2 ) ) * ( ( u_val('time_since_cataclysm: days') - ( _0 / 2 ) ) ^ 2 ) ) : 1" }
   }
   {
     "type": "jmath_function",
     "id": "weight_quadratic_neg_until",
+	"//": "Usage weight_quadratic_neg_until( days until 0 weight, minimum multiplier ).  Quadratically varies weight from 0 to 'weight' and back to 0 until 'days until 0 weight' have passed but never returns less than 'minimum multiplier' * 'weight'.",
     "num_args": 2,
-	"return": { "u_val('time_since_cataclysm: days') < _0 ? 0.1 + ( ( 13 / 400 ) * u_val('time_since_cataclysm: days') ) - ( ( 19 / 72000 ) * ( u_val('time_since_cataclysm: days') ^ 2 ) ) : 0.1" }
+	"return": { "u_val('time_since_cataclysm: days') < _0 ? max( _1, 1 - ( ( 1 / ( ( _0 / 2 ) ^ 2 ) ) * ( ( u_val('time_since_cataclysm: days') - ( _0 / 2 ) ) ^ 2 ) ) ) : _1" }
   }
 ]
