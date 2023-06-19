@@ -166,5 +166,11 @@
     "type": "MIGRATION",
     "replace": "UPS_ON",
     "flags": [ "IS_UPS" ]
+  },
+  {
+    "id": "beverage_bag",
+    "type": "MIGRATION",
+    "replace": "bag_zipper", 
+    "sealed": false 
   }
 ]
