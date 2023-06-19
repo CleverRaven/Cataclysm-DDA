@@ -337,6 +337,7 @@ Field | Used for...
 `<topic_item_your_total_price>` | TODO Add
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
+`<context_val:VAR>` | The context variable VAR
 `<global_val:VAR>` | The global variable VAR
 `<item_name:ID>` | The name of the item with ID
 `<item_description:ID>` | The description of the item with ID
