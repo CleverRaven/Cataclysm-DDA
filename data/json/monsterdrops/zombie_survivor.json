@@ -36,11 +36,10 @@
       },
       {
         "distribution": [
-          { "item": "teargas_sprayer", "prob": 10, "charges-min": 0, "charges-max": 7 },
-          { "group": "guns_pistol_common_everyday_carry", "damage": [ 1, 4 ], "prob": 5 },
+          { "item": "teargas_sprayer", "prob": 10, "charges-min": 0, "charges-max": 5 },
           {
             "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry", "damage": [ 0, 2 ] } ],
-            "prob": 5
+            "prob": 10
           },
           {
             "collection": [ { "item": "holster" }, { "item": "tazer", "damage": [ 0, 2 ], "charges-min": 0, "charges-max": 100 } ],
