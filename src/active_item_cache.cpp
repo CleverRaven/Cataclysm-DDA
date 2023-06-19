@@ -9,8 +9,10 @@
 namespace
 {
 
-void _remove_if( std::list<item_reference> &active_items, item const *it )
+void _remove_if( std::unordered_set<const item *> &active_index,
+                 std::list<item_reference> &active_items, const item *it )
 {
+    active_index.erase( it );
     active_items.remove_if( [it]( const item_reference & active_item ) {
         item *const target = active_item.item_ref.get();
         return !target || target == it;
@@ -31,9 +33,10 @@ float item_reference::spoil_multiplier()
 void active_item_cache::remove( const item *it )
 {
     for( item const *iter : it->all_items_ptr() ) {
-        _remove_if( active_items[iter->processing_speed()], iter );
+        _remove_if( active_items_index[iter->processing_speed()], active_items[iter->processing_speed()],
+                    iter );
     }
-    _remove_if( active_items[it->processing_speed()], it );
+    _remove_if( active_items_index[it->processing_speed()], active_items[it->processing_speed()], it );
     if( it->can_revive() ) {
         special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
             item *const target = active_item.item_ref.get();
@@ -64,11 +67,9 @@ bool active_item_cache::add( item &it, point location, item *parent,
         return ret;
     }
     std::list<item_reference> &target_list = active_items[it.processing_speed()];
+    std::unordered_set<const item *> &target_index = active_items_index[it.processing_speed()];
     // If the item is already in the cache for some reason, don't add a second reference
-    if( std::find_if( target_list.begin(),
-    target_list.end(), [&it]( const item_reference & active_item_ref ) {
-    return &it == active_item_ref.item_ref.get();
-    } ) != target_list.end() ) {
+    if( target_index.find( &it ) != target_index.end() ) {
         return true;
     }
     item_reference ref{ location, it.get_safe_reference(), parent, pocket_chain };
@@ -79,6 +80,7 @@ bool active_item_cache::add( item &it, point location, item *parent,
         special_items[special_item_type::explosive].emplace_back( ref );
     }
     target_list.emplace_back( std::move( ref ) );
+    target_index.emplace( &it );
     return true;
 }
 
