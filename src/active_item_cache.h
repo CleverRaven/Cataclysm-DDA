@@ -47,6 +47,9 @@ class active_item_cache
         std::unordered_map<special_item_type, std::list<item_reference>> special_items;
 
     public:
+        // Clear the active_items cache
+        void clear();
+
         /**
          * Removes the item if it is in the cache. Does nothing if the item is not in the cache.
          * Relies on the fact that item::processing_speed() is a constant.
@@ -55,11 +58,15 @@ class active_item_cache
         void remove( const item *it );
 
         /**
-         * Adds the reference to the cache. Does nothing if the reference is already in the cache.
+         * Adds the reference to the cache.
+         * By default, does nothing if the reference is already in the cache.
+         * if deduplicate is set to false, simply add to the cache without detecting duplicates .
+         * Checking reference's existence is expensive,
+         * so for cache rebuilding, clear the cache first, then add without deduplication is faster.
          * Relies on the fact that item::processing_speed() is a constant.
          */
         bool add( item &it, point location, item *parent = nullptr,
-                  std::vector<item_pocket const *> const &pocket_chain = {} );
+                  std::vector<item_pocket const *> const &pocket_chain = {}, bool deduplicate = true );
 
         /**
          * Returns true if the cache is empty

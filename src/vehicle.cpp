@@ -5791,11 +5791,13 @@ void vehicle::enable_refresh()
 void vehicle::refresh_active_item_cache()
 {
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
+    active_items.clear();
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
         auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
-            active_items.add( *it, vp.mount() );
+            // rebuilding the cache, so no need to duplicate
+            active_items.add( *it, vp.mount(), nullptr, {}, false );
         }
     }
 }
