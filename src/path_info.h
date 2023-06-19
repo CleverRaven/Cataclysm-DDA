@@ -18,7 +18,7 @@ const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 namespace PATH_INFO
 {
 
-void init_base_path( std::string path );
+void init_base_path( const std::string &path );
 void init_user_dir( std::string dir );
 void set_standard_filenames();
 
