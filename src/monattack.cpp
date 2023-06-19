@@ -4783,25 +4783,25 @@ bool mattack::darkman( monster *z )
     // What do we say?
     switch( rng( 1, 7 ) ) {
         case 1:
-            add_msg( _( "\"Stop it please\"" ) );
+            add_msg( _( "\"Stop it please.\"" ) );
             break;
         case 2:
-            add_msg( _( "\"Let us help you\"" ) );
+            add_msg( _( "\"Let us help you.\"" ) );
             break;
         case 3:
-            add_msg( _( "\"We wish you no harm\"" ) );
+            add_msg( _( "\"We wish you no harm.\"" ) );
             break;
         case 4:
-            add_msg( _( "\"Do not fear\"" ) );
+            add_msg( _( "\"Do not fear.\"" ) );
             break;
         case 5:
-            add_msg( _( "\"We can help you\"" ) );
+            add_msg( _( "\"We can help you.\"" ) );
             break;
         case 6:
-            add_msg( _( "\"We are friendly\"" ) );
+            add_msg( _( "\"We are friendly.\"" ) );
             break;
         case 7:
-            add_msg( _( "\"Please dont\"" ) );
+            add_msg( _( "\"Please don't.\"" ) );
             break;
     }
     player_character.add_effect( effect_darkness, 1_turns, true );
