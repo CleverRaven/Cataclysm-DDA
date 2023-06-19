@@ -218,9 +218,10 @@
       [ { "overmap": "tentacle_end_w_entry", "max": { "poisson": 0.8 } } ],
       [ { "overmap": "corpse_entry_surface", "weight": 1 } ],
       [
-        { "overmap": "tentacle_end", "weight": 1000 },
-        { "overmap": "tentacle_end_lcorner", "weight": 1 },
-        { "overmap": "tentacle_end_straight", "weight": 1 }
+        { "overmap": "tentacle_end", "weight": 10000 },
+        { "overmap": "tentacle_tee", "weight": 1 },
+        { "overmap": "tentacle_end_lcorner", "weight": 10 },
+        { "overmap": "tentacle_end_straight", "weight": 10 }
       ]
     ]
   }
