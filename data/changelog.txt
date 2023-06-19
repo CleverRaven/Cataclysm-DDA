@@ -25,6 +25,15 @@ Creatures can stumble into invisible players to discover them
 Add molting for exoskeleton mutations
 3D vision of lower levels with distance fog
 Rework MA tech requirements
+Allow NPCs to read E-books - new activity added
+Allow mutation transformation using the normal mutation rules
+Implement setting direction for appliances and add a directed floodlight appliance
+Adds 12.3ln to accepted rifle cartridges in rifle bandoliers, mirroring 30-06
+Adds 12.3ln to accepted cartridges in ammo pouches, mirroring 30-06
+Ablative pocket armour with rigid plates becomes rigid
+added clear rubble to construction
+Attach non-empty MOLLE-compatible items
+Asynchronous animations including sprinting and smashing
 
 
 ## Content:
@@ -47,6 +56,20 @@ Addition of non-NPC civilians for lore reasons
 Nether spiders as a new bossfight for the game.
 New conversion kits, guns, and calibres
 Crashing ship start for Aftershock
+new Italian dishes and recipes
+Add a zombie sheep and goat
+Adds in the ability to construct wooden chests
+Adds Vietnam-era combat helmets to surplus and pawn/antique store drops
+Adds two new shotguns to Aftershock.
+Add two bullpup rifles, Kel-Tec RDB and RFB
+More pipe rifles, and nesting
+Add M3 submachine gun
+Add more monsters to the nether monster corpse
+Mapgen changes
+Changes mask and rebreather filters to a single cartridge with charges.
+Living lore document
+Added graded steel turban/nasal helmets, chainmail aventails that attach to turban and nasal helmets.
+Gastropod Foot Limb
 
 
 ## Interface:
@@ -60,6 +83,7 @@ Mouse thumb button support
 Show NPC location when selecting NPC to chat with, guard, or follow
 Display why vehicle parts cannot be installed
 Open multiple containers in Advanced Inventory Manager
+Adds the 'Mark as dangerous' keybinding to the overmap
 
 
 ## Mods:
@@ -86,6 +110,9 @@ Open multiple containers in Advanced Inventory Manager
 [Xedra Evolved] Revamped the inventor class
 Alchemy Perks for Xedra Evolved
 Bombastic Perks adds Playstyle Perks
+Fixed inability to disassemble laser turret in No Hope mod
+[Magiclysm] Ways to boos your caster level
+[Innawoods]: Obsolete professions w/ implausible tech, make Portal Dependent possible w/ meta prog on
 
 
 ## Balance:
@@ -104,6 +131,17 @@ Add a more accessible holy symbol mission, replacing the small relic one
 Most materials now burn at least a little slower than gunpowder
 stationary monsters don't let you train throwing to high levels
 player can drag heavier vehicles
+Makes EOD helmet thickness, protection values and materials closer to realistic
+Firestarter skill gain for long move costs is way too high
+Adjusts damage of unarmed weapons
+cold tolerance mutation is exclusive from cold bloodedness and isn't a plant mutation
+Rebalance survivor boots
+difficulty to repair depends on what the thing is made of instead of its crafting difficulty
+rebalance methanol production again
+woodlouse harvests for crustacean samples
+Less body pillows and shark plushies
+Removed Pit Avoidance from Boomer and Huge Boomer
+Bringing the weight of cartridges to real numbers
 
 
 ## Bugfixes:
@@ -145,11 +183,36 @@ Fix unicode path encoding error in Windows MinGW build
 Difficulty 0 recipes are no longer arbitrarily difficult
 Make EOC u_sell_item() actually transfers the items' ownership
 Improving NPC shooting frequency
+Shorten molt effect descriptions
+Ports more rooves to roof_palette
+Updates map definitions to account for newer roof_palette additions
+Fixed vehicle rams not requiring a wrench to install
+Enable death effects on limited lifespan monsters
+Fix creatures drawn above tall sprites
+Add "High X Tolerance" and Night Raider traits to extra_mut_scen
+Overhaul basecamp consuming resources
+[Magiclysm] Changes Stormshaper axe to be more axe like
+clang-tidy complained of field order issues in struct mtype in mtype.h, I have re-arranged them.
+make Hub01 globally unique
+Adds missing recipe requirments to atomic butter
+Adds refugee centre migration
+welders have nonrigid battery pocket
+Fix mansion scenario crash in defense mode
+Adds more refugee centre migration
+Chloramine is made of liquid cleaner instead of powders
+Charge integrated magazines when plugged in
+Make all claws outer layer
+Heap overflow on deleting last world
+Fix improperly overlapping skin and armor mutations
+Makes Crashed Airliner OMTs clearer
+Minor typo, strange wording and grammar corrections
+All directories starting with dot
 
 
 ## Performance:
 Make `Character::best_item_with_quality` examine items non-recursively
 Refactor effect types to use map indirection and enums instead of strings
+Removes the ludicrous amount of OMs the refugee and research centres define
 
 
 ## Infrastructure:
@@ -162,10 +225,13 @@ Migrate some JSON APIs to string_view
 Add units::temperature_delta
 Upgrade clang-tidy used in CI to LLVM 16
 Allow C++ standard includes in clang-tidy tests
+Added enable and disable mutation EOCs
+Refactor timer items to be a bit more time based
 
 
 ## Build:
 Support Mac arm64 build
+Adds VS Code Dev Containers & Workspace Config
 
 
 ## I18N and A11Y:
