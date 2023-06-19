@@ -1,0 +1,31 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ma_test",
+    "condition": "npc_is_alive",
+    "effect": [
+      { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "context_val": "m1" } },
+      { "set_string_var": { "mutator": "valid_technique", "blacklist": [ { "context_val": "m1" } ] }, "target_var": { "context_val": "m2" } },
+      {
+        "run_eoc_selector": [ "EOC_attack", "EOC_attack" ],
+        "names": [ { "mutator": "ma_technique_name", "matec_id": { "context_val": "m1" } }, { "mutator": "ma_technique_name", "matec_id": { "context_val": "m2" } } ],
+        "keys": [ "1", "2" ],
+        "descriptions": [ { "mutator": "ma_technique_description", "matec_id": { "context_val": "m1" } }, { "mutator": "ma_technique_description", "matec_id": { "context_val": "m2" } } ],
+        "variables": [ { "ma_tech": { "context_val": "m1" } }, { "ma_tech": { "context_val": "m2" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_try_attack",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
+      { "run_eoc_with": "EOC_ma_test", "beta_loc": { "context_val": "kill_loc" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_attack",
+    "effect": [ { "u_attack": { "context_val": "ma_tech" } }, { "run_eoc": "EOC_ma_test" } ]
+  }
+]

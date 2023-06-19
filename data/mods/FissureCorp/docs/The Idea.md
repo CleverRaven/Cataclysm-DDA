@@ -86,3 +86,10 @@ Your character isn't going to have standard bp's. Instead each of their BPs is a
 
 ### Quests
 Find dead soldier, could have gear better / different then yours + could harvest for genetic material to mutate your soldier. 
+
+### Genetic Memory
+Perk / Rogue Lite system where your character gets better over time (on top of progressing your scientist and upgrading your soldier) where stuff they do / learn in the field can be saved as perks
+* new martial arts moves for weapon classes
+* extra HP
+* Stam
+* IDK what else

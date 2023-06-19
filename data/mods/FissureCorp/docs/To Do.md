@@ -25,3 +25,8 @@ Needs development time just on the JSON side (mod only)
 ### Needs Investigating
 * [[The Idea#The world]] How is this going to work? Can I remove roads in JSON from cities? What do I need to do to make that happen? Should I just use nested mapgen for it.
 
+
+
+### Melee
+* Generalize martial arts to weapons.
+* Check for non wielded weapons techniques.
