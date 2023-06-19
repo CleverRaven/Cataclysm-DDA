@@ -94,6 +94,13 @@ inline const char *npgettext( const char *const context, const char *const msgid
 
 #endif // LOCALIZE
 
+// Avoid using these functions from libintl.h which won't work because we have
+// our own implementations with different names.
+[[deprecated( "Use _( ... ) instead" )]]
+char *gettext( const char *msgid );
+[[deprecated( "Use n_gettext( ... ) instead" )]]
+char *ngettext( const char *msgid, const char *msgid2, unsigned long int n );
+
 std::string locale_dir();
 
 void set_language_from_options();

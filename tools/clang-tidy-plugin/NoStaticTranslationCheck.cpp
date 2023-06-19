@@ -19,7 +19,7 @@ void NoStaticTranslationCheck::registerMatchers( MatchFinder *Finder )
                 decl(
                     anyOf(
                         functionDecl(
-                            hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext",
+                            hasAnyName( "_", "translation_argument_identity", "pgettext",
                                         "n_gettext", "npgettext" )
                         ),
                         cxxMethodDecl(
