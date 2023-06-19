@@ -1208,8 +1208,8 @@ struct tile_render_info {
     std::array<bool, 5> invisible;
     int draw_min_z = -OVERMAP_DEPTH;
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
-                      const std::array<bool, 5> &inv )
-        : pos( pos ), height_3d( height_3d ), ll( ll ), invisible( inv ) {
+                      const std::array<bool, 5> &inv, const int draw_min_z )
+    : pos( pos ), height_3d( height_3d ), ll( ll ), invisible( inv ), draw_min_z( draw_min_z ) {
     }
 };
 
@@ -1358,6 +1358,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     creature_tracker &creatures = get_creature_tracker();
     std::vector<tile_render_info> draw_points;
+    const int max_draw_depth = is_isometric() ? 0 : fov_3d_z_range;
+    const int height_3d_mult = is_isometric() ? 10 : 0;
     for( int row = min_row; row < max_row; row ++ ) {
         draw_points.reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
@@ -1575,7 +1577,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             int height_3d = 0;
 
-            draw_points.emplace_back( pos, height_3d, ll, invisible );
+            // Find lowest z-level to draw
+            int draw_min_z;
+            tripoint p_temp = pos;
+            while( !here.dont_draw_lower_floor( p_temp ) && pos.z - p_temp.z < max_draw_depth ) {
+                p_temp.z -= 1;
+            }
+            draw_min_z = p_temp.z;
+
+            draw_points.emplace_back( pos, height_3d, ll, invisible, draw_min_z );
         }
     }
 
@@ -1602,8 +1612,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     // Limit draw depth to vertical vision setting
     // Disable multi z-level display on isometric tilesets until height_3d issues resolved
-    const int max_draw_depth = is_isometric() ? 0 : fov_3d_z_range;
-    const int height_3d_mult = is_isometric() ? 10 : 0;
     if( max_draw_depth <= 0 ) {
         // Legacy draw mode
         for( tile_render_info &p : draw_points ) {
@@ -1613,16 +1621,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     } else {
         // Multi z-level draw mode
-
-        // Categorize draw_points by lowest level to draw
-        for( tile_render_info &p : draw_points ) {
-            tripoint p_draw = p.pos;
-            while( !here.dont_draw_lower_floor( p_draw ) && p.pos.z - p_draw.z < max_draw_depth ) {
-                p_draw.z -= 1;
-            }
-            p.draw_min_z = p_draw.z;
-        }
-
         // Start drawing from the bottom-most z-level
         int cur_zlevel = -OVERMAP_DEPTH;
         do {
