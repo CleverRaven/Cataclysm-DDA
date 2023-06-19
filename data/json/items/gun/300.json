@@ -140,7 +140,7 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
-    "extend": { "flags": [ "EASY_CLEAN" ] },
+    "flags": [ "EASY_CLEAN" ],
     "pocket_data": [
       {
         "magazine_well": "300 ml",
