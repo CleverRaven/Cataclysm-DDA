@@ -3569,6 +3569,7 @@ void vehicle::deserialize( const JsonObject &data )
 void vehicle::deserialize_parts( const JsonArray &data )
 {
     parts.clear();
+    parts.reserve( data.size() );
     for( const JsonValue jv : data ) {
         try {
             vehicle_part part;
