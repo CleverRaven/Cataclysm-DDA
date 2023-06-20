@@ -82,6 +82,7 @@
 | Question | Answer | Last Update |
 | --- | ---| --- |
 |  |  |  |
+
 ## Mycus
 
 ### Lore owner:
@@ -93,6 +94,22 @@
 | Development Goals | |
 
 ### Mycus Questions
+
+| Question | Answer | Last Update |
+| --- | ---| --- |
+|  |  |  |
+
+## Nether
+
+### Lore owner: @Maleclypse
+
+| Faction synopis | Last Updated |
+| --- | ---|
+| Placeholder text, maybe one or two paragraphs |  |
+| Faction Goals |  |
+| Development Goals | |
+
+### Nether Questions
 
 | Question | Answer | Last Update |
 | --- | ---| --- |
