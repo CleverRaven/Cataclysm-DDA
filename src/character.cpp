@@ -1058,6 +1058,8 @@ double Character::aim_per_move( const item &gun, double recoil,
 
     aim_speed *= get_modifier( character_modifier_aim_speed_mod );
 
+	// finally multiply everything by a harsh function that is eliminated by 7.5 gunskill
+    aim_speed /= std::max( 1.0, 2.5 - 0.2 * get_skill_level( gun_skill ) );
     // Use a milder attenuation function to replace the previous logarithmic attenuation function when recoil is closed to 0.
     aim_speed *= std::max( recoil / MAX_RECOIL, 1 - logarithmic_range( 0, MAX_RECOIL, recoil ) );
 
