@@ -201,7 +201,7 @@ Effects can only have one "resist_trait" and one "resist_effect" at a time.
 
 ### Immunity Flags
 ```JSON
-"immunity_flags": [ "INFECTION_IMMUNE", "YOUR_FLAG" ]
+"immune_flags": [ "INFECTION_IMMUNE", "YOUR_FLAG" ]
 ```
 Having any of the defined character flags (See JSON_FLAGS.md#Character flags) will make you immune to the effect. Note that these are completely JSON-driven, so you can add a custom flag for your effect without C++ changes.
 
