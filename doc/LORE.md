@@ -67,6 +67,21 @@
 | --- | --- | --- |
 | Why are they showing as hostile? I didn't do anything to them! | This is a design issue, the faction should not accept outsiders in their base, and setting them to hostile allows them to shoot on sight while the Intercom can interact with the survivor normally. | 06/15/2023 |
 
+## Isherwoods
+
+### Lore owner:
+
+| Faction synopis | Last Updated |
+| --- | ---|
+| Placeholder text, maybe one or two paragraphs |  |
+| Faction Goals |  |
+| Development Goals | |
+
+### Isherwoods Questions
+
+| Question | Answer | Last Update |
+| --- | ---| --- |
+|  |  |  |
 ## Mycus
 
 ### Lore owner:
@@ -78,6 +93,22 @@
 | Development Goals | |
 
 ### Mycus Questions
+
+| Question | Answer | Last Update |
+| --- | ---| --- |
+|  |  |  |
+
+## Refugee Center
+
+### Lore owner:
+
+| Faction synopis | Last Updated |
+| --- | ---|
+| Placeholder text, maybe one or two paragraphs |  |
+| Faction Goals |  |
+| Development Goals | |
+
+### Refugee Center Questions
 
 | Question | Answer | Last Update |
 | --- | ---| --- |
