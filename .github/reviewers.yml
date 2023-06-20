@@ -39,7 +39,7 @@ files:
     - KorGgenT
   '**/magic*.h':
     - KorGgenT
-  'tools/**':
+  'tools/!(spell_checker){,/**}':
     - jbytheway
     - int-ua
   'src/widget.cpp':
