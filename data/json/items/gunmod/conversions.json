@@ -389,6 +389,7 @@
     "name": { "str": "MDRX .300BLK standard-assembly", "str_pl": "MDRX .300BLK standard-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .300 AAC Blackout munitions, the assembly requires STANAG magazines for feeding.",
     "weight": "840 g",
+    "volume": "500 ml",
     "longest_side": "406 mm",
     "integral_weight": "840 g",
     "integral_longest_side": "203 mm",
