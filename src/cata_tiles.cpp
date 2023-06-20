@@ -1611,7 +1611,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     };
 
-    const int height_3d_mult = is_isometric() ? 10 : 0;
+    //const int height_3d_mult = is_isometric() ? 10 : 0;
     if( max_draw_depth <= 0 ) {
         // Legacy draw mode
         for( int row = min_row; row < max_row; row ++ ) {
@@ -1626,7 +1626,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // Start drawing from the bottom-most z-level
         int cur_zlevel = -OVERMAP_DEPTH;
         do {
-            int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
+            //int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
             // For each row
             for( int row = min_row; row < max_row; row ++ ) {
                 // For each layer
@@ -1641,7 +1641,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         tripoint draw_loc = p.pos;
                         draw_loc.z = cur_zlevel;
                         // Draw
-                        ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible );
+                        ( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible );
                     }
                 }
             }
