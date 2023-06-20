@@ -47,7 +47,6 @@ class active_item_cache
         std::unordered_map<int, std::list<item_reference>> active_items;
         std::unordered_map<special_item_type, std::list<item_reference>> special_items;
         std::unordered_map<int, std::unordered_set<const item *>> active_items_index;
-        std::unordered_map<int, bool> index_dirty;
 
     public:
         /**
