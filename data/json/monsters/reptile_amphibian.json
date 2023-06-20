@@ -392,7 +392,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ],
-    "armor": { "bash": 4 }
+    "armor": { "bash": 4 },
     "upgrades": { "half_life": 65, "into": "mon_toad_beak" }
   },
   {
