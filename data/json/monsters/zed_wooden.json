@@ -133,10 +133,7 @@
     "id": "mon_zombie_wood_death_drops",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "group": "default_zombie_clothes", "prob": 80 },
-      { "group": "corpse_wooden_zombie", "prob": 70 }
-    ]
+    "entries": [ { "group": "default_zombie_clothes", "prob": 80 }, { "group": "corpse_wooden_zombie", "prob": 70 } ]
   },
   {
     "type": "item_group",
