@@ -111,7 +111,6 @@ static const itype_id itype_jp8( "jp8" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 static const mongroup_id GROUP_LAB( "GROUP_LAB" );
 static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
 static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
@@ -5748,53 +5747,6 @@ void map::draw_lab( mapgendata &dat )
                     }
                     break;
                 }
-                // radioactive accident.
-                case 6: {
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z() );
-                    if( has_flag_ter( ter_furn_flag::TFLAG_WALL, center.xy() ) ) {
-                        // just skip it, we don't want to risk embedding radiation out of sight.
-                        break;
-                    }
-                    draw_rough_circle( [this]( const point & p ) {
-                        set_radiation( p, 10 );
-                    }, center.xy(), rng( 7, 12 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 20 );
-                    }, center.xy(), rng( 5, 8 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 30 );
-                    }, center.xy(), rng( 2, 4 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 50 );
-                    }, center.xy(), 1 );
-                    draw_circle( [this]( const point & p ) {
-                        if( has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p ) ||
-                            has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p ) ||
-                            has_flag_ter( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
-                            return; // spare stairs and consoles.
-                        }
-                        make_rubble( {p, abs_sub.z() } );
-                        ter_set( p, t_thconc_floor );
-                    }, center.xy(), 1 );
-
-                    place_spawns( GROUP_HAZMATBOT, 1, center.xy() + point_west,
-                                  center.xy() + point_west, 1, true );
-                    place_spawns( GROUP_HAZMATBOT, 2, center.xy() + point_west,
-                                  center.xy() + point_west, 1, true );
-
-                    // damaged mininuke/plut thrown past edge of rubble so the player can see it.
-                    point marker( center.xy() + point( -2 + 4 * rng( 0, 1 ), rng( -2, 2 ) ) );
-                    if( one_in( 4 ) ) {
-                        spawn_item( marker,
-                                    "mininuke", 1, 1, calendar::turn_zero, rng( 2, 4 ) );
-                    } else {
-                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
-                        newliquid.charges = 1;
-                        add_item_or_charges( tripoint( marker, get_abs_sub().z() ),
-                                             newliquid );
-                    }
-                    break;
-                }
                 // portal with fungal invasion
                 case 7: {
                     for( int i = 0; i < EAST_EDGE; i++ ) {
@@ -5965,10 +5917,6 @@ void map::draw_lab( mapgendata &dat )
                             spawn_item( point( SEEX - 1, SEEY ), "recipe_atomic_battery" );
                             spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         } else if( loot_variant < 89 ) {
-                            spawn_item( point( SEEX - 1, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX - 1, SEEY ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX, SEEY ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX, SEEY ), "recipe_atomic_battery" );
                             spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         }  else { // loot_variant between 90 and 96.

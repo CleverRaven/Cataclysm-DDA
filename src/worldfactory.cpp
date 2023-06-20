@@ -352,9 +352,10 @@ void worldfactory::init()
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
         for( auto &world_sav_file : world_sav_files ) {
-            size_t save_index = world_sav_file.find( SAVE_EXTENSION );
-            world_sav_file = world_sav_file.substr( world_dir.size() + 1,
-                                                    save_index - ( world_dir.size() + 1 ) );
+            const size_t start_of_file = world_dir.size() + 1;
+            size_t save_index = world_sav_file.find( SAVE_EXTENSION, start_of_file );
+            world_sav_file = world_sav_file.substr( start_of_file,
+                                                    save_index - start_of_file );
         }
 
         // the directory name is the name of the world
