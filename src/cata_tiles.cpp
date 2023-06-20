@@ -1209,7 +1209,7 @@ struct tile_render_info {
     int draw_min_z = -OVERMAP_DEPTH;
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
                       const std::array<bool, 5> &inv, const int draw_min_z )
-    : pos( pos ), height_3d( height_3d ), ll( ll ), invisible( inv ), draw_min_z( draw_min_z ) {
+        : pos( pos ), height_3d( height_3d ), ll( ll ), invisible( inv ), draw_min_z( draw_min_z ) {
     }
 };
 
@@ -1358,8 +1358,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     creature_tracker &creatures = get_creature_tracker();
     std::map<int, std::vector<tile_render_info>> draw_points;
+    // Limit draw depth to vertical vision setting
+    // Disable multi z-level display on isometric tilesets until height_3d issues resolved
     const int max_draw_depth = is_isometric() ? 0 : fov_3d_z_range;
-    const int height_3d_mult = is_isometric() ? 10 : 0;
     for( int row = min_row; row < max_row; row ++ ) {
         draw_points[row].reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
@@ -1577,7 +1578,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             int height_3d = 0;
 
-            // Find lowest z-level to draw
+            // Determine lowest z-level to draw for 3D vision
             int draw_min_z;
             tripoint p_temp = pos;
             while( !here.dont_draw_lower_floor( p_temp ) && pos.z - p_temp.z < max_draw_depth ) {
@@ -1610,59 +1611,66 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     };
 
-    // Limit draw depth to vertical vision setting
-    // Disable multi z-level display on isometric tilesets until height_3d issues resolved
+    const int height_3d_mult = is_isometric() ? 10 : 0;
     if( max_draw_depth <= 0 ) {
         // Legacy draw mode
         for( int row = min_row; row < max_row; row ++ ) {
             for( auto f : drawing_layers_legacy ) {
-        for( tile_render_info &p : draw_points[row] ) {
-                ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
+                for( tile_render_info &p : draw_points[row] ) {
+                    ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
+                }
             }
         }
-    }
     } else {
         // Multi z-level draw mode
         // Start drawing from the bottom-most z-level
         int cur_zlevel = -OVERMAP_DEPTH;
         do {
             int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
+            // For each row
             for( int row = min_row; row < max_row; row ++ ) {
-                    for( auto f : drawing_layers ) {
-                for( tile_render_info &p : draw_points[row] ) {
-                	if( cur_zlevel < p.draw_min_z ) { continue; }
-                    tripoint draw_loc = p.pos;
-                    draw_loc.z = cur_zlevel;
+                // For each layer
+                for( auto f : drawing_layers ) {
+                    // For each tile
+                    for( tile_render_info &p : draw_points[row] ) {
+                        // Skip if z-level less than draw_min_z
+                        // Basically occlusion culling
+                        if( cur_zlevel < p.draw_min_z ) {
+                            continue;
+                        }
+                        tripoint draw_loc = p.pos;
+                        draw_loc.z = cur_zlevel;
+                        // Draw
                         ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible );
-                }
                     }
                 }
+            }
             cur_zlevel += 1;
         } while( cur_zlevel <= center.z );
     }
 
     // display number of monsters to spawn in mapgen preview
-for( int row = min_row; row < max_row; row ++ ) {
-    for( const tile_render_info &p : draw_points[row] ) {
-        const auto mon_override = monster_override.find( p.pos );
-        if( mon_override != monster_override.end() ) {
-            const int count = std::get<1>( mon_override->second );
-            const bool more = std::get<2>( mon_override->second );
-            if( count > 1 || more ) {
-                std::string text = "x" + std::to_string( count );
-                if( more ) {
-                    text += "+";
+    for( int row = min_row; row < max_row; row ++ ) {
+        for( const tile_render_info &p : draw_points[row] ) {
+            const auto mon_override = monster_override.find( p.pos );
+            if( mon_override != monster_override.end() ) {
+                const int count = std::get<1>( mon_override->second );
+                const bool more = std::get<2>( mon_override->second );
+                if( count > 1 || more ) {
+                    std::string text = "x" + std::to_string( count );
+                    if( more ) {
+                        text += "+";
+                    }
+                    overlay_strings.emplace( player_to_screen( p.pos.xy() ) + half_tile,
+                                             formatted_text( text, catacurses::red,
+                                                     direction::NORTH ) );
                 }
-                overlay_strings.emplace( player_to_screen( p.pos.xy() ) + half_tile,
-                                         formatted_text( text, catacurses::red,
-                                                 direction::NORTH ) );
+            }
+            if( !p.invisible[0] ) {
+                here.check_and_set_seen_cache( p.pos );
             }
         }
-        if( !p.invisible[0] ) {
-            here.check_and_set_seen_cache( p.pos );
-        }
     }
-}
     // tile overrides are already drawn in the previous code
     void_radiation_override();
     void_terrain_override();
