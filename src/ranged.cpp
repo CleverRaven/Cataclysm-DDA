@@ -2149,7 +2149,7 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
         return 0.0;
     }
     double skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
-    double dispersion_penalty = 3 * skill_shortfall;
+    double dispersion_penalty = 10 * skill_shortfall;
     double skill_threshold = 5;
     if( skill >= skill_threshold ) {
         double post_threshold_skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
@@ -2160,7 +2160,7 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
     double pre_threshold_skill_shortfall = skill_threshold - skill;
     dispersion_penalty += weapon_dispersion *
-                          ( 1.25 + pre_threshold_skill_shortfall * 3.75 / skill_threshold );
+                          ( 1.25 + pre_threshold_skill_shortfall * 10.0 / skill_threshold );
 
     return dispersion_penalty;
 }
