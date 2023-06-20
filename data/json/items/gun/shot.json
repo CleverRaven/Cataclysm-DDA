@@ -220,7 +220,14 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "durability": 9,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "shot": 6 },
+        "allowed_speedloaders": [ "shot_speedloader6", "shot_speedloader8" ]
+      }
+    ],
     "melee_damage": { "bash": 13 }
   },
   {
@@ -301,7 +308,14 @@
       [ "underbarrel mount", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "shot": 8 },
+        "allowed_speedloaders": [ "shot_speedloader6", "shot_speedloader8" ]
+      }
+    ],
     "melee_damage": { "bash": 12 }
   },
   {
