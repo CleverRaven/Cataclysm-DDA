@@ -2548,7 +2548,10 @@
     "environmental_protection": 4,
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ 
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "neoprene", "covered_by_mat": 25, "thickness": 1.0 }
+        ],
         "covers": [ "eyes" ],
         "rigid_layer_only": true,
         "coverage": 100,
@@ -2557,7 +2560,9 @@
       {
         "material": [
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1.1, "ignore_sheet_thickness": true },
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "aluminum", "covered_by_mat": 75, "thickness": 0.5 },
+          { "type": "neoprene", "covered_by_mat": 50, "thickness": 1.0 }
         ],
         "covers": [ "mouth" ],
         "rigid_layer_only": true,
