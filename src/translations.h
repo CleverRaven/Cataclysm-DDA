@@ -100,8 +100,10 @@ inline const char *npgettext( const char *const context, const char *const msgid
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wredundant-decls"
 [[deprecated( "Use _( ... ) instead" )]]
+//NOLINTNEXTLINE(readability-redundant-declaration,readability-inconsistent-declaration-parameter-name,cata-no-long)
 char *gettext( const char *msgid );
 [[deprecated( "Use n_gettext( ... ) instead" )]]
+//NOLINTNEXTLINE(readability-redundant-declaration,readability-inconsistent-declaration-parameter-name,cata-no-long)
 char *ngettext( const char *msgid, const char *msgid2, unsigned long int n );
 #pragma GCC diagnostic pop
 
