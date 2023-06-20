@@ -2556,7 +2556,7 @@
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1.1 },
           { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "mouth" ],
