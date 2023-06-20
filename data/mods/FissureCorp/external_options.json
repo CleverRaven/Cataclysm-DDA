@@ -1,0 +1,9 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CUSTOM_AVATAR_MELEE",
+    "info": "Sets if the player can melee attack directly, if disabled melee combat should still be handled with EOCs.",
+    "stype": "bool",
+    "value": true
+  }
+]

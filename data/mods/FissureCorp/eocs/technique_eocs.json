@@ -1,0 +1,14 @@
+[
+    {
+        "type": "effect_on_condition",
+        "id": "EOC_in_combat",
+        "effect": [ { "u_add_effect": "in_combat", "duration": "PERMANENT", "intensity": 1 } ]
+    },
+    {
+        "type": "effect_on_condition",
+        "id": "EOC_disengage",
+        "condition": { "math": [ "rng(0, 1)", ">", "0.5" ] },
+        "effect": [ { "u_lose_effect": "in_combat" }, { "u_message": "You escape!" } ],
+        "false_effect": [ {"u_message": "You can't escape!" } ]
+    }
+]

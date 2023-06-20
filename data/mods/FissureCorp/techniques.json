@@ -1,0 +1,75 @@
+[
+    {
+        "type": "technique",
+        "id": "disengage",
+        "name": "Disengage",
+        "melee_allowed": true,
+        "mult_bonuses": [
+          { "stat": "movecost", "scale": 0.5 }
+        ],
+        "messages": [ "You attempt to get out of melee.", "<npcname> attempts to get out of melee" ],
+        "description": "Try to back out of melee",
+        "attack_vectors": [ "WEAPON" ],
+        "eocs": [ "EOC_disengage" ]
+    },
+    {
+        "type": "technique",
+        "id": "hookdrag",
+        "name": "Hook and Drag",
+        "melee_allowed": true,
+        "mult_bonuses": [
+          { "stat": "movecost", "scale": 0.5 },
+          { "stat": "damage", "type": "bash", "scale": 0.66 },
+          { "stat": "damage", "type": "cut", "scale": 0.66 },
+          { "stat": "damage", "type": "stab", "scale": 0.66 }
+        ],
+        "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
+        "description": "50% moves, 66% damage",
+        "attack_vectors": [ "WEAPON" ]
+    },
+    {
+        "type": "technique",
+        "id": "shove",
+        "name": "Shove",
+        "melee_allowed": true,
+        "mult_bonuses": [
+          { "stat": "movecost", "scale": 0.5 },
+          { "stat": "damage", "type": "bash", "scale": 0.66 },
+          { "stat": "damage", "type": "cut", "scale": 0.66 },
+          { "stat": "damage", "type": "stab", "scale": 0.66 }
+        ],
+        "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
+        "description": "50% moves, 66% damage",
+        "attack_vectors": [ "WEAPON" ]
+    },
+    {
+        "type": "technique",
+        "id": "grab",
+        "name": "Grab",
+        "melee_allowed": true,
+        "mult_bonuses": [
+          { "stat": "movecost", "scale": 0.5 },
+          { "stat": "damage", "type": "bash", "scale": 0.66 },
+          { "stat": "damage", "type": "cut", "scale": 0.66 },
+          { "stat": "damage", "type": "stab", "scale": 0.66 }
+        ],
+        "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
+        "description": "50% moves, 66% damage",
+        "attack_vectors": [ "WEAPON" ]
+    },
+    {
+        "type": "technique",
+        "id": "kick",
+        "name": "Kick",
+        "melee_allowed": true,
+        "mult_bonuses": [
+          { "stat": "movecost", "scale": 0.5 },
+          { "stat": "damage", "type": "bash", "scale": 0.66 },
+          { "stat": "damage", "type": "cut", "scale": 0.66 },
+          { "stat": "damage", "type": "stab", "scale": 0.66 }
+        ],
+        "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
+        "description": "50% moves, 66% damage",
+        "attack_vectors": [ "WEAPON" ]
+    }
+]

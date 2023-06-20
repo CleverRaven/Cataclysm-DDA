@@ -1,0 +1,15 @@
+[
+  {
+    "type": "effect_type",
+    "id": "in_combat",
+    "name": [ "In Combat" ],
+    "desc": [
+      "You are in melee combat, every part of your being is focused on survival.  Moving without disengaging would be a death sentence."
+    ],
+    "apply_message": "You're in CQC!",
+    "rating": "mixed",
+    "max_intensity": 1,
+    "flags": [ "NO_MOVE" ],
+    "show_in_info": true
+  }
+]
