@@ -2548,7 +2548,7 @@
     "environmental_protection": 4,
     "armor": [
       {
-        "material": [ 
+        "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
           { "type": "neoprene", "covered_by_mat": 25, "thickness": 1.0 }
         ],
