@@ -6,19 +6,6 @@
 #include "item.h"
 #include "safe_reference.h"
 
-namespace
-{
-
-void _remove_if( std::list<item_reference> &active_items, const item *it )
-{
-    active_items.remove_if( [it]( const item_reference & active_item ) {
-        item *const target = active_item.item_ref.get();
-        return !target || target == it;
-    } );
-}
-
-} // namespace
-
 float item_reference::spoil_multiplier()
 {
     return std::accumulate(
@@ -26,28 +13,6 @@ float item_reference::spoil_multiplier()
     []( float a, item_pocket const * pk ) {
         return a * pk->spoil_multiplier();
     } );
-}
-
-void active_item_cache::remove( const item *it )
-{
-    for( item const *iter : it->all_items_ptr() ) {
-        _remove_if( active_items[iter->processing_speed()],
-                    iter );
-    }
-    _remove_if( active_items[it->processing_speed()], it );
-    if( it->can_revive() ) {
-        special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
-            item *const target = active_item.item_ref.get();
-            return !target || target == it;
-        } );
-    }
-    if( it->get_use( "explosion" ) ) {
-        special_items[ special_item_type::explosive ].remove_if( [it]( const item_reference &
-        active_item ) {
-            item *const target = active_item.item_ref.get();
-            return !target || target == it;
-        } );
-    }
 }
 
 bool active_item_cache::add( item &it, point location, item *parent,
