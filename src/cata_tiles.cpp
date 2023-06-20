@@ -1615,8 +1615,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     if( max_draw_depth <= 0 ) {
         // Legacy draw mode
         for( int row = min_row; row < max_row; row ++ ) {
-        for( tile_render_info &p : draw_points[row] ) {
             for( auto f : drawing_layers_legacy ) {
+        for( tile_render_info &p : draw_points[row] ) {
                 ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
             }
         }
