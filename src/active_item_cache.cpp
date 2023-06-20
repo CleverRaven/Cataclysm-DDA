@@ -71,6 +71,7 @@ bool active_item_cache::add( item &it, point location, item *parent,
     std::unordered_set<const item *> &target_index = active_items_index[speed];
     std::list<item_reference> &target_list = active_items[speed];
     if( target_index.empty() ) {
+        // If the index has been cleared, rebuild it first.
         for( item_reference &iter : target_list ) {
             target_index.emplace( iter.item_ref.get() );
         }
@@ -133,6 +134,7 @@ std::vector<item_reference> active_item_cache::get_for_processing()
                 ++it;
             } else {
                 // The item has been destroyed, so remove the reference from the cache
+                // Also invalidate the index
                 active_items_index[kv.first].clear();
                 it = kv.second.erase( it );
             }
