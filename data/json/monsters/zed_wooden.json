@@ -3,7 +3,7 @@
     "id": "mon_zombie_wood_0",
     "type": "MONSTER",
     "name": { "str": "wood zombie" },
-    "description": "This zombie has a hard tree bark-like substance pushing through the skin across it's body.",
+    "description": "This zombie has a hard tree bark-like substance pushing through the skin across its body.",
     "looks_like": "mon_zombie_soldier",
     "default_faction": "zombie",
     "bodytype": "human",
