@@ -65,15 +65,15 @@ bool active_item_cache::add( item &it, point location, item *parent,
     }
 
     int speed = it.processing_speed();
+    if( speed == item::NO_PROCESSING ) {
+        return ret;
+    }
     std::unordered_set<const item *> &target_index = active_items_index[speed];
     std::list<item_reference> &target_list = active_items[speed];
     if( target_index.empty() ) {
         for( item_reference &iter : target_list ) {
             target_index.emplace( iter.item_ref.get() );
         }
-    }
-    if( speed == item::NO_PROCESSING ) {
-        return ret;
     }
     // If the item is already in the cache for some reason, don't add a second reference
     if( target_index.find( &it ) != target_index.end() ) {
