@@ -619,7 +619,7 @@ bool can_butcher_at( const tripoint &p )
 {
     map_stack items = get_map().i_at( p );
     // Early exit when there's definitely nothing to butcher
-    if( items.size() == 0 ) {
+    if( items.empty() ) {
         return false;
     }
     Character &player_character = get_player_character();
