@@ -39,7 +39,7 @@
     "id": "mon_zombie_wood_1",
     "type": "MONSTER",
     "name": { "str": "wooden brute" },
-    "description": "This zombie's skin appears to be a thick layer of tree bark, oozing black goo from between the slabs.  It's forearms have grown large shields made of hard wood.",
+    "description": "This zombie's skin appears to be a thick layer of tree bark, oozing black goo from between the slabs.  Its forearms have grown large shields made of hard wood.",
     "looks_like": "mon_zombie_brute",
     "default_faction": "zombie",
     "bodytype": "human",
