@@ -97,7 +97,6 @@ class gunmod_location
 struct islot_tool {
     std::set<ammotype> ammo_id;
 
-    std::optional<itype_id> revert_to;
     translation revert_msg;
 
     itype_id subtype;
@@ -1172,7 +1171,7 @@ struct itype {
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
 
-        // What item this item repairs like if it doesn't have a recipe
+        // Rather than use its own materials to determine repair difficulty, the item uses this item's materials
         itype_id repairs_like;
 
         std::string snippet_category;
@@ -1285,8 +1284,14 @@ struct itype {
 
         phase_id phase = phase_id::SOLID; // e.g. solid, liquid, gas
 
-        /** Default countdown interval (if any) for item */
-        int countdown_interval = 0;
+        /** If positive starts countdown to countdown_action at item creation */
+        time_duration countdown_interval = 0_seconds;
+
+        /**
+        * If set the item will revert to this after countdown. If not set the item is deleted.
+        * Tools revert to this when they run out of charges
+        */
+        std::optional<itype_id> revert_to;
 
         /**
         * Space occupied by items of this type
@@ -1351,9 +1356,6 @@ struct itype {
 
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
-
-        /** Is item destroyed after the countdown action is run? */
-        bool countdown_destroy = false;
 
         // used for generic_factory for copy-from
         bool was_loaded = false;

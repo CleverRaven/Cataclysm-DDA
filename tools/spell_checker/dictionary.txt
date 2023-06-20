@@ -199,6 +199,8 @@ autosaves
 autoselect
 autoshotgun
 avellana
+aventail
+aventails
 avgas
 avians
 aving
@@ -390,6 +392,7 @@ bugout
 buildups
 builtin
 bulette
+bulkiness
 bullhead
 bullpup
 bumbles
@@ -815,6 +818,7 @@ drivetrain
 dromaeosaurid
 dromaeosaurus
 droppers
+drotik
 drowse
 druidic
 druidry
@@ -2314,6 +2318,8 @@ raggiana
 railguns
 raincatcher
 rainsuit
+raketa
+raketas
 randomize
 randomizes
 rangehands
@@ -2441,6 +2447,7 @@ rollmat
 roncone
 roofless
 rootlike
+ropers
 ropy
 rothe
 roun
@@ -2652,6 +2659,8 @@ spalling
 spasmically
 spasming
 spearcat
+spearfisher
+spearfishers
 spearhand
 spearmen
 speciesism
@@ -2849,6 +2858,7 @@ testbed
 tetradrachm
 tetrahedron
 th
+thaumaturgical 
 thawb
 themm
 therizinosaurus
@@ -2880,6 +2890,8 @@ tinamou
 tinning
 tiredly
 tireplate
+titani
+titanis
 titanochelon
 toecaps
 toggled
@@ -3126,6 +3138,7 @@ wabbits
 wacka
 wakizashi
 wakizashis
+walleri
 walleye
 wammles
 wanderin

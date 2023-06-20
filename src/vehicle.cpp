@@ -130,6 +130,8 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
     avatar &player_character = get_avatar();
+    const tripoint part_pos = veh.global_part_pos3( part );
+
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = player_character.activity;
     map &here = get_map();
@@ -144,7 +146,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
     // TODO: maybe do this for all the nearby NPCs as well?
     if( player_character.get_grab_type() == object_type::VEHICLE &&
-        player_character.pos() + player_character.grab_point == veh.global_part_pos3( part ) ) {
+        player_character.pos() + player_character.grab_point == part_pos ) {
         if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
             add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
             player_character.grab( object_type::NONE );
@@ -152,6 +154,8 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
 
     here.dirty_vehicle_list.insert( &veh );
+    here.clear_vehicle_point_from_cache( &veh, part_pos );
+    here.add_vehicle_to_cache( &veh );
 }
 
 // Vehicle stack methods.
@@ -204,6 +208,16 @@ vehicle::vehicle() : vehicle( get_map(), vproto_id() )
 }
 
 vehicle::~vehicle() = default;
+
+turret_cpu::~turret_cpu() = default;
+
+turret_cpu &turret_cpu::operator=( const turret_cpu & )
+{
+    brain.reset();
+    return *this;
+}
+
+turret_cpu::turret_cpu( const turret_cpu & ) {}
 
 safe_reference<vehicle> vehicle::get_safe_reference()
 {
@@ -3196,8 +3210,11 @@ void vehicle::set_submap_moved( const tripoint &p )
 
 units::mass vehicle::total_mass() const
 {
+    // local_center_of_mass() is more frequently called
+    // than rotated_center_of_mass().
+    // To improve performance, refresh mass_center_no_precalc.
     if( mass_dirty ) {
-        calc_mass_center( true );
+        calc_mass_center( false );
     }
 
     return mass_cache;
@@ -5240,16 +5257,21 @@ void vehicle::idle( bool on_map )
     power_parts();
     Character &player_character = get_player_character();
     if( engine_on && total_power() > 0_W ) {
-        int idle_rate = alternator_load;
-        if( idle_rate < 10 ) {
-            idle_rate = 10;    // minimum idle is 1% of full throttle
-        }
-        if( has_engine_type_not( fuel_type_muscle, true ) ) {
-            consume_fuel( idle_rate, true );
-        }
+        // Consume fuel at here only if the vehicle is not thrusting.
+        // See the condition under which vehicle::thrust() is called in vehicle::gain_moves().
+        if( !( ( player_in_control( player_character ) || is_following || is_patrolling ) &&
+               cruise_velocity != 0 ) ) {
+            int idle_rate = alternator_load;
+            if( idle_rate < 10 ) {
+                idle_rate = 10;    // minimum idle is 1% of full throttle
+            }
+            if( has_engine_type_not( fuel_type_muscle, true ) ) {
+                consume_fuel( idle_rate, true );
+            }
 
-        if( on_map ) {
-            noise_and_smoke( idle_rate, 1_turns );
+            if( on_map ) {
+                noise_and_smoke( idle_rate, 1_turns );
+            }
         }
     } else {
         if( engine_on &&
@@ -6031,7 +6053,7 @@ void vehicle::refresh( const bool remove_fakes )
             fake_parts.push_back( fake_index );
             relative_parts[ part_fake.mount ].push_back( fake_index );
             edges.emplace( real_mount, edge_info );
-            parts.push_back( part_fake );
+            parts.push_back( std::move( part_fake ) );
         }
     };
     // re-install fake parts - this could be done in a separate function, but we want to
@@ -7176,7 +7198,7 @@ time_duration vehicle::unfolding_time() const
 item vehicle::get_folded_item() const
 {
     item folded( "generic_folded_vehicle", calendar::turn );
-    const std::vector<vehicle_part> parts = real_parts();
+    const std::vector<std::reference_wrapper<const vehicle_part>> &parts = real_parts();
     try {
         std::ostringstream veh_data;
         JsonOut json( veh_data );
@@ -7709,14 +7731,14 @@ int vehicle::part_count_real_cached() const
     return static_cast<int>( parts.size() - fake_parts.size() );
 }
 
-std::vector<vehicle_part> vehicle::real_parts() const
+std::vector<std::reference_wrapper<const vehicle_part>> vehicle::real_parts() const
 {
-    std::vector<vehicle_part> ret;
+    std::vector<std::reference_wrapper<const vehicle_part>> ret;
     for( const vehicle_part &vp : parts ) {
         if( vp.removed || vp.is_fake ) {
             continue;
         }
-        ret.emplace_back( vp );
+        ret.emplace_back( std::ref( vp ) );
     }
     return ret;
 }

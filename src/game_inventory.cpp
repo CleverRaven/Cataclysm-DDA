@@ -1902,6 +1902,13 @@ class repair_inventory_preset: public inventory_selector_preset
                                          chance.first > 0 ? c_light_green : c_unset ) );
             },
             _( "DAMAGE CHANCE" ) );
+
+            append_cell( [actor, &you]( const item_location & loc ) {
+                const int difficulty = actor->repair_recipe_difficulty( *loc );
+                return colorize( string_format( "%d", difficulty ),
+                                 difficulty > you.get_skill_level( actor->used_skill ) ? c_red : c_unset );
+            },
+            _( "DIFFICULTY" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {

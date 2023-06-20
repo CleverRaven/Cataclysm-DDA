@@ -116,6 +116,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_chest",
+    "name": "Build Wooden Chest"
+  },
+  {
+    "type": "construction_group",
     "id": "build_chickenwire_fence",
     "name": "Build Chickenwire Fence"
   },
@@ -1366,6 +1371,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_standing_directed_floodlight",
+    "name": "Place Standing Directed Floodlight"
+  },
+  {
+    "type": "construction_group",
     "id": "place_ap_foot_locker_recharge_station",
     "name": "Place Recharging Station"
   },
@@ -1703,6 +1713,11 @@
     "type": "construction_group",
     "id": "build_chain_hoist",
     "name": "Build Chain & Tackle Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "clear_rubble",
+    "name": "Clear rubble"
   },
   {
     "type": "construction_group",

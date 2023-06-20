@@ -210,6 +210,8 @@ class talker
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
+        virtual void activate_mutation( const trait_id & ) {}
+        virtual void deactivate_mutation( const trait_id & ) {}
         virtual void set_fatigue( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;

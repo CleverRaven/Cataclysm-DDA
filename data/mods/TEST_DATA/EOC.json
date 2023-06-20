@@ -97,6 +97,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_mon_nearby_test",
+    "effect": [
+      { "math": [ "mons", "=", "u_monsters_nearby()" ] },
+      { "math": [ "zombs", "=", "u_monsters_nearby('mon_zombie')" ] },
+      { "set_string_var": "mon_zombie_tough", "target_var": { "context_val": "tough_id" } },
+      { "math": [ "zplust", "=", "u_monsters_nearby('mon_zombie', _tough_id)" ] },
+      { "math": [ "zplust_adj", "=", "u_monsters_nearby('mon_zombie', _tough_id, 'radius': 1)" ] },
+      { "u_location_variable": { "context_val": "smoker_loc" }, "x_adjust": 10 },
+      { "math": [ "smoks", "=", "u_monsters_nearby('mon_zombie_smoker', 'radius': 0, 'location': _smoker_loc)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_options_tests",
     "effect": [
       {
@@ -136,6 +149,24 @@
       { "math": [ "simple_global", "=", "_simple" ] },
       { "run_eocs": [ "EOC_math_test_nested_context" ] },
       { "math": [ "non_nested_simple_global", "=", "_nested_simple" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_activate_mutation_to_start_test",
+    "effect": [ { "u_activate_trait": "process_mutation" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_activate_mutation_test",
+    "effect": [ { "u_deactivate_trait": { "context_val": "this" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mark_mutation_test",
+    "effect": [
+      { "math": [ "test_val", "=", "1" ] },
+      { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "context_test" } }
     ]
   },
   {
@@ -233,6 +264,36 @@
     "id": "EOC_increment_var",
     "//": "tests adding a variable to the player",
     "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_increment_var_var",
+    "//": "tests adding a variable, that's in another variable",
+    "effect": [
+      { "set_string_var": "key1", "target_var": { "context_val": "testing" } },
+      { "math": [ "v_testing", "=", "5" ] },
+      { "math": [ "key2", "=", "key1 + v_testing" ] },
+      { "set_string_var": "u_key1", "target_var": { "context_val": "testing" } },
+      { "math": [ "v_testing", "=", "3" ] },
+      { "math": [ "global_u", "=", "u_key1 + v_testing" ] },
+      { "set_string_var": "_key1", "target_var": { "context_val": "testing" } },
+      { "math": [ "v_testing", "=", "2" ] },
+      { "math": [ "global_context", "=", "_key1 + v_testing" ] },
+      { "set_string_var": "v_key1", "target_var": { "context_val": "testing" } },
+      { "set_string_var": "_key2", "target_var": { "context_val": "key1" } },
+      { "math": [ "v_testing", "=", "1" ] },
+      { "math": [ "global_nested", "=", "_key2 + v_testing" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_string_var_var",
+    "//": "tests copying a variable, that's in another variable",
+    "effect": [
+      { "set_string_var": "key1", "target_var": { "context_val": "testing" } },
+      { "set_string_var": "Works", "target_var": { "global_val": "key1" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key2" } }
+    ]
   },
   {
     "type": "effect_on_condition",

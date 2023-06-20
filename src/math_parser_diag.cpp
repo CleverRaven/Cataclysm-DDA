@@ -10,6 +10,7 @@
 #include "dialogue.h"
 #include "game.h"
 #include "math_parser_shim.h"
+#include "mtype.h"
 #include "options.h"
 #include "string_input_popup.h"
 #include "units.h"
@@ -219,6 +220,63 @@ std::function<double( dialogue & )> attack_speed_eval( char scope,
     };
 }
 
+namespace
+{
+bool _filter_monster( Creature const &critter, std::vector<mtype_id> const &ids, int radius,
+                      tripoint_abs_ms const &loc )
+{
+    if( critter.is_monster() ) {
+        mtype_id const mid = critter.as_monster()->type->id;
+        bool const id_filter =
+        ids.empty() || std::any_of( ids.begin(), ids.end(), [&mid]( mtype_id const & id ) {
+            return id == mid;
+        } );
+        // friendly to the player, not a target for us
+        return id_filter && critter.as_monster()->friendly == 0 &&
+               radius >= rl_dist( critter.get_location(), loc );
+    }
+    return false;
+}
+
+} // namespace
+
+std::function<double( dialogue & )> monsters_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value radius_val( 1000.0 );
+    std::optional<var_info> loc_var;
+    if( kwargs.count( "radius" ) != 0 ) {
+        radius_val = *kwargs.at( "radius" );
+    }
+    if( kwargs.count( "location" ) != 0 ) {
+        loc_var = kwargs.at( "location" )->var();
+    } else if( scope == 'g' ) {
+        throw std::invalid_argument( string_format(
+                                         R"("monsters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
+    }
+
+    return [beta = is_beta( scope ), params, loc_var, radius_val]( dialogue & d ) {
+        tripoint_abs_ms loc;
+        if( loc_var.has_value() ) {
+            loc = get_tripoint_from_var( loc_var, d );
+        } else {
+            loc = d.actor( beta )->global_pos();
+        }
+
+        int const radius = static_cast<int>( radius_val.dbl( d ) );
+        std::vector<mtype_id> mids( params.size() );
+        std::transform( params.begin(), params.end(), mids.begin(), [&d]( diag_value const & val ) {
+            return mtype_id( val.str( d ) );
+        } );
+
+        std::vector<Creature *> const targets = g->get_creatures_if( [&mids, &radius,
+               &loc]( const Creature & critter ) {
+            return _filter_monster( critter, mids, radius, loc );
+        } );
+        return static_cast<double>( targets.size() );
+    };
+}
+
 std::function<double( dialogue & )> pain_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
 {
@@ -290,6 +348,11 @@ std::function<double( dialogue & )> weather_eval( char /* scope */,
     if( params[0] == "pressure" ) {
         return []( dialogue const & ) {
             return get_weather().weather_precise->pressure;
+        };
+    }
+    if( params[0] == "precipitation" ) {
+        return []( dialogue const & ) {
+            return precip_mm_per_hour( get_weather().weather_id->precip );
         };
     }
     throw std::invalid_argument( string_format( "Unknown weather aspect %s", params[0].str() ) );

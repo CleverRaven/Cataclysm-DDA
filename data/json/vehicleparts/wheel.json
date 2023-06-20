@@ -338,8 +338,8 @@
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 6 },
     "variants": [
-      { "id": "front", "label": "Front", "symbols": "|/-\\|/-\\", "symbols_broken": "x" },
-      { "id": "rear", "label": "Rear", "symbols": "|/-\\|/-\\", "symbols_broken": "x" }
+      { "id": "front", "label": "Front", "symbols": "|\\-/|\\-/", "symbols_broken": "x" },
+      { "id": "rear", "label": "Rear", "symbols": "|\\-/|\\-/", "symbols_broken": "x" }
     ]
   },
   {
