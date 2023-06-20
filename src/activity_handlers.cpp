@@ -2526,8 +2526,6 @@ void activity_handlers::heat_item_finish( player_activity *act, Character *you )
 
 void activity_handlers::mend_item_finish( player_activity *act, Character *you )
 {
-    time_duration final_time;
-
     act->set_to_null();
     if( act->targets.size() != 1 ) {
         debugmsg( "invalid arguments to ACT_MEND_ITEM" );
