@@ -39,6 +39,13 @@ struct hash<special_item_type> {
         return static_cast<size_t>( k );
     }
 };
+
+template<>
+struct hash<safe_reference<item>> {
+    std::size_t operator()( safe_reference<item > const &s ) const noexcept {
+        return hash<item * > {}( s.get() );
+    }
+};
 } // namespace std
 
 class active_item_cache
@@ -85,12 +92,6 @@ class active_item_cache
         void subtract_locations( const point &delta );
         void rotate_locations( int turns, const point &dim );
         void mirror( const point &dim, bool horizontally );
-};
-template<>
-struct std::hash<safe_reference<item>> {
-    std::size_t operator()( safe_reference<item > const &s ) const noexcept {
-        return std::hash<item * > {}( s.get() );
-    }
 };
 
 #endif // CATA_SRC_ACTIVE_ITEM_CACHE_H
