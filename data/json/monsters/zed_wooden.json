@@ -129,6 +129,7 @@
     ],
     "armor": { "bash": 35, "cut": 40, "bullet": 30, "electric": 8 }
   },
+  {
     "id": "mon_zombie_wood_death_drops",
     "type": "item_group",
     "subtype": "distribution",
