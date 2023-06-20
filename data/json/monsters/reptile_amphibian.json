@@ -409,7 +409,7 @@
     "hp": 200,
     "speed": 80,
     "symbol": "B",
-    "color": "brown"
+    "color": "brown",
     "aggression": 10,
     "morale": 100,
     "melee_skill": 5,
