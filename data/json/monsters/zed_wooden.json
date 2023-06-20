@@ -29,7 +29,7 @@
     "vision_night": 3,
     "harvest": "zombie_wood",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
-    "death_drops": "mon_zombie_wood_death_drops",
+    "death_drops": "default_zombie_clothes",
     "upgrades": { "half_life": 42, "into": "mon_zombie_wood_1" },
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
@@ -69,7 +69,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 16 } ] },
       { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
-    "death_drops": "mon_zombie_wood_death_drops",
+    "death_drops": "default_zombie_clothes",
     "upgrades": { "half_life": 42, "into": "mon_zombie_wood_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
@@ -133,8 +133,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "mon_zombie_hulk_death_drops", "prob": 80 },
-      { "group": "mon_zombie_soldier_death_drops", "prob": 10 }
+      { "group": "default_zombie_clothes", "prob": 80 },
+      { "group": "corpse_wooden_zombie", "prob": 70 }
     ]
   },
   {
