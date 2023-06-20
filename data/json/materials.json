@@ -2850,8 +2850,8 @@
     "name": "automotive steel"
   },
   {
-	  "type": "material",
-	  "id": "auto_steel_heavy",
-	  "name": "heavy duty automotive steel"
+    "type": "material",
+    "id": "auto_steel_heavy",
+    "name": "heavy duty automotive steel"
   }
 ]
