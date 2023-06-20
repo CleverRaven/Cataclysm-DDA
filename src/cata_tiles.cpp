@@ -1626,9 +1626,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // Start drawing from the bottom-most z-level
         int cur_zlevel = -OVERMAP_DEPTH;
         do {
-            int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
             // For each row
             for( int row = min_row; row < max_row; row ++ ) {
+            	// Set base height for each tile
+                for( tile_render_info &p : draw_points[row] ) {
+                	p.height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
+                }
                 // For each layer
                 for( auto f : drawing_layers ) {
                     // For each tile
@@ -1640,8 +1643,19 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         }
                         tripoint draw_loc = p.pos;
                         draw_loc.z = cur_zlevel;
-                        // Draw
-                        ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible );
+                        if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
+                        	int temp_height_3d = p.height_3d;
+                            // Reset height_3d to base when drawing vehicles
+                        	p.height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
+                            // Draw
+                        	if(!( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible )) {
+                        		// If no vpart drawn, revert height_3d changes
+                        		p.height_3d = temp_height_3d;
+                        	}
+                        } else {
+                            // Draw
+                            ( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible );
+                        }
                     }
                 }
             }
@@ -3524,10 +3538,11 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
                 you.memorize_decoration( here.getabs( p ), vd.get_tileset_id(), subtile, rotation );
             }
             if( !overridden ) {
-                int height_3d_temp = 0;
+                int height_3d_temp = height_3d;
                 const bool ret = draw_from_id_string( "vp_" + vd.id.str(), TILE_CATEGORY::VEHICLE_PART,
                                                       empty_string, p, subtile, rotation, ll,
                                                       nv_goggles_activated, height_3d_temp, 0, vd.variant.id );
+                // Do not increment height_3d for non-roof vparts
                 if( !roof ) {
                     height_3d = height_3d_temp;
                 }
@@ -3549,7 +3564,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             const std::string vpname = "vp_" + vp2.str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
-            int height_3d_temp = 0;
+            int height_3d_temp = height_3d;
             const bool ret =
                 draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
                                      rotation, lit_level::LIT, false, height_3d_temp );
@@ -3566,7 +3581,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const memorized_tile &t = get_vpart_memory_at( p );
         std::string_view tid = t.get_dec_id();
         if( !tid.empty() ) {
-            int height_3d_temp = 0;
+            int height_3d_temp = height_3d;
             std::string_view tvar;
             const size_t variant_separator = tid.find( vehicles::variant_separator );
             if( variant_separator != std::string::npos ) {
