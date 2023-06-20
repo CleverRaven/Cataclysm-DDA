@@ -13218,7 +13218,8 @@ bool item::process_blackpowder_fouling( Character *carrier )
 {
     // rust is deterministic. 6 hours for first rust, then 12 (18 total), then 18 (36 total) and finally 24 (60 hours to go to XX)
     // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level.
-    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + static_cast<int>( get_var( "dirt", 0 ) / 2000 ) );
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + static_cast<int>( get_var( "dirt",
+             0 ) / 2000 ) );
     if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 21600 * ( damage() + 1 ) ) {
         inc_damage();
         if( carrier ) {
