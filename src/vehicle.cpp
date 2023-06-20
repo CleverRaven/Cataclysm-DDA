@@ -258,8 +258,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
-                          bool may_spawn_locked )
+void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status )
 {
     // vehicle parts excluding engines in non-owned vehicles are by default turned off
     for( vehicle_part &pt : parts ) {
@@ -334,7 +333,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         }
     }
 
-    if( one_in( 3 ) && may_spawn_locked ) {
+    if( one_in( 3 ) ) {
         //33% chance for a locked vehicle
         has_no_key = true;
     }
@@ -996,6 +995,19 @@ bool vehicle::has_security_working() const
         }
     }
     return found_security;
+}
+
+void vehicle::unlock()
+{
+    is_locked = false;
+    for( vehicle_part &vp : parts ) {
+        if( vp.info().has_flag( "SECURITY" ) ) {
+            vp.enabled = false;
+        }
+        if( vp.is_engine() ) {
+            vp.base.faults.erase( fault_engine_immobiliser );
+        }
+    }
 }
 
 void vehicle::backfire( const vehicle_part &vp ) const

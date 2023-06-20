@@ -873,7 +873,7 @@ class vehicle
         std::map<vpart_reference, float> search_connected_batteries();
 
         // constructs a vehicle, if the given \p proto_id is an empty string the vehicle is
-        // constructed empty, invalid proto_id will return construct empty and raise debugmsg
+        // constructed empty, invalid proto_id will construct empty and raise a debugmsg,
         // if given \p proto_id is valid then parts are copied from the vproto's blueprint,
         // and prototype's fuel/ammo will be spawned in init_state / place_spawn_items
         explicit vehicle( const vproto_id &proto_id );
@@ -917,8 +917,8 @@ class vehicle
         // check if player controls this vehicle remotely
         bool remote_controlled( const Character &p ) const;
 
-        // init parts state for randomly generated vehicle
-        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status, bool may_spawn_locked );
+        // initializes parts and fuel state for randomly generated vehicle and calls refresh()
+        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status );
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
@@ -1907,6 +1907,8 @@ class vehicle
 
         //true if an alarm part is installed on the vehicle
         bool has_security_working() const;
+        // unlocks the vehicle, turns off SECURITY parts, clears engine immobilizer faults
+        void unlock();
         /**
          *  Opens everything that can be opened on the same tile as `p`
          */

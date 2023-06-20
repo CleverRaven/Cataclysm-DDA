@@ -6571,8 +6571,7 @@ void map::add_spawn(
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction,
-                           bool may_spawn_locked )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
@@ -6588,10 +6587,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
-    veh->init_state( *this, veh_fuel, veh_status, may_spawn_locked );
-    if( !faction.empty() ) {
-        veh->set_owner( faction_id( faction ) );
-    }
+    veh->init_state( *this, veh_fuel, veh_status );
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;

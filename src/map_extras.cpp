@@ -375,30 +375,26 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
     vproto_id crashed_hull = VehicleGroup_crashed_helicopters->pick();
 
-    // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
-    std::unique_ptr<vehicle> veh = std::make_unique<vehicle>( crashed_hull );
-    // TODO: Check that init_state doesn't touch map
-    veh->init_state( m, rng( 1, 33 ), 1, false );
-    veh->turn( dir1 );
+    tripoint wreckage_pos;
+    {
+        // veh should fall out of scope, don't actually use it, create the vehicle so
+        // we can rotate it and calculate its bounding box, but don't place it on the map.
+        vehicle veh( crashed_hull );
+        veh.turn( dir1 );
+        // Get the bounding box, centered on mount(0,0), move the wreckage forward/backward
+        // half it's length so that it spawns more over the center of the debris area
+        const bounding_box bbox = veh.get_bounding_box();
+        const point length( std::abs( bbox.p2.x - bbox.p1.x ), std::abs( bbox.p2.y - bbox.p1.y ) );
+        const point offset( veh.dir_vec().x * length.x / 2, veh.dir_vec().y * length.y / 2 );
+        const point min( std::abs( bbox.p1.x ), std::abs( bbox.p1.y ) );
+        const int x_max = SEEX * 2 - bbox.p2.x - 1;
+        const int y_max = SEEY * 2 - bbox.p2.y - 1;
 
-    // Get the bounding box, centered on mount(0,0)
-    bounding_box bbox = veh->get_bounding_box();
-    // Move the wreckage forward/backward half it's length so that it spawns more over the center of the debris area
-    point length( std::abs( bbox.p2.x - bbox.p1.x ), std::abs( bbox.p2.y - bbox.p1.y ) );
+        // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
+        wreckage_pos = { clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ), abs_sub.z };
+    }
 
-    // cont.
-    point offset( veh->dir_vec().x * length.x / 2, veh->dir_vec().y * length.y / 2 );
-
-    point min( std::abs( bbox.p1.x ) + 0, std::abs( bbox.p1.y ) + 0 );
-
-    int x_max = SEEX * 2 - bbox.p2.x - 1;
-    int y_max = SEEY * 2 - bbox.p2.y - 1;
-
-    // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
-    point p1( clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ) );
-
-    vehicle *wreckage = m.add_vehicle(
-                            crashed_hull, tripoint( p1, abs_sub.z ), dir1, rng( 1, 33 ), 1 );
+    vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );
 
     const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
         return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
