@@ -1562,6 +1562,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_MOVE",
+    "//": "for effects that block movement but need to be resolved some other way",
+    "type": "json_flag"
+  },
+  {
     "id": "NO_PACKED",
     "type": "json_flag"
   },

@@ -17,6 +17,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::avatar_enters_omt: return "avatar_enters_omt";
         case event_type::avatar_moves: return "avatar_moves";
         case event_type::avatar_dies: return "avatar_dies";
+        case event_type::avatar_attacks: return "avatar_attacks";
         case event_type::awakes_dark_wyrms: return "awakes_dark_wyrms";
         case event_type::becomes_wanted: return "becomes_wanted";
         case event_type::broken_bone: return "broken_bone";

@@ -213,6 +213,7 @@ extern const flag_id flag_NORMAL;
 extern const flag_id flag_NO_CVD;
 extern const flag_id flag_NO_DROP;
 extern const flag_id flag_NO_INGEST;
+extern const flag_id flag_NO_MOVE;
 extern const flag_id flag_NO_PACKED;
 extern const flag_id flag_NO_PARASITES;
 extern const flag_id flag_NO_RELOAD;

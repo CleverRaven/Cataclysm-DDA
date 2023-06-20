@@ -389,6 +389,14 @@ bool Character::move_effects( bool attacking )
     if( has_flag( json_flag_GRAB ) ) {
         return try_remove_grab( attacking );
     }
+
+    if( !attacking ) {
+        for( const effect &e : get_effects_with_flag( flag_NO_MOVE ) ) {
+            add_msg_if_player( m_bad, string_format( "%s%s", _( "You can't move while " ), e.disp_name() ) );
+            return false;
+        }
+    }
+
     return true;
 }
 

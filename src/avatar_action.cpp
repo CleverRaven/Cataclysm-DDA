@@ -23,6 +23,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
+#include "event_bus.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
@@ -362,7 +363,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                     return false;
                 }
             }
-            you.melee_attack( critter, true );
+
+            get_event_bus().send<event_type::avatar_attacks>( you.getID(), critter.get_location().raw() );
+
+            if( !get_option<bool>( "CUSTOM_AVATAR_MELEE" ) ) {
+                you.melee_attack( critter, true );
+            }
             if( critter.is_hallucination() ) {
                 critter.die( &you );
             }
@@ -390,7 +396,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
 
-        you.melee_attack( np, true );
+        get_event_bus().send<event_type::avatar_attacks>( you.getID(), np.get_location().raw() );
+        if( !get_option<bool>( "CUSTOM_AVATAR_MELEE" ) ) {
+            you.melee_attack( np, true );
+        }
         np.make_angry();
         return false;
     }
@@ -725,7 +734,10 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
 
-    you.reach_attack( best.pos() );
+    get_event_bus().send<event_type::avatar_attacks>( you.getID(), best.get_location().raw() );
+    if( !get_option<bool>( "CUSTOM_AVATAR_MELEE" ) ) {
+        you.reach_attack( best.pos() );
+    }
 }
 
 // TODO: Move data/functions related to targeting out of game class

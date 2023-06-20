@@ -30,6 +30,7 @@ enum class event_type : int {
     avatar_enters_omt,
     avatar_moves,
     avatar_dies,
+    avatar_attacks,
     awakes_dark_wyrms,
     becomes_wanted,
     broken_bone,
@@ -230,6 +231,15 @@ struct event_spec<event_type::avatar_moves> {
 
 template<>
 struct event_spec<event_type::avatar_dies> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::avatar_attacks> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "attacker", cata_variant_type::character_id },
+            { "victim_pos", cata_variant_type::tripoint }
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::awakes_dark_wyrms> : event_spec_empty {};
