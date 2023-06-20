@@ -1073,7 +1073,6 @@
       [ "bot_grenade_hack", 50 ],
       [ "bot_antimateriel", 5 ],
       [ "bot_manhack", 100 ],
-      [ "bot_mininuke_hack", 2 ],
       [ "bot_rifleturret", 10 ],
       [ "bot_crows_m240", 10 ],
       [ "bot_talon_m202a1", 10 ],

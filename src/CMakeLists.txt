@@ -105,6 +105,7 @@ if (TILES)
                 SDL2_mixer::SDL2_mixer
             )
         endif()
+        add_definitions(-DSDL_SOUND)
     endif ()
 
     if (WIN32)
