@@ -9,10 +9,8 @@
 namespace
 {
 
-void _remove_if( std::unordered_set<const item *> &active_index,
-                 std::list<item_reference> &active_items, const item *it )
+void _remove_if( std::list<item_reference> &active_items, const item *it )
 {
-    active_index.erase( it );
     active_items.remove_if( [it]( const item_reference & active_item ) {
         item *const target = active_item.item_ref.get();
         return !target || target == it;
@@ -33,10 +31,10 @@ float item_reference::spoil_multiplier()
 void active_item_cache::remove( const item *it )
 {
     for( item const *iter : it->all_items_ptr() ) {
-        _remove_if( active_items_index[iter->processing_speed()], active_items[iter->processing_speed()],
+        _remove_if( active_items[iter->processing_speed()],
                     iter );
     }
-    _remove_if( active_items_index[it->processing_speed()], active_items[it->processing_speed()], it );
+    _remove_if( active_items[it->processing_speed()], it );
     if( it->can_revive() ) {
         special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
             item *const target = active_item.item_ref.get();
@@ -68,16 +66,16 @@ bool active_item_cache::add( item &it, point location, item *parent,
     if( speed == item::NO_PROCESSING ) {
         return ret;
     }
-    std::unordered_set<const item *> &target_index = active_items_index[speed];
+    std::unordered_set<safe_reference<item>> &target_index = active_items_index[speed];
     std::list<item_reference> &target_list = active_items[speed];
     if( target_index.empty() ) {
         // If the index has been cleared, rebuild it first.
         for( item_reference &iter : target_list ) {
-            target_index.emplace( iter.item_ref.get() );
+            target_index.emplace( iter.item_ref );
         }
     }
     // If the item is already in the cache for some reason, don't add a second reference
-    if( target_index.find( &it ) != target_index.end() ) {
+    if( target_index.find( it.get_safe_reference() ) != target_index.end() ) {
         return true;
     }
     item_reference ref{ location, it.get_safe_reference(), parent, pocket_chain };
@@ -88,7 +86,7 @@ bool active_item_cache::add( item &it, point location, item *parent,
         special_items[special_item_type::explosive].emplace_back( ref );
     }
     target_list.emplace_back( std::move( ref ) );
-    target_index.emplace( &it );
+    target_index.emplace( it.get_safe_reference() );
     return true;
 }
 
