@@ -118,8 +118,6 @@ static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
-static const std::string flag_APPLIANCE( "APPLIANCE" );
-static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
 
 static bool finalized = false;
