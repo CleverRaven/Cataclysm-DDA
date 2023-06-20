@@ -1360,7 +1360,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     std::map<int, std::vector<tile_render_info>> draw_points;
     // Limit draw depth to vertical vision setting
     // Disable multi z-level display on isometric tilesets until height_3d issues resolved
-    const int max_draw_depth = is_isometric() ? 0 : fov_3d_z_range;
+    const int max_draw_depth = fov_3d_z_range;
     for( int row = min_row; row < max_row; row ++ ) {
         draw_points[row].reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
@@ -1611,7 +1611,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     };
 
-    //const int height_3d_mult = is_isometric() ? 10 : 0;
+    const int height_3d_mult = is_isometric() ? 10 : 0;
     if( max_draw_depth <= 0 ) {
         // Legacy draw mode
         for( int row = min_row; row < max_row; row ++ ) {
@@ -1626,7 +1626,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // Start drawing from the bottom-most z-level
         int cur_zlevel = -OVERMAP_DEPTH;
         do {
-            //int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
+            int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
             // For each row
             for( int row = min_row; row < max_row; row ++ ) {
                 // For each layer
@@ -1641,7 +1641,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         tripoint draw_loc = p.pos;
                         draw_loc.z = cur_zlevel;
                         // Draw
-                        ( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible );
+                        ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible );
                     }
                 }
             }
@@ -3804,9 +3804,6 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
 
 void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int &height_3d )
 {
-    if( is_isometric() ) {
-        return;
-    }
     // Draws zlevel fog using geometry renderer
     // Slower than sprites so only use as fallback when sprite missing
     const point screen = player_to_screen( p.xy() );
