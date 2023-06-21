@@ -1635,7 +1635,7 @@
     "name": { "str": "case hardened armored leather vest" },
     "description": "An armored vest made from thick leather and metal plates which have been case hardened for superb protection.",
     "price_postapoc": 2000,
-    "copy_from": "vest_leather_mod",
+    "copy-from": "vest_leather_mod",
     "material": [ "leather", "ch_steel" ],
     "looks_like": "vest_leather_mod",
     "armor": [
