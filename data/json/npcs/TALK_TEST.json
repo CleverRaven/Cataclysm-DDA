@@ -1009,7 +1009,8 @@
       { "text": "Item name is <item_name:test_rock>.", "topic": "TALK_DONE" },
       { "text": "Item description is <item_description:test_rock>", "topic": "TALK_DONE" },
       { "text": "Trait name is <trait_name:TEST_ENCH_MUTATION>.", "topic": "TALK_DONE" },
-      { "text": "Trait description is <trait_description:TEST_ENCH_MUTATION>", "topic": "TALK_DONE" }
+      { "text": "Trait description is <trait_description:TEST_ENCH_MUTATION>", "topic": "TALK_DONE" },
+      { "text": "Context tag is set to <context_val:test_var>.", "topic": "TALK_DONE" }
     ]
   },
   {

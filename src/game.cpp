@@ -1083,7 +1083,7 @@ vehicle *game::place_vehicle_nearby(
 {
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
-        vehicle veh( m, id );
+        const vehicle &veh = *id->blueprint;
         if( veh.max_ground_velocity() == 0 && veh.can_float() ) {
             search_types.emplace_back( "river" );
             search_types.emplace_back( "lake" );
@@ -1109,16 +1109,15 @@ vehicle *game::place_vehicle_nearby(
                     0_degrees, 90_degrees, 180_degrees, 270_degrees
                 }
             };
-            vehicle *veh = target_map.add_vehicle(
-                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false, "", false );
+            vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ),
+                                                   rng( 50, 80 ), 0, false );
             if( veh ) {
                 tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
                 veh->pos = abs_local.xy();
 
-                // Track the player's spawn vehicle.
-                veh->tracking_on = true;
-                overmap_buffer.add_vehicle( veh );
+                veh->unlock();          // always spawn unlocked
+                veh->toggle_tracking(); // always spawn tracked
 
                 target_map.save();
                 return veh;

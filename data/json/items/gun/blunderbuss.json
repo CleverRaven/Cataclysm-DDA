@@ -24,6 +24,7 @@
     "clip_size": 1,
     "//": "Similar reload process to a musket, which sources place at up to 4 / minute for elite professionals. Nominal 30s will be cut down to 15s at skill 10.",
     "reload": 3000,
+    "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "stock mount", 1 ],

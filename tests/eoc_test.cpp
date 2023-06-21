@@ -64,6 +64,8 @@ effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
+static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
+
 
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
@@ -124,6 +126,20 @@ TEST_CASE( "EOC_teleport", "[eoc]" )
     tripoint_abs_ms after = get_avatar().get_location();
 
     CHECK( before + tripoint_south_east == after );
+}
+
+TEST_CASE( "EOC_beta_elevate", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+    npc &n = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+
+    REQUIRE( n.hp_percentage() > 0 );
+
+    dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
+    effect_on_condition_EOC_try_kill->activate( newDialog );
+
+    CHECK( n.hp_percentage() == 0 );
 }
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
