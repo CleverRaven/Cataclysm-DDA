@@ -12160,7 +12160,8 @@ int item::processing_speed() const
     }
 
     if( active || ethereal || wetness || contents_linked ||
-        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ||
+        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -13216,8 +13217,13 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
 bool item::process_blackpowder_fouling( Character *carrier )
 {
-    if( damage() < max_damage() && one_in( 2000 ) ) {
+    // rust is deterministic. 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
+    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level.
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + static_cast<int>( get_var( "dirt",
+             0 ) / 2000 ) );
+    if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 43200.0 / ( damage() + 1 ) ) {
         inc_damage();
+        set_var( "rust_timer", 0 );
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
         }
