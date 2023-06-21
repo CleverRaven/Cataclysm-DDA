@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <list>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
 
 #include "point.h"
@@ -39,13 +38,6 @@ struct hash<special_item_type> {
         return static_cast<size_t>( k );
     }
 };
-
-template<>
-struct hash<safe_reference<item>> {
-    std::size_t operator()( safe_reference<item > const &s ) const noexcept {
-        return hash<item * > {}( s.get() );
-    }
-};
 } // namespace std
 
 class active_item_cache
@@ -53,9 +45,15 @@ class active_item_cache
     private:
         std::unordered_map<int, std::list<item_reference>> active_items;
         std::unordered_map<special_item_type, std::list<item_reference>> special_items;
-        std::unordered_map<int, std::unordered_set<safe_reference<item>>> active_items_index;
 
     public:
+        /**
+         * Removes the item if it is in the cache. Does nothing if the item is not in the cache.
+         * Relies on the fact that item::processing_speed() is a constant.
+         * Also removes any items that have been destroyed in the list containing it
+         */
+        void remove( const item *it );
+
         /**
          * Adds the reference to the cache. Does nothing if the reference is already in the cache.
          * Relies on the fact that item::processing_speed() is a constant.
