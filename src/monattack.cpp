@@ -488,7 +488,7 @@ bool mattack::eat_carrion( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //If it's a whole corpse, just nibble on it. TODO: Completely eaten corpses should leave bones and other inedibles.
-            if( item.has_flag( flag_CORPSE ) && z->amount_eaten < z->stomach_size ) {
+            if( item.has_flag( flag_CORPSE ) && z->amount_eaten < z->stomach_size && ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) || item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
                 item.mod_damage( 300 );
                 z->amount_eaten += 1;
                 add_msg_if_player_sees( *z, _( "The %1s gnaws on a corpse." ), z->name() );
