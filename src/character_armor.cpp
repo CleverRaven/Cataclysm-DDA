@@ -247,7 +247,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     }
 
     if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) ) {
-        armor.energy_consume( units::from_kilojoule( du.amount ) );
+        armor.energy_consume( units::from_kilojoule( du.amount ), pos(), this );
     }
 
     // reduce the damage
