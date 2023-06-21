@@ -10551,7 +10551,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     const units::energy wanted_energy = qty;
 
     // Consume battery(ammo) and other fuel (if allowed)
-    if( is_battery() ) {
+    if( is_battery() || fuel_efficiency >= 0 ) {
         int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
         qty -= units::from_kilojoule( consumed_kj );
     }
