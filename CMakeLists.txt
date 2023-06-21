@@ -172,6 +172,7 @@ else ()
     # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     if(USE_PREFIX_DATA_DIR)
         if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
+            set(CMAKE_INSTALL_DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda")
             add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
             configure_file(
                 "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
