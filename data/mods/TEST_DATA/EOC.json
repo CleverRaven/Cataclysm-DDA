@@ -88,6 +88,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_try_kill",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
+      { "run_eoc_with": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_kill",
+    "effect": [ "npc_die" ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_armor",
     "effect": [
       { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
