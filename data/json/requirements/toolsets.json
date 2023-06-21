@@ -63,16 +63,6 @@
     ]
   },
   {
-    "id": "gun_cleaning_bp_quick",
-    "type": "requirement",
-    "//": "Forestalling the rust but not eliminating it",
-    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
-    ]
-  },
-  {
     "id": "gun_lubrication",
     "type": "requirement",
     "//": "Gun Lubrication",
