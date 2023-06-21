@@ -428,7 +428,7 @@
           { "damage_type": "cut", "amount": 26, "armor_multiplier": 0.2 },
           { "damage_type": "bash", "amount": 14, "armor_multiplier": 0.2 }
         ],
-		"effects": [ { "id": "paralyzepoison", "duration": 20, "affect_hit_bp": true } ]
+        "effects": [ { "id": "paralyzepoison", "duration": 20, "affect_hit_bp": true } ]
       },
       { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 }
     ],
