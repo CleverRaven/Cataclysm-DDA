@@ -2809,8 +2809,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                         local_src_set.push_back( here.bub_from_abs( elem ) );
                     }
                     std::vector<tripoint_bub_ms> candidates;
-                    for( const tripoint_bub_ms &point_elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
-                            PICKUP_RANGE - 1 ) ) {
+                    for( const tripoint_bub_ms &point_elem :
+                         here.points_in_radius( src_loc, /*radius=*/PICKUP_RANGE - 1, /*radiusz=*/0 ) ) {
                         // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
                         if( !you.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
                                                          point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
