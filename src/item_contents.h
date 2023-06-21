@@ -275,6 +275,7 @@ class item_contents
         void clear_items();
         // clears all items from magazine type pockets
         void clear_magazines();
+        void clear_pockets_if( const std::function<bool( item_pocket const & )> &filter );
         void update_open_pockets();
 
         /**

@@ -1354,6 +1354,15 @@ void item_contents::clear_magazines()
     }
 }
 
+void item_contents::clear_pockets_if( const std::function<bool( item_pocket const & )> &filter )
+{
+    for( item_pocket &pocket : contents ) {
+        if( filter( pocket ) ) {
+            pocket.clear_items();
+        }
+    }
+}
+
 void item_contents::update_open_pockets()
 {
     for( item_pocket &pocket : contents ) {
