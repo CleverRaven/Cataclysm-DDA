@@ -107,7 +107,7 @@
 | --- | ---|
 | Placeholder text, maybe one or two paragraphs |  |
 | Faction Goals |  |
-| Development Goals | |
+| Development Goals | Tears in reality to have environmental seepage that matches whatever monsters are around the portal.  JSONified tears in reality.  Portals that take the player into pocket dimensions with alternative environments and physics.|
 
 ### Nether Questions
 
