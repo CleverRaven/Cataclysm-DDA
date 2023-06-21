@@ -29,9 +29,6 @@ void foo()
 
     n_gettext( /*~ foo */ ( "bar" ), _( "baz" ), 0 );
 
-    //~ bar
-    gettext( "bar" );
-
     //~bar
     n_gettext( "bar", "baz", 1 );
 
