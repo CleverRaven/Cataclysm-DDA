@@ -219,13 +219,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "magazine_well": "236 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "hpt3895mag_10rd" ]
-      }
-    ],
+    "pocket_data": [ { "magazine_well": "236 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hpt3895mag_10rd" ] } ],
     "melee_damage": { "bash": 10 }
   }
 ]
