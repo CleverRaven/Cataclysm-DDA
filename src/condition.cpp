@@ -1523,6 +1523,7 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
 
         return [ma]( const dialogue & d ) {
             return matec_id( ma.evaluate( d ) )->name.translated();
+        };
     } else if( jo.get_string( "mutator" ) == "loc_relative_u" ) {
         str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
         return [target]( const dialogue & d ) {
