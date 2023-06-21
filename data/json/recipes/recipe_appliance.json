@@ -77,13 +77,13 @@
     "skills_required": [ [ "fabrication", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_appliance_repair" } ],
     "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level", 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "steel_chunk", 1 ] ],
-      [ [ "scrap_metal", 3 ] ]
+      [ [ "scrap", 3 ] ]
     ]
   },
   {
