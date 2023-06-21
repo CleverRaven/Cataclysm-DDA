@@ -489,8 +489,8 @@
     "ammo": 100,
     "entries": [
       { "item": "hpt3895", "charges-min": 0, "charges-max": 10 },
-      { "item": "hpthpt3895mag_10rd" },
-      { "item": "hpthpt3895mag_10rd", "prob": 50 },
+      { "item": "hpt3895mag_10rd" },
+      { "item": "hpt3895mag_10rd", "prob": 50 },
       { "group": "on_hand_380" }
     ]
   },
