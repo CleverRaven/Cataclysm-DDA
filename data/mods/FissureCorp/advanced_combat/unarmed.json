@@ -1,0 +1,71 @@
+[
+  {
+    "type": "technique",
+    "id": "tec_unarmed_jab",
+    "name": "Jab",
+    "messages": [ "You quickly jab %s", "<npcname> quickly jabs at %s" ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ],
+    "eocs": [ "EOC_close" ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_unarmed_spacing",
+    "name": "Spacing",
+    "messages": [
+      "You back away from the %s with your arm raised, controlling the space",
+      "<npcname> backs away from the %s with their arm raised, controlling the space"
+    ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.0 },
+      { "stat": "damage", "type": "cut", "scale": 0.0 },
+      { "stat": "damage", "type": "stab", "scale": 0.0 }
+    ],
+    "condition": { "npc_has_effect": "close" },
+    "condition_desc": "* Only works if close",
+    "eocs": [ "EOC_far", "EOC_readied" ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_unarmed_haymaker",
+    "name": "Haymaker",
+    "messages": [ "You rush forward and smash the %s hard", "<npcname> rushes forward and smashes the %s hard" ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.2 },
+      { "stat": "damage", "type": "bash", "scale": 3 },
+      { "stat": "damage", "type": "cut", "scale": 3 },
+      { "stat": "damage", "type": "stab", "scale": 3 }
+    ],
+    "eocs": [ "EOC_medium", "EOC_hard_hit" ],
+    "condition": { "npc_has_effect": "far" },
+    "condition_desc": "* Only works if far",
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_unarmed_grapple",
+    "name": "Grapple",
+    "messages": [ "You grab the %s", "<npcname> grabs the %s" ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.2 },
+      { "stat": "damage", "type": "bash", "scale": 0.1 },
+      { "stat": "damage", "type": "cut", "scale": 0.1 },
+      { "stat": "damage", "type": "stab", "scale": 0.1 }
+    ],
+    "eocs": [ "EOC_medium", "EOC_hard_hit" ],
+    "condition": { "npc_has_effect": "far" },
+    "condition_desc": "* Only works if far",
+    "attack_vectors": [ "HAND" ]
+  }
+]

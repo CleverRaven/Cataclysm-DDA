@@ -10,5 +10,30 @@
         "condition": { "math": [ "rng(0, 1)", ">", "0.5" ] },
         "effect": [ { "u_lose_effect": "in_combat" }, { "u_message": "You escape!" } ],
         "false_effect": [ {"u_message": "You can't escape!" } ]
+    },
+    {
+        "type": "effect_on_condition",
+        "id": "EOC_close",
+        "effect": [ { "npc_lose_effect": "far" }, { "npc_add_effect": "close", "duration": "PERMANENT", "intensity": 1 }  ]
+    },
+    {
+        "type": "effect_on_condition",
+        "id": "EOC_readied",
+        "effect": [ { "u_add_effect": "readied", "duration": "1 second", "intensity": 1 } ]
+    },
+    {
+        "type": "effect_on_condition",
+        "id": "EOC_far",
+        "effect": [ { "npc_lose_effect": "close" }, { "npc_add_effect": "far", "duration": "PERMANENT", "intensity": 1 } ]
+    },
+    {
+        "type": "effect_on_condition",
+        "id": "EOC_medium",
+        "effect": [ { "npc_lose_effect": "close" }, { "npc_lose_effect": "far" } ]
+    },
+    {
+        "type": "effect_on_condition",
+        "id": "EOC_hard_hit",
+        "effect": [ { "npc_add_effect": "stunned", "duration": "1 second", "intensity": 1 } ]
     }
 ]

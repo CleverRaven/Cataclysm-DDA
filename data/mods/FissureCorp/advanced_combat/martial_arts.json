@@ -1,0 +1,17 @@
+[
+  {
+    "type": "martial_art",
+    "id": "advanced_combat",
+    "name": { "str": "Basic CQC" },
+    "description": ".",
+    "initiate": [ "You ready yourself for battle.", "%s knows space CQC." ],
+    "arm_block": 1,
+    "leg_block": 99,
+    "allow_all_weapons": true,
+    "techniques": [
+        "tec_unarmed_jab",
+        "tec_unarmed_spacing",
+        "tec_unarmed_haymaker"
+    ]
+  }
+]

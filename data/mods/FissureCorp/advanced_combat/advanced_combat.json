@@ -1,0 +1,56 @@
+[
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_ma_select",
+      "condition": "npc_is_alive",
+      "effect": [
+        { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "context_val": "m1" } },
+        {
+          "set_string_var": { "mutator": "valid_technique", "blacklist": [ { "context_val": "m1" } ] },
+          "target_var": { "context_val": "m2" }
+        },
+        {
+          "set_string_var": { "mutator": "valid_technique", "blacklist": [ { "context_val": "m1" }, { "context_val": "m2" } ] },
+          "target_var": { "context_val": "m3" }
+        },
+        {
+          "run_eoc_selector": [ "EOC_attack", "EOC_attack", "EOC_attack", "EOC_attack" ],
+          "names": [
+            { "mutator": "ma_technique_name", "matec_id": { "context_val": "m1" } },
+            { "mutator": "ma_technique_name", "matec_id": { "context_val": "m2" } },
+            { "mutator": "ma_technique_name", "matec_id": { "context_val": "m3" } },
+            { "mutator": "ma_technique_name", "matec_id": "disengage" }
+          ],
+          "keys": [ "1", "2", "3", "4" ],
+          "descriptions": [
+            { "mutator": "ma_technique_description", "matec_id": { "context_val": "m1" } },
+            { "mutator": "ma_technique_description", "matec_id": { "context_val": "m2" } },
+            { "mutator": "ma_technique_description", "matec_id": { "context_val": "m3" } },
+            { "mutator": "ma_technique_description", "matec_id": "disengage" }
+          ],
+          "variables": [
+            { "ma_tech": { "context_val": "m1" } },
+            { "ma_tech": { "context_val": "m2" } },
+            { "ma_tech": { "context_val": "m3" } },
+            { "ma_tech": "disengage" }
+          ]
+        }
+      ],
+      "false_effect": [
+        { "u_lose_effect": "in_combat" }, { "u_message": "You are no longer in combat." }
+      ]
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_handle_attacking",
+      "eoc_type": "EVENT",
+      "required_event": "avatar_attacks",
+      "effect": [ { "run_eoc_with": "EOC_ma_select", "beta_loc": { "context_val": "victim_pos" } } ]
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_attack",
+      "effect": [ { "run_eocs": "EOC_in_combat" }, { "u_attack": { "context_val": "ma_tech" } } ]
+    }
+  ]
+  

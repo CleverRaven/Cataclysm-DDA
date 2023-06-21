@@ -11,5 +11,53 @@
     "max_intensity": 1,
     "flags": [ "NO_MOVE" ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "close",
+    "name": [ "Close" ],
+    "desc": [
+      "They are close to you!"
+    ],
+    "apply_message": "Enemy is close!",
+    "rating": "mixed",
+    "max_intensity": 1,
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "far",
+    "name": [ "Far" ],
+    "desc": [
+      "They are far from you!"
+    ],
+    "apply_message": "Enemy is far away!",
+    "rating": "mixed",
+    "max_intensity": 1,
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "readied",
+    "name": [ "Readied" ],
+    "desc": [
+      "You are ready."
+    ],
+    "apply_message": "You ready yourself to do something big!",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "grappling",
+    "name": [ "Grappling" ],
+    "desc": [
+      "You are grappling an enemy."
+    ],
+    "apply_message": "You lock limbs with an enemy.",
+    "rating": "mixed",
+    "max_intensity": 1,
+    "show_in_info": true
   }
 ]

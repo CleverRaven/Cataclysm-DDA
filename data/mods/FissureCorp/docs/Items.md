@@ -10,7 +10,7 @@ Terrible mil surplus that shouldn't be good. Shouldn't be stuff you want to keep
 * Combat Knife
 * Baton / mace
 * Large Sword
-* Large Hammer
+* Large Hammer / Axe(?)
 * Machete
 
 ### Guns
