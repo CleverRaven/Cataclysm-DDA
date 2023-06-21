@@ -281,7 +281,7 @@
     "type": "MONSTER",
     "copy-from": "mon_duck",
     "name": { "str": "goose", "str_pl": "geese" },
-    "description": "A Canadian goose, a common waterfowl that regrets leaving Canada.",
+    "description": "A Canada goose; a common waterfowl that regrets leaving Canada.",
     "volume": "5 L",
     "weight": "3750 g",
     "hp": 15,
