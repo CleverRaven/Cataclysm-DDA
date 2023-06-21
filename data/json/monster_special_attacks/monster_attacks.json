@@ -668,5 +668,20 @@
     "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor.",
     "dodgeable": true,
     "blockable": true
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "dermatik_impale",
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+    "effects": [ { "id": "effect_dermatik", "duration": [ 3600 ] } ],
+    "cooldown": 25,
+    "move_cost": 300,
+    "hit_dmg_u": "The %1$s sinks its ovipositor into your %2$s!",
+    "hit_dmg_npc": "The %1$s sinks its ovipositor into <npcname>'s %2$s!",
+    "miss_msg_u": "The %s tries to land on you, but you dodge!",
+    "miss_msg_npc": "The %1$s tries to land on <npcname>, but they dodge!",
+    "no_dmg_msg_u": "The %1$s lands on your %2$s, but can't penetrate your armor!",
+    "no_dmg_msg_npc": "The %1$s lands on your <npcname>'s %2$s, but can't penetrate your armor!"
   }
 ]
