@@ -3234,7 +3234,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                 //get field intensity
                 int intensity = fd_pr.second.get_field_intensity();
-                int nullint = 0;
 
                 bool has_drawn = false;
 
@@ -3262,7 +3261,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                             // if we have found info on the item go through and draw its stuff
                             ret_draw_field = draw_from_id_string( sprite_to_draw, TILE_CATEGORY::FIELD, empty_string, p,
-                                                                  subtile, rotation, lit, nv, nullint, intensity, "", layer_var.offset );
+                                                                  subtile, rotation, lit, nv, height_3d, intensity, "", layer_var.offset );
                             has_drawn = true;
                             break;
                         }
@@ -3290,7 +3289,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                                 // if we have found info on the item go through and draw its stuff
                                 ret_draw_field = draw_from_id_string( sprite_to_draw, TILE_CATEGORY::FIELD, empty_string, p,
-                                                                      subtile, rotation, lit, nv, nullint, intensity, "", layer_var.offset );
+                                                                      subtile, rotation, lit, nv, height_3d, intensity, "", layer_var.offset );
                                 has_drawn = true;
                                 break;
                             }
@@ -3301,7 +3300,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 // draw the default sprite
                 if( !has_drawn ) {
                     ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
-                                                          p, subtile, rotation, lit, nv, nullint, intensity );
+                                                          p, subtile, rotation, lit, nv, height_3d, intensity );
                 }
 
             }
@@ -3332,9 +3331,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
             //get field intensity
             int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity();
-            int nullint = 0;
             ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
-                                                  p, subtile, rotation, lit, nv, nullint, intensity );
+                                                  p, subtile, rotation, lit, nv, height_3d, intensity );
         }
     }
 
@@ -3802,7 +3800,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
 }
 
 bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_level /*ll*/,
-        int &/*height_3d*/, const std::array<bool, 5> &invisible )
+        int &height_3d, const std::array<bool, 5> &invisible )
 {
     map &here = get_map();
     if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
@@ -3811,7 +3809,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
         for( item &i : here.i_at( pos ) ) {
             if( i.can_revive() ) {
                 return draw_from_id_string( ZOMBIE_REVIVAL_INDICATOR, TILE_CATEGORY::NONE,
-                                            empty_string, pos, 0, 0, lit_level::LIT, false );
+                                            empty_string, pos, 0, 0, lit_level::LIT, false, height_3d );
             }
         }
     }
