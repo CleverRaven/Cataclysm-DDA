@@ -1486,10 +1486,9 @@ void vehicles::finalize_prototypes()
         vehicle_prototype &proto = const_cast<vehicle_prototype &>( const_proto );
         std::unordered_set<point> cargo_spots;
 
-        // Calls the default constructor to create an empty vehicle. Calling the constructor with
-        // the type as parameter would make it look up the type in the map and copy the
-        // (non-existing) blueprint.
-        proto.blueprint = make_shared_fast<vehicle>();
+        // Calling the constructor with empty vproto_id as parameter
+        // makes constructor bypass copying the (non-existing) blueprint.
+        proto.blueprint = make_shared_fast<vehicle>( vproto_id() );
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = proto.id;
         blueprint.name = proto.name.translated();
