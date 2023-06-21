@@ -5190,6 +5190,7 @@ bool mattack::tindalos_teleport( monster *z )
                                         1 ) ) {
             z->moves -= 140;
             afterimage->make_ally( *z );
+            afterimage->nickname = z->nickname;
             add_msg_if_player_sees( *z, m_warning,
                                     _( "The hound's movements chaotically rewind as a living afterimage splits from it!" ) );
         }

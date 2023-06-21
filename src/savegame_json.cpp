@@ -3569,6 +3569,7 @@ void vehicle::deserialize( const JsonObject &data )
 void vehicle::deserialize_parts( const JsonArray &data )
 {
     parts.clear();
+    parts.reserve( data.size() );
     for( const JsonValue jv : data ) {
         try {
             vehicle_part part;
@@ -5156,10 +5157,10 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
     } else if( member_name == "vehicles" ) {
         JsonArray vehicles_json = jv;
         for( JsonValue vehicle_json : vehicles_json ) {
-            std::unique_ptr<vehicle> tmp = std::make_unique<vehicle>();
             try {
-                tmp->deserialize( vehicle_json );
-                vehicles.push_back( std::move( tmp ) );
+                std::unique_ptr<vehicle> veh = std::make_unique<vehicle>( vproto_id() );
+                veh->deserialize( vehicle_json );
+                vehicles.emplace_back( std::move( veh ) );
             } catch( const JsonError &err ) {
                 debugmsg( err.what() );
             }

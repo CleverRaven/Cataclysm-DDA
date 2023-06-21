@@ -586,6 +586,10 @@
     "type": "json_flag"
   },
   {
+    "id": "WALL_MOUNTED",
+    "type": "json_flag"
+  },
+  {
     "id": "WASHING_MACHINE",
     "type": "json_flag"
   },
@@ -615,6 +619,10 @@
   },
   {
     "id": "WINDSHIELD",
+    "type": "json_flag"
+  },
+  {
+    "id": "WIRING",
     "type": "json_flag"
   }
 ]
