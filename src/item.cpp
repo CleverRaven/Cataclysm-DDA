@@ -10554,6 +10554,10 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     if( is_battery() || fuel_efficiency >= 0 ) {
         int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
         qty -= units::from_kilojoule( consumed_kj );
+        // fix negative quantity
+        if( qty < 0_J ) {
+            qty = 0_J;
+        }
     }
 
     // Consume energy from contained magazine
