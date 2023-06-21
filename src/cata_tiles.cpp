@@ -3840,7 +3840,8 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
         fog_color = curses_color_to_SDL( c_dark_gray );
     }
     // Setting for fog transparency
-    fog_color.a = 100;
+    // On isometric tilesets, fog intensity scales with zlevel_height in tile_config.json
+    fog_color.a = is_isometric() ? 50 + zlevel_height / 2 : 100;
 
     // Change blend mode for transparency to work
     // Disable after to avoid visual bugs
