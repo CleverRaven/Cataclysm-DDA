@@ -26,9 +26,9 @@ static std::vector<const vpart_info *> all_turret_types()
 {
     std::vector<const vpart_info *> res;
 
-    for( const auto &e : vpart_info::all() ) {
-        if( e.second.has_flag( "TURRET" ) ) {
-            res.push_back( &e.second );
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( vpi.has_flag( "TURRET" ) ) {
+            res.push_back( &vpi );
         }
     }
 

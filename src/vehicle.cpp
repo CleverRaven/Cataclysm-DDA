@@ -1221,7 +1221,7 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
             continue;
         }
         std::set<std::string> possible_parts;
-        for( const auto&[id, vpi_option] : vpart_info::all() ) {
+        for( const vpart_info &vpi_option : vehicles::parts::get_all() ) {
             if( vpi_option.has_flag( required_flag ) &&
                 !vpi_option.has_flag( "NO_INSTALL_PLAYER" ) &&
                 !vpi_option.has_flag( "NO_INSTALL_HIDDEN" ) ) {

@@ -960,15 +960,6 @@ const std::vector<vpart_info> &vehicles::parts::get_all()
     return vpart_info_factory.get_all();
 }
 
-const std::map<vpart_id, vpart_info> &vpart_info::all()
-{
-    static std::map<vpart_id, vpart_info> temp;
-    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-        temp.emplace( vpi.id, vpi );
-    }
-    return temp;
-}
-
 std::string vpart_info::name() const
 {
     std::string res = name_.translated();

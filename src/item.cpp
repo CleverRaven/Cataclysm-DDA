@@ -5694,9 +5694,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const itype_id tid = typeId();
         std::vector<vpart_info> vparts;
 
-        for( const std::pair<const vpart_id, vpart_info> &vp : vpart_info::all() ) {
-            if( vp.second.base_item == tid ) {
-                vparts.push_back( vp.second );
+        for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+            if( vpi.base_item == tid ) {
+                vparts.push_back( vpi );
             }
         }
 

@@ -2248,7 +2248,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     can_mount.clear();
     if( !obstruct ) {
         std::vector<const vpart_info *> req_missing;
-        for( const auto &[id, vpi] : vpart_info::all() ) {
+        for( const vpart_info &vpi : vehicles::parts::get_all() ) {
             if( has_critter && vpi.has_flag( VPFLAG_OBSTACLE ) ) {
                 continue;
             }

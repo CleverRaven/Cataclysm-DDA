@@ -45,10 +45,9 @@ static const int win_width = 60;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id )
 {
-    for( const std::pair<const vpart_id, vpart_info> &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( vp.base_item == item_id && vp.has_flag( flag_APPLIANCE ) ) {
-            return vp.get_id();
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( vpi.base_item == item_id && vpi.has_flag( flag_APPLIANCE ) ) {
+            return vpi.id;
         }
     }
     debugmsg( "item %s is not base item of any appliance!", item_id.c_str() );
