@@ -167,7 +167,7 @@
     "replace": "UPS_ON",
     "flags": [ "IS_UPS" ]
   },
-    {
+  {
     "id": "rebreather_filter",
     "type": "MIGRATION",
     "replace": "rebreather_filler_soda_lime"
