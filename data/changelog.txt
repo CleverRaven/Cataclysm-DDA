@@ -29,6 +29,7 @@ Allow NPCs to read E-books - new activity added
 Allow mutation transformation using the normal mutation rules
 Implement setting direction for appliances and add a directed floodlight appliance
 Asynchronous animations including sprinting and smashing
+Added enable and disable mutation EOCs
 
 
 ## Content:
@@ -156,8 +157,7 @@ Difficulty 0 recipes are no longer arbitrarily difficult
 Make EOC u_sell_item() actually transfers the items' ownership
 Improving NPC shooting frequency
 Enable death effects on limited lifespan monsters
-Fix creatures drawn above tall sprites
-make Hub01 globally unique
+Make Hub01 globally unique
 Charge integrated magazines when plugged in
 
 
@@ -177,7 +177,6 @@ Migrate some JSON APIs to string_view
 Add units::temperature_delta
 Upgrade clang-tidy used in CI to LLVM 16
 Allow C++ standard includes in clang-tidy tests
-Added enable and disable mutation EOCs
 Refactor timer items to be a bit more time based
 
 
