@@ -166,7 +166,7 @@ static void eff_fun_antifungal( Character &u, effect & )
 }
 static void eff_fun_fake_common_cold( Character &u, effect & )
 {
-    if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) ) {
+    if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) && one_in( 2 ) ) {
         u.cough( true );
     }
 
@@ -177,7 +177,7 @@ static void eff_fun_fake_common_cold( Character &u, effect & )
 }
 static void eff_fun_fake_flu( Character &u, effect & )
 {
-    if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) ) {
+    if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) && one_in( 2 ) ) {
         u.cough( true );
     }
 
