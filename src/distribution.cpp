@@ -1,6 +1,7 @@
 #include "distribution.h"
 
 #include <random>
+#include <climits>
 
 #include "json.h"
 #include "rng.h"
