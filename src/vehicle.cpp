@@ -1818,8 +1818,10 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     const tripoint part_loc = global_part_pos3( vp );
 
     if( !handler.get_map_ref().inbounds( part_loc ) ) {
-        debugmsg( "Removing out of bounds vehicle part at %s from vehicle %s (%s)",
-                  part_loc.to_string(), name, type.str() );
+        debugmsg( "vehicle::remove_part part '%s' at mount %s bub pos %s is out of map "
+                  "bounds on vehicle '%s'(%s), vehicle::pos is %s, vehicle::sm_pos is %s",
+                  vp.info().get_id().str(), vp.mount.to_string(), part_loc.to_string(),
+                  name, type.str(), pos.to_string(), sm_pos.to_string() );
     }
 
     // Unboard any entities standing on removed boardable parts
