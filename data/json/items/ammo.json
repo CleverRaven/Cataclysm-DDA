@@ -1106,22 +1106,6 @@
   },
   {
     "type": "AMMO",
-    "id": "rebreather_filter",
-    "category": "spare_parts",
-    "price": 2500,
-    "price_postapoc": 3000,
-    "name": { "str": "rebreather filter cartridge" },
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "A replaceable filter cartridge for a rebreather.",
-    "material": [ "aluminum" ],
-    "volume": "250 ml",
-    "weight": "12 g",
-    "ammo_type": "rebreather_filter",
-    "count": 30
-  },
-  {
-    "type": "AMMO",
     "id": "rebreather_filler_soda_lime",
     "category": "spare_parts",
     "price": 13,
