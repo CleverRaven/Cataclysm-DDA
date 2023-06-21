@@ -29,7 +29,6 @@ static const oter_type_str_id oter_type_ants_lab_stairs( "ants_lab_stairs" );
 static const oter_type_str_id oter_type_bunker_shop_b( "bunker_shop_b" );
 static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
 static const oter_type_str_id oter_type_deserter_city_gate( "deserter_city_gate" );
-static const oter_type_str_id oter_type_deserter_city_park( "deserter_city_park" );
 static const oter_type_str_id oter_type_deserter_city_office_1f( "deserter_city_office_1f" );
 static const oter_type_str_id oter_type_deserter_city_office_2f( "deserter_city_office_2f" );
 static const oter_type_str_id oter_type_deserter_city_office_3f( "deserter_city_office_3f" );
@@ -38,6 +37,7 @@ static const oter_type_str_id oter_type_deserter_city_office_1fb( "deserter_city
 static const oter_type_str_id oter_type_deserter_city_office_2fb( "deserter_city_office_2fb" );
 static const oter_type_str_id oter_type_deserter_city_office_3fb( "deserter_city_office_3fb" );
 static const oter_type_str_id oter_type_deserter_city_office_roofb( "deserter_city_office_roofb" );
+static const oter_type_str_id oter_type_deserter_city_park( "deserter_city_park" );
 static const oter_type_str_id oter_type_ravine( "ravine" );
 static const oter_type_str_id oter_type_ravine_edge( "ravine_edge" );
 static const oter_type_str_id oter_type_ravine_floor( "ravine_floor" );
