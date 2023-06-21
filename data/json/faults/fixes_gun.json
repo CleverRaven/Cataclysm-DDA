@@ -9,7 +9,7 @@
     "faults_added": [ "fault_gun_unlubricated" ],
     "skills": { "mechanics": 1 },
     "set_variables": { "dirt": "0" },
-    "requirements": [ [ "gun_cleaning_bp", 1 ] ],
+    "requirements": [ [ "gun_cleaning", 1 ] ],
     "time_save_profs": { "prof_gun_cleaning": 0.5 }
   },
   {
