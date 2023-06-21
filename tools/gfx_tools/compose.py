@@ -471,6 +471,7 @@ class Tileset:
                 'pixelscale': self.pixelscale,
                 'width': self.sprite_width,
                 'height': self.sprite_height,
+                'zlevel_height': self.sprite_height,
                 'iso': self.iso,
                 'retract_dist_min': self.retract_dist_min,
                 'retract_dist_max': self.retract_dist_max

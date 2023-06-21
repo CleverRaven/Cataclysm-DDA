@@ -598,6 +598,7 @@ void cata_tiles::set_draw_scale( int scale )
     cata_assert( tileset_ptr );
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
     tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
+    zlevel_height = tileset_ptr->get_zlevel_height();
 
     tile_ratiox = ( static_cast<float>( tile_width ) / static_cast<float>( fontwidth ) );
     tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
@@ -660,6 +661,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     for( const JsonObject curr_info : config.get_array( "tile_info" ) ) {
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
+        ts.zlevel_height = curr_info.get_int( "zlevel_height", 0 );
         ts.tile_isometric = curr_info.get_bool( "iso", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
         ts.prevent_occlusion_min_dist = curr_info.get_float( "retract_dist_min", -1.0f );
@@ -1611,7 +1613,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     };
 
-    const int height_3d_mult = is_isometric() ? 10 : 0;
     if( max_draw_depth <= 0 ) {
         // Legacy draw mode
         for( int row = min_row; row < max_row; row ++ ) {
@@ -1630,7 +1631,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             for( int row = min_row; row < max_row; row ++ ) {
             	// Set base height for each tile
                 for( tile_render_info &p : draw_points[row] ) {
-                	p.height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
+                	p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                 }
                 // For each layer
                 for( auto f : drawing_layers ) {
@@ -1646,7 +1647,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
                         	int temp_height_3d = p.height_3d;
                             // Reset height_3d to base when drawing vehicles
-                        	p.height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
+                        	p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                             // Draw
                         	if(!( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible )) {
                         		// If no vpart drawn, revert height_3d changes
