@@ -477,11 +477,13 @@
       "_": "t_sidewalk",
       "*": "t_region_groundcover_urban",
       ".": { "param": "floor_type", "fallback": "t_floor" },
+      "V": { "param": "floor_type", "fallback": "t_floor" },
+      "v": { "param": "floor_type", "fallback": "t_floor" },
       ",": "t_linoleum_white",
       "f": "t_privacy_fence",
       "/": "t_railing",
       "<": "t_stairs_up",
-      ">": "t_stairs_down",
+      ">": "t_stairs_down_no_roof",
       "|": "t_wall",
       "w": [ "t_curtains", "t_window_domestic" ],
       "+": [ [ "t_door_locked", 2 ], [ "t_door_c", 1 ] ],
@@ -522,12 +524,15 @@
       "Y": {
         "terrain": { "param": "floor_type", "fallback": "t_floor" },
         "furniture": "f_rack_coat",
-        "items": { "item": "coat_rack", "chance": 15 }
+        "items": { "item": "unisex_coat_rack", "chance": 25 }
       },
-      "B": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_floor_lamp" }
+      "B": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_floor_lamp" },
+      "d": { "terrain": "t_sidewalk", "furniture": "f_dumpster", "items": { "item": "trash", "repeat": [ 0, 5 ] } },
+      "$": { "furniture": "f_shower", "items": { "item": "shower", "chance": 33 } },
+      "S": { "furniture": "f_sink", "items": { "item": "public_sink", "chance": 33 } }
     },
-    "furniture": { "S": "f_sink", "$": "f_shower" },
     "items": { ",": { "item": "trash_forest", "chance": 1 } },
+    "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
     "toilets": { "T": {  } }
   },
   {
@@ -601,7 +606,7 @@
         "........................",
         "...m...V......a.........",
         "      #########dd..|||||",
-        "     W  .t..............",
+        "   xxW  .t..............",
         "W    +  .D.......dd....D",
         "     w  ................",
         "     w  ................",
@@ -617,7 +622,7 @@
         "                        ",
         "                        ",
         "        w+w    w+w    w+",
-        "                        ",
+        "   xx                   ",
         "           =      =     ",
         "                        ",
         "                        ",
@@ -625,9 +630,9 @@
       ],
       "palettes": [ "motel_twd_overrun_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 7, 22 ], "y": [ 5, 16 ] } ],
-      "place_signs": [ { "signage": "Travelier MOTEL", "x": 23, "y": 1 } ],
-      "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 }, { "item": "cash_register_random", "x": 3, "y": 3, "chance": 100 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 23 ], "y": [ 3, 10 ], "chance": 66, "repeat": [ 2, 3 ] } ],
+      "place_item": [ { "item": "survivormap", "x": 4, "y": 3, "chance": 70 } ],
+      "place_signs": [ { "signage": "Travelier MOTEL", "x": 23, "y": 1 } ]
     }
   },
   {
@@ -665,6 +670,7 @@
       ],
       "palettes": [ "motel_twd_overrun_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 16 ], "y": [ 3, 10 ], "chance": 66, "repeat": [ 2, 3 ] } ],
       "place_graffiti": [
         { "text": "A large pink smudged X is drawn in chalk", "x": 20, "y": 2 },
         { "text": "A hopscotch court is drawn in chalk", "x": 6, "y": 6 },
@@ -686,6 +692,7 @@
         { "group": "GROUP_ZOMBIE", "x": 15, "y": 20, "chance": 25 },
         { "group": "GROUP_ZOMBIE", "x": 22, "y": 20, "chance": 25 }
       ],
+      "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 } ],
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 10, "y": 6, "chance": 25, "rotation": 180 },
         { "vehicle": "rv", "x": 13, "y": 10, "chance": 40, "rotation": 0 }
@@ -733,7 +740,7 @@
         "______________       _____________       _______",
         "_4____________       _____________       _____4_",
         "||||||________       _____________       _||||||",
-        "|u.ct|_)))))))       )))))))))))))       _wtbbt|",
+        "|u.vVw_)))))))       )))))))))))))       _wtbbt|",
         "w.rc.+_)                   )             _+....w",
         "|B.c.w_)                   )             _wY.BD|",
         "|y...w_)                   )             _||=|||",
@@ -749,7 +756,7 @@
         "||||||_                                  _||||||",
         "f<<___________________________________________4f",
         "f_____4|w+w||||w+w||||w+w||||w+w||||4__________f",
-        "f______|t.Y|,$|t.Y|,$|t.Y|,$|t.Y|$,|___________f",
+        "f__dd__|t.Y|,$|t.Y|,$|t.Y|,$|t.Y|$,|___________f",
         "fffffff|b..=,,|b..=,,|b..=,,|b..=,,|ffffffffffff",
         "*******|b.B|,,|b.B|,,|b.B|,,|b.B|,,|************",
         "*******|t.D|ST|t.D|ST|t.D|ST|t.D|ST|************",
@@ -778,7 +785,7 @@
           "y": 0
         }
       ],
-      "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 }, { "item": "cash_register_random", "x": 3, "y": 3, "chance": 100 } ]
+      "place_items": [ { "item": "cash_register_random", "x": 3, "y": 3, "chance": 100 } ]
     }
   },
   {
@@ -815,7 +822,7 @@
         "       -'''''''''''''''''''''''''''-            "
       ],
       "palettes": [ "motel_twd_palette" ],
-      "terrain": { " ": "t_open_air", "~": "t_floor" },
+      "terrain": { " ": "t_open_air", "~": "t_floor_noroof" },
       "place_nested": [
         {
           "chunks": [
@@ -823,6 +830,26 @@
           ],
           "x": 0,
           "y": 0
+        },
+        {
+          "chunks": [
+            {
+              "switch": { "param": "overrun", "fallback": "false" },
+              "cases": { "true": [ [ "roof_4x4_holdout", 10 ], [ "roof_4x4_party", 5 ], [ "roof_4x4_survivor", 10 ] ], "false": "null" }
+            }
+          ],
+          "x": [ 9, 14 ],
+          "y": [ 19, 20 ]
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
+          "x": [ 24, 33 ],
+          "y": [ 19, 22 ]
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
+          "x": [ 43, 46 ],
+          "y": [ 3, 14 ]
         }
       ]
     }
@@ -860,7 +887,14 @@
         "                        "
       ],
       "palettes": [ "motel_twd_palette" ],
-      "terrain": { " ": "t_open_air" }
+      "terrain": { " ": "t_open_air" },
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 30 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
+          "x": [ 0, 3 ],
+          "y": [ 3, 14 ]
+        }
+      ]
     }
   }
 ]
