@@ -81,11 +81,7 @@
         "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] },
         "south": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] }
       },
-      "tentacle_end_w_entry": {
-        "overmap": "corpse_tentacle_entry_north",
-        "north": { "id": "tentacle_to_tentacle" },
-        "above": "tentacle_to_surface"
-      },
+      "tentacle_end_w_entry": { "overmap": "corpse_tentacle_entry_north", "north": { "id": "tentacle_to_tentacle" }, "above": "tentacle_to_surface" },
       "corpse_entry_surface": { "overmap": "corpse_tentacle_surface_entry_north", "below": "surface_to_tentacle", "locations": [ "land", "road" ] },
       "tentacle_tee": {
         "overmap": "corpse_tentacle_nes",
