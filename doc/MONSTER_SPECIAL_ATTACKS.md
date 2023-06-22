@@ -85,7 +85,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```ACID``` Spits acid.
 - ```ACID_ACCURATE``` Shoots acid that is accurate at long ranges, but less so up close.
 - ```ACID_BARF``` Barfs corroding, blinding acid.
-- ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
 - ```BIO_OP_BIOJUTSU``` Attacks with any of the below martial art attacks.
 - ```BIO_OP_DISARM``` Disarming attack, does no damage.
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding.
