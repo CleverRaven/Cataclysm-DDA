@@ -334,7 +334,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
     "difficulty": 5,
-    "time": "20 m",
+    "time": "2 h",
     "book_learn": [
       [ "textbook_fireman", 4 ],
       [ "atomic_survival", 4 ],
@@ -343,6 +343,7 @@
       [ "emergency_book", 3 ],
       [ "textbook_gaswarfare", 4 ]
     ],
+    "batch_time_factors": [ 80, 2 ],
     "charges": 90,
     "using": [ [ "forging_standard", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
@@ -359,7 +360,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
     "difficulty": 5,
-    "time": "40 m",
+    "time": "1 h 40 m",
     "book_learn": [
       [ "textbook_fireman", 4 ],
       [ "atomic_survival", 4 ],
@@ -368,6 +369,7 @@
       [ "emergency_book", 3 ],
       [ "textbook_gaswarfare", 4 ]
     ],
+    "batch_time_factors": [ 80, 4 ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "charges": 90,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
