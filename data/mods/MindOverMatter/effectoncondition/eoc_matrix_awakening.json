@@ -68,10 +68,8 @@
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 }
     ],
-    "false_effect": [
-      { "run_eocs": "EOC_CLAIR_MATRIX_AWAKENING_2" }
-    ]
-  }, 
+    "false_effect": [ { "run_eocs": "EOC_CLAIR_MATRIX_AWAKENING_2" } ]
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_MATRIX_AWAKENING_2",
