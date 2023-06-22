@@ -147,9 +147,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_MATRIX_AWAKENING_SUCCESS",
-    "effect": [ 
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  The crystal begins glowing, the faint light at its core gradually brightening, first shedding light on your surroundings and then throwing everything into sharp relief.  As it blazes in your hands, it begins growing slowly warmer.  The warmth spreads down your arms and across your entire body, filling it with a comfortable heat, and then the air around you takes on the heat and the light.  The air wavers like a summer haze, but even as it sparks and flames dance on the air, you feel only a comfortable warmth.  You reach out your free hand, letting the fire play between your fingers, and when the crystal's glow dims and fades into nothingness, you don't even notice it.", "popup": true },
-      { "u_add_trait": "PYROKINETIC" }, 
+    "effect": [
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  The crystal begins glowing, the faint light at its core gradually brightening, first shedding light on your surroundings and then throwing everything into sharp relief.  As it blazes in your hands, it begins growing slowly warmer.  The warmth spreads down your arms and across your entire body, filling it with a comfortable heat, and then the air around you takes on the heat and the light.  The air wavers like a summer haze, but even as it sparks and flames dance on the air, you feel only a comfortable warmth.  You reach out your free hand, letting the fire play between your fingers, and when the crystal's glow dims and fades into nothingness, you don't even notice it.",
+        "popup": true
+      },
+      { "u_add_trait": "PYROKINETIC" },
       { "u_add_trait": "PYROGLOW_WEAK" },
       { "u_add_trait": "PYROGLOW_STRONG" },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
