@@ -99,7 +99,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```COPBOT``` Cop-bot warns then tazes the player.
 - ```DANCE``` Monster dances.
 - ```DARKMAN``` Can cause darkness and wraiths to spawn.
-- ```DERMATIK``` Attempts to lay dermatik eggs in the player.
 - ```DISAPPEAR``` Hallucination (or other unusual monster) disappears.
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
 - ```EAT_CROP``` The monster eats an adjacent planted crop.
