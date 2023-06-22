@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "ancilla_doctor",
-    "name_unique": "Doc. Blanks",
+    "name_unique": "Doc.  Stevens",
     "gender": "male",
     "class": "NC_ANCILLA_DOCTOR",
     "attitude": 0,
@@ -154,7 +154,7 @@
     "type": "talk_topic",
     "id": "TALK_ANCILLA_DOCTOR_BIONICS_DONE",
     "dynamic_line": [
-      "Now some protocol tests for brain damage. Please stare at the light over there…",
+      "Now some protocol tests for brain damage.  Please stare at the light over there…",
       "It might take some days for your nervous system to adapt.  Come back if you experience any concerning symptoms like…",
       "I suggest you take it easy for a few days now."
     ],
