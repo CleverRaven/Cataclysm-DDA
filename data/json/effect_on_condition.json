@@ -1298,5 +1298,14 @@
       { "u_add_trait": "CHITIN2" },
       { "u_add_trait": "CRUSTACEAN_CARAPACE" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dermatik_pregnacy",
+    "condition": { "u_has_effect": "dermatik" },
+    "effect": [
+      { "u_spawn_monster": "mon_dermatik_larva", "real_count": 1, "min_radius": 15, "max_radius": 40 },
+      { "u_lose_effect": "dermatik" }
+    ]
   }
 ]
