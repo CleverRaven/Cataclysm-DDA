@@ -21,7 +21,7 @@ option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_XDG_DIR "Use XDG directories for save and config files." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save and config files." "ON")
 cmake_dependent_option(USE_PREFIX_DATA_DIR
-    "Use UNIX system directories for game data in release build." OFF
+    "Use UNIX system directories for game data in release build." ON
     "UNIX" OFF
 )
 option(LOCALIZE "Support for language localizations. Also enable UTF support." "ON")
