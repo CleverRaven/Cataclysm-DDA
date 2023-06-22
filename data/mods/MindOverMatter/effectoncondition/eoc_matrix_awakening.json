@@ -131,13 +131,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 } },
-    "effect": [ 
-      { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_SUCCESS" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_FAILURE" }
-    ]
+    "condition": {
+      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
+    },
+    "effect": [ { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_SUCCESS" } ],
+    "false_effect": [ { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
   {
     "type": "effect_on_condition",
