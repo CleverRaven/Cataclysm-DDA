@@ -31,15 +31,15 @@
         " ______  ______________ ",
         " _  __ __  _   _ _ ___  "
       ],
-      "terrain": { 
+      "terrain": {
         "_": [ [ "t_grass", 20 ], [ "t_dirt", 5 ], [ "t_grass_alien", 1 ] ],
         "A": [ [ "t_grass_alien", 20 ], [ "t_dirt", 5 ], [ "t_grass", 1 ] ],
-        "N": [ [ "t_grass", 10 ], [ "t_grass_alien", 10], [ "t_nether_crystal_structure", 10 ] ],
-        "C": [ [ "t_grass", 5 ], [ "t_grass_alien", 10], [ "t_nether_crystal_structure", 20 ] ]
+        "N": [ [ "t_grass", 10 ], [ "t_grass_alien", 10 ], [ "t_nether_crystal_structure", 10 ] ],
+        "C": [ [ "t_grass", 5 ], [ "t_grass_alien", 10 ], [ "t_nether_crystal_structure", 20 ] ]
       },
-      "place_monster": [ 
-        { "group": "GROUP_NETHER", "x": [ 2, 23 ], "y": [ 2, 23 ], "chance": 25, "repeat": [1, 3] },
-        { "group": "GROUP_FERAL_PSYCHIC", "x": [ 2, 23 ], "y": [ 2, 23 ], "chance": 25, "repeat": [1, 3] } 
+      "place_monster": [
+        { "group": "GROUP_NETHER", "x": [ 2, 23 ], "y": [ 2, 23 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_PSYCHIC", "x": [ 2, 23 ], "y": [ 2, 23 ], "chance": 25, "repeat": [ 1, 3 ] }
       ]
     }
   }

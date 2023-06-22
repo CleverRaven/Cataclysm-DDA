@@ -10,13 +10,11 @@
     "time": "55 m",
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "schematics_reactant_liquid_base", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_psionic_basic", "required": false }
-    ],
+    "proficiencies": [ { "proficiency": "prof_psionic_basic", "required": false } ],
     "using": [ [ "serum_production_standard", 25 ] ],
     "components": [
-      [ [ "ether", 100 ] ], 
-      [ [ "matrix_crystal_drained_dust", 3 ], [ "matrix_crystal_drained_dust_refined", 1 ] ], 
+      [ [ "ether", 100 ] ],
+      [ [ "matrix_crystal_drained_dust", 3 ], [ "matrix_crystal_drained_dust_refined", 1 ] ],
       [ [ "water_clean", 5 ] ],
       [ [ "chem_aluminium_powder", 10 ] ],
       [ [ "chem_zinc_powder", 10 ] ]
@@ -42,25 +40,20 @@
       { "proficiency": "prof_psionic_basic", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
-    "components": [ 
-      [ [ "matrix_crystal_biokin_dust", 3 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_biokin_dust", 3 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "matrix_crystal_biokin_dust_potion",
-	  "category": "CC_*",
+    "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 1,
     "time": "1 m",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 1 ] ],
-    "components": [ 
-      [ [ "matrix_crystal_biokin_dust_refined", 1 ] ],
-      [ [ "water_clean", 1 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_biokin_dust_refined", 1 ] ], [ [ "water_clean", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
   {
@@ -82,25 +75,20 @@
       { "proficiency": "prof_psionic_basic", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
-    "components": [ 
-      [ [ "matrix_crystal_clair_dust", 3 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_clair_dust", 3 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "matrix_crystal_clair_dust_potion",
-		"category": "CC_*",
+    "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 1,
     "time": "1 m",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 1 ] ],
-    "components": [ 
-      [ [ "matrix_crystal_clair_dust_refined", 1 ] ],
-      [ [ "water_clean", 1 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_clair_dust_refined", 1 ] ], [ [ "water_clean", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
   {
@@ -122,25 +110,20 @@
       { "proficiency": "prof_psionic_basic", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
-    "components": [ 
-      [ [ "matrix_crystal_pyrokin_dust", 3 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_pyrokin_dust", 3 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "matrix_crystal_pyrokin_dust_potion",
-		"category": "CC_*",
+    "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 1,
     "time": "1 m",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 1 ] ],
-    "components": [ 
-      [ [ "matrix_crystal_pyrokin_dust_refined", 1 ] ],
-      [ [ "water_clean", 1 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_pyrokin_dust_refined", 1 ] ], [ [ "water_clean", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
   {
@@ -162,25 +145,20 @@
       { "proficiency": "prof_psionic_basic", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
-    "components": [ 
-      [ [ "matrix_crystal_telekin_dust", 3 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 3 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "matrix_crystal_telekin_dust_potion",
-		"category": "CC_*",
+    "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 1,
     "time": "1 m",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 1 ] ],
-    "components": [ 
-      [ [ "matrix_crystal_telekin_dust_refined", 1 ] ],
-      [ [ "water_clean", 1 ] ]
-	    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust_refined", 1 ] ], [ [ "water_clean", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
   {
@@ -202,28 +180,23 @@
       { "proficiency": "prof_psionic_basic", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
-    "components": [ 
-      [ [ "matrix_crystal_telepath_dust", 3 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_telepath_dust", 3 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
-	{
-		"type": "recipe",
-		"activity_level": "LIGHT_EXERCISE",
-		"result": "matrix_crystal_telepath_dust_potion",
-		"category": "CC_*",
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "matrix_crystal_telepath_dust_potion",
+    "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-		"skill_used": "chemistry",
-		"difficulty": 1,
-		"time": "1 m",
-		"book_learn": [ [ "schematics_matrix_crystal_ground", 1 ] ],
-		"components": [ 
-			[ [ "matrix_crystal_telepath_dust_refined", 1 ] ],
-			[ [ "water_clean", 1 ] ]
-		],
-		"flags": [ "SECRET", "BLIND_HARD" ]
-	},
-	{
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "1 m",
+    "book_learn": [ [ "schematics_matrix_crystal_ground", 1 ] ],
+    "components": [ [ [ "matrix_crystal_telepath_dust_refined", 1 ] ], [ [ "water_clean", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ]
+  },
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "matrix_crystal_teleport_dust_refined",
@@ -242,25 +215,20 @@
       { "proficiency": "prof_psionic_basic", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
-    "components": [ 
-      [ [ "matrix_crystal_teleport_dust", 3 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_teleport_dust", 3 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
-	{
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "matrix_crystal_teleport_dust_potion",
-		"category": "CC_*",
+    "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 1,
     "time": "1 m",
     "book_learn": [ [ "schematics_matrix_crystal_ground", 1 ] ],
-    "components": [ 
-      [ [ "matrix_crystal_teleport_dust_refined", 1 ] ],
-      [ [ "water_clean", 1 ] ]
-	    ],
+    "components": [ [ [ "matrix_crystal_teleport_dust_refined", 1 ] ], [ [ "water_clean", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
   {
@@ -282,27 +250,22 @@
       { "proficiency": "prof_psionic_basic", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
-    "components": [ 
-      [ [ "matrix_crystal_vitakin_dust", 3 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_vitakin_dust", 3 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   },
-	{
-		"type": "recipe",
-		"activity_level": "LIGHT_EXERCISE",
-		"result": "matrix_crystal_vitakin_dust_potion",
-		"category": "CC_*",
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "matrix_crystal_vitakin_dust_potion",
+    "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-		"skill_used": "chemistry",
-		"difficulty": 1,
-		"time": "1 m",
-		"book_learn": [ [ "schematics_matrix_crystal_ground", 1 ] ],
-		"components": [ 
-			[ [ "matrix_crystal_vitakin_dust_refined", 1 ] ],
-			[ [ "water_clean", 1 ] ]
-		],
-		"flags": [ "SECRET", "BLIND_HARD" ]
-	},
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "1 m",
+    "book_learn": [ [ "schematics_matrix_crystal_ground", 1 ] ],
+    "components": [ [ [ "matrix_crystal_vitakin_dust_refined", 1 ] ], [ [ "water_clean", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ]
+  },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -322,10 +285,7 @@
       { "proficiency": "prof_psionic_basic", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
-    "components": [ 
-      [ [ "matrix_crystal_drained_dust", 3 ] ]
-    ],
+    "components": [ [ [ "matrix_crystal_drained_dust", 3 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ]
   }
-  
 ]

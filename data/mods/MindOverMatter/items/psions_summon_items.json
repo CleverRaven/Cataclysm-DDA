@@ -12,7 +12,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["TRADER_AVOID", "TARDIS", "ZERO_WEIGHT", "ONLY_ONE" ],
+    "flags": [ "TRADER_AVOID", "TARDIS", "ZERO_WEIGHT", "ONLY_ONE" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

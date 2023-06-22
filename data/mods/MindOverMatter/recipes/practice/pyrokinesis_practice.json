@@ -9,7 +9,15 @@
     "name": "contemplation: pyrokinesis",
     "description": "Recipes related to practicing pyrokinesis.",
     "skill_used": "metaphysics",
-    "nested_category_data": [ "practice_pyrokinetic_flash", "practice_pyrokinetic_eruption", "practice_pyrokinetic_quell_flames", "practice_pyrokinetic_cloak", "practice_pyrokinetic_flamethrower", "practice_pyrokinetic_aura", "practice_pyrokinetic_blast" ],
+    "nested_category_data": [
+      "practice_pyrokinetic_flash",
+      "practice_pyrokinetic_eruption",
+      "practice_pyrokinetic_quell_flames",
+      "practice_pyrokinetic_cloak",
+      "practice_pyrokinetic_flamethrower",
+      "practice_pyrokinetic_aura",
+      "practice_pyrokinetic_blast"
+    ],
     "difficulty": 1
   },
   {
@@ -26,22 +34,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PYROKIN_FLASH", 
+        "id": "EOC_PRACTICE_PYROKIN_FLASH",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_flash" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_flash" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_flash" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "pyrokinetic_flash" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "pyrokinetic_flash" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_FLASH_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_flash" }, ">=", { "const": 1 } ] },
@@ -56,7 +70,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -73,22 +87,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PYROKIN_FLAMES", 
+        "id": "EOC_PRACTICE_PYROKIN_FLAMES",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_eruption" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_eruption" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_eruption" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "pyrokinetic_eruption" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "pyrokinetic_eruption" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_FLAMES_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_eruption" }, ">=", { "const": 1 } ] },
@@ -103,7 +123,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -120,22 +140,30 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE", 
+        "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_quell_flames" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_quell_flames" }, "<=", { "const": 49417 } ] }                                                                       
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_quell_flames" }, "<=", { "const": 49417 } ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "pyrokinetic_quell_flames" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "pyrokinetic_quell_flames" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_quell_flames" }, ">=", { "const": 1 } ] },
@@ -150,7 +178,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -168,22 +196,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PYROKIN_CLOAK", 
+        "id": "EOC_PRACTICE_PYROKIN_CLOAK",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_cloak" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_cloak" }, "<=", { "const": 35278 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_cloak" }, "<=", { "const": 35278 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "pyrokinetic_cloak" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "pyrokinetic_cloak" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_CLOAK_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_cloak" }, ">=", { "const": 1 } ] },
@@ -198,7 +232,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -216,22 +250,30 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PYROKIN_FLAMETHROWER", 
+        "id": "EOC_PRACTICE_PYROKIN_FLAMETHROWER",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_flamethrower" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_flamethrower" }, "<=", { "const": 35278 } ] }                                                                       
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_flamethrower" }, "<=", { "const": 35278 } ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "pyrokinetic_flamethrower" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "pyrokinetic_flamethrower" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_FLAMETHROWER_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_flamethrower" }, ">=", { "const": 1 } ] },
@@ -246,7 +288,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -264,22 +306,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PYROKIN_BLAZING", 
+        "id": "EOC_PRACTICE_PYROKIN_BLAZING",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_aura" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_aura" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_aura" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "pyrokinetic_aura" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "pyrokinetic_aura" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_BLAZING_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_aura" }, ">=", { "const": 1 } ] },
@@ -294,7 +342,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -312,22 +360,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PYROKIN_BLAST", 
+        "id": "EOC_PRACTICE_PYROKIN_BLAST",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_blast" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_blast" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_blast" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "pyrokinetic_blast" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "pyrokinetic_blast" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_BLAST_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_blast" }, ">=", { "const": 1 } ] },
@@ -342,7 +396,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   }
 ]

@@ -1,6 +1,6 @@
 [
   {
-    "type":"item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_bio",
     "entries": [
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "type":"item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_clair",
     "entries": [
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "type":"item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_pyro",
     "entries": [
@@ -43,7 +43,7 @@
     ]
   },
   {
-    "type":"item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_telekin",
     "entries": [
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "type":"item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_teep",
     "entries": [
@@ -71,7 +71,7 @@
     ]
   },
   {
-    "type":"item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_porter",
     "entries": [
@@ -85,7 +85,7 @@
     ]
   },
   {
-    "type":"item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_vita",
     "entries": [
@@ -100,70 +100,49 @@
     ]
   },
   {
-    "type":"item_group",
+    "type": "item_group",
     "subtype": "distribution",
     "id": "feral_humans_crystal_drops_bio",
-    "entries": [
-      { "item": "matrix_crystal_drained", "prob": 70 },
-      { "item": "matrix_crystal_biokinesis", "prob": 30 }
-    ]
-  },
-   {
-    "type":"item_group",
-    "subtype": "distribution",
-    "id": "feral_humans_crystal_drops_clair",
-    "entries": [
-      { "item": "matrix_crystal_drained", "prob": 70 },
-      { "item": "matrix_crystal_clairsentience", "prob": 30 }
-    ]
-  },
-   {
-    "type":"item_group",
-    "subtype": "distribution",
-    "id": "feral_humans_crystal_drops_pyro",
-    "entries": [
-      { "item": "matrix_crystal_drained", "prob": 70 },
-      { "item": "matrix_crystal_pyrokinesis", "prob": 30 }
-    ]
-  },
-   {
-    "type":"item_group",
-    "subtype": "distribution",
-    "id": "feral_humans_crystal_drops_telekin",
-    "entries": [
-      { "item": "matrix_crystal_drained", "prob": 70 },
-      { "item": "matrix_crystal_telekinesis", "prob": 30 }
-    ]
-  },
-   {
-    "type":"item_group",
-    "subtype": "distribution",
-    "id": "feral_humans_crystal_drops_teep",
-    "entries": [
-      { "item": "matrix_crystal_drained", "prob": 70 },
-      { "item": "matrix_crystal_telepathy", "prob": 30 }
-    ]
-  },
-   {
-    "type":"item_group",
-    "subtype": "distribution",
-    "id": "feral_humans_crystal_drops_porter",
-    "entries": [
-      { "item": "matrix_crystal_drained", "prob": 70 },
-      { "item": "matrix_crystal_teleportation", "prob": 30 }
-    ]
-  },
-   {
-    "type":"item_group",
-    "subtype": "distribution",
-    "id": "feral_humans_crystal_drops_vita",
-    "entries": [
-      { "item": "matrix_crystal_drained", "prob": 70 },
-      { "item": "matrix_crystal_vitakinesis", "prob": 30 }
-    ]
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_biokinesis", "prob": 30 } ]
   },
   {
-    "type":"item_group",
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_clair",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_clairsentience", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_pyro",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_pyrokinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_telekin",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_telekinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_teep",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_telepathy", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_porter",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_teleportation", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_vita",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_vitakinesis", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "feral_scientists_death_drops_psychic",
     "entries": [
@@ -190,7 +169,7 @@
         ]
       },
       { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 15 }
-      ]
+    ]
   },
   {
     "id": "feral_security_death_drops_psychic",

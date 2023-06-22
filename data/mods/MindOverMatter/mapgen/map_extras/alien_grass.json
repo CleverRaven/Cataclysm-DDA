@@ -31,9 +31,7 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": {
-        "G": [ [ "t_grass_alien", 25 ], [ "t_null", 75 ] ]
-      }
+      "terrain": { "G": [ [ "t_grass_alien", 25 ], [ "t_null", 75 ] ] }
     }
   }
 ]

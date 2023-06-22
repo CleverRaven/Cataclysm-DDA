@@ -79,10 +79,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "matrix_crystal_drained_group",
-    "items": [
-      [ "matrix_crystal_drained", 50 ],
-      [ "null", 50 ]
-    ]
+    "items": [ [ "matrix_crystal_drained", 50 ], [ "null", 50 ] ]
   },
   {
     "type": "item_group",
@@ -93,50 +90,37 @@
       [ "schematics_reactant_liquid_base", 3 ],
       [ "schematics_matrix_channeling", 2 ],
       [ "schematics_matrix_aligning", 1 ]
-    ]    
+    ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_weapons",
-    "items": [
-      [ "schematics_grenade_inferno", 1 ]
-    ]
+    "items": [ [ "schematics_grenade_inferno", 1 ] ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_armor",
-    "items": [
-      [ "schematics_anchoring_crown", 1 ]
-    ]
+    "items": [ [ "schematics_anchoring_crown", 1 ] ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_tools",
-    "items": [
-      [ "schematics_everglow_lamp", 1 ]
-    ]
+    "items": [ [ "schematics_everglow_lamp", 1 ] ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_medicine",
-    "items": [
-      [ "schematics_instability_remover", 5 ],
-      [ "schematics_psionic_purifier", 1 ]
-    ]
+    "items": [ [ "schematics_instability_remover", 5 ], [ "schematics_psionic_purifier", 1 ] ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_tools",
-    "items": [
-      [ "null", 50 ],
-      [ "matrix_channeling_tool", 25 ],
-      [ "matrix_aligning_tool", 10 ]
-    ]
+    "items": [ [ "null", 50 ], [ "matrix_channeling_tool", 25 ], [ "matrix_aligning_tool", 10 ] ]
   },
   {
     "type": "item_group",
@@ -160,10 +144,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_psionic_shield_belts",
-    "groups": [
-      [ "dist_fire_shield_belts", 1 ],
-      [ "dist_shield_belts", 1 ]
-    ]
+    "groups": [ [ "dist_fire_shield_belts", 1 ], [ "dist_shield_belts", 1 ] ]
   },
   {
     "type": "item_group",
@@ -209,17 +190,14 @@
     "id": "lab_files_psi",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      { "item": "lab_postit_portal", "prob": 3 },
-      { "item": "lab_postit_psi", "prob": 3 }
-    ]
+    "items": [ { "item": "lab_postit_portal", "prob": 3 }, { "item": "lab_postit_psi", "prob": 3 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_meditation_books_begin",
     "items": [
-      { "item": "manual_meditation", "variant": "manual_meditation_1", "prob": 3 }, 
+      { "item": "manual_meditation", "variant": "manual_meditation_1", "prob": 3 },
       { "item": "manual_meditation", "variant": "manual_meditation_2", "prob": 3 },
       { "item": "manual_meditation", "variant": "manual_meditation_3", "prob": 3 },
       { "item": "manual_meditation", "variant": "manual_meditation_4", "prob": 3 }
@@ -239,88 +217,69 @@
     "type": "item_group",
     "id": "homebooks",
     "copy-from": "homebooks",
-    "extend": { 
-      "items": [ 
-        { "group": "dist_meditation_books_begin","prob": 8 }, 
-        { "group": "dist_meditation_books_int", "prob": 4 }
-      ] 
+    "extend": {
+      "items": [ { "group": "dist_meditation_books_begin", "prob": 8 }, { "group": "dist_meditation_books_int", "prob": 4 } ]
     }
   },
   {
     "id": "SUS_book_nonf_pulp_newage",
     "type": "item_group",
     "copy-from": "SUS_book_nonf_pulp_newage",
-    "extend": { 
-      "items": [ 
-        { "group": "dist_meditation_books_begin", "prob": 1 }, 
-        { "group": "dist_meditation_books_int", "prob": 1 }
-      ] 
+    "extend": {
+      "items": [ { "group": "dist_meditation_books_begin", "prob": 1 }, { "group": "dist_meditation_books_int", "prob": 1 } ]
     }
   },
   {
     "id": "SUS_book_nonf_soft_psych",
     "type": "item_group",
     "copy-from": "SUS_book_nonf_soft_psych",
-    "extend": { 
-      "items": [ 
-        { "group": "dist_meditation_books_begin", "prob": 1 }, 
-        { "group": "dist_meditation_books_int", "prob": 1 }
-      ]
+    "extend": {
+      "items": [ { "group": "dist_meditation_books_begin", "prob": 1 }, { "group": "dist_meditation_books_int", "prob": 1 } ]
     }
   },
   {
     "type": "item_group",
     "id": "lab_bookshelves",
     "copy-from": "lab_bookshelves",
-    "extend": { 
-      "items": [  
-        { "group": "dist_meditation_books_begin","prob": 6 }, 
-        { "group": "dist_meditation_books_int", "prob": 4 }
-      ] 
+    "extend": {
+      "items": [ { "group": "dist_meditation_books_begin", "prob": 6 }, { "group": "dist_meditation_books_int", "prob": 4 } ]
     }
   },
   {
     "type": "item_group",
     "id": "mansion_books",
     "copy-from": "mansion_books",
-    "extend": { 
-      "items": [ 
-        { "group": "dist_meditation_books_begin","prob": 10 }, 
-        { "group": "dist_meditation_books_int", "prob": 5 }
-      ] 
+    "extend": {
+      "items": [ { "group": "dist_meditation_books_begin", "prob": 10 }, { "group": "dist_meditation_books_int", "prob": 5 } ]
     }
   },
   {
     "type": "item_group",
     "id": "science",
     "copy-from": "science",
-    "extend": { 
-      "items": [ 
+    "extend": {
+      "items": [
         { "item": "manual_meditation_int", "variant": "manual_meditation_int_1", "prob": 6 },
         { "item": "manual_meditation_int", "variant": "manual_meditation_int_3", "prob": 3 },
-        { "item": "manual_psionics_advan", "prob": 3 } 
-      ] 
+        { "item": "manual_psionics_advan", "prob": 3 }
+      ]
     }
   },
-  { 		
-    "type": "item_group", 		
-    "id": "chem_lab", 		
-    "copy-from": "chem_lab", 		
-    "extend": { 		
-      "items": [ 			
-        { "item": "manual_psionics_advan", "prob": 2 } 		
-      ] 		
-    } 		
+  {
+    "type": "item_group",
+    "id": "chem_lab",
+    "copy-from": "chem_lab",
+    "extend": { "items": [ { "item": "manual_psionics_advan", "prob": 2 } ] }
   },
   {
     "type": "item_group",
     "id": "textbooks_school",
     "copy-from": "textbooks_school",
-    "extend": { 
-      "items": [ 
-        { "item": "manual_meditation", "variant": "manual_meditation_1", "prob": 5 }, 
+    "extend": {
+      "items": [
+        { "item": "manual_meditation", "variant": "manual_meditation_1", "prob": 5 },
         { "item": "manual_meditation", "variant": "manual_meditation_2", "prob": 3 }
-      ] 
+      ]
     }
   }
 ]

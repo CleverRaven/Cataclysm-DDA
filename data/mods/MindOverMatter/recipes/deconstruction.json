@@ -70,6 +70,5 @@
     "time": "45 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "matrix_crystal_drained_dust", 25 ] ] ]
-                       
   }
 ]

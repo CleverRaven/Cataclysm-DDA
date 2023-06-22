@@ -224,7 +224,10 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_MATRIX_AWAKENING_FAILURE",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It slowly rises in the air, the light pulsing gently, before it freezes in place.  The crystal suddenly starts strobing, each pulse of light a dagger in your brain, and as you grab your temples the now-dark crystal falls to the ground.", "popup": true },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It slowly rises in the air, the light pulsing gently, before it freezes in place.  The crystal suddenly starts strobing, each pulse of light a dagger in your brain, and as you grab your temples the now-dark crystal falls to the ground.",
+        "popup": true
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
@@ -233,44 +236,41 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEEP_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "TELEPATH" }, 
+    "condition": { "u_has_trait": "TELEPATH" },
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains." },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 }
     ],
-    "false_effect": [
-      { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_2" }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_2" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TEEP_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 } },
-    "effect": [
-      { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_SUCCESS" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_FAILURE" }
-    ]
+    "condition": {
+      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
+    },
+    "effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_SUCCESS" } ],
+    "false_effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_FAILURE" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TEEP_MATRIX_AWAKENING_3",
     "condition": { "u_has_trait": "TELEPATH" },
-    "effect": [
-      { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_FAILURE" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_SUCCESS" }
-    ]
+    "effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_FAILURE" } ],
+    "false_effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_SUCCESS" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TEEP_MATRIX_AWAKENING_SUCCESS",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  In the light, you can see yourself, standing there holding a glowing crystal, in which you can see another light and a tiny version of yourself in an endless hall of mirrors.  Time slows down--you decide to move your hand and you can feel the thought form in your brain and the signal travel through your nerves to your spine and then on your hands, and you watch as the motion finally occurs.  The light grows brighter as you stand outside yourself observing your own thoughts, and as you feel your attention being drawn to the light, you reach out, nudge your own mind, your awareness of yourself sharpens into laser focus.  As the light and the vision fades, leaving the crystal dull and nearly lifeless, you turn your full attention--FULL attention--to your next task.", "popup": true },
-      { "u_add_trait": "TELEPATH" }, 
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  In the light, you can see yourself, standing there holding a glowing crystal, in which you can see another light and a tiny version of yourself in an endless hall of mirrors.  Time slows down--you decide to move your hand and you can feel the thought form in your brain and the signal travel through your nerves to your spine and then on your hands, and you watch as the motion finally occurs.  The light grows brighter as you stand outside yourself observing your own thoughts, and as you feel your attention being drawn to the light, you reach out, nudge your own mind, your awareness of yourself sharpens into laser focus.  As the light and the vision fades, leaving the crystal dull and nearly lifeless, you turn your full attention--FULL attention--to your next task.",
+        "popup": true
+      },
+      { "u_add_trait": "TELEPATH" },
       { "u_add_trait": "TELEPATHIC_SUGGESTION" },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_telepathic_learning_bonus", "duration": "1 minutes" },
@@ -282,7 +282,10 @@
     "type": "effect_on_condition",
     "id": "EOC_TEEP_MATRIX_AWAKENING_FAILURE",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  In the light, you can see yourself, standing there holding a glowing crystal, and then there's a flare of light and you close your eyes against its intensity.  Your head pounds, and when you manage to open your eyes again, the crystal is dark.", "popup": true },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  In the light, you can see yourself, standing there holding a glowing crystal, and then there's a flare of light and you close your eyes against its intensity.  Your head pounds, and when you manage to open your eyes again, the crystal is dark.",
+        "popup": true
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
@@ -291,51 +294,45 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "TELEPORTER" }, 
+    "condition": { "u_has_trait": "TELEPORTER" },
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains." },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 }
     ],
-    "false_effect": [
-      { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_2" }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_2" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 } },
-    "effect": [
-      { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_SUCCESS" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_FAILURE" }
-    ]
+    "condition": {
+      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
+    },
+    "effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_SUCCESS" } ],
+    "false_effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_FAILURE" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_MATRIX_AWAKENING_3",
     "condition": { "u_has_trait": "TELEPORTER" },
-    "effect": [
-      { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_FAILURE" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_SUCCESS" }
-    ]
+    "effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_FAILURE" } ],
+    "false_effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_SUCCESS" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_MATRIX_AWAKENING_SUCCESS",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As the light spreads and illuminates the surrounding terrain, the air shimmers slightly.  You can see your bedroom, in the place you've been holed up after the end of the world; you can see a city, with buildings made of greenish soapstone and people whose bodies are faces are merely indistinct shadows; you can see the cafe you always used to hang out in, empty and ruined, with the door back in back thumping rhythmically as something pounds on it; you can see a point of light, floating in the midst of a starry void, and hear a reedy toneless hum.  You see the paths that link all four of these places and an infinite number of others, glowing paths that you could easy follow in directions you had never previously known existed.  The light in the crystal fades as you set one food on a path.", "popup": true},
-      { "u_add_trait": "TELEPORTER" }, 
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As the light spreads and illuminates the surrounding terrain, the air shimmers slightly.  You can see your bedroom, in the place you've been holed up after the end of the world; you can see a city, with buildings made of greenish soapstone and people whose bodies are faces are merely indistinct shadows; you can see the cafe you always used to hang out in, empty and ruined, with the door back in back thumping rhythmically as something pounds on it; you can see a point of light, floating in the midst of a starry void, and hear a reedy toneless hum.  You see the paths that link all four of these places and an infinite number of others, glowing paths that you could easy follow in directions you had never previously known existed.  The light in the crystal fades as you set one food on a path.",
+        "popup": true
+      },
+      { "u_add_trait": "TELEPORTER" },
       { "u_add_trait": "TELEPORTER_PROTECT" },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
-      { 
-        "u_cast_spell": {
-        "id": "teleport_blink_monster",
-        "message": "Reality suddenly warps around you and you are somewhere else!"  
-        }
+      {
+        "u_cast_spell": { "id": "teleport_blink_monster", "message": "Reality suddenly warps around you and you are somewhere else!" }
       },
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
       { "arithmetic": [ { "global_val": "var", "var_name": "awakening_reducer" }, "+=", { "const": 2 } ] }
@@ -345,7 +342,10 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_MATRIX_AWAKENING_FAILURE",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As the light spreads and illuminates the surrounding terrain, the air shimmers slightly.  Images appear, locations and times, all overlapping in a kaleidoscope of color and sound that makes your head throb.  You tear your gaze away from the now-dark crystal but the pounding in your head remains.", "popup": true },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As the light spreads and illuminates the surrounding terrain, the air shimmers slightly.  Images appear, locations and times, all overlapping in a kaleidoscope of color and sound that makes your head throb.  You tear your gaze away from the now-dark crystal but the pounding in your head remains.",
+        "popup": true
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
@@ -354,44 +354,41 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MATRIX_AWAKENING",
-    "condition": { "u_has_trait": "VITAKINETIC" }, 
+    "condition": { "u_has_trait": "VITAKINETIC" },
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains." },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 }
     ],
-    "false_effect": [
-      { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_2" }
-    ]
+    "false_effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_2" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 } },
-    "effect": [
-      { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_SUCCESS" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_FAILURE" }
-    ]
+    "condition": {
+      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
+    },
+    "effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_SUCCESS" } ],
+    "false_effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MATRIX_AWAKENING_3",
-    "condition": { "u_has_trait": "VITAKINETIC" }, 
-    "effect": [
-      { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_FAILURE" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_SUCCESS" }
-    ]
+    "condition": { "u_has_trait": "VITAKINETIC" },
+    "effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_FAILURE" } ],
+    "false_effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_SUCCESS" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MATRIX_AWAKENING_SUCCESS",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You become aware of your skin, of every cut and bruise and scrape, of the food sitting in your stomach and the air moving in and out of your lungs.  You can feel the bits of smoke in the air from the all the fires unleashed by the Cataclysm, the bits of dirt and debris in your wounds, of the char in your food.  Not quite knowing how, you reach out and push at it, all the dirt and grime and filth of daily life in the Cataclysm, sealing it away.  You instantly feel better, like a weight you didn't realize you were carrying has been taken off your shoulders, and as the light from the crystal dims and goes dark you stand up straight.  You're going to be alright.", "popup": true },
-      { "u_add_trait": "VITAKINETIC" }, 
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You become aware of your skin, of every cut and bruise and scrape, of the food sitting in your stomach and the air moving in and out of your lungs.  You can feel the bits of smoke in the air from the all the fires unleashed by the Cataclysm, the bits of dirt and debris in your wounds, of the char in your food.  Not quite knowing how, you reach out and push at it, all the dirt and grime and filth of daily life in the Cataclysm, sealing it away.  You instantly feel better, like a weight you didn't realize you were carrying has been taken off your shoulders, and as the light from the crystal dims and goes dark you stand up straight.  You're going to be alright.",
+        "popup": true
+      },
+      { "u_add_trait": "VITAKINETIC" },
       { "u_add_trait": "VITAKINETIC_HEALTH" },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_vita_health", "duration": "5 minutes" },
@@ -403,7 +400,10 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MATRIX_AWAKENING_FAILURE",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  In the light, you can see yourself, standing there holding a glowing crystal, and then there's a flare of light and you close your eyes against its intensity.  Your head pounds, and when you manage to open your eyes again, the crystal is dark.", "popup": true },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  In the light, you can see yourself, standing there holding a glowing crystal, and then there's a flare of light and you close your eyes against its intensity.  Your head pounds, and when you manage to open your eyes again, the crystal is dark.",
+        "popup": true
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
@@ -413,7 +413,10 @@
     "type": "effect_on_condition",
     "id": "EOC_DRAINED_MATRIX",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You become aware of your skin, of every cut and bruise and scrape, of the food sitting in your stomach and the air moving in and out of your lungs.  The sensation grows rapidly until your stomach feels like it will burst and every brush of clothing on your skin is like rasping sandpaper.  As the light fades from the crystal, a searing pains fills your head.", "popup": true },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You become aware of your skin, of every cut and bruise and scrape, of the food sitting in your stomach and the air moving in and out of your lungs.  The sensation grows rapidly until your stomach feels like it will burst and every brush of clothing on your skin is like rasping sandpaper.  As the light fades from the crystal, a searing pains fills your head.",
+        "popup": true
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 }
     ]
@@ -421,8 +424,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CORUSCATING_MATRIX",
-    "effect": { 
-      "weighted_list_eocs": [ 
+    "effect": {
+      "weighted_list_eocs": [
         [ "EOC_BIOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
         [ "EOC_CLAIR_MATRIX_AWAKENING_3", { "const": 1 } ],
         [ "EOC_PYROKIN_MATRIX_AWAKENING_3", { "const": 1 } ],

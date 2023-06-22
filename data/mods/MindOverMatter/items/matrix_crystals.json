@@ -12,7 +12,11 @@
     "material": [ "nether_crystal" ],
     "looks_like": "art_crystal",
     "flags": [ "SINGLE_USE" ],
-    "use_action": { "type": "effect_on_conditions", "description": "The pink glow calls to you.", "effect_on_conditions": [ "EOC_BIOKIN_MATRIX_AWAKENING" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The pink glow calls to you.",
+      "effect_on_conditions": [ "EOC_BIOKIN_MATRIX_AWAKENING" ]
+    }
   },
   {
     "type": "GENERIC",
@@ -47,7 +51,11 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing gray light in its depths.  Holding it, you feel more perceptive.",
     "color": "dark_gray",
-    "use_action": { "type": "effect_on_conditions", "description": "The gray glow calls to you.", "effect_on_conditions": [ "EOC_CLAIR_MATRIX_AWAKENING" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The gray glow calls to you.",
+      "effect_on_conditions": [ "EOC_CLAIR_MATRIX_AWAKENING" ]
+    }
   },
   {
     "type": "GENERIC",
@@ -72,7 +80,11 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel hot.",
     "color": "red",
-    "use_action": { "type": "effect_on_conditions", "description": "The red glow calls to you.", "effect_on_conditions": [ "EOC_PYROKIN_MATRIX_AWAKENING" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The red glow calls to you.",
+      "effect_on_conditions": [ "EOC_PYROKIN_MATRIX_AWAKENING" ]
+    }
   },
   {
     "type": "GENERIC",
@@ -97,7 +109,11 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing yellow light in its depths.  Holding it, you feel lighter.",
     "color": "yellow",
-    "use_action": { "type": "effect_on_conditions", "description": "The yellow glow calls to you.", "effect_on_conditions": [ "EOC_TELEKIN_MATRIX_AWAKENING" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The yellow glow calls to you.",
+      "effect_on_conditions": [ "EOC_TELEKIN_MATRIX_AWAKENING" ]
+    }
   },
   {
     "type": "GENERIC",
@@ -122,7 +138,11 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing white light in its depths.  Holding it, you feel pensive.",
     "color": "white",
-    "use_action": { "type": "effect_on_conditions", "description": "The white glow calls to you.", "effect_on_conditions": [ "EOC_TEEP_MATRIX_AWAKENING" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The white glow calls to you.",
+      "effect_on_conditions": [ "EOC_TEEP_MATRIX_AWAKENING" ]
+    }
   },
   {
     "type": "GENERIC",
@@ -147,7 +167,11 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing blue light in its depths.  Holding it, you feel more mobile.",
     "color": "blue",
-    "use_action": { "type": "effect_on_conditions", "description": "The blue glow calls to you.", "effect_on_conditions": [ "EOC_TELEPORT_MATRIX_AWAKENING" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The blue glow calls to you.",
+      "effect_on_conditions": [ "EOC_TELEPORT_MATRIX_AWAKENING" ]
+    }
   },
   {
     "type": "GENERIC",
@@ -172,7 +196,11 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing green light in its depths.  Holding it, you feel healthier.",
     "color": "green",
-    "use_action": { "type": "effect_on_conditions", "description": "The green glow calls to you.", "effect_on_conditions": [ "EOC_VITAKIN_MATRIX_AWAKENING" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The green glow calls to you.",
+      "effect_on_conditions": [ "EOC_VITAKIN_MATRIX_AWAKENING" ]
+    }
   },
   {
     "type": "GENERIC",
@@ -202,7 +230,11 @@
     "longest_side": "21 mm",
     "material": [ "nether_crystal" ],
     "looks_like": "art_crystal",
-    "use_action": { "type": "effect_on_conditions", "description": "The faint light calls to you.", "effect_on_conditions": [ "EOC_DRAINED_MATRIX" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The faint light calls to you.",
+      "effect_on_conditions": [ "EOC_DRAINED_MATRIX" ]
+    }
   },
   {
     "type": "GENERIC",
@@ -227,7 +259,11 @@
     "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, multicolored lights churl and swirl within its depths.",
     "copy-from": "matrix_crystal_biokinesis",
     "color": "brown",
-    "use_action": { "type": "effect_on_conditions", "description": "The coruscating light calls to you.", "effect_on_conditions": [ "EOC_CORUSCATING_MATRIX" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "The coruscating light calls to you.",
+      "effect_on_conditions": [ "EOC_CORUSCATING_MATRIX" ]
+    }
   },
   {
     "type": "TOOL",
