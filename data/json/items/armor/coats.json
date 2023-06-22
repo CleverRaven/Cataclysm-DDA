@@ -1784,7 +1784,7 @@
         "id": "leather_police_jacket",
         "name": { "str": "leather police jacket" },
         "description": "It is emblazoned with the insignia of the local police force.",
-        "weight": 5,
+        "weight": 1,
         "append": true
       },
       {
@@ -1792,7 +1792,7 @@
         "name": { "str": "biker gang jacket" },
         "description": "It is emblazoned with the bad-to-the-bone symbol of a biker gang.",
         "color": "dark_gray",
-        "weight": 20,
+        "weight": 9,
         "append": true
       },
       {
@@ -1800,7 +1800,7 @@
         "name": { "str": "leather riding jacket" },
         "description": "This one is plain, lacking any particular decals.",
         "color": "brown",
-        "weight": 75,
+        "weight": 90,
         "append": true
       }
     ]
