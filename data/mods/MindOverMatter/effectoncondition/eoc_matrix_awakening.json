@@ -205,9 +205,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_MATRIX_AWAKENING_SUCCESS",
-    "effect": [ 
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You release your grasp on the crystal but it doesn't fall.  It floats, supported on nothingness, and as you watch it you become aware of the connections between objects. Gravity, attraction and repulsion, reveal themselves--you can see the weakened influence of gravity on the crystal, and with a thought you nudge it slightly. The crystal floats up in the air, stretching the connections between it at the ground, before they adjust to its new place. You tug on the connections, rotating the crystal, moving it from left to right, and as the light within it slowly fades away, you let go and the crystal drops back to your hand.", "popup": true },
-      { "u_add_trait": "TELEKINETIC" }, 
+    "effect": [
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You release your grasp on the crystal but it doesn't fall.  It floats, supported on nothingness, and as you watch it you become aware of the connections between objects. Gravity, attraction and repulsion, reveal themselves--you can see the weakened influence of gravity on the crystal, and with a thought you nudge it slightly. The crystal floats up in the air, stretching the connections between it at the ground, before they adjust to its new place. You tug on the connections, rotating the crystal, moving it from left to right, and as the light within it slowly fades away, you let go and the crystal drops back to your hand.",
+        "popup": true
+      },
+      { "u_add_trait": "TELEKINETIC" },
       { "u_add_trait": "TELEKINETIC_CARRY" },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_telekinetic_armor", "duration": "1 minutes" },
