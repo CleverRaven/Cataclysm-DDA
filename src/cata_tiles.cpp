@@ -1629,9 +1629,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         do {
             // For each row
             for( int row = min_row; row < max_row; row ++ ) {
-            	// Set base height for each tile
+                // Set base height for each tile
                 for( tile_render_info &p : draw_points[row] ) {
-                	p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
+                    p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                 }
                 // For each layer
                 for( auto f : drawing_layers ) {
@@ -1645,14 +1645,14 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         tripoint draw_loc = p.pos;
                         draw_loc.z = cur_zlevel;
                         if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
-                        	int temp_height_3d = p.height_3d;
+                            int temp_height_3d = p.height_3d;
                             // Reset height_3d to base when drawing vehicles
-                        	p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
+                            p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                             // Draw
-                        	if(!( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible )) {
-                        		// If no vpart drawn, revert height_3d changes
-                        		p.height_3d = temp_height_3d;
-                        	}
+                            if( !( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible ) ) {
+                                // If no vpart drawn, revert height_3d changes
+                                p.height_3d = temp_height_3d;
+                            }
                         } else {
                             // Draw
                             ( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible );
