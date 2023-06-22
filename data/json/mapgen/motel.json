@@ -467,7 +467,7 @@
     "type": "palette",
     "id": "motel_twd_palette",
     "parameters": {
-      "overrun": { "type": "string", "default": { "distribution": [ [ "true", 1 ], [ "false", 4 ] ] } },
+      "overrun": { "type": "bool", "default": { "distribution": [ [ "0", 4 ], [ "1", 1 ] ] } },
       "floor_type": { "type": "ter_str_id", "default": { "distribution": [ "t_floor", "t_carpet_green", "t_carpet_red" ] } },
       "roof_type": { "type": "ter_str_id", "default": { "distribution": [ "t_flat_roof", "t_shingle_flat_roof", "t_tar_flat_roof" ] } }
     },
@@ -796,8 +796,8 @@
         {
           "chunks": [
             {
-              "switch": { "param": "overrun", "fallback": "false" },
-              "cases": { "true": "24x24_motel_twd_1_overrun", "false": "24x24_motel_twd_1" }
+              "switch": { "param": "overrun", "fallback": "0" },
+              "cases": { "0": "24x24_motel_twd_1", "1": "24x24_motel_twd_1_overrun" }
             }
           ],
           "x": 0,
@@ -806,8 +806,8 @@
         {
           "chunks": [
             {
-              "switch": { "param": "overrun", "fallback": "false" },
-              "cases": { "true": "24x24_motel_twd_2_overrun", "false": "24x24_motel_twd_2" }
+              "switch": { "param": "overrun", "fallback": "0" },
+              "cases": { "0": "24x24_motel_twd_2", "1": "24x24_motel_twd_2_overrun" }
             }
           ],
           "x": 24,
@@ -855,25 +855,20 @@
         {
           "chunks": [
             {
-              "switch": { "param": "overrun", "fallback": "false" },
-              "cases": { "true": "24x24_motel_twd_1_f1_overrun", "false": "24x24_motel_twd_1_f1" }
+              "switch": { "param": "overrun", "fallback": "0" },
+              "cases": { "0": "24x24_motel_twd_1_f1", "1": "24x24_motel_twd_1_f1_overrun" }
             }
           ],
           "x": 0,
           "y": 0
         },
         {
-          "chunks": [
-            {
-              "switch": { "param": "overrun", "fallback": "false" },
-              "cases": { "true": "24x24_motel_twd_2_f1_overrun", "false": "null" }
-            }
-          ],
+          "chunks": [ { "switch": { "param": "overrun", "fallback": "0" }, "cases": { "0": "null", "1": "24x24_motel_twd_2_f1_overrun" } } ],
           "x": 24,
           "y": 0
         },
         {
-          "chunks": [ { "switch": { "param": "overrun", "fallback": "false" }, "cases": { "true": "roof_4x4_survivor", "false": "null" } } ],
+          "chunks": [ { "switch": { "param": "overrun", "fallback": "0" }, "cases": { "0": "null", "1": "roof_4x4_survivor" } } ],
           "x": [ 9, 14 ],
           "y": [ 19, 20 ]
         },
