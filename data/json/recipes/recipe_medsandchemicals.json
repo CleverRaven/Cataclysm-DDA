@@ -765,11 +765,11 @@
       { "proficiency": "prof_inorganic_chemistry" },
       { "proficiency": "prof_intro_chem_synth" }
     ],
-    "charges": 700,
+    "charges": 350,
     "batch_time_factors": [ 60, 4 ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "electrolysis_kit", 1500 ] ], [ [ "surface_heat", 1, "LIST" ] ], [ [ "syringe", -1 ] ] ],
-    "components": [ [ [ "chem_potassium_hydroxide", 750 ] ], [ [ "lamp_oil", 350 ] ] ],
+    "components": [ [ [ "chem_potassium_hydroxide", 800 ] ], [ [ "lamp_oil", 200 ] ] ],
     "//": "kerosene is used here because potassium metal needs to be suspended in a mineral oil to prevent it from reacting with air."
   },
   {
