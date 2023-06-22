@@ -8853,7 +8853,12 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
+                        i->type->tool->fuel_efficiency );
+            } else {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            }
         }
     }
 

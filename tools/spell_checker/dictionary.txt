@@ -2690,6 +2690,7 @@ spinnerets
 spinosaurus
 spinwheel
 spitter
+splashproof
 splicer
 splinting
 splorch
