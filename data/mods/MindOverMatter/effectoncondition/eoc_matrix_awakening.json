@@ -106,7 +106,10 @@
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_MATRIX_AWAKENING_FAILURE",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You see yourself as you could have been, if you had taken that job, if you had sent that text, if you had moved across the country, but only for a moment before your head starts pounding.  You look down at the crystal as its light fades, but the visions do not return.", "popup": true },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You see yourself as you could have been, if you had taken that job, if you had sent that text, if you had moved across the country, but only for a moment before your head starts pounding.  You look down at the crystal as its light fades, but the visions do not return.",
+        "popup": true
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
