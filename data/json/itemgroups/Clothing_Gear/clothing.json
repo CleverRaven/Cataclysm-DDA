@@ -10,7 +10,10 @@
       {
         "distribution": [
           { "collection": [ { "item": "motorbike_armor" }, { "item": "motorbike_pants", "prob": 30 } ], "prob": 40 },
-          { "collection": [ { "item": "leather_police_jacket" }, { "item": "motorbike_pants", "prob": 30 } ], "prob": 40 },
+          {
+            "collection": [ { "item": "leather_police_jacket" }, { "item": "motorbike_pants", "prob": 30 } ],
+            "prob": 40
+          },
           { "item": "touring_suit", "prob": 40 }
         ],
         "prob": 80
