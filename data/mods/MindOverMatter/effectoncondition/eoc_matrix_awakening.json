@@ -140,13 +140,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_MATRIX_AWAKENING_3",
-    "condition": { "u_has_trait": "PYROKINETIC" }, 
-    "effect": [ 
-      { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_FAILURE" }
-    ],
-    "false_effect": [
-      { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_SUCCESS" }
-    ]
+    "condition": { "u_has_trait": "PYROKINETIC" },
+    "effect": [ { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_FAILURE" } ],
+    "false_effect": [ { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_SUCCESS" } ]
   },
   {
     "type": "effect_on_condition",
