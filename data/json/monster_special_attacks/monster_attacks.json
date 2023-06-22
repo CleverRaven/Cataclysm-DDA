@@ -673,7 +673,10 @@
     "type": "monster_attack",
     "attack_type": "melee",
     "id": "dermatik_impale",
-    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+    "condition": {
+      "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ],
+      "not": { "or": [ { "u_has_flag": "ACIDBLOOD" }, { "u_has_flag": "PARAIMMUNE" }, { "u_has_effect": "dermatik" } ] }
+    },
     "effects": [ { "id": "dermatik", "duration": 3600 } ],
     "cooldown": 25,
     "move_cost": 300,
