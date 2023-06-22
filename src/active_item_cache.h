@@ -30,6 +30,13 @@ enum class special_item_type : int {
     explosive
 };
 
+template<typename T>
+constexpr bool operator==( safe_reference<T> const &lhs, safe_reference<T> const &rhs )
+{
+    // To ensure they hasn't expired
+    return !!lhs && !!rhs && lhs.get() == rhs.get();
+}
+
 namespace std
 {
 template <>
@@ -45,7 +52,7 @@ class active_item_cache
     private:
         std::unordered_map<int, std::list<item_reference>> active_items;
         std::unordered_map<special_item_type, std::list<item_reference>> special_items;
-
+        std::unordered_map<int, std::unordered_map<item *, safe_reference<item>>> active_items_index;
     public:
         /**
          * Removes the item if it is in the cache. Does nothing if the item is not in the cache.
