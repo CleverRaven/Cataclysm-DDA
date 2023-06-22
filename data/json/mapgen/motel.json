@@ -539,8 +539,8 @@
     "type": "palette",
     "id": "motel_twd_overrun_palette",
     "terrain": {
-      "#": "t_wall_half",
-      "|": "t_brick_wall_halfway",
+      "#": [ [ "t_wall_wood_chipped", 2 ], [ "t_wall_wood", 1 ] ],
+      "|": "t_brick_wall",
       "+": [ [ "t_door_c", 3 ], [ "t_door_o", 1 ], [ "t_door_locked", 1 ] ],
       "=": [ [ "t_door_c", 3 ], [ "t_door_o", 1 ] ],
       "o": "t_window_open",
@@ -630,8 +630,8 @@
       ],
       "palettes": [ "motel_twd_overrun_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 23 ], "y": [ 3, 10 ], "chance": 66, "repeat": [ 2, 3 ] } ],
-      "place_item": [ { "item": "survivormap", "x": 4, "y": 3, "chance": 70 } ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 6, 23 ], "y": [ 3, 10 ], "chance": 66, "repeat": [ 2, 3 ] } ],
+      "place_item": [ { "item": "survivormap", "x": 3, "y": 4, "chance": 70 } ],
       "place_signs": [ { "signage": "Travelier MOTEL", "x": 23, "y": 1 } ]
     }
   },
@@ -670,11 +670,37 @@
       ],
       "palettes": [ "motel_twd_overrun_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 16 ], "y": [ 3, 10 ], "chance": 66, "repeat": [ 2, 3 ] } ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 16 ], "y": [ 3, 10 ], "chance": 66, "repeat": [ 2, 3 ] } ],
       "place_graffiti": [
         { "text": "A large pink smudged X is drawn in chalk", "x": 20, "y": 2 },
         { "text": "A hopscotch court is drawn in chalk", "x": 6, "y": 6 },
         { "text": "An orange sun and a yellow flower are drawn in chalk", "x": 16, "y": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_motel_twd_1_f1_overrun",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "set": [
+        { "line": "terrain", "id": "t_fence_barbed", "x": 10, "y": 2, "x2": 14, "y2": 2 },
+        { "line": "terrain", "id": "t_fence_barbed", "x": 19, "y": 2, "x2": 23, "y2": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_motel_twd_2_f1_overrun",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "set": [
+        { "line": "terrain", "id": "t_fence_barbed", "x": 0, "y": 2, "x2": 9, "y2": 2 },
+        { "point": "terrain", "id": "t_fence_barbed", "x": 17, "y": 2 }
       ]
     }
   },
@@ -692,7 +718,7 @@
         { "group": "GROUP_ZOMBIE", "x": 15, "y": 20, "chance": 25 },
         { "group": "GROUP_ZOMBIE", "x": 22, "y": 20, "chance": 25 }
       ],
-      "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 } ],
+      "place_items": [ { "item": "maps", "x": 3, "y": 4, "chance": 70 } ],
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 10, "y": 6, "chance": 25, "rotation": 180 },
         { "vehicle": "rv", "x": 13, "y": 10, "chance": 40, "rotation": 0 }
@@ -826,7 +852,10 @@
       "place_nested": [
         {
           "chunks": [
-            { "switch": { "param": "overrun", "fallback": "false" }, "cases": { "true": "null", "false": "24x24_motel_twd_1_f1" } }
+            {
+              "switch": { "param": "overrun", "fallback": "false" },
+              "cases": { "true": "24x24_motel_twd_1_f1_overrun", "false": "24x24_motel_twd_1_f1" }
+            }
           ],
           "x": 0,
           "y": 0
@@ -835,9 +864,14 @@
           "chunks": [
             {
               "switch": { "param": "overrun", "fallback": "false" },
-              "cases": { "true": [ [ "roof_4x4_holdout", 10 ], [ "roof_4x4_party", 5 ], [ "roof_4x4_survivor", 10 ] ], "false": "null" }
+              "cases": { "true": "24x24_motel_twd_2_f1_overrun", "false": "null" }
             }
           ],
+          "x": 24,
+          "y": 0
+        },
+        {
+          "chunks": [ { "switch": { "param": "overrun", "fallback": "false" }, "cases": { "true": "roof_4x4_survivor", "false": "null" } } ],
           "x": [ 9, 14 ],
           "y": [ 19, 20 ]
         },
