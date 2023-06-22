@@ -32,8 +32,11 @@
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_MATRIX_AWAKENING_SUCCESS",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As it fills your vision, you become aware of the sound of your heartbeat, of the blood rushing through your veins, of the oxygen fueling your muscles.  You see the connections between them all and, only partially aware of how you're doing it, you reach out and adjust the flow.  Strength and power suddenly fill your body, and as you watch the connections with your inner eye, you see what exactly you did and you know how to do it again.  As the light from the crystal fades, leaving it dull and colorless, your vision clears.", "popup": true },
-      { "u_add_trait": "BIOKINETIC" }, 
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As it fills your vision, you become aware of the sound of your heartbeat, of the blood rushing through your veins, of the oxygen fueling your muscles.  You see the connections between them all and, only partially aware of how you're doing it, you reach out and adjust the flow.  Strength and power suddenly fill your body, and as you watch the connections with your inner eye, you see what exactly you did and you know how to do it again.  As the light from the crystal fades, leaving it dull and colorless, your vision clears.",
+        "popup": true
+      },
+      { "u_add_trait": "BIOKINETIC" },
       { "u_add_trait": "BIOKIN_NEEDS" },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_biokin_physical", "duration": "5 minutes" },
