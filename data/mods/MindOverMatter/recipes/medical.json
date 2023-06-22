@@ -38,7 +38,7 @@
     "skills_required": [ "metaphysics", 5 ],
     "difficulty": 8,
     "time": "350 m",
-    "book_learn": [ ],
+    "book_learn": [  ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_intro_biology", "required": false },
@@ -57,5 +57,5 @@
       [ [ "mutagen_chelator", 1 ], [ "iv_purifier", 1 ] ]
     ],
     "flags": [ "SECRET", "BLIND_HARD" ]
-  }  
+  }
 ]

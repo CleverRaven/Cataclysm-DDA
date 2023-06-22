@@ -86,15 +86,8 @@
     "ammo": [ "mom_pulse_rifle_ammo" ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "ammo_restriction": { "mom_pulse_rifle_ammo": 1 }
-      }
-    ],
-    "relic_data": {
-      "charge_info": { "recharge_type": "periodic", "time": "8 s", "regenerate_ammo": true } 
-    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_pulse_rifle_ammo": 1 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "8 s", "regenerate_ammo": true } },
     "//": "Recharge time is 8 seconds due to bug #48019, making it actually 4 seconds. Reduce to 4 seconds if that ever gets fixed."
   }
 ]

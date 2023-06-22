@@ -32,12 +32,14 @@
     "autolearn": [ [ "metaphysics", 1 ] ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
-    "book_learn": [ [ "manual_meditation", 0 ], [ "book_newage_inpsychic", 0 ], [ "occult_glimpses", 0 ], [ "book_newage_generic", 0 ], [ "book_newage_witchcraftbeg", 0] ],
-    "tools": [ 
-      [ 
-        
-      ] 
+    "book_learn": [
+      [ "manual_meditation", 0 ],
+      [ "book_newage_inpsychic", 0 ],
+      [ "occult_glimpses", 0 ],
+      [ "book_newage_generic", 0 ],
+      [ "book_newage_witchcraftbeg", 0 ]
     ],
+    "tools": [ [  ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -51,13 +53,9 @@
     "skill_used": "metaphysics",
     "time": "1 h",
     "practice_data": { "min_difficulty": 3, "max_difficulty": 5, "skill_limit": 6 },
-    "book_learn": [ [ "manual_meditation_int", 3 ],  [ "occult_glimpses", 3 ], [ "book_newage_witchcraftadv", 3 ] ],
-    "tools": [ 
-      [ 
-        
-      ] 
-    ],
-     "flags": [ "BLIND_EASY" ]
+    "book_learn": [ [ "manual_meditation_int", 3 ], [ "occult_glimpses", 3 ], [ "book_newage_witchcraftadv", 3 ] ],
+    "tools": [ [  ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "id": "prac_psionics_advan",
@@ -71,12 +69,8 @@
     "time": "1 h",
     "practice_data": { "min_difficulty": 6, "max_difficulty": 9, "skill_limit": 10 },
     "book_learn": [ [ "manual_psionics_advan", 6 ] ],
-    "tools": [ 
-      [ 
-        
-      ] 
-    ],
-     "flags": [ "BLIND_EASY" ]
+    "tools": [ [  ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "id": "prac_psionics_prof_basic",

@@ -9,7 +9,15 @@
     "name": "contemplation: biokinesis",
     "description": "Recipes related to practicing biokinesis.",
     "skill_used": "metaphysics",
-    "nested_category_data": [ "practice_biokin_physical_enhance", "practice_biokin_overcome_pain", "practice_biokin_flexibility", "practice_biokin_armor_skin", "practice_biokin_reflex_enhance", "practice_biokin_sealed_system", "practice_biokin_combat_dance" ],
+    "nested_category_data": [
+      "practice_biokin_physical_enhance",
+      "practice_biokin_overcome_pain",
+      "practice_biokin_flexibility",
+      "practice_biokin_armor_skin",
+      "practice_biokin_reflex_enhance",
+      "practice_biokin_sealed_system",
+      "practice_biokin_combat_dance"
+    ],
     "difficulty": 1
   },
   {
@@ -26,22 +34,30 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE", 
+        "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_physical_enhance" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_physical_enhance" }, "<=", { "const": 49417 } ] }                                                                       
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_physical_enhance" }, "<=", { "const": 49417 } ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "biokin_physical_enhance" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "biokin_physical_enhance" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_physical_enhance" }, ">=", { "const": 1 } ] },
@@ -56,7 +72,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -73,22 +89,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN", 
+        "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_overcome_pain" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_overcome_pain" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_overcome_pain" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "biokin_overcome_pain" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "biokin_overcome_pain" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_overcome_pain" }, ">=", { "const": 1 } ] },
@@ -103,7 +125,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -120,22 +142,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY", 
+        "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_flexibility" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_flexibility" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_flexibility" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "biokin_flexibility" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "biokin_flexibility" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_flexibility" }, ">=", { "const": 1 } ] },
@@ -150,7 +178,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -168,22 +196,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN", 
+        "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_armor_skin" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_armor_skin" }, "<=", { "const": 35278 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_armor_skin" }, "<=", { "const": 35278 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "biokin_armor_skin" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "biokin_armor_skin" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_armor_skin" }, ">=", { "const": 1 } ] },
@@ -198,7 +232,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -216,22 +250,30 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE", 
+        "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_reflex_enhance" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_reflex_enhance" }, "<=", { "const": 35278 } ] }                                                                       
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_reflex_enhance" }, "<=", { "const": 35278 } ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "biokin_reflex_enhance" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "biokin_reflex_enhance" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_reflex_enhance" }, ">=", { "const": 1 } ] },
@@ -246,7 +288,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -264,22 +306,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM", 
+        "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_sealed_system" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_sealed_system" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_sealed_system" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "biokin_sealed_system" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "biokin_sealed_system" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_sealed_system" }, ">=", { "const": 1 } ] },
@@ -294,7 +342,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -312,22 +360,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE", 
+        "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_combat_dance" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_combat_dance" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "biokin_combat_dance" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "biokin_combat_dance" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "biokin_combat_dance" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_combat_dance" }, ">=", { "const": 1 } ] },
@@ -342,7 +396,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   }
 ]

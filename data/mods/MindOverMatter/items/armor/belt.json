@@ -2,7 +2,7 @@
   {
     "id": "psionic_shield_belt",
     "type": "TOOL_ARMOR",
-    "name": {  "str": "shield belt" },
+    "name": { "str": "shield belt" },
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop. The box has a toggleable switch and a stylized shield with Ψ and the XEDRA logo inside it.",
     "weight": "350 g",
     "volume": "500 ml",
@@ -13,12 +13,7 @@
     "looks_like": "leather_belt",
     "color": "yellow",
     "material_thickness": 1.5,
-    "pocket_data": [ 
-      {
-        "pocket_type": "MAGAZINE",
-        "ammo_restriction":  { "psionic_charge_power": 90 }
-      } 
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 90 } } ],
     "use_action": [
       {
         "type": "transform",
@@ -28,39 +23,26 @@
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
-        "menu_text": "Flip the switch" 
+        "menu_text": "Flip the switch"
       }
     ],
-    "flags": [
-      "BELTED",
-      "OVERSIZE",
-      "NONCONDUCTIVE", 
-      "NO_REPAIR",
-      "COMBAT_TOGGLEABLE",
-      "NO_UNLOAD"
-    ],
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE", "NO_UNLOAD" ],
     "armor": [
       {
         "encumbrance": 2,
         "coverage": 50,
-        "covers": [
-          "torso"
-        ],
-        "specifically_covers": [
-          "torso_waist"
-        ],
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": {
-      "charge_info": { "recharge_type": "periodic", "time": "60 s", "regenerate_ammo": true } 
-    },
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "60 s", "regenerate_ammo": true } },
     "//": "Recharge time is 60 seconds due to bug #48019, making it actually 30 seconds. Reduce to 30 seconds if that ever gets fixed."
   },
   {
     "id": "psionic_shield_belt_on",
     "type": "TOOL_ARMOR",
-    "name": {  "str": "shield belt (active)" },
+    "name": { "str": "shield belt (active)" },
     "copy-from": "psionic_shield_belt",
     "turns_per_charge": 1,
     "revert_to": "psionic_shield_belt",
@@ -75,15 +57,16 @@
     ],
     "extend": { "flags": [ "NO_TAKEOFF" ] },
     "relic_data": {
-      "passive_effects": [ 
-        { "has": "WORN", 
-         "condition": "ALWAYS", 
-         "values": [ 
-           { "value": "ARMOR_CUT", "add": -15 },
-           { "value": "ARMOR_BASH", "add": -8 },
-           { "value": "ARMOR_STAB", "add": -20 },
-           { "value": "ARMOR_BULLET", "add": -40 }
-         ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ARMOR_CUT", "add": -15 },
+            { "value": "ARMOR_BASH", "add": -8 },
+            { "value": "ARMOR_STAB", "add": -20 },
+            { "value": "ARMOR_BULLET", "add": -40 }
+          ]
         }
       ]
     }
@@ -91,7 +74,7 @@
   {
     "id": "psionic_shield_belt_broken",
     "type": "TOOL_ARMOR",
-    "name": {  "str": "shield belt" },
+    "name": { "str": "shield belt" },
     "copy-from": "psionic_shield_belt",
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop. The box has a toggleable switch and a stylized shield with Ψ and the XEDRA logo inside it.  It also has a large crack across it and rattles when moved.",
     "use_action": [
@@ -100,21 +83,16 @@
         "msg": "You flip the switch on the box, but nothing happens.",
         "target": "psionic_shield_belt_broken",
         "need_worn": true,
-        "menu_text": "Flip the switch" 
+        "menu_text": "Flip the switch"
       }
     ],
-    "pocket_data": [ 
-      {
-        "pocket_type": "MAGAZINE",
-        "ammo_restriction":  { "psionic_charge_power": 90 }
-      }  
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 90 } } ],
     "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
     "id": "psionic_fire_shield_belt",
     "type": "TOOL_ARMOR",
-    "name": {  "str": "suppression belt" },
+    "name": { "str": "suppression belt" },
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop. The box has a toggleable switch and a stylized flame with a large 🛇 over, with a Ψ behind the XEDRA logo inside it.",
     "weight": "350 g",
     "volume": "500 ml",
@@ -125,12 +103,7 @@
     "looks_like": "leather_belt",
     "color": "red",
     "material_thickness": 1.5,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "ammo_restriction":  { "psionic_charge_power": 300 }
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 300 } } ],
     "use_action": [
       {
         "type": "transform",
@@ -140,39 +113,26 @@
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
-        "menu_text": "Flip the switch" 
+        "menu_text": "Flip the switch"
       }
     ],
-    "flags": [
-      "BELTED",
-      "OVERSIZE",
-      "NONCONDUCTIVE", 
-      "NO_REPAIR",
-      "COMBAT_TOGGLEABLE",
-      "NO_UNLOAD"
-    ],
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE", "NO_UNLOAD" ],
     "armor": [
       {
         "encumbrance": 2,
         "coverage": 50,
-        "covers": [
-          "torso"
-        ],
-        "specifically_covers": [
-          "torso_waist"
-        ],
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": {
-      "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true } 
-    },
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true } },
     "//": "Recharge time is 30 seconds due to bug #48019, making it actually 15 seconds. Reduce to 15 seconds if that ever gets fixed."
   },
   {
     "id": "psionic_fire_shield_belt_on",
     "type": "TOOL_ARMOR",
-    "name": {  "str": "suppression belt (active)" },
+    "name": { "str": "suppression belt (active)" },
     "copy-from": "psionic_fire_shield_belt",
     "turns_per_charge": 1,
     "revert_to": "psionic_fire_shield_belt",
@@ -187,13 +147,11 @@
     ],
     "extend": { "flags": [ "NO_TAKEOFF" ] },
     "relic_data": {
-      "passive_effects": [ 
-        { "has": "WORN", 
-         "condition": "ALWAYS", 
-         "values": [ 
-           { "value": "ARMOR_HEAT", "add": -80 },
-           { "value": "CLIMATE_CONTROL_CHILL", "add": 400 }
-         ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_HEAT", "add": -80 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 400 } ]
         }
       ]
     }
@@ -202,7 +160,7 @@
     "id": "psionic_fire_shield_belt_broken",
     "type": "TOOL_ARMOR",
     "copy-from": "psionic_fire_shield_belt",
-    "name": {  "str": "suppression belt" },
+    "name": { "str": "suppression belt" },
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop. The box has a toggleable switch and a stylized flame with a large 🛇 over, with a Ψ behind the XEDRA logo inside it.  It also has a large crack across it and rattles when moved.",
     "use_action": [
       {
@@ -210,15 +168,10 @@
         "msg": "You flip the switch on the box, but nothing happens.",
         "target": "psionic_fire_shield_belt_broken",
         "need_worn": true,
-        "menu_text": "Flip the switch" 
+        "menu_text": "Flip the switch"
       }
     ],
-    "pocket_data": [ 
-      {
-        "pocket_type": "MAGAZINE",
-        "ammo_restriction":  { "psionic_charge_power": 300 }
-      } 
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 300 } } ],
     "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }
 ]

@@ -9,7 +9,15 @@
     "name": "contemplation: clairsentience",
     "description": "Recipes related to practicing clairsentience.",
     "skill_used": "metaphysics",
-    "nested_category_data": [ "practice_clair_night_vision", "practice_clair_danger_sense", "practice_clair_spot_weakness", "practice_clair_voyance", "practice_clair_dodge_power", "practice_clair_clear_sight", "practice_clair_see_map" ],
+    "nested_category_data": [
+      "practice_clair_night_vision",
+      "practice_clair_danger_sense",
+      "practice_clair_spot_weakness",
+      "practice_clair_voyance",
+      "practice_clair_dodge_power",
+      "practice_clair_clear_sight",
+      "practice_clair_see_map"
+    ],
     "difficulty": 1
   },
   {
@@ -26,22 +34,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION", 
+        "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "clair_night_vision" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_night_vision" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_night_vision" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "clair_night_vision" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "clair_night_vision" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "clair_night_vision" }, ">=", { "const": 1 } ] },
@@ -56,7 +70,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -73,22 +87,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE", 
+        "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "clair_danger_sense" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_danger_sense" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_danger_sense" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "clair_danger_sense" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "clair_danger_sense" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "clair_danger_sense" }, ">=", { "const": 1 } ] },
@@ -103,7 +123,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -120,22 +140,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS", 
+        "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "clair_spot_weakness" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_spot_weakness" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_spot_weakness" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "clair_spot_weakness" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "clair_spot_weakness" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "clair_spot_weakness" }, ">=", { "const": 1 } ] },
@@ -150,7 +176,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -168,22 +194,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE", 
+        "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "clair_dodge_power" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_dodge_power" }, "<=", { "const": 35278 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_dodge_power" }, "<=", { "const": 35278 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "clair_dodge_power" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "clair_dodge_power" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "clair_dodge_power" }, ">=", { "const": 1 } ] },
@@ -198,7 +230,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -216,22 +248,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_CLAIR_VOYANCE", 
+        "id": "EOC_PRACTICE_CLAIR_VOYANCE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "clair_voyance" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_voyance" }, "<=", { "const": 35278 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_voyance" }, "<=", { "const": 35278 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "clair_voyance" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "clair_voyance" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_VOYANCE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "clair_voyance" }, ">=", { "const": 1 } ] },
@@ -246,7 +284,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -264,22 +302,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT", 
+        "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "clair_clear_sight" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_clear_sight" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_clear_sight" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "clair_clear_sight" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "clair_clear_sight" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "clair_clear_sight" }, ">=", { "const": 1 } ] },
@@ -294,7 +338,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -312,22 +356,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_CLAIR_SEE_MAP", 
+        "id": "EOC_PRACTICE_CLAIR_SEE_MAP",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "clair_see_map" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_see_map" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_see_map" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "clair_see_map" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "clair_see_map" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_CLAIR_SEE_MAP_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "clair_see_map" }, ">=", { "const": 1 } ] },
@@ -342,7 +392,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   }
 ]

@@ -31,7 +31,7 @@
     "recoil": 0,
     "damage": { "damage_type": "heat", "amount": 55, "armor_penetration": 5 }
   },
-   {
+  {
     "type": "AMMO",
     "id": "psionic_charge_power",
     "category": "spare_parts",

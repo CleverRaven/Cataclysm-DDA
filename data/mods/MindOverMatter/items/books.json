@@ -9,7 +9,7 @@
     "volume": "1250 ml",
     "price": 2500,
     "price_postapoc": 150,
-    "melee_damage": { "bash": 3},
+    "melee_damage": { "bash": 3 },
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "book_nonf_hard_psych_moodalm",
@@ -29,19 +29,28 @@
       },
       {
         "id": "manual_meditation_2",
-        "name": { "str": "How to Meditate: A Practical Guide to Making Friends with Your Mind", "str_pl": "copies of How to Meditate: A Practical Guide to Making Friends with Your Mind" },
+        "name": {
+          "str": "How to Meditate: A Practical Guide to Making Friends with Your Mind",
+          "str_pl": "copies of How to Meditate: A Practical Guide to Making Friends with Your Mind"
+        },
         "description": "A book on meditation written for a general audience, containing simple techniques on breathing and mindfulness.",
         "weight": 1
       },
       {
         "id": "manual_meditation_3",
-        "name": { "str": "The Wandering Mind: What Medieval Monks Tell Us about Distraction", "str_pl": "copies of The Wandering Mind: What Medieval Monks Tell Us about Distraction" },
+        "name": {
+          "str": "The Wandering Mind: What Medieval Monks Tell Us about Distraction",
+          "str_pl": "copies of The Wandering Mind: What Medieval Monks Tell Us about Distraction"
+        },
         "description": "A history of monastic attempts at finding calm and peace in the midst of a profane world.  There are far fewer daily distractions now than pre-Cataclysm but there's still some useful techniques you could gain here.",
         "weight": 1
       },
       {
         "id": "manual_meditation_4",
-        "name": { "str": "The Miracle of Mindfulness: An Introduction to the Practice of Meditation", "str_pl": "copies of The Miracle of Mindfulness: An Introduction to the Practice of Meditation" },
+        "name": {
+          "str": "The Miracle of Mindfulness: An Introduction to the Practice of Meditation",
+          "str_pl": "copies of The Miracle of Mindfulness: An Introduction to the Practice of Meditation"
+        },
         "description": "A translation of a letter written by Thich Nhat Hanh to collegues in Viet Nam, this book focues on mindfulness and breathwork.",
         "weight": 1
       }
@@ -63,19 +72,28 @@
     "variants": [
       {
         "id": "manual_meditation_int_1",
-        "name": { "str": "The Mind Illuminated: A Complete Meditation Guide Integrating Buddhist Wisdom and Brain Science for Greater Mindfulness", "str_pl": "The Mind Illuminated: A Complete Meditation Guide Integrating Buddhist Wisdom and Brain Science for Greater Mindfulness" },
+        "name": {
+          "str": "The Mind Illuminated: A Complete Meditation Guide Integrating Buddhist Wisdom and Brain Science for Greater Mindfulness",
+          "str_pl": "The Mind Illuminated: A Complete Meditation Guide Integrating Buddhist Wisdom and Brain Science for Greater Mindfulness"
+        },
         "description": "Written by a neuroscientist and meditator pratitioner, this book offers a ten-step meditation program that combines science with traditional meditation techniques.",
         "weight": 1
       },
       {
         "id": "manual_meditation_int_2",
-        "name": { "str": "Mastering the Core Teachings of the Buddha: An Unusually Hardcore Dharma Book", "str_pl": "copies of Mastering the Core Teachings of the Buddha: An Unusually Hardcore Dharma Book" },
+        "name": {
+          "str": "Mastering the Core Teachings of the Buddha: An Unusually Hardcore Dharma Book",
+          "str_pl": "copies of Mastering the Core Teachings of the Buddha: An Unusually Hardcore Dharma Book"
+        },
         "description": "This book argues that meditation is not an eternal progression but can be mastered just like any other skill, and it will tell you how to do it.",
         "weight": 1
       },
       {
         "id": "manual_meditation_int_3",
-        "name": { "str": "Not Always So: Practicing the True Spirit of Zen", "str_pl": "copies of Not Always So: Practicing the True Spirit of Zen" },
+        "name": {
+          "str": "Not Always So: Practicing the True Spirit of Zen",
+          "str_pl": "copies of Not Always So: Practicing the True Spirit of Zen"
+        },
         "description": "A continuation of the lessons expounded on in \"Zen Mind, Beginner's Mind\", this book contains a myriad of parables and koans to help the student grasp the nature of meditation.",
         "weight": 1
       }

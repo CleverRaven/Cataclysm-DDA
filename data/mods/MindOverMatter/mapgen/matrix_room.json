@@ -1,10 +1,10 @@
 [
-{
+  {
     "type": "mapgen",
     "method": "json",
     "weight": 333,
     "nested_mapgen_id": "microlab_distorted_chunk",
-     "object": {
+    "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
         "| .....  ||.",
@@ -23,7 +23,7 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "microlab_matrix_chunk" ]
     }
-  }, 
+  },
   {
     "type": "palette",
     "id": "microlab_matrix_chunk",
@@ -57,8 +57,6 @@
       "C": "t_nether_crystal_structure",
       "R": "t_railing"
     },
-    "items": {
-        "c": { "item": "dist_matrix_crystals", "chance": 100 }
-    }
-}
+    "items": { "c": { "item": "dist_matrix_crystals", "chance": 100 } }
+  }
 ]

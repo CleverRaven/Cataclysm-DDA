@@ -62,7 +62,7 @@
     "material": [ "plastic", "aluminum", "nether_crystal" ],
     "symbol": ",",
     "color": "red",
-    "use_action": {     
+    "use_action": {
       "type": "transform",
       "target": "pyrokinetic_lamp_on",
       "active": true,
@@ -88,12 +88,7 @@
     "copy-from": "pyrokinetic_lamp",
     "description": "Powered by matrix technology, this lamp will shed a reddish light for far longer than a standard battery-powered lamp.  Activate to close the lid.",
     "power_draw": "2 W",
-    "use_action": { 
-      "type": "transform",
-      "target": "pyrokinetic_lamp", 
-      "msg": "You close the lamp's cover.", 
-      "menu_text": "Close cover" 
-    },
+    "use_action": { "type": "transform", "target": "pyrokinetic_lamp", "msg": "You close the lamp's cover.", "menu_text": "Close cover" },
     "flags": [ "LIGHT_150", "LEAK_DAM", "ALLOWS_REMOTE_USE", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {

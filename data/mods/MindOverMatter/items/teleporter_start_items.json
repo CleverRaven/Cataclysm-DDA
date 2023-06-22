@@ -11,7 +11,7 @@
     "weight": "800 g",
     "volume": "1 L",
     "longest_side": "250 mm",
-		"symbol": "(",
+    "symbol": "(",
     "color": "red",
     "skill": "pistol",
     "material": [ "superalloy", "steel" ],
@@ -22,12 +22,7 @@
     "range": 45,
     "ammo_effects": [ "PLASMA", "PLASMA_BUBBLE", "INCENDIARY" ],
     "ammo": [ "mom_fusion_ammo" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "mom_fusion_mag" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mom_fusion_mag" ] } ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
@@ -45,28 +40,28 @@
     "ammo_type": [ "mom_fusion_ammo" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_fusion_ammo": 40 } } ]
   },
-	{
-		"id": "mom_fusion_ammo",
-		"type": "AMMO",
-		"name": { "str_sp": "Ch47 power cartridges" },
-		"description": "Power cartridges for the Ch47. You had better make every shot count, because there's no way you're finding any more of these.",
-		"weight": "20 g",
-		"volume": "192 ml",
-		"price": 160,
-		"price_postapoc": 800,
-		"flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-		"material": [ "superalloy", "steel" ],
-		"symbol": "=",
-		"color": "red",
-		"count": 40,
-		"stack_size": 40,
-		"ammo_type": "mom_fusion_ammo",
-		"damage": { "damage_type": "heat", "amount": 60, "armor_penetration": 30 }
-	},
-	 {
-	    "type": "ammunition_type",
-	    "id": "mom_fusion_ammo",
-	    "name": "Ch47 fusion shot",
-	    "default": "mom_fusion_ammo"
-	  }
+  {
+    "id": "mom_fusion_ammo",
+    "type": "AMMO",
+    "name": { "str_sp": "Ch47 power cartridges" },
+    "description": "Power cartridges for the Ch47. You had better make every shot count, because there's no way you're finding any more of these.",
+    "weight": "20 g",
+    "volume": "192 ml",
+    "price": 160,
+    "price_postapoc": 800,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "superalloy", "steel" ],
+    "symbol": "=",
+    "color": "red",
+    "count": 40,
+    "stack_size": 40,
+    "ammo_type": "mom_fusion_ammo",
+    "damage": { "damage_type": "heat", "amount": 60, "armor_penetration": 30 }
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mom_fusion_ammo",
+    "name": "Ch47 fusion shot",
+    "default": "mom_fusion_ammo"
+  }
 ]

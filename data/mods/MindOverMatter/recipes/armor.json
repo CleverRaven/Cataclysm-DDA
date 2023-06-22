@@ -19,7 +19,7 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ 
+    "components": [
       [ [ "matrix_crystal_telepath_dust", 3 ] ],
       [ [ "matrix_crystal_teleport_dust", 6 ] ],
       [ [ "steel_chunk", 2 ], [ "steel_lump", 1 ] ]

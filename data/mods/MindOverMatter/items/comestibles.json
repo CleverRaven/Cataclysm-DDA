@@ -18,7 +18,11 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": { "type": "effect_on_conditions", "description": "Drink the concoction.", "effect_on_conditions": [ "EOC_BIOKIN_POTION" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the concoction.",
+      "effect_on_conditions": [ "EOC_BIOKIN_POTION" ]
+    }
   },
   {
     "id": "matrix_crystal_clair_dust_potion",
@@ -39,7 +43,11 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": { "type": "effect_on_conditions", "description": "Drink the concoction.", "effect_on_conditions": [ "EOC_CLAIR_POTION" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the concoction.",
+      "effect_on_conditions": [ "EOC_CLAIR_POTION" ]
+    }
   },
   {
     "id": "matrix_crystal_pyrokin_dust_potion",
@@ -60,7 +68,11 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": { "type": "effect_on_conditions", "description": "Drink the concoction.", "effect_on_conditions": [ "EOC_PYROKIN_POTION" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the concoction.",
+      "effect_on_conditions": [ "EOC_PYROKIN_POTION" ]
+    }
   },
   {
     "id": "matrix_crystal_telekin_dust_potion",
@@ -81,7 +93,11 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": { "type": "effect_on_conditions", "description": "Drink the concoction.", "effect_on_conditions": [ "EOC_TELEKIN_POTION" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the concoction.",
+      "effect_on_conditions": [ "EOC_TELEKIN_POTION" ]
+    }
   },
   {
     "id": "matrix_crystal_telepath_dust_potion",
@@ -102,7 +118,11 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": { "type": "effect_on_conditions", "description": "Drink the concoction.", "effect_on_conditions": [ "EOC_TELEPATH_POTION" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the concoction.",
+      "effect_on_conditions": [ "EOC_TELEPATH_POTION" ]
+    }
   },
   {
     "id": "matrix_crystal_teleport_dust_potion",
@@ -123,7 +143,11 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": { "type": "effect_on_conditions", "description": "Drink the concoction.", "effect_on_conditions": [ "EOC_TELEPORT_POTION" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the concoction.",
+      "effect_on_conditions": [ "EOC_TELEPORT_POTION" ]
+    }
   },
   {
     "id": "matrix_crystal_vitakin_dust_potion",
@@ -144,6 +168,10 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": { "type": "effect_on_conditions", "description": "Drink the concoction.", "effect_on_conditions": [ "EOC_VITAKIN_POTION" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the concoction.",
+      "effect_on_conditions": [ "EOC_VITAKIN_POTION" ]
+    }
   }
 ]

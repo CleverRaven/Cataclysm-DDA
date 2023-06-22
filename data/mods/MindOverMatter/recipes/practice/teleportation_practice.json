@@ -9,7 +9,15 @@
     "name": "contemplation: teleportation",
     "description": "Recipes related to practicing teleportation.",
     "skill_used": "metaphysics",
-    "nested_category_data": [ "practice_teleport_blink", "practice_teleport_slow", "practice_teleport_transpose", "practice_teleport_farstep", "practice_teleport_collapse", "practice_teleport_gateway", "practice_teleport_banish" ],
+    "nested_category_data": [
+      "practice_teleport_blink",
+      "practice_teleport_slow",
+      "practice_teleport_transpose",
+      "practice_teleport_farstep",
+      "practice_teleport_collapse",
+      "practice_teleport_gateway",
+      "practice_teleport_banish"
+    ],
     "difficulty": 1
   },
   {
@@ -26,22 +34,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPORT_BLINK", 
+        "id": "EOC_PRACTICE_TELEPORT_BLINK",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_blink" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_blink" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_blink" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "teleport_blink" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_blink" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_BLINK_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_blink" }, ">=", { "const": 1 } ] },
@@ -56,7 +70,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -73,22 +87,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPORT_SLOW", 
+        "id": "EOC_PRACTICE_TELEPORT_SLOW",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_slow" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_slow" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_slow" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "teleport_slow" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_slow" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_SLOW_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_slow" }, ">=", { "const": 1 } ] },
@@ -103,7 +123,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -120,22 +140,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPORT_SWAP", 
+        "id": "EOC_PRACTICE_TELEPORT_SWAP",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_transpose" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_transpose" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_transpose" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "teleport_transpose" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_transpose" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_SWAP_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_transpose" }, ">=", { "const": 1 } ] },
@@ -150,7 +176,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -168,22 +194,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPORT_FARSTEP", 
+        "id": "EOC_PRACTICE_TELEPORT_FARSTEP",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_farstep" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_farstep" }, "<=", { "const": 35278 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_farstep" }, "<=", { "const": 35278 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "teleport_farstep" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_farstep" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_FARSTEP_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_farstep" }, ">=", { "const": 1 } ] },
@@ -198,7 +230,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -216,22 +248,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPORT_COLLAPSE", 
+        "id": "EOC_PRACTICE_TELEPORT_COLLAPSE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_collapse" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_collapse" }, "<=", { "const": 35278 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_collapse" }, "<=", { "const": 35278 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "teleport_collapse" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_collapse" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_COLLAPSE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_collapse" }, ">=", { "const": 1 } ] },
@@ -246,7 +284,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -264,22 +302,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPORT_GATEWAY", 
+        "id": "EOC_PRACTICE_TELEPORT_GATEWAY",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_gateway" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_gateway" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_gateway" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "teleport_gateway" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_gateway" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_GATEWAY_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_gateway" }, ">=", { "const": 1 } ] },
@@ -294,7 +338,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -312,22 +356,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPORT_BANISH", 
+        "id": "EOC_PRACTICE_TELEPORT_BANISH",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_banish" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_banish" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_banish" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "teleport_banish" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_banish" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPORT_BANISH_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_banish" }, ">=", { "const": 1 } ] },
@@ -342,7 +392,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   }
 ]

@@ -16,7 +16,11 @@
     "color": "blue",
     "flags": [ "EATEN_COLD" ],
     "phase": "solid",
-    "use_action": { "type": "effect_on_conditions", "description": "Rub the cream on your skin.", "effect_on_conditions": [ "EOC_INSTABILITY_CREAM" ] }
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Rub the cream on your skin.",
+      "effect_on_conditions": [ "EOC_INSTABILITY_CREAM" ]
+    }
   },
   {
     "id": "psionic_purifier_vita",

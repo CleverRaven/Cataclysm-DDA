@@ -9,7 +9,15 @@
     "name": "contemplation: vitakinesis",
     "description": "Recipes related to practicing vitakinesis.",
     "skill_used": "metaphysics",
-    "nested_category_data": [ "practice_vita_health_power", "practice_vita_stop_bleeding", "practice_vita_hurt_touch", "practice_vita_sleeping_trance", "practice_vita_pain_split", "practice_vita_healing_trance", "practice_vita_blood_purge" ],
+    "nested_category_data": [
+      "practice_vita_health_power",
+      "practice_vita_stop_bleeding",
+      "practice_vita_hurt_touch",
+      "practice_vita_sleeping_trance",
+      "practice_vita_pain_split",
+      "practice_vita_healing_trance",
+      "practice_vita_blood_purge"
+    ],
     "difficulty": 1
   },
   {
@@ -26,22 +34,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_VITAKIN_HEALTH", 
+        "id": "EOC_PRACTICE_VITAKIN_HEALTH",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "vita_health_power" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_health_power" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_health_power" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "vita_health_power" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "vita_health_power" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_HEALTH_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "vita_health_power" }, ">=", { "const": 1 } ] },
@@ -56,7 +70,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -73,22 +87,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_VITAKIN_STAUNCHING", 
+        "id": "EOC_PRACTICE_VITAKIN_STAUNCHING",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "vita_stop_bleeding" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_stop_bleeding" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_stop_bleeding" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "vita_stop_bleeding" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "vita_stop_bleeding" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_STAUNCHING_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "vita_stop_bleeding" }, ">=", { "const": 1 } ] },
@@ -103,7 +123,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -120,22 +140,28 @@
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_VITAKIN_HURT", 
+        "id": "EOC_PRACTICE_VITAKIN_HURT",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "vita_hurt_touch" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_hurt_touch" }, "<=", { "const": 49417 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_hurt_touch" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "vita_hurt_touch" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "vita_hurt_touch" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_HURT_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "vita_hurt_touch" }, ">=", { "const": 1 } ] },
@@ -150,7 +176,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -168,22 +194,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_VITAKIN_SLEEP", 
+        "id": "EOC_PRACTICE_VITAKIN_SLEEP",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "vita_sleeping_trance" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_sleeping_trance" }, "<=", { "const": 35278 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_sleeping_trance" }, "<=", { "const": 35278 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "vita_sleeping_trance" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "vita_sleeping_trance" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_SLEEP_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "vita_sleeping_trance" }, ">=", { "const": 1 } ] },
@@ -198,7 +230,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -216,22 +248,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE", 
+        "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "vita_pain_split" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_pain_split" }, "<=", { "const": 35278 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_pain_split" }, "<=", { "const": 35278 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "vita_pain_split" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "vita_pain_split" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "vita_pain_split" }, ">=", { "const": 1 } ] },
@@ -246,7 +284,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -264,22 +302,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE", 
+        "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "vita_healing_trance" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_healing_trance" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_healing_trance" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "vita_healing_trance" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "vita_healing_trance" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "vita_healing_trance" }, ">=", { "const": 1 } ] },
@@ -294,7 +338,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   },
   {
@@ -312,22 +356,28 @@
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [ 
+    "result_eocs": [
       {
-        "id": "EOC_PRACTICE_VITAKIN_PURGE", 
+        "id": "EOC_PRACTICE_VITAKIN_PURGE",
         "condition": {
-          "and": [ 
+          "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "vita_blood_purge" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_blood_purge" }, "<=", { "const": 20513 } ] }                                                                       
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "vita_blood_purge" }, "<=", { "const": 20513 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "arithmetic": [ { "u_val": "spell_exp", "spell": "vita_blood_purge" }, "+=", { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] } ] },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "vita_blood_purge" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
-          "run_eocs": [ 
+          "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_PURGE_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "vita_blood_purge" }, ">=", { "const": 1 } ] },
@@ -342,7 +392,7 @@
             }
           ]
         }
-      } 
+      }
     ]
   }
 ]

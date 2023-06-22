@@ -4,17 +4,8 @@
     "id": "enchant_clair_potion",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [
-      { "value": "BONUS_DODGE", "add": 1 }
-    ],
-    "intermittent_activation": { 
-      "effects": [ 
-        { "frequency": "2 seconds", "spell_effects": [
-          { "id": "clair_potion_clairvoyance" } 
-        ] 
-        } 
-      ] 
-    }
+    "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+    "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "clair_potion_clairvoyance" } ] } ] }
   },
   {
     "id": "clair_potion_clairvoyance",
@@ -42,10 +33,22 @@
     "has": "HELD",
     "emitter": "emit_pyrokin_cloak",
     "values": [
-      { "value": "CLIMATE_CONTROL_CHILL", "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] } },
-      { "value": "CLIMATE_CONTROL_HEAT", "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] } },
-      { "value": "ARMOR_HEAT", "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] } },
-      { "value": "ARMOR_COLD", "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) )" ] } }
+      {
+        "value": "CLIMATE_CONTROL_CHILL",
+        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+      },
+      {
+        "value": "CLIMATE_CONTROL_HEAT",
+        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+      },
+      {
+        "value": "ARMOR_HEAT",
+        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+      },
+      {
+        "value": "ARMOR_COLD",
+        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+      }
     ]
   },
   {
@@ -53,13 +56,10 @@
     "id": "enchant_pyrokinetic_aura",
     "condition": "ALWAYS",
     "has": "HELD",
-    "hit_you_effect": [ { "id": "pyro_aura_attack", "hit_self": false }  ],
+    "hit_you_effect": [ { "id": "pyro_aura_attack", "hit_self": false } ],
     "hit_me_effect": [ { "id": "pyro_aura_attacked", "hit_self": false } ],
     "emitter": "emit_pyrokin_fever",
-    "values": [ 
-      { "value": "LUMINATION", "add": 50 },
-      { "value": "CLIMATE_CONTROL_CHILL", "add": 40 }
-    ]
+    "values": [ { "value": "LUMINATION", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 40 } ]
   },
   {
     "id": "pyro_aura_attack",
@@ -73,7 +73,7 @@
     "damage_type": "heat",
     "min_damage": 5,
     "max_damage": 15,
-    "min_range": 1,  
+    "min_range": 1,
     "max_range": 1
   },
   {
@@ -96,16 +96,21 @@
     "id": "enchant_pyrokin_potion",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [
-      { "value": "ARMOR_HEAT", "add": -50 }   
-    ],
-    "hit_me_effect": [ { "id": "pyro_aura_attacked",  "hit_self": false } ]
+    "values": [ { "value": "ARMOR_HEAT", "add": -50 } ],
+    "hit_me_effect": [ { "id": "pyro_aura_attacked", "hit_self": false } ]
   },
   {
     "type": "enchantment",
     "id": "enchant_teleport_potion",
     "condition": "ALWAYS",
     "has": "HELD",
-    "hit_you_effect": [ { "id": "teleport_slow_monster", "hit_self": false, "min_level": 1, "message": "The air around your enemy warps slightly." }  ]
+    "hit_you_effect": [
+      {
+        "id": "teleport_slow_monster",
+        "hit_self": false,
+        "min_level": 1,
+        "message": "The air around your enemy warps slightly."
+      }
+    ]
   }
 ]

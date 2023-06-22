@@ -17,7 +17,7 @@
     "name": { "str": "Elixir PK Surge (active)" },
     "copy-from": "TELELIXIRDOWN",
     "description": "You are lashing out with your elixir-forged telekinetic powers.",
-    "fatigue": true, 
+    "fatigue": true,
     "cost": 1,
     "time": "1 m",
     "activated_eocs": [ "EOC_TELELIXIR_CAST" ],
@@ -30,13 +30,7 @@
     "deactivate_condition": { "not": { "u_has_trait": "TELELIXIRDOWN_active" } },
     "recurrence": [ "2 seconds", "5 seconds" ],
     "effect": [
-      {
-        "u_cast_spell": {
-          "id": "telelixir_random",
-          "message": "Your crystal-fueled powers activate!"
-        },
-        "targeted": true
-      }
+      { "u_cast_spell": { "id": "telelixir_random", "message": "Your crystal-fueled powers activate!" }, "targeted": true }
     ]
   },
   {
@@ -53,10 +47,7 @@
     "max_damage": 1,
     "min_range": 8,
     "max_range": 15,
-    "extra_effects": [
-      { "id": "telelixir_slam" },
-      { "id": "telelixir_push" }
-    ]
+    "extra_effects": [ { "id": "telelixir_slam" }, { "id": "telelixir_push" } ]
   },
   {
     "id": "telelixir_slam",

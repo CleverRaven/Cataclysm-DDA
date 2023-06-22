@@ -1,5 +1,5 @@
 [
-   {
+  {
     "id": "mon_feral_scientist_psychic",
     "type": "MONSTER",
     "name": { "str": "Dr. Brain" },
@@ -22,7 +22,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor": { "bash": 15, "cut": 10, "bullet": 35, "stab": 5 },
+    "armor": { "bash": 15, "cut": 10, "bullet": 35, "stab": 5 },
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 2,
@@ -36,21 +36,24 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_CLOSE" ],
     "special_attacks": [
       {
-        "type": "spell", "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
+        "type": "spell",
+        "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
         "cooldown": 12,
         "monster_message": "A roar fills your mind and the world is blotted out!"
       },
       {
-        "type": "spell", "spell_data": { "id": "telepathic_blast_monster", "min_level": 4 },
+        "type": "spell",
+        "spell_data": { "id": "telepathic_blast_monster", "min_level": 4 },
         "cooldown": 10,
         "monster_message": "A searing pain fills your head!"
-      },      
+      },
       {
-        "type": "spell", "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 6 },
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 6 },
         "cooldown": 12,
         "monster_message": "%1$s hammers you with psionic force!"
       },
-      { 
+      {
         "id": "smash",
         "move_cost": 80,
         "cooldown": 8,
@@ -66,7 +69,7 @@
         "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
       },
       [ "PULL_METAL_WEAPON", 8 ],
-      [ "FEAR_PARALYZE", 10]
+      [ "FEAR_PARALYZE", 10 ]
     ],
     "flags": [
       "SEES",
@@ -82,7 +85,7 @@
     ]
   },
   {
-    "id": "mon_feral_security_psychic",   
+    "id": "mon_feral_security_psychic",
     "type": "MONSTER",
     "name": "feral security guard, Ψ Division",
     "description": "A security guard gone feral, or so you thought.  As you look closer, you notice the relatively-normal appearance, the clear eyes, and the patch on their uniform with a Ψ shape in front of the logo of XEDRA.  The zombies around them ignore them as they move smoothly and purposefully through the ruins.",
@@ -107,7 +110,7 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 5,
-     "armor": { "bash": 8, "cut": 6, "stab": 6, "bullet": 10 },
+    "armor": { "bash": 8, "cut": 6, "stab": 6, "bullet": 10 },
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 35,
@@ -116,10 +119,10 @@
     "death_drops": "feral_security_death_drops_psychic",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "special_attacks": [ 
+    "special_attacks": [
       { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 10 },
-      [ "BIO_OP_DISARM", 10 ], 
-      [ "BIO_OP_TAKEDOWN", 15 ] 
+      [ "BIO_OP_DISARM", 10 ],
+      [ "BIO_OP_TAKEDOWN", 15 ]
     ],
     "flags": [
       "SEES",
@@ -137,12 +140,12 @@
     ]
   },
   {
-     "id": "mon_feral_security_captain_psychic",
-     "type": "MONSTER",
-     "copy-from": "mon_feral_human_bio3",
-     "name": "feral security captain, Ψ Division",
-     "looks_like": "chud",
-     "description": "A feral security guard with a military-style uniform, bearing the XEDRA logo and some kind of rank insignia.  Their movements are precise, controlled, and inhumanly smooth, and while their eyes are still bloodshot, they have a spark lacking in most ferals you've seen.",
-     "death_drops": "feral_security_captain_death_drops_psychic"
+    "id": "mon_feral_security_captain_psychic",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_bio3",
+    "name": "feral security captain, Ψ Division",
+    "looks_like": "chud",
+    "description": "A feral security guard with a military-style uniform, bearing the XEDRA logo and some kind of rank insignia.  Their movements are precise, controlled, and inhumanly smooth, and while their eyes are still bloodshot, they have a spark lacking in most ferals you've seen.",
+    "death_drops": "feral_security_captain_death_drops_psychic"
   }
 ]
