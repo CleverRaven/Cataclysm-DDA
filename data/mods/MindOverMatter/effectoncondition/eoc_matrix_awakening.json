@@ -90,8 +90,11 @@
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_MATRIX_AWAKENING_SUCCESS",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You remember your childhood, before the end of the world, and then the memories diverge.  You see yourself on an aircraft carrier bridge, looking out the window as a colossal tentacle breaches the surface of the ocean; you stand in a clear white room, watching through a reinforced glass window as your colleague reanimates; you are caught up in the riots and shot by soldiers manning a road block; you are on a camping trip with friends when a nest of pig-sized wasps descend from a formerly-clear sky.  Dozens of lives in quick succession, might-have-beens and never-weres, fragments that fade even as you try to grasp each one in succession.  When the last one ends, you can see through the crystal, through your hands, through the ground.  You can see forever.", "popup": true },
-      { "u_add_trait": "CLAIRSENTIENT" }, 
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You remember your childhood, before the end of the world, and then the memories diverge.  You see yourself on an aircraft carrier bridge, looking out the window as a colossal tentacle breaches the surface of the ocean; you stand in a clear white room, watching through a reinforced glass window as your colleague reanimates; you are caught up in the riots and shot by soldiers manning a road block; you are on a camping trip with friends when a nest of pig-sized wasps descend from a formerly-clear sky.  Dozens of lives in quick succession, might-have-beens and never-weres, fragments that fade even as you try to grasp each one in succession.  When the last one ends, you can see through the crystal, through your hands, through the ground.  You can see forever.",
+        "popup": true
+      },
+      { "u_add_trait": "CLAIRSENTIENT" },
       { "u_add_trait": "CLAIR_SENSES" },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_clair_clear_sight", "duration": "1 minutes" },
