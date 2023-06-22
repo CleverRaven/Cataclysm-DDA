@@ -53,12 +53,6 @@ class safe_reference
         std::weak_ptr<T> impl;
 };
 
-template<typename T>
-constexpr bool operator==( safe_reference<T> const &lhs, safe_reference<T> const &rhs )
-{
-    return lhs && rhs && lhs.get() == rhs.get();
-}
-
 class safe_reference_anchor
 {
     public:
