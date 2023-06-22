@@ -467,6 +467,7 @@
     "type": "palette",
     "id": "motel_twd_palette",
     "parameters": {
+      "overrun": { "type": "string", "default": { "distribution": [ [ "true", 1 ], [ "false", 4 ] ] } },
       "floor_type": { "type": "ter_str_id", "default": { "distribution": [ "t_floor", "t_carpet_green", "t_carpet_red" ] } },
       "roof_type": { "type": "ter_str_id", "default": { "distribution": [ "t_flat_roof", "t_shingle_flat_roof", "t_tar_flat_roof" ] } }
     },
@@ -533,24 +534,48 @@
     "type": "palette",
     "id": "motel_twd_overrun_palette",
     "terrain": {
-      "#": [ [ "t_wall_wood_chipped", 2 ], [ "t_wall_wood", 1 ] ],
-      "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ], [ "t_door_locked", 1 ] ],
-      "=": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
-      "W": "t_window_open",
-      "w": "t_curtains"
+      "#": "t_wall_half",
+      "|": "t_brick_wall_halfway",
+      "+": [ [ "t_door_c", 3 ], [ "t_door_o", 1 ], [ "t_door_locked", 1 ] ],
+      "=": [ [ "t_door_c", 3 ], [ "t_door_o", 1 ] ],
+      "o": "t_window_open",
+      "w": "t_curtains",
+      "W": "t_window_boarded"
     },
-    "furniture": { "d": "f_dumpster", "r": "f_chair" },
-	"nested": {
-        ".": {
-          "chunks": [
-            [ "corpse_blood_1x1", 3 ],
-            [ "corpse_blood_casings_1x1", 3 ],
-            [ "corpse_crossbow_1x1", 1 ],
-            [ "blood_field", 30 ],
-            [ "null", 260 ]
-          ]
-        }
+    "furniture": {
+      "d": "f_dumpster",
+      "r": "f_chair",
+      "V": "f_vending_o",
+      "s": "f_sofa",
+      "t": "f_table",
+      "D": "f_dresser",
+      "l": "f_stool",
+      "T": "f_trashcan"
+    },
+    "nested": {
+      ".": {
+        "chunks": [
+          [ "corpse_blood_1x1", 3 ],
+          [ "corpse_blood_casings_1x1", 3 ],
+          [ "corpse_crossbow_1x1", 1 ],
+          [ "blood_field", 20 ],
+          [ "null", 270 ]
+        ]
       }
+    },
+    "remove_all": { "x": {  } },
+    "item": {
+      "%": [
+        { "item": "2x4", "repeat": [ 2, 5 ], "chance": 40 },
+        { "item": "brick", "repeat": [ 0, 6 ], "chance": 40 },
+        { "item": "splinter", "repeat": [ 1, 10 ], "chance": 60 }
+      ],
+      "B": { "item": "30gal_drum" },
+      "g": { "item": "glass_shard" },
+      "a": { "item": "arrow_wood", "amount": 3 },
+      "m": { "item": "codeine" },
+      "e": { "item": "wheel" }
+    }
   },
   {
     "type": "mapgen",
@@ -574,21 +599,21 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
-        "........................",
-        "      #########dd..#####",
-        "     w  ................",
-        "w    +  .........dd.....",
+        "...m...V......a.........",
+        "      #########dd..|||||",
+        "     W  .t..............",
+        "W    +  .D.......dd....D",
         "     w  ................",
         "     w  ................",
         "   =    ................",
-        "        ................",
-        "           .............",
+        "        .....tsss.......",
+        "           ......e......",
         "              ..........",
         "                        ",
         "   =                    ",
-        "     w                  ",
-        "w    +                  ",
-        "     w                  ",
+        " x   w   t              ",
+        "W    +                  ",
+        "    xw                  ",
         "                        ",
         "                        ",
         "        w+w    w+w    w+",
@@ -596,14 +621,13 @@
         "           =      =     ",
         "                        ",
         "                        ",
-        "         w      W      w"
+        "         W      o      W"
       ],
       "palettes": [ "motel_twd_overrun_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 7, 22 ], "y": [ 5, 16 ] } ],
       "place_signs": [ { "signage": "Travelier MOTEL", "x": 23, "y": 1 } ],
-      "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 }, { "item": "cash_register_random", "x": 3, "y": 3, "chance": 100 } ],
-      "place_item": [ { "item": "wheel", "x": 11, "y": 8, "chance": 80 } ]
+      "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 }, { "item": "cash_register_random", "x": 3, "y": 3, "chance": 100 } ]
     }
   },
   {
@@ -616,38 +640,87 @@
       "rows": [
         "........................",
         "........................",
-        "##########% %%%  #      ",
-        "...............   w     ",
-        "...............dd +    w",
+        "||||||||||% %%%  |      ",
+        "...............  gw     ",
+        "D......BB......dd +    W",
         "................  w     ",
-        "................    =   ",
-        "................        ",
+        "................lD  =   ",
+        "...............T        ",
         "................        ",
         ".............           ",
         "..........        w     ",
-        "                  +    w",
-        "                  w     ",
+        "                  +    W",
+        "           V      w   x ",
         "                    =   ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
         "w    w+w             r  ",
-        "             r  r   r   ",
+        "     x       r  r   r   ",
         " =      =               ",
         "                        ",
-        "                        ",
-        "      w                 "
+        "     x x                ",
+        "      W                 "
       ],
       "palettes": [ "motel_twd_overrun_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-	  "item": { "%": [
-        { "item": "2x4", "repeat": [ 2, 5 ], "chance": 40 },
-        { "item": "wood_panel", "repeat": [ 0, 2 ], "chance": 40 },
-        { "item": "splinter", "repeat": [ 1, 10 ], "chance": 60 }
-      ] },
-      "place_graffiti": [ { "text": "Large smudged chalk pink X", "x": 20, "y": 2 } ],
-      "place_item": [ { "item": "30gal_drum", "x": [ 5, 6 ], "y": 4, "chance": 80 } ]
+      "place_graffiti": [
+        { "text": "A large pink smudged X is drawn in chalk", "x": 20, "y": 2 },
+        { "text": "A hopscotch court is drawn in chalk", "x": 6, "y": 6 },
+        { "text": "An orange sun and a yellow flower are drawn in chalk", "x": 16, "y": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_motel_twd_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": 2, "y": 4, "chance": 40 },
+        { "group": "GROUP_ZOMBIE", "x": 2, "y": 15, "chance": 25 },
+        { "group": "GROUP_ZOMBIE", "x": 8, "y": 20, "chance": 25 },
+        { "group": "GROUP_ZOMBIE", "x": 15, "y": 20, "chance": 25 },
+        { "group": "GROUP_ZOMBIE", "x": 22, "y": 20, "chance": 25 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "parkinglotbasic", "x": 10, "y": 6, "chance": 25, "rotation": 180 },
+        { "vehicle": "rv", "x": 13, "y": 10, "chance": 40, "rotation": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_motel_twd_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": 20, "y": 3, "chance": 25 },
+        { "group": "GROUP_ZOMBIE", "x": 20, "y": 10, "chance": 25 },
+        { "group": "GROUP_ZOMBIE", "x": 5, "y": 20, "chance": 25 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "parkinglotbasic", "x": 6, "y": 6, "chance": 25, "rotation": 180 },
+        { "vehicle": "parkinglotbasic", "x": 6, "y": 11, "chance": 25, "rotation": 180 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_motel_twd_1_f1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": 2, "y": 3, "chance": 25 },
+        { "group": "GROUP_ZOMBIE", "x": 2, "y": 15, "chance": 25 }
+      ]
     }
   },
   {
@@ -659,7 +732,7 @@
       "rows": [
         "______________       _____________       _______",
         "_4____________       _____________       _____4_",
-        "||||||                                    ||||||",
+        "||||||________       _____________       _||||||",
         "|u.ct|_)))))))       )))))))))))))       _wtbbt|",
         "w.rc.+_)                   )             _+....w",
         "|B.c.w_)                   )             _wY.BD|",
@@ -682,14 +755,13 @@
         "*******|t.D|ST|t.D|ST|t.D|ST|t.D|ST|************",
         "*******||w||||||w||||||w||||||w|||||************"
       ],
-      "parameters": { "overrun": { "type": "string", "default": { "distribution": [ [ "true", 1 ], [ "false", 4 ] ] } } },
       "palettes": [ "motel_twd_palette" ],
       "place_nested": [
         {
           "chunks": [
             {
               "switch": { "param": "overrun", "fallback": "false" },
-              "cases": { "true": "24x24_motel_twd_1_overrun", "false": "null" }
+              "cases": { "true": "24x24_motel_twd_1_overrun", "false": "24x24_motel_twd_1" }
             }
           ],
           "x": 0,
@@ -699,7 +771,7 @@
           "chunks": [
             {
               "switch": { "param": "overrun", "fallback": "false" },
-              "cases": { "true": "24x24_motel_twd_2_overrun", "false": "null" }
+              "cases": { "true": "24x24_motel_twd_2_overrun", "false": "24x24_motel_twd_2" }
             }
           ],
           "x": 24,
@@ -743,7 +815,16 @@
         "       -'''''''''''''''''''''''''''-            "
       ],
       "palettes": [ "motel_twd_palette" ],
-      "terrain": { " ": "t_open_air", "~": "t_floor" }
+      "terrain": { " ": "t_open_air", "~": "t_floor" },
+      "place_nested": [
+        {
+          "chunks": [
+            { "switch": { "param": "overrun", "fallback": "false" }, "cases": { "true": "null", "false": "24x24_motel_twd_1_f1" } }
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {
