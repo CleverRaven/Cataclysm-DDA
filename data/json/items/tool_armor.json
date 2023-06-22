@@ -1862,6 +1862,36 @@
     "use_action": [ "GASMASK" ]
   },
   {
+    "id": "mask_gas_m50",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "M50 gas mask" },
+    "category": "clothing",
+    "description": "A full-face gas mask rated for use in chemical, biological, radiological, and nuclear-contaminated areas, built from a comfortable rubber-silicone blend and featuring a panoramic eyepiece, drinking tube, and a communications interface.  The standard gasmask of the United States military, this respirator possesses a twin-filter system incompatible with standard 40-mm NATO filters.  It must be prepared before use.",
+    "flags": [ "SLEEP_IGNORE" ],
+    "weight": "860 g",
+    "volume": "1 L",
+    "longest_side": "305 mm",
+    "price": 81400,
+    "//": "Retail price, believe it or not. Sourced from https://www.galls.com/avon-fm50-full-face-mask-system",
+    "price_postapoc": 750,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ { "type": "rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
+    ],
+    "//": "The single-element eyepiece gives 90 degrees of vision, while the twin bayonet filter ports provide less overall resistance to breathing. The reduced encumbrance numbers reflect these features.",
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "gasfilter_m61" ] } ],
+    "ammo": "gasfilter_m",
+    "use_action": [ "GASMASK" ]
+  },
+  {
     "id": "mask_gas_xl",
     "type": "TOOL_ARMOR",
     "name": { "str": "XL gas mask" },
