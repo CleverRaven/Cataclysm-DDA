@@ -2060,7 +2060,7 @@
     "delete": { "weakpoints": [ { "id": "stinger" } ] },
     "harvest": "arachnid_flying",
     "dissect": "dissect_insect_sample_single",
-    "special_attacks": [ { "id": "dermatik_impale", "cooldown": 5 }, { "id": "grab" } ],
+    "special_attacks": [ { "id": "dermatik_impale" }, { "id": "grab" } ],
     "vision_day": 13,
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
