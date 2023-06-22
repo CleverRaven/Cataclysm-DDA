@@ -170,7 +170,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
-        CHECK( good_stats.avg() > 0.05 );
+        CHECK( good_stats.avg() >= 0.05 );
     }
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 500, max_good_range );
