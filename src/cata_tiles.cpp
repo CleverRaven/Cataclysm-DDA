@@ -2913,8 +2913,8 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     // first memorize the actual terrain
     const ter_id &t = here.ter( p );
     const std::string &tname = t.id().str();
-    // Non-isometric legacy mode does not draw fog sprites
-    if( !is_isometric() && fov_3d_z_range == 0 && tname == "t_open_air" ) {
+    // Legacy mode does not draw fog sprites
+    if( fov_3d_z_range == 0 && tname == "t_open_air" ) {
         return false;
     }
     if( t && !invisible[0] ) {
