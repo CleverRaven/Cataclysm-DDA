@@ -6279,6 +6279,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
     }
 
+    time_duration final_time = 1_hours; //just in case this somehow winds up undefined
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
@@ -6334,8 +6335,22 @@ void Character::mend_item( item_location &&obj, bool interactive )
             } else if( fix.mod_damage < 0 ) {
                 descr += string_format( _( "<color_red>Applies</color> %d damage.\n" ), -fix.mod_damage );
             }
+
+            final_time = fix.time;
+            // if an item has a time saver flag multiply total time by that flag's time factor
+            for( const auto &[flag_id, mult] : fix.time_save_flags ) {
+                if( obj->has_flag( flag_id ) ) {
+                    final_time *= mult;
+                }
+            }
+            // if you have a time saver prof multiply total time by that prof's time factor
+            for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
+                if( has_proficiency( proficiency_id ) ) {
+                    final_time *= mult;
+                }
+            }
             descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
-                                    to_string_approx( fix.time ) );
+                                    to_string_approx( final_time ) );
             if( fix.skills.empty() ) {
                 descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
@@ -6382,7 +6397,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( fix.time ) );
+        assign_activity( ACT_MEND_ITEM, to_moves<int>( final_time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( fix.id_ );
         activity.targets.push_back( std::move( obj ) );
@@ -8838,7 +8853,12 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
+                        i->type->tool->fuel_efficiency );
+            } else {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            }
         }
     }
 

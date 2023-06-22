@@ -10540,7 +10540,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     return wanted_qty - qty;
 }
 
-units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier )
+units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
+                                    float fuel_efficiency )
 {
     if( qty < 0_kJ ) {
         debugmsg( "Cannot consume negative quantity of energy for %s", tname() );
@@ -10549,10 +10550,14 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
 
     const units::energy wanted_energy = qty;
 
-    // Consume battery(ammo)
-    if( is_battery() ) {
-        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos );
+    // Consume battery(ammo) and other fuel (if allowed)
+    if( is_battery() || fuel_efficiency >= 0 ) {
+        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
         qty -= units::from_kilojoule( consumed_kj );
+        // fix negative quantity
+        if( qty < 0_J ) {
+            qty = 0_J;
+        }
     }
 
     // Consume energy from contained magazine
@@ -12160,7 +12165,8 @@ int item::processing_speed() const
     }
 
     if( active || ethereal || wetness || contents_linked ||
-        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ||
+        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -13216,8 +13222,13 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
 bool item::process_blackpowder_fouling( Character *carrier )
 {
-    if( damage() < max_damage() && one_in( 2000 ) ) {
+    // rust is deterministic. 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
+    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level.
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + static_cast<int>( get_var( "dirt",
+             0 ) / 2000 ) );
+    if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 43200.0 / ( damage() + 1 ) ) {
         inc_damage();
+        set_var( "rust_timer", 0 );
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
         }

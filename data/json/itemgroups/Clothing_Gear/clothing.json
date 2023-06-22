@@ -2291,6 +2291,9 @@
       { "item": "wetsuit_hood_thick", "prob": 5 },
       { "item": "swim_cap", "prob": 15 },
       { "item": "dive_bag", "prob": 5 },
+      { "item": "dry_bag", "prob": 5 },
+      { "item": "dry_duffelbag", "prob": 5 },
+      { "item": "dry_bag_large", "prob": 3 },
       { "item": "jedi_cloak", "prob": 1 },
       { "item": "apron_cotton", "prob": 30 },
       { "item": "waist_apron_long", "prob": 10 },
@@ -2445,6 +2448,9 @@
     "id": "swimmer_accessories",
     "items": [
       [ "dive_bag", 35 ],
+      [ "dry_bag", 35 ],
+      [ "dry_duffelbag", 35 ],
+      [ "dry_bag_large", 20 ],
       [ "wicker_backpack", 10 ],
       [ "flotation_vest", 30 ],
       [ "swimming_kickboard", 5 ],
@@ -2653,7 +2659,15 @@
     "type": "item_group",
     "id": "diving_accessories",
     "//": "Only diving appropriate accesories.",
-    "items": [ [ "dive_bag", 25 ], [ "diving_watch", 25 ], [ "small_scuba_tank", 25 ], [ "scuba_tank", 25 ] ]
+    "items": [
+      [ "dive_bag", 25 ],
+      [ "dry_bag", 25 ],
+      [ "dry_duffelbag", 25 ],
+      [ "dry_bag_large", 15 ],
+      [ "diving_watch", 25 ],
+      [ "small_scuba_tank", 25 ],
+      [ "scuba_tank", 25 ]
+    ]
   },
   {
     "type": "item_group",
@@ -3260,6 +3274,9 @@
       [ "survivor_rucksack", 4 ],
       [ "survivor_duffel_bag", 3 ],
       [ "dive_bag", 10 ],
+      [ "dry_bag", 10 ],
+      [ "dry_duffelbag", 10 ],
+      [ "dry_bag_large", 5 ],
       [ "runner_bag", 20 ],
       [ "molle_pack", 12 ],
       [ "backpack", 40 ],
@@ -4004,7 +4021,10 @@
           { "item": "ammo_pouch", "prob": 10 },
           { "item": "chestrig", "prob": 20 },
           { "item": "chestrig", "variant": "flag_chestrig", "prob": 2 },
-          { "item": "dive_bag", "prob": 50 },
+          { "item": "dive_bag", "prob": 25 },
+          { "item": "dry_bag", "prob": 25 },
+          { "item": "dry_duffelbag", "prob": 25 },
+          { "item": "dry_bag_large", "prob": 15 },
           { "item": "petpack", "prob": 50 },
           { "item": "chestrig", "variant": "flag_chestrig", "prob": 70, "event": "independence_day" }
         ],

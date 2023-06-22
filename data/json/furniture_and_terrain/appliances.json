@@ -583,6 +583,29 @@
     "variants": [ { "symbols": "{", "symbols_broken": "s" } ]
   },
   {
+    "id": "ap_wall_light",
+    "type": "vehicle_part",
+    "name": { "str": "wall light" },
+    "item": "wall_light",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "blue",
+    "durability": 20,
+    "description": "A floor lamp that provides illumination when turned on.",
+    "epower": "-20 W",
+    "bonus": 200,
+    "damage_modifier": 10,
+    "looks_like": "app_directed_floodlight",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "WALL_MOUNTED", "HALF_CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
+  },
+  {
     "id": "ap_standing_lamp",
     "type": "vehicle_part",
     "name": { "str": "standing lamp" },
@@ -635,7 +658,7 @@
     "broken_color": "red",
     "durability": 20,
     "description": "Electric wires embedded in the wall.",
-    "flags": [ "APPLIANCE", "OBSTACLE" ],
+    "flags": [ "APPLIANCE", "OBSTACLE", "WALL_MOUNTED", "WIRING" ],
     "variants": [ { "symbols": "_", "symbols_broken": "/" } ]
   },
   {

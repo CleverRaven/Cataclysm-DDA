@@ -301,7 +301,7 @@ void avatar::memorize_symbol( const tripoint &p, char32_t symbol )
 
 void avatar::memorize_clear_vehicles( const tripoint &p )
 {
-    player_map_memory->clear_tile_vehicles( p );
+    player_map_memory->clear_tile_decoration( p, /* prefix = */ "vp_" );
 }
 
 std::vector<mission *> avatar::get_active_missions() const
@@ -678,7 +678,7 @@ bool avatar::read( item_location &book, item_location ereader )
     return true;
 }
 
-void avatar::grab( object_type grab_type, const tripoint &grab_point )
+void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
 {
     const auto update_memory =
     [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
@@ -694,20 +694,20 @@ void avatar::grab( object_type grab_type, const tripoint &grab_point )
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                memorize_clear_vehicles( m.getabs( pos() + gpoint ) );
+                player_map_memory->clear_tile_decoration( m.getabs( pos() + gpoint ) );
             }
             m.set_memory_seen_cache_dirty( pos() + gpoint );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.
-    update_memory( this->grab_type, this->grab_point, false );
+    update_memory( grab_type, grab_point, /* erase = */ false );
+
+    grab_type = grab_type_new;
+    grab_point = grab_point_new;
+
     // Clear the map memory for the area covered by the vehicle/furniture/etc to
     // eliminate ghost vehicles/furnitures/etc.
-    // FIXME: change map memory to memorize all memorizable objects and only erase vehicle part memory.
-    update_memory( grab_type, grab_point, true );
-
-    this->grab_type = grab_type;
-    this->grab_point = grab_point;
+    update_memory( grab_type, grab_point, /* erase = */ true );
 
     path_settings->avoid_rough_terrain = grab_type != object_type::NONE;
 }

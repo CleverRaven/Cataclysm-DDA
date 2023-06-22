@@ -337,6 +337,7 @@ Field | Used for...
 `<topic_item_your_total_price>` | TODO Add
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
+`<context_val:VAR>` | The context variable VAR
 `<global_val:VAR>` | The global variable VAR
 `<item_name:ID>` | The name of the item with ID
 `<item_description:ID>` | The description of the item with ID
@@ -934,7 +935,7 @@ Effect | Description
 `finish_mission: `string or [variable object](#variable-object), (*optional* `success: success_bool` ), (*optional* `step: step_int`)  | Will complete mission to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
 `offer_mission: `string or [variable object](#variable-object) or array of them | Adds mission_type_id(s) to the npc's missions that they offer.  Assumes if there is no beta talker that the alpha is an NPC.
 `run_eocs :` effect_on_condition_array or single effect_condition_object | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
-`run_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs | Runs the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition.
+`run_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs `beta_loc` a variable containing a location | Runs the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition. If `beta_loc` is provided then the creature at the given location will become the beta talker for the EOC to run.
 `run_eoc_select :` array of strings or [variable objects](#variable-object), `variables :` Object with variable names and values as pairs, `names: ` string or variables, `keys: ` single character strings, `title: ` string, `hide_failing`: bool | Opens a menu with title `title` that lets you select one of the EOCs whos ids are in the array provided, they each get a matched `names`, `description`, and `keys` value if provided, selected EOC runs with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or variable containing the ID of an effect on condition. If `hide_failing` is true EOCs whos condition fail will be hiden instead of shown and unselectable.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: `duration or [variable object](#variable-object) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
 `queue_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs, `time_in_future: `duration or [variable object](#variable-object) | Queues the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition.  EOC will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
@@ -1275,6 +1276,7 @@ Mutator Name | Required Keys | Description
 --- | --- | ---
 `"mon_faction"` | `mtype_id`: String or [variable object](#variable-object). | Returns the faction of the monster with mtype_id.
 `"game_option"` | `option`: String or [variable object](#variable-object). | Returns the value of the option as a string, for numerical options you should instead use the math function.
+`"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
 
 
 ### Compare Numbers and Arithmetics

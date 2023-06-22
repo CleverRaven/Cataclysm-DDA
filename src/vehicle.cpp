@@ -180,31 +180,26 @@ units::volume vehicle_stack::max_volume() const
 
 // Vehicle class methods.
 
-vehicle::vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel,
-                  int init_veh_status, bool may_spawn_locked ): type( type_id )
+vehicle::vehicle( const vproto_id &proto_id )
 {
-    turn_dir = 0_degrees;
     face.init( 0_degrees );
     move.init( 0_degrees );
-    of_turn_carry = 0;
 
-    if( !type.str().empty() && type.is_valid() ) {
-        const vehicle_prototype &proto = type.obj();
+    if( proto_id.is_empty() ) {
+        refresh(); // we're not using any blueprint, just return an empty initialized vehicle
+    } else if( !proto_id.is_valid() ) {
+        debugmsg( "trying to construct vehicle from invalid prototype '%s'", proto_id.str() );
+    } else {
+        type = proto_id;
+        const vehicle_prototype &proto = *type;
         // Copy the already made vehicle. The blueprint is created when the json data is loaded
         // and is guaranteed to be valid (has valid parts etc.).
         *this = *proto.blueprint;
         // The game language may have changed after the blueprint was created,
         // so translated the prototype name again.
         name = proto.name.translated();
-        init_state( placed_on, init_veh_fuel, init_veh_status, may_spawn_locked );
+        refresh();
     }
-    precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
-    refresh();
-}
-
-vehicle::vehicle() : vehicle( get_map(), vproto_id() )
-{
-    sm_pos = tripoint_zero;
 }
 
 vehicle::~vehicle() = default;
@@ -263,8 +258,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
-                          bool may_spawn_locked )
+void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status )
 {
     // vehicle parts excluding engines in non-owned vehicles are by default turned off
     for( vehicle_part &pt : parts ) {
@@ -339,7 +333,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         }
     }
 
-    if( one_in( 3 ) && may_spawn_locked ) {
+    if( one_in( 3 ) ) {
         //33% chance for a locked vehicle
         has_no_key = true;
     }
@@ -543,7 +537,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         auto_select_fuel( parts[p] );
     }
 
-    invalidate_mass();
+    refresh();
 }
 
 void vehicle::activate_magical_follow()
@@ -1001,6 +995,19 @@ bool vehicle::has_security_working() const
         }
     }
     return found_security;
+}
+
+void vehicle::unlock()
+{
+    is_locked = false;
+    for( vehicle_part &vp : parts ) {
+        if( vp.info().has_flag( "SECURITY" ) ) {
+            vp.enabled = false;
+        }
+        if( vp.is_engine() ) {
+            vp.base.faults.erase( fault_engine_immobiliser );
+        }
+    }
 }
 
 void vehicle::backfire( const vehicle_part &vp ) const
@@ -1811,8 +1818,10 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     const tripoint part_loc = global_part_pos3( vp );
 
     if( !handler.get_map_ref().inbounds( part_loc ) ) {
-        debugmsg( "Removing out of bounds vehicle part at %s from vehicle %s (%s)",
-                  part_loc.to_string(), name, type.str() );
+        debugmsg( "vehicle::remove_part part '%s' at mount %s bub pos %s is out of map "
+                  "bounds on vehicle '%s'(%s), vehicle::pos is %s, vehicle::sm_pos is %s",
+                  vp.info().get_id().str(), vp.mount.to_string(), part_loc.to_string(),
+                  name, type.str(), pos.to_string(), sm_pos.to_string() );
     }
 
     // Unboard any entities standing on removed boardable parts

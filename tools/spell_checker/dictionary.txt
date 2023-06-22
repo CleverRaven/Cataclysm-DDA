@@ -2381,6 +2381,7 @@ regia
 regrows
 regurgitates
 reimpose
+reinstalling
 remodulator
 rended
 renderer
@@ -2689,6 +2690,7 @@ spinnerets
 spinosaurus
 spinwheel
 spitter
+splashproof
 splicer
 splinting
 splorch
@@ -3232,6 +3234,7 @@ wyrmling
 wyrms
 x
 xamine
+xedra
 xenobiology
 xiph
 xiphos
