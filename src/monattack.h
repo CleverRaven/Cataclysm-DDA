@@ -44,8 +44,6 @@ bool fungus_growth( monster *z );     // Sporeling -> fungal creature
 bool fungus_sprout( monster *z );     // Grow fungal walls
 bool fungus_fortify( monster *z );    // Grow fungal hedgerows
 bool impale( monster *z );
-bool dermatik( monster *z );
-bool dermatik_growth( monster *z );
 bool fungal_trail( monster *z );
 bool plant( monster *z );
 bool disappear( monster *z );
