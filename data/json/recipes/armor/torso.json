@@ -2163,11 +2163,7 @@
     "using": [ [ "sewing_standard", 60 ], [ "fastener_large", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "components": [ [ [ "vest_leather", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_leatherworking_basic" }
-    ],
-    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "vest_leather_mod_ch",
