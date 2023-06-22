@@ -1104,7 +1104,7 @@ void Character::consume_dodge_attempts()
     }
 }
 
-ret_val<void> Character::can_try_doge() const
+ret_val<void> Character::can_try_doge( bool ignore_dodges_left ) const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
@@ -1121,7 +1121,7 @@ ret_val<void> Character::can_try_doge() const
                                             _( "<npcname>'s stamina is too low to attempt to dodge." ) );;
     }
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( get_dodges_left() <= 0 ) {
+    if( get_dodges_left() <= 0 && !ignore_dodges_left ) {
         add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
         return ret_val<void>::make_failure();
     }
@@ -1793,7 +1793,8 @@ void Character::on_try_dodge()
 void Character::on_dodge( Creature *source, float difficulty )
 {
     // Make sure we're not practicing dodge in situation where we can't dodge
-    if( !can_try_doge().success() ) {
+    // We can ignore dodges_left because it was already checked in get_dodge()
+    if( !can_try_doge( true ).success() ) {
         return;
     }
 
