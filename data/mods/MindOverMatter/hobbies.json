@@ -1,0 +1,9 @@
+[
+  {
+    "type": "profession",
+    "id": "meditation",
+    "copy-from": "meditation",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "metaphysics" } ]
+  }
+]
