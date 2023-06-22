@@ -66,7 +66,7 @@
       "@": { "item": "bed", "chance": 50 },
       "L": { "item": "unisex_coat_rack", "chance": 33 },
       "a": { "item": "trash", "repeat": [ 0, 2 ], "chance": 45 },
-      "{": { "item": "trash", "repeat": [ 0, 5 ] },
+      "{": { "item": "trash", "chance": 100, "repeat": [ 0, 5 ] },
       "8": { "item": "shower", "chance": 33 },
       ":": { "item": "traveler", "chance": 80, "repeat": [ 3, 5 ] },
       "d": { "item": "book_motel", "chance": 100 }
@@ -502,7 +502,7 @@
       "D": {
         "terrain": { "param": "floor_type", "fallback": "t_floor" },
         "furniture": "f_dresser",
-        "items": { "item": "dresser", "chance": 10 }
+        "items": { "item": "traveler", "chance": 80, "repeat": [ 3, 5 ] }
       },
       "r": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_chair" },
       "c": {
@@ -515,6 +515,7 @@
         "furniture": "f_table",
         "items": { "item": "book_motel", "chance": 100 }
       },
+      "T": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_table" },
       "b": {
         "terrain": { "param": "floor_type", "fallback": "t_floor" },
         "furniture": "f_bed",
@@ -527,13 +528,12 @@
         "items": { "item": "unisex_coat_rack", "chance": 25 }
       },
       "B": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_floor_lamp" },
-      "d": { "terrain": "t_sidewalk", "furniture": "f_dumpster", "items": { "item": "trash", "repeat": [ 0, 5 ] } },
+      "d": { "terrain": "t_sidewalk", "furniture": "f_dumpster", "items": { "item": "trash", "chance": 100, "repeat": [ 0, 5 ] } },
       "$": { "furniture": "f_shower", "items": { "item": "shower", "chance": 33 } },
       "S": { "furniture": "f_sink", "items": { "item": "public_sink", "chance": 33 } }
     },
-    "items": { ",": { "item": "trash_forest", "chance": 1 } },
     "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
-    "toilets": { "T": {  } }
+    "toilets": { "L": {  } }
   },
   {
     "type": "palette",
@@ -606,8 +606,8 @@
         "........................",
         "...m...V......a.........",
         "      #########dd..|||||",
-        "   xxW  .t..............",
-        "W    +  .D.......dd....D",
+        " x xxW  .t..............",
+        "W x  +  .D.......dd....D",
         "     w  ................",
         "     w  ................",
         "   =    ................",
@@ -712,6 +712,7 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": [ 6, 23 ], "y": [ 3, 10 ], "chance": 25 },
         { "group": "GROUP_ZOMBIE", "x": 2, "y": 4, "chance": 40 },
         { "group": "GROUP_ZOMBIE", "x": 2, "y": 15, "chance": 25 },
         { "group": "GROUP_ZOMBIE", "x": 8, "y": 20, "chance": 25 },
@@ -733,6 +734,7 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": [ 0, 16 ], "y": [ 3, 10 ], "chance": 25 },
         { "group": "GROUP_ZOMBIE", "x": 20, "y": 3, "chance": 25 },
         { "group": "GROUP_ZOMBIE", "x": 20, "y": 10, "chance": 25 },
         { "group": "GROUP_ZOMBIE", "x": 5, "y": 20, "chance": 25 }
@@ -766,29 +768,30 @@
         "______________       _____________       _______",
         "_4____________       _____________       _____4_",
         "||||||________       _____________       _||||||",
-        "|u.vVw_)))))))       )))))))))))))       _wtbbt|",
+        "|u.vVw_)))))))       )))))))))))))       _wtbbT|",
         "w.rc.+_)                   )             _+....w",
         "|B.c.w_)                   )             _wY.BD|",
         "|y...w_)                   )             _||=|||",
         "|||=||_)                   )             _|,,,S|",
-        "|T,,S|_)))))))       )))))))))))))       _|$,,T|",
+        "|L,,S|_)))))))       )))))))))))))       _|$,,L|",
         "||||||_)                   )             _||||||",
-        "|T,,$|_)                   )             _wtbbt|",
+        "|L,,$|_)                   )             _wtbbT|",
         "|S,,,|_)                   )             _+....w",
         "|||=||_)                   )             _wY.BD|",
         "|DB.Yw_)                   )             _||=|||",
         "w....+_)))))))       )))))))))))))       _|$,,S|",
-        "|tbbtw_                                  _|,,,T|",
+        "|Tbbtw_                                  _|,,,L|",
         "||||||_                                  _||||||",
         "f<<___________________________________________4f",
         "f_____4|w+w||||w+w||||w+w||||w+w||||4__________f",
         "f__dd__|t.Y|,$|t.Y|,$|t.Y|,$|t.Y|$,|___________f",
         "fffffff|b..=,,|b..=,,|b..=,,|b..=,,|ffffffffffff",
         "*******|b.B|,,|b.B|,,|b.B|,,|b.B|,,|************",
-        "*******|t.D|ST|t.D|ST|t.D|ST|t.D|ST|************",
+        "*******|T.D|SL|T.D|SL|T.D|SL|T.D|SL|************",
         "*******||w||||||w||||||w||||||w|||||************"
       ],
       "palettes": [ "motel_twd_palette" ],
+      "items": { " ": { "item": "trash_forest", "chance": 1 } },
       "place_nested": [
         {
           "chunks": [
@@ -817,7 +820,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "REMEMBER TO ADD MIGRATION THIS TIME YOU DUMBASS",
     "om_terrain": [ [ "motel_twd_1_f1", "motel_twd_2_f1" ] ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -825,19 +827,19 @@
         "                                                ",
         " 4                                              ",
         "||||||////                                ----5-",
-        "|tbbt|~~~/                                -'''''",
+        "|Tbbt|~~~/                                -'''''",
         "|....+~~~/                                -'''''",
         "|DB.Yw~~~/                                -'''''",
         "|||=||~///                                -'''''",
         "|S,,,|~/                                  -'''''",
-        "|T,,$|~/                                  -'''''",
+        "|L,,$|~/                                  -'''''",
         "||||||~/                                  -'''''",
-        "|T,,$|~/                                  -'''''",
+        "|L,,$|~/                                  -'''''",
         "|S,,,|~/                                  -'''''",
         "|||=||~/                                  -'''''",
         "|DB.Yw~/                                  -'''''",
         "|....+~/                                  -'''''",
-        "|tbbtw~/                                  -'''''",
+        "|Tbbtw~/                                  -'''''",
         "||||||~/                                  ----5-",
         "/>>~~~~/                                        ",
         "////////----------------------------            ",
