@@ -1882,12 +1882,36 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 2 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
-    "//": "The single-element eyepiece gives 90 degrees of vision, while the twin bayonet filter ports provide less overall resistance to breathing. The reduced encumbrance numbers reflect these features.",
+    "//2": "The single-element eyepiece gives 90 degrees of vision, while the twin bayonet filter ports provide less overall resistance to breathing. The reduced encumbrance numbers reflect these features.",
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "gasfilter_m61" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "A number of external brackets arranged around the eyepiece to retain an outer attachment.",
+        "flag_restriction": [ "panoramic_mask_outsert" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "A space behind the visor designed to accommodate the installation of inserts.",
+        "flag_restriction": [ "panoramic_mask_insert" ],
+        "inherits_flags": true
+      },
+      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "gasfilter_m61" ] }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ]
   },

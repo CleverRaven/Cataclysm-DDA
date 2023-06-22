@@ -2223,5 +2223,17 @@
     "id": "REBREATHER_CART",
     "type": "json_flag",
     "info": "A filter for a rebreather."
+  },
+  {
+    "id": "panoramic_mask_outsert",
+    "type": "json_flag",
+    "info": "This item is meant to be externally attached to the eyepiece of a single-Lenz gas mask.",
+    "restriction": "Item must be designed to clip onto the external Lenz brackets of a panoramic-view gas mask."
+  },
+  {
+    "id": "panoramic_mask_insert",
+    "type": "json_flag",
+    "info": "This item is intended to be inserted behind the visor of a single-Lenz gas mask.",
+    "restriction": "Item must be able to clip into place within a gas mask that has a single, panoramic eyepiece."
   }
 ]

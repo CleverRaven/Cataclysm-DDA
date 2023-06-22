@@ -5724,5 +5724,30 @@
       "msg": "The %s pipes stop humming.",
       "target": "armor_nomad_chainmail"
     }
+  },
+  {
+    "id": "mopp_jacket",
+    "type": "ARMOR",
+    "name": { "str": "JSLIST overcoat" },
+    "description": "A waist-length overcoat with an integral chemical hood, an expandable pocket sewn into the left sleeve, and Velcro fastenings on the wrists and zipper, this jacket forms half of the US military’s CBRN JSLIST overgarment. Constructed with an inner layer of carbon discs that keep harmful chemicals from penetrating through the suit and a selectively permeable membrane that lets perspiration escape, the garment’s meant to be either worn over a regular uniform or alone for maximum breathability. Unsealed and exposed to the elements, it will likely last a day before its carbon layer is exhausted and the PPE loses its protective nature.",
+    "weight": "2630 g",
+    "volume": "17 L",
+    "price": 117500,
+    "price_postapoc": 1500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER", "SOFT" ],
+    "armor": [
+      {
+        "encumbrance": 37,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   }
 ]
