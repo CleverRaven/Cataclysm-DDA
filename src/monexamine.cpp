@@ -186,7 +186,6 @@ void attach_bag_to( monster &z )
         add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
         return;
     }
-    item &it = *loc;
     if( !it.is_container_empty() ) {
         for( item *top_item : it.all_items_top() ) {
             item &i = *top_item;
