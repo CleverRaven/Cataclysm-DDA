@@ -25,12 +25,8 @@
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD_3",
     "condition": { "compare_num": [ { "u_val": "focus" }, ">=", { "const": 34 } ] },
-    "effect": [
-      { "math": [ "u_val('focus')", "-=", "10" ] }
-    ],
-    "false_effect": [
-       { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD_4" }
-    ]
+    "effect": [ { "math": [ "u_val('focus')", "-=", "10" ] } ],
+    "false_effect": [ { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD_4" } ]
   },
   {
     "type": "effect_on_condition",
