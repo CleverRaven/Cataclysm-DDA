@@ -273,7 +273,8 @@ class Tileset:
             self.info = json.load(file)
             self.sprite_width = self.info[0].get('width', self.sprite_width)
             self.sprite_height = self.info[0].get('height', self.sprite_height)
-            self.zlevel_height = self.info[0].get('zlevel_height', self.zlevel_height)
+            self.zlevel_height = self.info[0].get('zlevel_height',
+                                                  self.zlevel_height)
             self.pixelscale = self.info[0].get('pixelscale', self.pixelscale)
             self.retract_dist_min = self.info[0].get('retract_dist_min',
                                                      self.retract_dist_min)
