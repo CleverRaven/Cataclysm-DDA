@@ -467,31 +467,25 @@
     "type": "palette",
     "id": "motel_twd_palette",
     "parameters": {
-      "floor_type": {
-        "type": "ter_str_id",
-        "default": { "distribution": [ "t_floor", "t_carpet_green", "t_carpet_red" ] }
-      },
-      "roof_type": {
-        "type": "ter_str_id",
-        "default": { "distribution": [ "t_flat_roof", "t_shingle_flat_roof", "t_tar_flat_roof" ] }
-      }
+      "floor_type": { "type": "ter_str_id", "default": { "distribution": [ "t_floor", "t_carpet_green", "t_carpet_red" ] } },
+      "roof_type": { "type": "ter_str_id", "default": { "distribution": [ "t_flat_roof", "t_shingle_flat_roof", "t_tar_flat_roof" ] } }
     },
     "terrain": {
       " ": "t_pavement",
       ")": "t_pavement_y",
-      "*": "t_sidewalk",
-      "'": "t_region_groundcover_urban",
+      "_": "t_sidewalk",
+      "*": "t_region_groundcover_urban",
       ".": { "param": "floor_type", "fallback": "t_floor" },
       ",": "t_linoleum_white",
       "f": "t_privacy_fence",
-	  "/": "t_railing",
+      "/": "t_railing",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "|": "t_wall",
       "w": [ "t_curtains", "t_window_domestic" ],
       "+": [ [ "t_door_locked", 2 ], [ "t_door_c", 1 ] ],
       "=": "t_door_c",
-      "_": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "'": { "param": "roof_type", "fallback": "t_flat_roof" },
       "-": "t_gutter",
       "4": "t_gutter_downspout",
       "5": "t_gutter_drop"
@@ -545,7 +539,31 @@
       "W": "t_window_open",
       "w": "t_curtains"
     },
-    "furniture": { "d": "f_dumpster", "r": "f_chair" }
+    "furniture": { "d": "f_dumpster", "r": "f_chair" },
+	"nested": {
+        ".": {
+          "chunks": [
+            [ "corpse_blood_1x1", 3 ],
+            [ "corpse_blood_casings_1x1", 3 ],
+            [ "corpse_crossbow_1x1", 1 ],
+            [ "blood_field", 30 ],
+            [ "null", 260 ]
+          ]
+        }
+      }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "corpse_crossbow_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_item": [
+        { "item": "corpse_generic_human", "x": 0, "y": 0, "chance": 100 },
+        { "item": "compcrossbow", "x": 0, "y": 0, "chance": 100 }
+      ],
+      "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "age": 10 } ]
+    }
   },
   {
     "type": "mapgen",
@@ -558,8 +576,8 @@
         "........................",
         "........................",
         "      #########dd..#####",
-        "     w  ..........dd....",
-        "w    +  ................",
+        "     w  ................",
+        "w    +  .........dd.....",
         "     w  ................",
         "     w  ................",
         "   =    ................",
@@ -585,8 +603,7 @@
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 7, 22 ], "y": [ 5, 16 ] } ],
       "place_signs": [ { "signage": "Travelier MOTEL", "x": 23, "y": 1 } ],
       "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 }, { "item": "cash_register_random", "x": 3, "y": 3, "chance": 100 } ],
-      "place_item": [ { "item": "wheel", "x": 11, "y": 8, "chance": 80 } ],
-      "nested": { ".": { "chunks": [ [ "corpse_blood_1x1", 1 ], [ "blood_field", 2 ], [ "null", 37 ] ] } }
+      "place_item": [ { "item": "wheel", "x": 11, "y": 8, "chance": 80 } ]
     }
   },
   {
@@ -599,9 +616,9 @@
       "rows": [
         "........................",
         "........................",
-        "##########.......#      ",
-        "...............dd w     ",
-        "................  +    w",
+        "##########% %%%  #      ",
+        "...............   w     ",
+        "...............dd +    w",
         "................  w     ",
         "................    =   ",
         "................        ",
@@ -624,6 +641,11 @@
       ],
       "palettes": [ "motel_twd_overrun_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+	  "item": { "%": [
+        { "item": "2x4", "repeat": [ 2, 5 ], "chance": 40 },
+        { "item": "wood_panel", "repeat": [ 0, 2 ], "chance": 40 },
+        { "item": "splinter", "repeat": [ 1, 10 ], "chance": 60 }
+      ] },
       "place_graffiti": [ { "text": "Large smudged chalk pink X", "x": 20, "y": 2 } ],
       "place_item": [ { "item": "30gal_drum", "x": [ 5, 6 ], "y": 4, "chance": 80 } ]
     }
@@ -635,47 +657,51 @@
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
-        "**************       *************       *******",
-        "*4************       *************       *****4*",
+        "______________       _____________       _______",
+        "_4____________       _____________       _____4_",
         "||||||                                    ||||||",
-        "|u.ct|*)))))))       )))))))))))))       *wtbbt|",
-        "w.rc.+*)                   )             *+....w",
-        "|B.c.w*)                   )             *wY.BD|",
-        "|y...w*)                   )             *||=|||",
-        "|||=||*)                   )             *|,,,S|",
-        "|T,,S|*)))))))       )))))))))))))       *|$,,T|",
-        "||||||*)                   )             *||||||",
-        "|T,,$|*)                   )             *wtbbt|",
-        "|S,,,|*)                   )             *+....w",
-        "|||=||*)                   )             *wY.BD|",
-        "|DB.Yw*)                   )             *||=|||",
-        "w....+*)))))))       )))))))))))))       *|$,,S|",
-        "|tbbtw*                                  *|,,,T|",
-        "||||||*                                  *||||||",
-        "f<<*******************************************4f",
-        "f*****4|w+w||||w+w||||w+w||||w+w||||4**********f",
-        "f******|t.Y|,$|t.Y|,$|t.Y|,$|t.Y|$,|***********f",
+        "|u.ct|_)))))))       )))))))))))))       _wtbbt|",
+        "w.rc.+_)                   )             _+....w",
+        "|B.c.w_)                   )             _wY.BD|",
+        "|y...w_)                   )             _||=|||",
+        "|||=||_)                   )             _|,,,S|",
+        "|T,,S|_)))))))       )))))))))))))       _|$,,T|",
+        "||||||_)                   )             _||||||",
+        "|T,,$|_)                   )             _wtbbt|",
+        "|S,,,|_)                   )             _+....w",
+        "|||=||_)                   )             _wY.BD|",
+        "|DB.Yw_)                   )             _||=|||",
+        "w....+_)))))))       )))))))))))))       _|$,,S|",
+        "|tbbtw_                                  _|,,,T|",
+        "||||||_                                  _||||||",
+        "f<<___________________________________________4f",
+        "f_____4|w+w||||w+w||||w+w||||w+w||||4__________f",
+        "f______|t.Y|,$|t.Y|,$|t.Y|,$|t.Y|$,|___________f",
         "fffffff|b..=,,|b..=,,|b..=,,|b..=,,|ffffffffffff",
-        "'''''''|b.B|,,|b.B|,,|b.B|,,|b.B|,,|''''''''''''",
-        "'''''''|t.D|ST|t.D|ST|t.D|ST|t.D|ST|''''''''''''",
-        "'''''''||w||||||w||||||w||||||w|||||''''''''''''"
+        "*******|b.B|,,|b.B|,,|b.B|,,|b.B|,,|************",
+        "*******|t.D|ST|t.D|ST|t.D|ST|t.D|ST|************",
+        "*******||w||||||w||||||w||||||w|||||************"
       ],
       "parameters": { "overrun": { "type": "string", "default": { "distribution": [ [ "true", 1 ], [ "false", 4 ] ] } } },
       "palettes": [ "motel_twd_palette" ],
       "place_nested": [
         {
-          "chunks": [ {
-            "switch": { "param": "overrun", "fallback": "false" },
-            "cases": { "true": "24x24_motel_twd_1_overrun", "false": "null" }
-          } ],
+          "chunks": [
+            {
+              "switch": { "param": "overrun", "fallback": "false" },
+              "cases": { "true": "24x24_motel_twd_1_overrun", "false": "null" }
+            }
+          ],
           "x": 0,
           "y": 0
         },
         {
-          "chunks": [ {
-            "switch": { "param": "overrun", "fallback": "false" },
-            "cases": { "true": "24x24_motel_twd_2_overrun", "false": "null" }
-		  } ],
+          "chunks": [
+            {
+              "switch": { "param": "overrun", "fallback": "false" },
+              "cases": { "true": "24x24_motel_twd_2_overrun", "false": "null" }
+            }
+          ],
           "x": 24,
           "y": 0
         }
@@ -694,27 +720,27 @@
         "                                                ",
         " 4                                              ",
         "||||||////                                ----5-",
-        "|tbbt|~~~/                                -_____",
-        "|....+~~~/                                -_____",
-        "|DB.Yw~~~/                                -_____",
-        "|||=||~///                                -_____",
-        "|S,,,|~/                                  -_____",
-        "|T,,$|~/                                  -_____",
-        "||||||~/                                  -_____",
-        "|T,,$|~/                                  -_____",
-        "|S,,,|~/                                  -_____",
-        "|||=||~/                                  -_____",
-        "|DB.Yw~/                                  -_____",
-        "|....+~/                                  -_____",
-        "|tbbtw~/                                  -_____",
+        "|tbbt|~~~/                                -'''''",
+        "|....+~~~/                                -'''''",
+        "|DB.Yw~~~/                                -'''''",
+        "|||=||~///                                -'''''",
+        "|S,,,|~/                                  -'''''",
+        "|T,,$|~/                                  -'''''",
+        "||||||~/                                  -'''''",
+        "|T,,$|~/                                  -'''''",
+        "|S,,,|~/                                  -'''''",
+        "|||=||~/                                  -'''''",
+        "|DB.Yw~/                                  -'''''",
+        "|....+~/                                  -'''''",
+        "|tbbtw~/                                  -'''''",
         "||||||~/                                  ----5-",
         "/>>~~~~/                                        ",
         "////////----------------------------            ",
-        "       5-__________________________5            ",
-        "       -___________________________-            ",
-        "       -___________________________-            ",
-        "       -___________________________-            ",
-        "       -___________________________-            "
+        "       5-''''''''''''''''''''''''''5            ",
+        "       -'''''''''''''''''''''''''''-            ",
+        "       -'''''''''''''''''''''''''''-            ",
+        "       -'''''''''''''''''''''''''''-            ",
+        "       -'''''''''''''''''''''''''''-            "
       ],
       "palettes": [ "motel_twd_palette" ],
       "terrain": { " ": "t_open_air", "~": "t_floor" }
@@ -730,19 +756,19 @@
         "                        ",
         "                        ",
         "-5----                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
-        ".....-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
+        "'''''-                  ",
         "------                  ",
         "                        ",
         "                        ",
