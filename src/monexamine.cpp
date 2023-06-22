@@ -188,7 +188,7 @@ void attach_bag_to( monster &z )
     }
     item &it = *loc;
     if( !it.is_container_empty() ) {
-        for ( item *top_item : it.all_items_top() ) {
+        for( item *top_item : it.all_items_top() ) {
             item &i = *top_item;
             z.add_item( i );
             it.remove_item( i );
