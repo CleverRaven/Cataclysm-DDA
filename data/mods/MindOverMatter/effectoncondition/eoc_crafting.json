@@ -32,8 +32,6 @@
     "type": "effect_on_condition",
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD_4",
     "condition": { "compare_num": [ { "u_val": "focus" }, ">=", { "const": 30 } ] },
-    "effect": [
-      { "math": [ "u_val('focus')", "-=", "5" ] }
-    ]
+    "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
   }
 ]
