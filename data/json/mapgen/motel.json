@@ -474,71 +474,150 @@
     },
     "terrain": {
       " ": "t_pavement",
-      "d": "t_pavement",
       ")": "t_pavement_y",
       "*": "t_sidewalk",
-      "Q": "t_sidewalk",
       "'": "t_region_groundcover_urban",
       "_": { "param": "floor_type", "fallback": "t_floor" },
-      "u": { "param": "floor_type", "fallback": "t_floor" },
-      "D": { "param": "floor_type", "fallback": "t_floor" },
-      "r": { "param": "floor_type", "fallback": "t_floor" },
-      "c": { "param": "floor_type", "fallback": "t_floor" },
-      "t": { "param": "floor_type", "fallback": "t_floor" },
-      "b": { "param": "floor_type", "fallback": "t_floor" },
-      "y": { "param": "floor_type", "fallback": "t_floor" },
-      "B": { "param": "floor_type", "fallback": "t_floor" },
-      "Y": { "param": "floor_type", "fallback": "t_floor" },
       ",": "t_linoleum_white",
       "f": "t_privacy_fence",
+	  "/": "t_railing",
       "<": "t_stairs_up",
       "|": "t_wall",
-      "w": "t_curtains",
+      "w": [ "t_curtains", "t_window_domestic" ],
+      "+": [ [ "t_door_locked", 2 ], [ "t_door_c", 1 ] ],
+      "=": "t_door_c",
       "4": "t_gutter_downspout"
     },
-    "furniture": {
-      "D": "f_dresser",
-      "u": "f_trashcan",
-      "S": "f_sink",
-      "$": "f_shower",
-      "r": "f_chair",
-      "c": "f_counter",
-      "t": "f_table",
-      "b": "f_bed",
-      "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-      "B": "f_floor_lamp",
-      "Y": "f_rack_coat"
+    "mapping": {
+      "u": {
+        "terrain": { "param": "floor_type", "fallback": "t_floor" },
+        "furniture": "f_trashcan",
+        "items": { "item": "trash_cart", "chance": 50 }
+      },
+      "D": {
+        "terrain": { "param": "floor_type", "fallback": "t_floor" },
+        "furniture": "f_dresser",
+        "items": { "item": "dresser", "chance": 10 }
+      },
+      "r": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_chair" },
+      "c": {
+        "terrain": { "param": "floor_type", "fallback": "t_floor" },
+        "furniture": "f_counter",
+        "items": { "item": "office", "chance": 75 }
+      },
+      "t": {
+        "terrain": { "param": "floor_type", "fallback": "t_floor" },
+        "furniture": "f_table",
+        "items": { "item": "book_motel", "chance": 100 }
+      },
+      "b": {
+        "terrain": { "param": "floor_type", "fallback": "t_floor" },
+        "furniture": "f_bed",
+        "items": { "item": "bed", "chance": 40 }
+      },
+      "y": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": [ "f_indoor_plant_y", "f_indoor_plant" ] },
+      "Y": {
+        "terrain": { "param": "floor_type", "fallback": "t_floor" },
+        "furniture": "f_rack_coat",
+        "items": { "item": "coat_rack", "chance": 15 }
+      },
+      "B": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_floor_lamp" }
     },
-    "items": {
-      "t": { "item": "book_motel", "chance": 100 },
-      "Y": { "item": "coat_rack", "chance": 15 },
-      "D": { "item": "dresser", "chance": 10 },
-      "b": { "item": "bed", "chance": 40 }
-    },
+    "furniture": { "S": "f_sink", "$": "f_shower" },
+    "items": { ",": { "item": "trash_forest", "chance": 1 } },
     "toilets": { "T": {  } }
   },
   {
     "type": "palette",
     "id": "motel_twd_overrun_palette",
     "terrain": {
-      "?": [ [ "t_wall_wood_chipped", 2 ], [ "t_wall_w", 1 ] ],
-      "!": [ [ "t_wall_wood_chipped", 2 ], [ "t_wall_w", 1 ] ],
-      "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
+      "#": [ [ "t_wall_wood_chipped", 2 ], [ "t_wall_w", 1 ] ],
+      "+": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ], [ "t_door_locked", 1 ] ],
       "=": [ [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
-      "W": "t_window_open"
+      "W": "t_window_open",
+      "w": "t_curtains"
     },
-    "furniture": { "d": "f_dumpster", "s": "f_sofa", "Q": "f_chair" },
-    "place_item": [ { "item": "wheel", "x": 11, "y": 8, "chance": 80 }, { "item": "30gal_drum", "x": [ 29, 30 ], "y": 4, "chance": 80 } ]
+    "furniture": { "d": "f_dumpster" }
   },
   {
-    "type": "palette",
-    "id": "motel_twd_untouched_palette",
-    "terrain": {
-      "?": "t_sidewalk",
-      "!": "t_pavement",
-      "+": [ [ "t_door_locked", 2 ], [ "t_door_c", 1 ] ],
-      "=": "t_door_c",
-      "W": "t_curtains"
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_motel_twd_1_overrun",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "    @                   ",
+        "      #########dd  #####",
+        "     w            dd    ",
+        "w    +                  ",
+        "     w                  ",
+        "                        ",
+        "   =                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   =                    ",
+        "     w                  ",
+        "w    +                  ",
+        "     w                  ",
+        "                        ",
+        "                        ",
+        "        w+w    w+w    w+",
+        "                        ",
+        "           =      =     ",
+        "                        ",
+        "                        ",
+        "         w      W      w"
+      ],
+      "palettes": [ "motel_twd_overrun_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 7, 22 ], "y": [ 5, 16 ] } ],
+      "place_signs": [ { "signage": "Travelier MOTEL", "x": 23, "y": 1 } ],
+      "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 }, { "item": "cash_register_random", "x": 3, "y": 3, "chance": 100 } ],
+      "place_item": [ { "item": "wheel", "x": 11, "y": 8, "chance": 80 } ],
+      "nested": { " ": { "chunks": [ [ "corpse_blood_1x1", 1 ], [ "blood_field", 2 ], [ "null", 96 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_motel_twd_2_overrun",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "##########       #      ",
+        "               dd w     ",
+        "                  +    w",
+        "                  w     ",
+        "                    =   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  w     ",
+        "                  +    w",
+        "                  w     ",
+        "                    =   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "w    w+w             Q  ",
+        "             Q  Q   Q   ",
+        " =      =               ",
+        "                        ",
+        "                        ",
+        "      w                 "
+      ],
+      "palettes": [ "motel_twd_overrun_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_graffiti": [ { "text": "Large smudged chalk pink X", "x": 20, "y": 2 } ],
+      "place_item": [ { "item": "30gal_drum", "x": [ 5, 6 ], "y": 4, "chance": 80 } ]
     }
   },
   {
@@ -549,9 +628,9 @@
       "fill_ter": "t_linoleum_white",
       "rows": [
         "**************       *************       *******",
-        "*4**@*********       *************       *****4*",
-        "||||||????????!dd  !!?????????????       ?||||||",
-        "|u_ct|*)))))))    dd )))))))))))))     dd*wtbbt|",
+        "*4************       *************       *****4*",
+        "||||||                                    ||||||",
+        "|u_ct|*)))))))       )))))))))))))       *wtbbt|",
         "w_rc_+*)                   )             *+____w",
         "|B_c_w*)                   )             *wY_BD|",
         "|y___w*)                   )             *||=|||",
@@ -566,22 +645,33 @@
         "|tbbtw*                                  *|,,,T|",
         "||||||*                                  *||||||",
         "f<<*******************************************4f",
-        "f*****4|w+w||||w+w||||w+w||||w+w||||4********Q*f",
-        "f******|t_Y|,$|t_Y|,$|t_Y|,$|t_Y|$,|*Q**Q***Q**f",
+        "f*****4|w+w||||w+w||||w+w||||w+w||||4**********f",
+        "f******|t_Y|,$|t_Y|,$|t_Y|,$|t_Y|$,|***********f",
         "fffffff|b__=,,|b__=,,|b__=,,|b__=,,|ffffffffffff",
         "'''''''|b_B|,,|b_B|,,|b_B|,,|b_B|,,|''''''''''''",
         "'''''''|t_D|ST|t_D|ST|t_D|ST|t_D|ST|''''''''''''",
-        "'''''''||w||||||W||||||w||||||w|||||''''''''''''"
+        "'''''''||w||||||w||||||w||||||w|||||''''''''''''"
       ],
-      "parameters": {
-        "overrun": {
-          "type": "string",
-          "default": { "distribution": [ [ "motel_twd_overrun_palette", 1 ], [ "motel_twd_untouched_palette", 4 ] ] }
+      "parameters": { "overrun": { "type": "string", "default": { "distribution": [ [ "true", 1 ], [ "false", 4 ] ] } } },
+      "palettes": [ "motel_twd_palette" ],
+      "place_nested": [
+        {
+          "chunks": [ {
+            "switch": { "param": "overrun", "fallback": "false" },
+            "cases": { "true": "24x24_motel_twd_1_overrun", "false": "null" }
+          } ],
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ {
+            "switch": { "param": "overrun", "fallback": "false" },
+            "cases": { "true": "24x24_motel_twd_2_overrun", "false": "null" }
+		  } ],
+          "x": 24,
+          "y": 0
         }
-      },
-      "palettes": [ "motel_twd_palette", { "param": "overrun" } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 7, 22 ], "y": [ 5, 16 ] } ],
-      "place_signs": [ { "signage": "Travelier MOTEL", "x": 23, "y": 1 } ],
+      ],
       "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 }, { "item": "cash_register_random", "x": 3, "y": 3, "chance": 100 } ]
     }
   },
@@ -589,7 +679,7 @@
     "type": "mapgen",
     "method": "json",
     "//": "REMEMBER TO ADD MIGRATION THIS TIME YOU DUMBASS",
-    "om_terrain": [ [ "motel_twd_1_f1" ], [ "motel_twd_2_f1" ] ],
+    "om_terrain": [ [ "motel_twd_1_f1", "motel_twd_2_f1" ] ],
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
