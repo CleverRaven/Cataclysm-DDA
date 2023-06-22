@@ -2588,6 +2588,10 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         you->practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
     }
 
+    for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
+        you->practice_proficiency( proficiency_id, fix.time );
+    }
+
     add_msg( m_good, fix.success_msg.translated(), target.tname( 1, false ),
              start_durability, target.durability_indicator( true ) );
 }
@@ -3737,6 +3741,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     you->consume_charges( it, it.type->charges_to_use() );
                 }
             }
+            get_event_bus().send<event_type::spellcasting_finish>( you->getID(), sp,
+                    spell_being_cast.spell_class() );
         }
     }
 }

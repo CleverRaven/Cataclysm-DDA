@@ -626,7 +626,7 @@ bool vehicle::start_engine( vehicle_part &vp )
                 add_msg( _( "You cannot use %s with a broken arm." ), vp.name() );
                 return false;
             } else if( vpi.has_flag( "MUSCLE_LEGS" ) && ( player_character.get_working_leg_count() < 2 ) ) {
-                add_msg( _( "You cannot use %s with a broken leg." ), vp.name() );
+                add_msg( _( "You cannot use %s without at least two legs." ), vp.name() );
                 return false;
             }
         } else {

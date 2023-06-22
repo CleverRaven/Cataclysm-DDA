@@ -230,7 +230,7 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 }
 
 // test the `iuse::oxygen_bottle` function
-TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
+TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
     dummy.normalize();
@@ -334,7 +334,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 }
 
 // test the `iuse::caff` and `iuse::atomic_caff` functions
-TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
+TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
 {
     avatar dummy;
     dummy.normalize();

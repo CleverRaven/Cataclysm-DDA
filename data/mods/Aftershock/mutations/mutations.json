@@ -486,8 +486,15 @@
   },
   {
     "type": "mutation",
+    "id": "HIRSUTE",
+    "copy-from": "HIRSUTE",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
     "id": "LIGHTFUR",
     "copy-from": "LIGHTFUR",
+    "prereqs": [ "HIRSUTE" ],
     "extend": { "category": [ "MASTODON" ] }
   },
   {
@@ -684,12 +691,6 @@
     "type": "mutation",
     "id": "MET_RAT",
     "copy-from": "MET_RAT",
-    "extend": { "category": [ "MASTODON" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "SKIN_ROUGH",
-    "copy-from": "SKIN_ROUGH",
     "extend": { "category": [ "MASTODON" ] }
   },
   {

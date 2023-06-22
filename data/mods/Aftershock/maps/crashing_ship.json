@@ -301,8 +301,7 @@
     "explosion": { "power": 90000000, "shrapnel": { "casing_mass": 1200000, "fragment_mass": 60000 } },
     "use_action": {
       "target": "afs_set_us_up_the_bomb_act",
-      "target_charges": 420,
-      "active": true,
+      "target_timer": "420 seconds",
       "menu_text": "Activate fuze",
       "type": "transform"
     },
@@ -321,13 +320,10 @@
     "looks_like": "t_foamcrete_wall_seal",
     "symbol": " ",
     "color": "white",
-    "initial_charges": 420,
-    "max_charges": 420,
-    "turns_per_charge": 1,
     "explode_in_fire": false,
-    "use_action": {
+    "use_action": { "type": "message", "message": "You should be running!" },
+    "countdown_action": {
       "type": "explosion",
-      "no_deactivate_msg": "You should be running!",
       "explosion": { "power": 90000000, "shrapnel": { "casing_mass": 1260000, "fragment_mass": 60000 } }
     },
     "flags": [ "BOMB", "HIDDEN_ITEM" ]

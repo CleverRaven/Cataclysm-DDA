@@ -276,8 +276,6 @@ struct cli_opts {
     int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
-    std::string dump;
-    dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
     bool disable_ascii_art = false;
@@ -324,33 +322,6 @@ cli_opts parse_commandline( int argc, const char **argv )
                     for( int i = 0; i < n; ++i )
                     {
                         result.opts.emplace_back( params[ i ] );
-                    }
-                    return 0;
-                }
-            },
-            {
-                "--dump-stats", "<what> [mode = TSV] [opts…]",
-                "Dumps item stats",
-                section_default,
-                1,
-                [&result]( int n, const char **params ) -> int {
-                    test_mode = true;
-                    result.dump = params[ 0 ];
-                    for( int i = 2; i < n; ++i )
-                    {
-                        result.opts.emplace_back( params[ i ] );
-                    }
-                    if( n >= 2 )
-                    {
-                        if( !strcmp( params[ 1 ], "TSV" ) ) {
-                            result.dmode = dump_mode::TSV;
-                            return 0;
-                        } else if( !strcmp( params[ 1 ], "HTML" ) ) {
-                            result.dmode = dump_mode::HTML;
-                            return 0;
-                        } else {
-                            return -1;
-                        }
                     }
                     return 0;
                 }
@@ -637,9 +608,6 @@ int main( int argc, const char *argv[] )
     // On Android first launch, we copy all data files from the APK into the app's writeable folder so std::io stuff works.
     // Use the external storage so it's publicly modifiable data (so users can mess with installed data, save games etc.)
     std::string external_storage_path( SDL_AndroidGetExternalStoragePath() );
-    if( external_storage_path.back() != '/' ) {
-        external_storage_path += '/';
-    }
 
     PATH_INFO::init_base_path( external_storage_path );
 #else
@@ -657,7 +625,7 @@ int main( int argc, const char *argv[] )
 #   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
     PATH_INFO::init_user_dir( "" );
 #   else
-    PATH_INFO::init_user_dir( "./" );
+    PATH_INFO::init_user_dir( "." );
 #   endif
 #endif
     PATH_INFO::set_standard_filenames();
@@ -761,10 +729,6 @@ int main( int argc, const char *argv[] )
         g->load_static_data();
         if( cli.verifyexit ) {
             exit_handler( 0 );
-        }
-        if( !cli.dump.empty() ) {
-            init_colors();
-            exit( g->dump_stats( cli.dump, cli.dmode, cli.opts ) ? 0 : 1 );
         }
         if( cli.check_mods ) {
             init_colors();

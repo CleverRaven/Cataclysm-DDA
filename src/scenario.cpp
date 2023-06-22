@@ -139,7 +139,24 @@ const scenario *scenario::generic()
 {
     static const string_id<scenario> generic_scenario_id(
         get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
-    return &generic_scenario_id.obj();
+
+    std::vector<const scenario *> all;
+    for( const scenario &scen : scenario::get_all() ) {
+        if( scen.scen_is_blacklisted() ) {
+            continue;
+        }
+        all.push_back( &scen );
+    }
+    if( find_if( all.begin(), all.end(), []( const scenario * s ) {
+    return s->ident() == generic_scenario_id;
+    } ) != all.end() ) {
+        // if the default scenario exists return it
+        return &generic_scenario_id.obj();
+    }
+
+    // if generic doesn't exist just return to the first scenario
+    return *all.begin();
+
 }
 
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,

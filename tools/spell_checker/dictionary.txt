@@ -199,6 +199,8 @@ autosaves
 autoselect
 autoshotgun
 avellana
+aventail
+aventails
 avgas
 avians
 aving
@@ -2379,6 +2381,7 @@ regia
 regrows
 regurgitates
 reimpose
+reinstalling
 remodulator
 rended
 renderer
@@ -2445,6 +2448,7 @@ rollmat
 roncone
 roofless
 rootlike
+ropers
 ropy
 rothe
 roun
@@ -2656,6 +2660,8 @@ spalling
 spasmically
 spasming
 spearcat
+spearfisher
+spearfishers
 spearhand
 spearmen
 speciesism
@@ -2684,6 +2690,7 @@ spinnerets
 spinosaurus
 spinwheel
 spitter
+splashproof
 splicer
 splinting
 splorch
@@ -2885,6 +2892,8 @@ tinamou
 tinning
 tiredly
 tireplate
+titani
+titanis
 titanochelon
 toecaps
 toggled
@@ -3131,6 +3140,7 @@ wabbits
 wacka
 wakizashi
 wakizashis
+walleri
 walleye
 wammles
 wanderin
@@ -3223,6 +3233,7 @@ wyrmling
 wyrms
 x
 xamine
+xedra
 xenobiology
 xiph
 xiphos

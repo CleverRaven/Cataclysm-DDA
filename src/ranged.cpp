@@ -115,6 +115,8 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
+static const flag_id json_flag_FILTHY( "FILTHY" );
+
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_case_hardened_steel( "case_hardened_steel" );
 static const material_id material_glass( "glass" );
@@ -2018,18 +2020,22 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( !!ammo->ammo->casing ) {
-        const itype_id casing = *ammo->ammo->casing;
+        item casing = item( *ammo->ammo->casing );
+        // blackpowder can gum up casings too
+        if( ( *ammo->ammo ).ammo_effects.count( "BLACKPOWDER" ) ) {
+            casing.set_flag( json_flag_FILTHY );
+        }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
-            weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
+            weap.force_insert_item( casing.set_flag( flag_CASING ),
                                     item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
-            if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
-                brass_catcher->put_in( item( casing ), item_pocket::pocket_type::CONTAINER );
+            if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
+                brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
             } else if( cargo.empty() ) {
-                here.add_item_or_charges( eject, item( casing ) );
+                here.add_item_or_charges( eject, casing );
             } else {
-                vp->vehicle().add_item( *cargo.front(), item( casing ) );
+                vp->vehicle().add_item( *cargo.front(), casing );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),

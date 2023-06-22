@@ -930,6 +930,43 @@
     ]
   },
   {
+    "id": "dry_bag",
+    "repairs_like": "backpack",
+    "type": "ARMOR",
+    "//": "based on KastKing Regular Cyclone Seal Dry Bag",
+    "name": { "str": "dry bag" },
+    "description": "A lightweight watertight backpack, commonly worn by swimmers and divers.",
+    "weight": "580 g",
+    "volume": "1750 ml",
+    "price": 13900,
+    "price_postapoc": 1000,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "30 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "70 cm",
+        "watertight": true,
+        "moves": 450
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.19,
+        "coverage": 80,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
     "id": "duffelbag",
     "type": "ARMOR",
     "name": { "str": "duffel bag" },
@@ -967,10 +1004,60 @@
     ],
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": 5,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "dry_duffelbag",
+    "type": "ARMOR",
+    "//": "based on Aonyx 60 Waterproof Duffel Bag",
+    "name": { "str": "dry duffel bag" },
+    "description": "A huge watertight duffel bag.  Capable of floating.  Provides plenty of storage, but is severely encumbering.",
+    "weight": "1300 g",
+    "volume": "10500 ml",
+    "price": 18000,
+    "price_postapoc": 1000,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "60 L",
+        "max_contains_weight": "90 kg",
+        "max_item_length": "65 cm",
+        "magazine_well": "5 L",
+        "moves": 450
+      },
+      {
+        "//": "items slipped under the top of a duffelbag not well secured",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 80,
+        "extra_encumbrance": 5,
+        "description": "Tucked under the carry handles.",
+        "ripoff": 1
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 10,
         "volume_encumber_modifier": 0.25,
         "coverage": 100,
         "covers": [ "torso" ],
@@ -1584,7 +1671,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 4,
@@ -1970,7 +2057,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -2199,7 +2286,7 @@
     ],
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -2527,7 +2614,7 @@
     ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS", "OVERSIZE" ],
     "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {

@@ -13,6 +13,7 @@
 #include "map.h"
 #include "mapbuffer.h"
 #include "omdata.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
@@ -359,7 +360,11 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             missing.erase( missing.begin() + max_to_report, missing.end() );
         }
         std::sort( missing.begin(), missing.end() );
-        CAPTURE( missing );
+        const std::string missing_oter_type_ids = enumerate_as_string( missing,
+        []( const oter_type_id & id ) {
+            return id->id.str();
+        } );
+        CAPTURE( missing_oter_type_ids );
         INFO( "To resolve errors about missing terrains you can either give the terrain the "
               "SHOULD_NOT_SPAWN flag (intended for terrains that should never spawn, for example "
               "test terrains or work in progress), or tweak the constraints so that the terrain "
@@ -374,14 +379,20 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // with that.
     int num_generated_since_last_clear = 0;
     for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
+        const std::string oter_type_id = p.first->id.str();
         const tripoint_abs_omt pos = p.second.first_observed;
-        tinymap tm;
-        tm.load( project_to<coords::sm>( pos ), false );
+        CAPTURE( oter_type_id );
+        const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
+            tinymap tm;
+            tm.load( project_to<coords::sm>( pos ), false );
 
-        // Periodically clear the generated maps to save memory
-        if( ++num_generated_since_last_clear >= 64 ) {
-            MAPBUFFER.clear_outside_reality_bubble();
-            num_generated_since_last_clear = 0;
-        }
+            // Periodically clear the generated maps to save memory
+            if( ++num_generated_since_last_clear >= 64 ) {
+                MAPBUFFER.clear_outside_reality_bubble();
+                num_generated_since_last_clear = 0;
+            }
+        } );
+        CAPTURE( msg );
+        REQUIRE( msg.empty() );
     }
 }

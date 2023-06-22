@@ -3453,7 +3453,7 @@
     "weight": "75 kg",
     "hp": 30,
     "symbol": "C",
-    "color": "green",
+    "color": "light_green",
     "speed": 30,
     "dissect": "dissect_insect_sample_large",
     "upgrades": { "age_grow": 20, "into": "mon_butterfly_cocoon" },

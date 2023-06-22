@@ -1376,7 +1376,7 @@ int Character::swim_speed() const
 
 bool Character::is_on_ground() const
 {
-    return ( get_working_leg_count() < 2 && !weapon.has_flag( flag_CRUTCHES ) ) ||
+    return ( !enough_working_legs() && !weapon.has_flag( flag_CRUTCHES ) ) ||
            has_effect( effect_downed ) || is_prone();
 }
 
@@ -1945,26 +1945,35 @@ int Character::get_working_arm_count() const
 }
 
 // working is defined here as not broken
-int Character::get_working_leg_count() const
+bool Character::enough_working_legs() const
 {
     int limb_count = 0;
-    if( has_limb( body_part_leg_l ) && !is_limb_broken( body_part_leg_l ) ) {
-        limb_count++;
-    }
-    if( has_limb( body_part_leg_r ) && !is_limb_broken( body_part_leg_r ) ) {
-        limb_count++;
-    }
-    return limb_count;
-}
-
-bool Character::has_limb( const bodypart_id &limb ) const
-{
+    int working_limb_count = 0;
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( part == limb ) {
-            return true;
+        if( part->primary_limb_type() == body_part_type::type::leg ) {
+            limb_count++;
+            if( !is_limb_broken( part ) ) {
+                working_limb_count++;
+            }
         }
     }
-    return false;
+
+    return working_limb_count == limb_count;
+}
+
+// working is defined here as not broken
+int Character::get_working_leg_count() const
+{
+    int working_limb_count = 0;
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        if( part->primary_limb_type() == body_part_type::type::leg ) {
+            if( !is_limb_broken( part ) ) {
+                working_limb_count++;
+            }
+        }
+    }
+
+    return working_limb_count;
 }
 
 // this is the source of truth on if a limb is broken so all code to determine
@@ -1976,7 +1985,7 @@ bool Character::is_limb_broken( const bodypart_id &limb ) const
 
 bool Character::can_run() const
 {
-    return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+    return get_stamina() > 0 && !has_effect( effect_winded ) && enough_working_legs();
 }
 
 move_mode_id Character::current_movement_mode() const
@@ -5504,7 +5513,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     // FIXME: Hardcoded damage types
     if( eff == effect_downed ) {
-        return has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+        return is_knockdown_immune();
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_heat );
     } else if( eff == effect_deaf ) {
@@ -5543,6 +5552,16 @@ bool Character::is_rad_immune() const
 {
     bool has_helmet = false;
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( flag_RAD_PROOF );
+}
+
+bool Character::is_knockdown_immune() const
+{
+    // hard code for old tentacle mutation
+    bool knockdown_immune = has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+
+    // if we have 1.0 or greater knockdown resist
+    knockdown_immune |= calculate_by_enchantment( 0.0, enchant_vals::mod::KNOCKDOWN_RESIST ) >= 1;
+    return knockdown_immune;
 }
 
 int Character::throw_range( const item &it ) const
@@ -5678,7 +5697,12 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
     const double motion_vision_range = calculate_by_enchantment( 0.0,
                                        enchant_vals::mod::MOTION_VISION_RANGE );
+    const double sight_range_nether = calculate_by_enchantment( 0.0,
+                                      enchant_vals::mod::SIGHT_RANGE_NETHER );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
         return true;
     }
     if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
@@ -6255,6 +6279,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
     }
 
+    time_duration final_time = 1_hours; //just in case this somehow winds up undefined
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
@@ -6310,8 +6335,22 @@ void Character::mend_item( item_location &&obj, bool interactive )
             } else if( fix.mod_damage < 0 ) {
                 descr += string_format( _( "<color_red>Applies</color> %d damage.\n" ), -fix.mod_damage );
             }
+
+            final_time = fix.time;
+            // if an item has a time saver flag multiply total time by that flag's time factor
+            for( const auto &[flag_id, mult] : fix.time_save_flags ) {
+                if( obj->has_flag( flag_id ) ) {
+                    final_time *= mult;
+                }
+            }
+            // if you have a time saver prof multiply total time by that prof's time factor
+            for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
+                if( has_proficiency( proficiency_id ) ) {
+                    final_time *= mult;
+                }
+            }
             descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
-                                    to_string_approx( fix.time ) );
+                                    to_string_approx( final_time ) );
             if( fix.skills.empty() ) {
                 descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
@@ -6358,7 +6397,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( fix.time ) );
+        assign_activity( ACT_MEND_ITEM, to_moves<int>( final_time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( fix.id_ );
         activity.targets.push_back( std::move( obj ) );
@@ -8814,7 +8853,12 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
+                        i->type->tool->fuel_efficiency );
+            } else {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            }
         }
     }
 
@@ -11137,6 +11181,12 @@ bool Character::is_hallucination() const
 }
 
 bool Character::is_electrical() const
+{
+    // for now this is false. In the future should have rules
+    return false;
+}
+
+bool Character::is_nether() const
 {
     // for now this is false. In the future should have rules
     return false;

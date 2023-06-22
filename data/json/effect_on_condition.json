@@ -443,9 +443,23 @@
     "recurrence": "5 minutes",
     "global": true,
     "condition": {
-      "and": [ { "is_weather": "portal_storm" }, { "u_has_items": { "item": "nre_recorder", "charges": 1 } }, "u_is_outside" ]
+      "and": [
+        {
+          "or": [
+            { "is_weather": "portal_storm" },
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "one_in_chance": 12 } ] },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        "u_is_outside"
+      ]
     },
-    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "deactivate_condition": {
+      "not": {
+        "or": [ { "is_weather": "portal_storm" }, { "is_weather": "distant_portal_storm" }, { "is_weather": "close_portal_storm" } ]
+      }
+    },
     "effect": [
       { "math": [ "u_portal_storm_record", "++" ] },
       {

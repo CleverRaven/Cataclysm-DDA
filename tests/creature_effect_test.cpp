@@ -61,7 +61,7 @@ static const trait_id trait_SLIMY( "SLIMY" );
 // - Otherwise, add effect, and check if it is blocked by another effect
 
 // Characters have effects on separate body parts, or no particular part (indicated by `bp_null`)
-TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
+TEST_CASE( "character_add_effect", "[creature][character][effect][add]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -103,7 +103,7 @@ TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
 }
 
 // Monsters may have effects added to them, but they don't have separate body parts.
-TEST_CASE( "monster add_effect", "[creature][monster][effect][add]" )
+TEST_CASE( "monster_add_effect", "[creature][monster][effect][add]" )
 {
     monster mummy( mon_hallu_mom );
 
@@ -361,7 +361,7 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
 
 // monster::is_immune_effect
 //
-TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
+TEST_CASE( "monster_is_immune_effect", "[creature][monster][effect][immune]" )
 {
     // TODO: Monster may be immune to:
     // - onfire (if is_immune_damage DT_HEAT, made_of LIQUID, has_flag MF_FIREY)
@@ -492,7 +492,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
 
 // Character::is_immune_effect
 //
-TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]" )
+TEST_CASE( "character_is_immune_effect", "[creature][character][effect][immune]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -541,7 +541,7 @@ TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]"
 
 // Creature::resists_effect
 //
-TEST_CASE( "creature effect reistance", "[creature][effect][resist]" )
+TEST_CASE( "creature_effect_reistance", "[creature][effect][resist]" )
 {
     // TODO: Creature resists effect if:
     // - has effect from eff.get_resist_effects

@@ -20,7 +20,7 @@ class cata_tiles_test_helper
         }
 };
 
-TEST_CASE( "walls should be unconnected without nearby walls", "[multitile][connects]" )
+TEST_CASE( "walls_should_be_unconnected_without_nearby_walls", "[multitile][connects]" )
 {
     map &here = get_map();
     clear_map();
@@ -50,7 +50,7 @@ TEST_CASE( "walls should be unconnected without nearby walls", "[multitile][conn
         }
     }
 }
-TEST_CASE( "walls should connect to walls as end pieces", "[multitile][connects]" )
+TEST_CASE( "walls_should_connect_to_walls_as_end_pieces", "[multitile][connects]" )
 {
     map &here = get_map();
     clear_map();
@@ -119,7 +119,7 @@ TEST_CASE( "walls should connect to walls as end pieces", "[multitile][connects]
         }
     }
 }
-TEST_CASE( "walls should connect to walls as corners", "[multitile][connects]" )
+TEST_CASE( "walls_should_connect_to_walls_as_corners", "[multitile][connects]" )
 {
     map &here = get_map();
     clear_map();
@@ -188,7 +188,7 @@ TEST_CASE( "walls should connect to walls as corners", "[multitile][connects]" )
         }
     }
 }
-TEST_CASE( "walls should connect to walls as edges", "[multitile][connects]" )
+TEST_CASE( "walls_should_connect_to_walls_as_edges", "[multitile][connects]" )
 {
     map &here = get_map();
     clear_map();
@@ -231,7 +231,7 @@ TEST_CASE( "walls should connect to walls as edges", "[multitile][connects]" )
         }
     }
 }
-TEST_CASE( "walls should connect to walls as t-connections and fully", "[multitile][connects]" )
+TEST_CASE( "walls_should_connect_to_walls_as_t-connections_and_fully", "[multitile][connects]" )
 {
     map &here = get_map();
     clear_map();
@@ -315,7 +315,7 @@ TEST_CASE( "walls should connect to walls as t-connections and fully", "[multiti
     }
 }
 
-TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multitile][rotates]" )
+TEST_CASE( "windows_should_connect_to_walls_and_rotate_to_indoor_floor", "[multitile][rotates]" )
 {
     map &here = get_map();
     clear_map();
@@ -439,7 +439,7 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
     }
 }
 
-TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" )
+TEST_CASE( "unconnected_windows_rotate_to_indoor_floor", "[multitile][rotates]" )
 {
     map &here = get_map();
     clear_map();

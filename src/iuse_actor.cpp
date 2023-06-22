@@ -183,7 +183,7 @@ void iuse_transform::load( const JsonObject &obj )
     }
     obj.read( "target_ammo", ammo_type );
 
-    obj.read( "countdown", countdown );
+    obj.read( "target_timer", target_timer );
 
     if( !ammo_type.is_empty() && !container.is_empty() ) {
         obj.throw_error_at( "target_ammo", "Transform actor specified both ammo type and container type" );
@@ -351,8 +351,11 @@ void iuse_transform::do_transform( Character &p, item &it ) const
             it.seal();
         }
     }
-    obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
-    obj->active = active || obj->item_counter || obj->has_temperature();
+
+    if( target_timer > 0_seconds ) {
+        obj->countdown_point = calendar::turn + target_timer;
+    }
+    obj->active = active || obj->has_temperature() || target_timer > 0_seconds;
     if( p.is_worn( *obj ) ) {
         if( !obj->is_armor() ) {
             item_location il = item_location( p, obj );
@@ -428,8 +431,9 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
-    if( countdown > 0 ) {
-        dump.emplace_back( "TOOL", _( "Countdown: " ), countdown );
+
+    if( target_timer > 0_seconds ) {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( target_timer ) );
     }
 
     const auto *explosion_use = dummy.get_use( "explosion" );
@@ -491,64 +495,37 @@ void unpack_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        _( "This item could be unpacked to receive something." ) );
 }
 
-std::unique_ptr<iuse_actor> countdown_actor::clone() const
+std::unique_ptr<iuse_actor> message_iuse::clone() const
 {
-    return std::make_unique<countdown_actor>( *this );
+    return std::make_unique<message_iuse>( *this );
 }
 
-void countdown_actor::load( const JsonObject &obj )
+void message_iuse::load( const JsonObject &obj )
 {
     obj.read( "name", name );
-    obj.read( "interval", interval );
     obj.read( "message", message );
 }
 
-std::optional<int> countdown_actor::use( Character &p, item &it, bool t,
-        const tripoint &pos ) const
+std::optional<int> message_iuse::use( Character &p, item &it, bool t,
+                                      const tripoint &pos ) const
 {
     if( t ) {
         return std::nullopt;
     }
 
-    if( it.active ) {
-        return std::nullopt;
-    }
-
     if( p.sees( pos ) && !message.empty() ) {
-        p.add_msg_if_player( m_neutral, message.translated(), it.tname() );
+        p.add_msg_if_player( m_info, message.translated(), it.tname() );
     }
 
-    it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
-    it.active = true;
     return 0;
 }
 
-ret_val<void> countdown_actor::can_use( const Character &, const item &it, bool,
-                                        const tripoint & ) const
-{
-    if( it.active ) {
-        return ret_val<void>::make_failure( _( "It's already been triggered." ) );
-    }
-
-    return ret_val<void>::make_success();
-}
-
-std::string countdown_actor::get_name() const
+std::string message_iuse::get_name() const
 {
     if( !name.empty() ) {
         return name.translated();
     }
     return iuse_actor::get_name();
-}
-
-void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
-{
-    dump.emplace_back( "TOOL", _( "Countdown: " ),
-                       interval > 0 ? interval : it.type->countdown_interval );
-    const iuse_actor *countdown_actor = it.type->countdown_action.get_actor_ptr();
-    if( countdown_actor != nullptr ) {
-        countdown_actor->info( it, dump );
-    }
 }
 
 std::unique_ptr<iuse_actor> explosion_iuse::clone() const

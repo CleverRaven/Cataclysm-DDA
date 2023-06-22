@@ -24,7 +24,7 @@
     "weight": "75 g",
     "material": [ "forged_dreamstuff" ],
     "symbol": "I",
-    "looks_like": "textbook_anarch",
+    "looks_like": "jumper_cable",
     "use_action": { "type": "learn_spell", "spells": [ "cable_whip" ] }
   }
 ]
