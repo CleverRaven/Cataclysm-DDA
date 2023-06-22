@@ -674,7 +674,7 @@
     "attack_type": "melee",
     "id": "dermatik_impale",
     "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
-    "effects": [ { "id": "effect_dermatik", "duration": [ 3600 ] } ],
+    "effects": [ { "id": "dermatik", "duration": [ 3600 ] } ],
     "cooldown": 25,
     "move_cost": 300,
     "hit_dmg_u": "The %1$s sinks its ovipositor into your %2$s!",
