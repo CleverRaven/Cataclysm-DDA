@@ -166,7 +166,10 @@
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_MATRIX_AWAKENING_FAILURE",
     "effect": [
-      { "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You feel a pleasant heat in your veins, but as you look down at your hands, the heat turns into a searing pain.  The crystal flashes once, the light drives spikes into your brain, and then goes dark.", "popup": true },
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You feel a pleasant heat in your veins, but as you look down at your hands, the heat turns into a searing pain.  The crystal flashes once, the light drives spikes into your brain, and then goes dark.",
+        "popup": true
+      },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
