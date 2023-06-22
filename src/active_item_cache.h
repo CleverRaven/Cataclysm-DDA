@@ -55,13 +55,6 @@ class active_item_cache
         std::unordered_map<int, std::unordered_map<item *, safe_reference<item>>> active_items_index;
     public:
         /**
-         * Removes the item if it is in the cache. Does nothing if the item is not in the cache.
-         * Relies on the fact that item::processing_speed() is a constant.
-         * Also removes any items that have been destroyed in the list containing it
-         */
-        void remove( const item *it );
-
-        /**
          * Adds the reference to the cache. Does nothing if the reference is already in the cache.
          * Relies on the fact that item::processing_speed() is a constant.
          */
