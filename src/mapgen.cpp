@@ -109,21 +109,6 @@ static const itype_id itype_diesel( "diesel" );
 static const itype_id itype_gasoline( "gasoline" );
 static const itype_id itype_jp8( "jp8" );
 
-static const jmath_func_id jmath_func_weight_start("weight_start"); // I think there must be a way to just parse this
-static const jmath_func_id jmath_func_weight_end("weight_end");
-static const jmath_func_id jmath_func_weight_start_min("weight_start_min");
-static const jmath_func_id jmath_func_weight_end_min("weight_end_min");
-static const jmath_func_id jmath_func_weight_linear_pos("weight_linear_pos");
-static const jmath_func_id jmath_func_weight_linear_neg("weight_linear_neg");
-static const jmath_func_id jmath_func_weight_linear_pos_min("weight_linear_pos_min");
-static const jmath_func_id jmath_func_weight_linear_neg_min("weight_linear_neg_min");
-static const jmath_func_id jmath_func_weight_quadratic_pos("weight_quadratic_pos");
-static const jmath_func_id jmath_func_weight_quadratic_neg("weight_quadratic_neg");
-static const jmath_func_id jmath_func_weight_quadratic_pos_min("weight_quadratic_pos_min");
-static const jmath_func_id jmath_func_weight_quadratic_neg_min("weight_quadratic_neg_min");
-static const jmath_func_id jmath_func_weight_quadratic_u_pos("weight_quadratic_u_pos");
-static const jmath_func_id jmath_func_weight_quadratic_u_neg("weight_quadratic_u_neg");
-
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
@@ -372,20 +357,10 @@ class mapgen_basic_container
          */
         void setup() {
             for( const std::shared_ptr<mapgen_function> &ptr : mapgens_ ) {
-                const int weight = ptr->weight;
+                const dbl_or_var weight = ptr->weight;
                 if (/*weight func exists*/) {
-                        switch (/*weight func name*/) {
-                        case "weight_start":
-                            weight *= jmath_func_weight_start->eval(/*weight func arguments*/)
-                                break;
-                        case "weight_end":
-                            weight *= jmath_func_weight_end->eval(/*weight func arguments*/)
-                                break;
-                            /*The rest*/
-                        default:
-                            /*error*/
-                        }
-                    }
+                    jmath_func_id func = jmath_func_id(/*weight func id*/)
+                    weight *= func->eval(/*weight func arguments*/);
                 }
                 if( weight < 1 ) {
                     continue; // rejected!
@@ -643,7 +618,7 @@ std::shared_ptr<mapgen_function>
 load_mapgen_function(const JsonObject& jio, const std::string& id_base, const point& offset,
     const point& total)
 {
-    int mgweight = jio.get_int("weight", 1000);
+    dbl_or_var mgweight = jio.get_dbl_or_var( this, "weight", false, 1000); // Should either be an double or an object containing an int "weight" that gets multiplied by the result of the jmath function, the 'id' of the jmath function found in weight_functions.json to be called and 'arguments' to be passed to the function in an array.
     if (mgweight <= 0 || jio.get_bool("disabled", false)) {
         jio.allow_omitted_members();
         return nullptr; // nothing
@@ -664,18 +639,8 @@ load_mapgen_function(const JsonObject& jio, const std::string& id_base, const po
         JsonObject weightfunc;
         JsonObject jo = jio.get_object("object");
         jo.allow_omitted_members();
-        if (jio.has_member("weight_func")) {
-            weightfunc = jio.get_object("weight_func"); // Object should contain the 'name' of the jmath function found in weight_functions.json to be called, 'arguments' to be passed to the function in an array and the basic 'weight' it multiplies.
-            // Add better checks to make sure this is valid before runtime
-            if (!weightfunc.has_member("name")) {
-                weightfunc.throw_error("no weight function name found");
-            }
-            if (!weightfunc.has_member("arguments")) {
-                weightfunc.throw_error("no weight function arguements found");
-            }
-        }
         return std::make_shared<mapgen_function_json>(
-            jo, mgweight, "mapgen " + id_base, offset, total, weightfunc);
+            jo, mgweight, "mapgen " + id_base, offset, total);
     }
     else {
         jio.throw_error_at("method", R"(invalid value: must be "builtin" or "json")");
@@ -857,7 +822,7 @@ mapgen_function_json_base::mapgen_function_json_base(
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
-mapgen_function_json::mapgen_function_json( const JsonObject &jsobj, const int w,
+mapgen_function_json::mapgen_function_json( const JsonObject &jsobj, const dbl_or_var w,
     const std::string& context, const point& grid_offset, const point& grid_total, const JsonObject &weightfunc )
     : mapgen_function( w )
     , mapgen_function_json_base( jsobj, context )

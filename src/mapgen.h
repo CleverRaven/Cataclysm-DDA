@@ -26,6 +26,7 @@ class map;
 template <typename Id> class mapgen_value;
 class mapgendata;
 class mission;
+struct dbl_or_var;
 struct mapgen_arguments;
 
 using building_gen_pointer = void ( * )( mapgendata & );
@@ -481,8 +482,8 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         bool expects_predecessor() const override;
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
-        mapgen_function_json( const JsonObject &jsobj, int w, const std::string &context,
-                              const point &grid_offset, const point &grid_total, const JsonObject &weightfunc );
+        mapgen_function_json( const JsonObject &jsobj, dbl_or_var w, const std::string &context,
+                              const point &grid_offset, const point &grid_total );
         ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
