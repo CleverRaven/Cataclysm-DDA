@@ -808,7 +808,7 @@
     "description_affix": "illuminated_by",
     "has_elec": true,
     "priority": 4,
-    "half_life": "4 turns",
+    "half_life": "1 turn",
     "phase": "plasma",
     "display_items": false,
     "display_field": true
@@ -1625,7 +1625,7 @@
     "description_affix": "illuminated_by",
     "has_elec": true,
     "priority": 4,
-    "half_life": "4 turns",
+    "half_life": "1 turn",
     "phase": "plasma",
     "display_items": false,
     "display_field": false,
