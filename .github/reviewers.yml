@@ -41,7 +41,6 @@ files:
     - KorGgenT
   'tools/{spell_checker/!(dictionary.txt){,/**},!(spell_checker){,/**}}':
     - jbytheway
-    - int-ua
   'src/widget.cpp':
     - wapcaplet
     - dseguin

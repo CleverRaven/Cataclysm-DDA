@@ -3889,6 +3889,28 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string_
     };
 }
 
+void talk_effect_fun_t::set_attack( const JsonObject &jo, const std::string &member,
+                                    bool is_npc )
+{
+    str_or_var force_technique = get_str_or_var( jo.get_member( member ), member, true );
+    bool allow_special = jo.get_bool( "allow_special", true );
+    bool allow_unarmed = jo.get_bool( "allow_unarmed", true );;
+    dbl_or_var forced_movecost = get_dbl_or_var( jo, "forced_movecost", false, -1.0 );
+
+    function = [is_npc, allow_special, force_technique, allow_unarmed,
+            forced_movecost]( dialogue & d ) {
+        // if beta is attacking then target is the alpha
+        talker *target = d.actor( !is_npc );
+        talker *attacker = d.actor( is_npc );
+        Creature *c = target->get_creature();
+
+        if( c ) {
+            matec_id m( force_technique.evaluate( d ) );
+            attacker->attack_target( *c, allow_special, m, allow_unarmed, forced_movecost.evaluate( d ) );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_die( bool is_npc )
 {
     function = [is_npc]( dialogue const & d ) {
@@ -4108,11 +4130,11 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
     };
 }
 
-void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::string_view member )
+void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::string &member )
 {
     std::vector<str_or_var> eocs;
     for( const JsonValue &jv : jo.get_array( member ) ) {
-        eocs.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+        eocs.push_back( get_str_or_var( jv, member, true ) );
     }
 
     if( eocs.empty() ) {
@@ -4122,14 +4144,14 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
     std::vector<str_or_var> eoc_names;
     if( jo.has_array( "names" ) ) {
         for( const JsonValue &jv : jo.get_array( "names" ) ) {
-            eoc_names.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+            eoc_names.push_back( get_str_or_var( jv, "names", true ) );
         }
     }
 
     std::vector<str_or_var> eoc_descriptions;
     if( jo.has_array( "descriptions" ) ) {
         for( const JsonValue &jv : jo.get_array( "descriptions" ) ) {
-            eoc_descriptions.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+            eoc_descriptions.push_back( get_str_or_var( jv, "descriptions", true ) );
         }
     }
 
@@ -4157,13 +4179,23 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
         jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
     }
 
-    std::unordered_map<std::string, str_or_var> context;
-    if( jo.has_object( "variables" ) ) {
-        const JsonObject &variables = jo.get_object( "variables" );
-        for( const JsonMember &jv : variables ) {
-            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
-                                                  true );
+    std::vector<std::unordered_map<std::string, str_or_var>> context;
+    if( jo.has_array( "variables" ) ) {
+        for( const JsonValue &member : jo.get_array( "variables" ) ) {
+            const JsonObject &variables = member.get_object();
+            std::unordered_map<std::string, str_or_var> temp_context;
+            for( const JsonMember &jv : variables ) {
+                temp_context["npctalk_var_" + jv.name()] =
+                    get_str_or_var( variables.get_member( jv.name() ), jv.name(), true );
+            }
+            context.emplace_back( temp_context );
         }
+    }
+
+    if( !context.empty() && context.size() != 1 && context.size() != eocs.size() ) {
+        jo.throw_error(
+            string_format( "Invalid input for run_eoc_selector, size of vars needs to be 0 (no vars), 1 (all have the same vars), or the same size as the eocs (each has their own vars). Current size is: %d",
+                           context.size() ) );
     }
 
     bool hide_failing = false;
@@ -4211,10 +4243,7 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
                                                ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
             }
         }
-        dialogue newDialog( d );
-        for( const auto &val : context ) {
-            newDialog.set_value( val.first, val.second.evaluate( d ) );
-        }
+
         if( eoc_list.entries.empty() ) {
             // if we have no entries should exit with error
             debugmsg( "No options for EOC_LIST" );
@@ -4222,6 +4251,18 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
         }
 
         eoc_list.query();
+
+        // add context variables
+        dialogue newDialog( d );
+        int contextIndex = 0;
+        if( context.size() > 1 ) {
+            contextIndex = eoc_list.ret;
+        }
+        if( !context.empty() ) {
+            for( const auto &val : context[contextIndex] ) {
+                newDialog.set_value( val.first, val.second.evaluate( d ) );
+            }
+        }
 
         effect_on_condition_id( eocs[eoc_list.ret].evaluate( d ) )->activate( newDialog );
     };
@@ -5253,6 +5294,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
                 targeted = jo.get_bool( "targeted" );
             }
             subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true, targeted );
+        } else if( jo.has_member( "u_attack" ) ) {
+            subeffect_fun.set_attack( jo, "u_attack", false );
+        } else if( jo.has_member( "npc_attack" ) ) {
+            subeffect_fun.set_attack( jo, "npc_attack", is_npc );
         } else if( jo.has_array( "arithmetic" ) ) {
             subeffect_fun.set_arithmetic( jo, "arithmetic", false );
         } else if( jo.has_array( "math" ) ) {
