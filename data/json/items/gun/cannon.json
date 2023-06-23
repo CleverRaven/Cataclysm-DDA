@@ -23,7 +23,7 @@
     "clip_size": 1,
     "reload": 30000,
     "valid_mod_locations": [  ],
-    "flags": [ "MOUNTED_GUN" ],
+    "flags": [ "MOUNTED_GUN", "OLD_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "cannon": 1 } } ],
     "melee_damage": { "bash": 50 }
   }

@@ -114,7 +114,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "OLD_GUN" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ],
     "melee_damage": { "bash": 8 }

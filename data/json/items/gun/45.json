@@ -141,7 +141,7 @@
     "durability": 7,
     "min_cycle_recoil": 450,
     "blackpowder_tolerance": 48,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "OLD_GUN" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ],
     "melee_damage": { "bash": 12 }
@@ -371,6 +371,7 @@
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 540,
+    "flags": [ "OLD_GUN" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
@@ -562,6 +563,7 @@
     "durability": 7,
     "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "auto", 2 ] ],
+    "flags": [ "OLD_GUN" ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "brass catcher", 1 ],

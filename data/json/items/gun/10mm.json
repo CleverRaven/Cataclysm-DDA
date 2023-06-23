@@ -28,6 +28,7 @@
     "ammo": [ "10mm", "40" ],
     "dispersion": 320,
     "durability": 8,
+    "flags": [ "OLD_GUN" ],
     "blackpowder_tolerance": 56,
     "clip_size": 6,
     "pocket_data": [
@@ -178,6 +179,7 @@
     "color": "light_gray",
     "ammo": "10mm",
     "dispersion": 480,
+    "flags": [ "OLD_GUN" ],
     "built_in_mods": [ "match_trigger" ],
     "durability": 6,
     "min_cycle_recoil": 570,
