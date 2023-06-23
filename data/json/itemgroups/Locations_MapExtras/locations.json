@@ -1609,7 +1609,7 @@
       { "item": "pants", "prob": 100 },
       { "item": "badge_deputy", "prob": 100 },
       { "item": "cowboy_hat", "prob": 10 },
-      { "item": "leather_police_jacket", "prob": 25 },
+      { "item": "leather_police_jacket", "variant": "leather_police_jacket", "prob": 25 },
       { "item": "sheriffshirt", "prob": 100 },
       { "item": "police_belt", "prob": 100 },
       { "group": "cop_shoes", "prob": 100 },

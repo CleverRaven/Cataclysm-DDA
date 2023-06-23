@@ -904,6 +904,8 @@ eou
 epicuticle
 epistemology
 eppies
+equestrian
+equestrians
 ergometer
 ergonomics
 erlischt
@@ -2876,6 +2878,7 @@ thorned
 thornothurian
 thosun
 threateningly
+throated
 throating
 throwable
 thru

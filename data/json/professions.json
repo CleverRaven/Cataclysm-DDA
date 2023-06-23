@@ -2376,7 +2376,7 @@
           "motor_police_boots",
           "whistle",
           "wristwatch",
-          "leather_police_jacket"
+          { "item": "leather_police_jacket", "variant": "leather_police_jacket" }
         ],
         "entries": [
           { "group": "charged_smart_phone" },
@@ -3017,12 +3017,11 @@
       "both": {
         "items": [
           "motorbike_pants",
-          "motorbike_armor",
           "chaps_leather",
           "socks",
           "motorbike_boots",
           "helmet_motor",
-          "jacket_leather",
+          "leather_police_jacket",
           "wristwatch",
           "multitool"
         ],

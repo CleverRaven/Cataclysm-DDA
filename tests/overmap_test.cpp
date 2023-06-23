@@ -29,6 +29,16 @@ static const oter_type_str_id oter_type_ants_lab( "ants_lab" );
 static const oter_type_str_id oter_type_ants_lab_stairs( "ants_lab_stairs" );
 static const oter_type_str_id oter_type_bunker_shop_b( "bunker_shop_b" );
 static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
+static const oter_type_str_id oter_type_deserter_city_gate( "deserter_city_gate" );
+static const oter_type_str_id oter_type_deserter_city_office_1f( "deserter_city_office_1f" );
+static const oter_type_str_id oter_type_deserter_city_office_1fb( "deserter_city_office_1fb" );
+static const oter_type_str_id oter_type_deserter_city_office_2f( "deserter_city_office_2f" );
+static const oter_type_str_id oter_type_deserter_city_office_2fb( "deserter_city_office_2fb" );
+static const oter_type_str_id oter_type_deserter_city_office_3f( "deserter_city_office_3f" );
+static const oter_type_str_id oter_type_deserter_city_office_3fb( "deserter_city_office_3fb" );
+static const oter_type_str_id oter_type_deserter_city_office_roof( "deserter_city_office_roof" );
+static const oter_type_str_id oter_type_deserter_city_office_roofb( "deserter_city_office_roofb" );
+static const oter_type_str_id oter_type_deserter_city_park( "deserter_city_park" );
 static const oter_type_str_id oter_type_ravine( "ravine" );
 static const oter_type_str_id oter_type_ravine_edge( "ravine_edge" );
 static const oter_type_str_id oter_type_ravine_floor( "ravine_floor" );
@@ -299,6 +309,16 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_ants_lab_stairs.id(),
         oter_type_bunker_shop_b.id(),
         oter_type_bunker_shop_g.id(),
+        oter_type_deserter_city_gate.id(),
+        oter_type_deserter_city_park.id(),
+        oter_type_deserter_city_office_1f.id(),
+        oter_type_deserter_city_office_2f.id(),
+        oter_type_deserter_city_office_3f.id(),
+        oter_type_deserter_city_office_roof.id(),
+        oter_type_deserter_city_office_1fb.id(),
+        oter_type_deserter_city_office_2fb.id(),
+        oter_type_deserter_city_office_3fb.id(),
+        oter_type_deserter_city_office_roofb.id(),
         oter_type_ravine.id(), // ravine only in desert & Aftershock
         oter_type_ravine_edge.id(),
         oter_type_ravine_floor_edge.id(),

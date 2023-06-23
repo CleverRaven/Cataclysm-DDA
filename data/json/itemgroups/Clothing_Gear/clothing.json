@@ -9,8 +9,12 @@
       { "item": "motorbike_boots", "prob": 80 },
       {
         "distribution": [
-          { "collection": [ { "item": "motorbike_armor" }, { "item": "motorbike_pants", "prob": 80 } ], "prob": 40 },
-          { "item": "touring_suit", "prob": 60 }
+          { "collection": [ { "item": "motorbike_armor" }, { "item": "motorbike_pants", "prob": 30 } ], "prob": 40 },
+          {
+            "collection": [ { "item": "leather_police_jacket" }, { "item": "motorbike_pants", "prob": 30 } ],
+            "prob": 40
+          },
+          { "item": "touring_suit", "prob": 40 }
         ],
         "prob": 80
       }
@@ -524,6 +528,7 @@
               { "item": "hoodie", "prob": 60 },
               { "item": "jacket_jean", "prob": 20 },
               { "item": "jacket_leather", "prob": 20 },
+              { "item": "leather_police_jacket", "prob": 15 },
               { "item": "jacket_light", "prob": 40 },
               { "item": "jacket_windbreaker", "prob": 20 },
               { "item": "sweater", "prob": 50 },
@@ -1533,6 +1538,7 @@
       [ "blazer", 35 ],
       [ "towel", 40 ],
       [ "jacket_leather", 30 ],
+      [ "leather_police_jacket", 5 ],
       [ "motorbike_armor", 5 ],
       [ "poncho", 15 ],
       [ "folding_poncho", 5 ],
@@ -1786,6 +1792,7 @@
       [ "jacket_jean", 35 ],
       [ "blazer", 35 ],
       [ "jacket_leather", 30 ],
+      [ "leather_police_jacket", 8 ],
       [ "coat_rain", 50 ],
       [ "trenchcoat", 12 ],
       [ "duster", 12 ],
@@ -2212,6 +2219,7 @@
       { "item": "jacket_jean", "prob": 35 },
       { "item": "blazer", "prob": 35 },
       { "item": "jacket_leather", "prob": 30 },
+      { "item": "leather_police_jacket", "prob": 10 },
       { "item": "coat_winter", "prob": 50 },
       { "item": "peacoat", "prob": 30 },
       { "item": "greatcoat", "prob": 15 },
@@ -2910,7 +2918,8 @@
       [ "winter_jacket_army", 10 ],
       [ "winter_gloves_army", 10 ],
       [ "jumpsuit", 20 ],
-      [ "jacket_leather", 30 ],
+      [ "jacket_leather", 15 ],
+      [ "leather_police_jacket", 30 ],
       [ "sleeveless_trenchcoat", 2 ],
       [ "sleeveless_trenchcoat_leather", 5 ],
       [ "sleeveless_duster", 2 ],
@@ -3164,6 +3173,7 @@
       [ "corset_waist", 1 ],
       [ "football_armor", 18 ],
       [ "jacket_leather", 12 ],
+      [ "leather_police_jacket", 12 ],
       [ "jacket_jean", 8 ],
       [ "jacket_flannel", 6 ],
       [ "cuirass_scrap", 12 ],
@@ -3448,6 +3458,7 @@
       { "item": "jacket_jean", "prob": 35 },
       { "item": "blazer", "prob": 35 },
       { "item": "jacket_leather", "prob": 30 },
+      { "item": "leather_police_jacket", "prob": 10 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "trenchcoat", "prob": 10 },
       { "item": "duster", "prob": 15 },
@@ -4201,6 +4212,7 @@
           { "item": "jacket_jean", "prob": 80 },
           { "item": "jacket_flannel", "prob": 50 },
           { "item": "jacket_leather", "prob": 50 },
+          { "item": "leather_police_jacket", "prob": 10 },
           { "item": "jacket_leather_red", "prob": 25 },
           { "item": "jacket_light", "prob": 60 },
           { "item": "jacket_windbreaker", "prob": 70 },

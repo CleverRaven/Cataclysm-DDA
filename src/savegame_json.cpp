@@ -280,6 +280,7 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.member( "collapsed", collapsed );
     json.member( "disabled", disabled );
     json.member( "unload", unload );
+    json.member( "player_edited", player_edited );
     json.end_object();
 }
 
@@ -302,6 +303,11 @@ void item_pocket::favorite_settings::deserialize( const JsonObject &data )
     }
     if( data.has_member( "unload" ) ) {
         data.read( "unload", unload );
+    }
+    if( data.has_member( "player_edited" ) ) {
+        data.read( "player_edited", player_edited );
+    } else {
+        player_edited = true;
     }
 }
 
