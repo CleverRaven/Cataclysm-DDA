@@ -904,7 +904,7 @@
         "QQQQQQQQQQQQQQQQQQQQQQQQ"
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "Q": "t_open_air_rooved" }
+      "terrain": { "Q": "t_open_air_rooved", ".": "t_tar_flat_roof" }
     }
   },
   {
