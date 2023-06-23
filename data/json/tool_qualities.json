@@ -420,5 +420,53 @@
     "type": "tool_quality",
     "id": "MOP",
     "name": { "str": "mopping" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "TURN_LATHE",
+    "name": { "str": "metal turning" },
+    "//": "For making smooth cylinders, say, on lathe"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SCREW_CUT",
+    "name": { "str": "screw cutting" },
+    "//": "For cutting threads on lathe or by hand"
+  },
+  {
+    "type": "tool_quality",
+    "id": "MILLING_METAL",
+    "name": { "str": "milling" },
+    "//": "For milling machines, similar to filing and is rotary filing in most cases..."
+  },
+  {
+    "type": "tool_quality",
+    "id": "DRILL_GUNBARREL",
+    "name": { "str": "screw cutting" },
+    "//": "For drilling out barrels, not every drilling bench is large or suitable enough"
+  },
+  {
+    "type": "tool_quality",
+    "id": "CUT_GUNBARREL",
+    "name": { "str": "screw cutting" },
+    "//": "For cutting threads inside a tube"
+  },
+  {
+    "type": "tool_quality",
+    "id": "PRESS_GUNBARREL",
+    "name": { "str": "button rifling pressing" },
+    "//": "For rifling button presses"
+  },
+  {
+    "type": "tool_quality",
+    "id": "MEASURE_L",
+    "name": { "str": "length measuring" }
+    "//": "For rulers and measuring tape"
+  },
+  {
+    "type": "tool_quality",
+    "id": "MEASURE_L_PRECISE",
+    "name": { "str": "precise length measuring" }
+    "//": "For calipers"
   }
 ]
