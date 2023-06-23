@@ -449,7 +449,10 @@
       },
       {
         "id": "holybook_talmud_35",
-        "name": { "str": "Talmud, Vol. 35, Tractate Nazir (Part 2)", "str_pl": "copies of the Talmud, Vol. 35, Tractate Nazir (Part 2)" },
+        "name": {
+          "str": "Talmud, Vol. 35, Tractate Nazir (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 35, Tractate Nazir (Part 2)"
+        },
         "description": "This is volume 35 of 51, containing the second part of Tractate Nazir.  It continues the discussion of Nazirite vows, as well as the transmission of ritual impurity between objects.",
         "append": true,
         "weight": 1
