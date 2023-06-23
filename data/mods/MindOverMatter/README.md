@@ -25,7 +25,8 @@ ADVANTAGES
 DISADVANTAGES
 
 1) Powers use Stamina as their power source. This is also a disadvantage because every power use reduces your ability to run away. 
-2) All powers require concentation and thus are affected by Focus. It's very difficult to concentrate enough to lift a pursuing boomer if you've just fought off  a grappler in close range and there's blood all around you.
+2) All powers require concentration and thus are affected by Focus. It's very difficult to concentrate enough to lift a pursuing boomer if you've just fought off a grappler in close range and there's blood all around you.
+
 3) Long-term power use is debilitating--powers have a chance to cause Drain, which will gradually reduce your maximum Stamina, Strength, Dexterity, and Perception as well as make you hungry and tired. Drain goes away naturally on its own with rest. (I would have used weariness but that's impossible)  
 
 LORE
