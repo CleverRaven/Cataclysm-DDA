@@ -358,9 +358,9 @@ class mapgen_basic_container
         void setup() {
             for( const std::shared_ptr<mapgen_function> &ptr : mapgens_ ) {
                 const dbl_or_var weight = ptr->weight;
-                if (/*weight func exists*/) {
-                    jmath_func_id func = jmath_func_id(/*weight func id*/)
-                    weight *= func->eval(/*weight func arguments*/);
+                if( /*weight func exists*/ ) {
+                    jmath_func_id func = jmath_func_id( /*weight func id*/ )
+                                         weight *= func->eval( /*weight func arguments*/ );
                 }
                 if( weight < 1 ) {
                     continue; // rejected!
@@ -615,11 +615,12 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-load_mapgen_function(const JsonObject& jio, const std::string& id_base, const point& offset,
-    const point& total)
+load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset,
+                      const point &total )
 {
-    dbl_or_var mgweight = jio.get_dbl_or_var( this, "weight", false, 1000); // Should either be an double or an object containing an int "weight" that gets multiplied by the result of the jmath function, the 'id' of the jmath function found in weight_functions.json to be called and 'arguments' to be passed to the function in an array.
-    if (mgweight <= 0 || jio.get_bool("disabled", false)) {
+    dbl_or_var mgweight = jio.get_dbl_or_var( this, "weight", false,
+                          1000 ); // Should either be an double or an object containing an int "weight" that gets multiplied by the result of the jmath function, the 'id' of the jmath function found in weight_functions.json to be called and 'arguments' to be passed to the function in an array.
+    if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
         jio.allow_omitted_members();
         return nullptr; // nothing
     }
@@ -631,19 +632,17 @@ load_mapgen_function(const JsonObject& jio, const std::string& id_base, const po
         else {
             jio.throw_error_at("name", "function does not exist");
         }
-    }
-    else if (mgtype == "json") {
-        if (!jio.has_object("object")) {
-            jio.throw_error(R"(mapgen with method "json" must define key "object")");
+    } else if( mgtype == "json" ) {
+        if( !jio.has_object( "object" ) ) {
+            jio.throw_error( R"(mapgen with method "json" must define key "object")" );
         }
         JsonObject weightfunc;
-        JsonObject jo = jio.get_object("object");
+        JsonObject jo = jio.get_object( "object" );
         jo.allow_omitted_members();
         return std::make_shared<mapgen_function_json>(
-            jo, mgweight, "mapgen " + id_base, offset, total);
-    }
-    else {
-        jio.throw_error_at("method", R"(invalid value: must be "builtin" or "json")");
+                   jo, mgweight, "mapgen " + id_base, offset, total );
+    } else {
+        jio.throw_error_at( "method", R"(invalid value: must be "builtin" or "json")" );
     }
 }
 
@@ -823,7 +822,7 @@ mapgen_function_json_base::mapgen_function_json_base(
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
 mapgen_function_json::mapgen_function_json( const JsonObject &jsobj, const dbl_or_var w,
-    const std::string& context, const point& grid_offset, const point& grid_total, const JsonObject &weightfunc )
+        const std::string &context, const point &grid_offset, const point &grid_total )
     : mapgen_function( w )
     , mapgen_function_json_base( jsobj, context )
     , fill_ter( t_null )
