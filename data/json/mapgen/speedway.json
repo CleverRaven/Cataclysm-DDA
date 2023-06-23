@@ -18,6 +18,7 @@
       "&": [ [ "t_region_soil", 2 ], [ "t_railroad_rubble", 1 ] ],
       "#": "t_railroad_rubble",
       "-": "t_concrete",
+      "8": "t_concrete",
       "_": "t_pavement",
       "y": "t_pavement_y",
       ":": "t_pavement_y",
