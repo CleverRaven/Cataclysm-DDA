@@ -204,7 +204,10 @@
     "variants": [
       {
         "id": "holybook_talmud_01",
-        "name": { "str": "Talmud, Vol. 1, Tractate Berakhot (Part 1)", "str_pl": "copies of the Talmud, Vol. 1, Tractate Berakhot (Part 1)" },
+        "name": {
+          "str": "Talmud, Vol. 1, Tractate Berakhot (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 1, Tractate Berakhot (Part 1)"
+        },
         "description": "This is volume 1 of 51, containing the first part of Tractate Berakhot.  It is concerned with rules relating to the Shema and the Amidah.",
         "append": true,
         "weight": 1
