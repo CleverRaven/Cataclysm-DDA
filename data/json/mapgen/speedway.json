@@ -877,7 +877,8 @@
       "palettes": [ "speedway_palette" ],
       "terrain": { " ": "t_open_air", "1": "t_metal_floor_no_roof", "2": "t_metal_floor_no_roof" },
       "furniture": { "1": "f_small_satellite_dish", "2": "f_speaker_cabinet" },
-      "items": { "e": { "item": "SUS_fridge_breakroom", "chance": 33 } }
+      "items": { "e": { "item": "SUS_fridge_breakroom", "chance": 33 } },
+      "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 3, 17 ], "y": [ 2, 6 ], "repeat": [ 0, 3 ] } ]
     }
   },
   {

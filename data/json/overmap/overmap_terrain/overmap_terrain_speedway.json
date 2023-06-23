@@ -163,7 +163,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "speedway_7_5", "speedway_6_7", "speedway_6_7_1", "speedway_6_7_2", "speedway_7_7" ],
+    "id": [ "speedway_7_5", "speedway_6_7", "speedway_7_7" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "road",
     "sym": "─",
@@ -229,5 +229,13 @@
     "name": "garage",
     "sym": "O",
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "speedway_6_7_1", "speedway_6_7_2" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "announcer station",
+    "sym": "─",
+    "color": "light_gray"
   }
 ]
