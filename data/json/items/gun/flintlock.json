@@ -102,11 +102,7 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ]
     ],
-<<<<<<< HEAD
-    "flags": [ "NEVER_JAMS", "DURABLE_MELEE", "OLD_GUN" ],
-=======
-    "flags": [ "NEVER_JAMS", "DURABLE_MELEE", "EASY_CLEAN" ],
->>>>>>> master
+    "flags": [ "NEVER_JAMS", "DURABLE_MELEE", "EASY_CLEAN", "OLD_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
     "melee_damage": { "bash": 15 }
   },
