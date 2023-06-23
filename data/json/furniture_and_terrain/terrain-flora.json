@@ -1733,8 +1733,8 @@
       "PLACE_ITEM",
       "SHRUB",
       "SHORT",
-      "HARVESTED", 
-      "SMALL_HIDE" 
+      "HARVESTED",
+      "SMALL_HIDE"
     ],
     "transforms_into": "t_underbrush",
     "bash": {
