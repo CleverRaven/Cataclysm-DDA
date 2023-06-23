@@ -482,7 +482,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
         mapgen_function_json( const JsonObject &jsobj, int w, const std::string &context,
-                              const point &grid_offset, const point &grid_total );
+                              const point &grid_offset, const point &grid_total, const JsonObject &weightfunc );
         ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
