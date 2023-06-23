@@ -232,18 +232,21 @@
     "type": "profession",
     "id": "paranormal_investigator",
     "copy-from": "paranormal_investigator",
+    "description": "You were dismissed from your position as a parapsychology professor at the local university and started your own business as a paranormal investigator.  Your former colleagues didn't approve of your research, but it looks like it's paying off now.",
     "extend": { "skills": [ { "level": 2, "name": "metaphysics" } ] }
   },
   {
     "type": "profession",
     "id": "guru",
     "copy-from": "guru",
+    "description": "You spent many years traveling through the world, becoming wise and learned.  Normally you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
     "extend": { "skills": [ { "level": 3, "name": "metaphysics" } ] }
   },
   {
     "type": "profession",
     "id": "naturalist",
     "copy-from": "naturalist",
+    "description": "Over long years of self-imposed exile in the wilderness, you have come to an understanding with Mother Nature.  The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
     "extend": { "skills": [ { "level": 1, "name": "metaphysics" } ] }
   }
 ]
