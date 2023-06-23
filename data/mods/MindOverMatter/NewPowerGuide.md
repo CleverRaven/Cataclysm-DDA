@@ -15,3 +15,7 @@ I've tried to keep each particular psionic path balanced in the amount of powers
 # Maintaining the Theme
 
 It's deliberate that I use the word "powers" repeatedly in the above description instead of the code terminology of spells--even though game-style psionics were basically an excuse for science fiction authors to include magic into their works, Mind Over Matter powers should feel different than magic. It's very important that new powers fit the theme of using your mind to activate them rather than chanting and making gestures or studying musty tomes. I've tried to go for a moderate level of power--psionics are not subtle and a powerful pyrokinetic can blow up a house, but I've deliberately excluded powers that I felt were too close to magic: telekinetics cannot summon weapons made of telekinetic force, biokinetics cannot shapeshift, vitakinetics cannot instantly heal themselves, pyrokinetics cannot turn themselves into "living flame", and so on. 
+
+# Intelligence Bonuses
+
+Because of the cascading effects of increased intelligence on the effectiveness of psionic powers, there are deliberately no effects in Mind Over Matter that increase intelligence. 
