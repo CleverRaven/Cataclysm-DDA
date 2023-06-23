@@ -305,5 +305,31 @@
     "type": "map_extra",
     "copy-from": "mx_crater",
     "generator": {  }
+  },
+  {
+    "id": "test_spawn_w_modifier",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "butter", "prob": 100, "charges-min": 1, "charges-max": 1, "container-item": "wrapper" } ]
+  },
+  {
+    "id": "test_spawn_custom_container",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "alcohol_wipes", "prob": 100, "count": 1 } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "auto_wl_test",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_loot": [
+        { "item": "aspirin", "x": 0, "y": 0 },
+        { "group": "test_spawn_w_modifier", "x": 1, "y": 0 },
+        { "group": "test_spawn_custom_container", "x": 0, "y": 1 }
+      ]
+    }
   }
 ]

@@ -348,6 +348,7 @@
       [ "jacket_windbreaker", 25 ],
       [ "jacket_jean", 30 ],
       [ "jacket_leather", 30 ],
+      [ "leather_police_jacket", 10 ],
       [ "bra", 30 ],
       [ "undershirt", 30 ],
       [ "boxer_shorts", 30 ],
