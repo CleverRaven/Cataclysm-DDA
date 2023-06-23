@@ -357,21 +357,6 @@ class mapgen_basic_container
                 rng( 1, weights_.get_weight() + hardcoded_weight ) > weights_.get_weight() ) {
                 return false;
             }
-            for (/*hell knows*/) {
-                if (/*weight func exists*/) {
-                    switch (/*weight func name*/) {
-                    case "weight_start":
-                        /*stored weight*/ *= jmath_func_weight_start->eval(/*weight func arguments*/)
-                            break;
-                    case "weight_end":
-                        /*stored weight*/ *= jmath_func_weight_end->eval(/*weight func arguments*/)
-                            break;
-                    /*...*/
-                    default:
-                        /*error*/
-                    }
-                }
-            }
             const std::shared_ptr<mapgen_function> *const ptr = weights_.pick();
             if( !ptr ) {
                 return false;
@@ -388,6 +373,20 @@ class mapgen_basic_container
         void setup() {
             for( const std::shared_ptr<mapgen_function> &ptr : mapgens_ ) {
                 const int weight = ptr->weight;
+                if (/*weight func exists*/) {
+                        switch (/*weight func name*/) {
+                        case "weight_start":
+                            weight *= jmath_func_weight_start->eval(/*weight func arguments*/)
+                                break;
+                        case "weight_end":
+                            weight *= jmath_func_weight_end->eval(/*weight func arguments*/)
+                                break;
+                            /*The rest*/
+                        default:
+                            /*error*/
+                        }
+                    }
+                }
                 if( weight < 1 ) {
                     continue; // rejected!
                 }
