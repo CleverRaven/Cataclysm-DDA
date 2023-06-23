@@ -382,6 +382,17 @@
     ]
   },
   {
+    "type": "vehicle_group",
+    "id": "farm_horse_vehicles",
+    "vehicles": [
+      [ "tractor_plow", 250 ],
+      [ "tractor_seed", 250 ],
+      [ "tractor_reaper", 250 ],
+      [ "oldtractor", 250 ],
+      [ "horse_trailer", 1000 ]
+    ]
+  },
+  {
     "id": "industrial_vehicles",
     "type": "vehicle_group",
     "//": "Industrial and construction vehicles found at public works depot and similar locations",

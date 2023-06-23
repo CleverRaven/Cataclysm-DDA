@@ -57,6 +57,6 @@
     "valid": false,
     "enchantments": [ "BONUS_INVENTOR" ],
     "cancels": [ "DREAMSMITH" ],
-    "vitamin_rates": [ [ "creative_spark", -604800 ] ]
+    "vitamin_rates": [ [ "creative_spark", -302400 ] ]
   }
 ]

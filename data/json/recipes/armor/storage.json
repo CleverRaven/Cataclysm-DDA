@@ -135,6 +135,32 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
+    "result": "dry_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 5,
+    "time": "6 h 40 m",
+    "autolearn": true,
+    "reversible": { "time": "35 m" },
+    "book_learn": [ [ "plastics_book", 3 ] ],
+    "using": [
+      [ "sewing_standard", 100 ],
+      [ "tailoring_lycra_patchwork", 20 ],
+      [ "clasps", 1 ],
+      [ "waterproofing_plastic_sheets", 10 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ],
+    "components": [ [ [ "duct_tape", 200 ] ] ]
+  },
+  {
     "result": "fanny",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1569,6 +1595,21 @@
     ]
   },
   {
+    "result": "survivor_dry_duffelbag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 6 ],
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 200 ], [ "tailoring_lycra_patchwork", 30 ], [ "fastener_large", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [ [ [ "plastic_sheet", 6 ] ], [ [ "dry_duffelbag", 1 ] ], [ [ "duct_tape", 300 ] ] ]
+  },
+  {
     "result": "light_load_bearing_vest",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1738,6 +1779,21 @@
       ],
       [ [ "duct_tape", 80 ] ]
     ]
+  },
+  {
+    "result": "survivor_dry_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 4 ],
+    "time": "7 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 120 ], [ "tailoring_lycra_patchwork", 10 ], [ "fastener_small", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [ [ [ "lycra_patch", 50 ] ], [ [ "dry_bag", 1 ] ], [ [ "plastic_sheet", 4 ] ], [ [ "duct_tape", 120 ] ] ]
   },
   {
     "result": "survivor_vest",

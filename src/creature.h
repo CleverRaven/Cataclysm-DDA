@@ -531,6 +531,9 @@ class Creature : public viewer
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
 
+        // returns true if the creature has an electric field
+        virtual bool is_nether() const = 0;
+
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
 
@@ -626,9 +629,11 @@ class Creature : public viewer
         /** Check if creature has any effect with the given flag. */
         bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         bool has_effect_with_flag( const flag_id &flag ) const;
-        std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
-        std::vector<effect> get_effects_from_bp( const bodypart_id &bp ) const;
-        std::vector<effect> get_effects() const;
+        std::vector<std::reference_wrapper<const effect>> get_effects_with_flag(
+                    const flag_id &flag ) const;
+        std::vector<std::reference_wrapper<const effect>> get_effects_from_bp(
+                    const bodypart_id &bp ) const;
+        std::vector<std::reference_wrapper<const effect>> get_effects() const;
 
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id,

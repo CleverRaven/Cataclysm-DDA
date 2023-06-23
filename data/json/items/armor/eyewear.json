@@ -1,16 +1,15 @@
 [
   {
     "id": "eclipse_glasses",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of eclipse glasses", "str_pl": "pairs of eclipse glasses" },
     "description": "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped with a layer of aluminum coating.  They allow safe viewing of extremely bright and harmful sources of light, like the sun during a solar eclipse.",
     "weight": "27 g",
-    "volume": "250 ml",
+    "volume": "18 ml",
     "price": 2500,
     "price_postapoc": 10,
     "to_hit": -2,
-    "material": [ "cardboard" ],
+    "material": [ { "type": "cardboard", "portion": 90 }, { "type": "plastic", "portion": 9 }, { "type": "aluminum", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "sunglasses",
     "color": "light_gray",
@@ -40,7 +39,6 @@
   },
   {
     "id": "fancy_sunglasses",
-    "repairs_like": "sunglasses",
     "type": "ARMOR",
     "name": { "str": "pair of stylish sunglasses", "str_pl": "pairs of stylish sunglasses" },
     "description": "A pair of stylish sunglasses.  Look good while keeping the glare out of your eyes.",
@@ -60,7 +58,6 @@
   },
   {
     "id": "fitover_sunglasses",
-    "repairs_like": "sunglasses",
     "type": "ARMOR",
     "name": { "str": "pair of fit-over sunglasses", "str_pl": "pairs of fit-over sunglasses" },
     "description": "A pair of fit-over sunglasses designed to be worn over a pair of corrective glasses.  Good for keeping the glare out of your eyes.",
@@ -80,7 +77,6 @@
   },
   {
     "id": "glasses_bal",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of ballistic glasses", "str_pl": "pairs of ballistic glasses" },
@@ -102,7 +98,6 @@
   },
   {
     "id": "glasses_bifocal",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of bifocal glasses", "str_pl": "pairs of bifocal glasses" },
     "description": "A pair of bifocal glasses for those who are both near-sighted and far-sighted.  You can use them to focus sunlight.",
@@ -123,7 +118,6 @@
   },
   {
     "id": "glasses_eye",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of eyeglasses", "str_pl": "pairs of eyeglasses" },
     "description": "A pair of glasses for the near-sighted.  The concave lenses diffuse the sunlight, rendering them useless for starting fires.",
@@ -143,7 +137,6 @@
   },
   {
     "id": "glasses_monocle",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "monocle" },
     "//": "DDA monocle is optical-grade.  Costume ones go for about $10.",
@@ -164,7 +157,6 @@
   },
   {
     "id": "glasses_reading",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of reading glasses", "str_pl": "pairs of reading glasses" },
     "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  You can use them to focus sunlight.",
@@ -186,7 +178,6 @@
   },
   {
     "id": "glasses_safety",
-    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": { "str": "pair of safety glasses", "str_pl": "pairs of safety glasses" },
     "description": "A pair of plastic glasses, used in workshops, sports, chemistry labs, and many other places.  Provides great protection from damage.",
@@ -225,7 +216,6 @@
   },
   {
     "id": "goggles_ski",
-    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": { "str": "pair of ski goggles", "str_pl": "pairs of ski goggles" },
     "description": "A large pair of goggles that completely seal off your eyes.  Provides excellent protection from environmental dangers.",
@@ -246,7 +236,6 @@
   },
   {
     "id": "goggles_welding",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of welding goggles", "str_pl": "pairs of welding goggles" },
     "description": "A dark pair of goggles.  They make seeing very difficult, but protect you from bright flashes.",
@@ -268,7 +257,6 @@
   },
   {
     "id": "iggaak",
-    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": { "str": "pair of snow goggles", "str_pl": "pairs of snow goggles" },
     "description": "Eyewear carved from wood or bone, with only a thin slit to see out of.  Helps reduce glare, traditionally used by the Inuit to protect against snow blindness.",
@@ -288,7 +276,6 @@
   },
   {
     "id": "sunglasses",
-    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": { "str": "pair of sunglasses", "str_pl": "pairs of sunglasses" },
     "description": "A pair of sunglasses, good for keeping the glare out of your eyes.",
@@ -308,7 +295,6 @@
   },
   {
     "id": "sunglasses_bifocal",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of bifocal sunglasses", "str_pl": "pairs of bifocal sunglasses" },
     "description": "A pair of bifocal sunglasses for keeping the glare out of the eyes of those who are both near-sighted and far-sighted.",
@@ -328,7 +314,6 @@
   },
   {
     "id": "sunglasses_eye",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of corrective sunglasses", "str_pl": "pairs of corrective sunglasses" },
     "description": "A pair of sunglasses for keeping the glare out of the eyes of those who are near-sighted.",
@@ -348,7 +333,6 @@
   },
   {
     "id": "sunglasses_reading",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of reading sunglasses", "str_pl": "pairs of reading sunglasses" },
     "description": "A pair of sunglasses for keeping the glare out of the eyes of those who are far-sighted.  Useless for anyone else.",
@@ -369,7 +353,6 @@
   },
   {
     "id": "fancy_glasses_bifocal",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish bifocal glasses", "str_pl": "pairs of stylish bifocal glasses" },
     "description": "A pair of stylish bifocal glasses for those who are both near-sighted and far-sighted.",
@@ -390,7 +373,6 @@
   },
   {
     "id": "fancy_glasses_eye",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish corrective glasses", "str_pl": "pairs of stylish corrective glasses" },
     "description": "A pair of stylish glasses for the near-sighted.  The concave lenses diffuse the sunlight, rendering them useless for starting fires.",
@@ -410,7 +392,6 @@
   },
   {
     "id": "fancy_glasses_reading",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish reading glasses", "str_pl": "pairs of stylish reading glasses" },
     "description": "A pair of stylish glasses for the far-sighted.  Useless for anyone else.",
@@ -432,7 +413,6 @@
   },
   {
     "id": "fancy_sunglasses_bifocal",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish bifocal sunglasses", "str_pl": "pairs of stylish bifocal sunglasses" },
     "description": "A pair of stylish bifocal sunglasses for keeping the glare out of the eyes of those who are both near-sighted and far-sighted.",
@@ -452,7 +432,6 @@
   },
   {
     "id": "fancy_sunglasses_eye",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish corrective sunglasses", "str_pl": "pairs of stylish corrective sunglasses" },
     "description": "A pair of stylish sunglasses, looks good while keeping the glare out of the eyes of those who are near-sighted.",
@@ -472,7 +451,6 @@
   },
   {
     "id": "fancy_sunglasses_reading",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish reading sunglasses", "str_pl": "pairs of stylish reading sunglasses" },
     "description": "A pair of stylish sunglasses, looks good while keeping the glare out of the eyes of those who are far-sighted.  Useless for anyone else.",
@@ -493,7 +471,6 @@
   },
   {
     "id": "transition_glasses_bifocal",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of transition bifocal glasses", "str_pl": "pairs of transition bifocal glasses" },
     "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
@@ -513,7 +490,6 @@
   },
   {
     "id": "transition_glasses_eye",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of transition corrective glasses", "str_pl": "pairs of transition corrective glasses" },
     "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
@@ -533,7 +509,6 @@
   },
   {
     "id": "transition_glasses_reading",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of transition reading glasses", "str_pl": "pairs of transition reading glasses" },
     "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
@@ -554,7 +529,6 @@
   },
   {
     "id": "fancy_transition_glasses_bifocal",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish transition bifocal glasses", "str_pl": "pairs of stylish transition bifocal glasses" },
     "description": "A pair of stylish bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
@@ -574,7 +548,6 @@
   },
   {
     "id": "fancy_transition_glasses_eye",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish transition corrective glasses", "str_pl": "pairs of stylish transition corrective glasses" },
     "description": "A stylish pair of glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
@@ -594,7 +567,6 @@
   },
   {
     "id": "fancy_transition_glasses_reading",
-    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of stylish transition reading glasses", "str_pl": "pairs of stylish transition reading glasses" },
     "description": "A stylish pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",

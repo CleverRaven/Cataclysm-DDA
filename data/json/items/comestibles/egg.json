@@ -845,7 +845,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fried_egg_sandwich",
-    "name": { "str_sp": "fried egg sandwich" },
+    "name": { "str": "fried egg sandwich", "str_pl": "fried egg sandwiches" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
@@ -861,7 +861,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_fried_egg_sandwich",
-    "name": { "str_sp": "deluxe fried egg sandwich" },
+    "name": { "str": "deluxe fried egg sandwich", "str_pl": "deluxe fried egg sandwiches" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
@@ -877,7 +877,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fried_egg_sandwich_wheat_free",
-    "name": { "str_sp": "wheat-free fried egg sandwich" },
+    "name": { "str": "wheat-free fried egg sandwich", "str_pl": "wheat-free fried egg sandwiches" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
@@ -893,7 +893,7 @@
   {
     "type": "COMESTIBLE",
     "id": "deluxe_fried_egg_sandwich_wheat_free",
-    "name": { "str_sp": "wheat-free deluxe fried egg sandwich" },
+    "name": { "str": "wheat-free deluxe fried egg sandwich", "str_pl": "wheat-free deluxe fried egg sandwiches" },
     "copy-from": "scrambled_eggs",
     "color": "yellow",
     "symbol": "%",
@@ -909,7 +909,7 @@
   {
     "type": "COMESTIBLE",
     "id": "caviar_egg_sandwich",
-    "name": { "str_sp": "caviar and egg sandwich" },
+    "name": { "str": "caviar and egg sandwich", "str_pl": "caviar and egg sandwiches" },
     "weight": "165 g",
     "color": "brown",
     "comestible_type": "FOOD",

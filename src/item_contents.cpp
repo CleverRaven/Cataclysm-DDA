@@ -1149,7 +1149,7 @@ void item_contents::heat_up()
     }
 }
 
-int item_contents::ammo_consume( int qty, const tripoint &pos )
+int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_efficiency )
 {
     int consumed = 0;
     for( item_pocket &pocket : contents ) {
@@ -1172,9 +1172,23 @@ int item_contents::ammo_consume( int qty, const tripoint &pos )
             qty -= res;
             consumed += res;
         } else if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            const int res = pocket.ammo_consume( qty );
-            consumed += res;
-            qty -= res;
+            if( !pocket.empty() && pocket.front().is_fuel() && fuel_efficiency >= 0 ) {
+                // if using fuel instead of battery, everything is in kJ
+                // charges is going to be the energy needed over the energy in 1 unit of fuel * the efficiency of the generator
+                int charges_used = ceil( static_cast<float>( units::from_kilojoule( qty ).value() ) / (
+                                             static_cast<float>( pocket.front().fuel_energy().value() ) * fuel_efficiency ) );
+
+                const int res = pocket.ammo_consume( charges_used );
+                //calculate the ammount of energy generated
+                int energy_generated = res * units::to_kilojoule( pocket.front().fuel_energy() );
+                consumed += energy_generated;
+                qty -= energy_generated;
+                qty = std::max( 0, qty );
+            } else {
+                const int res = pocket.ammo_consume( qty );
+                consumed += res;
+                qty -= res;
+            }
         }
     }
     return consumed;
@@ -1617,6 +1631,20 @@ std::list<const item *> item_contents::all_known_contents() const
     } );
 }
 
+std::list<item *> item_contents::all_ablative_armor()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
+std::list<const item *> item_contents::all_ablative_armor() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
 item &item_contents::legacy_front()
 {
     if( empty() ) {
@@ -1916,6 +1944,20 @@ std::vector<item_pocket *> item_contents::get_all_standard_pockets()
     } );
 }
 
+std::vector<const item_pocket *> item_contents::get_all_ablative_pockets() const
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
+std::vector<item_pocket *> item_contents::get_all_ablative_pockets()
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_ablative();
+    } );
+}
+
 std::vector<const item *> item_contents::get_added_pockets() const
 {
     std::vector<const item *> items_added;
@@ -1943,6 +1985,7 @@ void item_contents::add_pocket( const item &pocket_item )
     additional_pockets_volume += total_nonrigid_volume;
     additional_pockets_space_used += pocket_item.get_pocket_size();
     additional_pockets.push_back( pocket_item );
+    additional_pockets.back().clear_items();
 
 }
 

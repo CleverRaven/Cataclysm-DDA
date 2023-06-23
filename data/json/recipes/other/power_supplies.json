@@ -10,7 +10,8 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 4 ] ],
+    "//": "60cm weld",
+    "using": [ [ "welding_standard", 60 ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
@@ -31,14 +32,15 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 4 ] ],
+    "//": "30cm weld",
+    "using": [ [ "welding_standard", 30 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "solar_panel", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nuts_bolts", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -51,14 +53,15 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 4 ] ],
+    "//": "30cm weld",
+    "using": [ [ "welding_standard", 30 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nuts_bolts", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -71,7 +74,8 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 4 ] ],
+    "//": "60cm weld",
+    "using": [ [ "welding_standard", 60 ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
@@ -93,7 +97,8 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ], [ [ "soldering_iron", 10 ] ] ],
+    "//": "20cm weld",
+    "using": [ [ "welding_standard", 20 ], [ "soldering_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
@@ -128,7 +133,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "UPS_off",
+    "result": "UPS_OFF",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
@@ -204,7 +209,8 @@
     "decomp_learn": 5,
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
+    "//": "50cm weld",
+    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 50 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "byproducts": [ [ "sheet_metal_small", 8 ], [ "scrap", 8 ] ],
     "proficiencies": [
@@ -287,13 +293,19 @@
     "decomp_learn": 2,
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 35 ] ],
+    "//": "100cm weld",
+    "using": [ [ "welding_standard", 100 ], [ "soldering_standard", 35 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_carpentry_basic" },
       { "proficiency": "prof_elec_soldering" }
     ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WRENCH", "level": 2 }
+    ],
     "components": [
       [ [ "2x4", 30 ], [ "frame_wood", 4 ] ],
       [ [ "sheet_metal_small", 12 ] ],
@@ -307,7 +319,9 @@
         [ "motor_large", 1 ]
       ],
       [ [ "nail", 120 ] ],
-      [ [ "pipe", 20 ] ]
+      [ [ "pipe", 20 ] ],
+      [ [ "nuts_bolts", 50 ] ],
+      [ [ "pipe_fittings", 10 ] ]
     ]
   },
   {
@@ -334,7 +348,8 @@
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 2 },
-      { "id": "SAW_W", "level": 2 }
+      { "id": "SAW_W", "level": 2 },
+      { "id": "WRENCH", "level": 2 }
     ],
     "components": [
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
@@ -342,7 +357,9 @@
       [ [ "sheet_metal_small", 6 ] ],
       [ [ "nail", 80 ] ],
       [ [ "pipe", 8 ] ],
-      [ [ "wheel_wood_b", 2 ] ]
+      [ [ "wheel_wood_b", 2 ] ],
+      [ [ "nuts_bolts", 20 ] ],
+      [ [ "pipe_fittings", 3 ] ]
     ]
   },
   {
@@ -351,14 +368,21 @@
     "id_suffix": "with_power_saw",
     "time": "30 m",
     "using": [ [ "soldering_standard", 35 ], [ "power_saw_short", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WRENCH", "level": 2 }
+    ],
     "components": [
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
       [ [ "nail", 80 ] ],
       [ [ "pipe", 8 ] ],
-      [ [ "wheel_wood_b", 2 ] ]
+      [ [ "wheel_wood_b", 2 ] ],
+      [ [ "nuts_bolts", 20 ] ],
+      [ [ "pipe_fittings", 3 ] ]
     ]
   },
   {
@@ -401,7 +425,9 @@
       ],
       [ [ "nail", 240 ] ],
       [ [ "pipe", 24 ] ],
-      [ [ "wheel_wood_b", 6 ] ]
+      [ [ "wheel_wood_b", 6 ] ],
+      [ [ "nuts_bolts", 42 ] ],
+      [ [ "pipe_fittings", 10 ] ]
     ]
   },
   {
@@ -410,7 +436,12 @@
     "id_suffix": "with_power_saw",
     "time": "2 h",
     "using": [ [ "soldering_standard", 85 ], [ "power_saw_short", 50 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WRENCH", "level": 2 }
+    ],
     "components": [
       [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
       [ [ "sheet_metal_small", 18 ] ],
@@ -425,7 +456,9 @@
       ],
       [ [ "nail", 240 ] ],
       [ [ "pipe", 24 ] ],
-      [ [ "wheel_wood_b", 6 ] ]
+      [ [ "wheel_wood_b", 6 ] ],
+      [ [ "nuts_bolts", 42 ] ],
+      [ [ "pipe_fittings", 10 ] ]
     ]
   },
   {
@@ -765,8 +798,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "5l_methanol_tank",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "mechanics",
     "time": "2 h 40 m",
     "autolearn": true,
@@ -778,8 +811,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "10l_methanol_tank",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "mechanics",
     "time": "5 h 20 m",
     "autolearn": true,
@@ -791,8 +824,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "28l_methanol_tank",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "mechanics",
     "time": "14 h 56 m",
     "autolearn": true,
@@ -804,8 +837,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "60l_methanol_tank",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "mechanics",
     "time": "32 h",
     "autolearn": true,

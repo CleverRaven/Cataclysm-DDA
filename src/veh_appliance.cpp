@@ -12,6 +12,7 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "veh_appliance.h"
+#include "veh_interact.h"
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
@@ -30,7 +31,12 @@ static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_WALL_MOUNTED( "WALL_MOUNTED" );
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
+static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
+
+static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
@@ -51,6 +57,8 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
 
 void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
 {
+
+    const vpart_info &vpinfo = vpart.obj();
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
@@ -61,13 +69,52 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     veh->add_tag( flag_APPLIANCE );
 
+    int partnum = -1;
     if( base ) {
         item copied = *base;
-        veh->install_part( point_zero, vpart, std::move( copied ) );
+        partnum = veh->install_part( point_zero, vpart, std::move( copied ) );
     } else {
-        veh->install_part( point_zero, vpart );
+        partnum = veh->install_part( point_zero, vpart );
     }
     veh->name = vpart->name();
+
+    // Allow for wall-mounted appliances in a general-ish way.
+    if( vpinfo.has_flag( flag_WALL_MOUNTED ) ) {
+        veh->add_tag( flag_CANT_DRAG );
+        if( vpinfo.has_flag( flag_WIRING ) ) {
+            veh->add_tag( flag_WIRING );
+            // Merge any neighbouring wire vehicles into this one if the resulting vehicle would not be too big.
+            // TODO: Push into a separate function.
+            for( const point &offset : four_adjacent_offsets ) {
+                const optional_vpart_position vp = here.veh_at( p + offset );
+                if( !vp ) {
+                    continue;
+                }
+
+                bounding_box vehicle_box = veh->get_bounding_box( false );
+                point size;
+                size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+                size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+
+                vehicle &veh_target = vp->vehicle();
+                if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
+                    bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
+
+                    point target_size;
+                    target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+                    target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+
+                    if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
+                        size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+                        if( !veh->merge_vehicle_parts( &veh_target ) ) {
+                            debugmsg( "failed to merge vehicle parts" );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     veh->last_update = calendar::turn;
 
     // Update the vehicle cache immediately,
@@ -88,6 +135,11 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
                 connected_vehicles.insert( &veh_target );
             }
         }
+    }
+
+    // Make some lighting appliances directed
+    if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
+        orient_part( veh, vpinfo, partnum );
     }
 }
 

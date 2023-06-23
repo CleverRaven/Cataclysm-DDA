@@ -12,7 +12,6 @@
     "price_postapoc": 2,
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
-    "repairs_like": "tshirt",
     "flags": [ "SLEEP_AID_CONTAINER" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
@@ -195,7 +194,6 @@
   },
   {
     "id": "emer_blanket",
-    "repairs_like": "sheet",
     "type": "ARMOR",
     "category": "clothing",
     "symbol": "[",

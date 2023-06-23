@@ -51,7 +51,7 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
 
 // At baseline human defaults, with no treatment or traits, the character only heals while sleeping.
 // Default as of this writing is is 0.0001, or 8.64 HP per day.
-TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline]" )
+TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
 {
     avatar dummy;
 
@@ -80,7 +80,7 @@ TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline]" )
 
 // Healing rate may be affected by any of several traits/mutations, and the effects vary depending
 // on whether the character is asleep or awake.
-TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutation]" )
+TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutation]" )
 {
     avatar dummy;
 
@@ -209,7 +209,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
 
 // The "hidden health" stat returned by Character::get_lifestyle ranges from [-200, 200] and
 // influences healing rate significantly.
-TEST_CASE( "health effects on healing rate", "[heal][health]" )
+TEST_CASE( "health_effects_on_healing_rate", "[heal][health]" )
 {
     avatar dummy;
 
@@ -318,7 +318,7 @@ static float together_rate_with_extras( const std::string &bp_name,
 // The torso gets the most benefit from treatment, while the head gets the least benefit.
 // Healing rates from treatment are doubled while sleeping.
 //
-TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][bandage][disinfect]" )
+TEST_CASE( "healing_rate_medicine_with_bandages_and/or_disinfectant", "[heal][bandage][disinfect]" )
 {
     // There are no healing effects from medicine if no medicine has been applied.
     SECTION( "no bandages or disinfectant" ) {

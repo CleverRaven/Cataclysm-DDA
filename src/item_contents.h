@@ -114,6 +114,10 @@ class item_contents
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
 
+        // returns all the ablative armor in pockets
+        std::list<item *> all_ablative_armor();
+        std::list<const item *> all_ablative_armor() const;
+
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */
@@ -183,6 +187,8 @@ class item_contents
         std::vector<item_pocket *> get_all_contained_pockets();
         std::vector<const item_pocket *> get_all_standard_pockets() const;
         std::vector<item_pocket *> get_all_standard_pockets();
+        std::vector<const item_pocket *> get_all_ablative_pockets() const;
+        std::vector<item_pocket *> get_all_ablative_pockets();
         std::vector<const item_pocket *>
         get_pockets( std::function<bool( item_pocket const & )> const &filter ) const;
         std::vector<item_pocket *>
@@ -283,7 +289,7 @@ class item_contents
         // heats up the contents if they have temperature
         void heat_up();
         // returns amount of ammo consumed
-        int ammo_consume( int qty, const tripoint &pos );
+        int ammo_consume( int qty, const tripoint &pos, float fuel_efficiency = -1.0 );
         item *magazine_current();
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;

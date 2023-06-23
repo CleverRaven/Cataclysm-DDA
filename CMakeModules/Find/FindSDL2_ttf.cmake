@@ -94,3 +94,28 @@ set(SDL2TTF_INCLUDE_DIR ${SDL2_TTF_INCLUDE_DIRS})
 set(SDL2TTF_FOUND ${SDL2_TTF_FOUND})
 
 mark_as_advanced(SDL2_TTF_LIBRARY SDL2_TTF_INCLUDE_DIR)
+
+if (NOT DYNAMIC_LINKING AND PKGCONFIG_FOUND)
+  if (NOT TARGET SDL2_ttf::SDL2_ttf-static)
+    add_library(SDL2_ttf::SDL2_ttf-static STATIC IMPORTED)
+    set_property(TARGET SDL2_ttf::SDL2_ttf-static
+      PROPERTY IMPORTED_LOCATION ${SDL2_TTF_LIBRARY}
+    )
+  endif()
+  message(STATUS "Searching for SDL_ttf deps libraries --")
+  find_package(Freetype REQUIRED)
+  find_package(Harfbuzz REQUIRED)
+  target_link_libraries(SDL2_ttf::SDL2_ttf-static INTERFACE
+    Freetype::Freetype
+    harfbuzz::harfbuzz
+  )
+  pkg_check_modules(BROTLI REQUIRED IMPORTED_TARGET libbrotlidec libbrotlicommon)
+  target_link_libraries(Freetype::Freetype INTERFACE
+    PkgConfig::BROTLI
+  )
+elseif(NOT TARGET SDL2_ttf::SDL2_ttf)
+    add_library(SDL2_ttf::SDL2_ttf UNKNOWN IMPORTED)
+    set_property(TARGET SDL2_ttf::SDL2_ttf
+      PROPERTY IMPORTED_LOCATION ${SDL2_TTF_LIBRARY}
+    )
+endif()

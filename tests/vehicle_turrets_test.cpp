@@ -13,6 +13,7 @@
 #include "itype.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -37,13 +38,15 @@ static std::vector<const vpart_info *> all_turret_types()
 // Install, reload and fire every possible vehicle turret.
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
+    clear_map();
     map &here = get_map();
     Character &player_character = get_player_character();
     for( const vpart_info *turret_vpi : all_turret_types() ) {
         SECTION( turret_vpi->name() ) {
             vehicle *veh = here.add_vehicle( STATIC( vproto_id( "test_turret_rig" ) ),
-                                             point( 65, 65 ), 270_degrees, 0, 0, false, "", false );
+                                             tripoint( 65, 65, here.get_abs_sub().z() ), 270_degrees, 0, 0, false );
             REQUIRE( veh );
+            veh->unlock();
 
             const int turr_idx = veh->install_part( point_zero, turret_vpi->get_id() );
             REQUIRE( turr_idx >= 0 );

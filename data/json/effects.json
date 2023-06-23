@@ -424,6 +424,15 @@
   },
   {
     "type": "effect_type",
+    "id": "grabbing_gastropod_foot",
+    "name": [ "Grabbing G. Foot" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "desc": [ "You're grabbing the snail like lower body of somebody." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
     "id": "grabbing_appendix",
     "name": [ "Grabbing" ],
     "show_in_info": true,
@@ -506,6 +515,13 @@
     "name": [ "Cracked Shell" ],
     "//": "Exposes certain weakpoints",
     "desc": [ "You feel exposed -and pretty buggy- without your shell." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_arm",
+    "name": [ "Broken Arm" ],
+    "//": "Disables base grabs and scratches",
+    "desc": [ "Your arms are broken.  Your imaginary monster arms, so this is probably a bug." ]
   },
   {
     "type": "effect_type",
@@ -4212,7 +4228,7 @@
     "type": "effect_type",
     "id": "molting",
     "name": [ "Molting" ],
-    "desc": [ "Your exoskeleton feels uncomfortably tight.  Perhaps you should find somewhere to rest." ],
+    "desc": [ "You feel a strong urge to hide somewhere safe." ],
     "apply_message": "Your chitin plating itches against your body.",
     "rating": "bad",
     "base_mods": {
@@ -4231,9 +4247,7 @@
     "type": "effect_type",
     "id": "molting_imminent",
     "name": [ "Imminent Molting" ],
-    "desc": [
-      "Your exoskeleton has grown so tight and rigid that it grips you like a vise.  You must seek shelter for the coming molt."
-    ],
+    "desc": [ "Seek shelter, you will be helpless when it begins." ],
     "apply_message": "You can hardly move in your tightening exoskeleton, and you feel a strong impulse to hunker down somewhere safe.",
     "rating": "bad",
     "base_mods": {
