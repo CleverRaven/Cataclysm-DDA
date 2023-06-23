@@ -3089,6 +3089,8 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
     int order;
     std::string overlay_id;
+    std::string variant;
+
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
@@ -3096,16 +3098,24 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     }
 
     // then get mutations
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( !mut.second.show_sprite ) {
-            continue;
+    const std::vector<trait_id> &all_mutations = get_mutations();
+    for( const trait_id &mut : all_mutations ) {
+        // get the data if it exists
+        const auto mut_data = my_mutations.find( mut );
+        if( mut_data == my_mutations.end() ) {
+            // this entry is from an enchantment and doesn't have any character dependent info
+            overlay_id = mut.str();
+
+        } else {
+            if( !mut_data->second.show_sprite ) {
+                continue;
+            }
+            overlay_id = ( mut_data->second.powered ? "active_" : "" ) + mut.str();
+            if( mut_data->second.variant != nullptr ) {
+                variant = mut_data->second.variant->id;
+            }
         }
-        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        std::string variant;
-        if( mut.second.variant != nullptr ) {
-            variant = mut.second.variant->id;
-        }
         mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, variant } );
     }
 
