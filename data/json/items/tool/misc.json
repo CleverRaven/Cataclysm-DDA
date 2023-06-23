@@ -964,6 +964,21 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "type": "TOOL",
+    "id": "ruler",
+    "name": { "str_sp": "ruler" },
+    "description": "A plastic ruler used to measure lengths of smaller objects.  This one measures 15cm.",
+    "weight": "9 g",
+    "volume": "10 ml",
+    "longest_side": "16 cm",
+    "price": 500,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "symbol": "I",
+    "color": "cyan",
+    "qualities": [ [ "MEASURE_L", 1 ] ]
+  },
+  {
     "id": "dressage_whip",
     "type": "GENERIC",
     "symbol": "/",
