@@ -460,13 +460,13 @@
   {
     "type": "tool_quality",
     "id": "MEASURE_L",
-    "name": { "str": "length measuring" }
+    "name": { "str": "length measuring" },
     "//": "For rulers and measuring tape"
   },
   {
     "type": "tool_quality",
     "id": "MEASURE_L_PRECISE",
-    "name": { "str": "precise length measuring" }
+    "name": { "str": "precise length measuring" },
     "//": "For calipers"
   }
 ]
