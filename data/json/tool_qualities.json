@@ -442,13 +442,13 @@
   {
     "type": "tool_quality",
     "id": "DRILL_GUNBARREL",
-    "name": { "str": "screw cutting" },
+    "name": { "str": "barrel drilling" },
     "//": "For drilling out barrels, not every drilling bench is large or suitable enough"
   },
   {
     "type": "tool_quality",
     "id": "CUT_GUNBARREL",
-    "name": { "str": "screw cutting" },
+    "name": { "str": "rifle cutting" },
     "//": "For cutting threads inside a tube"
   },
   {
