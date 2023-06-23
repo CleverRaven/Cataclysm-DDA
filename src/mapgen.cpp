@@ -626,35 +626,37 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
 			jio.throw_error_at( "name", "function does not exist" );
 		}
     } else if( mgtype == "json" ) {
+        if (!jio.has_object("object")) {
+            jio.throw_error(R"(mapgen with method "json" must define key "object")");
+        }
+        JsonObject jo = jio.get_object("object");
+        jo.allow_omitted_members();
 		if( jio.has_member( "weight_func" ) ) {
-			if( jio.has_member( "weight" ) {
+			if( jio.has_member( "weight" ) ) {
 				jio.throw_error( "weight and weight_func are mutually exclusive" );
 			}
 			JsonObject mgweight = jio.get_object( "weight_func" ); // Object should contain the 'name' of the jmath function found in weight_functions.json to be called, 'arguments' to be passed to the function in an array and the basic 'weight' it multiplies.
 			// Add better checks to make sure this is valid before runtime
-			if( !mgweight.has_member( "name" ) {
+			if( !mgweight.has_member( "name" ) ) {
 				mgweight.throw_error( "no weight function name found" );
 			}
-			if( !mgweight.has_member( "arguments" ) {
+			if( !mgweight.has_member( "arguments" ) ) {
 				mgweight.throw_error( "no weight function arguements found" );
 			}
-			if( !mgweight.has_member( "weight" ) {
+			if( !mgweight.has_member( "weight" ) ) {
 				mgweight.throw_error( "no weight function weight found" );
 			}
+            return std::make_shared<mapgen_function_json>(
+                jo, mgweight, "mapgen " + id_base, offset, total);
 		} else {
 			int mgweight = jio.get_int( "weight", 1000 );
 			if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
 				jio.allow_omitted_members();
 				return nullptr; // nothing
 			}
-	    }
-        if( !jio.has_object( "object" ) ) {
-            jio.throw_error( R"(mapgen with method "json" must define key "object")" );
-        }
-        JsonObject jo = jio.get_object( "object" );
-        jo.allow_omitted_members();
-        return std::make_shared<mapgen_function_json>(
-                   jo, mgweight, "mapgen " + id_base, offset, total );
+            return std::make_shared<mapgen_function_json>(
+                jo, mgweight, "mapgen " + id_base, offset, total);
+	    }        
     } else {
         jio.throw_error_at( "method", R"(invalid value: must be "builtin" or "json")" );
     }
