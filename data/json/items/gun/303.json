@@ -30,6 +30,7 @@
     "durability": 8,
     "flags": [ "OLD_GUN" ],
     "blackpowder_tolerance": 40,
+    "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -77,6 +78,7 @@
     "dispersion": 150,
     "durability": 8,
     "blackpowder_tolerance": 40,
+    "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

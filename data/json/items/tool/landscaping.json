@@ -52,7 +52,7 @@
     "qualities": [ [ "DIG", 1 ], [ "SAW_W", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
     "use_action": [ "MAKEMOUND" ],
     "melee_damage": { "bash": 10, "cut": 6 }
   },
@@ -74,7 +74,7 @@
     "qualities": [ [ "DIG", 1 ], [ "SAW_W", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
     "use_action": [ "MAKEMOUND" ],
     "melee_damage": { "bash": 10, "cut": 5 }
   },
@@ -135,14 +135,14 @@
     "longest_side": "140 cm",
     "price": 8000,
     "price_postapoc": 250,
-    "to_hit": -6,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "uneven" },
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 6, "cut": 14 }
   },
   {
@@ -173,11 +173,11 @@
     "longest_side": "150 cm",
     "price": 3000,
     "price_postapoc": 10,
-    "to_hit": -6,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "material": [ "plastic" ],
     "techniques": [ "WIDE", "BRUTAL" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 7 }
   },
   {
@@ -255,7 +255,7 @@
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 2 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "weapon_category": [ "BLADED_FARMING" ],
+    "weapon_category": [ "BSHORT_SWORDS" ],
     "melee_damage": { "bash": 3, "cut": 10 }
   },
   {
@@ -275,7 +275,7 @@
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
-    "weapon_category": [ "BLADED_FARMING" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 3, "cut": 20 }
   },
   {
@@ -295,7 +295,7 @@
     "looks_like": "sickle",
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "weapon_category": [ "BLADED_FARMING" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 3, "cut": 12 }
   },
   {

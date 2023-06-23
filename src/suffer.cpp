@@ -1833,7 +1833,7 @@ void Character::suffer()
         if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
             suffer::water_damage( *this, mut_id );
         }
-        if( has_active_mutation( mut_id ) || !mut_id->activated ) {
+        if( has_active_mutation( mut_id ) || ( !mut_id->activated && !mut_id->processed_eocs.empty() ) ) {
             suffer::mutation_power( *this, mut_id );
         }
     }

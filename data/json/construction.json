@@ -5132,6 +5132,20 @@
   },
   {
     "type": "construction",
+    "id": "app_catalytic_cracking_reactor",
+    "group": "place_catalytic_cracking_reactor",
+    "category": "APPLIANCE",
+    "//1": "maybe some applied science? this seems to be some semi-advanced hardware",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "//2": "I set lower activity and longer time for putting a lot of light and/or small items together. When possible, I'd like it to take more time to disassemble as well.",
+    "time": "40 m",
+    "components": [ [ [ "catalytic_cracking_reactor", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_hydraulic_press",
     "group": "place_hydraulic_press",
     "category": "APPLIANCE",
@@ -5377,6 +5391,18 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_wall_light",
+    "group": "place_wall_light",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "wall_light", 1 ] ] ],
+    "pre_flags": "WALL",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",

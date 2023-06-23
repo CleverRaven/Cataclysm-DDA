@@ -144,7 +144,7 @@ class avatar : public Character
         void memorize_terrain( const tripoint &p, std::string_view id, int subtile, int rotation );
         void memorize_decoration( const tripoint &p, std::string_view id, int subtile, int rotation );
         void memorize_symbol( const tripoint &p, char32_t symbol );
-        void memorize_clear_vehicles( const tripoint &p );
+        void memorize_clear_decoration( const tripoint &p, std::string_view prefix = "" );
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;

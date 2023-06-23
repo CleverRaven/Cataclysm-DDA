@@ -1261,6 +1261,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_catalytic_cracking_reactor",
+    "name": "Place Catalytic Cracking Reactor"
+  },
+  {
+    "type": "construction_group",
     "id": "place_hydraulic_press",
     "name": "Place Hydraulic Press"
   },
@@ -1278,6 +1283,11 @@
     "type": "construction_group",
     "id": "place_heater_small",
     "name": "Place Small Heater"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_wall_light",
+    "name": "Place Wall Light"
   },
   {
     "type": "construction_group",

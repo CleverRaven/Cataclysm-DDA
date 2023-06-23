@@ -537,7 +537,7 @@
     "id": "handloading",
     "description": "You figured you could save money on ammo by learning to make your own.  Now that the factories are shut down, your abilities just went from handy to lifesaving.",
     "points": 3,
-    "proficiencies": [ "prof_handloading" ],
+    "proficiencies": [ "prof_handloading", "prof_gun_cleaning" ],
     "skills": [ { "level": 3, "name": "fabrication" }, { "level": 2, "name": "gun" } ]
   },
   {
@@ -595,6 +595,7 @@
     "name": "Target Shooting",
     "description": "You liked going to the local gun range and shooting at some targets or blasting cans off of fence posts.  Maybe if you just imagine targets on those undead, this could help.",
     "points": 2,
+    "proficiencies": [ "prof_gun_cleaning" ],
     "skills": [ { "level": 3, "name": "gun" } ]
   },
   {
@@ -614,6 +615,7 @@
     "name": "Trap Shooting",
     "description": "You loved the smell of gunsmoke and blowing ceramic discs out of the sky.  Your future will likely involve shooting things a little fleshier than clay pigeons.",
     "points": 2,
+    "proficiencies": [ "prof_gun_cleaning" ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "shotgun" } ]
   },
   {
@@ -663,7 +665,7 @@
     "name": "Home Gunsmithing",
     "description": "You could have been the next Browning, if not for the those pesky corpses walking around.  It's time to test for accuracy.",
     "points": 3,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv", "prof_gun_cleaning" ],
     "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "traps" } ]
   },
   {

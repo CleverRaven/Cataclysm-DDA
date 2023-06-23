@@ -504,7 +504,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
             for( const tripoint &pt : veh->get_points() ) {
-                get_avatar().memorize_clear_vehicles( getabs( pt ) );
+                get_avatar().memorize_clear_decoration( getabs( pt ), "vp_" );
                 set_memory_seen_cache_dirty( pt );
             }
             ch.vehicle_list.erase( veh );
@@ -1709,6 +1709,9 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
+    if( player_character.sees( p ) ) {
+        player_character.memorize_clear_decoration( getabs( p ), "f_" );
+    }
 
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -2149,6 +2152,10 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
+    avatar &player_character = get_avatar();
+    if( player_character.sees( p ) ) {
+        player_character.memorize_clear_decoration( getabs( p ), "t_" );
+    }
 
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -5042,8 +5049,11 @@ item &map::add_item( const tripoint &p, item new_item )
     const map_stack::iterator new_pos = current_submap->get_items( l ).insert( new_item );
     if( current_submap->active_items.add( *new_pos, l ) ) {
         // TODO: fix point types
-        submaps_with_active_items_dirty.insert( tripoint_abs_sm( abs_sub.x() + p.x / SEEX,
-                                                abs_sub.y() + p.y / SEEY, p.z ) );
+        tripoint_abs_sm const loc( abs_sub.x() + p.x / SEEX, abs_sub.y() + p.y / SEEY, p.z );
+        submaps_with_active_items_dirty.insert( loc );
+        if( this != &get_map() && get_map().inbounds( loc ) ) {
+            get_map().make_active( loc );
+        }
     }
 
     return *new_pos;
@@ -5145,9 +5155,18 @@ void map::make_active( item_location &loc )
 
     if( current_submap->active_items.add( *iter, l ) ) {
         // TODO: fix point types
-        submaps_with_active_items_dirty.insert( tripoint_abs_sm( abs_sub.x() + loc.position().x / SEEX,
-                                                abs_sub.y() + loc.position().y / SEEY, loc.position().z ) );
+        tripoint_abs_sm const smloc( abs_sub.x() + loc.position().x / SEEX,
+                                     abs_sub.y() + loc.position().y / SEEY, loc.position().z );
+        submaps_with_active_items_dirty.insert( smloc );
+        if( this != &get_map() && get_map().inbounds( smloc ) ) {
+            get_map().make_active( smloc );
+        }
     }
+}
+
+void map::make_active( tripoint_abs_sm const &loc )
+{
+    submaps_with_active_items_dirty.insert( loc );
 }
 
 void map::update_lum( item_location &loc, bool add )
@@ -5187,6 +5206,9 @@ static bool process_map_items( map &here, item_stack &items, safe_reference<item
             } else {
                 items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
             }
+        }
+        if( parent != nullptr ) {
+            parent->on_contents_changed();
         }
         return true;
     }
@@ -5889,6 +5911,11 @@ void map::partial_con_remove( const tripoint_bub_ms &p )
         return;
     }
     current_submap->partial_constructions.erase( tripoint_sm_ms( l, p.z() ) );
+    set_memory_seen_cache_dirty( p.raw() );
+    avatar &player_character = get_avatar();
+    if( player_character.sees( p ) ) {
+        player_character.memorize_clear_decoration( getabs( p ), "tr_" );
+    }
 }
 
 void map::partial_con_set( const tripoint_bub_ms &p, const partial_con &con )
@@ -5927,6 +5954,11 @@ void map::trap_set( const tripoint &p, const trap_id &type )
         return;
     }
 
+    set_memory_seen_cache_dirty( p );
+    avatar &player_character = get_avatar();
+    if( player_character.sees( p ) ) {
+        player_character.memorize_clear_decoration( getabs( p ), "tr_" );
+    }
     // If there was already a trap here, remove it.
     if( current_submap->get_trap( l ) != tr_null ) {
         remove_trap( p );
@@ -5959,7 +5991,12 @@ void map::remove_trap( const tripoint &p )
     trap_id tid = current_submap->get_trap( l );
     if( tid != tr_null ) {
         if( g != nullptr && this == &get_map() ) {
-            get_player_character().add_known_trap( p, tr_null.obj() );
+            set_memory_seen_cache_dirty( p );
+            avatar &player_character = get_avatar();
+            if( player_character.sees( p ) ) {
+                player_character.memorize_clear_decoration( getabs( p ), "tr_" );
+            }
+            player_character.add_known_trap( p, tr_null.obj() );
         }
 
         current_submap->set_trap( l, tr_null );
