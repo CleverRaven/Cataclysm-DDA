@@ -1508,7 +1508,7 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
             std::vector<matec_id> bl;
             bl.reserve( blacklist.size() );
             for( const str_or_var &sv : blacklist ) {
-                bl.emplace_back( matec_id( sv.evaluate( d ) ) );
+                bl.emplace_back( sv.evaluate( d ) );
             }
             return d.actor( false )->get_random_technique( *d.actor( true )->get_creature(), crit,
                     dodge_counter, block_counter, bl ).str();
