@@ -1766,7 +1766,7 @@
       "SHRUB",
       "SHORT",
       "HARVESTED",
-      "SMALL_HIDE" 
+      "SMALL_HIDE"
     ],
     "transforms_into": "t_underbrush",
     "bash": {
