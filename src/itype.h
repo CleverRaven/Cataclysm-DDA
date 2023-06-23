@@ -108,6 +108,8 @@ struct islot_tool {
     int turns_per_charge = 0;
     units::power power_draw = 0_W;
 
+    float fuel_efficiency = -1.0f;
+
     std::vector<int> rand_charges;
 };
 

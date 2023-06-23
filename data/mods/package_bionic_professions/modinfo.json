@@ -4,7 +4,7 @@
     "id": "package_bionic_professions",
     "name": "Bionic Professions",
     "authors": [ "Erk/Everyone" ],
-    "description": "Numerous bionic starting professions.  Disable for a more real-world experience.",
+    "description": "Numerous bionic starting professions.",
     "category": "content",
     "dependencies": [ "dda" ]
   }

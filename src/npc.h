@@ -79,6 +79,9 @@ using drop_locations = std::list<drop_location>;
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = itype_id::NULL_ID() );
 
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
+                 const dialogue &d, const itype_id &item_type = itype_id::NULL_ID() );
+
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
  * Trade:  Trust mid->high, fear low->midlow, need is a bonus

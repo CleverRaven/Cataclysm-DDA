@@ -1359,7 +1359,7 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
-    "flags": [ "NO_TURRET" ],
+    "flags": [ "NO_TURRET", "EASY_CLEAN" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
       {

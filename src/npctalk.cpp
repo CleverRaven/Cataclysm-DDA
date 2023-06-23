@@ -1798,6 +1798,13 @@ int topic_category( const talk_topic &the_topic )
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type )
 {
+    dialogue d( get_talker_for( u ), get_talker_for( me ) );
+    parse_tags( phrase, u, me, d, item_type );
+}
+
+void parse_tags( std::string &phrase, const Character &u, const Character &me, const dialogue &d,
+                 const itype_id &item_type )
+{
     phrase = SNIPPET.expand( remove_color_tags( phrase ) );
 
     size_t fa;
@@ -1893,6 +1900,12 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             var.pop_back();
             global_variables &globvars = get_globals();
             phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
+        } else if( tag.find( "<context_val:" ) != std::string::npos ) {
+            //adding a context variable to the string requires dialogue to exist
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, d.get_value( "npctalk_var_" + var ) );
         } else if( tag.find( "<item_name:" ) != std::string::npos ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2092,10 +2105,10 @@ talk_data talk_response::create_option_line( dialogue &d, const input_event &hot
                                trial.name(), trial.calc_chance( d ), text );
     }
     if( d.actor( true )->get_npc() ) {
-        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(),
+        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(), d,
                     success.next_topic.item_type );
     } else {
-        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( false )->get_character(),
+        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( false )->get_character(), d,
                     success.next_topic.item_type );
     }
 
@@ -2178,10 +2191,10 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     // Parse any tags in challenge
     if( actor( true )->get_npc() ) {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
+        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(), *this,
                     topic.item_type );
     } else {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(),
+        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(), *this,
                     topic.item_type );
     }
     challenge = uppercase_first_letter( challenge );
@@ -3613,7 +3626,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         if( !beta ) {
             beta = &get_player_character();
         }
-        parse_tags( translated_message, *alpha, *beta );
+        parse_tags( translated_message, *alpha, *beta, d );
         if( sound ) {
             bool display = false;
             map &here = get_map();
@@ -4227,11 +4240,25 @@ void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::strin
         }
     }
 
-    function = [eoc, context]( dialogue const & d ) {
+    std::optional<var_info> target_var;
+
+    if( jo.has_object( "beta_loc" ) ) {
+        target_var = read_var_info( jo.get_object( "beta_loc" ) );
+    }
+
+    function = [eoc, context, target_var]( dialogue const & d ) {
         dialogue newDialog( d );
+
+        tripoint_abs_ms target_location = get_tripoint_from_var( target_var, d );
+        Creature *c = get_creature_tracker().creature_at( target_location );
+        if( c ) {
+            newDialog = dialogue( d.actor( false )->clone(), get_talker_for( c ), d.get_conditionals(),
+                                  d.get_context() );
+        }
         for( const auto &val : context ) {
             newDialog.set_value( val.first, val.second.evaluate( d ) );
         }
+
         eoc->activate( newDialog );
     };
 }

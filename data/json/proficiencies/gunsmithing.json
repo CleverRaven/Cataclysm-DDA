@@ -56,5 +56,16 @@
     "default_skill_penalty": 0.3,
     "time_to_learn": "10 h",
     "required_proficiencies": [ "prof_gunsmithing_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_gun_cleaning",
+    "category": "prof_gunmaking",
+    "name": { "str": "Firearm Cleaning" },
+    "description": "You know how to quickly disassemble guns, clean them, and reassemble them in the field.",
+    "can_learn": true,
+    "default_time_multiplier": 2.0,
+    "default_skill_penalty": 0.1,
+    "time_to_learn": "10 h"
   }
 ]
