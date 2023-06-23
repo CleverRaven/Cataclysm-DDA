@@ -991,20 +991,41 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
+    "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "fabrication", 3 ],
-    "time": "7 h",
+    "skills_required": [ "tailor", 3 ],
+    "time": "6 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 30 ], [ "fastener_large", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ] ] ],
+    "using": [ [ "sewing_standard", 100 ], [ "fastener_large", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
+    "components": [ [ [ "leather_police_jacket", 1 ] ], [ [ "sheet_metal_small", 20 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_closures" }
     ]
+  },
+  {
+    "result": "jacket_leather_mod_ch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "tailor", 3 ],
+    "time": "8 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
+    "using": [ [ "sewing_standard", 100 ], [ "fastener_large", 1 ], [ "carbon", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
+    "components": [ [ [ "leather_police_jacket", 1 ] ], [ [ "sheet_metal_small", 20 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "tools": [ [ [ "forge", 120 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
   {
     "result": "jacket_leather_tire",
@@ -1017,19 +1038,18 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "7 h",
     "autolearn": true,
-    "reversible": true,
     "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 30 ], [ "fastener_large", 1 ], [ "cordage", 4 ] ],
+    "using": [ [ "sewing_standard", 50 ], [ "fastener_large", 1 ], [ "adhesive_rubber", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "CUT", "level": 2 },
       { "id": "LEATHER_AWL", "level": 1 },
       { "id": "SEW_CURVED", "level": 1 }
     ],
-    "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "rubber_tire_chunk", 8 ] ] ],
+    "components": [ [ [ "leather_police_jacket", 1 ] ], [ [ "rubber_tire_chunk", 8 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_closures" }
     ]
   },
@@ -2127,7 +2147,7 @@
     "byproducts": [ [ "leather", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "jacket_leather", 1 ] ] ]
+    "components": [ [ [ "leather_police_jacket", 1 ] ] ]
   },
   {
     "result": "vest_leather_mod",
@@ -2135,18 +2155,37 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
+    "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "fabrication", 3 ],
+    "skills_required": [ "tailor", 3 ],
     "time": "3 h 12 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "vest_leather", 1 ] ], [ [ "scrap", 5 ] ] ],
+    "using": [ [ "sewing_standard", 60 ], [ "fastener_large", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
+    "components": [ [ [ "vest_leather", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "vest_leather_mod_ch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "tailor", 3 ],
+    "time": "5 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
+    "using": [ [ "sewing_standard", 60 ], [ "fastener_large", 1 ], [ "carbon", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
+    "components": [ [ [ "vest_leather", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_armorsmithing", "time_multiplier": 1.5, "learning_time_multiplier": 0.5 },
-      { "proficiency": "prof_leatherworking_basic" }
-    ]
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
   {
     "result": "wool_hoodie",

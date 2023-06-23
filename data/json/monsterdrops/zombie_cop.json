@@ -141,7 +141,12 @@
   {
     "id": "cop_torso",
     "type": "item_group",
-    "items": [ [ "dress_shirt", 50 ], [ "sheriffshirt", 45 ], [ "jacket_light", 40 ], [ "leather_police_jacket", 50 ] ]
+    "items": [
+      [ "dress_shirt", 50 ],
+      [ "sheriffshirt", 45 ],
+      [ "jacket_light", 40 ],
+      { "item": "leather_police_jacket", "variant": "leather_police_jacket", "prob": 40 }
+    ]
   },
   {
     "id": "cop_melee",
