@@ -17,7 +17,8 @@ The goal is for each path to be upgraded through usage, since sitting and studyi
 
 ADVANTAGES
 
-1) Psionic powers are fast. Many powers take less than 100 moves to use, with high-level powers sometimes taking much less (a level 10 Telekinetic Hand takes only 10 moves!), reflecting that they are as fast as thought
+1) Psionic powers are fast. Many powers take less than 100 moves to use, with high-level powers sometimes taking much less (a level 10 Telekinetic Hand takes only 10 moves!), reflecting that they are as fast as thought.
+
 2) Powers use Stamina as their power source, meaning that a fully-charged psychic is only a five-minute breather away. 
 3) Powers are generally very quiet (generally. Pyrokinesis is very loud)
 
