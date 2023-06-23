@@ -315,7 +315,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_reststop_1", "s_reststop_2" ],
+    "id": [ "sub_ramp_above", "sub_ramp_below" ],
     "name": "subway ramp",
     "sym": "S",
     "color": "dark_gray",
@@ -323,7 +323,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "sub_ramp_above", "sub_ramp_below" ],
+    "id": [ "s_reststop_1", "s_reststop_2" ],
     "copy-from": "generic_city_building",
     "name": "rest area",
     "sym": "#",

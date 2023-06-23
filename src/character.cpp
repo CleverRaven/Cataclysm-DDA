@@ -3089,6 +3089,8 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
     int order;
     std::string overlay_id;
+    std::string variant;
+
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
@@ -3096,16 +3098,24 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     }
 
     // then get mutations
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( !mut.second.show_sprite ) {
-            continue;
+    const std::vector<trait_id> &all_mutations = get_mutations();
+    for( const trait_id &mut : all_mutations ) {
+        // get the data if it exists
+        const auto mut_data = my_mutations.find( mut );
+        if( mut_data == my_mutations.end() ) {
+            // this entry is from an enchantment and doesn't have any character dependent info
+            overlay_id = mut.str();
+
+        } else {
+            if( !mut_data->second.show_sprite ) {
+                continue;
+            }
+            overlay_id = ( mut_data->second.powered ? "active_" : "" ) + mut.str();
+            if( mut_data->second.variant != nullptr ) {
+                variant = mut_data->second.variant->id;
+            }
         }
-        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        std::string variant;
-        if( mut.second.variant != nullptr ) {
-            variant = mut.second.variant->id;
-        }
         mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, variant } );
     }
 
@@ -5513,7 +5523,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     // FIXME: Hardcoded damage types
     if( eff == effect_downed ) {
-        return has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+        return is_knockdown_immune();
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_heat );
     } else if( eff == effect_deaf ) {
@@ -5552,6 +5562,16 @@ bool Character::is_rad_immune() const
 {
     bool has_helmet = false;
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( flag_RAD_PROOF );
+}
+
+bool Character::is_knockdown_immune() const
+{
+    // hard code for old tentacle mutation
+    bool knockdown_immune = has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+
+    // if we have 1.0 or greater knockdown resist
+    knockdown_immune |= calculate_by_enchantment( 0.0, enchant_vals::mod::KNOCKDOWN_RESIST ) >= 1;
+    return knockdown_immune;
 }
 
 int Character::throw_range( const item &it ) const
@@ -5687,7 +5707,12 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
     const double motion_vision_range = calculate_by_enchantment( 0.0,
                                        enchant_vals::mod::MOTION_VISION_RANGE );
+    const double sight_range_nether = calculate_by_enchantment( 0.0,
+                                      enchant_vals::mod::SIGHT_RANGE_NETHER );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
         return true;
     }
     if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
@@ -6264,6 +6289,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
     }
 
+    time_duration final_time = 1_hours; //just in case this somehow winds up undefined
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
@@ -6319,8 +6345,22 @@ void Character::mend_item( item_location &&obj, bool interactive )
             } else if( fix.mod_damage < 0 ) {
                 descr += string_format( _( "<color_red>Applies</color> %d damage.\n" ), -fix.mod_damage );
             }
+
+            final_time = fix.time;
+            // if an item has a time saver flag multiply total time by that flag's time factor
+            for( const auto &[flag_id, mult] : fix.time_save_flags ) {
+                if( obj->has_flag( flag_id ) ) {
+                    final_time *= mult;
+                }
+            }
+            // if you have a time saver prof multiply total time by that prof's time factor
+            for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
+                if( has_proficiency( proficiency_id ) ) {
+                    final_time *= mult;
+                }
+            }
             descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
-                                    to_string_approx( fix.time ) );
+                                    to_string_approx( final_time ) );
             if( fix.skills.empty() ) {
                 descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
@@ -6367,7 +6407,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( fix.time ) );
+        assign_activity( ACT_MEND_ITEM, to_moves<int>( final_time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( fix.id_ );
         activity.targets.push_back( std::move( obj ) );
@@ -8823,7 +8863,12 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
+                        i->type->tool->fuel_efficiency );
+            } else {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            }
         }
     }
 
@@ -11146,6 +11191,12 @@ bool Character::is_hallucination() const
 }
 
 bool Character::is_electrical() const
+{
+    // for now this is false. In the future should have rules
+    return false;
+}
+
+bool Character::is_nether() const
 {
     // for now this is false. In the future should have rules
     return false;

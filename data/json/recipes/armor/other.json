@@ -327,7 +327,7 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
-    "result": "rebreather_filter",
+    "result": "rebreather_cartridge",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -355,7 +355,7 @@
     ]
   },
   {
-    "result": "gasfilter_s",
+    "result": "gasfilter_sm",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -367,7 +367,7 @@
     "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
-    "result": "gasfilter_m",
+    "result": "gasfilter_med",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",

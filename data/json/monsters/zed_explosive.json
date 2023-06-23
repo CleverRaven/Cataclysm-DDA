@@ -44,7 +44,6 @@
       "REVIVES",
       "BILE_BLOOD",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
       "FILTHY"
     ],
     "armor": { "electric": 2 }
@@ -98,7 +97,6 @@
       "REVIVES",
       "BILE_BLOOD",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
       "FILTHY"
     ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }

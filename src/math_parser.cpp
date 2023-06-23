@@ -687,6 +687,9 @@ void math_exp::math_exp_impl::new_var( std::string_view str )
             case 'n':
                 type = var_type::npc;
                 break;
+            case 'v':
+                type = var_type::var;
+                break;
             default:
                 debugmsg( "Unknown scope %c in variable %.*s", str[0], str.size(), str.data() );
         }

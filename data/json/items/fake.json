@@ -218,6 +218,15 @@
     "copy-from": "fake_appliance_tool"
   },
   {
+    "id": "catalytic_cracking_reactor_tool",
+    "type": "TOOL",
+    "copy-from": "fake_appliance_tool",
+    "name": { "str": "catalytic cracking reactor" },
+    "//": "there's a laptop in the disassembly, I assume it requires power.",
+    "charges_per_use": 1,
+    "charged_qualities": [ [ "EXTRACT", 3 ] ]
+  },
+  {
     "id": "hydraulic_press_tool",
     "type": "TOOL",
     "copy-from": "fake_appliance_tool",

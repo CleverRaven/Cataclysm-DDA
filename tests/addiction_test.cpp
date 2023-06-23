@@ -107,7 +107,7 @@ static int suffer_addiction( const addiction_id &aid, const int intens, Characte
     return ret;
 }
 
-TEST_CASE( "hardcoded and json addictions", "[addiction]" )
+TEST_CASE( "hardcoded_and_json_addictions", "[addiction]" )
 {
     REQUIRE( !addiction_test_caffeine->get_effect().is_null() );
     REQUIRE( addiction_test_caffeine->get_builtin().empty() );
@@ -156,7 +156,7 @@ TEST_CASE( "hardcoded and json addictions", "[addiction]" )
     }
 }
 
-TEST_CASE( "check caffeine addiction effects", "[addiction]" )
+TEST_CASE( "check_caffeine_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -201,7 +201,7 @@ TEST_CASE( "check caffeine addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check nicotine addiction effects", "[addiction]" )
+TEST_CASE( "check_nicotine_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -246,7 +246,7 @@ TEST_CASE( "check nicotine addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check alcohol addiction effects", "[addiction]" )
+TEST_CASE( "check_alcohol_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -291,7 +291,7 @@ TEST_CASE( "check alcohol addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check diazepam addiction effects", "[addiction]" )
+TEST_CASE( "check_diazepam_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -336,7 +336,7 @@ TEST_CASE( "check diazepam addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check opiate addiction effects", "[addiction]" )
+TEST_CASE( "check_opiate_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -381,7 +381,7 @@ TEST_CASE( "check opiate addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check amphetamine addiction effects", "[addiction]" )
+TEST_CASE( "check_amphetamine_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -426,7 +426,7 @@ TEST_CASE( "check amphetamine addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check cocaine addiction effects", "[addiction]" )
+TEST_CASE( "check_cocaine_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -471,7 +471,7 @@ TEST_CASE( "check cocaine addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check crack addiction effects", "[addiction]" )
+TEST_CASE( "check_crack_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -516,7 +516,7 @@ TEST_CASE( "check crack addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check mutagen addiction effects", "[addiction]" )
+TEST_CASE( "check_mutagen_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -601,7 +601,7 @@ TEST_CASE( "check mutagen addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check marloss addiction effects", "[addiction]" )
+TEST_CASE( "check_marloss_addiction_effects", "[addiction]" )
 {
     Character &u = get_player_character();
     clear_character( u );
@@ -718,7 +718,7 @@ TEST_CASE( "check marloss addiction effects", "[addiction]" )
     }
 }
 
-TEST_CASE( "check that items can inflict multiple addictions", "[addiction]" )
+TEST_CASE( "check_that_items_can_inflict_multiple_addictions", "[addiction]" )
 {
     item addict_itm( "test_whiskey_caffenated" );
     REQUIRE( addict_itm.is_comestible() );

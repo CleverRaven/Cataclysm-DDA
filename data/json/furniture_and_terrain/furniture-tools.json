@@ -1036,7 +1036,7 @@
   {
     "type": "furniture",
     "id": "f_catalytic_cracking_reactor",
-    "name": "catalytic cracking reactor",
+    "name": "disconnected catalytic cracking reactor",
     "looks_like": "f_machinery_light",
     "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  You can take this down and plug it into your own power grid to use it.",
     "symbol": "Y",
@@ -1044,6 +1044,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": 16,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "catalytic_cracking_reactor" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 40,

@@ -22,10 +22,10 @@
     },
     "flags": [ "PROTRUSION", "OBSTACLE" ],
     "variants": [
-      { "id": "front", "label": "Front", "symbols": "^^>>vv<<", "symbols_broken": "*" },
-      { "id": "rear", "label": "Rear", "symbols": "vv<<^^>>", "symbols_broken": "*" },
-      { "id": "left", "label": "Left", "symbols": "<<^^>>vv", "symbols_broken": "*" },
-      { "id": "right", "label": "Right", "symbols": ">>vv<<^^", "symbols_broken": "*" }
+      { "id": "front", "label": "Front", "symbols": "^^<vvv>^", "symbols_broken": "*" },
+      { "id": "rear", "label": "Rear", "symbols": "vv>^^^<v", "symbols_broken": "*" },
+      { "id": "left", "label": "Left", "symbols": "<<v>>>^<", "symbols_broken": "*" },
+      { "id": "right", "label": "Right", "symbols": ">>^<<<v>", "symbols_broken": "*" }
     ]
   },
   {

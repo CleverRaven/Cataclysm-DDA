@@ -323,8 +323,7 @@
       "need_wielding": true,
       "target": "alchemist_bomb_act",
       "msg": "You mix the contents of the bottle, and it starts to sizzle.",
-      "target_charges": 8,
-      "active": true,
+      "target_timer": "8 seconds",
       "menu_text": "Mix liquid",
       "type": "transform"
     },
@@ -347,16 +346,8 @@
     "color": "red",
     "explode_in_fire": true,
     "explosion": { "power": 200 },
-    "initial_charges": 8,
-    "max_charges": 8,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "ssss…",
-      "no_deactivate_msg": "The reaction has already started - all you can do is get it away from you!",
-      "explosion": { "power": 200 }
-    },
+    "use_action": { "type": "message", "message": "The reaction has already started - all you can do is get it away from you!" },
+    "countdown_action": { "type": "explosion", "explosion": { "power": 200 } },
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 14 }
   },

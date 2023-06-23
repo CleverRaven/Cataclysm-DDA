@@ -78,7 +78,7 @@ static void test_temperature_spread( Character *p, const std::array<int, 7> &amb
     temperature_check( p, ambient_temps[6], BODYTEMP_SCORCHING );
 }
 
-TEST_CASE( "player body temperatures converge on expected values.", "[.bodytemp]" )
+TEST_CASE( "player_body_temperatures_converge_on_expected_values", "[.bodytemp]" )
 {
 
     Character &dummy = get_player_character();

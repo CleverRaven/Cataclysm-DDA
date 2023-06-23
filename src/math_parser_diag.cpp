@@ -350,6 +350,11 @@ std::function<double( dialogue & )> weather_eval( char /* scope */,
             return get_weather().weather_precise->pressure;
         };
     }
+    if( params[0] == "precipitation" ) {
+        return []( dialogue const & ) {
+            return precip_mm_per_hour( get_weather().weather_id->precip );
+        };
+    }
     throw std::invalid_argument( string_format( "Unknown weather aspect %s", params[0].str() ) );
 }
 

@@ -83,51 +83,29 @@ if (TILES)
     endif ()
 
     if (NOT DYNAMIC_LINKING)
-        # SDL, SDL_Image, SDL_ttf deps are required for static build
-        target_include_directories(cataclysm-tiles-common PUBLIC
-                ${FREETYPE_INCLUDE_DIRS}
-                ${PNG_INCLUDE_DIRS}
-                ${JPEG_INCLUDE_DIR}
-                ${BZIP2_INCLUDE_DIR})
         target_link_libraries(cataclysm-tiles-common PUBLIC
-                ${FREETYPE_LIBRARIES}
-                ${PNG_LIBRARIES}
-                ${JPEG_LIBRARIES}
-                ${BZIP2_LIBRARIES})
-        target_link_libraries(cataclysm-tiles-common PUBLIC SDL2::SDL2-static)
-    endif ()
-    target_include_directories(cataclysm-tiles-common PUBLIC
-            ${SDL2_INCLUDE_DIR}
-            ${SDL2_IMAGE_INCLUDE_DIRS}
-            ${SDL2_TTF_INCLUDE_DIRS}
-            ${ZLIB_INCLUDE_DIRS})
-    target_link_libraries(cataclysm-tiles-common PUBLIC
-            ${SDL2_LIBRARY}
-            ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_TTF_LIBRARIES}
-            ${ZLIB_LIBRARIES})
-    if(TARGET SDL2::SDL2)
-        target_link_libraries(cataclysm-tiles-common PUBLIC SDL2::SDL2
-            SDL2::SDL2main
+            SDL2::SDL2-static
             SDL2_image::SDL2_image-static
-            SDL2_ttf::SDL2_ttf-static)
-    endif()
+            SDL2_ttf::SDL2_ttf-static
+        )
+    else()
+        target_link_libraries(cataclysm-tiles-common PUBLIC
+            SDL2::SDL2
+            SDL2_image::SDL2_image
+            SDL2_ttf::SDL2_ttf
+        )
+    endif ()
     if (SOUND)
-        if (VCPKG_MANIFEST_MODE)
-            find_package(Ogg REQUIRED)
-            # SDL2_mixer::SDL2_mixer-static = TODO x64-mingw-static ?
-            find_package(Vorbis REQUIRED)
-            target_link_libraries(cataclysm-tiles-common PUBLIC SDL2_mixer::SDL2_mixer-static
-                Ogg::ogg
-                Vorbis::vorbis)
+        if (NOT DYNAMIC_LINKING)
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2_mixer::SDL2_mixer-static
+            )
+        else()
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2_mixer::SDL2_mixer
+            )
         endif()
-        target_compile_definitions(cataclysm-tiles-common PUBLIC SDL_SOUND )
-        target_include_directories(cataclysm-tiles-common PUBLIC ${OGGVORBIS_INCLUDE_DIR})
-        target_link_libraries(cataclysm-tiles-common PUBLIC ${OGG_LIBRARY})
-        target_link_libraries(cataclysm-tiles-common PUBLIC ${VORBIS_LIBRARY})
-        target_link_libraries(cataclysm-tiles-common PUBLIC ${VORBISFILE_LIBRARY})
-        target_include_directories(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
-        target_link_libraries(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_LIBRARIES})
+        add_definitions(-DSDL_SOUND)
     endif ()
 
     if (WIN32)
@@ -155,7 +133,7 @@ if (TILES)
     endif ()
 
     if (RELEASE)
-        install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
+        install(TARGETS cataclysm-tiles RUNTIME)
     endif ()
 endif ()
 
@@ -220,7 +198,7 @@ if (CURSES)
     endif ()
 
     if (RELEASE)
-        install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
+        install(TARGETS cataclysm RUNTIME)
     endif ()
 endif ()
 
@@ -299,5 +277,5 @@ if (MINGW AND NOT RELEASE)
             ${RuntimeLib_LOCALIZE}
             ${RuntimeLib_SDL}
             ${RuntimeLib_SDL_SOUND}
-            DESTINATION ${BIN_PREFIX})
+            TYPE BIN)
 endif ()

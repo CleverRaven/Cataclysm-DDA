@@ -183,7 +183,7 @@ void iuse_transform::load( const JsonObject &obj )
     }
     obj.read( "target_ammo", ammo_type );
 
-    obj.read( "countdown", countdown );
+    obj.read( "target_timer", target_timer );
 
     if( !ammo_type.is_empty() && !container.is_empty() ) {
         obj.throw_error_at( "target_ammo", "Transform actor specified both ammo type and container type" );
@@ -351,8 +351,11 @@ void iuse_transform::do_transform( Character &p, item &it ) const
             it.seal();
         }
     }
-    obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
-    obj->active = active || obj->item_counter || obj->has_temperature();
+
+    if( target_timer > 0_seconds ) {
+        obj->countdown_point = calendar::turn + target_timer;
+    }
+    obj->active = active || obj->has_temperature() || target_timer > 0_seconds;
     if( p.is_worn( *obj ) ) {
         if( !obj->is_armor() ) {
             item_location il = item_location( p, obj );
@@ -428,8 +431,9 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
-    if( countdown > 0 ) {
-        dump.emplace_back( "TOOL", _( "Countdown: " ), countdown );
+
+    if( target_timer > 0_seconds ) {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( target_timer ) );
     }
 
     const auto *explosion_use = dummy.get_use( "explosion" );
@@ -491,64 +495,37 @@ void unpack_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        _( "This item could be unpacked to receive something." ) );
 }
 
-std::unique_ptr<iuse_actor> countdown_actor::clone() const
+std::unique_ptr<iuse_actor> message_iuse::clone() const
 {
-    return std::make_unique<countdown_actor>( *this );
+    return std::make_unique<message_iuse>( *this );
 }
 
-void countdown_actor::load( const JsonObject &obj )
+void message_iuse::load( const JsonObject &obj )
 {
     obj.read( "name", name );
-    obj.read( "interval", interval );
     obj.read( "message", message );
 }
 
-std::optional<int> countdown_actor::use( Character &p, item &it, bool t,
-        const tripoint &pos ) const
+std::optional<int> message_iuse::use( Character &p, item &it, bool t,
+                                      const tripoint &pos ) const
 {
     if( t ) {
         return std::nullopt;
     }
 
-    if( it.active ) {
-        return std::nullopt;
-    }
-
     if( p.sees( pos ) && !message.empty() ) {
-        p.add_msg_if_player( m_neutral, message.translated(), it.tname() );
+        p.add_msg_if_player( m_info, message.translated(), it.tname() );
     }
 
-    it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
-    it.active = true;
     return 0;
 }
 
-ret_val<void> countdown_actor::can_use( const Character &, const item &it, bool,
-                                        const tripoint & ) const
-{
-    if( it.active ) {
-        return ret_val<void>::make_failure( _( "It's already been triggered." ) );
-    }
-
-    return ret_val<void>::make_success();
-}
-
-std::string countdown_actor::get_name() const
+std::string message_iuse::get_name() const
 {
     if( !name.empty() ) {
         return name.translated();
     }
     return iuse_actor::get_name();
-}
-
-void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
-{
-    dump.emplace_back( "TOOL", _( "Countdown: " ),
-                       interval > 0 ? interval : it.type->countdown_interval );
-    const iuse_actor *countdown_actor = it.type->countdown_action.get_actor_ptr();
-    if( countdown_actor != nullptr ) {
-        countdown_actor->info( it, dump );
-    }
 }
 
 std::unique_ptr<iuse_actor> explosion_iuse::clone() const
@@ -4810,34 +4787,52 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             };
 
             const itype_id item_id = it.typeId();
-            bool vpid_found = false;
+            vpart_id vpid = vpart_id::NULL_ID();
             for( const auto &e : vpart_info::all() ) {
                 if( e.second.base_item == item_id ) {
-                    vpid_found = true;
+                    vpid = e.first;
                     break;
                 }
             }
 
-            if( !vpid_found ) {
-                debugmsg( "item %s is not base item of any vehicle part!  Using hd_tow_cable", item_id.c_str() );
+            if( vpid.is_null() ) {
+                debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
+                return std::nullopt;
             }
-            const vpart_id vpid( vpid_found ? item_id.str() : "hd_tow_cable" );
 
-            point vcoords = cable->link->t_mount;
-            vehicle_part prev_part( vpid, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
+            const point vcoords1 = cable->link->t_mount;
+            const point vcoords2 = t_vp->mount();
+
+            const ret_val<void> can_mount1 = target_veh->can_mount( vcoords1, *vpid );
+            if( !can_mount1.success() ) {
+                //~ %1$s - tow cable name, %2$s - the reason why it failed
+                p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+                                     it.type_name(), can_mount1.str() );
+                return std::nullopt;
+            }
+
+            const ret_val<void> can_mount2 = prev_veh->can_mount( vcoords2, *vpid );
+            if( !can_mount2.success() ) {
+                //~ %1$s - tow cable name, %2$s - the reason why it failed
+                p.add_msg_if_player( m_bad, _( "You can't attach the %s: %s" ),
+                                     it.type_name(), can_mount2.str() );
+                return std::nullopt;
+            }
+
+            vehicle_part prev_part( vpid, item( it ) );
             prev_part.target.first = here.getabs( pnt );
             prev_part.target.second = target_veh->global_square_location().raw();
-            prev_veh->install_part( vcoords, std::move( prev_part ) );
+            prev_veh->install_part( vcoords1, std::move( prev_part ) );
 
-            vcoords = t_vp->mount();
-            vehicle_part target_part( vpid, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
+            vehicle_part target_part( vpid, item( it ) );
             target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( cable->link->t_mount ) );
             target_part.target.second = prev_veh->global_square_location().raw();
-            target_veh->install_part( vcoords, std::move( target_part ) );
+            target_veh->install_part( vcoords2, std::move( target_part ) );
 
             if( p.has_item( it ) ) {
-                p.add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
-                                     prev_veh->name, target_veh->name );
+                //~ %1$s - tow cable name, %2$s - first vehicle name, %3$s - second vehicle name
+                p.add_msg_if_player( m_good, _( "You attach %1$s to %2$s and %3$s." ),
+                                     it.type_name(), prev_veh->disp_name(), target_veh->disp_name() );
             }
             if( choice == 10 ) {
                 target_veh->tow_data.set_towing( target_veh, prev_veh );

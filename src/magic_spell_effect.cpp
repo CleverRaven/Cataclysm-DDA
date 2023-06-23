@@ -1244,8 +1244,9 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
-    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0, false, "",
-                                         false ) ) {
+    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees,
+                                         100, 0, false ) ) {
+        veh->unlock();
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
             veh->summon_time_limit = sp.duration_turns( caster );
@@ -1448,7 +1449,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         // this is when the player stops caring altogether.
         const int max_kills = sp.damage( caster );
         // this determines how strong the morale penalty will be
-        const int guilt_mult = sp.get_level();
+        const int guilt_mult = sp.get_effective_level();
 
         // different message as we kill more of the same monster
         std::string msg = _( "You feel guilty for killing %s." ); // default guilt message

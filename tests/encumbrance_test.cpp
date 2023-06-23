@@ -122,7 +122,7 @@ TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
                       longshirt_e + load_bearing );
 }
 
-TEST_CASE( "Complicated with split layers no conflict", "[encumbrance]" )
+TEST_CASE( "Complicated_with_split_layers_no_conflict", "[encumbrance]" )
 {
     test_encumbrance( { "test_complex_phase", "test_ballistic_vest" }, "torso",
                       ballistic + complex_phase );

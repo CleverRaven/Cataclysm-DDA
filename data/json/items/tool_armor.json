@@ -1647,7 +1647,14 @@
     "weight": "720 g",
     "volume": "500 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "REBREATHER_CART" ],
+        "default_magazine": "rebreather_cartridge"
+      }
+    ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
@@ -1692,7 +1699,14 @@
     "weight": "960 g",
     "volume": "1250 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "REBREATHER_CART" ],
+        "default_magazine": "rebreather_cartridge"
+      }
+    ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
@@ -1743,7 +1757,14 @@
     "weight": "360 g",
     "volume": "250 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "REBREATHER_CART" ],
+        "default_magazine": "rebreather_cartridge"
+      }
+    ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
@@ -1794,7 +1815,14 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 7,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_s": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_SM" ],
+        "default_magazine": "gasfilter_sm"
+      }
+    ],
     "ammo": "gasfilter_s",
     "use_action": [ "GASMASK" ],
     "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
@@ -1822,7 +1850,14 @@
     "material_thickness": 2,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ]
   },
@@ -1848,7 +1883,14 @@
     "material_thickness": 2,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "flags": [ "OVERSIZE", "SLEEP_IGNORE" ]
@@ -1875,7 +1917,14 @@
     "material_thickness": 2,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "flags": [ "UNDERSIZE", "SLEEP_IGNORE" ]
@@ -1899,7 +1948,14 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 60 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
@@ -1927,7 +1983,14 @@
     "material_thickness": 3,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
@@ -1955,7 +2018,14 @@
     "material_thickness": 3,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
@@ -1985,7 +2055,14 @@
     "weight": "1260 g",
     "volume": "1500 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "warmth": 25,
@@ -2009,7 +2086,14 @@
     "price": 24000,
     "price_postapoc": 2000,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "steel" ],
@@ -2036,7 +2120,14 @@
     "price": 24000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "cotton" ],
@@ -2063,7 +2154,14 @@
     "price": 24000,
     "price_postapoc": 1250,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "cotton" ],
@@ -2090,7 +2188,14 @@
     "price": 24000,
     "price_postapoc": 1750,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "leather" ],
@@ -2117,7 +2222,14 @@
     "price": 24000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "plastic" ],
@@ -2188,7 +2300,14 @@
     "price": 24000,
     "price_postapoc": 1750,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "fur" ],
@@ -2215,7 +2334,14 @@
     "price": 24000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "fur" ],

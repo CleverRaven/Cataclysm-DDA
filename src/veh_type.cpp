@@ -96,6 +96,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "OPENABLE", VPFLAG_OPENABLE },
     { "SEATBELT", VPFLAG_SEATBELT },
     { "SIMPLE_PART", VPFLAG_SIMPLE_PART },
+    { "WALL_MOUNTED", VPFLAG_WALL_MOUNTED },
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
     { "ROTOR_SIMPLE", VPFLAG_ROTOR_SIMPLE },
@@ -1267,8 +1268,7 @@ std::string vpart_variant::get_label() const
 
 char32_t vpart_variant::get_symbol( units::angle direction, bool is_broken ) const
 {
-    // offset by 90 degrees to match vehicle facing zeroed to the east
-    const int dir8 = units::angle_to_dir8( direction );
+    const int dir8 = angle_to_dir8( direction );
     return is_broken ? symbols_broken[dir8] : symbols[dir8];
 }
 
@@ -1292,7 +1292,7 @@ static int utf32_to_ncurses_ACS( char32_t sym )
 
 int vpart_variant::get_symbol_curses( units::angle direction, bool is_broken ) const
 {
-    return utf32_to_ncurses_ACS( get_symbol( direction, is_broken ) );
+    return get_symbol_curses( get_symbol( direction, is_broken ) );
 }
 
 int vpart_variant::get_symbol_curses( char32_t sym )
@@ -1487,10 +1487,9 @@ void vehicles::finalize_prototypes()
         vehicle_prototype &proto = const_cast<vehicle_prototype &>( const_proto );
         std::unordered_set<point> cargo_spots;
 
-        // Calls the default constructor to create an empty vehicle. Calling the constructor with
-        // the type as parameter would make it look up the type in the map and copy the
-        // (non-existing) blueprint.
-        proto.blueprint = make_shared_fast<vehicle>();
+        // Calling the constructor with empty vproto_id as parameter
+        // makes constructor bypass copying the (non-existing) blueprint.
+        proto.blueprint = make_shared_fast<vehicle>( vproto_id() );
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = proto.id;
         blueprint.name = proto.name.translated();

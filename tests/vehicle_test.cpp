@@ -269,7 +269,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
 }
 
 // Testing iuse::unfold_generic and vehicle part degradation
-TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradation][vehicle]" )
+TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradation][vehicle]" )
 {
     std::vector<vehicle_preset> vehicle_presets {
         { itype_folded_inflatable_boat,    { itype_hand_pump } },
@@ -405,7 +405,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     CHECK( player_folded_veh.get_var( "avg_part_damage", 0.0 ) == preset.item_damage_second_fold );
 }
 
-TEST_CASE( "Check folded item damage transfers to parts and vice versa", "[item][vehicle]" )
+TEST_CASE( "Check_folded_item_damage_transfers_to_parts_and_vice_versa", "[item][vehicle]" )
 {
     std::vector<folded_item_damage_preset> presets {
         { itype_folded_wheelchair_generic, 2111, 2411, 12666, 14466 },
@@ -697,7 +697,7 @@ static void rack_check( const rack_preset &preset )
 }
 
 // Testing vehicle racking and unracking
-TEST_CASE( "Racking and unracking tests", "[vehicle][bikerack]" )
+TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
 {
     std::vector<rack_preset> racking_presets {
         // basic test; rack bike on car, unrack it, everything should succeed
