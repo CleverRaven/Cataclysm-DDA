@@ -334,6 +334,11 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events );
 
     set_draw_scale( 16 );
+
+    // Precalculate fog transparency
+    // On isometric tilesets, fog intensity scales with zlevel_height in tile_config.json
+    fog_alpha = is_isometric() ? std::min( std::max( int( 255.0f - 255.0f * pow( 155.0f / 255.0f,
+                                           zlevel_height / 100.0f ) ), 40 ), 150 ) : 100;
 }
 
 void cata_tiles::reinit()
@@ -3839,7 +3844,7 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
     }
     // Setting for fog transparency
     // On isometric tilesets, fog intensity scales with zlevel_height in tile_config.json
-    fog_color.a = is_isometric() ? 50 + zlevel_height / 2 : 100;
+    fog_color.a = fog_alpha;
 
     // Change blend mode for transparency to work
     // Disable after to avoid visual bugs

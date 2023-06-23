@@ -706,6 +706,8 @@ class cata_tiles
         float tile_ratiox = 0.0f;
         float tile_ratioy = 0.0f;
 
+        int fog_alpha = 0;
+
         bool in_animation = false;
 
         bool do_draw_explosion = false;
