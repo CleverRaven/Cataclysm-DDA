@@ -929,6 +929,8 @@ class item : public visitable
          */
         item in_its_container( int qty = 0 ) const;
         item in_container( const itype_id &container_type, int qty = 0, bool sealed = true ) const;
+        void add_automatic_whitelist();
+        void clear_automatic_whitelist();
 
         /**
         * True if item and its contents have any uses.
