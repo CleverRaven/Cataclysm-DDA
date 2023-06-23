@@ -121,7 +121,7 @@
         " -....................- ",
         " -....................- ",
         " -.&................=.- ",
-        " -........###^###.....- ",
+        " -........###+###.....- ",
         " ---5.....#C__CC#4.---- ",
         "    -.....#C__CC#..-    ",
         "    -.....#C___C#..-    ",
@@ -130,7 +130,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_wall_r", "C": "t_floor", "^": "t_door_locked" },
+      "terrain": { "#": "t_wall_r", "C": "t_floor", "+": "t_door_locked" },
       "furniture": { "C": "f_cardboard_box" },
       "place_items": [ { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 4, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "items": {
@@ -368,7 +368,7 @@
     "method": "json",
     "om_terrain": "s_bookstore_upper_roof_1",
     "object": {
-      "fill_ter": "t_flat_roof",
+      "fill_ter": "t_tar_flat_roof",
       "rows": [
         "                        ",
         "                        ",

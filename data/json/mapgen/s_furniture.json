@@ -90,7 +90,7 @@
     "method": "json",
     "om_terrain": "furniture_roof",
     "object": {
-      "fill_ter": "t_flat_roof",
+      "fill_ter": "t_floor",
       "rows": [
         "                        ",
         " ---------------------- ",
@@ -111,14 +111,14 @@
         " -...............----5- ",
         " -...............-      ",
         " -...............-      ",
-        " -........##D###.-      ",
+        " -........##+###.-      ",
         " -........#__TT#.-      ",
         " -........#T_pp#.-      ",
         " -........#pvTp#.-      ",
         " ---------######--      "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_wall_w", "p": "t_floor", "T": "t_floor", "D": "t_door_locked" },
+      "terrain": { "#": "t_wall_w", "+": "t_door_locked" },
       "furniture": { "T": "f_floor_lamp", "p": "f_rack_coat" },
       "place_nested": [
         {

@@ -284,6 +284,7 @@
         "                                                                        "
       ],
       "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tile_flat_roof" },
       "nested": {
         "s": {
           "chunks": [

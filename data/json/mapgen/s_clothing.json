@@ -451,7 +451,7 @@
     "method": "json",
     "om_terrain": "s_clothes_roof_4",
     "object": {
-      "fill_ter": "t_flat_roof",
+      "fill_ter": "t_floor",
       "rows": [
         "                        ",
         "                        ",
@@ -467,19 +467,19 @@
         " -....................- ",
         " -....................- ",
         " -.....&..............4 ",
-        " ----5-----%%%%%%+%%%%% ",
-        "           %>%SS__z___% ",
-        "           %_%__z___z_% ",
-        "           %___z____zz% ",
-        "           %zz_ddddzzz% ",
-        "           %%%%HHHH%%%% ",
+        " ----5-----######+##### ",
+        "           #>#SS__z___# ",
+        "           #_#__z___z_# ",
+        "           #___z____zz# ",
+        "           #zz_ddddzzz# ",
+        "           ####HHHH#### ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "%": "t_wall_b", "H": "t_wall_glass", "z": "t_floor", "S": "t_floor", "d": "t_floor", "+": "t_door_c" },
+      "terrain": { "#": "t_wall_b", "H": "t_wall_glass", "+": "t_door_c", "&": "t_flat_roof" },
       "furniture": { "z": "f_cardboard_box", "d": "f_mannequin" },
       "items": {
         "z": [
