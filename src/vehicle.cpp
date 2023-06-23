@@ -1139,10 +1139,12 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
         }
     } else {
         const vpart_info &vpi_first_in_square = part( parts_in_square[0] ).info();
-        // Parts can't be placed on tiles with an animal harness or protrusions
+        // Only tow cables can be placed on tiles with an animal harness or protrusion
         if( vpi_first_in_square.has_flag( "ANIMAL_CTRL" ) ||
             vpi_first_in_square.has_flag( "PROTRUSION" ) ) {
-            return ret_val<void>::make_failure( _( "%s is in the way." ), vpi_first_in_square.name() );
+            if( !vpi.has_flag( "TOW_CABLE" ) ) {
+                return ret_val<void>::make_failure( _( "%s is in the way." ), vpi_first_in_square.name() );
+            }
         }
     }
 
