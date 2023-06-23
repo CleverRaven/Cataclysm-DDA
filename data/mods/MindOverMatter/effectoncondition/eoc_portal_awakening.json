@@ -269,7 +269,7 @@
     },
     "effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  You stretch out your hand toward the shattering sky and a glow gathers around it as the air itself begins to shine.  The glow brightens and then flames arise, dancing on the open area above your palm.  You move your hand and the flames move with it, swirling around you, and with with a final wave they scatter into the air.  The glow fades, but the sensation of heat remains.",
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  You stretch out your hand toward the shattering sky and a glow gathers around it as the air itself begins to shine.  The glow brightens and then flames arise, dancing on the open area above your palm.  You move your hand and the flames move with it, swirling around you, and with a final wave they scatter into the air.  The glow fades, but the sensation of heat remains.",
         "popup": true
       },
       { "u_add_trait": "PYROKINETIC" },
