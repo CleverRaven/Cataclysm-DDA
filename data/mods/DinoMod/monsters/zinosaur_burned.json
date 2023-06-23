@@ -129,6 +129,22 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_ziganotosaurus_scorched",
+    "name": { "str": "scorched acrocanthosaurus zombie" },
+    "copy-from": "mon_zallosaurus_scorched",
+    "looks_like": "mon_ziganotosaurus",
+    "speed": 90,
+    "attack_cost": 90,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "hp": 350,
+    "fungalize_into": "mon_ziganotosaurus_fungus",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "armor": { "acid": 3, "heat": 15, "cut": 13, "bullet": 9, "bash": 6 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_ziats_scorched",
     "name": { "str": "scorched siats zombie" },
     "copy-from": "mon_zacrocanthosaurus_scorched",
