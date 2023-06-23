@@ -3,7 +3,7 @@
     "id": "clair_night_vision",
     "type": "SPELL",
     "name": "[Ψ]Night Eyes",
-    "description": "Your eyes are much more sensitive in low level, and you can even \"see\" in pitch darkness.",
+    "description": "Your eyes are much more sensitive in low levels of light, and you can even \"see\" in pitch darkness.",
     "message": "You open your senses to the world.",
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
