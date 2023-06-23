@@ -624,19 +624,18 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
         jio.allow_omitted_members();
         return nullptr; // nothing
     }
-    const std::string mgtype = jio.get_string("method");
-    if (mgtype == "builtin") {
-        if (const building_gen_pointer ptr = get_mapgen_cfunction(jio.get_string("name"))) {
-            return std::make_shared<mapgen_function_builtin>(ptr, mgweight);
+    const std::string mgtype = jio.get_string( "method" );
+    if ( mgtype == "builtin" ) {
+        if (const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
+            return std::make_shared<mapgen_function_builtin>( ptr, mgweight );
         }
         else {
-            jio.throw_error_at("name", "function does not exist");
+            jio.throw_error_at( "name", "function does not exist" );
         }
     } else if( mgtype == "json" ) {
         if( !jio.has_object( "object" ) ) {
             jio.throw_error( R"(mapgen with method "json" must define key "object")" );
         }
-        JsonObject weightfunc;
         JsonObject jo = jio.get_object( "object" );
         jo.allow_omitted_members();
         return std::make_shared<mapgen_function_json>(
