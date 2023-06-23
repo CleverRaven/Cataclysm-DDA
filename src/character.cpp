@@ -1058,10 +1058,14 @@ double Character::aim_per_move( const item &gun, double recoil,
 
     aim_speed *= get_modifier( character_modifier_aim_speed_mod );
 
+    // finally multiply everything by a harsh function that is eliminated by 7.5 gunskill
+    aim_speed /= std::max( 1.0, 2.5 - 0.2 * get_skill_level( gun_skill ) );
     // Use a milder attenuation function to replace the previous logarithmic attenuation function when recoil is closed to 0.
     aim_speed *= std::max( recoil / MAX_RECOIL, 1 - logarithmic_range( 0, MAX_RECOIL, recoil ) );
 
-    double base_aim_speed_cap = 20 +  1.0 * get_skill_level( gun_skill );
+    // add 4 max aim speed per skill up to 5 skill, then 1 per skill for skill 5-10
+    double base_aim_speed_cap = 5.0 +  1.0 * get_skill_level( gun_skill ) + std::max( 10.0,
+                                3.0 * get_skill_level( gun_skill ) );
 
     // This upper limit usually only affects the first half of the aiming process
     // Pistols have a much higher aiming speed limit
