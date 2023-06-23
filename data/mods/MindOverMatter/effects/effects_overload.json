@@ -64,16 +64,16 @@
       "Pure Agony"
     ],
     "desc": [
-      "Your head is is pounding and you feel unwell.",
-      "Your head is is pounding and you feel unwell.",
-      "Your head is is pounding and you feel unwell.",
-      "Your head throbs and its hard to see straight.",
-      "Your head throbs and its hard to see straight.",
+      "Your head is pounding and you feel unwell.",
+      "Your head is pounding and you feel unwell.",
+      "Your head is pounding and you feel unwell.",
+      "Your head throbs and it's hard to see straight.",
+      "Your head throbs and it's hard to see straight.",
       "You can barely think through the pain in your head.",
       "You can barely think through the pain in your head.",
-      "You skull feels like it's going to explode.",
-      "You skull feels like it's going to explode.",
-      "The agony is only thing in the world that matters."
+      "Your skull feels like it's going to explode.",
+      "Your skull feels like it's going to explode.",
+      "The agony is the only thing in the world that matters."
     ],
     "rating": "bad",
     "int_add_val": 1,
