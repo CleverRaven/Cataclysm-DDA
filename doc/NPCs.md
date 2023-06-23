@@ -1,5 +1,6 @@
+# NPCs
 
-# Contents
+## Contents
 
 - [Creating new NPCs](#creating-new-npcs)
   - [NPC Class definition](#npc-class-definition)
@@ -244,6 +245,7 @@ Case use example:
 For further information on snippets, see [New Contributor Guide: Dialogue](https://github.com/CleverRaven/Cataclysm-DDA/wiki/New-Contributor-Guide-Dialogue)
 
 ### Custom Entries
+
 Field | Default messages/snippets | Used for...
 ---|---|---
 `<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags.json
@@ -907,6 +909,7 @@ Effect | Description
 `u_set_guard_pos,npc_set_guard_pos` : [variable object](#variable-object), (*optional* `unique_id`: bool) | Set the NPC's guard pos to the contents of `_set_guard_pos`.  If the NPC has the `RETURN_TO_START_POS` trait then when they are idle they will attempt to move to this position.  If `unique_id`(defaults to false) is true then the NPC's `unique_id` will be added as a prefix to the variables name.  For example a guard with `unique_id` = `GUARD1` would check the variable `GUARD1_First` in the following json statement:  `{ "u_set_guard_pos": { "global_val": "_First" }, "unique_id": true }`
 
 #### Map Updates
+
 Effect | Description
 ---|---
 `mapgen_update: `string or [variable object](#variable-object)<br/>`mapgen_update:` *array of string or [variable objects](#variable-object)*, (optional `assign_mission_target` parameters), (optional `target_var: `[variable object](#variable-object)), (*optional* `time_in_future: `duration or [variable object](#variable-object)), (*optional* `key: `string or [variable object](#variable-object)) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update` (or for each `mapgen_update` entry). If `time_in_future` is set the update will happen that far in the future, in this case however the target location will be determined now and not changed even if its variables update.  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`. If `target_var` is set this effect will be centered on a location saved to a variable with its name instead.
@@ -923,6 +926,7 @@ Effect | Description
 `u_set_field, npc_set_field: `string or [variable object](#variable-object),(*optional* `intensity: `int or [variable object](#variable-object)), (*optional* `age: `int or [variable object](#variable-object)), (*optional* `radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`), (*optional* `hit_player : hit_player_bool`), (*optional* `target_var: `[variable object](#variable-object)) | Add a field centered on you or the npc of type `_set_field`, of intensity `intensity`( defaults to 1,) of radius `radius`(defaults to 10000000) and age `age` (defaults 1). It will only happen outdoors if `outdoor_only` is true, it defaults to false. `indoor_only` is the opposite. It will hit the player as if they entered it if `hit_player` is true, it defaults to true. If `target_var` is set this effect will be centered on a location saved to a variable with its name.
 
 #### General
+
 Effect | Description
 ---|---
 `sound_effect: `string or [variable object](#variable-object), (*optional* `sound_effect_variant: `string or [variable object](#variable-object)), (*optional* `outdoor_event: outdoor_event`), (*optional* `volume: `int or [variable object](#variable-object))  | Will play a sound effect of id `sound_effect` and variant `sound_effect_variant`. If `volume` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
@@ -945,6 +949,7 @@ Effect | Description
 `weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
 
 #### Deprecated
+
 Effect | Description
 ---|---
 `deny_follow`<br/>`deny_lead`<br/>`deny_train`<br/>`deny_personal_info` | Sets the appropriate effect on the NPC for a few hours.<br/>These are *deprecated* in favor of the more flexible `npc_add_effect` described above.
@@ -979,6 +984,7 @@ example json:
 ```
 "condition": { "u_has_strength": { "name" :"variable_name", "type":"test", "context":"documentation", "default":5 } }
 ```
+
 Condition | Type | Description
 --- | --- | ---
 `"u_male"`<br/>`"npc_male"` | simple string | `true` if the player character or NPC is male.
@@ -1253,6 +1259,7 @@ Example:
 
 #### var_val
 var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
+
 | Name | Type | Value |
 | --- | --- | --- |
 | ref | context_val | key1 |
@@ -1272,6 +1279,7 @@ The values for var_val use the same syntax for scope that math [variables](#vari
 ```
 
 #### List Of Mutators
+
 Mutator Name | Required Keys | Description
 --- | --- | ---
 `"mon_faction"` | `mtype_id`: String or [variable object](#variable-object). | Returns the faction of the monster with mtype_id.
