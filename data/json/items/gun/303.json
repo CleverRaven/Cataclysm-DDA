@@ -28,7 +28,6 @@
     "ammo": [ "303" ],
     "dispersion": 170,
     "durability": 8,
-    "flags": [ "OLD_GUN" ],
     "blackpowder_tolerance": 40,
     "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [

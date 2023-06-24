@@ -84,7 +84,6 @@
     "ammo": [ "38" ],
     "dispersion": 480,
     "durability": 8,
-    "flags": [ "OLD_GUN" ],
     "blackpowder_tolerance": 56,
     "clip_size": 6,
     "pocket_data": [

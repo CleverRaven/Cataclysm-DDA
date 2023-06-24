@@ -85,7 +85,7 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "EASY_CLEAN", "OLD_GUN" ],
+    "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],

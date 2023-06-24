@@ -18,7 +18,6 @@
     "ammo": [ "30carbine" ],
     "dispersion": 200,
     "durability": 8,
-    "flags": [ "OLD_GUN" ],
     "min_cycle_recoil": 900,
     "valid_mod_locations": [
       [ "barrel", 1 ],

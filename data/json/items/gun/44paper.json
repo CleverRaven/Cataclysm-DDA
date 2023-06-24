@@ -15,7 +15,6 @@
     "material": [ "steel", "wood" ],
     "ammo": [ "44paper" ],
     "dispersion": 400,
-    "flags": [ "OLD_GUN" ],
     "durability": 7,
     "blackpowder_tolerance": 96,
     "clip_size": 6,
@@ -52,7 +51,7 @@
       [ "sights mount", 1 ]
     ],
     "built_in_mods": [ "lemat_revolver_shotgun" ],
-    "extend": { "flags": [ "NO_UNLOAD", "OLD_GUN" ] },
+    "extend": { "flags": [ "NO_UNLOAD" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44paper": 9 } } ],
     "melee_damage": { "bash": 4 }
   }

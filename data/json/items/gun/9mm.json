@@ -330,7 +330,6 @@
     "dispersion": 420,
     "durability": 8,
     "min_cycle_recoil": 450,
-    "flags": [ "OLD_GUN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
@@ -437,7 +436,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "OLD_GUN" ],
+    "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -503,7 +502,6 @@
     "min_cycle_recoil": 450,
     "built_in_mods": [ "under_folding_stock" ],
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
-    "flags": [ "OLD_GUN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
@@ -774,7 +772,6 @@
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
-    "flags": [ "OLD_GUN" ],
     "valid_mod_locations": [
       [ "muzzle", 1 ],
       [ "sling", 1 ],
@@ -1142,7 +1139,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK", "OLD_GUN" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       { "magazine_well": "191 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp9mag_13rd", "bhp9mag_15rd" ] }
@@ -1168,7 +1165,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK", "OLD_GUN" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "228 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p38mag" ] } ],
     "melee_damage": { "bash": 8 }
@@ -1191,7 +1188,7 @@
     "dispersion": 480,
     "durability": 9,
     "min_cycle_recoil": 450,
-    "flags": [ "ALLOWS_BODY_BLOCK", "OLD_GUN" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {

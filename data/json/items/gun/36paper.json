@@ -15,7 +15,6 @@
     "material": [ "steel", "wood" ],
     "ammo": [ "36paper" ],
     "dispersion": 450,
-    "flags": [ "OLD_GUN" ],
     "durability": 7,
     "blackpowder_tolerance": 96,
     "clip_size": 6,

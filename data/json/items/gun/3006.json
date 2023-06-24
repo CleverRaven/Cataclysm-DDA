@@ -59,7 +59,6 @@
     "symbol": "(",
     "color": "brown",
     "ammo": [ "3006" ],
-    "flags": [ "OLD_GUN" ],
     "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
@@ -117,7 +116,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "EASY_CLEAN", "OLD_GUN" ],
+    "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 }, "allowed_speedloaders": [ "3006_clip" ] }
     ],
@@ -148,7 +147,6 @@
     "min_cycle_recoil": 3420,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "barrel_volume": "1000 ml",
-    "flags": [ "OLD_GUN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],

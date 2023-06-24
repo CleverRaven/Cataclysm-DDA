@@ -55,7 +55,6 @@
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "44" ],
-    "flags": [ "OLD_GUN" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "durability": 8,

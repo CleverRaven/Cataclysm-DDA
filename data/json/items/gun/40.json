@@ -267,7 +267,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 504,
-    "flags": [ "ALLOWS_BODY_BLOCK", "OLD_GUN" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "185 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp40mag" ] } ],
     "melee_damage": { "bash": 8 }
