@@ -732,7 +732,7 @@
     "id": "outsert_breach",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "breach outSert lens", "str_pl": "breach outSert lenses" },
+    "name": { "str": "breach outsert lens", "str_pl": "breach outsert lenses" },
     "description": "A specialized lens designed to clip into place over the solitary eyepiece of a panoramic gas mask, providing eye protection to users deploying a cutting torch while also improving impact resistance.",
     "weight": "136 g",
     "volume": "200 ml",
