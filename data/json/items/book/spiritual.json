@@ -320,7 +320,10 @@
       },
       {
         "id": "holybook_talmud_14",
-        "name": { "str": "Talmud, Vol. 14, Tractate Shabbat (Part 2)", "str_pl": "copies of the Talmud, Vol. 14, Tractate Shabbat (Part 2)" },
+        "name": {
+          "str": "Talmud, Vol. 14, Tractate Shabbat (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 14, Tractate Shabbat (Part 2)"
+        },
         "description": "This is volume 14 of 51, containing the second part of Tractate Shabbat.  It discusses the prohibitions of carrying items or transporting animals on Shabbat.",
         "append": true,
         "weight": 1
