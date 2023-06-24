@@ -330,7 +330,10 @@
       },
       {
         "id": "holybook_talmud_15",
-        "name": { "str": "Talmud, Vol. 15, Tractate Shabbat (Part 3)", "str_pl": "copies of the Talmud, Vol. 15, Tractate Shabbat (Part 3)" },
+        "name": {
+          "str": "Talmud, Vol. 15, Tractate Shabbat (Part 3)",
+          "str_pl": "copies of the Talmud, Vol. 15, Tractate Shabbat (Part 3)"
+        },
         "description": "This is volume 15 of 51, containing the third part of Tractate Shabbat.  It discusses the positive commandments of Shabbat, such as lighting candles and eating a festive meal, and continues the discussion of prohibited types of labor.",
         "append": true,
         "weight": 1
