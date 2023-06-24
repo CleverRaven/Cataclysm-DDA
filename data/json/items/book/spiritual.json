@@ -449,7 +449,10 @@
       },
       {
         "id": "holybook_talmud_29",
-        "name": { "str": "Talmud, Vol. 29, Tractate Yevamot (Part 1)", "str_pl": "copies of the Talmud, Vol. 29, Tractate Yevamot (Part 1)" },
+        "name": {
+          "str": "Talmud, Vol. 29, Tractate Yevamot (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 29, Tractate Yevamot (Part 1)"
+        },
         "description": "This is volume 29 of 51, containing the first part of Tractate Yevamot.  It deals with the laws of Yibbum, often translated as \"Levirate marriage,\" the requirement of a man to marry his brother's widow.",
         "append": true,
         "weight": 1
