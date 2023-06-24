@@ -476,6 +476,7 @@
       ")": "t_pavement_y",
       "_": "t_sidewalk",
       "*": "t_region_groundcover_urban",
+      "U": "t_region_shrub_decorative",
       ".": { "param": "floor_type", "fallback": "t_floor" },
       "V": { "param": "floor_type", "fallback": "t_floor" },
       "v": { "param": "floor_type", "fallback": "t_floor" },
@@ -560,11 +561,11 @@
     "nested": {
       ".": {
         "chunks": [
-          [ "corpse_blood_1x1", 3 ],
-          [ "corpse_blood_casings_1x1", 3 ],
+          [ "corpse_blood_1x1", 6 ],
+          [ "corpse_blood_casings_1x1", 7 ],
           [ "corpse_crossbow_1x1", 1 ],
-          [ "blood_field", 20 ],
-          [ "null", 270 ]
+          [ "blood_field", 40 ],
+          [ "null", 540 ]
         ]
       }
     },
@@ -577,10 +578,10 @@
       ],
       "B": { "item": "30gal_drum" },
       "g": { "item": "glass_shard" },
-      "a": { "item": "arrow_wood", "amount": 3 },
       "m": { "item": "codeine" },
       "e": { "item": "wheel" }
-    }
+    },
+    "items": { "a": { "item": "bolt_makeshift", "repeat": 3, "chance": 100 } }
   },
   {
     "type": "mapgen",
@@ -592,8 +593,14 @@
         { "item": "corpse_generic_human", "x": 0, "y": 0, "chance": 100 },
         { "item": "compcrossbow", "x": 0, "y": 0, "chance": 100 }
       ],
+      "place_items": [ { "item": "bolt_makeshift", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 66 } ],
       "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "age": 10 } ]
     }
+  },
+  {
+    "type": "item_group",
+    "id": "bolt_makeshift",
+    "items": [ { "item": "bolt_makeshift", "charges": 1 } ]
   },
   {
     "type": "mapgen",
@@ -765,9 +772,9 @@
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
-        "______________       _____________       _______",
-        "_4____________       _____________       _____4_",
-        "||||||________       _____________       _||||||",
+        "*****               ________               *****",
+        "*4****              _UUUUUU_              ****4*",
+        "||||||_             ________             _||||||",
         "|u.vVw_)))))))       )))))))))))))       _wtbbT|",
         "w.rc.+_)                   )             _+....w",
         "|B.c.w_)                   )             _wY.BD|",
