@@ -1981,7 +1981,7 @@
         "max_contains_weight": "500 g",
         "moves": 250,
         "description": "A number of external brackets arranged around the eyepiece to retain an outer attachment.",
-        "flag_restriction": [ "panoramic_mask_outsert" ],
+        "flag_restriction": [ "PANORAMIC_OUTSERT" ],
         "inherits_flags": true
       },
       {
@@ -1992,7 +1992,7 @@
         "max_contains_weight": "500 g",
         "moves": 250,
         "description": "A space behind the visor designed to accommodate the installation of inserts.",
-        "flag_restriction": [ "panoramic_mask_insert" ],
+        "flag_restriction": [ "PANORAMIC_INSERT" ],
         "inherits_flags": true
       },
       { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "gasfilter_m61" ] }

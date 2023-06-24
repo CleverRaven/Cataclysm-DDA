@@ -709,7 +709,7 @@
     "color": "light_gray",
     "material_thickness": 1,
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "eyes" ] } ],
-    "flags": [ "panoramic_mask_outsert", "CANT_WEAR", "SUN_GLASSES", "FLASH_PROTECTION", "OUTER" ]
+    "flags": [ "PANORAMIC_OUTSERT", "CANT_WEAR", "SUN_GLASSES", "FLASH_PROTECTION", "OUTER" ]
   },
   {
     "id": "outsert_clear",
@@ -726,7 +726,7 @@
     "color": "light_gray",
     "material_thickness": 1.5,
     "armor": [ { "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ],
-    "flags": [ "panoramic_mask_outsert", "CANT_WEAR", "OUTER" ]
+    "flags": [ "PANORAMIC_OUTSERT", "CANT_WEAR", "OUTER" ]
   },
   {
     "id": "outsert_breach",
@@ -744,7 +744,7 @@
     "material_thickness": 1.5,
     "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "eyes" ] } ],
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "panoramic_mask_outsert", "SUN_GLASSES", "FLASH_PROTECTION", "CANT_WEAR", "OUTER" ]
+    "flags": [ "PANORAMIC_OUTSERT", "SUN_GLASSES", "FLASH_PROTECTION", "CANT_WEAR", "OUTER" ]
   },
   {
     "id": "insert_vision_correction",
@@ -761,6 +761,6 @@
     "color": "light_gray",
     "material_thickness": 1,
     "armor": [ { "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ],
-    "flags": [ "panoramic_mask_insert", "FIX_NEARSIGHT", "FIX_FARSIGHT", "CANT_WEAR", "SKINTIGHT" ]
+    "flags": [ "PANORAMIC_INSERT", "FIX_NEARSIGHT", "FIX_FARSIGHT", "CANT_WEAR", "SKINTIGHT" ]
   }
 ]
