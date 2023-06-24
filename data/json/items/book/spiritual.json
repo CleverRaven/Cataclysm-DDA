@@ -306,7 +306,10 @@
       },
       {
         "id": "holybook_talmud_12",
-        "name": { "str": "Talmud, Vol. 12, Tractate Orlah & Bikkurim", "str_pl": "copies of the Talmud, Vol. 12, Tractate Orlah & Bikkurim" },
+        "name": {
+          "str": "Talmud, Vol. 12, Tractate Orlah & Bikkurim",
+          "str_pl": "copies of the Talmud, Vol. 12, Tractate Orlah & Bikkurim"
+        },
         "description": "This is volume 12 of 51, containing Tractates Orlah and Bikkurim.  Both tractates discuss the practice of letting a fruit tree grow for three years before harvesting it.",
         "append": true,
         "weight": 1
