@@ -751,7 +751,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "vision correction assembly", "str_pl": "vision correction assemblies" },
-    "description": "a detachable frame of prescription lenses intended for installation behind a panoramic gas mask’s visor, providing an alternative vision-correcting solution to users with inherent eye issues rather than contact lenses.",
+    "description": "A detachable frame of prescription lenses intended for installation behind a panoramic gas mask’s visor, providing an alternative vision-correcting solution to users with inherent eye issues rather than contact lenses.",
     "weight": "136 g",
     "volume": "200 ml",
     "price": 15313,
