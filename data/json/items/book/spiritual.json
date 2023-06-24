@@ -445,7 +445,10 @@
       },
       {
         "id": "holybook_talmud_34",
-        "name": { "str": "Talmud, Vol. 34, Tractate Nazir (Part 1)", "str_pl": "copies of the Talmud, Vol. 34, Tractate Nazir (Part 1)" },
+        "name": {
+          "str": "Talmud, Vol. 34, Tractate Nazir (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 34, Tractate Nazir (Part 1)"
+        },
         "description": "This is volume 34 of 51, containing the first part of Tractate Nazir.  It deals with Nazirites, who make vows to abstain from wine, cutting their hair, and avoiding contact with the dead.",
         "append": true,
         "weight": 1
