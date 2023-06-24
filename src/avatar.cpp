@@ -166,12 +166,6 @@ void avatar::control_npc( npc &np, const bool debug )
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
         return;
     }
-    if( !shadow_npc ) {
-        shadow_npc = std::make_unique<npc>();
-        shadow_npc->op_of_u.trust = 10;
-        shadow_npc->op_of_u.value = 10;
-        shadow_npc->set_attitude( NPCATT_FOLLOW );
-    }
     character_id new_character = np.getID();
     const std::function<void( npc & )> update_npc = [new_character]( npc & guy ) {
         guy.update_missions_target( get_avatar().getID(), new_character );
@@ -179,11 +173,11 @@ void avatar::control_npc( npc &np, const bool debug )
     overmap_buffer.foreach_npc( update_npc );
     mission().update_world_missions_character( get_avatar().getID(), new_character );
     // move avatar character data into shadow npc
-    swap_character( *shadow_npc );
+    swap_character( get_shadow_npc() );
     // swap target npc with shadow npc
-    std::swap( *shadow_npc, np );
+    std::swap( get_shadow_npc(), np );
     // move shadow npc character data into avatar
-    swap_character( *shadow_npc );
+    swap_character( get_shadow_npc() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
     // the previous avatar character is now a follower
@@ -2073,6 +2067,18 @@ void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
 }
+
+npc &avatar::get_shadow_npc()
+{
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    return *shadow_npc;
+}
+
 
 void monster_visible_info::remove_npc( npc *n )
 {

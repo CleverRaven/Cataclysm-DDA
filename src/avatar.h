@@ -364,6 +364,7 @@ class avatar : public Character
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
+        npc &get_shadow_npc();
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;
