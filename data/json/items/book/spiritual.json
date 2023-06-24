@@ -275,7 +275,10 @@
       },
       {
         "id": "holybook_talmud_08",
-        "name": { "str": "Talmud, Vol. 8, Tractate Terumot (Part 2)", "str_pl": "copies of the Talmud, Vol. 8, Tractate Terumot (Part 2)" },
+        "name": {
+          "str": "Talmud, Vol. 8, Tractate Terumot (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 8, Tractate Terumot (Part 2)"
+        },
         "description": "This is volume 8 of 51, containing the second part of Tractate Terumot.  It continues the discussion of terumot, portions of agriculture produce that are given directly to the Kohanim priestly class.",
         "append": true,
         "weight": 1
