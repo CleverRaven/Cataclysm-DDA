@@ -340,7 +340,10 @@
       },
       {
         "id": "holybook_talmud_16",
-        "name": { "str": "Talmud, Vol. 16, Tractate Eruvin (Part 1)", "str_pl": "copies of the Talmud, Vol. 16, Tractate Eruvin (Part 1)" },
+        "name": {
+          "str": "Talmud, Vol. 16, Tractate Eruvin (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 16, Tractate Eruvin (Part 1)"
+        },
         "description": "This is volume 16 of 51, containing the first part of Tractate Eruvin.  It discusses the ways to expand the allowable areas in which one may carrying items or transport items on Shabbat.",
         "append": true,
         "weight": 1
