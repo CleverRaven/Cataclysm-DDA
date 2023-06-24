@@ -1180,8 +1180,7 @@
       { "item": "flintlock_ammo", "prob": 60, "damage": [ 2, 4 ] },
       { "item": "flintlock_shot", "prob": 40, "damage": [ 2, 4 ] },
       { "item": "colt_army", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "colt_navy", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "colt_saa_old", "prob": 30 },
+      { "item": "colt_navy", "prob": 50, "damage": [ 2, 4 ] }
       { "item": "36navy", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "44army", "prob": 50, "damage": [ 2, 4 ] }
     ]

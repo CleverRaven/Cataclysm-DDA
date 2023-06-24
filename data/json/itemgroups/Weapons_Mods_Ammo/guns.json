@@ -308,8 +308,7 @@
     "items": [
       { "item": "mauser_c96", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "colt_navy", "prob": 40, "charges-min": 0, "charges-max": 0 },
-      { "item": "colt_army", "prob": 40, "charges-min": 0, "charges-max": 0 },
-      { "item": "colt_saa_old", "prob": 40, "charges-min": 0, "charges-max": 0 }
+      { "item": "colt_army", "prob": 40, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
