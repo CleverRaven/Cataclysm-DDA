@@ -262,7 +262,10 @@
       },
       {
         "id": "holybook_talmud_07",
-        "name": { "str": "Talmud, Vol. 7, Tractate Terumot (Part 1)", "str_pl": "copies of the Talmud, Vol. 7, Tractate Terumot (Part 1)" },
+        "name": {
+          "str": "Talmud, Vol. 7, Tractate Terumot (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 7, Tractate Terumot (Part 1)"
+        },
         "description": "This is volume 7 of 51, containing the first part of Tractate Terumot.  It discusses terumot, portions of agriculture produce that are given directly to the Kohanim priestly class.",
         "append": true,
         "weight": 1
