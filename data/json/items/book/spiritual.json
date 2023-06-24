@@ -255,7 +255,10 @@
       },
       {
         "id": "holybook_talmud_06b",
-        "name": { "str": "Talmud, Vol. 6b, Tractate Shevi'it (Part 2)", "str_pl": "copies of the Talmud, Vol. 6b, Tractate Shevi'it (Part 2)" },
+        "name": {
+          "str": "Talmud, Vol. 6b, Tractate Shevi'it (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 6b, Tractate Shevi'it (Part 2)"
+        },
         "description": "This is volume 6b of 51, containing the second part of Tractate Shevi'it.  It continues the discussion of the Shemitah year, the seventh year where fields must lie fallow.",
         "append": true,
         "weight": 1
