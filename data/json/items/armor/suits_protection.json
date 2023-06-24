@@ -5806,7 +5806,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r", "arm_elbow_l", "arm_elbow_r" ],
         "coverage": 100,
-        "encumbrance": [ 10, 10 ]
+        "encumbrance": 10
       },
       {
         "material": [
@@ -5818,7 +5818,7 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat" ],
         "coverage": 40,
-        "encumbrance": [ 10, 10 ]
+        "encumbrance": 10
       },
       {
         "material": [
@@ -5828,21 +5828,8 @@
           { "type": "lycra", "covered_by_mat": 100, "thickness": 1 }
         ],
         "covers": [ "torso" ],
-        "specifically_covers": [ "torso_neck" ],
-        "coverage": 100,
-        "encumbrance": [ 10, 10 ]
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "charcoal", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "lycra", "covered_by_mat": 100, "thickness": 1 }
-        ],
-        "covers": [ "torso" ],
-        "specifically_covers": [ "torso_upper", "torso_lower", "torso_waist" ],
-        "coverage": 70,
-        "encumbrance": [ 8, 8 ]
+        "coverage": 75,
+        "encumbrance": 8
       }
     ],
     "pocket_data": [

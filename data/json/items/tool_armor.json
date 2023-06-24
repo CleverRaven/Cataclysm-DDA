@@ -1899,12 +1899,6 @@
         "rigid": true,
         "flag_restriction": [ "GASFILTER_MED" ],
         "default_magazine": "gasfilter_med"
-      },
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
       }
     ],
     "ammo": "gasfilter_m",
