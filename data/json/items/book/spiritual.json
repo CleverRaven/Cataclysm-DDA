@@ -373,7 +373,10 @@
       },
       {
         "id": "holybook_talmud_19",
-        "name": { "str": "Talmud, Vol. 19, Tractate Pesachim (Part 2)", "str_pl": "copies of the Talmud, Vol. 18, Tractate Pesachim (Part 2)" },
+        "name": {
+          "str": "Talmud, Vol. 19, Tractate Pesachim (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 18, Tractate Pesachim (Part 2)"
+        },
         "description": "This is volume 19 of 51, containing the second part of Tractate Pesachim.  It continues the discussion of laws relating to Passover, such as whether servants are allowed to slaughter the Passover sacrifice or what to do if the Seder occurs on a Friday night.",
         "append": true,
         "weight": 1
