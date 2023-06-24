@@ -1909,7 +1909,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "M50 gas mask" },
     "category": "clothing",
-    "description": "A full-face gas mask rated for use in chemical, biological, radiological, and nuclear-contaminated areas, built from a comfortable rubber-silicone blend and featuring a panoramic eyepiece, drinking tube, and a communications interface.  The standard gasmask of the United States military, this respirator possesses a twin-filter system incompatible with standard 40-mm NATO filters.  It must be prepared before use.",
+    "description": "A full-face gas mask rated for use in chemical, biological, radiological, and nuclear-contaminated areas, built from a comfortable rubber-silicone blend and featuring a panoramic eyepiece, drinking tube, and a communications interface.  The standard gasmask of the United States military, this respirator possesses a twin-filter system incompatible with standard 40mm NATO filters.  It must be prepared before use.",
     "flags": [ "SLEEP_IGNORE" ],
     "weight": "860 g",
     "volume": "1 L",
