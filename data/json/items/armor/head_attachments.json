@@ -715,7 +715,7 @@
     "id": "outsert_clear",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "clear outSert lens", "str_pl": "clear outSert lenses" },
+    "name": { "str": "clear outsert lens", "str_pl": "clear outsert lenses" },
     "description": "A simple and flexible transparent lens of plastic that clips into place over a panoramic gas mask’s solitary eyepiece, providing extra protection from scratches, abrasions, and ballistic threats.",
     "weight": "136 g",
     "volume": "200 ml",
