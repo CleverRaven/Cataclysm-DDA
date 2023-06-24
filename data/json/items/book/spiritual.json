@@ -469,7 +469,10 @@
       },
       {
         "id": "holybook_talmud_31",
-        "name": { "str": "Talmud, Vol. 31, Tractate Ketubot (Part 1)", "str_pl": "copies of the Talmud, Vol. 31, Tractate Ketubot (Part 1)" },
+        "name": {
+          "str": "Talmud, Vol. 31, Tractate Ketubot (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 31, Tractate Ketubot (Part 1)"
+        },
         "description": "This is volume 31 of 51, containing the first part of Tractate Ketubot.  It discusses the marriage contract (Ketubah), and the marital obligations between husband and wife.",
         "append": true,
         "weight": 1
