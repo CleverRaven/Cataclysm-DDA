@@ -160,13 +160,6 @@ avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
 
-static void swap_npc( npc &one, npc &two, npc &tmp )
-{
-    tmp = std::move( one );
-    one = std::move( two );
-    two = std::move( tmp );
-}
-
 void avatar::control_npc( npc &np, const bool debug )
 {
     if( !np.is_player_ally() ) {
@@ -185,13 +178,12 @@ void avatar::control_npc( npc &np, const bool debug )
     };
     overmap_buffer.foreach_npc( update_npc );
     mission().update_world_missions_character( get_avatar().getID(), new_character );
-    npc tmp;
     // move avatar character data into shadow npc
-    swap_character( *shadow_npc, tmp );
+    swap_character( *shadow_npc );
     // swap target npc with shadow npc
-    swap_npc( *shadow_npc, np, tmp );
+    std::swap( *shadow_npc, np );
     // move shadow npc character data into avatar
-    swap_character( *shadow_npc, tmp );
+    swap_character( *shadow_npc );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
     // the previous avatar character is now a follower
