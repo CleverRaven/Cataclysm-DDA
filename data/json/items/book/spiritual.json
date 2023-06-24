@@ -459,7 +459,10 @@
       },
       {
         "id": "holybook_talmud_30",
-        "name": { "str": "Talmud, Vol. 30, Tractate Yevamot (Part 2)", "str_pl": "copies of the Talmud, Vol. 30, Tractate Yevamot (Part 2)" },
+        "name": {
+          "str": "Talmud, Vol. 30, Tractate Yevamot (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 30, Tractate Yevamot (Part 2)"
+        },
         "description": "This is volume 30 of 51, containing the second part of Tractate Yevamot.  It continues the discussion of the laws of Yibbum, often translated as \"Levirate marriage,\" and the circumstances in which it does or does not apply.",
         "append": true,
         "weight": 1
