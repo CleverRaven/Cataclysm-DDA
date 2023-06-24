@@ -479,7 +479,10 @@
       },
       {
         "id": "holybook_talmud_32",
-        "name": { "str": "Talmud, Vol. 32, Tractate Ketubot (Part 2)", "str_pl": "copies of the Talmud, Vol. 32, Tractate Ketubot (Part 2)" },
+        "name": {
+          "str": "Talmud, Vol. 32, Tractate Ketubot (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 32, Tractate Ketubot (Part 2)"
+        },
         "description": "This is volume 32 of 51, containing the second part of Tractate Ketubot.  It continues the discussion of the marriage contract, as well as divorce and giving formal testimony.",
         "append": true,
         "weight": 1
