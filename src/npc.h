@@ -805,6 +805,7 @@ class npc : public Character
         // Save & load
         void deserialize( const JsonObject &data ) override;
         void serialize( JsonOut &json ) const override;
+        void export_to( const cata_path &path ) const;
 
         // Display
         nc_color basic_symbol_color() const override;

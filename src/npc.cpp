@@ -14,6 +14,8 @@
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bodypart.h"
+#include "cata_path.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
@@ -3906,6 +3908,14 @@ void npc::update_missions_target( character_id old_character, character_id new_c
             temp->set_assigned_player_id( new_character );
         }
     }
+}
+
+void npc::export_to( const cata_path &path ) const
+{
+    write_to_file( path, [&]( std::ostream & fout ) {
+        JsonOut jsout( fout );
+        serialize( jsout );
+    } );
 }
 
 std::unique_ptr<talker> get_talker_for( npc &guy )

@@ -2079,6 +2079,12 @@ npc &avatar::get_shadow_npc()
     return *shadow_npc;
 }
 
+void avatar::export_as_npc( const cata_path &path )
+{
+    swap_character( get_shadow_npc() );
+    get_shadow_npc().export_to( path );
+    swap_character( get_shadow_npc() );
+}
 
 void monster_visible_info::remove_npc( npc *n )
 {
