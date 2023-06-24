@@ -8327,7 +8327,6 @@
     "name": { "str": "Ignores Sounds" },
     "points": 99,
     "valid": false,
-    "player_display": false,
     "description": "NPC ignores sounds and does not investigate them.",
     "purifiable": false
   },
@@ -8337,7 +8336,6 @@
     "name": { "str": "Will Not Bash" },
     "points": 99,
     "valid": false,
-    "player_display": false,
     "description": "NPC will not bash to reach things.",
     "purifiable": false
   },
