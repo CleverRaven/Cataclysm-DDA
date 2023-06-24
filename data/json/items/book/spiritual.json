@@ -347,7 +347,10 @@
       },
       {
         "id": "holybook_talmud_17",
-        "name": { "str": "Talmud, Vol. 17, Tractate Eruvin (Part 2)", "str_pl": "copies of the Talmud, Vol. 17, Tractate Eruvin (Part 2)" },
+        "name": {
+          "str": "Talmud, Vol. 17, Tractate Eruvin (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 17, Tractate Eruvin (Part 2)"
+        },
         "description": "This is volume 17 of 51, containing the second part of Tractate Eruvin.  It continues discussing the ways to expand the allowable areas in which one may carrying items or transport items on Shabbat.",
         "append": true,
         "weight": 1
