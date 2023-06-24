@@ -363,7 +363,10 @@
       },
       {
         "id": "holybook_talmud_18",
-        "name": { "str": "Talmud, Vol. 18, Tractate Pesachim (Part 1)", "str_pl": "copies of the Talmud, Vol. 18, Tractate Pesachim (Part 1)" },
+        "name": {
+          "str": "Talmud, Vol. 18, Tractate Pesachim (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 18, Tractate Pesachim (Part 1)"
+        },
         "description": "This is volume 18 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the the proper disposal of leaven and the preparation of unleavened bread.",
         "append": true,
         "weight": 1
