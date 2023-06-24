@@ -113,7 +113,7 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
-static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
+static const vpart_id vpart_frame( "frame" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
@@ -1341,23 +1341,21 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
 
 static vpart_id vpart_from_item( const itype_id &item_id )
 {
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
-            return vp.get_id();
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( vpi.base_item == item_id && vpi.has_flag( flag_INITIAL_PART ) ) {
+            return vpi.id;
         }
     }
     // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
     // first part that is based in the given item (this is fine for example if there is only one
     // such type anyway).
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( vp.base_item == item_id ) {
-            return vp.get_id();
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( vpi.base_item == item_id ) {
+            return vpi.id;
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    return vpart_frame_vertical_2;
+    return vpart_frame;
 }
 
 void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
@@ -2058,15 +2056,14 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
 void finalize_constructions()
 {
     std::vector<item_comp> frame_items;
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( !vp.has_flag( flag_INITIAL_PART ) ) {
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( !vpi.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        if( vp.get_id().str() == "frame" ) {
-            frame_items.insert( frame_items.begin(), { vp.base_item, 1 } );
+        if( vpi.id == vpart_frame ) {
+            frame_items.insert( frame_items.begin(), { vpi.base_item, 1 } );
         } else {
-            frame_items.emplace_back( vp.base_item, 1 );
+            frame_items.emplace_back( vpi.base_item, 1 );
         }
     }
 

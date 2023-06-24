@@ -586,7 +586,7 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     you.activity.values.push_back( -point_zero.y );
     // values[6]
     you.activity.values.push_back( veh->index_of_part( &vp ) );
-    you.activity.str_values.push_back( vpi.get_id().str() );
+    you.activity.str_values.push_back( vpi.id.str() );
     you.activity.str_values.push_back( vp.variant );
     // this would only be used for refilling tasks
     item_location target;

@@ -1,4 +1,6 @@
-# Armor Overview
+# Armor Balance And Design
+
+## Armor Overview
 Armor in cataclysm has varying levels of complexity to attempt a deep simulation of worn clothing. Compared with systems that try to compress down armor to one or two numbers like Pen And Paper game armor class systems or CRPGs with systems like DT and DR (flat and multiplicative reduction) cataclysm attempts to more accurately simulate different materials, their relative coverage of the body, and how that interacts with the player.  A lot of this is simplified or clarified to the player in a way that is digestible. We *shouldn't* hide info from the player but we should *avoid* information overload.
 
 That said this document will practice no such restraint and is designed to be a complete guide to *everything* possible. This guide will cover the basic ideas of **how it works**, **what is necessary** for armor to function, **what is possible** with the armor system and **how to design armor** so that it is balanced and makes sense. An **FAQ** will also be included to cover some specifics people might have about armor or how to understand it as well as a section on things to be added **looking forward**.  Each section will also give specific example item ids you could investigate for examples (as well as code snippets) or for balance considerations.

@@ -3368,7 +3368,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 void vehicle_part::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "id", info_->get_id().str() );
+    json.member( "id", info_->id.str() );
     if( !variant.empty() ) {
         json.member( "variant", variant );
     }
