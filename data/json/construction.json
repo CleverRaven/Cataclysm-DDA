@@ -2418,12 +2418,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "70 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [
-      [ [ "2x4", 16 ], [ "wood_panel", 4 ] ],
-      [ [ "2x4", 2 ] ],
-      [ [ "nail", 20 ] ],
-      [ [ "mattress", 1 ] ]
-    ],
+    "components": [ [ [ "2x4", 16 ], [ "wood_panel", 4 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 20 ] ], [ [ "mattress", 1 ] ] ],
     "pre_terrain": "f_bed",
     "post_terrain": "f_bunkbed"
   },
@@ -2458,12 +2453,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "70 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [
-      [ [ "2x4", 16 ], [ "wood_panel", 4 ] ],
-      [ [ "2x4", 2 ] ],
-      [ [ "nail", 20 ] ],
-      [ [ "down_mattress", 1 ] ]
-    ],
+    "components": [ [ [ "2x4", 16 ], [ "wood_panel", 4 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 20 ] ], [ [ "down_mattress", 1 ] ] ],
     "pre_terrain": "f_bed_down",
     "post_terrain": "f_bunkbed_down"
   },
