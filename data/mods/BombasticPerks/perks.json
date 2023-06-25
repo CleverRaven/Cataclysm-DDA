@@ -338,7 +338,7 @@
     "id": "perk_olde_guns",
     "name": { "str": "Olde Reliables" },
     "points": 0,
-    "description": "You've always had a bit of a fondness for the older firearms. Post apocalypse, this has translated into a damage boost when using WWII and older weapons.",
+    "description": "You've always had a bit of a fondness for the older firearms.  Post apocalypse, this has translated into a damage boost when using WWII and older weapons.",
     "category": [ "perk" ],
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }

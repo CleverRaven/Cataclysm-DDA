@@ -66,7 +66,7 @@
       "id": "colt_navy",
       "type": "GUN",
       "copy-from": "colt_navy",
-      "name": { "str": "Colt M1861 Navy" },
+      "name": { "str_sp": "Colt M1861 Navy" },
       "extend": { "flags": [ "OLD_GUN" ] }
     },
     {
@@ -91,9 +91,9 @@
       "extend": { "flags": [ "OLD_GUN" ] }
     },
     {
-      "id": "m1911_MEU",
+      "id": "m1911",
       "type": "GUN",
-      "copy-from": "m1911_MEU",
+      "copy-from": "m1911",
       "name": { "str": "M45A1" },
       "extend": { "flags": [ "OLD_GUN" ] }
     },
