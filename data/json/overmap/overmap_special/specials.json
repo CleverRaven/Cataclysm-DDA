@@ -4991,7 +4991,7 @@
     ],
     "locations": [ "forest_without_trail" ],
     "city_distance": [ 30, -1 ],
-    "occurrences": [ 100, 200 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
   },
   {
