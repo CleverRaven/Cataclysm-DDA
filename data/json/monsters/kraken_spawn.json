@@ -78,8 +78,15 @@
     "melee_skill": 6,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 25 } ],
+    "//grab": "Not getting much more grabby than a half-ton octopus",
+    "grab_strength": 100,
     "special_attacks": [
-      [ "GRAB_DRAG", 12 ],
+      {
+        "id": "grab_drag",
+        "cooldown": 12,
+        "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 }
+      },
+      { "id": "drag_followup", "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 } },
       { "id": "barbed_tentacle" },
       {
         "type": "bite",
@@ -119,8 +126,14 @@
     "melee_dice": 7,
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 25 } ],
+    "//grab": "Could get higher, but keeping the 0-100 scale for now",
     "special_attacks": [
-      [ "GRAB_DRAG", 12 ],
+      {
+        "id": "grab_drag",
+        "cooldown": 12,
+        "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 }
+      },
+      { "id": "drag_followup", "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 } },
       {
         "id": "long_barbed_tentacle",
         "effects": [ { "id": "paralyzepoison", "duration": 75, "affect_hit_bp": true } ]
