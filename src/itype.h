@@ -1447,11 +1447,11 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        std::optional<int> invoke( Character &p, item &it,
+        std::optional<int> invoke( Character *p, item &it,
                                    const tripoint &pos ) const; // Picks first method or returns 0
-        std::optional<int> invoke( Character &p, item &it, const tripoint &pos,
+        std::optional<int> invoke( Character *p, item &it, const tripoint &pos,
                                    const std::string &iuse_name ) const;
-        int tick( Character &p, item &it, const tripoint &pos ) const;
+        int tick( Character *p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
 

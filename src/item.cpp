@@ -659,7 +659,7 @@ item &item::activate()
 
 bool item::activate_thrown( const tripoint &pos )
 {
-    return type->invoke( get_avatar(), *this, pos ).value_or( 0 );
+    return type->invoke( &get_avatar(), *this, pos ).value_or( 0 );
 }
 
 units::energy item::mod_energy( const units::energy &qty )
@@ -12865,7 +12865,7 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
         if( type->revert_to ) {
             convert( *type->revert_to );
         } else {
-            type->invoke( *carrier, *this, pos, "transform" );
+            type->invoke( carrier, *this, pos, "transform" );
         }
 
     }
@@ -13225,7 +13225,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         }
         // invoking the object can convert the item to another type
         const bool had_revert_to = type->revert_to.has_value();
-        type->invoke( *carrier, *this, pos );
+        type->invoke( carrier, *this, pos );
         if( carrier ) {
             carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
         }
@@ -13253,7 +13253,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         ammo_consume( energy, pos, carrier );
     }
 
-    type->tick( *carrier, *this, pos );
+    type->tick( carrier, *this, pos );
     return false;
 }
 

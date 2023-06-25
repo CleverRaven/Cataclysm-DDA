@@ -6774,7 +6774,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    std::optional<int> charges_used = actually_used->type->invoke( *this, *actually_used,
+    std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
                                       pt, method );
     if( !charges_used.has_value() ) {
         moves = pre_obtain_moves;
@@ -10677,7 +10677,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
 
     // Turn off any active tools
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( *this, *target, this->pos() );
+        target->type->invoke( this, *target, this->pos() );
     }
 
     add_msg( _( "You unload your %s." ), target->tname() );

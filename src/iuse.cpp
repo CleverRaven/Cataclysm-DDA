@@ -7336,7 +7336,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                 sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                 if( it.has_flag( flag_RADIO_INVOKE_PROC ) ) {
                     // Invoke to transform a radio-modded explosive into its active form
-                    it.type->invoke( p, it, loc );
+                    it.type->invoke( &p, it, loc );
                 }
             } else if( !it.empty_container() ) {
                 item *itm = it.get_item_with( [&signal]( const item & c ) {
@@ -7347,7 +7347,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
-                        itm->type->invoke( p, *itm, loc );
+                        itm->type->invoke( &p, *itm, loc );
                     }
                 }
             }
