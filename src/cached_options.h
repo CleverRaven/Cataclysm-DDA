@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_CACHED_OPTIONS_H
 #define CATA_SRC_CACHED_OPTIONS_H
 

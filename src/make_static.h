@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_MAKE_STATIC_H
 #define CATA_SRC_MAKE_STATIC_H
 

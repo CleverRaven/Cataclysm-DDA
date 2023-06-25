@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_PAST_GAMES_INFO_H
 #define CATA_SRC_PAST_GAMES_INFO_H
 

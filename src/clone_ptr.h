@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_CLONE_PTR_H
 #define CATA_SRC_CLONE_PTR_H
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_CUBE_DIRECTION_H
 #define CATA_SRC_CUBE_DIRECTION_H
 

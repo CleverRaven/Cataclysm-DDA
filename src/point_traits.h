@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_POINT_TRAITS_H
 #define CATA_SRC_POINT_TRAITS_H
 

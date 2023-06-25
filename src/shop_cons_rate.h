@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_SHOP_CONS_RATE_H
 #define CATA_SRC_SHOP_CONS_RATE_H
 
