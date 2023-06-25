@@ -436,13 +436,12 @@ class vpart_info
          */
         units::power power = 0_W;
 
-        /** Installation time (in moves) for component (@see install_time), default 1 hour */
-        int install_moves = to_moves<int>( 1_hours );
-        /** Repair time (in moves) to fully repair a component (@see repair_time) */
-        int repair_moves = to_moves<int>( 1_hours );
-        /** Removal time (in moves) for component (@see removal_time),
-         *  default is half @ref install_moves */
-        int removal_moves = -1;
+        /** Installation for component (@see install_time) */
+        time_duration install_moves = 1_hours;
+        /** Repair time to fully repair a component (@see repair_time) */
+        time_duration repair_moves = 1_hours;
+        /** Removal time for component (@see removal_time), default is half \p install_moves */
+        time_duration removal_moves = -1_seconds;
 
         // seatbelt (str, currently non-functional #30239)
         // muffler (% noise reduction)

@@ -152,7 +152,7 @@ const vpart_info &string_id<vpart_info>::obj() const
 
 static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std::string &key,
                            std::vector<std::pair<requirement_id, int>> &reqs,
-                           std::map<skill_id, int> &skills, int &moves )
+                           std::map<skill_id, int> &skills, time_duration &time )
 {
 
     if( !obj.has_object( key ) ) {
@@ -164,15 +164,19 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
     if( !sk.empty() ) {
         skills.clear();
         for( JsonArray cur : sk ) {
-            skills.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+            if( cur.size() != 2 ) {
+                debugmsg( "vpart '%s' has requirement with invalid skill entry", id.str() );
+                continue;
+            }
+            skills.emplace( skill_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
 
-    if( src.has_int( "time" ) ) {
-        moves = src.get_int( "time" );
-    } else if( src.has_string( "time" ) ) {
-        moves = to_moves<int>( read_from_json_string<time_duration>( src.get_member( "time" ),
-                               time_duration::units ) );
+    if( src.has_string( "time" ) ) {
+        assign( src, "time", time, /* strict = */ false );
+    } else if( src.has_int( "time" ) ) { // remove in 0.H
+        time = time_duration::from_moves( src.get_int( "time" ) );
+        debugmsg( "vpart '%s' defines requirement time as integer, use time units string", id.str() );
     }
 
     if( src.has_string( "using" ) ) {
@@ -558,8 +562,8 @@ void vehicles::parts::finalize()
         time_duration install_time = 10_minutes * difficulty;
         time_duration removal_time = 10_minutes * difficulty / 2;
 
-        new_part.install_moves = to_moves<int>( install_time );
-        new_part.removal_moves = to_moves<int>( removal_time );
+        new_part.install_moves = install_time;
+        new_part.removal_moves = removal_time;
 
         new_part.looks_like = get_looks_like( new_part, *item );
 
@@ -699,7 +703,7 @@ void vpart_info::finalize()
     requirement_data::save_requirement( ins, ins_id );
     install_reqs.emplace_back( ins_id, 1 );
 
-    if( removal_moves < 0 ) {
+    if( removal_moves < 0_seconds ) {
         removal_moves = install_moves / 2;
     }
 
@@ -781,11 +785,11 @@ void vpart_info::check() const
         }
     }
 
-    if( install_moves < 0 ) {
+    if( install_moves < 0_seconds ) {
         debugmsg( "vehicle part %s has negative installation time", id.str() );
     }
 
-    if( removal_moves < 0 ) {
+    if( removal_moves < 0_seconds ) {
         debugmsg( "vehicle part %s has negative removal time", id.str() );
     }
 
@@ -1030,7 +1034,8 @@ bool vpart_info::is_repairable() const
     return !has_flag( "NO_REPAIR" ) && !repair_requirements().is_empty();
 }
 
-static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &you )
+static time_duration scale_time( const std::map<skill_id, int> &sk, time_duration mv,
+                                 const Character &you )
 {
     if( sk.empty() ) {
         return mv;
@@ -1051,17 +1056,17 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const Characte
 
 int vpart_info::install_time( const Character &you ) const
 {
-    return scale_time( install_skills, install_moves, you );
+    return to_moves<int>( scale_time( install_skills, install_moves, you ) );
 }
 
 int vpart_info::removal_time( const Character &you ) const
 {
-    return scale_time( removal_skills, removal_moves, you );
+    return to_moves<int>( scale_time( removal_skills, removal_moves, you ) );
 }
 
 int vpart_info::repair_time( const Character &you ) const
 {
-    return scale_time( repair_skills, repair_moves, you );
+    return to_moves<int>( scale_time( repair_skills, repair_moves, you ) );
 }
 
 /**

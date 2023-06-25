@@ -2450,7 +2450,7 @@
     "durability": 120,
     "description": "A heavy-duty tow cable, if the other end was attached to another vehicle, it could pull it.",
     "item": "hd_tow_cable",
-    "requirements": { "removal": { "time": 500 } },
+    "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "grip_hook", "count": 1 }, { "item": "cable", "count": [ 1, 4 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
