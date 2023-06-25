@@ -4136,32 +4136,32 @@ void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::stri
 
     str_or_var condition = get_str_or_var( jo.get_member( "condition" ), "condition" );
 
-    dbl_or_var itteration_count;
-    if( jo.has_member( "itteration_count" ) ) {
-        itteration_count = get_dbl_or_var( jo.get_member( "itteration_count" ), "itteration_count" );
+    dbl_or_var iteration_count;
+    if( jo.has_member( "iteration_count" ) ) {
+        iteration_count = get_dbl_or_var( jo.get_member( "iteration_count" ), "iteration_count" );
     }
 
 
-    function = [eoc, condition, itteration_count]( dialogue & d ) {
+    function = [eoc, condition, iteration_count]( dialogue & d ) {
         auto itt = d.get_conditionals().find( condition.evaluate( d ) );
         if( itt == d.get_conditionals().end() ) {
             debugmsg( string_format( "No condition with the name %s", condition.evaluate( d ) ) );
             return;
         }
-        int max_itteration = 100;
-        int given_itteration = itteration_count.evaluate( d );
+        int max_iteration = 100;
+        int given_iteration = iteration_count.evaluate( d );
 
-        if( given_itteration > 0 ) {
-            max_itteration = given_itteration;
+        if( given_iteration > 0 ) {
+            max_iteration = given_iteration;
         }
 
-        int curr_itteration = 0;
+        int curr_iteration = 0;
 
         while( itt->second( d ) ) {
-            curr_itteration++;
-            if( curr_itteration > max_itteration ) {
+            curr_iteration++;
+            if( curr_iteration > max_iteration ) {
                 debugmsg( string_format( "EOC loop ran for more instances than the max allowed: %d. Exiting loop.",
-                                         max_itteration ) );
+                                         max_iteration ) );
                 break;
             }
             eoc->activate( d );
