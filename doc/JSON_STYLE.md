@@ -89,3 +89,6 @@ Additionally, you can configure a keybinding for this command by navigating to
 containing `Tools.ExternalCommand` and pick the one that corresponds to the
 position of your command in the list (e.g. `Tools.ExternalCommand1` if it's the
 top item in the list) and then assign shortcut keys to it.
+
+### Visual Studio Code
+**If you have compiled the json formatter** you can set up styling on auto save by installing the recommended extension `emeraldwalk.runonsave`. After install any json file you save should style correctly.
