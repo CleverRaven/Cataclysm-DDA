@@ -34,7 +34,12 @@
             {
                 "match": "\\.json$",
                 "isAsync": true,
-                "cmd": "${workspaceFolder}/tools/format/json_formatter ${file}"
+                "cmd": "${workspaceFolder}/tools/format/json_formatter ${file}",
+            },
+            {
+                "match": "\\.json$",
+                "isAsync": true,
+                "cmd": "${workspaceFolder}/tools/format/json_formatter.cgi ${file}",
             },
         ]
     },
