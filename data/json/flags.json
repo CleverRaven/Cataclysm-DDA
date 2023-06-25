@@ -2227,6 +2227,6 @@
   {
     "id": "OLD_GUN",
     "type": "json_flag",
-    "info": "A flag for older guns, primarily used for an old guns perk for the perks mod right now."
+    "info": "An old gun, WWII or earlier."
   }
 ]
