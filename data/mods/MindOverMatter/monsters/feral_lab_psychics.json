@@ -122,7 +122,7 @@
     "special_attacks": [
       { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 10 },
       [ "BIO_OP_DISARM", 10 ],
-      [ "BIO_OP_TAKEDOWN", 15 ]
+      { "id": "bio_op_takedown", "cooldown": 15 }
     ],
     "flags": [
       "SEES",
