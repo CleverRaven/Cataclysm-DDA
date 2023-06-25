@@ -4261,8 +4261,8 @@
       { "point": [ 1, 1, 1 ], "overmap": "s_reststop_2_roof_north" }
     ],
     "connections": [
-      { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true }
+      { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "from": [ 1, 0, 0 ], "existing": true }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, 150 ],
