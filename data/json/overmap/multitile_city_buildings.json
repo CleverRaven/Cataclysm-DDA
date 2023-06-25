@@ -2021,7 +2021,6 @@
     "id": "hotel_1",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 1, 0 ], "overmap": "hotel_tower_1_3_north" },
       { "point": [ 1, 1, 0 ], "overmap": "hotel_tower_1_2_north" },
       { "point": [ 2, 1, 0 ], "overmap": "hotel_tower_1_1_north" },
@@ -2065,7 +2064,6 @@
     "id": "hotel_2",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 1, 0 ], "overmap": "hotel_tower_1_3_north" },
       { "point": [ 1, 1, 0 ], "overmap": "hotel_tower_1_2_north" },
       { "point": [ 2, 1, 0 ], "overmap": "hotel_tower_1_1_north" },
@@ -2109,7 +2107,6 @@
     "id": "hotel_3",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 1, 0 ], "overmap": "hotel_tower_1_3_north" },
       { "point": [ 1, 1, 0 ], "overmap": "hotel_tower_1_2_north" },
       { "point": [ 2, 1, 0 ], "overmap": "hotel_tower_1_1_north" },
@@ -2265,7 +2262,6 @@
     "id": "public_works",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 2, 0 ], "overmap": "road_end_south" },
       { "point": [ 0, 0, 0 ], "overmap": "public_works_NW_north" },
       { "point": [ 0, 0, 1 ], "overmap": "public_works_NW_roof_north" },
       { "point": [ 1, 0, 0 ], "overmap": "public_works_NE_north" },
