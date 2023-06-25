@@ -1973,6 +1973,7 @@
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
     "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "gasfilter_m61" ] },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
@@ -1994,8 +1995,7 @@
         "description": "A space behind the visor designed to accommodate the installation of inserts.",
         "flag_restriction": [ "PANORAMIC_INSERT" ],
         "inherits_flags": true
-      },
-      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "gasfilter_m61" ] }
+      }
     ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ]
@@ -2003,20 +2003,49 @@
   {
     "id": "mask_gas_xl",
     "type": "TOOL_ARMOR",
-    "name": { "str": "XL gas mask" },
     "category": "clothing",
-    "description": "A rather roomy mask with filters attached, designed to accommodate exotic anatomy.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
-    "weight": "1397 g",
-    "volume": "1500 ml",
+    "name": { "str": "homemade XL gas mask" },
+    "description": "Less of a piece of PPE than a giant canvas sock coated in rubber, this mask is formed from a Butyl-coated water-proof sack with eyepieces, a pair of filter ports, and inhale valves buggered from a proper respirator attached to it.  Compatible with 40-mm STANAG filters, capable of housing heavily mutated anatomy, and needing to be prepared before use, this potato-sack-turned head equipment sags upon the face while its elastic mouth clamps about the neck to form a seal.  Considering the lack of an exhale valve and the lungs of the beings it’s meant for, the whole thing balloons with each breath.",
+    "weight": "4002 g",
+    "volume": "3375 ml",
+    "//": "Calculated to be formed from a 2mm sheet of 75x75 cm canvas with a density of 1600 kg/m, coated by a 0.4mm thick layer of butyl rubber with a density of 920 kg/m, with a panoramic eyepiece, two filter ports, and two intake valves attached.",
+    "longest_side": "15 cm",
+    "//": "The longest length is low, as, fundamentally, it’s just a giant collapsible sack. Hence, it only needs to be as long as the panoramic eyepiece potentially used to make it, give or take some length.",
     "price": 25000,
     "price_postapoc": 750,
-    "to_hit": -3,
-    "material": [ "plastic" ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ { "type": "canvas", "portion": 3 }, { "type": "rubber", "portion": 6 }, { "type": "plastic", "portion": 1 } ],
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 35,
+        "//": "Like the VM44, on which this is based, the mask is just all around floppy in the places where it isn’t pulled tight against the wearer’s skin, and, as such, it doesn’t retain its shape, unlike actual, proper gas masks."
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10
+      },
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "plastic", "covered_by_mat": 15, "thickness": 10 }
+        ],
+        "//": "The survivor would have likely placed the filter ports and related equipment in similar places to the actual gas masks that have a dual filter system, one on each cheek. The plastic content represents this.",
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 35,
+        "//2": "Gas mask intake valves and filter ports aren’t designed to supply the quantity of air that an inhumanly large being would require per breath, hence the placement of two ports to increase the supply of air being dragged in at any given time and to lower overall air resistance.  That being said, the lack of an exhale valve and general structure of the mask still make breathing harder than it would be on a proper respirator."
+      }
     ],
     "warmth": 20,
     "material_thickness": 2,
