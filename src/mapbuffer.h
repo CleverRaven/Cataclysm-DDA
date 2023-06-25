@@ -62,6 +62,8 @@ class mapbuffer
          */
         submap *lookup_submap( const tripoint_abs_sm &p );
 
+        void set_prefix( std::string prefix );
+
     private:
         using submap_map_t = std::map<tripoint_abs_sm, std::unique_ptr<submap>>;
 
@@ -84,6 +86,8 @@ class mapbuffer
             const tripoint_abs_omt &om_addr, std::list<tripoint_abs_sm> &submaps_to_delete,
             bool delete_after_save );
         submap_map_t submaps; // NOLINT(cata-serialize)
+
+        std::string area_prefix;
 };
 
 extern mapbuffer MAPBUFFER;

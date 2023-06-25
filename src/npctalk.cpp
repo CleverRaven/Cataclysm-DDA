@@ -4925,12 +4925,19 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string_vi
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
     str_or_var fail_message;
+    str_or_var map_prefix;
+    str_or_var success_message;
+
+    if( jo.has_member( "map_prefix" ) ) {
+        map_prefix = get_str_or_var( jo.get_member( "map_prefix" ), "map_prefix", false, "" );
+    } else {
+        map_prefix.str_val = "";
+    }
     if( jo.has_member( "fail_message" ) ) {
         fail_message = get_str_or_var( jo.get_member( "fail_message" ), "fail_message", false, "" );
     } else {
         fail_message.str_val = "";
     }
-    str_or_var success_message;
     if( jo.has_member( "success_message" ) ) {
         success_message = get_str_or_var( jo.get_member( "success_message" ), "success_message", false,
                                           "" );
@@ -4938,9 +4945,15 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string_vi
         success_message.str_val = "";
     }
     bool force = jo.get_bool( "force", false );
-    function = [is_npc, target_var, fail_message, success_message, force]( dialogue const & d ) {
+    function = [is_npc, target_var, fail_message, success_message, force,
+            map_prefix]( dialogue const & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
         Creature *teleporter = d.actor( is_npc )->get_creature();
+        std::string prefix = map_prefix.evaluate( d );
+        if( !prefix.empty() ) {
+            MAPBUFFER.set_prefix( prefix );
+            MAPBUFFER.clear_outside_reality_bubble();
+        }
         if( teleporter ) {
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
                                              false, force ) ) {
