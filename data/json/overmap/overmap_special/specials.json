@@ -4981,16 +4981,17 @@
     "type": "overmap_special",
     "id": "ws_fire_lookout_tower",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "ws_fire_lookout_tower_base_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "ws_fire_lookout_tower_f1_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "ws_fire_lookout_tower_f2_north" },
-      { "point": [ 0, 0, 3 ], "overmap": "ws_fire_lookout_tower_f3_north" },
-      { "point": [ 0, 0, 4 ], "overmap": "ws_fire_lookout_tower_f4_north" },
-      { "point": [ 0, 0, 5 ], "overmap": "ws_fire_lookout_tower_f5_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "forest_trail_intersection_north", "locations": [ "forest_trail" ] },
+      { "point": [ 0, 1, 0 ], "overmap": "ws_fire_lookout_tower_base_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "ws_fire_lookout_tower_f1_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "ws_fire_lookout_tower_f2_north" },
+      { "point": [ 0, 1, 3 ], "overmap": "ws_fire_lookout_tower_f3_north" },
+      { "point": [ 0, 1, 4 ], "overmap": "ws_fire_lookout_tower_f4_north" },
+      { "point": [ 0, 1, 5 ], "overmap": "ws_fire_lookout_tower_f5_north" }
     ],
-    "locations": [ "wilderness" ],
+    "locations": [ "forest_without_trail" ],
     "city_distance": [ 30, -1 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 100, 200 ],
     "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
   },
   {
