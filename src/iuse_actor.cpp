@@ -4807,7 +4807,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             const ret_val<void> can_mount1 = target_veh->can_mount( vcoords1, *vpid );
             if( !can_mount1.success() ) {
                 //~ %1$s - tow cable name, %2$s - the reason why it failed
-                p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+                p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
                                      it.type_name(), can_mount1.str() );
                 return std::nullopt;
             }
@@ -4815,7 +4815,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             const ret_val<void> can_mount2 = prev_veh->can_mount( vcoords2, *vpid );
             if( !can_mount2.success() ) {
                 //~ %1$s - tow cable name, %2$s - the reason why it failed
-                p.add_msg_if_player( m_bad, _( "You can't attach the %s: %s" ),
+                p->add_msg_if_player( m_bad, _( "You can't attach the %s: %s" ),
                                      it.type_name(), can_mount2.str() );
                 return std::nullopt;
             }
