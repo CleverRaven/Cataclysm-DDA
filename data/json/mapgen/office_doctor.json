@@ -263,7 +263,15 @@
         "                        "
       ],
       "palettes": [ "office_doctor" ],
-      "terrain": { "?": "t_floor", "/": "t_floor", "Y": "t_floor", "A": "t_floor", "R": "t_floor", "'": "t_door_glass_o" },
+      "terrain": {
+        "?": "t_floor",
+        "/": "t_floor",
+        "Y": "t_floor",
+        "A": "t_floor",
+        "R": "t_floor",
+        "W": "t_floor",
+        "'": "t_door_glass_o"
+      },
       "furniture": { "?": "f_bed", "/": "f_bed", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
       "computers": {
         "5": {
