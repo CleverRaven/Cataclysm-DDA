@@ -100,7 +100,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WALL_MOUNTED", VPFLAG_WALL_MOUNTED },
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
-    { "ROTOR_SIMPLE", VPFLAG_ROTOR_SIMPLE },
     { "FLOATS", VPFLAG_FLOATS },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
@@ -369,7 +368,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    if( has_flag( "ROTOR" ) || has_flag( "ROTOR_SIMPLE" ) ) {
+    if( has_flag( "ROTOR" ) ) {
         if( !rotor_info ) {
             rotor_info.emplace();
         }
@@ -1142,7 +1141,7 @@ float vpart_info::wheel_offroad_rating() const
 
 int vpart_info::rotor_diameter() const
 {
-    if( has_flag( VPFLAG_ROTOR ) || has_flag( VPFLAG_ROTOR_SIMPLE ) ) {
+    if( has_flag( VPFLAG_ROTOR ) ) {
         return rotor_info->rotor_diameter;
     }
     return 0;
