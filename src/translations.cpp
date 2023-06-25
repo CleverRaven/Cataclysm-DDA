@@ -80,6 +80,8 @@ void set_language_from_options()
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                            get_option<std::string>( "USE_LANG" );
     set_language( lang_opt );
+#else
+    set_language( "en" );
 #endif
 }
 
