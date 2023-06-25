@@ -336,7 +336,7 @@
       { "id": "bite_grab" },
       { "id": "bio_op_takedown", "cooldown": 20 },
       [ "GRAB_DRAG", 15 ],
-      { "id": "mutant_hoof", "dodgeable": true, },
+      { "id": "mutant_hoof", "dodgeable": true },
       { "id": "scratch_grab_required", "min_mul": 1, "max_mul": 1.5 }
     ],
     "description": "A large predatory flightless bird with monstrous beak and strong legs.  Truly, the dinosaurs never went extinct, they just grew more feathers.",
