@@ -233,6 +233,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "wall_light",
+    "name": { "str": "disconnected wall light" },
+    "description": "A wall light that provides illumination when plugged into a grid.",
+    "weight": "500 g",
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "volume": "400 ml",
+    "longest_side": "20 cm",
+    "price": 9000,
+    "price_postapoc": 500,
+    "symbol": "L",
+    "color": "white",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
     "id": "standing_lamp",
     "name": { "str": "disconnected standing lamp" },
     "description": "A tall standing lamp that provides illumination when plugged into a power outlet.",

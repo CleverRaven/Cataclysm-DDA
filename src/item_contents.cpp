@@ -290,16 +290,20 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         const int ret = popup.query_int();
         if( popup.confirmed() ) {
             selected_pocket->settings.set_priority( ret );
+            selected_pocket->settings.set_was_edited();
         }
         return true;
     } else if( action == "FAV_AUTO_PICKUP" ) {
         selected_pocket->settings.set_disabled( !selected_pocket->settings.is_disabled() );
+        selected_pocket->settings.set_was_edited();
         return true;
     } else if( action == "FAV_AUTO_UNLOAD" ) {
         selected_pocket->settings.set_unloadable( !selected_pocket->settings.is_unloadable() );
+        selected_pocket->settings.set_was_edited();
         return true;
     } else if( action == "FAV_MOVE_ITEM" ) {
         move_item( menu, selected_pocket );
+        selected_pocket->settings.set_was_edited();
         return true;
     } else if( action == "FAV_ITEM" ) {
         const cata::flat_set<itype_id> &listed_itypes = whitelist
@@ -367,6 +371,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             } else {
                 selected_pocket->settings.blacklist_item( selected_id );
             }
+            selected_pocket->settings.set_was_edited();
         }
 
         return true;
@@ -403,6 +408,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             } else {
                 selected_pocket->settings.blacklist_category( id );
             }
+            selected_pocket->settings.set_was_edited();
         }
         return true;
     } else if( action == "FAV_SAVE_PRESET" ) {
@@ -461,6 +467,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
     } else if( action == "FAV_CLEAR" ) {
         if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
             selected_pocket->settings.clear();
+            selected_pocket->settings.set_was_edited();
         }
         return true;
     } else if( action == "FAV_CONTEXT_MENU" ) {
@@ -1149,7 +1156,7 @@ void item_contents::heat_up()
     }
 }
 
-int item_contents::ammo_consume( int qty, const tripoint &pos )
+int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_efficiency )
 {
     int consumed = 0;
     for( item_pocket &pocket : contents ) {
@@ -1172,9 +1179,23 @@ int item_contents::ammo_consume( int qty, const tripoint &pos )
             qty -= res;
             consumed += res;
         } else if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            const int res = pocket.ammo_consume( qty );
-            consumed += res;
-            qty -= res;
+            if( !pocket.empty() && pocket.front().is_fuel() && fuel_efficiency >= 0 ) {
+                // if using fuel instead of battery, everything is in kJ
+                // charges is going to be the energy needed over the energy in 1 unit of fuel * the efficiency of the generator
+                int charges_used = ceil( static_cast<float>( units::from_kilojoule( qty ).value() ) / (
+                                             static_cast<float>( pocket.front().fuel_energy().value() ) * fuel_efficiency ) );
+
+                const int res = pocket.ammo_consume( charges_used );
+                //calculate the ammount of energy generated
+                int energy_generated = res * units::to_kilojoule( pocket.front().fuel_energy() );
+                consumed += energy_generated;
+                qty -= energy_generated;
+                qty = std::max( 0, qty );
+            } else {
+                const int res = pocket.ammo_consume( qty );
+                consumed += res;
+                qty -= res;
+            }
         }
     }
     return consumed;

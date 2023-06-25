@@ -31,8 +31,12 @@ static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_WALL_MOUNTED( "WALL_MOUNTED" );
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
 static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
+
+static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
@@ -41,10 +45,9 @@ static const int win_width = 60;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id )
 {
-    for( const std::pair<const vpart_id, vpart_info> &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( vp.base_item == item_id && vp.has_flag( flag_APPLIANCE ) ) {
-            return vp.get_id();
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( vpi.base_item == item_id && vpi.has_flag( flag_APPLIANCE ) ) {
+            return vpi.id;
         }
     }
     debugmsg( "item %s is not base item of any appliance!", item_id.c_str() );
@@ -73,6 +76,44 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
         partnum = veh->install_part( point_zero, vpart );
     }
     veh->name = vpart->name();
+
+    // Allow for wall-mounted appliances in a general-ish way.
+    if( vpinfo.has_flag( flag_WALL_MOUNTED ) ) {
+        veh->add_tag( flag_CANT_DRAG );
+        if( vpinfo.has_flag( flag_WIRING ) ) {
+            veh->add_tag( flag_WIRING );
+            // Merge any neighbouring wire vehicles into this one if the resulting vehicle would not be too big.
+            // TODO: Push into a separate function.
+            for( const point &offset : four_adjacent_offsets ) {
+                const optional_vpart_position vp = here.veh_at( p + offset );
+                if( !vp ) {
+                    continue;
+                }
+
+                bounding_box vehicle_box = veh->get_bounding_box( false );
+                point size;
+                size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+                size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+
+                vehicle &veh_target = vp->vehicle();
+                if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
+                    bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
+
+                    point target_size;
+                    target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+                    target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+
+                    if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
+                        size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+                        if( !veh->merge_vehicle_parts( &veh_target ) ) {
+                            debugmsg( "failed to merge vehicle parts" );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     veh->last_update = calendar::turn;
 
     // Update the vehicle cache immediately,
@@ -391,7 +432,7 @@ void veh_app_interact::refill()
     if( target ) {
         act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
         act.targets.push_back( target );
-        act.str_values.push_back( pt->info().get_id().str() );
+        act.str_values.push_back( pt->info().id.str() );
         const point q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
@@ -474,7 +515,7 @@ void veh_app_interact::remove()
         //~ Prompt the player if they want to remove the appliance. %s = appliance name.
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
         act = player_activity( ACT_VEHICLE, time, static_cast<int>( 'O' ) );
-        act.str_values.push_back( vpinfo.get_id().str() );
+        act.str_values.push_back( vpinfo.id.str() );
         const point q = veh->coord_translate( vp.mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
@@ -503,7 +544,7 @@ void veh_app_interact::unplug()
     int const part = veh->part_at( a_point );
     vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
     act = player_activity( ACT_VEHICLE, 1, static_cast<int>( 'u' ) );
-    act.str_values.push_back( vp.info().get_id().str() );
+    act.str_values.push_back( vp.info().id.str() );
     const point q = veh->coord_translate( vp.mount );
     map &here = get_map();
     for( const tripoint &p : veh->get_points( true ) ) {

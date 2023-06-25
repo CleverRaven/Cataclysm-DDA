@@ -43,9 +43,22 @@
         [ "chem_DMSO", 125 ],
         [ "vinegar", 8 ],
         [ "ammonia_hydroxide", 1 ],
-        [ "bleach", 1 ],
-        [ "soapy_water", 1 ]
+        [ "bleach", 1 ]
       ],
+      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
+    ]
+  },
+  {
+    "id": "gun_cleaning_bp",
+    "type": "requirement",
+    "//": "BP requires hot soapy water",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [
+      [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ],
+      [ [ "water_boiling_heat", 2, "LIST" ] ]
+    ],
+    "components": [
+      [ [ "soapy_water", 3 ] ],
       [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
     ]
   },

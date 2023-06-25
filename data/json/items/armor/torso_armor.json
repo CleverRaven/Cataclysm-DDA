@@ -1245,63 +1245,84 @@
     "type": "ARMOR",
     "name": { "str": "armored leather jacket" },
     "description": "An armored jacket made from thick leather and metal plates.",
-    "weight": "2180 g",
-    "volume": "5500 ml",
+    "weight": "7500 g",
+    "volume": "4500 ml",
     "price": 17900,
-    "price_postapoc": 1500,
-    "to_hit": 1,
-    "material": [ "leather", "budget_steel" ],
+    "price_postapoc": 2500,
+    "to_hit": -3,
+    "material": [ "leather", "lc_steel" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "dark_gray",
     "armor": [
       {
         "covers": [ "torso" ],
-        "specifically_covers": [ "torso_lower" ],
         "coverage": 100,
-        "encumbrance": [ 20, 28 ],
+        "encumbrance": [ 20, 21 ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 }
-        ]
-      },
-      {
-        "covers": [ "torso" ],
-        "specifically_covers": [ "torso_upper" ],
-        "encumbrance": [ 0, 0 ],
-        "coverage": 95,
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 }
+          { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
         ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 22, 22 ],
+        "encumbrance": [ 20, 20 ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "budget_steel", "covered_by_mat": 65, "thickness": 1 }
-        ],
-        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_upper_r", "arm_upper_l" ]
-      },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": [ 0, 0 ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 } ],
-        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l", "arm_shoulder_l", "arm_shoulder_r" ]
+          { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
       }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      }
     ],
-    "warmth": 30,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "warmth": 35,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY" ]
+  },
+  {
+    "id": "jacket_leather_mod_ch",
+    "type": "ARMOR",
+    "name": { "str": "case hardened armored leather jacket" },
+    "description": "An armored jacket made from thick leather and metal plates which have been case hardened for superb protection.",
+    "copy-from": "jacket_leather_mod",
+    "price_postapoc": 3500,
+    "material": [ "leather", "ch_steel" ],
+    "looks_like": "jacket_leather_mod",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 21 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 20 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "ch_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "jacket_leather_bone",
@@ -1309,71 +1330,66 @@
     "name": { "str": "occult bone armor" },
     "description": "A black jacket made from thick leather and covered with intricately carved bones.  You've never seen patterns like those before, each time you look at them you spot a new one as if they were changing on their own.",
     "copy-from": "jacket_leather_mod",
-    "material_thickness": 4,
-    "material": [ "leather", "bone" ]
+    "weight": "5000 g",
+    "volume": "6000 ml",
+    "price_postapoc": 2000,
+    "material": [ "leather", "bone" ],
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 21 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "bone", "covered_by_mat": 80, "thickness": 2.5 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 20, 20 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "bone", "covered_by_mat": 75, "thickness": 2.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "jacket_leather_tire",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "tire leather jacket" },
-    "description": "A jacket reinforced with chunks of thick rubber tire.  Bulky and heavy, but thick and immune to electricity.",
-    "weight": "6250 g",
-    "volume": "7 L",
-    "price": 11000,
-    "price_postapoc": 250,
+    "description": "A jacket reinforced with chunks of thick rubber tire.  Thick and highly resistant to blunt force.",
+    "weight": "5800 g",
+    "volume": "6 L",
+    "price_postapoc": 2500,
     "material": [ "rubber", "leather" ],
-    "symbol": "[",
+    "copy-from": "jacket_leather_mod",
     "looks_like": "jacket_leather_mod",
     "color": "light_gray",
-    "warmth": 30,
-    "material_thickness": 5,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "NONCONDUCTIVE" ],
     "armor": [
       {
         "covers": [ "torso" ],
-        "specifically_covers": [ "torso_lower" ],
         "coverage": 100,
-        "encumbrance": [ 22, 30 ],
+        "encumbrance": [ 20, 21 ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "rubber", "covered_by_mat": 70, "thickness": 2.25 }
-        ]
-      },
-      {
-        "covers": [ "torso" ],
-        "specifically_covers": [ "torso_upper" ],
-        "encumbrance": [ 0, 0 ],
-        "coverage": 95,
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "rubber", "covered_by_mat": 70, "thickness": 2.25 }
+          { "type": "rubber", "covered_by_mat": 80, "thickness": 3.0 }
         ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 26, 26 ],
+        "encumbrance": [ 20, 20 ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "rubber", "covered_by_mat": 60, "thickness": 1.5 }
-        ],
-        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_upper_l", "arm_upper_r" ]
-      },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": [ 0, 0 ],
-        "coverage": 100,
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 } ],
-        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l", "arm_shoulder_l", "arm_shoulder_r" ]
+          { "type": "rubber", "covered_by_mat": 75, "thickness": 3.0 }
+        ]
       }
     ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ]
+    "warmth": 40,
+    "environmental_protection": 5
   },
   {
     "id": "lame_foil",
@@ -1573,33 +1589,63 @@
     "type": "ARMOR",
     "name": { "str": "armored leather vest" },
     "description": "An armored vest made from thick leather and metal plates.",
-    "weight": "1210 g",
+    "weight": "4000 g",
     "volume": "3 L",
     "price": 17900,
-    "price_postapoc": 750,
-    "to_hit": 1,
-    "material": [ "leather", "budget_steel" ],
+    "price_postapoc": 1200,
+    "to_hit": -3,
+    "material": [ "leather", "lc_steel" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "dark_gray",
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 120
+      }
     ],
-    "warmth": 30,
-    "material_thickness": 3,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "warmth": 35,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY" ],
     "armor": [
       {
-        "encumbrance": [ 15, 25 ],
+        "encumbrance": [ 12, 15 ],
         "coverage": 90,
         "covers": [ "torso" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 }
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vest_leather_mod_ch",
+    "type": "ARMOR",
+    "name": { "str": "case hardened armored leather vest" },
+    "description": "An armored vest made from thick leather and metal plates which have been case hardened for superb protection.",
+    "price_postapoc": 2000,
+    "copy-from": "vest_leather_mod",
+    "material": [ "leather", "ch_steel" ],
+    "looks_like": "vest_leather_mod",
+    "armor": [
+      {
+        "encumbrance": [ 12, 15 ],
+        "coverage": 90,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 1.5 }
         ]
       }
     ]

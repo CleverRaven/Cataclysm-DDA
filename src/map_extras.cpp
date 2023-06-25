@@ -375,29 +375,26 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
     vproto_id crashed_hull = VehicleGroup_crashed_helicopters->pick();
 
-    // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
-    auto veh = std::make_unique<vehicle>( m, crashed_hull, rng( 1, 33 ), 1 );
+    tripoint wreckage_pos;
+    {
+        // veh should fall out of scope, don't actually use it, create the vehicle so
+        // we can rotate it and calculate its bounding box, but don't place it on the map.
+        vehicle veh( crashed_hull );
+        veh.turn( dir1 );
+        // Get the bounding box, centered on mount(0,0), move the wreckage forward/backward
+        // half it's length so that it spawns more over the center of the debris area
+        const bounding_box bbox = veh.get_bounding_box();
+        const point length( std::abs( bbox.p2.x - bbox.p1.x ), std::abs( bbox.p2.y - bbox.p1.y ) );
+        const point offset( veh.dir_vec().x * length.x / 2, veh.dir_vec().y * length.y / 2 );
+        const point min( std::abs( bbox.p1.x ), std::abs( bbox.p1.y ) );
+        const int x_max = SEEX * 2 - bbox.p2.x - 1;
+        const int y_max = SEEY * 2 - bbox.p2.y - 1;
 
-    veh->turn( dir1 );
+        // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
+        wreckage_pos = { clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ), abs_sub.z };
+    }
 
-    // Get the bounding box, centered on mount(0,0)
-    bounding_box bbox = veh->get_bounding_box();
-    // Move the wreckage forward/backward half it's length so that it spawns more over the center of the debris area
-    point length( std::abs( bbox.p2.x - bbox.p1.x ), std::abs( bbox.p2.y - bbox.p1.y ) );
-
-    // cont.
-    point offset( veh->dir_vec().x * length.x / 2, veh->dir_vec().y * length.y / 2 );
-
-    point min( std::abs( bbox.p1.x ) + 0, std::abs( bbox.p1.y ) + 0 );
-
-    int x_max = SEEX * 2 - bbox.p2.x - 1;
-    int y_max = SEEY * 2 - bbox.p2.y - 1;
-
-    // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
-    point p1( clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ) );
-
-    vehicle *wreckage = m.add_vehicle(
-                            crashed_hull, tripoint( p1, abs_sub.z ), dir1, rng( 1, 33 ), 1 );
+    vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );
 
     const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
         return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
@@ -635,7 +632,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //50% chance to spawn a humvee in the left block
         if( one_in( 2 ) ) {
-            m.add_vehicle( vehicle_prototype_humvee, point( 5, 3 ), 270_degrees, 70, -1 );
+            m.add_vehicle( vehicle_prototype_humvee, tripoint( 5, 3, abs_sub.z ), 270_degrees, 70, -1 );
         }
 
         //Sandbag block at the right edge
@@ -778,8 +775,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //50% chance to spawn two humvees blocking the road
         if( one_in( 2 ) ) {
-            m.add_vehicle( vehicle_prototype_humvee, point( 7, 19 ), 0_degrees, 70, -1 );
-            m.add_vehicle( vehicle_prototype_humvee, point( 15, 20 ), 180_degrees, 70, -1 );
+            m.add_vehicle( vehicle_prototype_humvee, tripoint( 7, 19, abs_sub.z ), 0_degrees, 70, -1 );
+            m.add_vehicle( vehicle_prototype_humvee, tripoint( 15, 20, abs_sub.z ), 180_degrees, 70, -1 );
         }
 
         //Spawn 6-20 mines in the upper submap.
@@ -854,7 +851,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.add_field( tripoint_bub_ms{ 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
 
             //Add the culprit
-            m.add_vehicle( vehicle_prototype_car_fbi, point( 7, 7 ), 0_degrees, 70, 1 );
+            m.add_vehicle( vehicle_prototype_car_fbi, tripoint( 7, 7, abs_sub.z ), 0_degrees, 70, 1 );
 
             //Remove tent parts after drive-through
             square_furn( &m, f_null, point( 0, 6 ), point( 8, 9 ) );
@@ -972,7 +969,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     if( bridge_at_east && road_at_west ) {
         m.load( project_to<coords::sm>( abs_omt + point_west ), false );
         //Spawn military cargo truck blocking the entry
-        m.add_vehicle( vehicle_prototype_military_cargo_truck, point( 15, 11 ), 270_degrees, 70, 1 );
+        m.add_vehicle( vehicle_prototype_military_cargo_truck, tripoint( 15, 11, abs_sub.z ),
+                       270_degrees, 70, 1 );
 
         //Spawn sandbag barricades around the truck
         line_furn( &m, f_sandbag_half, point( 14, 3 ), point( 14, 8 ) );
@@ -1764,7 +1762,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     point defects_from; // road defects square start
     point defects_to; // road defects square end
     point defects_centered; //  road defects centered
-    point veh; // vehicle
+    tripoint veh( 0, 0, abs_sub.z ); // vehicle
     point equipment; // equipment
 
     // determine placement of effects
@@ -2044,8 +2042,8 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
     switch( rng( 1, 3 ) ) {
         //Car accident resulted in a shootout with two victims
         case 1: {
-            m.add_vehicle( vehicle_prototype_car, point( 18, 9 ), 270_degrees );
-            m.add_vehicle( vehicle_prototype_4x4_car, point( 20, 5 ), 0_degrees );
+            m.add_vehicle( vehicle_prototype_car, tripoint( 18, 9, abs_sub.z ), 270_degrees );
+            m.add_vehicle( vehicle_prototype_4x4_car, tripoint( 20, 5, abs_sub.z ), 0_degrees );
 
             m.spawn_item( { 16, 10, abs_sub.z }, itype_shot_hull );
             m.add_corpse( { 16, 9, abs_sub.z } );
@@ -2063,7 +2061,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some cocky moron with friends got dragged out of limo and shot down by a military
         case 2: {
-            m.add_vehicle( vehicle_prototype_limousine, point( 18, 9 ), 270_degrees );
+            m.add_vehicle( vehicle_prototype_limousine, tripoint( 18, 9, abs_sub.z ), 270_degrees );
 
             m.add_corpse( { 16, 9, abs_sub.z } );
             m.add_corpse( { 16, 11, abs_sub.z } );
@@ -2080,7 +2078,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some unfortunate stopped at the roadside to change tire, but was ambushed and killed
         case 3: {
-            vehicle *veh = m.add_vehicle( vehicle_prototype_car, point( 18, 12 ), 270_degrees );
+            vehicle *veh = m.add_vehicle( vehicle_prototype_car, tripoint( 18, 12, abs_sub.z ), 270_degrees );
 
             for( const vpart_reference &vp : veh->get_any_parts( "CARGO" ) ) {
                 const size_t p = vp.part_index();

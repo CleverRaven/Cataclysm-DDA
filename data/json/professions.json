@@ -676,7 +676,7 @@
     "requirement": "achievement_survive_28_days",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter with your collection of guns.  You've spent the past months eating canned food and practicing your aim.  Now it is winter - time to face the world above.",
     "points": 4,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv", "prof_gun_cleaning" ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "items": {
       "both": {
@@ -1042,7 +1042,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "You worked your way up through the ranks from a no-name private to a big shot Major General, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
     "points": 4,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 1, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -1085,7 +1085,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "You are one of the few and the proud: a member of the US Marine Corps.  Now that military command has collapsed in on itself as far as you can tell, you suppose that it falls to you to carry the memory of the Corps forward into the future.  Semper fi.",
     "points": 6,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -1142,7 +1142,14 @@
     "requirement": "achievement_reach_aircraft_carrier",
     "description": "You’re a sailor of the US Navy, and spent the last few years working shipside aboard an aircraft carrier.  Though you're trained in combat, maintenance of the vessel has been your primary duty.  After some event beyond your understanding, the carrier has become a floating graveyard in the middle of nowhere.  This is going to take more than a cup of coffee and a monkey wrench to fix.",
     "points": 4,
-    "proficiencies": [ "prof_pneumatics", "prof_basic_engines", "prof_metalworking", "prof_welding_basic", "prof_welding" ],
+    "proficiencies": [
+      "prof_pneumatics",
+      "prof_basic_engines",
+      "prof_metalworking",
+      "prof_welding_basic",
+      "prof_welding",
+      "prof_gun_cleaning"
+    ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 4, "name": "mechanics" },
@@ -1186,7 +1193,7 @@
     "requirement": "achievement_reach_aircraft_carrier",
     "description": "You were a member of a Naval Special Warfare diving group, a skilled soldier adept at underwater infiltration and marine combat.  You were suiting up for a practice dive when the aircraft carrier you were stationed on was somehow flung from the Yellow Sea to who knows where.  You seem to be the only one who survived with your sanity intact, but it's not safe to stay here.  At least you're already dressed to abandon ship.",
     "points": 3,
-    "proficiencies": [ "prof_spotting", "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_spotting", "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
@@ -1227,7 +1234,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "After being discharged from the armed forces, you were sent to a veterans' hospital for treatment.  Just when you thought you'd overcome your traumas and readjusted to civilian life, the world has come to an end and your worst nightmare has become a reality: life in an endless battlefield.",
     "points": 2,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -1254,7 +1261,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 4,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -1307,7 +1314,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "Early in your military career, you were hand-picked for extra training in the mechanic's trade, keeping the armor running.  It's been years since you last touched a rifle, and the dead men are marching again…",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_welding_basic", "prof_welding" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_welding_basic", "prof_welding", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -1357,7 +1364,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "Your job was simple: Keep the army moving.  You built bridges, you built roads, you destroyed fortifications, and you cleared mines.  It has been years since you last handled a rifle in basic training; now might be the time to dust off those skills.",
     "points": 8,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_trapsetting", "prof_disarming", "prof_spotting" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_trapsetting", "prof_disarming", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -1404,7 +1411,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "You're a veteran of several peacekeeping missions.  You led your squad as a sort of parental figure, and they relied on you to give orders and keep them alive.  You failed them.  And now you're alone.",
     "points": 7,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 2, "name": "speech" },
@@ -1459,7 +1466,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "When you were young, you dreamed of being a soldier.  War is hell and hell is war, but you never thought it would be this bad.",
     "points": 6,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "rifle" },
@@ -1511,7 +1518,7 @@
     "name": "Navy SEAL Marksmen",
     "description": "Recruited into the ranks of the US Navy’s Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
     "points": 8,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care", "prof_gun_cleaning" ],
     "skills": [
       { "level": 8, "name": "gun" },
       { "level": 8, "name": "rifle" },
@@ -1563,7 +1570,7 @@
     "requirement": "achievement_reach_aircraft_carrier",
     "description": "You were a member of the SEALs; a key component of the US Navy’s special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
     "points": 8,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care", "prof_gun_cleaning" ],
     "skills": [
       { "level": 6, "name": "gun" },
       { "level": 6, "name": "rifle" },
@@ -1623,7 +1630,7 @@
     "requirement": "achievement_reach_military_base",
     "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 8,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming", "prof_spotting" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
       { "level": 6, "name": "gun" },
       { "level": 6, "name": "smg" },
@@ -1901,7 +1908,8 @@
       "prof_bow_basic",
       "prof_bow_expert",
       "prof_fletching",
-      "prof_carving"
+      "prof_carving",
+      "prof_gun_cleaning"
     ],
     "skills": [
       { "level": 4, "name": "survival" },
@@ -1984,7 +1992,7 @@
       { "level": 1, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
@@ -2017,7 +2025,7 @@
       { "level": 1, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "pets": [ { "name": "mon_horse_police", "amount": 1 } ],
     "items": {
       "both": {
@@ -2105,7 +2113,7 @@
     "points": 2,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
     "traits": [ "PROF_POLICE" ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch" ],
@@ -2130,7 +2138,7 @@
     "description": "You were on the brink of a major breakthrough in your latest homicide case when the Cataclysm struck.  Now your prime suspect is dead.  Everyone's dead.  You could really use a smoke.",
     "points": 4,
     "traits": [ "PROF_PD_DET" ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "items": [
@@ -2170,7 +2178,7 @@
     "requirement": "achievement_reach_police_station",
     "description": "As a member of the police force's most elite division, you are more than adequately trained and equipped to survive the brutal onslaught of the apocalypse.  Unfortunately, the chain of command has broken down; your only mission now is to stay alive.",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "pistol" },
@@ -2229,7 +2237,7 @@
       { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_SWAT" ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "items": [
@@ -2267,7 +2275,7 @@
     "requirement": "achievement_reach_police_station",
     "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well-placed bullet.  Now your own life is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -2319,7 +2327,7 @@
       { "level": 3, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "items": [
@@ -2356,7 +2364,7 @@
     "points": 2,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
     "traits": [ "PROF_POLICE" ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "items": [
@@ -2368,7 +2376,7 @@
           "motor_police_boots",
           "whistle",
           "wristwatch",
-          "leather_police_jacket"
+          { "item": "leather_police_jacket", "variant": "leather_police_jacket" }
         ],
         "entries": [
           { "group": "charged_smart_phone" },
@@ -2503,6 +2511,7 @@
     "name": "Shotgun Hunter",
     "description": "Ever since you were a child you loved hunting, and one year you got a shotgun for your birthday.  Why, if the world ended, there's nothing you'd want at your side more than your trusty shotgun.  So, when it did, you made sure to bring it along.",
     "points": 2,
+    "proficiencies": [ "prof_gun_cleaning" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "shotgun" } ],
     "items": {
       "both": {
@@ -2533,6 +2542,7 @@
     "name": "Rifle Hunter",
     "description": "Ever since you were a child you loved hunting, and you fancy yourself a crack shot.  Why, if the world ended, there's nothing you'd want at your side more than your trusty rifle.  So, when it did, you made sure to bring it along.",
     "points": 2,
+    "proficiencies": [ "prof_gun_cleaning" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
     "items": {
       "both": {
@@ -2563,6 +2573,7 @@
     "name": "Big-Bore Hunter",
     "description": "You always harbored a passion for hunting and a particular fondness for big-bore rifle calibers and affordable conversion kits.  Whether it was their cost-effective nature or the simple, testosterone-amplifying notion that you could retool your rifle to belt out .50-caliber bullets, you preferred them for your hunting trips.  Now, with your converted rifle in hand, you fancy that there isn't any game too large for you to take down.",
     "points": 2,
+    "proficiencies": [ "prof_gun_cleaning" ],
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" } ],
     "items": {
       "both": {
@@ -2755,7 +2766,7 @@
     "description": "An on-duty officer, you received the call and were ready to respond to the robbery.  It all went to shit, your backup got eaten, and you were lucky to escape with your life and patrol car.",
     "points": 6,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "driving" } ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "vehicle": "policecar",
     "traits": [ "PROF_POLICE" ],
     "items": {
@@ -3006,12 +3017,11 @@
       "both": {
         "items": [
           "motorbike_pants",
-          "motorbike_armor",
           "chaps_leather",
           "socks",
           "motorbike_boots",
           "helmet_motor",
-          "jacket_leather",
+          "leather_police_jacket",
           "wristwatch",
           "multitool"
         ],
@@ -3819,7 +3829,7 @@
       { "level": 2, "name": "rifle" },
       { "level": 1, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_wound_care" ],
+    "proficiencies": [ "prof_wound_care", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "items": [ "shorts", "socks", "lowtops", "wristwatch" ],
@@ -3880,7 +3890,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "You must have paid attention to your survival training in boot camp; otherwise, you would never have lived long enough to outlast the chain of command and find yourself in this predicament.  The only mission now is to survive.",
     "points": 6,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 4, "name": "gun" },
@@ -4051,7 +4061,7 @@
       "female": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete."
     },
     "points": 3,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_gunsmithing_antique" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_gunsmithing_antique", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "gun" },
@@ -4098,7 +4108,7 @@
       "female": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans."
     },
     "points": 3,
-    "proficiencies": [ "prof_spinning", "prof_closures", "prof_knitting" ],
+    "proficiencies": [ "prof_spinning", "prof_closures", "prof_knitting", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "gun" },
@@ -4208,7 +4218,7 @@
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "traps" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_lockpicking" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_lockpicking", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "items": [
@@ -4651,7 +4661,7 @@
     "name": "Wild West Gunslinger",
     "description": "You made your living on Wild West exhibitions and shows, impressing tourists with your displays of marksmanship.  But that world has ended, so you took your trusty six-shooter and wandered into a world where it's always high noon.",
     "points": 4,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 3, "name": "pistol" },
@@ -4725,7 +4735,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "You like to think of yourself as a sniper, but really you're just infantry with a bigger gun.  That said, a big gun is a definite advantage now.",
     "points": 4,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "rifle" },
@@ -4774,7 +4784,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "You were trusted with a big-ass, belt-fed machine gun and plenty of ammo to lay down suppressing fire for your team.  Now that it's going to be much harder to resupply, you should probably be more selective with the ol' spray-and-pray.",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -4826,7 +4836,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "There's no kill like overkill, and not many people in this world can boast that they have a grenade launcher and know how to use it.  Just try not to blow yourself up, that would be really embarrassing.",
     "points": 3,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "launcher" },
@@ -4879,7 +4889,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "Doors and windows everywhere dare not speak your name.  You're going to be breaking into buildings for supplies rather than combat operations now, but the principle is about the same.",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "shotgun" },
@@ -4931,7 +4941,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "You're a crack shot with a rifle, and the farther you can stay away from zombies, the better.  The only thing stopping you is limited ammo, so you should try to find a place to restock sooner or later.",
     "points": 5,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -4986,7 +4996,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "'Hacker' is a silly pop-culture name, popularized by Hollywood and people with little to no knowledge of what your job entails.  You prefer 'Electronic Warfare Specialist,' though nobody's really left to make the distinction.",
     "points": 8,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_elec_soldering", "prof_appliance_repair" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_elec_soldering", "prof_appliance_repair", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "smg" },
@@ -5042,7 +5052,7 @@
     "name": "Undercover Operative",
     "description": "You've been tailing your target for months, and now he's a zombie.  So much for that lead.  Command isn't responding to your calls for an evac, so you'll have to make do with what you have on you.",
     "points": 3,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "pistol" },
@@ -5095,7 +5105,7 @@
       { "level": 3, "name": "gun" },
       { "level": 1, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_helicopter_pilot", "prof_spotting" ],
+    "proficiencies": [ "prof_helicopter_pilot", "prof_spotting", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "items": [
@@ -5223,7 +5233,8 @@
       "prof_intro_biology",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_gun_cleaning"
     ],
     "items": {
       "both": {
@@ -5571,7 +5582,7 @@
     "name": "Cowboy",
     "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch on your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
     "points": 4,
-    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 2, "name": "survival" },
       { "level": 2, "name": "gun" },
@@ -5848,7 +5859,7 @@
       { "level": 1, "name": "firstaid" },
       { "level": 2, "name": "survival" }
     ],
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "items": [

@@ -3372,7 +3372,9 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
     }
     update_provides( bldg, e->second );
     update_resources( bldg );
-    overmap_buffer.ter_set( upos, oter_id( bldg ) );
+    if( oter_str_id( bldg ).is_valid() ) {
+        overmap_buffer.ter_set( upos, oter_id( bldg ) );
+    }
     const std::string msg = _( "returns from upgrading the camp having earned a bit of "
                                "experience…" );
 

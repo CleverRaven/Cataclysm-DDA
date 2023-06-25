@@ -697,7 +697,7 @@ bool vehicle::start_engine( vehicle_part &vp )
     sounds::sound( pos, vpi.engine_noise_factor(), sounds::sound_t::movement,
                    string_format( _( "the %s starting." ), vp.name() ) );
 
-    std::string variant = vpi.get_id().str();
+    std::string variant = vpi.id.str();
 
     if( sfx::has_variant_sound( "engine_start", variant ) ) {
         // has special sound variant for this vpart id
@@ -726,7 +726,7 @@ void vehicle::stop_engines()
 
         sounds::sound( global_part_pos3( vp ), 2, sounds::sound_t::movement, _( "the engine go silent" ) );
 
-        std::string variant = vp.info().get_id().str();
+        std::string variant = vp.info().id.str();
 
         if( sfx::has_variant_sound( "engine_stop", variant ) ) {
             // has special sound variant for this vpart id
@@ -814,7 +814,7 @@ void vehicle::honk_horn() const
     for( const vpart_reference &vp : get_avail_parts( "HORN" ) ) {
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = vp.info();
-        if( ( horn_type.get_id() != vpart_horn_bicycle ) && no_power ) {
+        if( ( horn_type.id != vpart_horn_bicycle ) && no_power ) {
             continue;
         }
         if( !honked ) {
@@ -1265,7 +1265,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     const int dist = rl_dist( get_player_character().pos(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
-                                 parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
+                                 parts[ part_index ].info().id.str(), 100 - dist * 3 );
     }
     for( const std::vector<int> &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( const int &partID : vec ) {
