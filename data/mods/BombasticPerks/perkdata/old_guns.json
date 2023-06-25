@@ -279,6 +279,7 @@
       "name": { "str": "Winchester M37 .410" },
       "extend": { "flags": [ "OLD_GUN" ] }
     },
+    
     {
       "id": "mosin44",
       "type": "GUN",
