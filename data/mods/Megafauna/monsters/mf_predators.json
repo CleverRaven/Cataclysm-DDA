@@ -334,7 +334,7 @@
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
       [ "LUNGE", 10 ],
       { "id": "bite_grab" },
-      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "bio_op_takedown", "cooldown": 20 },
       [ "GRAB_DRAG", 15 ],
       { "id": "mutant_hoof" },
       { "id": "scratch_grab_required", "min_mul": 1, "max_mul": 1.5 }
