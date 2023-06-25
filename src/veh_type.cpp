@@ -150,7 +150,7 @@ const vpart_info &string_id<vpart_info>::obj() const
     return vpart_info_factory.obj( *this );
 }
 
-static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const std::string &key,
+static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std::string &key,
                            std::vector<std::pair<requirement_id, int>> &reqs,
                            std::map<skill_id, int> &skills, int &moves )
 {
@@ -163,9 +163,9 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
     JsonArray sk = src.get_array( "skills" );
     if( !sk.empty() ) {
         skills.clear();
-    }
-    for( JsonArray cur : sk ) {
-        skills.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        for( JsonArray cur : sk ) {
+            skills.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        }
     }
 
     if( src.has_int( "time" ) ) {
@@ -226,30 +226,30 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
-    assign( jo, "name", name_ );
-    assign( jo, "item", base_item );
-    assign( jo, "location", location );
-    assign( jo, "durability", durability );
-    assign( jo, "damage_modifier", dmg_mod );
-    assign( jo, "energy_consumption", energy_consumption );
-    assign( jo, "power", power );
-    assign( jo, "epower", epower );
-    assign( jo, "emissions", emissions );
-    assign( jo, "exhaust", exhaust );
-    assign( jo, "fuel_type", fuel_type );
-    assign( jo, "default_ammo", default_ammo );
-    assign( jo, "folded_volume", folded_volume );
-    assign( jo, "size", size );
-    assign( jo, "bonus", bonus );
-    assign( jo, "cargo_weight_modifier", cargo_weight_modifier );
-    assign( jo, "categories", categories );
-    assign( jo, "flags", flags );
-    assign( jo, "description", description );
-    assign( jo, "color", color );
-    assign( jo, "broken_color", color_broken );
-    assign( jo, "comfort", comfort );
-    assign( jo, "floor_bedding_warmth", floor_bedding_warmth );
-    assign( jo, "bonus_fire_warmth_feet", bonus_fire_warmth_feet );
+    assign( jo, "name", name_, strict );
+    assign( jo, "item", base_item, strict );
+    assign( jo, "location", location, strict );
+    assign( jo, "durability", durability, strict );
+    assign( jo, "damage_modifier", dmg_mod, strict );
+    assign( jo, "energy_consumption", energy_consumption, strict );
+    assign( jo, "power", power, strict );
+    assign( jo, "epower", epower, strict );
+    assign( jo, "emissions", emissions, strict );
+    assign( jo, "exhaust", exhaust, strict );
+    assign( jo, "fuel_type", fuel_type, strict );
+    assign( jo, "default_ammo", default_ammo, strict );
+    assign( jo, "folded_volume", folded_volume, strict );
+    assign( jo, "size", size, strict );
+    assign( jo, "bonus", bonus, strict );
+    assign( jo, "cargo_weight_modifier", cargo_weight_modifier, strict );
+    assign( jo, "categories", categories, strict );
+    assign( jo, "flags", flags, strict );
+    assign( jo, "description", description, strict );
+    assign( jo, "color", color, strict );
+    assign( jo, "broken_color", color_broken, strict );
+    assign( jo, "comfort", comfort, strict );
+    assign( jo, "floor_bedding_warmth", floor_bedding_warmth, strict );
+    assign( jo, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, strict );
 
     if( jo.has_array( "variants" ) ) {
         variants.clear();
@@ -293,9 +293,9 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "requirements" ) ) {
         JsonObject reqs = jo.get_object( "requirements" );
 
-        parse_vp_reqs( reqs, id.str(), "install", install_reqs, install_skills, install_moves );
-        parse_vp_reqs( reqs, id.str(), "removal", removal_reqs, removal_skills, removal_moves );
-        parse_vp_reqs( reqs, id.str(), "repair",  repair_reqs,  repair_skills, repair_moves );
+        parse_vp_reqs( reqs, id, "install", install_reqs, install_skills, install_moves );
+        parse_vp_reqs( reqs, id, "removal", removal_reqs, removal_skills, removal_moves );
+        parse_vp_reqs( reqs, id, "repair",  repair_reqs,  repair_skills, repair_moves );
     }
 
     assign( jo, "looks_like", looks_like, strict );
@@ -326,10 +326,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             }
         }
     }
-    assign( jo, "folding_tools", folding_tools );
-    assign( jo, "unfolding_tools", unfolding_tools );
-    assign( jo, "folding_time", folding_time );
-    assign( jo, "unfolding_time", unfolding_time );
+    assign( jo, "folding_tools", folding_tools, strict );
+    assign( jo, "unfolding_tools", unfolding_tools, strict );
+    assign( jo, "folding_time", folding_time, strict );
+    assign( jo, "unfolding_time", unfolding_time, strict );
 
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
@@ -340,14 +340,14 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         if( !engine_info ) {
             engine_info.emplace();
         }
-        assign( jo, "backfire_threshold", engine_info->backfire_threshold );
-        assign( jo, "backfire_freq", engine_info->backfire_freq );
-        assign( jo, "noise_factor", engine_info->noise_factor );
-        assign( jo, "damaged_power_factor", engine_info->damaged_power_factor );
-        assign( jo, "m2c", engine_info->m2c );
-        assign( jo, "muscle_power_factor", engine_info->muscle_power_factor );
-        assign( jo, "exclusions", engine_info->exclusions );
-        assign( jo, "fuel_options", engine_info->fuel_opts );
+        assign( jo, "backfire_threshold", engine_info->backfire_threshold, strict );
+        assign( jo, "backfire_freq", engine_info->backfire_freq, strict );
+        assign( jo, "noise_factor", engine_info->noise_factor, strict );
+        assign( jo, "damaged_power_factor", engine_info->damaged_power_factor, strict );
+        assign( jo, "m2c", engine_info->m2c, strict );
+        assign( jo, "muscle_power_factor", engine_info->muscle_power_factor, strict );
+        assign( jo, "exclusions", engine_info->exclusions, strict );
+        assign( jo, "fuel_options", engine_info->fuel_opts, strict );
     }
 
     if( has_flag( "WHEEL" ) ) {
@@ -355,9 +355,9 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             wheel_info.emplace();
         }
 
-        assign( jo, "rolling_resistance", wheel_info->rolling_resistance );
-        assign( jo, "contact_area", wheel_info->contact_area );
-        assign( jo, "wheel_offroad_rating", wheel_info->offroad_rating );
+        assign( jo, "rolling_resistance", wheel_info->rolling_resistance, strict );
+        assign( jo, "contact_area", wheel_info->contact_area, strict );
+        assign( jo, "wheel_offroad_rating", wheel_info->offroad_rating, strict );
         if( const std::optional<JsonValue> jo_termod = jo.get_member_opt( "wheel_terrain_modifiers" ) ) {
             wheel_info->terrain_mod.clear();
             for( const JsonMember jo_mod : static_cast<JsonObject>( *jo_termod ) ) {
@@ -372,7 +372,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         if( !rotor_info ) {
             rotor_info.emplace();
         }
-        assign( jo, "rotor_diameter", rotor_info->rotor_diameter );
+        assign( jo, "rotor_diameter", rotor_info->rotor_diameter, strict );
     }
 
     if( has_flag( "WORKBENCH" ) ) {
@@ -381,16 +381,16 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         }
 
         JsonObject wb_jo = jo.get_object( "workbench" );
-        assign( wb_jo, "multiplier", workbench_info->multiplier );
-        assign( wb_jo, "mass", workbench_info->allowed_mass );
-        assign( wb_jo, "volume", workbench_info->allowed_volume );
+        assign( wb_jo, "multiplier", workbench_info->multiplier, strict );
+        assign( wb_jo, "mass", workbench_info->allowed_mass, strict );
+        assign( wb_jo, "volume", workbench_info->allowed_volume, strict );
     }
 
     if( has_flag( "VEH_TOOLS" ) ) {
         if( !toolkit_info ) {
             toolkit_info.emplace();
         }
-        assign( jo, "allowed_tools", toolkit_info->allowed_types );
+        assign( jo, "allowed_tools", toolkit_info->allowed_types, strict );
     }
 }
 

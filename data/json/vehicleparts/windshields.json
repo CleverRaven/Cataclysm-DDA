@@ -3,7 +3,6 @@
     "id": "windshield",
     "type": "vehicle_part",
     "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
-    "broken_color": "light_gray",
     "categories": [ "hull" ],
     "color": "light_cyan",
     "damage_modifier": 70,
