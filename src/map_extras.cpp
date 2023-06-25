@@ -1563,7 +1563,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     if( iter != dies_into.end() ) {
         if( one_in( 6 ) ) {
             m.ter_set( loc, t_dirt );
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 5 ) );
+            m.spawn_item( loc, itype_ash, 1, rng( 10, 50 ) );
         } else if( one_in( 10 ) ) {
             // do nothing, save some spots from fire
         } else {
@@ -1580,7 +1580,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     if( tr.has_flag( ter_furn_flag::TFLAG_FUNGUS ) ) {
         m.ter_set( loc, t_dirt );
         if( one_in( 5 ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 5 ) );
+            m.spawn_item( loc, itype_ash, 1, rng( 10, 50 ) );
         }
     }
     // destruction of trees is not absolute
@@ -1594,7 +1594,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         } else {
             m.ter_set( loc, ter_t_dirt );
             m.furn_set( loc, f_ash );
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+            m.spawn_item( loc, itype_ash, 1, rng( 10, 1000 ) );
         }
         // everything else is destroyed, ash is added
     } else if( ter_furn_has_flag( tr, fid, ter_furn_flag::TFLAG_FLAMMABLE ) ||
@@ -1603,6 +1603,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.destroy( loc, true );
         }
         if( one_in( 5 ) && !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+            // This gives very little *wood* ash because the terrain is not flagged as flammable
             m.spawn_item( loc, itype_ash, 1, rng( 1, 10 ) );
         }
     } else if( ter_furn_has_flag( tr, fid, ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -1612,7 +1613,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         if( !m.is_open_air( loc ) ) {
             m.furn_set( loc, f_ash );
             if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
-                m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
+                m.spawn_item( loc, itype_ash, 1, rng( 10, 1000 ) );
             }
         }
     }
