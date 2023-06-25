@@ -290,16 +290,20 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         const int ret = popup.query_int();
         if( popup.confirmed() ) {
             selected_pocket->settings.set_priority( ret );
+            selected_pocket->settings.set_was_edited();
         }
         return true;
     } else if( action == "FAV_AUTO_PICKUP" ) {
         selected_pocket->settings.set_disabled( !selected_pocket->settings.is_disabled() );
+        selected_pocket->settings.set_was_edited();
         return true;
     } else if( action == "FAV_AUTO_UNLOAD" ) {
         selected_pocket->settings.set_unloadable( !selected_pocket->settings.is_unloadable() );
+        selected_pocket->settings.set_was_edited();
         return true;
     } else if( action == "FAV_MOVE_ITEM" ) {
         move_item( menu, selected_pocket );
+        selected_pocket->settings.set_was_edited();
         return true;
     } else if( action == "FAV_ITEM" ) {
         const cata::flat_set<itype_id> &listed_itypes = whitelist
@@ -367,6 +371,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             } else {
                 selected_pocket->settings.blacklist_item( selected_id );
             }
+            selected_pocket->settings.set_was_edited();
         }
 
         return true;
@@ -403,6 +408,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             } else {
                 selected_pocket->settings.blacklist_category( id );
             }
+            selected_pocket->settings.set_was_edited();
         }
         return true;
     } else if( action == "FAV_SAVE_PRESET" ) {
@@ -461,6 +467,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
     } else if( action == "FAV_CLEAR" ) {
         if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
             selected_pocket->settings.clear();
+            selected_pocket->settings.set_was_edited();
         }
         return true;
     } else if( action == "FAV_CONTEXT_MENU" ) {

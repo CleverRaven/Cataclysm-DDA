@@ -192,8 +192,7 @@
     "name": { "str": "electric forge" },
     "description": "An electric forge, plugged in and ready to be used for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "looks_like": "veh_forge"
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ]
   },
   {
     "type": "vehicle_part",
@@ -387,6 +386,33 @@
       { "item": "steel_plate", "count": [ 2, 4 ] }
     ],
     "variants": [ { "symbols": "7", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_catalytic_cracking_reactor",
+    "name": { "str": "catalytic cracking reactor" },
+    "looks_like": "f_catalytic_cracking_reactor",
+    "variants": [ { "symbols": "Y", "symbols_broken": "x" } ],
+    "color": "light_cyan",
+    "categories": [ "utility" ],
+    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "catalytic_cracking_reactor_tool" } ],
+    "epower": "0 W",
+    "item": "catalytic_cracking_reactor",
+    "breaks_into": [
+      { "item": "element", "charges": [ 4, 8 ] },
+      { "item": "55gal_drum", "count": [ 3, 5 ] },
+      { "item": "pipe", "count": [ 2, 5 ] },
+      { "item": "thermometer", "count": [ 1, 4 ] },
+      { "item": "well_pump", "count": [ 0, 1 ] },
+      { "item": "laptop", "count": [ 0, 1 ] },
+      { "item": "pump_complex", "count": [ 0, 3 ] },
+      { "item": "cable", "count": [ 3, 8 ] }
+    ]
   },
   {
     "type": "vehicle_part",

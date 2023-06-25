@@ -1058,10 +1058,14 @@ double Character::aim_per_move( const item &gun, double recoil,
 
     aim_speed *= get_modifier( character_modifier_aim_speed_mod );
 
+    // finally multiply everything by a harsh function that is eliminated by 7.5 gunskill
+    aim_speed /= std::max( 1.0, 2.5 - 0.2 * get_skill_level( gun_skill ) );
     // Use a milder attenuation function to replace the previous logarithmic attenuation function when recoil is closed to 0.
     aim_speed *= std::max( recoil / MAX_RECOIL, 1 - logarithmic_range( 0, MAX_RECOIL, recoil ) );
 
-    double base_aim_speed_cap = 20 +  1.0 * get_skill_level( gun_skill );
+    // add 4 max aim speed per skill up to 5 skill, then 1 per skill for skill 5-10
+    double base_aim_speed_cap = 5.0 +  1.0 * get_skill_level( gun_skill ) + std::max( 10.0,
+                                3.0 * get_skill_level( gun_skill ) );
 
     // This upper limit usually only affects the first half of the aiming process
     // Pistols have a much higher aiming speed limit
@@ -1104,7 +1108,7 @@ void Character::consume_dodge_attempts()
     }
 }
 
-ret_val<void> Character::can_try_doge() const
+ret_val<void> Character::can_try_doge( bool ignore_dodges_left ) const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
@@ -1121,7 +1125,7 @@ ret_val<void> Character::can_try_doge() const
                                             _( "<npcname>'s stamina is too low to attempt to dodge." ) );;
     }
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( get_dodges_left() <= 0 ) {
+    if( get_dodges_left() <= 0 && !ignore_dodges_left ) {
         add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
         return ret_val<void>::make_failure();
     }
@@ -1793,7 +1797,8 @@ void Character::on_try_dodge()
 void Character::on_dodge( Creature *source, float difficulty )
 {
     // Make sure we're not practicing dodge in situation where we can't dodge
-    if( !can_try_doge().success() ) {
+    // We can ignore dodges_left because it was already checked in get_dodge()
+    if( !can_try_doge( true ).success() ) {
         return;
     }
 
@@ -3089,6 +3094,8 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
     int order;
     std::string overlay_id;
+    std::string variant;
+
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
@@ -3096,16 +3103,24 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     }
 
     // then get mutations
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( !mut.second.show_sprite ) {
-            continue;
+    const std::vector<trait_id> &all_mutations = get_mutations();
+    for( const trait_id &mut : all_mutations ) {
+        // get the data if it exists
+        const auto mut_data = my_mutations.find( mut );
+        if( mut_data == my_mutations.end() ) {
+            // this entry is from an enchantment and doesn't have any character dependent info
+            overlay_id = mut.str();
+
+        } else {
+            if( !mut_data->second.show_sprite ) {
+                continue;
+            }
+            overlay_id = ( mut_data->second.powered ? "active_" : "" ) + mut.str();
+            if( mut_data->second.variant != nullptr ) {
+                variant = mut_data->second.variant->id;
+            }
         }
-        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        std::string variant;
-        if( mut.second.variant != nullptr ) {
-            variant = mut.second.variant->id;
-        }
         mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, variant } );
     }
 

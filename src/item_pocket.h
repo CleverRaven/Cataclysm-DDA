@@ -117,6 +117,9 @@ class item_pocket
                 const std::optional<std::string> &get_preset_name() const;
                 void set_preset_name( const std::string & );
 
+                void set_was_edited();
+                bool was_edited() const;
+
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
@@ -131,6 +134,7 @@ class item_pocket
                 bool collapsed = false;
                 bool disabled = false;
                 bool unload = true;
+                bool player_edited = false;
         };
 
         item_pocket() = default;

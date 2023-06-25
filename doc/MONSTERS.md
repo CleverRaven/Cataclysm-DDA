@@ -652,45 +652,8 @@ Field                | Description
 `avoid_sharp`        | (bool, default false) Monster may avoid sharp things like barbed wire
 
 ## "special_attacks"
-(array of special attack definitions, optional)
 
-Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
-
-The old style array should contain 2 elements: the id of the attack (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) for a list) and the cooldown for that attack. Example:
-
-```JSON
-"special_attacks": [ [ "GRAB", 10 ] ]
-```
-
-The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see [MAGIC.md]). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
-
-```JSON
-"special_attacks": [
-  { "type": "leap", "cooldown": 10, "max_range": 4 }
-]
-```
-In the case of separately defined attacks the object has to contain at least an "id" member. In this case the attack will use the default attack data defined in monster_attacks.json, if a field is additionally defined it will overwrite those defaults. These attacks have the common "type": "monster_attack", see below for possible fields. Example:
-
-```JSON
-"special_attacks": [
-  { "id": "impale" }
-]
-```
-
-"special_attacks" may contain any mixture of old and new style entries:
-
-```JSON
-"special_attacks": [
-  [ "GRAB", 10 ],
-  { "type": "leap", "cooldown": 8, "max_range": 4 },
-  { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
-]
-```
-This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
-
-# Monster special attack types
-The listed attack types can be as monster special attacks (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)).
-
+See [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)
 # Testing Monsters
 
 To help facilitate playtesting monsters use the loadouts from the Standard Combat Testing mod (included under Misc), and document your results in the PR's Testing section.

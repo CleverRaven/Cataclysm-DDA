@@ -70,6 +70,9 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
+static const flag_id json_flag_GRAB( "GRAB" );
+static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
+
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const material_id material_iflesh( "iflesh" );
@@ -786,6 +789,8 @@ bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 // 4) Sound-based tracking
 void monster::move()
 {
+    add_msg_debug( debugmode::DF_MONMOVE, "Monster %s starting monmove::move, remaining moves %d",
+                   name(), moves );
     // We decrement wandf no matter what.  We'll save our wander_to plans until
     // after we finish out set_dest plans, UNLESS they time out first.
     if( wandf > 0 ) {
@@ -1269,8 +1274,14 @@ void monster::nursebot_operate( Character *dragged_foe )
             dragged_foe->cancel_activity();
             get_player_character().uninstall_bionic( real_target, *this, *dragged_foe, adjusted_skill );
 
-            dragged_foe->remove_effect( effect_grabbed );
-            remove_effect( effect_dragging );
+            // Remove target grab
+            for( const effect &eff : dragged_foe->get_effects_with_flag( json_flag_GRAB ) ) {
+                dragged_foe->remove_effect( eff.get_id() );
+            }
+            // And our own grab filters
+            for( const effect &eff : get_effects_with_flag( json_flag_GRAB_FILTER ) ) {
+                remove_effect( eff.get_id() );
+            }
             dragged_foe_id = character_id();
 
         }
@@ -2071,6 +2082,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
  */
 void monster::stumble()
 {
+    add_msg_debug( debugmode::DF_MONMOVE, "%s starting monmove::stumble", name() );
     // Only move every 10 turns.
     if( !one_in( 10 ) ) {
         return;

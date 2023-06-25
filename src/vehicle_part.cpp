@@ -60,7 +60,7 @@ void vehicle_part::set_base( item &&new_base )
 {
     if( new_base.typeId() != info().base_item ) {
         debugmsg( "new base '%s' doesn't match part type '%s', this is a bug",
-                  new_base.typeId().str(), info().get_id().str() );
+                  new_base.typeId().str(), info().id.str() );
         return;
     }
     base = std::move( new_base );

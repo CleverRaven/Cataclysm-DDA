@@ -163,10 +163,10 @@ struct arg_handler {
     //! consumed by the call or -1 to indicate that a required argument was missing.
     using handler_method = std::function<int ( int, const char ** )>;
 
-    const char *flag;  //!< The commandline parameter to handle (e.g., "--seed").
-    const char *param_documentation;  //!< Human readable description of this arguments parameter.
-    const char *documentation;  //!< Human readable documentation for this argument.
-    const char *help_group; //!< Section of the help message in which to include this argument.
+    std::string_view flag;  //!< The commandline parameter to handle (e.g., "--seed").
+    std::string_view param_documentation;  //!< Human readable description of this arguments parameter.
+    std::string_view documentation;  //!< Human readable documentation for this argument.
+    std::string_view help_group; //!< Section of the help message in which to include this argument.
     int num_args; //!< How many further arguments are expected for this parameter (usually 0 or 1).
     handler_method handler;  //!< The callback to be invoked when this argument is encountered.
 };
@@ -178,38 +178,27 @@ void printHelpMessage( const FirstPassArgs &first_pass_arguments,
     // Group all arguments by help_group.
     std::multimap<std::string, const arg_handler *> help_map;
     for( const arg_handler &handler : first_pass_arguments ) {
-        std::string help_group;
-        if( handler.help_group ) {
-            help_group = handler.help_group;
-        }
-        help_map.emplace( help_group, &handler );
+        help_map.emplace( handler.help_group, &handler );
     }
     for( const arg_handler &handler : second_pass_arguments ) {
-        std::string help_group;
-        if( handler.help_group ) {
-            help_group = handler.help_group;
-        }
-        help_map.emplace( help_group, &handler );
+        help_map.emplace( handler.help_group, &handler );
     }
 
-    printf( "Command line parameters:\n" );
+    std::cout << "Command line parameters:\n";
     std::string current_help_group;
     for( std::pair<const std::string, const arg_handler *> &help_entry : help_map ) {
         if( help_entry.first != current_help_group ) {
             current_help_group = help_entry.first;
-            printf( "\n%s\n", current_help_group.c_str() );
+            std::cout << "\n" << current_help_group << "\n";
         }
 
         const arg_handler *handler = help_entry.second;
-        printf( "%s", handler->flag );
-        if( handler->param_documentation ) {
-            printf( " %s", handler->param_documentation );
-        }
-        printf( "\n" );
-        if( handler->documentation ) {
-            printf( "    %s\n", handler->documentation );
+        std::cout << handler->flag << " " << handler->param_documentation;
+        if( !handler->documentation.empty() ) {
+            std::cout << "\n    " << handler->documentation << "\n";
         }
     }
+    std::cout << std::endl;
 }
 
 /**
@@ -239,18 +228,16 @@ void printVersionMessage()
             PATH_INFO::user_dir().c_str() );
 }
 
-template<typename ArgHandlerContainer>
-void process_args( const char **argv, int argc, const ArgHandlerContainer &arg_handlers )
+void process_args( const char **argv, int argc, const std::vector<arg_handler> &arg_handlers )
 {
     while( argc ) {
         bool arg_handled = false;
         for( const arg_handler &handler : arg_handlers ) {
-            if( !strcmp( argv[0], handler.flag ) ) {
+            if( handler.flag == argv[0] ) {
                 argc--;
                 argv++;
                 if( argc < handler.num_args ) {
-                    printf( "Missing expected argument to command line parameter %s\n",
-                            handler.flag );
+                    std::cout << "Missing expected argument to command line parameter " << handler.flag << std::endl;
                     std::exit( 1 );
                 }
                 int args_consumed = handler.handler( argc, argv );
@@ -285,11 +272,11 @@ cli_opts parse_commandline( int argc, const char **argv )
 {
     cli_opts result;
 
-    const char *section_default = nullptr;
-    const char *section_map_sharing = "Map sharing";
-    const char *section_user_directory = "User directories";
-    const char *section_accessibility = "Accessibility";
-    const std::array<arg_handler, 13> first_pass_arguments = {{
+    constexpr std::string_view section_default;
+    constexpr std::string_view section_map_sharing = "Map sharing";
+    constexpr std::string_view section_user_directory = "User directories";
+    constexpr std::string_view section_accessibility = "Accessibility";
+    const std::vector<arg_handler> first_pass_arguments = {{
             {
                 "--seed", "<string of letters and or numbers>",
                 "Sets the random number generator's seed value",
@@ -302,7 +289,7 @@ cli_opts parse_commandline( int argc, const char **argv )
                 }
             },
             {
-                "--jsonverify", nullptr,
+                "--jsonverify", {},
                 "Checks the CDDA json files",
                 section_default,
                 0,
@@ -349,7 +336,7 @@ cli_opts parse_commandline( int argc, const char **argv )
                 }
             },
             {
-                "--shared", nullptr,
+                "--shared", {},
                 "Activates the map-sharing mode",
                 section_map_sharing,
                 0,
@@ -392,7 +379,7 @@ cli_opts parse_commandline( int argc, const char **argv )
                 }
             },
             {
-                "--competitive", nullptr,
+                "--competitive", {},
                 "Instructs map-sharing code to disable access to the in-game cheat functions",
                 section_map_sharing,
                 0,
@@ -414,7 +401,7 @@ cli_opts parse_commandline( int argc, const char **argv )
                 }
             },
             {
-                "--disable-ascii-art", nullptr,
+                "--disable-ascii-art", {},
                 "Disable aesthetic ascii art in menus and descriptions.",
                 section_accessibility,
                 0,
@@ -428,9 +415,9 @@ cli_opts parse_commandline( int argc, const char **argv )
 
     // The following arguments are dependent on one or more of the previous flags and are run
     // in a second pass.
-    const std::array<arg_handler, 9> second_pass_arguments = {{
+    const std::vector<arg_handler> second_pass_arguments = {{
             {
-                "--worldmenu", nullptr,
+                "--worldmenu", {},
                 "Enables the world menu in the map-sharing code",
                 section_map_sharing,
                 0,
@@ -442,7 +429,7 @@ cli_opts parse_commandline( int argc, const char **argv )
             {
                 "--datadir", "<directory name>",
                 "Sub directory from which game data is loaded",
-                nullptr,
+                {},
                 1,
                 []( int, const char **params ) -> int {
                     PATH_INFO::set_datadir( params[0] );
@@ -502,7 +489,7 @@ cli_opts parse_commandline( int argc, const char **argv )
             {
                 "--autopickupfile", "<filename>",
                 "Name of the autopickup options file within the configdir",
-                nullptr,
+                {},
                 1,
                 []( int, const char **params ) -> int {
                     PATH_INFO::set_autopickup( params[0] );
@@ -512,7 +499,7 @@ cli_opts parse_commandline( int argc, const char **argv )
             {
                 "--motdfile", "<filename>",
                 "Name of the message of the day file within the motd directory",
-                nullptr,
+                {},
                 1,
                 []( int, const char **params ) -> int {
                     PATH_INFO::set_motd( params[0] );
