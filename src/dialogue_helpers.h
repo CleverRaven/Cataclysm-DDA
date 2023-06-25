@@ -51,6 +51,7 @@ struct talk_effect_fun_t {
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_run_eocs( const JsonObject &jo, std::string_view member );
         void set_run_eoc_with( const JsonObject &jo, std::string_view member );
+        void set_run_eoc_until( const JsonObject &jo, std::string_view member );
         void set_run_eoc_selector( const JsonObject &jo, const std::string &member );
         void set_run_npc_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_queue_eocs( const JsonObject &jo, std::string_view member );
