@@ -637,6 +637,7 @@
       },
       { "item": "iwi_tavor_x95_300blk", "prob": 15 },
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "hk_usc45", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "marlin_9a", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44", "variant": "mosin44", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin91_30", "variant": "mosin91_30", "prob": 10, "charges-min": 0, "charges-max": 0 },
