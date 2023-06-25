@@ -228,12 +228,6 @@ class vpart_info
     public:
         vpart_id id;
 
-        static void load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
-                                 const itype_id &fuel_type );
-        static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
-        static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
-        static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
-        static void load_toolkit( std::optional<vpslot_toolkit> &tkptr, const JsonObject &jo );
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
