@@ -4621,12 +4621,12 @@
   {
     "type": "overmap_special",
     "id": "gun_show",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "gunshow_0" }, { "point": [ 1, 0, 0 ], "overmap": "gunshow_1" } ],
-    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "gunshow_0_north" }, { "point": [ 1, 0, 0 ], "overmap": "gunshow_1_north" } ],
+    "locations": [ "field" ],
+    "connections": [ { "point": [ 0, 5, 0 ], "terrain": "road", "connection": "local_road", "existing": true } ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 33, 100 ],
-    "rotate": false,
     "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
