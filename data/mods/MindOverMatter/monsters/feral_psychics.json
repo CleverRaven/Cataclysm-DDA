@@ -153,7 +153,7 @@
         "message": "%1$s moves so quickly your eyes can barely follow them!"
       },
       [ "BIO_OP_DISARM", 10 ],
-      [ "BIO_OP_TAKEDOWN", 15 ]
+      { "id": "bio_op_takedown", "cooldown": 15 }
     ],
     "flags": [
       "SEES",
