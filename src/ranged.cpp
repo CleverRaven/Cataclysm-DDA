@@ -855,8 +855,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         wp_attack.weapon = &gun;
         projectile proj = make_gun_projectile( gun );
 
-        for (damage_unit& elem : proj.impact.damage_units) {
-            elem.amount = enchantment_cache->modify_value(enchant_vals::mod::RANGED_DAMAGE, elem.amount);
+        for( damage_unit &elem : proj.impact.damage_units ) {
+            elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
         }
         dispersion_sources dispersion = get_weapon_dispersion( gun );
         dispersion.add_range( recoil_total() );
