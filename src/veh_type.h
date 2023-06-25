@@ -111,17 +111,6 @@ enum vpart_bitflags : int {
 
     NUM_VPFLAGS
 };
-/* Flag info:
- * INTERNAL - Can be mounted inside other parts
- * ANCHOR_POINT - Allows secure seatbelt attachment
- * OVER - Can be mounted over other parts
- * MOUNTABLE - Usable as a point to fire a mountable weapon from.
- * E_COLD_START - Cold weather makes the engine take longer to start
- * E_STARTS_INSTANTLY - The engine takes no time to start, like foot pedals
- * E_ALTERNATOR - The engine can mount and power an alternator
- * E_COMBUSTION - The engine burns fuel to provide power and can burn or explode
- * E_HIGHER_SKILL - Multiple engines with this flag are harder to install
- * Other flags are self-explanatory in their names. */
 
 struct vpslot_engine {
     float backfire_threshold = 0.0f;
