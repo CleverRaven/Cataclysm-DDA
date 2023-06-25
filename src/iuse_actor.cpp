@@ -4808,7 +4808,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             if( !can_mount1.success() ) {
                 //~ %1$s - tow cable name, %2$s - the reason why it failed
                 p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                     it.type_name(), can_mount1.str() );
+                                      it.type_name(), can_mount1.str() );
                 return std::nullopt;
             }
 
@@ -4816,7 +4816,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             if( !can_mount2.success() ) {
                 //~ %1$s - tow cable name, %2$s - the reason why it failed
                 p->add_msg_if_player( m_bad, _( "You can't attach the %s: %s" ),
-                                     it.type_name(), can_mount2.str() );
+                                      it.type_name(), can_mount2.str() );
                 return std::nullopt;
             }
 
@@ -4833,7 +4833,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             if( p->has_item( it ) ) {
                 //~ %1$s - tow cable name, %2$s - first vehicle name, %3$s - second vehicle name
                 p->add_msg_if_player( m_good, _( "You attach %1$s to %2$s and %3$s." ),
-                                     it.type_name(), prev_veh->disp_name(), target_veh->disp_name() );
+                                      it.type_name(), prev_veh->disp_name(), target_veh->disp_name() );
             }
             if( choice == 10 ) {
                 target_veh->tow_data.set_towing( target_veh, prev_veh );
