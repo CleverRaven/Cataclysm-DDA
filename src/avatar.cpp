@@ -299,9 +299,9 @@ void avatar::memorize_symbol( const tripoint &p, char32_t symbol )
     player_map_memory->set_tile_symbol( p, symbol );
 }
 
-void avatar::memorize_clear_vehicles( const tripoint &p )
+void avatar::memorize_clear_decoration( const tripoint &p, std::string_view prefix )
 {
-    player_map_memory->clear_tile_decoration( p, /* prefix = */ "vp_" );
+    player_map_memory->clear_tile_decoration( p, prefix );
 }
 
 std::vector<mission *> avatar::get_active_missions() const
@@ -687,14 +687,14 @@ void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
             if( const optional_vpart_position ovp = m.veh_at( pos() + gpoint ) ) {
                 for( const tripoint &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        memorize_clear_vehicles( m.getabs( target ) );
+                        memorize_clear_decoration( m.getabs( target ), /* prefix = */ "vp_" );
                     }
                     m.set_memory_seen_cache_dirty( target );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                player_map_memory->clear_tile_decoration( m.getabs( pos() + gpoint ) );
+                memorize_clear_decoration( m.getabs( pos() + gpoint ) );
             }
             m.set_memory_seen_cache_dirty( pos() + gpoint );
         }

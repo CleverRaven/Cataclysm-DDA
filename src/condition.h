@@ -191,6 +191,7 @@ struct conditional_t {
         void set_u_has_camp();
         void set_has_pickup_list( bool is_npc );
         void set_has_reason();
+        void set_is_alive( bool is_npc = false );
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_has_skill( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_roll_contested( const JsonObject &jo, std::string_view member );
