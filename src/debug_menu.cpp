@@ -3496,8 +3496,7 @@ void debug()
             read_from_file_json( npc_files[filemenu.ret], [&]( const JsonValue & jv ) {
                 JsonObject npc_json = jv;
                 shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-                temp->deserialize( npc_json );
-                temp->setID( g->assign_npc_id(), /* force */ true );
+                temp->import_and_clean( npc_json );
                 g->add_npc_follower( temp->getID() );
                 temp->set_attitude( NPCATT_FOLLOW );
                 temp->set_fac( faction_your_followers );
