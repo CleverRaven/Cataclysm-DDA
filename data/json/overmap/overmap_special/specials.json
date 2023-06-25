@@ -3840,13 +3840,12 @@
     "type": "overmap_special",
     "id": "State Park",
     "overmaps": [
-      { "point": [ 1, -1, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 0, 0 ], "overmap": "state_park_0_0_north" },
       { "point": [ 1, 0, 0 ], "overmap": "state_park_1_0_north" },
       { "point": [ 0, 1, 0 ], "overmap": "state_park_0_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "state_park_1_1_north" }
     ],
-    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "from": [ 1, 0, 0 ] } ],
     "locations": [ "forest" ],
     "city_distance": [ 15, -1 ],
     "city_sizes": [ 4, -1 ],
