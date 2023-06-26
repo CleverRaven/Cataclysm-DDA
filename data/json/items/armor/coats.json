@@ -147,7 +147,7 @@
       {
         "id": "bomber_fox_fur",
         "name": { "str": "fox fur bomber jacket" },
-        "description": "What was once a rugged piece of military clothing has metamorphosed into a fashion icon within this slim-cut and insulated jacket, with wide, cinchable sleeves and a broad collar.  Composed of sown-together fox pelts and fastened with a zipper at the front, the inside of this jacket is lined with plush, reddish orange fur.",
+        "description": "What was once a rugged piece of military clothing has metamorphosed into a fashion icon within this slim-cut and insulated jacket, with wide, cinchable sleeves and a broad collar.  Composed of sewn-together fox pelts and fastened with a zipper at the front, the inside of this jacket is lined with plush, reddish orange fur.",
         "color": "light_red",
         "weight": 8
       },
