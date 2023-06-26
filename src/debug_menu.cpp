@@ -3486,7 +3486,7 @@ void debug()
             uilist filemenu;
             int filenum = 0;
             for( cata_path path : npc_files ) {
-                filemenu.addentry( filenum++, true, MENU_AUTOASSIGN, path.get_unrelative_path().stem() );
+                filemenu.addentry( filenum++, true, MENU_AUTOASSIGN, path.get_unrelative_path().stem().string() );
             }
             filemenu.w_y_setup = 0;
             filemenu.query();
