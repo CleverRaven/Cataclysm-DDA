@@ -1343,10 +1343,11 @@
       "USE_UPS",
       "NO_UNLOAD",
       "COMBAT_TOGGLEABLE",
-      "UNBREAKABLE_MELEE"
+      "UNBREAKABLE_MELEE",
+      "USE_POWER_WHEN_HIT"
     ],
     "material": [ "hyperweave_on", "carbide" ],
-    "power_draw": "250 W",
+    "power_draw": "100 W",
     "revert_to": "rm13_armor",
     "use_action": [ "RM13ARMOR_ON" ],
     "environmental_protection": 40,
