@@ -4,7 +4,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "inferno grenade" },
-    "description": "This is an inferno grenade, designed to channel Netherum energy to increase its incendiary power. Once you throw it, you will have five seconds to get away before it explodes into a raging firestorm.",
+    "description": "This is an inferno grenade, designed to channel Netherum energy to increase its incendiary power.  Once you throw it, you will have five seconds to get away before it explodes into a raging firestorm.",
     "weight": "230 g",
     "volume": "270 ml",
     "price": 2000,
