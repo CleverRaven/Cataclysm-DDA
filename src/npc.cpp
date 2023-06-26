@@ -14,8 +14,6 @@
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bodypart.h"
-#include "cata_path.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
