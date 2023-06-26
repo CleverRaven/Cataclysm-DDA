@@ -61,7 +61,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Secrets of the Zen Masters", "str_pl": "copies of Secrets of the Zen Masters" },
-    "description": "This book purports to contain hidden tips that will make you serene and calm in the face of the most grievous calamities. Cataclysms, one might say.",
+    "description": "This book purports to contain hidden tips that will make you serene and calm in the face of the most grievous calamities.  Cataclysms, one might say.",
     "copy-from": "manual_meditation",
     "//": "Advanced meditation is controversial but I have to make the distinction somewhere.",
     "required_level": 3,
