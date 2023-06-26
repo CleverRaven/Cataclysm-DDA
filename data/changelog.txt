@@ -30,9 +30,6 @@ Allow mutation transformation using the normal mutation rules
 Implement setting direction for appliances and add a directed floodlight appliance
 Asynchronous animations including sprinting and smashing
 Added enable and disable mutation EOCs
-NRE recorder captures data in Close and distant storms
-EOC to elevate creature at location to beta talker
-Implement wall mounted appliances, some related vehicle code abstraction; Add a wall light appliance
 3D vision for isometric tilesets
 Unhardcode dragging, grab fixes
 
@@ -60,14 +57,7 @@ Crashing ship start for Aftershock
 Add more monsters to the nether monster corpse
 Living lore document
 Gastropod Foot Limb: Mutant limbs can be added in json
-Adds t. walleri to Megafauna
-Adds thicker, heavier close helm variations
 Added a small office building fortified by bandits
-Restrict mininuke availability
-Adds additional factions to Lore.md
-Adds drybags
-Add a doctor/autodoc to the Ancilla bar
-add .380 ACP carbine
 New location: speedway
 
 
@@ -110,8 +100,6 @@ Adds the 'Mark as dangerous' keybinding to the overmap
 Alchemy Perks for Xedra Evolved
 Bombastic Perks adds Playstyle Perks
 [Magiclysm] Ways to boost your caster level
-Aftershock: Add a basic shotgun to the mod.
-Xedra: Looks_like for artifacts
 Disable the Bionic Professions mod by default
 
 
@@ -132,17 +120,8 @@ Most materials now burn at least a little slower than gunpowder
 stationary monsters don't let you train throwing to high levels
 player can drag heavier vehicles
 difficulty to repair depends on what the thing is made of instead of its crafting difficulty
-Allows the duffel bag to be worn by characters with the Large and Huge mutations, along with their variants.
 Hound afterimages also copy their host nicknames
-Remove BLADED_FARMING weapon category and fix scythe to-hit.
-zombies everyday carry less lethal items too
-partially undo buffs to survivor z loot
-Redo blackpowder fouling mechanics and firearm cleaning
 The player is substantially less effective with guns at low skill values
-balance leather jackets and similar items
-cunning ferals wear more armor and survivor z drops don't bleed into them
-it's easy to deconstruct a floor mattress
-hk_usc45 is more common
 
 
 ## Bugfixes:
@@ -188,16 +167,8 @@ Enable death effects on limited lifespan monsters
 Make Hub01 globally unique
 Charge integrated magazines when plugged in
 Don't allow to scan books that are owned by other characters
-airplanes have seatbelts and not short ropes
-Ignore `.sav` text inside file path when parsing save paths for extensions
-Fix large sprites not displaying correctly
 Fix NPC putting items in open air when fetching items during an activity when 3D FOV is on
-Adds a missing recipe for a directed floodlight appliance
-Add a wall light recipe missing from #66316
-Adds catalytic cracking reactor as appliance, as told in its description
-Adds roofs and corrects variant spawning of TWD Motel
 Trees and other FLAMMABLE_ASH terrain leaves behind ash when burned down
-Decreases titanis spawn rates, fixes its attack
 
 
 ## Performance:
