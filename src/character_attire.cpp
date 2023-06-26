@@ -30,6 +30,7 @@ static const material_id material_chitin( "chitin" );
 static const material_id material_fur( "fur" );
 static const material_id material_leather( "leather" );
 static const material_id material_wool( "wool" );
+static const material_id material_bone( "bone" );
 
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
@@ -91,6 +92,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
                                       it.made_of( material_fur ) ||
                                       it.made_of( material_wool ) ||
                                       it.made_of( material_chitin ) ||
+                                      it.made_of( material_bone ) ||
                                       it.made_of( material_acidchitin ) ) ) {
         return ret_val<void>::make_failure( _( "Can't wear that, it's made from an animal!" ) );
     }
