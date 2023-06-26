@@ -1826,7 +1826,7 @@ void npc::on_attacked( const Creature &attacker )
     }
 }
 
-int npc::assigned_missions_value()
+int npc::assigned_missions_value() const
 {
     int ret = 0;
     for( ::mission *m : chatbin.missions_assigned ) {
@@ -2037,8 +2037,8 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
     if( !is_shopkeeper() && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
         return ret_val<void>::make_failure( _( "<npcname> will not buy filthy items" ) );
     }
-
-    icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( *this ) );
+    icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, d );
     if( bl != nullptr ) {
         return ret_val<void>::make_failure( bl->message );
     }

@@ -412,6 +412,38 @@ std::string talker_character_const::get_value( const std::string &var_name ) con
     return me_chr_const->get_value( var_name );
 }
 
+ret_val<void> talker_character_const::wants_to_sell( const item_location &it, int at_price ) const
+{
+    if( me_chr_const->is_npc() ) {
+        return me_chr_const->as_npc()->wants_to_sell( it, at_price );
+    }
+    return ret_val<void>::make_failure( _( "Not defined for this talker type." ) );
+}
+
+ret_val<void> talker_character_const::wants_to_buy( const item &it, int at_price ) const
+{
+    if( me_chr_const->is_npc() ) {
+        return me_chr_const->as_npc()->wants_to_buy( it, at_price );
+    }
+    return ret_val<void>::make_failure( _( "Not defined for this talker type." ) );
+}
+
+int talker_character_const::value( const item &it ) const
+{
+    if( me_chr_const->is_npc() ) {
+        return me_chr_const->as_npc()->value( it );
+    }
+    return 0;
+}
+
+int talker_character_const::value( const item &it, double price ) const
+{
+    if( me_chr_const->is_npc() ) {
+        return me_chr_const->as_npc()->value( it, price );
+    }
+    return 0;
+}
+
 void talker_character::set_value( const std::string &var_name, const std::string &value )
 {
     me_chr->set_value( var_name, value );
@@ -499,14 +531,29 @@ void talker_character::i_add( const item &new_item )
     me_chr->i_add( new_item );
 }
 
-void talker_character::i_add_or_drop( item &new_item )
+bool talker_character::i_add_or_drop( item &it, int qty, const item *avoid,
+                                      const item *original_inventory_item )
 {
-    me_chr->i_add_or_drop( new_item );
+    return me_chr->i_add_or_drop( it, qty, avoid, original_inventory_item );
 }
 
-void talker_character::remove_items_with( const std::function<bool( const item & )> &filter )
+ret_val<item_location> talker_character::i_add_or_fill( item &it, bool should_stack,
+        const item *avoid, const item *original_inventory_item, bool allow_drop, bool allow_wield,
+        bool ignore_pkt_settings )
 {
-    me_chr->remove_items_with( filter );
+    return me_chr->i_add_or_fill( it, should_stack, avoid, original_inventory_item, allow_drop,
+                                  allow_wield, ignore_pkt_settings );
+}
+
+void talker_character::remove_items_with( const std::function<bool( const item & )> &filter,
+        int count )
+{
+    me_chr->remove_items_with( filter, count );
+}
+
+void talker_character::drop_invalid_inventory()
+{
+    me_chr->drop_invalid_inventory();
 }
 
 bool talker_character_const::unarmed_attack() const
@@ -612,6 +659,11 @@ void talker_character::set_thirst( int value )
 bool talker_character_const::is_in_control_of( const vehicle &veh ) const
 {
     return veh.player_in_control( *me_chr_const );
+}
+
+bool talker_character_const::is_avatar() const
+{
+    return me_chr_const->is_avatar();
 }
 
 void talker_character::shout( const std::string &speech, bool order )

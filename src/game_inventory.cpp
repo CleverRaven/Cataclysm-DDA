@@ -2487,7 +2487,8 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( you.is_npc() ) {
-                int const price = npc_trading::bionic_install_price( you, pa, loc );
+                int const price = npc_trading::bionic_install_price( get_talker_for( you ).get(),
+                                  get_talker_for( pa ).get(), loc );
                 ret_val<void> const refusal =
                     you.as_npc()->wants_to_sell( loc, price );
                 if( !refusal.success() ) {
@@ -2527,7 +2528,8 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         std::string get_money_amount( const item_location &loc ) {
-            return format_money( npc_trading::bionic_install_price( you, pa, loc ) );
+            return format_money( npc_trading::bionic_install_price( get_talker_for( you ).get(),
+                                 get_talker_for( pa ).get(), loc ) );
         }
 };
 

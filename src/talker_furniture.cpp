@@ -66,6 +66,22 @@ void talker_furniture::remove_value( const std::string &var_name )
     me_comp->remove_value( var_name );
 }
 
+ret_val<void> talker_furniture::wants_to_sell( const item_location &it, int at_price ) const
+{
+    // We can only get here if an EOC or dialog option explicitly called out trade and our inventory only exists for trade so they are willing to sell.
+    return ret_val<void>::make_success();
+}
+
+ret_val<void> talker_furniture::wants_to_buy( const item &it, int at_price ) const
+{
+    return me_comp->wants_to_buy( it, at_price );
+}
+
+faction_price_rule const *talker_furniture::get_price_rules( item const &it ) const
+{
+    return me_comp->get_price_rules( it );
+}
+
 std::vector<std::string> talker_furniture::get_topics( bool )
 {
     return me_comp->chat_topics;

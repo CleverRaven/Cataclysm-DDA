@@ -21,10 +21,9 @@ bool icg_entry::operator==( icg_entry const &rhs ) const
     return itype == rhs.itype && category == rhs.category && item_group == rhs.item_group;
 }
 
-bool icg_entry::matches( item const &it, npc const &beta ) const
+bool icg_entry::matches( item const &it, dialogue &d ) const
 {
-    dialogue temp( get_talker_for( get_avatar() ), get_talker_for( beta ) );
-    return ( !condition || condition( temp ) ) &&
+    return ( !condition || condition( d ) ) &&
            ( itype.is_empty() || it.typeId() == itype ) &&
            ( category.is_empty() || it.get_category_shallow().id == category ) &&
            ( item_group.is_empty() ||
@@ -155,24 +154,24 @@ void shopkeeper_cons_rates::check() const
     }
 }
 
-int shopkeeper_cons_rates::get_rate( item const &it, npc const &beta ) const
+int shopkeeper_cons_rates::get_rate( item const &it, dialogue &d ) const
 {
     if( it.type->price_post < junk_threshold ) {
         return -1;
     }
     for( auto rit = rates.crbegin(); rit != rates.crend(); ++rit ) {
-        if( rit->matches( it, beta ) ) {
+        if( rit->matches( it, d ) ) {
             return rit->rate;
         }
     }
     return default_rate;
 }
 
-icg_entry const *shopkeeper_blacklist::matches( item const &it, npc const &beta ) const
+icg_entry const *shopkeeper_blacklist::matches( item const &it, dialogue &d ) const
 {
     auto const el = std::find_if( entries.begin(), entries.end(),
-    [&it, &beta]( icg_entry const & rit ) {
-        return rit.matches( it, beta );
+    [&it, &d]( icg_entry const & rit ) {
+        return rit.matches( it, d );
     } );
     if( el != entries.end() ) {
         return &*el;
@@ -181,11 +180,11 @@ icg_entry const *shopkeeper_blacklist::matches( item const &it, npc const &beta 
     return nullptr;
 }
 
-bool shopkeeper_cons_rates::matches( item const &it, npc const &beta ) const
+bool shopkeeper_cons_rates::matches( item const &it, dialogue &d ) const
 {
     return it.type->price_post < junk_threshold ||
            std::any_of( rates.begin(), rates.end(),
-    [&it, &beta]( shopkeeper_cons_rate_entry const & rit ) {
-        return rit.matches( it, beta );
+    [&it, &d]( shopkeeper_cons_rate_entry const & rit ) {
+        return rit.matches( it, d );
     } );
 }

@@ -862,7 +862,7 @@ class npc : public Character
         * towards the player.
         */
         void on_attacked( const Creature &attacker );
-        int assigned_missions_value();
+        int assigned_missions_value() const;
         /**
          * @return Skills of which this NPC has a higher level than the given player. In other
          * words: skills this NPC could teach the player.

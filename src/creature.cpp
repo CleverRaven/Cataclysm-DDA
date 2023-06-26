@@ -3191,8 +3191,10 @@ std::unique_ptr<talker> get_talker_for( Creature &me )
 
 std::unique_ptr<talker> get_talker_for( const Creature &me )
 {
-    if( !me.is_monster() ) {
-        return std::make_unique<talker_character_const>( me.as_character() );
+    if( me.is_npc() ) {
+        return std::make_unique<talker_character_const>( me.as_npc() );
+    } else if( me.is_avatar() ) {
+        return std::make_unique<talker_character_const>( me.as_avatar() );
     } else if( me.is_monster() ) {
         return std::make_unique<talker_monster_const>( me.as_monster() );
     } else {

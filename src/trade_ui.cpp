@@ -44,7 +44,8 @@ trade_preset::trade_preset( Character const &you, Character const &trader )
     save_state = &inventory_ui_default_state;
     append_cell(
     [&]( item_location const & loc ) {
-        return format_money( npc_trading::trading_price( _trader, _u, { loc, 1 } ) );
+        return format_money( npc_trading::trading_price( get_talker_for( _trader ).get(),
+                             get_talker_for( _u ).get(), {loc, 1} ) );
     },
     _( "Unit price" ) );
 }
@@ -58,7 +59,8 @@ bool trade_preset::is_shown( item_location const &loc ) const
 
 std::string trade_preset::get_denial( const item_location &loc ) const
 {
-    int const price = npc_trading::trading_price( _trader, _u, { loc, 1 } );
+    int const price = npc_trading::trading_price( get_talker_for( _trader ).get(),
+                      get_talker_for( _u ).get(), {loc, 1} );
 
     if( _u.is_npc() ) {
         npc const &np = *_u.as_npc();
@@ -202,7 +204,8 @@ void trade_ui::recalc_values_cpane()
     for( entry_t const &it : _panes[_cpane]->to_trade() ) {
         // FIXME: cache trading_price
         _trade_values[_cpane] +=
-            npc_trading::trading_price( *_parties[-_cpane + 1], *_parties[_cpane], it );
+            npc_trading::trading_price( get_talker_for( *_parties[-_cpane + 1] ).get(),
+                                        get_talker_for( *_parties[_cpane] ).get(), it );
     }
     if( !_parties[_trader]->as_npc()->will_exchange_items_freely() ) {
         _balance = _cost + _trade_values[_you] - _trade_values[_trader];
@@ -216,7 +219,8 @@ void trade_ui::autobalance()
     if( ( sign < 0 && _balance < 0 ) || ( sign > 0 && _balance > 0 ) ) {
         inventory_entry &entry = _panes[_cpane]->get_active_column().get_highlighted();
         size_t const avail = entry.get_available_count() - entry.chosen_count;
-        double const price = npc_trading::trading_price( *_parties[-_cpane + 1], *_parties[_cpane],
+        double const price = npc_trading::trading_price( get_talker_for( *_parties[-_cpane + 1] ).get(),
+                             get_talker_for( *_parties[_cpane] ).get(),
                              entry_t{ entry.any_item(), 1 } ) * sign;
         double const num = _balance / price;
         double const extra = sign < 0 ? std::ceil( num ) : std::floor( num );

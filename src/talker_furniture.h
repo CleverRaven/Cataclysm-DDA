@@ -44,6 +44,10 @@ class talker_furniture: public talker_cloner<talker_furniture>
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string & ) override;
 
+        ret_val<void> wants_to_sell( const item_location &it, int at_price ) const override;
+        ret_val<void> wants_to_buy( const item &it, int at_price ) const override;
+        virtual faction_price_rule const *get_price_rules( item const &it ) const override;
+
         std::vector<std::string> get_topics( bool radio_contact ) override;
         bool will_talk_to_u( const Character &you, bool force ) override;
 

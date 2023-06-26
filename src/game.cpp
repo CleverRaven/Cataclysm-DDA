@@ -5901,7 +5901,7 @@ bool game::npc_menu( npc &who )
             who.say( SNIPPET.random_from_category( "<hallu_dont_trade>" ).value_or(
                          translation() ).translated() );
         } else {
-            npc_trading::trade( who, 0, _( "Trade" ) );
+            npc_trading::trade( get_talker_for( who ).get(), 0, _( "Trade" ) );
         }
     }
 

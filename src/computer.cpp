@@ -4,7 +4,9 @@
 #include <cstdlib>
 #include <sstream>
 
+#include "avatar.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "enum_conversions.h"
 #include "faction.h"
 #include "game.h"
@@ -12,6 +14,13 @@
 #include "output.h"
 #include "talker_furniture.h"
 #include "translations.h"
+
+
+const flag_id flag_BOMB( "BOMB" );
+const flag_id flag_DANGEROUS( "DANGEROUS" );
+const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );
+
+constexpr char const *VAR_TRADE_IGNORE = "trade_ignore";
 
 template <typename E> struct enum_traits;
 
@@ -139,6 +148,31 @@ void computer::set_faction( const faction_id &id )
 faction *computer::get_faction() const
 {
     return my_fac;
+}
+
+ret_val<void> computer::wants_to_buy( const item &it, int at_price )
+{
+    if( it.has_flag( flag_DANGEROUS ) || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return ret_val<void>::make_failure();
+    }
+
+    if( it.has_flag( flag_TRADER_AVOID ) || it.has_var( VAR_TRADE_IGNORE ) ) {
+        return ret_val<void>::make_failure( _( "You will never sell this" ) );
+    }
+    if( !shop_blacklist_id.is_null() ) {
+        dialogue d( get_talker_for( get_avatar() ), get_talker_for( *this ) );
+        icg_entry const *bl = shop_blacklist_id.obj().matches( it, d );
+        if( bl != nullptr ) {
+            return ret_val<void>::make_failure( bl->message );
+        }
+    }
+
+    return at_price >= 0 ? ret_val<void>::make_success() : ret_val<void>::make_failure();
+}
+
+faction_price_rule const *computer::get_price_rules( item const &it ) const
+{
+    return fpr;
 }
 
 static computer_action computer_action_from_legacy_enum( int val );

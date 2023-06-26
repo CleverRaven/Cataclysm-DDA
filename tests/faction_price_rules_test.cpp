@@ -52,7 +52,8 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
     trade_selector::entry_t bck_entry{
         item_location{ map_cursor( tripoint_zero ), &backpack }, 1 };
 
-    int const price_combined = trading_price( *buyer, *seller, bck_entry );
+    int const price_combined = trading_price( get_talker_for( *buyer ).get(),
+                               get_talker_for( *seller ).get(), bck_entry );
 
     CHECK( price_separate == Approx( price_combined ).margin( 1 ) );
 }
@@ -152,7 +153,8 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         trade_selector::entry_t tbd_entry{
             item_location{ map_cursor( tripoint_zero ), &tbd }, 1 };
 
-        REQUIRE( npc_trading::trading_price( get_avatar(), guy, tbd_entry ) ==
+        REQUIRE( npc_trading::trading_price( get_talker_for( get_avatar() ).get(),
+                                             get_talker_for( guy ).get(), tbd_entry ) ==
                  Approx( units::to_cent( tbd.type->price_post ) * 1.25 +
                          battery_price * 1.25 * tbd.ammo_remaining( nullptr ) / battery.type->stack_size )
                  .margin( 1 ) );

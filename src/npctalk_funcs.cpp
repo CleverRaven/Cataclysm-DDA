@@ -203,7 +203,7 @@ void talk_function::mission_reward( npc &p )
 
     int mission_value = miss->get_value();
     p.op_of_u.owed += mission_value;
-    npc_trading::trade( p, 0, _( "Reward" ) );
+    npc_trading::trade( get_talker_for( p ).get(), 0, _( "Reward" ) );
 }
 
 void talk_function::buy_chicken( npc &p )
@@ -229,11 +229,6 @@ void spawn_animal( npc &p, const mtype_id &mon )
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg_debug( debugmode::DF_NPC, "No space to spawn purchased pet" );
     }
-}
-
-void talk_function::start_trade( npc &p )
-{
-    npc_trading::trade( p, 0, _( "Trade" ) );
 }
 
 void talk_function::sort_loot( npc &p )
@@ -500,7 +495,8 @@ void talk_function::bionic_install( npc &p )
     tmp->set_var( VAR_TRADE_IGNORE, 1 );
     const itype &it = *tmp->type;
 
-    signed int price = npc_trading::bionic_install_price( p, player_character, bionic );
+    signed int price = npc_trading::bionic_install_price( get_talker_for( p ).get(),
+                       get_talker_for( player_character ).get(), bionic );
     bool const ret = npc_trading::pay_npc( p, price );
     tmp->erase_var( VAR_TRADE_IGNORE );
     if( !ret ) {
@@ -1027,7 +1023,7 @@ bool npc_trading::pay_npc( npc &np, int cost )
         return true;
     }
 
-    return npc_trading::trade( np, cost, _( "Pay:" ) );
+    return npc_trading::trade( get_talker_for( np ).get(), cost, _( "Pay:" ) );
 }
 
 void talk_function::start_training_npc( npc &p )

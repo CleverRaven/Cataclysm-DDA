@@ -3927,6 +3927,13 @@ void talk_effect_fun_t::set_lightning()
     };
 }
 
+void talk_effect_fun_t::set_start_trade()
+{
+    function = []( dialogue const & d ) {
+        npc_trading::trade( d.actor( true ), 0, _( "Trade" ) );
+    };
+}
+
 void talk_effect_fun_t::set_next_weather()
 {
     function = []( dialogue const &/* d */ ) {
@@ -5381,7 +5388,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( mission_failure ),
             WRAP( clear_mission ),
             WRAP( mission_reward ),
-            WRAP( start_trade ),
             WRAP( sort_loot ),
             WRAP( find_mount ),
             WRAP( dismount ),
@@ -5466,6 +5472,12 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
 
     talk_effect_fun_t subeffect_fun;
+    if( effect_id == "start_trade" ) {
+        subeffect_fun.set_start_trade();
+        set_effect( subeffect_fun );
+        return;
+    }
+
     if( effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept" ||
         effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";

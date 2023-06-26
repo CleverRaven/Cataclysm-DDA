@@ -359,7 +359,8 @@ faction_price_rule const *faction::get_price_rules( item const &it, npc const &g
 {
     auto const el = std::find_if(
     price_rules.crbegin(), price_rules.crend(), [&it, &guy]( faction_price_rule const & fc ) {
-        return fc.matches( it, guy );
+        dialogue d( get_talker_for( get_avatar() ), get_talker_for( guy ) );
+        return fc.matches( it, d );
     } );
     if( el != price_rules.crend() ) {
         return &*el;

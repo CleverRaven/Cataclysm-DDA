@@ -90,6 +90,10 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool is_deaf() const override;
         bool is_mute() const override;
         std::string get_value( const std::string &var_name ) const override;
+        ret_val<void> wants_to_sell( const item_location &it, int at_price ) const override;
+        ret_val<void> wants_to_buy( const item &it, int at_price ) const override;
+        int value( const item &it ) const override;
+        int value( const item &it, double price ) const override;
 
         // inventory, buying, and selling
         bool is_wearing( const itype_id &item_id ) const override;
@@ -121,6 +125,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_healthy_kcal() const override;
         int get_size() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
+        bool is_avatar() const override;
 
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
@@ -213,9 +218,15 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         std::list<item> use_charges( const itype_id &item_name, int count, bool in_tools ) override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         void i_add( const item &new_item ) override;
-        void i_add_or_drop( item &new_item ) override;
-        void remove_items_with( const std::function<bool( const item & )> &filter ) override;
+        bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr,
+                            const item *original_inventory_item = nullptr ) override;
+        ret_val<item_location> i_add_or_fill( item &it, bool should_stack = true,
+                                              const item *avoid = nullptr, const item *original_inventory_item = nullptr, bool allow_drop = true,
+                                              bool allow_wield = true, bool ignore_pkt_settings = false ) override;
+        void remove_items_with( const std::function<bool( const item & )> &filter,
+                                int count = INT_MAX ) override;
 
+        void drop_invalid_inventory() override;
         void set_stored_kcal( int value ) override;
         void set_thirst( int value ) override;
 

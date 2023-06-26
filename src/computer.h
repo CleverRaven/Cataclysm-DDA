@@ -17,6 +17,8 @@ class JsonOut;
 class JsonValue;
 class faction;
 
+struct faction_price_rule;
+
 enum computer_action {
     COMPACT_NULL = 0,
     COMPACT_AMIGARA_LOG,
@@ -163,13 +165,19 @@ class computer
         std::unordered_map<std::string, std::string> values;
         // Computers faction for chat purposes
         faction *my_fac = nullptr;
+        // Shop blacklist for trading
+        shopkeeper_blacklist_id shop_blacklist_id = shopkeeper_blacklist_id::NULL_ID();
+        // Price rule
+        faction_price_rule *fpr = nullptr;
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+
         void set_faction( const faction_id &id );
         faction *get_faction() const;
-
+        ret_val<void> wants_to_buy( const item &it, int at_price );
+        faction_price_rule const *get_price_rules( item const &it ) const;
         void remove_option( computer_action action );
 };
 std::unique_ptr<talker> get_talker_for( computer &me );

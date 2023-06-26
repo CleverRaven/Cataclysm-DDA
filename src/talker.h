@@ -7,13 +7,14 @@
 #include "item.h"
 #include "messages.h"
 #include "type_id.h"
+#include "item_location.h"
 #include "units.h"
 #include "units_fwd.h"
 #include <list>
 
 class computer;
 class faction;
-class item_location;
+class faction_price_rule;
 class mission;
 class monster;
 class npc;
@@ -47,7 +48,7 @@ class talker
         virtual npc *get_npc() {
             return nullptr;
         }
-        virtual npc *get_npc() const {
+        virtual const npc *get_npc() const {
             return nullptr;
         }
         virtual item_location *get_item() {
@@ -344,6 +345,9 @@ class talker
         virtual int value( const item & ) const {
             return 0;
         }
+        virtual int value( const item &, double ) const {
+            return 0;
+        }
         virtual int cash() const {
             return 0;
         }
@@ -363,8 +367,14 @@ class talker
             return {};
         }
         virtual void i_add( const item & ) {}
-        virtual void i_add_or_drop( item & ) {}
-        virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
+        virtual bool i_add_or_drop( item &, int = 1, const item * = nullptr, const item * = nullptr ) {
+            return false;
+        }
+        virtual ret_val<item_location> i_add_or_fill( item &, bool, const item *, const item *, bool, bool,
+                bool ) {
+            return ret_val<item_location>::make_failure( item_location::nowhere );
+        }
+        virtual void remove_items_with( const std::function<bool( const item & )> &, int = INT_MAX ) {}
         virtual bool unarmed_attack() const {
             return false;
         }
@@ -650,6 +660,20 @@ class talker
         virtual void learn_martial_art( const matype_id & ) const {}
         virtual void forget_martial_art( const matype_id & ) const {}
         virtual bool knows_martial_art( const matype_id & ) const {
+            return false;
+        }
+        virtual ret_val<void> wants_to_sell( const item_location &it, int at_price ) const {
+            return ret_val<void>::make_failure( _( "Not defined for this talker type." ) );
+        }
+        virtual ret_val<void> wants_to_buy( const item &it, int at_price ) const {
+            return ret_val<void>::make_failure( _( "Not defined for this talker type." ) );
+        }
+        virtual faction_price_rule const *get_price_rules( item const &it ) const {
+            return nullptr;
+        }
+        virtual void drop_invalid_inventory() {}
+        virtual void shop_restock() {}
+        virtual bool is_avatar() const {
             return false;
         }
 };
