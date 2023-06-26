@@ -113,7 +113,12 @@
   {
     "id": "cop_pants",
     "type": "item_group",
-    "items": [ { "item": "pants", "prob": 75 }, { "item": "pants_cargo", "prob": 70 }, { "item": "police_breeches", "prob": 20 } ]
+    "items": [
+      { "item": "pants", "prob": 75 },
+      { "item": "pants_tactical", "prob": 60 },
+      { "item": "pants_cargo", "prob": 70 },
+      { "item": "police_breeches", "prob": 20 }
+    ]
   },
   {
     "id": "cop_pants_stuff",
@@ -261,7 +266,11 @@
     "id": "swat_pants",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "pants", "prob": 75 }, { "item": "pants_cargo", "prob": 70 }, { "item": "pants_army", "prob": 30 } ]
+    "entries": [
+      { "item": "pants_tactical", "prob": 70 },
+      { "item": "pants_cargo", "prob": 70 },
+      { "item": "pants_army", "prob": 30 }
+    ]
   },
   {
     "id": "swat_shoes",
