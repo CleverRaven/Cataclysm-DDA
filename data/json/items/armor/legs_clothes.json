@@ -618,7 +618,7 @@
       {
         "id": "pants_blue",
         "name": { "str": "navy-blue pants", "str_pl": "pairs of navy-blue pants" },
-        "description": "A comfortable set of navy blue pants with large pockets: these trousers    are slightly thicker and warmer than regular jeans.",
+        "description": "A comfortable set of navy blue pants with large pockets, slightly thicker and warmer than regular jeans.",
         "color": "blue",
         "weight": 10
       },
