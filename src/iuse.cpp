@@ -9116,7 +9116,7 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
     }
 }
 
-ret_val<void> use_function::can_call( const Character &p, const item &it, bool t,
+ret_val<void> use_function::can_call( const Character *p, const item &it, bool t,
                                       const tripoint &pos ) const
 {
     if( actor == nullptr ) {

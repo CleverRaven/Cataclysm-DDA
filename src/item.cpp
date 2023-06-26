@@ -659,7 +659,7 @@ item &item::activate()
 
 bool item::activate_thrown( const tripoint &pos )
 {
-    return type->invoke( &get_avatar(), *this, pos ).value_or( 0 );
+    return type->invoke( nullptr, *this, pos ).value_or( 0 );
 }
 
 units::energy item::mod_energy( const units::energy &qty )

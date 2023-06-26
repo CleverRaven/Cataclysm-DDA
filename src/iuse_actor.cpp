@@ -368,7 +368,7 @@ void iuse_transform::do_transform( Character *p, item &it ) const
     }
 }
 
-ret_val<void> iuse_transform::can_use( const Character &p, const item &, bool,
+ret_val<void> iuse_transform::can_use( const Character *p, const item &, bool,
                                        const tripoint & ) const
 {
     if( qualities_needed.empty() ) {
@@ -377,9 +377,9 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &, bool,
 
     std::map<quality_id, int> unmet_reqs;
     inventory inv;
-    inv.form_from_map( p.pos(), 1, &p, true, true );
+    inv.form_from_map( p->pos(), 1, p, true, true );
     for( const auto &quality : qualities_needed ) {
-        if( !p.has_quality( quality.first, quality.second ) &&
+        if( !p->has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
             unmet_reqs.insert( quality );
         }
@@ -1262,18 +1262,18 @@ void firestarter_actor::resolve_firestarter_use( Character *p, const tripoint_bu
     }
 }
 
-ret_val<void> firestarter_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> firestarter_actor::can_use( const Character *p, const item &it, bool,
         const tripoint & ) const
 {
-    if( p.is_underwater() ) {
+    if( p->is_underwater() ) {
         return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    if( !it.ammo_sufficient( &p ) ) {
+    if( !it.ammo_sufficient( p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
-    if( need_sunlight && light_mod( p.pos() ) <= 0.0f ) {
+    if( need_sunlight && light_mod( p->pos() ) <= 0.0f ) {
         return ret_val<void>::make_failure( _( "You need direct sunlight to light a fire with this." ) );
     }
 
@@ -1878,14 +1878,14 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it, bool t,
     return 1;
 }
 
-ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> fireweapon_off_actor::can_use( const Character *p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.ammo_sufficient( &p ) ) {
+    if( it.ammo_sufficient( p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
-    if( p.is_underwater() ) {
+    if( p->is_underwater() ) {
         return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
 
@@ -1977,10 +1977,10 @@ std::optional<int> manualnoise_actor::use( Character *p, item &it, bool t, const
     return 1;
 }
 
-ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> manualnoise_actor::can_use( const Character *p, const item &it, bool,
         const tripoint & ) const
 {
-    if( !it.ammo_sufficient( &p ) ) {
+    if( !it.ammo_sufficient( p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2132,14 +2132,14 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
     return 0;
 }
 
-ret_val<void> musical_instrument_actor::can_use( const Character &p, const item &, bool,
+ret_val<void> musical_instrument_actor::can_use( const Character *p, const item &, bool,
         const tripoint & ) const
 {
     // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
-    if( p.is_underwater() ) {
+    if( p->is_underwater() ) {
         return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
-    if( p.is_mounted() ) {
+    if( p->is_mounted() ) {
         return ret_val<void>::make_failure( _( "You can't do that while mounted." ) );
     }
 
@@ -4073,17 +4073,17 @@ std::optional<int> install_bionic_actor::use( Character *p, item &it, bool,
     return std::nullopt;
 }
 
-ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> install_bionic_actor::can_use( const Character *p, const item &it, bool,
         const tripoint & ) const
 {
     if( !it.is_bionic() ) {
         return ret_val<void>::make_failure();
     }
     const bionic_id &bid = it.type->bionic->id;
-    if( p.is_mounted() ) {
+    if( p->is_mounted() ) {
         return ret_val<void>::make_failure( _( "You can't install bionics while mounted." ) );
     }
-    if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
+    if( !p->has_trait( trait_DEBUG_BIONICS ) ) {
         if( bid->installation_requirement.is_empty() ) {
             return ret_val<void>::make_failure( _( "You can't self-install this CBM." ) );
         } else  if( it.has_flag( flag_FILTHY ) ) {
@@ -4094,20 +4094,20 @@ ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it,
             return ret_val<void>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
         } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
-                   p.get_max_power_level() < bid->capacity ) {
+                   p->get_max_power_level() < bid->capacity ) {
             return ret_val<void>::make_failure( _( "Max power capacity already reached" ) );
         }
     }
 
-    if( p.has_bionic( bid ) && !bid->dupes_allowed ) {
+    if( p->has_bionic( bid ) && !bid->dupes_allowed ) {
         return ret_val<void>::make_failure( _( "You have already installed this bionic." ) );
-    } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
+    } else if( bid->upgraded_bionic && !p->has_bionic( bid->upgraded_bionic ) ) {
         return ret_val<void>::make_failure( _( "There is nothing to upgrade." ) );
     } else {
         const bool downgrade =
             std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
         [&p]( const bionic_id & b ) {
-            return p.has_bionic( b );
+            return p->has_bionic( b );
         } );
 
         if( downgrade ) {
@@ -4175,7 +4175,7 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it, bool,
     return std::nullopt;
 }
 
-ret_val<void> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> detach_gunmods_actor::can_use( const Character *p, const item &it, bool,
         const tripoint & ) const
 {
     const std::vector<const item *> mods = it.gunmods();
@@ -4194,7 +4194,7 @@ ret_val<void> detach_gunmods_actor::can_use( const Character &p, const item &it,
         return ret_val<void>::make_failure( _( "None of the mods can be removed." ) );
     }
 
-    if( p.is_worn(
+    if( p->is_worn(
             it ) ) { // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
         return ret_val<void>::make_failure( _( "Has to be taken off first." ) );
     }
@@ -4247,10 +4247,10 @@ std::optional<int> modify_gunmods_actor::use( Character *p, item &it, bool,
     return std::nullopt;
 }
 
-ret_val<void> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> modify_gunmods_actor::can_use( const Character *p, const item &it, bool,
         const tripoint & ) const
 {
-    if( !p.is_wielding( it ) ) {
+    if( !p->is_wielding( it ) ) {
         return ret_val<void>::make_failure( _( "Need to be wielding." ) );
     }
     const std::vector<const item *> mods = it.gunmods();
@@ -4268,7 +4268,7 @@ ret_val<void> modify_gunmods_actor::can_use( const Character &p, const item &it,
         return ret_val<void>::make_failure( _( "None of the mods can be modified." ) );
     }
 
-    if( p.is_worn(
+    if( p->is_worn(
             it ) ) { // I don't know if modifying really needs this but its for future proofing.
         return ret_val<void>::make_failure( _( "Has to be taken off first." ) );
     }

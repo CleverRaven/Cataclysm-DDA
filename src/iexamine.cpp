@@ -1898,7 +1898,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         you.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                                here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
-        const ret_val<void> can_use = iuse_fn->can_call( you, *it, false, examp );
+        const ret_val<void> can_use = iuse_fn->can_call( &you, *it, false, examp );
         if( can_use.success() ) {
             iuse_fn->call( &you, *it, false, examp );
             return;
@@ -3192,7 +3192,7 @@ static void add_firestarter( item *it, std::multimap<int, item *> &firestarters,
     const use_function *usef = it->type->get_use( "firestarter" );
     if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
         const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-        if( actor->can_use( you, *it, false, examp ).success() ) {
+        if( actor->can_use( &you, *it, false, examp ).success() ) {
             firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
         }
     }
@@ -3271,7 +3271,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
                 const use_function *usef = it->type->get_use( "firestarter" );
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-                const ret_val<void> can_use = actor->can_use( you, *it, false, examp );
+                const ret_val<void> can_use = actor->can_use( &you, *it, false, examp );
                 if( can_use.success() ) {
                     const int charges = actor->use( &you, *it, false, examp ).value_or( 0 );
                     you.use_charges( it->typeId(), charges );
