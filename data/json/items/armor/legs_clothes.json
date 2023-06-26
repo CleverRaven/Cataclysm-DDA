@@ -632,7 +632,7 @@
       {
         "id": "pants_grey",
         "name": { "str": "grey pants", "str_pl": "pairs of grey pants" },
-        "description": "a set of storm gray pants speckled with dark stains so deeply assimilated into the fabric that they’re nigh-irremovable. You vehemently hope that they’re just the mortal remains of some spilled Beveridge.",
+        "description": "A set of storm gray pants speckled with dark stains so deeply assimilated into the fabric that they’re nigh-irremovable.  You vehemently hope that they’re just the mortal remains of some spilled beverage.",
         "color": "dark_gray",
         "weight": 10
       },
