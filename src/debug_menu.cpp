@@ -3493,14 +3493,18 @@ void debug()
             if( filemenu.ret < 0 || static_cast<size_t>( filemenu.ret ) >= npc_files.size() ) {
                 break;
             }
-            shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-            temp->import_and_clean( npc_files[filemenu.ret] );
-            g->add_npc_follower( temp->getID() );
-            temp->set_attitude( NPCATT_FOLLOW );
-            temp->set_fac( faction_your_followers );
-            temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
-            overmap_buffer.insert_npc( temp );
-            g->load_npcs();
+            try {
+                shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+                temp->import_and_clean( npc_files[filemenu.ret] );
+                g->add_npc_follower( temp->getID() );
+                temp->set_attitude( NPCATT_FOLLOW );
+                temp->set_fac( faction_your_followers );
+                temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
+                overmap_buffer.insert_npc( temp );
+                g->load_npcs();
+            } catch( const std::exception &err ) {
+                debugmsg( _( "Failed to read NPC: %s" ), err.what() );
+            }
             break;
         }
 
