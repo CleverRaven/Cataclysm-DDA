@@ -13,10 +13,6 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 </figure>
 
 
-## Announcement: Steamy Days Ahead
-
-[Cataclysm: Dark Days Ahead is coming to Steam on March the 31st!](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/) Feel free to [check out the FAQ about how this will affect the project]({{ site.baseurl }}{% link /steam_faq.md %})
-
 ## Gameplay
 
 As your game begins, you awaken with hazy memories of violence and terror from when the world suddenly unravelled around you.  Now you need to explore your surroundings, and secure food, water and safety.  After that, who knows?  Long term survival will mean tapping abilities you haven't used before, learning to survive in this new environment, and developing new skills.
@@ -27,11 +23,15 @@ These sites are owned and managed by the project directly.
 * [Forums](https://discourse.cataclysmdda.org)
 * [Development-oriented Discord](https://discord.gg/jFEc7Yp)
 * IRC channel: #CataclysmDDA on Libera Chat, [webchat](https://web.libera.chat/#CataclysmDDA)
+* [Lemmy](https://cdda.social/)
 
 ## Community Managed Resources
-These are resources provided by third parties that the project sees as helpful to users.
+These are resources provided by third parties, or managed by *some* members of the development team. The project does not provide support for these directly.
 * [Hitchhiker's Guide to the Cataclysm](https://cdda-guide.nornagon.net)
-* [Wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php)
+* [Documentation For Developers](https://docs.cataclysmdda.org/)
+* [Game Launcher](https://github.com/Fris0uman/CDDA-Game-Launcher)
+* [Steam Version](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/)
+* [Android Play Store](https://play.google.com/store/apps/details?id=com.cleverraven.cataclysmdda)
 
 ## System Requirements
 ### Minimum
