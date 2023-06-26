@@ -19,7 +19,7 @@
   {
     "type": "GENERIC",
     "id": "lab_file_telepathy_item",
-    "name": { "str": "testing report (telepathy)", "str_pl": "testing report (telepathy)" },
+    "name": { "str": "testing report (telepathy)", "str_pl": "copies of testing report (telepathy)" },
     "category": "books",
     "description": "A folder full of what appear to be transcripts of confidential psychotherapy sessions.  Most of it is rather trivial, but certain passages catch your eye…",
     "weight": "15 g",
