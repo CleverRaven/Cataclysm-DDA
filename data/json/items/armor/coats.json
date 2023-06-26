@@ -133,7 +133,7 @@
       {
         "id": "coat_fox_arctic_fur",
         "name": { "str": "arctic fox jacket" },
-        "description": "Fluffy and insulating, this expensive fur coat is composed of a small battalion’s worth of snowy-white arctic fox pelts with silver tips.  A strait section forms the back and lower sweep, while triangularly cut furs are sown in an inverse pattern to form the rest of the jackit.",
+        "description": "Fluffy and insulating, this expensive fur coat is composed of a small battalion’s worth of snowy-white arctic fox pelts with silver tips.  A straight section forms the back and lower sweep, while triangularly cut furs are sown in an inverse pattern to form the rest of the jacket.",
         "color": "white",
         "weight": 10
       },
