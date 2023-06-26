@@ -3154,8 +3154,7 @@
       { "point": [ 3, 1, 0 ], "overmap": "mall_a_78_south" },
       { "point": [ 2, 1, 0 ], "overmap": "mall_a_79_south" },
       { "point": [ 1, 1, 0 ], "overmap": "mall_a_80_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "mall_a_81_south" },
-      { "point": [ 4, 0, 0 ], "overmap": "road_end_north" }
+      { "point": [ 0, 1, 0 ], "overmap": "mall_a_81_south" }
     ]
   },
   {
