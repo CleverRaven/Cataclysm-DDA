@@ -175,7 +175,7 @@
       {
         "id": "coat_albino_mink_fur",
         "name": { "str": "albino mink coat" },
-        "description": "Even more prized than regular mink jackets, this coat is exclusively composed of plush white fur with no markings or color in its undercoat.  Extremely warm and equipped with dual pockets, this expensive fashion statement would certainly turn some heads if anyone left alive could still care about esthetics.",
+        "description": "Even more prized than regular mink jackets, this coat is exclusively composed of plush white fur with no markings or color in its undercoat.  Extremely warm and equipped with dual pockets, this expensive fashion statement would certainly turn some heads if anyone left alive could still care about aesthetics.",
         "color": "white",
         "weight": 5
       },
