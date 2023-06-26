@@ -1883,7 +1883,11 @@
           "stethoscope",
           "pudding"
         ],
-        "entries": [           { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "white_mask_dust" } ]
+        "entries": [
+          { "item": "pants", "variant": "pants_blue" },
+          { "group": "charged_smart_phone" },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2160,7 +2164,7 @@
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
-{ "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_stone" },
           { "group": "speedloaders_s&w619_magnum" },
           { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7, "container-item": "holster" }
         ]
@@ -3474,25 +3478,23 @@
     "proficiencies": [ "prof_lockpicking" ],
     "skills": [ { "level": 4, "name": "traps" } ],
     "items": {
-      "both": [
-        "socks",
-        "sneakers",
-        "pants",
-        "striped_shirt",
-        "hoodie",
-        "gloves_light",
-        "mask_ski",
-        "swag_bag",
-        "crowbar",
-        "hacksaw",
-        "wristwatch",
-        "boltcutters",
-        "stethoscope",
-        "picklocks"
-      ],
-        "entries": [
-          { "item": "pants", "variant": "pants_black_camo" }
-        ]
+      "both": {
+        "items": [
+          "socks",
+          "sneakers",
+          "striped_shirt",
+          "hoodie",
+          "gloves_light",
+          "mask_ski",
+          "swag_bag",
+          "crowbar",
+          "hacksaw",
+          "wristwatch",
+          "boltcutters",
+          "stethoscope",
+          "picklocks"
+        ],
+        "entries": [ { "item": "pants", "variant": "pants_black_camo" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
