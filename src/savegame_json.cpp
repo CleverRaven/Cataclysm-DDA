@@ -767,8 +767,6 @@ void Character::load( const JsonObject &data )
 
     data.read( "magic", magic );
 
-    data.read( "underwater", underwater );
-
     data.read( "traits", my_traits );
     // If a trait has been migrated, we'll need to add it.
     // Queue them up to add at the end, because adding and removing at the same time is hard
@@ -3368,7 +3366,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 void vehicle_part::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "id", info_->get_id().str() );
+    json.member( "id", info_->id.str() );
     if( !variant.empty() ) {
         json.member( "variant", variant );
     }

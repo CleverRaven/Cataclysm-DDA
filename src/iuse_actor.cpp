@@ -4682,8 +4682,8 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
 
             const itype_id item_id = it.typeId();
             bool vpid_found = false;
-            for( const auto &e : vpart_info::all() ) {
-                if( e.second.base_item == item_id ) {
+            for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+                if( vpi.base_item == item_id ) {
                     vpid_found = true;
                     break;
                 }
@@ -4788,9 +4788,9 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
 
             const itype_id item_id = it.typeId();
             vpart_id vpid = vpart_id::NULL_ID();
-            for( const auto &e : vpart_info::all() ) {
-                if( e.second.base_item == item_id ) {
-                    vpid = e.first;
+            for( const vpart_info &e : vehicles::parts::get_all() ) {
+                if( e.base_item == item_id ) {
+                    vpid = e.id;
                     break;
                 }
             }
