@@ -313,12 +313,11 @@ bool npc_trading::trade( talker *trader, int cost, const std::string &deal )
         std::list<item_location *> from_map;
 
         std::list<item> escrow;
-        talker *player_character = get_talker_for( get_avatar() ).get();
-
+        std::unique_ptr<talker> player_character = get_talker_for( get_avatar() );
         // Movement of items in 3 steps: player to escrow - npc to player - escrow to npc.
-        escrow = npc_trading::transfer_items( trade_result.items_you, player_character, trader, from_map,
+        escrow = npc_trading::transfer_items( trade_result.items_you, player_character.get(), trader, from_map,
                                               true );
-        npc_trading::transfer_items( trade_result.items_trader, trader, player_character, from_map, false );
+        npc_trading::transfer_items( trade_result.items_trader, trader, player_character.get(), from_map, false);
         // Now move items from escrow to the npc. Keep the weapon wielded.
         if( trader_npc ) {
             if( trader_npc->is_shopkeeper() ) {
