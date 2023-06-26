@@ -155,7 +155,7 @@
         "max_range": 5,
         "message": "%1$s moves so quickly your eyes can barely follow them!"
       },
-      [ "BIO_OP_DISARM", 10 ],
+      { "id": "bio_op_disarm", "cooldown": 10 },
       { "id": "bio_op_takedown", "cooldown": 15 }
     ],
     "flags": [
