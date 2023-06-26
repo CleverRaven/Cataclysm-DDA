@@ -4149,7 +4149,7 @@
       { "point": [ 0, 1, 0 ], "overmap": "junkyard_2a_north" },
       { "point": [ 1, 1, 0 ], "overmap": "junkyard_2b_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" }, { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }, { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
     "locations": [ "wilderness" ],
     "city_distance": [ -1, 10 ],
     "city_sizes": [ 8, -1 ],
