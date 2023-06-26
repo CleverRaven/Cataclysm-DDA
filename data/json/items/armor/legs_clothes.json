@@ -913,7 +913,7 @@
       {
         "id": "pants_fuchsia",
         "name": { "str": "fuchsia pants", "str_pl": "pairs of fuchsia pants" },
-        "description": "a bright, fashionable, and charming-looking pair of reddish purple trousers, with two deep pockets and a construction that favors heat retention more than regular jeans.",
+        "description": "A bright, fashionable, and charming-looking pair of reddish purple trousers, with two deep pockets and a construction that favors heat retention more than regular jeans.",
         "weight": 4
       },
       {
