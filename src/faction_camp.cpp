@@ -788,9 +788,11 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                                                    BRISK_EXERCISE );
                 bool can_upgrade = upgrade.avail;
                 entry = om_upgrade_description( upgrade.bldg, upgrade.args );
-                entry += string_format( _( "Total calorie cost: %s\n" ), foodcost );
                 if( foodcost > camp_food_supply( 0, false ) ) {
                     can_upgrade = false;
+                    entry += string_format( "%s %s\n", colorize( _( "Total calorie cost:" ), c_red ), foodcost );
+                } else {
+                    entry += string_format( _( "Total calorie cost: %s\n" ), foodcost );
                 }
                 mission_key.add_start( miss_id, display_name, entry, can_upgrade );
             } else {
