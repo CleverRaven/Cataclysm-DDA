@@ -2574,7 +2574,7 @@
       },
       {
         "id": "rec_case",
-        "name": { "str": "[R E C ] smartphone case" },
+        "name": { "str": "[R E C] smartphone case" },
         "description": "This waterproof smartphone case features the recognizable branding of said movie's original poster, which depicts a graphic of a person with a blood-splattered face, looking upwards, on an orange-colored background.  It also features the film's title, 'R E C' printed in bold white letters at the bottom.",
         "weight": 5
       },
