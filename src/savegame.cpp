@@ -2,6 +2,7 @@
 
 #include <clocale>
 #include <algorithm>
+#include <fstream>
 #include <map>
 #include <sstream>
 #include <string>
@@ -15,6 +16,7 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "cata_io.h"
+#include "cata_path.h"
 #include "city.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
@@ -1610,6 +1612,14 @@ void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )
     }
 }
 
+void npc::import_and_clean( const cata_path &path )
+{
+    std::ifstream fin( path.get_unrelative_path(), std::ios::binary );
+    size_t json_offset = chkversion( fin );
+    JsonValue jsin = json_loader::from_path_at_offset( path, json_offset );
+    import_and_clean( jsin.get_object() );
+}
+
 void npc::import_and_clean( const JsonObject &data )
 {
     deserialize( data );
@@ -1668,4 +1678,13 @@ void npc::import_and_clean( const JsonObject &data )
     warning_record = defaults.warning_record;
     complaints = defaults.complaints;
     unique_id = defaults.unique_id;
+}
+
+void npc::export_to( const cata_path &path ) const
+{
+    write_to_file( path, [&]( std::ostream & fout ) {
+        fout << "# version " << savegame_version << std::endl;
+        JsonOut jsout( fout );
+        serialize( jsout );
+    } );
 }

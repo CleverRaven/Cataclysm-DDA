@@ -3910,14 +3910,6 @@ void npc::update_missions_target( character_id old_character, character_id new_c
     }
 }
 
-void npc::export_to( const cata_path &path ) const
-{
-    write_to_file( path, [&]( std::ostream & fout ) {
-        JsonOut jsout( fout );
-        serialize( jsout );
-    } );
-}
-
 std::unique_ptr<talker> get_talker_for( npc &guy )
 {
     return std::make_unique<talker_npc>( &guy );
