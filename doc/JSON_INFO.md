@@ -2229,6 +2229,7 @@ about the event.
 For example, consider the `gains_skill_level` event.  You can see this
 specification for it in `event.h`:
 
+<!-- {% raw %} -->
 ```C++
 template<>
 struct event_spec<event_type::gains_skill_level> {
@@ -2240,7 +2241,7 @@ struct event_spec<event_type::gains_skill_level> {
     };
 };
 ```
-
+<!-- {% endraw %} -->
 From this, you can see that this event type has three fields:
 * `character`, with the id of the character gaining the level.
 * `skill`, with the id of the skill gained.
