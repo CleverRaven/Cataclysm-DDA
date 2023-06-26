@@ -4779,9 +4779,11 @@ std::string basecamp::craft_description( const recipe_id &itm )
     for( auto &elem : component_print_buffer ) {
         str_append( comp, elem, "\n" );
     }
-    comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
+    comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\nCalories per craft: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ) );
+                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ),
+                          time_to_food( base_camps::to_workdays( making.batch_duration( get_player_character() ) ),
+                                        itm.obj().exertion_level() ) );
     return comp;
 }
 
