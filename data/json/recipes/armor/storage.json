@@ -930,8 +930,8 @@
     "skills_required": [ "pistol", 1 ],
     "time": "1 m",
     "reversible": { "time": "30 s" },
-    "autolearn": true, 
-	"using": [ [ "tailoring_cotton_patchwork", 1 ] ],
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
     "components": [ [ [ "holster", 2 ] ] ]
   },
   {
