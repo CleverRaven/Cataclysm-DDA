@@ -307,8 +307,8 @@
       {
         "id": "holybook_talmud_12",
         "name": {
-          "str": "Talmud, Vol. 12, Tractate Orlah & Bikkurim",
-          "str_pl": "copies of the Talmud, Vol. 12, Tractate Orlah & Bikkurim"
+          "str": "Talmud, Vol. 12, Tractates Orlah & Bikkurim",
+          "str_pl": "copies of the Talmud, Vol. 12, Tractates Orlah & Bikkurim"
         },
         "description": "This is volume 12 of 51, containing Tractates Orlah and Bikkurim.  Both tractates discuss the practice of letting a fruit tree grow for three years before harvesting it.",
         "append": true,
@@ -443,7 +443,7 @@
       {
         "id": "holybook_talmud_28",
         "name": { "str": "Talmud, Vol. 28, Tractate Moed Katan", "str_pl": "copies of the Talmud, Vol. 28, Tractate Moed Katan" },
-        "description": "This is volume 28 of 51, containing Tractate Moed Katan.  It discusses Chol HaMoed, the minor holidays in between the first and last days of Sukkot and Passover.",
+        "description": "This is volume 28 of 51, containing Tractate Moed Katan.  It discusses Chol HaMoed, the minor holidays in between the first and last days of Sukkot and Passover.  It also has the famous story of the Oven of Akhnai, from which the principle is derived that \"The Torah is not in heaven\".",
         "append": true,
         "weight": 1
       },
@@ -513,7 +513,89 @@
         "description": "This is volume 35 of 51, containing the second part of Tractate Nazir.  It continues the discussion of Nazirite vows, as well as the transmission of ritual impurity between objects.",
         "append": true,
         "weight": 1
+      },
+      {
+        "id": "holybook_talmud_36",
+        "name": {
+          "str": "Talmud, Vol. 36, Tractate Sotah (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 36, Tractate Sotah (Part 1)"
+        },
+        "description": "This is volume 36 of 51, containing the first part of Tractate Sotah.  It contains a discussion of the sotah, or \"bitter water\", ritual for a woman suspected of adultery by her husband.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_37",
+        "name": {
+          "str": "Talmud, Vol. 37, Tractate Sotah (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 37, Tractate Sotah (Part 2)"
+        },
+        "description": "This is volume 37 of 51, containing the second part of Tractate Sotah.  It continues a discussion of the sotah, as well as a long discussion over the entrance of the Israelites into the land of Israel.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_38",
+        "name": {
+          "str": "Talmud, Vol. 38, Tractate Gittin (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 38, Tractate Gittin (Part 1)"
+        },
+        "description": "This is volume 38 of 51, containing the first part of Tractate Gittin.  It discusses the Get, the formal document of divorce, and the specifications for its preparation and writing.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_39",
+        "name": {
+          "str": "Talmud, Vol. 39, Tractate Gittin (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 39, Tractate Gittin (Part 2)"
+        },
+        "description": "This is volume 39 of 51, containing the second part of Tractate Gittin.  It continues the discussion of the Get, as well the process of  \"Tikkun Olam\", or repairing the world.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_40",
+        "name": {
+          "str": "Talmud, Vol. 40, Tractate Kiddushin",
+          "str_pl": "copies of the Talmud, Vol. 40, Tractate Kiddushin"
+        },
+        "description": "This is volume 40 of 51, containing Tractate Kiddushin.  It discusses the laws of betrothal and the rules governing interactions between unmarried men and women.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_41",
+        "name": {
+          "str": "Talmud, Vol. 41, Tractate Bava Kamma",
+          "str_pl": "copies of the Talmud, Vol. 41, Tractate Bava Kamma"
+        },
+        "description": "This is volume 41 of 51, containing Tractate Bava Kamma.  It discusses torts and the proper ways to deal with damages inflicted on people and property.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_42",
+        "name": {
+          "str": "Talmud, Vol. 42, Tractate Bava Metzia",
+          "str_pl": "copies of the Talmud, Vol. 42, Tractate Bava Meztia"
+        },
+        "description": "This is volume 42 of 51, containing Tractate Bava Metzia.  It discusses interpersonal disputes such as lost property, renting, and obligations of workers and employers, with a digression into how great sages who spend their lives studying Torah are.  It also reiterates the story of the Oven of Akhnai.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_43",
+        "name": {
+          "str": "Talmud, Vol. 43, Tractate Bava Basra",
+          "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Basra"
+        },
+        "description": "This is volume 43 of 51, containing Tractate Bava Basra.  It discusses business relationships and the laws of inheritance.",
+        "append": true,
+        "weight": 1
       }
+    ]
+  },
     ]
   },
   {
