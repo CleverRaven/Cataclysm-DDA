@@ -44,13 +44,7 @@
   {
     "type": "palette",
     "id": "fbmc_rammed_earth_palette",
-    "terrain": {
-      ".": "t_floor_primitive",
-      ".": "t_floor_primitive",
-      "+": "t_door_makeshift_c",
-      "v": "t_window_empty",
-      "w": "t_wall_rammed_earth"
-    },
+    "terrain": { ".": "t_floor_primitive", "+": "t_door_makeshift_c", "v": "t_window_empty", "w": "t_wall_rammed_earth" },
     "furniture": {  }
   },
   {
