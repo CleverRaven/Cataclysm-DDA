@@ -5550,13 +5550,20 @@
     "points": -1,
     "items": {
       "both": {
-        "items": [ "american_flag", "socks", "sneakers", "wristwatch" ],
+        "items": [ "american_flag", "socks", "wristwatch" ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "flag_mask_dust" } ]
       },
-      "male": { "items": [ "flag_shirt", "flag_pants" ], "entries": [ { "item": "flag_swimsuit", "variant": "flag_swimsuit" } ] },
+      "male": {
+        "items": [ "flag_shirt", "sneakers" ],
+        "entries": [ { "item": "flag_swimsuit", "variant": "flag_swimsuit" }, { "item": "pants", "variant": "pants_flag" } ]
+      },
       "female": {
         "items": [ "flag_jumpsuit" ],
-        "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
+        "entries": [
+          { "item": "bikini_top", "variant": "flag_bikini_top" },
+          { "item": "bikini_bottom", "variant": "flag_bikini_bottom" },
+          { "item": "heels", "variant": "heels_flag" }
+        ]
       }
     }
   },

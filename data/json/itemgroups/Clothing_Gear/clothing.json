@@ -483,9 +483,8 @@
               { "item": "pants_tactical", "prob": 20 },
               { "item": "pants_cargo", "prob": 30 },
               { "item": "shorts_cargo", "prob": 60 },
-              { "item": "pants", "variant": "pants_flag", "prob": 70, "event": "independence_day" },
-              { "item": "flag_pants", "prob": 1 },
-              { "item": "flag_pants", "prob": 70, "event": "independence_day" }
+              { "item": "pants", "variant": "pants_flag", "prob": 1 },
+              { "item": "pants", "variant": "pants_flag", "prob": 70, "event": "independence_day" }
             ]
           },
           { "item": "leather_belt", "prob": 30 }
@@ -1461,11 +1460,10 @@
       { "item": "hot_pants_fur", "prob": 5 },
       { "item": "hot_pants_leather", "prob": 25 },
       { "item": "breeches", "prob": 25 },
-      { "item": "flag_pants", "prob": 10 },
+      { "item": "pants", "variant": "pants_flag", "prob": 10 },
       { "item": "trousers_ninja", "prob": 1 },
       { "group": "pants_mens", "prob": 10 },
       { "item": "pants", "variant": "pants_flag", "prob": 70, "event": "independence_day" },
-      { "item": "flag_pants", "prob": 70, "event": "independence_day" },
       { "group": "christmas_pants_male", "prob": 150, "event": "christmas" },
       { "group": "costume_pants", "prob": 150, "event": "halloween" }
     ]
@@ -1690,7 +1688,6 @@
       [ "mask_skull", 1 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 1 ],
-      [ "flag_pants", 5 ],
       [ "trousers_ninja", 1 ],
       { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
@@ -1763,10 +1760,9 @@
       [ "b_shorts", 15 ],
       [ "kilt", 2 ],
       [ "nanoskirt", 10 ],
-      [ "flag_pants", 5 ],
+      { "item": "pants", "variant": "pants_flag", "prob": 5 },
       { "group": "costume_pants_skirts", "prob": 1 },
       { "item": "pants", "variant": "pants_flag", "prob": 100, "event": "independence_day" },
-      { "item": "flag_pants", "prob": 100, "event": "independence_day" },
       { "group": "christmas_pants_male", "prob": 100, "event": "christmas" },
       { "group": "costume_pants_skirts", "prob": 100, "event": "halloween" }
     ]
@@ -2433,7 +2429,7 @@
       { "item": "mask_skull", "prob": 1 },
       { "item": "cheerleader_skirt", "prob": 5 },
       { "item": "cheerleader_skirt_short", "prob": 1 },
-      { "item": "flag_pants", "prob": 5 },
+      { "item": "pants", "variant": "pants_flag", "prob": 5 },
       { "item": "trousers_ninja", "prob": 1 },
       { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       { "item": "cheerleader_top_short", "prob": 1 },
@@ -3622,7 +3618,7 @@
       [ "mask_skull", 1 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 1 ],
-      [ "flag_pants", 5 ],
+      { "item": "pants", "variant": "pants_flag", "prob": 5 },
       [ "trousers_ninja", 1 ],
       { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],

@@ -172,5 +172,11 @@
     "type": "MIGRATION",
     "replace": "coat_fur",
     "variant": "coat_sable_fur"
+  },
+  {
+    "id": "flag_pants",
+    "type": "MIGRATION",
+    "replace": "pants",
+    "variant": "pants_flag"
   }
 ]
