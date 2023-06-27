@@ -3,34 +3,58 @@
     "type": "overmap_special",
     "id": "Crater",
     "subtype": "mutable",
-    "locations": [ "land" ],
+    "locations": [ "land", "road" ],
     "occurrences": [ 0, 2 ],
     "flags": [ "BLOB", "CLASSIC" ],
-    "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "land" ] ],
-      [ [ 1, 0, 0 ], [ "land" ] ],
-      [ [ 0, 1, 0 ], [ "land" ] ],
-      [ [ -1, 0, 0 ], [ "land" ] ],
-      [ [ 0, -1, 0 ], [ "land" ] ]
+    "check_for_locations_area": [ { "type": [ "land", "road" ], "from": [ -3, -3, 0 ], "to": [ 3, 3, 0 ] } ],
+    "joins": [
+      "core_to_crater",
+      { "id": "crater_to_corner", "opposite": "corner_to_crater" },
+      { "id": "corner_to_crater", "opposite": "crater_to_corner" }
     ],
-    "joins": [ "crater_to_crater" ],
     "overmaps": {
       "crater_core": {
         "overmap": "crater_core",
-        "north": "crater_to_crater",
-        "east": "crater_to_crater",
-        "south": "crater_to_crater",
-        "west": "crater_to_crater"
+        "north": "core_to_crater",
+        "east": "core_to_crater",
+        "south": "core_to_crater",
+        "west": "core_to_crater"
       },
-      "crater_edge": {
+      "crater_adjacent_to_core": { "overmap": "crater", "north": "core_to_crater", "east": "crater_to_corner", "west": "crater_to_corner" },
+      "crater_adjacent_to_core_double": {
+        "//": "For an L shape of cores",
         "overmap": "crater",
-        "north": "crater_to_crater",
-        "east": { "id": "crater_to_crater", "type": "available" },
-        "south": { "id": "crater_to_crater", "type": "available" },
-        "west": { "id": "crater_to_crater", "type": "available" }
-      }
+        "north": "core_to_crater",
+        "east": "core_to_crater",
+        "south": "crater_to_corner",
+        "west": "crater_to_corner"
+      },
+      "crater_adjacent_to_core_triple": {
+        "//": "For an U shape of cores",
+        "overmap": "crater",
+        "north": "core_to_crater",
+        "east": "core_to_crater",
+        "south": "core_to_crater",
+        "west": "crater_to_corner"
+      },
+      "crater_adjacent_to_core_quad": {
+        "//": "Only used if a O shape of cores forms, probably pointless",
+        "overmap": "crater",
+        "north": "core_to_crater",
+        "east": "core_to_crater",
+        "south": "core_to_crater",
+        "west": "core_to_crater"
+      },
+      "crater_corner": { "overmap": "crater", "north": "corner_to_crater", "east": "corner_to_crater" }
     },
     "root": "crater_core",
-    "phases": [ [ { "overmap": "crater_core", "max": { "poisson": 0.8 } } ], [ { "overmap": "crater_edge", "weight": 1 } ] ]
+    "phases": [
+      [ { "//": "CHANGE AFTER REBASE", "overmap": "crater_core", "max": 3 } ],
+      [ { "overmap": "crater_adjacent_to_core", "weight": 1 } ],
+      [ { "overmap": "crater_adjacent_to_core_double", "weight": 1 } ],
+      [ { "overmap": "crater_adjacent_to_core_triple", "weight": 1 } ],
+      [ { "overmap": "crater_adjacent_to_core_quad", "weight": 1 } ],
+      [ { "overmap": "crater_corner", "weight": 1 } ]
+    ]
   }
 ]
