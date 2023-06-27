@@ -20,8 +20,7 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_closures" }
-    ],
-    "flags": [ "SECRET" ]
+    ]
   },
   {
     "result": "xs_helmet_nomad",
@@ -47,8 +46,7 @@
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 2 ], [ "goggles_ski", 2 ], [ "face_shield_plastic", 1 ] ],
       [ [ "leather", 12 ], [ "tanned_hide", 3 ] ]
-    ],
-    "flags": [ "SECRET" ]
+    ]
   },
   {
     "result": "armor_nomad",
