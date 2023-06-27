@@ -458,7 +458,7 @@
   {
     "id": "side_double_holster",
     "type": "ARMOR",
-    "name": { "str": "side by side double holster" },
+    "name": { "str": "side-by-side double holster" },
     "description": "Two holsters attached together by a strap, right next to each other.  The placement means that drawing guns out of either one is slower than a regular holster.  Activate to holster/draw a gun.",
     "weight": "500 g",
     "volume": "1000 ml",
@@ -506,7 +506,7 @@
   {
     "id": "FB_double_holster",
     "type": "ARMOR",
-    "name": { "str": "front to back double holster" },
+    "name": { "str": "front-to-back double holster" },
     "description": "Two holsters attached together by a strap, one in front of the other.  The placement means that drawing a gun out of the front holster is slower than the other holster.  Activate to holster/draw a gun.",
     "weight": "500 g",
     "volume": "1000 ml",
