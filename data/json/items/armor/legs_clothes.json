@@ -676,7 +676,7 @@
         "id": "pants_maroon",
         "name": { "str": "maroon sweatpants", "str_pl": "pairs of maroon sweatpants" },
         "description": "A visually appealing and subtle blend of browns and deep reds characterizes this pair of pants, which come equipped with a drawstring at the waist, elastic cuffs, and zip-up pockets.  An energetic and sporting set of pants for high-energy situations.",
-        "color": "dark_red",
+        "color": "red",
         "weight": 8
       },
       {
