@@ -225,20 +225,17 @@ std::optional<int> iuse_transform::use( Character *p, item &it, bool t, const tr
     if( iter != it.type->ammo_scale.end() ) {
         scale = iter->second;
     }
-    if( t ) {
+    if( t || !p ) {
         return std::nullopt; // invoked from active item processing, do nothing.
     }
 
     int result = 0;
 
-    const bool possess = p->has_item( it ) ||
-                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p->pos(), pos ) <= 1 );
-
-    if( possess && need_worn && !p->is_worn( it ) ) {
+    if( need_worn && !p->is_worn( it ) ) {
         p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
         return std::nullopt;
     }
-    if( possess && need_wielding && !p->is_wielding( it ) ) {
+    if( need_wielding && !p->is_wielding( it ) ) {
         p->add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return std::nullopt;
     }
@@ -263,13 +260,11 @@ std::optional<int> iuse_transform::use( Character *p, item &it, bool t, const tr
 
     if( need_charges && it.ammo_remaining( p, true ) < need_charges ) {
 
-        if( possess ) {
-            p->add_msg_if_player( m_info, need_charges_msg, it.tname() );
-        }
+        p->add_msg_if_player( m_info, need_charges_msg, it.tname() );
         return std::nullopt;
     }
 
-    if( need_fire && possess ) {
+    if( need_fire ) {
         if( !p->use_charges_if_avail( itype_fire, need_fire ) ) {
             p->add_msg_if_player( m_info, need_fire_msg, it.tname() );
             return std::nullopt;
@@ -279,15 +274,13 @@ std::optional<int> iuse_transform::use( Character *p, item &it, bool t, const tr
         }
     }
 
-    if( possess && !msg_transform.empty() ) {
+    if( !msg_transform.empty() ) {
         p->add_msg_if_player( m_neutral, msg_transform, it.tname() );
     }
 
-    if( possess ) {
-        p->moves -= moves;
-    }
+    p->moves -= moves;
 
-    if( possess && need_fire && p->has_trait( trait_PYROMANIA ) ) {
+    if( need_fire && p->has_trait( trait_PYROMANIA ) ) {
         if( one_in( 2 ) ) {
             p->add_msg_if_player( m_mixed,
                                   _( "You light a fire, but it isn't enough.  You need to light more." ) );
