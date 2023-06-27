@@ -262,7 +262,7 @@ void JsonObject::report_unvisited() const
             tiny_bitset::block_t block = bits[block_idx];
             tiny_bitset::block_t mask = tiny_bitset::kLowBit << ( tiny_bitset::kBitsPerBlock - 1 );
             for( size_t bit_idx = 0; bit_idx < tiny_bitset::kBitsPerBlock; ++bit_idx ) {
-                if( block & mask ) {
+                if( !( block & mask ) ) {
                     skipped_members.emplace_back( block_idx * tiny_bitset::kBitsPerBlock + bit_idx );
                 }
                 mask >>= 1;
