@@ -29,7 +29,6 @@
     "warmth": 10,
     "material_thickness": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
-    "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ]
   },
   {
