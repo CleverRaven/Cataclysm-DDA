@@ -1758,7 +1758,7 @@ void outfit::activate_combat_items( npc &guy )
             if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
                 continue;
             }
-            if( transform->can_use( &guy, candidate, false, tripoint_zero ).success() ) {
+            if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
                 transform->use( &guy, candidate, false, tripoint_zero );
                 guy.add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
             }
@@ -1778,7 +1778,7 @@ void outfit::deactivate_combat_items( npc &guy )
             candidate.active ) {
             const iuse_transform *transform = dynamic_cast<const iuse_transform *>
                                               ( candidate.type->get_use( "transform" )->get_actor_ptr() );
-            if( transform->can_use( &guy, candidate, false, tripoint_zero ).success() ) {
+            if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
                 transform->use( &guy, candidate, false, tripoint_zero );
                 guy.add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
             }

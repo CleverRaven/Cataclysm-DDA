@@ -274,7 +274,7 @@ class iuse_actor
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo ) = 0;
         virtual std::optional<int> use( Character *, item &, bool, const tripoint & ) const = 0;
-        virtual ret_val<void> can_use( const Character *, const item &, bool, const tripoint & ) const;
+        virtual ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
          * Returns a deep copy of this object. Example implementation:
@@ -316,7 +316,7 @@ struct use_function {
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
         std::optional<int> call( Character *, item &, bool, const tripoint & ) const;
-        ret_val<void> can_call( const Character *, const item &, bool t, const tripoint &pos ) const;
+        ret_val<void> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {
             return actor.get();

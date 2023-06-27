@@ -108,7 +108,7 @@ class iuse_transform : public iuse_actor
         ~iuse_transform() override = default;
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
-        ret_val<void> can_use( const Character *, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
@@ -454,7 +454,7 @@ class firestarter_actor : public iuse_actor
         ~firestarter_actor() override = default;
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
-        ret_val<void> can_use( const Character *, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -543,7 +543,7 @@ class fireweapon_off_actor : public iuse_actor
         ~fireweapon_off_actor() override = default;
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
-        ret_val<void> can_use( const Character *, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -589,7 +589,7 @@ class manualnoise_actor : public iuse_actor
         ~manualnoise_actor() override = default;
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
-        ret_val<void> can_use( const Character *, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -634,7 +634,7 @@ class musical_instrument_actor : public iuse_actor
         ~musical_instrument_actor() override = default;
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
-        ret_val<void> can_use( const Character *, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -1001,7 +1001,7 @@ class install_bionic_actor : public iuse_actor
 
         void load( const JsonObject & ) override {}
         std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
-        ret_val<void> can_use( const Character *, const item &it, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
 };
@@ -1013,7 +1013,7 @@ class detach_gunmods_actor : public iuse_actor
 
         void load( const JsonObject & ) override {}
         std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
-        ret_val<void> can_use( const Character *, const item &it, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
 };
@@ -1025,7 +1025,7 @@ class modify_gunmods_actor : public iuse_actor
 
         void load( const JsonObject & ) override {}
         std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
-        ret_val<void> can_use( const Character *, const item &it, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
 };
