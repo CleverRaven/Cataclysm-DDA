@@ -94,7 +94,7 @@
     "name": "down bunkbed",
     "symbol": "0",
     "looks_like": "f_bed_down",
-    "description": "A bunk bed with a sturdy wooden frame built to hold two single-person mattresses above one another.  While these usually mean sleeping closer than you'd like to somebody you wouldn't normally want to share a mattress with, a bed's a bed. This one has two down mattresses.",
+    "description": "A bunk bed with a sturdy wooden frame built to hold two single-person mattresses above one another.  While these usually mean sleeping closer than you'd like to somebody you wouldn't normally want to share a mattress with, a bed's a bed.  This one has two down mattresses.",
     "color": "magenta",
     "move_cost_mod": 6,
     "coverage": 40,
