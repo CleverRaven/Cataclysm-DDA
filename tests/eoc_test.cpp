@@ -19,6 +19,10 @@ static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
 static const effect_on_condition_id
 effect_on_condition_EOC_activate_mutation_to_start_test( "EOC_activate_mutation_to_start_test" );
+static const effect_on_condition_id effect_on_condition_EOC_alive_test( "EOC_alive_test" );
+static const effect_on_condition_id effect_on_condition_EOC_attack_test( "EOC_attack_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_increment_var_var( "EOC_increment_var_var" );
 static const effect_on_condition_id
@@ -62,6 +66,8 @@ effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
 
+
+static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
@@ -263,6 +269,51 @@ TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
     complete_activity( get_avatar() );
 
     CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 1 );
+}
+
+TEST_CASE( "EOC_combat_mutator_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+    item weapon( itype_test_knife_combat );
+    get_avatar().set_wielded_item( weapon );
+    npc &n = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( n ) );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    CHECK( effect_on_condition_EOC_combat_mutator_test->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "RAPID" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Rapid Strike" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "50% moves, 66% damage" );
+}
+
+TEST_CASE( "EOC_alive_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    CHECK( effect_on_condition_EOC_alive_test->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "alive" );
+}
+
+TEST_CASE( "EOC_attack_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+    npc &n = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+
+    dialogue newDialog( get_talker_for( get_avatar() ), get_talker_for( n ) );
+    CHECK( effect_on_condition_EOC_attack_test->activate( newDialog ) );
 }
 
 TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )

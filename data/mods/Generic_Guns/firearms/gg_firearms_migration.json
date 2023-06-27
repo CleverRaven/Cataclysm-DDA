@@ -139,7 +139,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi" ],
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi", "hpt3895" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },

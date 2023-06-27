@@ -39,7 +39,7 @@ vpart_display::vpart_display()
     , variant( vpart_id::NULL_ID()->variants.begin()->second ) {}
 
 vpart_display::vpart_display( const vehicle_part &vp )
-    : id( vp.info().get_id() )
+    : id( vp.info().id )
     , variant( vp.info().variants.at( vp.variant ) ) {}
 
 std::string vpart_display::get_tileset_id() const
@@ -74,7 +74,7 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
         variant_it = vpi.variants.begin();
         const std::string fallback_variant = variant_it->first;
         debugmsg( "part '%s' uses non-existent variant '%s' setting to '%s'",
-                  vpi.get_id().str(), vp.variant, fallback_variant );
+                  vpi.id.str(), vp.variant, fallback_variant );
         vehicle_part &vp_cast = const_cast<vehicle_part &>( vp );
         vp_cast.variant = fallback_variant;
     }
