@@ -786,13 +786,18 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 const int foodcost = time_to_food( base_camps::to_workdays( time_duration::from_moves(
                                                        making.blueprint_build_reqs().reqs_by_parameters.find( miss_id.mapgen_args )->second.time ) ),
                                                    BRISK_EXERCISE );
+                const int available_calories = camp_food_supply( 0, false );
                 bool can_upgrade = upgrade.avail;
                 entry = om_upgrade_description( upgrade.bldg, upgrade.args );
-                if( foodcost > camp_food_supply( 0, false ) ) {
+                if( foodcost > available_calories ) {
                     can_upgrade = false;
-                    entry += string_format( "%s %s\n", colorize( _( "Total calorie cost:" ), c_red ), foodcost );
+                    entry += string_format( _( "Total calorie cost: " ) ) +
+                             string_format( colorize( std::to_string( foodcost ), c_red ) ) +
+                             string_format( _( "(have %s)" ), available_calories );
                 } else {
-                    entry += string_format( _( "Total calorie cost: %s\n" ), foodcost );
+                    entry += string_format( _( "Total calorie cost: " ) ) +
+                             string_format( colorize( std::to_string( foodcost ), c_green ) ) +
+                             string_format( _( "(have %s)" ), available_calories );
                 }
                 mission_key.add_start( miss_id, display_name, entry, can_upgrade );
             } else {
