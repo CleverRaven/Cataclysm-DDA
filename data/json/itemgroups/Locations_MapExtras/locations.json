@@ -95,7 +95,7 @@
       { "group": "gunmod_energy", "prob": 40 },
       { "item": "plut_cell", "prob": 30, "charges": [ 1, 5 ] },
       [ "plasma", 30 ],
-      [ "UPS_off", 20 ]
+      [ "UPS_OFF", 20 ]
     ]
   },
   {
@@ -632,7 +632,10 @@
       { "item": "scuba_tank", "prob": 5, "charges": [ 0, 60 ] },
       { "item": "small_scuba_tank", "prob": 5, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],
-      { "item": "rebreather", "prob": 2, "charges": [ 0, 60 ] },
+      [ "dry_bag", 10 ],
+      [ "dry_duffelbag", 10 ],
+      [ "dry_bag_large", 5 ],
+      { "item": "rebreather", "prob": 2, "ammo-item": "rebreather_cartridge", "charges": 100 },
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
       [ "hand_pump", 10 ],
@@ -1364,7 +1367,7 @@
       { "item": "jackhammer", "prob": 2, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 1, "charges": [ 0, 7920 ] },
       [ "dynamite", 5 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, 500 ] },
@@ -1606,7 +1609,7 @@
       { "item": "pants", "prob": 100 },
       { "item": "badge_deputy", "prob": 100 },
       { "item": "cowboy_hat", "prob": 10 },
-      { "item": "leather_police_jacket", "prob": 25 },
+      { "item": "leather_police_jacket", "variant": "leather_police_jacket", "prob": 25 },
       { "item": "sheriffshirt", "prob": 100 },
       { "item": "police_belt", "prob": 100 },
       { "group": "cop_shoes", "prob": 100 },
@@ -1830,7 +1833,7 @@
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 4, "charges": [ 0, 50 ] },
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
       [ "flyer", 10 ],
       [ "hazmat_suit", 5 ],
       [ "e_tool", 5 ],

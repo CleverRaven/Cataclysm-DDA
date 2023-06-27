@@ -144,6 +144,7 @@ static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_HORROR( "HORROR" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MIGO( "MIGO" );
@@ -152,6 +153,7 @@ static const species_id species_NETHER( "NETHER" );
 static const species_id species_PLANT( "PLANT" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+static const species_id species_nether_player_hate( "nether_player_hate" );
 
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
@@ -1009,6 +1011,14 @@ std::string monster::extended_description() const
                              to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
                              can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) + "\n";
 
+        if( !special_attacks.empty() ) {
+            ss += string_format( _( "%d special attack(s): " ), special_attacks.size() );
+            for( const auto &attack : special_attacks ) {
+                ss += string_format( _( "%s, cooldown %d; " ), attack.first.c_str(), attack.second.cooldown );
+            }
+            ss += "\n";
+        }
+
         if( baby_timer.has_value() ) {
             ss += string_format( _( "Reproduce time: %1$d (turns left %2$d) %3$s" ),
                                  to_turn<int>( baby_timer.value() ),
@@ -1095,7 +1105,15 @@ bool monster::has_flag( const m_flag f ) const
 
 bool monster::has_flag( const flag_id f ) const
 {
-    return has_effect_with_flag( f );
+    std::optional<m_flag>checked = io::string_to_enum_optional<m_flag>( f.c_str() );
+    add_msg_debug( debugmode::DF_MONSTER,
+                   "Monster %s checked for flag %s", name(),
+                   f.c_str() );
+    if( checked.has_value() ) {
+        return  has_flag( checked.value() );
+    } else {
+        return has_effect_with_flag( f );
+    }
 }
 
 bool monster::can_see() const
@@ -2149,16 +2167,36 @@ bool monster::move_effects( bool )
     }
     if( has_effect_with_flag( json_flag_GRAB ) ) {
         // Pretty hacky, but monsters have no stats
+        map &here = get_map();
+        creature_tracker &creatures = get_creature_tracker();
+        const tripoint_range<tripoint> &surrounding = here.points_in_radius( pos(), 1, 0 );
         for( const effect &grab : get_effects_with_flag( json_flag_GRAB ) ) {
+            // Is our grabber around?
+            monster *grabber = nullptr;
+            for( const tripoint loc : surrounding ) {
+                monster *mon = creatures.creature_at<monster>( loc );
+                if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
+                    add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );
+                    grabber = mon;
+                    break;
+                }
+            }
+
+            if( grabber == nullptr ) {
+                remove_effect( grab.get_id() );
+                add_msg_debug( debugmode::DF_MATTACK, "Orphan grab found and removed" );
+                add_msg( _( "The %s is no longer grabbed!" ), name() );
+                continue;
+            }
             int monster = type->melee_skill + type->melee_damage.total_damage();
-            int grabber = get_effect_int( grab.get_id() );
+            int grab_str = get_effect_int( grab.get_id() );
             add_msg_debug( debugmode::DF_MONSTER, "%s attempting to break grab %s, success %d in intensity %d",
                            get_name(), grab.get_id().c_str(), monster, grabber );
-            if( !x_in_y( monster, grabber ) ) {
+            if( !x_in_y( monster, grab_str ) ) {
                 return false;
             } else {
                 if( u_see_me ) {
-                    add_msg( _( "The %s breaks free from the grab!" ), name() );
+                    add_msg( _( "The %s breaks free from the %s's grab!" ), name(), grabber->name() );
                 }
                 remove_effect( grab.get_id() );
             }
@@ -2593,9 +2631,8 @@ void monster::die( Creature *nkiller )
     }
     mission::on_creature_death( *this );
 
-    // Also, perform our death function
-    if( is_hallucination() || lifespan_end ) {
-        //Hallucinations always just disappear
+    // Hallucinations always just disappear
+    if( is_hallucination() ) {
         mdeath::disappear( *this );
         return;
     }
@@ -3069,6 +3106,12 @@ bool monster::is_electrical() const
     return in_species( species_ROBOT ) || has_flag( MF_ELECTRIC ) || in_species( species_CYBORG );
 }
 
+bool monster::is_nether() const
+{
+    return in_species( species_HORROR ) || in_species( species_NETHER ) ||
+           in_species( species_nether_player_hate );
+}
+
 field_type_id monster::bloodType() const
 {
     if( is_hallucination() ) {
@@ -3344,7 +3387,8 @@ float monster::get_mountable_weight_ratio() const
     return type->mountable_weight_ratio;
 }
 
-void monster::hear_sound( const tripoint &source, const int vol, const int dist, bool provocative )
+void monster::hear_sound( const tripoint &source, const int vol, const int dist,
+                          bool provocative )
 {
     if( !can_hear() ) {
         return;

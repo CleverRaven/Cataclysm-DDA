@@ -51,6 +51,7 @@ class vehicle_part_range;
 class veh_menu;
 class vpart_info;
 class vpart_position;
+class vpart_variant;
 class zone_data;
 struct input_event;
 struct itype;
@@ -233,6 +234,18 @@ enum class vp_flag : uint32_t {
     tracked_flag = 16 //carried vehicle part with tracking enabled
 };
 
+class turret_cpu
+{
+        friend vehicle_part;
+    private:
+        std::unique_ptr<npc> brain;
+    public:
+        turret_cpu() = default;
+        turret_cpu( const turret_cpu & );
+        turret_cpu &operator=( const turret_cpu & );
+        ~turret_cpu();
+};
+
 /**
  * Structure, describing vehicle part (i.e., wheel, seat)
  */
@@ -327,6 +340,8 @@ struct vehicle_part {
         /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
 
+        // No need to serialize this, it can simply be reinitialized after starting a new game.
+        turret_cpu cpu; //NOLINT(cata-serialize)
         /**
          * If this part is capable of wholly containing something, process the
          * items in there.
@@ -462,6 +477,13 @@ struct vehicle_part {
         bool is_unavailable( bool carried = true ) const;
         /** parts are available if they aren't unavailable */
         bool is_available( bool carried = true ) const;
+
+        /*
+         * @param veh the vehicle containing this part.
+         * @return npc object with suitable attributes for targeting a vehicle turret.
+        */
+        npc &get_targeting_npc( vehicle &veh );
+        /*@}*/
 
         /** how much blood covers part (in turns). */
         int blood = 0;
@@ -679,6 +701,24 @@ enum class autodrive_result : int {
 
 class RemovePartHandler;
 
+class vpart_display
+{
+    public:
+        vpart_display();
+        explicit vpart_display( const vehicle_part &vp );
+
+        const vpart_id &id;
+        const vpart_variant &variant;
+        nc_color color = c_black;
+        char32_t symbol = ' '; // symbol in unicode
+        int symbol_curses = ' '; // symbol converted to curses ACS encoding if needed
+        bool is_broken = false;
+        bool is_open = false;
+        bool has_cargo = false;
+        // @returns string for tileset: "vp_{id}_{variant}" or "vp_{id}" if variant is empty
+        std::string get_tileset_id() const;
+};
+
 /**
  * A vehicle as a whole with all its components.
  *
@@ -832,9 +872,11 @@ class vehicle
         /// May load the connected vehicles' submaps
         std::map<vpart_reference, float> search_connected_batteries();
 
-        vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel = -1,
-                 int init_veh_status = -1, bool may_spawn_locked = false );
-        vehicle();
+        // constructs a vehicle, if the given \p proto_id is an empty string the vehicle is
+        // constructed empty, invalid proto_id will construct empty and raise a debugmsg,
+        // if given \p proto_id is valid then parts are copied from the vproto's blueprint,
+        // and prototype's fuel/ammo will be spawned in init_state / place_spawn_items
+        explicit vehicle( const vproto_id &proto_id );
         vehicle( const vehicle & ) = delete;
         ~vehicle();
         vehicle &operator=( vehicle && ) = default;
@@ -875,15 +917,18 @@ class vehicle
         // check if player controls this vehicle remotely
         bool remote_controlled( const Character &p ) const;
 
-        // init parts state for randomly generated vehicle
-        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status, bool may_spawn_locked );
+        // initializes parts and fuel state for randomly generated vehicle and calls refresh()
+        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status );
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
                     float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero, float damage_size = 0 );
 
         void serialize( JsonOut &json ) const;
+        // deserializes vehicle from json (including parts)
         void deserialize( const JsonObject &data );
+        // deserializes parts from json to parts vector (clearing it first)
+        void deserialize_parts( const JsonArray &data );
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
                              int hl = -1, bool detail = false, bool include_fakes = true ) const;
@@ -1115,6 +1160,15 @@ class vehicle
         */
         int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
         /**
+        *  Returns part index at mount point \p pt which has given \p f flag
+        *  @note uses relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
+        int part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const;
+        /**
         *  Returns \p p or part index at mount point \p pt which has given \p f flag
         *  @note uses relative_parts cache
         *  @param p index of part to start searching from
@@ -1233,12 +1287,14 @@ class vehicle
         // @return index or -1 if part is nullptr, not found or removed and include_removed is false.
         int index_of_part( const vehicle_part *part, bool include_removed = false ) const;
 
-        // get symbol for map
-        char part_sym( int p, bool exact = false, bool include_fake = true ) const;
-        std::string part_id_string( int p, char &part_mod, bool below_roof = true, bool roof = true ) const;
-
-        // get color for map
-        nc_color part_color( int p, bool exact = false, bool include_fake = true ) const;
+        // @param dp mount point to check
+        // @param rotate symbol is rotated using vehicle facing, or north facing if false
+        // @param include_fake if true fake parts are included
+        // @param below_roof if true parts below roof are included
+        // @param roof if true roof parts are included
+        // @returns filled vpart_display struct or default constructed if no part displayed
+        vpart_display get_display_of_tile( const point &dp, bool rotate = true, bool include_fake = true,
+                                           bool below_roof = true, bool roof = true ) const;
 
         // Get all printable fuel types
         std::vector<itype_id> get_printable_fuel_types() const;
@@ -1811,13 +1867,6 @@ class vehicle
          */
         int turrets_aim_and_fire( std::vector<vehicle_part *> &turrets );
 
-        /*
-         * @param pt the vehicle part containing the turret we're trying to target.
-         * @return npc object with suitable attributes for targeting a vehicle turret.
-         */
-        npc get_targeting_npc( const vehicle_part &pt ) const;
-        /*@}*/
-
     public:
         /**
          *  Try to assign a crew member (who must be a player ally) to a specific seat
@@ -1858,6 +1907,8 @@ class vehicle
 
         //true if an alarm part is installed on the vehicle
         bool has_security_working() const;
+        // unlocks the vehicle, turns off SECURITY parts, clears engine immobilizer faults
+        void unlock();
         /**
          *  Opens everything that can be opened on the same tile as `p`
          */
@@ -1995,7 +2046,7 @@ class vehicle
         // Master list of parts installed in the vehicle.
         std::vector<vehicle_part> parts; // NOLINT(cata-serialize)
         // Used in savegame.cpp to only save real parts to json
-        std::vector<vehicle_part> real_parts() const;
+        std::vector<std::reference_wrapper<const vehicle_part>> real_parts() const;
         // Map of edge parts and their adjacency information
         std::map<point, vpart_edge_info> edges; // NOLINT(cata-serialize)
         // For a given mount point, returns its adjacency info
@@ -2120,7 +2171,7 @@ class vehicle
          * is loaded into the map the values are directly set. The vehicles position does
          * not change therefore no call to set_submap_moved is required.
          */
-        tripoint sm_pos; // NOLINT(cata-serialize)
+        tripoint sm_pos = tripoint_zero; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0; // NOLINT(cata-serialize)
@@ -2133,7 +2184,7 @@ class vehicle
          * Note that vehicles are "moved" by map::displace_vehicle. You should not
          * set them directly, except when initializing the vehicle or during mapgen.
          */
-        point pos;
+        point pos = point_zero;
         // vehicle current velocity, mph * 100
         int velocity = 0;
         /**

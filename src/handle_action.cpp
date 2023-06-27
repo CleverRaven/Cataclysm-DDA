@@ -94,6 +94,11 @@
 #include "weather_type.h"
 #include "worldfactory.h"
 
+#if defined(TILES)
+#include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+#include "sdltiles.h"
+#endif
+
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
@@ -202,6 +207,13 @@ class user_turn
             std::chrono::milliseconds elapsed_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
             return elapsed_ms.count() / ( 10.0 * turn_duration );
+        }
+
+        bool async_anim_timeout() {
+            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+            std::chrono::milliseconds elapsed_ms =
+                std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
+            return elapsed_ms.count() > get_option<int>( "ANIMATION_DELAY" );
         }
 
 };
@@ -372,6 +384,17 @@ input_context game::get_player_input( std::string &action )
                 deathcam_msg_popup
                 ->wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
                 .on_top( true );
+            }
+
+            // Remove asynchronous animations after animation delay if no input
+            if( current_turn.async_anim_timeout() ) {
+                g->void_async_anim_curses();
+#if defined(TILES)
+                tilecontext->void_async_anim();
+#else
+                // Curses does not redraw itself so do it here
+                g->invalidate_main_ui_adaptor();
+#endif
             }
 
             ui_manager::redraw_invalidated();
@@ -882,25 +905,15 @@ static void smash()
         player_character.moves -= move_cost * weary_mult;
         player_character.recoil = MAX_RECOIL;
 
-        // Variables for bash animation
-        std::map<tripoint, nc_color> anim_area;
-        anim_area[smashp] = c_black;
-
         if( bash_result.success ) {
             // Bash results in destruction of target
-            if( get_option<bool>( "ANIMATIONS" ) ) {
-                explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_complete" );
-            }
+            g->draw_async_anim( smashp, "bash_complete", "X", c_light_gray );
         } else if( smashskill >= here.bash_resistance( smashp ) ) {
             // Bash effective but target not yet destroyed
-            if( get_option<bool>( "ANIMATIONS" ) ) {
-                explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_effective" );
-            }
+            g->draw_async_anim( smashp, "bash_effective", "/", c_light_gray );
         } else {
             // Bash not effective
-            if( get_option<bool>( "ANIMATIONS" ) ) {
-                explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_ineffective" );
-            }
+            g->draw_async_anim( smashp, "bash_ineffective" );
             if( one_in( 10 ) ) {
                 if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
                     // %s is the smashed furniture
@@ -1585,7 +1598,9 @@ static void open_movement_mode_menu()
 static void cast_spell()
 {
     Character &player_character = get_player_character();
-
+    player_character.magic->clear_opens_spellbook_data();
+    get_event_bus().send<event_type::opens_spellbook>( player_character.getID() ); // trigger EoC
+    player_character.magic->evaluate_opens_spellbook_data();
     std::vector<spell_id> spells = player_character.magic->spells();
 
     if( spells.empty() ) {
@@ -1596,7 +1611,7 @@ static void cast_spell()
 
     bool can_cast_spells = false;
     for( const spell_id &sp : spells ) {
-        spell temp_spell = player_character.magic->get_spell( sp );
+        spell &temp_spell = player_character.magic->get_spell( sp );
         if( temp_spell.can_cast( player_character ) ) {
             can_cast_spells = true;
         }
@@ -2838,6 +2853,16 @@ bool game::handle_action()
         // No auto-move, ask player for input
         ctxt = get_player_input( action );
     }
+
+    // Remove asynchronous animations if any action taken before the input timeout
+    // Otherwise repeated input can cause animations to accumulate as the timeout is never reached
+    g->void_async_anim_curses();
+#if defined(TILES)
+    tilecontext->void_async_anim();
+#else
+    // Curses does not redraw itself so do it here
+    g->invalidate_main_ui_adaptor();
+#endif
 
     bool veh_ctrl = has_vehicle_control( player_character );
 

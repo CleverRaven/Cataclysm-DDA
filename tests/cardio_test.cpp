@@ -139,7 +139,7 @@ static void check_trait_cardio_stamina_run( Character &they, std::string trait_n
 }
 
 // Baseline character with default attributes and no traits
-TEST_CASE( "base cardio", "[cardio][base]" )
+TEST_CASE( "base_cardio", "[cardio][base]" )
 {
     verify_default_cardio_options();
     Character &they = get_player_character();
@@ -176,7 +176,7 @@ TEST_CASE( "base cardio", "[cardio][base]" )
 // - stamina_regen_modifier
 //   - Fast Metabolism, Persistence Hunter: Increased stamina regeneration
 //
-TEST_CASE( "cardio is and isn't affected by certain traits", "[cardio][traits]" )
+TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]" )
 {
     verify_default_cardio_options();
     Character &they = get_player_character();
@@ -239,19 +239,19 @@ TEST_CASE( "cardio is and isn't affected by certain traits", "[cardio][traits]" 
     }
 }
 
-TEST_CASE( "cardio affects stamina regeneration", "[cardio][stamina]" )
+TEST_CASE( "cardio_affects_stamina_regeneration", "[cardio][stamina]" )
 {
     // With baseline cardio, stamina regen is X
     // With low cardio, stamina regen is X--
     // With high cardio, stamina regen is X++
 }
 
-TEST_CASE( "cardio affects weariness", "[cardio][weariness]" )
+TEST_CASE( "cardio_affects_weariness", "[cardio][weariness]" )
 {
     // Weariness threshold is 1/2 cardio
 }
 
-TEST_CASE( "cardio is affected by activity level each day", "[cardio][activity]" )
+TEST_CASE( "cardio_is_affected_by_activity_level_each_day", "[cardio][activity]" )
 {
     // When activity increases, cardio goes up
     // When activity decreases, cardio goes down
@@ -264,7 +264,7 @@ TEST_CASE( "cardio is affected by activity level each day", "[cardio][activity]"
     // Then their cardio should increase slightly
 }
 
-TEST_CASE( "cardio isn't affected by character height", "[cardio][height]" )
+TEST_CASE( "cardio_is_not_affected_by_character_height", "[cardio][height]" )
 {
     verify_default_cardio_options();
     Character &they = get_player_character();
@@ -282,12 +282,12 @@ TEST_CASE( "cardio isn't affected by character height", "[cardio][height]" )
     }
 }
 
-TEST_CASE( "cardio is affected by character weight", "[cardio][weight]" )
+TEST_CASE( "cardio_is_affected_by_character_weight", "[cardio][weight]" )
 {
     // Underweight, overweight
 }
 
-TEST_CASE( "cardio is affected by character health", "[cardio][health]" )
+TEST_CASE( "cardio_is_affected_by_character_health", "[cardio][health]" )
 {
     verify_default_cardio_options();
     Character &they = get_player_character();
@@ -303,7 +303,7 @@ TEST_CASE( "cardio is affected by character health", "[cardio][health]" )
     }
 }
 
-TEST_CASE( "cardio is affected by athletics skill", "[cardio][athletics]" )
+TEST_CASE( "cardio_is_affected_by_athletics_skill", "[cardio][athletics]" )
 {
     verify_default_cardio_options();
     Character &they = get_player_character();

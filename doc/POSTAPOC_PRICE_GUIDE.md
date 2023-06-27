@@ -1,4 +1,5 @@
-# How to give items a sensible postapoc_price value
+# Post-apocalypse Price Guide
+How to give items a sensible postapoc_price value
 
 ### Pricing philosophy
 Prices were based on the philosophy that there is a decent portion of humanity unwilling to regularly

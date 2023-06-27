@@ -230,7 +230,6 @@
   {
     "id": "power_armor_basic_on",
     "copy-from": "power_armor_basic",
-    "repairs_like": "power_armor_basic",
     "looks_like": "power_armor_basic",
     "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton (on)", "str_pl": "combat exoskeletons (on)" },
@@ -419,7 +418,6 @@
   {
     "id": "power_armor_heavy_on",
     "copy-from": "power_armor_heavy",
-    "repairs_like": "power_armor_heavy",
     "looks_like": "power_armor_heavy",
     "type": "TOOL_ARMOR",
     "name": { "str": "heavy combat exoskeleton (on)", "str_pl": "heavy combat exoskeletons (on)" },
@@ -472,7 +470,6 @@
     "id": "power_armor_helmet_basic_on",
     "type": "TOOL_ARMOR",
     "copy-from": "power_armor_helmet_basic",
-    "repairs_like": "power_armor_helmet_basic",
     "looks_like": "power_armor_helmet_basic",
     "name": { "str": "environmental combat helmet (on)", "str_pl": "environmental combat helmets (on)" },
     "description": "A fully enclosed combat helmet for hazardous environments, this was designed to fit with a powered exoskeleton, using cameras to expand visual range.  In practice, the cameras were unreliable and easily fouled.  The environmental controls function best with direct-skin contact.  The environmental controls function best with direct-skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
@@ -518,7 +515,6 @@
     "id": "power_armor_helmet_heavy_on",
     "type": "TOOL_ARMOR",
     "copy-from": "power_armor_helmet_heavy",
-    "repairs_like": "power_armor_helmet_heavy",
     "looks_like": "power_armor_helmet_heavy",
     "name": { "str": "heavy environmental combat helmet (on)", "str_pl": "heavy environmental combat helmets (on)" },
     "description": "An extremely heavy-duty fully enclosed combat helmet for hazardous environments, this was designed to fit with a powered exoskeleton.  In the field, soldiers reported that the protection was not worth the awkward size and limited visuals.  The environmental controls function best with direct-skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
@@ -563,7 +559,6 @@
     "id": "power_armor_helmet_light_on",
     "type": "TOOL_ARMOR",
     "copy-from": "power_armor_helmet_light",
-    "repairs_like": "power_armor_helmet_light",
     "looks_like": "power_armor_helmet_light",
     "name": { "str": "light environmental combat helmet (on)", "str_pl": "light environmental combat helmets (on)" },
     "description": "This full-enclosure helmet was designed based on commercial diving equipment, in response to complaints that earlier designs were impossible to use in combat.  While still a little more restrictive than regular combat headgear - and frustrating should your nose itch - this one received far better reviews from soldiers.  Sadly, civilization ended before they could roll out in significant numbers.  The environmental controls function best with direct-skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
@@ -680,7 +675,6 @@
   {
     "id": "power_armor_light_on",
     "copy-from": "power_armor_light",
-    "repairs_like": "power_armor_light",
     "looks_like": "power_armor_light",
     "type": "TOOL_ARMOR",
     "name": { "str": "field combat exoskeleton (on)", "str_pl": "field combat exoskeletons (on)" },

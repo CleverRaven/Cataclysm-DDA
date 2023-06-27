@@ -142,6 +142,7 @@ class tileset
         bool tile_isometric = false;
         int tile_width = 0;
         int tile_height = 0;
+        int zlevel_height = 0;
 
         float prevent_occlusion_min_dist = 0.0;
         float prevent_occlusion_max_dist = 0.0;
@@ -185,6 +186,9 @@ class tileset
         }
         int get_tile_height() const {
             return tile_height;
+        }
+        int get_zlevel_height() const {
+            return zlevel_height;
         }
         float get_tile_pixelscale() const {
             return tile_pixelscale;
@@ -490,14 +494,10 @@ class cata_tiles
 
         /** Map memory */
         bool has_memory_at( const tripoint &p ) const;
-        bool has_terrain_memory_at( const tripoint &p ) const;
-        bool has_furniture_memory_at( const tripoint &p ) const;
-        bool has_trap_memory_at( const tripoint &p ) const;
-        bool has_vpart_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_terrain_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_furniture_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_trap_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_vpart_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_terrain_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_furniture_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_trap_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_vpart_memory_at( const tripoint &p ) const;
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
@@ -583,6 +583,10 @@ class cata_tiles
         void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
         void draw_zones_frame();
         void void_zones();
+
+        void init_draw_async_anim( const tripoint &p, const std::string &tile_id );
+        void draw_async_anim();
+        void void_async_anim();
 
         void init_draw_radiation_override( const tripoint &p, int rad );
         void void_radiation_override();
@@ -694,12 +698,15 @@ class cata_tiles
 
         int tile_height = 0;
         int tile_width = 0;
+        int zlevel_height = 0;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
         int screentile_width = 0;
         int screentile_height = 0;
         float tile_ratiox = 0.0f;
         float tile_ratioy = 0.0f;
+
+        int fog_alpha = 0;
 
         bool in_animation = false;
 
@@ -713,11 +720,13 @@ class cata_tiles
         bool do_draw_weather = false;
         bool do_draw_sct = false;
         bool do_draw_zones = false;
+        bool do_draw_async_anim = false;
 
         tripoint exp_pos;
         int exp_rad = 0;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
+        std::map<tripoint, std::string> async_anim_layer;
 
         tripoint bul_pos;
         std::string bul_id;

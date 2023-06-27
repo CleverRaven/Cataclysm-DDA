@@ -41,7 +41,7 @@ static bool has_ammo_types( const item &it )
     return !it.ammo_types().empty();
 }
 
-TEST_CASE( "ammo types", "[ammo][ammo_types]" )
+TEST_CASE( "ammo_types", "[ammo][ammo_types]" )
 {
     // Only a few kinds of item have ammo_types:
     // - Items with type=MAGAZINE (including batteries as well as gun magazines)
@@ -162,7 +162,7 @@ TEST_CASE( "ammo types", "[ammo][ammo_types]" )
 }
 
 // The same items with no ammo_types, also have no ammo_default.
-TEST_CASE( "ammo default", "[ammo][ammo_default]" )
+TEST_CASE( "ammo_default", "[ammo][ammo_default]" )
 {
     // TOOLMOD type, and TOOL type items with MAGAZINE_WELL pockets have no ammo_default
     SECTION( "items without ammo_default" ) {
@@ -200,7 +200,7 @@ TEST_CASE( "ammo default", "[ammo][ammo_default]" )
     }
 }
 
-TEST_CASE( "barrel test", "[ammo][weapon]" )
+TEST_CASE( "barrel_test", "[ammo][weapon]" )
 {
     SECTION( "basic ammo and barrel length test" ) {
         item base_gun( "test_glock_super_long" );
@@ -221,7 +221,7 @@ TEST_CASE( "barrel test", "[ammo][weapon]" )
     }
 }
 
-TEST_CASE( "battery energy test", "[ammo][energy][item]" )
+TEST_CASE( "battery_energy_test", "[ammo][energy][item]" )
 {
     item test_battery( "medium_battery_cell" );
     test_battery.ammo_set( test_battery.ammo_default(), 300 );

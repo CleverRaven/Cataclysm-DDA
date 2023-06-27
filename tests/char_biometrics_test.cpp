@@ -104,6 +104,7 @@ static int bmr_at_act_level( Character &dummy, float activity_level )
     dummy.reset_activity_level();
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     dummy.update_body( calendar::turn, calendar::turn );
+    dummy.update_body( calendar::turn, calendar::turn + 10_minutes );
     dummy.set_activity_level( activity_level );
 
     return dummy.get_bmr();
@@ -154,7 +155,7 @@ static void for_each_size_category( const std::function< void( creature_size ) >
 
 //we are testing the character's "fat bmis" which are 3.5-5 for normal weight and 5-10 for overweight, 10+ obese
 //this model does mean we are potentially "skinnyfat" if low str but higher fat bmis
-TEST_CASE( "body mass index determines weight description", "[biometrics][bmi][weight]" )
+TEST_CASE( "body_mass_index_determines_weight_description", "[biometrics][bmi][weight]" )
 {
     avatar dummy;
 
@@ -185,7 +186,7 @@ TEST_CASE( "body mass index determines weight description", "[biometrics][bmi][w
 }
 
 //for an 8 strength character. strength scales linearly to 0 str below fat bmi of 2.0
-TEST_CASE( "stored kcal ratio influences body mass index", "[biometrics][kcal][bmi]" )
+TEST_CASE( "stored_kcal_ratio_influences_body_mass_index", "[biometrics][kcal][bmi]" )
 {
     avatar dummy;
 
@@ -226,7 +227,7 @@ TEST_CASE( "stored kcal ratio influences body mass index", "[biometrics][kcal][b
     CHECK( true_bmi_at_kcal_ratio( dummy, 5.0f ) == Approx( 45.0f ).margin( 0.01f ) );
 }
 
-TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][max]" )
+TEST_CASE( "body_mass_index_determines_maximum_healthiness", "[biometrics][bmi][max]" )
 {
     // "BMIs under 20 and over 25 have been associated with higher all-causes mortality,
     // with the risk increasing with distance from the 20–25 range."
@@ -282,7 +283,7 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     CHECK( max_healthy_at_bmi( dummy, 22.0f ) == -200 );
 }
 
-TEST_CASE( "character height should increase with their body size",
+TEST_CASE( "character_height_should_increase_with_their_body_size",
            "[biometrics][height][mutation]" )
 {
     using DummyMap = std::map<creature_size, avatar_ptr>;
@@ -312,7 +313,7 @@ TEST_CASE( "character height should increase with their body size",
     }
 }
 
-TEST_CASE( "default character (175 cm) bodyweights at various BMIs", "[biometrics][bodyweight]" )
+TEST_CASE( "default_character_175_cm_bodyweights_at_various_BMIs", "[biometrics][bodyweight]" )
 {
     avatar dummy;
     clear_character( dummy );
@@ -343,7 +344,7 @@ TEST_CASE( "default character (175 cm) bodyweights at various BMIs", "[biometric
     }
 }
 
-TEST_CASE( "character's weight should increase with their body size and BMI",
+TEST_CASE( "character_weight_should_increase_with_their_body_size_and_BMI",
            "[biometrics][bodyweight][mutation]" )
 {
     using DummyMap = std::map<creature_size, avatar_ptr>;
@@ -374,7 +375,7 @@ TEST_CASE( "character's weight should increase with their body size and BMI",
     }
 }
 
-TEST_CASE( "riding various creatures at various sizes", "[avatar][bodyweight]" )
+TEST_CASE( "riding_various_creatures_at_various_sizes", "[avatar][bodyweight]" )
 {
     monster cow( mon_cow );
     monster horse( mon_horse );
@@ -446,7 +447,7 @@ static void test_activity_duration( avatar &dummy, const float at_level,
     }
 }
 
-TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][activity][diary]" )
+TEST_CASE( "activity_levels_and_calories_in_daily_diary", "[avatar][biometrics][activity][diary]" )
 {
     // Typical spring start, day 61
     calendar::turn = calendar::turn_zero + 60_days;
@@ -483,7 +484,7 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
     }
 }
 
-TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabolism]" )
+TEST_CASE( "mutations_may_affect_character_metabolic_rate", "[biometrics][metabolism]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -520,7 +521,7 @@ TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabo
     CHECK( metabolic_rate_with_mutation( dummy, "COLDBLOOD4" ) == Approx( 0.5f ) );
 }
 
-TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics][bmr]" )
+TEST_CASE( "basal_metabolic_rate_with_various_size_and_metabolism", "[biometrics][bmr]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -597,7 +598,7 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
     }
 }
 
-TEST_CASE( "body mass effect on speed", "[bmi][speed]" )
+TEST_CASE( "body_mass_effect_on_speed", "[bmi][speed]" )
 {
     avatar dummy;
 

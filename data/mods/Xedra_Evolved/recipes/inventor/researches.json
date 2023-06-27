@@ -11,6 +11,7 @@
     "time": "2 h",
     "skill_used": "deduction",
     "difficulty": 2,
+    "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
@@ -25,6 +26,7 @@
     "time": "3 h",
     "skill_used": "deduction",
     "difficulty": 4,
+    "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
@@ -39,6 +41,7 @@
     "time": "4 h",
     "skill_used": "deduction",
     "difficulty": 6,
+    "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
@@ -53,6 +56,7 @@
     "time": "3 h",
     "skill_used": "deduction",
     "difficulty": 3,
+    "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
@@ -67,6 +71,7 @@
     "time": "4 h",
     "skill_used": "deduction",
     "difficulty": 5,
+    "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
@@ -82,6 +87,7 @@
     "time": "5 h",
     "skill_used": "deduction",
     "difficulty": 7,
+    "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
@@ -97,6 +103,7 @@
     "time": "5 h",
     "skill_used": "deduction",
     "difficulty": 8,
+    "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
@@ -119,6 +126,7 @@
     "time": "5 h",
     "skill_used": "deduction",
     "difficulty": 9,
+    "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
   }

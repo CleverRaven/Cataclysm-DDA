@@ -25,6 +25,13 @@
     "components": [ [ [ "nail", 20 ] ] ]
   },
   {
+    "id": "vehicle_bolt_install",
+    "type": "requirement",
+    "//": "represents riveting and/or bolting plates together as a supplement for welding",
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "components": [ [ [ "nuts_bolts", 20 ] ] ]
+  },
+  {
     "id": "vehicle_nail_removal",
     "type": "requirement",
     "//": "Compatible with legacy flag NAILABLE",

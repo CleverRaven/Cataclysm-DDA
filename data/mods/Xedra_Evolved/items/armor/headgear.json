@@ -1,7 +1,6 @@
 [
   {
     "id": "phrygian_cap",
-    "repairs_like": "beret",
     "type": "ARMOR",
     "name": { "str": "phrygian cap" },
     "description": "A soft conical hat with the apex bent over.  Commonly worn in antiquity by various cultures in Eastern Europe and Anatolia.  It later signified freedom in both the American and French Revolutions.",
@@ -20,7 +19,6 @@
   },
   {
     "id": "theredcap",
-    "repairs_like": "beret",
     "type": "ARMOR",
     "name": { "str": "blood red cap" },
     "description": "A soft conical hat with the apex bent over.  Commonly worn in antiquity by various cultures in Eastern Europe and Anatolia.  It later signified freedom in both the American and French Revolutions.  Along the brim the cap appears to be the rusty red of old blood.",

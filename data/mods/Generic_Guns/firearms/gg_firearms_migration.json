@@ -139,7 +139,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi" ],
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi", "hpt3895" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -147,6 +147,7 @@
     "id": [
       "2_shot_special",
       "rifle_38",
+      "rifle_380",
       "rifle_40",
       "smg_40",
       "surv_six_shooter",
@@ -154,7 +155,9 @@
       "smg_45",
       "surv_hand_cannon",
       "rifle_9mm",
-      "smg_9mm"
+      "smg_9mm",
+      "rifle_32",
+      "rifle_9x18"
     ],
     "type": "MIGRATION",
     "replace": "pistol_pipe_smg"
@@ -179,7 +182,8 @@
       "bt_apc9k",
       "colt_ro635",
       "mp40",
-      "mp18"
+      "mp18",
+      "greasegun"
     ],
     "type": "MIGRATION",
     "replace": "pistol_smg"
@@ -354,6 +358,8 @@
       "zpapm90",
       "zpap85",
       "papm77",
+      "rfb_308",
+      "rdb_223",
       "plr16"
     ],
     "type": "MIGRATION",
@@ -390,12 +396,24 @@
     "replace": "shot_double"
   },
   {
-    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot" ],
+    "id": [ "pipe_double_shotgun", "revolver_shotgun", "afs_drotik_shotpistol", "ashot" ],
     "type": "MIGRATION",
     "replace": "shot_pipe_double"
   },
   {
-    "id": [ "saiga_410", "rm120c", "rm228", "rm20", "bigun", "saiga_12", "tavor_12", "aa_12", "bigun", "USAS_12" ],
+    "id": [
+      "saiga_410",
+      "rm120c",
+      "rm228",
+      "rm20",
+      "bigun",
+      "saiga_12",
+      "afs_raketa_shotgun",
+      "tavor_12",
+      "aa_12",
+      "bigun",
+      "USAS_12"
+    ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
   },

@@ -59,11 +59,6 @@ class input_context;
 
 input_context get_default_mode_input_context();
 
-enum class dump_mode : int {
-    TSV,
-    HTML
-};
-
 enum quit_status {
     QUIT_NO = 0,    // Still playing
     QUIT_SUICIDE,   // Quit with 'Q'
@@ -215,9 +210,6 @@ class game
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
 
-        /** write statistics to stdout and @return true if successful */
-        bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );
-
         /** Returns false if saving failed. */
         bool save();
 
@@ -254,6 +246,16 @@ class game
     private:
         bool is_looking = false; // NOLINT(cata-serialize)
         std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks; // NOLINT(cata-serialize)
+
+    public:
+        // Curses counterpart of the async_anim functions in cata_tiles
+        void init_draw_async_anim_curses( const tripoint &p, const std::string &ncstr,
+                                          const nc_color &nccol );
+        void draw_async_anim_curses();
+        void void_async_anim_curses();
+    protected:
+        std::map<tripoint, std::pair <std::string, nc_color>>
+                async_anim_layer_curses; // NOLINT(cata-serialize)
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
@@ -569,10 +571,11 @@ class game
         /** Destroy / dissolve character items when in water. */
         void water_affect_items( Character &ch ) const;
 
-        /** Flings the input creature in the given direction. */
+        /** Flings the input creature in the given direction.
+         *  intentional is true for activities you wouldn't consider immunity for
+         */
         bool fling_creature( Creature *c, const units::angle &dir, float flvel,
-                             bool controlled = false );
-
+                             bool controlled = false, bool intentional = false );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -756,6 +759,9 @@ class game
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         void draw_highlight( const tripoint &p );
+        // Draws an asynchronous animation at p with tile_id as its sprite. If ncstr is specified, it will also be displayed in curses.
+        void draw_async_anim( const tripoint &p, const std::string &tile_id, const std::string &ncstr = "",
+                              const nc_color &nccol = c_black );
         void draw_radiation_override( const tripoint &p, int rad );
         void draw_terrain_override( const tripoint &p, const ter_id &id );
         void draw_furniture_override( const tripoint &p, const furn_id &id );

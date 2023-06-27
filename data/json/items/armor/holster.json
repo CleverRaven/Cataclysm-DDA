@@ -358,7 +358,6 @@
     "description": "A comfortable quick-draw holster for larger pistols.  One side holsters a gun, and the other side holds two magazines.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
     "material": [ "leather" ],
-    "repairs_like": "holster",
     "pocket_data": [
       {
         "magazine_well": "200 ml",

@@ -10,16 +10,14 @@
     "effect_str": "night_sight",
     "skill": "deduction",
     "shape": "blast",
-    "min_range": 1,
-    "max_range": 1,
-    "base_casting_time": 100,
-    "base_energy_cost": 1000,
+    "base_casting_time": 2000,
+    "base_energy_cost": 1200,
     "energy_source": "MANA",
     "difficulty": 6,
     "max_level": 20,
-    "min_duration": 100000,
-    "max_duration": 1000000,
-    "duration_increment": 45000
+    "min_duration": { "math": [ "spell_time(u_val('time: 3 m'))" ] },
+    "max_duration": { "math": [ "spell_time(u_val('time: 3 h'))" ] },
+    "duration_increment": { "math": [ "spell_time(u_val('time: 3 m'))" ] }
   },
   {
     "id": "dread_weight",

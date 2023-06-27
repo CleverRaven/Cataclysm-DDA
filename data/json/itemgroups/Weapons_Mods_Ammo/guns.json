@@ -413,10 +413,11 @@
     "subtype": "distribution",
     "//": "Imported or otherwise very obscure SMGs.",
     "items": [
-      { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 0 },
+      { "item": "ppsh", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_mp5_10_semi", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 0 },
       { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 0 },
+      { "item": "greasegun", "prob": 150, "charges-min": 0, "charges-max": 0 },
       { "group": "guns_smg_collectible", "prob": 1 }
     ]
   },
@@ -487,7 +488,9 @@
       { "group": "nested_zpapm90", "prob": 1 },
       { "group": "nested_converted_ar15", "prob": 6 },
       { "group": "nested_converted_mdrx", "prob": 1 },
-      { "group": "nested_converted_cz600", "prob": 1 }
+      { "group": "nested_converted_cz600", "prob": 1 },
+      { "group": "nested_rdb_223", "prob": 1 },
+      { "group": "nested_hpt3895", "prob": 1 }
     ]
   },
   {
@@ -515,6 +518,7 @@
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_1022", "prob": 7, "charges-min": 0, "charges-max": 10 },
       { "item": "ruger_mini", "prob": 1, "charges-min": 0, "charges-max": 5 },
+      { "item": "hpt3895", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "sks", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 2, "charges-min": 0, "charges-max": 3 },
       { "item": "vz58ts", "prob": 1, "charges-min": 0, "charges-max": 30 },
@@ -528,7 +532,8 @@
       { "item": "bren2_556", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "mdrx", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "cz600", "prob": 1, "charges-min": 0, "charges-max": 10 },
-      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 }
+      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "rdb_223", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -540,6 +545,7 @@
       { "item": "ar10", "prob": 35, "charges-min": 0, "charges-max": 0 },
       { "item": "modular_ar15", "prob": 45, "charges-min": 0, "charges-max": 0 },
       { "item": "cx4", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "hpt3895", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "ksub2000", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "remington700_270", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_m77", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -566,7 +572,8 @@
       { "item": "savage112", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
       { "group": "nested_mdrx_with_kits", "prob": 10 },
-      { "group": "nested_cz600_with_kits", "prob": 10 }
+      { "group": "nested_cz600_with_kits", "prob": 10 },
+      { "item": "rdb_223", "prob": 30, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -630,6 +637,7 @@
       },
       { "item": "iwi_tavor_x95_300blk", "prob": 15 },
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "hk_usc45", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "marlin_9a", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44", "variant": "mosin44", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin91_30", "variant": "mosin91_30", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -645,7 +653,8 @@
       { "item": "axmc", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
       { "group": "nested_mdrx_with_kits", "prob": 10 },
-      { "group": "nested_axmc_with_kits", "prob": 10 }
+      { "group": "nested_axmc_with_kits", "prob": 10 },
+      { "item": "rfb_308", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
