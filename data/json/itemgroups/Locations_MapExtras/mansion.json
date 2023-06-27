@@ -438,7 +438,8 @@
     "subtype": "collection",
     "items": [
       { "group": "novels", "prob": 40 },
-      { "group": "mansion_books", "prob": 50 },
+      { "group": "mansion_books", "prob": 48 },
+      { "group": "memorial_mansion", "prob": 2 },
       { "group": "homebooks", "prob": 30 },
       { "group": "manuals", "prob": 10 },
       { "group": "textbooks", "prob": 5 },
