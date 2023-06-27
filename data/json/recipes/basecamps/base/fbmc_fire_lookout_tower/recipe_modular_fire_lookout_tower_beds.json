@@ -13,11 +13,7 @@
     "blueprint_requires": [ { "id": "fbmc_fire_lookout_tower_shack_0" } ],
     "blueprint_name": "pair of beds in the northern shack",
     "blueprint_parameter_names": {
-      "fbmc_bed_palette": {
-        "fbmc_straw_bed_palette": "Straw bed",
-        "fbmc_makeshift_bed_palette": "Makeshift bed",
-        "fbmc_bed_palette": "Bed"
-      }
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     }
   },
   {
@@ -34,11 +30,7 @@
     "blueprint_requires": [ { "id": "fbmc_fire_lookout_tower_shack_1" } ],
     "blueprint_name": "pair of beds in the southern shack",
     "blueprint_parameter_names": {
-      "fbmc_bed_palette": {
-        "fbmc_straw_bed_palette": "Straw bed",
-        "fbmc_makeshift_bed_palette": "Makeshift bed",
-        "fbmc_bed_palette": "Bed"
-      }
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     }
   }
 ]
