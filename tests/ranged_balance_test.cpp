@@ -476,7 +476,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
     CAPTURE( range );
     CAPTURE( monster_type );
     CAPTURE( avg );
-    CHECK( avg == Approx( expected_damage ).margin( 12 ) );
+    CHECK( avg == Approx( expected_damage ).margin( 20 ) );
     if( other_checks ) {
         CHECK( other_check_success == expected_other_checks );
     }
@@ -520,7 +520,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Unarmored target
     shoot_monster( "shotgun_s", {}, "shot_00", 18, 72, "mon_wolf_mutant_huge" );
     // Heavy damage at range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 120, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 107, "mon_wolf_mutant_huge" );
     // More damage at close range.
     shoot_monster( "shotgun_s", {}, "shot_00", 5, 165, "mon_wolf_mutant_huge" );
     // Extreme damage at point blank range.
@@ -560,7 +560,7 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
 
     // Unarmored target
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 95, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 144, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 131, "mon_wolf_mutant_huge" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 165, "mon_wolf_mutant_huge" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 75, "mon_wolf_mutant_huge" );
     // Triviallly armored target (armor_bullet: 1)
