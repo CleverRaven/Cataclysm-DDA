@@ -232,20 +232,20 @@
     ]
   },
   {
-    "id": "canvas_holster",
+    "id": "nylon_holster",
     "type": "ARMOR",
-    "name": { "str": "canvas holster" },
-    "description": "An improvised holster made from reinforced canvas.  Not as strong as one made from leather, and not as fashionable either.  Or tough.  Activate to draw/holster a gun.",
-    "weight": "400 g",
+    "name": { "str": "nylon holster" },
+    "description": "Holster made from nylon, rather than leather. A bit stronger and lighter, but not as fashionable.  Activate to draw/holster a gun.",
+    "weight": "350 g",
     "volume": "500 ml",
     "price": 900,
     "price_postapoc": 250,
-    "material": [ "canvas" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "sheath",
     "color": "light_gray",
     "sided": true,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "pocket_data": [
       {
         "magazine_well": "350 ml",
@@ -253,7 +253,7 @@
         "holster": true,
         "min_item_volume": "250 ml",
         "max_contains_volume": "1000 ml",
-        "max_contains_weight": "1500 g",
+        "max_contains_weight": "2250 g",
         "max_item_length": "30 cm",
         "moves": 50
       }
@@ -501,27 +501,27 @@
     ]
   },
   {
-    "id": "XL_canvas_holster",
+    "id": "XL_nylon_holster",
     "type": "ARMOR",
     "name": { "str": "large canvas holster" },
-    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms, but made with canvas instead of leather.  Expect weaker performance.  Activate to holster/draw a gun",
+    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms, but made with nylon instead of leather.  Activate to holster/draw a gun",
     "weight": "400 g",
     "volume": "250 ml",
     "price": 900,
     "price_postapoc": 500,
-    "material": [ "canvas" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
     "sided": true,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "500 ml",
         "max_contains_volume": "1500 ml",
-        "max_contains_weight": "3500 g",
+        "max_contains_weight": "3750 g",
         "max_item_length": "45 cm",
         "moves": 70
       }
