@@ -28,7 +28,8 @@
     "special_attacks": [
       { "type": "leap", "cooldown": 12, "move_cost": 0, "max_range": 4, "min_consider_range": 2 },
       { "id": "ranged_pull", "range": 4 },
-      [ "GRAB_DRAG", 3 ],
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
       {
         "type": "spell",
         "spell_data": { "id": "frog_mother_summon" },
@@ -122,7 +123,8 @@
     "special_attacks": [
       { "type": "leap", "cooldown": 12, "move_cost": 0, "max_range": 4, "min_consider_range": 2 },
       { "id": "ranged_pull", "range": 4 },
-      [ "GRAB_DRAG", 3 ]
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" }
     ],
     "regen_morale": true,
     "flags": [
@@ -400,7 +402,8 @@
       { "id": "ranged_pull", "cooldown": 20 },
       { "id": "bite_humanoid" },
       { "id": "scratch_humanoid" },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "grab_drag", "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 } },
+      { "id": "drag_followup", "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 } }
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
@@ -516,7 +519,8 @@
       { "id": "bite_humanoid", "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ] },
       { "id": "impale", "condition": { "not": { "u_has_flag": "GRAB_FILTER" } } },
       { "id": "scratch_humanoid", "damage_max_instance": [ { "damage_type": "cut", "amount": 15 } ] },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -726,7 +730,12 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
     "grab_strength": 100,
-    "special_attacks": [ { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 3 ], { "id": "bite_humanoid", "cooldown": 5 } ],
+    "special_attacks": [
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
+      { "id": "bite_humanoid", "cooldown": 5 }
+    ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -929,7 +938,7 @@
           { "damage_type": "bash", "amount": 16, "armor_multiplier": 0.3 }
         ]
       },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "drag_followup" }
     ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -1492,7 +1501,8 @@
       { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "scratch_humanoid", "cooldown": 15 },
       { "id": "ranged_pull", "cooldown": 20 },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
     ],
     "flags": [
       "SEES",

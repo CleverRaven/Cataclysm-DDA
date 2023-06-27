@@ -49,7 +49,13 @@
     "id": "feral_sapien_death_drops_spear",
     "entries": [
       { "group": "survivor_stabbing", "prob": 100, "damage": [ 0, 3 ] },
-      { "group": "survivor_basic_outfit", "prob": 100, "damage": [ 0, 3 ] },
+      { "group": "underwear", "damage": [ 0, 3 ] },
+      { "group": "survivor_basic_pants", "damage": [ 0, 3 ] },
+      { "group": "survivor_basic_shirt", "damage": [ 0, 3 ] },
+      { "group": "survivor_basic_hands", "damage": [ 0, 3 ], "prob": 95 },
+      { "group": "survivor_basic_feet", "damage": [ 0, 3 ] },
+      { "group": "clothing_glasses", "prob": 5, "damage": [ 0, 3 ] },
+      { "group": "clothing_watch", "prob": 5, "damage": [ 0, 3 ] },
       { "item": "spearsling", "prob": 100, "damage": [ 0, 3 ] },
       {
         "distribution": [
