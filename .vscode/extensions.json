@@ -2,6 +2,6 @@
   "recommendations": [
     "ms-vscode-remote.remote-containers",
     "ms-azuretools.vscode-docker",
-    "emeraldwalk.runonsave"
+    "cdda-toys.cdda-json-formatter"
   ]
 }
