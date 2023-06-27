@@ -218,7 +218,7 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "menu_text", menu_text );
 }
 
-std::optional<int> iuse_transform::use( Character *p, item &it, bool t, const tripoint &pos ) const
+std::optional<int> iuse_transform::use( Character *p, item &it, bool t, const tripoint & ) const
 {
     int scale = 1;
     auto iter = it.type->ammo_scale.find( type );
