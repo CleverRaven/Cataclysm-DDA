@@ -93,7 +93,7 @@
     "id": "psionic_fire_shield_belt",
     "type": "TOOL_ARMOR",
     "name": { "str": "suppression belt" },
-    "description": "A simple synthetic fabric belt with a box to the right of the belt loop. The box has a toggleable switch and a stylized flame with a large 🛇 over, with a Ψ behind the XEDRA logo inside it.",
+    "description": "A simple synthetic fabric belt with a box to the right of the belt loop. The box has a toggleable switch and a stylized flame with a large circle and line superimposed over it and a Ψ behind the XEDRA logo inside it.",
     "weight": "350 g",
     "volume": "500 ml",
     "price": 10000,
@@ -161,7 +161,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "psionic_fire_shield_belt",
     "name": { "str": "suppression belt" },
-    "description": "A simple synthetic fabric belt with a box to the right of the belt loop. The box has a toggleable switch and a stylized flame with a large 🛇 over, with a Ψ behind the XEDRA logo inside it.  It also has a large crack across it and rattles when moved.",
+    "description": "A simple synthetic fabric belt with a box to the right of the belt loop. The box has a toggleable switch and a stylized flame with a large circle and line superimposed over it and a Ψ behind the XEDRA logo inside it.  It also has a large crack across it and rattles when moved.",
     "use_action": [
       {
         "type": "transform",
