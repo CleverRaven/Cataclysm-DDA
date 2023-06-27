@@ -233,6 +233,7 @@
   {
     "type": "item_group",
     "id": "mut_lab",
+    "//": "If we ever get themed labs defined by what types of mutagens they worked on this itemgroup may need to be re-evaluated.",
     "ammo": 50,
     "magazine": 100,
     "items": [
@@ -308,6 +309,7 @@
   {
     "type": "item_group",
     "id": "mutagens",
+    "//": "If we ever get themed labs defined by what types of mutagens they worked on this itemgroup may need to be re-evaluated.",
     "items": [
       [ "mutagen", 8 ],
       [ "mutagen_elfa", 2 ],
@@ -368,6 +370,7 @@
   {
     "type": "item_group",
     "id": "mut_iv",
+    "//": "If we ever get themed labs defined by what types of mutagens they worked on this itemgroup may need to be re-evaluated.",
     "items": [
       [ "iv_mutagen", 10 ],
       [ "iv_mutagen_elfa", 2 ],
