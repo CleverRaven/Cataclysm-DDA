@@ -65,7 +65,13 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
+
+static const flag_id json_flag_GRAB( "GRAB" );
+static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
@@ -586,7 +592,7 @@ void monster::plan()
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    const auto actual_faction = friendly == 0 ? faction : STATIC( mfaction_str_id( "player" ) );
+    const mfaction_id actual_faction = friendly == 0 ? faction : STATIC( mfaction_str_id( "player" ) );
     const auto &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
         DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "
@@ -783,6 +789,8 @@ bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 // 4) Sound-based tracking
 void monster::move()
 {
+    add_msg_debug( debugmode::DF_MONMOVE, "Monster %s starting monmove::move, remaining moves %d",
+                   name(), moves );
     // We decrement wandf no matter what.  We'll save our wander_to plans until
     // after we finish out set_dest plans, UNLESS they time out first.
     if( wandf > 0 ) {
@@ -1266,8 +1274,14 @@ void monster::nursebot_operate( Character *dragged_foe )
             dragged_foe->cancel_activity();
             get_player_character().uninstall_bionic( real_target, *this, *dragged_foe, adjusted_skill );
 
-            dragged_foe->remove_effect( effect_grabbed );
-            remove_effect( effect_dragging );
+            // Remove target grab
+            for( const effect &eff : dragged_foe->get_effects_with_flag( json_flag_GRAB ) ) {
+                dragged_foe->remove_effect( eff.get_id() );
+            }
+            // And our own grab filters
+            for( const effect &eff : get_effects_with_flag( json_flag_GRAB_FILTER ) ) {
+                remove_effect( eff.get_id() );
+            }
             dragged_foe_id = character_id();
 
         }
@@ -1336,6 +1350,7 @@ tripoint monster::scent_move()
     const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
     const std::set<scenttype_id> &ignored_scents = type->scents_ignored;
 
+    std::vector<tripoint> sdirection;
     std::vector<tripoint> smoves;
 
     int bestsmell = 10; // Squares with smell 0 are not eligible targets.
@@ -1353,9 +1368,8 @@ tripoint monster::scent_move()
     }
 
     tripoint next( -1, -1, posz() );
-    // When the scent is *either* too strong or too weak, can't follow it.
-    if( ( !fleeing && scent_here > smell_threshold ) ||
-        ( scent_here == 0 ) ) {
+    // Scent is too weak, can't follow it.
+    if( scent_here == 0 ) {
         return next;
     }
     // Check for the scent type being compatible.
@@ -1386,20 +1400,33 @@ tripoint monster::scent_move()
 
     const bool can_bash = bash_skill() > 0;
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
-        int smell = scents.get( dest );
+    if( !fleeing && scent_here > smell_threshold ) {
+        // Smell too strong to track, wander around
+        sdirection.push_back( pos() );
+    } else {
+        // Get direction of scent
+        for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
+            int smell = scents.get( dest );
 
-        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
-            continue;
-        }
-        if( here.valid_move( pos(), dest, can_bash, true ) &&
-            ( can_move_to( dest ) || ( dest == player_character.pos() ) ||
-              ( can_bash && here.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
+            if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
+                continue;
+            }
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
-                smoves.clear();
-                smoves.push_back( dest );
+                sdirection.clear();
+                sdirection.push_back( dest );
                 bestsmell = smell;
             } else if( ( !fleeing && smell == bestsmell ) || ( fleeing && smell == bestsmell ) ) {
+                sdirection.push_back( dest );
+            }
+        }
+    }
+
+    for( const tripoint &direction : sdirection ) {
+        // Add some randomness to make creatures zigzag towards the source
+        for( const tripoint &dest : here.points_in_radius( direction, 1 ) ) {
+            if( here.valid_move( pos(), dest, can_bash, true ) &&
+                ( can_move_to( dest ) || ( dest == player_character.pos() ) ||
+                  ( can_bash && here.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
                 smoves.push_back( dest );
             }
         }
@@ -1618,8 +1645,15 @@ bool monster::attack_at( const tripoint &p )
     }
 
     Character &player_character = get_player_character();
-    if( p == player_character.pos() && sees( player_character ) ) {
-        return melee_attack( player_character );
+    const bool sees_player = sees( player_character );
+    // Targeting player location
+    if( p == player_character.pos() ) {
+        if( sees_player ) {
+            return melee_attack( player_character );
+        } else {
+            // Creature stumbles into a player it cannot see, briefly becoming aware of their location
+            return stumble_invis( player_character );
+        }
     }
 
     creature_tracker &creatures = get_creature_tracker();
@@ -1653,6 +1687,13 @@ bool monster::attack_at( const tripoint &p )
         // later on not hitting allied NPCs would be cool.
         guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
         return melee_attack( *guy );
+    }
+
+    // Attack last known position despite empty
+    if( has_effect( effect_stumbled_into_invisible ) &&
+        get_map().has_field_at( p, field_fd_last_known ) && !sees_player &&
+        attitude_to( player_character ) == Attitude::HOSTILE ) {
+        return attack_air( p );
     }
 
     // Nothing to attack.
@@ -2041,6 +2082,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
  */
 void monster::stumble()
 {
+    add_msg_debug( debugmode::DF_MONMOVE, "%s starting monmove::stumble", name() );
     // Only move every 10 turns.
     if( !one_in( 10 ) ) {
         return;

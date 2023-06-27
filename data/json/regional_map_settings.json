@@ -26,12 +26,13 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "//": "Weights are set high in order to allow mods to add rare terrains.  Dividing current weights by 1000 breaks in repo mods and should not be approved.",
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
+        "t_region_groundcover": { "t_grass": 12000, "t_grass_dead": 2000, "t_dirt": 1000 },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_forestfloor": 10, "t_grass": 1, "t_grass_long": 1, "t_moss": 1, "t_grass_dead": 1 },
-        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_swamp": { "t_grass_long": 300, "t_grass_tall": 100, "t_moss": 200, "t_dirt": 200 },
         "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
         "t_region_grass": { "t_grass": 1 },
         "t_region_soil": { "t_dirt": 1 },
@@ -442,6 +443,10 @@
           "spider_pit_south",
           "spider_pit_east",
           "spider_pit_west",
+          "survivor_forest_camp_north",
+          "survivor_forest_camp_south",
+          "survivor_forest_camp_east",
+          "survivor_forest_camp_west",
           "central_lab_entrance",
           "moonshine_still_north",
           "moonshine_still_south",
@@ -647,6 +652,7 @@
           "mx_portal_in": 3,
           "mx_helicopter": 1,
           "mx_exocrash_1": 1,
+          "mx_beehive_natural": 20,
           "mx_exocrash_2": 1
         }
       },
@@ -684,6 +690,7 @@
           "mx_jabberwock": 1,
           "mx_exocrash_1": 1,
           "mx_helicopter": 1,
+          "mx_beehive_natural": 30,
           "mx_exocrash_2": 1
         }
       },
@@ -713,6 +720,7 @@
           "mx_portal_in": 7,
           "mx_helicopter": 5,
           "mx_exocrash_1": 1,
+          "mx_beehive_natural": 25,
           "mx_exocrash_2": 1
         }
       },
@@ -755,7 +763,8 @@
           "mx_military": 50,
           "mx_science": 400,
           "mx_collegekids": 500,
-          "mx_roadblock": 1000,
+          "mx_roadblock": 830,
+          "mx_roadblock_mil": 170,
           "mx_bandits_block": 800,
           "mx_drugdeal": 300,
           "mx_supplydrop": 100,
@@ -1074,6 +1083,7 @@
         "cs_open_sewer": 33
       },
       "shops": {
+        "deserter_city": 30,
         "bus_station": 200,
         "city_block_2": 300,
         "textile_mill_museum": 50,
@@ -1128,6 +1138,7 @@
         "s_library": 200,
         "s_library_1": 200,
         "s_library_2": 200,
+        "s_library_3": 200,
         "s_bookstore": 200,
         "s_bookstore_1": 200,
         "s_bookstore_2": 200,

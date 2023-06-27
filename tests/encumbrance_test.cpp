@@ -89,6 +89,7 @@ static constexpr int jacket_jean_e = 9;
 static constexpr int ballistic = 6;
 static constexpr int load_bearing = 2;
 static constexpr int plate = 2;
+static constexpr int complex_phase = 10;
 
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {
@@ -106,12 +107,25 @@ TEST_CASE( "plate_encumbrance", "[encumbrance]" )
     test_encumbrance_items( { with_plates }, "torso", ballistic + plate );
 }
 
+TEST_CASE( "off_limb_ablative_encumbrance", "[encumbrance]" )
+{
+    item with_plates( "test_ghost_vest" );
+    with_plates.force_insert_item( item( "test_plate_skirt" ), item_pocket::pocket_type::CONTAINER );
+    test_encumbrance_items( { with_plates }, "leg_l", plate );
+}
+
 TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
 {
     test_encumbrance( { "test_longshirt", "test_jacket_jean" }, "torso", longshirt_e + jacket_jean_e );
     test_encumbrance( { "test_longshirt", "test_ballistic_vest" }, "torso", longshirt_e + ballistic );
     test_encumbrance( { "test_longshirt", "test_load_bearing_vest" }, "torso",
                       longshirt_e + load_bearing );
+}
+
+TEST_CASE( "Complicated_with_split_layers_no_conflict", "[encumbrance]" )
+{
+    test_encumbrance( { "test_complex_phase", "test_ballistic_vest" }, "torso",
+                      ballistic + complex_phase );
 }
 
 // make sure ordering still works with pockets

@@ -96,8 +96,14 @@
   },
   {
     "type": "mutation",
-    "id": "SKIN_ROUGH",
-    "copy-from": "SKIN_ROUGH",
+    "id": "SKIN_PEELING",
+    "copy-from": "SKIN_PEELING",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SPARSE_SCALES",
+    "copy-from": "SPARSE_SCALES",
     "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {

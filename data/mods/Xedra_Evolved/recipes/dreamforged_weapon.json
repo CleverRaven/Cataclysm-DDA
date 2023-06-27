@@ -3,6 +3,7 @@
     "type": "recipe",
     "result": "dreamdross_bo",
     "activity_level": "ACTIVE_EXERCISE",
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" } ],
     "components": [
       [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ],
       [ [ "stick_long", 1 ], [ "plank_long", 1 ], [ "long_pole", 1 ] ]
@@ -30,7 +31,6 @@
     "type": "recipe",
     "result": "dreamdross_club",
     "copy-from": "dreamdross_bo",
-    "activity_level": "ACTIVE_EXERCISE",
     "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ], [ [ "hammer", 1 ], [ "pipe", 1 ], [ "rebar", 1 ] ] ],
     "time": "3 h",
     "flags": [ "SECRET" ],
@@ -41,6 +41,8 @@
     "name": "dreamforged long sword",
     "id": "dreamforged_longsword_ench",
     "activity_level": "ACTIVE_EXERCISE",
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_weapon" } ],
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_longsword_ench",
@@ -49,11 +51,10 @@
     ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
-    "time": "1 d 7 h",
+    "time": "10 h",
     "flags": [ "SECRET" ],
     "skill_used": "deduction",
     "difficulty": 6,
-    "//": "TODO: add proficiency for weapon dreamforging",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
   },
@@ -62,6 +63,7 @@
     "name": "dreamforged quarterstaff",
     "id": "dreamforged_q_staff_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_q_staff_ench",
@@ -72,13 +74,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 4,
     "flags": [ "SECRET" ],
-    "time": "21 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged warhammer",
     "id": "dreamforged_warhammer_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_warhammer_ench",
@@ -89,13 +92,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 7 h"
+    "time": "11 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged spear",
     "id": "dreamforged_spear_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_spear_ench", "effect": [ { "u_spawn_item": "dreamforged_spear_ench", "use_item_group": true } ] }
     ],
@@ -103,13 +107,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 4 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged halberd",
     "id": "dreamforged_halberd_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_halberd_ench",
@@ -120,13 +125,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 7,
     "flags": [ "SECRET" ],
-    "time": "1 d 12 h"
+    "time": "12 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged glaive",
     "id": "dreamforged_glaive_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_glaive_ench", "effect": [ { "u_spawn_item": "dreamforged_glaive_ench", "use_item_group": true } ] }
     ],
@@ -134,13 +140,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 7,
     "flags": [ "SECRET" ],
-    "time": "1 d 9 h"
+    "time": "11 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged naginata",
     "id": "dreamforged_naginata_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_naginata_ench",
@@ -151,25 +158,27 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 10 h"
+    "time": "13 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged mace",
     "id": "dreamforged_mace_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [ { "id": "dreamforged_mace_ench", "effect": [ { "u_spawn_item": "dreamforged_mace_ench", "use_item_group": true } ] } ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 4,
     "flags": [ "SECRET" ],
-    "time": "17 h"
+    "time": "6 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged morningstar",
     "id": "dreamforged_morningstar_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_morningstar_ench",
@@ -180,13 +189,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "1 d 1 h"
+    "time": "8 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged estoc",
     "id": "dreamforged_estoc_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_estoc_ench", "effect": [ { "u_spawn_item": "dreamforged_estoc_ench", "use_item_group": true } ] }
     ],
@@ -194,13 +204,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 4,
     "flags": [ "SECRET" ],
-    "time": "1 d 4 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged arming sword",
     "id": "dreamforged_arming_sword_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_arming_sword_ench",
@@ -211,13 +222,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "1 d 3 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged broadsword",
     "id": "dreamforged_broadsword_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_broadsword_ench",
@@ -228,13 +240,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "1 d 5 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged battle axe",
     "id": "dreamforged_battleaxe_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_battleaxe_ench",
@@ -245,13 +258,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "1 d 8 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged katana",
     "id": "dreamforged_katana_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_katana_ench", "effect": [ { "u_spawn_item": "dreamforged_katana_ench", "use_item_group": true } ] }
     ],
@@ -259,13 +273,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 14 h"
+    "time": "12 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged combat knife",
     "id": "dreamforged_knife_combat_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_knife_combat_ench",
@@ -276,25 +291,27 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "16 h"
+    "time": "9 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged kris",
     "id": "dreamforged_kris_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [ { "id": "dreamforged_kris_ench", "effect": [ { "u_spawn_item": "dreamforged_kris_ench", "use_item_group": true } ] } ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "13 h"
+    "time": "10 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged kukri",
     "id": "dreamforged_kukri_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_kukri_ench", "effect": [ { "u_spawn_item": "dreamforged_kukri_ench", "use_item_group": true } ] }
     ],
@@ -302,13 +319,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 4,
     "flags": [ "SECRET" ],
-    "time": "14 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged nodachi",
     "id": "dreamforged_nodachi_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_nodachi_ench",
@@ -319,13 +337,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "18 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged rapier",
     "id": "dreamforged_rapier_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_rapier_ench", "effect": [ { "u_spawn_item": "dreamforged_rapier_ench", "use_item_group": true } ] }
     ],
@@ -333,13 +352,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "21 h"
+    "time": "7 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged tanto",
     "id": "dreamforged_tanto_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_tanto_ench", "effect": [ { "u_spawn_item": "dreamforged_tanto_ench", "use_item_group": true } ] }
     ],
@@ -347,13 +367,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "19 h"
+    "time": "6 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged wakizashi",
     "id": "dreamforged_wakizashi_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_wakizashi_ench",
@@ -364,13 +385,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "18 h"
+    "time": "5 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged zweihänder",
     "id": "dreamforged_zweihander_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_zweihander_ench",
@@ -381,13 +403,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 19 h"
+    "time": "16 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged khopesh",
     "id": "dreamforged_khopesh_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_khopesh_ench",
@@ -398,13 +421,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 6,
     "flags": [ "SECRET" ],
-    "time": "1 d 9 h"
+    "time": "13 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged lucerne hammer",
     "id": "dreamforged_lucerne_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_lucerne_ench",
@@ -415,13 +439,14 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 7,
     "flags": [ "SECRET" ],
-    "time": "2 d 1 h"
+    "time": "20 h"
   },
   {
     "type": "recipe",
     "name": "dreamforged knuckles",
     "id": "dreamforged_knuckle_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_knuckle_ench",
@@ -432,15 +457,56 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 5,
     "flags": [ "SECRET" ],
-    "time": "18 h"
+    "time": "7 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_longbow",
+    "copy-from": "dreamforged_longsword_ench",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
+    "difficulty": 5,
+    "time": "6 h"
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_dreamforged",
+    "copy-from": "dreamforged_longsword_ench",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 2 ] ] ],
+    "difficulty": 5,
+    "time": "3 m"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_crossbow",
+    "copy-from": "dreamforged_longsword_ench",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
+    "difficulty": 5,
+    "time": "6 h"
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_dreamforged",
+    "copy-from": "dreamforged_longsword_ench",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 2 ] ] ],
+    "difficulty": 5,
+    "time": "3 m"
   },
   {
     "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
     "result": "dreamforged_knuckle_berserk",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_dreamsmithing" },
+      { "proficiency": "prof_dreamsmithing_weapon" },
+      { "proficiency": "prof_dreamsmithing_peak" }
+    ],
     "components": [ [ [ "forged_dreamstuff_ingot", 4 ] ] ],
-    "time": "3 d 6 h",
+    "time": "1 d 2 h",
     "skill_used": "deduction",
     "difficulty": 5,
     "flags": [ "SECRET" ],
@@ -456,7 +522,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 6 ] ] ],
     "difficulty": 9,
     "flags": [ "SECRET" ],
-    "time": "4 d 4 h"
+    "time": "1 d 12 h"
   },
   {
     "type": "recipe",
@@ -466,7 +532,7 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 9,
     "flags": [ "SECRET" ],
-    "time": "4 d 6 h"
+    "time": "1 d 1 h"
   },
   {
     "type": "recipe",
@@ -476,6 +542,6 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 6 ] ] ],
     "difficulty": 8,
     "flags": [ "SECRET" ],
-    "time": "4 d 11 h"
+    "time": "1 d 3 h"
   }
 ]

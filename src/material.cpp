@@ -87,7 +87,7 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
         JsonObject jo = jsobj.get_object( "resist" );
         _resistances = load_resistances_instance( jo );
         for( const JsonMember &jmemb : jo ) {
-            _res_was_loaded.emplace_back( damage_type_id( jmemb.name() ) );
+            _res_was_loaded.emplace_back( jmemb.name() );
         }
     }
 
@@ -96,6 +96,8 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
     mandatory( jsobj, was_loaded, "density", _density );
 
     optional( jsobj, was_loaded, "sheet_thickness", _sheet_thickness );
+
+    optional( jsobj, was_loaded, "repair_difficulty", _repair_difficulty );
 
     optional( jsobj, was_loaded, "wind_resist", _wind_resist );
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
@@ -170,6 +172,11 @@ void material_type::check() const
                   id.str() );
     }
 
+    if( _repair_difficulty && ( _repair_difficulty > 10 || _repair_difficulty < 0 ) ) {
+        debugmsg( "Repair difficulty out of skill range (0 to 10, is %d) for %s.", _repair_difficulty,
+                  id.str() );
+    }
+
     for( const damage_type &dt : damage_type::get_all() ) {
         bool type_defined =
             std::find( _res_was_loaded.begin(), _res_was_loaded.end(),  dt.id ) != _res_was_loaded.end();
@@ -214,18 +221,23 @@ std::string material_type::cut_dmg_verb() const
     return _cut_dmg_verb.translated();
 }
 
-std::string material_type::dmg_adj( int damage ) const
+std::string material_type::dmg_adj( int damage_level ) const
 {
-    if( damage <= 0 ) {
+    if( damage_level <= 1 ) {
         return std::string(); // not damaged
     }
-    // apply bounds checking
-    return _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].translated();
+    const int idx = std::clamp( damage_level - 2, 0, static_cast<int>( _dmg_adj.size() ) );
+    return _dmg_adj[idx].translated();
 }
 
 int material_type::chip_resist() const
 {
     return _chip_resist;
+}
+
+int material_type::repair_difficulty() const
+{
+    return _repair_difficulty;
 }
 
 float material_type::specific_heat_liquid() const

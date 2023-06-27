@@ -10,7 +10,7 @@
     "symbol": "?",
     "looks_like": "story_book",
     "color": "dark_gray",
-    "flags": [ "INSPIRATIONAL", "TINDER" ],
+    "flags": [ "INSPIRATIONAL" ],
     "intelligence": 8,
     "time": "10 m",
     "fun": 1

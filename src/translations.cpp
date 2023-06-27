@@ -102,6 +102,9 @@ void set_language( const std::string &lang )
         current_language_version++;
     } while( current_language_version == INVALID_LANGUAGE_VERSION );
 
+#else
+    // Silence unused var warning
+    ( void ) lang;
 #endif // LOCALIZE
 
     reload_names();

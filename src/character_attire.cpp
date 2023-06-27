@@ -327,15 +327,54 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
         guy.calc_discomfort();
     }
 
+    if( to_wear.is_rigid() || to_wear.is_ablative() ) {
+        recalc_ablative_blocking( &guy );
+    }
+
     guy.recoil = MAX_RECOIL;
 
     return new_item_it;
+}
+
+void outfit::recalc_ablative_blocking( const Character *guy )
+{
+    std::set<sub_bodypart_id> rigid_locations;
+
+    // get all rigid locations
+    // ablative pocketed armor shouldn't block adding ablative pieces
+    for( const item &w : worn ) {
+        if( w.is_rigid() && !w.is_ablative() ) {
+            for( const sub_bodypart_id &sbp : w.get_covered_sub_body_parts() ) {
+                if( w.is_bp_rigid( sbp ) ) {
+                    rigid_locations.emplace( sbp );
+                }
+            }
+        }
+    }
+
+    bool should_warn = false;
+
+    // pass that info to all the ablative pockets
+    for( item &w : worn ) {
+        if( w.is_ablative() ) {
+            should_warn = true;
+            for( item_pocket *p : w.get_all_ablative_pockets() ) {
+                p->set_no_rigid( rigid_locations );
+            }
+        }
+    }
+
+    if( should_warn && !rigid_locations.empty() ) {
+        guy->add_msg_if_player( m_warning,
+                                _( "You are wearing rigid armor with armor that has pockets for armor.  Until hard armor is removed inserting plates on those locations will be disabled." ) );
+    }
 }
 
 std::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
         bool interactive, bool do_calc_encumbrance )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
         if( interactive ) {
@@ -422,6 +461,7 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
 
         recalc_sight_limits();
         calc_encumbrance();
+        worn.recalc_ablative_blocking( this );
         calc_discomfort();
         recoil = MAX_RECOIL;
         return true;
@@ -757,6 +797,13 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
 
             // add the sublocations to the overall body part layer and update if we are conflicting
             for( sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
+                if( std::count_if( bp->sub_parts.begin(),
+                bp->sub_parts.end(), [sbp]( const sub_bodypart_str_id & bpid ) {
+                return sbp.id() == bpid;
+                } ) == 0 ) {
+                    // the sub part isn't part of the bodypart we are checking
+                    continue;
+                }
                 // bit hacky but needed since we are doing one layer at a time
                 std::vector<layer_level> ll;
                 ll.push_back( item_layer );
@@ -881,6 +928,15 @@ bool outfit::is_worn( const itype_id &clothing ) const
     }
     return false;
 }
+bool outfit::is_worn_module( const item &thing ) const
+
+{
+    return thing.has_flag( flag_CANT_WEAR ) &&
+    std::any_of( worn.cbegin(), worn.cend(), [&thing]( item const & elem ) {
+        return elem.contained_where( thing ) != nullptr;
+    } );
+}
+
 
 bool outfit::is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const
 {
@@ -1206,7 +1262,7 @@ bool outfit::is_wearing_active_optcloak() const
     return false;
 }
 
-ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
+static ret_val<void> test_only_one_conflicts( const item &clothing, const item &i )
 {
     const bool this_restricts_only_one = clothing.has_flag( json_flag_ONE_PER_LAYER );
 
@@ -1226,25 +1282,74 @@ ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
         return ret;
     };
 
+    if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == clothing.typeId() ) {
+        return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
+    }
+
+    if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) ) {
+        std::optional<side> overlaps = clothing.covers_overlaps( i );
+        if( overlaps && sidedness_conflicts( *overlaps ) ) {
+            return ret_val<void>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
+        }
+    }
+
+    return ret_val<void>::make_success();
+}
+
+ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
+{
     for( const item &i : worn ) {
-        if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == clothing.typeId() ) {
-            return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
+        ret_val<void> result = test_only_one_conflicts( clothing, i );
+        if( !result.success() ) {
+            return result;
         }
 
-        if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) ) {
-            std::optional<side> overlaps = clothing.covers_overlaps( i );
-            if( overlaps && sidedness_conflicts( *overlaps ) ) {
-                return ret_val<void>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
+        if( i.is_ablative() ) {
+            // if item has ablative armor we should check those too.
+            for( const item *ablative_armor : i.all_ablative_armor() ) {
+                result = test_only_one_conflicts( clothing, *ablative_armor );
+                if( !result.success() ) {
+                    return result;
+                }
             }
         }
     }
     return ret_val<void>::make_success();
 }
 
+static ret_val<void> rigid_test( const item &clothing, const item &i,
+                                 const std::unordered_set<sub_bodypart_id> &to_test )
+{
+    // check each sublimb individually
+    for( const sub_bodypart_id &sbp : to_test ) {
+        // skip if the item doesn't currently cover the bp
+        if( !i.covers( sbp ) ) {
+            continue;
+        }
+
+        // skip if either item cares only about its layer and they don't match up
+        if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
+            !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
+            continue;
+        }
+
+        // allow wearing splints on integrated armor such as protective bark
+        if( i.has_flag( flag_INTEGRATED ) && clothing.has_flag( flag_SPLINT ) ) {
+            continue;
+        }
+
+        if( i.is_bp_rigid( sbp ) ) {
+            return ret_val<void>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
+        }
+    }
+
+    return ret_val<void>::make_success();
+}
+
 ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) const
 {
 
-    std::vector<sub_bodypart_id> to_test;
+    std::unordered_set<sub_bodypart_id> to_test;
 
     // if not overridden get the actual side of the item
     if( s == side::num_sides ) {
@@ -1259,41 +1364,23 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
         // figure out which sublimbs need to be tested
         for( const sub_bodypart_id &sbp : swapped_item.get_covered_sub_body_parts() ) {
             if( swapped_item.is_bp_rigid( sbp ) ) {
-                to_test.push_back( sbp );
+                to_test.emplace( sbp );
             }
         }
     } else {
         // figure out which sublimbs need to be tested
         for( const sub_bodypart_id &sbp : clothing.get_covered_sub_body_parts() ) {
             if( clothing.is_bp_rigid( sbp ) ) {
-                to_test.push_back( sbp );
+                to_test.emplace( sbp );
             }
         }
     }
 
     // go through all worn and see if already wearing something rigid
     for( const item &i : worn ) {
-        // check each sublimb individually
-        for( const sub_bodypart_id &sbp : to_test ) {
-            // skip if the item doesn't currently cover the bp
-            if( !i.covers( sbp ) ) {
-                continue;
-            }
-
-            // skip if either item cares only about its layer and they don't match up
-            if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
-                !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
-                continue;
-            }
-
-            // allow wearing splints on integrated armor such as protective bark
-            if( i.has_flag( flag_INTEGRATED ) && clothing.has_flag( flag_SPLINT ) ) {
-                continue;
-            }
-
-            if( i.is_bp_rigid( sbp ) ) {
-                return ret_val<void>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
-            }
+        ret_val<void> result = rigid_test( clothing, i, to_test );
+        if( !result.success() ) {
+            return result;
         }
     }
 
@@ -1794,18 +1881,16 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         }
 
         if( !destroy ) {
-            // if we don't have sub parts data
-            // this is the feet head and hands
-            if( bp->sub_parts.empty() ) {
-                destroy = guy.armor_absorb( elem, armor, bp, roll );
-            } else {
-                // if this armor has sublocation data test against it instead of just a generic roll
-                destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
-                // for the torso we also need to consider if it hits anything hanging off the character or their neck
-                if( secondary_sbp != sub_bodypart_id() ) {
-                    destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
-                }
+            // if the armor location has ablative armor apply that first
+            if( armor.is_ablative() ) {
+                guy.ablative_armor_absorb( elem, armor, sbp, roll );
+            }
 
+            // if not already destroyed to an armor absorb
+            destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
+            // for the torso we also need to consider if it hits anything hanging off the character or their neck
+            if( secondary_sbp != sub_bodypart_id() ) {
+                destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
             }
         }
 

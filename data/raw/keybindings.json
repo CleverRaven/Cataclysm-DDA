@@ -1061,8 +1061,8 @@
     "type": "keybinding",
     "id": "MARK_DANGER",
     "category": "OVERMAP_NOTES",
-    "name": "Mark as dangerous",
-    "bindings": [ { "input_method": "keyboard_char", "key": "M" }, { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] } ]
+    "name": "Mark danger",
+    "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1077,6 +1077,13 @@
     "category": "OVERMAP",
     "name": "Create/edit note",
     "bindings": [ { "input_method": "keyboard_char", "key": "N" }, { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MARK_DANGER",
+    "category": "OVERMAP",
+    "name": "Mark danger",
+    "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1188,6 +1195,20 @@
     "id": "SEARCH",
     "name": "Search",
     "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "name": "Close map",
+    "category": "OVERMAP",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "m" },
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2082,6 +2103,20 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_TRAIT_INFO_UP",
+    "category": "MUTATIONS",
+    "name": "Scroll mutation info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_TRAIT_INFO_DOWN",
+    "category": "MUTATIONS",
+    "name": "Scroll mutation info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "APPLY",
     "category": "MEDICAL",
     "name": "Use item",
@@ -2102,7 +2137,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle language to English",
+    "name": "Toggle language to English (requires global keybind!)",
     "id": "toggle_language_to_en"
   },
   {

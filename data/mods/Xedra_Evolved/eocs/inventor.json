@@ -6,7 +6,7 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_1" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_1" ] },
-      { "math": [ "base_difficulty_1", "+=", "5" ] },
+      { "math": [ "base_difficulty_1", "+=", "2" ] },
       {
         "u_roll_remainder": [
           "inventor_leg_weight",
@@ -15,14 +15,25 @@
           "inventor_shotgun",
           "inventor_pistol",
           "mace_magic",
+          "software_math_inventor",
+          "software_electronics_reference_inventor",
           "combatsaw_spear_off",
           "inventor_research_base_2"
         ],
         "type": "recipe",
-        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_BASE_1",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_base_1" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
       },
-      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" }
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
@@ -36,12 +47,12 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_2" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_2" ] },
-      { "math": [ "base_difficulty_2", "+=", "10" ] },
+      { "math": [ "base_difficulty_2", "+=", "3" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [
           "helmet_inventor",
-          "inventor_electric_fist",
+          "inventor_fists",
           "wolf_mask",
           "magnetic_holster",
           "bio_launcher",
@@ -49,14 +60,24 @@
           "trinket_damage",
           "trinket_range",
           "trinket_sound",
+          "mod_inv_pistol_booster",
           "inventor_research_base_3",
           "inventor_research_energy_1",
           "software_AI"
         ],
         "type": "recipe",
-        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
-      },
-      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_BASE_2",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_base_2" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
+      }
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
@@ -70,14 +91,23 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_3" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
-      { "math": [ "base_difficulty_3", "+=", "15" ] },
+      { "math": [ "base_difficulty_3", "+=", "4" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "inventor_research_energy_1" ],
         "type": "recipe",
-        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
-      },
-      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_BASE_3",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_base_3" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
+      }
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
@@ -91,23 +121,34 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "energy_difficulty_1" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_1" ] },
-      { "math": [ "energy_difficulty_1", "+=", "7" ] },
+      { "math": [ "energy_difficulty_1", "+=", "2" ] },
       {
         "u_roll_remainder": [
           "battery_gun",
+          "ray_gun",
           "inventor_light_minus_cell",
           "inventor_light_cell",
           "inventor_medium_cell",
           "inventor_heavy_cell",
           "inventor_welder",
           "heater_tool",
+          "inventor_electric_fist",
           "inventor_research_energy_2"
         ],
         "type": "recipe",
-        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_ENERGY_1",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_energy_1" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
       },
-      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" }
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
@@ -121,11 +162,11 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "energy_difficulty_2" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_2" ] },
-      { "math": [ "energy_difficulty_2", "+=", "13" ] },
+      { "math": [ "energy_difficulty_2", "+=", "3" ] },
       {
         "u_roll_remainder": [
           "aura_force",
-          "ray_gun",
+          "ray_rifle",
           "ion_gun",
           "accelerator_gun",
           "inventor_grenade_noise_expl",
@@ -139,10 +180,19 @@
           "inventor_research_energy_3"
         ],
         "type": "recipe",
-        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_ENERGY_2",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_energy_2" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
       },
-      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" }
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
@@ -156,7 +206,7 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "energy_difficulty_3" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_3" ] },
-      { "math": [ "energy_difficulty_3", "+=", "20" ] },
+      { "math": [ "energy_difficulty_3", "+=", "4" ] },
       {
         "u_roll_remainder": [
           "inventor_glauncher",
@@ -169,10 +219,19 @@
           "inventor_research_dimesnion_1"
         ],
         "type": "recipe",
-        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_ENERGY_3",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_energy_3" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
       },
-      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" }
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
@@ -192,15 +251,24 @@
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
       { "math": [ "AI_sparks", "+=", "AI_difficulty_1" ] },
-      { "math": [ "base_difficulty_3", "+=", "10" ] },
-      { "math": [ "AI_difficulty_1", "+=", "10" ] },
+      { "math": [ "base_difficulty_3", "+=", "5" ] },
+      { "math": [ "AI_difficulty_1", "+=", "5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot" ],
         "type": "recipe",
-        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
-      },
-      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_AI_1",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_ai_1" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
+      }
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
@@ -220,15 +288,24 @@
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
       { "math": [ "dimension_sparks", "+=", "dimension_difficulty_1" ] },
-      { "math": [ "base_difficulty_3", "+=", "10" ] },
-      { "math": [ "dimension_difficulty_1", "+=", "10" ] },
+      { "math": [ "base_difficulty_3", "+=", "5" ] },
+      { "math": [ "dimension_difficulty_1", "+=", "5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [ "rip_ticket" ],
         "type": "recipe",
-        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
-      },
-      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+        "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
+        "false_eocs": {
+          "id": "EOC_REMOVE_RESEARCH_DIMENSION_1",
+          "effect": [
+            { "u_forget_recipe": "inventor_research_dimesnion_1" },
+            {
+              "u_message": "You reach the limit of what can be done at this level.  It is time to move forward.",
+              "type": "info"
+            }
+          ]
+        }
+      }
     ],
     "false_effect": [
       { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
@@ -241,7 +318,14 @@
     "id": "EOC_INVENTOR_PROCESS_SPARKS",
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark')", ">", "0" ] },
     "effect": [
-      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">", "u_val('vitamin', 'name:creative_spark')" ] },
+      {
+        "math": [
+          "u_val('vitamin', 'name:creative_spark_research')",
+          "+=",
+          "u_val('vitamin', 'name:creative_spark') * floor( (base_difficulty_1 + base_difficulty_2 + base_difficulty_3 + energy_difficulty_1 + energy_difficulty_2 + energy_difficulty_3 + AI_difficulty_1 + dimension_difficulty_1) / 8 )"
+        ]
+      },
+      { "math": [ "u_val('vitamin', 'name:creative_spark')", "=", "0" ] },
       {
         "u_message": "creative_spark_research = <u_val:creative_spark_research>,\n base_difficulty_1 = <u_val:base_difficulty_1>,\n base_difficulty_2 = <u_val:base_difficulty_2>,\n base_difficulty_3 = <u_val:base_difficulty_3>,\n energy_difficulty_1 = <u_val:energy_difficulty_1>,\n energy_difficulty_2 = <u_val:energy_difficulty_2>,\n energy_difficulty_3 = <u_val:energy_difficulty_3>,\n dimension_sparks = <u_val:dimension_sparks>,\n dimension_difficulty_1 = <u_val:dimension_difficulty_1>.",
         "type": "debug"
@@ -256,7 +340,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER",
-    "effect": { "u_message": "You have nothing to research in this branch anymore." }
+    "id": "EOC_INVENTOR_MESSAGE_GOOD",
+    "effect": { "u_message": "inventor_success", "snippet": true, "type": "good" }
   }
 ]

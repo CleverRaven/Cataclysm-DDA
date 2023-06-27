@@ -5,13 +5,36 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "mobile_memory_card_used",
+    "type": "MIGRATION",
+    "replace": "memory_card"
+  },
+  {
+    "id": "mobile_memory_card",
+    "type": "MIGRATION",
+    "replace": "memory_card_unread",
+    "reset_item_vars": true
+  },
+  {
+    "id": "mobile_memory_card_encrypted",
+    "type": "MIGRATION",
+    "replace": "memory_card_unread",
+    "reset_item_vars": true
+  },
+  {
+    "id": "mobile_memory_card_science",
+    "type": "MIGRATION",
+    "replace": "memory_card_science",
+    "reset_item_vars": true
+  },
+  {
     "id": "nato_assault_rifle",
     "from_variant": "scar_l",
     "type": "MIGRATION",
     "replace": "scar_l"
   },
   {
-    "id": "m27_assault_rifle",
+    "id": "modular_m27_assault_rifle",
     "from_variant": "scar_l",
     "type": "MIGRATION",
     "replace": "scar_l"
@@ -112,8 +135,36 @@
     "replace": "burnt_out_bionic"
   },
   {
+    "id": "generic_figurine_plastic",
+    "type": "MIGRATION",
+    "replace": "toy_figurine"
+  },
+  {
     "id": "bookmark_note_catalytic",
     "type": "MIGRATION",
     "replace": "paper"
+  },
+  {
+    "id": "ar15_retool_300blk",
+    "type": "MIGRATION",
+    "replace": "iwi_tavor_x95_300blk"
+  },
+  {
+    "id": "army_top",
+    "type": "MIGRATION",
+    "replace": "tank_top",
+    "variant": "tank_top_camo"
+  },
+  {
+    "id": "cheerleader_top",
+    "type": "MIGRATION",
+    "replace": "tank_top",
+    "variant": "tank_top_cheerleader"
+  },
+  {
+    "id": "UPS_off",
+    "type": "MIGRATION",
+    "replace": "UPS_ON",
+    "flags": [ "IS_UPS" ]
   }
 ]

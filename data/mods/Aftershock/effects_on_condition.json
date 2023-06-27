@@ -15,19 +15,19 @@
         "run_eocs": [
           {
             "id": "afs_motion_sensor_audio_warning_high",
-            "condition": { "compare_int": [ { "global_val": "monsters_nearby", "radius": 24 }, ">", { "const": 15 } ] },
+            "condition": { "math": [ "u_monsters_nearby('radius': 24)", ">", "15" ] },
             "effect": [ { "u_message": "The motion detector whines distressingly!", "type": "warning" } ],
             "false_effect": {
               "run_eocs": [
                 {
                   "id": "afs_motion_sensor_audio_warning_medium",
-                  "condition": { "compare_int": [ { "global_val": "monsters_nearby", "radius": 24 }, ">", { "const": 5 } ] },
+                  "condition": { "math": [ "u_monsters_nearby('radius': 24)", ">", "5" ] },
                   "effect": [ { "u_message": "The motion detector emits a short series of warning beeps.", "type": "warning" } ],
                   "false_effect": {
                     "run_eocs": [
                       {
                         "id": "afs_motion_sensor_audio_warning_low",
-                        "condition": { "compare_int": [ { "global_val": "monsters_nearby", "radius": 24 }, ">", { "const": 1 } ] },
+                        "condition": { "math": [ "u_monsters_nearby('radius': 24)", ">", "1" ] },
                         "effect": [ { "u_message": "The motion detector emits a single warning beep.", "type": "info" } ]
                       }
                     ]
@@ -46,5 +46,24 @@
     "type": "effect_on_condition",
     "id": "afs_motion_sensor_eoc_end_ping",
     "effect": [ { "u_add_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "value": "0" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ESCAPE_POD_CHAIR",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "new_map" },
+        "target_params": { "om_terrain": "afs_crashed_escape_pod", "search_range": 500, "z": 0 },
+        "terrain": "t_metal_floor",
+        "target_max_radius": 30,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      {
+        "u_message": "You make sure there are no lose items in the pod that would become projectiles during launch before you strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod fires from the ship, plummeting towards the planet below.",
+        "popup": true
+      },
+      { "u_teleport": { "global_val": "new_map" }, "force": true }
+    ]
   }
 ]

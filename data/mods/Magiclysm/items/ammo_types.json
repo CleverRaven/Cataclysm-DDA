@@ -40,5 +40,17 @@
     "id": "parabolan_yarn",
     "name": "parabolan yarn",
     "default": "parabolan_yarn"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "elastic_potential_energy",
+    "name": "elastic potential energy",
+    "default": "elastic_potential_energy"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "biomancer_booster_sludge",
+    "name": "biomancer booster sludge",
+    "default": "biomancer_booster_sludge"
   }
 ]

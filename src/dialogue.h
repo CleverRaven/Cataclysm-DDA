@@ -197,6 +197,7 @@ struct dialogue {
         dialogue &operator=( const dialogue & ) = delete;
         dialogue &operator=( dialogue && ) = default;
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond = {},
                   const std::unordered_map<std::string, std::string> &ctx = {} );
         talker *actor( bool is_beta ) const;
 
@@ -224,7 +225,13 @@ struct dialogue {
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
 
+        void set_conditional( const std::string &key, const std::function<bool( dialogue & )> &value );
+        bool evaluate_conditional( const std::string &key, dialogue &d );
+
         const std::unordered_map<std::string, std::string> &get_context() const;
+        const std::unordered_map<std::string, std::function<bool( dialogue & )>> &get_conditionals() const;
+        void amend_callstack( const std::string &value );
+        std::string get_callstack() const;
     private:
         /**
          * The talker that speaks (almost certainly representing the avatar, ie get_avatar() )
@@ -237,6 +244,9 @@ struct dialogue {
 
         // dialogue specific variables that can be passed down to additional EOCs but are one way
         std::unordered_map<std::string, std::string> context;
+
+        // conditionals that were set at the upper level
+        std::unordered_map<std::string, std::function<bool( dialogue & )>> conditionals;
 
         /**
          * Add a simple response that switches the topic to the new one. If first == true, force

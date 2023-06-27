@@ -157,36 +157,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "special_field",
-    "name": "field",
-    "sym": ".",
-    "color": "brown",
-    "looks_like": "field",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_forest",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "looks_like": "forest",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_forest_thick",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "looks_like": "forest_thick",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": [
       "riverside_dwelling",
       "riverside_dwelling1",
@@ -612,6 +582,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "survivor_forest_camp" ],
+    "name": "survivor forest camp",
+    "sym": "+",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ],
     "name": "swamp shack roof",
     "sym": "+",
@@ -779,43 +758,40 @@
     "type": "overmap_terrain",
     "id": [
       "airliner_1a",
-      "airliner_2a",
       "airliner_3a",
-      "airliner_1b",
       "airliner_3b",
-      "airliner_1c",
-      "airliner_2c",
-      "airliner_3c",
       "airliner_1d",
-      "airliner_2d",
       "airliner_3d",
       "airliner_1e",
-      "airliner_2e",
       "airliner_3e",
       "airliner_1f",
-      "airliner_2f",
       "airliner_3f",
       "airliner_1g",
-      "airliner_2g",
       "airliner_3g",
       "airliner_1h",
-      "airliner_2h",
       "airliner_3h",
       "airliner_1i",
-      "airliner_2i",
       "airliner_3i",
       "airliner_1j",
-      "airliner_2j",
       "airliner_3j"
     ],
     "name": "field",
     "sym": ".",
     "color": "brown",
-    "see_cost": 5
+    "see_cost": 1
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1", "airliner_2c_-1" ],
+    "id": [
+      "airliner_2a",
+      "airliner_2a_1",
+      "airliner_2b",
+      "airliner_2b_1",
+      "airliner_2b_-1",
+      "airliner_2c",
+      "airliner_2c_1",
+      "airliner_2c_-1"
+    ],
     "name": "crashed airliner",
     "sym": "A",
     "color": "red",
@@ -823,21 +799,36 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2a_1", "airliner_2c_1", "wasp_tower_roof" ],
+    "id": [ "airliner_1b", "airliner_3c" ],
+    "name": "wreckage",
+    "sym": "A",
+    "color": "light_gray",
+    "see_cost": 4
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "airliner_1c",
+      "airliner_2d",
+      "airliner_2e",
+      "airliner_2f",
+      "airliner_2g",
+      "airliner_2h",
+      "airliner_2i",
+      "airliner_2j"
+    ],
+    "name": "crash trail",
+    "sym": ",",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wasp_tower_roof" ],
     "name": "open air",
     "sym": ".",
     "color": "blue",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_surface",
-    "copy-from": "forest"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_roof",
-    "copy-from": "open_air"
   },
   {
     "type": "overmap_terrain",

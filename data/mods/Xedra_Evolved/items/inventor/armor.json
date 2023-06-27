@@ -47,6 +47,7 @@
     "copy-from": "helmet_inventor",
     "name": { "str": "helmet of creative juices (on)", "str_pl": "helmets of creative juices (on)" },
     "power_draw": "7 W",
+    "revert_to": "helmet_inventor",
     "use_action": [ { "ammo_scale": 0, "target": "helmet_inventor", "msg": "The helmet turns off.", "type": "transform" } ]
   },
   {
@@ -290,6 +291,7 @@
     "copy-from": "aura_force",
     "name": { "str": "force shield (on)", "str_pl": "force shields (on)" },
     "power_draw": "250 W",
+    "revert_to": "aura_force",
     "use_action": [ { "ammo_scale": 0, "target": "aura_force", "msg": "Torus stops working.", "type": "transform" } ]
   },
   {
@@ -384,6 +386,61 @@
     ]
   },
   {
+    "type": "ARMOR",
+    "id": "inventor_fists",
+    "symbol": "3",
+    "color": "light_gray",
+    "name": { "str": "heavy CQC system" },
+    "description": "Heavyweight system, starting from your hands, that holds a square-ish steel frame with few bumps on the end, to increase damage output by concentrating the impact point.  It goes into your lower arms with thick piece of hardened steel to cover both your limbs and the hydraulic system, extends into the upper arm with aluminum tubes for hydraulics, and ends on your back, where the main part of hydraulic servos belong.  The energy consumption is recuperated from each move, but overall weight and bulkiness of the system makes it barely possible to use with anything in your hands.",
+    "material": [ "aluminum", "steel" ],
+    "volume": "11678 ml",
+    "weight": "3970 g",
+    "flags": [ "DURABLE_MELEE", "PADDED" ],
+    "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP" ],
+    "material_thickness": 1,
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 5 } ],
+        "encumbrance": 7,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r", "hand_wrist_l", "hand_wrist_r" ],
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "aluminum", "covered_by_mat": 25, "thickness": 1.0 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "encumbrance": 7,
+        "coverage": 50,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_elbow_l", "arm_elbow_r" ],
+        "breathability": "GOOD"
+      },
+      {
+        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 7,
+        "coverage": 25,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r", "arm_shoulder_l", "arm_shoulder_r" ],
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 0.3 }
+        ],
+        "encumbrance": 11,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "breathability": "GOOD"
+      }
+    ],
+    "melee_damage": { "bash": 28 }
+  },
+  {
     "type": "TOOL_ARMOR",
     "id": "inventor_electric_fist",
     "symbol": "3",
@@ -441,6 +498,7 @@
     "color": "light_gray",
     "name": { "str": "\"Overture\" (on)", "str_pl": "\"Overtures\" (on)" },
     "power_draw": "50 W",
+    "revert_to": "inventor_electric_fist",
     "use_action": [ { "ammo_scale": 0, "target": "inventor_electric_fist", "msg": "The fist turns off.", "type": "transform" } ]
   },
   {
@@ -459,11 +517,11 @@
     "material_thickness": 0.4,
     "environmental_protection": 4,
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.3 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
     },
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 4 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 3 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 7 }
     ],
     "pocket_data": [
       {
@@ -495,6 +553,8 @@
     "copy-from": "wolf_mask",
     "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
     "power_draw": "5 W",
+    "environmental_protection": 25,
+    "revert_to": "wolf_mask",
     "use_action": [ { "ammo_scale": 0, "target": "wolf_mask", "msg": "The mask stops working.", "type": "transform" } ]
   },
   {

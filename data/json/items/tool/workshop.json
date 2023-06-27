@@ -404,19 +404,19 @@
     "type": "TOOL",
     "name": { "str_sp": "tin snips" },
     "description": "A pair of tin snips, resembling a sturdy pair of scissors with beefy blades designed to cut through thin sheets of soft metal.  These cannot cut through thick metals like a hacksaw can, but are better suited to precision work and leave a cleaner edge.",
-    "//": "Loosely based on Stanley FATMAX straight cut 9-7/8-inch aviation snip",
+    "//": "Based on https://www.amazon.com/Stanley-FatMax-14-563-Straight-Aviation/dp/B00009OYFY/ref=sr_1_4?crid=1KL1NG4RARK8Y&keywords=Stanley+FATMAX+straight+cut+9-7%2F8-inch+aviation+snip&qid=1683478618&sprefix=stanley+fatmax+straight+cut+9-7%2F8-inch+aviation+snip%2Caps%2C421&sr=8-4",
     "weight": "400 g",
-    "volume": "200 ml",
-    "longest_side": "20 cm",
-    "price": 2500,
+    "volume": "500 ml",
+    "longest_side": "25 cm",
+    "price": "16 USD",
     "price_postapoc": 100,
-    "to_hit": -1,
-    "material": [ "steel" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "material": [ { "type": "steel", "portion": 17 }, { "type": "plastic", "portion": 3 } ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SAW_M", 1 ], [ "SAW_M_FINE", 2 ] ],
     "use_action": [ "BOLTCUTTERS" ],
-    "flags": [ "BELT_CLIP" ],
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
@@ -733,7 +733,7 @@
     "id": "oxy_torch",
     "type": "TOOL",
     "name": { "str": "acetylene torch", "str_pl": "acetylene torches" },
-    "description": "A compact tool kit intended for welding and cutting metal, this portable oxyacetylene torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It needs to be connected to a pressurized cylinder of an appropriate welding gas before use.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
+    "description": "A compact tool kit intended for welding and cutting metal, this portable oxygen-acetylene torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It needs to be connected to a pressurized cylinder of an appropriate welding gas before use.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
     "weight": "1600 g",
     "volume": "1 L",
     "price": 20000,
@@ -742,7 +742,9 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "weldgas" ],
-    "charges_per_use": 4,
+    "//": "power usage: acy torch delivers about 20 kj per gram adjusted for efficiency, needs about 800 degrees c to ignite steel, which is specific heat 420j so to ignite a kg of steel, it is about 16units of acetylene",
+    "charges_per_use": 8,
+    "//0": "above is for 1/2 kg of steel - currently a door is 7 kg of material to cut",
     "use_action": [ "OXYTORCH" ],
     "charged_qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
@@ -1111,7 +1113,7 @@
     "id": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "soldering iron" },
-    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
     "weight": "90 g",
     "volume": "120 ml",
     "longest_side": "22 cm",
@@ -1201,7 +1203,7 @@
     "id": "welder",
     "type": "TOOL",
     "name": { "str": "arc welder" },
-    "description": "A battery-powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
+    "description": "A battery-powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.  Accepts most batteries.",
     "weight": "4200 g",
     "volume": "2500 ml",
     "price": 9000,
@@ -1211,7 +1213,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "charges_per_use": 10,
+    "charges_per_use": 20,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
@@ -1247,9 +1249,22 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "magazine_well": "500 ml",
+        "default_magazine": "medium_storage_battery",
+        "item_restriction": [
+          "medium_storage_battery",
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ]
       }
     ],
     "melee_damage": { "bash": 7 }
@@ -1258,7 +1273,7 @@
     "id": "welder_crude",
     "type": "TOOL",
     "name": { "str": "makeshift arc welder" },
-    "description": "A crude arc welder fashioned from a few small transformers, some wire, an improvised electrode holder, and a complete disregard for personal safety.  While it's not as efficient as a factory-made welder, it will serve in a pinch.",
+    "description": "A crude arc welder fashioned from a few small transformers, some wire, an improvised electrode holder, and a complete disregard for personal safety.  While it's not as efficient as a factory-made welder, it will serve in a pinch.  Accepts most batteries.",
     "weight": "7250 g",
     "volume": "3500 ml",
     "price": 5000,
@@ -1268,7 +1283,7 @@
     "symbol": ";",
     "color": "light_red",
     "ammo": [ "battery" ],
-    "charges_per_use": 25,
+    "charges_per_use": 40,
     "charged_qualities": [ [ "WELD", 1 ] ],
     "use_action": [
       {
@@ -1304,9 +1319,22 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "magazine_well": "1250 ml",
+        "item_restriction": [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ],
+        "default_magazine": "heavy_battery_cell"
       }
     ],
     "melee_damage": { "bash": 7 }
@@ -1315,7 +1343,7 @@
     "id": "welding_kit",
     "type": "TOOL",
     "name": { "str": "high-temperature welding kit" },
-    "description": "A welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
+    "description": "A welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.  Accepts most batteries.",
     "weight": "10500 g",
     "volume": "12500 ml",
     "price": 9000,
@@ -1325,7 +1353,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "charges_per_use": 10,
+    "charges_per_use": 20,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
@@ -1363,9 +1391,22 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "magazine_well": "500 ml",
+        "item_restriction": [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ],
+        "default_magazine": "medium_storage_battery"
       }
     ],
     "melee_damage": { "bash": 7 }
@@ -1541,7 +1582,6 @@
     "type": "TOOL",
     "name": { "str": "propane torch", "str_pl": "propane torches" },
     "description": "A compact tool kit intended for cutting metal, this portable propane torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It needs to be connected to a pressurized propane cylinder before use.  While not appropriate for welding, you can activate it in order to destroy metal barriers.",
-    "//": "Propane has roughly half the energy per unit as acetylene, so this uses 112 charges to cut a door. this is likely wrong and will be addressed in the welding audit",
     "weight": "1600 g",
     "volume": "1 L",
     "price": 20000,
@@ -1550,10 +1590,17 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "propane" ],
-    "charges_per_use": 8,
+    "charges_per_use": 64,
+    "//0": "above is for 1/2 kg of steel - currently a door is 7 kg of material to cut",
+    "//": "power usage: propane torch delivers about 2.5 kj per ml adjusted for efficiency, needs about 800 degrees c to ignite steel, which is specific heat 420j so to ignite a kg of steel, it is about 128 units of propane",
     "use_action": [ "OXYTORCH" ],
     "flags": [ "ALLOWS_REMOTE_USE", "FIRESTARTER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_propane_tank", "medium_propane_tank" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_propane_tank", "medium_propane_tank", "large_propane_tank", "xl_propane_tank" ]
+      }
+    ]
   },
   {
     "id": "block_and_tackle",

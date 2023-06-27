@@ -4,22 +4,22 @@
     "id": "EOC_XE_VARIABLE_INIT",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "condition": { "not": { "math": [ "XE_INITIALIZATION", "=", "1" ] } },
+    "condition": { "math": [ "XE_INITIALIZATION", "!=", "1" ] },
     "effect": [ { "queue_eocs": "EOC_XE_VARIABLE_INITIALIZATION" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_VARIABLE_INITIALIZATION",
-    "condition": { "not": { "math": [ "XE_INITIALIZATION", "=", "1" ] } },
+    "condition": { "math": [ "XE_INITIALIZATION", "!=", "1" ] },
     "effect": [
-      { "math": [ "base_difficulty_1", "=", "5" ] },
-      { "math": [ "base_difficulty_2", "=", "10" ] },
-      { "math": [ "base_difficulty_3", "=", "15" ] },
-      { "math": [ "energy_difficulty_1", "=", "7" ] },
-      { "math": [ "energy_difficulty_2", "=", "13" ] },
-      { "math": [ "energy_difficulty_3", "=", "20" ] },
-      { "math": [ "AI_difficulty_1", "=", "10" ] },
-      { "math": [ "dimension_difficulty_1", "=", "10" ] },
+      { "math": [ "base_difficulty_1", "=", "2" ] },
+      { "math": [ "base_difficulty_2", "=", "3" ] },
+      { "math": [ "base_difficulty_3", "=", "4" ] },
+      { "math": [ "energy_difficulty_1", "=", "2" ] },
+      { "math": [ "energy_difficulty_2", "=", "3" ] },
+      { "math": [ "energy_difficulty_3", "=", "4" ] },
+      { "math": [ "AI_difficulty_1", "=", "5" ] },
+      { "math": [ "dimension_difficulty_1", "=", "5" ] },
       { "math": [ "XE_INITIALIZATION", "=", "1" ] }
     ]
   },

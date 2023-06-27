@@ -7,7 +7,7 @@
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "LAB" ],
+    "flags": [ "LAB", "MAN_MADE" ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],

@@ -173,7 +173,6 @@ static const itype_id itype_petrified_eye( "petrified_eye" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
-static const itype_id itype_tree_spile( "tree_spile" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
@@ -210,6 +209,7 @@ static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
+static const quality_id qual_TREE_TAP( "TREE_TAP" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave( "autoclave" );
@@ -1575,7 +1575,7 @@ void iexamine::deployed_furniture( Character &you, const tripoint &pos )
     }
     you.add_msg_if_player( m_info, _( "You take down the %s." ),
                            here.furn( pos ).obj().name() );
-    const auto furn_item = here.furn( pos ).obj().deployed_item;
+    const itype_id furn_item = here.furn( pos ).obj().deployed_item;
     here.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
     here.furn_set( pos, f_null );
 }
@@ -1925,7 +1925,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
         const std::string title = "Base Missions";
         mission_data mission_key;
         temp_camp->set_by_radio( false );
-        temp_camp->get_available_missions( mission_key );
+        temp_camp->get_available_missions( mission_key, here );
         if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
                 "FACTION_CAMP", title ) ) {
             temp_camp->handle_mission( mission_key.cur_key.id );
@@ -2703,7 +2703,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
     // The plant furniture has the NOITEM token which prevents adding items on that square,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
     // must be on the square of the plant, therefore this hack:
-    const auto old_furn = here.furn( tile );
+    const furn_id old_furn = here.furn( tile );
     here.furn_set( tile, f_null );
     here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
     here.furn_set( tile, old_furn );
@@ -3300,7 +3300,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
             }
             you.add_msg_if_player( m_info, _( "You take down the %s." ),
                                    here.furnname( examp ) );
-            const auto furn_item = here.furn( examp ).obj().deployed_item;
+            const itype_id furn_item = here.furn( examp ).obj().deployed_item;
             here.add_item_or_charges( examp, item( furn_item, calendar::turn ) );
             here.furn_set( examp, f_null );
             return;
@@ -3726,7 +3726,7 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
         return false;
     }
     map &here = get_map();
-    const auto keg_name = here.name( pos );
+    const std::string keg_name = here.name( pos );
 
     map_stack stack = here.i_at( pos );
     if( stack.empty() ) {
@@ -3821,45 +3821,50 @@ static item_location maple_tree_sap_container()
     const item maple_sap = item( "maple_sap", calendar::turn_zero );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
-    }, _( "Use which container to collect sap?" ), PICKUP_RANGE );
+    }, _( "Use which container to collect sap?" ), PICKUP_RANGE,
+    _( "You don't have a container at hand." ) );
 }
 
 void iexamine::tree_maple( Character &you, const tripoint &examp )
 {
-    if( !you.has_quality( qual_DRILL ) ) {
+    const inventory &crafting_inv = you.crafting_inventory();
+    if( !crafting_inv.has_quality( qual_DRILL ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !you.has_quality( qual_HAMMER ) ) {
+    if( !crafting_inv.has_quality( qual_HAMMER ) ) {
         add_msg( m_info,
                  _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
     }
 
-    const inventory &crafting_inv = you.crafting_inventory();
+    map &here = get_map();
+    item_location spile_loc = g->inv_map_splice( [&here]( const item_location & it ) {
+        return it->get_quality_nonrecursive( qual_TREE_TAP ) > 0 &&
+               t_tree_maple_tapped != here.ter( it.position() );
+    }, _( "Use which tapping tool?" ), PICKUP_RANGE, _( "You don't have a tapping tool at hand." ) );
 
-    if( !crafting_inv.has_amount( itype_tree_spile, 1 ) ) {
-        add_msg( m_info, _( "You need a %s to tap this maple tree." ),
-                 item::nname( itype_tree_spile ) );
+    item *spile = spile_loc.get_item();
+    if( !spile ) {
         return;
     }
-
-    std::vector<item_comp> comps;
-    comps.emplace_back( itype_tree_spile, 1 );
-    you.consume_items( comps, 1, is_crafting_component );
+    std::string spile_name = spile->tname();
 
     you.mod_moves( -to_moves<int>( 20_seconds ) );
-    map &here = get_map();
     here.ter_set( examp, t_tree_maple_tapped );
-    add_msg( m_info, _( "You drill the maple tree crust and tap a spile into the prepared hole." ) );
+    here.add_item_or_charges( examp, *spile, false );
+    spile_loc.remove_item();
+    add_msg( m_info, _( "You drill the maple tree crust and tap a %s into the prepared hole." ),
+             spile_name );
 
     item_location cont_loc = maple_tree_sap_container();
 
     item *container = cont_loc.get_item();
     if( container ) {
         here.add_item_or_charges( examp, *container, false );
-        add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
+        add_msg( m_info, _( "You hang the %s under the %s to collect sap." ), container->tname(),
+                 spile_name );
         cont_loc.remove_item();
     } else {
         add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3870,14 +3875,14 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
 {
     bool has_sap = false;
     item *container = nullptr;
+    item *spile = nullptr;
     int charges = 0;
 
     const std::string maple_sap_name = item::nname( itype_maple_sap );
 
     map &here = get_map();
     map_stack items = here.i_at( examp );
-    if( !items.empty() ) {
-        item &it = items.only_item();
+    for( item &it : items ) {
         if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
@@ -3890,6 +3895,13 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
                 return VisitResponse::NEXT;
             } );
         }
+        if( it.get_quality_nonrecursive( qual_TREE_TAP ) > 0 ) {
+            spile = &it;
+        }
+    }
+
+    if( !spile ) {
+        return;
     }
 
     enum options {
@@ -3911,14 +3923,14 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
 
     switch( selectmenu.ret ) {
         case REMOVE_TAP: {
-            if( !you.has_quality( qual_HAMMER ) ) {
-                add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
+            if( !you.crafting_inventory().has_quality( qual_HAMMER ) ) {
+                add_msg( m_info, _( "You need a hammering tool to remove the %s from the crust." ),
+                         spile->tname() );
                 return;
             }
 
-            item tree_spile( "tree_spile" );
-            add_msg( _( "You remove the %s." ), tree_spile.tname( 1 ) );
-            here.add_item_or_charges( you.pos(), tree_spile );
+            add_msg( _( "You remove the %s." ), spile->tname() );
+            here.add_item_or_charges( you.pos(), *spile );
 
             if( container ) {
                 here.add_item_or_charges( you.pos(), *container );
@@ -3937,7 +3949,8 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             container = cont_loc.get_item();
             if( container ) {
                 here.add_item_or_charges( examp, *container, false );
-                add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
+                you.mod_moves( -you.item_handling_cost( *container ) );
+                add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname() );
                 cont_loc.remove_item();
             } else {
                 add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3952,10 +3965,9 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            Character &player_character = get_player_character();
-            const std::vector<item_location> target_items{ item_location( map_cursor( examp ), container ) };
-            const pickup_activity_actor actor( target_items, { 0 }, player_character.pos(), false );
-            player_character.assign_activity( actor );
+            here.add_item_or_charges( you.pos(), *container );
+            you.mod_moves( -you.item_handling_cost( *container ) );
+            here.i_rem( examp, container );
             return;
         }
 
@@ -4042,7 +4054,10 @@ void trap::examine( const tripoint &examp ) const
     }
 
     // Some traps are not actual traps. Those should get a different query, no skill checks, and the option to grab it right away.
-    if( easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
+    // If there is a telepad and we are anchored, there is no risk involved in disarming it also.
+    if( easy_take_down() || ( id == tr_telepad &&
+                              player_character.worn_with_flag(
+                                  flag_DIMENSIONAL_ANCHOR ) ) ) { // Separated so saying no doesn't trigger the other query.
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
@@ -4436,7 +4451,7 @@ static int getNearPumpCount( const tripoint &p, fuel_station_fuel_type &fuel_typ
     int result = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        const auto t = here.ter( tmp );
+        const ter_id t = here.ter( tmp );
         if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
             result++;
             fuel_type = FUEL_TYPE_GASOLINE;
@@ -4561,7 +4576,7 @@ std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int num
     int k = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        const auto t = here.ter( tmp );
+        const ter_id t = here.ter( tmp );
         if( ( t == ter_t_gas_pump || t == ter_t_gas_pump_a
               || t == ter_t_diesel_pump || t == ter_t_diesel_pump_a ) && number == k++ ) {
             return tmp;
@@ -4629,7 +4644,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, fuel_station_fuel
     int k = 0;
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        const auto t = here.ter( tmp );
+        const ter_id t = here.ter( tmp );
         if( fuel_type == FUEL_TYPE_GASOLINE ) {
             if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                 if( number == k++ ) {
@@ -5428,9 +5443,9 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( static_cast<int>( patient.leak_level() ) ) {
+            if( static_cast<int>( patient.get_leak_level() ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
-                       static_cast<int>( patient.leak_level() ) );
+                       static_cast<int>( patient.get_leak_level() ) );
             }
             break;
         }
@@ -6371,7 +6386,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_part ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
+                crafts.emplace_back( vehicle_cursor( part->vehicle(), part->part_index() ), &it );
             }
         }
     } else {
@@ -6385,7 +6400,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_furn ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
+                crafts.emplace_back( map_cursor( examp ), &it );
             }
         }
     }

@@ -2,10 +2,9 @@
 
 #include <algorithm>
 #include <array>
-#include <cerrno>
 #include <cstddef>
-#include <cstdlib>
 #include <locale>
+#include <map>
 #include <memory>
 #include <optional>
 #include <stack>
@@ -17,6 +16,8 @@
 #include <vector>
 
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
+#include "cata_utility.h"
 #include "condition.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -27,6 +28,7 @@
 #include "math_parser_impl.h"
 #include "math_parser_jmath.h"
 #include "string_formatter.h"
+#include "type_id.h"
 
 namespace
 {
@@ -54,23 +56,11 @@ constexpr std::optional<double> get_constant( std::string_view token )
 
 std::optional<double> get_number( std::string_view token )
 {
-    char *pEnd = nullptr;
-    double const val = std::strtod( token.data(), &pEnd );
-    if( pEnd == token.data() + token.size() ) {
-        return { val };
+    if( std::optional<double> ret = svtod( token ); ret ) {
+        return *ret;
     }
-    errno = 0;
 
     return get_constant( token );
-}
-
-constexpr std::optional<std::string_view> get_string( std::string_view token )
-{
-    if( token.front() == '\'' && token.back() == '\'' ) {
-        return { token.substr( 1, token.size() - 2 ) };
-    }
-
-    return std::nullopt;
 }
 
 constexpr std::optional<pmath_func> get_function( std::string_view token )
@@ -87,14 +77,14 @@ std::optional<S> _get_dialogue_func( C const &cnt, std::string_view token )
         scope = token[0];
         scoped = token.substr( 2, token.size() - 2 );
     }
-    std::optional<P> df = _get_common<P>( cnt, scoped );
-    if( df ) {
-        if( ( *df )->scopes.find( scope ) == std::string_view::npos ) {
+    auto df = cnt.find( scoped );
+    if( df != cnt.end() ) {
+        if( df->second.scopes.find( scope ) == std::string_view::npos ) {
             throw std::invalid_argument( string_format(
                                              "Scope %c is not valid for dialogue function %s() (%s)",
-                                             scope, ( *df )->symbol.data(), ( *df )->scopes.data() ) );
+                                             scope, scoped, df->second.scopes ) );
         }
-        return { { *df, scope } };
+        return { { &df->second, scope } };
     }
 
     return std::nullopt;
@@ -126,6 +116,7 @@ struct parse_state {
         operand,
         lparen,  // operand alias used for functions
         rparen,
+        string,
         eof,     // oper alias used for EOF
     };
     static constexpr std::string_view expect_to_string( expect e ) {
@@ -135,6 +126,7 @@ struct parse_state {
             case expect::operand: return "operand";
             case expect::lparen: return "left parenthesis";
             case expect::rparen: return "right parenthesis";
+            case expect::string: return "string delimiter";
             case expect::eof: ;
             // *INDENT-ON*
         }
@@ -154,15 +146,19 @@ struct parse_state {
                                              expect_to_string( next ).data() ) );
         }
     }
-    void set( expect current, bool unary_ok ) {
+    void set( expect current, bool unary_ok = false, bool kwargs_ok = false ) {
         previous = expected;
         expected = current;
         allows_prefix_unary = unary_ok;
+        allows_kwargs = kwargs_ok;
     }
 
     expect expected = expect::operand;
     expect previous = expect::eof;
     bool allows_prefix_unary = true;
+    bool allows_kwargs = false;
+    bool instring = false;
+    std::string_view strpos;
 };
 
 bool is_function( op_t const &op )
@@ -187,6 +183,24 @@ std::vector<double> _eval_params( std::vector<thingie> const &params, dialogue &
         return e.eval( d );
     } );
     return elems;
+}
+
+template<typename T>
+void _validate_operand( thingie const &thing, T op )
+{
+    if( std::holds_alternative<std::string>( thing.data ) ) {
+        throw std::invalid_argument( string_format(
+                                         R"(Operator "%s" does not support string operands)", op->symbol ) );
+    }
+}
+
+void _validate_unused_kwargs( diag_kwargs const &kwargs )
+{
+    for( diag_kwargs::value_type const &v : kwargs ) {
+        if( !v.second.was_used() ) {
+            throw std::invalid_argument( string_format( R"(Unused kwarg "%s")", v.first ) );
+        }
+    }
 }
 
 } // namespace
@@ -217,9 +231,26 @@ double oper::eval( dialogue &d ) const
     return ( *op )( l->eval( d ), r->eval( d ) );
 }
 
+kwarg::kwarg( std::string_view key_, thingie val_ )
+    : key( key_ ),
+      val( std::make_shared<thingie>( std::move( val_ ) ) ) {}
+
+ternary::ternary( thingie cond_, thingie mhs_, thingie rhs_ )
+    : cond( std::make_shared<thingie>( std::move( cond_ ) ) ),
+      mhs( std::make_shared<thingie>( std::move( mhs_ ) ) ),
+      rhs( std::make_shared<thingie>( std::move( rhs_ ) ) ) {}
+
+double ternary::eval( dialogue &d ) const
+{
+    return cond->eval( d ) > 0 ? mhs->eval( d ) : rhs->eval( d );
+}
+
 class math_exp::math_exp_impl
 {
     public:
+        math_exp_impl() = default;
+        explicit math_exp_impl( thingie &&t ): tree( t ) {}
+
         bool parse( std::string_view str, bool assignment ) {
             if( str.empty() ) {
                 return false;
@@ -265,10 +296,18 @@ class math_exp::math_exp_impl
         std::stack<op_t> ops;
         std::stack<thingie> output;
         struct arity_t {
+            enum class type_t {
+                func = 0,
+                bracket,
+            };
+            arity_t( std::string_view sym_, int expected_, type_t type_, bool stringy_ = false ) : sym( sym_ ),
+                expected( expected_ ), type( type_ ), stringy( stringy_ ) {}
             std::string_view sym;
             int current{};
+            size_t nkwargs{};
             int expected{};
-            bool stringy = false;
+            type_t type{};
+            bool stringy{};
         };
         std::stack<arity_t> arity;
         thingie tree{ 0.0 };
@@ -276,38 +315,40 @@ class math_exp::math_exp_impl
         parse_state state;
 
         void _parse( std::string_view str, bool assignment );
-        void parse_string( std::string_view str, parse_state &state );
+        void parse_string( std::string_view token, std::string_view full, parse_state &state );
         void parse_bin_op( pbin_op const &op, parse_state &state );
         template<typename T>
-        void parse_diag_f( T const &token, parse_state &state );
+        void parse_diag_f( std::string_view symbol, T const &token, parse_state &state );
         void parse_comma( parse_state &state );
         void parse_lparen( parse_state &state );
         void parse_rparen( parse_state &state );
         void new_func();
         void new_oper();
         void new_var( std::string_view str );
+        void new_kwarg( thingie &lhs, thingie &rhs );
+        void new_ternary( thingie &lhs, thingie &rhs );
         void maybe_first_argument();
         void error( std::string_view str, std::string_view what );
         void validate_string( std::string_view str, std::string_view label, std::string_view badlist );
-        std::vector<std::string> _get_strings( std::vector<thingie> const &params,
-                                               size_t nparams ) const;
+        static std::vector<diag_value> _get_diag_vals( std::vector<thingie> &params );
+        static diag_value _get_diag_value( thingie &param );
 };
 
 void math_exp::math_exp_impl::maybe_first_argument()
 {
-    if( !arity.empty() && !arity.top().sym.empty() && arity.top().current == 0 ) {
+    if( !arity.empty() && arity.top().type == arity_t::type_t::func && arity.top().current == 0 ) {
         arity.top().current++;
     }
 }
 
 void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
 {
-    constexpr std::string_view expression_separators = "+-*/^,()%";
+    constexpr std::string_view expression_separators = "+-*/^,()%':><=!?";
     state = {};
     for( std::string_view const token : tokenize( str, expression_separators ) ) {
         last_token = token;
-        if( std::optional<std::string_view> str = get_string( token ); str ) {
-            parse_string( *str, state );
+        if( state.instring || token == "'" ) {
+            parse_string( token, str, state );
 
         } else if( std::optional<double> val = get_number( token ); val ) {
             state.validate( parse_state::expect::operand );
@@ -319,23 +360,23 @@ void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
             state.validate( parse_state::expect::operand );
             maybe_first_argument();
             ops.emplace( *ftoken );
-            arity.emplace( arity_t{ ( *ftoken )->symbol, 0, ( *ftoken )->num_params } );
+            arity.emplace( ( *ftoken )->symbol, ( *ftoken )->num_params, arity_t::type_t::func );
             state.set( parse_state::expect::lparen, false );
 
         } else if( jmath_func_id jmfid( token ); jmfid.is_valid() ) {
             state.validate( parse_state::expect::operand );
             maybe_first_argument();
             ops.emplace( jmfid );
-            arity.emplace( arity_t{ token, 0, jmfid->num_params } );
+            arity.emplace( token, jmfid->num_params, arity_t::type_t::func );
             state.set( parse_state::expect::lparen, false );
 
         } else if( std::optional<scoped_diag_eval> feval = get_dialogue_eval( token ); feval &&
                    !assignment ) {
-            parse_diag_f( *feval, state );
+            parse_diag_f( token, *feval, state );
 
         } else if( std::optional<scoped_diag_ass> fass = get_dialogue_ass( token ); fass &&
                    assignment ) {
-            parse_diag_f( *fass, state );
+            parse_diag_f( token, *fass, state );
 
         } else if( std::optional<punary_op> op = get_unary_op( token ); op && state.allows_prefix_unary ) {
             state.validate( parse_state::expect::operand );
@@ -353,6 +394,9 @@ void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
 
         } else if( token == ")" ) {
             parse_rparen( state );
+
+        } else if( token == "=" ) {
+            throw std::invalid_argument( R"(Misplaced "=".  Did you mean "=="?)" );
 
         } else {
             state.validate( parse_state::expect::operand );
@@ -380,58 +424,77 @@ void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
     output.pop();
 }
 
-void math_exp::math_exp_impl::parse_string( std::string_view str, parse_state &state )
+void math_exp::math_exp_impl::parse_string( std::string_view token, std::string_view full,
+        parse_state &state )
 {
-    state.validate( parse_state::expect::operand );
-    maybe_first_argument();
-    if( arity.empty() || !arity.top().stringy ) {
-        throw std::invalid_argument( "String arguments can only be used in dialogue functions" );
+    if( !state.instring ) {
+        state.validate( parse_state::expect::operand );
+        maybe_first_argument();
+        if( arity.empty() || !arity.top().stringy ) {
+            throw std::invalid_argument( "String arguments can only be used in dialogue functions" );
+        }
+        state.instring = true;
+        state.strpos = token;
+        state.set( parse_state::expect::string, false, state.allows_kwargs );
+    } else if( token == "'" ) {
+        // FIXME: write a better tokenizer that returns the entire quoted string as a single token
+        output.emplace( std::in_place_type_t<std::string>(), full, state.strpos.data() - full.data() + 1,
+                        token.data() - state.strpos.data() - 1 );
+        state.instring = false;
+        state.set( parse_state::expect::oper, false, state.allows_kwargs );
+    } else {
+        // skip tokens inside string
     }
-    validate_string( str, "string", "\'" );
-    output.emplace( std::string{ str } );
-    state.set( parse_state::expect::oper, false );
 }
 
 void math_exp::math_exp_impl::parse_bin_op( pbin_op const &op, parse_state &state )
 {
+    if( op->symbol == ":" && !state.allows_kwargs ) {
+        // insert a pair of parens to help resolve nested ternaries like 0?0?-1:-2:1
+        parse_rparen( state );
+    }
     state.validate( parse_state::expect::oper );
     while( !ops.empty() && ops.top() > *op ) {
         new_oper();
     }
     ops.emplace( op );
     state.set( parse_state::expect::operand, true );
+    if( op->symbol == "?" ) {
+        parse_lparen( state );
+    }
 }
 
 template<typename T>
-void math_exp::math_exp_impl::parse_diag_f( T const &token, parse_state &state )
+void math_exp::math_exp_impl::parse_diag_f( std::string_view symbol, T const &token,
+        parse_state &state )
 {
     state.validate( parse_state::expect::operand );
     ops.emplace( token );
-    arity.emplace( arity_t{ token.df->symbol, 0, token.df->num_params, true } );
-    state.set( parse_state::expect::lparen, false );
+    arity.emplace( symbol, token.df->num_params, arity_t::type_t::func, true );
+    state.set( parse_state::expect::lparen, false, true );
 }
 
 void math_exp::math_exp_impl::parse_comma( parse_state &state )
 {
     state.validate( parse_state::expect::oper );
-    if( arity.empty() || arity.top().sym.empty() ) {
+    if( arity.empty() || arity.top().type == arity_t::type_t::bracket ) {
         throw std::invalid_argument( "Misplaced comma" );
     }
     while( ops.top() > paren::left ) {
         new_oper();
     }
     arity.top().current++;
-    state.set( parse_state::expect::operand, true );
+    state.set( parse_state::expect::operand, true, arity.top().stringy );
 }
 
 void math_exp::math_exp_impl::parse_lparen( parse_state &state )
 {
     state.validate( parse_state::expect::lparen );
     if( ops.empty() || !is_function( ops.top() ) ) {
-        arity.emplace( arity_t{ {}, 0, 0 } );
+        arity.emplace( std::string_view{}, 0, arity_t::type_t::bracket );
     }
     ops.emplace( paren::left );
-    state.set( parse_state::expect::operand, true );
+    state.set( parse_state::expect::operand, true, state.allows_kwargs );
 }
 
 void math_exp::math_exp_impl::parse_rparen( parse_state &state )
@@ -467,20 +530,30 @@ void math_exp::math_exp_impl::new_func()
         }
 
         std::vector<thingie> params( nparams );
+        diag_kwargs kwargs;
+        for( std::vector<kwarg>::size_type i = 0; i < arity.top().nkwargs; i++ ) {
+            if( !std::holds_alternative<kwarg>( output.top().data ) ) {
+                throw std::invalid_argument(
+                    "All positional parameters must precede keyword-value pairs" );
+            }
+            kwarg &kw = std::get<kwarg>( output.top().data );
+            kwargs.emplace( kw.key, _get_diag_value( *kw.val ) );
+            output.pop();
+        }
         for( std::vector<thingie>::size_type i = 0; i < nparams; i++ ) {
             params[nparams - i - 1] = std::move( output.top() );
             output.pop();
         }
         std::visit( overloaded{
-            [&params, nparams, this]( scoped_diag_eval const & v )
+            [&params, &kwargs, this]( scoped_diag_eval const & v )
             {
-                std::vector<std::string> const strings = _get_strings( params, nparams );
-                output.emplace( std::in_place_type_t<func_diag_eval>(), v.df->f( v.scope, strings ) );
+                std::vector<diag_value> const args = _get_diag_vals( params );
+                output.emplace( std::in_place_type_t<func_diag_eval>(), v.df->f( v.scope, args, kwargs ) );
             },
-            [&params, nparams, this]( scoped_diag_ass const & v )
+            [&params, &kwargs, this]( scoped_diag_ass const & v )
             {
-                std::vector<std::string> const strings = _get_strings( params, nparams );
-                output.emplace( std::in_place_type_t<func_diag_ass>(), v.df->f( v.scope, strings ) );
+                std::vector<diag_value> const args = _get_diag_vals( params );
+                output.emplace( std::in_place_type_t<func_diag_ass>(), v.df->f( v.scope, args, kwargs ) );
             },
             [&params, this]( pmath_func v )
             {
@@ -492,28 +565,66 @@ void math_exp::math_exp_impl::new_func()
             },
             []( auto /* v */ )
             {
-                throw std::invalid_argument( "Internal error.  That's all we know." );
+                throw std::invalid_argument( "Internal func error.  That's all we know." );
             },
         },
         ops.top() );
+        _validate_unused_kwargs( kwargs );
         ops.pop();
     }
 }
 
-std::vector<std::string> math_exp::math_exp_impl::_get_strings( std::vector<thingie> const
-        &params, size_t nparams ) const
+diag_value math_exp::math_exp_impl::_get_diag_value( thingie &param )
 {
-    std::vector<std::string> strings( nparams );
-    std::transform( params.begin(), params.end(), strings.begin(), [this]( thingie const & e ) {
-        if( std::holds_alternative<std::string>( e.data ) ) {
-            return std::get<std::string>( e.data );
-        }
-        throw std::invalid_argument( string_format(
-                                         "Parameters for %s() must be strings contained in single quotes",
-                                         arity.top().sym.data() ) );
-        return std::string{};
-    } );
-    return strings;
+    diag_value val;
+    std::visit( overloaded{
+        [&val]( double v )
+        {
+            val.data.emplace<double>( v );
+        },
+        [&val]( std::string & v )
+        {
+            val.data.emplace<std::string>( std::move( v ) );
+        },
+        [&val]( var & v )
+        {
+            val.data.emplace<var_info>( std::move( v.varinfo ) );
+        },
+        [&val, &param]( auto const &/* v */ )
+        {
+            val.data.emplace<math_exp>( math_exp_impl{ std::move( param ) } );
+        },
+    },
+    param.data );
+    return val;
+}
+
+std::vector<diag_value> math_exp::math_exp_impl::_get_diag_vals( std::vector<thingie> &params )
+{
+    std::vector<diag_value> vals( params.size() );
+    for( decltype( vals )::size_type i = 0; i < params.size(); i++ ) {
+        vals[i] = _get_diag_value( params[i] );
+    }
+    return vals;
+}
+
+void math_exp::math_exp_impl::new_kwarg( thingie &lhs, thingie &rhs )
+{
+    output.emplace( std::in_place_type_t<kwarg>(), std::get<std::string>( lhs.data ), rhs );
+    arity.top().current--;
+    arity.top().nkwargs++;
+}
+
+void math_exp::math_exp_impl::new_ternary( thingie &lhs, thingie &rhs )
+{
+    ops.pop();
+    if( !std::holds_alternative<pbin_op>( ops.top() ) ||
+        std::get<pbin_op>( ops.top() )->symbol != "?" ) {
+        throw std::invalid_argument( "Misplaced colon" );
+    }
+    thingie cond = std::move( output.top() );
+    output.pop();
+    output.emplace( std::in_place_type_t<ternary>(), cond, lhs, rhs );
 }
 
 void math_exp::math_exp_impl::new_oper()
@@ -526,19 +637,36 @@ void math_exp::math_exp_impl::new_oper()
             output.pop();
             thingie lhs = std::move( output.top() );
             output.pop();
-            output.emplace( std::in_place_type_t<oper>(), lhs, rhs, v->f );
+            if( v->symbol == "?" ) {
+                throw std::invalid_argument( "Unterminated ternary" );
+            }
+            if( v->symbol == ":" ) {
+                if( !arity.empty() && arity.top().stringy && arity.top().current > 0 &&
+                    std::holds_alternative<std::string>( lhs.data ) ) {
+                    new_kwarg( lhs, rhs );
+                } else if( ops.size() >= 2 && !output.empty() ) {
+                    new_ternary( lhs, rhs );
+                } else {
+                    throw std::invalid_argument( "Misplaced colon or kwarg key is not string" );
+                }
+            } else {
+                _validate_operand( lhs, v );
+                _validate_operand( rhs, v );
+                output.emplace( std::in_place_type_t<oper>(), lhs, rhs, v->f );
+            }
         },
         [this]( punary_op v )
         {
             cata_assert( !output.empty() );
             thingie rhs = std::move( output.top() );
             output.pop();
+            _validate_operand( rhs, v );
             output.emplace( std::in_place_type_t<oper>(), thingie { 0.0 }, rhs, v->f );
         },
         []( auto /* v */ )
         {
             // we should never get here due to paren validation
-            throw std::invalid_argument( "Internal error.  That's all we know." );
+            throw std::invalid_argument( "Internal oper error.  That's all we know." );
         }
     },
     ops.top() );
@@ -558,6 +686,9 @@ void math_exp::math_exp_impl::new_var( std::string_view str )
                 break;
             case 'n':
                 type = var_type::npc;
+                break;
+            case 'v':
+                type = var_type::var;
                 break;
             default:
                 debugmsg( "Unknown scope %c in variable %.*s", str[0], str.size(), str.data() );
@@ -601,6 +732,11 @@ void math_exp::math_exp_impl::validate_string( std::string_view str, std::string
         throw std::invalid_argument( string_format( R"(Stray " %c " inside %s operand "%.*s")",
                                      str[pos], label.data(), str.size(), str.data() ) );
     }
+}
+
+math_exp::math_exp( math_exp_impl impl_ )
+    : impl( std::make_unique<math_exp_impl>( std::move( impl_ ) ) )
+{
 }
 
 bool math_exp::parse( std::string_view str, bool assignment )

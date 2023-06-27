@@ -1,4 +1,4 @@
-# WEATHER TYPES
+# Weather Types
 
 Each weather type is a type of weather that occurs, and what causes it. The only required entries are null and clear.
 
@@ -48,6 +48,6 @@ Each weather type is a type of weather that occurs, and what causes it. The only
     "rains": true,
     "required_weathers": [ "thunder" ],
     "priority": 80,
-    "condition": { "not": { "is_pressure": 990 } }
+    "condition": { "math": [ "weather('pressure')", "<", "990" ] }
   }
 ]

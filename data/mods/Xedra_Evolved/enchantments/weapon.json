@@ -22,12 +22,7 @@
     "id": "MON_NEARBY_SPEED",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "values": [
-      {
-        "value": "SPEED",
-        "add": { "arithmetic": [ { "global_val": "monsters_nearby", "radius": 25 }, "/", { "const": 2 } ] }
-      }
-    ]
+    "values": [ { "value": "SPEED", "add": { "math": [ "u_monsters_nearby('radius': 25) / 2" ] } } ]
   },
   {
     "type": "enchantment",
@@ -56,5 +51,19 @@
     "condition": "ALWAYS",
     "//": "proof of concept",
     "values": [ { "value": "STRENGTH", "add": { "math": [ "u_pain() / 4" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "WOLF_SLEDGE",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('deduction')" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "DREAM_DAGGER",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ITEM_DAMAGE_CUT", "add": { "math": [ "u_val('mana_max')/100" ] } } ]
   }
 ]

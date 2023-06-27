@@ -47,6 +47,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
@@ -86,9 +87,12 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
+
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
@@ -360,6 +364,12 @@ bool Creature::sees( const Creature &critter ) const
 
     if( !fov_3d && posz() != critter.posz() ) {
         return false;
+    }
+
+    // Creature has stumbled into an invisible player and is now aware of them
+    if( has_effect( effect_stumbled_into_invisible ) &&
+        here.has_field_at( critter.pos(), field_fd_last_known ) && critter.is_avatar() ) {
+        return true;
     }
 
     // This check is ridiculously expensive so defer it to after everything else.
@@ -713,14 +723,17 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
+
+    const float dodge = dodge_roll();
+    on_try_dodge();
+
+    int hit_spread = hitroll - dodge - size_melee_penalty();
+
     add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
                    hitroll );
-
-    float dodge = dodge_roll();
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
 
-    int hit_spread = hitroll - dodge - size_melee_penalty();
     if( has_flag( MF_IMMOBILE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
@@ -1085,6 +1098,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const bool u_see_this = player_view.sees( *this );
 
     const double goodhit = accuracy_projectile_attack( attack );
+    on_try_dodge(); // There's a doge roll in accuracy_projectile_attack()
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
@@ -1316,6 +1330,116 @@ void Creature::longpull( const std::string &name, const tripoint &p )
             add_msg( m_info, _( "%1s tries to pull you in, but you resist!" ), disp_name( false, true ) );
         }
     }
+}
+
+bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
+{
+    if( !fov_3d && posz() != player.posz() ) {
+        return false;
+    }
+    if( stumblemsg ) {
+        const bool player_sees = player.sees( *this );
+        add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
+                 true ) : _( "Something" ) );
+    }
+    add_effect( effect_stumbled_into_invisible, 6_seconds );
+    map &here = get_map();
+    // Mark last known location, or extend duration if exists
+    if( here.has_field_at( player.pos(), field_fd_last_known ) ) {
+        here.set_field_age( player.pos(), field_fd_last_known, 0_seconds );
+    } else {
+        here.add_field( player.pos(), field_fd_last_known );
+    }
+    moves = 0;
+    return true;
+}
+
+bool Creature::attack_air( const tripoint &p )
+{
+    // Calculate move cost differently for monsters and npcs
+    int move_cost = 100;
+    if( is_monster() ) {
+        move_cost = as_monster()->type->attack_cost;
+    } else if( is_npc() ) {
+        // Simplified moves calculation from Character::melee_attack_abstract
+        item_location cur_weapon = as_character()->used_weapon();
+        item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+        move_cost = as_character()->attack_speed( cur_weap ) * ( 1 /
+                    as_character()->exertion_adjusted_move_multiplier( EXTRA_EXERCISE ) );
+    }
+    mod_moves( -move_cost );
+
+    // Attack animation
+    if( get_option<bool>( "ANIMATIONS" ) ) {
+        std::map<tripoint, nc_color> area_color;
+        area_color[p] = c_black;
+        explosion_handler::draw_custom_explosion( p, area_color, "animation_hit" );
+    }
+
+    // Chance to remove last known location
+    if( one_in( 2 ) ) {
+        get_map().set_field_intensity( p, field_fd_last_known, 0 );
+    }
+
+    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
+                            disp_name( false, true ) );
+    return true;
+}
+
+bool Creature::dodge_check( float hit_roll, bool force_try )
+{
+    // If successfully uncanny dodged, no need to calculate dodge chance
+    if( uncanny_dodge() ) {
+        return true;
+    }
+
+    const float dodge_ability = dodge_roll();
+    // center is 5 - 0 / 2
+    // stddev is 5 - 0 / 4
+    const float dodge_chance = 1 - normal_roll_chance( 2.5f, 1.25f, dodge_ability - hit_roll );
+    if( dodge_chance >= 0.8f || force_try ) {
+        on_try_dodge();
+        float attack_roll = hit_roll + rng_normal( 0, 5 );
+        return dodge_ability > attack_roll;
+    }
+    add_msg_if_player( m_warning,
+                       _( "You don't think you could dodge this attack, and decide to conserve stamina." ) );
+
+    return false;
+}
+
+bool Creature::dodge_check( monster *z )
+{
+    return dodge_check( z->get_hit() );
+}
+
+bool Creature::dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst )
+{
+
+    if( is_monster() ) {
+        return dodge_check( z );
+    }
+
+    Character *guy_target = as_character();
+
+    float potential_damage = 0.0f;
+    for( const damage_unit &dmg : dam_inst.damage_units ) {
+        potential_damage += dmg.amount - guy_target->worn.damage_resist( dmg.type, bp );
+    }
+    int part_hp = guy_target->get_part_hp_cur( bp );
+    float dmg_ratio = 0.0f; // if the part is already destroyed it can't take more damage
+    if( part_hp > 0 ) {
+        dmg_ratio = potential_damage / part_hp;
+    }
+
+    //If attack might remove more than half of the part's hp, dodge no matter the odds
+    if( dmg_ratio >= 0.5f ) {
+        return dodge_check( z->get_hit(), true );
+    } else if( dmg_ratio > 0.0f ) { // else apply usual rules
+        return dodge_check( z->get_hit() );
+    }
+
+    return false;
 }
 
 /*
@@ -1619,39 +1743,40 @@ bool Creature::has_effect_with_flag( const flag_id &flag ) const
     } );
 }
 
-std::vector<effect> Creature::get_effects_with_flag( const flag_id &flag ) const
+std::vector<std::reference_wrapper<const effect>> Creature::get_effects_with_flag(
+            const flag_id &flag ) const
 {
-    std::vector<effect> effs;
+    std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
         if( !elem.first->has_flag( flag ) ) {
             continue;
         }
         for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            effs.push_back( _it.second );
+            effs.emplace_back( _it.second );
         }
     }
     return effs;
 }
 
-std::vector<effect> Creature::get_effects() const
+std::vector<std::reference_wrapper<const effect>> Creature::get_effects() const
 {
-    std::vector<effect> effs;
+    std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
         for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            effs.push_back( _it.second );
+            effs.emplace_back( _it.second );
         }
     }
     return effs;
 }
 
-std::vector<effect> Creature::get_effects_from_bp( const bodypart_id &bp ) const
+std::vector<std::reference_wrapper<const effect>> Creature::get_effects_from_bp(
+            const bodypart_id &bp ) const
 {
-    std::vector<effect> effs;
+    std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
-        for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            if( _it.first == bp ) {
-                effs.push_back( _it.second );
-            }
+        const auto iter = elem.second.find( bp );
+        if( iter != elem.second.end() ) {
+            effs.emplace_back( iter->second );
         }
     }
     return effs;
@@ -1992,7 +2117,7 @@ bool Creature::has_part( const bodypart_id &id ) const
 
 bodypart *Creature::get_part( const bodypart_id &id )
 {
-    auto found = body.find( id.id() );
+    auto found = body.find( get_part_id( id ).id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
         return nullptr;
@@ -2002,7 +2127,7 @@ bodypart *Creature::get_part( const bodypart_id &id )
 
 const bodypart *Creature::get_part( const bodypart_id &id ) const
 {
-    auto found = body.find( id.id() );
+    auto found = body.find( get_part_id( id ).id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
         return nullptr;
@@ -2043,6 +2168,40 @@ static void set_part_helper( Creature &c, const bodypart_id &id,
     if( part ) {
         ( part->*set )( val );
     }
+}
+
+bodypart_id Creature::get_part_id( const bodypart_id &id ) const
+{
+    auto found = body.find( id.id() );
+    if( found == body.end() ) {
+        // try to find an equivalent part in the body map
+        for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
+            if( id->part_side == bp.first->part_side &&
+                id->primary_limb_type() == bp.first->primary_limb_type() ) {
+                return bp.first;
+            }
+        }
+
+        // try to find the next best thing
+        std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0f };
+        for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
+            for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
+                // if the secondary limb type matches and is better than the current
+                if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
+                    // give an inflated bonus if the part sides match
+                    float bonus = id->part_side == bp.first->part_side ? 1.0f : 0.0f;
+                    best = { bp.first, mp.second + bonus };
+                }
+            }
+        }
+
+        if( best.first == body_part_bp_null ) {
+            debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
+        }
+
+        return best.first;
+    }
+    return found->first;
 }
 
 int Creature::get_part_hp_cur( const bodypart_id &id ) const
@@ -2281,7 +2440,7 @@ bodypart_id Creature::get_random_body_part( bool main ) const
     return main ? part->main_part.id() : part;
 }
 
-static void sort_body_parts( std::vector<bodypart_id> &bps )
+static void sort_body_parts( std::vector<bodypart_id> &bps, const Creature *c )
 {
     // We want to dynamically sort the parts based on their connections as
     // defined in json.
@@ -2293,7 +2452,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
     std::unordered_map<bodypart_id, cata::flat_set<bodypart_id>> parts_connected_to;
     bodypart_id root_part;
     for( const bodypart_id &bp : bps ) {
-        bodypart_id conn = bp->connected_to;
+        bodypart_id conn = c->get_part_id( bp->connected_to );
         if( conn == bp ) {
             root_part = bp;
         } else {
@@ -2326,7 +2485,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
         parts_with_no_connections.erase( last );
         unaccounted_parts.erase( bp );
         topo_sorted_parts.push_back( bp );
-        bodypart_id conn = bp->connected_to;
+        bodypart_id conn = c->get_part_id( bp->connected_to );
         if( conn == bp ) {
             break;
         }
@@ -2410,7 +2569,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags
     }
 
     if( flags & get_body_part_flags::sorted ) {
-        sort_body_parts( all_bps );
+        sort_body_parts( all_bps, this );
     }
 
     return  all_bps;
@@ -2448,7 +2607,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     }
 
     if( flags & get_body_part_flags::sorted ) {
-        sort_body_parts( bodyparts );
+        sort_body_parts( bodyparts, this );
     }
 
     return bodyparts;

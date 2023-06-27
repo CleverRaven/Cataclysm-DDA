@@ -6,17 +6,17 @@
     "name": { "str": "pillowcase" },
     "looks_like": "pillow",
     "description": "A simple cotton pillowcase.",
-    "weight": "415 g",
-    "volume": "1 L",
-    "price": 0,
+    "weight": "136 g",
+    "volume": "90 ml",
+    "price": 650,
     "price_postapoc": 2,
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
-    "repairs_like": "tshirt",
     "flags": [ "SLEEP_AID_CONTAINER" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
-    "color": "white"
+    "color": "white",
+    "//": "Based on https://www.amazon.com/AmazonBasics-Thread-Count-Pillow-Cases/dp/B01MUDQUN9/ref=sr_1_7?crid=2HK7WH8A1GKY5&keywords=pillowcase%2Bcotton&qid=1684589982&sprefix=pillowcase%2Bcotton%2Caps%2C192&sr=8-7&th=1"
   },
   {
     "type": "GENERIC",
@@ -194,7 +194,6 @@
   },
   {
     "id": "emer_blanket",
-    "repairs_like": "sheet",
     "type": "ARMOR",
     "category": "clothing",
     "symbol": "[",

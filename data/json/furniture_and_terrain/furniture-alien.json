@@ -703,7 +703,7 @@
     "move_cost_mod": -1,
     "coverage": 100,
     "flags": [ "TRANSPARENT", "ORGANIC" ],
-    "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
+    "deconstruct": { "items": [ { "item": "glass_shard", "count": 1000 } ] },
     "required_str": -1,
     "bash": {
       "str_min": 200,
@@ -726,7 +726,7 @@
     "color": "brown",
     "move_cost_mod": -1,
     "coverage": 100,
-    "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
+    "deconstruct": { "items": [ { "item": "glass_shard", "count": 1000 } ] },
     "required_str": -1,
     "bash": {
       "str_min": 100,
@@ -747,7 +747,7 @@
     "move_cost_mod": -1,
     "coverage": 100,
     "flags": [ "TRANSPARENT", "ORGANIC" ],
-    "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
+    "deconstruct": { "items": [ { "item": "glass_shard", "count": 1000 } ] },
     "required_str": -1,
     "bash": {
       "str_min": 100,

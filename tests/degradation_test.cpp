@@ -48,7 +48,7 @@ static float get_avg_degradation( const itype_id &it, int count, int damage )
     return deg / count;
 }
 
-TEST_CASE( "Damage indicator thresholds", "[item][damage_level]" )
+TEST_CASE( "Damage_indicator_thresholds", "[item][damage_level]" )
 {
     struct damage_level_threshold {
         int min_damage;
@@ -85,8 +85,10 @@ TEST_CASE( "Damage indicator thresholds", "[item][damage_level]" )
     }
 }
 
-TEST_CASE( "Degradation on spawned items", "[item][degradation]" )
+TEST_CASE( "Degradation_on_spawned_items", "[item][degradation]" )
 {
+    clear_map();
+
     SECTION( "Non-spawned items have no degradation" ) {
         item norm( itype_test_baseball );
         item half( itype_test_baseball_half_degradation );
@@ -134,7 +136,7 @@ static void add_x_dmg_levels( item &it, int lvls )
     }
 }
 
-TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
+TEST_CASE( "Items_that_get_damaged_gain_degradation", "[item][degradation]" )
 {
     GIVEN( "An item with default degradation rate" ) {
         item it( itype_test_baseball );
@@ -210,10 +212,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
 
 static void setup_repair( item &fix, player_activity &act, Character &u )
 {
-    // Setup map
     map &m = get_map();
-    set_time( calendar::turn_zero + 12_hours );
-    REQUIRE( static_cast<int>( m.light_at( spawn_pos ) ) > 2 );
 
     // Setup character
     clear_character( u, true );
@@ -243,8 +242,13 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
 }
 
 // Testing activity_handlers::repair_item_finish / repair_item_actor::repair
-TEST_CASE( "Repairing degraded items", "[item][degradation]" )
+TEST_CASE( "Repairing_degraded_items", "[item][degradation]" )
 {
+    // Setup map
+    clear_map();
+    set_time_to_day();
+    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos ) ) > 2 );
+
     GIVEN( "Item with normal degradation" ) {
         Character &u = get_player_character();
         item fix( itype_test_baseball );
@@ -396,7 +400,7 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
 }
 
 // Testing activity_handlers::repair_item_finish / repair_item_actor::repair
-TEST_CASE( "Repairing items with specific requirements", "[item][degradation]" )
+TEST_CASE( "Repairing_items_with_specific_requirements", "[item][degradation]" )
 {
     Character &u = get_player_character();
     item fix( itype_test_steelball );
@@ -419,13 +423,15 @@ TEST_CASE( "Repairing items with specific requirements", "[item][degradation]" )
 }
 
 // Testing iuse::gun_repair
-TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
+TEST_CASE( "Gun_repair_with_degradation", "[item][degradation]" )
 {
     GIVEN( "Gun with normal degradation" ) {
         Character &u = get_player_character();
         item gun( itype_test_glock_degrade );
         clear_character( u );
         u.set_skill_level( skill_mechanics, 10 );
+        clear_map();
+        set_time_to_day();
 
         WHEN( "0 damage / 0 degradation" ) {
             gun.set_damage( 0 );

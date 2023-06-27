@@ -240,6 +240,20 @@
   },
   {
     "type": "mutation",
+    "id": "perk_troubleseeker",
+    "name": { "str": "Trouble seeker" },
+    "points": 0,
+    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies will sometimes appear out of nowhere to attack you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_troubleseek_on" ],
+    "deactivated_eocs": [ "EOC_troubleseek_off" ],
+    "processed_eocs": [ "EOC_troubleseeking" ],
+    "time": 20000
+  },
+  {
+    "type": "mutation",
     "id": "perk_popeye",
     "name": { "str": "Of sailors and spinach" },
     "points": 0,
@@ -253,8 +267,10 @@
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,
-    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.",
-    "category": [ "perk" ]
+    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life activate the perk to gain insight into the nature of life itself!",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_frankenstein_insight" ]
   },
   {
     "type": "mutation",
@@ -273,5 +289,48 @@
     "description": "You have a habit of always ducking at the right time.  You have a 5% chance to dodge any incoming attack.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EVASION", "add": 0.05 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_crafty_hands",
+    "name": { "str": "Crafty hands" },
+    "points": 0,
+    "description": "You really like to do stuff with your own hands.  +10% for crafting speed.",
+    "category": [ "perk" ],
+    "crafting_speed_multiplier": 1.1
+  },
+  {
+    "type": "mutation",
+    "id": "perk_chainsmoker",
+    "name": { "str": "Chainsmoker" },
+    "points": 0,
+    "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
+    "category": [ "perk" ],
+    "enchantments": [
+      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
+      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": 0.25 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_empath",
+    "name": { "str": "Empath" },
+    "points": 0,
+    "description": "You've always had a passion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of its abilities temporarily.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_jugg",
+    "name": { "str": "Unstoppable force" },
+    "points": 0,
+    "description": "You've always been a bit of a bull in a china shop; people used to call you heavy handed but now they aren't saying much at all.  You deal extra damage based on how protective your armor is.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
+      }
+    ]
   }
 ]

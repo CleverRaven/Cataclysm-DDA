@@ -27,11 +27,10 @@
       { "coverage": 80, "covers": [ "head" ], "specifically_covers": [ "head_forehead" ] },
       { "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_ear_l", "head_ear_r" ] }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "stockpot_helmet",
-    "repairs_like": "mc_helm_close",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pot great helm" },
@@ -104,11 +103,10 @@
       }
     ],
     "flags": [ "RAINPROOF", "PADDED", "OUTER" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "headgear",
-    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": { "str": "headgear" },
     "description": "Lightweight sports headgear designed to protect the head while sparring.",
@@ -159,13 +157,13 @@
   },
   {
     "id": "helmet_army",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "army helmet" },
     "description": "A heavy helmet that provides excellent protection from all sorts of damage.  It is labeled as the advanced combat helmet.",
     "weight": "1383 g",
     "volume": "1750 ml",
+    "longest_side": "28 cm",
     "price": 15000,
     "price_postapoc": 1500,
     "to_hit": -1,
@@ -246,18 +244,65 @@
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "max_contains_volume": "300 ml",
-        "max_contains_weight": "300 g",
+        "max_contains_weight": "400 g",
         "max_item_length": "14 cm",
-        "moves": 250,
+        "moves": 100,
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "helmet_army_outdated",
+    "repairs_like": "helmet_barbute",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "flak helmet" },
+    "description": "A simple helmet meant to protect the head from fragmentation and impacts.  Its simple steel construction renders it outdated by modern military standards.",
+    "weight": "1400 g",
+    "volume": "1900 ml",
+    "longest_side": "28 cm",
+    "price": 20000,
+    "//": "assuming this is an antique and not a cheap replica",
+    "price_postapoc": 1200,
+    "to_hit": -1,
+    "material": [ "hc_steel", "cotton" ],
+    "repairs_with": [ "hc_steel" ],
+    "symbol": "[",
+    "looks_like": "helmet_army",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 1.12,
+    "flags": [ "VARSIZE", "STURDY", "PADDED" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
+    "variants": [
+      {
+        "id": "helmet_m1",
+        "name": { "str": "M1 helmet" },
+        "description": "A M1 combat helmet, famously worn by American soldiers in the Second World War as well as the Korean and Vietnam wars.  Inferior to modern helmets, but it still remains popular among guerilla fighters, collectors and war re-enactors.",
+        "color": "green",
+        "weight": 10
+      },
+      {
+        "id": "helmet_ssh",
+        "name": { "str": "SSh-68 helmet" },
+        "description": "An old SSh-68 combat helmet from the Soviet Union, likely brought to The States by a collector or migrant.  It is designed to protect against shrapnel and some small arms and will do little to stop a rifle round.",
+        "color": "light_red",
+        "weight": 5
+      }
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "tac_fullhelmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tactical full helmet" },
@@ -281,11 +326,10 @@
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "tac_helmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tactical helmet" },
@@ -372,18 +416,17 @@
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "max_contains_volume": "300 ml",
-        "max_contains_weight": "300 g",
+        "max_contains_weight": "400 g",
         "max_item_length": "14 cm",
-        "moves": 250,
+        "moves": 100,
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "firehelmet",
-    "repairs_like": "nomex_hood",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "firefighter helmet" },
@@ -420,11 +463,10 @@
         "specifically_covers": [ "head_ear_l", "head_ear_r", "head_nape" ]
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "helmet_ball",
-    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "baseball helmet" },
@@ -465,7 +507,7 @@
         "specifically_covers": [ "head_ear_l", "head_ear_r" ]
       }
     ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "helmet_barbute",
@@ -514,7 +556,7 @@
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_barbute",
@@ -537,7 +579,6 @@
   },
   {
     "id": "helmet_bike",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "bike helmet" },
@@ -596,7 +637,7 @@
         "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "helmet_chitin",
@@ -640,7 +681,7 @@
     "material_thickness": 4,
     "environmental_protection": 4,
     "flags": [ "WATERPROOF", "STURDY" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_helmet_chitin",
@@ -688,7 +729,7 @@
       },
       { "coverage": 90, "covers": [ "head" ], "specifically_covers": [ "head_nape" ] }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_conical",
@@ -743,7 +784,6 @@
   },
   {
     "id": "helmet_football",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football helmet" },
@@ -831,7 +871,7 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_galea",
@@ -900,7 +940,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_kabuto",
@@ -999,7 +1039,6 @@
   },
   {
     "id": "helmet_liner",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "helmet liner" },
     "description": "A cloth liner worn inside a helmet to help keep your head warm in cold climates.",
@@ -1020,11 +1059,10 @@
   },
   {
     "id": "helmet_motor",
-    "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "motorcycle helmet" },
-    "description": "A helmet with covers for the head and chin, leaving space in-between for you to wear goggles.  Activate to raise the visor.",
+    "name": { "str": "full-face motorcycle helmet" },
+    "description": "A helmet that covers the entire head along with glareproof visors, offering the best protection for when you ride around on your motorcycle.  Activate to raise the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
     "price": 32500,
@@ -1105,18 +1143,17 @@
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
-    "melee_damage": { "bash": 7 }
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "helmet_motor_raised",
     "//": "Can't use copy-from and armor_portion_data at the same time, clear up this item once #43144 will be merged",
-    "repairs_like": "nomex_hood",
     "looks_like": "helmet_motor",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "motorcycle helmet (raised visor)", "str_pl": "motorcycle helmets (raised visor)" },
-    "description": "A helmet with covers for the head and chin, leaving space in-between for you to wear goggles.  The visor is raised.  Activate to put down the visor.",
+    "name": { "str": "full-face motorcycle helmet (raised visor)", "str_pl": "full-face motorcycle helmets (raised visor)" },
+    "description": "A helmet that covers the entire head along with glareproof visors, offering the best protection when you ride around on your motorcycle.  The visor is raised.  Activate to put down the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
     "price": 32500,
@@ -1175,7 +1212,62 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "helmet_riding",
+    "repairs_like": "nomex_hood",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "riding helmet" },
+    "description": "A helmet designed to protect from falls and kicks involving horses, has a small peak to protect from glare",
+    "weight": "660 g",
+    "volume": "1800 ml",
+    "price": 7000,
+    "price_postapoc": 300,
+    "techniques": [ "WBLOCK_1" ],
+    "material": [ "plastic", "epoxy", "plastic_pad" ],
+    "symbol": "[",
+    "looks_like": "helmet_bike",
+    "non_functional": "helmet_riding_peakless",
+    "color": "dark_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 }
+        ],
+        "encumbrance_modifiers": [ "NONE" ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 }
+        ],
+        "encumbrance_modifiers": [ "NONE" ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "coverage": 90
+      }
+    ],
+    "warmth": 20,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "helmet_riding_peakless",
+    "type": "ARMOR",
+    "copy-from": "helmet_riding",
+    "name": { "str": "jockey skull cap" },
+    "description": "A helmet designed to protect from falls and kicks involving horses.",
+    "weight": "650 g",
+    "volume": "1750 ml",
+    "delete": { "flags": [ "SUN_GLASSES" ] }
   },
   {
     "id": "helmet_nasal",
@@ -1216,7 +1308,19 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "2000 g",
+        "moves": 250,
+        "description": "attachment for a partial or full aventail.",
+        "flag_restriction": [ "HELMET_AVENTAIL" ]
+      }
+    ]
   },
   {
     "id": "xl_helmet_nasal",
@@ -1234,6 +1338,311 @@
     "looks_like": "helmet_nasal",
     "name": { "str": "XS nasal helm" },
     "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "lc_helmet_nasal",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
+    "weight": "1507 g",
+    "volume": "2 L",
+    "price": 26000,
+    "price_postapoc": 3000,
+    "material": [ "lc_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY", "PADDED" ],
+    "melee_damage": { "bash": 3 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "2000 g",
+        "moves": 250,
+        "description": "attachment for a partial or full aventail.",
+        "flag_restriction": [ "HELMET_AVENTAIL" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_nasal",
+    "name": { "str": "mild steel XL nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_lc_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_nasal",
+    "looks_like": "helmet_nasal",
+    "name": { "str": "mild steel XS nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "mc_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_nasal",
+    "name": { "str": "medium steel nasal helmet" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "mc_helmet_nasal",
+    "name": { "str": "medium steel XL nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "mc_helmet_nasal",
+    "looks_like": "helmet_nasal",
+    "name": { "str": "medium steel XS nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "hc_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_nasal",
+    "name": { "str": "high steel nasal helmet" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "hc_helmet_nasal",
+    "name": { "str": "high steel XL nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hc_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "hc_helmet_nasal",
+    "looks_like": "helmet_nasal",
+    "name": { "str": "high steel XS nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "qt_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_nasal",
+    "name": { "str": "tempered steel nasal helmet" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "qt_helmet_nasal",
+    "name": { "str": "tempered steel XL nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "qt_helmet_nasal",
+    "looks_like": "helmet_nasal",
+    "name": { "str": "tempered steel XS nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "ch_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_nasal",
+    "name": { "str": "hardened steel nasal helmet" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1 }
+        ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "ch_helmet_nasal",
+    "name": { "str": "hardened steel XL nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "ch_helmet_nasal",
+    "looks_like": "helmet_nasal",
+    "name": { "str": "hardened steel XS nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1261,7 +1670,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_plate",
@@ -1304,12 +1713,22 @@
         "encumbrance_modifiers": [ "NONE" ]
       }
     ],
+    "variants": [
+      {
+        "id": "morion",
+        "name": { "str": "morion" },
+        "description": "The tall crested helmet of a spanish conquistador.  Heavy rusting implies it might be that many years old.",
+        "color": "dark_gray",
+        "weight": 0,
+        "append": false
+      }
+    ],
     "warmth": 5,
     "material_thickness": 4,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_helmet_kettle",
@@ -1349,7 +1768,7 @@
         "encumbrance_modifiers": [ "IMBALANCED" ]
       }
     ],
-    "melee_damage": { "bash": 1, "cut": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_helmet_scrap",
@@ -1413,7 +1832,7 @@
         "encumbrance": 10
       }
     ],
-    "melee_damage": { "bash": 18 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "ch_helmet_metal_sheets_full",
@@ -1478,7 +1897,7 @@
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ],
-    "melee_damage": { "bash": 16 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "ch_helmet_metal_sheets",
@@ -1503,7 +1922,6 @@
   },
   {
     "id": "helmet_skid",
-    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "skid lid" },
@@ -1527,15 +1945,14 @@
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "pickelhaube",
-    "repairs_like": "helmet_barbute",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pickelhaube", "str_pl": "pickelhauben" },
-    "description": "A spiked helmet once worn by German military officers.  The spike is very sharp.",
+    "description": "A spiked helmet once worn by German military officers.  The spike is ornamental.",
     "weight": "980 g",
     "volume": "1750 ml",
     "price": 24000,
@@ -1574,7 +1991,7 @@
         "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
       }
     ],
-    "melee_damage": { "bash": 2, "stab": 4 }
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "id": "helmet_corinthian",
@@ -1618,7 +2035,7 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "xl_helmet_corinthian",
@@ -1666,7 +2083,7 @@
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_helmet_bronze",
@@ -1721,16 +2138,21 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "lc_helm_close",
+    "id": "lc_lighthelm_close",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel close helm" },
+    "name": { "str": "mild steel light close helm" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "weight": "2750 g",
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "lc_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
     "material": [ "lc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -1769,15 +2191,15 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
-    "id": "lc_helm_close_raised",
-    "copy-from": "lc_helm_close",
+    "id": "lc_lighthelm_close_raised",
+    "copy-from": "lc_lighthelm_close",
     "type": "ARMOR",
-    "name": { "str": "mild steel close helm (raised)", "str_pl": "mild steel close helms (raised)" },
+    "name": { "str": "mild steel light close helm (raised)", "str_pl": "mild steel light close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_lighthelm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [
       {
@@ -1796,34 +2218,44 @@
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
-    "id": "xl_lc_helm_close",
+    "id": "xl_lc_lighthelm_close",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel close helm" },
-    "copy-from": "lc_helm_close",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_lc_helm_close_raised", "menu_text": "Raise" },
+    "name": { "str": "XL mild steel light close helm" },
+    "copy-from": "lc_lighthelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_lc_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xl_lc_helm_close_raised",
+    "id": "xl_lc_lighthelm_close_raised",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel close helm (raised)", "str_pl": "XL mild steel close helms (raised)" },
-    "copy-from": "lc_helm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_helm_close", "menu_text": "Lower" },
+    "name": { "str": "XL mild steel light close helm (raised)", "str_pl": "XL mild steel light close helms (raised)" },
+    "copy-from": "lc_lighthelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_lighthelm_close", "menu_text": "Lower" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "mc_helm_close",
+    "id": "mc_lighthelm_close",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "medium steel close helm" },
+    "name": { "str": "medium steel light close helm" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "weight": "2750 g",
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "lc_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
     "material": [ "mc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -1862,15 +2294,15 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
-    "id": "mc_helm_close_raised",
-    "copy-from": "mc_helm_close",
+    "id": "mc_lighthelm_close_raised",
+    "copy-from": "mc_lighthelm_close",
     "type": "ARMOR",
-    "name": { "str": "medium steel close helm (raised)", "str_pl": "medium steel close helms (raised)" },
+    "name": { "str": "medium steel light close helm (raised)", "str_pl": "medium steel light close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_lighthelm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [
       {
@@ -1889,34 +2321,44 @@
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
-    "id": "xl_mc_helm_close",
+    "id": "xl_mc_lighthelm_close",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel close helm" },
-    "copy-from": "mc_helm_close",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_mc_helm_close_raised", "menu_text": "Raise" },
+    "name": { "str": "XL medium steel light close helm" },
+    "copy-from": "mc_lighthelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_mc_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xl_mc_helm_close_raised",
+    "id": "xl_mc_lighthelm_close_raised",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel close helm (raised)", "str_pl": "XL medium steel close helms (raised)" },
-    "copy-from": "mc_helm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_helm_close", "menu_text": "Lower" },
+    "name": { "str": "XL medium steel light close helm (raised)", "str_pl": "XL medium steel light close helms (raised)" },
+    "copy-from": "mc_lighthelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_lighthelm_close", "menu_text": "Lower" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "hc_helm_close",
+    "id": "hc_lighthelm_close",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "high steel close helm" },
+    "name": { "str": "high steel light close helm" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "weight": "2750 g",
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "mc_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
     "material": [ "hc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -1955,15 +2397,15 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
-    "id": "hc_helm_close_raised",
-    "copy-from": "hc_helm_close",
+    "id": "hc_lighthelm_close_raised",
+    "copy-from": "hc_lighthelm_close",
     "type": "ARMOR",
-    "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)" },
+    "name": { "str": "high steel light close helm (raised)", "str_pl": "high steel light close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_lighthelm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [
       {
@@ -1982,34 +2424,44 @@
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
-    "id": "xl_hc_helm_close",
+    "id": "xl_hc_lighthelm_close",
     "type": "ARMOR",
-    "name": { "str": "XL high steel close helm" },
-    "copy-from": "hc_helm_close",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_hc_helm_close_raised", "menu_text": "Raise" },
+    "name": { "str": "XL high steel light close helm" },
+    "copy-from": "hc_lighthelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_hc_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xl_hc_helm_close_raised",
+    "id": "xl_hc_lighthelm_close_raised",
     "type": "ARMOR",
-    "name": { "str": "XL high steel close helm (raised)", "str_pl": "XL high steel close helms (raised)" },
-    "copy-from": "hc_helm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_hc_helm_close", "menu_text": "Lower" },
+    "name": { "str": "XL high steel light close helm (raised)", "str_pl": "XL high steel light close helms (raised)" },
+    "copy-from": "hc_lighthelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_hc_lighthelm_close", "menu_text": "Lower" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "ch_helm_close",
+    "id": "ch_lighthelm_close",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "hardened steel close helm" },
+    "name": { "str": "hardened steel light close helm" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "weight": "2750 g",
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "hc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "hc_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
     "material": [ "ch_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -2048,15 +2500,15 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
-    "id": "ch_helm_close_raised",
-    "copy-from": "ch_helm_close",
+    "id": "ch_lighthelm_close_raised",
+    "copy-from": "ch_lighthelm_close",
     "type": "ARMOR",
-    "name": { "str": "hardened steel close helm (raised)", "str_pl": "hardened steel close helms (raised)" },
+    "name": { "str": "hardened steel light close helm (raised)", "str_pl": "hardened steel light close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_lighthelm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [
       {
@@ -2075,34 +2527,44 @@
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
   },
   {
-    "id": "xl_ch_helm_close",
+    "id": "xl_ch_lighthelm_close",
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel close helm" },
-    "copy-from": "ch_helm_close",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_ch_helm_close_raised", "menu_text": "Raise" },
+    "name": { "str": "XL hardened steel light close helm" },
+    "copy-from": "ch_lighthelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_ch_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xl_ch_helm_close_raised",
+    "id": "xl_ch_lighthelm_close_raised",
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel close helm (raised)", "str_pl": "XL hardened steel close helms (raised)" },
-    "copy-from": "ch_helm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_ch_helm_close", "menu_text": "Lower" },
+    "name": { "str": "XL hardened steel light close helm (raised)", "str_pl": "XL hardened steel light close helms (raised)" },
+    "copy-from": "ch_lighthelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_ch_lighthelm_close", "menu_text": "Lower" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "qt_helm_close",
+    "id": "qt_lighthelm_close",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "tempered steel close helm" },
+    "name": { "str": "tempered steel light close helm" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "weight": "2750 g",
     "volume": "3 L",
     "price": 55000,
     "price_postapoc": 5500,
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "qt_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "qt_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
     "material": [ "qt_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -2141,6 +2603,476 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "qt_lighthelm_close_raised",
+    "copy-from": "qt_lighthelm_close",
+    "type": "ARMOR",
+    "name": { "str": "tempered steel light close helm (raised)", "str_pl": "tempered steel light close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_lighthelm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_qt_lighthelm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel light close helm" },
+    "copy-from": "qt_lighthelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_qt_lighthelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_qt_lighthelm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel light close helm (raised)", "str_pl": "XL tempered steel light close helms (raised)" },
+    "copy-from": "qt_lighthelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_lighthelm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "lc_helm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "3750 g",
+    "volume": "3 L",
+    "price": 74000,
+    "price_postapoc": 7400,
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
+    "material": [ "lc_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.75 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "lc_helm_close_raised",
+    "copy-from": "lc_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "mild steel close helm (raised)", "str_pl": "mild steel close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_helm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_lc_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel close helm" },
+    "copy-from": "lc_helm_close",
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_lc_helm_close_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_lc_helm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel close helm (raised)", "str_pl": "XL mild steel close helms (raised)" },
+    "copy-from": "lc_helm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_helm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "mc_helm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "medium steel close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "3750 g",
+    "volume": "3 L",
+    "price": 74000,
+    "price_postapoc": 7400,
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
+    "material": [ "mc_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.75 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "mc_helm_close_raised",
+    "copy-from": "mc_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "medium steel close helm (raised)", "str_pl": "medium steel close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_helm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_mc_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel close helm" },
+    "copy-from": "mc_helm_close",
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_mc_helm_close_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_mc_helm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel close helm (raised)", "str_pl": "XL medium steel close helms (raised)" },
+    "copy-from": "mc_helm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_helm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "hc_helm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "high steel close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "3750 g",
+    "volume": "3 L",
+    "price": 74000,
+    "price_postapoc": 7400,
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
+    "material": [ "hc_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.75 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "hc_helm_close_raised",
+    "copy-from": "hc_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_hc_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel close helm" },
+    "copy-from": "hc_helm_close",
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_hc_helm_close_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_hc_helm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel close helm (raised)", "str_pl": "XL high steel close helms (raised)" },
+    "copy-from": "hc_helm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_hc_helm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "ch_helm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "hardened steel close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "3750 g",
+    "volume": "3 L",
+    "price": 74000,
+    "price_postapoc": 7400,
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "hc_helm_close_raised", "menu_text": "Raise" },
+    "material": [ "ch_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.75 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "ch_helm_close_raised",
+    "copy-from": "ch_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "hardened steel close helm (raised)", "str_pl": "hardened steel close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_ch_helm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel close helm" },
+    "copy-from": "ch_helm_close",
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_ch_helm_close_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_ch_helm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel close helm (raised)", "str_pl": "XL hardened steel close helms (raised)" },
+    "copy-from": "ch_helm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_ch_helm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "qt_helm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tempered steel close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "3750 g",
+    "volume": "3 L",
+    "price": 74000,
+    "price_postapoc": 7400,
+    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "qt_helm_close_raised", "menu_text": "Raise" },
+    "material": [ "qt_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.75 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.75 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -2154,7 +3086,7 @@
     "armor": [
       {
         "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.75 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -2186,8 +3118,522 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
+    "id": "lc_heavyhelm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel heavy close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "4750 g",
+    "volume": "3 L",
+    "price": 93500,
+    "price_postapoc": 9350,
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "lc_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "material": [ "lc_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.25 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "lc_heavyhelm_close_raised",
+    "copy-from": "lc_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "mild steel heavy close helm (raised)", "str_pl": "mild steel heavy close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_heavyhelm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_lc_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel heavy close helm" },
+    "copy-from": "lc_heavyhelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_lc_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_lc_heavyhelm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel heavy close helm (raised)", "str_pl": "XL mild steel heavy close helms (raised)" },
+    "copy-from": "lc_heavyhelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_heavyhelm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "mc_heavyhelm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "medium steel heavy close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "4750 g",
+    "volume": "3 L",
+    "price": 93500,
+    "price_postapoc": 9350,
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "lc_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "material": [ "mc_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 2.25 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "mc_heavyhelm_close_raised",
+    "copy-from": "mc_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "medium steel heavy close helm (raised)", "str_pl": "medium steel heavy close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_heavyhelm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_mc_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel heavy close helm" },
+    "copy-from": "mc_heavyhelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_mc_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_mc_heavyhelm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel heavy close helm (raised)", "str_pl": "XL medium steel heavy close helms (raised)" },
+    "copy-from": "mc_heavyhelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_heavyhelm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "hc_heavyhelm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "high steel heavy close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "4750 g",
+    "volume": "3 L",
+    "price": 93500,
+    "price_postapoc": 9350,
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "mc_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "material": [ "hc_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 2.25 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "hc_heavyhelm_close_raised",
+    "copy-from": "hc_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "high steel heavy close helm (raised)", "str_pl": "high steel heavy close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_heavyhelm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_hc_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel heavy close helm" },
+    "copy-from": "hc_heavyhelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_hc_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_hc_heavyhelm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel heavy close helm (raised)", "str_pl": "XL high steel heavy close helms (raised)" },
+    "copy-from": "hc_heavyhelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_hc_heavyhelm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "ch_heavyhelm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "hardened steel heavy close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "4750 g",
+    "volume": "3 L",
+    "price": 93500,
+    "price_postapoc": 9350,
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "hc_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "material": [ "ch_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.25 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "ch_heavyhelm_close_raised",
+    "copy-from": "ch_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "hardened steel heavy close helm (raised)", "str_pl": "hardened steel heavy close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_heavyhelm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_ch_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel heavy close helm" },
+    "copy-from": "ch_heavyhelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_ch_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_ch_heavyhelm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel heavy close helm (raised)", "str_pl": "XL hardened steel heavy close helms (raised)" },
+    "copy-from": "ch_heavyhelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_ch_heavyhelm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "qt_heavyhelm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tempered steel heavy close helm" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
+    "weight": "4750 g",
+    "volume": "3 L",
+    "price": 93500,
+    "price_postapoc": 9350,
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "qt_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "material": [ "qt_steel" ],
+    "symbol": "o",
+    "looks_like": "helmet_sallet",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.25 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "qt_heavyhelm_close_raised",
+    "copy-from": "qt_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "tempered steel heavy close helm (raised)", "str_pl": "tempered steel heavy close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_heavyhelm_close", "menu_text": "Lower" },
+    "looks_like": "helmet_barbute",
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+  },
+  {
+    "id": "xl_qt_heavyhelm_close",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel heavy close helm" },
+    "copy-from": "qt_heavyhelm_close",
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_qt_heavyhelm_close_raised",
+      "menu_text": "Raise"
+    },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_qt_heavyhelm_close_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel heavy close helm (raised)", "str_pl": "XL tempered steel heavy close helms (raised)" },
+    "copy-from": "qt_heavyhelm_close_raised",
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_heavyhelm_close", "menu_text": "Lower" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "airsoft_helmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "airsoft helmet" },
@@ -2278,6 +3724,270 @@
         "flag_restriction": [ "HELMET_BACK_POUCH" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "lc_helmet_turban",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of mild steel.",
+    "weight": "2400g",
+    "volume": "1500ml",
+    "price": 26000,
+    "price_postapoc": 2500,
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ],
+    "warmth": 3,
+    "material_thickness": 2.5,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 3 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "2000 g",
+        "moves": 250,
+        "description": "attachment for a partial or full aventail.",
+        "flag_restriction": [ "HELMET_AVENTAIL" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_turban",
+    "name": { "str": "mild steel XL turban helmet" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of mild steel and is fitted to a larger head.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_lc_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_turban",
+    "looks_like": "helmet_turban",
+    "name": { "str": "mild steel XS turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of mild steel and is fitted to a smaller head.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "mc_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_turban",
+    "material": [ "mc_steel" ],
+    "name": { "str": "medium steel turban helmet" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of medium steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "mc_helmet_turban",
+    "name": { "str": "medium steel XL turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of medium steel and is fitted to a larger head.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "mc_helmet_turban",
+    "looks_like": "helmet_turban",
+    "name": { "str": "medium steel XS turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of medium steel and is fitted to a smaller head.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "hc_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_turban",
+    "material": [ "hc_steel" ],
+    "name": { "str": "high steel turban helmet" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of high steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "hc_helmet_turban",
+    "name": { "str": "high steel XL turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of high steel and is fitted to a larger head.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hc_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "hc_helmet_turban",
+    "looks_like": "helmet_turban",
+    "name": { "str": "high steel XS turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of high steel and is fitted to a smaller head.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "qt_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_turban",
+    "material": [ "qt_steel" ],
+    "name": { "str": "tempered steel turban helmet" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of tempered steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "qt_helmet_turban",
+    "name": { "str": "tempered steel XL turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of tempered steel and is fitted to a larger head.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "qt_helmet_turban",
+    "looks_like": "helmet_turban",
+    "name": { "str": "tempered steel XS turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of tempered steel and is fitted to a smaller head.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "ch_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_turban",
+    "material": [ "ch_steel" ],
+    "name": { "str": "hardened steel turban helmet" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of hardened steel.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "coverage": 20,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "ch_helmet_turban",
+    "name": { "str": "hardened steel XL turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of hardened steel and is fitted to a larger head.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_helmet_turban",
+    "type": "ARMOR",
+    "copy-from": "ch_helmet_turban",
+    "looks_like": "helmet_turban",
+    "name": { "str": "hardened steel XS turban helm" },
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of hardened steel and is fitted to a smaller head.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   }
 ]

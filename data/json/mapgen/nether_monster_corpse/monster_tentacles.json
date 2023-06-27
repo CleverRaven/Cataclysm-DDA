@@ -201,6 +201,16 @@
       ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 1, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "furniture": {
         " ": [
           [ "f_null", 1000 ],
@@ -275,6 +285,16 @@
       ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "furniture": {
         " ": [
           [ "f_null", 1000 ],
@@ -337,6 +357,16 @@
       ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "furniture": {
         " ": [
           [ "f_null", 1000 ],
@@ -421,6 +451,16 @@
       ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "furniture": {
         " ": [
           [ "f_null", 1000 ],
@@ -502,6 +542,16 @@
       ],
       "palettes": [ "nether_monster_palette" ],
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 1, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "furniture": {
         " ": [
           [ "f_null", 1000 ],

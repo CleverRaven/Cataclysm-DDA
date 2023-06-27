@@ -25,6 +25,7 @@
 #include "point.h"
 #include "profession.h"
 #include "ret_val.h"
+#include "skill.h"
 #include "stomach.h"
 #include "type_id.h"
 
@@ -73,15 +74,19 @@ void clear_character( Character &dummy, bool skip_nutrition )
     // delete all worn items.
     dummy.worn.clear();
     dummy.calc_encumbrance();
+    dummy.invalidate_crafting_inventory();
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
+    dummy.clear_bionics();
 
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
     dummy.guts.empty();
     dummy.clear_vitamins();
+    dummy.health_tally = 0;
+    dummy.update_body( calendar::turn, calendar::turn ); // sets last_updated to current turn
     if( !skip_nutrition ) {
         item food( "debug_nutrition" );
         dummy.consume( food );
@@ -93,17 +98,21 @@ void clear_character( Character &dummy, bool skip_nutrition )
     // However, the above does not set stored kcal
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
-    dummy.empty_skills();
+    dummy.prof = profession::generic();
+    dummy.hobbies.clear();
+    dummy._skills->clear();
     dummy.martial_arts_data->clear_styles();
     dummy.clear_morale();
-    dummy.clear_bionics();
     dummy.activity.set_to_null();
+    dummy.backlog.clear();
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
+    dummy.set_moves( 0 );
+    dummy.oxygen = dummy.get_oxygen_max();
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
     }
@@ -131,11 +140,12 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     dummy.cash = 0;
 
-    dummy.prof = profession::generic();
-
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
     dummy.clear_values();
+    dummy.magic = pimpl<known_magic>();
+    dummy.forget_all_recipes();
+    dummy.set_focus( dummy.calc_focus_equilibrium() );
 }
 
 void arm_shooter( npc &shooter, const std::string &gun_type,
@@ -187,8 +197,10 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
 
 void clear_avatar()
 {
-    clear_character( get_avatar() );
-    get_avatar().clear_identified();
+    avatar &avatar = get_avatar();
+    clear_character( avatar );
+    avatar.clear_identified();
+    avatar.clear_nutrition();
 }
 
 void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )

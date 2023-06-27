@@ -66,6 +66,7 @@
 #include "point.h"
 #include "ranged.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -75,6 +76,7 @@
 #include "skill.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
@@ -98,6 +100,7 @@ static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_DATA_HANDLING( "ACT_DATA_HANDLING" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DROP( "ACT_DROP" );
@@ -129,6 +132,7 @@ static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
@@ -873,7 +877,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         std::vector<tool_comp> writing_tools;
         writing_tools.reserve( writing_tools_filter.size() );
         for( const item *tool : writing_tools_filter ) {
-            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
+            writing_tools.emplace_back( tool->typeId(), 1 );
         }
 
         p.consume_tools( writing_tools, pages );
@@ -904,6 +908,230 @@ std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( Jso
     jsobj.read( "rec_id", actor.rec_id );
     jsobj.read( "pages", actor.pages );
 
+    return actor.clone();
+}
+
+data_handling_activity_actor::data_handling_activity_actor(
+    const item_location &recorder, const std::vector<item_location> &targets )
+    : recorder( recorder ), targets( targets ) {}
+
+static int get_quality_from_string( const std::string_view s )
+{
+    const ret_val<int> try_quality = try_parse_integer<int>( s, false );
+    if( try_quality.success() ) {
+        return try_quality.value();
+    } else {
+        debugmsg( "Error parsing photo quality: %s", try_quality.str() );
+        return 0;
+    }
+}
+
+void data_handling_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = act.moves_total = targets.size() * to_moves<int>( time_per_card );
+}
+
+void data_handling_activity_actor::do_turn( player_activity &act, Character &p )
+{
+    if( !recorder || !recorder->ammo_sufficient( &p ) ) {
+        p.cancel_activity();
+        p.add_msg_if_player( m_warning, _( "%s appears to have no energy." ), recorder->display_name() );
+        return;
+    }
+    if( calendar::once_every( 5_minutes ) ) {
+        recorder->ammo_consume( recorder->type->charges_to_use(), p.pos(), &p );
+    }
+    time_until_next_card -= 1_seconds;
+    if( time_until_next_card > 0_seconds ) {
+        return; // not yet
+    }
+    item &eink = *recorder;
+    item &mc = *targets.back();
+    targets.pop_back();
+    if( targets.empty() ) {
+        act.moves_left = 0;
+    }
+    time_until_next_card = time_per_card;
+    handled_cards++;
+
+    if( mc.has_var( "MC_EXTENDED_PHOTOS" ) ) {
+        std::vector<item::extended_photo_def> extended_photos;
+        try {
+            mc.read_extended_photos( extended_photos, "MC_EXTENDED_PHOTOS", false );
+            eink.read_extended_photos( extended_photos, "EIPC_EXTENDED_PHOTOS", true );
+            eink.write_extended_photos( extended_photos, "EIPC_EXTENDED_PHOTOS" );
+            downloaded_extended_photos++;
+        } catch( const JsonError &e ) {
+            debugmsg( "Error card reading photos (loaded photos = %i) : %s", extended_photos.size(),
+                      e.c_str() );
+        }
+    }
+
+    const std::string monster_photos = mc.get_var( "MC_MONSTER_PHOTOS" );
+    if( !monster_photos.empty() ) {
+        downloaded_monster_photos++;
+        std::string photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
+        if( photos.empty() ) {
+            eink.set_var( "EINK_MONSTER_PHOTOS", monster_photos );
+        } else {
+            std::istringstream f( monster_photos );
+            std::string s;
+            while( getline( f, s, ',' ) ) {
+                if( s.empty() ) {
+                    continue;
+                }
+                const std::string mtype = s;
+                getline( f, s, ',' );
+                const int quality = get_quality_from_string( s );
+
+                const size_t eink_strpos = photos.find( "," + mtype + "," );
+
+                if( eink_strpos == std::string::npos ) {
+                    photos += mtype + "," + string_format( "%d", quality ) + ",";
+                } else {
+                    const size_t strqpos = eink_strpos + mtype.size() + 2;
+                    const size_t next_comma = photos.find( ',', strqpos );
+                    const int old_quality =
+                        get_quality_from_string( photos.substr( strqpos, next_comma ) );
+
+                    if( quality > old_quality ) {
+                        const std::string quality_s = string_format( "%d", quality );
+                        cata_assert( quality_s.size() == 1 );
+                        photos[strqpos] = quality_s.front();
+                    }
+                }
+
+            }
+            eink.set_var( "EINK_MONSTER_PHOTOS", photos );
+        }
+    }
+    const memory_card_info *mmd = mc.type->memory_card_data ? &*mc.type->memory_card_data : nullptr;
+    const bool failed_encrypted = mmd && mmd->data_chance < rng_float( 0.0, 1.0 );
+    if( mmd && mmd->on_read_convert_to.is_valid() ) {
+        mc.clear_vars();
+        mc.unset_flags();
+        mc.convert( mmd->on_read_convert_to );
+    } // mc is invalid past this point
+    if( !mmd || failed_encrypted ) {
+        encrypted_cards += failed_encrypted ? 1 : 0;
+        return;
+    }
+    if( mmd->photos_chance >= rng_float( 0.0, 1.0 ) ) {
+        const int new_photos = rng( 1, mmd->photos_amount );
+        eink.set_var( "EIPC_PHOTOS", eink.get_var( "EIPC_PHOTOS", 0 ) + new_photos );
+        downloaded_photos += new_photos;
+    }
+    if( mmd->songs_chance >= rng_float( 0.0, 1.0 ) ) {
+        const int new_songs = rng( 1, mmd->songs_amount );
+        eink.set_var( "EIPC_MUSIC", eink.get_var( "EIPC_MUSIC", 0 ) + new_songs );
+        downloaded_songs += new_songs;
+    }
+    if( mmd->recipes_chance >= rng_float( 0.0, 1.0 ) ) {
+        std::set<recipe_id> saved_recipes = eink.get_saved_recipes();
+        std::set<recipe_id> candidates;
+        for( const auto& [rid, r] : recipe_dict ) {
+            if( r.never_learn || r.obsolete || mmd->recipes_categories.count( r.category ) == 0 ||
+                saved_recipes.count( rid ) ||
+                r.difficulty > mmd->recipes_level_max || r.difficulty < mmd->recipes_level_min ) {
+                continue;
+            }
+            candidates.emplace( rid );
+        }
+
+        const int recipe_num = rng( 1, mmd->recipes_amount );
+        for( int i = 0; i < recipe_num && !candidates.empty(); i++ ) {
+            const recipe_id rid = random_entry_removed( candidates );
+            if( saved_recipes.emplace( rid ).second ) {
+                downloaded_recipes.emplace_back( rid );
+            } else {
+                debugmsg( "failed saving '%s' to '%s'", rid.str(), eink.display_name() );
+            }
+        }
+        eink.set_saved_recipes( saved_recipes );
+    }
+}
+
+static void print_data_handling_tally( Character &who, int encrypted_cards, int photos, int songs,
+                                       const std::vector<recipe_id> &recipes, int extended_photos, int monster_photos )
+{
+    if( !recipes.empty() ) {
+        who.add_msg_if_player( m_good, _( "Downloaded %d %s: %s." ), recipes.size(),
+                               n_gettext( "recipe", "recipes", recipes.size() ),
+        enumerate_as_string( recipes, []( const recipe_id & rid ) {
+            return rid->result_name();
+        } ) );
+    }
+    if( monster_photos > 0 ) {
+        who.add_msg_if_player( m_good, _( "You have updated your monster collection." ) );
+    }
+    if( extended_photos > 0 ) {
+        who.add_msg_if_player( m_good, _( "You have downloaded your photos." ) );
+    }
+    if( encrypted_cards > 0 ) {
+        who.add_msg_if_player( m_bad, _( "%d %s appeared to be encrypted or corrupted." ),
+                               encrypted_cards, n_gettext( "card", "cards", encrypted_cards ) );
+    }
+    if( photos > 0 && who.is_avatar() ) {
+        who.add_msg_if_player( m_good, _( "Downloaded %d new %s." ),
+                               photos, n_gettext( "photo", "photos", photos ) );
+    }
+    if( songs > 0 && who.is_avatar() ) {
+        who.add_msg_if_player( m_good, _( "Downloaded %d new %s." ),
+                               songs, n_gettext( "song", "songs", songs ) );
+    }
+    if( !( photos || songs || monster_photos || extended_photos || !recipes.empty() ) ) {
+        who.add_msg_if_player( m_warning, _( "No new data has been discovered." ) );
+    }
+}
+
+void data_handling_activity_actor::canceled( player_activity &act, Character &p )
+{
+    print_data_handling_tally( p, encrypted_cards, downloaded_photos, downloaded_songs,
+                               downloaded_recipes, downloaded_extended_photos, downloaded_monster_photos );
+    p.add_msg_if_player( m_info, _( "You stop downloading data after %d %s." ),
+                         handled_cards, n_gettext( "card", "cards", handled_cards ) );
+    act.set_to_null();
+}
+
+void data_handling_activity_actor::finish( player_activity &act, Character &p )
+{
+    print_data_handling_tally( p, encrypted_cards, downloaded_photos, downloaded_songs,
+                               downloaded_recipes, downloaded_extended_photos, downloaded_monster_photos );
+    p.add_msg_if_player( m_info, _( "You finish downloading data from %d %s." ),
+                         handled_cards, n_gettext( "card", "cards", handled_cards ) );
+    act.set_to_null();
+}
+
+void data_handling_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "recorder", recorder );
+    jsout.member( "targets", targets );
+    jsout.member( "time_until_next_action", time_until_next_card );
+    jsout.member( "handled_cards", handled_cards );
+    jsout.member( "encrypted_cards", encrypted_cards );
+    jsout.member( "downloaded_photos", downloaded_photos );
+    jsout.member( "downloaded_songs", downloaded_songs );
+    jsout.member( "downloaded_recipes", downloaded_recipes );
+    jsout.member( "downloaded_extended_photos", downloaded_extended_photos );
+    jsout.member( "downloaded_monster_photos", downloaded_monster_photos );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> data_handling_activity_actor::deserialize( JsonValue &jsin )
+{
+    data_handling_activity_actor actor;
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "recorder", actor.recorder );
+    jsobj.read( "targets", actor.targets );
+    jsobj.read( "time_until_next_action", actor.time_until_next_card );
+    jsobj.read( "handled_cards", actor.handled_cards );
+    jsobj.read( "encrypted_cards", actor.encrypted_cards );
+    jsobj.read( "downloaded_photos", actor.downloaded_photos );
+    jsobj.read( "downloaded_songs", actor.downloaded_songs );
+    jsobj.read( "downloaded_recipes", actor.downloaded_recipes );
+    jsobj.read( "downloaded_extended_photos", actor.downloaded_extended_photos );
+    jsobj.read( "downloaded_monster_photos", actor.downloaded_monster_photos );
     return actor.clone();
 }
 
@@ -2972,6 +3200,8 @@ craft_activity_actor::craft_activity_actor( item_location &it, const bool is_lon
     cached_assistants = 0;
     cached_base_total_moves = 1;
     cached_cur_total_moves = 1;
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
@@ -3007,6 +3237,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     }
     activity_override = craft_item.get_item()->get_making().exertion_level();
     cached_crafting_speed = 0;
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -3022,7 +3254,13 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const std::optional<tripoint> location = craft_item.where() == item_location::type::character
             ? std::optional<tripoint>() : std::optional<tripoint>( craft_item.position() );
     const recipe &rec = craft.get_making();
-    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location );
+    if( !use_cached_workbench_multiplier ) {
+        cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
+        use_cached_workbench_multiplier = true;
+    }
+    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location,
+                                 use_cached_workbench_multiplier,
+                                 cached_workbench_multiplier );
     const int assistants = crafter.available_assistant_count( craft.get_making() );
 
     if( crafting_speed <= 0.0f ) {
@@ -3085,6 +3323,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
         // Invalidate the crafting time cache because proficiencies may have changed
         cached_crafting_speed = 0;
+        // Also reset the multiplier
+        use_cached_workbench_multiplier = false;
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
@@ -4431,6 +4671,9 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     target->set_var( "activity_var", who.name );
 
     activity_override = target->get_making().exertion_level();
+
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -4445,7 +4688,12 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 
     const std::optional<tripoint> location = target.where() == item_location::type::character
             ? std::optional<tripoint>() : std::optional<tripoint>( target.position() );
-    const float crafting_speed = who.crafting_speed_multiplier( craft, location );
+    if( !use_cached_workbench_multiplier ) {
+        cached_workbench_multiplier = who.workbench_crafting_speed_multiplier( craft, location );
+        use_cached_workbench_multiplier = true;
+    }
+    const float crafting_speed = who.crafting_speed_multiplier( craft, location,
+                                 use_cached_workbench_multiplier, cached_workbench_multiplier );
 
     if( crafting_speed <= 0.0f ) {
         who.cancel_activity();
@@ -4769,6 +5017,51 @@ std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( Js
     data.read( "radius", actor.radius );
     data.read( "target", actor.target );
     data.read( "tent", actor.tent );
+
+    return actor.clone();
+}
+
+void reel_cable_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void reel_cable_activity_actor::finish( player_activity &act, Character &who )
+{
+    cable->active = false;
+    cable->charges = cable->link->max_length;
+    cable->link.reset();
+    if( parent_item ) {
+        parent_item->contents_linked = false;
+        who.add_msg_if_player( m_info, string_format( _( "You gather the cable up with the %s." ),
+                               parent_item->label( 1 ) ) );
+    } else {
+        who.add_msg_if_player( m_info, string_format( _( "You reel in the %s and wind it up." ),
+                               cable->label( 1 ) ) );
+    }
+    if( cable->has_flag( flag_AUTO_DELETE_CABLE ) ) {
+        cable.remove_item();
+    }
+    act.set_to_null();
+}
+
+void reel_cable_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "cable", cable );
+    jsout.member( "parent_item", parent_item );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValue &jsin )
+{
+    reel_cable_activity_actor actor( 0, {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "cable", actor.cable );
+    data.read( "parent_item", actor.parent_item );
 
     return actor.clone();
 }
@@ -6247,8 +6540,9 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         num_processed = 0;
         // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
+        src_set.reserve( coord_set.size() );
         for( const tripoint &p : coord_set ) {
-            src_set.emplace_back( tripoint_abs_ms( p ) );
+            src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -6534,9 +6828,10 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
         return false;
     }
 
+    const inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         for( const itype_id &tool : vp.info().get_folding_tools() ) {
-            if( !p.has_amount( tool, 1 ) ) {
+            if( !inv.has_tools( tool, 1 ) ) {
                 p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
                 return false;
             }
@@ -6652,6 +6947,8 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
                || here.veh_at( p )
                || here.impassable( p );
     };
+
+    const inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh->get_all_parts() ) {
         if( vp.info().location != "structure" ) {
             continue;
@@ -6662,7 +6959,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
             return false;
         }
         for( const itype_id &tool : vp.info().get_unfolding_tools() ) {
-            if( !p.has_amount( tool, 1 ) ) {
+            if( !inv.has_tools( tool, 1 ) ) {
                 p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
                 here.destroy_vehicle( veh );
                 return false;
@@ -6856,6 +7153,7 @@ deserialize_functions = {
     { ACT_CONSUME, &consume_activity_actor::deserialize },
     { ACT_CRACKING, &safecracking_activity_actor::deserialize },
     { ACT_CRAFT, &craft_activity_actor::deserialize },
+    { ACT_DATA_HANDLING, &data_handling_activity_actor::deserialize },
     { ACT_DISABLE, &disable_activity_actor::deserialize },
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
@@ -6885,6 +7183,7 @@ deserialize_functions = {
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
+    { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },
