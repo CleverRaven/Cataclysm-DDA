@@ -3952,7 +3952,7 @@ int Character::get_health_tally() const
                                             5 * ( bmi - character_weight_category::obese ) ) );
     int under_factor = std::round( std::max( 0.0f,
                                    50 * ( character_weight_category::normal - bmi ) ) );
-    return std::max( health_tally - over_factor - under_factor, -200);
+    return std::max( health_tally - over_factor - under_factor, -200 );
 }
 
 /*
