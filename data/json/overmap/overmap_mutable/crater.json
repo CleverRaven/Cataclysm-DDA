@@ -21,6 +21,13 @@
         "west": "core_to_crater"
       },
       "crater_adjacent_to_core": { "overmap": "crater", "north": "core_to_crater", "east": "crater_to_corner", "west": "crater_to_corner" },
+      "crater_adjacent_to_core_fill": {
+        "//": "To fill gaps between crater_adjacent_to_core",
+        "overmap": "crater",
+        "north": "core_to_crater",
+        "east": { "id": "crater_to_corner", "alternatives": [ "corner_to_crater" ], "type": "available" },
+        "west": { "id": "crater_to_corner", "alternatives": [ "corner_to_crater" ], "type": "available" }
+      },
       "crater_adjacent_to_core_double": {
         "//": "For an L shape of cores",
         "overmap": "crater",
@@ -54,6 +61,7 @@
       [ { "overmap": "crater_adjacent_to_core_double", "weight": 1 } ],
       [ { "overmap": "crater_adjacent_to_core_triple", "weight": 1 } ],
       [ { "overmap": "crater_adjacent_to_core_quad", "weight": 1 } ],
+      [ { "overmap": "crater_adjacent_to_core_fill", "weight": 1 } ],
       [ { "overmap": "crater_corner", "weight": 1 } ]
     ]
   }
