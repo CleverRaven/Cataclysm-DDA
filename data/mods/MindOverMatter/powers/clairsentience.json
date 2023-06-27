@@ -280,7 +280,7 @@
     "name": "[Ψ]Discern Weakness",
     "description": "Your powers let you pinpoint exactly where your enemies are weak.",
     "message": "The vulnerabilities of your enemy are revealed.",
-    "valid_targets": [ "item" ],
+    "valid_targets": [ "hostile" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
