@@ -275,10 +275,13 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     cache_pos = sm_pos;
     cache_size = sm_size;
     cached.clear();
-    cached.reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y );
-    for( int dy = 0; dy < cache_size.y; dy++ ) {
-        for( int dx = 0; dx < cache_size.x; dx++ ) {
-            cached.push_back( fetch_submap( cache_pos + point( dx, dy ) ) );
+    for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; z++ ) { //optimize this
+        cache_pos.z = z;
+        cached[z].reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y );
+        for( int dy = 0; dy < cache_size.y; dy++ ) {
+            for( int dx = 0; dx < cache_size.x; dx++ ) {
+                    cached[z].push_back( fetch_submap( cache_pos + point( dx, dy ) ) );
+            }
         }
     }
     return true;
@@ -384,7 +387,7 @@ const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
     }
     const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-        return *cached[idx.y * cache_size.x + idx.x];
+        return *cached[sm_pos.z][idx.y * cache_size.x + idx.x];
     } else {
         return null_mz_submap;
     }
@@ -397,7 +400,7 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
     }
     const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-        return *cached[idx.y * cache_size.x + idx.x];
+        return *cached[sm_pos.z][idx.y * cache_size.x + idx.x];
     } else {
         return null_mz_submap;
     }
