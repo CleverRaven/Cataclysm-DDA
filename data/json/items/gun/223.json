@@ -1187,9 +1187,9 @@
       }
     ],
     "weight": "3080 g",
-    "volume": "3421 ml",
+    "volume": "3121 ml",
     "longest_side": "402 mm",
-    "//": "The length and weight number is assigned to, roughly, represent an MDRX without a protruding barrel. the difference will be made up for with the installable conversion kits.",
+    "//": "The length, weight, and volume numbers are assigned to, roughly, represent an MDRX without a protruding barrel. the difference will be made up for with the installable conversion kits.",
     "price": 173900,
     "price_postapoc": 5000,
     "to_hit": -1,
