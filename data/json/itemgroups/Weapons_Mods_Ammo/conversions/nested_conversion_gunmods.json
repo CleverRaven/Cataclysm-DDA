@@ -174,7 +174,7 @@
     "id": "boxed_300blk_mdrxkit",
     "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
     "subtype": "collection",
-    "container-item": "box_retool_large",
+    "container-item": "box_retool",
     "on_overflow": "spill",
     "entries": [ { "item": "retool_mdrx_300blk" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
