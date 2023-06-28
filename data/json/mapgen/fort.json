@@ -84,12 +84,64 @@
         "                                                                                                ",
         "                                                                                                "
       ],
-      "palettes": [ "fort_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "fort_palette", "fort_parameter_palette" ],
       "place_monsters": [
-        { "monster": "GROUP_FORT", "x": [ 24, 39 ], "y": [ 24, 43 ], "repeat": [ 4, 8 ], "density": 0.1 },
-        { "monster": "GROUP_FORT", "x": [ 48, 61 ], "y": [ 24, 43 ], "repeat": [ 4, 8 ], "density": 0.1 }
+        {
+          "monster": {
+            "switch": { "param": "variant", "fallback": "night" },
+            "cases": { "tourist": "GROUP_NULL", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
+          },
+          "x": [ 24, 39 ],
+          "y": [ 24, 43 ],
+          "repeat": [ 4, 8 ],
+          "density": 0.1
+        },
+        {
+          "monster": {
+            "switch": { "param": "variant", "fallback": "night" },
+            "cases": { "tourist": "GROUP_NULL", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
+          },
+          "x": [ 48, 61 ],
+          "y": [ 24, 43 ],
+          "repeat": [ 4, 8 ],
+          "density": 0.1
+        }
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "monsters": {
+        "*": {
+          "monster": {
+            "switch": { "param": "variant", "fallback": "night" },
+            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
+          },
+          "chance": 1,
+          "density": 0.1
+        },
+        ".": {
+          "monster": {
+            "switch": { "param": "variant", "fallback": "night" },
+            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
+          },
+          "chance": 5,
+          "density": 0.1
+        },
+        ",": {
+          "monster": {
+            "switch": { "param": "variant", "fallback": "night" },
+            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
+          },
+          "chance": 5,
+          "density": 0.1
+        },
+        "/": {
+          "monster": {
+            "switch": { "param": "variant", "fallback": "night" },
+            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_ZOMBIE", "night": "GROUP_NULL" }
+          },
+          "chance": 100,
+          "density": 0.01
+        }
+      }
     }
   },
   {
@@ -241,8 +293,26 @@
         "                                                                                                ",
         "                                                                                                "
       ],
+      "palettes": [ "fort_parameter_palette" ],
       "terrain": { " ": "t_open_air", ">": "t_slope_down" },
-      "monster": { "Z": { "monster": "mon_zombie_tough" } },
+      "monster": {
+        "Z": {
+          "monster": {
+            "switch": { "param": "variant", "fallback": "night" },
+            "cases": { "tourist": "mon_null", "reenactors": "mon_zombie_tough", "night": "mon_null" }
+          }
+        }
+      },
+      "monsters": {
+        ".": {
+          "monster": {
+            "switch": { "param": "variant", "fallback": "night" },
+            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_NULL", "night": "GROUP_NULL" }
+          },
+          "chance": 1,
+          "density": 0.01
+        }
+      },
       "vehicles": { "U": { "vehicle": "cannon_3in", "chance": 100 }, "Q": { "vehicle": "cannon_3in_plugged", "chance": 100 } }
     }
   }

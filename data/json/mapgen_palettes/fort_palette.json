@@ -1,6 +1,13 @@
 [
   {
     "type": "palette",
+    "id": "fort_parameter_palette",
+    "parameters": {
+      "variant": { "type": "string", "default": { "distribution": [ [ "tourist", 2 ], [ "reenactors", 1 ], [ "night", 1 ] ] } }
+    }
+  },
+  {
+    "type": "palette",
     "id": "fort_palette",
     "terrain": {
       "*": "t_region_groundcover_urban",
@@ -54,12 +61,6 @@
       },
       "=": { "furniture": "f_table", "terrain": "t_floor", "items": { "item": "ammo_cannon", "chance": 100 } },
       "t": { "furniture": "f_table", "terrain": "t_floor" }
-    },
-    "monsters": {
-      "*": { "monster": "GROUP_FORT", "chance": 1, "density": 0.1 },
-      ".": { "monster": "GROUP_FORT", "chance": 5, "density": 0.1 },
-      ",": { "monster": "GROUP_FORT", "chance": 5, "density": 0.1 },
-      "/": { "monster": "GROUP_ZOMBIE", "chance": 100, "density": 0.01 }
     }
   }
 ]
