@@ -85,6 +85,7 @@ static const flag_id json_flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 static const flag_id json_flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 static const flag_id json_flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
 static const flag_id json_flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
+static const flag_id flag_URSINE_HONEY( "URSINE_HONEY" );
 
 static const item_category_id item_category_chems( "chems" );
 
@@ -163,7 +164,8 @@ static const std::array<flag_id, 2> herbivore_blacklist {{
 
 static const std::array<flag_id, 4> vegan_blacklist {{
         json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG,
-        json_flag_ALLERGEN_MILK, json_flag_ANIMAL_PRODUCT
+        json_flag_ALLERGEN_MILK, json_flag_ANIMAL_PRODUCT,
+        flag_URSINE_HONEY
     }};
 
 // TODO: Move pizza scraping here.
