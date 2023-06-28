@@ -556,10 +556,7 @@
       },
       {
         "id": "holybook_talmud_40",
-        "name": {
-          "str": "Talmud, Vol. 40, Tractate Kiddushin",
-          "str_pl": "copies of the Talmud, Vol. 40, Tractate Kiddushin"
-        },
+        "name": { "str": "Talmud, Vol. 40, Tractate Kiddushin", "str_pl": "copies of the Talmud, Vol. 40, Tractate Kiddushin" },
         "description": "This is volume 40 of 51, containing Tractate Kiddushin.  It discusses the laws of betrothal and the rules governing interactions between unmarried men and women.",
         "append": true,
         "weight": 1
