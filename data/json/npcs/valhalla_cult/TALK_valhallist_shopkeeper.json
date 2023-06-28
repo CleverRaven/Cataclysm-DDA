@@ -87,7 +87,7 @@
     "dynamic_line": "This is our warehouse, which I run and stock.  We've got everything here from our scavenging runs; books, food, tools, materials, you name it.  I'd be willing to sell a few things for the right price.",
     "responses": [
       { "text": "Who are you?", "topic": "TALK_VALHALLIST_SHOPKEEPER_WHO" },
-      { "text": "Lets talk business, then.", "effect": "start_trade", "topic": "TALK_VALHALLIST_SHOPKEEPER_2" },
+      { "text": "Let's talk business, then.", "effect": "start_trade", "topic": "TALK_VALHALLIST_SHOPKEEPER_2" },
       { "text": "That's cool, but I gotta got.", "topic": "TALK_DONE" }
     ]
   },
