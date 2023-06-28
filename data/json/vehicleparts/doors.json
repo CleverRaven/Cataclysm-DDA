@@ -88,6 +88,21 @@
     "description": "A strong door.  Has a window so you can see out of it, even when closed.",
     "durability": 600,
     "item": "hdframe",
+    "name": { "str": "heavy-duty door" },
+    "//": "40cm of weld per quadrant of damage",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+    },
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
+  },
+  {
+    "id": "hddoor_opaque",
+    "copy-from": "hddoor",
+    "description": "A strong door.  Solid construction means you can't see through it when closed.",
+    "durability": 660,
     "location": "center",
     "looks_like": "door_opaque",
     "name": { "str": "heavy-duty opaque door" },
