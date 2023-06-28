@@ -95,7 +95,7 @@
   {
     "id": "banish_nether_monsters",
     "type": "SPELL",
-    "name": { "str": "Banish interdimensional horrors" },
+    "name": { "str": "Banish Interdimensional Horrors" },
     "description": "Attempts to banish things clearly inimical to local physics back to their home dimension.",
     "valid_targets": [ "hostile" ],
     "effect": "attack",
@@ -124,7 +124,7 @@
   {
     "id": "banish_dark_monsters",
     "type": "SPELL",
-    "name": { "str": "Banish darkness made flesh" },
+    "name": { "str": "Banish Darkness Made Flesh" },
     "description": "Attempts to banish monsters crafted from the darkest of nights.",
     "valid_targets": [ "hostile", "ally" ],
     "effect": "attack",
