@@ -1467,10 +1467,22 @@
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
   },
   {
-    "id": "nylon_scabbard",
-    "type": "ARMOR",
-    "name": {
-    "str": "nylon_scabbard"
+    "result": "nylon_scabbard",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "melee", 1 ],
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 10 ], [ "clasps", 1 ], [ "adhesive", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
   },
   {
     "result": "leg_sheath6",
