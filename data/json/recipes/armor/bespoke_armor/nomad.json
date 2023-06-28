@@ -35,6 +35,7 @@
       [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
       [ [ "leather", 8 ], [ "tanned_hide", 2 ], [ "sheet_leather", 2 ], [ "sheet_leather_patchwork", 2 ] ],
       [ [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
@@ -49,7 +50,8 @@
       [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
       [ [ "leather", 12 ], [ "tanned_hide", 3 ], [ "sheet_leather", 3 ], [ "sheet_leather_patchwork", 3 ] ],
       [ [ "sheet_denim", 15 ], [ "sheet_denim_patchwork", 15 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "armor_nomad",
