@@ -281,7 +281,7 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "40 m",
-    "autolearn": "true",
+    "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_cotton", 15 ], [ "sewing_standard", 90 ] ],
     "components": [ [ [ "technician_pants_gray", 1 ] ] ],
