@@ -2425,7 +2425,7 @@
       {
         "id": "saw_case",
         "name": { "str": "Saw smartphone case" },
-        "description": "This design is inspired by the infamous 'reverse bear trap' from Saw.  This case features an in-your-face graphic of the trap with a rusted metallic texture. A blood spattering effect nearby is also included, probably to add extra horror detail.",
+        "description": "This design is inspired by the infamous 'reverse bear trap' from Saw.  This case features an in-your-face graphic of the trap with a rusted metallic texture.  A blood spattering effect nearby is also included, probably to add extra horror detail.",
         "weight": 5
       },
       {
