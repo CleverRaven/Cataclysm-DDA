@@ -563,10 +563,7 @@
       },
       {
         "id": "holybook_talmud_41",
-        "name": {
-          "str": "Talmud, Vol. 41, Tractate Bava Kamma",
-          "str_pl": "copies of the Talmud, Vol. 41, Tractate Bava Kamma"
-        },
+        "name": { "str": "Talmud, Vol. 41, Tractate Bava Kamma", "str_pl": "copies of the Talmud, Vol. 41, Tractate Bava Kamma" },
         "description": "This is volume 41 of 51, containing Tractate Bava Kamma.  It discusses torts and the proper ways to deal with damages inflicted on people and property.",
         "append": true,
         "weight": 1
