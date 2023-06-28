@@ -4,6 +4,7 @@
 #include "all_enum_values.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "city.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "enums.h"
@@ -12,6 +13,7 @@
 #include "map.h"
 #include "mapbuffer.h"
 #include "omdata.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
@@ -27,29 +29,16 @@ static const oter_type_str_id oter_type_ants_lab( "ants_lab" );
 static const oter_type_str_id oter_type_ants_lab_stairs( "ants_lab_stairs" );
 static const oter_type_str_id oter_type_bunker_shop_b( "bunker_shop_b" );
 static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
-static const oter_type_str_id oter_type_marina_1( "marina_1" );
-static const oter_type_str_id oter_type_marina_10( "marina_10" );
-static const oter_type_str_id oter_type_marina_11( "marina_11" );
-static const oter_type_str_id oter_type_marina_11_roof( "marina_11_roof" );
-static const oter_type_str_id oter_type_marina_12( "marina_12" );
-static const oter_type_str_id oter_type_marina_12_roof( "marina_12_roof" );
-static const oter_type_str_id oter_type_marina_13( "marina_13" );
-static const oter_type_str_id oter_type_marina_14( "marina_14" );
-static const oter_type_str_id oter_type_marina_15( "marina_15" );
-static const oter_type_str_id oter_type_marina_15_roof( "marina_15_roof" );
-static const oter_type_str_id oter_type_marina_16( "marina_16" );
-static const oter_type_str_id oter_type_marina_17( "marina_17" );
-static const oter_type_str_id oter_type_marina_18( "marina_18" );
-static const oter_type_str_id oter_type_marina_19( "marina_19" );
-static const oter_type_str_id oter_type_marina_2( "marina_2" );
-static const oter_type_str_id oter_type_marina_20( "marina_20" );
-static const oter_type_str_id oter_type_marina_3( "marina_3" );
-static const oter_type_str_id oter_type_marina_4( "marina_4" );
-static const oter_type_str_id oter_type_marina_5( "marina_5" );
-static const oter_type_str_id oter_type_marina_6( "marina_6" );
-static const oter_type_str_id oter_type_marina_7( "marina_7" );
-static const oter_type_str_id oter_type_marina_8( "marina_8" );
-static const oter_type_str_id oter_type_marina_9( "marina_9" );
+static const oter_type_str_id oter_type_deserter_city_gate( "deserter_city_gate" );
+static const oter_type_str_id oter_type_deserter_city_office_1f( "deserter_city_office_1f" );
+static const oter_type_str_id oter_type_deserter_city_office_1fb( "deserter_city_office_1fb" );
+static const oter_type_str_id oter_type_deserter_city_office_2f( "deserter_city_office_2f" );
+static const oter_type_str_id oter_type_deserter_city_office_2fb( "deserter_city_office_2fb" );
+static const oter_type_str_id oter_type_deserter_city_office_3f( "deserter_city_office_3f" );
+static const oter_type_str_id oter_type_deserter_city_office_3fb( "deserter_city_office_3fb" );
+static const oter_type_str_id oter_type_deserter_city_office_roof( "deserter_city_office_roof" );
+static const oter_type_str_id oter_type_deserter_city_office_roofb( "deserter_city_office_roofb" );
+static const oter_type_str_id oter_type_deserter_city_park( "deserter_city_park" );
 static const oter_type_str_id oter_type_ravine( "ravine" );
 static const oter_type_str_id oter_type_ravine_edge( "ravine_edge" );
 static const oter_type_str_id oter_type_ravine_floor( "ravine_floor" );
@@ -320,29 +309,16 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_ants_lab_stairs.id(),
         oter_type_bunker_shop_b.id(),
         oter_type_bunker_shop_g.id(),
-        oter_type_marina_1.id(), // marina struggles to spawn reliably
-        oter_type_marina_2.id(),
-        oter_type_marina_3.id(),
-        oter_type_marina_4.id(),
-        oter_type_marina_5.id(),
-        oter_type_marina_6.id(),
-        oter_type_marina_7.id(),
-        oter_type_marina_8.id(),
-        oter_type_marina_9.id(),
-        oter_type_marina_10.id(),
-        oter_type_marina_11.id(),
-        oter_type_marina_11_roof.id(),
-        oter_type_marina_12.id(),
-        oter_type_marina_12_roof.id(),
-        oter_type_marina_13.id(),
-        oter_type_marina_14.id(),
-        oter_type_marina_15.id(),
-        oter_type_marina_15_roof.id(),
-        oter_type_marina_16.id(),
-        oter_type_marina_17.id(),
-        oter_type_marina_18.id(),
-        oter_type_marina_19.id(),
-        oter_type_marina_20.id(),
+        oter_type_deserter_city_gate.id(),
+        oter_type_deserter_city_park.id(),
+        oter_type_deserter_city_office_1f.id(),
+        oter_type_deserter_city_office_2f.id(),
+        oter_type_deserter_city_office_3f.id(),
+        oter_type_deserter_city_office_roof.id(),
+        oter_type_deserter_city_office_1fb.id(),
+        oter_type_deserter_city_office_2fb.id(),
+        oter_type_deserter_city_office_3fb.id(),
+        oter_type_deserter_city_office_roofb.id(),
         oter_type_ravine.id(), // ravine only in desert & Aftershock
         oter_type_ravine_edge.id(),
         oter_type_ravine_floor_edge.id(),
@@ -404,7 +380,11 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             missing.erase( missing.begin() + max_to_report, missing.end() );
         }
         std::sort( missing.begin(), missing.end() );
-        CAPTURE( missing );
+        const std::string missing_oter_type_ids = enumerate_as_string( missing,
+        []( const oter_type_id & id ) {
+            return id->id.str();
+        } );
+        CAPTURE( missing_oter_type_ids );
         INFO( "To resolve errors about missing terrains you can either give the terrain the "
               "SHOULD_NOT_SPAWN flag (intended for terrains that should never spawn, for example "
               "test terrains or work in progress), or tweak the constraints so that the terrain "
@@ -419,14 +399,20 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // with that.
     int num_generated_since_last_clear = 0;
     for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
+        const std::string oter_type_id = p.first->id.str();
         const tripoint_abs_omt pos = p.second.first_observed;
-        tinymap tm;
-        tm.load( project_to<coords::sm>( pos ), false );
+        CAPTURE( oter_type_id );
+        const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
+            tinymap tm;
+            tm.load( project_to<coords::sm>( pos ), false );
 
-        // Periodically clear the generated maps to save memory
-        if( ++num_generated_since_last_clear >= 64 ) {
-            MAPBUFFER.clear_outside_reality_bubble();
-            num_generated_since_last_clear = 0;
-        }
+            // Periodically clear the generated maps to save memory
+            if( ++num_generated_since_last_clear >= 64 ) {
+                MAPBUFFER.clear_outside_reality_bubble();
+                num_generated_since_last_clear = 0;
+            }
+        } );
+        CAPTURE( msg );
+        REQUIRE( msg.empty() );
     }
 }

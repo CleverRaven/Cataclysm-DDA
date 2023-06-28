@@ -7,13 +7,13 @@
 #include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "generic_factory.h"
 #include "subbodypart.h"
 #include "json.h"
 #include "rng.h"
-
 
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
@@ -28,6 +28,8 @@ const bodypart_str_id body_part_leg_l( "leg_l" );
 const bodypart_str_id body_part_leg_r( "leg_r" );
 const bodypart_str_id body_part_mouth( "mouth" );
 const bodypart_str_id body_part_torso( "torso" );
+
+static const efftype_id effect_grabbing_appendix( "grabbing_appendix" );
 
 const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 
@@ -154,7 +156,7 @@ const std::vector<limb_score> &limb_score::get_all()
     return limb_score_factory.get_all();
 }
 
-void limb_score::load( const JsonObject &jo, const std::string & )
+void limb_score::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", _name );
@@ -273,7 +275,7 @@ sub_bodypart_id body_part_type::random_sub_part( bool secondary ) const
         }
     }
     // should never get here
-    return ( sub_bodypart_id() );
+    return sub_bodypart_id();
 }
 
 const std::vector<body_part_type> &body_part_type::get_all()
@@ -281,7 +283,7 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
-void body_part_type::load( const JsonObject &jo, const std::string & )
+void body_part_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
 
@@ -322,7 +324,6 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
-    optional( jo, was_loaded, "encumb_impacts_dodge", encumb_impacts_dodge, false );
     if( jo.has_array( "limb_types" ) ) {
         limbtypes.clear();
         body_part_type::type first_type = body_part_type::type::num_types;
@@ -349,7 +350,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     } else {
         limbtypes.clear();
-        body_part_type::type limb_type;
+        body_part_type::type limb_type = {};
         mandatory( jo, was_loaded, "limb_type", limb_type );
         limbtypes.emplace( limb_type, 1.0f );
     }
@@ -403,22 +404,34 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "conditional_flags", conditional_flags );
+    optional( jo, was_loaded, "grabbing_effect", grabbing_effect, effect_grabbing_appendix );
 
     optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
     optional( jo, was_loaded, "health_limit", health_limit, 1 );
     optional( jo, was_loaded, "techniques", techniques );
     optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
+    optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold, 999 );
+    optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
         const JsonArray &jarr = jo.get_array( "limb_scores" );
         for( const JsonValue jval : jarr ) {
             bp_limb_score bpls;
-            bpls.id = limb_score_id( jval.get_array().get_string( 0 ) );
+            const limb_score_id id = limb_score_id( jval.get_array().get_string( 0 ) );
             bpls.score = jval.get_array().get_float( 1 );
             bpls.max = jval.get_array().size() > 2 ? jval.get_array().get_float( 2 ) : bpls.score;
-            limb_scores.emplace_back( bpls );
+            limb_scores[id] = bpls;
+        }
+    }
+
+    if( jo.has_array( "effects_on_hit" ) ) {
+        effects_on_hit.clear();
+        for( const JsonObject effect_jo : jo.get_array( "effects_on_hit" ) ) {
+            bp_onhit_effect eff;
+            eff.load( effect_jo );
+            effects_on_hit.push_back( eff );
         }
     }
 
@@ -441,7 +454,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "side", part_side );
 
-    optional( jo, was_loaded, "sub_parts", sub_parts );
+    mandatory( jo, was_loaded, "sub_parts", sub_parts );
 
     if( jo.has_array( "encumbrance_per_weight" ) ) {
         const JsonArray &jarr = jo.get_array( "encumbrance_per_weight" );
@@ -457,6 +470,23 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     }
 }
 
+void bp_onhit_effect::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "global", global );
+    optional( jo, false, "dmg_type", dtype, damage_type_id::NULL_ID() );
+    optional( jo, false, "dmg_threshold", dmg_threshold, 1 );
+    optional( jo, false, "dmg_scale_increment", scale_increment, 1.0f );
+    optional( jo, false, "chance", chance, 100 );
+    optional( jo, false, "chance_dmg_scaling", chance_dmg_scaling, 0.0f );
+    optional( jo, false, "intensity", intensity, 1 );
+    optional( jo, false, "intensity_dmg_scaling", intensity_dmg_scaling, 0.0f );
+    optional( jo, false, "max_intensity", max_intensity, INT_MAX );
+    optional( jo, false, "duration", duration, 1 );
+    optional( jo, false, "duration_dmg_scaling", duration_dmg_scaling, 0.0f );
+    optional( jo, false, "max_duration", max_duration, INT_MAX );
+}
+
 void body_part_type::reset()
 {
     body_part_factory.reset();
@@ -469,7 +499,7 @@ void body_part_type::finalize_all()
 
 void body_part_type::finalize()
 {
-
+    finalize_damage_map( armor.resist_vals );
 }
 
 void body_part_type::check_consistency()
@@ -510,12 +540,12 @@ void body_part_type::check() const
         debugmsg( "Bodypart %s has inconsistent opposite part!", id.str() );
     }
 
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( !bpls.id.is_valid() ) {
-            debugmsg( "Body part %s has invalid limb score %s.", id.str(), bpls.id.str() );
+    for( const std::pair<const limb_score_id, bp_limb_score> &bpls : limb_scores ) {
+        if( !bpls.first.is_valid() ) {
+            debugmsg( "Body part %s has invalid limb score %s.", id.str(), bpls.first.str() );
         }
-        if( bpls.score > bpls.max ) {
-            debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.id.str() );
+        if( bpls.second.score > bpls.second.max ) {
+            debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.first.str() );
         }
     }
 
@@ -535,45 +565,32 @@ void body_part_type::check() const
 
 float body_part_type::get_limb_score( const limb_score_id &id ) const
 {
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( bpls.id == id ) {
-            return bpls.score;
-        }
-    }
-    return 0.0f;
+    const auto it = limb_scores.find( id );
+    return it == limb_scores.end() ? 0.0f : it->second.score;
 }
 
 float body_part_type::get_limb_score_max( const limb_score_id &id ) const
 {
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( bpls.id == id ) {
-            return bpls.max;
-        }
-    }
-    return 0.0f;
+    const auto it = limb_scores.find( id );
+    return it == limb_scores.end() ? 0.0f : it->second.max;
 }
 
 bool body_part_type::has_limb_score( const limb_score_id &id ) const
 {
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( bpls.id == id ) {
-            return true;
-        }
-    }
-    return false;
+    return limb_scores.count( id );
 }
 
-float body_part_type::unarmed_damage( const damage_type &dt ) const
+float body_part_type::unarmed_damage( const damage_type_id &dt ) const
 {
     return damage.type_damage( dt );
 }
 
-float body_part_type::unarmed_arpen( const damage_type &dt ) const
+float body_part_type::unarmed_arpen( const damage_type_id &dt ) const
 {
     return damage.type_arpen( dt );
 }
 
-float body_part_type::damage_resistance( const damage_type &dt ) const
+float body_part_type::damage_resistance( const damage_type_id &dt ) const
 {
     return armor.type_resist( dt );
 }
@@ -717,55 +734,36 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
     return to_return;
 }
 
-bool encumbrance_data::add_sub_locations(
-    const layer_level level, const std::vector<sub_bodypart_id> &sub_parts )
+bool encumbrance_data::add_sub_location(
+    const layer_level level, const sub_bodypart_id sbp )
 {
-    bool return_val = false;
-    for( const sub_bodypart_id &sbp : sub_parts ) {
-        bool found = false;
-        for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
-                ( level )].covered_sub_parts ) {
-            // if we find a location return true since we should add penalty
-            if( sbp == layer_sbp ) {
-                found = true;
-            }
-        }
-        // if we've found it already in the list mark our return value as true
-        if( found ) {
-            return_val = true;
-        }
-        // otherwise we should add it to the list
-        else {
-            layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
+    for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
+            ( level )].covered_sub_parts ) {
+        // if we find a location return true since we should add penalty
+        if( sbp == layer_sbp ) {
+            return true;
         }
     }
-    return return_val;
+    // otherwise we should add it to the list
+    layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
+
+    return false;
 }
 
-bool encumbrance_data::add_sub_locations(
-    const layer_level level, const std::vector<sub_bodypart_str_id> &sub_parts )
+bool encumbrance_data::add_sub_location(
+    const layer_level level, const sub_bodypart_str_id sbp )
 {
-    bool return_val = false;
-    for( const sub_bodypart_str_id &temp : sub_parts ) {
-        const sub_bodypart_id &sbp = temp;
-        bool found = false;
-        for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
-                ( level )].covered_sub_parts ) {
-            // if we find a location return true since we should add penalty
-            if( sbp == layer_sbp ) {
-                found = true;
-            }
-        }
-        // if we've found it already in the list mark our return value as true
-        if( found ) {
-            return_val = true;
-        }
-        // otherwise we should add it to the list
-        else {
-            layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
+    for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
+            ( level )].covered_sub_parts ) {
+        // if we find a location return true since we should add penalty
+        if( sbp.id() == layer_sbp ) {
+            return true;
         }
     }
-    return return_val;
+    // otherwise we should add it to the list
+    layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp.id() );
+
+    return false;
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )
@@ -906,6 +904,17 @@ std::set<matec_id> bodypart::get_limb_techs() const
     return result;
 }
 
+std::vector<bp_onhit_effect> bodypart::get_onhit_effects( damage_type_id dtype ) const
+{
+    std::vector<bp_onhit_effect> result;
+    for( const bp_onhit_effect &effect : id->effects_on_hit ) {
+        if( effect.dtype == dtype || effect.dtype == damage_type_id::NULL_ID() ) {
+            result.push_back( effect );
+        }
+    }
+    return result;
+}
+
 float bodypart::wound_adjusted_limb_value( const float val ) const
 {
     double percent = static_cast<double>( get_hp_cur() ) /
@@ -1016,6 +1025,16 @@ int bodypart::get_temp_cur() const
 int bodypart::get_temp_conv() const
 {
     return temp_conv;
+}
+
+int bodypart::get_bmi_encumbrance_threshold() const
+{
+    return id->bmi_encumbrance_threshold;
+}
+
+float bodypart::get_bmi_encumbrance_scalar() const
+{
+    return id->bmi_encumbrance_scalar;
 }
 
 std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
@@ -1165,7 +1184,7 @@ void stat_hp_mods::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "str_mod", str_mod, 3.0f );
     optional( jsobj, was_loaded, "dex_mod", dex_mod, 0.0f );
     optional( jsobj, was_loaded, "int_mod", int_mod, 0.0f );
-    optional( jsobj, was_loaded, "per_mod", str_mod, 0.0f );
+    optional( jsobj, was_loaded, "per_mod", per_mod, 0.0f );
 
     optional( jsobj, was_loaded, "health_mod", health_mod, 0.0f );
 }

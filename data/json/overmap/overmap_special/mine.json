@@ -37,7 +37,7 @@
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "WILDERNESS" ]
+    "flags": [ "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -71,7 +71,7 @@
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "WILDERNESS" ]
+    "flags": [ "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -100,6 +100,6 @@
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "WILDERNESS" ]
+    "flags": [ "MAN_MADE" ]
   }
 ]

@@ -1501,6 +1501,12 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"GET WELL SOON!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
     "sound": "\"Did-a-chuk?\"",
     "volume": 15
@@ -2024,7 +2030,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"You have right to remain silent!\"",
+    "sound": "\"You have the right to remain silent!\"",
     "volume": 15
   },
   {
@@ -2229,7 +2235,7 @@
   {
     "type": "speech",
     "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Foodplace: Don’t get caught in the web of unsafe diet.\"",
+    "sound": "\"Foodplace: Don’t get caught in the web of an unsafe diet.\"",
     "volume": 15
   },
   {
@@ -2696,44 +2702,123 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_big_pappy" ],
-    "sound": "\"I'm 'bout to walk 15 miles both ways across yer ass!\"",
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"STOP RESISTING!!!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"GET ON THE GROUND, NOW!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"HANDS WHERE I CAN SEE THEM!!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"STOP IN THE NAME OF THE LAW!!!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"YOU ARE UNDER ARREST!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "//": "This appears twice intentionally, to give it more frequency.",
+    "speaker": [ "mon_feral_cop" ],
+    "sound": "\"STOP RESISTING!!!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "sound": "crackling sounds.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "sound": "high-pitched hum.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "wailing in fear.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "howling in terror.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "an anguished shriek.",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "faint, almost inhuman, whimpering.",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "agonized crying.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Die!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Die, zombie scum!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"You'll get what's coming to you!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Kick the bucket, filthy dead!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Come get some!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Will you die already?!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "an unrestrained warcry.",
     "volume": 35
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"Do you want a cookie, honey?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"You're looking feverish.  Let grandma make you some soup.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"The nice doctor told me he had invented an anti-aging powder!\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"Are you here to bring me home?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"Give gramma some sugar!\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"That's my purse!  I don't know you!\"",
-    "volume": 20
   }
 ]

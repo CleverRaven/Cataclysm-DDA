@@ -9,7 +9,6 @@
     "volume": "1500 ml",
     "price": 4950,
     "price_postapoc": 1500,
-    "bashing": 4,
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
@@ -24,7 +23,8 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "cookbook",
@@ -126,7 +126,6 @@
     "volume": "750 ml",
     "price": 3500,
     "price_postapoc": 500,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
@@ -135,7 +134,8 @@
     "required_level": 1,
     "max_level": 4,
     "intelligence": 7,
-    "time": "20 m"
+    "time": "20 m",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "family_cookbook",
@@ -143,12 +143,11 @@
     "category": "manuals",
     "name": { "str": "family cookbook" },
     "description": "A big binder full of somebody's family recipes.  The well-turned pages and creased corners speak volumes of the culinary knowledge contained within.  You could probably learn a lot about cooking from studying this domestic artifact.",
-    "weight": "1887 g",
-    "volume": "1250 ml",
+    "weight": "1540 g",
+    "volume": "1400 ml",
     "price": 1950,
     "price_postapoc": 500,
-    "bashing": 5,
-    "material": [ "paper", "leather" ],
+    "material": [ { "type": "leather", "portion": 10 }, { "type": "paper", "portion": 90 } ],
     "symbol": "?",
     "color": "light_gray",
     "looks_like": "cookbook",
@@ -163,7 +162,8 @@
     ],
     "intelligence": 7,
     "time": "30 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "mag_cooking",
@@ -189,7 +189,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Glamopolitan", "str_pl": "issues of Glamopolitan" },
-    "description": "This is a full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
+    "description": "A full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
     "weight": "160 g",
     "volume": "500 ml",
     "price": 450,
@@ -217,7 +217,6 @@
     "volume": "1250 ml",
     "price": 1950,
     "price_postapoc": 2000,
-    "bashing": 5,
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "light_gray",
@@ -227,7 +226,8 @@
     "max_level": 4,
     "intelligence": 10,
     "time": "45 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "vinegar_maker",
@@ -395,7 +395,6 @@
     "volume": "1 L",
     "price": 4000,
     "price_postapoc": 1000,
-    "bashing": 2,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "cookbook",
@@ -409,7 +408,8 @@
       { "proficiency": "prof_brewing", "time_factor": 0.1, "fail_factor": 0.1 },
       { "proficiency": "prof_winemaking", "time_factor": 0.25, "fail_factor": 0.3 }
     ],
-    "time": "12 m"
+    "time": "12 m",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "manual_canning",
@@ -454,7 +454,6 @@
     "volume": "1500 ml",
     "price": 4950,
     "price_postapoc": 750,
-    "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "cookbook",
@@ -470,7 +469,8 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "fermenting_book",
@@ -482,7 +482,6 @@
     "volume": "1500 ml",
     "price": 4950,
     "price_postapoc": 500,
-    "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "cookbook",
@@ -496,7 +495,8 @@
       { "proficiency": "prof_fermenting", "time_factor": 0.25, "fail_factor": 0.3 },
       { "proficiency": "prof_lactofermenting", "time_factor": 0.2, "fail_factor": 0.4 }
     ],
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "distilling_cookbook",
@@ -508,7 +508,6 @@
     "volume": "619 ml",
     "price": 1950,
     "price_postapoc": 1500,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "cookbook",
@@ -525,7 +524,8 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "sweets_book",
@@ -584,13 +584,61 @@
     "volume": "3215 ml",
     "price": 6000,
     "price_postapoc": 750,
-    "bashing": 7,
     "color": "yellow",
     "required_level": 1,
     "max_level": 3,
     "intelligence": 7,
     "fun": 1,
     "copy-from": "book_nonf_hard_cook_tpl",
-    "looks_like": "cookbook"
+    "looks_like": "cookbook",
+    "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "cookbook_native",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Sioux Chef", "str_pl": "copies of The Sioux Chef" },
+    "//": "Statistics derived from a real book.",
+    "description": "A thick hardcover book about the history and future of Native American cuisine.  As much recipe collection as manifesto.",
+    "weight": "2950 g",
+    "volume": "3215 ml",
+    "price": 6000,
+    "price_postapoc": 750,
+    "material": [ "paper" ],
+    "color": "blue",
+    "skill": "cooking",
+    "required_level": 2,
+    "max_level": 3,
+    "intelligence": 7,
+    "proficiencies": [
+      { "proficiency": "prof_forage_cooking", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_frying_bread", "time_factor": 0.1, "fail_factor": 0.4 }
+    ],
+    "fun": 1,
+    "time": "9 m",
+    "symbol": "?",
+    "looks_like": "cookbook",
+    "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "cookbook_turkish",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Turkish Cookbook", "str_pl": "copies of The Turkish Cookbook" },
+    "description": "The definitive cookbook of hearty, healthy Turkish cuisine",
+    "weight": "600 g",
+    "volume": "800 ml",
+    "price": 1050,
+    "price_postapoc": 250,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "cookbook",
+    "color": "red",
+    "skill": "cooking",
+    "max_level": 2,
+    "intelligence": 4,
+    "time": "9 m",
+    "fun": 1,
+    "melee_damage": { "bash": 1 }
   }
 ]

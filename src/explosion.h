@@ -3,11 +3,11 @@
 #define CATA_SRC_EXPLOSION_H
 
 #include <map>
+#include <optional>
 #include <utility>
 #include <vector>
 
 #include "coordinates.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -67,7 +67,7 @@ struct queued_explosion {
     queued_explosion( const Creature *source, const tripoint_abs_ms &pos, const explosion_data &data )
         : source( source ), pos( pos ), data( data ) {}
 };
-static std::vector<queued_explosion> _explosions;
+inline std::vector<queued_explosion> _explosions;
 
 /** Queue an explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
     Explosion intensity formula is roughly power*factor^distance.
@@ -99,7 +99,7 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
 
 void draw_explosion( const tripoint &p, int radius, const nc_color &col );
 void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
-                            const cata::optional<std::string> &tile_id = cata::nullopt );
+                            const std::optional<std::string> &tile_id = std::nullopt );
 
 void process_explosions();
 } // namespace explosion_handler

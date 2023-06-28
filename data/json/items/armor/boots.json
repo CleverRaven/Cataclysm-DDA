@@ -50,7 +50,6 @@
     "price": 10000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 1,
     "symbol": "[",
     "looks_like": "dress_shoes",
     "color": "dark_gray",
@@ -83,7 +82,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots",
@@ -115,7 +115,6 @@
     "copy-from": "boots",
     "symbol": "[",
     "looks_like": "boots",
-    "repairs_like": "boots_survivor",
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
@@ -152,7 +151,6 @@
   },
   {
     "id": "boots_bunker",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of turnout boots", "str_pl": "pairs of turnout boots" },
@@ -211,7 +209,6 @@
     "price": 13500,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "boots_bone",
@@ -237,7 +234,8 @@
         "coverage": 95
       },
       { "coverage": 75, "covers": [ "foot_l", "foot_r" ], "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_boots_chitin",
@@ -265,9 +263,8 @@
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 2 },
-    "material_thickness": 5,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "relative": { "melee_damage": { "bash": 2 } },
+    "material_thickness": 5
   },
   {
     "id": "xl_boots_acidchitin",
@@ -288,7 +285,6 @@
   },
   {
     "id": "boots_combat",
-    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of combat boots", "str_pl": "pairs of combat boots" },
@@ -298,7 +294,6 @@
     "price": 7000,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "bashing": 1,
     "symbol": "[",
     "looks_like": "boots",
     "color": "dark_gray",
@@ -335,7 +330,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "foot_protectors_eod",
@@ -349,7 +345,6 @@
     "price_postapoc": 7000,
     "warmth": 10,
     "material": [ "steel", "nomex" ],
-    "repairs_like": "boots_survivor",
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
@@ -366,9 +361,7 @@
     "volume": "1 L",
     "price": 2500,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "plastic", "steel" ],
-    "repairs_like": "boots",
     "symbol": "[",
     "color": "brown",
     "warmth": 10,
@@ -382,7 +375,8 @@
         "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "boots_fur",
@@ -394,7 +388,6 @@
     "price": 14000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather", "fur" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -432,7 +425,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_fur",
@@ -520,7 +514,6 @@
   },
   {
     "id": "boots_hiking",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of hiking boots", "str_pl": "pairs of hiking boots" },
     "description": "Tough yet light leather boots, intended for outdoor activity.",
@@ -529,7 +522,6 @@
     "price": 14000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather", "plastic" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -563,7 +555,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "boots_larmor",
@@ -576,7 +569,6 @@
     "price": 12500,
     "price_postapoc": 1750,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -585,7 +577,8 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_boots_larmor",
@@ -615,7 +608,6 @@
     "price": 50000,
     "price_postapoc": 6000,
     "to_hit": -2,
-    "bashing": 7,
     "symbol": "[",
     "looks_like": "boots_steel",
     "color": "light_gray",
@@ -652,7 +644,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "xl_boots_plate",
@@ -673,7 +666,6 @@
   },
   {
     "id": "boots_rubber",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of rubber boots", "str_pl": "pairs of rubber boots" },
     "description": "A pair of rubber boots, often used while cleaning with caustic materials.",
@@ -725,7 +717,6 @@
     "price": 12000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "boots_steel",
@@ -761,7 +752,8 @@
         ],
         "coverage": 80
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_boots_scrap",
@@ -791,7 +783,6 @@
     "price": 400,
     "price_postapoc": 200,
     "to_hit": -2,
-    "bashing": 7,
     "symbol": "[",
     "looks_like": "lc_sabaton",
     "material": [ "lc_steel" ],
@@ -809,7 +800,8 @@
         "encumbrance": 15,
         "layers": [ "OUTER" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "ch_sabaton_metal_sheets",
@@ -832,7 +824,6 @@
   },
   {
     "id": "boots_steel",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of steeltoed boots", "str_pl": "pairs of steeltoed boots" },
@@ -842,7 +833,6 @@
     "price": 12000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 4,
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "brown",
@@ -875,11 +865,11 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "sneakers_steel",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of steeltoed sneakers", "str_pl": "pairs of steeltoed sneakers" },
@@ -891,7 +881,6 @@
     "price_postapoc": 925,
     "material": [ "leather", "plastic", "steel" ],
     "to_hit": -1,
-    "bashing": 3,
     "symbol": "[",
     "looks_like": "sneakers",
     "color": "light_blue",
@@ -931,7 +920,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "boots_western",
@@ -1046,7 +1036,6 @@
   },
   {
     "id": "cleats",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of cleats", "str_pl": "pairs of cleats" },
     "description": "Sport shoes with hard undersides and studs on the bottom designed to dig into grass.",
@@ -1054,7 +1043,6 @@
     "volume": "1500 ml",
     "price": 7000,
     "price_postapoc": 750,
-    "bashing": 2,
     "material": [ "cotton", "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1092,11 +1080,11 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "golf_shoes",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of golf shoes", "str_pl": "pairs of golf shoes" },
     "description": "Snug sport shoes with hard ridges on the bottom.",
@@ -1104,7 +1092,6 @@
     "volume": "1500 ml",
     "price": 6500,
     "price_postapoc": 250,
-    "bashing": 2,
     "material": [ "cotton", "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
@@ -1141,7 +1128,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "clogs",
@@ -1153,7 +1141,6 @@
     "price": 4000,
     "price_postapoc": 150,
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "leathersandals",
@@ -1183,11 +1170,11 @@
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "clownshoes",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of clown shoes", "str_pl": "pairs of clown shoes" },
     "description": "Gigantic shoes fit for a clown.  Incredibly difficult to walk in.",
@@ -1196,7 +1183,6 @@
     "price": 500,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 14,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1233,7 +1219,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "dance_shoes",
@@ -1245,11 +1232,9 @@
     "price": 12000,
     "price_postapoc": 150,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
-    "repairs_like": "boots",
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 1.5,
@@ -1278,11 +1263,11 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "dress_shoes",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of dress shoes", "str_pl": "pairs of dress shoes" },
     "description": "Fancy patent leather shoes.  Not designed for running.",
@@ -1291,7 +1276,6 @@
     "price": 12000,
     "price_postapoc": 250,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1322,7 +1306,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "flip_flops",
@@ -1336,7 +1321,6 @@
     "to_hit": -2,
     "symbol": "[",
     "looks_like": "sneakers",
-    "repairs_like": "boots",
     "color": "blue",
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
@@ -1366,11 +1350,9 @@
     "price": 10500,
     "price_postapoc": 50,
     "to_hit": -2,
-    "bashing": 1,
     "material": [ "rubber", "leather" ],
     "symbol": "[",
     "looks_like": "flip_flops",
-    "repairs_like": "flip_flops",
     "color": "brown",
     "material_thickness": 1,
     "environmental_protection": 1,
@@ -1389,7 +1371,8 @@
         "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 } ],
         "coverage": 80
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "footrags",
@@ -1491,7 +1474,6 @@
     "price": 6500,
     "price_postapoc": 50,
     "to_hit": -2,
-    "bashing": 5,
     "symbol": "[",
     "looks_like": "clogs",
     "color": "yellow",
@@ -1515,11 +1497,11 @@
         ],
         "coverage": 80
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "heels",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of heels", "str_pl": "pairs of heels" },
     "description": "A pair of high heels.  Difficult to even walk in.",
@@ -1528,7 +1510,6 @@
     "price": 4000,
     "price_postapoc": 50,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
@@ -1553,11 +1534,11 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "knee_high_boots",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of knee-high boots", "str_pl": "pairs of knee-high boots" },
     "description": "Very long leather boots that cover the lower legs, they are cumbersome to wear.",
@@ -1566,7 +1547,6 @@
     "price": 8000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -1607,11 +1587,11 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "motor_police_boots",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of motorcycle police boots", "str_pl": "pairs of motorcycle police boots" },
     "description": "Custom-made knee-high leather boots issued to motor officers.  Warm, durable and quite tough.",
@@ -1620,7 +1600,6 @@
     "price": 8000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 1,
     "symbol": "[",
     "looks_like": "knee_high_boots",
     "color": "dark_gray",
@@ -1660,7 +1639,8 @@
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "STURDY" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "leathersandals",
@@ -1675,7 +1655,6 @@
     "to_hit": -2,
     "symbol": "[",
     "looks_like": "flip_flops",
-    "repairs_like": "bastsandals",
     "color": "brown",
     "material_thickness": 1.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
@@ -1706,7 +1685,6 @@
   },
   {
     "id": "lowtops",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of lowtop tennis shoes", "str_pl": "pairs of lowtop tennis shoes" },
     "description": "Lightweight shoes made of cloth and rubber.",
@@ -1749,7 +1727,7 @@
     "id": "mocassins",
     "type": "ARMOR",
     "name": { "str": "pair of moccasins", "str_pl": "pairs of moccasins" },
-    "description": "Simple shoes made from animal pelts.",
+    "description": "A type of traditional Native American footwear sewn out of prepared leather or pelts.",
     "weight": "230 g",
     "volume": "500 ml",
     "price": 5000,
@@ -1785,7 +1763,6 @@
   },
   {
     "id": "motorbike_boots",
-    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of motorcycle boots", "str_pl": "pairs of motorcycle boots" },
@@ -1794,7 +1771,6 @@
     "volume": "2 L",
     "price": 8000,
     "price_postapoc": 750,
-    "bashing": 5,
     "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "boots_steel",
@@ -1832,11 +1808,11 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "roller_blades",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rollerblades", "str_pl": "pairs of rollerblades" },
     "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, take hits, or dodge effectively.",
@@ -1886,7 +1862,6 @@
   },
   {
     "id": "rollerskates",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rollerskates", "str_pl": "pairs of rollerskates" },
     "description": "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to take hits or to move on rough terrain.",
@@ -1895,7 +1870,6 @@
     "price": 8500,
     "price_postapoc": 1500,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "roller_blades",
@@ -1934,7 +1908,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "shoes_birchbark",
@@ -1976,7 +1951,6 @@
   },
   {
     "id": "shoes_bowling",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of bowling shoes", "str_pl": "pairs of bowling shoes" },
     "description": "A pair of flat-soled shoes designed to give you a grip on slippery surfaces.",
@@ -2024,7 +1998,6 @@
   },
   {
     "id": "slippers",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of slippers", "str_pl": "pairs of slippers" },
     "description": "Soft shoes that keep your feet warm.  Not suitable for running.",
@@ -2072,7 +2045,6 @@
   },
   {
     "id": "sneakers",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of sneakers", "str_pl": "pairs of sneakers" },
     "description": "Guaranteed to make you run faster and jump higher!",
@@ -2198,7 +2170,6 @@
   },
   {
     "id": "thigh_high_boots",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of thigh-high boots", "str_pl": "pairs of thigh-high boots" },
     "description": "Very long leather boots that reach past the knees, they are cumbersome to wear.",
@@ -2207,7 +2178,6 @@
     "price": 8000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -2254,11 +2224,11 @@
         "covers": [ "leg_r", "leg_l" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "roller_shoes_off",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of heelys (off)", "str_pl": "pairs of heelys (off)" },
     "description": "A pair of sneakers with integrated wheels.  Currently the wheels are retracted, making these essentially normal lace-up athletic shoes.",
@@ -2396,7 +2366,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2439,7 +2409,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2491,7 +2461,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2543,7 +2513,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2594,7 +2564,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2645,7 +2615,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
         ],
-        "encumbrance": 20,
+        "encumbrance": 14,
         "coverage": 100
       },
       {
@@ -2831,7 +2801,6 @@
   },
   {
     "id": "socks_bowling",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of disposable bowling socks", "str_pl": "pairs of disposable bowling socks" },
     "description": "Cheap socks designed to be worn once and then thrown away.  They keep your feet clean, but are too thin to give any protection.",
@@ -2957,7 +2926,6 @@
   },
   {
     "id": "tabi_gi",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of gi tabi", "str_pl": "pairs of gi tabi" },
     "description": "A pair of white tabi, as used by martial arts practitioners.",
@@ -2984,7 +2952,6 @@
     "price": 40000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 7,
     "symbol": "[",
     "looks_like": "boots_steel",
     "material": [ "lc_steel" ],
@@ -3002,7 +2969,8 @@
         "encumbrance": 10,
         "layers": [ "OUTER" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "xl_lc_sabaton",

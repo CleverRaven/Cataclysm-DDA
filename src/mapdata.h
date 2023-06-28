@@ -66,7 +66,7 @@ struct map_bash_info {
         terrain,
         field
     };
-    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type,
+    bool load( const JsonObject &jsobj, std::string_view member, map_object_type obj_type,
                const std::string &context );
 };
 struct map_deconstruct_info {
@@ -79,7 +79,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
+    bool load( const JsonObject &jsobj, std::string_view member, bool is_furniture,
                const std::string &context );
 };
 struct map_shoot_info {
@@ -99,7 +99,7 @@ struct map_shoot_info {
     int destroy_dmg_max = 0;
     // Are lasers incapable of destroying the object (defaults to false)
     bool no_laser_destroy = false;
-    bool load( const JsonObject &jsobj, const std::string &member, bool was_loaded );
+    bool load( const JsonObject &jsobj, std::string_view member, bool was_loaded );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -108,7 +108,7 @@ struct furn_workbench_info {
     units::mass allowed_mass;
     units::volume allowed_volume;
     furn_workbench_info();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, std::string_view member );
 };
 struct plant_data {
     // What the furniture turns into when it grows or you plant seeds in it
@@ -120,7 +120,7 @@ struct plant_data {
     // What percent of the normal harvest this crop gives
     float harvest_multiplier;
     plant_data();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, std::string_view member );
 };
 
 /*
@@ -219,6 +219,7 @@ enum class ter_furn_flag : int {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_SHALLOW_WATER,
+    TFLAG_WATER_CUBE,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -305,6 +306,7 @@ enum class ter_furn_flag : int {
     TFLAG_TRANSPARENT_FLOOR,
     TFLAG_TOILET_WATER,
     TFLAG_ELEVATOR,
+    TFLAG_ACTIVE_GENERATOR,
 
     NUM_TFLAG_FLAGS
 };
@@ -313,7 +315,6 @@ template<>
 struct enum_traits<ter_furn_flag> {
     static constexpr ter_furn_flag last = ter_furn_flag::NUM_TFLAG_FLAGS;
 };
-
 
 struct connect_group {
     public:
@@ -763,20 +764,18 @@ extern ter_id t_null,
        t_gas_pump, t_gas_pump_smashed,
        t_diesel_pump, t_diesel_pump_smashed,
        t_atm,
-       t_generator_broken,
        t_missile, t_missile_exploded,
        t_radio_tower, t_radio_controls,
-       t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick,
+       t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick,
        t_barndoor, t_palisade_pulley,
        t_gates_control_metal,
        t_sewage_pipe, t_sewage_pump,
-       t_centrifuge,
        t_column,
        t_vat,
        t_rootcellar,
        t_cvdbody, t_cvdmachine,
        t_water_pump,
-       t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
+       t_conveyor,
        t_improvised_shelter,
        // Staircases etc.
        t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
@@ -790,7 +789,7 @@ extern ter_id t_null,
        t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
        t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
        t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
-       t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
+       t_window_enhanced, t_window_enhanced_noglass, t_open_air,
        t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
        t_linoleum_white, t_linoleum_gray, t_rad_platform,
        // Railroad and subway

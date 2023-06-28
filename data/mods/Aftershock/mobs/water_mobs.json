@@ -21,9 +21,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "vision_day": 40,
     "vision_night": 15,
     "harvest": "zombie_meatslug",
@@ -47,7 +44,8 @@
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 12, "bullet": 10 }
   },
   {
     "id": "mon_deep_go_slaver",
@@ -71,9 +69,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "vision_day": 40,
     "vision_night": 15,
     "harvest": "zombie_meatslug",
@@ -98,6 +93,7 @@
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 12, "bullet": 10 }
   }
 ]

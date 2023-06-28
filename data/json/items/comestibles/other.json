@@ -190,6 +190,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "yogurt_starter_culture",
+    "name": { "str_sp": "yogurt starter culture" },
+    "weight": "11 g",
+    "color": "white",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 1,
+    "description": "A powder-like mix of cultured yogurt bacteria, good for fermenting yogurt.",
+    "price": 150,
+    "price_postapoc": 50,
+    "material": [ "powder" ],
+    "volume": "250 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "charges": 4,
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "koji",
     "looks_like": "yeast",
     "name": { "str_sp": "koji" },
@@ -309,41 +329,33 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "napkin",
     "name": { "str": "napkin" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
-    "comestible_type": "FOOD",
     "symbol": "`",
     "description": "A napkin.  Can be used for fires.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "volume": "250 ml",
-    "freezing_point": -274,
-    "charges": 50,
-    "fun": -20
+    "volume": "5 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "cardboard",
     "name": { "str": "cardboard" },
     "looks_like": "paper",
     "category": "spare_parts",
     "weight": "10 g",
     "color": "brown",
-    "comestible_type": "FOOD",
     "symbol": "`",
     "description": "A piece of cardboard.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "cardboard" ],
-    "volume": "250 ml",
-    "freezing_point": -274,
-    "charges": 10,
-    "fun": -20
+    "volume": "25 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -597,12 +609,11 @@
     "color": "light_gray",
     "spoils_in": "5 days",
     "quench": 1,
-    "description": "Some delicious cooked lentils.  Humble but nutrient-rich.",
+    "description": "Wet, cooked lentils.  Humble and nutrient-rich, but pretty bland.",
     "price": 0,
     "price_postapoc": 100,
     "volume": "250 ml",
-    "fun": 1,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1037,7 +1048,7 @@
   {
     "type": "COMESTIBLE",
     "id": "snail_garden",
-    "category": "other",
+    "category": "food",
     "name": { "str": "snail" },
     "weight": "15 g",
     "color": "brown",
@@ -1093,5 +1104,33 @@
     "fun": -15,
     "freezing_point": -274,
     "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "id": "swarm_bees",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "swarm of bees", "str_pl": "swarms of bees" },
+    "description": "A swarm of honey bees, displaced from the hive.  Without support and nutrients, or taking root somewhere, they will die in a few days.",
+    "//": "While bees have mass and volume, it is easier to round to zero for the purposes of the game.",
+    "price": 0,
+    "price_postapoc": 0,
+    "spoils_in": "2 days",
+    "flags": [ "ZERO_WEIGHT", "INEDIBLE" ],
+    "volume": "500 ml",
+    "symbol": "B",
+    "color": "yellow",
+    "calories": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "dry_bottle_gourd",
+    "name": { "str": "dried bottle gourd" },
+    "copy-from": "dry_lentils",
+    "looks_like": "pumpkin",
+    "comestible_type": "FOOD",
+    "symbol": "6",
+    "description": "A vegetable from the gourd family, bottle gourds were brought to the Americas by the first Native American settlers crossing the Bering strait.  This one has been dried for processing into a watertight container.",
+    "volume": "2500 ml",
+    "flags": [ "INEDIBLE" ]
   }
 ]

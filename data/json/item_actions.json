@@ -152,11 +152,6 @@
   },
   {
     "type": "item_action",
-    "id": "cauterize",
-    "name": { "str": "Cauterize a wound" }
-  },
-  {
-    "type": "item_action",
     "id": "fireweapon_off",
     "name": { "str": "Turn on" }
   },
@@ -207,8 +202,8 @@
   },
   {
     "type": "item_action",
-    "id": "countdown",
-    "name": { "str": "Start countdown" }
+    "id": "message",
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -314,21 +309,6 @@
     "type": "item_action",
     "id": "C4",
     "name": { "str": "Activate" }
-  },
-  {
-    "type": "item_action",
-    "id": "CABLE_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "CORD_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "TOW_ATTACH",
-    "name": { "str": "Attach" }
   },
   {
     "type": "item_action",
@@ -492,6 +472,11 @@
   },
   {
     "type": "item_action",
+    "id": "MACE",
+    "name": { "str": "Spray" }
+  },
+  {
+    "type": "item_action",
     "id": "EYEDROPS",
     "name": { "str": "Use" }
   },
@@ -614,11 +599,6 @@
     "type": "item_action",
     "id": "JET_INJECTOR",
     "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
-    "id": "LADDER",
-    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
@@ -999,6 +979,11 @@
     "type": "item_action",
     "id": "heal",
     "name": { "str": "Apply to wound" }
+  },
+  {
+    "type": "item_action",
+    "id": "link_up",
+    "name": { "str": "Attach / Detach" }
   },
   {
     "type": "item_action",

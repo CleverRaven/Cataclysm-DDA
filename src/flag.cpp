@@ -11,6 +11,7 @@ const flag_id flag_ACID( "ACID" );
 const flag_id flag_ACID_IMMUNE( "ACID_IMMUNE" );
 const flag_id flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
 const flag_id flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
+const flag_id flag_ACTIVE_GENERATOR( "ACTIVE_GENERATOR" );
 const flag_id flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
 const flag_id flag_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
 const flag_id flag_ALARMCLOCK( "ALARMCLOCK" );
@@ -23,11 +24,13 @@ const flag_id flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 const flag_id flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 const flag_id flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
 const flag_id flag_ALLERGEN_WOOL( "ALLERGEN_WOOL" );
+const flag_id flag_ALLOWS_BODY_BLOCK( "ALLOWS_BODY_BLOCK" );
 const flag_id flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
 const flag_id flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 const flag_id flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
 const flag_id flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
 const flag_id flag_AURA( "AURA" );
+const flag_id flag_AUTO_DELETE_CABLE( "AUTO_DELETE_CABLE" );
 const flag_id flag_BAROMETER( "BAROMETER" );
 const flag_id flag_BASH_IMMUNE( "BASH_IMMUNE" );
 const flag_id flag_BELTED( "BELTED" );
@@ -89,6 +92,8 @@ const flag_id flag_EATEN_COLD( "EATEN_COLD" );
 const flag_id flag_EATEN_HOT( "EATEN_HOT" );
 const flag_id flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
 const flag_id flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
+const flag_id flag_EFFECT_LIMB_SCORE_MOD( "EFFECT_LIMB_SCORE_MOD" );
+const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL( "EFFECT_LIMB_SCORE_MOD_LOCAL" );
 const flag_id flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 const flag_id flag_ELECTRONIC( "ELECTRONIC" );
 const flag_id flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
@@ -121,8 +126,6 @@ const flag_id flag_FIRE_100( "FIRE_100" );
 const flag_id flag_FIRE_20( "FIRE_20" );
 const flag_id flag_FIRE_50( "FIRE_50" );
 const flag_id flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
-const flag_id flag_FISH_GOOD( "FISH_GOOD" );
-const flag_id flag_FISH_POOR( "FISH_POOR" );
 const flag_id flag_FIT( "FIT" );
 const flag_id flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 const flag_id flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
@@ -172,14 +175,8 @@ const flag_id flag_MAG_BELT( "MAG_BELT" );
 const flag_id flag_MAG_BULKY( "MAG_BULKY" );
 const flag_id flag_MAG_DESTROY( "MAG_DESTROY" );
 const flag_id flag_MAG_EJECT( "MAG_EJECT" );
-const flag_id flag_MC_ENCRYPTED( "MC_ENCRYPTED" );
 const flag_id flag_MC_HAS_DATA( "MC_HAS_DATA" );
-const flag_id flag_MC_MAY_BE_ENCRYPTED( "MC_MAY_BE_ENCRYPTED" );
 const flag_id flag_MC_MOBILE( "MC_MOBILE" );
-const flag_id flag_MC_RANDOM_STUFF( "MC_RANDOM_STUFF" );
-const flag_id flag_MC_SCIENCE_STUFF( "MC_SCIENCE_STUFF" );
-const flag_id flag_MC_TURN_USED( "MC_TURN_USED" );
-const flag_id flag_MC_USED( "MC_USED" );
 const flag_id flag_MECH_BAT( "MECH_BAT" );
 const flag_id flag_MELTS( "MELTS" );
 const flag_id flag_MESSY( "MESSY" );
@@ -199,14 +196,12 @@ const flag_id flag_NEVER_JAMS( "NEVER_JAMS" );
 const flag_id flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
 const flag_id flag_NON_FOULING( "NON_FOULING" );
 const flag_id flag_NORMAL( "NORMAL" );
-const flag_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_id flag_NO_CLEAN( "NO_CLEAN" );
 const flag_id flag_NO_CVD( "NO_CVD" );
 const flag_id flag_NO_DROP( "NO_DROP" );
 const flag_id flag_NO_INGEST( "NO_INGEST" );
 const flag_id flag_NO_PACKED( "NO_PACKED" );
 const flag_id flag_NO_PARASITES( "NO_PARASITES" );
-const flag_id flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
 const flag_id flag_NO_RELOAD( "NO_RELOAD" );
 const flag_id flag_NO_REPAIR( "NO_REPAIR" );
 const flag_id flag_NO_SALVAGE( "NO_SALVAGE" );
@@ -228,6 +223,7 @@ const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
 const flag_id flag_OVERSIZE( "OVERSIZE" );
 const flag_id flag_PADDED( "PADDED" );
+const flag_id flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 const flag_id flag_PALS_LARGE( "PALS_LARGE" );
 const flag_id flag_PALS_MEDIUM( "PALS_MEDIUM" );
 const flag_id flag_PALS_SMALL( "PALS_SMALL" );
@@ -305,6 +301,7 @@ const flag_id flag_SOLARPACK_ON( "SOLARPACK_ON" );
 const flag_id flag_SPAWN_ACTIVE( "SPAWN_ACTIVE" );
 const flag_id flag_SPEAR( "SPEAR" );
 const flag_id flag_SPEEDLOADER( "SPEEDLOADER" );
+const flag_id flag_SPEEDLOADER_CLIP( "SPEEDLOADER_CLIP" );
 const flag_id flag_SPLINT( "SPLINT" );
 const flag_id flag_STAB( "STAB" );
 const flag_id flag_STAB_IMMUNE( "STAB_IMMUNE" );
@@ -322,13 +319,13 @@ const flag_id flag_THERMOMETER( "THERMOMETER" );
 const flag_id flag_TIE_UP( "TIE_UP" );
 const flag_id flag_TINDER( "TINDER" );
 const flag_id flag_TOBACCO( "TOBACCO" );
+const flag_id flag_TOUGH_FEET( "TOUGH_FEET" );
 const flag_id flag_TOURNIQUET( "TOURNIQUET" );
 const flag_id flag_TOW_CABLE( "TOW_CABLE" );
 const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );
 const flag_id flag_TRADER_KEEP( "TRADER_KEEP" );
 const flag_id flag_TRADER_KEEP_EQUIPPED( "TRADER_KEEP_EQUIPPED" );
 const flag_id flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
-const flag_id flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 const flag_id flag_UNBREAKABLE( "UNBREAKABLE" );
 const flag_id flag_UNBREAKABLE_MELEE( "UNBREAKABLE_MELEE" );
 const flag_id flag_UNDERSIZE( "UNDERSIZE" );
@@ -338,6 +335,7 @@ const flag_id flag_URSINE_HONEY( "URSINE_HONEY" );
 const flag_id flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 const flag_id flag_USE_EAT_VERB( "USE_EAT_VERB" );
 const flag_id flag_USE_PLAYER_ENERGY( "USE_PLAYER_ENERGY" );
+const flag_id flag_USE_POWER_WHEN_HIT( "USE_POWER_WHEN_HIT" );
 const flag_id flag_USE_UPS( "USE_UPS" );
 const flag_id flag_VARSIZE( "VARSIZE" );
 const flag_id flag_VEHICLE( "VEHICLE" );
@@ -362,7 +360,6 @@ const flag_id json_flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 static const flag_id json_flag_null( "null" );
 
 const flag_id flag_NULL = json_flag_null; // intentionally invalid flag
-
 
 namespace
 {
@@ -395,7 +392,7 @@ const json_flag &json_flag::get( const std::string &id )
     return f_id.is_valid() ? *f_id : null_value;
 }
 
-void json_flag::load( const JsonObject &jo, const std::string & )
+void json_flag::load( const JsonObject &jo, const std::string_view )
 {
     // TODO: mark fields as mandatory where appropriate
     optional( jo, was_loaded, "info", info_ );

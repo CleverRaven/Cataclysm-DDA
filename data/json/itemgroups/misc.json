@@ -40,14 +40,58 @@
     "id": "butane_lighter_and_fuel",
     "//": "Used for shop spawns where unused cans of butane are stocked",
     "type": "item_group",
-    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ] } ]
+    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ], "charges": 400 } ] } ]
   },
   {
     "id": "butane_can_full",
     "//": "Used for shop spawns where unused cans of butane are stocked",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ]
+    "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 400 } ]
+  },
+  {
+    "id": "cannabis_extraction_equipment",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "//": "Improvised butane extraction supplies for shatter.",
+            "collection": [ { "item": "pipe" }, { "item": "vac_oven_small" }, { "group": "butane_can_full", "count": [ 0, 3 ] } ],
+            "prob": 70
+          },
+          {
+            "//": "Commercial ethanol extraction supplies for distillate.",
+            "collection": [
+              { "item": "closed_loop_extractor_small" },
+              { "item": "pipe" },
+              { "item": "flask_glass" },
+              { "item": "microcentrifuge", "prob": 80 },
+              { "item": "still_lab", "prob": 80 },
+              { "item": "cotton_patchwork", "count": [ 3, 10 ] },
+              {
+                "distribution": [
+                  { "item": "hotplate", "prob": 80, "charges": [ 0, 500 ] },
+                  { "item": "chemistry_set", "prob": 20, "charges": [ 0, 500 ] }
+                ]
+              },
+              { "item": "vac_pump" },
+              { "item": "chem_ethanol", "charges-min": 150, "prob": 80 }
+            ],
+            "prob": 30
+          }
+        ]
+      },
+      {
+        "collection": [
+          { "item": "filter_paper_qualitative", "charges-min": 30 },
+          { "item": "filter_paper_quantitative", "charges-min": 30 },
+          { "item": "gasket_plastic_set", "count": [ 1, 3 ] },
+          { "item": "textbook_extraction", "prob": 75 }
+        ]
+      }
+    ]
   },
   {
     "id": "silverware",
@@ -105,7 +149,7 @@
     "items": [
       { "item": "rock", "count": [ 17, 37 ] },
       { "item": "rock_large", "count": [ 1, 3 ] },
-      { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
+      { "item": "coal_lump", "charges": [ 2500, 5000 ], "prob": 10 },
       { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
       { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
       { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
@@ -133,10 +177,9 @@
       { "item": "magic_8_ball", "prob": 5 },
       { "item": "family_photo", "prob": 5 },
       { "item": "coin_quarter", "prob": 5 },
-      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
       { "item": "RPG_die", "prob": 5 },
       { "item": "metal_RPG_die", "prob": 1 },
-      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
+      { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
   {
@@ -207,7 +250,12 @@
     "id": "horse_gear",
     "type": "item_group",
     "//": "Horse vehicle items",
-    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ] ]
+    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ], [ "saddlebag", 25 ] ]
+  },
+  {
+    "id": "riding_gear",
+    "type": "item_group",
+    "items": [ [ "helmet_riding", 50 ], [ "helmet_riding_peakless", 20 ], [ "dressage_whip", 20 ], [ "riding_crop", 20 ] ]
   },
   {
     "type": "item_group",
@@ -242,7 +290,30 @@
       { "item": "candle", "prob": 3, "charges": 100 },
       { "item": "holybook_bible1", "prob": 3 },
       { "item": "candlestick", "prob": 2 },
+      { "item": "chalice", "prob": 1 },
       { "item": "book_ruined", "prob": 1 }
+    ]
+  },
+  {
+    "id": "pencil_case_with_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "pencil_case",
+    "on_overflow": "spill",
+    "entries": [ { "group": "pencil_case_contents" } ]
+  },
+  {
+    "id": "pencil_case_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "pens", "prob": 90 },
+      { "group": "pens", "prob": 30 },
+      { "item": "pencil", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "scissors_child", "prob": 50 },
+      { "item": "eraser", "prob": 50 },
+      { "item": "sharpener", "prob": 50 },
+      { "item": "ruler", "prob": 50 }
     ]
   }
 ]

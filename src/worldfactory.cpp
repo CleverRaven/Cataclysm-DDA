@@ -31,6 +31,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 // single instance of world generator
@@ -179,7 +180,7 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
     return add_world( std::move( retworld ) );
 }
 
-static cata::optional<std::string> prompt_world_name( const std::string &title,
+static std::optional<std::string> prompt_world_name( const std::string &title,
         const std::string &cur_worldname )
 {
     string_input_popup popup;
@@ -196,7 +197,7 @@ static cata::optional<std::string> prompt_world_name( const std::string &title,
         return true;
     } );
     std::string message = popup.query_string();
-    return !popup.canceled() ? cata::optional<std::string>( message ) : cata::optional<std::string>();
+    return !popup.canceled() ? std::optional<std::string>( message ) : std::optional<std::string>();
 }
 
 int worldfactory::show_worldgen_advanced( WORLD *world )
@@ -229,8 +230,8 @@ int worldfactory::show_worldgen_advanced( WORLD *world )
             curtab += tabs[curtab]( wf_win, world, true );
         }
         if( curtab >= 0 ) {
-            cata::optional<std::string> ret = prompt_world_name( _( "Choose a new name for this world." ),
-                                              world->world_name );
+            std::optional<std::string> ret = prompt_world_name( _( "Choose a new name for this world." ),
+                                             world->world_name );
             if( !ret.has_value() ) {
                 // return to settings tab
                 curtab = 1;
@@ -351,9 +352,10 @@ void worldfactory::init()
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
         for( auto &world_sav_file : world_sav_files ) {
-            size_t save_index = world_sav_file.find( SAVE_EXTENSION );
-            world_sav_file = world_sav_file.substr( world_dir.size() + 1,
-                                                    save_index - ( world_dir.size() + 1 ) );
+            const size_t start_of_file = world_dir.size() + 1;
+            size_t save_index = world_sav_file.find( SAVE_EXTENSION, start_of_file );
+            world_sav_file = world_sav_file.substr( start_of_file,
+                                                    save_index - start_of_file );
         }
 
         // the directory name is the name of the world
@@ -381,7 +383,7 @@ void worldfactory::init()
 
     // This returns files as well, but they are going to be discarded later as
     // we look for files *within* these dirs. If it's a file, there won't be
-    // be any of those inside it and is_save_dir will return false.
+    // any files inside it and is_save_dir will return false.
     for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
         if( !is_save_dir( dir ) ) {
             continue;
@@ -407,7 +409,10 @@ void worldfactory::init()
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-                rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() );
+                if( rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() ) ) {
+                    debugmsg( "Error while moving world files: %s.  World may have been corrupted",
+                              strerror( errno ) );
+                }
             }
             newworld->world_saves = old_world.world_saves;
             newworld->WORLD_OPTIONS = old_world.WORLD_OPTIONS;
@@ -426,9 +431,15 @@ bool worldfactory::has_world( const std::string &name ) const
     return all_worlds.count( name ) > 0;
 }
 
+const std::map<std::string, std::unique_ptr<WORLD>> &worldfactory::get_all_worlds() const
+{
+    return all_worlds;
+}
+
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
+    result.reserve( all_worlds.size() );
     for( const auto &elem : all_worlds ) {
         result.push_back( elem.first );
     }
@@ -614,9 +625,7 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
     } );
 
     input_context ctxt( "PICK_WORLD_DIALOG" );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -625,8 +634,6 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
     // for mouse selection
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
 
     while( true ) {
         ui_manager::redraw();
@@ -637,7 +644,7 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
 
         // handle mouse click
         if( action == "SELECT" || action == "MOUSE_MOVE" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+            std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
             if( !!coord ) {
                 int cnt = run_for_point_in<int, point>( button_map, *coord,
                 [&sel, &on_move]( const std::pair<int, inclusive_rectangle<point>> &p ) {
@@ -657,36 +664,8 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
 
         if( action == "QUIT" ) {
             break;
-        } else if( !world_pages[selpage].empty() && ( action == "DOWN" || action == "SCROLL_DOWN" ) ) {
-            sel++;
-            if( sel >= static_cast<int>( recmax ) ) {
-                sel = 0;
-            }
-            on_move( recmax < 2 );
-        } else if( !world_pages[selpage].empty() && ( action == "UP" || action == "SCROLL_UP" ) ) {
-            if( sel == 0 ) {
-                sel = recmax - 1;
-            } else {
-                sel--;
-            }
-            on_move( recmax < 2 );
-        } else if( action == "PAGE_DOWN" ) {
-            if( sel == static_cast<int>( recmax ) - 1 ) {
-                sel = 0;
-            } else if( sel + scroll_rate >= recmax ) {
-                sel = recmax - 1;
-            } else {
-                sel += +scroll_rate;
-            }
-            on_move( recmax < 2 );
-        } else if( action == "PAGE_UP" ) {
-            if( sel == 0 ) {
-                sel = recmax - 1;
-            } else if( sel <= static_cast<int>( scroll_rate ) ) {
-                sel = 0;
-            } else {
-                sel += -scroll_rate;
-            }
+        } else if( !world_pages[selpage].empty() &&
+                   navigate_ui_list( action, sel, scroll_rate, recmax, true ) ) {
             on_move( recmax < 2 );
         } else if( action == "NEXT_TAB" ) {
             sel = 0;
@@ -819,14 +798,11 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
         const int wwidth = getmaxx( w ) - 1 - 3; // border (1) + ">> " (3)
 
         unsigned int iNum = 0;
-        int index = 0;
         bool bKeepIter = false;
-        int iCatBeforeCursor = 0;
 
         for( size_t i = 0; i <= iActive; i++ ) {
             if( !mSortCategory[i].empty() ) {
                 iActive++;
-                iCatBeforeCursor++;
             }
         }
 
@@ -841,7 +817,7 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
         }
 
         int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
-        for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
+        for( auto iter = mods.begin(); iter != mods.end(); ) {
             if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start ) + larger ) {
                 if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;
@@ -947,9 +923,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     const size_t num_mods = world_mods.size();
 
     input_context ctxt( "DEFAULT" );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -958,8 +932,6 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "SEC_SELECT" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_border, BORDER_COLOR, _( "Active world mods" ) );
@@ -978,7 +950,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( !world_mods.empty() && action == "MOUSE_MOVE" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_mods );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_mods );
             if( !!coord ) {
                 run_for_point_in<int, point>( ent_map, *coord,
                 [&cursor]( const std::pair<int, inclusive_rectangle<point>> &p ) {
@@ -987,37 +959,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             }
         }
 
-        if( action == "UP" || action == "SCROLL_UP" ) {
-            cursor--;
-            // If it went under 0, loop back to the end of the list.
-            if( cursor < 0 ) {
-                cursor = recmax - 1;
-            }
-            recalc_start = true;
-        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
-            cursor++;
-            // If it went over the end of the list, loop back to the start of the list.
-            if( cursor > recmax - 1 ) {
-                cursor = 0;
-            }
-            recalc_start = true;
-        } else if( action == "PAGE_DOWN" ) {
-            if( cursor == recmax - 1 ) {
-                cursor = 0;
-            } else if( cursor + scroll_rate >= recmax ) {
-                cursor = recmax - 1;
-            } else {
-                cursor += +scroll_rate;
-            }
-            recalc_start = true;
-        } else if( action == "PAGE_UP" ) {
-            if( cursor == 0 ) {
-                cursor = recmax - 1;
-            } else if( cursor <= scroll_rate ) {
-                cursor = 0;
-            } else {
-                cursor += -scroll_rate;
-            }
+        if( navigate_ui_list( action, cursor, scroll_rate, recmax, true ) ) {
             recalc_start = true;
         } else if( action == "QUIT" || action == "CONFIRM" ||
                    action == "SELECT" || action == "SEC_SELECT" ) {
@@ -1043,9 +985,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     }
 
     input_context ctxt( "MODMANAGER_DIALOG" );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "LEFT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "RIGHT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1065,8 +1005,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     // for mouse selection
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
 
     point filter_pos;
     int filter_view_len = 0;
@@ -1176,7 +1114,10 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             return nullptr;
         } else if( active_header == 0 )
         {
-            return &current_tab_mods[cursel[0]].obj();
+            if( !current_tab_mods.empty() ) {
+                return &current_tab_mods[cursel[0]].obj();
+            }
+            return nullptr;
         } else if( !active_mod_order.empty() )
         {
             return &active_mod_order[cursel[1]].obj();
@@ -1353,22 +1294,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         ui_manager::redraw();
 
         recalc_start = false;
-        const int next_header = ( active_header == 1 ) ? 0 : 1;
-        const int prev_header = ( active_header == 0 ) ? 1 : 0;
-
-        size_t selection = ( active_header == 0 ) ? cursel[0] : cursel[1];
-        size_t last_selection = selection;
-        size_t next_selection = selection + 1;
-        size_t prev_selection = selection - 1;
-        if( active_header == 0 ) {
-            size_t num_mods = all_tabs[iCurrentTab].mods.size();
-            next_selection = ( next_selection >= num_mods ) ? 0 : next_selection;
-            prev_selection = ( prev_selection > num_mods ) ? num_mods - 1 : prev_selection;
-        } else {
-            next_selection = ( next_selection >= active_mod_order.size() ) ? 0 : next_selection;
-            prev_selection = ( prev_selection > active_mod_order.size() ) ? active_mod_order.size() - 1 :
-                             prev_selection;
-        }
 
         std::string action = ctxt.handle_input();
         size_t recmax = active_header == 0 ? static_cast<int>( all_tabs[iCurrentTab].mods.size() ) :
@@ -1379,7 +1304,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
             bool found_opt = false;
             sel_top_tab = 0;
-            cata::optional<point> coord = ctxt.get_coordinates_text( win );
+            std::optional<point> coord = ctxt.get_coordinates_text( win );
             if( !!coord ) {
                 // Mod tabs
                 bool new_val = false;
@@ -1443,35 +1368,11 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             }
         }
 
-        if( action == "DOWN" || action == "SCROLL_DOWN" ) {
-            selection = next_selection;
+
+        if( navigate_ui_list( action, cursel[active_header], scroll_rate, recmax, true ) ) {
             recalc_start = true;
-        } else if( action == "UP" || action == "SCROLL_UP" ) {
-            selection = prev_selection;
-            recalc_start = true;
-        } else if( action == "PAGE_DOWN" ) {
-            if( selection == recmax - 1 ) {
-                selection = 0;
-            } else if( selection + scroll_rate >= recmax ) {
-                selection = recmax - 1;
-            } else {
-                selection += +scroll_rate;
-            }
-            recalc_start = true;
-        } else if( action == "PAGE_UP" ) {
-            if( selection == 0 ) {
-                selection = recmax - 1;
-            } else if( selection <= scroll_rate ) {
-                selection = 0;
-            } else {
-                selection += -scroll_rate;
-            }
-            recalc_start = true;
-        } else if( action == "RIGHT" ) {
-            active_header = next_header;
-            recalc_start = true;
-        } else if( action == "LEFT" ) {
-            active_header = prev_header;
+        } else if( action == "LEFT" || action == "RIGHT" ) {
+            active_header = inc_clamp_wrap( active_header, action == "RIGHT", headers.size() );
             recalc_start = true;
         } else if( action == "CONFIRM" ) {
             const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
@@ -1538,13 +1439,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             recalc_start = true;
         }
         // RESOLVE INPUTS
-        if( last_selection != selection ) {
-            if( active_header == 0 ) {
-                cursel[0] = selection;
-            } else {
-                cursel[1] = selection;
-            }
-        }
         if( active_mod_order.empty() ) {
             cursel[1] = 0;
         }
@@ -1616,9 +1510,8 @@ int worldfactory::show_worldgen_basic( WORLD *world )
     ctxt.register_action( "FINALIZE" );
     ctxt.register_action( "RANDOMIZE" );
     ctxt.register_action( "RESET" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_cardinal();
+    ctxt.register_leftright();
+    ctxt.register_navigate_ui_list();
     // mouse selection
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
@@ -1822,7 +1715,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         std::string action = ctxt.handle_input();
         // Handle mouse input
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_confirmation );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_confirmation );
             if( !!coord ) {
                 int orig_opt = sel_opt;
                 bool found = run_for_point_in<int, point>( btn_map, *coord,
@@ -1864,7 +1757,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         if( action == "CONFIRM" ) {
             if( sel_opt == 0 ) {
                 // rename
-                cata::optional<std::string> ret = prompt_world_name( _( "World name:" ), worldname );
+                std::optional<std::string> ret = prompt_world_name( _( "World name:" ), worldname );
                 if( !ret.value_or( "" ).empty() ) {
                     world->world_name = worldname = ret.value();
                 }
@@ -1902,19 +1795,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                     wg_slevels[i] = wg_sliders[i]->random_level();
                 }
             }
-        } else if( action == "UP" || action == "SCROLL_UP" ) {
-            sel_opt--;
-            if( sel_opt < 0 ) {
-                sel_opt = wg_sliders.size() + 1;
-            } else if( sel_opt > static_cast<int>( wg_sliders.size() ) ) {
-                sel_opt = wg_sliders.size();
-            }
-            recalc_startpos = true;
-        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
-            sel_opt++;
-            if( sel_opt > static_cast<int>( wg_sliders.size() + 1 ) ) {
-                sel_opt = 0;
-            }
+        } else if( navigate_ui_list( action, sel_opt, 1, wg_sliders.size() + 2, true ) ) {
             recalc_startpos = true;
         } else if( action == "LEFT" || action == "RIGHT" ) {
             if( sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
@@ -1940,7 +1821,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         } else if( action == "PICK_MODS" ) {
             show_worldgen_tab_modselection( w_confirmation, world, false );
         } else if( action == "ADVANCED_SETTINGS" ) {
-            auto WOPTIONS_OLD = world->WORLD_OPTIONS;
+            options_manager::options_container WOPTIONS_OLD = world->WORLD_OPTIONS;
             show_worldgen_tab_options( w_confirmation, world, false );
             for( auto &iter : WOPTIONS_OLD ) {
                 if( iter.second != world->WORLD_OPTIONS[iter.first] ) {
@@ -2124,8 +2005,8 @@ void load_world_option( const JsonObject &jo )
 //load external option from json
 void load_external_option( const JsonObject &jo )
 {
-    auto name = jo.get_string( "name" );
-    auto stype = jo.get_string( "stype" );
+    std::string name = jo.get_string( "name" );
+    std::string stype = jo.get_string( "stype" );
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
         translation sinfo;
@@ -2152,6 +2033,7 @@ void load_external_option( const JsonObject &jo )
     if( jo.has_member( "info" ) ) {
         jo.get_string( "info" );
     }
+    options_manager::update_options_cache();
 }
 
 mod_manager &worldfactory::get_mod_manager()
@@ -2169,8 +2051,32 @@ WORLD *worldfactory::get_world( const std::string &name )
     return iter->second.get();
 }
 
+std::string worldfactory::get_world_name( const size_t index )
+{
+    size_t i = 0;
+    for( const auto &elem : all_worlds ) {
+        if( i == index ) {
+            return elem.first;
+        }
+        i++;
+    }
+    return "";
+}
+
+size_t worldfactory::get_world_index( const std::string &name )
+{
+    size_t i = 0;
+    for( const auto &elem : all_worlds ) {
+        if( elem.first == name ) {
+            return i;
+        }
+        i++;
+    }
+    return 0;
+}
+
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden( const std::string &candidate )
+static bool isForbidden( const std::string_view candidate )
 {
     return candidate.find( PATH_INFO::worldoptions() ) != std::string::npos ||
            candidate.find( "mods.json" ) != std::string::npos;

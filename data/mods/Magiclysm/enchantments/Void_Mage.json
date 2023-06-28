@@ -22,6 +22,9 @@
     "type": "enchantment",
     "id": "VOID_MAGE",
     "condition": "ALWAYS",
+    "name": { "str": "Drainer" },
+    "description": "Your Void Mage abilities grant you perfect night vision, and envenom everyone you attack.",
+    "ench_effects": [ { "effect": "void_mage_night_vision", "intensity": 1 } ],
     "hit_you_effect": [
       {
         "id": "void_claws",
@@ -29,5 +32,13 @@
         "npc_message": "%1$s's attacks seems to have an afterimage of shadowy claws striking behind them about a half a second."
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "void_mage_night_vision",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 20 } ]
   }
 ]

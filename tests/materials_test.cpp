@@ -3,8 +3,16 @@
 #include "fire.h"
 #include "item.h"
 #include "cata_catch.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "projectile.h"
+
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_stab( "stab" );
 
 static const material_id material_glass( "glass" );
 static const material_id material_plastic( "plastic" );
@@ -26,7 +34,7 @@ static void check_near( const std::string &subject, float prob, const float expe
     }
 }
 
-TEST_CASE( "Resistance vs. material portions", "[material]" )
+TEST_CASE( "Resistance_vs_material_portions", "[material]" )
 {
     const item mostly_steel( "test_shears_mostly_steel" );
     const item mostly_plastic( "test_shears_mostly_plastic" );
@@ -34,16 +42,16 @@ TEST_CASE( "Resistance vs. material portions", "[material]" )
     REQUIRE( mostly_steel.get_base_material().id == material_steel );
     REQUIRE( mostly_plastic.get_base_material().id == material_plastic );
 
-    CHECK( mostly_steel.cut_resist() > mostly_plastic.cut_resist() );
-    CHECK( mostly_steel.acid_resist() == mostly_plastic.acid_resist() );
-    CHECK( mostly_steel.bash_resist() > mostly_plastic.bash_resist() );
-    CHECK( mostly_steel.fire_resist() == mostly_plastic.fire_resist() );
-    CHECK( mostly_steel.stab_resist() > mostly_plastic.stab_resist() );
-    CHECK( mostly_steel.bullet_resist() > mostly_plastic.bullet_resist() );
+    CHECK( mostly_steel.resist( damage_cut ) > mostly_plastic.resist( damage_cut ) );
+    CHECK( mostly_steel.resist( damage_acid ) == mostly_plastic.resist( damage_acid ) );
+    CHECK( mostly_steel.resist( damage_bash ) > mostly_plastic.resist( damage_bash ) );
+    CHECK( mostly_steel.resist( damage_heat ) == mostly_plastic.resist( damage_heat ) );
+    CHECK( mostly_steel.resist( damage_stab ) > mostly_plastic.resist( damage_stab ) );
+    CHECK( mostly_steel.resist( damage_bullet ) > mostly_plastic.resist( damage_bullet ) );
     CHECK( mostly_steel.chip_resistance() > mostly_plastic.chip_resistance() );
 }
 
-TEST_CASE( "Portioned material flammability", "[material]" )
+TEST_CASE( "Portioned_material_flammability", "[material]" )
 {
     const item mostly_steel( "test_fire_ax_mostly_steel" );
     const item mostly_wood( "test_fire_ax_mostly_wood" );
@@ -61,8 +69,9 @@ TEST_CASE( "Portioned material flammability", "[material]" )
     CHECK( steel_burn < wood_burn );
 }
 
-TEST_CASE( "Glass portion breakability", "[material] [slow]" )
+TEST_CASE( "Glass_portion_breakability", "[material] [slow]" )
 {
+    clear_creatures();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     item mostly_glass( "test_glass_pipe_mostly_glass" );
     item mostly_steel( "test_glass_pipe_mostly_steel" );

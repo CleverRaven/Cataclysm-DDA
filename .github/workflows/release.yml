@@ -25,62 +25,25 @@ jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    permissions: write-all
     outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
       timestamp: ${{ steps.get-timestamp.outputs.time }}
-      release_already_exists: ${{ steps.tag_check.outputs.exists }}
     steps:
       - name: Get build timestamp
         id: get-timestamp
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 0
-          format: 'YYYY-MM-DD-HHmm'
+        run: |
+          echo "time=$(/bin/date -u "+%Y-%m-%d-%H%M")" >> $GITHUB_OUTPUT
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "::set-output name=tag_name::cdda-experimental-${{ steps.get-timestamp.outputs.time }}"
-          echo "::set-output name=release_name::Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}"
-      - name: Check if there is existing git tag
-        id: tag_check
-        uses: mukunku/tag-exists-action@v1.0.0
-        with:
-          tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
-      - name: Push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v5.5
-        if: ${{ steps.tag_check.outputs.exists == 'false' }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.generate_env_vars.outputs.tag_name }}
-          tag_prefix: ""
-      - name: "Generate release notes"
-        run: |
-          gh api \
-            --method POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            /repos/CleverRaven/Cataclysm-DDA/releases/generate-notes \
-            -f tag_name='${{ steps.generate_env_vars.outputs.tag_name }}' \
-            -f target_commitish='master' \
-            -q .body > CHANGELOG.md
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        if: ${{ steps.tag_check.outputs.exists == 'false' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
-          release_name: ${{ steps.generate_env_vars.outputs.release_name }}
-          body_path: ./CHANGELOG.md
-          draft: false
-          prerelease: true
+          echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v3
+      - run: |
+          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}"
+
   builds:
     needs: release
-    if: ${{ needs.release.outputs.release_already_exists == 'false' }}
     strategy:
       fail-fast: false
       matrix:
@@ -101,22 +64,6 @@ jobs:
             ext: zip
             content: application/zip
             sound: 1
-          - name: Windows Tiles x32 MSVC
-            artifact: windows-tiles-x32-msvc
-            arch: x86
-            os: windows-2019
-            mxe: none
-            ext: zip
-            content: application/zip
-            sound: 0
-          - name: Windows Tiles Sounds x32 MSVC
-            artifact: windows-tiles-sounds-x32-msvc
-            arch: x86
-            os: windows-2019
-            mxe: none
-            ext: zip
-            content: application/zip
-            sound: 1
           - name: Windows Tiles x64
             mxe: x86_64
             artifact: windows-tiles-x64
@@ -131,22 +78,8 @@ jobs:
             ext: zip
             content: application/zip
             sound: 1
-          - name: Windows Tiles x32
-            mxe: i686
-            artifact: windows-tiles-x32
-            os: ubuntu-latest
-            ext: zip
-            content: application/zip
-            sound: 0
-          - name: Windows Tiles Sounds x32
-            mxe: i686
-            artifact: windows-tiles-sounds-x32
-            os: ubuntu-latest
-            ext: zip
-            content: application/zip
-            sound: 1
           - name: Linux Tiles x64
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             mxe: none
             android: none
             tiles: 1
@@ -155,7 +88,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Tiles Sounds x64
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             mxe: none
             android: none
             tiles: 1
@@ -164,7 +97,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             mxe: none
             android: none
             tiles: 0
@@ -172,20 +105,20 @@ jobs:
             artifact: linux-curses-x64
             ext: tar.gz
             content: application/gzip
-          - name: OSX Curses x64
-            os: macos-10.15
+          - name: macOS Curses Universal Binary (x64 and arm64)
+            os: macos-12
             mxe: none
             tiles: 0
             sound: 0
-            artifact: osx-curses-x64
+            artifact: osx-curses-universal
             ext: dmg
             content: application/x-apple-diskimage
-          - name: OSX Tiles x64
-            os: macos-10.15
+          - name: macOS Tiles Universal Binary (x64 and arm64)
+            os: macos-12
             mxe: none
             tiles: 1
             sound: 0
-            artifact: osx-tiles-x64
+            artifact: osx-tiles-universal
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
@@ -211,30 +144,29 @@ jobs:
             content: application/aap
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    permissions: write-all
     env:
         ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get soundpack
         if: matrix.sound == 1
         run: |
           git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks '${{ github.workspace }}/CDDA-Soundpacks'
           mv '${{ github.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ github.workspace }}/data/sound'
+      - name: Install dependencies (windows msvc) (0/3)
+        if: runner.os == 'Windows'
+        uses: lukka/get-cmake@latest
       - name: Install dependencies (windows msvc) (1/3)
         if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.3.1
       - name: Install dependencies (windows msvc) (2/3)
         if: runner.os == 'Windows'
-        uses: lukka/run-vcpkg@v10.2
+        uses: lukka/run-vcpkg@v11
         id: runvcpkg
         with:
-          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          # We have to use at least this version of vcpkg to include fixes for yasm-tool's
-          # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
-          # field in vcpkg.json. Caching happens as a post-action which runs at the end of
-          # the whole workflow, after vcpkg install happens during msbuild run.
-          vcpkgGitCommitId: '659b6b5eeacb50ffe25856413960d231ce1a4b58'
+          vcpkgGitCommitId: '5b1214315250939257ef5d62ecdcbca18cf4fb1c'
       - name: Install dependencies (windows msvc) (3/3)
         if: runner.os == 'Windows'
         run: |
@@ -246,24 +178,35 @@ jobs:
       - name: Install MXE
         if: matrix.mxe != 'none'
         run: |
-          curl -L -o mxe-${{ matrix.mxe }}.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-${{ matrix.mxe }}.tar.xz
-          curl -L -o mxe-${{ matrix.mxe }}.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-${{ matrix.mxe }}.tar.xz.sha256
+          curl -L -o mxe-${{ matrix.mxe }}.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-${{ matrix.mxe }}.tar.xz
+          curl -L -o mxe-${{ matrix.mxe }}.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-${{ matrix.mxe }}.tar.xz.sha256
           shasum -a 256 -c ./mxe-${{ matrix.mxe }}.tar.xz.sha256
           sudo tar xJf mxe-${{ matrix.mxe }}.tar.xz -C /opt
+          curl -L -o SDL2-devel-2.26.2-mingw.tar.gz https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-devel-2.26.2-mingw.tar.gz
+          shasum -a 256 -c ./build-scripts/SDL2-devel-2.26.2-mingw.tar.gz.sha256
+          sudo tar -xzf SDL2-devel-2.26.2-mingw.tar.gz -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12 --strip-components=2 SDL2-2.26.2/${{ matrix.mxe }}-w64-mingw32
           curl -L -o libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz
           shasum -a 256 -c ./build-scripts/libbacktrace-${{ matrix.mxe }}-w64-mingw32-sha256
-          sudo tar -xzf libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc11
+          sudo tar -xzf libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12
       - name: Install dependencies (Linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
         run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
-      - name: Install dependencies (mac)
+      - name: Install runtime dependencies (mac)
+        if: runner.os == 'macOS'
+        uses: BrettDong/setup-sdl2-frameworks@v1
+        with:
+          sdl2: latest
+          sdl2-ttf: latest
+          sdl2-image: latest
+          sdl2-mixer: latest
+      - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
-          pip3 install dmgbuild==1.4.2 biplist
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
+          pip3 install mac_alias==2.2.0 dmgbuild==1.4.2 biplist
       - name: Create VERSION.TXT
         shell: bash
         run: |
@@ -286,13 +229,16 @@ jobs:
       - name: Build CDDA (windows mxe)
         if: matrix.mxe != 'none'
         env:
-          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
+          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc12-
         run: |
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 PCH=0 bindist
           mv cataclysmdda-0.F.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (windows msvc)
         if: runner.os == 'Windows'
         env:
+          # Enable pretty backtraces
+          BACKTRACE: 1
+          CDDA_RELEASE_BUILD: 1
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
@@ -301,13 +247,13 @@ jobs:
       - name: Build CDDA (osx)
         if: runner.os == 'macOS'
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=10.12 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 FRAMEWORK=1 UNIVERSAL_BINARY=1 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
-          java-version: '8'
+          java-version: '11'
           distribution: 'adopt'   
       - name: Setup Build and Dependencies (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
@@ -337,16 +283,8 @@ jobs:
                ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
-      - name: Upload release asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.upload_url }} 
-          asset_path: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_name: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_content_type: ${{ matrix.content }}
+      - run: |
+          gh release upload cdda-experimental-${{ needs.release.outputs.timestamp }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
       - name: Trigger GitHub pages rebuild
         shell: bash
         run: |

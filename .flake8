@@ -1,5 +1,5 @@
 [flake8]
-exclude = .git,__pycache__,lang/json
+exclude = .git,__pycache__,lang/json,tools/clang-tidy-plugin/test/check_clang_tidy.py
 ignore =
     # E265 forces comments to have a space after the '#'.  We have a bunch of
     # optional debugging code commented out this way, and not having a space is

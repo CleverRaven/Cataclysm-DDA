@@ -11,8 +11,8 @@
     "weight": "100 g",
     "volume": "50 ml",
     "material": [ "plastic" ],
-    "bashing": 1,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "soap_holder",
@@ -34,7 +34,7 @@
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.  The razor also loses the Cutting 1 quality.  Don't ask how we confirmed this.",
     "weight": "110 g",
     "material": [ "plastic", "steel" ],
-    "cutting": 2
+    "melee_damage": { "bash": 1, "cut": 2 }
   },
   {
     "id": "toothbrush_plain",
@@ -67,13 +67,94 @@
     ]
   },
   {
-    "id": "toothbrush_dirty",
-    "name": { "str": "dirty toothbrush", "str_pl": "dirty toothbrushes" },
+    "id": "tampon",
+    "name": { "str": "tampon" },
     "type": "GENERIC",
-    "description": "Someone has been using this plastic toothbrush to clean grease or muck.  It is now irrevocably dirty.",
-    "symbol": "/",
-    "flags": [ "FILTHY" ],
-    "copy-from": "base_toiletries"
+    "description": "A small cotton tampon with a plastic applicator.",
+    "symbol": "+",
+    "color": "white",
+    "looks_like": "cotton_ball",
+    "container": "bag_plastic",
+    "price": 25,
+    "price_postapoc": 200,
+    "//": "Makes a decent trade commodity but can be acquired in bulk.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "material": [ "plastic", "cotton" ],
+    "snippet_category": [
+      {
+        "id": "tampon1",
+        "text": "A small cotton tampon with a plastic applicator.  Useless for some, an invaluable commodity for others."
+      },
+      { "id": "tampon2", "text": "A 'light' cotton tampon with a plastic applicator rated for light flows." },
+      { "id": "tampon3", "text": "A 'super' cotton tampon with a plastic applicator rated for heavy flows." },
+      { "id": "tampon4", "text": "A small, lavender-scented cotton tampon with a plastic applicator." },
+      {
+        "id": "tampon5",
+        "text": "A small cotton tampon with a plastic applicator proudly claiming to be anti-microbial.  Ultra-fine print indicates that this tampon has no noticeable health benefits compared to others."
+      },
+      {
+        "id": "tampon6",
+        "text": "An expensive-looking tampon with a fancy, smooth plastic applicator.  The ultra-soft cotton has the appearance of a fluffy cloud."
+      },
+      {
+        "id": "tampon7",
+        "text": "A cheap-looking tampon.  The cotton looks rough, the plastic applicator has a few sharp edges, and the string is somehow already knotted."
+      }
+    ]
+  },
+  {
+    "id": "menstrual_pad",
+    "name": { "str": "menstrual pad" },
+    "type": "GENERIC",
+    "description": "An absorbent pad.",
+    "symbol": "=",
+    "color": "white",
+    "looks_like": "bandages",
+    "container": "bag_plastic",
+    "price": 25,
+    "price_postapoc": 200,
+    "//": "Makes a decent trade commodity but can be acquired in bulk.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "material": [ "plastic", "cotton" ],
+    "snippet_category": [
+      {
+        "id": "menstrual_pad1",
+        "text": "An absorbent menstrual pad.  Unfortunately, not as useful as a bandage as you'd think.  The adhesive is on the side opposite of the absorbent part."
+      },
+      { "id": "menstrual_pad2", "text": "A small panty-liner only meant for the lightest flows." },
+      { "id": "menstrual_pad3", "text": "A large menstrual pad meant for use overnight." },
+      {
+        "id": "menstrual_pad4",
+        "text": "An absorbent menstrual pad with racing stripes, for the fastest flows.  Probably."
+      },
+      { "id": "menstrual_pad5", "text": "An absorbent menstrual pad that smells strongly of essential oils." },
+      {
+        "id": "menstrual_pad6",
+        "text": "A pride-themed menstrual pad in trans flag coloring.  'Men can bleed too!' is proudly written on the packaging."
+      },
+      {
+        "id": "menstrual_pad7",
+        "text": "A cheap menstrual pad.  The cotton somehow looks like sandpaper and is almost see-through thin."
+      }
+    ]
+  },
+  {
+    "id": "menstrual_cup",
+    "name": { "str": "menstrual cup" },
+    "type": "GENERIC",
+    "description": "A tiny, washable, flexible plastic cup about the size of a medicine cup for catching menstrual flow.",
+    "symbol": "v",
+    "color": "pink",
+    "looks_like": "bottle_plastic_small",
+    "container": "bag_plastic",
+    "price": 1000,
+    "price_postapoc": 500,
+    "//": "Makes a decent trade commodity.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "material": [ "plastic" ]
   },
   {
     "id": "hairbrush",
@@ -82,12 +163,18 @@
     "description": "An instrument of hair torture.",
     "symbol": "/",
     "copy-from": "base_toiletries",
+    "weight": "91 g",
+    "volume": "400 ml",
+    "longest_side": "24 cm",
+    "price": "6 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "snippet_category": [
       { "id": "hbrush1", "text": "An instrument of hair torture.  There are round safety tips on the bristles." },
       { "id": "hbrush2", "text": "An old-fashioned hair-straightening device with a faux-wood handle." },
       { "id": "hbrush3", "text": "A soft, cushioned hairbrush.  The shiny chrome design appears modern." },
       { "id": "hbrush4", "text": "A tacky kid's hairbrush.  The cartoon whale on the handle seems friendly enough." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/Revlon-Detangle-Smooth-Black-Cushion/dp/B01LPO5JVE/ref=sr_1_6?crid=1TWQO2LQX4P03&keywords=hair%2Bbrush&qid=1683483834&sprefix=hair%2Bbrush%2Caps%2C287&sr=8-6&th=1"
   },
   {
     "id": "curler_hair",
@@ -115,6 +202,9 @@
     "name": { "str": "comb" },
     "type": "GENERIC",
     "description": "A grooming tool with teeth for straightening your hair.",
+    "weight": "9 g",
+    "volume": "30 ml",
+    "longest_side": "18 cm",
     "symbol": "/",
     "copy-from": "base_toiletries",
     "snippet_category": [
@@ -140,8 +230,8 @@
     "volume": "2100 ml",
     "//": "the volume is pretty bulky, but this is an old fashioned model.",
     "material": [ "wood", "rubber" ],
-    "bashing": 5,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "plunger_futuristic",
@@ -155,8 +245,8 @@
     "weight": "680 g",
     "volume": "2400 ml",
     "material": [ "plastic" ],
-    "bashing": 2,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "toilet_paper",
@@ -201,8 +291,8 @@
     "volume": "500 ml",
     "weight": "680 g",
     "material": [ "plastic", "steel" ],
-    "bashing": 3,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "curling_iron",
@@ -216,8 +306,8 @@
     "volume": "250 ml",
     "weight": "590 g",
     "material": [ "ceramic", "steel" ],
-    "bashing": 3,
-    "to_hit": 1
+    "to_hit": 1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "brush_toilet",
@@ -231,8 +321,8 @@
     "volume": "500 ml",
     "weight": "160 g",
     "material": [ "steel", "plastic" ],
-    "bashing": 3,
-    "to_hit": 1
+    "to_hit": 1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "comb_lice",
@@ -241,6 +331,9 @@
     "description": "A stainless-steel comb with spiral grooved teeth designed to remove pesky parasites from hair.  Even just thinking about it makes you itch.",
     "symbol": "c",
     "material": [ "steel" ],
+    "weight": "9 g",
+    "volume": "20 ml",
+    "longest_side": "10 cm",
     "copy-from": "base_toiletries"
   },
   {
@@ -285,7 +378,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic soap bottle" },
-    "description": "A squeezable bottle used to hold various bathroom soaps.",
+    "description": "A squeezable bottle used to hold various liquid soaps.",
     "looks_like": "bottle_plastic",
     "weight": "130 g",
     "volume": "502 ml",

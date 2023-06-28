@@ -25,8 +25,8 @@
     "subtype": "collection",
     "id": "xedra_mags_troll",
     "entries": [
-      { "item": "5x50_50_mag", "ammo-item": "5x50dart", "charges": 50 },
-      { "item": "5x50_50_mag", "ammo-item": "5x50dart", "charges": 50 }
+      { "item": "8x40_25_mag", "ammo-item": "8mm_hvp", "charges": 25 },
+      { "item": "8x40_25_mag", "ammo-item": "8mm_hvp", "charges": 25 }
     ]
   },
   {
@@ -215,9 +215,9 @@
           { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
           { "group": "military_ballistic_vest_light" },
           {
-            "item": "needlegun",
-            "ammo-item": "5x50dart",
-            "charges": 35,
+            "item": "rm2000_smg",
+            "ammo-item": "8mm_hvp",
+            "charges": 25,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           },
           { "item": "legpouch_large", "contents-group": "xedra_mags_troll" }
@@ -265,8 +265,8 @@
         "entries": [
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
-          { "item": "needlepistol", "ammo-item": "5x50dart", "charges": 35, "contents-item": [ "holo_sight" ] },
-          { "item": "legpouch_large", "contents-group": "xedra_mags_troll" }
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
       },
       "male": [ "boxer_shorts" ],

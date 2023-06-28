@@ -16,14 +16,11 @@
     "symbol": "V",
     "color": "white",
     "morale": 100,
-    "melee_skill": 7,
+    "melee_skill": 4,
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 2,
-    "armor_bash": 6,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "vision_day": 5,
     "vision_night": 5,
     "families": [ "prof_intro_biology", "prof_wp_basic_bird" ],
@@ -33,7 +30,8 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "harvest": "mutant_bird_flightless",
     "dissect": "dissect_bird_sample_large",
-    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ]
+    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ],
+    "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_amigara_horror",
@@ -53,12 +51,11 @@
     "color": "white",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 9,
+    "melee_skill": 8,
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
-    "armor_elec": 1,
     "bleed_rate": 50,
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
@@ -66,13 +63,14 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": { "effect": { "id": "death_amigara" } },
     "dissect": "dissect_human_sample_single",
-    "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_blank",
     "type": "MONSTER",
     "name": { "str": "blank body", "str_pl": "blank bodies" },
-    "description": "This is some form of unnatural changeling creature; its appearance is a bland mockery of the human form.  Featureless and pale, its repugnant countenance is all the more unsettling due to its lack of eyes and distinguishing features except for a perfectly round mouth.  Naked and trembling, it almost seems pitiful but for the way that its unearthly presence makes the hair on the back of your neck stand up in nameless horror.",
+    "description": "This is some form of unnatural changeling creature; its appearance is a bland mockery of the human form.  Featureless and pale, its repugnant countenance is all the more unsettling due to its lack of eyes and distinguishing features except for a perfectly round mouth.  Adding to its unearthly appearance is the way it moves, stiff and doll-like as though it was only feigning knowing how to walk.",
     "default_faction": "nether",
     "bodytype": "human",
     "species": [ "NETHER" ],
@@ -186,14 +184,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 22 } ],
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "vision_day": 4,
     "vision_night": 4,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s grows inert." },
     "death_drops": "shrapnel_swarm_drops",
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "BASHES", "GROUP_BASH", "NO_BREATHE", "NOGIB", "HIT_AND_RUN", "STUN_IMMUNE" ]
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "BASHES", "GROUP_BASH", "NO_BREATHE", "NOGIB", "HIT_AND_RUN", "STUN_IMMUNE" ],
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_structural_spur",
@@ -214,10 +210,6 @@
     "color": "white_red",
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "exempt",
-    "armor_bash": 80,
-    "armor_cut": 80,
-    "armor_bullet": 80,
-    "armor_fire": 80,
     "vision_day": 20,
     "vision_night": 20,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The distortion fades as the %s crumbles." },
@@ -230,7 +222,144 @@
       }
     ],
     "death_drops": "structural_spur_drops",
-    "flags": [ "ACIDPROOF", "NO_BREATHE", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NOGIB", "STUN_IMMUNE" ]
+    "flags": [ "ACIDPROOF", "NO_BREATHE", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NOGIB", "STUN_IMMUNE" ],
+    "armor": { "bash": 80, "cut": 80, "heat": 80, "bullet": 80 }
+  },
+  {
+    "id": "mon_void_spider",
+    "type": "MONSTER",
+    "name": { "str": "void weaver" },
+    "description": "Articulated limbs slip into the outlines of shadow, each a conduit for the kaleidoscopic maw from which they emerge.",
+    "default_faction": "nether",
+    "volume": "1800 L",
+    "weight": "750000 g",
+    "hp": 600,
+    "symbol": "S",
+    "speed": 87,
+    "morale": 50,
+    "aggression": 100,
+    "grab_strength": 2,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "melee_skill": 8,
+    "regenerates": 1,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true, "max_dist": 50 },
+    "special_attacks": [
+      [ "void_spider_bite", 1 ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "void_spider_control", "min_level": 1, "hit_self": true },
+        "monster_message": "",
+        "cooldown": 2
+      }
+    ],
+    "dodge": 8,
+    "armor": { "bash": 20, "cut": 24, "bullet": 30, "electric": 3, "stab": 18, "acid": 15 },
+    "weakpoint_sets": [ "wps_arthropod_spider" ],
+    "bleed_rate": 10,
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s dissolves into inert shadows.",
+      "effect": { "id": "mon_void_weaver_death", "hit_self": true }
+    },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "DESTROYS",
+      "WARM",
+      "CAMOUFLAGE",
+      "FIREPROOF",
+      "NIGHT_INVISIBILITY",
+      "ALWAYS_SEES_YOU",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "ARTHROPOD_BLOOD",
+      "PATH_AVOID_DANGER_1",
+      "HARDTOSHOOT"
+    ]
+  },
+  {
+    "id": "mon_void_spider_maw",
+    "type": "MONSTER",
+    "name": { "str": "hanging maw" },
+    "description": "An explosion of glistening fangs, itself but a small reflection of the greater horror.",
+    "default_faction": "nether",
+    "copy-from": "mon_void_spider",
+    "symbol": "w",
+    "hp": 15,
+    "proportional": { "speed": 1.2, "dodge": 0.25, "vision_day": 2 },
+    "melee_dice": 5,
+    "melee_dice_sides": 5,
+    "melee_skill": 3,
+    "melee_damage": [ { "damage_type": "bash", "amount": 5, "armor_penetration": 28 } ],
+    "armor": { "bash": 10, "cut": 12, "bullet": 15, "electric": 3, "stab": 18, "acid": 15 },
+    "special_attacks": [ [ "void_spider_bite", 1 ] ],
+    "death_function": {
+      "effect": { "id": "hurt_void_spider", "hit_self": true },
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s shatters like pane of glass."
+    },
+    "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
+    "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
+  },
+  {
+    "id": "mon_void_spider_limb",
+    "type": "MONSTER",
+    "name": { "str": "hanging limb" },
+    "description": "A limb of shadow, itself but a small reflection of a greater horror.",
+    "default_faction": "nether",
+    "copy-from": "mon_void_spider",
+    "symbol": "/",
+    "hp": 20,
+    "proportional": { "speed": 1.2, "dodge": 0.25, "vision_day": 2 },
+    "melee_dice": 3,
+    "melee_dice_sides": 2,
+    "melee_skill": 3,
+    "special_attacks": [  ],
+    "armor": { "bash": 5, "cut": 6, "bullet": 6, "electric": 3, "stab": 7, "acid": 15 },
+    "death_function": {
+      "effect": { "id": "hurt_void_spider", "hit_self": true },
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s shatters like pane of glass."
+    },
+    "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
+    "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
+  },
+  {
+    "id": "mon_void_spider_spiderling",
+    "type": "MONSTER",
+    "name": { "str": "weaver juvenile" },
+    "description": "The distressed movements of the juvenile reveal conjoined layers of flailing legs and fangs.  It is no spider as you know it.",
+    "default_faction": "nether",
+    "copy-from": "mon_void_spider",
+    "color": "red",
+    "symbol": "s",
+    "hp": 10,
+    "proportional": { "speed": 1.2, "dodge": 0.25, "vision_day": 2 },
+    "armor": { "bash": 5, "cut": 5, "bullet": 5, "electric": 3, "stab": 4, "acid": 15 },
+    "grab_strength": 50,
+    "melee_dice": 3,
+    "melee_dice_sides": 5,
+    "melee_skill": 3,
+    "special_attacks": [
+      { "id": "grab", "cooldown": 7 },
+      { "id": "grab_drag", "cooldown": 15, "grab_data": { "drag_distance": 1 } },
+      { "id": "drag_followup", "grab_data": { "drag_distance": 1 } }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s shatters like pane of glass." },
+    "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
+    "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
+  },
+  {
+    "id": "mon_void_spider_spiderling_skewered",
+    "type": "MONSTER",
+    "name": { "str": "skewered juvenile" },
+    "copy-from": "mon_void_spider_spiderling",
+    "color": "light_green",
+    "description": "Layers of flailing limbs struggle against an impaled emerald lance.",
+    "death_drops": "void_spider_spiderling_skewered_drops"
   },
   {
     "id": "mon_darkman",
@@ -253,17 +382,14 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 3,
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "armor_elec": 3,
     "vision_day": 50,
     "luminance": 6,
     "harvest": "exempt",
     "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away.", "effect": { "id": "death_darkman" } },
     "regenerates_in_dark": true,
-    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
+    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 3 }
   },
   {
     "id": "mon_dementia",
@@ -328,7 +454,7 @@
     "id": "mon_flaming_eye",
     "type": "MONSTER",
     "name": { "str": "flaming eye" },
-    "description": "An enormous disembodied eyeball the size of a person, flying through the air through some unknown agency.  Wreathed in unnatural flickering blue flame, it possesses a blazing yellow iris with a slitted pupil like that of a cat, and trails a set of flailing black tendrils as it slowly drifts about.  Its unearthly presence fills you with dread at the prospect of falling under its baleful gaze.",
+    "description": "An enormous disembodied eyeball the size of a person, flying through the air through some unknown agency.  Wreathed in unnatural flickering blue flame, it possesses a blazing yellow iris with a slitted pupil like that of a cat, and trails a set of flailing black tendrils as it slowly drifts about.  You involuntarily get a heavy, sinking feeling deep in your gut as you watch its gaze comb over the world around it.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 20,
@@ -343,7 +469,6 @@
     "aggression": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
     "bleed_rate": 20,
     "vision_day": 50,
     "vision_night": 40,
@@ -351,13 +476,14 @@
     "harvest": "zombie_meatslug",
     "//": "Add a demihuman alien anatomy for things like flaming eye's and Mi-go, polyps and other lovecraftian horrors from other dimensions",
     "special_attacks": [ [ "STARE", 12 ] ],
-    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "PACIFIST" ],
+    "armor": { "bash": 4 }
   },
   {
     "id": "mon_flying_polyp",
     "type": "MONSTER",
     "name": { "str": "flying polyp" },
-    "description": "A half-polypous, utterly alien creature.  It's only partly material and has the ability to fly, despite the absence of wings.  It produces strange whistling noises which send cold shivers of primal terror down your spine.",
+    "description": "A half-polypous, utterly alien creature.  It's only partly material and has the ability to fly, despite the absence of wings.  It produces strange whistling noises which dominate every other sound.",
     "default_faction": "nether",
     "bodytype": "blob",
     "species": [ "NETHER" ],
@@ -371,13 +497,11 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 8,
+    "melee_skill": 7,
     "melee_dice": 3,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 7,
-    "armor_bash": 8,
-    "armor_elec": 3,
     "bleed_rate": 40,
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -394,7 +518,8 @@
       "NO_BREATHE",
       "HIT_AND_RUN",
       "NOGIB"
-    ]
+    ],
+    "armor": { "bash": 8, "electric": 3 }
   },
   {
     "id": "mon_unseen_hunter",
@@ -414,7 +539,7 @@
     "morale": 25,
     "regen_morale": true,
     "regenerates_in_dark": true,
-    "melee_skill": 10,
+    "melee_skill": 9,
     "melee_dice": 4,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 5, "armor_penetration": 10 } ],
@@ -422,15 +547,13 @@
     "vision_day": 20,
     "vision_night": 20,
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "//grab": "Great at pulling, bad at holding - maybe it's playing with you",
+    "grab_strength": 10,
     "special_attacks": [
-      [ "RANGED_PULL", 8 ],
+      { "id": "ranged_pull", "cooldown": 8, "grab_data": { "pull_weight_ratio": 2.0 } },
       { "type": "leap", "cooldown": 20, "max_range": 6, "allow_no_target": true },
       { "id": "hunter_peck" }
     ],
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_stab": 5,
-    "armor_bullet": 30,
     "//": "Reduce bullet armor when things are harder to hit or players miss more",
     "anger_triggers": [ "FIRE" ],
     "fear_triggers": [ "HURT" ],
@@ -448,13 +571,14 @@
       "PATH_AVOID_DANGER_1",
       "HARDTOSHOOT",
       "HIT_AND_RUN"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 30 }
   },
   {
     "id": "mon_gozu",
     "type": "MONSTER",
     "name": { "str": "gozu" },
-    "description": "This is some sort of unnatural cross between a bull and a man.  Quite different from the minotaur of legend, it possesses a shaggy white bull’s head on an otherwise unremarkable human body.  Clad in sagging socks and stained jockey shorts, it grunts and snuffles, drooling ropey strands of white slobber down its chest.  Its mere presence fills you with an unfathomable dread.",
+    "description": "This is some sort of unnatural cross between a bull and a man.  Quite different from the minotaur of legend, it possesses a shaggy white bull’s head on an otherwise unremarkable human body.  Clad in sagging socks and stained jockey shorts, it grunts and snuffles, drooling ropey strands of white slobber down its chest.  You occasionally catch a glint in its eyes and freeze up involuntarily, like a deer in headlights.",
     "default_faction": "nether",
     "bodytype": "human",
     "species": [ "NETHER" ],
@@ -485,7 +609,7 @@
     "id": "mon_gracke",
     "type": "MONSTER",
     "name": { "str": "gracken" },
-    "description": "This is some form of eldritch monstrosity; an uncouth black being with smooth, oily skin and unpleasant horns that curve inward toward each other.  Tall and thin, the shadows cling unnaturally to its vaguely defined humanoid form as it shuffles along, its hands twitching and spasming so rapidly as to appear a little more than a black blur of claws.  While it doesn't seem aggressive, gazing upon its disturbing form fills you with an unspeakable terror regardless.",
+    "description": "This is some form of eldritch monstrosity; an uncouth black being with smooth, oily skin and unpleasant horns that curve inward toward each other.  Tall and thin, the shadows cling unnaturally to its vaguely defined humanoid form as it shuffles along, its hands twitching and spasming so rapidly as to appear a little more than a black blur of claws.  Despite the night-terror esque appearance, it doesn't appear aggressive.",
     "default_faction": "nether",
     "bodytype": "human",
     "species": [ "NETHER" ],
@@ -503,13 +627,13 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 4,
-    "armor_elec": 1,
     "bleed_rate": 60,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_headless_dog_thing",
@@ -534,11 +658,11 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 4,
-    "armor_elec": 1,
     "harvest": "exempt",
     "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_hound_tindalos",
@@ -562,9 +686,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 5,
-    "armor_cut": 50,
-    "armor_bullet": 40,
-    "armor_elec": 1,
     "bleed_rate": 20,
     "vision_day": 50,
     "vision_night": 50,
@@ -584,7 +705,8 @@
       "ARTHROPOD_BLOOD",
       "NO_BREATHE",
       "HARDTOSHOOT"
-    ]
+    ],
+    "armor": { "cut": 50, "bullet": 40, "electric": 1 }
   },
   {
     "id": "mon_hound_tindalos_afterimage",
@@ -608,9 +730,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 5,
-    "armor_cut": 50,
-    "armor_bullet": 40,
-    "armor_elec": 1,
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 50,
@@ -630,7 +749,8 @@
       "ARTHROPOD_BLOOD",
       "NO_BREATHE",
       "HARDTOSHOOT"
-    ]
+    ],
+    "armor": { "cut": 50, "bullet": 40, "electric": 1 }
   },
   {
     "id": "mon_human_snail",
@@ -652,21 +772,19 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 6,
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "harvest": "demihuman_snail",
     "families": [ "prof_wp_demihuman" ],
     "dissect": "dissect_gastropod_sample_large",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD" ],
+    "armor": { "bash": 6, "cut": 12, "bullet": 10 }
   },
   {
     "id": "mon_hunting_horror",
     "type": "MONSTER",
     "name": { "str": "hunting horror" },
-    "description": "This is some sort of great viperine creature, possessed of a curiously distorted head and massive clawed appendages.  It partially supports itself with the aid of black, rubbery wings of monstrous dimensions.  Its form writhes and changes before your eyes, filling you with unnameable horror.",
+    "description": "This is some sort of great viperine creature, possessed of a curiously distorted head and massive clawed appendages.  It partially supports itself with the aid of black, rubbery wings of monstrous dimensions.  The wings beat slowly like an eagle while the body coils through the air like how an eel swims in water.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
@@ -682,7 +800,6 @@
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 8,
-    "armor_elec": 1,
     "harvest": "exempt",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -698,13 +815,14 @@
       "NO_BREATHE",
       "HIT_AND_RUN",
       "NOGIB"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_kreck",
     "type": "MONSTER",
     "name": { "str": "kreck" },
-    "description": "This is some form of otherworldly hound.  Lean and hungry-looking, its twisted red flesh is stretched tightly across its misshapen, angular frame.  Loping grotesquely along, its unusually long neck stretches forward, its skull-like head near the ground as it sniffs out its prey.  Its foulness partially veiled by some arcane force, it seems to almost flicker in and out of your perceptions in a fashion that awakens ancient nameless terrors in the back of your mind.",
+    "description": "This is some form of otherworldly hound.  Lean and hungry-looking, its twisted red flesh is stretched tightly across its misshapen, angular frame.  Loping grotesquely along, its unusually long neck stretches forward, its skull-like head near the ground as it sniffs out its prey.  Its foulness partially veiled by some arcane force, it seems to almost flicker in and out of your perceptions as if you were looking at it from the corner of your vision.",
     "default_faction": "nether",
     "bodytype": "dog",
     "species": [ "NETHER" ],
@@ -722,54 +840,20 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 8,
-    "armor_cut": 5,
-    "armor_bullet": 4,
     "bleed_rate": 40,
     "vision_day": 50,
     "//": "a good candidate for an alien anatomy harvest",
     "harvest": "exempt",
     "path_settings": { "max_dist": 10 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ]
-  },
-  {
-    "id": "mon_rabbit_dreadful",
-    "type": "MONSTER",
-    "name": { "str": "rabbit" },
-    "description": "A small mammal with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
-    "default_faction": "mutant",
-    "bodytype": "pig",
-    "looks_like": "mon_rabbit",
-    "species": [ "NETHER" ],
-    "volume": "1600 ml",
-    "weight": "1600 g",
-    "hp": 40,
-    "speed": 200,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "brown",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 4,
-    "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "dodge": 6,
-    "vision_day": 50,
-    "vision_night": 15,
-    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "harvest": "mammal_small_fur",
-    "dissect": "dissect_beast_sample_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ],
+    "armor": { "cut": 5, "bullet": 4 }
   },
   {
     "id": "mon_shadow",
     "type": "MONSTER",
     "name": { "str": "shadow" },
-    "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
+    "description": "An animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, trying to forcefully supplant your own.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 2,
@@ -798,7 +882,6 @@
       "SMELLS",
       "NOHEAD",
       "HARDTOSHOOT",
-      "GRABS",
       "WEBWALK",
       "FLIES",
       "PLASTIC",
@@ -814,7 +897,7 @@
     "id": "mon_shadow_snake",
     "type": "MONSTER",
     "name": { "str": "shadow snake" },
-    "description": "This is an animate shadow in the form of a long and sinuous snake.  Translucent and dark, it glides silently across the floor, wriggling and flexing as it moves.",
+    "description": "An animate shadow in the form of a long and sinuous snake.  Translucent and dark, it glides silently across the floor, wriggling and flexing as it moves.",
     "default_faction": "nether",
     "bodytype": "snake",
     "species": [ "NETHER" ],
@@ -841,7 +924,7 @@
     "id": "mon_shoggoth",
     "type": "MONSTER",
     "name": { "str": "shoggoth" },
-    "description": "A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  It looks at you with malice.",
+    "description": "A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  The rapid and chaotic way it reconstitutes itself gives the impression of it boiling over with some kind of primordial fury.",
     "default_faction": "nether",
     "bodytype": "blob",
     "species": [ "NETHER" ],
@@ -857,10 +940,6 @@
     "melee_dice": 7,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "acid", "amount": 20 }, { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 30,
-    "armor_bullet": 24,
-    "armor_elec": 4,
     "harvest": "exempt",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 400 ], [ "ABSORB_ITEMS", 0 ], [ "SPLIT", 5 ] ],
@@ -871,7 +950,8 @@
     "split_move_cost": 180,
     "absorb_move_cost_max": 300,
     "absorb_move_cost_per_ml": 0.025,
-    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
+    "armor": { "bash": 10, "cut": 30, "bullet": 24, "electric": 4 }
   },
   {
     "id": "mon_thing",
@@ -891,18 +971,17 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 12,
+    "melee_skill": 8,
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
-    "armor_bash": 8,
-    "armor_elec": 1,
     "bleed_rate": 20,
     "harvest": "exempt",
     "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ]
+    "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ],
+    "armor": { "bash": 8, "electric": 1 }
   },
   {
     "id": "mon_twisted_body",
@@ -935,7 +1014,7 @@
     "id": "mon_yugg",
     "type": "MONSTER",
     "name": { "str": "yugg" },
-    "description": "This is a huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.  The mere sight of its putrid whitish visage is enough to loose prehistoric terrors within the darkest recesses of your mind.",
+    "description": "A huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.",
     "default_faction": "nether",
     "bodytype": "snake",
     "species": [ "NETHER" ],
@@ -954,12 +1033,11 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 1,
-    "armor_bash": 6,
-    "armor_elec": 3,
     "bleed_rate": 50,
     "harvest": "meatslug",
     "special_attacks": [ [ "GENE_STING", 20 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ],
+    "armor": { "bash": 6, "electric": 3 }
   },
   {
     "id": "mon_vortex",
@@ -1019,8 +1097,8 @@
     "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
-    "hp": 30,
     "speed": 90,
+    "hp": 30,
     "symbol": "X",
     "color": "white",
     "aggression": 100,
@@ -1035,7 +1113,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER", "IMMOBILE" ]
   },
   {
     "id": "mon_absence",
@@ -1062,7 +1140,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s returns to normal levels of empty." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER", "IMMOBILE" ]
   },
   {
     "id": "mon_giant_appendage",
@@ -1085,7 +1163,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is pulled back through the closing portal." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
+    "flags": [ "FLIES", "NO_BREATHE", "STUMBLES" ]
   },
   {
     "id": "mon_memory",
@@ -1106,9 +1184,10 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "special_attacks": [ [ "GRAB", 2 ], [ "PARROT", 4 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 2 }, [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON" ]
+    "flags": [ "NO_BREATHE", "GRABS", "PUSH_MON", "GROUP_BASH" ]
   },
   {
     "id": "mon_swarm_structure",
@@ -1125,9 +1204,6 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 5,
     "special_attacks": [
       {
         "type": "spell",
@@ -1137,7 +1213,8 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
-    "flags": [ "IMMOBILE", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+    "flags": [ "IMMOBILE", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 5 }
   },
   {
     "id": "mon_twisting_blade",
@@ -1183,12 +1260,6 @@
     "morale": 100,
     "anger_triggers": [ "HURT" ],
     "speed": 75,
-    "armor_bash": 20,
-    "armor_cut": 20,
-    "armor_stab": 20,
-    "armor_bullet": 20,
-    "armor_fire": 20,
-    "armor_elec": 20,
     "bleed_rate": 0,
     "special_attacks": [
       [ "TENTACLE", 2 ],
@@ -1204,7 +1275,8 @@
       "message": "The material stabilizes and reforms itself into a small chunk of unknown composition."
     },
     "death_drops": "ps_artifact_weak",
-    "flags": [ "COLDPROOF", "SEES", "HEARS", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ]
+    "flags": [ "COLDPROOF", "SEES", "HEARS", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ],
+    "armor": { "bash": 20, "cut": 20, "stab": 20, "heat": 20, "bullet": 20, "electric": 20 }
   },
   {
     "id": "mon_archunk_medium",
@@ -1214,14 +1286,9 @@
     "description": "This formless, pitch-black mass wriggles and pulses on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes.  As it gets closer to you, its pulsing intensifies as if it reacted to you.",
     "symbol": "H",
     "hp": 315,
-    "armor_bash": 25,
-    "armor_cut": 25,
-    "armor_stab": 25,
-    "armor_bullet": 25,
-    "armor_fire": 25,
-    "armor_elec": 25,
     "color": "dark_gray",
-    "death_drops": "ps_artifact_medium"
+    "death_drops": "ps_artifact_medium",
+    "armor": { "bash": 25, "cut": 25, "stab": 25, "heat": 25, "bullet": 25, "electric": 25 }
   },
   {
     "id": "mon_archunk_strong",
@@ -1231,15 +1298,10 @@
     "description": "This formless, pitch-black mass wriggles violently and noisily on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes sparkling with electricity.  As it gets closer to you, its wriggling intensifies and its sparks grow brighter as if it reacted to you.",
     "symbol": "H",
     "hp": 445,
-    "armor_bash": 30,
-    "armor_cut": 30,
-    "armor_stab": 30,
-    "armor_bullet": 30,
-    "armor_fire": 30,
-    "armor_elec": 30,
     "color": "dark_gray",
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
-    "death_drops": "ps_artifact_strong"
+    "death_drops": "ps_artifact_strong",
+    "armor": { "bash": 30, "cut": 30, "stab": 30, "heat": 30, "bullet": 30, "electric": 30 }
   },
   {
     "id": "mon_pale_reflection",
@@ -1300,6 +1362,35 @@
     "copy-from": "mon_pale_reflection"
   },
   {
+    "id": "mon_XEDRA_officer",
+    "type": "MONSTER",
+    "name": { "str": "mercenary officer" },
+    "copy-from": "mon_zombie_bio_op",
+    "hp": 150,
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "NO_BREATHE" ],
+    "death_drops": "xedra_officer_set",
+    "bleed_rate": 0,
+    "vision_day": 40,
+    "vision_night": 40,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_conjure_memories" },
+        "cooldown": 30,
+        "monster_message": "The creature screams \"SOMEONE HELP ME, ANYONE!\"."
+      }
+    ],
+    "death_function": { "effect": { "id": "mon_XEDRA_officer_banish", "hit_self": true } },
+    "armor": { "electric": 3, "bash": 30, "cut": 30, "bullet": 40 }
+  },
+  {
+    "id": "mon_XEDRA_soldier",
+    "type": "MONSTER",
+    "name": { "str": "mercenary ghost" },
+    "copy-from": "mon_zombie_soldier_blackops_1",
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The soldier fades away to nothing." }
+  },
+  {
     "id": "mon_tainted_shadow",
     "type": "MONSTER",
     "name": { "str": "tainted shadow" },
@@ -1329,7 +1420,7 @@
     "id": "mon_hallucinator",
     "type": "MONSTER",
     "name": { "str": "person" },
-    "description": "A common human, that looks exactly like human do.  You can see it.  It can see you.  You know it knows you can see it.  It knows you know you can see him.  It moves towards you.",
+    "description": "A common human.  It looks exactly like a human looks.  You can see them.  They can see you.  You know they know you can see them.  They know you know you can see them.  They move towards you.",
     "//": "it must be spooky, but god im bad in this stuff",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
@@ -1344,7 +1435,7 @@
     "vision_day": 60,
     "vision_night": 60,
     "path_settings": { "max_dist": 60, "allow_open_doors": true },
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just dissapeared." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just disappeared." },
     "flags": [
       "NO_BREATHE",
       "SEES",
@@ -1402,5 +1493,139 @@
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+  },
+  {
+    "id": "mon_hanging_roper",
+    "type": "MONSTER",
+    "name": { "str": "hanging roper" },
+    "description": "What looks to be a loose mass of worm-like appendages reveals a solid body beneath, a great maw of rows of serrated fangs taking up most of the body.  It is either very lethargic or stalking prey, sitting in place without much obvious motion.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 200,
+    "speed": 150,
+    "symbol": "v",
+    "color": "pink",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 12,
+    "melee_damage": [ { "damage_type": "stab", "amount": 6 } ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "ranged_pull", "cooldown": 3 }, { "id": "grab", "cooldown": 4 }, { "type": "bite", "cooldown": 2 } ],
+    "harvest": "mutant_mammal_leather",
+    "reproduction": { "baby_monster": "mon_carrion_grub", "baby_count": 1, "baby_timer": 330 },
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "IMMOBILE", "ANIMAL" ]
+  },
+  {
+    "id": "mon_carrion_grub",
+    "type": "MONSTER",
+    "name": { "str": "carrion grub" },
+    "description": "A wriggling brown grub of unnatural origin, slithering along the ground and unnaturally pulsating.  As it moves along, it chews through any available flesh with surprising speed.",
+    "copy-from": "mon_larva_abstract",
+    "default_faction": "nether",
+    "bodytype": "snake",
+    "volume": "30 L",
+    "weight": "40750 g",
+    "hp": 20,
+    "speed": 15,
+    "symbol": "v",
+    "color": "brown",
+    "aggression": -10,
+    "morale": 10,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "upgrades": { "age_grow": 30, "into": "mon_hanging_roper" },
+    "harvest": "mutant_animal_large_noskin",
+    "flags": [ "SMELLS" ]
+  },
+  {
+    "id": "mon_nether_spearfisher",
+    "type": "MONSTER",
+    "name": { "str": "spearfisher" },
+    "description": "A strange quadrupedal creature with long, lanky limbs and a gaping maw.  A long sharp spike protrudes from it's back, which occasionally launches from its' joint to stab prey before slinking back in.",
+    "default_faction": "spearfisher",
+    "bodytype": "dog",
+    "volume": "45 L",
+    "weight": "60758 g",
+    "hp": 40,
+    "speed": 100,
+    "symbol": "<",
+    "color": "pink",
+    "aggression": 10,
+    "morale": 10,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "stab", "amount": 8 } ],
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "harvest": "mutant_animal_large_noskin",
+    "flags": [ "SMELLS", "SEES", "HEARS", "ANIMAL", "WARM" ]
+  },
+  {
+    "id": "mon_nether_leech",
+    "type": "MONSTER",
+    "name": { "str": "strange leech", "str_pl": "strange leeches" },
+    "description": "A very wet, snake-like creature which you estimate to be five feet long, covered in slime and slithering about.  occasionally, it will attach itself to the flesh around it and begins to suck.",
+    "copy-from": "mon_larva_abstract",
+    "default_faction": "nether",
+    "bodytype": "snake",
+    "volume": "72 L",
+    "weight": "90 kg",
+    "hp": 100,
+    "speed": 100,
+    "symbol": "s",
+    "color": "pink",
+    "aggression": 30,
+    "morale": 10,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 8,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 4,
+        "accuracy": 5,
+        "damage_max_instance": [
+          { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.3 },
+          { "damage_type": "bash", "amount": 5, "armor_multiplier": 0.3 }
+        ]
+      }
+    ],
+    "harvest": "mutant_animal_large_noskin",
+    "reproduction": { "baby_monster": "mon_nether_leech", "baby_count": 1, "baby_timer": 330 },
+    "flags": [ "SMELLS" ]
+  },
+  {
+    "id": "mon_nether_fish",
+    "type": "MONSTER",
+    "name": { "str": "nether fish symbiote" },
+    "description": "A small fish symbiote that resembles a deformed, eyeless piranha.  It swims blindly in the yellow ichor, wriggling incessantly with malicious intent.",
+    "default_faction": "nether_fish_symbiote",
+    "bodytype": "fish",
+    "species": [ "NETHER" ],
+    "volume": "1500 ml",
+    "weight": "1000 g",
+    "hp": 25,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "^",
+    "color": "white_magenta",
+    "aggression": 100,
+    "morale": 105,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "dodge": 5,
+    "armor": { "bash": 0, "cut": 2, "bullet": 0 },
+    "luminance": 0,
+    "harvest": "fish_small",
+    "looks_like": "mon_fish_brown_trout",
+    "fear_triggers": [ "FIRE" ],
+    "flags": [ "HEARS", "WARM", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
   }
 ]

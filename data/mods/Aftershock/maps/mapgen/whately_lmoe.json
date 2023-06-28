@@ -174,7 +174,6 @@
       ":": "t_secretdoor_metal_c",
       ";": "t_secretdoor_metal_o",
       "~": "t_water_pump",
-      "G": "t_generator_broken",
       "t": "t_metal_floor",
       "k": "t_metal_floor_olight"
     },
@@ -191,6 +190,7 @@
       "E": "f_exercise",
       "F": "f_fridge",
       "f": "f_sofa",
+      "G": "f_generator_broken",
       "h": "f_chair",
       "H": "f_water_heater",
       "K": "f_sink",

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.20)
 
 project(CataclysmDDA)
 
@@ -12,13 +12,18 @@ endif()
 set(CMAKE_TLS_VERIFY ON)
 
 # Build options
+include(CMakeDependentOption)
 option(TILES "Build graphical tileset version." "OFF")
 option(CURSES "Build curses version." "ON")
 option(SOUND "Support for in-game sounds & music." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
-option(USE_HOME_DIR "Use user's home directory for save files." "ON")
-option(USE_PREFIX_DATA_DIR "Use UNIX system directories for game data in release build." "ON")
+option(USE_XDG_DIR "Use XDG directories for save and config files." "OFF")
+option(USE_HOME_DIR "Use user's home directory for save and config files." "ON")
+cmake_dependent_option(USE_PREFIX_DATA_DIR
+    "Use UNIX system directories for game data in release build." ON
+    "UNIX" OFF
+)
 option(LOCALIZE "Support for language localizations. Also enable UTF support." "ON")
 option(LANGUAGES "Compile localization files for specified languages." "")
 option(DYNAMIC_LINKING
@@ -27,14 +32,18 @@ option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy checks as a plugin" "OFF")
 option(CATA_CLANG_TIDY_EXECUTABLE "Build Cata's custom clang-tidy checks as an executable" "OFF")
+option(TESTS "Compile Cata's tests" "ON")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
 set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
+set(GETTEXT_MSGFMT_BINARY "" CACHE FILEPATH "msgfmt binary name or path.")
 
+if (TESTS)
 include(CTest)
+endif()
 
-message(STATUS "${PROJECT} build environment --")
+message(STATUS "${PROJECT_NAME} build environment --")
 message(STATUS "Build realm is: ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 if (NOT CMAKE_BUILD_TYPE)
@@ -51,6 +60,19 @@ if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
             "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
+
+    # get_git_head_revision() does not work with worktrees in Windows
+    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _sha1
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(TIMESTAMP _timestamp %Y-%m-%d-%H%M)
+    file(WRITE VERSION.txt "\
+build type: ${BUILD_PRESET_NAME}\n\
+build number: ${_timestamp}\n\
+commit sha: ${_sha1}\n\
+commit url: https://github.com/CleverRaven/Cataclysm-DDA/commit/${_sha1}"
+    )
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
@@ -79,6 +101,7 @@ include(CheckCXXCompilerFlag)
 #SET(CMAKE_SHARED_LIBRARY_C_FLAGS "${CMAKE_SHARED_LIBRARY_C_FLAGS} -m32")
 #SET(CMAKE_SHARED_LIBRARY_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CXX_FLAGS} -m32")
 
+find_package(PkgConfig)
 if (NOT DYNAMIC_LINKING)
     if(NOT MSVC)
         set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
@@ -102,48 +125,12 @@ else ()
     endif ()
 endif ()
 
-# System specific actions
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
-    if (NOT DATA_PREFIX)
-        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
-    endif ()
-    if (NOT LOCALE_DIR)
-        set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/share/locale)
-    endif ()
-    if (NOT BIN_PREFIX)
-        set(BIN_PREFIX ${CMAKE_INSTALL_PREFIX}/bin)
-    endif ()
-    if (NOT DESKTOP_ENTRY_PATH)
-        set(DESKTOP_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/applications)
-    endif ()
-    if (NOT PIXMAPS_ENTRY_PATH)
-        set(PIXMAPS_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor)
-    endif ()
-    if (NOT PIXMAPS_UNITY_ENTRY_PATH)
-        set(PIXMAPS_UNITY_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/icons/ubuntu-mono-dark)
-    endif ()
-    if (NOT MANPAGE_ENTRY_PATH)
-        set(MANPAGE_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/man)
-    endif ()
-endif ()
-
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Windows|MSYS)")
-    if (NOT DATA_PREFIX)
-        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/data)
-    endif ()
-    if (NOT LOCALE_DIR)
-        set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/lang)
-    endif ()
-    if (NOT BIN_PREFIX)
-        set(BIN_PREFIX ${CMAKE_INSTALL_PREFIX})
-    endif ()
-endif ()
-
 message(STATUS "${PROJECT_NAME} build options --")
 
 # Preset variables
 if (NOT LANGUAGES)
-    set(LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    set(LANGUAGES ar cs da de el es_AR es_ES fil_PH fr ga_IE hu id is it_IT ja ko nb nl pl pt_BR ro
+    ru sr tr uk_UA zh_CN zh_TW)
 endif ()
 
 if (GIT_BINARY)
@@ -162,10 +149,15 @@ if (TILES)
     set(CURSES OFF)
 endif ()
 
+# Can't use both home and xdg directories
+if (USE_XDG_DIR)
+    set(USE_HOME_DIR OFF)
+endif ()
+
 # Set build types and display info
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(RELEASE 0)
-    message(STATUS "Build ${PROJECT} in development mode --")
+    message(STATUS "Build ${PROJECT_NAME} in development mode --")
     message(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
     set(CMAKE_VERBOSE_MAKEFILE ON)
     # Since CataclysmDDA does not respect PREFIX for development builds
@@ -173,29 +165,36 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     # in the source directory
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR} CACHE PATH
             "Single Directory for all Executables.")
-    set(BIN_PREFIX ${CMAKE_SOURCE_DIR})
+    set(CMAKE_INSTALL_BINDIR .)
 else ()
     set(RELEASE 1)
+    add_definitions(-DRELEASE)
+    # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
+    if(USE_PREFIX_DATA_DIR)
+        if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
+            set(CMAKE_INSTALL_DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda")
+            add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
+            configure_file(
+                "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
+                "${CMAKE_SOURCE_DIR}/src/prefix.h"
+                @ONLY)
+            add_definitions(-DDATA_DIR_PREFIX)
+        endif ()
+    else()
+        set(CMAKE_INSTALL_DATADIR   data)
+        set(CMAKE_INSTALL_DOCDIR    .   )
+        set(CMAKE_INSTALL_LOCALEDIR lang)
+        set(CMAKE_INSTALL_BINDIR    .   )
+    endif ()
     message(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
-    message(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
-    message(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
+    message(STATUS "CMAKE_INSTALL_BINDIR          : ${CMAKE_INSTALL_BINDIR}")
     if (LOCALIZE)
-        message(STATUS "LOCALE_PATH                   : ${LOCALE_DIR}")
+        message(STATUS "CMAKE_INSTALL_LOCALEDIR       : ${CMAKE_INSTALL_LOCALEDIR}")
     endif ()
     message(STATUS "DESKTOP_ENTRY_PATH            : ${DESKTOP_ENTRY_PATH}")
     message(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
     message(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}")
-    add_definitions(-DRELEASE)
-    # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
-    if (CMAKE_INSTALL_PREFIX AND NOT WIN32 AND USE_PREFIX_DATA_DIR)
-        add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
-        configure_file(
-            "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
-            "${CMAKE_SOURCE_DIR}/src/prefix.h"
-            @ONLY)
-        add_definitions(-DDATA_DIR_PREFIX)
-    endif ()
 endif ()
 
 message(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
@@ -205,17 +204,12 @@ message(STATUS "CURSES                        : ${CURSES}")
 message(STATUS "SOUND                         : ${SOUND}")
 message(STATUS "BACKTRACE                     : ${BACKTRACE}")
 message(STATUS "LOCALIZE                      : ${LOCALIZE}")
+message(STATUS "USE_XDG_DIR                   : ${USE_XDG_DIR}")
 message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}")
 message(STATUS "LANGUAGES                     : ${LANGUAGES}")
 message(STATUS "See doc/COMPILING/COMPILING-CMAKE.md for details and more info --")
 
-if (MSVC)
-    if ("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-        add_definitions(-D_AMD64_)
-    else ()
-        add_definitions(-D_X86_)
-    endif ()
-else ()
+if (NOT MSVC)
     set(CATA_WARNINGS
             "-Werror -Wall -Wextra \
              -Wformat-signedness \
@@ -237,14 +231,14 @@ else ()
     if (NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     endif ()
-    set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char")
+    set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char -g1")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} ${CATA_OTHER_FLAGS}")
-    set(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
+    set(CMAKE_CXX_FLAGS_DEBUG "-Og -g2")
 endif ()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -267,8 +261,18 @@ find_package(ZLIB REQUIRED)
 if (TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
     message(STATUS "Searching for SDL2 library --")
-    find_package(SDL2)
-    if (NOT (SDL2_FOUND OR TARGET SDL2::SDL2))
+    if (NOT CMAKE_FIND_PACKAGE_PREFER_CONFIG)
+        set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
+        # ^^ Use sdl2-config.cmake provided by the system or VCPKG
+        find_package(SDL2)
+        if(NOT SDL2_FOUND)
+            # Use our CMakeModules/Find/FindSDL2.cmake
+            set(CMAKE_FIND_PACKAGE_PREFER_CONFIG OFF)
+            find_package(SDL2)
+        endif()
+        set(CMAKE_FIND_PACKAGE_PREFER_CONFIG OFF)
+    endif()
+    if (NOT (SDL2_FOUND OR TARGET SDL2::SDL2 OR TARGET SDL2::SDL2-static))
         message(FATAL_ERROR
                 "This project requires SDL2 to be installed to compile in graphical mode.  \
                  Please install the SDL2 development libraries, \
@@ -276,19 +280,9 @@ if (TILES)
                  See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
 
-    if (NOT DYNAMIC_LINKING)
-        # SDL, SDL_Image, SDL_ttf deps are required for static build
-        message(STATUS "Searching for SDL deps libraries --")
-        find_package(Freetype REQUIRED)
-        find_package(PNG REQUIRED)
-        find_package(JPEG REQUIRED)
-        find_package(ZLIB REQUIRED)
-        find_package(BZip2 REQUIRED)
-    endif ()
-
     message(STATUS "Searching for SDL2_TTF library --")
     find_package(SDL2_ttf)
-    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2_ttf::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
+    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
         message(FATAL_ERROR
                 "This project requires SDL2_ttf to be installed to compile in graphical mode. \
                  Please install the SDL2_ttf development libraries, \
@@ -297,12 +291,8 @@ if (TILES)
     endif ()
 
     message(STATUS "Searching for SDL2_image library --")
-    if(VCPKG_MANIFEST_MODE)
-        find_package(sdl2-image)
-    else()
-        find_package(SDL2_image)
-    endif()
-    if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2::SDL2_image))
+    find_package(SDL2_image)
+    if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2::SDL2_image OR TARGET SDL2_image::SDL2_image-static))
         message(FATAL_ERROR
                 "This project requires SDL2_image to be installed to compile in graphical mode. \
                  Please install the SDL2_image development libraries, \
@@ -342,20 +332,12 @@ if (SOUND)
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
     find_package(SDL2_mixer)
-    if(VCPKG_MANIFEST_MODE)
-        if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static
-            message(FATAL_ERROR
-                    "You need the SDL2_mixer development library \
-                     to be able to compile with sound enabled. \
-                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif()
-    else()
-        if (NOT SDL2_MIXER_FOUND)
-            message(FATAL_ERROR
-                    "You need the SDL2_mixer development library \
-                     to be able to compile with sound enabled. \
-                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
+    if (NOT (SDL2_MIXER_FOUND OR TARGET SDL2_mixer::SDL2_mixer
+                              OR TARGET SDL2_mixer::SDL2_mixer-static))
+        message(FATAL_ERROR
+                "You need the SDL2_mixer development library \
+                    to be able to compile with sound enabled. \
+                    See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif()
 endif ()
 
@@ -366,6 +348,17 @@ if (BACKTRACE)
     endif ()
 endif ()
 
+if ((LOCALIZE OR BUILD_TESTING) AND "${GETTEXT_MSGFMT_BINARY}" STREQUAL "")
+    if(MSVC)
+        list(APPEND Gettext_ROOT C:\\msys64\\usr)
+        list(APPEND Gettext_ROOT C:\\Program\ Files\\Git\\usr)
+    endif(MSVC)
+    find_package(Gettext)
+endif ()
+if (NOT GETTEXT_MSGFMT_EXECUTABLE )
+    set(GETTEXT_MSGFMT_EXECUTABLE "${GETTEXT_MSGFMT_BINARY}")
+endif()
+
 # Ok. Now create build and install recipes
 if (LOCALIZE)
     add_subdirectory(lang)
@@ -374,6 +367,10 @@ endif ()
 
 if (USE_HOME_DIR)
     add_definitions(-DUSE_HOME_DIR)
+endif ()
+
+if (USE_XDG_DIR)
+    add_definitions(-DUSE_XDG_DIR)
 endif ()
 
 find_program(CCACHE_FOUND ccache)
@@ -389,12 +386,36 @@ add_subdirectory(data)
 if (NOT MSVC)
     add_subdirectory(src/chkjson)
 endif()
-add_subdirectory(tests)
+
+if(TESTS)
+    add_subdirectory(tests)
+endif()
+
 if (JSON_FORMAT)
     add_subdirectory(tools/format)
 endif()
 if (CATA_CLANG_TIDY_PLUGIN OR CATA_CLANG_TIDY_EXECUTABLE)
     add_subdirectory(tools/clang-tidy-plugin)
+endif()
+
+install(DIRECTORY doc TYPE DOC)
+
+if (RELEASE)
+    install(FILES
+        ${CMAKE_SOURCE_DIR}/README.md
+        ${CMAKE_SOURCE_DIR}/LICENSE.txt
+        ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
+        ${CMAKE_SOURCE_DIR}/VERSION.txt
+        TYPE DOC)
+    if (TILES)
+        if (USE_PREFIX_DATA_DIR)
+            install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx
+                TYPE DATA)
+        else()
+            install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx
+                DESTINATION .)
+        endif()
+    endif()
 endif()
 
 configure_file(

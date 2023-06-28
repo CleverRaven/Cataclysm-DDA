@@ -108,7 +108,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.set_skill_level( skill_traps, skill_level );
 
             REQUIRE( dummy.get_per() == perception );
-            REQUIRE( dummy.get_skill_level( skill_traps ) == skill_level );
+            REQUIRE( static_cast<int>( dummy.get_skill_level( skill_traps ) ) == skill_level );
             if( has_proficiency )
             {
                 dummy.add_proficiency( proficiency_prof_safecracking );
@@ -332,7 +332,6 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
         mon->add_effect( effect_tied, 1_turns, true );
         return *mon;
     };
-
 
     SECTION( "shearing testing time" ) {
 
@@ -577,7 +576,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
         boltcutting_activity_actor act{tripoint_zero, torch};
         act.testing = true;
-        dummy.assign_activity( player_activity( act ) );
+        dummy.assign_activity( act );
     };
 
     SECTION( "boltcut start checks" ) {
@@ -779,7 +778,6 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             }
         }
 
-
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
             clear_map();
             clear_avatar();
@@ -842,7 +840,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
         hacksaw_activity_actor act{tripoint_zero, torch};
         act.testing = true;
-        dummy.assign_activity( player_activity( act ) );
+        dummy.assign_activity( act );
     };
 
     SECTION( "hacksaw start checks" ) {
@@ -1045,7 +1043,6 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             }
         }
 
-
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
             clear_map();
             clear_avatar();
@@ -1109,7 +1106,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
         oxytorch_activity_actor act{tripoint_zero, torch};
         act.testing = true;
-        dummy.assign_activity( player_activity( act ) );
+        dummy.assign_activity( act );
     };
 
     SECTION( "oxytorch start checks" ) {
@@ -1301,7 +1298,6 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
             }
         }
 
-
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
             clear_map();
             clear_avatar();
@@ -1374,7 +1370,7 @@ TEST_CASE( "prying", "[activity][prying]" )
     const tripoint &target = tripoint_zero ) -> void {
         prying_activity_actor act{target, tool};
         act.testing = true;
-        dummy.assign_activity( player_activity( act ) );
+        dummy.assign_activity( act );
     };
 
     SECTION( "prying time tests" ) {
@@ -1713,7 +1709,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( move_items_activity_actor( {}, {}, false, get_avatar().pos() + tripoint_north ) ); },
     [] { return player_activity( open_gate_activity_actor( 1, get_avatar().pos() ) ); },
     //player_activity( oxytorch_activity_actor( p, loc ) ),
-    [] { return player_activity( pickup_activity_actor( {}, {}, cata::nullopt, false ) ); },
+    [] { return player_activity( pickup_activity_actor( {}, {}, std::nullopt, false ) ); },
     [] { return player_activity( play_with_pet_activity_actor() ); },
     //player_activity( prying_activity_actor( p, loc ) ),
     //player_activity( read_activity_actor() ),
@@ -1759,11 +1755,12 @@ static void update_cache( map &m )
     m.build_map_cache( 0 );
 }
 
-TEST_CASE( "activity interruption by distractions", "[activity][interruption]" )
+TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
 {
-    avatar &dummy = get_avatar();
     clear_avatar();
     clear_map();
+    set_time_to_day();
+    avatar &dummy = get_avatar();
     map &m = get_map();
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
 

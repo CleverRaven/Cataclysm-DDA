@@ -10,7 +10,6 @@
     "price_postapoc": 500,
     "install_time": "1 m",
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "brown",
@@ -18,7 +17,8 @@
     "mod_targets": [ "rifle", "launcher" ],
     "handling_modifier": 18,
     "min_skills": [ [ "weapon", 2 ] ],
-    "flags": [ "BIPOD", "SLOW_WIELD" ]
+    "flags": [ "BIPOD", "SLOW_WIELD" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "bipod_mod",
@@ -43,7 +43,6 @@
     "price_postapoc": 500,
     "install_time": "20 m",
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "aluminum" ],
     "symbol": ":",
     "color": "brown",
@@ -57,7 +56,8 @@
       "target": "bipod_handguard_deployed",
       "moves": 120
     },
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "bipod_handguard_deployed",
@@ -91,7 +91,6 @@
     "price_postapoc": 500,
     "install_time": "20 m",
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "aluminum", "plastic" ],
     "symbol": ":",
     "color": "brown",
@@ -100,10 +99,12 @@
     "handling_modifier": 6,
     "dispersion_modifier": -5,
     "min_skills": [ [ "weapon", 2 ] ],
-    "weight_multiplier": 0.95
+    "weight_multiplier": 0.95,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "combination_gun_shotgun",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "combination gun shotgun" },
     "description": "The integrated underbarrel shotgun of a combination gun which holds two shots.  It's irremovable.",
@@ -168,6 +169,25 @@
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
+    "id": "wooden_grip",
+    "type": "GUNMOD",
+    "name": { "str": "wood forward grip" },
+    "description": "A wooden grip placed forward on the barrel allows for greater control.  Not as effective as a bipod but usable under all conditions.  This one was cleverly handmade by a desperate survivor or miserly enthusiast, it cannot be removed after installation.",
+    "weight": "94 g",
+    "volume": "119 ml",
+    "price": 200,
+    "price_postapoc": 250,
+    "install_time": "15 m",
+    "material": [ "wood" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "underbarrel",
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+    "handling_modifier": 6,
+    "min_skills": [ [ "weapon", 3 ] ],
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
+  },
+  {
     "id": "inter_bayonet",
     "type": "GUNMOD",
     "name": { "str": "integrated bayonet" },
@@ -180,7 +200,6 @@
     "price_postapoc": 500,
     "install_time": "0 s",
     "to_hit": -1,
-    "cutting": 10,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
@@ -195,7 +214,8 @@
     "mod_targets": [ "shotgun", "rifle" ],
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
-    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "stab": 10 }
   },
   {
     "id": "inter_bayonet_folded",
@@ -204,7 +224,6 @@
     "copy-from": "inter_bayonet",
     "description": "The weapon's integrated bayonet has been folded for storage.",
     "longest_side": "22 cm",
-    "cutting": 0,
     "integral_longest_side": "0 cm",
     "use_action": {
       "type": "transform",
@@ -214,10 +233,12 @@
       "moves": 120
     },
     "mode_modifier": [  ],
-    "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
+    "melee_damage": {  }
   },
   {
     "id": "ksg_aux_shotgun",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "KSG second magazine" },
     "description": "The integrated second tube magazine of the Kel-Tec KSG, which holds 7 shots.  It's irremovable.",
@@ -245,6 +266,7 @@
   },
   {
     "id": "ksg25_aux_shotgun",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "KSG-25 second magazine" },
     "description": "The integrated second tube magazine of the Kel-Tec KSG-25, which holds 12 shots.  It's irremovable.",
@@ -272,6 +294,7 @@
   },
   {
     "id": "ts12_aux_shotgun",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "TS12 second magazine" },
     "description": "The integrated second tube magazine of the Tavor TS12, which holds 5 shots.  It's irremovable.",
@@ -301,6 +324,7 @@
   },
   {
     "id": "ts12_aux_shotgun2",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "TS12 third magazine" },
     "description": "The integrated third tube magazine of the Tavor TS12, which holds 5 shots.  It's irremovable.",
@@ -352,6 +376,7 @@
   },
   {
     "id": "lemat_revolver_shotgun",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "LeMat revolver shotgun" },
     "description": "The LeMat revolver is unique in that its cylinder axis pin is also a fully functional 20 gauge percussion-primed smoothbore barrel.  It's irremovable.",
@@ -378,6 +403,7 @@
   },
   {
     "id": "m203",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str_sp": "M203" },
     "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
@@ -414,6 +440,7 @@
   },
   {
     "id": "m320_mod",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str_sp": "M320 GLM" },
     "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for standalone use.",
@@ -450,6 +477,7 @@
   },
   {
     "id": "M6_shotgun",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "M6 Survival Gun shotgun" },
     "description": "The integrated 12 gauge shotgun barrel of the Chiappa M6 Survival Gun.  It's irremovable.",
@@ -484,6 +512,7 @@
   },
   {
     "id": "masterkey",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "masterkey shotgun" },
     "description": "A minimalist pump-action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
@@ -512,6 +541,7 @@
   },
   {
     "id": "m26_mass",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "M26-MASS shotgun" },
     "description": "The Modular Accessory Shotgun System is an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\" and fixed most of its predecessor's problems.  It can be mounted under the barrel of a rifle, or used as a standalone weapon by attaching a pistol grip or collapsible buttstock module.  It feeds from three- or five-shot detachable magazines.",
@@ -540,6 +570,7 @@
   },
   {
     "id": "pipe_launcher40mm",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "40mm pipe launcher" },
     "description": "A home-built launcher tube that can be attached to almost any weapon except handguns.  It allows a single 40mm grenade to be loaded and fired.",
@@ -577,7 +608,6 @@
     "price_postapoc": 1000,
     "install_time": "5 m",
     "to_hit": -4,
-    "cutting": 6,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
@@ -586,10 +616,12 @@
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
-    "flags": [ "STAB" ]
+    "flags": [  ],
+    "melee_damage": { "stab": 6 }
   },
   {
     "id": "rm121aux",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "RM121 aux shotgun" },
     "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.",
@@ -619,6 +651,7 @@
   },
   {
     "id": "u_shotgun",
+    "copy-from": "underbarrel_base",
     "type": "GUNMOD",
     "name": { "str": "underslung shotgun" },
     "description": "A short shotgun with 2 barrels, which can be mounted under the barrel of many rifles.  It allows two shotgun shells to be loaded and fired.",

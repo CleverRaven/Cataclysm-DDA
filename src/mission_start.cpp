@@ -2,8 +2,10 @@
 
 #include <memory>
 #include <new>
+#include <optional>
 #include <vector>
 
+#include "avatar.h"
 #include "character.h"
 #include "computer.h"
 #include "coordinates.h"
@@ -21,7 +23,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -38,15 +39,7 @@ static const itype_id itype_software_useless( "software_useless" );
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
-static const mtype_id mon_dog( "mon_dog" );
 static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-static const mtype_id mon_zombie_master( "mon_zombie_master" );
-static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
-
-static const overmap_special_id overmap_special_evac_center( "evac_center" );
 
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
@@ -55,26 +48,6 @@ static const overmap_special_id overmap_special_evac_center( "evac_center" );
 
 void mission_start::standard( mission * )
 {
-}
-
-void mission_start::place_dog( mission *miss )
-{
-    const tripoint_abs_omt house = mission_util::random_house_in_closest_city();
-    npc *dev = g->find_npc( miss->npc_id );
-    if( dev == nullptr ) {
-        debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
-        return;
-    }
-    get_player_character().i_add( item( "dog_whistle", calendar::turn_zero ) );
-    add_msg( _( "%s gave you a dog whistle." ), dev->get_name() );
-
-    miss->target = house;
-    overmap_buffer.reveal( house, 6 );
-
-    tinymap doghouse;
-    doghouse.load( project_to<coords::sm>( house ), false );
-    doghouse.add_spawn( mon_dog, 1, { SEEX, SEEY, house.z() }, true, -1, miss->uid );
-    doghouse.save();
 }
 
 void mission_start::place_zombie_mom( mission *miss )
@@ -91,47 +64,6 @@ void mission_start::place_zombie_mom( mission *miss )
     zomhouse.save();
 }
 
-void mission_start::kill_horde_master( mission *miss )
-{
-    npc *p = g->find_npc( miss->npc_id );
-    if( p == nullptr ) {
-        debugmsg( "could not find mission NPC %d", miss->npc_id.get_value() );
-        return;
-    }
-    // Npc joins you
-    p->set_attitude( NPCATT_FOLLOW );
-    // Pick one of the below locations for the horde to haunt
-    const tripoint_abs_omt center = p->global_omt_location();
-    tripoint_abs_omt site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "hotel_tower_1_8", 0, false );
-    }
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "school_5", 0, false );
-    }
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "forest_thick", 0, false );
-    }
-    miss->target = site;
-    overmap_buffer.reveal( site, 6 );
-    tinymap tile;
-    tile.load( project_to<coords::sm>( site ), false );
-    tile.add_spawn( mon_zombie_master, 1, { SEEX, SEEY, site.z() }, false, -1, miss->uid,
-                    _( "Demonic Soul" ) );
-    tile.add_spawn( mon_zombie_brute, 3, { SEEX, SEEY, site.z() } );
-    tile.add_spawn( mon_zombie_dog, 3, { SEEX, SEEY, site.z() } );
-
-    for( int x = SEEX - 1; x <= SEEX + 1; x++ ) {
-        for( int y = SEEY - 1; y <= SEEY + 1; y++ ) {
-            tile.add_spawn( mon_zombie, rng( 3, 10 ), { x, y, site.z() } );
-        }
-        tile.add_spawn( mon_zombie_dog, rng( 0, 2 ), { SEEX, SEEY, site.z() } );
-    }
-    tile.add_spawn( mon_zombie_necro, 2, { SEEX, SEEY, site.z() } );
-    tile.add_spawn( mon_zombie_hulk, 1, { SEEX, SEEY, site.z() } );
-    tile.save();
-}
-
 void mission_start::kill_nemesis( mission * )
 {
     // Pick an area for the nemesis to spawn
@@ -143,7 +75,7 @@ void mission_start::kill_nemesis( mission * )
 
     size_t attempt = 0;
     do {
-        if( ++attempt >= attempts_multipliers.size() ) {
+        if( attempt++ >= attempts_multipliers.size() ) {
             debugmsg( "Failed adding a nemesis mission" );
             return;
         }
@@ -152,7 +84,6 @@ void mission_start::kill_nemesis( mission * )
     } while( site == overmap::invalid_tripoint );
     overmap_buffer.add_nemesis( site );
 }
-
 
 /*
  * Find a location to place a computer.  In order, prefer:
@@ -266,27 +197,6 @@ void mission_start::place_npc_software( mission *miss )
     compmap.save();
 }
 
-void mission_start::place_priest_diary( mission *miss )
-{
-    const tripoint_abs_omt place = mission_util::random_house_in_closest_city();
-    miss->target = place;
-    overmap_buffer.reveal( place, 2 );
-    tinymap compmap;
-    compmap.load( project_to<coords::sm>( place ), false );
-
-    std::vector<tripoint> valid;
-    for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.furn( p ) == f_bed || compmap.furn( p ) == f_dresser ||
-            compmap.furn( p ) == f_indoor_plant || compmap.furn( p ) == f_cupboard ) {
-            valid.push_back( p );
-        }
-    }
-    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z() );
-    const tripoint comppoint = random_entry( valid, fallback );
-    compmap.spawn_item( comppoint, "priest_diary" );
-    compmap.save();
-}
-
 void mission_start::place_deposit_box( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
@@ -386,13 +296,25 @@ void mission_start::place_book( mission * )
 void mission_start::reveal_refugee_center( mission *miss )
 {
     mission_target_params t;
-    t.overmap_terrain = "refctr_S3e";
-    t.overmap_special = overmap_special_evac_center;
+    str_or_var overmap_terrain;
+    overmap_terrain.str_val = "refctr_S3e";
+    t.overmap_terrain = overmap_terrain;
+    str_or_var overmap_special;
+    overmap_special.str_val = "evac_center";
+    t.overmap_special = overmap_special;
     t.mission_pointer = miss;
-    t.search_range = 0;
-    t.reveal_radius = 1;
+    dbl_or_var search_range;
+    search_range.min.dbl_val = 0;
+    t.search_range = search_range;
+    dbl_or_var reveal_radius;
+    reveal_radius.min.dbl_val = 1;
+    t.reveal_radius = reveal_radius;
+    dbl_or_var min_distance;
+    min_distance.min.dbl_val = 0;
+    t.min_distance = min_distance;
 
-    cata::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    std::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t, d );
 
     if( !target_pos ) {
         add_msg( _( "You don't know where the address could be…" ) );
@@ -406,9 +328,13 @@ void mission_start::reveal_refugee_center( mission *miss )
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
         //reset the mission target to the refugee center entrance and reveal path from the road
-        t.overmap_terrain = "evac_center_18";
-        t.reveal_radius = 3;
-        target_pos = mission_util::assign_mission_target( t );
+        str_or_var overmap_terrain;
+        overmap_terrain.str_val = "refctr_S3e";
+        t.overmap_terrain = overmap_terrain;
+        dbl_or_var reveal_radius;
+        reveal_radius.min.dbl_val = 3;
+        t.reveal_radius = reveal_radius;
+        target_pos = mission_util::assign_mission_target( t, d );
         const tripoint_abs_omt dest_refugee_center = overmap_buffer.find_closest( *target_pos,
                 "evac_center_18", 1, false );
         overmap_buffer.reveal_route( dest_road, dest_refugee_center, 1, false );
@@ -488,59 +414,6 @@ void mission_start::create_ice_lab_console( mission *miss )
 
     create_lab_consoles( miss, place, "ice_lab", 3, _( "Durable Storage Archive" ),
                          _( "Download Archives" ) );
-
-    // Target the lab entrance.
-    const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
-}
-
-static bool has_console( const tripoint_abs_omt &location, const int mission_id )
-{
-    tinymap compmap;
-    compmap.load( project_to<coords::sm>( location ), false );
-    cata::optional<tripoint> comppoint;
-
-    for( const tripoint &point : compmap.points_on_zlevel() ) {
-        if( compmap.ter( point ) == t_console ) {
-            comppoint = point;
-            break;
-        }
-    }
-
-    if( !comppoint ) {
-        return false;
-    }
-
-    computer *tmpcomp = compmap.computer_at( *comppoint );
-    tmpcomp->set_mission( mission_id );
-    tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
-
-    compmap.save();
-    return true;
-}
-
-void mission_start::reveal_lab_train_depot( mission *miss )
-{
-    Character &player_character = get_player_character();
-    // Find and prepare lab location.
-    tripoint_abs_omt loc = player_character.global_omt_location();
-    loc.z() = -4;  // tunnels are at z = -4
-    tripoint_abs_omt place;
-    const int mission_id = miss->get_id();
-
-    omt_find_params params = {{ {{ std::make_pair( "lab_train_depot", ot_match_type::type ) }} }};
-    const std::vector<tripoint_abs_omt> all_omts_near = overmap_buffer.find_all( loc, params );
-    // sort it by range
-    std::multimap<int, tripoint_abs_omt> omts_by_range;
-    for( const tripoint_abs_omt &location : all_omts_near ) {
-        omts_by_range.emplace( rl_dist( loc, location ), location );
-    }
-    for( const std::pair<const int, tripoint_abs_omt> &location : omts_by_range ) {
-        if( has_console( location.second, mission_id ) ) {
-            place = location.second;
-            break;
-        }
-    }
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );

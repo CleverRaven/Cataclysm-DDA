@@ -3,7 +3,7 @@
     "type": "tool_quality",
     "id": "CUT",
     "name": { "str": "cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+    "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -14,7 +14,7 @@
     "type": "tool_quality",
     "id": "CUT_FINE",
     "name": { "str": "fine cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+    "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -48,8 +48,20 @@
   },
   {
     "type": "tool_quality",
-    "id": "FISHING",
-    "name": { "str": "fishing" }
+    "id": "FISHING_ROD",
+    "name": { "str": "fishing" },
+    "usages": [ [ 1, [ "FISH_ROD" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "FISH_TRAP",
+    "name": { "str": "fish trapping" },
+    "usages": [ [ 1, [ "FISH_TRAP" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "TREE_TAP",
+    "name": { "str": "tree tapping" }
   },
   {
     "type": "tool_quality",
@@ -349,10 +361,16 @@
   },
   {
     "type": "tool_quality",
+    "id": "JUMPSTART",
+    "//": "A tool that is capable of charging something with electricity.",
+    "name": { "str": "jump starting" }
+  },
+  {
+    "type": "tool_quality",
     "id": "FABRIC_CUT",
     "//": "A tool that shares a large number of qualities with cutting tools, with the added benefit of being suitable for cutting fabric to patterned shapes for tailoring.",
     "name": { "str": "fabric cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+    "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -397,5 +415,10 @@
     "type": "tool_quality",
     "id": "CUT_GLASS",
     "name": { "str": "glass cutting" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "MOP",
+    "name": { "str": "mopping" }
   }
 ]

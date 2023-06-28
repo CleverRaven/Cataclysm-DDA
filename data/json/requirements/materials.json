@@ -6,6 +6,12 @@
     "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
+    "id": "adhesive_cordage",
+    "type": "requirement",
+    "//": "Materials used for joining or tying with strings (typically non-metallic) parts. For use with improvised or simple items.",
+    "components": [ [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
@@ -46,6 +52,23 @@
     "type": "requirement",
     "//": "Fibrous plant material for basket weaving or rope making.",
     "components": [ [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "tanbark", 1 ], [ "willowbark", 1 ], [ "birchbark", 1 ] ] ]
+  },
+  {
+    "id": "cordage_fishing",
+    "type": "requirement",
+    "//": " makes 540cm of 10 lbish fishing line with little time spent braiding, thread requires to much work and sinew unglues in water unless threated",
+    "components": [
+      [
+        [ "string_36", 6 ],
+        [ "cordage_36", 6 ],
+        [ "cordage_36_leather", 6 ],
+        [ "string_6", 36 ],
+        [ "cordage_6", 36 ],
+        [ "cordage_6_leather", 36 ],
+        [ "thread_nomex", 108 ],
+        [ "thread_kevlar", 36 ]
+      ]
+    ]
   },
   {
     "id": "cordage",
@@ -280,7 +303,7 @@
     "id": "filament_canvas",
     "type": "requirement",
     "//": "Thread for sewing canvas.  Unlike filament_durable it's ok to use a single 10 inch canvas thread for this, but half-length aramid threads are still double.  Kept separate from filament_durable because canvas thread is doubled up for those to alleviate it being a bit weaker than kevlar threading.",
-    "components": [ [ [ "thread_kevlar", 2 ], [ "thread_nomex", 2 ], [ "thread_canvas", 1 ] ] ]
+    "components": [ [ [ "thread_canvas", 1 ], [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ] ]
   },
   {
     "id": "glazing",
@@ -310,7 +333,7 @@
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "rope_any_short",
@@ -328,7 +351,7 @@
     "id": "rope_superior_short",
     "type": "requirement",
     "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "steel_standard",
@@ -393,7 +416,7 @@
     "id": "weights",
     "type": "requirement",
     "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
-    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+    "components": [ [ [ "lead", 3 ], [ "silver_small", 3 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
   },
   {
     "id": "plastics",
@@ -417,7 +440,16 @@
     "id": "paint",
     "type": "requirement",
     "//": "Materials used for painting something of any color",
-    "components": [ [ [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
+    "components": [
+      [
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ]
+      ]
+    ]
   },
   {
     "id": "shoe_rubber",
@@ -476,5 +508,10 @@
     "type": "requirement",
     "//": "Carbon resources, used for case hardening.",
     "components": [ [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+  },
+  {
+    "id": "any_fresh_water",
+    "type": "requirement",
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   }
 ]

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "test_data",
+    "//": "expected value around 27 but no dedicated weapons",
+    "//2": "primitive_adze and primitive_axe: rock on a stick",
+    "//3": "makeshift_axe: chunk of sharp steel",
+    "//4": "hand_axe: chunk of sharp rock",
+    "expected_dps": {
+      "hatchet": 18.0,
+      "crash_axe": 18.0,
+      "iceaxe": 19.0,
+      "throwing_axe": 14.4,
+      "carver_on": 22.5,
+      "pickaxe": 10.5,
+      "primitive_adze": 10.0,
+      "primitive_axe": 10.0,
+      "makeshift_axe": 10.0,
+      "hand_axe": 8.5
+    }
+  }
+]

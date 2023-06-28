@@ -7,6 +7,15 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "blood_field",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "age": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fire_field",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_fire", "x": 0, "y": 0, "intensity": 2, "age": 10 } ] }
@@ -236,6 +245,16 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "corpse_blood_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_item": [ { "item": "corpse_generic_human", "x": 0, "y": 0, "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "age": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "corpse_blood_casings_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -252,5 +271,22 @@
     "method": "json",
     "update_mapgen_id": "amigara_death",
     "object": { "place_items": [ { "item": "amigara_drops", "x": 11, "y": 12, "chance": 100 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "bandit_killer_add",
+    "method": "json",
+    "object": { "place_npcs": [ { "class": "hells_raiders_assassin", "x": [ 5, 18 ], "y": [ 5, 18 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "government_killteam_add",
+    "method": "json",
+    "object": {
+      "place_npcs": [
+        { "class": "old_guard_assassin", "x": [ 5, 18 ], "y": [ 5, 18 ] },
+        { "class": "old_guard_assassin", "x": [ 5, 18 ], "y": [ 5, 18 ] }
+      ]
+    }
   }
 ]

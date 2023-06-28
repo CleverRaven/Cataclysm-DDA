@@ -1,7 +1,6 @@
 [
   {
     "id": "antarvasa",
-    "repairs_like": "pants",
     "type": "ARMOR",
     "name": { "str": "antarvasa" },
     "description": "A traditional, ankle-length Buddhist skirt.  The bottom protrudes, and appears in the rough shape of a triangle.",
@@ -25,11 +24,18 @@
     "warmth": 8,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 90, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 7, 11 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r", "leg_knee_r", "leg_knee_l" ]
+      },
+      { "coverage": 90, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_r", "leg_lower_l" ] }
+    ]
   },
   {
     "id": "b_shorts",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "basketball shorts" },
     "description": "A pair of basketball shorts.  Comfortable and light.",
@@ -62,8 +68,18 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 80, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0.7
+      },
+      {
+        "coverage": 80,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.0
+      }
     ]
   },
   {
@@ -83,11 +99,18 @@
     "warmth": 10,
     "material_thickness": 0.4,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 8, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r", "leg_knee_r", "leg_knee_l" ]
+      },
+      { "coverage": 10, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_r", "leg_lower_l" ] }
+    ]
   },
   {
     "id": "cheerleader_skirt",
-    "repairs_like": "skirt",
     "type": "ARMOR",
     "name": { "str": "cheerleader skirt" },
     "description": "A breezy red cheerleader skirt.  Easy to move in, and of an acceptable length for most real cheerleading.",
@@ -109,7 +132,6 @@
   },
   {
     "id": "cheerleader_skirt_short",
-    "repairs_like": "skirt",
     "type": "ARMOR",
     "name": { "str": "short cheerleader skirt" },
     "description": "A very short and breezy red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to safely practice cheerleading in this.",
@@ -130,7 +152,6 @@
   },
   {
     "id": "fishing_waders",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of fishing waders", "str_pl": "pairs of fishing waders" },
     "description": "Waterproof plastic fishing waders with a single large front pocket.",
@@ -143,7 +164,8 @@
     "looks_like": "pants_ski",
     "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 19, 23 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 19, 23 ], "specifically_covers": [ "torso_lower" ] },
+      { "covers": [ "torso" ], "coverage": 20, "specifically_covers": [ "torso_upper" ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 19, 21 ] },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 19, 19 ] }
     ],
@@ -163,7 +185,6 @@
   },
   {
     "id": "flag_pants",
-    "repairs_like": "pants",
     "type": "ARMOR",
     "name": { "str_sp": "flag pants" },
     "description": "A pair of pants embroidered with an American flag pattern.",
@@ -208,7 +229,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "hot_pants",
@@ -273,7 +294,7 @@
     "price": 5000,
     "price_postapoc": 150,
     "to_hit": 1,
-    "material": [ "cotton" ],
+    "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "pants",
     "color": "blue",
@@ -308,7 +329,8 @@
       }
     ],
     "warmth": 10,
-    "material_thickness": 0.25,
+    "material_thickness": 0.65,
+    "//": "Lightweight 10 oz denim jeans.",
     "flags": [ "VARSIZE", "POCKETS" ],
     "snippet_category": [
       { "id": "jeans1", "text": "A pair of black jeans with two deep pockets." },
@@ -320,11 +342,10 @@
         "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
       }
     ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans_red",
-    "repairs_like": "pants_leather",
     "type": "ARMOR",
     "name": { "str_sp": "red jeans" },
     "description": "A pair of tight-fitting candy-apple-red jeans with two deep pockets.",
@@ -333,7 +354,7 @@
     "price": 5000,
     "price_postapoc": 150,
     "to_hit": 1,
-    "material": [ "cotton" ],
+    "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "jeans",
     "color": "red",
@@ -368,9 +389,10 @@
       }
     ],
     "warmth": 10,
-    "material_thickness": 0.25,
+    "material_thickness": 0.65,
+    "//": "Lightweight 10 oz denim jeans.",
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "kilt",
@@ -399,7 +421,7 @@
     "flags": [ "VARSIZE" ],
     "armor": [
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      { "coverage": 95, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
   },
   {
@@ -429,7 +451,7 @@
     "flags": [ "VARSIZE" ],
     "armor": [
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      { "coverage": 95, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
   },
   {
@@ -522,7 +544,6 @@
   },
   {
     "id": "nanoskirt",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "nanoskirt" },
     "description": "Apparently the microskirt wasn't short enough.",
@@ -540,7 +561,6 @@
   },
   {
     "id": "pants",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "pants" },
     "description": "A pair of khaki pants.  Slightly warmer than jeans.",
@@ -586,11 +606,10 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_army",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "army pants" },
     "description": "A tough pair of pants lined with pockets.  Favored by the military.",
@@ -671,7 +690,7 @@
     "warmth": 20,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS", "SOFT" ],
-    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
+    "armor": [ { "encumbrance": 3, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
     "id": "pants_cargo",
@@ -737,7 +756,6 @@
   },
   {
     "id": "pants_checkered",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "checkered pants" },
     "description": "In a pinch, these pants can be used for an impromptu game of checkers.",
@@ -782,7 +800,7 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_fur",
@@ -833,7 +851,7 @@
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 16, 20 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 16, 20 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_faux_fur",
@@ -847,7 +865,6 @@
   {
     "id": "trousers_ninja",
     "type": "ARMOR",
-    "repairs_like": "pants",
     "name": { "str_sp": "ninja trousers" },
     "description": "A pair of black trousers with calf and waistband ties.  Comfortable to use but lacks pockets.",
     "weight": "400 g",
@@ -897,11 +914,10 @@
     "material_thickness": 0.75,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 15, 17 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 15, 17 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_ski",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "ski pants" },
     "description": "A pair of pants meant for alpine skiing.",
@@ -947,11 +963,10 @@
     "material_thickness": 1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "police_breeches",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "police breeches" },
     "description": "A pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
@@ -964,7 +979,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "dark_gray",
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 2, 5 ] } ],
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 2, 5 ] } ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -977,7 +992,6 @@
   },
   {
     "id": "postman_shorts",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "mail carrier shorts" },
     "description": "A pair of dark blue shorts, the kind used by postal service workers.",
@@ -1024,8 +1038,18 @@
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0.7
+      },
+      {
+        "coverage": 90,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.0
+      }
     ]
   },
   {
@@ -1103,7 +1127,7 @@
     "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 13, 17 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 13, 17 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "shorts",
@@ -1157,9 +1181,15 @@
         "encumbrance": [ 2, 5 ],
         "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0.7
       },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 80,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.0
+      }
     ]
   },
   {
@@ -1225,25 +1255,31 @@
     "flags": [ "VARSIZE", "POCKETS" ],
     "armor": [
       {
-        "encumbrance": [ 2, 5 ],
+        "encumbrance": 2,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0.7
       },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 90,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.0
+      }
     ]
   },
   {
     "id": "shorts_denim",
     "type": "ARMOR",
-    "name": { "str_sp": "denim shorts" },
+    "name": { "str_sp": "jorts" },
     "description": "A pair of denim shorts.",
     "weight": "260 g",
     "volume": "1250 ml",
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": 1,
-    "material": [ "cotton" ],
+    "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "shorts",
     "color": "light_blue",
@@ -1269,21 +1305,27 @@
       { "id": "denim_shorts3", "text": "A pair of brand-name black denim shorts." }
     ],
     "warmth": 5,
-    "material_thickness": 0.25,
+    "material_thickness": 0.65,
+    "//": "Lightweight 10 oz denim jean shorts.",
     "flags": [ "VARSIZE" ],
     "armor": [
       {
-        "encumbrance": [ 1, 2 ],
+        "encumbrance": 1,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0.7
       },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 90,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0.0
+      }
     ]
   },
   {
     "id": "skirt",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "skirt" },
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
@@ -1327,7 +1369,6 @@
   },
   {
     "id": "skirt_leather",
-    "repairs_like": "pants_leather",
     "type": "ARMOR",
     "name": { "str": "leather skirt" },
     "description": "A very short leather skirt, clearly designed to look good, not be practical.",
@@ -1354,7 +1395,6 @@
   },
   {
     "id": "striped_pants",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "striped pants" },
     "description": "A pair of pants with horizontal black and white stripes.",
@@ -1400,11 +1440,10 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "technician_pants_gray",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "work pants", "str_pl": "pairs of work pants" },
     "description": "A pair of gray canvas work pants.",
@@ -1459,7 +1498,6 @@
   },
   {
     "id": "winter_pants_army",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "army winter pants" },
     "description": "A tough pair of pants lined with pockets, thickly padded for warmth.  Favored by the military.",
@@ -1519,7 +1557,7 @@
     "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ],
-    "armor": [ { "encumbrance": [ 11, 22 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 11, 22 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "zubon_gi",
@@ -1537,6 +1575,61 @@
     "warmth": 5,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "pants_hiking",
+    "type": "ARMOR",
+    "name": { "str": "hiking pants", "str_pl": "pairs of hiking pants" },
+    "description": "A water-resistant pair of lightweight, flexible hiking pants with a good number of pockets.",
+    "weight": "250 g",
+    "volume": "1750 ml",
+    "price": 5000,
+    "price_postapoc": 300,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.25,
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   }
 ]

@@ -23,6 +23,18 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_DEBUG_BIG_HEAD",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "head" }, { "gain": "big_head" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_GASTROPOD_FOOT",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
+  },
+  {
+    "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
     "values": [
@@ -36,5 +48,77 @@
     "id": "SQUEAKY_ANKLES",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
+  },
+  {
+    "id": "ench_climate_control_cold",
+    "type": "enchantment",
+    "name": { "str": "Warm Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+  },
+  {
+    "id": "ench_climate_control_warm",
+    "type": "enchantment",
+    "name": { "str": "Cold Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
+  },
+  {
+    "id": "ench_climate_control_all",
+    "name": { "str": "Complete Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+  },
+  {
+    "id": "ench_climate_control_all_permanent",
+    "name": { "str": "Complete Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+  },
+  {
+    "id": "ench_exo_strength",
+    "type": "enchantment",
+    "name": { "str": "EXO Frame Strength" },
+    "description": "You are wearing equipment that gives 10 strength.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "STRENGTH", "add": 10 } ]
+  },
+  {
+    "id": "ench_meteor_armor",
+    "type": "enchantment",
+    "name": { "str": "Hyperdense" },
+    "description": "Your armor's massive weight makes it nearly impossible to be knocked over or pushed back.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "KNOCKBACK_RESIST", "add": 1.0 }, { "value": "KNOCKDOWN_RESIST", "add": 1.0 } ]
+  },
+  {
+    "id": "ench_meteor_mask",
+    "type": "enchantment",
+    "name": { "str": "Detect Evil" },
+    "description": "Your armor lets you detect otherworldly presence with ease.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 10 } ]
+  },
+  {
+    "id": "ench_dampened_steps",
+    "type": "enchantment",
+    "name": { "str": "Dampened Steps" },
+    "description": "You are wearing equipment that muffles your footsteps.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
   }
 ]

@@ -1,0 +1,23 @@
+[
+  {
+    "type": "test_data",
+    "//": "typical value around 29",
+    "expected_dps": {
+      "battleaxe": 29.0,
+      "battleaxe_fake": 12.0,
+      "battleaxe_inferior": 19.25,
+      "fire_ax": 25.0,
+      "lobotomizer": 24.0,
+      "ax": 20.25,
+      "copper_ax": 13.75,
+      "e_combatsaw_on": 29,
+      "combatsaw_on": 29,
+      "chainsaw_on": 16.0,
+      "circsaw_on": 18.4,
+      "e_combatsaw_off": 3.0,
+      "combatsaw_off": 3.0,
+      "chainsaw_off": 2.0,
+      "circsaw_off": 1.25
+    }
+  }
+]

@@ -504,15 +504,27 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "tawa",
+    "base_faction": "small_predator",
+    "friendly": [ "tawa", "tawa_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tawa_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "tawa", "tawa_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "coelophysis",
     "base_faction": "small_predator",
-    "friendly": [ "coelophysis_hatchling" ]
+    "friendly": [ "coelophysis", "coelophysis_hatchling" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "coelophysis_hatchling",
     "base_faction": "very_small_predator",
-    "friendly": [ "coelophysis" ]
+    "friendly": [ "coelophysis", "coelophysis_hatchling" ]
   },
   {
     "type": "MONSTER_FACTION",

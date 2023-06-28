@@ -112,18 +112,13 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
-static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
+static const vpart_id vpart_frame( "frame" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
-static const std::string flag_APPLIANCE( "APPLIANCE" );
-static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
-
-static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 static bool finalized = false;
 
@@ -392,12 +387,10 @@ construction_id construction_menu( const bool blueprint )
     const inventory &total_inv = player_character.crafting_inventory();
 
     input_context ctxt( "CONSTRUCTION" );
-    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Move tab right" ) );
-    ctxt.register_action( "LEFT", to_translation( "Move tab left" ) );
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SCROLL_STAGE_UP" );
     ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
@@ -721,9 +714,12 @@ construction_id construction_menu( const bool blueprint )
             }
         }
         isnew = false;
+        static int lang_version = detail::get_current_language_version();
 
-        if( update_info ) {
+        //lang check here is needed to redraw the menu when using "Toggle language to English" option
+        if( update_info || lang_version != detail::get_current_language_version() ) {
             update_info = false;
+            lang_version = detail::get_current_language_version();
 
             notes.clear();
             if( tabindex == tabcount - 1 && !filter.empty() ) {
@@ -779,63 +775,15 @@ construction_id construction_menu( const bool blueprint )
                 update_info = true;
                 update_cat = true;
             }
-        } else if( action == "DOWN" ) {
+        } else if( navigate_ui_list( action, select, scroll_rate, recmax, true ) ) {
             update_info = true;
-            if( select < recmax - 1 ) {
-                select++;
-            } else {
-                select = 0;
-            }
-        } else if( action == "UP" ) {
-            update_info = true;
-            if( select > 0 ) {
-                select--;
-            } else {
-                select = recmax - 1;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            update_info = true;
-            if( select == recmax - 1 ) {
-                select = 0;
-            } else if( select + scroll_rate >= recmax ) {
-                select = recmax - 1;
-            } else {
-                select += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            update_info = true;
-            if( select == 0 ) {
-                select = recmax - 1;
-            } else if( select <= scroll_rate ) {
-                select = 0;
-            } else {
-                select += -scroll_rate;
-            }
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             update_info = true;
             update_cat = true;
-            tabindex--;
-            if( tabindex < 0 ) {
-                tabindex = tabcount - 1;
-            }
-        } else if( action == "RIGHT" ) {
-            update_info = true;
-            update_cat = true;
-            tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "SCROLL_STAGE_UP" ) {
-            if( current_construct_breakpoint > 0 ) {
-                current_construct_breakpoint--;
-            }
-            if( current_construct_breakpoint < 0 ) {
-                current_construct_breakpoint = 0;
-            }
-        } else if( action == "SCROLL_STAGE_DOWN" ) {
-            if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
-                current_construct_breakpoint++;
-            }
-            if( current_construct_breakpoint >= total_project_breakpoints ) {
-                current_construct_breakpoint = total_project_breakpoints - 1;
-            }
+            tabindex = inc_clamp_wrap( tabindex, action == "RIGHT" || action == "NEXT_TAB", tabcount );
+        } else if( action == "SCROLL_STAGE_UP" || action == "SCROLL_STAGE_DOWN" ) {
+            current_construct_breakpoint = inc_clamp( current_construct_breakpoint,
+                                           action == "SCROLL_STAGE_DOWN", total_project_breakpoints - 1 );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
@@ -855,7 +803,7 @@ construction_id construction_menu( const bool blueprint )
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
                         ui.reset();
-                        place_construction( constructs[select] );
+                        place_construction( { constructs[select] } );
                         uistate.last_construction = constructs[select];
                     }
                     exit = true;
@@ -985,22 +933,26 @@ bool can_construct( const construction &con )
     return false;
 }
 
-void place_construction( const construction_group_str_id &group )
+void place_construction( std::vector<construction_group_str_id> const &groups )
 {
     avatar &player_character = get_avatar();
     const inventory &total_inv = player_character.crafting_inventory();
 
-    std::vector<construction *> cons = constructions_by_group( group );
     std::map<tripoint_bub_ms, const construction *> valid;
+    std::vector<construction *> cons;
     map &here = get_map();
-    // TODO: fix point types
-    for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
-        for( const auto *con : cons ) {
-            if( p != player_character.pos_bub() && can_construct( *con, p ) &&
-                player_can_build( player_character, total_inv, *con, true ) ) {
-                valid[ p ] = con;
+    for( construction_group_str_id const &group : groups ) {
+        std::vector<construction *> const temp = constructions_by_group( group );
+        // TODO: fix point types
+        for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
+            for( const auto *con : temp ) {
+                if( p != player_character.pos_bub() && can_construct( *con, p ) &&
+                    player_can_build( player_character, total_inv, *con, true ) ) {
+                    valid[ p ] = con;
+                }
             }
         }
+        std::move( temp.begin(), temp.end(), std::back_inserter( cons ) );
     }
 
     shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
@@ -1013,7 +965,7 @@ void place_construction( const construction_group_str_id &group )
     } );
     g->add_draw_callback( draw_valid );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
         return;
     }
@@ -1030,7 +982,7 @@ void place_construction( const construction_group_str_id &group )
     partial_con *pre_c = here.partial_con_at( pnt );
     if( pre_c ) {
         add_msg( m_info,
-                 _( "There is already an unfinished construction there, examine it to continue working on it" ) );
+                 _( "There is already an unfinished construction there, examine it to continue working on it." ) );
         return;
     }
     std::list<item> used;
@@ -1038,17 +990,10 @@ void place_construction( const construction_group_str_id &group )
     // create the partial construction struct
     partial_con pc;
     pc.id = con.id;
-    // Set the trap that has the examine function
-    // Special handling for constructions that take place on existing traps.
-    // Basically just don't add the unfinished construction trap.
-    // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
-    if( here.tr_at( pnt ).is_null() ) {
-        here.trap_set( pnt, tr_unfinished_construction );
-    }
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         // Gift components
         for( const auto &it : con.requirements->get_components() ) {
-            used.emplace_back( item( it.front().type ) );
+            used.emplace_back( it.front().type );
         }
     } else {
         // Use up the components
@@ -1077,9 +1022,6 @@ void complete_construction( Character *you )
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( terp ) == tr_unfinished_construction ) {
-            here.remove_trap( terp );
-        }
         if( you->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( you );
             guy->current_activity_id = activity_id::NULL_ID();
@@ -1112,9 +1054,6 @@ void complete_construction( Character *you )
 
             award_xp( *elem );
         }
-    }
-    if( here.tr_at( terp ) == tr_unfinished_construction ) {
-        here.remove_trap( terp );
     }
 
     // partial_con contains components for vehicle and appliance construction
@@ -1402,23 +1341,21 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
 
 static vpart_id vpart_from_item( const itype_id &item_id )
 {
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
-            return vp.get_id();
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( vpi.base_item == item_id && vpi.has_flag( flag_INITIAL_PART ) ) {
+            return vpi.id;
         }
     }
     // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
     // first part that is based in the given item (this is fine for example if there is only one
     // such type anyway).
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( vp.base_item == item_id ) {
-            return vp.get_id();
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( vpi.base_item == item_id ) {
+            return vpi.id;
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    return vpart_frame_vertical_2;
+    return vpart_frame;
 }
 
 void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
@@ -1453,10 +1390,10 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
         debugmsg( "constructing failed: add_vehicle returned null" );
         return;
     }
-    item base = components.front();
+    const item &base = components.front();
 
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( base.typeId() ), std::move( base ) );
+    veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1465,77 +1402,13 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 
 void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
 {
-    map &here = get_map();
-
-    here.partial_con_remove( p );
-
-    // TODO: fix point types
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.raw(), 0_degrees, 0, 0 );
-    if( !veh ) {
-        debugmsg( "error constructing vehicle" );
-        return;
-    }
-
-    veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
-    veh->name = _( "wall wiring" );
-    veh->add_tag( flag_CANT_DRAG );
-    veh->add_tag( flag_APPLIANCE );
-    veh->add_tag( flag_WIRING );
-
-    // Merge any neighbouring wire vehicles into this one if the resulting vehicle would not be too large.
-    for( const point &offset : four_adjacent_offsets ) {
-        const optional_vpart_position vp = here.veh_at( p + offset );
-        if( !vp ) {
-            continue;
-        }
-
-        bounding_box vehicle_box = veh->get_bounding_box( false );
-        point size;
-        size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
-        size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
-
-        vehicle &veh_target = vp->vehicle();
-        if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
-            bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
-
-            point target_size;
-            target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
-            target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
-
-            if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
-                size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
-                if( !veh->merge_vehicle_parts( &veh_target ) ) {
-                    debugmsg( "failed to merge vehicle parts" );
-                }
-            }
-        }
-    }
-
-    // Update the vehicle cache immediately,
-    // or the wiring will be invisible for the first couple of turns.
-    here.add_vehicle_to_cache( veh );
-
-    // Connect to any neighbouring appliances or wires
-    std::unordered_set<const vehicle *> connected_vehicles;
-    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
-        const optional_vpart_position vp = here.veh_at( trip );
-        if( !vp ) {
-            continue;
-        }
-        const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
-            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                // TODO: fix point types
-                veh->connect( p.raw(), trip.raw() );
-                connected_vehicles.insert( &veh_target );
-            }
-        }
-    }
+    place_appliance( p.raw(), vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
 }
 
 void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 {
     map &here = get_map();
+
     partial_con *pc = here.partial_con_at( p );
     if( !pc ) {
         debugmsg( "constructing failed: can't find partial construction" );
@@ -1550,7 +1423,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
         return;
     }
 
-    const item base = components.front();
+    const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
     // TODO: fix point types
@@ -1623,16 +1496,6 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
                 return;
             }
             done_deconstruct( top, player_character );
-        }
-        if( t.id.id() == t_console_broken )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 20, 4 );
-            }
-        }
-        if( t.id.id() == t_console )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 40, 8 );
-            }
         }
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
@@ -2077,6 +1940,7 @@ void load_construction( const JsonObject &jo )
 
     con.on_display = jo.get_bool( "on_display", true );
     con.dark_craftable = jo.get_bool( "dark_craftable", false );
+    con.strict = jo.get_bool( "strict", false );
 
     constructions.push_back( con );
     construction_id_map.emplace( con.str_id, con.id );
@@ -2192,15 +2056,14 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
 void finalize_constructions()
 {
     std::vector<item_comp> frame_items;
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( !vp.has_flag( flag_INITIAL_PART ) ) {
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( !vpi.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        if( vp.get_id().str() == "frame" ) {
-            frame_items.insert( frame_items.begin(), { vp.base_item, 1 } );
+        if( vpi.id == vpart_frame ) {
+            frame_items.insert( frame_items.begin(), { vpi.base_item, 1 } );
         } else {
-            frame_items.emplace_back( vp.base_item, 1 );
+            frame_items.emplace_back( vpi.base_item, 1 );
         }
     }
 
@@ -2326,10 +2189,7 @@ build_reqs get_build_reqs_for_furn_ter_ids(
         const construction &build = build_data.first.obj();
         const int count = build_data.second;
         total_reqs.time += build.time * count;
-        if( total_reqs.reqs.find( build.requirements ) == total_reqs.reqs.end() ) {
-            total_reqs.reqs[build.requirements] = 0;
-        }
-        total_reqs.reqs[build.requirements] += count;
+        total_reqs.raw_reqs[build.requirements] += count;
         for( const auto &req_skill : build.required_skills ) {
             auto it = total_reqs.skills.find( req_skill.first );
             if( it == total_reqs.skills.end() || it->second < req_skill.second ) {

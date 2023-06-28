@@ -23,6 +23,28 @@
   },
   {
     "type": "npc",
+    "id": "hells_raiders_assassin",
+    "//": "EOC-specific, should not spawn outside of trigger events.",
+    "name_suffix": "assassin",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 10,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "deserter",
+    "//": "Generic hostile military deserter.",
+    "name_suffix": "Deserter",
+    "class": "NC_SOLDIER",
+    "attitude": 10,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
     "id": "marloss_voice",
     "//": "Generic Marloss Priest who leads pilgrim bands.",
     "name_suffix": "Marloss Voice",
@@ -111,6 +133,116 @@
     "mission_offered": "MISSION_GET_CITY_COP_MOMENTO",
     "chat": "TALK_CITY_COP",
     "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "survivor_camper",
+    "name_suffix": "camper",
+    "class": "NC_SCAVENGER_STATIC",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_CAMPER_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "apartment_survivor",
+    "name_suffix": "scavenger",
+    "class": "NC_SCAVENGER_STATIC",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_APARTMENT_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "prepper_survivor",
+    "name_suffix": "prepper",
+    "class": "NC_SCAVENGER_PREPPER",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_PREPPER_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "survivor_moonshiner",
+    "name_suffix": "moonshiner",
+    "class": "NC_SCAVENGER_MOONSHINER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NPC_MOONSHINER",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_gun_store_survivor",
+    "class": "NC_SCAVENGER",
+    "name_suffix": "marksman",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_GUN_STORE_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_animal_shelter_survivor",
+    "class": "NC_DOCTOR",
+    "name_suffix": "veterinarian",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_park_survivor",
+    "class": "NC_SCAVENGER",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_STRANGER_NEUTRAL",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_evac_shelter_survivor",
+    "class": "NC_SCAVENGER_STATIC",
+    "name_suffix": "scavenger",
+    "attitude": 1,
+    "mission": 8,
+    "chat": "TALK_NPC_EVAC_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_homeless_survivor",
+    "class": "NC_SCAVENGER_STATIC",
+    "name_suffix": "scavenger",
+    "attitude": 1,
+    "mission": 8,
+    "chat": "TALK_NPC_HOMELESS_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_homeless_broker",
+    "class": "NC_HOMELESS_BROKER",
+    "name_suffix": "scavenger",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_NPC_HOMELESS_BROKER",
+    "faction": "wasteland_scavengers",
+    "mission_offered": "MISSION_KILL_SLIMES"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_homeless_group_survivor",
+    "class": "NC_SCAVENGER_NOMOVE",
+    "name_suffix": "scavenger",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NPC_HOMELESS_GROUP_SURVIVOR",
+    "faction": "wasteland_scavengers"
   },
   {
     "type": "npc",

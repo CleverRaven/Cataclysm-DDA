@@ -3,6 +3,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "map_extra_fae",
+    "//": "Drugdealer with access to fae drugs.",
     "entries": [
       { "group": "drugdealer", "prob": 75 },
       {
@@ -24,6 +25,7 @@
   },
   {
     "type": "item_group",
+    "//": "Inventor artifact creation itemgroup.",
     "id": "minor_spark_artifacts",
     "subtype": "distribution",
     "items": [
@@ -64,6 +66,7 @@
   {
     "type": "relic_procgen_data",
     "id": "spark_items",
+    "//": "Needs to be adjusted and made specific to Xedra Inventor class powers that could be expected.  Remove this note after that is completed.",
     "charge_types": [
       {
         "weight": 100,

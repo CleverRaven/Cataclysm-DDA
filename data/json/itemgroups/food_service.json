@@ -199,6 +199,19 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "still_alcohol",
+    "//": "Alcohol you'd find in at a still or moonshine camp",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "brandied_fruit", "prob": 75 },
+      { "item": "moonshine", "prob": 86 },
+      { "item": "beer", "prob": 80 },
+      { "item": "fruit_wine", "prob": 40 },
+      { "item": "brandy", "prob": 20 }
+    ]
+  },
+  {
     "id": "bar_food",
     "type": "item_group",
     "subtype": "distribution",
@@ -211,6 +224,7 @@
       { "item": "pickle", "prob": 5, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 5 },
       { "item": "cheeseburger", "prob": 10 },
+      { "item": "fried_mozzarella_sticks", "prob": 5 },
       { "item": "hamburger", "prob": 8 },
       { "item": "sloppyjoe", "prob": 6 },
       { "item": "fries", "prob": 10 },
@@ -333,6 +347,7 @@
       [ "can_chicken", 13 ],
       [ "bacon", 15 ],
       [ "cheese", 38 ],
+      [ "mozzarella_cheese", 25 ],
       [ "sauce_pesto", 12 ],
       [ "zucchini", 13 ],
       [ "tomato", 10 ],
@@ -592,6 +607,7 @@
       { "item": "cheese_fries", "prob": 15 },
       { "item": "onion_rings", "prob": 20 },
       { "item": "cheeseburger", "prob": 15 },
+      { "item": "fried_mozzarella_sticks", "prob": 15 },
       { "item": "hamburger", "prob": 15 },
       { "item": "fish_sandwich", "prob": 10 },
       { "group": "softdrinks_canned", "prob": 75 },
@@ -607,7 +623,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "knife_butcher", "prob": 30 },
-      { "item": "bread", "prob": 50 },
+      { "item": "bread", "charges": 14, "prob": 50 },
       { "item": "seasoning_salt", "prob": 50 },
       { "item": "seasoning_italian", "prob": 50 },
       { "item": "can_chicken", "prob": 30 },
@@ -685,12 +701,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "bread", "prob": 65 },
+      { "item": "bread", "charges": 14, "prob": 65 },
       { "item": "bread_garlic", "prob": 20 },
-      { "item": "brown_bread", "prob": 50, "container-item": "bag_plastic" },
+      { "item": "brown_bread", "charges": 10, "prob": 50, "container-item": "bag_plastic" },
       { "item": "cake2", "prob": 10 },
       { "item": "cake3", "prob": 10 },
-      { "item": "cornbread", "prob": 35 },
+      { "item": "cornbread", "charges": 6, "prob": 35 },
       { "item": "brioche", "prob": 50 },
       { "item": "hardtack", "prob": 30 },
       { "item": "jihelucake", "prob": 10 },
@@ -765,6 +781,7 @@
       { "item": "bread_flour", "prob": 35 },
       { "item": "cornmeal", "prob": 50 },
       { "item": "yeast", "prob": 40 },
+      { "item": "yogurt_starter_culture", "prob": 10 },
       { "item": "koji", "prob": 2 },
       { "item": "powder_eggs", "prob": 55 },
       { "item": "milk_UHT", "prob": 15 },
@@ -777,6 +794,7 @@
       { "item": "sugar", "prob": 60 },
       { "item": "artificial_sweetener", "prob": 15 },
       { "item": "dry_rice", "prob": 65 },
+      { "item": "dry_wild_rice", "prob": 5 },
       { "item": "chem_citric_acid", "prob": 5 }
     ]
   },
@@ -884,6 +902,7 @@
       { "item": "butter", "prob": 35, "charges": 8, "container-item": "wrapper" },
       { "item": "buttermilk", "prob": 15 },
       { "item": "cheese", "prob": 60 },
+      { "item": "cottage_cheese", "prob": 30 },
       { "item": "yoghurt", "prob": 40 },
       { "item": "pudding", "prob": 30 },
       { "item": "icecream", "prob": 30 },
@@ -936,7 +955,7 @@
       [ "lobster_platter", 10 ],
       [ "fish_fried", 10 ],
       [ "fish_sandwich", 10 ],
-      [ "cornbread", 10 ]
+      { "item": "cornbread", "charges": 6, "prob": 10 }
     ]
   },
   {
@@ -977,6 +996,7 @@
       { "group": "wines_worthy", "prob": 54 },
       [ "fish_fried", 7 ],
       [ "cheese", 10 ],
+      [ "mozzarella_cheese", 10 ],
       [ "lemon", 15 ],
       { "item": "pickle", "prob": 10, "charges": 2, "container-item": "jar_glass_sealed" },
       [ "lutefisk", 15 ],
@@ -1049,10 +1069,10 @@
     "items": [
       [ "vinegar", 20 ],
       [ "jam_fruit", 5 ],
-      [ "bread", 17 ],
+      { "item": "bread", "charges": 14, "prob": 17 },
       { "item": "confit_meat", "prob": 14 },
       [ "meat", 20 ],
-      [ "cornbread", 7 ],
+      { "item": "cornbread", "charges": 6, "prob": 7 },
       [ "biscuit", 8 ],
       [ "seasoning_salt", 15 ],
       [ "seasoning_italian", 15 ],
@@ -1068,8 +1088,8 @@
       { "item": "flour", "charges": [ 1, 175 ], "prob": 13, "container-item": "bag_plastic" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 20 ],
-      [ "cooking_oil2", 20 ],
+      [ "cooking_oil", 50 ],
+      [ "cooking_oil2", 50 ],
       [ "cookbook", 8 ],
       [ "cookbook_italian", 9 ],
       [ "cornmeal", 3 ],
@@ -1089,9 +1109,9 @@
     "items": [
       [ "vinegar", 20 ],
       [ "mayonnaise", 20 ],
-      [ "bread", 17 ],
+      { "item": "bread", "charges": 14, "prob": 17 },
       [ "fish", 20 ],
-      [ "cornbread", 7 ],
+      { "item": "cornbread", "charges": 6, "prob": 7 },
       [ "biscuit", 8 ],
       [ "seasoning_salt", 15 ],
       [ "seasoning_italian", 15 ],
@@ -1108,8 +1128,8 @@
       { "item": "flour", "charges": [ 1, 175 ], "prob": 13, "container-item": "bag_plastic" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 20 ],
-      [ "cooking_oil2", 20 ],
+      [ "cooking_oil", 40 ],
+      [ "cooking_oil2", 40 ],
       [ "cookbook", 8 ],
       [ "cookbook_daintydishes", 9 ],
       [ "cornmeal", 3 ],
@@ -1229,6 +1249,7 @@
       { "item": "sloppyjoe", "prob": 6 },
       { "item": "blt", "prob": 6 },
       { "item": "fries", "prob": 10 },
+      { "item": "fried_mozzarella_sticks", "prob": 6 },
       { "item": "onion_rings", "prob": 8 },
       { "item": "fchicken", "prob": 8 },
       { "item": "sausage", "prob": 8 },
@@ -1399,7 +1420,13 @@
         ],
         "prob": 60
       },
-      { "item": "nachos", "prob": 30, "container-item": "ceramic_bowl" },
+      {
+        "collection": [
+          { "item": "nachos", "prob": 100, "container-item": "ceramic_bowl" },
+          { "item": "salsa", "prob": 90, "container-item": "ceramic_bowl" }
+        ],
+        "prob": 60
+      },
       { "item": "hot_sauce", "prob": 40 }
     ]
   },
@@ -1508,14 +1535,15 @@
     "subtype": "collection",
     "entries": [
       { "group": "pantry_liquids", "prob": 30 },
-      { "item": "tortilla_corn", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "tortilla_corn", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "tortilla_flour", "prob": 50, "count": [ 1, 3 ] },
       { "item": "sauce_red", "prob": 30 },
       { "item": "nachos", "prob": 60, "count": [ 1, 3 ] },
       { "item": "cheese_hard", "prob": 40 },
       { "item": "can_beans", "prob": 20, "count": [ 1, 3 ] },
       { "item": "dry_beans", "prob": 60, "count": [ 1, 3 ] },
       { "item": "dry_mushroom", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "flatbread", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "flatbread", "prob": 20, "count": [ 3, 9 ] },
       { "item": "dry_rice", "prob": 60, "count": [ 1, 3 ] },
       { "group": "SUS_spice_collection", "prob": 70 },
       { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },

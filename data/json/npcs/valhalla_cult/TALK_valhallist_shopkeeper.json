@@ -7,7 +7,7 @@
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_SHOPKEEPER_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_SHOPKEEPER_Job" },
-      { "text": "I don't need anything, just gotta got.", "topic": "TALK_DONE" }
+      { "text": "I don't need anything, just gotta go.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -94,7 +94,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_SHOPKEEPER_Loan_Hazmat",
-    "dynamic_line": "Certianly <name_g>, they've been a real help for us recently.  I can only spare one at a time though, so make sure to bring it back.",
+    "dynamic_line": "Certainly <name_g>, they've been a real help for us recently.  I can only spare one at a time though, so make sure to bring it back.",
     "responses": [
       {
         "text": "Thanks.  I'll return it when I'm done.",

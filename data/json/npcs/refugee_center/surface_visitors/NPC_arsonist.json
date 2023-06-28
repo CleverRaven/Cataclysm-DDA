@@ -15,6 +15,8 @@
     "class": "NC_ARSONIST",
     "attitude": 0,
     "mission": 3,
+    "age": 24,
+    "height": 165,
     "chat": "TALK_ARSONIST",
     "faction": "no_faction",
     "mission_offered": "MISSION_ARSONIST_1_AMMONIUM_NITRATE"
@@ -27,21 +29,78 @@
     "common": false,
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
-      [ "FELINE_EARS", 100 ]
+      { "trait": "long_over_eye", "variant": "brown" },
+      { "trait": "eye_color", "variant": "blue" },
+      { "trait": "SKIN_LIGHT" },
+      { "trait": "QUICK" },
+      { "trait": "FASTHEALER" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "FELINE_EARS" },
+      { "trait": "MAKAYLA_MUTATOR" }
     ],
-    "bonus_dex": { "rng": [ -2, 0 ] },
-    "bonus_int": { "rng": [ -2, 0 ] },
-    "bonus_per": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "rng": [ 2, 2 ] },
+    "bonus_int": { "rng": [ 1, 1 ] },
+    "bonus_per": { "rng": [ 2, 2 ] },
     "shopkeeper_item_group": "NC_ARSONIST_STOCK",
     "carry_override": "NC_ARSONIST_STOCK",
+    "worn_override": "NC_ARSONIST_worn",
     "skills": [
-      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ 0, -4 ] } ] } },
-      { "skill": "gun", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "throw", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } }
+      { "skill": "firstaid", "bonus": 3 },
+      { "skill": "cooking", "bonus": 5 },
+      { "skill": "fabrication", "bonus": 5 },
+      { "skill": "survival", "bonus": 2 },
+      { "skill": "melee", "bonus": 5 },
+      { "skill": "bashing", "bonus": 4 },
+      { "skill": "gun", "bonus": 4 },
+      { "skill": "pistol", "bonus": 4 },
+      { "skill": "throw", "bonus": 6 },
+      { "skill": "swimming", "bonus": 3 },
+      { "skill": "driving", "bonus": 3 },
+      { "skill": "speech", "bonus": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "backpack_leather" },
+      { "item": "legrig", "contents-group": "makayla_ammo" },
+      { "item": "bunker_pants" },
+      { "group": "clothing_watch" },
+      { "item": "bunker_coat" },
+      { "item": "socks" },
+      { "item": "boots_combat" },
+      { "item": "slingpack" },
+      { "item": "bra" },
+      { "item": "tank_top" },
+      { "item": "panties" },
+      { "item": "model_10_revolver", "ammo-item": "38_special", "charges": 6, "container-item": "holster" },
+      { "item": "webbing_belt", "contents-group": "makayla_belt" },
+      { "item": "gloves_fingerless_mod" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "makayla_ammo",
+    "subtype": "collection",
+    "items": [
+      { "item": "38_speedloader6", "ammo-item": "38_special", "charges": 6 },
+      { "item": "38_speedloader6", "ammo-item": "38_special", "charges": 6 },
+      { "item": "38_speedloader6", "ammo-item": "38_special", "charges": 6 },
+      { "item": "38_special" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "makayla_belt",
+    "subtype": "collection",
+    "items": [
+      { "item": "gadget_pouch" },
+      { "item": "bandages", "count": 5 },
+      { "item": "pockknife" },
+      { "item": "lighter", "charges": 100 },
+      { "item": "hatchet" }
     ]
   },
   {

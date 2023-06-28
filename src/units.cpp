@@ -1,6 +1,9 @@
+#include "units.h"
+
+#include "calendar.h"
 #include "json.h"
 #include "string_formatter.h"
-#include "units.h"
+#include "units_utility.h"
 
 namespace units
 {
@@ -12,6 +15,12 @@ void volume::serialize( JsonOut &jsout ) const
     } else {
         jsout.write( string_format( "%d ml", value_ ) );
     }
+}
+
+template<>
+void volume::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::volume_units );
 }
 
 template<>
@@ -85,6 +94,29 @@ void energy::deserialize( const JsonValue &jv )
 }
 
 template<>
+void power::serialize( JsonOut &jsout ) const
+{
+    if( value_ % 1000000 == 0 ) {
+        jsout.write( string_format( "%d kW", value_ / 1000000 ) ); //NOLINT
+    } else if( value_ % 1000 == 0 ) {
+        jsout.write( string_format( "%d W", value_ / 1000 ) ) ; //NOLINT
+    } else {
+        jsout.write( string_format( "%d mW", value_ ) ); //NOLINT
+    }
+}
+
+template<>
+void power::deserialize( const JsonValue &jv )
+{
+    if( jv.test_int() ) {
+        // Compatibility with old 0.F saves
+        *this = from_watt( jv.get_int() );
+        return;
+    }
+    *this = read_from_json_string( jv, units::power_units );
+}
+
+template<>
 void angle::serialize( JsonOut &jsout ) const
 {
     jsout.write( string_format( "%f rad", value_ ) );
@@ -96,7 +128,7 @@ void angle::deserialize( const JsonValue &jv )
     *this = read_from_json_string( jv, units::angle_units );
 }
 
-std::string display( const units::energy v )
+std::string display( const units::energy &v )
 {
     const int kj = units::to_kilojoule( v );
     const int j = units::to_joule( v );
@@ -110,6 +142,69 @@ std::string display( const units::energy v )
         return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
     return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
+}
+
+std::string display( const units::power v )
+{
+    const int kw = units::to_kilowatt( v );
+    const int w = units::to_watt( v );
+    // at least 1 kW and there is no fraction
+    if( kw >= 1 && static_cast<float>( w ) / kw == 1000 ) {
+        return std::to_string( kw ) + ' ' + pgettext( "energy unit: kilowatt", "kW" );
+    }
+    const int mw = units::to_milliwatt( v );
+    // at least 1 W and there is no fraction
+    if( w >= 1 && static_cast<float>( mw ) / w == 1000 ) {
+        return std::to_string( w ) + ' ' + pgettext( "energy unit: watt", "W" );
+    }
+    return std::to_string( mw ) + ' ' + pgettext( "energy unit: milliwatt", "mW" );
+}
+
+units::energy operator*( const units::power &power, const time_duration &time )
+{
+    const int64_t mW = units::to_milliwatt<int64_t>( power );
+    const int64_t seconds = to_seconds<int64_t>( time );
+    return units::from_millijoule( mW * seconds );
+}
+
+units::energy operator*( const time_duration &time, const units::power &power )
+{
+    return power * time;
+}
+
+units::power operator/( const units::energy &energy, const time_duration &time )
+{
+    const int64_t mj = to_millijoule( energy );
+    const int64_t seconds = to_seconds<int64_t>( time );
+    return from_milliwatt( mj / seconds );
+}
+
+time_duration operator/( const units::energy &energy, const units::power &power )
+{
+    const int64_t mj = to_millijoule( energy );
+    const int64_t mw = to_milliwatt( power );
+    return time_duration::from_seconds( mj / mw );
+}
+
+units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 )
+{
+    return from_kelvin_delta( to_kelvin( T1 ) - to_kelvin( T2 ) );
+}
+
+units::temperature operator+( const units::temperature &T, const units::temperature_delta &T_delta )
+{
+    return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
+}
+
+units::temperature operator+( const units::temperature_delta &T_delta, const units::temperature &T )
+{
+    return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
+}
+
+units::temperature &operator+=( units::temperature &T, const units::temperature_delta &T_delta )
+{
+    T = T + T_delta;
+    return T;
 }
 
 } // namespace units

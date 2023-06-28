@@ -27,14 +27,14 @@
     "volume": "1250 ml",
     "price": 5000,
     "price_postapoc": 50,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "light_green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "commune_prospectus",
@@ -45,13 +45,13 @@
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 50,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "light_cyan",
     "intelligence": 5,
-    "time": "10 m"
+    "time": "10 m",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "decoy_elfa",
@@ -81,7 +81,7 @@
     "volume": "750 ml",
     "price": 1250,
     "price_postapoc": 50,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "light_blue",
@@ -99,13 +99,13 @@
     "volume": "1 L",
     "price": 88200,
     "price_postapoc": 50,
-    "bashing": 2,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "green",
     "intelligence": 3,
-    "time": "1 m"
+    "time": "1 m",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "mag_comic",
@@ -181,13 +181,13 @@
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 50,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "pocket_firstaid",
     "color": "light_cyan",
     "intelligence": 2,
-    "time": "10 m"
+    "time": "10 m",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "news_regional",
@@ -376,7 +376,7 @@
     "id": "paperback_romance_cloven",
     "type": "BOOK",
     "name": { "str": "Cloven Kisses", "str_pl": "copies of Cloven Kisses" },
-    "description": "When the devil falls in love with a warlock, his proposal must be infernally wicked.  Will hooves, horns, and the scent of sulphur condemn love's flames to hellfire?",
+    "description": "When the devil falls in love with a warlock, his proposal must be infernally wicked.  Will hooves, horns, and the scent of sulfur condemn love's flames to hellfire?",
     "copy-from": "paperback_romance_lnl",
     "relative": { "chapters": -2 }
   },
@@ -451,7 +451,7 @@
     "time": "20 m",
     "copy-from": "book_fict_hard_tpl",
     "//bashing": "3 (2+1)",
-    "relative": { "intelligence": 1, "chapters": 12, "fun": 2, "bashing": 1 }
+    "relative": { "intelligence": 1, "chapters": 12, "fun": 2, "melee_damage": { "bash": 1 } }
   },
   {
     "id": "novel_satire",
@@ -690,7 +690,6 @@
     "volume": "2500 ml",
     "price": 800,
     "price_postapoc": 50,
-    "bashing": 2,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
@@ -698,7 +697,8 @@
     "intelligence": 4,
     "time": "1 m",
     "chapters": 200,
-    "fun": -5
+    "fun": -5,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "photo_album",
@@ -727,7 +727,7 @@
     "volume": "750 ml",
     "price": 1150,
     "price_postapoc": 50,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "light_blue",
@@ -745,7 +745,7 @@
     "volume": "500 ml",
     "price": 1050,
     "price_postapoc": 50,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "light_blue",
@@ -763,7 +763,6 @@
     "volume": "750 ml",
     "price": 1500,
     "price_postapoc": 50,
-    "bashing": 3,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "pocket_firstaid",
@@ -771,7 +770,8 @@
     "intelligence": 15,
     "time": "30 m",
     "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "flags": [ "INSPIRATIONAL" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "record_accounting",
@@ -782,14 +782,14 @@
     "volume": "1250 ml",
     "price": 2000,
     "price_postapoc": 50,
-    "bashing": 5,
-    "material": [ "paper" ],
+    "material": [ "paper", "plastic" ],
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "light_green",
     "intelligence": 10,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "record_patient",
@@ -800,13 +800,13 @@
     "volume": "1500 ml",
     "price": 500,
     "price_postapoc": 50,
-    "bashing": 6,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "record_weather",
@@ -817,14 +817,14 @@
     "volume": "1750 ml",
     "price": 500,
     "price_postapoc": 50,
-    "bashing": 7,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "light_green",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "story_book",
@@ -835,7 +835,7 @@
     "volume": "1 L",
     "price": 1400,
     "price_postapoc": 50,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "radio_book",
     "color": "light_blue",
@@ -853,7 +853,7 @@
     "volume": "750 ml",
     "price": 1050,
     "price_postapoc": 50,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "light_blue",
@@ -871,7 +871,6 @@
     "volume": "750 ml",
     "price": 2900,
     "price_postapoc": 50,
-    "bashing": 3,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -879,7 +878,8 @@
     "intelligence": 6,
     "time": "30 m",
     "fun": 2,
-    "flags": [ "INSPIRATIONAL" ]
+    "flags": [ "INSPIRATIONAL" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "BOOK",
@@ -897,7 +897,7 @@
       { "id": "classic5", "text": "This is a well-worn paperback copy of \"Lord of the Flies\"." },
       { "id": "classic6", "text": "This is a copy of \"To Kill a Mockingbird\" by Harper Lee." },
       { "id": "classic7", "text": "This is a copy of F. Scott Fitzgerald's \"The Great Gatsby.\"" },
-      { "id": "classic8", "text": "This is copy of Michael Abanaderly's lesser-known work, \"He Walks\"." },
+      { "id": "classic8", "text": "This is a copy of Michael Abanaderly's lesser-known work, \"He Walks\"." },
       { "id": "classic9", "text": "This is a collection of several vintage science fiction stories by Ray Bradbury." },
       { "id": "classic10", "text": "This is a copy of \"The Adventures of Tom Sawyer\" by Mark Twain." },
       { "id": "classic11", "text": "This is an illustrated copy of \"Innocents Abroad\" by Mark Twain." },
@@ -1083,7 +1083,7 @@
     "volume": "750 ml",
     "price": 4550,
     "price_postapoc": 50,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "looks_like": "tall_tales",
     "color": "light_blue",
     "symbol": "?",

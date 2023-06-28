@@ -9,6 +9,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <random>
 #include <set>
@@ -46,7 +47,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "point.h"
 #include "projectile.h"
@@ -60,6 +60,10 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_deaf( "deaf" );
@@ -180,7 +184,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
     std::set<tripoint> closed;
     std::set<tripoint> bashed{ p };
     std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 0.0f, p ) );
+    open.emplace( 0.0f, p );
     dist_map[p] = 0.0f;
     // Find all points to blast
     while( !open.empty() ) {
@@ -254,7 +258,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
             }
 
             if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
-                open.push( std::make_pair( next_dist, dest ) );
+                open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
             }
         }
@@ -304,7 +308,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
             vp->vehicle().damage( here, vp->part_index(), force,
-                                  fire ? damage_type::HEAT : damage_type::BASH, false );
+                                  fire ? damage_heat : damage_bash, false );
         }
 
         Creature *critter = creatures.creature_at( pt, true );
@@ -317,7 +321,8 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
 
         Character *pl = critter->as_character();
         if( pl == nullptr ) {
-            const double dmg = std::max( force - critter->get_armor_bash( bodypart_id( "torso" ) ) / 2.0, 0.0 );
+            const double dmg = std::max( force - critter->get_armor_type( damage_bash,
+                                         bodypart_id( "torso" ) ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( mutable_source, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
@@ -351,8 +356,8 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
         for( const blastable_part &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
-            const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
-                                                 blp.armor_mul );
+            // FIXME: Hardcoded damage type
+            const damage_instance dmg_instance = damage_instance( damage_bash, part_dam, 0, blp.armor_mul );
             const dealt_damage_instance result = pl->deal_damage( mutable_source, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
@@ -428,7 +433,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
             dealt_projectile_attack frag;
             frag.proj = proj;
             frag.proj.speed = cloud.velocity;
-            frag.proj.impact = damage_instance( damage_type::BULLET, damage );
+            frag.proj.impact = damage_instance( damage_bullet, damage );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
             // Need to differentiate target among player, npc, and monster
@@ -619,8 +624,7 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
     Character &player_character = get_player_character();
     if( rl_dist( player_character.pos(), p ) <= radius && !ignore_player &&
         ( !player_character.has_trait( trait_LEG_TENT_BRACE ) ||
-          player_character.footwear_factor() == 1 ||
-          ( player_character.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+          !player_character.is_barefoot() ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
         g->knockback( p, player_character.pos(), force, stun, dam_mult );
     }
@@ -682,7 +686,7 @@ void emp_blast( const tripoint &p )
         monster &critter = *mon_ptr;
         if( critter.has_flag( MF_ELECTRONIC ) ) {
             int deact_chance = 0;
-            const auto mon_item_id = critter.type->revert_to_itype;
+            const itype_id mon_item_id = critter.type->revert_to_itype;
             switch( critter.get_size() ) {
                 case creature_size::tiny:
                     deact_chance = 6;

@@ -17,7 +17,7 @@ static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_bottle_plastic_pill_prescription( "bottle_plastic_pill_prescription" );
 static const itype_id itype_box_cigarette( "box_cigarette" );
 static const itype_id itype_box_small( "box_small" );
-static const itype_id itype_can_food( "can_food" );
+static const itype_id itype_can_medium( "can_medium" );
 static const itype_id itype_can_tuna( "can_tuna" );
 static const itype_id itype_candy2( "candy2" );
 static const itype_id itype_candycigarette( "candycigarette" );
@@ -192,8 +192,7 @@ static void clear_everything()
     options.get_option( "AUTO_PICKUP_OWNED" ).setValue( "false" );
 }
 
-
-TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
@@ -204,7 +203,8 @@ TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
+    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
+    item &backpack = *backpack_iter;
     REQUIRE( they.has_item( backpack ) );
 
     GIVEN( "avatar is about to walk over a tile filled with items" ) {
@@ -270,7 +270,7 @@ TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]
     }
 }
 
-TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
@@ -281,7 +281,8 @@ TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
+    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
+    item &backpack = *backpack_iter;
     REQUIRE( they.has_item( backpack ) );
 
     // flashlight > light battery (WL)
@@ -311,8 +312,7 @@ TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
     }
 }
 
-
-TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
@@ -322,7 +322,8 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
+    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
+    item &backpack = *backpack_iter;
     REQUIRE( they.has_item( backpack ) );
 
     // leather wallet (WL) > one dollar bill, five dollar bill (WL), 1ten dollar bill
@@ -385,16 +386,16 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
     }
     // small tin can (sealed) > canned tuna fish (WL), canned meat
     WHEN( "there is a sealed container on the ground containing items whitelisted in auto-pickup rules" ) {
-        item item_small_tin_can = item( itype_can_food );
+        item item_medium_tin_can = item( itype_can_medium );
         unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
         unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
 
         // insert items inside can and seal it
-        item_small_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
-        item_small_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
-        item_small_tin_can.seal();
+        item_medium_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
+        item_medium_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
+        item_medium_tin_can.seal();
 
-        unique_item item_sealed_tuna = unique_item( item_small_tin_can );
+        unique_item item_sealed_tuna = unique_item( item_medium_tin_can );
         REQUIRE( item_sealed_tuna.spawn_item( ground ) );
 
         add_autopickup_rule( item_canned_tuna.get(), true );
@@ -407,17 +408,17 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
     }
     // small tin can (sealed) > canned tuna fish (WL), canned meat
     WHEN( "there is a sealed container on the ground containing no whitelisted items" ) {
-        item item_small_tin_can = item( itype_can_food );
+        item item_medium_tin_can = item( itype_can_medium );
         item item_bottle_plastic = item( itype_bottle_plastic );
         unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
         unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
 
         // insert items inside can and seal it
-        item_small_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
-        item_small_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
-        item_small_tin_can.seal();
+        item_medium_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
+        item_medium_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
+        item_medium_tin_can.seal();
 
-        unique_item item_sealed_tuna = unique_item( item_small_tin_can );
+        unique_item item_sealed_tuna = unique_item( item_medium_tin_can );
         REQUIRE( item_sealed_tuna.spawn_item( ground ) );
         // autopickup something other than the sealed items
         unique_item item_red_herring = unique_item( item_bottle_plastic );
@@ -432,7 +433,7 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
     }
 }
 
-TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
@@ -442,7 +443,8 @@ TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
+    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
+    item &backpack = *backpack_iter;
     REQUIRE( they.has_item( backpack ) );
 
     // backpack > lump of steel (5)(WL), cigrarette (3)(WL), paper (10)(WL)
@@ -507,7 +509,7 @@ TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][
     }
 }
 
-TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
@@ -517,7 +519,8 @@ TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
+    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
+    item &backpack = *backpack_iter;
     REQUIRE( they.has_item( backpack ) );
 
     // candy cigarette(WL)
@@ -567,7 +570,7 @@ TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
     }
 }
 
-TEST_CASE( "auto pickup should not implicitly pickup corpses", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();

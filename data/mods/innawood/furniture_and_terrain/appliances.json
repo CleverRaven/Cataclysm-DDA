@@ -4,7 +4,6 @@
     "id": "ap_battery_car_clay",
     "name": { "str": "clay car grid battery" },
     "categories": [ "energy" ],
-    "symbol": "B",
     "looks_like": "clay_hydria",
     "location": "structure",
     "color": "light_cyan",
@@ -13,14 +12,14 @@
     "item": "battery_car_clay",
     "breaks_into": [ { "item": "ceramic_shard", "count": [ 1, 3 ] }, { "item": "lead", "count": [ 200, 1000 ] } ],
     "durability": 120,
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "ap_battery_clay_array",
     "name": { "str": "clay grid battery array" },
     "categories": [ "energy" ],
-    "symbol": "B",
     "looks_like": "f_crate_o",
     "location": "structure",
     "color": "light_cyan",
@@ -34,6 +33,7 @@
       { "item": "nail", "count": [ 2, 6 ] }
     ],
     "durability": 120,
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
   }
 ]

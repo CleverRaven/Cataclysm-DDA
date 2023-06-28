@@ -15,27 +15,37 @@
 namespace distraction_manager
 {
 
-static const std::vector<std::pair<std::string, std::string>> configurable_distractions = {
-    {translate_marker( "Noise" ),                        translate_marker( "This distraction will interrupt your activity when you hear a noise." )},
-    {translate_marker( "Pain" ),                         translate_marker( "This distraction will interrupt your activity when you feel pain." )},
-    {translate_marker( "Attack" ),                       translate_marker( "This distraction will interrupt your activity when you're attacked." )},
-    {translate_marker( "Hostile is dangerously close" ), translate_marker( "This distraction will interrupt your activity when a hostile comes within 5 tiles from you." )},
-    {translate_marker( "Hostile spotted" ),              translate_marker( "This distraction will interrupt your activity when you spot a hostile." )},
-    {translate_marker( "Conversation" ),                 translate_marker( "This distraction will interrupt your activity when someone starts a conversation with you." )},
-    {translate_marker( "Asthma" ),                       translate_marker( "This distraction will interrupt your activity when you suffer an asthma attack." )},
-    {translate_marker( "Dangerous field" ),              translate_marker( "This distraction will interrupt your activity when you're standing in a dangerous field." )},
-    {translate_marker( "Weather change" ),               translate_marker( "This distraction will interrupt your activity when weather changes to dangerous." )},
-    {translate_marker( "Hunger" ),                       translate_marker( "This distraction will interrupt your activity when you're at risk of starving." )},
-    {translate_marker( "Thirst" ),                       translate_marker( "This distraction will interrupt your activity when you're dangerously dehydrated." )},
-    {translate_marker( "Temperature" ),                  translate_marker( "This distraction will interrupt your activity when your temperature is very high or very low." )},
-    {translate_marker( "Mutation" ),                     translate_marker( "This distraction will interrupt your activity when you gain or lose a mutation." )},
+struct configurable_distraction {
+    bool *state;
+    std::string name;
+    std::string description;
 };
+
+static const std::vector<configurable_distraction> &get_configurable_distractions()
+{
+    static const std::vector<configurable_distraction> configurable_distractions = {
+        {&uistate.distraction_noise,           translate_marker( "Noise" ),                        translate_marker( "This distraction will interrupt your activity when you hear a noise." )},
+        {&uistate.distraction_pain,            translate_marker( "Pain" ),                         translate_marker( "This distraction will interrupt your activity when you feel pain." )},
+        {&uistate.distraction_attack,          translate_marker( "Attack" ),                       translate_marker( "This distraction will interrupt your activity when you're attacked." )},
+        {&uistate.distraction_hostile_close,   translate_marker( "Hostile is dangerously close" ), translate_marker( "This distraction will interrupt your activity when a hostile comes within 5 tiles from you." )},
+        {&uistate.distraction_hostile_spotted, translate_marker( "Hostile spotted" ),              translate_marker( "This distraction will interrupt your activity when you spot a hostile." )},
+        {&uistate.distraction_conversation,    translate_marker( "Conversation" ),                 translate_marker( "This distraction will interrupt your activity when someone starts a conversation with you." )},
+        {&uistate.distraction_asthma,          translate_marker( "Asthma" ),                       translate_marker( "This distraction will interrupt your activity when you suffer an asthma attack." )},
+        {&uistate.distraction_dangerous_field, translate_marker( "Dangerous field" ),              translate_marker( "This distraction will interrupt your activity when you're standing in a dangerous field." )},
+        {&uistate.distraction_weather_change,  translate_marker( "Weather change" ),               translate_marker( "This distraction will interrupt your activity when weather changes to dangerous." )},
+        {&uistate.distraction_hunger,          translate_marker( "Hunger" ),                       translate_marker( "This distraction will interrupt your activity when you're at risk of starving." )},
+        {&uistate.distraction_thirst,          translate_marker( "Thirst" ),                       translate_marker( "This distraction will interrupt your activity when you're dangerously dehydrated." )},
+        {&uistate.distraction_temperature,     translate_marker( "Temperature" ),                  translate_marker( "This distraction will interrupt your activity when your temperature is very high or very low." )},
+        {&uistate.distraction_mutation,        translate_marker( "Mutation" ),                     translate_marker( "This distraction will interrupt your activity when you gain or lose a mutation." )},
+    };
+    return configurable_distractions;
+}
 
 void distraction_manager_gui::show()
 {
     const int iHeaderHeight = 4;
     int iContentHeight = 0;
-    const int number_of_distractions = configurable_distractions.size();
+    const int number_of_distractions = get_configurable_distractions().size();
     catacurses::window w_border;
     catacurses::window w_header;
     catacurses::window w;
@@ -63,27 +73,12 @@ void distraction_manager_gui::show()
     int currentLine = 0;
     int startPosition = 0;
 
-    std::vector<bool> distractions_status = {
-        uistate.distraction_noise,
-        uistate.distraction_pain,
-        uistate.distraction_attack,
-        uistate.distraction_hostile_close,
-        uistate.distraction_hostile_spotted,
-        uistate.distraction_conversation,
-        uistate.distraction_asthma,
-        uistate.distraction_dangerous_field,
-        uistate.distraction_weather_change,
-        uistate.distraction_hunger,
-        uistate.distraction_thirst,
-        uistate.distraction_temperature,
-        uistate.distraction_mutation,
-    };
-
-    input_context ctx{ "DISTRACTION_MANAGER" };
-    ctx.register_action( "QUIT" );
-    ctx.register_action( "HELP_KEYBINDINGS" );
-    ctx.register_cardinal();
-    ctx.register_action( "CONFIRM" );
+    input_context ctxt{ "DISTRACTION_MANAGER" };
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_leftright();
+    ctxt.register_navigate_ui_list();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Draw border
@@ -96,7 +91,7 @@ void distraction_manager_gui::show()
         // Draw header
         werase( w_header );
         fold_and_print( w_header, point_zero, getmaxx( w_header ), c_white,
-                        _( configurable_distractions[currentLine].second.c_str() ) );
+                        _( get_configurable_distractions()[currentLine].description.c_str() ) );
 
         // Draw horizontal line and corner pieces of the table
         for( int x = 0; x < 78; x++ ) {
@@ -128,12 +123,15 @@ void distraction_manager_gui::show()
 
         for( int i = startPosition; i < number_of_distractions; ++i ) {
             const nc_color line_color = i == currentLine ? hilite( c_white ) : c_white;
-            const nc_color status_color = distractions_status[i] ? c_light_green : c_red;
-            const std::string status_string = distractions_status[i] ? _( "Enabled" ) : _( "Disabled" );
+            const nc_color status_color = *( get_configurable_distractions()[i].state ) ? c_light_green :
+                                          c_red;
+            const std::string status_string = *( get_configurable_distractions()[i].state ) ?
+                                              _( "Enabled" ) :
+                                              _( "Disabled" );
 
             // Print distraction types
             mvwprintz( w, point( 1, i - startPosition ), line_color, "%s",
-                       _( configurable_distractions[i].first.c_str() ) );
+                       _( get_configurable_distractions()[i].name.c_str() ) );
 
             // Print "Enabled/Disabled" text
             mvwprintz( w, point( 62, i - startPosition ), status_color, "%s", status_string );
@@ -147,72 +145,15 @@ void distraction_manager_gui::show()
     while( true ) {
         ui_manager::redraw();
 
-        const std::string currentAction = ctx.handle_input();
+        const std::string action = ctxt.handle_input();
 
-        if( currentAction == "QUIT" ) {
+        if( action == "QUIT" ) {
             break;
         }
 
-        if( currentAction == "UP" ) {
-            if( currentLine > 0 ) {
-                --currentLine;
-            } else {
-                currentLine = number_of_distractions - 1;
-            }
-        } else if( currentAction == "DOWN" ) {
-            if( currentLine == number_of_distractions - 1 ) {
-                currentLine = 0;
-            } else {
-                ++currentLine;
-            }
-        } else if( currentAction == "CONFIRM" ) {
-            // This will change status color and status text
-            distractions_status[currentLine] = !distractions_status[currentLine];
-
-            // This will actually toggle enabled/disabled status of distractions
-            switch( currentLine ) {
-                case 0:
-                    uistate.distraction_noise = !uistate.distraction_noise;
-                    break;
-                case 1:
-                    uistate.distraction_pain = !uistate.distraction_pain;
-                    break;
-                case 2:
-                    uistate.distraction_attack = !uistate.distraction_attack;
-                    break;
-                case 3:
-                    uistate.distraction_hostile_close = !uistate.distraction_hostile_close;
-                    break;
-                case 4:
-                    uistate.distraction_hostile_spotted = !uistate.distraction_hostile_spotted;
-                    break;
-                case 5:
-                    uistate.distraction_conversation = !uistate.distraction_conversation;
-                    break;
-                case 6:
-                    uistate.distraction_asthma = !uistate.distraction_asthma;
-                    break;
-                case 7:
-                    uistate.distraction_dangerous_field = !uistate.distraction_dangerous_field;
-                    break;
-                case 8:
-                    uistate.distraction_weather_change = !uistate.distraction_weather_change;
-                    break;
-                case 9:
-                    uistate.distraction_hunger = !uistate.distraction_hunger;
-                    break;
-                case 10:
-                    uistate.distraction_thirst = !uistate.distraction_thirst;
-                    break;
-                case 11:
-                    uistate.distraction_temperature = !uistate.distraction_temperature;
-                    break;
-                case 12:
-                    uistate.distraction_mutation = !uistate.distraction_mutation;
-                    break;
-                default:
-                    return;
-            }
+        if( navigate_ui_list( action, currentLine, 5, number_of_distractions, true ) ) {
+        } else if( action == "CONFIRM" || action == "LEFT" || action == "RIGHT" ) {
+            *( get_configurable_distractions()[currentLine].state ) ^= true;
         }
     }
 }

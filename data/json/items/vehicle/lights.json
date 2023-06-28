@@ -11,7 +11,8 @@
     "weight": "1000 g",
     "volume": "1 L",
     "price": 3000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "motorcycle_headlight",
@@ -46,10 +47,10 @@
     "color": "light_cyan",
     "symbol": ",",
     "material": [ "steel", "plastic" ],
-    "bashing": 4,
     "price": 40000,
     "price_postapoc": 250,
-    "copy-from": "car_headlight"
+    "copy-from": "car_headlight",
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -64,21 +65,21 @@
     "type": "GENERIC",
     "id": "light_emergency_red",
     "name": { "str": "emergency vehicle light (red)", "str_pl": "emergency vehicle lights (red)" },
-    "description": "One of the red-colored lights from the top of an emergency services vehicle.  When turned on, the lights rotate to shine in all directions.",
+    "description": "A red light from the top of an emergency services vehicle.  When turned on, the light rotates to shine in all directions.",
     "weight": "500 g",
     "to_hit": 1,
     "color": "red",
     "material": [ "plastic", "steel" ],
-    "bashing": 1,
     "price": 40000,
     "price_postapoc": 100,
-    "copy-from": "car_headlight"
+    "copy-from": "car_headlight",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
     "id": "light_emergency_blue",
     "name": { "str": "emergency vehicle light (blue)", "str_pl": "emergency vehicle lights (blue)" },
-    "description": "One of the blue-colored lights from the top of an emergency services vehicle.  When turned on, the lights rotate to shine in all directions.",
+    "description": "A blue light from the top of an emergency services vehicle.  When turned on, the light rotates to shine in all directions.",
     "color": "blue",
     "copy-from": "light_emergency_red"
   },
@@ -86,21 +87,21 @@
     "type": "GENERIC",
     "id": "floodlight",
     "name": { "str": "floodlight" },
-    "description": "A large and heavy light designed to illuminate wide areas.",
+    "description": "A large, heavy light designed to illuminate wide areas.",
     "weight": "2500 g",
     "to_hit": 1,
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
-    "bashing": 5,
     "price": 90000,
     "price_postapoc": 1500,
-    "copy-from": "car_headlight"
+    "copy-from": "car_headlight",
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
     "id": "directed_floodlight",
     "name": { "str": "directed floodlight" },
-    "description": "A large and heavy light designed to illuminate a wide area in a half-circular cone.",
+    "description": "A large, heavy light designed to illuminate a wide area in a half-circular cone.",
     "copy-from": "floodlight"
   }
 ]

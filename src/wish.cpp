@@ -6,6 +6,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -31,7 +32,6 @@
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "proficiency.h"
@@ -381,7 +381,6 @@ void debug_menu::wisheffect( Character &p )
         return descstr.str();
     };
 
-
     auto rebuild_menu = [&]( const bodypart_str_id & bp ) -> void {
         effects.clear();
         efmenu.entries.clear();
@@ -389,8 +388,6 @@ void debug_menu::wisheffect( Character &p )
         efmenu.addentry( 0, true, 'a', _( "Show only active" ) );
         efmenu.addentry( 1, true, 'b', _( "Change body part" ) );
         only_active = false;
-
-
 
         for( const std::pair<const efftype_id, effect_type> &eff : get_effect_types() )
         {
@@ -602,7 +599,7 @@ class wish_monster_callback: public uilist_callback
         ~wish_monster_callback() override = default;
 };
 
-void debug_menu::wishmonster( const cata::optional<tripoint> &p )
+void debug_menu::wishmonster( const std::optional<tripoint> &p )
 {
     std::vector<const mtype *> mtypes;
 
@@ -632,7 +629,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
-            if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
+            if( std::optional<tripoint> spawn = p ? p : g->look_around() ) {
                 int num_spawned = 0;
                 for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );

@@ -39,8 +39,17 @@
     "id": "tokarevmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "TT-33 8-round magazine" },
-    "description": "A standard 8-round magazine for the Tokarev TT-33.",
+    "name": { "str": "Tokarev 8-round magazine" },
+    "description": "A standard 8-round magazine for the Tokarev handgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "tokarevmag",
+        "name": { "str": "TT-33 8-round magazine" },
+        "description": "A standard 8-round magazine for the Tokarev TT-33.",
+        "weight": 1
+      }
+    ],
     "weight": "56 g",
     "volume": "250 ml",
     "price": 1300,

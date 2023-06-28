@@ -12,7 +12,6 @@
     "price": 50000,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -20,8 +19,10 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 540,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p226mag_12rd_357sig" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p226mag_12rd_357sig" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "glock_31",
@@ -52,14 +53,15 @@
     "price": 69000,
     "price_postapoc": 2250,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "357sig" ],
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 540,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p320mag_13rd_357sig" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p320mag_13rd_357sig" ] } ],
+    "melee_damage": { "bash": 8 }
   }
 ]

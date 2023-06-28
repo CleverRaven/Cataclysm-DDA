@@ -8,18 +8,17 @@
 
 enum class holiday : int;
 
-static const std::string SAVE_MASTER( "master.gsav" );
-static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
-static const std::string SAVE_EXTENSION( ".sav" );
-static const std::string SAVE_EXTENSION_MAP_MEMORY( ".mm" );
-static const std::string SAVE_EXTENSION_LOG( ".log" );
-static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
-static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
+const std::string SAVE_MASTER( "master.gsav" );
+const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
+const std::string SAVE_EXTENSION( ".sav" );
+const std::string SAVE_EXTENSION_LOG( ".log" );
+const std::string SAVE_EXTENSION_WEATHER( ".weather" );
+const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
 namespace PATH_INFO
 {
 
-void init_base_path( std::string path );
+void init_base_path( const std::string &path );
 void init_user_dir( std::string dir );
 void set_standard_filenames();
 
@@ -84,6 +83,7 @@ cata_path names();
 cata_path options();
 cata_path panel_options();
 cata_path player_base_save_path_path();
+cata_path pocket_presets();
 cata_path safemode();
 cata_path savedir_path();
 cata_path templatedir_path();

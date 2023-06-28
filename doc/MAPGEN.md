@@ -24,6 +24,8 @@
     * [Set things in a "square"](#set-things-in-a-square)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
   * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
+  * [Spawn npcs with "place_npcs"](#spawn-npcs-with-place_npcs)
+  * [Set variables with "place_variables"](#set-variables-with-place_variables)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
@@ -276,7 +278,7 @@ optional.
 
 Value: `"string"`: Valid terrain id from data/json/terrain.json
 
-Example: `"fill_ter": "t_grass"`
+Example: `"fill_ter": "t_region_groundcover"`
 
 
 ## ASCII map using "rows" array
@@ -312,24 +314,24 @@ Example:
 
 ```json
 "rows": [
-  ",_____ssssssssssss_____,",
-  ",__,__#### ss ####__,__,",
+  ",_____####ssss####_____,",
+  ",__,__#ssssssssss#__,__,",
   ",_,,,_#ssssssssss#__,__,",
-  ",__,__#hthsssshth#__,__,",
+  ",__,__#HTHssssHTH#__,__,",
   ",__,__#ssssssssss#_,,,_,",
-  ",__,__|-555++555-|__,__,",
-  ",_____|.hh....hh.%_____,",
-  ",_____%.tt....tt.%_____,",
-  ",_____%.tt....tt.%_____,",
-  ",_____%.hh....hh.|_____,",
-  ",_____|..........%_____,",
-  ",,,,,,|..........+_____,",
-  ",_____|ccccxcc|..%_____,",
-  ",_____w.......+..|_____,",
-  ",_____|e.ccl.c|+-|_____,",
-  ",_____|O.....S|.S|_____,",
-  ",_____||erle.x|T||_____,",
-  ",_____#|----w-|-|#_____,",
+  ",__,__||---++---||__,__,",
+  ",_____|.HH....HH.-_____,",
+  ",_____-.TT....TT.-_____,",
+  ",_____-.TT....TT.-_____,",
+  ",_____-.HH....HH.|_____,",
+  ",_____|..........-_____,",
+  ",,,,,,|g.........+_____,",
+  ",_____|ccxcxcc|..-_____,",
+  ",_____ow=w=w=w+..|_____,",
+  ",_____|ewccOwc|t||_____,",
+  ",_____|l=w=w=S|=S|_____,",
+  ",_____||eercwx|P||_____,",
+  ",_____#|||||o||||4_____,",
   ",________,_____________,",
   ",________,_____________,",
   ",________,_____________,",
@@ -351,34 +353,23 @@ Example:
 
 ```json
 "terrain": {
-  " ": "t_grass",
-  "d": "t_floor",
-  "5": "t_wall_glass_h",
-  "%": "t_wall_glass_v",
-  "O": "t_floor",
-  ",": "t_pavement_y",
+  " ": "t_region_groundcover_urban",
+  "d": "t_region_groundcover_barren",
+  "#": "t_region_shrub_decorative",
   "_": "t_pavement",
-  "r": "t_floor",
-  "6": "t_console",
-  "x": "t_console_broken",
-  "$": "t_shrub",
-  "^": "t_floor",
-  ".": "t_floor",
-  "-": "t_wall_h",
-  "|": "t_wall_v",
-  "#": "t_shrub",
-  "t": "t_floor",
+  ",": "t_pavement_y",
+  "s": "t_sidewalk",
+  "-": "t_wall_glass",
   "+": "t_door_glass_c",
-  "=": "t_door_locked_alarm",
-  "D": "t_door_locked",
-  "w": "t_window_domestic",
-  "T": "t_floor",
-  "S": "t_floor",
-  "e": "t_floor",
-  "h": "t_floor",
-  "c": "t_floor",
-  "l": "t_floor",
-  "s": "t_sidewalk"
+  "o": "t_window_open",
+  "|": "t_wall_w",
+  "t": [ [ "t_door_c", 2 ], "t_door_c" ],
+  ".": "t_floor",
+  "=": "t_linoleum_gray",
+  "P": "t_linoleum_gray",
+  "r": "t_linoleum_gray",
+  "O": "t_linoleum_white",
+  "4": "t_gutter_downspout"
 },
 ```
 
@@ -392,19 +383,17 @@ Example:
 
 ```json
 "furniture": {
-  "d": "f_dumpster",
-  "5": "f_null",
-  "%": "f_null",
-  "O": "f_oven",
-  "r": "f_rack",
-  "^": "f_indoor_plant",
-  "t": "f_table",
-  "T": "f_toilet",
+  "H": "f_chair",
+  "T": "f_table",
   "S": "f_sink",
-  "e": "f_fridge",
-  "h": "f_chair",
+  "x": "f_counter",
   "c": "f_counter",
-  "l": "f_locker"
+  "l": "f_locker",
+  "e": "f_fridge",
+  "r": "f_oven",
+  "O": "f_oven",
+  "g": "f_trashcan",
+  "d": "f_dumpster"
 },
 ```
 
@@ -417,22 +406,45 @@ Example:
 ```
 
 Currently the defined flags are as follows:
+- Clearing flags for layered mapgens: see [dedicated section below](#clearing-flags-for-layered-mapgens)
+- `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
+- `AVOID_CREATURES` If a creature is present, terrain, furniture and traps won't be placed.
 
-* `ERASE_ALL_BEFORE_PLACING_TERRAIN` and `ALLOW_TERRAIN_UNDER_OTHER_DATA` are
-  mutually exclusive flags that can be used with any mapgen which is layered on
-  top of existing terrain.  This can be update mapgen, nested mapgen, or
-  regular mapgen with a predecessor.  It specifies the behaviour to follow when
-  an existing terrain is changed by the update, but the tile has existing
-  items, trap, or furniture on it.  If neither flag is provided this is an
-  error.  If `ERASE_ALL_BEFORE_PLACING_TERRAIN` is given then any items, trap,
-  or furniture will be removed before changing the terrain.  If
-  `ALLOW_TERRAIN_UNDER_OTHER_DATA` is given then they will be retained without
-  an error.  If you require more fine-grained control over this behaviour than
-  can be provided by these flags, then each of these things can be removed
-  either individually or together.  See the other entries below, such as
-  `remove_all`.
-  `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
-  `AVOID_CREATURES` If a creature is present terrain, furniture and traps won't be placed.
+### Clearing flags for layered mapgens
+Some mapgens are intended to be layered on top of existing terrain.  This can be update mapgen,
+nested mapgen, or regular mapgen with a predecessor.  When the mapgen changes an existing terrain,
+the tile may already contain preexisting furniture, traps and items.  The following flags provide
+a mechanism for specifying the behaviour to follow in such situations.  It is an error if existing
+furniture, traps or items are encountered but no behaviour has been given.
+
+A blanket policy can be set using one of these three (mutually exclusive) shorthand flags:
+- `ALLOW_TERRAIN_UNDER_OTHER_DATA` retains preexisting furniture, traps and items without triggering
+  an error.
+- `DISMANTLE_ALL_BEFORE_PLACING_TERRAIN` causes any furniture to be deconstructed or bashed, while
+  traps are disarmed.  The outputs, along with any other preexisting items, are then retained.
+- `ERASE_ALL_BEFORE_PLACING_TERRAIN` removes all preexisting furniture, traps and items before
+  changing the terrain.
+
+For finer-grained control, the following flags can be used to set different behaviors for furniture, traps and items:
+- `ALLOW_TERRAIN_UNDER_FURNITURE`, `DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN` and `ERASE_FURNITURE_BEFORE_PLACING_TERRAIN`
+  are mutually exclusive flags for determining the disposition of furniture.
+- `ALLOW_TERRAIN_UNDER_TRAP`, `DISMANTLE_TRAP_BEFORE_PLACING_TERRAIN` and `ERASE_TRAP_BEFORE_PLACING_TERRAIN`
+  are mutually exclusive flags for determining the disposition of traps.
+- `ALLOW_TERRAIN_UNDER_ITEMS` and `ERASE_ITEMS_BEFORE_PLACING_TERRAIN`
+  are mutually exclusive flags for determining the disposition of items.
+
+The fine-grained flags can be used in conjunction with any of the three shorthand flags to override
+behavior for furniture/traps/items specifically.  Alternatively, the shorthand flags can be omitted
+entirely, and all behavior specified using a combination of fine-grained flags.  
+Not all combinations necessarily make sense; illogical settings will trigger a warning output.
+
+**Note:** depending on the new terrain being set by the mapgen, furniture, traps and items may still
+be "stomped out" by the new terrain, regardless of these settings.
+
+For targeted removal of things from specific tiles or areas, further options are available below:
+- `trap_remove` and `item_remove` can be applied to a [point](#set-things-at-a-point), [line](#set-things-in-a-line) or [square](#set-things-in-a-square) regions.
+- [`remove_all`](#remove-everything-with-remove_all) can be used to remove all fields, items, traps, graffiti, and furniture from a specific tile.
+
 
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
@@ -536,7 +548,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | name        | Extra name to display on the monster.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 | spawn_data  | An optional object that contains additional details for spawning the monster.
-
+| use_pack_size | An optional bool, defaults to false.  If it is true and `group` is used then pack_size values from the monster group will be used.
 Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used
 only one monster will spawn.
 
@@ -602,6 +614,23 @@ Using `place_monsters` to spawn a group of monsters works in a similar fashion t
 | repeat      | The spawning is repeated this many times. Can be a number or a range. Again, this represents the number of times the group will be spawned.
 | density | This number is multiplied by the spawn density of the world the player is in and then probabilistically rounded to determine how many times to spawn the group. This is done for each time the spawn is repeated. For instance, if the final multiplier from this calculation ends up being `2`, and the repeat value is `6`, then the group will be spawned `2 * 6` or 12 times.
 
+## Spawn npcs with "place_npcs"
+Using `place_npcs` to spawn a group of npcs.
+
+|Field|Description  |
+|--|--|
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| class | The class of the npc that you wish to spawn |
+| add_trait      | A string of array of strings for traits the npc starts with.
+| unique_id      | A string for the unique_id the npc has.
+
+## Set variables with "place_variables"
+Using `place_variables` to set a group of variables.
+
+|Field|Description  |
+|--|--|
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| name      | The name of the global variable to set with the absolute coordinates of x and y.
 
 ## Spawn specific items with a "place_item" array
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
@@ -655,7 +684,7 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
 
 ```json
 "terrain" : {
-    ".": [ "t_grass", "t_grass", "t_dirt" ]
+    ".": [ "t_region_grass", "t_region_grass", "t_region_soil" ]
 }
 ```
 
@@ -664,7 +693,7 @@ useful for rare occurrences (rather than repeating the common value many times):
 
 ```json
 "terrain" : {
-    ".": [ [ "t_grass", 2 ], "t_dirt" ]
+    ".": [ [ "t_region_grass", 2 ], "t_region_soil" ]
 }
 ```
 
@@ -684,7 +713,7 @@ Or define the mappings for one character at once:
         "traps": "tr_beartrap",
         "field": { "field": "fd_blood" },
         "item": { "item": "corpse" },
-        "terrain": { "t_dirt" }
+        "terrain": { "t_region_soil" }
     }
 }
 ```
@@ -740,11 +769,19 @@ Same as
 
 ### Place smoke, gas, or blood with "fields"
 
+Example:
+
+```json
+"place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "repeat": [ 0, 3 ] } ]
+
+"place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
+```
+
 | Field     | Description
 | ---       | ---
 | field     | (required, string) the field type (e.g. `"fd_blood"`, `"fd_smoke"`)
 | density   | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
-| intensity | (optional, integer) how concentrated the field is, from 1 to 3 or more. See `data/json/field_type.json`
+| intensity | (optional, integer, array ) how concentrated the field is, from 1 to 3 or more.  Arrays are randomized.  See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
 | remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
 
@@ -1027,19 +1064,25 @@ NPCs in the faction will use the zone to influence the AI.
 
 | Field   | Description
 | ---     | ---
-| type    | (required, string) Values: `"NPC_RETREAT"`, `"NPC_NO_INVESTIGATE"`, or `"NPC_INVESTIGATE_ONLY"`.
+| type    | (required, string) Values: `"NPC_RETREAT"`, `"NPC_NO_INVESTIGATE"`, or `"NPC_INVESTIGATE_ONLY"`, or `LOOT_xxx`
 | faction | (required, string) the faction id of the NPC faction that will use the zone.
 | name    | (optional, string) the name of the zone.
+| filter  | (optional, string) used as filter for `LOOT_CUSTOM`, or as group id for `LOOT_ITEM_GROUP`
 
 The `type` field values affect NPC behavior. NPCs will:
 
 - Prefer to retreat towards `NPC_RETREAT` zones.
-- Not move to the see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
-- Not move to the see the source of unseen sounds coming from outside `NPC_INVESTIGATE_ONLY` zones.
+- Not move to see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
+- Not move to see the source of unseen sounds coming from outside of `NPC_INVESTIGATE_ONLY` zones.
+- Use `LOOT_xxx` zones for their shop (see [NPCs.md#Shop_restocking](NPCs.md#Shop-restocking))
+
+Single-point loot zones that overlap cargo vehicle parts will be placed as vehicle zones.
+
+Zone placements can be debugged in game by turning on debug mode and changing `F`action in the Zones Manager.
 
 ### Specify a player spawning location using "zones"
 
-When designing a scenario map piece pieces that can be selected as a starting location, you can directly specify where in the map the player will be placed by using a `ZONE_START_POINT` zone. A `ZONE_START_POINT` zone will only be considered valid if it belongs to the `your_followers` faction.
+When designing a scenario you can directly specify where in the map the player will be placed by using a `ZONE_START_POINT` zone. Player will be placed in the center of this zone. A `ZONE_START_POINT` zone will only be considered valid if it belongs to the `your_followers` faction. Keep in mind that no additional checks are conducted when assigning player spawning location using this method, and thus player can spawn in a wall, on open air, and other inappropriate tiles.
 
 ### Remove everything with "remove_all"
 
@@ -1171,7 +1214,7 @@ For example, the default value of a parameter, or a terrain id in the
 * A JSON object containing the key `"distribution"`, whose corresponding value
   is a list of lists, each a pair of a string id and an integer weight.  For
   example:
-```
+```json
 { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
 ```
 * A JSON object containing the key `"param"`, whose corresponding value is the

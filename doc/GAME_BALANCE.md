@@ -1,3 +1,4 @@
+# Game Balance
 # Stat system scaling:
 Ranges below will be using strength as the example since it's the easiest to itemize, but what the numbers mean is equivalent between all stats.
 
@@ -72,8 +73,18 @@ Maximal HP: 800 (highest for balance purposes; wraith)
 In general larger creatures should have higher HP as should more evolved blob creatures and alien and nether creatures.
 
 
-# Speeds:
-Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 50% faster than base character speed. Currently, this means "capped at 150".
+# Monster Speed Scaling:
+Minimum speed: 20 (very little ability to move, 1 km/h; crawling zombie)
+
+Average speed: 70 (average critter, 3.5 km/h, can be walked away from; most basic zeds, slimes, triffids)
+
+Notable speed: 100+ (unusually fast, over 5 km/h, can be run away from; feral human, bee, mi-go, zombie brute, zombie predator, jabberwock, manhack)
+
+Very high speed: ~200 (extremely fast, about 10 km/h; moose, zombie hulk, hulking horror, gracken, jabberwock)
+
+Maximal speed: 300 (highest for balance purposes; flying polyp)
+
+Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a day one zed be more than 100% faster than base character speed. Currently, this means "capped at 200". attack_cost flag should be used for monsters with speeds faster or slower than 100 unless faster or slower attacks are intended
 
 
 # Monster Difficulty scaling:
@@ -257,7 +268,7 @@ Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | 
 Bow damage is based on the momentum achieved in the projectile.  Since arrows and bolts have sharp cutting surfaces, the penetration and therefore damage achieved is based on the projectile's capacity for slicing through tissues.  The arrow has a modifier based on construction, material and design, most critically centered around the effectiveness of the head.  Base damage is calculated from momentum by taking momentum in Slug-foot-seconds, multiplying by 150 and subtracting 32. This was arrived at by taking well-regarded bowhunting guidelines and determining the damage numbers necessary for a kill of various game on a critical hit, see tests/archery_damage_test.cpp for details.
 
 ## Ammo stats
-The default damage, (**Dmg**) of a given **Cartridge** shot through a normal firearm is the square root of a round's muzzle energy in joules, (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
+The default damage, (**Dmg**) of a given **Cartridge** shot through a normal firearm is the square root of a round's muzzle energy in joules, (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 90% of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
 
 
 Each cartridge has had a curve plotted for barrel length vs damage for standard loads, sourced from reloading manuals, manufacturers' load data, and/or wikipedia, and modelled with interior ballistics software. Each curve had a logarithmic regression fit to it, and the generic formula to reproduce it is **Dmg** = ( **A** x Ln( **Brl** ) )+ **B**. For each cartridge, the default damage, **Dmg** has been calculated using its **A** coefficient and **B** offset and **Brl**. For firearms whose barrel lengths differ from **Brl**, a corresponding damage modifier should be calculated using the formula and the provided default damage.
@@ -320,7 +331,7 @@ For reference, each cartridge's bullet diameter, **Dia**  and weight, **Proj. wt
 | 4.73 x33 Caseless        | 16.0 in | 34.6    | 1197.2 J  | 10.816  | 4.645   | 1.3 in  | 0.185 in | 51.0 gr      |
 | .222 Rem.                | 16.0 in | 36.3    | 1317.7 J  | 12.302  | 2.167   | 2.1 in  | 0.224 in | 55.0 gr      |
 | .22 PPC USA              | 16.0 in | 36.5    | 1332.3 J  | 12.269  | 2.478   | 2.1 in  | 0.224 in | 55.0 gr      |
-| 5.45 x39 mm              | 16.0 in | 36.9    | 1361.6 J  | 12.849  | 1.2319  | 2.3 in  | 0.222 in | 52.8 gr     |
+| 5.45 x39 mm              | 16.0 in | 36.9    | 1361.6 J  | 12.849  | 1.2319  | 2.3 in  | 0.222 in | 52.8 gr      |
 | .480 Ruger               | 6.0 in  | 37.7    | 1421.3 J  | 8.9024  | 21.76   | 1.7 in  | 0.475 in | 325.0 gr     |
 | .224 Weath. Mag.         | 16.0 in | 37.9    | 1436.4 J  | 12.85   | 2.318   | 2.3 in  | 0.224 in | 55.0 gr      |
 | .220 Swift               | 16.0 in | 37.9    | 1436.4 J  | 15.58   | -5.247  | 2.7 in  | 0.224 in | 55.0 gr      |
@@ -395,7 +406,7 @@ For reference, each cartridge's bullet diameter, **Dia**  and weight, **Proj. wt
 | 7 mm RemSA               | 16.0 in | 55.7    | 3102.5 J  | 19.124  | 2.648   | 2.8 in  | 0.284 in | 150.0 gr     |
 | .450 Bushmaster          | 16.0 in | 55.9    | 3124.8 J  | 14.666  | 15.23   | 2.3 in  | 0.452 in | 250.0 gr     |
 | .358 Win.                | 16.0 in | 55.9    | 3124.8 J  | 17.741  | 6.718   | 2.8 in  | 0.358 in | 220.0 gr     |
-| 1.23 Ln(8 mm -06) (CDDA) | 16.0 in | 56.8    | 3226.2 J  | 18.643  | 5.074   | 3.2 in  | 0.323 in | 213.0 gr     |
+| 12.3 Ln(8 mm -06) (CDDA) | 16.0 in | 56.8    | 3226.2 J  | 18.643  | 5.074   | 3.2 in  | 0.323 in | 213.0 gr     |
 | .45-70 Govt.             | 16.0 in | 57.0    | 3249.0 J  | 17.198  | 9.301   | 2.6 in  | 0.458 in | 400.0 gr     |
 | .300 RemSAUltra          | 16.0 in | 57.7    | 3329.3 J  | 20.241  | 1.541   | 2.8 in  | 0.308 in | 180.0 gr     |
 | .300 WSM                 | 16.0 in | 58.0    | 3364.0 J  | 20.172  | 2.076   | 2.9 in  | 0.308 in | 190.0 gr     |
@@ -460,3 +471,35 @@ Hydrogen requirements are `coal_requirements/2.5`.
 
 # MUTATIONS
 Mutations are given completely subjective point values.  The most important factor is that mutations that adversely affect a character are given a negative point value, or positive for beneficial mutations.  The chance of obtaining a positive or negative mutation varies based on Instability (a counter that increases by a default of 100 when a mutation is gained or lost and decays by 1 per in-game day by default).  0 point mutations will always have a 10% chance of appearing.  There is a 90% chance to obtain a good mutation until approximately 800 Instability.  There is an equal chance (45% each) of obtaining a good or bad mutation at approximately 2800 Instability.  There is an approximately 70% chance of obtaining a bad mutation at 10000 Instability, which will be the cap after a current test phase where it is capped at 8000.
+
+# Preparing Food and Water:
+
+"surface_heat" uses a base cost of 20 kJ. Its various options are then given charge costs equal to their efficiency - 80% for induction or a microwave (25u battery, 1:1 kJ:battery), 60% for basic electric (35u battery 1:1 kJ:battery), 35% for most combustible fuels - gasoline (2u fuel 34:1 kJ:fuel), kerosene (2u fuel 34:1 kJ:fuel), propane (3u fuel 25:1 kJ:fuel), acetylene (1u fuel 50:1 kJ:fuel) and ethanol (3u fuel 25:1 kJ:fuel). 25% for hexamine (2u fuel 40:1 kJ:fuel) and 16% for coal/charcoal (4u fuel 32:1 kJ:fuel).
+
+Food recipes that use surface_heat are made up of a combination of individual costs per type of ingredient in most cases. 
+- 1u of surface_heat: 1u of flour, up to 2u of butter/oil, 1u of sugar_standard, cook one corn tortilla, process 100 grams of fruit
+- 2u of surface_heat: one scrap of meat (30 grams), 1u of non-raw milk, 1u of batter (breading/frying), 100 grams of non-startchy veggy (for things like potatoes that are highly starchy, assume they are equal to their weight in flour - 1u of flour weighs 13 grams)
+- 3u of surface_heat: cook one unit of oatmeal.
+- 4u of surface_heat: cook one unit of beans, rice or lentils, use cooked meat in a recipe, cook 1u of raw organs.
+- 5u of surface_heat: cook one unit of cornmeal or bread flour.
+- 6u of surface_heat: roast 1u of nuts, cook 1u of tofu
+- 15u of surface_heat: process a chunk of fat in a recipe or cook a unit of blood
+- 20u of surface_heat: cook a chunk of meat (300 grams)
+
+The bread recipe for example uses 20 units of flour, so it should be roughly 20 units of surface_heat. However it is special-cased because you must also use warm water to activate the yeast used in the recipe so it ends up being 22 units. These values serve as a rough guideline to give a decent estimate of what the total recipe should cost. 
+
+Also, because many foods are not cooked to boiling temperature, the recipe should always require clean water and not any water. For recipes that use water_boiling_heat, it is OK to use regular water.
+
+The easiest way to estimate the power needed to cook something is to see how long it takes to microwave. 1000w is a good ballpark estimate for a microwave power usage which gives an easy solution of 3u of this per minute in the microwave.
+
+
+"water_boiling_heat" uses a base cost of 100kJ. This is the hypothetical maximum efficiency to boil 0.25 liters of water for about a minute assuming the water was previously at basement temperature (~45 F). These costs are based on that figure, and the total efficiencies are slightly different then that of surface_heat. It's still about 80% for induction (125u battery, 1:1 kJ:battery), and for regular electric 50% (200u battery, 1:1 kJ:battery), for a microwave, 40% (250u battery, 1:1 kJ:battery), 25% for most combustible fuels - gasoline (12u fuel 34:1 kJ:fuel), kerosene (12u fuel 34:1 kJ:fuel), propane (16u fuel 25:1 kJ:fuel), acetlyne (8u fuel 50:1 kJ:fuel), ethanol (20u fuel, 25:1 kJ:fuel), 20% for hexamine (13u fuel 40:1 kJ:fuel), 10% for charcoal (30u fuel 32:1 kJ:fuel)
+
+To apply "water_boiling_heat" apply 1u of water_boiling_heat for each 0.25 liter of water being boiled, then additionally add an extra water_boiling_heat for each 15 minutes it boils on top of the heat to bring it up to boil. The clean water recipe is 1 unit of this. To boil an one liter of water for an hour you would expect about 20u total (4x0.25L + 4 extra charges per each 0.25L). Add one more water_boiling_heat for each 0.25L of non-water foodstuff added to the recipe regardless of how long the boil time will be - to boil 0.5 liters of eggs for an hour using the above 4 hours of water it would be 22u water_boiling_heat. (In practice it doesn't actually take that long to boil an egg and it doesn't take that much water so it will be much lower, this is just an example!)
+
+Canning recipes use "water_boiling_heat" in multiples. It is split into water bath and pressure canning methods - water bath uses 10u of water_boiling_heat for a 0.5 liter jar or 60u for a 3 liter jar. Pressure canning is 50% higher and requires appropriate equipment.
+
+
+"dehydrating_heat" is measured in 10 grams of material each, and takes 66 kJ of battery or 12u of coal/charcoal. Smoking food is similar to this, but uses half as much charcoal (about 4:5 charcoal:food by weight) 
+
+

@@ -22,8 +22,10 @@
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character_modifier.h"
+#include "city.h"
 #include "clothing_mod.h"
 #include "clzones.h"
+#include "condition.h"
 #include "construction.h"
 #include "construction_category.h"
 #include "construction_group.h"
@@ -60,6 +62,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "math_parser_jmath.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -94,6 +97,7 @@
 #include "speed_description.h"
 #include "start_location.h"
 #include "string_formatter.h"
+#include "test_data.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -161,7 +165,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
             try {
-                JsonObject jo = it->first;
+                const JsonObject &jo = it->first;
                 load_object( jo, it->second );
             } catch( const JsonError &err ) {
                 debugmsg( "(json-error)\n%s", err.what() );
@@ -225,7 +229,7 @@ void DynamicDataLoader::add( const std::string &type,
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    add( type, [f]( const JsonObject & obj, const std::string &,  const cata_path &,
+    add( type, [f]( const JsonObject & obj, const std::string_view,  const cata_path &,
     const cata_path & ) {
         f( obj );
     } );
@@ -243,8 +247,11 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
+    add( "jmath_function", &jmath_func::load_func );
+    add( "var_migration", &global_variables::load_migrations );
     add( "connect_group", &connect_group::load );
-    add( "fault", &fault::load_fault );
+    add( "fault", &fault::load );
+    add( "fault_fix", &fault_fix::load );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
@@ -257,6 +264,7 @@ void DynamicDataLoader::initialize()
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
     add( "bionic", &bionic_data::load_bionic );
+    add( "bionic_migration", &bionic_data::load_bionic_migration );
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
@@ -303,10 +311,10 @@ void DynamicDataLoader::initialize()
         item_action_generator::generator().load_item_action( jo );
     } );
 
-    add( "vehicle_part",  &vpart_info::load );
+    add( "vehicle_part",  &vehicles::parts::load );
     add( "vehicle_part_category",  &vpart_category::load );
     add( "vehicle_part_migration", &vpart_migration::load );
-    add( "vehicle",  &vehicle_prototype::load );
+    add( "vehicle", &vehicles::load_prototype );
     add( "vehicle_group",  &VehicleGroup::load );
     add( "vehicle_placement",  &VehiclePlacement::load );
     add( "vehicle_spawn",  &VehicleSpawn::load );
@@ -373,7 +381,8 @@ void DynamicDataLoader::initialize()
 
     add( "charge_removal_blacklist", load_charge_removal_blacklist );
     add( "charge_migration_blacklist", load_charge_migration_blacklist );
-    add( "known_bad_density_list", &known_bad_density::load );
+    add( "temperature_removal_blacklist", load_temperature_removal_blacklist );
+    add( "test_data", &test_data::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -396,7 +405,7 @@ void DynamicDataLoader::initialize()
     add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
-    add( "obsolete_terrain", &overmap::load_obsolete_terrains );
+    add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
@@ -471,6 +480,8 @@ void DynamicDataLoader::initialize()
     add( "conduct", &achievement::load_achievement );
     add( "widget", &widget::load_widget );
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
+    add( "damage_type", &damage_type::load_damage_types );
+    add( "damage_info_order", &damage_info_order::load_damage_info_orders );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -490,16 +501,14 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
     // the first loaded mode might provide a vehicle that uses that frame
     // But not the other way round.
 
-    // get a list of all files in the directory
-    std::vector<cata_path> files = get_files_from_path( ".json", path, true, true );
-    if( files.empty() ) {
-        cata::ifstream tmp( path.get_unrelative_path(), std::ios::in );
-        if( tmp ) {
-            // path is actually a file, don't checking the extension,
-            // assume we want to load this file anyway
-            files.push_back( path );
-        }
+    std::vector<cata_path> files;
+    if( dir_exist( path.get_unrelative_path() ) ) {
+        const std::vector<cata_path> dir_files = get_files_from_path( ".json", path, true, true );
+        files.insert( files.end(), dir_files.begin(), dir_files.end() );
+    } else if( file_exist( path.get_unrelative_path() ) ) {
+        files.emplace_back( path );
     }
+
     // iterate over each file
     for( const cata_path &file : files ) {
         try {
@@ -555,6 +564,8 @@ void DynamicDataLoader::unload_data()
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
+    damage_type::reset();
+    damage_info_order::reset();
     disease_type::reset();
     dreams.clear();
     emit::reset();
@@ -563,6 +574,7 @@ void DynamicDataLoader::unload_data()
     effect_on_conditions::reset();
     event_transformation::reset();
     faction_template::reset();
+    fault_fix::reset();
     fault::reset();
     field_types::reset();
     gates::reset();
@@ -570,6 +582,7 @@ void DynamicDataLoader::unload_data()
     harvest_list::reset();
     item_category::reset();
     item_controller->reset();
+    jmath_func::reset();
     json_flag::reset();
     connect_group::reset();
     limb_score::reset();
@@ -594,6 +607,7 @@ void DynamicDataLoader::unload_data()
     overmap_specials::reset();
     overmap_special_migration::reset();
     overmap_terrains::reset();
+    overmap::reset_oter_id_migrations();
     profession::reset();
     proficiency::reset();
     proficiency_category::reset();
@@ -634,9 +648,9 @@ void DynamicDataLoader::unload_data()
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();
-    vehicle_prototype::reset();
+    vehicles::reset_prototypes();
     vitamin::reset();
-    vpart_info::reset();
+    vehicles::parts::reset();
     vpart_category::reset();
     vpart_migration::reset();
     weakpoints::reset();
@@ -672,11 +686,13 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
             { _( "Body graphs" ), &bodygraph::finalize_all },
+            { _( "Bionics" ), &bionic_data::finalize_bionic },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
+            { _( "Materials" ), &material_type::finalize_all },
             {
                 _( "Items" ), []()
                 {
@@ -690,7 +706,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
                 }
             },
             { _( "Vehicle part categories" ), &vpart_category::finalize },
-            { _( "Vehicle parts" ), &vpart_info::finalize },
+            { _( "Vehicle parts" ), &vehicles::parts::finalize },
             { _( "Traps" ), &trap::finalize },
             { _( "Terrain" ), &set_ter_ids },
             { _( "Furniture" ), &set_furn_ids },
@@ -700,9 +716,11 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
+            { _( "Math functions" ), &jmath_func::finalize },
+            { _( "Math expressions" ), &finalize_conditions },
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
-            { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
+            { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },
             { _( "Behaviors" ), &behavior::finalize },
@@ -724,9 +742,11 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Missions" ), &mission_type::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
-            { _( "Mutations" ), &mutation_branch::finalize },
+            { _( "Mutations" ), &mutation_branch::finalize_all },
             { _( "Achievements" ), &achievement::finalize },
+            { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
+            { _( "Fault fixes" ), &fault_fix::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -777,8 +797,10 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Materials" ), &materials::check },
-            { _( "Engine faults" ), &fault::check_consistency },
-            { _( "Vehicle parts" ), &vpart_info::check },
+            { _( "Faults" ), &fault::check_consistency },
+            { _( "Fault fixes" ), &fault_fix::check_consistency },
+            { _( "Vehicle parts" ), &vehicles::parts::check },
+            { _( "Vehicle part migrations" ), &vpart_migration::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
             { _( "Mapgen palettes" ), &mapgen_palette::check_definitions },
             {
@@ -832,6 +854,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
+            { _( "Damage types" ), &damage_type::check }
         }
     };
 

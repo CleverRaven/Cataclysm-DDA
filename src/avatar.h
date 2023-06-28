@@ -16,8 +16,8 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "json.h"
 #include "magic_teleporter_list.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
@@ -29,6 +29,8 @@ class diary;
 class faction;
 class item;
 class item_location;
+class JsonObject;
+class JsonOut;
 class mission;
 class monster;
 class nc_color;
@@ -42,7 +44,7 @@ class window;
 } // namespace catacurses
 enum class character_type : int;
 class map_memory;
-struct memorized_terrain_tile;
+class memorized_tile;
 
 namespace debug_menu
 {
@@ -67,6 +69,12 @@ struct monster_visible_info {
 
     // If the monster visible in this direction is dangerous
     std::array<bool, 8> dangerous = {};
+
+    // Whether or not there is at last one creature within safemode proximity that
+    // is dangerous
+    bool has_dangerous_creature_in_proximity = false;
+
+    void remove_npc( npc *n );
 };
 
 class avatar : public Character
@@ -90,6 +98,8 @@ class avatar : public Character
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
+        // initialize avatar and avatar mocks
+        void initialize( character_type type );
         void add_profession_items();
         void randomize( bool random_scenario, bool play_now = false );
         void randomize_cosmetics();
@@ -119,27 +129,22 @@ class avatar : public Character
          * Makes the avatar "take over" the given NPC, while the current avatar character
          * becomes an NPC.
          */
-        void control_npc( npc & );
+        void control_npc( npc &, bool debug = false );
         /**
          * Open a menu to choose the NPC to take over.
          */
-        void control_npc_menu();
+        void control_npc_menu( bool debug = false );
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
         bool should_show_map_memory() const;
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
-        /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
-        void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
-                            int rotation );
-        /** Returns last stored map tile in given location in tiles mode */
-        const memorized_terrain_tile &get_memorized_tile( const tripoint &p ) const;
-        /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_symbol( const tripoint &pos, int symbol );
-        /** Returns last stored map tile in given location in curses mode */
-        int get_memorized_symbol( const tripoint &p ) const;
-        void clear_memorized_tile( const tripoint &pos );
+        const memorized_tile &get_memorized_tile( const tripoint &p ) const;
+        void memorize_terrain( const tripoint &p, std::string_view id, int subtile, int rotation );
+        void memorize_decoration( const tripoint &p, std::string_view id, int subtile, int rotation );
+        void memorize_symbol( const tripoint &p, char32_t symbol );
+        void memorize_clear_decoration( const tripoint &p, std::string_view prefix = "" );
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
@@ -212,13 +217,13 @@ class avatar : public Character
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
         void clear_identified();
+        // clears nutrition related values e.g. calorie_diary, consumption_history...
+        void clear_nutrition();
 
         void add_snippet( snippet_id snippet );
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
 
-        // the encumbrance on your limbs reducing your dodging ability
-        int limb_dodge_encumbrance() const;
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
@@ -231,6 +236,10 @@ class avatar : public Character
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
+        // if avatar is affected by relax_gas this rolls chance to overcome it at cost of moves
+        // prints messages for success/failure
+        // @return true if no relax_gas effect or rng roll to ignore it was successful
+        bool try_break_relax_gas( const std::string &msg_success, const std::string &msg_failure );
         void add_pain_msg( int val, const bodypart_id &bp ) const;
         /**
          * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
@@ -307,43 +316,20 @@ class avatar : public Character
             int spent = 0;
             int gained = 0;
             int ingested = 0;
-            int total() const {
+            int total() const noexcept {
                 return gained - spent;
             }
             std::map<float, int> activity_levels; // NOLINT(cata-serialize)
 
-            void serialize( JsonOut &json ) const {
-                json.start_object();
+            daily_calories();
 
-                json.member( "spent", spent );
-                json.member( "gained", gained );
-                json.member( "ingested", ingested );
-                save_activity( json );
-
-                json.end_object();
-            }
-            void deserialize( const JsonObject &data ) {
-                data.read( "spent", spent );
-                data.read( "gained", gained );
-                data.read( "ingested", ingested );
-                if( data.has_member( "activity" ) ) {
-                    read_activity( data );
-                }
-            }
-
-            daily_calories() {
-                activity_levels.emplace( NO_EXERCISE, 0 );
-                activity_levels.emplace( LIGHT_EXERCISE, 0 );
-                activity_levels.emplace( MODERATE_EXERCISE, 0 );
-                activity_levels.emplace( BRISK_EXERCISE, 0 );
-                activity_levels.emplace( ACTIVE_EXERCISE, 0 );
-                activity_levels.emplace( EXTRA_EXERCISE, 0 );
-            }
+            void serialize( JsonOut &json ) const;
+            void deserialize( const JsonObject &data );
 
             void save_activity( JsonOut &json ) const;
             void read_activity( const JsonObject &data );
-
         };
+
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();

@@ -137,7 +137,7 @@
       { "item": "knife_rm42", "prob": 2 },
       { "item": "kukri", "prob": 2 },
       { "item": "knife_hunting", "prob": 4 },
-      { "item": "knife_rambo", "prob": 20 },
+      { "group": "knife_rambo_cont", "prob": 20 },
       { "item": "tanto", "prob": 3 },
       { "item": "throwing_knife", "prob": 7 },
       { "item": "punch_dagger", "prob": 12 },
@@ -181,7 +181,7 @@
       { "item": "vac_sealer", "prob": 10 },
       { "item": "smart_phone", "prob": 50, "charges-min": 0 },
       { "item": "eink_tablet_pc", "prob": 15 },
-      { "item": "mobile_memory_card", "prob": 40 },
+      { "item": "memory_card_unread", "prob": 40 },
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "wristwatch", "prob": 15 },
@@ -189,7 +189,6 @@
       { "item": "radiocontrol", "prob": 15 },
       { "item": "magnifying_glass", "prob": 4 },
       { "item": "omnicamera", "prob": 2 },
-      { "item": "l-stick", "prob": 1 },
       { "item": "reading_light", "prob": 6, "charges-min": 0 }
     ]
   }

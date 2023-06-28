@@ -34,6 +34,7 @@
 #include "faction.h"
 #include "flag.h"
 #include "game.h"
+#include "gates.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
@@ -84,7 +85,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "name.h"
-
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
@@ -151,6 +151,7 @@ static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_MUTE( "MUTE" );
+static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -218,10 +219,10 @@ npc::npc()
     , companion_mission_time_ret( calendar::before_time_starts )
 {
     last_updated = calendar::turn;
-    last_player_seen_pos = cata::nullopt;
+    last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
-    guard_pos = cata::nullopt;
+    guard_pos = std::nullopt;
     goal = tripoint_abs_omt( tripoint_min );
     fetching_item = false;
     has_new_items = true;
@@ -242,7 +243,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true );
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
@@ -297,8 +298,6 @@ void npc_template::load( const JsonObject &jsobj )
         } else {
             tem.gender_override = gender::female;
         }
-    } else {
-        tem.gender_override = gender::random;
     }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
@@ -314,10 +313,10 @@ void npc_template::load( const JsonObject &jsobj )
     guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
-        guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
+        guy.miss_ids.emplace_back( jsobj.get_string( "mission_offered" ) );
     } else if( jsobj.has_array( "mission_offered" ) ) {
         for( const std::string line : jsobj.get_array( "mission_offered" ) ) {
-            guy.miss_ids.emplace_back( mission_type_id( line ) );
+            guy.miss_ids.emplace_back( line );
         }
     }
     if( jsobj.has_string( "talk_radio" ) ) {
@@ -740,8 +739,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.snip_give_carry_too_heavy = tguy.chatbin.snip_give_carry_too_heavy;
     chatbin.snip_wear = tguy.chatbin.snip_wear;
 
-    set_base_age( tguy.base_age() );
-    set_base_height( tguy.base_height() );
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -842,7 +839,12 @@ void npc::randomize( const npc_class_id &type )
 
     set_body();
     recalc_hp();
-
+    randomize_height();
+    int days_since_cata = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    double time_influence = days_since_cata >= 180 ? 3.0 : 6.0 - 3.0 * days_since_cata / 180.0;
+    double weight_percent = std::clamp<double>( chi_squared_roll( time_influence ) / 5.0,
+                            0.2, 5.0 );
+    set_stored_kcal( weight_percent * get_healthy_kcal() );
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
@@ -880,10 +882,12 @@ void npc::randomize( const npc_class_id &type )
     for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
         this->magic->learn_spell( spell_pair.first, *this, true );
         spell &sp = this->magic->get_spell( spell_pair.first );
-        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level( *this ) ) {
+            sp.gain_level( *this );
         }
     }
+
+    set_base_age( rng( 18, 55 ) );
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
@@ -1041,12 +1045,6 @@ void starting_inv( npc &who, const npc_class_id &type )
         return;
     }
 
-    item lighter( "lighter" );
-    // Set lighter ammo
-    if( !lighter.ammo_default().is_null() ) {
-        lighter.ammo_set( lighter.ammo_default(), rng( 10, 100 ) );
-    }
-    res.emplace_back( lighter );
     // If wielding a gun, get some additional ammo for it
     const item_location weapon = who.get_wielded_item();
     if( weapon && weapon->is_gun() ) {
@@ -1357,7 +1355,7 @@ time_duration npc::time_to_read( const item &book, const Character &reader ) con
     return retval;
 }
 
-void npc::do_npc_read()
+void npc::do_npc_read( bool ebook )
 {
     // Can read items from inventory or within one tile (including in vehicles)
     Character *npc_player = as_character();
@@ -1365,7 +1363,20 @@ void npc::do_npc_read()
         return;
     }
 
-    item_location book = game_menus::inv::read( *npc_player );
+    item_location book;
+    item_location ereader;
+
+    if( !ebook ) {
+        book = game_menus::inv::read( *npc_player );
+    } else {
+        ereader = game_menus::inv::ereader_to_use( *npc_player );
+        if( !ereader ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        book = game_menus::inv::ebookread( *npc_player, ereader );
+    }
+
     if( !book ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -1383,18 +1394,10 @@ void npc::do_npc_read()
 
         // NPCs can't read to other NPCs yet
         const time_duration time_taken = time_to_read( *book, *this );
-        item_location ereader = {};
 
         // NPCs read until they gain a level
-        assign_activity(
-            player_activity(
-                read_activity_actor(
-                    to_moves<int>( time_taken ),
-                    book,
-                    ereader,
-                    true,
-                    getID().get_value()
-                ) ) );
+        read_activity_actor actor( time_taken, book, ereader, true, getID().get_value() );
+        assign_activity( actor );
 
     } else {
         for( const std::string &reason : fail_reasons ) {
@@ -1504,7 +1507,7 @@ bool npc::wield( item &it )
     } else {
         to_wield = it;
     }
-
+    invalidate_leak_level_cache();
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
     item_location weapon = get_wielded_item();
@@ -1561,119 +1564,8 @@ void npc::invalidate_range_cache()
 
 void npc::form_opinion( const Character &you )
 {
-    const item_location weapon = you.get_wielded_item();
-    // FEAR
-    if( !you.is_armed() ) {
-        // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
-        op_of_u.fear -= 3;
-    } else if( weapon->is_gun() ) {
-        // TODO: Make bows not guns
-        if( weapon->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
-            op_of_u.fear += 2;
-        } else {
-            op_of_u.fear += 6;
-        }
-    } else if( you.weapon_value( *weapon ) > 20 ) {
-        op_of_u.fear += 2;
-    }
+    op_of_u = get_opinion_values( you );
 
-    ///\EFFECT_STR increases NPC fear of the player
-    if( you.str_max >= 16 ) {
-        op_of_u.fear += 2;
-    } else if( you.str_max >= 12 ) {
-        op_of_u.fear += 1;
-    } else if( you.str_max <= 3 ) {
-        op_of_u.fear -= 3;
-    } else if( you.str_max <= 5 ) {
-        op_of_u.fear -= 1;
-    }
-
-    // is your health low
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
-        const int hp_max = elem.second.get_hp_max();
-        const int hp_cur = elem.second.get_hp_cur();
-        if( hp_cur <= hp_max / 2 ) {
-            op_of_u.fear--;
-        }
-    }
-
-    // is my health low
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        const int hp_max = elem.second.get_hp_max();
-        const int hp_cur = elem.second.get_hp_cur();
-        if( hp_cur <= hp_max / 2 ) {
-            op_of_u.fear++;
-        }
-    }
-
-    if( you.has_trait( trait_SAPIOVORE ) ) {
-        op_of_u.fear += 10; // Sapiovores = Scary
-    }
-    if( you.has_trait( trait_TERRIFYING ) ) {
-        op_of_u.fear += 6;
-    }
-
-    int u_ugly = 0;
-    for( trait_id &mut : you.get_mutations() ) {
-        u_ugly += mut.obj().ugliness;
-    }
-    for( const bodypart_id &bp : you.get_all_body_parts() ) {
-        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
-            continue;
-        }
-        u_ugly += bp->ugliness_mandatory;
-        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
-    }
-    op_of_u.fear += u_ugly / 2;
-    op_of_u.trust -= u_ugly / 3;
-
-    if( you.get_stim() > 20 ) {
-        op_of_u.fear++;
-    }
-
-    if( you.has_effect( effect_drunk ) ) {
-        op_of_u.fear -= 2;
-    }
-
-    // TRUST
-    if( op_of_u.fear > 0 ) {
-        op_of_u.trust -= 3;
-    } else {
-        op_of_u.trust += 1;
-    }
-
-    if( weapon && weapon->is_gun() ) {
-        op_of_u.trust -= 2;
-    } else if( !you.is_armed() ) {
-        op_of_u.trust += 2;
-    }
-
-    // TODO: More effects
-    if( you.has_effect( effect_high ) ) {
-        op_of_u.trust -= 1;
-    }
-    if( you.has_effect( effect_drunk ) ) {
-        op_of_u.trust -= 2;
-    }
-    if( you.get_stim() > 20 || you.get_stim() < -20 ) {
-        op_of_u.trust -= 1;
-    }
-    if( you.get_painkiller() > 30 ) {
-        op_of_u.trust -= 1;
-    }
-
-    if( op_of_u.trust > 0 ) {
-        // Trust is worth a lot right now
-        op_of_u.trust /= 2;
-    }
-
-    // VALUE
-    op_of_u.value = 0;
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        if( elem.second.get_hp_cur() < elem.second.get_hp_max() * 0.8f ) {
-            op_of_u.value++;
-        }
-    }
     decide_needs();
     for( const npc_need &i : needs ) {
         if( i == need_food || i == need_drink ) {
@@ -1699,6 +1591,120 @@ void npc::form_opinion( const Character &you )
                    npc_attitude_id( attitude ) );
 }
 
+npc_opinion npc::get_opinion_values( const Character &you ) const
+{
+    npc_opinion npc_values = op_of_u;
+
+
+    const item_location weapon = you.get_wielded_item();
+    // FEAR
+    if( !you.is_armed() ) {
+        // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
+        npc_values.fear -= 3;
+    } else if( weapon->is_gun() ) {
+        // TODO: Make bows not guns
+        if( weapon->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
+            npc_values.fear += 2;
+        } else {
+            npc_values.fear += 6;
+        }
+    } else if( you.weapon_value( *weapon ) > 20 ) {
+        npc_values.fear += 2;
+    }
+
+    ///\EFFECT_STR increases NPC fear of the player
+    npc_values.fear += ( you.str_max / 4 ) - 2;
+
+    // is your health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
+        if( hp_cur <= hp_max / 2 ) {
+            npc_values.fear--;
+        }
+    }
+
+    // is my health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
+        if( hp_cur <= hp_max / 2 ) {
+            npc_values.fear++;
+        }
+    }
+
+    if( you.has_trait( trait_SAPIOVORE ) ) {
+        npc_values.fear += 10; // Sapiovores = Scary
+    }
+    if( you.has_trait( trait_TERRIFYING ) ) {
+        npc_values.fear += 6;
+    }
+
+    int u_ugly = 0;
+    for( trait_id &mut : you.get_mutations() ) {
+        u_ugly += mut.obj().ugliness;
+    }
+    for( const bodypart_id &bp : you.get_all_body_parts() ) {
+        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
+            continue;
+        }
+        u_ugly += bp->ugliness_mandatory;
+        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
+    }
+    npc_values.fear += u_ugly / 2;
+    npc_values.trust -= u_ugly / 3;
+
+    if( you.get_stim() > 20 ) {
+        npc_values.fear++;
+    }
+
+    if( you.has_effect( effect_drunk ) ) {
+        npc_values.fear -= 2;
+    }
+
+    // TRUST
+    if( op_of_u.fear > 0 ) {
+        npc_values.trust -= 3;
+    } else {
+        npc_values.trust += 1;
+    }
+
+    if( weapon && weapon->is_gun() ) {
+        npc_values.trust -= 2;
+    } else if( !you.is_armed() ) {
+        npc_values.trust += 2;
+    }
+
+    // TODO: More effects
+    if( you.has_effect( effect_high ) ) {
+        npc_values.trust -= 1;
+    }
+    if( you.has_effect( effect_drunk ) ) {
+        npc_values.trust -= 2;
+    }
+    if( you.get_stim() > 20 || you.get_stim() < -20 ) {
+        npc_values.trust -= 1;
+    }
+    if( you.get_painkiller() > 30 ) {
+        npc_values.trust -= 1;
+    }
+
+    if( op_of_u.trust > 0 ) {
+        // Trust is worth a lot right now
+        npc_values.trust /= 2;
+    }
+
+    // VALUE
+    npc_values.value = 0;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        if( elem.second.get_hp_cur() < elem.second.get_hp_max() * 0.8f ) {
+            npc_values.value++;
+        }
+    }
+
+    return npc_values;
+}
+
 void npc::mutiny()
 {
     if( !my_fac || !is_player_ally() ) {
@@ -1722,7 +1728,7 @@ void npc::mutiny()
     set_fac( faction_amf );
     job.clear_all_priorities();
     if( assigned_camp ) {
-        assigned_camp = cata::nullopt;
+        assigned_camp = std::nullopt;
     }
     chatbin.first_topic = chatbin.talk_stranger_neutral;
     set_attitude( NPCATT_NULL );
@@ -1865,7 +1871,7 @@ std::vector<spell_id> npc::spells_offered_to( Character &you )
         if( you.magic->can_learn_spell( you, sp ) ) {
             if( you.magic->knows_spell( sp ) ) {
                 const spell &student_spell = you.magic->get_spell( sp );
-                if( student_spell.is_max_level() ||
+                if( student_spell.is_max_level( you ) ||
                     student_spell.get_level() >= teacher_spell.get_level() ) {
                     continue;
                 }
@@ -1884,10 +1890,10 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon && weapon->is_gun() ) {
-        units::energy ups_drain = weapon->get_gun_ups_drain();
-        if( ups_drain > 0_kJ ) {
-            units::energy ups_charges = available_ups();
-            needrank[need_ammo] = static_cast<double>( ups_charges / ups_drain );
+        units::energy energy_drain = weapon->get_gun_energy_drain();
+        if( energy_drain > 0_kJ ) {
+            units::energy energy_charges = weapon->energy_remaining( this );
+            needrank[need_ammo] = static_cast<double>( energy_charges / energy_drain );
         } else {
             const ammotype ammo_type = weapon->ammo_type();
             if( ammo_type != ammotype::NULL_ID() ) {
@@ -1978,12 +1984,10 @@ bool npc::wants_to_sell( const item_location &it ) const
     if( !it->is_owned_by( *this ) ) {
         return false;
     }
-    const int market_price = it->price( true );
-    return wants_to_sell( it, value( *it, market_price ), market_price ).success();
+    return wants_to_sell( it, value( *it ) ).success();
 }
 
-ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
-                                  int /*market_price*/ ) const
+ret_val<void> npc::wants_to_sell( const item_location &it, int at_price ) const
 {
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
@@ -2013,12 +2017,15 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
 
 bool npc::wants_to_buy( const item &it ) const
 {
-    const int market_price = it.price( true );
-    return wants_to_buy( it, value( it, market_price ), market_price ).success();
+    return wants_to_buy( it, value( it ) ).success();
 }
 
-ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
 {
+    if( it.has_flag( flag_DANGEROUS ) || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return ret_val<void>::make_failure();
+    }
+
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
     }
@@ -2027,7 +2034,7 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_pric
         return ret_val<void>::make_failure( _( "<npcname> will never buy this" ) );
     }
 
-    if( mission != NPC_MISSION_SHOPKEEP && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
+    if( !is_shopkeeper() && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
         return ret_val<void>::make_failure( _( "<npcname> will not buy filthy items" ) );
     }
 
@@ -2101,17 +2108,17 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    // NPCs refresh every week, since the last time you checked in
+    // Shops restock once every restock_interval
     time_duration const elapsed =
         restock != calendar::turn_zero ? calendar::turn - restock : 0_days;
     if( ( restock != calendar::turn_zero ) && ( elapsed < 0_days ) ) {
         return;
     }
 
-    restock = calendar::turn + myclass->get_shop_restock_interval();
-    if( is_player_ally() ) {
+    if( is_player_ally() || !is_shopkeeper() ) {
         return;
     }
+    restock = calendar::turn + myclass->get_shop_restock_interval();
 
     std::vector<item_group_id> rigid_groups;
     std::vector<item_group_id> value_groups;
@@ -2129,7 +2136,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.is_empty() ) {
+        if( !my_fac->currency.is_empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
                 my_currency.set_owner( *this );
@@ -2180,17 +2187,14 @@ void npc::shop_restock()
         }
     }
 
-    if( mission == NPC_MISSION_SHOPKEEP ) {
-        add_fallback_zone( *this );
-        consume_items_in_zones( *this, elapsed );
-        distribute_items_to_npc_zones( ret, *this );
-    } else {
-        for( const item &i : ret ) {
-            i_add( i, true, nullptr, nullptr, true, false );
-        }
-        DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
-                << "shop_restock() called on NPC who is not a shopkeeper " << name;
-    }
+    add_fallback_zone( *this );
+    consume_items_in_zones( *this, elapsed );
+    distribute_items_to_npc_zones( ret, *this );
+}
+
+bool npc::is_shopkeeper() const
+{
+    return !is_player_ally() && !myclass->get_shopkeeper_items().empty();
 }
 
 int npc::minimum_item_value() const
@@ -2213,17 +2217,17 @@ void npc::update_worst_item_value()
 
 double npc::value( const item &it ) const
 {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return -1000;
+    }
+
     int market_price = it.price( true );
     return value( it, market_price );
 }
 
 double npc::value( const item &it, double market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
-        // NPCs won't be interested in buying active explosives
-        return -1000;
-    }
-    if( mission == NPC_MISSION_SHOPKEEP ||
+    if( is_shopkeeper() ||
         // faction currency trades at market price
         ( my_fac != nullptr && my_fac->currency == it.typeId() ) ) {
         return market_price;
@@ -2504,7 +2508,7 @@ bool npc::within_boundaries_of_camp() const
     for( int x2 = -3; x2 < 3; x2++ ) {
         for( int y2 = -3; y2 < 3; y2++ ) {
             const point_abs_omt nearby = p + point( x2, y2 );
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
             if( bcp ) {
                 return true;
             }
@@ -2625,7 +2629,7 @@ void npc::npc_dismount()
                        disp_name() );
         return;
     }
-    cata::optional<tripoint> pnt;
+    std::optional<tripoint> pnt;
     for( const tripoint &elem : get_map().points_in_radius( pos(), 1 ) ) {
         if( g->is_empty( elem ) ) {
             pnt = elem;
@@ -2652,7 +2656,8 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        int dmg = get_wielded_item() ? get_wielded_item()->damage_melee( damage_type::BASH ) : 0;
+        int dmg = get_wielded_item() ? get_wielded_item()->damage_melee( STATIC(
+                      damage_type_id( "bash" ) ) ) : 0;
         return str_cur + dmg;
     }
 
@@ -2933,10 +2938,10 @@ void npc::reboot()
     // if not, they will faint again, and the NPC can be kept asleep until the bug is fixed.
     cancel_activity();
     path.clear();
-    last_player_seen_pos = cata::nullopt;
+    last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
-    guard_pos = cata::nullopt;
+    guard_pos = std::nullopt;
     goal = no_goal_point;
     fetching_item = false;
     has_new_items = true;
@@ -2952,7 +2957,7 @@ void npc::reboot()
     ai_cache.sound_alerts.clear();
     ai_cache.s_abs_pos = tripoint_zero;
     ai_cache.stuck = 0;
-    ai_cache.guard_pos = cata::nullopt;
+    ai_cache.guard_pos = std::nullopt;
     ai_cache.my_weapon_value = 0;
     ai_cache.friends.clear();
     ai_cache.dangerous_explosives.clear();
@@ -2971,12 +2976,12 @@ void npc::die( Creature *nkiller )
         return;
     }
     if( assigned_camp ) {
-        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {
             ( *bcp )->remove_assignee( getID() );
         }
     }
-    assigned_camp = cata::nullopt;
+    assigned_camp = std::nullopt;
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
@@ -2998,12 +3003,13 @@ void npc::die( Creature *nkiller )
                 }
             }
             my_fac->remove_member( getID() );
+            my_fac = nullptr;
         }
     }
     dead = true;
     Character::die( nkiller );
 
-    if( is_hallucination() ) {
+    if( is_hallucination() || lifespan_end ) {
         add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
         return;
     }
@@ -3062,7 +3068,7 @@ std::string npc_attitude_id( npc_attitude att )
     return iter->second;
 }
 
-cata::optional<int> npc::closest_enemy_to_friendly_distance() const
+std::optional<int> npc::closest_enemy_to_friendly_distance() const
 {
     return ai_cache.closest_enemy_to_friendly_distance();
 }
@@ -3287,8 +3293,6 @@ void npc::on_load()
     shop_restock();
 }
 
-constexpr tripoint_abs_omt npc::no_goal_point;
-
 bool npc::query_yn( const std::string &/*msg*/ ) const
 {
     // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
@@ -3423,6 +3427,9 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings->bash_strength = no_bashing ? 0 : smash_ability();
+    if( has_trait( trait_NO_BASH ) ) {
+        path_settings->bash_strength = 0;
+    }
     // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
@@ -3448,6 +3455,13 @@ std::set<tripoint> npc::get_path_avoid() const
     if( rules.has_flag( ally_rule::avoid_doors ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
             if( here.open_door( *this, p, true, true ) ) {
+                ret.insert( p );
+            }
+        }
+    }
+    if( rules.has_flag( ally_rule::avoid_locks ) ) {
+        for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
+            if( doors::can_unlock_door( here, *this, p ) ) {
                 ret.insert( p );
             }
         }
@@ -3589,16 +3603,16 @@ void npc::reset_companion_mission()
     reset_miss_id( comp_mission.miss_id );
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {
-        comp_mission.destination = cata::nullopt;
+        comp_mission.destination = std::nullopt;
     }
 }
 
-cata::optional<tripoint_abs_omt> npc::get_mission_destination() const
+std::optional<tripoint_abs_omt> npc::get_mission_destination() const
 {
     if( comp_mission.destination ) {
         return comp_mission.destination;
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 
@@ -3889,6 +3903,16 @@ std::string npc::get_current_activity() const
         return current_activity_id.obj().verb().translated();
     } else {
         return _( "nothing" );
+    }
+}
+
+void npc::update_missions_target( character_id old_character, character_id new_character )
+{
+    for( ::mission *&temp : chatbin.missions_assigned ) {
+        if( temp->get_assigned_player_id() == old_character ||
+            temp->get_assigned_player_id() == character_id( - 1 ) ) {
+            temp->set_assigned_player_id( new_character );
+        }
     }
 }
 

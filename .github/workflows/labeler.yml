@@ -1,13 +1,19 @@
-name: Pull Request Labeler
+name: "Pull Request Labeler"
+on:
+  - pull_request_target
 
-on: [pull_request]
+permissions:
+  contents: read
 
 jobs:
   triage:
+    permissions:
+      contents: read  # for actions/labeler to determine modified files
+      pull-requests: write  # for actions/labeler to add labels to PRs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: docker://decathlon/pull-request-labeler-action:2.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG_PATH: ${{ secrets.GITHUB_WORKSPACE }}/.github/labeler.yml
+      - uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          # I don't want no bot removing stuff for me
+          sync-labels: ""

@@ -17,12 +17,16 @@
     "id": "NC_ISHERWOOD_EDDIE",
     "name": { "str": "Eddie Isherwood" },
     "job_description": "I'm a dairy farmer, part of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "worn_override": "NC_Isherwood_male_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
     "shopkeeper_item_group": "NC_ISHERWOOD_EDDIE_misc",
     "skills": [
       {
@@ -261,12 +265,12 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_3",
     "type": "mission_definition",
-    "name": { "str": "Gather 1000 units of clay" },
+    "name": { "str": "Gather 100 units of clay" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
     "item": "clay_lump",
-    "count": 1000,
+    "count": 100,
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
@@ -280,7 +284,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "I do have some resource gathering I could use help if you have time.",
-      "offer": "Now that the clay kiln is set up, we could use 1000 units of clay to get production going.",
+      "offer": "Now that the clay kiln is set up, we could use 100 units of clay to get production going.",
       "accepted": "Thank you.",
       "rejected": "Oh well.  I'll try to find time to get it myself, thanks.",
       "advice": "You can find it along river banks, or maybe look for deposits in the forest.",

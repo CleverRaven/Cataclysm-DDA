@@ -5,7 +5,6 @@
     "name": { "str": "car battery" },
     "item": "battery_car",
     "fuel_type": "battery",
-    "symbol": "o",
     "categories": [ "energy" ],
     "color": "yellow",
     "broken_color": "red",
@@ -22,7 +21,8 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
     },
-    "damage_reduction": { "bash": 10 }
+    "damage_reduction": { "bash": 10 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
     "id": "battery_motorbike",
@@ -116,7 +116,6 @@
     "item": "storage_battery",
     "location": "fuel_source",
     "fuel_type": "battery",
-    "symbol": "O",
     "color": "yellow",
     "broken_color": "red",
     "durability": 300,
@@ -128,11 +127,13 @@
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "medium_storage_battery", "count": [ 1, 2 ] }
     ],
+    "//": "29cm length battery, welded on at least two edges",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "300 s", "using": "vehicle_weld_removal" }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "welding_standard", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": "vehicle_weld_removal" }
     },
-    "damage_reduction": { "bash": 10 }
+    "damage_reduction": { "bash": 10 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
     "id": "storage_battery_removable",

@@ -27,6 +27,7 @@ AMMO_TYPE_WHITELIST = {
     'metal_rail',
     'nail',
     'nuts_bolts',
+    'oxygen',
     'paintball',
     'pebble',
     'plasma',
@@ -50,22 +51,24 @@ ID_WHITELIST = {
     'l_bak_223',
     'pneumatic_shotgun',
     'rifle_223',
-    'rifle_3006',
-    'rifle_308',
-    'surv_carbine_223',
-    'feral_militia_gun',
-    'feral_jackboot_gun',
-    'feral_m9',
     # Magazines
     '223_speedloader5',
     'coin_wrapper',
     'bio_shotgun_gun',
+    'gasfilter_med',
+    'gasfilter_sm',
+    "rebreather_cartridge"
 }
 
 
 def items_of_type(data, type):
     result = []
     for i in data:
+        if 'type' not in i:
+            dump = util.CDDAJSONWriter(i).dumps()
+            print("json entry has no 'type' field: " + dump)
+
+            sys.exit(1)
         if i['type'] == type:
             result.append(i)
     return result

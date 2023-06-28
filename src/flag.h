@@ -20,6 +20,7 @@ extern const flag_id flag_ACID;
 extern const flag_id flag_ACID_IMMUNE;
 extern const flag_id flag_ACTIVATE_ON_PLACE;
 extern const flag_id flag_ACTIVE_CLOAKING;
+extern const flag_id flag_ACTIVE_GENERATOR;
 extern const flag_id flag_ACT_IN_FIRE;
 extern const flag_id flag_ACT_ON_RANGED_HIT;
 extern const flag_id flag_ALARMCLOCK;
@@ -32,12 +33,14 @@ extern const flag_id flag_ALLERGEN_NUT;
 extern const flag_id flag_ALLERGEN_VEGGY;
 extern const flag_id flag_ALLERGEN_WHEAT;
 extern const flag_id flag_ALLERGEN_WOOL;
+extern const flag_id flag_ALLOWS_BODY_BLOCK;
 extern const flag_id flag_ALLOWS_NATURAL_ATTACKS;
 extern const flag_id flag_ALLOWS_REMOTE_USE;
 extern const flag_id flag_ALWAYS_TWOHAND;
 extern const flag_id flag_ANIMAL_PRODUCT;
 extern const flag_id flag_OLD_CURRENCY;
 extern const flag_id flag_AURA;
+extern const flag_id flag_AUTO_DELETE_CABLE;
 extern const flag_id flag_BAROMETER;
 extern const flag_id flag_BASH_IMMUNE;
 extern const flag_id flag_BELTED;
@@ -99,6 +102,8 @@ extern const flag_id flag_EATEN_COLD;
 extern const flag_id flag_EATEN_HOT;
 extern const flag_id flag_EDIBLE_FROZEN;
 extern const flag_id flag_EFFECT_IMPEDING;
+extern const flag_id flag_EFFECT_LIMB_SCORE_MOD;
+extern const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL;
 extern const flag_id flag_ELECTRIC_IMMUNE;
 extern const flag_id flag_ELECTRONIC;
 extern const flag_id flag_ETHEREAL_ITEM;
@@ -131,8 +136,6 @@ extern const flag_id flag_FIRE_100;
 extern const flag_id flag_FIRE_20;
 extern const flag_id flag_FIRE_50;
 extern const flag_id flag_FIRE_TWOHAND;
-extern const flag_id flag_FISH_GOOD;
-extern const flag_id flag_FISH_POOR;
 extern const flag_id flag_FIT;
 extern const flag_id flag_FIX_FARSIGHT;
 extern const flag_id flag_FIX_NEARSIGHT;
@@ -181,14 +184,8 @@ extern const flag_id flag_MAG_BELT;
 extern const flag_id flag_MAG_BULKY;
 extern const flag_id flag_MAG_DESTROY;
 extern const flag_id flag_MAG_EJECT;
-extern const flag_id flag_MC_ENCRYPTED;
 extern const flag_id flag_MC_HAS_DATA;
-extern const flag_id flag_MC_MAY_BE_ENCRYPTED;
 extern const flag_id flag_MC_MOBILE;
-extern const flag_id flag_MC_RANDOM_STUFF;
-extern const flag_id flag_MC_SCIENCE_STUFF;
-extern const flag_id flag_MC_TURN_USED;
-extern const flag_id flag_MC_USED;
 extern const flag_id flag_MECH_BAT;
 extern const flag_id flag_MELTS;
 extern const flag_id flag_MESSY;
@@ -212,7 +209,6 @@ extern const flag_id flag_NO_DROP;
 extern const flag_id flag_NO_INGEST;
 extern const flag_id flag_NO_PACKED;
 extern const flag_id flag_NO_PARASITES;
-extern const flag_id flag_NO_QUICKDRAW;
 extern const flag_id flag_NO_RELOAD;
 extern const flag_id flag_NO_REPAIR;
 extern const flag_id flag_NO_SALVAGE;
@@ -233,6 +229,7 @@ extern const flag_id flag_ORGANIC;
 extern const flag_id flag_OUTER;
 extern const flag_id flag_OVERSIZE;
 extern const flag_id flag_PADDED;
+extern const flag_id flag_PAIN_IMMUNE;
 extern const flag_id flag_PALS_SMALL;
 extern const flag_id flag_PALS_MEDIUM;
 extern const flag_id flag_PALS_LARGE;
@@ -308,6 +305,7 @@ extern const flag_id flag_SOLARPACK_ON;
 extern const flag_id flag_SPAWN_ACTIVE;
 extern const flag_id flag_SPEAR;
 extern const flag_id flag_SPEEDLOADER;
+extern const flag_id flag_SPEEDLOADER_CLIP;
 extern const flag_id flag_SPLINT;
 extern const flag_id flag_STAB;
 extern const flag_id flag_STAB_IMMUNE;
@@ -326,13 +324,13 @@ extern const flag_id flag_THIN_OBSTACLE;
 extern const flag_id flag_TIE_UP;
 extern const flag_id flag_TINDER;
 extern const flag_id flag_TOBACCO;
+extern const flag_id flag_TOUGH_FEET;
 extern const flag_id flag_TOURNIQUET;
 extern const flag_id flag_TOW_CABLE;
 extern const flag_id flag_TRADER_AVOID;
 extern const flag_id flag_TRADER_KEEP;
 extern const flag_id flag_TRADER_KEEP_EQUIPPED;
 extern const flag_id flag_TWO_WAY_RADIO;
-extern const flag_id flag_UNARMED_WEAPON;
 extern const flag_id flag_UNBREAKABLE;
 extern const flag_id flag_UNBREAKABLE_MELEE;
 extern const flag_id flag_UNDERSIZE;
@@ -342,6 +340,7 @@ extern const flag_id flag_URSINE_HONEY;
 extern const flag_id flag_USES_BIONIC_POWER;
 extern const flag_id flag_USE_EAT_VERB;
 extern const flag_id flag_USE_PLAYER_ENERGY;
+extern const flag_id flag_USE_POWER_WHEN_HIT;
 extern const flag_id flag_USE_UPS;
 extern const flag_id flag_VARSIZE;
 extern const flag_id flag_VEHICLE;
@@ -363,7 +362,6 @@ extern const flag_id flag_ZOOM;
 extern const flag_id flag_wooled;
 extern const flag_id flag_WONT_TRAIN_MARKSMANSHIP;
 extern const flag_id flag_MUTE;
-extern const flag_id flag_NOT_FOOTWEAR;
 extern const flag_id flag_NO_CLEAN;
 extern const flag_id flag_SOFT;
 extern const flag_id flag_HARD;
@@ -422,7 +420,7 @@ class json_flag
         }
 
         /** Requires this flag to be installed on vehicle */
-        std::string requires_flag() const {
+        const std::string &requires_flag() const {
             return requires_flag_;
         }
 
@@ -452,7 +450,7 @@ class json_flag
         int taste_mod_ = 0;
 
         /** Load flag definition from JSON */
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         /** Load all flags from JSON */
         static void load_all( const JsonObject &jo, const std::string &src );

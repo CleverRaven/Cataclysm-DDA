@@ -3,6 +3,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -21,7 +22,6 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
-#include "optional.h"
 #include "options.h"
 #include "options_helpers.h"
 #include "point.h"
@@ -253,7 +253,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
     }
 
     if( write_data ) {
-        cata::ofstream data;
+        std::ofstream data;
         data.open( fs::u8path( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) +
                                monster_type ) );
         for( const auto &stat_pair : turns_at_angle ) {

@@ -38,10 +38,11 @@
       { "item": "flour", "charges": [ 1, 70 ], "prob": 40 },
       { "item": "flour", "charges": [ 1, 175 ], "prob": 10, "container-item": "bag_plastic" },
       { "item": "yeast", "prob": 50 },
+      { "item": "yogurt_starter_culture", "prob": 8 },
       { "item": "cornmeal", "prob": 40 },
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10 },
-      { "item": "dry_lobster", "prob": 10 },
+      { "item": "dry_lobster", "prob": 10, "container-item": "wrapper" },
       { "item": "dry_veggy", "prob": 10 },
       { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
@@ -144,7 +145,7 @@
     "id": "pantry",
     "type": "item_group",
     "subtype": "distribution",
-    "groups": [ [ "cannedfood", 40 ], [ "pasta", 20 ], [ "kitchen_nonfood", 10 ] ]
+    "entries": [ { "group": "cannedfood", "prob": 40 }, { "group": "pasta", "prob": 20 }, { "group": "kitchen_nonfood", "prob": 10 } ]
   },
   {
     "type": "item_group",
@@ -161,7 +162,7 @@
       { "item": "can_cheese", "prob": 1 },
       { "item": "fish_canned", "prob": 1 },
       { "item": "lobster_canned", "prob": 1 },
-      { "item": "brown_bread", "prob": 1 },
+      { "item": "brown_bread", "charges": 14, "prob": 1 },
       { "item": "can_spam", "prob": 1 },
       { "item": "can_sardine", "prob": 1 },
       { "item": "ravioli", "prob": 1 },
@@ -219,7 +220,7 @@
       { "item": "can_chowder", "prob": 35 },
       { "item": "can_herring", "prob": 30 },
       { "item": "can_chicken", "prob": 40 },
-      { "item": "brown_bread", "prob": 20 },
+      { "item": "brown_bread", "charges": 14, "prob": 20 },
       { "item": "broth", "prob": 15 },
       { "item": "crackers", "prob": 10 },
       { "item": "oyster_crackers", "prob": 10 },
@@ -240,6 +241,8 @@
       { "item": "flour", "charges": [ 1, 175 ], "prob": 5, "container-item": "bag_plastic" },
       { "item": "milk_powder", "prob": 20 },
       { "item": "cornmeal", "prob": 30 },
+      { "item": "tortilla_corn", "prob": 20 },
+      { "item": "tortilla_flour", "prob": 20 },
       { "item": "powder_eggs", "prob": 20 },
       {
         "item": "protein_powder",
@@ -249,7 +252,7 @@
         "charges-max": 9
       },
       { "item": "dry_meat", "prob": 10 },
-      { "item": "dry_fish", "prob": 10 },
+      { "item": "dry_fish", "prob": 10, "container-item": "wrapper" },
       { "item": "dry_lobster", "prob": 10 },
       { "item": "dry_veggy", "prob": 10 },
       { "item": "dry_corn", "prob": 1 },
@@ -324,10 +327,10 @@
       { "item": "ravioli", "prob": 25 },
       { "item": "sauce_red", "prob": 20 },
       { "item": "sauce_pesto", "prob": 15 },
-      { "item": "bread", "prob": 14 },
-      { "item": "bread_wheat_free", "prob": 14 },
-      { "item": "cornbread", "prob": 7 },
-      { "item": "flatbread", "prob": 7 },
+      { "item": "bread", "charges": 14, "prob": 14 },
+      { "item": "bread_wheat_free", "charges": 14, "prob": 14 },
+      { "item": "cornbread", "charges": 6, "prob": 7 },
+      { "item": "flatbread", "charges": 6, "prob": 7 },
       { "item": "crackers", "prob": 20 },
       { "item": "oyster_crackers", "prob": 15 },
       { "item": "grahmcrackers", "prob": 20 },
@@ -335,7 +338,9 @@
       { "item": "biscuit", "prob": 12 },
       { "item": "hardtack", "prob": 2 },
       { "item": "seasoning_salt", "prob": 25 },
-      { "item": "seasoning_italian", "prob": 25 }
+      { "item": "seasoning_italian", "prob": 25 },
+      { "item": "pecorino_cheese", "prob": 30 },
+      { "item": "eggplant", "prob": 30 }
     ]
   },
   {
@@ -370,7 +375,8 @@
       { "item": "garlic", "prob": 3 },
       { "item": "pine_nuts", "prob": 10 },
       { "item": "carrot", "prob": 3 },
-      { "item": "bell_pepper", "prob": 7 }
+      { "item": "bell_pepper", "prob": 7 },
+      { "item": "eggplant", "prob": 7 }
     ]
   },
   {
@@ -382,8 +388,8 @@
     "entries": [
       { "item": "syrup", "prob": 20 },
       { "item": "molasses", "prob": 15 },
-      { "item": "cooking_oil", "prob": 20 },
-      { "item": "cooking_oil2", "prob": 20 },
+      { "item": "cooking_oil", "prob": 40 },
+      { "item": "cooking_oil2", "prob": 40 },
       { "item": "honey_bottled", "prob": 15 },
       { "item": "honey_glassed", "prob": 5 },
       { "item": "jar_glass_sealed", "prob": 20 },
@@ -437,7 +443,8 @@
       { "item": "blackberries", "prob": 7 },
       { "item": "cholla_bud", "prob": 3 },
       { "item": "garlic", "prob": 3 },
-      { "item": "pine_nuts", "prob": 10 }
+      { "item": "pine_nuts", "prob": 10 },
+      { "item": "eggplant", "prob": 10 }
     ]
   },
   {
@@ -454,6 +461,22 @@
       { "item": "crispycran", "prob": 35 },
       { "item": "purple_drink", "prob": 35 },
       { "item": "choc_drink", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "softdrinks_bottled",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cola", "prob": 60, "container-item": "bottle_plastic" },
+      { "item": "colamdew", "prob": 55, "container-item": "bottle_plastic" },
+      { "item": "creamsoda", "prob": 50, "container-item": "bottle_plastic" },
+      { "item": "lemonlime", "prob": 50, "container-item": "bottle_plastic" },
+      { "item": "orangesoda", "prob": 45, "container-item": "bottle_plastic" },
+      { "item": "rootbeer", "prob": 40, "container-item": "bottle_plastic" },
+      { "item": "crispycran", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "purple_drink", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "choc_drink", "prob": 25, "container-item": "bottle_plastic" }
     ]
   },
   {
@@ -499,6 +522,12 @@
   },
   {
     "type": "item_group",
+    "id": "toastems",
+    "subtype": "distribution",
+    "entries": [ { "item": "toastem" }, { "item": "toastem2" }, { "item": "toastem3" } ]
+  },
+  {
+    "type": "item_group",
     "id": "snacks",
     "subtype": "distribution",
     "entries": [
@@ -537,6 +566,26 @@
       { "item": "choco_coffee_beans", "prob": 8 },
       { "item": "fruit_leather", "prob": 15 },
       { "item": "pine_nuts", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwiches",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "sandwich_cucumber", "prob": 15 },
+      { "item": "sandwich_deluxe", "prob": 10 },
+      { "item": "sandwich_reuben", "prob": 15 },
+      { "item": "sandwich_veggy", "prob": 30 },
+      { "item": "sandwich_t", "prob": 30 },
+      { "item": "sandwich_pb", "prob": 1 },
+      { "item": "sandwich_pbj", "prob": 1 },
+      { "item": "sandwich_pbh", "prob": 1 },
+      { "item": "sandwich_pbm", "prob": 1 },
+      { "item": "fish_sandwich", "prob": 15 },
+      { "item": "sandwich_jam_butter", "prob": 5 },
+      { "item": "sandwich_jam", "prob": 5 },
+      { "item": "sandwich_cheese", "prob": 50 }
     ]
   },
   {
@@ -580,6 +629,7 @@
       { "item": "pizza_cheese", "prob": 8 },
       { "item": "pizza_meat", "prob": 8 },
       { "item": "cheeseburger", "prob": 4 },
+      { "item": "fried_mozzarella_sticks", "prob": 11 },
       { "item": "deluxe_cheeseburger", "prob": 6 },
       { "item": "hamburger", "prob": 8 },
       { "item": "tofu_rice", "prob": 4 },
@@ -601,7 +651,9 @@
       { "item": "pie_veggy", "prob": 18 },
       { "item": "pie_meat", "prob": 18 },
       { "item": "pie_maple", "prob": 9 },
-      { "item": "gelatin_dessert_processed", "prob": 40 }
+      { "item": "gelatin_dessert_processed", "prob": 40 },
+      { "item": "mascarpone", "prob": 8 },
+      { "item": "tiramisu", "prob": 12 }
     ]
   },
   {
@@ -624,7 +676,9 @@
       { "item": "pie", "prob": 20 },
       { "item": "pie_veggy", "prob": 15 },
       { "item": "pie_meat", "prob": 15 },
-      { "item": "pie_maple", "prob": 10 }
+      { "item": "pie_maple", "prob": 10 },
+      { "item": "pecorino_cheese", "prob": 10 },
+      { "item": "tiramisu", "prob": 12 }
     ]
   },
   {
@@ -771,8 +825,8 @@
       { "item": "irradiated_corn", "prob": 10 },
       { "item": "bacon", "prob": 20 },
       { "item": "potato_baked", "prob": 15 },
-      { "item": "bread", "prob": 40 },
-      { "item": "bread_wheat_free", "prob": 40 },
+      { "item": "bread", "charges": 14, "prob": 40 },
+      { "item": "bread_wheat_free", "charges": 14, "prob": 40 },
       { "group": "ketchup_sealed_rng", "prob": 70 },
       { "group": "mustard_sealed_rng", "prob": 75 },
       { "group": "barbecue_sauce_sealed_rng", "prob": 80 },
@@ -783,6 +837,7 @@
       { "item": "deluxe_cheeseburger", "prob": 50 },
       { "item": "hamburger", "prob": 70 },
       { "item": "cheese", "prob": 45 },
+      { "item": "mozzarella_cheese", "prob": 30 },
       { "item": "ceramic_plate", "prob": 30 },
       { "item": "knife_steak", "prob": 45 },
       { "item": "tongs", "prob": 60 }
@@ -799,6 +854,7 @@
       { "item": "hamburger", "count": [ 0, 3 ] },
       { "item": "sloppyjoe", "count": [ 0, 3 ] },
       { "item": "fries", "count": [ 0, 3 ] },
+      { "item": "fried_mozzarella_sticks", "count": [ 0, 3 ] },
       { "item": "hotdogs_cooked", "count": [ 0, 3 ] },
       { "item": "corndogs_cooked", "count": [ 0, 3 ] },
       { "item": "bacon", "count": [ 0, 3 ] }
@@ -886,6 +942,7 @@
       { "item": "sloppyjoe", "prob": 8 },
       { "item": "bacon", "prob": 25 },
       { "item": "cheese", "prob": 30 },
+      { "item": "mozzarella_cheese", "prob": 20 },
       { "item": "restaurantmap", "prob": 5 },
       { "item": "touristmap", "prob": 2 },
       { "item": "noodles_fast", "prob": 30 },
@@ -932,6 +989,43 @@
         "charges-min": 1,
         "charges-max": 1
       }
+    ]
+  },
+  {
+    "id": "any_wild_egg",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "egg_crow", "prob": 20 },
+      { "item": "egg_sparrow", "prob": 20 },
+      { "item": "egg_bluejay", "prob": 10 },
+      { "item": "egg_cardinal", "prob": 5 },
+      { "item": "egg_raven", "prob": 5 },
+      { "item": "egg_robin", "prob": 5 },
+      { "item": "egg_duck", "prob": 2 },
+      { "item": "egg_goose_canadian", "prob": 1 },
+      { "item": "egg_coot", "prob": 1 },
+      { "item": "egg_grebe", "prob": 1 },
+      { "item": "egg_hummingbird", "prob": 1 },
+      { "item": "egg_turkey", "prob": 1 },
+      { "item": "egg_grouse", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "lunchbox_fruit",
+    "subtype": "distribution",
+    "entries": [ { "item": "banana", "prob": 10 }, { "item": "apple", "prob": 10 }, { "item": "orange", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "lunchbox_food",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "sandwiches", "prob": 75 },
+      { "group": "lunchbox_fruit", "prob": 25 },
+      { "item": "cheeseburger", "prob": 5 },
+      { "item": "hamburger", "prob": 5 }
     ]
   }
 ]

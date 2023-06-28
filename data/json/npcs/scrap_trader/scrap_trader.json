@@ -16,7 +16,7 @@
     "id": "SCRAP_MERCHANT",
     "name": { "str": "Merchant" },
     "job_description": "I'm a local shopkeeper.",
-    "common": true,
+    "common": false,
     "sells_belongings": false,
     "bonus_str": 4,
     "traits": [
@@ -32,7 +32,9 @@
       { "trait": "ADRENALINE" },
       { "trait": "NARCOLEPTIC" },
       { "trait": "PROJUNK" },
-      { "trait": "MOODSWINGS" }
+      { "trait": "MOODSWINGS" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 1, 2 ] }, { "constant": -1 } ] } },
@@ -62,7 +64,7 @@
       {
         "group": "no_sell",
         "rigid": true,
-        "condition": { "compare_int": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "condition": { "compare_num": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
         "refusal": "<npcname> will never sell this"
       }
     ],
@@ -108,7 +110,7 @@
       { "item": "gold_ring" },
       { "item": "tool_belt" },
       { "item": "spearsling" },
-      { "item": "ar15", "ammo-item": "223", "charges": 30, "container-item": "back_holster" }
+      { "item": "modular_ar15", "ammo-item": "223", "charges": 30, "container-item": "back_holster" }
     ]
   },
   {

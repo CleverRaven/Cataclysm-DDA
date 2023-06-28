@@ -1,5 +1,6 @@
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -21,7 +22,6 @@
 #include "memory_fast.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -438,14 +438,12 @@ TEST_CASE( "npc-movement" )
 
 TEST_CASE( "npc_can_target_player" )
 {
-    set_time_to_day();
-
     g->faction_manager_ptr->create_if_needed();
 
+    clear_map();
+    clear_avatar();
+    set_time_to_day();
     g->place_player( tripoint_zero );
-
-    clear_npcs();
-    clear_creatures();
 
     Character &player_character = get_player_character();
     npc &hostile = spawn_npc( player_character.pos().xy() + point_south, "thug" );

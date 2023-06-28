@@ -31,6 +31,15 @@
     "info": "You can install a seat belt or five part harness here to help keep you in your seat during a collision."
   },
   {
+    "id": "BOARD_INTERNAL",
+    "type": "json_flag"
+  },
+  {
+    "id": "CABLE_PORTS",
+    "type": "json_flag",
+    "info": "You can connect electrical cables to this part."
+  },
+  {
     "id": "CARGO",
     "type": "json_flag",
     "info": "You can store items here."
@@ -224,6 +233,11 @@
     "requires_flag": "LOCKABLE_CARGO"
   },
   {
+    "id": "DOOR_LOCKING",
+    "type": "json_flag",
+    "requires_flag": "LOCKABLE_DOOR"
+  },
+  {
     "id": "DOOR_MOTOR",
     "type": "json_flag",
     "requires_flag": "OPENABLE"
@@ -368,7 +382,8 @@
   },
   {
     "id": "FUNNEL",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "When set on vehicle part the, bonus field defines the funnel radius in mm^2 and part collects rain"
   },
   {
     "id": "HALF_BOARD",
@@ -397,6 +412,11 @@
   {
     "id": "LOCKABLE_CARGO",
     "type": "json_flag"
+  },
+  {
+    "id": "LOCKABLE_DOOR",
+    "type": "json_flag",
+    "info": "This can be locked if equipped with a locking mechanism, preventing access from outside the vehicle."
   },
   {
     "id": "LOW_FINAL_AIR_DRAG",
@@ -428,14 +448,16 @@
   },
   {
     "id": "NO_INSTALL_PLAYER",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Part can't be installed by player but visible in install menu (e.g. helicopter rotors)."
+  },
+  {
+    "id": "NO_INSTALL_HIDDEN",
+    "type": "json_flag",
+    "//": "Part can't be installed by player and hidden in install menu (e.g. power cords, inflatable boat parts, summoned vehicle parts)."
   },
   {
     "id": "NO_ROOF_NEEDED",
-    "type": "json_flag"
-  },
-  {
-    "id": "NOINSTALL",
     "type": "json_flag"
   },
   {
@@ -460,10 +482,6 @@
   },
   {
     "id": "OPENCLOSE_INSIDE",
-    "type": "json_flag"
-  },
-  {
-    "id": "OVER",
     "type": "json_flag"
   },
   {
@@ -572,7 +590,17 @@
     "type": "json_flag"
   },
   {
+    "id": "VEH_TOOLS",
+    "type": "json_flag",
+    "//": "Modular tool station allowing to 'hook' tools to vehicle batteries/tanks.",
+    "info": "You can 'e'xamine the tile to <color_cyan>connect tools</color> to the vehicle's batteries and tanks."
+  },
+  {
     "id": "VISION",
+    "type": "json_flag"
+  },
+  {
+    "id": "WALL_MOUNTED",
     "type": "json_flag"
   },
   {
@@ -605,6 +633,10 @@
   },
   {
     "id": "WINDSHIELD",
+    "type": "json_flag"
+  },
+  {
+    "id": "WIRING",
     "type": "json_flag"
   }
 ]

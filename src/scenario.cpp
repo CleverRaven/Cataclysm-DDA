@@ -55,7 +55,7 @@ void scenario::load_scenario( const JsonObject &jo, const std::string &src )
     all_scenarios.load( jo, src );
 }
 
-void scenario::load( const JsonObject &jo, const std::string & )
+void scenario::load( const JsonObject &jo, const std::string_view )
 {
     // TODO: pretty much the same as in profession::load, but different contexts for pgettext.
     // TODO: maybe combine somehow?
@@ -139,7 +139,24 @@ const scenario *scenario::generic()
 {
     static const string_id<scenario> generic_scenario_id(
         get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
-    return &generic_scenario_id.obj();
+
+    std::vector<const scenario *> all;
+    for( const scenario &scen : scenario::get_all() ) {
+        if( scen.scen_is_blacklisted() ) {
+            continue;
+        }
+        all.push_back( &scen );
+    }
+    if( find_if( all.begin(), all.end(), []( const scenario * s ) {
+    return s->ident() == generic_scenario_id;
+    } ) != all.end() ) {
+        // if the default scenario exists return it
+        return &generic_scenario_id.obj();
+    }
+
+    // if generic doesn't exist just return to the first scenario
+    return *all.begin();
+
 }
 
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
@@ -293,15 +310,17 @@ bool scenario::scen_is_blacklisted() const
     return sc_blacklist.scenarios.count( id ) != 0;
 }
 
-void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string &src )
+void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string_view src )
 {
     sc_blacklist.load( jo, src );
 }
 
-void scen_blacklist::load( const JsonObject &jo, const std::string & )
+void scen_blacklist::load( const JsonObject &jo, const std::string_view )
 {
     if( !scenarios.empty() ) {
-        jo.throw_error( "Attempted to load scenario blacklist with an existing scenario blacklist" );
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Attempted to load scenario blacklist with an existing scenario blacklist, resetting blacklist info";
+        reset_scenarios_blacklist();
     }
 
     const std::string bl_stype = jo.get_string( "subtype" );
@@ -467,7 +486,7 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-cata::optional<achievement_id> scenario::get_requirement() const
+std::optional<achievement_id> scenario::get_requirement() const
 {
     return _requirement;
 }
@@ -545,9 +564,11 @@ time_point scenario::start_of_game() const
 {
     time_point ret;
 
+    const int options_start_hour = get_option<int>( "INITIAL_TIME" );
+
     if( custom_start_date() ) {
         ret = calendar::turn_zero
-              + 1_hours * start_hour()
+              + 1_hours * ( options_start_hour == -1 ? rng( 0, 23 ) : start_hour() )
               + 1_days * start_day()
               + 1_days * get_option<int>( "SEASON_LENGTH" ) * start_season()
               + calendar::year_length() * ( start_year() - 1 );
@@ -558,7 +579,7 @@ time_point scenario::start_of_game() const
         }
     } else {
         ret = start_of_cataclysm()
-              + 1_hours * get_option<int>( "INITIAL_TIME" )
+              + 1_hours * ( options_start_hour == -1 ? rng( 0, 23 ) : options_start_hour )
               + 1_days * get_option<int>( "SPAWN_DELAY" );
     }
     return ret;

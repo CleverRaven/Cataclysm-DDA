@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOLUM3_activated",
-    "condition": { "compare_int": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
+    "condition": { "compare_num": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "3 seconds" },
       { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 700 } ] },
@@ -19,5 +19,12 @@
         "targeted": true
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RASHY_SKIN",
+    "recurrence": [ "2 hour", "24 hours" ],
+    "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
+    "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
   }
 ]

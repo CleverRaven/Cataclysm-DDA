@@ -12,7 +12,6 @@
     "price": 43000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -22,7 +21,6 @@
     "durability": 8,
     "min_cycle_recoil": 135,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -35,8 +33,10 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sigp230mag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sigp230mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "skorpion_61",
@@ -52,7 +52,6 @@
     "price": 150000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -64,7 +63,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -78,7 +76,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "skorpion61mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "skorpion61mag" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "walther_ppk",
@@ -94,7 +93,6 @@
     "price": 45000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "light_gray",
@@ -104,7 +102,6 @@
     "durability": 8,
     "min_cycle_recoil": 135,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -117,8 +114,10 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "kp32",
@@ -134,13 +133,54 @@
     "price": 14000,
     "price_postapoc": 1000,
     "to_hit": -3,
-    "bashing": 1,
     "material": [ "steel", "plastic", "aluminum" ],
     "color": "dark_gray",
     "ammo": [ "32" ],
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 135,
-    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ]
+    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "rifle_32",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "pipe rifle: .32", "str_pl": "pipe rifles: .32" },
+    "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "ascii_picture": "sm_pipe_gun",
+    "weight": "1953 g",
+    "volume": "1610 ml",
+    "longest_side": "1000 mm",
+    "price": 10000,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": [ "32" ],
+    "skill": "rifle",
+    "dispersion": 550,
+    "durability": 6,
+    "blackpowder_tolerance": 60,
+    "loudness": 25,
+    "clip_size": 1,
+    "reload": 200,
+    "barrel_volume": "360 ml",
+    "barrel_length": "600 mm",
+    "valid_mod_locations": [
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 1 } } ],
+    "melee_damage": { "bash": 10 }
   }
 ]

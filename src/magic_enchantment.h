@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
@@ -12,7 +13,6 @@
 #include "calendar.h"
 #include "dialogue_helpers.h"
 #include "magic.h"
-#include "optional.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
@@ -22,8 +22,7 @@ class JsonObject;
 class JsonOut;
 class item;
 struct dialogue;
-template<class T>
-struct int_or_var;
+struct dbl_or_var;
 namespace enchant_vals
 {
 // the different types of values that can be modified by enchantments
@@ -37,7 +36,6 @@ enum class mod : int {
     PERCEPTION,
     INTELLIGENCE,
     SPEED,
-    ATTACK_COST,
     ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
     MOVE_COST,
     METABOLISM,
@@ -51,16 +49,18 @@ enum class mod : int {
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate
-    PAIN,          // cost or regen over time
+    PAIN,
+    PAIN_REMOVE,
     BONUS_DODGE,
     BONUS_BLOCK,
-    BONUS_DAMAGE,
     MELEE_DAMAGE,
+    RANGED_DAMAGE,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
-    SIGHT_RANGE,
     SIGHT_RANGE_ELECTRIC,
+    MOTION_VISION_RANGE,
+    SIGHT_RANGE_NETHER,
     CARRY_WEIGHT,
     WEAPON_DISPERSION,
     SOCIAL_LIE,
@@ -71,7 +71,6 @@ enum class mod : int {
     EFFECTIVE_HEALTH_MOD,
     MOD_HEALTH,
     MOD_HEALTH_CAP,
-    MAP_MEMORY,
     READING_EXP,
     SKILL_RUST_RESIST,
     LEARNING_FOCUS,
@@ -106,7 +105,6 @@ enum class mod : int {
     ITEM_DAMAGE_ELEC,
     ITEM_DAMAGE_ACID,
     ITEM_DAMAGE_BIO,
-    ITEM_DAMAGE_AP,      // armor piercing
     ITEM_ARMOR_BASH,
     ITEM_ARMOR_CUT,
     ITEM_ARMOR_STAB,
@@ -116,14 +114,16 @@ enum class mod : int {
     ITEM_ARMOR_ELEC,
     ITEM_ARMOR_ACID,
     ITEM_ARMOR_BIO,
-    ITEM_WEIGHT,
-    ITEM_ENCUMBRANCE,
-    ITEM_VOLUME,
-    ITEM_COVERAGE,
     ITEM_ATTACK_SPEED,
-    ITEM_WET_PROTECTION,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
+    COMBAT_CATCHUP,
+    KNOCKBACK_RESIST,
+    KNOCKDOWN_RESIST,
+    FALL_DAMAGE,
+    FORCEFIELD,
+    EVASION,
+    OVERKILL_DAMAGE,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -150,12 +150,12 @@ class enchantment
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src = "",
-                   const cata::optional<std::string> &inline_id = cata::nullopt, bool is_child = false );
+        void load( const JsonObject &jo, std::string_view src = {},
+                   const std::optional<std::string> &inline_id = std::nullopt, bool is_child = false );
 
         // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
         // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
-        static enchantment_id load_inline_enchantment( const JsonValue &jv, const std::string &src,
+        static enchantment_id load_inline_enchantment( const JsonValue &jv, std::string_view src,
                 std::string &inline_id );
 
         // this enchantment has a valid condition and is in the right location
@@ -194,13 +194,24 @@ class enchantment
         std::vector<bodypart_changes> modified_bodyparts;
 
         std::set<trait_id> mutations;
-        cata::optional<emit_id> emitter;
+        std::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
+
+        // name to display for enchantments on items
+        translation name;
+
+        // description to display for enchantments on items
+        translation description;
+
         // values that add to the base value
-        std::map<enchant_vals::mod, int_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, int_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var> values_multiply; // NOLINT(cata-serialize)
+
+        // the exact same as above, though specifically for skills
+        std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
@@ -208,7 +219,7 @@ class enchantment
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
-        std::function<bool( const dialogue & )> dialog_condition; // NOLINT(cata-serialize)
+        std::function<bool( dialogue & )> dialog_condition; // NOLINT(cata-serialize)
 
         void add_activation( const time_duration &dur, const fake_spell &fake );
 };
@@ -218,6 +229,7 @@ class enchant_cache : public enchantment
     public:
 
         double modify_value( enchant_vals::mod mod_val, double value ) const;
+        double modify_value( const skill_id &mod_val, double value ) const;
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         // adds two enchantments together and ignores their conditions
@@ -229,6 +241,10 @@ class enchant_cache : public enchantment
         int get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
+
+        int get_skill_value_add( const skill_id &value ) const;
+        double get_skill_value_multiply( const skill_id &value ) const;
+        int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
         bool add( const enchantment &rhs, Character &you );
@@ -250,15 +266,23 @@ class enchant_cache : public enchantment
         void add_value_mult( enchant_vals::mod value, float mult_value );
         void add_hit_you( const fake_spell &sp );
         void add_hit_me( const fake_spell &sp );
-        void load( const JsonObject &jo, const std::string &src = "",
-                   const cata::optional<std::string> &inline_id = cata::nullopt );
+        void load( const JsonObject &jo, std::string_view src = {},
+                   const std::optional<std::string> &inline_id = std::nullopt );
         bool operator==( const enchant_cache &rhs ) const;
+
+        // details of each enchantment that includes them (name and description)
+        std::vector<std::pair<std::string, std::string>> details; // NOLINT(cata-serialize)
+
+
     private:
         std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
         std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)
 
+        // the exact same as above, though specifically for skills
+        std::map<skill_id, int> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, int> skill_values_multiply; // NOLINT(cata-serialize)
 };
 
 template <typename E> struct enum_traits;

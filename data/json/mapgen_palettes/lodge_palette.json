@@ -4,9 +4,9 @@
     "id": "lodge_palette",
     "terrain": {
       "#": "t_rock_wall",
-      "+": [ [ "t_door_c", 3 ], "t_door_locked" ],
+      "+": [ [ "t_door_c", 3 ], "t_door_locked", "t_door_elocked", "t_door_elocked_alarm" ],
       "=": "t_door_c",
-      "z": "t_door_metal_locked",
+      "z": "t_door_metal_interior_locked",
       ".": [ [ "t_region_groundcover", 4 ], "t_region_groundcover_forest" ],
       "~": [ [ "t_region_groundcover_barren", 3 ], "t_region_groundcover" ],
       "*": [ [ "t_region_groundcover", 15 ], "t_region_shrub" ],
@@ -112,9 +112,7 @@
       "<": "t_wood_stairs_down",
       "Z": "t_floor",
       ".": "t_flat_roof",
-      "~": "t_flat_roof",
       "=": "t_flat_roof",
-      "v": "t_flat_roof",
       "%": "t_gutter_downspout",
       "2": "t_gutter_north",
       "-": "t_gutter_south",
@@ -128,9 +126,7 @@
       "h": "f_bathtub",
       "O": "f_sofa",
       "Z": "f_fireplace",
-      "~": "f_chimney",
       "=": "f_vent_pipe",
-      "v": "f_wind_vane",
       "é": "f_freezer"
     },
     "items": {

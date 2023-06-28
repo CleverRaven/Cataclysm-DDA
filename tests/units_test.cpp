@@ -44,6 +44,20 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
     CHECK( M_PI * 1_radians == 1_pi_radians );
     CHECK( 2_pi_radians == 360_degrees );
     CHECK( 60_arcmin == 1_degrees );
+
+    CHECK( 1_mW == units::from_milliwatt( 1 ) );
+    CHECK( 1_W == units::from_watt( 1 ) );
+    CHECK( 1_kW == units::from_kilowatt( 1 ) );
+
+    CHECK( 1_W * 1_seconds == 1_J );
+    CHECK( 1_seconds * 1_W == 1_J );
+    CHECK( 1_J / 1_seconds == 1_W );
+    CHECK( 1_J / 1_W == 1_seconds );
+    CHECK( 5_W * 5_minutes == 1.5_kJ );
+    CHECK( -5_W * 5_minutes == -1.5_kJ );
+    CHECK( ( 5_kJ / 5_W ) == ( 16_minutes + 40_seconds ) );
+    CHECK( ( -5_kJ / 5_W ) == -( 16_minutes + 40_seconds ) );
+    CHECK( ( 5_kJ / -5_W ) == -( 16_minutes + 40_seconds ) );
 }
 
 static units::energy parse_energy_quantity( const std::string &json )
@@ -52,7 +66,7 @@ static units::energy parse_energy_quantity( const std::string &json )
     return read_from_json_string<units::energy>( jsin, units::energy_units );
 }
 
-TEST_CASE( "energy parsing from JSON", "[units]" )
+TEST_CASE( "energy_parsing_from_JSON", "[units]" )
 {
     CHECK_THROWS( parse_energy_quantity( "\"\"" ) ); // empty string
     CHECK_THROWS( parse_energy_quantity( "27" ) ); // not a string at all
@@ -70,13 +84,37 @@ TEST_CASE( "energy parsing from JSON", "[units]" )
     CHECK( parse_energy_quantity( "\"1 mJ -4 J 1 kJ\"" ) == 1_mJ - 4_J + 1_kJ );
 }
 
+static units::power parse_power_quantity( const std::string &json )
+{
+    JsonValue jsin = json_loader::from_string( json );
+    return read_from_json_string<units::power>( jsin, units::power_units );
+}
+
+TEST_CASE( "power_parsing_from_JSON", "[units]" )
+{
+    CHECK_THROWS( parse_power_quantity( "\"\"" ) ); // empty string
+    CHECK_THROWS( parse_power_quantity( "27" ) ); // not a string at all
+    CHECK_THROWS( parse_power_quantity( "\"    \"" ) ); // only spaces
+    CHECK_THROWS( parse_power_quantity( "\"27\"" ) ); // no energy unit
+
+    CHECK( parse_power_quantity( "\"1 mW\"" ) == 1_mW );
+    CHECK( parse_power_quantity( "\"1 W\"" ) == 1_W );
+    CHECK( parse_power_quantity( "\"1 kW\"" ) == 1_kW );
+    CHECK( parse_power_quantity( "\"+1 mW\"" ) == 1_mW );
+    CHECK( parse_power_quantity( "\"+1 W\"" ) == 1_W );
+    CHECK( parse_power_quantity( "\"+1 kW\"" ) == 1_kW );
+
+    CHECK( parse_power_quantity( "\"1 mW 1 W 1 kW\"" ) == 1_mW + 1_W + 1_kW );
+    CHECK( parse_power_quantity( "\"1 mW -4 W 1 kW\"" ) == 1_mW - 4_W + 1_kW );
+}
+
 static time_duration parse_time_duration( const std::string &json )
 {
     JsonValue jsin = json_loader::from_string( json );
     return read_from_json_string<time_duration>( jsin, time_duration::units );
 }
 
-TEST_CASE( "time_duration parsing from JSON", "[units]" )
+TEST_CASE( "time_duration_parsing_from_JSON", "[units]" )
 {
     CHECK_THROWS( parse_time_duration( "\"\"" ) ); // empty string
     CHECK_THROWS( parse_time_duration( "27" ) ); // not a string at all
@@ -256,7 +294,7 @@ static units::angle parse_angle( const std::string &json )
     return read_from_json_string<units::angle>( jsin, units::angle_units );
 }
 
-TEST_CASE( "angle parsing from JSON", "[units]" )
+TEST_CASE( "angle_parsing_from_JSON", "[units]" )
 {
     CHECK_THROWS( parse_angle( "\"\"" ) ); // empty string
     CHECK_THROWS( parse_angle( "27" ) ); // not a string at all
@@ -296,7 +334,6 @@ TEST_CASE( "rounding" )
     CHECK( round_to_multiple_of( -360_degrees, 15_degrees ) == -360_degrees );
 }
 
-
 TEST_CASE( "Temperatures", "[temperature]" )
 {
     SECTION( "Different units match" ) {
@@ -314,7 +351,49 @@ TEST_CASE( "Temperatures", "[temperature]" )
     }
 }
 
-TEST_CASE( "Specific energy", "[temperature]" )
+TEST_CASE( "Temperature_delta", "[temperature]" )
+{
+    SECTION( "Different units match" ) {
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( 10 ) ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( 10 ) ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( 18 ) ) == 10 );
+
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( 0 ) ) == 0 );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( 0 ) ) == 0 );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( 0 ) ) == 0 );
+
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( -10 ) ) == -10 );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( -10 ) ) == -10 );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( -18 ) ) == -10 );
+
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( 100.1 ) ) == 100.1f );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( 100.1 ) ) == 100.1f );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( 180.18 ) ) == Approx( 100.1f ).margin(
+                   0.001f ) );
+    }
+
+    SECTION( "Temperature subtraction" ) {
+        CHECK( units::to_kelvin_delta( 100_K - 90_K ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_kelvin_delta( 10 ) ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_celsius_delta( 10 ) ) == 10 );
+        CHECK( units::to_kelvin_delta( units::from_fahrenheit_delta( 18 ) ) == 10 );
+    }
+
+    SECTION( "Temperature plus delta" ) {
+        CHECK( units::to_kelvin( 10_K + units::from_kelvin_delta( 10 ) ) == 20 );
+        CHECK( units::to_kelvin( units::from_kelvin_delta( 10 ) + 10_K ) == 20 );
+        CHECK( units::to_celsius( units::from_celsius( 10 ) + units::from_celsius_delta( 10 ) ) == 20 );
+        CHECK( units::to_fahrenheit( units::from_fahrenheit( 10 ) + units::from_fahrenheit_delta(
+                                         10 ) ) == Approx( 20.f ).margin( 0.0001f ) );
+
+        units::temperature temp = units::from_kelvin( 22.5 );
+        temp += units::from_kelvin_delta( 10.3 );
+        CHECK( units::to_kelvin( temp ) == 32.8f );
+    }
+
+}
+
+TEST_CASE( "Specific_energy", "[temperature]" )
 {
     SECTION( "Different units match" ) {
         CHECK( units::to_joule_per_gram( units::from_joule_per_gram( 100 ) ) == 100 );

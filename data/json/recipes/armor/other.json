@@ -64,7 +64,12 @@
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "amplifier", 1 ] ]
+    ],
     "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
@@ -81,7 +86,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "gold_small", 3 ] ] ]
+    "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "gold_bracelet",
@@ -97,7 +102,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "gold_small", 12 ] ] ]
+    "components": [ [ [ "gold_small", 8 ] ] ]
   },
   {
     "result": "copper_bracelet",
@@ -113,7 +118,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+    "components": [ [ [ "copper", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -129,7 +134,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "silver_small", 15 ] ] ]
+    "components": [ [ [ "silver_small", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -166,7 +171,7 @@
     "time": "85 m",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork_simple", 33 ] ],
-    "components": [ [ [ "cotton_patchwork", 54 ] ], [ [ "down_feather", 160 ] ] ],
+    "components": [ [ [ "down_feather", 160 ] ] ],
     "byproducts": [ [ "scrap_cotton", 2 ] ]
   },
   {
@@ -322,7 +327,7 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
-    "result": "rebreather_filter",
+    "result": "rebreather_cartridge",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -339,6 +344,7 @@
       [ "emergency_book", 3 ],
       [ "textbook_gaswarfare", 4 ]
     ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -349,7 +355,7 @@
     ]
   },
   {
-    "result": "gasfilter_s",
+    "result": "gasfilter_sm",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -361,7 +367,7 @@
     "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
-    "result": "gasfilter_m",
+    "result": "gasfilter_med",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -450,5 +456,44 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "wax", 1 ], [ "candle", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "belt_loop_small",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "nylon", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "belt_loop_medium",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "belt_loop_small", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "belt_loop_large",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "belt_loop_medium", 2 ] ] ]
   }
 ]

@@ -5,6 +5,9 @@
     "name": { "str": "Spider egg host" },
     "points": 0,
     "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "description": "You don't feel very well.  On an existential level."
   },
   {
@@ -13,6 +16,9 @@
     "name": { "str": "Spider egg host" },
     "points": 0,
     "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "description": "You don't feel very well.  On an existential level."
   },
   {
@@ -21,6 +27,9 @@
     "name": { "str": "Transforming into Goblin" },
     "points": 0,
     "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "description": "You don't feel very well.  On an existential level."
   },
   {
@@ -28,7 +37,9 @@
     "id": "MANIFESTED_DESTINY_GOBLIN",
     "name": { "str": "Transformed into Goblin" },
     "points": 0,
-    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "description": "You feel like you've left behind your old life and form."
   },
   {
@@ -36,6 +47,9 @@
     "id": "MANIFEST_DESTINY_SPIDER",
     "name": { "str": "Transforming into Spider" },
     "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "player_display": false,
     "description": "You don't feel very well.  On an existential level."
   },
@@ -44,24 +58,61 @@
     "id": "MANIFESTED_DESTINY_SPIDER",
     "name": { "str": "Transformed into Spider" },
     "points": 0,
-    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "description": "You feel like you've left behind your old life and form."
+  },
+  {
+    "type": "mutation",
+    "id": "DRUNKEN",
+    "name": { "str": "Drunken Master" },
+    "points": 1,
+    "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "LIGHTWEIGHT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "KI_STRIKE",
+    "name": { "str": "Ki Strike" },
+    "points": 2,
+    "description": "Who needs weapons?  You deal more melee damage while fighting barehanded and without gloves.  This damage improves as your unarmed skill increases.",
+    "starting_trait": true,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "EXTEND_LIFE",
+    "name": { "str": "Extended Life" },
+    "points": 0,
+    "description": "You swallow the potion and feel younger already.  Though the taste lingers long past when you'd hope it would pass.",
+    "valid": false
   },
   {
     "type": "mutation",
     "id": "NIGHTMARE_CHIMERAS",
     "name": { "str": "Haunted by your dreams made flesh" },
     "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "player_display": false,
-    "description": "Your dreams can change reality."
+    "description": "Your dreams can change reality.",
+    "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
     "id": "FRIENDLY_CHIMERAS",
     "name": { "str": "Accompanied by your dreams made flesh" },
     "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "player_display": false,
-    "description": "Your dreams can change reality."
+    "description": "Your dreams can change reality.",
+    "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
@@ -80,6 +131,9 @@
     "type": "mutation",
     "id": "EYEGLEAM",
     "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "name": { "str": "Gleaming eyes" },
     "description": "Your eyes gleam lightly red as the light catches in them and with a few drops of the stolen blood in your veins you are able to see in the dark.",
     "active": true,
@@ -89,6 +143,9 @@
     "type": "mutation",
     "id": "STAMINAFORBLOOD",
     "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "name": { "str": "Recover Stamina" },
     "description": "Your exhaust some of the blood in your veins to boost and recover some of your spent stamina.",
     "active": true,
@@ -105,7 +162,7 @@
     "types": [ "TEETH" ],
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL" ],
+    "flags": [ "CANNIBAL", "ALBINO" ],
     "attacks": [
       {
         "attack_text_u": "You sink your fangs into %s",
@@ -121,8 +178,11 @@
     "type": "mutation",
     "id": "COAGULANTWEAVE",
     "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "name": { "str": "Coagulant Weave" },
-    "description": "Your body prepares to prevent the lose of any blood to combat damage.",
+    "description": "Your body prepares to prevent the loss of any blood to combat damage.",
     "active": true,
     "activated_eocs": [ "EOC_COAGULANTWEAVE_activated" ]
   },
@@ -130,6 +190,9 @@
     "type": "mutation",
     "id": "BLOODHEAL",
     "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "name": { "str": "Blood spurred healing" },
     "description": "Your flesh heals visibly while blood disintegrates hidden inside your veins.",
     "active": true,
@@ -140,13 +203,13 @@
     "id": "VAMPIRE3",
     "name": { "str": "Mortal hungers are replaced with immortal hungers." },
     "points": 0,
-    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "description": "You replace some of your regular caloric intake with blood and begin to see some of the more esoteric abilities inherent to vampirism.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL" ],
+    "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR" ],
     "metabolism_modifier": 0.8,
     "stamina_regen_modifier": 0.1
   },
@@ -154,6 +217,9 @@
     "type": "mutation",
     "id": "HYPNOTIC_GAZE",
     "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "name": { "str": "Hypnotic gaze" },
     "description": "You lock eyes with your prey and stun them with the force of your will.",
     "active": true,
@@ -163,6 +229,9 @@
     "type": "mutation",
     "id": "BLOODHASTE",
     "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "name": { "str": "Blood driven speed" },
     "description": "Your body exceeds normal human reaction limits as blood turns to ash in your veins.",
     "active": true,
@@ -177,7 +246,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL" ],
+    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
     "metabolism_modifier": 5,
     "stamina_regen_modifier": 0.1
   },
@@ -190,8 +259,28 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL" ],
+    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
     "metabolism_modifier": 5,
     "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "BLOOD_OF_SAINTS",
+    "name": { "str": "Saint's blood" },
+    "points": 0,
+    "description": "Through a complicated ritual utilizing a saint's relic, you have transubstantiated your own blood with the holy blood of the saints.  It'll prevent you from becoming infected with vampirism while you live, effects postmortem unknown.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BLOOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FUTURESIGHT",
+    "name": { "str": "Future Sight" },
+    "points": 0,
+    "description": "You aren't where you seem to be.",
+    "starting_trait": false,
+    "valid": false,
+    "flags": [ "UNCANNY_DODGE" ]
   }
 ]

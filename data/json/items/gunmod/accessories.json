@@ -13,7 +13,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ":",
     "color": "dark_gray",
-    "location": "accessories",
+    "location": "arrow rest",
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -20,
     "min_skills": [ [ "gun", 1 ] ]
@@ -32,7 +32,7 @@
     "material": [ "wood" ],
     "symbol": ":",
     "color": "dark_gray",
-    "location": "accessories",
+    "location": "arrow rest",
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -20,
     "min_skills": [ [ "gun", 1 ] ]
@@ -129,7 +129,7 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
-    "location": "accessories",
+    "location": "belt_clip",
     "mod_targets": [ "rugerlcp", "kp32", "kp3at", "kpf9", "cop_38", "moss_brownie" ],
     "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ]
   }

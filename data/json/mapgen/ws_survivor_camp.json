@@ -103,5 +103,56 @@
       ],
       "place_vehicles": [ { "vehicle": "surv_car", "x": 11, "y": 4, "chance": 20, "rotation": 270 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_survivor_camp" ],
+    "weight": 10,
+    "object": {
+      "predecessor_mapgen": "field",
+      "faction_owner": [ { "id": "no_faction", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "rows": [
+        "       pp      pp       ",
+        " pppppppp      pppppppp ",
+        "pppppppp        pppppppp",
+        "pppssr          ssr  ppp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp           ww       pp",
+        "pp ssr       ww ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp         O          pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp ssr          ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "ppp                  ppp",
+        "pppppppppppppppppppppppp",
+        " pppppppppppppppppppppp "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_npcs": [ { "class": "survivor_camper", "x": 10, "y": 11 } ],
+      "nested": {
+        "E": { "chunks": [ [ "tent_3x3_E", 10 ], [ "tent_5x5_E", 20 ], [ "null", 5 ] ] },
+        "W": { "chunks": [ [ "tent_3x3_W", 10 ], [ "tent_5x5_W", 20 ], [ "null", 5 ] ] }
+      },
+      "terrain": { "O": "t_pit_shallow", "p": [ "t_pit_spiked" ] },
+      "furniture": { "O": "f_firering" },
+      "items": {
+        "c": { "item": "sc_loot_rare", "chance": 50, "repeat": [ 2, 3 ] },
+        "r": { "item": "sc_loot_general", "chance": 70, "repeat": [ 2, 3 ] },
+        "s": { "item": "sc_loot_equipment", "chance": 85, "repeat": [ 2, 3 ] },
+        "w": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 3 ] }
+      },
+      "place_vehicles": [ { "vehicle": "surv_car", "x": 11, "y": 4, "chance": 70, "rotation": 270 } ]
+    }
   }
 ]

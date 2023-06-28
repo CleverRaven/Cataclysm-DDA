@@ -137,7 +137,7 @@ class item_reader : public generic_typed_reader<item_reader>
                 return profession::itypedec( jv.get_string() );
             }
             JsonArray jarr = jv.get_array();
-            const auto id = jarr.get_string( 0 );
+            const std::string id = jarr.get_string( 0 );
             const snippet_id snippet( jarr.get_string( 1 ) );
             return profession::itypedec( id, snippet );
         }
@@ -149,7 +149,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( const JsonObject &jo, const std::string & )
+void profession::load( const JsonObject &jo, const std::string_view )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
@@ -248,7 +248,6 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "no_bonus", no_bonus );
 
     optional( jo, was_loaded, "requirement", _requirement );
-
 
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
@@ -441,9 +440,7 @@ static void clear_faults( item &it )
     if( it.get_var( "dirt", 0 ) > 0 ) {
         it.set_var( "dirt", 0 );
     }
-    if( it.is_faulty() ) {
-        it.faults.clear();
-    }
+    it.faults.clear();
 }
 
 std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
@@ -481,7 +478,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
-        const auto sub = item_substitutions.get_substitution( *iter, traits );
+        const std::vector<item> sub = item_substitutions.get_substitution( *iter, traits );
         if( !sub.empty() ) {
             result.insert( result.begin(), sub.begin(), sub.end() );
             iter = result.erase( iter );
@@ -628,8 +625,8 @@ void profession::learn_spells( avatar &you ) const
     for( const std::pair<spell_id, int> spell_pair : spells() ) {
         you.magic->learn_spell( spell_pair.first, you, true );
         spell &sp = you.magic->get_spell( spell_pair.first );
-        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level( you ) ) {
+            sp.gain_level( you );
         }
     }
 }
@@ -832,7 +829,7 @@ const std::vector<mission_type_id> &profession::missions() const
     return _missions;
 }
 
-cata::optional<achievement_id> profession::get_requirement() const
+std::optional<achievement_id> profession::get_requirement() const
 {
     return _requirement;
 }

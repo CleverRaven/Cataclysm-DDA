@@ -36,7 +36,6 @@
       "r": [ "t_carpet_backrooms" ],
       "s": [ "t_carpet_backrooms" ],
       "t": [ "t_carpet_backrooms" ],
-      "u": [ "t_console_broken" ],
       "x": [ "t_carpet_backrooms" ],
       "y": [ "t_carpet_backrooms" ],
       "z": [ "t_carpet_backrooms" ],
@@ -44,6 +43,7 @@
     },
     "furniture": {
       "a": [ [ "f_null", 5 ], [ "f_chair", 10 ] ],
+      "u": [ "f_console_broken" ],
       "b": [ [ "f_null", 5 ], [ "f_camp_chair", 10 ], [ "f_chair", 2 ] ],
       "c": [ "f_table" ],
       "e": [ "f_table" ],
@@ -66,6 +66,13 @@
     },
     "liquids": { "l": { "liquid": "water_clean", "amount": [ 0, 30 ] } },
     "items": {
+      " ": {
+        "item": {
+          "subtype": "distribution",
+          "entries": [ { "item": "null", "prob": 20000 }, { "group": "backrooms_artifacts", "prob": 1 } ]
+        },
+        "chance": 100
+      },
       "c": [ { "item": "backrooms_master_table_office", "chance": 25 } ],
       "e": [ { "item": "backrooms_master_table_office", "chance": 25 } ],
       "f": [ { "item": "backrooms_master_desk", "chance": 33 } ],

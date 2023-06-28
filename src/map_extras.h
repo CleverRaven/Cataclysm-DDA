@@ -68,12 +68,12 @@ class map_extra
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
     private:
         translation name_;
         translation description_;
-        cata::optional<std::pair<int, int>> min_max_zlevel_;
+        std::optional<std::pair<int, int>> min_max_zlevel_;
         cata::flat_set<std::string> flags_;
 };
 

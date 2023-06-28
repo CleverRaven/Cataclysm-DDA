@@ -674,7 +674,6 @@ string_input_popup &string_input_popup::text( const std::string &value )
     return *this;
 }
 
-
 void string_input_popup::add_callback( const std::string &action,
                                        const std::function<bool()> &callback_func )
 {

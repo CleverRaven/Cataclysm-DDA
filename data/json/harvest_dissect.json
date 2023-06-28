@@ -627,6 +627,15 @@
     ]
   },
   {
+    "id": "dissect_subterranean_insect_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "insect_sample_single", "type": "mutagen_group" },
+      { "drop": "troglobite_sample_single", "type": "mutagen_group" }
+    ]
+  },
+  {
     "id": "dissect_slimy_fish_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
@@ -639,22 +648,52 @@
     "id": "dissect_crustacean_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [
-      { "drop": "fish_sample_single", "type": "mutagen_group" },
-      { "drop": "insect_sample_single", "type": "mutagen_group" }
-    ]
+    "entries": [ { "drop": "crustacean_sample_single", "type": "mutagen_group" } ]
   },
   {
     "id": "dissect_crustacean_small",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ { "drop": "fish_sample_small", "type": "mutagen_group" }, { "drop": "insect_sample_small", "type": "mutagen_group" } ]
+    "entries": [ { "drop": "crustacean_sample_small", "type": "mutagen_group" } ]
   },
   {
     "id": "dissect_crustacean_large",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ { "drop": "fish_sample_large", "type": "mutagen_group" }, { "drop": "insect_sample_large", "type": "mutagen_group" } ]
+    "entries": [ { "drop": "crustacean_sample_large", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_flying_rodent_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "mouse_sample_single", "type": "mutagen_group" },
+      { "drop": "bird_sample_single", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_flying_rodent_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "mouse_sample_small", "type": "mutagen_group" }, { "drop": "bird_sample_small", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_deer_mutant_spider_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "cattle_sample_small", "type": "mutagen_group" },
+      { "drop": "spider_sample_small", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_deer_mutant_spider_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "cattle_sample_single", "type": "mutagen_group" },
+      { "drop": "spider_sample_single", "type": "mutagen_group" }
+    ]
   },
   {
     "id": "dissect_mon_broken_cyborg",
@@ -665,13 +704,19 @@
         "drop": "bio_power_storage",
         "type": "bionic",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
       },
       {
         "drop": "cyborg_harvest",
         "type": "bionic_group",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
       }
     ]
   },
@@ -684,13 +729,19 @@
         "drop": "Zomborg_CBM_harvest",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
       },
       {
         "drop": "Zomborg_CBM_harvest_power",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
       }
     ]
   }

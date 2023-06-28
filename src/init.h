@@ -58,11 +58,6 @@ struct json_source_location;
 class DynamicDataLoader
 {
     public:
-        using type_string = std::string;
-        using t_type_function_map =
-            std::map<type_string, std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>>;
-        using str_vec = std::vector<std::string>;
-
         /**
          * JSON data dependent upon as-yet unparsed definitions
          * first: JSON source location, second: source identifier
@@ -81,6 +76,10 @@ class DynamicDataLoader
          * Maps the type string (coming from json) to the
          * functor that loads that kind of object from json.
          */
+        using type_string = std::string;
+        using t_type_function_map =
+            std::map<type_string, std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>>;
+        using str_vec = std::vector<std::string>;
         t_type_function_map type_function_map;
         void add( const std::string &type, const std::function<void( const JsonObject & )> &f );
         void add( const std::string &type,

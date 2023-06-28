@@ -42,15 +42,16 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
     mvwputch( win, point( width - 1, border_y ), BORDER_COLOR, LINE_XOXX );
 }
 
-static const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
+static const auto shortcut_desc = []( const std::string_view comment, const std::string &keys )
 {
     return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };
 
 // needs extensive improvement
 
-static trait_id GetTrait( std::vector<trait_id> active, std::vector<trait_id> passive, int cursor,
-                          mutation_tab_mode tab_mode )
+static trait_id GetTrait( const std::vector<trait_id> &active,
+                          const std::vector<trait_id> &passive,
+                          int cursor, mutation_tab_mode tab_mode )
 {
     trait_id mut_id;
     if( tab_mode == mutation_tab_mode::active ) {
@@ -152,6 +153,7 @@ void avatar::power_mutations()
     int second_column = 0;
 
     int scroll_position = 0;
+    int examine_pos = 0;
     int cursor = 0;
     int max_scroll_position = 0;
     int list_height = 0;
@@ -198,6 +200,7 @@ void avatar::power_mutations()
                                       point( START.x + 1, TITLE_START_Y ) );
 
         recalc_max_scroll_position();
+        examine_pos = 0;
 
         // X-coordinate of the list of active mutations
         second_column = 32 + ( TERMX - FULL_SCREEN_WIDTH ) / 4;
@@ -214,6 +217,8 @@ void avatar::power_mutations()
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "SCROLL_TRAIT_INFO_UP" );
+    ctxt.register_action( "SCROLL_TRAIT_INFO_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -226,7 +231,7 @@ void avatar::power_mutations()
     }
 #endif
 
-    cata::optional<trait_id> examine_id;
+    std::optional<trait_id> examine_id;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( wBio );
@@ -336,13 +341,23 @@ void avatar::power_mutations()
 
         draw_scrollbar( wBio, scroll_position, list_height, mutations_count,
                         point( 0, list_start_y ), c_white, true );
-        wnoutrefresh( wBio );
-        show_mutations_titlebar( w_title, menu_mode, ctxt );
 
         if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
             werase( w_description );
-            fold_and_print( w_description, point_zero, WIDTH - 2, c_light_blue,
-                            mutation_desc( examine_id.value() ) );
+            std::vector<std::string> desc = foldstring( mutation_desc( examine_id.value() ), WIDTH - 2 );
+            const int winh = catacurses::getmaxy( w_description );
+            const bool do_scroll = desc.size() > static_cast<unsigned>( std::abs( winh ) );
+            const int fline = do_scroll ? examine_pos % ( desc.size() + 1 - winh ) : 0;
+            const int lline = do_scroll ? fline + winh : desc.size();
+            for( int i = fline; i < lline; i++ ) {
+                trim_and_print( w_description, point( 0, i - fline ), WIDTH - 2, c_light_blue, desc[i] );
+            }
+            draw_scrollbar( wBio, fline, winh, desc.size(), point( 0, catacurses::getmaxy( wBio ) - winh - 1 ),
+                            c_white, true );
+        }
+        wnoutrefresh( wBio );
+        show_mutations_titlebar( w_title, menu_mode, ctxt );
+        if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
             wnoutrefresh( w_description );
         }
     } );
@@ -400,7 +415,7 @@ void avatar::power_mutations()
                         }
 
                         menu_mode = mutation_menu_mode::activating;
-                        examine_id = cata::nullopt;
+                        examine_id = std::nullopt;
                         // TODO: show a message like when reassigning a key to an item?
                         break;
                     }
@@ -473,6 +488,7 @@ void avatar::power_mutations()
                 if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
                     scroll_position = std::max( cursor - half_list_view_location, 0 );
                 }
+                examine_pos = 0;
 
                 // Draw the description, shabby workaround
                 examine_id = GetTrait( active, passive, cursor, tab_mode );
@@ -501,8 +517,12 @@ void avatar::power_mutations()
                         std::max( std::min<int>( lim + 1 - list_height,
                                                  cursor - half_list_view_location ), 0 );
                 }
+                examine_pos = 0;
 
                 examine_id = GetTrait( active, passive, cursor, tab_mode );
+            } else if( ( action == "SCROLL_TRAIT_INFO_UP" || action == "SCROLL_TRAIT_INFO_DOWN" ) &&
+                       menu_mode == mutation_menu_mode::examining ) {
+                examine_pos += action == "SCROLL_TRAIT_INFO_UP" ? -1 : 1;
             } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                 if( tab_mode == mutation_tab_mode::active && !passive.empty() ) {
                     tab_mode = mutation_tab_mode::passive;
@@ -512,6 +532,7 @@ void avatar::power_mutations()
                     continue;
                 }
                 scroll_position = 0;
+                examine_pos = 0;
                 cursor = 0;
                 examine_id = GetTrait( active, passive, cursor, tab_mode );
             } else if( action == "CONFIRM" ) {
@@ -567,7 +588,7 @@ void avatar::power_mutations()
                             }
 
                             menu_mode = mutation_menu_mode::activating;
-                            examine_id = cata::nullopt;
+                            examine_id = std::nullopt;
                             // TODO: show a message like when reassigning a key to an item?
                             break;
                         }
@@ -610,15 +631,20 @@ void avatar::power_mutations()
                 }
             } else if( action == "REASSIGN" ) {
                 menu_mode = mutation_menu_mode::reassigning;
-                examine_id = cata::nullopt;
+                examine_id = std::nullopt;
             } else if( action == "TOGGLE_EXAMINE" ) {
                 // switches between activation and examination
                 menu_mode = menu_mode == mutation_menu_mode::activating ?
                             mutation_menu_mode::examining : mutation_menu_mode::activating;
-                examine_id = cata::nullopt;
+                if( menu_mode == mutation_menu_mode::examining ) {
+                    examine_id = GetTrait( active, passive, cursor, tab_mode );
+                } else {
+                    examine_id = std::nullopt;
+                }
+                examine_pos = 0;
             } else if( action == "TOGGLE_SPRITE" ) {
                 menu_mode = mutation_menu_mode::hiding;
-                examine_id = cata::nullopt;
+                examine_id = std::nullopt;
             } else if( action == "QUIT" ) {
                 exit = true;
             }

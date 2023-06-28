@@ -8,6 +8,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <string>
 #include <unordered_set>
@@ -27,7 +28,6 @@
 #include "map_memory.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "translations.h"
@@ -43,7 +43,7 @@
  * The main entry point is do_autodrive(), which is intended to be called from the do_turn() of
  * a long-running activity. This will cause the driver character to perform one or more driving
  * actions (as long as they have enough moves), which could be steering and/or changing the
- * cruise control speed. The driver may also do nothing if the vehicle is going in the right
+ * desired speed. The driver may also do nothing if the vehicle is going in the right
  * direction.
  *
  * Most of the logic is inside the private implementation class autodrive_controller, which is
@@ -178,7 +178,6 @@ struct navigation_step {
     orientation steering_dir;
     int target_speed_tps;
 };
-
 
 /**
  * The address of a navigation node, i.e. a position and orientation on the nav map.
@@ -334,7 +333,7 @@ class vehicle::autodrive_controller
             return data;
         }
         void check_safe_speed();
-        cata::optional<navigation_step> compute_next_step();
+        std::optional<navigation_step> compute_next_step();
         collision_check_result check_collision_zone( orientation turn_dir );
         void reduce_speed();
 
@@ -354,9 +353,8 @@ class vehicle::autodrive_controller
         void compute_next_nodes( const node_address &addr, const navigation_node &node,
                                  int target_speed_tps,
                                  std::vector<std::pair<node_address, navigation_node>> &next_nodes ) const;
-        cata::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
+        std::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
 };
-
 
 static const std::array<orientation, NUM_ORIENTATIONS> &all_orientations()
 {
@@ -634,7 +632,6 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     return ret;
 }
 
-
 // Return true if the map tile at the given position (in map coordinates)
 // can be driven on (not an obstacle).
 // The logic should match what is in vehicle::part_collision().
@@ -810,7 +807,7 @@ void vehicle::autodrive_controller::precompute_data()
         // initialize car and driver properties
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
-        data.air_ok = driven_veh.is_flyable();
+        data.air_ok = driven_veh.has_sufficient_rotorlift();
         data.max_speed_tps = std::min( MAX_SPEED_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {
@@ -881,7 +878,6 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     return ret;
 }
 
-
 void vehicle::autodrive_controller::compute_next_nodes( const node_address &addr,
         const navigation_node &node, int target_speed_tps,
         std::vector<std::pair<node_address, navigation_node>> &next_nodes )
@@ -944,11 +940,11 @@ const
     }
 }
 
-cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compute_path(
+std::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compute_path(
             int speed_tps ) const
 {
     if( speed_tps == 0 || speed_tps < -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     // TODO: tweak this
     constexpr int max_search_count = 10000;
@@ -962,12 +958,10 @@ cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::comp
                                    veh_pos.raw().xy(), to_orientation( driven_veh.face.dir() ) );
     known_nodes.emplace( start, make_start_node( start, driven_veh ) );
     open_set.push( scored_address{ start, 0 } );
-    int search_count = 0;
     std::vector<std::pair<node_address, navigation_node>> next_nodes;
     while( !open_set.empty() ) {
         const node_address cur_addr = open_set.top().addr;
         open_set.pop();
-        search_count++;
         const navigation_node &cur_node = known_nodes[cur_addr];
         if( cur_node.is_goal ) {
             node_address addr = cur_addr;
@@ -1006,7 +1000,7 @@ cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::comp
             }
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 vehicle::autodrive_controller::autodrive_controller( const vehicle &driven_veh,
@@ -1092,7 +1086,7 @@ void vehicle::autodrive_controller::reduce_speed()
     data.max_speed_tps = MIN_SPEED_TPS;
 }
 
-cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
+std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
 {
     precompute_data();
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
@@ -1131,13 +1125,12 @@ cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step
             new_path = compute_path( data.max_speed_tps );
         }
         if( !new_path ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
         data.path.swap( *new_path );
     }
     return data.path.back();
 }
-
 
 std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data() const
 {
@@ -1251,7 +1244,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         return autodrive_result::abort;
     }
     active_autodrive_controller->check_safe_speed();
-    cata::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
+    std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
     if( !next_step ) {
         // message handles pathfinding failure either due to obstacles or inability to see
         driver.add_msg_if_player( _( "Can't see a path forward." ) );
@@ -1267,7 +1260,6 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         stop_autodriving( false );
         return autodrive_result::finished;
     }
-    cruise_on = true;
     cruise_velocity = next_step->target_speed_tps * VMIPH_PER_TPS;
 
     // check for collisions before we steer, since steering may end our turn
@@ -1315,7 +1307,6 @@ void vehicle::stop_autodriving( bool apply_brakes )
     }
     if( apply_brakes ) {
         cruise_velocity = 0;
-        cruise_on = true;
     }
     is_autodriving = false;
     is_patrolling = false;

@@ -185,7 +185,6 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
                                    overlay );
             }
 
-
         }
     }
 }
@@ -782,7 +781,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     cityjo.read( "park_radius", region.city_spec.park_radius );
     cityjo.read( "park_sigma", region.city_spec.park_sigma );
 
-    const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {
+    const auto load_building_types = [&cityjo]( const std::string_view type, building_bin & dest ) {
         for( const JsonMember member : cityjo.get_object( type ) ) {
             if( member.is_comment() ) {
                 continue;
@@ -1109,6 +1108,9 @@ void regional_settings::finalize()
         overmap_lake.finalize();
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
+        for( std::pair<const std::string, regional_settings> &p : region_settings_map ) {
+            p.second.weather.sort_weather();
+        }
     }
 }
 

@@ -171,6 +171,7 @@ void Character::check_and_recover_morale()
     test_morale.on_stat_change( "pain", get_pain() );
     test_morale.on_stat_change( "pkill", get_painkiller() );
     test_morale.on_stat_change( "perceived_pain", get_perceived_pain() );
+    test_morale.on_stat_change( "radiation", get_rad() );
 
     apply_persistent_morale();
 

@@ -1,0 +1,39 @@
+[
+  {
+    "type": "snippet",
+    "category": "XE_NIGHT_MESSAGES_1",
+    "text": [
+      "The clopping of hooves pass you by with a swift breeze, yet you did not see anything except for local flora brushed by the wind.",
+      "As you are walking you suddenly hear a woman singing mournfully.  As you look around trying to see where the sound is coming from you slowly realize that if you take more than a step and a half in any direction the song fades away.  Eventually you are unable to find it again.",
+      "Winged shadows cross the ground, but when you look into the sky you can't seem to see any movement or shapes at all.",
+      "There is a bright red star with a dark heart that looks like a pupil, staring down on you from the sky above.  Is that star in the sky every night?  Is it coming closer to the planet?",
+      "A helicopter passes by overhead.  All it's running lights have been blacked out and you suspect the rotors have been muffled.  If it hadn't passed right over you, you'd have never known it was there.",
+      "Something roars in the night, similar sounding to one of the Kaiju you heard destroying a nearby town during the Cataclysm.",
+      "The night suddenly goes dead silent."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_DAY_MESSAGES_1",
+    "text": [
+      "You realize that all of your empty pockets have been turned inside out.  How long ago this happened you can't say.",
+      "You hear a tinkling sound on the wind.",
+      "A horn plays somewhere far in the distance; deep, mournful, and low.",
+      "Suddenly you smell rotten wood and tobacco.",
+      "You hear a distant explosion.  You can't tell if it came from one of the tendrils of smoke at the edge of your vision or if it's new.",
+      "A single shot fires in the distance then silence.",
+      "The birds are no longer singing here.  It's quiet, scary quiet.",
+      "A rare plane leaves contrails high in the sky.  You wonder where it could be coming from and where it could possibly be going."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_SCRAGGY-BOO_MESSAGES_1",
+    "text": [
+      "<color_light_blue>You see a Russian sheepdog off at the edge of your vision.  It walks past some scenery and vanishes.</color>",
+      "<color_light_blue>You hear a deep guttural howl, faintly across the way.</color>",
+      "<color_light_green>In your mind you hear a voice, as if a big dog were speaking English.  'It's dangerous here, this whole world is dangerous now'.</color>",
+      "<color_light_green>Scraggy-boo speaks in your mind.  'The real mystery is how to survive this place'.</color>"
+    ]
+  }
+]

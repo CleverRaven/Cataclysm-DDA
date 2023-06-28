@@ -66,8 +66,7 @@ class profession
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         // does this profession require a specific achiement to unlock
-        cata::optional<achievement_id> _requirement;
-
+        std::optional<achievement_id> _requirement;
 
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
@@ -86,7 +85,7 @@ class profession
 
         void check_item_definitions( const itypedecvec &items ) const;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
@@ -121,7 +120,7 @@ class profession
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
 
-        cata::optional<achievement_id> get_requirement() const;
+        std::optional<achievement_id> get_requirement() const;
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;

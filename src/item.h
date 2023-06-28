@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <type_traits>
 #include <utility>
@@ -21,11 +22,11 @@
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
+#include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "material.h"
-#include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
 #include "type_id.h"
@@ -64,6 +65,7 @@ struct tripoint;
 template<typename T>
 class ret_val;
 template <typename T> struct enum_traits;
+class vehicle;
 
 namespace enchant_vals
 {
@@ -83,8 +85,8 @@ class map;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
+enum class link_state : int;
 
-enum class damage_type : int;
 enum clothing_mod_type : int;
 
 struct light_emission {
@@ -205,7 +207,7 @@ class item : public visitable
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections );
 
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
@@ -278,18 +280,15 @@ class item : public visitable
         item &ammo_unset();
 
         /**
-         * Filter setting damage constrained by @ref min_damage and @ref max_damage
-         * @note this method does not invoke the @ref on_damage callback
-         * @return same instance to allow method chaining
-         */
-        item &set_damage( int qty );
+        * Sets item damage constrained by [@ref degradation and @ref max_damage]
+        */
+        void set_damage( int qty );
 
         /**
-         * Filter setting degradation constrained by 0 and @ref max_damage
-         * @note this method also sets the damage to qty if damage is less than qty
-         * @return same instance to allow method chaining
-         */
-        item &set_degradation( int qty );
+        * Sets item's degradation constrained by [0 and @ref max_damage]
+        * If item damage is lower it is raised up to @ref degradation
+        */
+        void set_degradation( int qty );
 
         /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
@@ -358,6 +357,11 @@ class item : public visitable
         bool is_maybe_melee_weapon() const;
 
         /**
+         * Returns whether this weapon does any damage type suitable for diamond coating.
+         */
+        bool has_edged_damage() const;
+
+        /**
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
         std::string dirt_symbol() const;
@@ -388,9 +392,10 @@ class item : public visitable
          * of this item (if with_contents = false and item is not empty, "n items" will be added)
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
-                           unsigned int truncate = 0, bool with_contents = true ) const;
+                           unsigned int truncate = 0, bool with_contents_full = true,
+                           bool with_collapsed = true, bool with_contents_abbrev = true ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
-                                   const cata::optional<unsigned int> &selected = cata::nullopt ) const;
+                                   const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
@@ -486,6 +491,8 @@ class item : public visitable
                            bool debug ) const;
         void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                              bool debug ) const;
+        void enchantment_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                               bool debug ) const;
         void repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
         void disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -580,7 +587,7 @@ class item : public visitable
          * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        int price_no_contents( bool practical, cata::optional<int> price_override = cata::nullopt ) const;
+        int price_no_contents( bool practical, std::optional<int> price_override = std::nullopt ) const;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.
@@ -591,7 +598,7 @@ class item : public visitable
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
-                          bool combine_liquid = false ) const;
+                          bool combine_liquid = false, int depth = 0, int maxdepth = 2 ) const;
 
         /**
          * Whether the two items have same contents.
@@ -637,8 +644,7 @@ class item : public visitable
                               int charges_in_vol = -1 ) const;
 
         units::length length() const;
-
-        units::length integral_length() const;
+        units::length barrel_length() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -674,7 +680,7 @@ class item : public visitable
         int attack_time( const Character &you ) const;
 
         /** Damage of given type caused when this item is used as melee weapon */
-        int damage_melee( damage_type dt ) const;
+        int damage_melee( const damage_type_id &dt ) const;
 
         /** All damage types this item deals when used in melee (no skill modifiers etc. applied). */
         damage_instance base_damage_melee() const;
@@ -704,7 +710,7 @@ class item : public visitable
         bool is_two_handed( const Character &guy ) const;
 
         /** Is this item an effective melee weapon for the given damage type? */
-        bool is_melee( damage_type dt ) const;
+        bool is_melee( const damage_type_id &dt ) const;
 
         /**
          *  Is this item an effective melee weapon for any damage type?
@@ -809,7 +815,8 @@ class item : public visitable
         std::vector<item_pocket *> get_all_contained_pockets();
         std::vector<const item_pocket *> get_all_standard_pockets() const;
         std::vector<item_pocket *> get_all_standard_pockets();
-
+        std::vector<item_pocket *> get_all_ablative_pockets();
+        std::vector<const item_pocket *> get_all_ablative_pockets() const;
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -880,6 +887,9 @@ class item : public visitable
         units::volume get_total_holster_volume() const;
         units::volume get_used_holster_volume() const;
 
+        units::mass get_total_holster_weight() const;
+        units::mass get_used_holster_weight() const;
+
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
@@ -914,10 +924,13 @@ class item : public visitable
         /**
          * Returns this item into its default container. If it does not have a default container,
          * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
+         * qty <= 0 means the current quantity of the item will be used. Any quantity exceeding the capacity
+         * of the container will be ignored.
          */
-        item in_its_container( int qty = INFINITE_CHARGES ) const;
-        item in_container( const itype_id &container_type, int qty = INFINITE_CHARGES,
-                           bool sealed = true ) const;
+        item in_its_container( int qty = 0 ) const;
+        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true ) const;
+        void add_automatic_whitelist();
+        void clear_automatic_whitelist();
 
         /**
         * True if item and its contents have any uses.
@@ -930,12 +943,27 @@ class item : public visitable
          * Funnel related functions. See weather.cpp for their usage.
          */
         bool is_funnel_container( units::volume &bigger_than ) const;
-        void add_rain_to_container( bool acid, int charges = 1 );
+        void add_rain_to_container( int charges = 1 );
         /*@}*/
+
+        /**
+         * Returns true if this item itself is of at least quality level
+         * This version is non-recursive and does not check the item contents.
+         */
+        bool has_quality_nonrecursive( const quality_id &qual, int level = 1 ) const;
 
         /**
          * Return the level of a given quality the tool may have, or INT_MIN if it
          * does not have that quality, or lacks enough charges to have that quality.
+         * This version is non-recursive and does not check the item contents.
+         * @param strict_boiling True if containers must be empty to have BOIL quality
+         */
+        int get_quality_nonrecursive( const quality_id &id, bool strict_boiling = true ) const;
+
+        /**
+         * Return the level of a given quality the tool may have, or INT_MIN if it
+         * does not have that quality, or lacks enough charges to have that quality.
+         * This version is recursive and will check the item contents as well.
          * @param strict_boiling True if containers must be empty to have BOIL quality
          */
         int get_quality( const quality_id &id, bool strict_boiling = true ) const;
@@ -960,11 +988,10 @@ class item : public visitable
          */
         void mod_charges( int mod );
 
-
         /**
          * Returns rate of rot (rot/h) at the given temperature
          */
-        float calc_hourly_rotpoints_at_temp( units::temperature temp ) const;
+        float calc_hourly_rotpoints_at_temp( const units::temperature &temp ) const;
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -1005,7 +1032,7 @@ class item : public visitable
         void set_item_temperature( units::temperature new_temperature );
 
         /** Sets the item to new temperature and energy based new specific energy (J/g) and resets last_temp_check*/
-        void set_item_specific_energy( units::specific_energy specific_energy );
+        void set_item_specific_energy( const units::specific_energy &specific_energy );
 
         /**
          * Get the thermal energy of the item in Joules.
@@ -1030,6 +1057,12 @@ class item : public visitable
         void set_relative_rot( double val );
 
         void set_rot( time_duration val );
+
+        /**
+         * Set item @ref rot to a random value. If the item is a container
+         * (such as MRE) - processes its contents recursively.
+         */
+        void randomize_rot();
 
         /**
          * Get minimum time for this item or any of its contents to rot, ignoring
@@ -1136,10 +1169,6 @@ class item : public visitable
         std::vector<const part_material *> armor_made_of( const bodypart_id &bp ) const;
         std::vector<const part_material *> armor_made_of( const sub_bodypart_id &bp ) const;
         /**
-        * The ids of all the qualities this contains.
-        */
-        const std::map<quality_id, int> &quality_of() const;
-        /**
          * Same as @ref made_of(), but returns the @ref material_type directly.
          */
         std::vector<const material_type *> made_of_types() const;
@@ -1186,62 +1215,63 @@ class item : public visitable
          * @param threshold Item is flammable if it provides more fuel than threshold.
          */
         bool flammable( int threshold = 0 ) const;
+
         /**
-        * Whether the item can be repaired beyond normal health.
+        * Helper function to retrieve any applicable resistance bonuses from item mods.
+        * @param dmg_type Damage type
+        * @return Amount of additional modded resistance
         */
-        bool reinforceable() const;
-        /*@}*/
+        float get_clothing_mod_val_for_damage_type( const damage_type_id &dmg_type ) const;
+
+        /**
+        * Helper function to check whether a damage_type can damage items for forward-declared
+        * damage_type.
+        */
+        bool damage_type_can_damage_items( const damage_type_id &dmg_type ) const;
+
+
 
         /**
          * Resistance against different damage types (@ref damage_type).
          * Larger values means more resistance are thereby better, but there is no absolute value to
          * compare them to. The values can be interpreted as chance (@ref one_in) of damaging the item
          * when exposed to the type of damage.
+         * @param dmg_type The type of incoming damage
          * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
+         * @param bodypart_target The bodypart_id or sub_bodypart_id of the target bodypart.
+         * @param resist_value A supplied roll against coverage for physical attacks. A value of -1 causes rolls
+         *                     against each item material individually. For environmental type damage such as
+         *                     fire and acid, this value can be used to allow hypothetical calculations for
+         *                     environmental protection items such as gas masks.
+         */
+        /*@{*/
+
+        template<typename bodypart_target = bodypart_id>
+        float resist( const damage_type_id &dmg_type, bool to_self = false,
+                      const bodypart_target &bp = bodypart_target(),
+                      int resist_value = 0 ) const;
+
+    private:
+        float _resist( const damage_type_id &dmg_type, bool to_self = false, int resist_value = 0,
+                       bool bp_null = true,
+                       const std::vector<const part_material *> &armor_mats = {},
+                       float avg_thickness = 1.0f ) const;
+        /**
+         * Handles the special rules regarding environmental type damage such as fire and acid.
+         * Currently does not damage items as damage to items from fire is handled elsewhere, and
+         * acid is currently not intended to cause item damage.
+         * @param dmg_type The type of incoming damage
+         * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
+         * @param bodypart_target The bodypart_id or sub_bodypart_id of the target bodypart.
          * @param base_env_resist Will override the base environmental
          * resistance (to allow hypothetical calculations for gas masks).
          */
-        /*@{*/
-        float acid_resist( bool to_self = false, int base_env_resist = 0,
-                           const bodypart_id &bp = bodypart_id() ) const;
-        float fire_resist( bool to_self = false, int base_env_resist = 0,
-                           const bodypart_id &bp = bodypart_id() ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bash_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float cut_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                          int roll = 0 )  const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float stab_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                             int roll = 0 ) const;
-        float biological_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                                 int roll = 0 ) const;
-        float electric_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                               int roll = 0 ) const;
-        float cold_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
+        float _environmental_resist( const damage_type_id &dmg_type, bool to_self = false,
+                                     int base_env_resist = 0,
+                                     bool bp_null = true,
+                                     const std::vector<const part_material *> &armor_mats = {} ) const;
         /*@}*/
-
-        // same as above but specific to the sublocation
-        float acid_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
-        float fire_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bash_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float cut_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 )  const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
-                                 int roll = 0 ) const;
-        float electric_resist( const sub_bodypart_id &bp, bool to_self = false,
-                               int roll = 0 ) const;
-        float cold_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+    public:
 
         /**
          * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
@@ -1261,15 +1291,6 @@ class item : public visitable
          */
         void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
         void mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll = 0 ) const;
-        /**
-         * Resistance provided by this item against damage type given by an enum.
-         */
-        float damage_resist( damage_type dt, bool to_self = false,
-                             const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
-        float damage_resist( damage_type dt, bool to_self,
-                             const sub_bodypart_id &bp, int roll = 0 ) const;
-
-
 
         /**
          * Returns resistance to being damaged by attack against the item itself.
@@ -1284,73 +1305,43 @@ class item : public visitable
         /** How much degradation has the item accumulated? */
         int degradation() const;
 
-        /** Used when spawning the item. Sets a random degradation within [0, damage]. */
+        // Sets a random degradation within [0, damage), used when spawning the item
         void rand_degradation();
 
-        /**
-         * Scale item damage to the given number of levels. This function is
-         * here mostly for back-compatibility. It should not be used when
-         * doing continuous math with the damage value: use damage() instead.
-         *
-         * For example, for min_damage = -1000, max_damage = 4000
-         *   damage       level
-         *   -1000 ~   -1    -1
-         *              0     0
-         *       1 ~ 1333     1
-         *    1334 ~ 2666     2
-         *    2667 ~ 3999     3
-         *           4000     4
-         *
-         * @param dmg If specified, get the damage level of "dmg" instead of
-         * this item's current damage.
-         */
-        int damage_level( int dmg = INT_MIN ) const;
+        // @see itype::damage_level()
+        int damage_level() const;
 
-        /**
-        * Returns a scaling value for armor values based on damage taken
-        */
-        float damage_scaling( bool to_self = false ) const;
+        // modifies melee weapon damage to account for item's damage
+        float damage_adjusted_melee_weapon_damage( float value ) const;
+        // modifies gun damage to account for item's damage
+        float damage_adjusted_gun_damage( float value ) const;
+        // modifies armor resist to account for item's damage
+        float damage_adjusted_armor_resist( float value ) const;
 
-        /**
-         * Get the minimum possible damage this item can be repaired to,
-         * accounting for degradation.
-         * @param allow_negative If true, get the damage floor for reinforcement
-         */
-        int damage_floor( bool allow_negative ) const;
-
-        /** Minimum amount of damage to an item (state of maximum repair) */
-        int min_damage() const;
-
-        /** Maximum amount of damage to an item (state before destroyed) */
+        // @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ )
         int max_damage() const;
 
-        /** Number of degradation increments before the item is destroyed */
-        int degrade_increments() const;
-
         /**
-         * Relative item health.
-         * Returns 1 for undamaged ||items, values in the range (0, 1) for damaged items
-         * and values above 1 for reinforced ++items.
-         */
+        * Returns how many damage levels can be repaired on this item
+        * Example: item with  100 damage returns 1 (  100 -> 0 )
+        * Example: item with 2100 damage returns 3 ( 2100 -> 1100 -> 100 -> 0 )
+        */
+        int repairable_levels() const;
+
+        // @return 1 for undamaged items or remaining hp divided by max hp in range [0, 1)
         float get_relative_health() const;
 
         /**
          * Apply damage to const itemrained by @ref min_damage and @ref max_damage
          * @param qty maximum amount by which to adjust damage (negative permissible)
-         * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
          */
-        bool mod_damage( int qty, damage_type dt );
-        /// same as other mod_damage, but uses @ref damage_type::NONE as damage type.
         bool mod_damage( int qty );
 
         /**
-         * Increment item damage by @ref itype::damage_scale constrained by @ref max_damage
-         * @param dt type of damage which may be passed to @ref on_damage callback
+         * Same as mod_damage( itype::damage_scale ), advances item to next damage level
          * @return whether item should be destroyed
          */
-        bool inc_damage( damage_type dt );
-        /// same as other inc_damage, but uses @ref damage_type::NONE as damage type.
         bool inc_damage();
 
         enum class armor_status {
@@ -1374,12 +1365,8 @@ class item : public visitable
          */
         armor_status damage_armor_transforms( damage_unit &du ) const;
 
-
-        /** Provide color for UI display dependent upon current item damage level */
-        nc_color damage_color() const;
-
-        /** Provide prefix symbol for UI display dependent upon current item damage level */
-        std::string damage_symbol() const;
+        // @return colorize()-ed damage indicator as string, e.g. "<color_green>++</color>"
+        std::string damage_indicator() const;
 
         /**
          * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
@@ -1422,19 +1409,71 @@ class item : public visitable
          * Returns false if the item is not destroyed.
          */
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
-                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
+                      bool recursive = true );
 
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
+        struct link_data {
+            /// State of the link's source, the end usually represented by the cable item. @ref link_state.
+            link_state s_state = link_state::no_link;
+            /// State of the link's target, the end represented by t_abs_pos, @ref link_state.
+            link_state t_state = link_state::no_link;
+            /// The last turn process_cable was called on this cable. Used for time the cable spends outside the bubble.
+            time_point last_processed = calendar::turn;
+            /// Absolute position of the linked target vehicle/appliance.
+            tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
+            /// Reality bubble position of the link's source cable item.
+            tripoint s_bub_pos = tripoint_min; // NOLINT(cata-serialize)
+            /// A safe reference to the link's target vehicle. Will recreate itself whenever the vehicle enters the bubble.
+            safe_reference<vehicle> t_veh_safe; // NOLINT(cata-serialize)
+            /// The linked part's mount offset on the target vehicle.
+            point t_mount = point_zero;
+            /// The maximum length of the cable. Set during initialization.
+            int max_length = 2;
+            /// The cable's charge rate in watts. Set during initialization.
+            int charge_rate = 0;
+            /// The turn interval between charges. Set during initialization.
+            int charge_interval = -1;
+            /// one_in(this) chance to fail adding 1 charge. Set during initialization.
+            int charge_efficiency = 7;
+
+            bool has_state( link_state state ) const {
+                return s_state == state || t_state == state;
+            }
+            bool has_states( link_state i_state_, link_state t_state_ ) const {
+                return s_state == i_state_ && t_state == t_state_;
+            }
+            bool has_no_links() const {
+                return s_state == link_state::no_link && t_state == link_state::no_link;
+            }
+
+            void serialize( JsonOut &jsout ) const;
+            void deserialize( const JsonObject &data );
+        };
+        cata::value_ptr<link_data> link;
         /**
-         * Gets the point (vehicle tile) the cable is connected to.
-         * Returns nothing if not connected to anything.
+         * Brings a cable item back to its initial state.
+         * @return True if the cable should be deleted.
          */
-        cata::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
+        bool reset_cable( Character *p = nullptr, item *parent_item = nullptr,
+                          bool loose_message = false, tripoint sees_point = tripoint_zero );
         /**
-         * Helper to bring a cable back to its initial state.
-         */
-        void reset_cable( Character *p );
+        * Resets all of an items cables.
+        */
+        void reset_cables( Character *p );
+
+        /**
+        * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
+        * @brief A positive link.charge_rate will charge the item at the expense of the vehicle,
+        * while a negative link.charge_rate will charge the vehicle at the expense of the item.
+        *
+        * @param linked_item The item that contains the linking cable.
+        * @param linked_veh The vehicle the item is connected to.
+        * @param turns_elapsed The number of turns the link has spent outside the reality bubble. Default 1.
+        * @return The amount of power given or taken to be displayed; ignores turns_elapsed and inefficiency.
+        */
+        int charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed = 1 );
 
         /**
          * Whether the item should be processed (by calling @ref process).
@@ -1444,6 +1483,7 @@ class item : public visitable
          * The rate at which an item should be processed, in number of turns between updates.
          */
         int processing_speed() const;
+        static constexpr int NO_PROCESSING = 10000;
         /**
          * Process and apply artifact effects. This should be called exactly once each turn, it may
          * modify character stats (like speed, strength, ...), so call it after those have been reset.
@@ -1461,6 +1501,7 @@ class item : public visitable
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
         bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
         bool is_medication() const;            // Is it a medication that only pretends to be food?
+        bool is_medical_tool() const;
         bool is_bionic() const;
         bool is_magazine() const;
         bool is_battery() const;
@@ -1482,6 +1523,7 @@ class item : public visitable
         bool is_tool() const;
         bool is_transformable() const;
         bool is_relic() const;
+        bool is_same_relic( item const &rhs ) const;
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
@@ -1490,7 +1532,6 @@ class item : public visitable
         bool is_fuel() const;
         bool is_toolmod() const;
 
-        bool is_faulty() const;
         bool is_irremovable() const;
 
         /** Returns true if the item is broken and can't be activated or used in crafting */
@@ -1498,8 +1539,6 @@ class item : public visitable
 
         /** Returns true if the item is broken or will be broken on activation */
         bool is_broken_on_active() const;
-
-        bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
         bool has_temperature() const;
 
@@ -1550,6 +1589,7 @@ class item : public visitable
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          * @param remaining_parent_volume the ammount of space in the parent pocket,
+         * @param allow_nested whether nested pockets should be checked
          * needed to make sure we dont try to nest items which can't fit in the nested pockets
          */
         /*@{*/
@@ -1557,9 +1597,12 @@ class item : public visitable
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
                                    const item_location &parent_it = item_location(),
-                                   units::volume remaining_parent_volume = 10000000_ml ) const;
+                                   units::volume remaining_parent_volume = 10000000_ml,
+                                   bool allow_nested = true ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
+        ret_val<void> can_contain_directly( const item &it ) const;
+        bool can_contain_partial_directly( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
@@ -1652,7 +1695,7 @@ class item : public visitable
         bool spill_contents( const tripoint &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         // spill items that don't fit in the container
-        void overflow( const tripoint &pos );
+        void overflow( const tripoint &pos, const item_location &loc = item_location::nowhere );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -1693,16 +1736,6 @@ class item : public visitable
          * Callback when contents of the item are affected in any way other than just processing.
          */
         void on_contents_changed();
-
-        /**
-         * Callback immediately **before** an item is damaged
-         * @param qty maximum damage that will be applied (constrained by @ref max_damage)
-         * @param dt type of damage (or damage_type::NONE)
-         */
-        void on_damage( int qty, damage_type dt );
-
-        // Callback invoked after the item's damage is changed or after deserialization
-        void on_damage_changed();
 
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
@@ -1773,6 +1806,18 @@ class item : public visitable
         void clear_vars();
         /*@}*/
 
+        struct extended_photo_def {
+            int quality = 0;
+            std::string name;
+            std::string description;
+
+            void deserialize( const JsonObject &obj );
+            void serialize( JsonOut &jsout ) const;
+        };
+        bool read_extended_photos( std::vector<extended_photo_def> &extended_photos,
+                                   const std::string &var_name, bool insert_at_begin ) const;
+        void write_extended_photos( const std::vector<extended_photo_def> &, const std::string & );
+
         /**
          * @name Item flags
          *
@@ -1784,11 +1829,9 @@ class item : public visitable
          * item itself (@ref item_tags). The item has the flag if it appears in either set.
          *
          * Gun mods that are attached to guns also contribute their flags to the gun item.
-         *
-         * ignore_inherit means the item will skip checking items in pockets flags even if it has inherit
          */
         /*@{*/
-        bool has_flag( const flag_id &flag, bool ignore_inherit = false ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {
@@ -1905,7 +1948,7 @@ class item : public visitable
          */
         bool covers( const sub_bodypart_id &bp ) const;
         // do both items overlap a bodypart at all? returns the side that conflicts via rhs
-        cata::optional<side> covers_overlaps( const item &rhs ) const;
+        std::optional<side> covers_overlaps( const item &rhs ) const;
         /**
          * Bitset of all covered body parts.
          *
@@ -1984,7 +2027,7 @@ class item : public visitable
          */
         int get_warmth() const;
         /** Returns the warmth on the body part of the item on a specific bp. */
-        int get_warmth( bodypart_id bp ) const;
+        int get_warmth( const bodypart_id &bp ) const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
@@ -1995,6 +2038,11 @@ class item : public visitable
          * relative value that affects the items resistance against bash / cutting / bullet damage.
          */
         float get_thickness( const bodypart_id &bp ) const;
+        /**
+        * Returns the average thickness value for the specified sub-bodypart, or 0 for non-armor. Thickness
+        * is a relative value that affects the items resistance against bash / cutting / bullet damage.
+        */
+        float get_thickness( const sub_bodypart_id &bp ) const;
         /**
          * Returns clothing layer for item.
          */
@@ -2014,12 +2062,12 @@ class item : public visitable
          * Returns true if an item has a given layer level on a specific part.
          * matches to any layer within the vector input.
          */
-        bool has_layer( const std::vector<layer_level> &ll, bodypart_id bp ) const;
+        bool has_layer( const std::vector<layer_level> &ll, const bodypart_id &bp ) const;
 
         /**
          * Returns true if an item has a given layer level on a specific subpart.
          */
-        bool has_layer( const std::vector<layer_level> &ll, sub_bodypart_id sbp ) const;
+        bool has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id &sbp ) const;
 
         /**
          * Returns true if an item has any of the given layer levels.
@@ -2029,7 +2077,7 @@ class item : public visitable
         /**
          * Returns highest layer of an item
          */
-        layer_level get_highest_layer( sub_bodypart_id sbp ) const;
+        layer_level get_highest_layer( const sub_bodypart_id &sbp ) const;
 
         enum class cover_type {
             COVER_DEFAULT,
@@ -2037,7 +2085,7 @@ class item : public visitable
             COVER_RANGED,
             COVER_VITALS
         };
-        static cover_type get_cover_type( damage_type type );
+        static cover_type get_cover_type( const damage_type_id &type );
 
         /*
          * Returns the average coverage of each piece of data this item
@@ -2165,17 +2213,19 @@ class item : public visitable
          */
         void mark_chapter_as_read( const Character &u );
         /**
+         * Returns recipes stored on the item (laptops, smartphones, sd cards etc)
+         * Filters out !is_valid() recipes
+         */
+        std::set<recipe_id> get_saved_recipes() const;
+        /**
+        * Sets recipes stored on the item (laptops, smartphones, sd cards etc)
+        */
+        void set_saved_recipes( const std::set<recipe_id> &recipes );
+        /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
         std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
         /*@}*/
-
-        /**
-         * Add a recipe to the EIPC_RECIPES variable.
-         *
-         * @return true if the recipe was added, false if it is a duplicate
-         */
-        bool eipc_recipe_add( const recipe_id &recipe_id );
 
         /**
          * @name Martial art techniques
@@ -2238,15 +2288,26 @@ class item : public visitable
 
         void clear_itype_variant();
 
-        /** Quantity of energy currently loaded in tool or battery */
-        units::energy energy_remaining() const;
-
         /**
-         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
-         * If UPS/bionic power does not matter then the carrier can be nullptr
+         * Quantity of shots in the gun. Looks at both ammo and available energy.
          * @param carrier is used for UPS and bionic power
          */
-        int ammo_remaining( const Character *carrier = nullptr ) const;
+        int shots_remaining( const Character *carrier ) const;
+
+        /**
+         * Energy available from battery/UPS/bionics
+         * @param carrier is used for UPS and bionic power.
+         */
+        units::energy energy_remaining( const Character *carrier = nullptr ) const;
+
+
+        /**
+         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
+         * @param carrier is used for UPS and bionic power for tools
+         * @param cable_links Add cable-linked vehicles' ammo to the ammo count
+         */
+        int ammo_remaining( const Character *carrier = nullptr, bool cable_links = false ) const;
+        int ammo_remaining( bool cable_links ) const;
 
         /**
          * ammo capacity for a specific ammo
@@ -2287,7 +2348,6 @@ class item : public visitable
          * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
         bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
-
         bool ammo_sufficient( const Character *carrier, const std::string &method, int qty = 1 ) const;
 
         /**
@@ -2296,9 +2356,22 @@ class item : public visitable
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
          * @param carrier holder of the item, used for getting UPS and bionic power
+         * @param fuel_efficiency if this is a generator of some kind the efficiency at which it consumes fuel
          * @return amount of ammo consumed which will be between 0 and qty
          */
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
+
+        /**
+         * Consume energy (if available) and return the amount of energy that was consumed
+         * Consume order: battery, UPS, bionic
+         * When consuming energy from batteries the consumption will round up by adding 1 kJ. More energy may be consumed than required.
+         * @param qty amount of energy that should be consumed
+         * @param pos current location of item, used for ejecting magazines and similar effects
+         * @param carrier holder of the item, used for getting UPS and bionic power
+         * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
+         */
+        units::energy energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
+                                      float fuel_efficiency = -1.0 );
 
         /**
          * Consume ammo to activate item qty times (if available) and return the amount of ammo that was consumed
@@ -2329,6 +2402,8 @@ class item : public visitable
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;
+        // format a string with all the ammo that this mag can use
+        std::string print_ammo( ammotype at, const item *gun = nullptr ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
          * @param conversion whether to include the effect of any flags or mods which convert the type
@@ -2411,7 +2486,6 @@ class item : public visitable
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
 
-
         /** Get lowest actual and effective dispersion of either integral or any attached sights for specific character */
         std::pair<int, int> sight_dispersion( const Character &character ) const;
 
@@ -2456,6 +2530,7 @@ class item : public visitable
          * Returns empty instance on non-gun items.
          */
         damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
+        damage_instance gun_damage( itype_id ammo ) const;
         /**
          * The minimum force required to cycle the gun, can be overridden by mods
          */
@@ -2586,7 +2661,15 @@ class item : public visitable
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
+
+        /**
+         * Get gun energy drain. Includes modifiers from gunmods.
+         * @return energy drained per shot
+         */
+        units::energy get_gun_energy_drain() const;
         units::energy get_gun_ups_drain() const;
+        units::energy get_gun_bionic_drain() const;
+
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;
@@ -2660,7 +2743,7 @@ class item : public visitable
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const std::list<item> &parents, const recipe &making );
+        void inherit_flags( const item_components &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2709,6 +2792,7 @@ class item : public visitable
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
 
         item const *this_or_single_content() const;
+        bool contents_only_one_type() const;
 
         /**
          * returns a list of pointers to all items inside recursively
@@ -2723,6 +2807,9 @@ class item : public visitable
         /** returns a list of pointers to all visible or remembered top-level items */
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
+
+        std::list<item *> all_ablative_armor();
+        std::list<const item *> all_ablative_armor() const;
 
         void clear_items();
         bool empty() const;
@@ -2778,10 +2865,11 @@ class item : public visitable
          * @param insulation Amount of insulation item has
          * @param time_delta time duration from previous temperature calculation
          */
-        void calc_temp( units::temperature temp, float insulation, const time_duration &time_delta );
+        void calc_temp( const units::temperature &temp, float insulation, const time_duration &time_delta );
 
         /** Calculates item specific energy (J/g) from temperature*/
-        units::specific_energy get_specific_energy_from_temperature( units::temperature new_temperature )
+        units::specific_energy get_specific_energy_from_temperature( const units::temperature
+                &new_temperature )
         const;
 
         /** Update flags associated with temperature */
@@ -2792,6 +2880,8 @@ class item : public visitable
 
         /** Returns true if protection info was printed as well */
         bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
+
+        void update_inherited_flags();
 
     public:
         enum class sizing : int {
@@ -2820,8 +2910,9 @@ class item : public visitable
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( map &here, Character *carrier, const tripoint &pos );
         bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
-        bool process_cable( map &here, Character *carrier, const tripoint &pos );
-        bool process_UPS( Character *carrier, const tripoint &pos );
+        bool process_cable( map &here, Character *carrier, const tripoint &pos,
+                            item *parent_item = nullptr );
+        bool process_linked_item( Character *carrier, const tripoint &pos, link_state required_state );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
 
@@ -2829,7 +2920,7 @@ class item : public visitable
         static const int INFINITE_CHARGES;
 
         const itype *type;
-        std::list<item> components;
+        item_components components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 
@@ -2840,6 +2931,7 @@ class item : public visitable
          */
         bool requires_tags_processing = true;
         FlagsSetType item_tags; // generic item specific flags
+        FlagsSetType inherited_tags_cache;
         safe_reference_anchor anchor;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
@@ -2871,8 +2963,8 @@ class item : public visitable
                 bool tools_to_continue = false;
                 int batch_size = -1;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
-                cata::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
-                cata::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
+                std::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
+                std::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
 
                 // if this is an in progress disassembly as opposed to craft
                 bool disassembly = false;
@@ -2881,10 +2973,9 @@ class item : public visitable
         };
 
         cata::value_ptr<craft_data> craft_data_;
-
+    public:
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
-    public:
         int charges = 0;
         units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 
@@ -2895,6 +2986,10 @@ class item : public visitable
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
+
+        // Time point at which countdown_action is triggered
+        time_point countdown_point = calendar::turn_max;
+
         units::specific_energy specific_energy = units::from_joule_per_gram(
                     -10 ); // Specific energy J/g. Negative value for unprocessed.
         units::temperature temperature = units::from_kelvin( 0 );       // Temperature of the item .
@@ -2902,6 +2997,9 @@ class item : public visitable
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
         int wetness = 0;           // Turns until this item is completely dry.
+
+        // This contains a cable with an active link. Is NOT true for linked cable items themselves.
+        bool contents_linked = false;
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 
@@ -2946,7 +3044,7 @@ class item : public visitable
         int damage_ = 0;
         int degradation_ = 0;
         light_emission light = nolight;
-        mutable cata::optional<float> cached_relative_encumbrance;
+        mutable std::optional<float> cached_relative_encumbrance;
 
         // additional encumbrance this specific item has
         units::volume additional_encumbrance = 0_ml;
@@ -2961,6 +3059,14 @@ class item : public visitable
         float get_clothing_mod_val( clothing_mod_type type ) const;
         void update_clothing_mod_val();
 };
+
+extern template float item::resist<bodypart_id>( const damage_type_id &dmg_type, bool to_self,
+        const bodypart_id &bp,
+        int resist_value ) const;
+extern template float item::resist<sub_bodypart_id>( const damage_type_id &dmg_type,
+        bool to_self,
+        const sub_bodypart_id &bp,
+        int resist_value ) const;
 
 template<>
 struct enum_traits<item::encumber_flags> {
@@ -2984,7 +3090,7 @@ enum class hint_rating {
 };
 
 // Weight per level of LIFT/JACK tool quality
-static constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram;
+constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram;
 
 inline units::mass lifting_quality_to_mass( int quality_level )
 {

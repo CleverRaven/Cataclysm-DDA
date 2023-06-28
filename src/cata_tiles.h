@@ -134,7 +134,7 @@ class tileset
     private:
         struct season_tile_value {
             tile_type *default_tile = nullptr;
-            cata::optional<tile_lookup_res> season_tile = cata::nullopt;
+            std::optional<tile_lookup_res> season_tile = std::nullopt;
         };
 
         std::string tileset_id;
@@ -142,9 +142,10 @@ class tileset
         bool tile_isometric = false;
         int tile_width = 0;
         int tile_height = 0;
+        int zlevel_height = 0;
 
-        float retract_dist_min = 0.0;
-        float retract_dist_max = 0.0;
+        float prevent_occlusion_min_dist = 0.0;
+        float prevent_occlusion_max_dist = 0.0;
 
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale = 1.0f;
@@ -162,7 +163,6 @@ class tileset
         // either variant can be either a `nullptr` or a pointer/reference to the real value (stored inside `tile_ids`)
         std::array<std::unordered_map<std::string, season_tile_value>, season_type::NUM_SEASONS>
         tile_ids_by_season;
-
 
         static const texture *get_if_available( const size_t index,
                                                 const decltype( shadow_tile_values ) &tiles ) {
@@ -187,14 +187,17 @@ class tileset
         int get_tile_height() const {
             return tile_height;
         }
+        int get_zlevel_height() const {
+            return zlevel_height;
+        }
         float get_tile_pixelscale() const {
             return tile_pixelscale;
         }
-        float get_retract_dist_min() const {
-            return retract_dist_min;
+        float get_prevent_occlusion_min_dist() const {
+            return prevent_occlusion_min_dist;
         }
-        float get_retract_dist_max() const {
-            return retract_dist_max;
+        float get_prevent_occlusion_max_dist() const {
+            return prevent_occlusion_max_dist;
         }
         const std::string &get_tileset_id() const {
             return tileset_id;
@@ -228,17 +231,17 @@ class tileset
          * Example: if id == "t_tree_apple" and season == SPRING
          *    will first look up "t_tree_apple_season_spring"
          *    if not found, will look up "t_tree_apple"
-         *    if still nothing is found, will return cata::nullopt
+         *    if still nothing is found, will return std::nullopt
          * @param id : "raw" tile id (without season suffix)
          * @param season : season suffix encoded as season_type enum
-         * @return cata::nullopt if no tile is found,
+         * @return std::nullopt if no tile is found,
          *    cata::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
          *
          * Note: this method is guaranteed to return pointers to the keys and values stored inside the
          * `tileset::tile_ids` collection. I.e. result of this method call is invalidated when
          *  the corresponding `tileset` is invalidated.
          */
-        cata::optional<tile_lookup_res> find_tile_type_by_season( const std::string &id,
+        std::optional<tile_lookup_res> find_tile_type_by_season( const std::string &id,
                 season_type season ) const;
 };
 
@@ -297,7 +300,7 @@ class tileset_cache::loader
         tile_type &load_tile( const JsonObject &entry, const std::string &id );
 
         void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
-                                    const std::string &objname ) const;
+                                    std::string_view objname ) const;
 
         void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
@@ -406,19 +409,21 @@ class cata_tiles
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
 
     protected:
-        /** How many rows and columns of tiles fit into given dimensions **/
-        void get_window_tile_counts( int width, int height, int &columns, int &rows ) const;
+        /** How many rows and columns of tiles fit into given dimensions, fully or partially shown **/
+        point get_window_tile_counts( const point &size ) const;
+        /** How many rows and columns of tiles can be fully shown in the given dimensions **/
+        point get_window_full_tile_counts( const point &size ) const;
 
-        cata::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
+        std::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
-        cata::optional<tile_lookup_res>
+        std::optional<tile_lookup_res>
         find_tile_looks_like( const std::string &id, TILE_CATEGORY category, const std::string &variant,
                               int looks_like_jumps_limit = 10 ) const;
 
         // this templated method is used only from it's own cpp file, so it's ok to declare it here
         template<typename T>
-        cata::optional<tile_lookup_res>
-        find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
+        std::optional<tile_lookup_res>
+        find_tile_looks_like_by_string_id( std::string_view id, TILE_CATEGORY category,
                                            int looks_like_jumps_limit ) const;
 
         bool find_overlay_looks_like( bool male, const std::string &overlay, const std::string &variant,
@@ -447,6 +452,13 @@ class cata_tiles
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
                                   const std::string &variant, const point &offset );
+        bool draw_from_id_string_internal( const std::string &id, const tripoint &pos, int subtile,
+                                           int rota,
+                                           lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d );
+        bool draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
+                                           const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                           lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                           const std::string &variant, const point &offset );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
@@ -482,14 +494,10 @@ class cata_tiles
 
         /** Map memory */
         bool has_memory_at( const tripoint &p ) const;
-        bool has_terrain_memory_at( const tripoint &p ) const;
-        bool has_furniture_memory_at( const tripoint &p ) const;
-        bool has_trap_memory_at( const tripoint &p ) const;
-        bool has_vpart_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_terrain_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_furniture_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_trap_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_vpart_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_terrain_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_furniture_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_trap_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_vpart_memory_at( const tripoint &p ) const;
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
@@ -504,6 +512,8 @@ class cata_tiles
                             const std::array<bool, 5> &invisible );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
                         const std::array<bool, 5> &invisible );
+        bool draw_part_con( const tripoint &p, lit_level ll, int &height_3d,
+                            const std::array<bool, 5> &invisible );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
@@ -522,6 +532,7 @@ class cata_tiles
                              const std::array<bool, 5> &invisible );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
                                              const std::array<bool, 5> &invisible );
+        void draw_zlevel_overlay( const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );
 
@@ -572,6 +583,10 @@ class cata_tiles
         void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
         void draw_zones_frame();
         void void_zones();
+
+        void init_draw_async_anim( const tripoint &p, const std::string &tile_id );
+        void draw_async_anim();
+        void void_async_anim();
 
         void init_draw_radiation_override( const tripoint &p, int rad );
         void void_radiation_override();
@@ -683,12 +698,15 @@ class cata_tiles
 
         int tile_height = 0;
         int tile_width = 0;
+        int zlevel_height = 0;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
         int screentile_width = 0;
         int screentile_height = 0;
         float tile_ratiox = 0.0f;
         float tile_ratioy = 0.0f;
+
+        int fog_alpha = 0;
 
         bool in_animation = false;
 
@@ -702,11 +720,13 @@ class cata_tiles
         bool do_draw_weather = false;
         bool do_draw_sct = false;
         bool do_draw_zones = false;
+        bool do_draw_async_anim = false;
 
         tripoint exp_pos;
         int exp_rad = 0;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
+        std::map<tripoint, std::string> async_anim_layer;
 
         tripoint bul_pos;
         std::string bul_id;

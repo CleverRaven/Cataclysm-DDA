@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "muffler",
     "name": { "str": "muffler" },
-    "description": "A muffler from a car.  Very unwieldy as a weapon.  Useful in a few crafting recipes.",
+    "description": "A muffler from a car.  Useful in a few crafting recipes.",
     "weight": "9525 g",
     "to_hit": -10,
     "color": "light_gray",
@@ -11,28 +11,28 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": "3500 ml",
-    "bashing": 19,
     "category": "veh_parts",
     "price": 3000,
     "price_postapoc": 100,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 19 }
   },
   {
     "type": "GENERIC",
     "id": "beeper",
     "name": { "str": "back-up beeper" },
-    "description": "This is a safety device intended to warn passersby of a vehicle moving in reverse, but the usage of it now seems terribly unwise.",
+    "description": "A safety device intended to warn passersby of a vehicle moving in reverse.  Usage of it now seems terribly unwise.",
     "weight": "360 g",
     "symbol": ";",
     "color": "light_gray",
     "material": [ "plastic", "aluminum" ],
     "volume": "250 ml",
     "to_hit": -1,
-    "bashing": 2,
     "category": "veh_parts",
     "price": 6000,
     "price_postapoc": 100,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",

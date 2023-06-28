@@ -165,7 +165,7 @@
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 2.5 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
   },
   {
     "type": "effect_type",
@@ -444,6 +444,7 @@
     "desc": [ "Ice crystals erode your body from all directions." ],
     "base_mods": { "speed_mod": [ -10 ], "hurt_amount": [ 1 ] },
     "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 4 ] },
+    "int_add_val": 1,
     "max_intensity": 3
   },
   {
@@ -457,7 +458,7 @@
     "remove_message": "You no longer feel encumbered.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 1.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
   },
   {
     "id": "eshaper_crystal_wrap",
@@ -471,9 +472,67 @@
     "enchantments": [
       {
         "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 }, { "value": "ITEM_DAMAGE_AP", "add": 6 } ]
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
       }
     ]
+  },
+  {
+    "id": "electric_eye",
+    "type": "effect_type",
+    "name": [ "Electric Eye" ],
+    "desc": [
+      "Enhance your sight with your powers.  It allows you to see creatures of the same energy around you, and some minor bonuses."
+    ],
+    "apply_message": "Your sight is enhanced.",
+    "remove_message": "Your sight turn back to usual state.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "BONUS_BLOCK", "add": 1 },
+          { "value": "BONUS_DODGE", "add": 1 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "PERCEPTION", "add": 4 },
+          { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "electric_waves",
+    "type": "effect_type",
+    "name": [ "Electric Waves" ],
+    "desc": [ "Your body throw a massive electric charges when you attack monsters." ],
+    "apply_message": "A powerful energy streams out of your hands.",
+    "remove_message": "Energy streams calm down.",
+    "rating": "good",
+    "show_intensity": false,
+    "//": "When #61693 will be resolved (or, in other words, the spell will start to throw electric waves, as it says), the ITEM_DAMAGE_ELEC must be removed, and the spell description must be edited.  Alternatively, the effect may be moved into electric gloves, instead of their flat bonus.",
+    "enchantments": [
+      {
+        "hit_me_effect": [ { "id": "electric_waves_damage", "once_in": 3 } ],
+        "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": { "u_val": "spell_level", "spell": "electric_waves" } } ]
+      }
+    ]
+  },
+  {
+    "id": "electric_arts",
+    "type": "effect_type",
+    "name": [ "Electric Arts" ],
+    "desc": [ "Make you less vulnerable to electric damage." ],
+    "apply_message": "You feel a small sparks under your skin.  They do not harm you.",
+    "remove_message": "Sparks under your skin vanish.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "ARMOR_ELEC", "add": -35 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "ice_age_eff",
+    "name": [ "Glaciation" ],
+    "desc": [ "You are frozen, your bones are fragile; cracking in the cold, and your muscles are cut by razor sharp ice." ],
+    "base_mods": { "speed_mod": [ -75 ] }
   },
   {
     "type": "effect_type",
@@ -513,7 +572,7 @@
     "id": "flask_stamina_eff",
     "name": [ "Constantia" ],
     "desc": [ "You can't get tired." ],
-    "apply_message": "You feel an energy in your muscles, untired and jazzed.",
+    "apply_message": "You feel an energy in your muscles, jazzed up and full of vitality.",
     "remove_message": "The energy in your body fades away.",
     "base_mods": { "stamina_min": [ 50 ] }
   },
@@ -528,7 +587,6 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "condition": { "not": "ALWAYS" },
         "values": [
           { "value": "SPEED", "add": 30 },
           { "value": "ATTACK_SPEED", "add": 20 },
@@ -542,14 +600,13 @@
     "id": "flask_resistance",
     "type": "effect_type",
     "name": [ "Resistentia" ],
-    "desc": [ "Thin layer of energy cover your body, and allow you to hold more physical damage than before." ],
+    "desc": [ "A thin layer of energy covers your body, and allows you to take more physical damage than before." ],
     "apply_message": "Your touch sense are blunted for a bit, but your skin feels more dense.",
     "remove_message": "The sturdy feeling is gone.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
       {
-        "condition": { "not": "ALWAYS" },
         "values": [ { "value": "ARMOR_BASH", "add": -10 }, { "value": "ARMOR_CUT", "add": -10 }, { "value": "ARMOR_STAB", "add": -10 } ]
       }
     ]
@@ -563,7 +620,7 @@
     "remove_message": "Your skin turn back to normal state.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "LUMINATION", "add": 800 } ] } ]
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 800 } ] } ]
   },
   {
     "id": "flask_mana_regen",
@@ -574,7 +631,7 @@
     "remove_message": "The mana senses blunts.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
   },
   {
     "id": "flask_max_mana",
@@ -585,7 +642,7 @@
     "remove_message": "Your well feels empty now.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "MAX_MANA", "add": 1500 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1500 } ] } ]
   },
   {
     "id": "flask_regeneration",
@@ -601,5 +658,27 @@
         "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "technomancer_cl_booster_effect",
+    "name": [ "Technomancer boost" ],
+    "desc": [ "Your technomancer spells are empowered." ],
+    "remove_message": "Your technomancer boost fades.",
+    "rating": "good",
+    "show_intensity": true,
+    "max_intensity": 25,
+    "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "biomancer_cl_booster_effect",
+    "name": [ "Biomancer boost" ],
+    "desc": [ "Your biomancer spells are empowered." ],
+    "remove_message": "Your biomancer boost fades.",
+    "rating": "good",
+    "show_intensity": true,
+    "max_intensity": 25,
+    "int_add_val": 1
   }
 ]
