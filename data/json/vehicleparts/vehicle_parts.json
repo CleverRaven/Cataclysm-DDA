@@ -3399,7 +3399,7 @@
     "type": "vehicle_part",
     "id": "door_lock",
     "name": { "str": "door lock" },
-    "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
+    "variants": [ { "symbols": "*", "symbols_broken": "*" } ],
     "categories": [ "other" ],
     "color": "light_blue",
     "broken_color": "light_gray",
