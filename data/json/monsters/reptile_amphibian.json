@@ -414,7 +414,7 @@
     "species": [ "AMPHIBIAN" ],
     "volume": "150 L",
     "weight": "200 kg",
-    "hp": 200,
+    "hp": 250,
     "speed": 80,
     "symbol": "B",
     "color": "brown",
@@ -430,8 +430,8 @@
     "special_attacks": [
       {
         "id": "bite_grab",
-        "cooldown": 6,
-        "accuracy": 6,
+        "cooldown": 5,
+        "accuracy": 5,
         "damage_max_instance": [
           { "damage_type": "cut", "amount": 26, "armor_multiplier": 0.2 },
           { "damage_type": "bash", "amount": 14, "armor_multiplier": 0.2 }
@@ -440,7 +440,7 @@
       },
       { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 }
     ],
-    "armor": { "bash": 6 },
+    "armor": { "bash": 12, "cut": 8, "bullet": 6 },
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS", "GRABS" ],
     "reproduction": { "baby_egg": "egg_toad", "baby_count": 24, "baby_timer": 54 },
