@@ -36,6 +36,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "crater_core",
+    "terrains": [ "crater_core" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "special_field",
     "terrains": [ "special_field" ]
   },
