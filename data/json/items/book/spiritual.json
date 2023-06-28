@@ -573,10 +573,7 @@
       },
       {
         "id": "holybook_talmud_42",
-        "name": {
-          "str": "Talmud, Vol. 42, Tractate Bava Metzia",
-          "str_pl": "copies of the Talmud, Vol. 42, Tractate Bava Meztia"
-        },
+        "name": { "str": "Talmud, Vol. 42, Tractate Bava Metzia", "str_pl": "copies of the Talmud, Vol. 42, Tractate Bava Meztia" },
         "description": "This is volume 42 of 51, containing Tractate Bava Metzia.  It discusses interpersonal disputes such as lost property, renting, and obligations of workers and employers, with a digression into how great sages who spend their lives studying Torah are.  It also reiterates the story of the Oven of Akhnai.",
         "append": true,
         "weight": 1
