@@ -246,8 +246,8 @@
       {
         "id": "holybook_talmud_06",
         "name": {
-          "str": "Talmud, Vol. 6a, Tractate Shevi'it (Part 1)",
-          "str_pl": "copies of the Talmud, Vol. 6a, Tractate Shevi'it (Part 1)"
+          "str": "Talmud, Vol. 6, Tractate Shevi'it (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 6, Tractate Shevi'it (Part 1)"
         },
         "description": "This is volume 6a of 51, containing the first part of Tractate Shevi'it.  It discusses the Shemitah year, the seventh year where fields must lie fallow.",
         "append": true,
