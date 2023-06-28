@@ -3943,7 +3943,7 @@ int Character::get_lifestyle() const
                                             5 * ( bmi - character_weight_category::obese ) ) );
     int under_factor = std::round( std::max( 0.0f,
                                    50 * ( character_weight_category::normal - bmi ) ) );
-    return std::max( lifestyle - over_factor - under_factor, -200 );
+    return std::max( lifestyle - ( over_factor + under_factor ), -200 );
 }
 
 int Character::get_daily_health() const
