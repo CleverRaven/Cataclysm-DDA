@@ -927,7 +927,7 @@
     "components": [ [ [ "nyloln_holster", 2 ] ] ]
   },
   {
-    "result": "FB_double_holster",
+    "result": "FB_nylon_double_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
