@@ -227,7 +227,6 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos,
         }
     }
 
-
     return use->call( p, it, false, pos );
 }
 
