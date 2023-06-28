@@ -2190,6 +2190,16 @@
   },
   {
     "type": "snippet",
+    "category": "<ally_rule_lock_doors_true_text>",
+    "text": "<mypronoun> will lock doors when closing them."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_lock_doors_false_text>",
+    "text": "<mypronoun> will not lock doors."
+  },
+  {
+    "type": "snippet",
     "category": "<ally_rule_follow_close_true_text>",
     "text": "<mypronoun> will follow you closely even when threatened."
   },
@@ -2227,6 +2237,16 @@
     "type": "snippet",
     "category": "<ally_rule_avoid_doors_false_text>",
     "text": "<mypronoun> will open doors to reach a destination."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_locks_true_text>",
+    "text": "<mypronoun> will not try to unlock doors."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_locks_false_text>",
+    "text": "<mypronoun> will unlock doors to open them."
   },
   {
     "type": "snippet",
