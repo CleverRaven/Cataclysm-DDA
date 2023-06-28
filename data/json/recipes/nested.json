@@ -98,7 +98,9 @@
       "tactical_holster",
       "XS_holster",
       "sholster",
-      "suspenders_holster"
+      "suspenders_holster",
+      "FB_double_holster",
+      "side_double_holster"
     ],
     "difficulty": 1
   },

@@ -102,6 +102,20 @@
     "variants": [ { "symbols": "Y", "symbols_broken": "x" } ]
   },
   {
+    "id": "door_lock",
+    "type": "GENERIC",
+    "name": { "str": "door lock set" },
+    "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  It is meant to be installed in a vehicle door or hatch.",
+    "symbol": "+",
+    "color": "dark_gray",
+    "material": [ "steel" ],
+    "category": "veh_parts",
+    "weight": "500 g",
+    "volume": "300 ml",
+    "price": 3000,
+    "price_postapoc": 72
+  },
+  {
     "type": "vehicle_part",
     "id": "veh_binoculars",
     "name": { "str": "binoculars" },
