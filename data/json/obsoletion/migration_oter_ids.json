@@ -114,6 +114,16 @@
     "type": "oter_id_migration",
     "//": "migrated in 0.H",
     "oter_ids": {
+      "motel_twd_second_floor_north": "motel_twd_1_f1_north",
+      "motel_twd_second_floor_east": "motel_twd_1_f1_east",
+      "motel_twd_second_floor_south": "motel_twd_1_f1_south",
+      "motel_twd_second_floor_west": "motel_twd_1_f1_west"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
       "refctr_NW1a_north": "refctr_fence_NW_north",
       "refctr_NW2a_north": "refctr_fence_h_north",
       "refctr_NW3a_north": "refctr_fence_h_north",

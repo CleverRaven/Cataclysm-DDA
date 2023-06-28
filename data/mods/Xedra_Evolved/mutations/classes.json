@@ -4,7 +4,7 @@
     "id": "DREAMER",
     "name": "Dreamer",
     "points": 0,
-    "description": "Dreamers are people able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Their power scales with their natural perception and intellect.",
+    "description": "Dreamers are people who are able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Sometimes they hear outside voices, that offer help and presents, and with enough power, dreamers can pull them right from beyond.  Their power scales with their natural perception and intellect.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -51,12 +51,12 @@
     "id": "INVENTOR",
     "name": "Mad Genius",
     "points": 0,
-    "description": "The Mad Genius uses their connection to other dimensions in order to manipulate or even replace the physics of this realm with that of another.  They turn toys and nonsense inventions into machines of incredible sophistication and power, temporarily.  Roughly once a week they will accrue enough creative sparks to create a random minor artifact.",
+    "description": "The Mad Genius uses their connection to other dimensions in order to manipulate or even replace the physics of this realm with that of another.  They turn toys and nonsense inventions into machines of incredible sophistication and power, temporarily.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "enchantments": [ "BONUS_INVENTOR" ],
     "cancels": [ "DREAMSMITH" ],
-    "vitamin_rates": [ [ "creative_spark", -302400 ] ]
+    "vitamin_rates": [ [ "creative_spark", -64800 ] ]
   }
 ]

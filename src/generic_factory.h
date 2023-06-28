@@ -201,6 +201,32 @@ class generic_factory
               initialized( true ) {
         }
 
+        // Begin template magic for T::handle_inheritance; if T has handle_inheritance function
+        // that accepts the correct args - the inherited object and map of the abstracts then it
+        // will be invoked to handle the copy-from, if not the assignment operator is used.
+        // At time of writing this is used for vehicle parts (vpart_info class)
+        // *INDENT-OFF* astyle turns templates unreadable
+        template<typename U>
+        using T_has_handle_inheritance_t = decltype(
+            std::declval<U>().handle_inheritance(
+                std::declval<const T &>(),
+                std::declval<const std::unordered_map<std::string, T>&>() ) );
+
+        template<typename U, typename=void>
+        struct T_has_handle_inheritance : std::false_type {};
+        template<typename U>
+        struct T_has_handle_inheritance<U, std::void_t<T_has_handle_inheritance_t<U>>> : std::true_type {};
+        template<typename U=T, std::enable_if_t<T_has_handle_inheritance<U>::value>* = nullptr>
+        void handle_inheritance_on_T( T &def, const T &copy_from ) {
+            def.handle_inheritance( copy_from, abstracts ); // let the function handle it
+        }
+        template<typename U=T, std::enable_if_t<!T_has_handle_inheritance<U>::value>* = nullptr>
+        void handle_inheritance_on_T( T &def, const T &copy_from ) {
+            def = copy_from; // just use assignment
+        }
+        // *INDENT-ON* astyle turns templates unreadable
+        // End template magic for T::handle_inheritance
+
         /**
         * Perform JSON inheritance handling for `T def` and returns true if JsonObject is real.
         *
@@ -219,12 +245,14 @@ class generic_factory
                 auto base = map.find( string_id<T>( source ) );
 
                 if( base != map.end() ) {
-                    def = obj( base->second );
+                    const T &base_obj = obj( base->second );
+                    handle_inheritance_on_T( def, base_obj );
                 } else {
                     auto ab = abstracts.find( source );
 
                     if( ab != abstracts.end() ) {
-                        def = ab->second;
+                        const T &base_obj = ab->second;
+                        handle_inheritance_on_T( def, base_obj );
                     } else {
                         def.was_loaded = false;
                         deferred.emplace_back( jo, src );
@@ -242,8 +270,10 @@ class generic_factory
                 }
                 restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
                 check_plural = check_plural_t::none;
+                const std::string abstract_id =  jo.get_string( abstract_member_name );
+                def.id = string_id<T>( abstract_id );
                 def.load( jo, src );
-                abstracts[jo.get_string( abstract_member_name )] = def;
+                abstracts[abstract_id] = def;
             }
             return true;
         }

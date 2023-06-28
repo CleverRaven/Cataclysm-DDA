@@ -819,7 +819,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "motel_twd_1", "motel_entrance" ],
+    "id": [ "motel_entrance" ],
     "copy-from": "generic_city_building",
     "name": "motel",
     "sym": "h",
@@ -828,11 +828,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "motel_twd_2", "motel_twd_second_floor" ],
-    "copy-from": "generic_city_building",
+    "id": [ "motel_twd_1" ],
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "motel",
     "sym": "h",
-    "color": "light_blue"
+    "color": "light_blue",
+    "extend": { "flags": [ "SOURCE_SAFETY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -844,8 +845,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "motel_twd_2_f1", "motel_twd_1_f2" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "motel roof",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "motel_1", "motel_2", "motel_3" ],
     "copy-from": "generic_city_building",
+    "name": "motel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "motel_twd_2", "motel_twd_1_f1" ],
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "motel",
     "sym": "h",
     "color": "light_blue"

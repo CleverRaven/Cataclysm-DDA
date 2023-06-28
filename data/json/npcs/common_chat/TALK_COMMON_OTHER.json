@@ -124,7 +124,16 @@
           "difficulty": 0,
           "mod": [ [ "ALTRUISM", 6 ], [ "POS_FEAR", -6 ], [ "BRAVERY", 2 ], [ "ANGER", -6 ], [ "VALUE", 2 ] ]
         },
-        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "value": -1 } },
+        "success": {
+          "topic": "TALK_AGREE_FOLLOW",
+          "effect": [
+            "follow",
+            { "npc_lose_trait": "RETURN_TO_START_POS" },
+            { "npc_lose_trait": "NO_BASH" },
+            { "npc_lose_trait": "IGNORE_SOUND" }
+          ],
+          "opinion": { "value": -1 }
+        },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
       },
       {
@@ -132,7 +141,16 @@
         "default": true,
         "text": "We're friends, aren't we?",
         "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] },
-        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 2, "anger": -1 } },
+        "success": {
+          "topic": "TALK_AGREE_FOLLOW",
+          "effect": [
+            "follow",
+            { "npc_lose_trait": "RETURN_TO_START_POS" },
+            { "npc_lose_trait": "NO_BASH" },
+            { "npc_lose_trait": "IGNORE_SOUND" }
+          ],
+          "opinion": { "trust": 2, "anger": -1 }
+        },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 1, "fear": -2, "value": -1, "anger": 1 } }
       },
       {
@@ -140,7 +158,16 @@
         "default": true,
         "text": "I'll kill you if you don't.",
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
-        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
+        "success": {
+          "topic": "TALK_AGREE_FOLLOW",
+          "effect": [
+            "follow",
+            { "npc_lose_trait": "RETURN_TO_START_POS" },
+            { "npc_lose_trait": "NO_BASH" },
+            { "npc_lose_trait": "IGNORE_SOUND" }
+          ],
+          "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 }
+        },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
       },
       { "switch": true, "default": true, "text": "Nevermind.", "topic": "TALK_NONE" }

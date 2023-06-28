@@ -49,7 +49,13 @@
     "id": "feral_sapien_death_drops_spear",
     "entries": [
       { "group": "survivor_stabbing", "prob": 100, "damage": [ 0, 3 ] },
-      { "group": "mon_zombie_survivor_death_drops", "prob": 100 },
+      { "group": "underwear", "damage": [ 0, 3 ] },
+      { "group": "survivor_basic_pants", "damage": [ 0, 3 ] },
+      { "group": "survivor_basic_shirt", "damage": [ 0, 3 ] },
+      { "group": "survivor_basic_hands", "damage": [ 0, 3 ], "prob": 95 },
+      { "group": "survivor_basic_feet", "damage": [ 0, 3 ] },
+      { "group": "clothing_glasses", "prob": 5, "damage": [ 0, 3 ] },
+      { "group": "clothing_watch", "prob": 5, "damage": [ 0, 3 ] },
       { "item": "spearsling", "prob": 100, "damage": [ 0, 3 ] },
       {
         "distribution": [
@@ -59,9 +65,36 @@
         ],
         "prob": 50
       },
-      { "item": "duster_leather", "prob": 25, "damage": [ 0, 3 ] },
-      { "item": "kevlar", "prob": 25, "damage": [ 0, 3 ] },
-      { "item": "tac_helmet", "prob": 10, "damage": [ 0, 3 ] }
+      { "item": "kevlar", "prob": 35, "damage": [ 0, 3 ] },
+      {
+        "distribution": [
+          { "item": "tac_helmet", "prob": 35, "damage": [ 0, 3 ] },
+          { "item": "helmet_army", "prob": 35, "damage": [ 0, 3 ] },
+          { "item": "helmet_riot", "prob": 30, "damage": [ 0, 3 ] }
+        ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "armor_riot", "prob": 30, "damage": [ 0, 3 ] },
+          { "item": "duster_leather", "prob": 10, "damage": [ 0, 3 ] },
+          { "item": "ballistic_vest_heavy", "prob": 30, "damage": [ 0, 3 ] },
+          {
+            "collection": [
+              { "item": "level_3_vest", "prob": 100, "damage": [ 0, 3 ] },
+              { "item": "armor_riot_arm", "prob": 50, "damage": [ 0, 3 ] },
+              { "item": "armor_riot_leg", "prob": 50, "damage": [ 0, 3 ] }
+            ],
+            "prob": 30
+          }
+        ],
+        "prob": 95
+      },
+      { "group": "harddrugs", "prob": 15 },
+      { "group": "stash_food", "prob": 15 },
+      { "group": "ammo_common", "prob": 15 },
+      { "group": "stash_drugs", "prob": 15 },
+      { "group": "gear_survival", "prob": 15 }
     ]
   },
   {

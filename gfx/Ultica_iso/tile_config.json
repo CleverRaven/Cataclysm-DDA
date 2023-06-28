@@ -1,6 +1,6 @@
 {
   "tile_info": [
-    { "pixelscale": 1, "width": 48, "height": 24, "iso": true, "retract_dist_min": 2.5, "retract_dist_max": 6.0 }
+    { "pixelscale": 1, "width": 48, "height": 24, "zlevel_height": 96, "iso": true, "retract_dist_min": 2.5, "retract_dist_max": 6.0 }
   ],
   "tiles-new": [
     {

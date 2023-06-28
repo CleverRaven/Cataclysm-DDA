@@ -2223,5 +2223,10 @@
     "id": "REBREATHER_CART",
     "type": "json_flag",
     "info": "A filter for a rebreather."
+  },
+  {
+    "id": "USE_POWER_WHEN_HIT",
+    "type": "json_flag",
+    "info": "This armor <info>expends energy when hit</info>."
   }
 ]
