@@ -71,7 +71,7 @@
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
-      [ [ "jacket_jean", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
+      [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -97,7 +97,7 @@
     "components": [
       [ [ "armor_nomad_light", 1 ] ],
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
-      [ [ "jacket_jean", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ],
+      [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ],
       [ [ "sheet_denim", 6 ], [ "sheet_denim_patchwork", 6 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -123,7 +123,7 @@
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
       [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
-      [ [ "jacket_jean", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
+      [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
     "flags": [ "SECRET" ]
   },
