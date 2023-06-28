@@ -3366,10 +3366,11 @@ void Item_factory::set_allergy_flags( itype &item_template )
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
             { material_hflesh, flag_CANNIBALISM },
-
             { material_hflesh, flag_ALLERGEN_MEAT },
             { material_iflesh, flag_ALLERGEN_MEAT },
             { material_flesh, flag_ALLERGEN_MEAT },
+            { material_blood, flag_ALLERGEN_MEAT },
+            { material_hblood, flag_ALLERGEN_MEAT },
             { material_wheat, flag_ALLERGEN_WHEAT },
             { material_fruit, flag_ALLERGEN_FRUIT },
             { material_veggy, flag_ALLERGEN_VEGGY },
@@ -3389,6 +3390,8 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_iflesh, flag_CARNIVORE_OK },
             { material_milk, flag_CARNIVORE_OK },
             { material_egg, flag_CARNIVORE_OK },
+            { material_blood, flag_CARNIVORE_OK },
+            { material_hblood, flag_CARNIVORE_OK },
             { material_honey, flag_URSINE_HONEY }
         }
     };
