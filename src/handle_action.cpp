@@ -590,11 +590,15 @@ static void open()
                 }
             }
         } else {
-            // If there are any OPENABLE parts here, they must be already open
-            if( const std::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
-                    true ) ) {
-                const std::string name = already_open->info().name();
-                add_msg( m_info, _( "That %s is already open." ), name );
+            // If there are any OPENABLE parts here, they must be already open or locked
+            if( const std::optional<vpart_reference> openable_part = vp.part_with_feature( "OPENABLE",
+                    true ); openable_part.has_value() ) {
+                const std::string name = openable_part->info().name();
+                if( vp->vehicle().part( openable_part->part_index() ).locked ) {
+                    add_msg( m_info, _( "That %s is locked." ), name );
+                } else {
+                    add_msg( m_info, _( "That %s is already open." ), name );
+                }
             }
             player_character.moves += 100;
         }

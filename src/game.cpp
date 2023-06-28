@@ -4325,7 +4325,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                     return critter;
                 }
 
-                const pathfinding_settings pf_settings = pathfinding_settings { 8, distance, distance * 2, 4, true, false, true, false, false };
+                const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
                 static const std::set<tripoint> path_avoid = {};
 
                 if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
