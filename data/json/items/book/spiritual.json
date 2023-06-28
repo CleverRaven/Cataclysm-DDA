@@ -583,10 +583,7 @@
       },
       {
         "id": "holybook_talmud_43",
-        "name": {
-          "str": "Talmud, Vol. 43, Tractate Bava Basra",
-          "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Basra"
-        },
+        "name": { "str": "Talmud, Vol. 43, Tractate Bava Basra", "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Basra" },
         "description": "This is volume 43 of 51, containing Tractate Bava Basra.  It discusses business relationships and the laws of inheritance.",
         "append": true,
         "weight": 1
