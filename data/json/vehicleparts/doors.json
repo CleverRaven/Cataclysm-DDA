@@ -162,7 +162,6 @@
     "description": "A very strong door.  A window lets you see through it when closed.",
     "durability": 900,
     "item": "hdframe",
-    "looks_like": "hatch",
     "name": { "str": "heavy-duty hatch" },
     "//": "40cm of weld per quadrant of damage, 4x that to install",
     "requirements": {

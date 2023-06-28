@@ -203,6 +203,11 @@
     "conflicts": [ "FRAGILE_MELEE" ]
   },
   {
+    "id": "EASY_CLEAN",
+    "type": "json_flag",
+    "info": "This gun is made of <info>relatively simple parts</info> which makes powder fouling <good>easier to clean</good>."
+  },
+  {
     "id": "FIELD_DRESS",
     "type": "json_flag"
   },
@@ -2218,5 +2223,10 @@
     "id": "REBREATHER_CART",
     "type": "json_flag",
     "info": "A filter for a rebreather."
+  },
+  {
+    "id": "USE_POWER_WHEN_HIT",
+    "type": "json_flag",
+    "info": "This armor <info>expends energy when hit</info>."
   }
 ]

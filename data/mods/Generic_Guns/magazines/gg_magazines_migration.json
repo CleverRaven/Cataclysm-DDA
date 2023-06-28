@@ -94,7 +94,8 @@
       "p226mag_15rd_9mm",
       "sp2022mag_10rd_9mm",
       "sp2022mag_12rd_9mm",
-      "sp2022mag_15rd_9mm"
+      "sp2022mag_15rd_9mm",
+      "hpt3895mag_10rd"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"

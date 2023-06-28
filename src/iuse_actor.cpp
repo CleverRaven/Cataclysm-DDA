@@ -4682,8 +4682,8 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
 
             const itype_id item_id = it.typeId();
             bool vpid_found = false;
-            for( const auto &e : vpart_info::all() ) {
-                if( e.second.base_item == item_id ) {
+            for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+                if( vpi.base_item == item_id ) {
                     vpid_found = true;
                     break;
                 }
@@ -4787,34 +4787,52 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             };
 
             const itype_id item_id = it.typeId();
-            bool vpid_found = false;
-            for( const auto &e : vpart_info::all() ) {
-                if( e.second.base_item == item_id ) {
-                    vpid_found = true;
+            vpart_id vpid = vpart_id::NULL_ID();
+            for( const vpart_info &e : vehicles::parts::get_all() ) {
+                if( e.base_item == item_id ) {
+                    vpid = e.id;
                     break;
                 }
             }
 
-            if( !vpid_found ) {
-                debugmsg( "item %s is not base item of any vehicle part!  Using hd_tow_cable", item_id.c_str() );
+            if( vpid.is_null() ) {
+                debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
+                return std::nullopt;
             }
-            const vpart_id vpid( vpid_found ? item_id.str() : "hd_tow_cable" );
 
-            point vcoords = cable->link->t_mount;
-            vehicle_part prev_part( vpid, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
+            const point vcoords1 = cable->link->t_mount;
+            const point vcoords2 = t_vp->mount();
+
+            const ret_val<void> can_mount1 = target_veh->can_mount( vcoords1, *vpid );
+            if( !can_mount1.success() ) {
+                //~ %1$s - tow cable name, %2$s - the reason why it failed
+                p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+                                     it.type_name(), can_mount1.str() );
+                return std::nullopt;
+            }
+
+            const ret_val<void> can_mount2 = prev_veh->can_mount( vcoords2, *vpid );
+            if( !can_mount2.success() ) {
+                //~ %1$s - tow cable name, %2$s - the reason why it failed
+                p.add_msg_if_player( m_bad, _( "You can't attach the %s: %s" ),
+                                     it.type_name(), can_mount2.str() );
+                return std::nullopt;
+            }
+
+            vehicle_part prev_part( vpid, item( it ) );
             prev_part.target.first = here.getabs( pnt );
             prev_part.target.second = target_veh->global_square_location().raw();
-            prev_veh->install_part( vcoords, std::move( prev_part ) );
+            prev_veh->install_part( vcoords1, std::move( prev_part ) );
 
-            vcoords = t_vp->mount();
-            vehicle_part target_part( vpid, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
+            vehicle_part target_part( vpid, item( it ) );
             target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( cable->link->t_mount ) );
             target_part.target.second = prev_veh->global_square_location().raw();
-            target_veh->install_part( vcoords, std::move( target_part ) );
+            target_veh->install_part( vcoords2, std::move( target_part ) );
 
             if( p.has_item( it ) ) {
-                p.add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
-                                     prev_veh->name, target_veh->name );
+                //~ %1$s - tow cable name, %2$s - first vehicle name, %3$s - second vehicle name
+                p.add_msg_if_player( m_good, _( "You attach %1$s to %2$s and %3$s." ),
+                                     it.type_name(), prev_veh->disp_name(), target_veh->disp_name() );
             }
             if( choice == 10 ) {
                 target_veh->tow_data.set_towing( target_veh, prev_veh );

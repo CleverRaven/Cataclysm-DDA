@@ -929,6 +929,8 @@ class item : public visitable
          */
         item in_its_container( int qty = 0 ) const;
         item in_container( const itype_id &container_type, int qty = 0, bool sealed = true ) const;
+        void add_automatic_whitelist();
+        void clear_automatic_whitelist();
 
         /**
         * True if item and its contents have any uses.
@@ -2354,6 +2356,7 @@ class item : public visitable
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
          * @param carrier holder of the item, used for getting UPS and bionic power
+         * @param fuel_efficiency if this is a generator of some kind the efficiency at which it consumes fuel
          * @return amount of ammo consumed which will be between 0 and qty
          */
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
@@ -2367,7 +2370,8 @@ class item : public visitable
          * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
          */
-        units::energy energy_consume( units::energy qty, const tripoint &pos, Character *carrier );
+        units::energy energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
+                                      float fuel_efficiency = -1.0 );
 
         /**
          * Consume ammo to activate item qty times (if available) and return the amount of ammo that was consumed

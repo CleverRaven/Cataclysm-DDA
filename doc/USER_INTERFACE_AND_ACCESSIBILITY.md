@@ -1,4 +1,4 @@
-# User Interface
+# User Interface / Accessibility
 
 Cataclysm: Dark Days Ahead uses ncurses, or in the case of the tiles build, an
 ncurses port, for user interface. Window management is achieved by `ui_adaptor`,

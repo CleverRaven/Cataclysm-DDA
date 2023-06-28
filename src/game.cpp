@@ -1083,7 +1083,7 @@ vehicle *game::place_vehicle_nearby(
 {
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
-        vehicle veh( m, id );
+        const vehicle &veh = *id->blueprint;
         if( veh.max_ground_velocity() == 0 && veh.can_float() ) {
             search_types.emplace_back( "river" );
             search_types.emplace_back( "lake" );
@@ -1109,16 +1109,15 @@ vehicle *game::place_vehicle_nearby(
                     0_degrees, 90_degrees, 180_degrees, 270_degrees
                 }
             };
-            vehicle *veh = target_map.add_vehicle(
-                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false, "", false );
+            vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ),
+                                                   rng( 50, 80 ), 0, false );
             if( veh ) {
                 tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
                 veh->pos = abs_local.xy();
 
-                // Track the player's spawn vehicle.
-                veh->tracking_on = true;
-                overmap_buffer.add_vehicle( veh );
+                veh->unlock();          // always spawn unlocked
+                veh->toggle_tracking(); // always spawn tracked
 
                 target_map.save();
                 return veh;
@@ -5750,7 +5749,7 @@ void game::control_vehicle()
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
         for( const tripoint &target : veh->get_points() ) {
-            u.memorize_clear_vehicles( m.getabs( target ) );
+            u.memorize_clear_decoration( m.getabs( target ), "vp_" );
             m.set_memory_seen_cache_dirty( target );
         }
         veh->is_following = false;
@@ -10366,7 +10365,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             if( auto displayed_part = vp_there.part_displayed() ) {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ),
                          displayed_part->part().name() );
-                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
+                sfx::do_obstacle( displayed_part->part().info().id.str() );
             } else {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ), m.name( dest_loc ) );
                 if( m.has_furn( dest_loc ) ) {
@@ -10379,7 +10378,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             if( auto displayed_part = vp_here.part_displayed() ) {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ),
                          displayed_part->part().name() );
-                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
+                sfx::do_obstacle( displayed_part->part().info().id.str() );
             } else {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ) );
                 if( m.has_furn( u.pos() ) ) {

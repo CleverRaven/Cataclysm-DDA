@@ -88,12 +88,51 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_try_kill",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
+      { "run_eoc_with": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_kill",
+    "effect": [ "npc_die" ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_armor",
     "effect": [
       { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
       { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
       { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_combat_mutator_test",
+    "effect": [
+      { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "global_val": "key1" } },
+      {
+        "set_string_var": { "mutator": "ma_technique_name", "matec_id": { "global_val": "key1" } },
+        "target_var": { "global_val": "key2" }
+      },
+      {
+        "set_string_var": { "mutator": "ma_technique_description", "matec_id": { "global_val": "key1" } },
+        "target_var": { "global_val": "key3" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_attack_test",
+    "effect": [ { "u_attack": "tec_none" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_alive_test",
+    "condition": "u_is_alive",
+    "effect": [ { "set_string_var": "alive", "target_var": { "global_val": "key1" } } ]
   },
   {
     "type": "effect_on_condition",

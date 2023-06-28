@@ -149,7 +149,9 @@ static void put_into_container(
             }
         }
     }
-    excess.push_back( ctr );
+    ctr.add_automatic_whitelist();
+
+    excess.emplace_back( std::move( ctr ) );
     items.erase( items.end() - num_items, items.end() );
     items.insert( items.end(), excess.begin(), excess.end() );
 }
@@ -555,6 +557,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     if( !cont.is_null() ) {
         const item_pocket::pocket_type pk_type = guess_pocket_for( cont, new_item );
         cont.put_in( new_item, pk_type );
+        cont.add_automatic_whitelist();
         new_item = cont;
         if( sealed ) {
             new_item.seal();

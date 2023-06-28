@@ -872,9 +872,11 @@ class vehicle
         /// May load the connected vehicles' submaps
         std::map<vpart_reference, float> search_connected_batteries();
 
-        vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel = -1,
-                 int init_veh_status = -1, bool may_spawn_locked = false );
-        vehicle();
+        // constructs a vehicle, if the given \p proto_id is an empty string the vehicle is
+        // constructed empty, invalid proto_id will construct empty and raise a debugmsg,
+        // if given \p proto_id is valid then parts are copied from the vproto's blueprint,
+        // and prototype's fuel/ammo will be spawned in init_state / place_spawn_items
+        explicit vehicle( const vproto_id &proto_id );
         vehicle( const vehicle & ) = delete;
         ~vehicle();
         vehicle &operator=( vehicle && ) = default;
@@ -915,8 +917,8 @@ class vehicle
         // check if player controls this vehicle remotely
         bool remote_controlled( const Character &p ) const;
 
-        // init parts state for randomly generated vehicle
-        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status, bool may_spawn_locked );
+        // initializes parts and fuel state for randomly generated vehicle and calls refresh()
+        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status );
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
@@ -1905,6 +1907,8 @@ class vehicle
 
         //true if an alarm part is installed on the vehicle
         bool has_security_working() const;
+        // unlocks the vehicle, turns off SECURITY parts, clears engine immobilizer faults
+        void unlock();
         /**
          *  Opens everything that can be opened on the same tile as `p`
          */
@@ -2167,7 +2171,7 @@ class vehicle
          * is loaded into the map the values are directly set. The vehicles position does
          * not change therefore no call to set_submap_moved is required.
          */
-        tripoint sm_pos; // NOLINT(cata-serialize)
+        tripoint sm_pos = tripoint_zero; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0; // NOLINT(cata-serialize)
@@ -2180,7 +2184,7 @@ class vehicle
          * Note that vehicles are "moved" by map::displace_vehicle. You should not
          * set them directly, except when initializing the vehicle or during mapgen.
          */
-        point pos;
+        point pos = point_zero;
         // vehicle current velocity, mph * 100
         int velocity = 0;
         /**

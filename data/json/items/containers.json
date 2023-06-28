@@ -302,6 +302,34 @@
     ]
   },
   {
+    "id": "dry_bag_large",
+    "type": "GENERIC",
+    "category": "container",
+    "//": "For reference was used Extrawheel Dry bag Sailor 80L",
+    "name": { "str": "large dry bag" },
+    "looks_like": "bag_canvas",
+    "description": "A huge watertight bag made of strong plastic.  Commonly used in activities with high risk of wetting the equipment, such as kayaking.",
+    "weight": "1500 g",
+    "volume": "1500 ml",
+    "longest_side": "35 cm",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -5,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "80 L",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "100 cm",
+        "moves": 800
+      }
+    ],
+    "color": "blue"
+  },
+  {
     "id": "bag_body_bag",
     "type": "GENERIC",
     "category": "container",

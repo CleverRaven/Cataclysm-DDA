@@ -41,6 +41,15 @@ void load_prototype( const JsonObject &jo, const std::string &src );
 void reset_prototypes();
 void finalize_prototypes();
 const std::vector<vehicle_prototype> &get_all_prototypes();
+
+namespace parts
+{
+void load( const JsonObject &jo, const std::string &src );
+void check();
+void reset();
+void finalize();
+const std::vector<vpart_info> &get_all();
+} // namespace parts
 } // namespace vehicles
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
@@ -66,6 +75,7 @@ enum vpart_bitflags : int {
     VPFLAG_SPACE_HEATER,
     VPFLAG_HEATED_TANK,
     VPFLAG_COOLER,
+    VPFLAG_WALL_MOUNTED,
     VPFLAG_WHEEL,
     VPFLAG_ROTOR,
     VPFLAG_ROTOR_SIMPLE,
@@ -227,25 +237,22 @@ class vpart_variant
 class vpart_info
 {
     public:
+        vpart_id id;
+
         static void load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
                                  const itype_id &fuel_type );
         static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
         static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
         static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
         static void load_toolkit( std::optional<vpslot_toolkit> &tkptr, const JsonObject &jo );
-        static void load( const JsonObject &jo, const std::string &src );
-        static void finalize();
-        static void check();
-        static void reset();
-
-        static const std::map<vpart_id, vpart_info> &all();
+        void load( const JsonObject &jo, const std::string &src );
+        void check() const;
+        void finalize();
+        void handle_inheritance( const vpart_info &copy_from,
+                                 const std::unordered_map<std::string, vpart_info> &abstracts );
 
         /** Translated name of a part */
         std::string name() const;
-
-        const vpart_id &get_id() const {
-            return id;
-        }
 
         const std::set<std::string> &get_flags() const {
             return flags;
@@ -356,9 +363,6 @@ class vpart_info
         std::optional<vpslot_rotor> rotor_info;
         std::optional<vpslot_workbench> workbench_info;
         std::optional<vpslot_toolkit> toolkit_info;
-
-        /** Unique identifier for this part */
-        vpart_id id;
 
         /** Name from vehicle part definition which if set overrides the base item name */
         translation name_;
@@ -478,6 +482,9 @@ class vpart_info
         int z_order = 0;
         // Display order in vehicle interact display
         int list_order = 0;
+    private:
+        bool was_loaded = false; // used by generic_factory
+        friend class generic_factory<vpart_info>;
 };
 
 struct vehicle_item_spawn {

@@ -136,7 +136,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
     const std::string partname = pt.name( false );
     const std::string startdurability = pt.get_base().damage_indicator();
     if( pt.is_broken() ) {
-        const vpart_id vpid = pt.info().get_id();
+        const vpart_id vpid = pt.info().id;
         const point mount = pt.mount;
         const units::angle direction = pt.direction;
         const std::string variant = pt.variant;

@@ -1,0 +1,191 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_canteen_room_center_construction",
+    "description": "Let's start building the central kitchen.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_canteen_construction",
+    "blueprint_name": "build the central kitchen room",
+    "blueprint_parameter_names": {
+      "fbmk_construction_palette": {
+        "fbmk_concrete_palette": "Concrete walls and roof",
+        "fbmk_log_palette": "Log walls and wooden roof",
+        "fbmk_metal_palette": "Metal walls and roof",
+        "fbmk_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_rock_palette": "Rock walls and wooden roof",
+        "fbmk_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_0" } ],
+    "blueprint_provides": [ { "id": "fbmk_center" } ],
+    "blueprint_excludes": [ { "id": "fbmk_center" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_canteen_room2_center_construction",
+    "description": "Let's finish the central kitchen.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_canteen2_construction",
+    "blueprint_name": "finish the central kitchen room",
+    "blueprint_parameter_names": {
+      "fbmk_construction_palette": {
+        "fbmk_concrete_palette": "Concrete walls and roof",
+        "fbmk_log_palette": "Log walls and wooden roof",
+        "fbmk_metal_palette": "Metal walls and roof",
+        "fbmk_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_rock_palette": "Rock walls and wooden roof",
+        "fbmk_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_center" } ],
+    "blueprint_provides": [ { "id": "fbmk_center2" } ],
+    "blueprint_excludes": [ { "id": "fbmk_center2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_canteen_smoking_area_construction",
+    "description": "Let's get this smoking area covered to protect the workers from the weather.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_smoking_area_construction",
+    "blueprint_name": "build a roofed area for smoking racks",
+    "blueprint_parameter_names": {
+      "fbmk_construction_palette": {
+        "fbmk_concrete_palette": "Concrete walls and roof",
+        "fbmk_log_palette": "Log walls and wooden roof",
+        "fbmk_metal_palette": "Metal walls and roof",
+        "fbmk_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_rock_palette": "Rock walls and wooden roof",
+        "fbmk_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_center2" } ],
+    "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
+    "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_canteen_pantry_construction",
+    "description": "Let's build a pantry west of the kitchen.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_canteen_pantry_construction",
+    "blueprint_name": "build a pantry",
+    "blueprint_parameter_names": {
+      "fbmk_construction_palette": {
+        "fbmk_concrete_palette": "Concrete walls and roof",
+        "fbmk_log_palette": "Log walls and wooden roof",
+        "fbmk_metal_palette": "Metal walls and roof",
+        "fbmk_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_rock_palette": "Rock walls and wooden roof",
+        "fbmk_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_center2" } ],
+    "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
+    "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_canteen_dining_west_construction",
+    "description": "Let's build the west third of the dining hall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_canteen_dining_west_construction",
+    "blueprint_name": "build west dining hall third",
+    "blueprint_parameter_names": {
+      "fbmk_construction_palette": {
+        "fbmk_concrete_palette": "Concrete walls and roof",
+        "fbmk_log_palette": "Log walls and wooden roof",
+        "fbmk_metal_palette": "Metal walls and roof",
+        "fbmk_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_rock_palette": "Rock walls and wooden roof",
+        "fbmk_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_pantry_room" } ],
+    "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_canteen_dining_east_construction",
+    "description": "Let's build the east third of the dining hall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_canteen_dining_east_construction",
+    "blueprint_name": "build east dining room third",
+    "blueprint_parameter_names": {
+      "fbmk_construction_palette": {
+        "fbmk_concrete_palette": "Concrete walls and roof",
+        "fbmk_log_palette": "Log walls and wooden roof",
+        "fbmk_metal_palette": "Metal walls and roof",
+        "fbmk_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_rock_palette": "Rock walls and wooden roof",
+        "fbmk_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_canteen_dining_west" }, { "id": "fbmk_smoking_area" } ],
+    "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_canteen_dining_center_construction",
+    "description": "Let's build the center third of the dining hall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_canteen_dining_center_construction",
+    "blueprint_name": "build center third of the dining hall",
+    "blueprint_parameter_names": {
+      "fbmk_construction_palette": {
+        "fbmk_concrete_palette": "Concrete walls and roof",
+        "fbmk_log_palette": "Log walls and wooden roof",
+        "fbmk_metal_palette": "Metal walls and roof",
+        "fbmk_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_rock_palette": "Rock walls and wooden roof",
+        "fbmk_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_canteen_dining_east" } ],
+    "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ]
+  }
+]

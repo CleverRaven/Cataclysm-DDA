@@ -358,22 +358,17 @@
   },
   {
     "id": "catalytic_cracking_reactor",
-    "type": "TOOL",
-    "name": { "str": "catalytic cracking reactor" },
-    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled and reassembled.",
-    "symbol": "U",
-    "color": "dark_gray",
-    "looks_like": "household_water_heater",
+    "type": "GENERIC",
+    "name": { "str": "disassembled catalytic cracking reactor" },
+    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled.  You can reassemble and plug it into your own power grid to use it.",
+    "symbol": "Y",
+    "color": "light_cyan",
+    "looks_like": "f_catalytic_cracking_reactor",
     "weight": "500 kg",
     "volume": "500 L",
     "price": 20000,
     "to_hit": -5,
     "material": [ "steel" ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_catalytic_cracking_reactor" },
-    "qualities": [ [ "EXTRACT", 3 ] ],
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "large_storage_battery", "storage_battery" ] }
-    ],
     "melee_damage": { "bash": 8 }
   },
   {
