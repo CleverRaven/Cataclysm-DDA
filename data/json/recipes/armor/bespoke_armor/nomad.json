@@ -172,7 +172,7 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
-      [ [ "sheet_denim", 4 ], [ "sheet_denim_patchwork", 4 ] ]
+      [ [ "sheet_denim", 4 ], [ "sheet_denim_patchwork", 4 ] ],
       [ [ "exodii_wire_kit", 1 ] ],
       [ [ "flashlight", 1 ], [ "heavy_flashlight", 1 ] ],
       [ [ "plastic_sheet", 2 ] ],
