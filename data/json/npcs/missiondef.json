@@ -952,7 +952,7 @@
     "global": true,
     "condition": { "u_compare_time_since_var": "time_of_last_succession", "type": "timer", "op": ">", "time": "90 d" },
     "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
-    "deactivate_condition": { "not": { "u_has_var": "time_of_last_succession" } }
+    "deactivate_condition": { "not": { "u_has_var": "time_of_last_succession", "value": "yes" } }
   },
   {
     "type": "effect_on_condition",
