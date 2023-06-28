@@ -32,27 +32,34 @@
         "//": "For an L shape of cores",
         "overmap": "crater",
         "north": "core_to_crater",
-        "east": "core_to_crater",
+        "east": { "id": "core_to_crater", "type": "available" },
         "south": "crater_to_corner",
         "west": "crater_to_corner"
+      },
+      "crater_adjacent_to_core_double_fill": {
+        "overmap": "crater",
+        "north": "core_to_crater",
+        "east": { "id": "core_to_crater", "type": "available" },
+        "south": { "id": "crater_to_corner", "alternatives": [ "corner_to_crater" ], "type": "available" },
+        "west": { "id": "crater_to_corner", "alternatives": [ "corner_to_crater" ], "type": "available" }
       },
       "crater_adjacent_to_core_triple": {
         "//": "For an U shape of cores",
         "overmap": "crater",
         "north": "core_to_crater",
-        "east": "core_to_crater",
-        "south": "core_to_crater",
+        "east": { "id": "core_to_crater", "type": "available" },
+        "south": { "id": "core_to_crater", "type": "available" },
         "west": "crater_to_corner"
       },
       "crater_adjacent_to_core_quad": {
         "//": "Only used if a O shape of cores forms, probably pointless",
         "overmap": "crater",
         "north": "core_to_crater",
-        "east": "core_to_crater",
-        "south": "core_to_crater",
-        "west": "core_to_crater"
+        "east": { "id": "core_to_crater", "type": "available" },
+        "south": { "id": "core_to_crater", "type": "available" },
+        "west": { "id": "core_to_crater", "type": "available" }
       },
-      "crater_corner": { "overmap": "crater", "north": "corner_to_crater", "east": "corner_to_crater" }
+      "crater_corner": { "overmap": "crater_corner", "north": "corner_to_crater", "east": "corner_to_crater" }
     },
     "root": "crater_core",
     "phases": [
@@ -62,6 +69,7 @@
       [ { "overmap": "crater_adjacent_to_core_triple", "weight": 1 } ],
       [ { "overmap": "crater_adjacent_to_core_quad", "weight": 1 } ],
       [ { "overmap": "crater_adjacent_to_core_fill", "weight": 1 } ],
+      [ { "overmap": "crater_adjacent_to_core_double_fill", "weight": 1 } ],
       [ { "overmap": "crater_corner", "weight": 1 } ]
     ]
   }

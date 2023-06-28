@@ -108,6 +108,26 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "crater_corner",
+    "weight": 250,
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "place_nested": [
+        { "chunks": [ "24x24_crater_north" ], "x": 0, "y": 0, "neighbors": { "north": "crater_core" } },
+        { "chunks": [ "24x24_crater_north_east" ], "x": 0, "y": 0, "neighbors": { "north_east": "crater_core" } },
+        { "chunks": [ "24x24_crater_east" ], "x": 0, "y": 0, "neighbors": { "east": "crater_core" } },
+        { "chunks": [ "24x24_crater_south_east" ], "x": 0, "y": 0, "neighbors": { "south_east": "crater_core" } },
+        { "chunks": [ "24x24_crater_south" ], "x": 0, "y": 0, "neighbors": { "south": "crater_core" } },
+        { "chunks": [ "24x24_crater_south_west" ], "x": 0, "y": 0, "neighbors": { "south_west": "crater_core" } },
+        { "chunks": [ "24x24_crater_west" ], "x": 0, "y": 0, "neighbors": { "west": "crater_core" } },
+        { "chunks": [ "24x24_crater_north_west" ], "x": 0, "y": 0, "neighbors": { "north_west": "crater_core" } }
+      ],
+      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_crater_north",
     "object": {
       "mapgensize": [ 24, 24 ],

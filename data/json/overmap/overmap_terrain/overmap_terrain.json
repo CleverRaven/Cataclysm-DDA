@@ -392,7 +392,7 @@
     "type": "overmap_terrain",
     "id": "crater",
     "name": "crater",
-    "sym": "O",
+    "sym": "o",
     "color": "red",
     "see_cost": 2,
     "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ]
@@ -400,6 +400,13 @@
   {
     "type": "overmap_terrain",
     "id": "crater_core",
+    "sym": "O",
+    "copy-from": "crater"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater_corner",
+    "sym": ".",
     "copy-from": "crater"
   },
   {
