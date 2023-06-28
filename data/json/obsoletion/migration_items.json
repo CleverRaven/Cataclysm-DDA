@@ -171,5 +171,17 @@
     "id": "rebreather_filter",
     "type": "MIGRATION",
     "replace": "rebreather_filler_soda_lime"
+  },
+  {
+    "id": "coat_fur_sf",
+    "type": "MIGRATION",
+    "replace": "coat_fur",
+    "variant": "coat_sable_fur"
+  },
+  {
+    "id": "flag_pants",
+    "type": "MIGRATION",
+    "replace": "pants",
+    "variant": "pants_flag"
   }
 ]

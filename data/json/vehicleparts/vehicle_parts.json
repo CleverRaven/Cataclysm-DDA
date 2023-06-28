@@ -2234,6 +2234,85 @@
   },
   {
     "type": "vehicle_part",
+    "id": "hddoor_trunk",
+    "name": { "str": "heavy-duty trunk door" },
+    "variants": [ { "symbols": "+", "symbols_broken": "&" } ],
+    "categories": [ "hull" ],
+    "color": "light_gray",
+    "looks_like": "door_trunk",
+    "broken_color": "light_gray",
+    "damage_modifier": 80,
+    "durability": 750,
+    "description": "A strong, short door.  You can always see over it, open or closed.",
+    "item": "hdframe",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+    },
+    "flags": [
+      "OBSTACLE",
+      "OPENABLE",
+      "MULTISQUARE",
+      "BOARDABLE",
+      "LOW_FINAL_AIR_DRAG",
+      "WINDOW",
+      "SIMPLE_PART",
+      "DOOR",
+      "LOCKABLE_DOOR"
+    ],
+    "breaks_into": "ig_vp_hdframe",
+    "damage_reduction": { "all": 30 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_shutter",
+    "name": { "str": "shutter door" },
+    "looks_like": "hatch",
+    "variants": [ { "symbols": "+", "symbols_broken": "&" } ],
+    "categories": [ "hull" ],
+    "color": "white",
+    "broken_color": "white",
+    "damage_modifier": 80,
+    "durability": 95,
+    "description": "A strong door.  Solid construction means you can't see through it when closed.",
+    "item": "sheet_metal",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR", "LOCKABLE_DOOR" ],
+    "breaks_into": "ig_vp_sheet_metal",
+    "damage_reduction": { "all": 7 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_sliding",
+    "name": { "str": "sliding door" },
+    "variants": [ { "symbols": "+", "symbols_broken": "&" } ],
+    "looks_like": "door",
+    "categories": [ "hull" ],
+    "color": "light_cyan",
+    "broken_color": "light_cyan",
+    "damage_modifier": 80,
+    "durability": 150,
+    "description": "A door.  A window lets you see through it when closed.",
+    "item": "frame",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR", "LOCKABLE_DOOR" ],
+    "breaks_into": "ig_vp_frame",
+    "damage_reduction": { "all": 20 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "cargo_space",
     "name": { "str": "cargo space" },
     "looks_like": "box",
@@ -2575,6 +2654,28 @@
   },
   {
     "type": "vehicle_part",
+    "id": "spike_wood",
+    "name": { "str": "wooden spike" },
+    "variants": [ { "symbols": ".", "symbols_broken": "x" } ],
+    "categories": [ "warfare" ],
+    "color": "brown",
+    "broken_color": "brown",
+    "damage_modifier": 115,
+    "durability": 150,
+    "description": "A wooden spike, attached to the vehicle, to increase injury when crashing into things.",
+    "item": "pointy_stick",
+    "folded_volume": "1250 ml",
+    "location": "structure",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "SHARP", "PROTRUSION" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "roof_wood",
     "name": { "str": "wooden roof" },
     "categories": [ "hull" ],
@@ -2641,7 +2742,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "BOARD_INTERNAL", "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
     "damage_reduction": { "all": 12 },
     "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
@@ -3213,6 +3314,31 @@
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 54 },
     "variants": [ { "symbols": "X", "symbols_broken": "X" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_lock",
+    "name": { "str": "door lock" },
+    "variants": [ { "symbols": "*", "symbols_broken": "*" } ],
+    "categories": [ "other" ],
+    "color": "light_blue",
+    "broken_color": "light_gray",
+    "durability": 25,
+    "description": "A lock and latching mechanism.  If installed on a door, this can be used to lock it.",
+    "folded_volume": "250 ml",
+    "item": "door_lock",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 2 ], [ "traps", 1 ] ],
+        "time": "24 m",
+        "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "DRILL", "level": 2 } ]
+      },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "24 m", "qualities": [ { "id": "SCREW", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ], [ "traps", 1 ] ], "time": "12 m", "using": [ [ "soldering_standard", 3 ] ] }
+    },
+    "flags": [ "BOARD_INTERNAL", "DOOR_LOCKING", "UNMOUNT_ON_DAMAGE" ],
+    "breaks_into": [ { "item": "clockworks", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
+    "damage_reduction": { "all": 60 }
   },
   {
     "type": "vehicle_part",

@@ -148,7 +148,7 @@
           { "item": "pants_checkered", "damage": [ 1, 4 ], "prob": 10 },
           { "item": "pants", "damage": [ 1, 4 ], "prob": 40 },
           { "item": "jeans", "damage": [ 1, 4 ], "prob": 20 },
-          { "item": "flag_pants", "damage": [ 1, 4 ], "prob": 5 },
+          { "item": "pants", "variant": "pants_flag", "damage": [ 1, 4 ], "prob": 5 },
           { "item": "breeches", "damage": [ 1, 4 ], "prob": 25 }
         ]
       },
