@@ -924,7 +924,7 @@
     "reversible": { "time": "30 s" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
-    "components": [ [ [ "nyloln_holster", 2 ] ] ]
+    "components": [ [ [ "nylon_holster", 2 ] ] ]
   },
   {
     "result": "FB_nylon_double_holster",
@@ -939,7 +939,7 @@
     "reversible": { "time": "30 s" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
-    "components": [ [ [ "nyloln_holster", 2 ] ] ]
+    "components": [ [ [ "nylon_holster", 2 ] ] ]
   },
   {
     "result": "western_holster",
