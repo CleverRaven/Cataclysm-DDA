@@ -14,4 +14,5 @@ TEST_CASE( "throw_activation", "[item]" )
         get_map().get_field( tripoint_zero, field_fd_acid );
         CHECK( get_map().get_field( tripoint_zero, field_fd_acid ) != nullptr );
     }
+	clear_map();
 }

@@ -218,13 +218,15 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos,
     }
     if( p ) {
         p->invalidate_weight_carried_cache();
-    }
-    const auto ret = use->can_call( *p, it, false, pos );
 
-    if( !ret.success() ) {
-        p->add_msg_if_player( m_info, ret.str() );
-        return 0;
+        const auto ret = use->can_call( *p, it, false, pos );
+
+        if( !ret.success() ) {
+            p->add_msg_if_player( m_info, ret.str() );
+            return 0;
+        }
     }
+
 
     return use->call( p, it, false, pos );
 }
