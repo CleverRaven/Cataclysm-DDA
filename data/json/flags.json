@@ -2225,6 +2225,11 @@
     "info": "A filter for a rebreather."
   },
   {
+    "id": "OLD_GUN",
+    "type": "json_flag",
+    "info": "An old gun, WWII or earlier."
+  },
+  {
     "id": "USE_POWER_WHEN_HIT",
     "type": "json_flag",
     "info": "This armor <info>expends energy when hit</info>."

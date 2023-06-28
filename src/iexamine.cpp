@@ -1798,8 +1798,25 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
     map &here = get_map();
     item &best_prying = you.best_item_with_quality( qual_PRY );
     item &best_lockpick = you.best_item_with_quality( qual_LOCKPICK );
+    optional_vpart_position veh = here.veh_at( examp );
+    int locked_part = -1;
+
+    // Check if the locked thing is a lockable door part.
+    if( veh ) {
+        std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
+                    examp, "LOCKABLE_DOOR", part_status_flag::available );
+        if( !parts_at_target.empty() ) {
+            locked_part = veh->vehicle().next_part_to_unlock(
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
+        }
+    }
+
+    const std::string target_name = here.has_furn( examp ) ? here.furnname( examp ) :
+                                    locked_part >= 0 ? veh->vehicle().part( locked_part ).name() :
+                                    here.tername( examp );
     const bool has_prying = !best_prying.is_null();
-    const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
+    const bool can_pick = ( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ||
+                            locked_part >= 0 ) &&
                           ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
     enum act {
         pick = 0,
@@ -1818,7 +1835,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         } else {
             uilist amenu;
             amenu.text = string_format( _( "What to do with the %s?" ),
-                                        here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                                        target_name );
             amenu.addentry( 0, true, 'l', _( "Pick the lock" ) );
             amenu.addentry( 1, true, 'p', _( "Pry open" ) );
             amenu.query();
@@ -1833,13 +1850,12 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
 
     if( action == act::none ) {
         add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                 target_name );
         return;
     } else if( action == act::pry ) {
         //~ %1$s: terrain/furniture name, %2$s: prying tool name
         you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                               here.has_furn( examp ) ? here.furnname( examp ) :
-                               here.tername( examp ), best_prying.tname() );
+                               target_name, best_prying.tname() );
         iuse::crowbar( &you, &best_prying, false, examp );
     } else if( action == act::pick ) {
         locked_object_pickable( you, examp );
@@ -1852,6 +1868,20 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
 void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 {
     map &here = get_map();
+    const optional_vpart_position veh = here.veh_at( examp );
+    int locked_part = -1;
+
+    if( veh ) {
+        const std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
+                    examp, "LOCKABLE_DOOR", part_status_flag::available );
+        if( !parts_at_target.empty() ) {
+            locked_part = veh->vehicle().next_part_to_unlock(
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
+        }
+    }
+
+    const std::string target_name = here.has_furn( examp ) ? here.furnname( examp ) :
+                                    locked_part >= 0 ? veh->vehicle().part( locked_part ).name() : here.tername( examp );
 
     if( you.has_bionic( bio_lockpick ) ) {
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
@@ -1875,7 +1905,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 
     if( picklocks.empty() ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                 target_name );
         return;
     }
 
@@ -1892,12 +1922,12 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 
     for( item *it : picklocks ) {
         if( !query_yn( _( "Pick the lock of %1$s using your %2$s?" ),
-                       here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
+                       target_name, it->tname() ) ) {
             return;
         }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         you.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
-                               here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
+                               target_name, it->tname() );
         const ret_val<void> can_use = iuse_fn->can_call( you, *it, false, examp );
         if( can_use.success() ) {
             iuse_fn->call( you, *it, false, examp );

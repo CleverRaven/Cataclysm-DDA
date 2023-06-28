@@ -31,6 +31,10 @@
     "info": "You can install a seat belt or five part harness here to help keep you in your seat during a collision."
   },
   {
+    "id": "BOARD_INTERNAL",
+    "type": "json_flag"
+  },
+  {
     "id": "CABLE_PORTS",
     "type": "json_flag",
     "info": "You can connect electrical cables to this part."
@@ -229,6 +233,11 @@
     "requires_flag": "LOCKABLE_CARGO"
   },
   {
+    "id": "DOOR_LOCKING",
+    "type": "json_flag",
+    "requires_flag": "LOCKABLE_DOOR"
+  },
+  {
     "id": "DOOR_MOTOR",
     "type": "json_flag",
     "requires_flag": "OPENABLE"
@@ -403,6 +412,11 @@
   {
     "id": "LOCKABLE_CARGO",
     "type": "json_flag"
+  },
+  {
+    "id": "LOCKABLE_DOOR",
+    "type": "json_flag",
+    "info": "This can be locked if equipped with a locking mechanism, preventing access from outside the vehicle."
   },
   {
     "id": "LOW_FINAL_AIR_DRAG",
