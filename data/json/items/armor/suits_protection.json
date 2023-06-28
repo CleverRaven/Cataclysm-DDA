@@ -180,7 +180,6 @@
     "price": 100000,
     "price_postapoc": 1500,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "faux_fur" ],
     "symbol": "[",
     "longest_side": "30 cm",
@@ -209,8 +208,8 @@
     ],
     "warmth": 40,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_armor_faux_farmor",
