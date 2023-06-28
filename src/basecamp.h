@@ -287,7 +287,6 @@ class basecamp
         std::string craft_description( const recipe_id &itm );
 
         // main mission description collection
-
         void get_available_missions( mission_data &mission_key, map &here );
         void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
         void choose_new_leader();
