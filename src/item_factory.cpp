@@ -86,10 +86,12 @@ static const item_category_id item_category_weapons( "weapons" );
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 
 static const material_id material_bean( "bean" );
+static const material_id material_blood( "blood" );
 static const material_id material_egg( "egg" );
 static const material_id material_flesh( "flesh" );
 static const material_id material_fruit( "fruit" );
 static const material_id material_garlic( "garlic" );
+static const material_id material_hblood( "hblood" );
 static const material_id material_hflesh( "hflesh" );
 static const material_id material_honey( "honey" );
 static const material_id material_hydrocarbons( "hydrocarbons" );
