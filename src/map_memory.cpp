@@ -278,12 +278,11 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     // Loop through each z-level in vision range
     for( int z = std::max( sm_pos.z - fov_3d_z_range, -OVERMAP_DEPTH );
          z <= std::min( sm_pos.z + fov_3d_z_range, OVERMAP_HEIGHT ); z++ ) {
-        cache_pos.z = z;
         cached[z].reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y );
         for( int dy = 0; dy < cache_size.y; dy++ ) {
             for( int dx = 0; dx < cache_size.x; dx++ ) {
                 // Store submap pointer in cache, categorized by z-level
-                cached[z].push_back( fetch_submap( cache_pos + point( dx, dy ) ) );
+                cached[z].push_back( fetch_submap( tripoint( cache_pos.xy(), z ) + point( dx, dy ) ) );
             }
         }
     }
