@@ -3,74 +3,73 @@
     "type": "overmap_special",
     "id": "Crater",
     "subtype": "mutable",
-    "locations": [ "land", "road" ],
+    "locations": [ "land", "road", "crater", "open_air" ],
     "occurrences": [ 0, 2 ],
     "flags": [ "BLOB", "CLASSIC" ],
     "check_for_locations_area": [ { "type": [ "land", "road" ], "from": [ -3, -3, 0 ], "to": [ 3, 3, 0 ] } ],
-    "joins": [
-      "core_to_crater",
-      { "id": "crater_to_corner", "opposite": "corner_to_crater" },
-      { "id": "corner_to_crater", "opposite": "crater_to_corner" }
-    ],
+    "joins": [ "crater_to_crater", "root" ],
     "overmaps": {
-      "crater_core": {
-        "overmap": "crater_core",
-        "north": "core_to_crater",
-        "east": "core_to_crater",
-        "south": "core_to_crater",
-        "west": "core_to_crater"
+      "crater_core": { "overmap": "crater_core" },
+      "crater": { "overmap": "crater" },
+      "crater_core_root": { "overmap": "crater_core", "north": "root" },
+      "crater_root": { "overmap": "crater", "south": "root" },
+      "crater_to_crater_esw": {
+        "overmap": "special_air",
+        "east": "crater_to_crater",
+        "south": "crater_to_crater",
+        "west": "crater_to_crater"
       },
-      "crater_adjacent_to_core": { "overmap": "crater", "north": "core_to_crater", "east": "crater_to_corner", "west": "crater_to_corner" },
-      "crater_adjacent_to_core_fill": {
-        "//": "To fill gaps between crater_adjacent_to_core",
-        "overmap": "crater",
-        "north": "core_to_crater",
-        "east": { "id": "crater_to_corner", "alternatives": [ "corner_to_crater" ], "type": "available" },
-        "west": { "id": "crater_to_corner", "alternatives": [ "corner_to_crater" ], "type": "available" }
+      "crater_to_crater_n": {
+        "overmap": "special_air",
+        "north": "crater_to_crater"
       },
-      "crater_adjacent_to_core_double": {
-        "//": "For an L shape of cores",
-        "overmap": "crater",
-        "north": "core_to_crater",
-        "east": { "id": "core_to_crater", "type": "available" },
-        "south": "crater_to_corner",
-        "west": "crater_to_corner"
-      },
-      "crater_adjacent_to_core_double_fill": {
-        "overmap": "crater",
-        "north": "core_to_crater",
-        "east": { "id": "core_to_crater", "type": "available" },
-        "south": { "id": "crater_to_corner", "alternatives": [ "corner_to_crater" ], "type": "available" },
-        "west": { "id": "crater_to_corner", "alternatives": [ "corner_to_crater" ], "type": "available" }
-      },
-      "crater_adjacent_to_core_triple": {
-        "//": "For an U shape of cores",
-        "overmap": "crater",
-        "north": "core_to_crater",
-        "east": { "id": "core_to_crater", "type": "available" },
-        "south": { "id": "core_to_crater", "type": "available" },
-        "west": "crater_to_corner"
-      },
-      "crater_adjacent_to_core_quad": {
-        "//": "Only used if a O shape of cores forms, probably pointless",
-        "overmap": "crater",
-        "north": "core_to_crater",
-        "east": { "id": "core_to_crater", "type": "available" },
-        "south": { "id": "core_to_crater", "type": "available" },
-        "west": { "id": "core_to_crater", "type": "available" }
-      },
-      "crater_corner": { "overmap": "crater_corner", "north": "corner_to_crater", "east": "corner_to_crater" }
+      "cleanup": {
+        "overmap": "special_air",
+        "north": { "id": "crater_to_crater", "type": "available" },
+        "east": { "id": "crater_to_crater", "type": "available" },
+        "south": { "id": "crater_to_crater", "type": "available" },
+        "west": { "id": "crater_to_crater", "type": "available" }
+      }
     },
-    "root": "crater_core",
+    "root": "crater_core_root",
     "phases": [
-      [ { "//": "CHANGE AFTER REBASE", "overmap": "crater_core", "max": 3 } ],
-      [ { "overmap": "crater_adjacent_to_core", "weight": 1 } ],
-      [ { "overmap": "crater_adjacent_to_core_double", "weight": 1 } ],
-      [ { "overmap": "crater_adjacent_to_core_triple", "weight": 1 } ],
-      [ { "overmap": "crater_adjacent_to_core_quad", "weight": 1 } ],
-      [ { "overmap": "crater_adjacent_to_core_fill", "weight": 1 } ],
-      [ { "overmap": "crater_adjacent_to_core_double_fill", "weight": 1 } ],
-      [ { "overmap": "crater_corner", "weight": 1 } ]
+      [
+        {
+          "name": "crater_outer",
+          "chunk": [
+            { "overmap": "crater_to_crater_esw", "pos": [ 0, 0, 10 ] },
+            { "overmap": "crater", "pos": [ -1, -1, 0 ] },
+            { "overmap": "crater_root", "pos": [ 0, -1, 0 ] },
+            { "overmap": "crater", "pos": [ 1, -1, 0 ] },
+            { "overmap": "crater", "pos": [ -1, 0, 0 ] },
+            { "overmap": "crater", "pos": [ 1, 0, 0 ] },
+            { "overmap": "crater", "pos": [ -1, 1, 0 ] },
+            { "overmap": "crater", "pos": [ 0, 1, 0 ] },
+            { "overmap": "crater", "pos": [ 1, 1, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [
+        {
+          "name": "crater_whole",
+          "chunk": [
+            { "overmap": "crater_to_crater_n", "pos": [ 0, -1, 10 ] },
+            { "overmap": "crater_core", "pos": [ 0, 0, 0 ] },
+            { "overmap": "crater_to_crater_esw", "pos": [ 0, 0, 10 ] },
+            { "overmap": "crater", "pos": [ -1, -1, 0 ] },
+            { "overmap": "crater", "pos": [ 0, -1, 0 ] },
+            { "overmap": "crater", "pos": [ 1, -1, 0 ] },
+            { "overmap": "crater", "pos": [ -1, 0, 0 ] },
+            { "overmap": "crater", "pos": [ 1, 0, 0 ] },
+            { "overmap": "crater", "pos": [ -1, 1, 0 ] },
+            { "overmap": "crater", "pos": [ 0, 1, 0 ] },
+            { "overmap": "crater", "pos": [ 1, 1, 0 ] }
+          ],
+          "max": 2
+        }
+      ],
+      [ { "overmap": "cleanup", "weight": 1 } ]
     ]
   }
 ]
