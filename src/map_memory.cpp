@@ -390,7 +390,7 @@ const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
     }
     const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y &&
-        cached[sm_pos.z].size() > 0 ) {
+        !cached[sm_pos.z].empty() ) {
         return *cached[sm_pos.z][idx.y * cache_size.x + idx.x];
     } else {
         return null_mz_submap;
@@ -404,7 +404,7 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
     }
     const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y &&
-        cached[sm_pos.z].size() > 0 ) {
+        !cached[sm_pos.z].empty() ) {
         return *cached[sm_pos.z][idx.y * cache_size.x + idx.x];
     } else {
         return null_mz_submap;
