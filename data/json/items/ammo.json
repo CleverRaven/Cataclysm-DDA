@@ -1132,7 +1132,7 @@
     "symbol": "=",
     "color": "white",
     "description": "Potassium superoxide powder, used as oxygen regenerating agent in rebreathers.  Keep away from water.",
-    "flags": [  "WATER_DISSOLVE" ],
+    "flags": [ "WATER_DISSOLVE" ],
     "volume": "30 ml",
     "weight": "6 g",
     "//": "Density is 2.14 g/cm3, rounded down to account for it being powder, weight is given per 1 minute of scrubbing",
