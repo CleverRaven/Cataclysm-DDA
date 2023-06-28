@@ -87,7 +87,6 @@
     "damage_reduction": { "all": 30 },
     "description": "A strong door.  Has a window so you can see out of it, even when closed.",
     "durability": 600,
-    "flags": [ "CARGO", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "DOOR", "LOCKABLE_DOOR" ],
     "item": "hdframe",
     "location": "center",
     "looks_like": "door_opaque",

@@ -3399,10 +3399,9 @@
     "type": "vehicle_part",
     "id": "door_lock",
     "name": { "str": "door lock" },
-    "symbol": "*",
+    "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
     "categories": [ "other" ],
     "color": "light_blue",
-    "broken_symbol": "*",
     "broken_color": "light_gray",
     "durability": 25,
     "description": "A lock and latching mechanism.  If installed on a door, this can be used to lock it.",
