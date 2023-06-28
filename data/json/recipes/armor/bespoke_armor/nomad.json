@@ -9,11 +9,13 @@
     "difficulty": 5,
     "time": "2 h",
     "book_learn": [ [ "bp_nomad_cowl", 4 ] ],
-    "using": [ [ "tailoring_denim_patchwork", 10 ], [ "sewing_standard", 50 ] ],
+    "using": [ [ "filament_canvas", 80 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
       [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
-      [ [ "leather", 8 ], [ "tanned_hide", 2 ] ]
+      [ [ "leather", 8 ], [ "tanned_hide", 2 ], [ "sheet_leather", 2 ], [ "sheet_leather_patchwork", 2 ] ],
+      [ [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -59,8 +61,8 @@
     "difficulty": 5,
     "time": "4 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "sewing_standard", 100 ], [ "tailoring_denim_patchwork", 24 ], [ "tailoring_leather_patchwork", 4 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "filament_canvas", 300 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -68,8 +70,9 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
-      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
+      [ [ "leather", 16 ], [ "tanned_hide", 4 ], [ "sheet_leather", 4 ], [ "sheet_leather_patchwork", 4 ] ],
+      [ [ "sheet_denim", 24 ], [ "sheet_denim_patchwork", 24 ] ],
+      [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ],
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
       [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
@@ -87,8 +90,8 @@
     "difficulty": 5,
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 1 ], [ "sewing_standard", 60 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "filament_canvas", 150 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -96,9 +99,10 @@
     ],
     "components": [
       [ [ "armor_nomad_light", 1 ] ],
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
+      [ [ "sheet_denim", 6 ], [ "sheet_denim_patchwork", 6 ] ],
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
-      [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ],
-      [ [ "sheet_denim", 6 ], [ "sheet_denim_patchwork", 6 ] ]
+      [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -112,7 +116,8 @@
     "difficulty": 4,
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 3 ] ],
-    "using": [ [ "sewing_standard", 50 ], [ "tailoring_denim_patchwork", 12 ], [ "tailoring_leather_patchwork", 3 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "using": [ [ "filament_canvas", 150 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -120,8 +125,9 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
-      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
+      [ [ "leather", 12 ], [ "tanned_hide", 3 ], [ "sheet_leather", 3 ], [ "sheet_leather_patchwork", 3 ] ],
+      [ [ "sheet_denim", 12 ], [ "sheet_denim_patchwork", 12 ] ],
+      [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ],
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
       [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
