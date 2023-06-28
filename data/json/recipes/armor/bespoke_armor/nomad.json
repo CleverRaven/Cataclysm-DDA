@@ -9,7 +9,7 @@
     "difficulty": 5,
     "time": "2 h",
     "book_learn": [ [ "bp_nomad_cowl", 4 ] ],
-    "using": [ [ "filament_canvas", 80 ] ],
+    "using": [ [ "filament_canvas", 80 ], [ "fastener_small", 4 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
@@ -29,7 +29,7 @@
     "type": "recipe",
     "copy-from": "helmet_nomad",
     "time": "2 h",
-    "using": [ [ "filament_canvas", 60 ] ],
+    "using": [ [ "filament_canvas", 60 ], [ "fastener_small", 4 ] ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
       [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
@@ -43,7 +43,7 @@
     "type": "recipe",
     "copy-from": "helmet_nomad",
     "time": "2 h 15 m",
-    "using": [ [ "filament_canvas", 120 ] ],
+    "using": [ [ "filament_canvas", 120 ], [ "fastener_small", 6 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
@@ -64,7 +64,7 @@
     "difficulty": 5,
     "time": "4 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "filament_canvas", 300 ] ],
+    "using": [ [ "filament_canvas", 300 ], [ "fastener_large", 4 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -92,7 +92,7 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "time": "2 h 20 m",
-    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ], [ "fastener_large", 1 ] ],
     "using": [ [ "filament_canvas", 150 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "proficiencies": [
@@ -120,7 +120,7 @@
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 3 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
-    "using": [ [ "filament_canvas", 150 ] ],
+    "using": [ [ "filament_canvas", 150 ], [ "fastener_large", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
