@@ -117,7 +117,6 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     dummy.update_body( calendar::turn, calendar::turn + 1_seconds );
     dummy.set_activity_level( 1.0 );
-    calendar::turn += 1_seconds;
 
     CAPTURE( dummy.metabolic_rate_base() );
     CAPTURE( dummy.activity_level_str() );
