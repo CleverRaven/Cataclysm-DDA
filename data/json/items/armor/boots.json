@@ -455,7 +455,6 @@
     "price": 14000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -493,7 +492,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_faux_fur",
