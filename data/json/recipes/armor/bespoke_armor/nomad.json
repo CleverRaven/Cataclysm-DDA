@@ -92,8 +92,8 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "time": "2 h 20 m",
-    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ], [ "fastener_large", 1 ] ],
-    "using": [ [ "filament_canvas", 150 ] ],
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [ [ "filament_canvas", 150 ], [ "fastener_large", 1 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
