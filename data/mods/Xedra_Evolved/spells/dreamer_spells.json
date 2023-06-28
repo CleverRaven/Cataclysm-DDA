@@ -478,7 +478,7 @@
     "shape": "blast",
     "base_casting_time": { "math": [ "spell_time(u_val('time: 3 m'))" ] },
     "final_casting_time": { "math": [ "spell_time(u_val('time: 6 s'))" ] },
-    "casting_time_increment": { "math": [ "1* spell_time(u_val('time: 3 m'))" ] },
+    "casting_time_increment": { "math": [ "-1 * spell_time(u_val('time: 3 m'))" ] },
     "base_energy_cost": 1200,
     "final_energy_cost": 200,
     "energy_increment": -25,
