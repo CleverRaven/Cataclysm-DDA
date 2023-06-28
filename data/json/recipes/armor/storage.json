@@ -1479,7 +1479,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_nylon_patchwork", 10 ], [ "clasps", 1 ], [ "adhesive", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
