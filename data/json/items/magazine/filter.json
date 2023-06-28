@@ -50,7 +50,7 @@
     "weight": "5500 g",
     "ammo_type": "rebreather_filter",
     "flags": [ "NO_SALVAGE", "NO_RELOAD", "REBREATHER_CART" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 90 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "rigid": true, "ammo_restriction": { "rebreather_filter": 90 } } ]
   },
   {
     "id": "rebreather_cartridge_o2",
@@ -67,7 +67,14 @@
     "weight": "5500 g",
     "ammo_type": "rebreather_filter",
     "flags": [ "NO_SALVAGE", "NO_RELOAD", "REBREATHER_CART" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 180 } } ]
+    "pocket_data": [ 
+      { 
+        "pocket_type": "MAGAZINE",
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "rebreather_filter": 180 } 
+      } 
+    ]
   },
   {
     "id": "rebreather_cartridge_regen",
@@ -84,6 +91,6 @@
     "weight": "1000 g",
     "ammo_type": "rebreather_filter",
     "flags": [ "NO_SALVAGE", "NO_RELOAD", "REBREATHER_CART" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_o2_regenerator": 360 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "rigid": true, "ammo_restriction": { "rebreather_o2_regenerator": 360 } } ]
   }
 ]
