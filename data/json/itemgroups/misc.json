@@ -177,10 +177,9 @@
       { "item": "magic_8_ball", "prob": 5 },
       { "item": "family_photo", "prob": 5 },
       { "item": "coin_quarter", "prob": 5 },
-      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
       { "item": "RPG_die", "prob": 5 },
       { "item": "metal_RPG_die", "prob": 1 },
-      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
+      { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
   {
@@ -251,7 +250,12 @@
     "id": "horse_gear",
     "type": "item_group",
     "//": "Horse vehicle items",
-    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ] ]
+    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ], [ "saddlebag", 25 ] ]
+  },
+  {
+    "id": "riding_gear",
+    "type": "item_group",
+    "items": [ [ "helmet_riding", 50 ], [ "helmet_riding_peakless", 20 ], [ "dressage_whip", 20 ], [ "riding_crop", 20 ] ]
   },
   {
     "type": "item_group",

@@ -674,6 +674,34 @@
     "flags": [ "FIRESTARTER", "ZOOM" ]
   },
   {
+    "id": "teargas_sprayer",
+    "type": "TOOL",
+    "name": { "str": "tear gas sprayer" },
+    "description": "A pocket sized plastic canister filled with a pressurized tear gas spray, a step above oleoresin capsicum pepper spray in terms of potency.  Most commonly used by law enforcement and bear-wary hikers, but it became more common in recent months due to anxiety over the riots.  Probably won't do much against a zombie, but should give anything still breathing a rather nasty surprise and give you time to get away.  It contains enough spray for about twenty seconds of continuous application.",
+    "weight": "96 g",
+    "volume": "100 ml",
+    "longest_side": "9 cm",
+    "price": 1000,
+    "price_postapoc": 150,
+    "to_hit": -2,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "teargas_spray": 10 }
+      }
+    ],
+    "ammo": "teargas_spray",
+    "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP" ],
+    "use_action": [ "MACE" ]
+  },
+  {
     "id": "tear_gas_payload",
     "type": "TOOL",
     "category": "weapons",
@@ -684,9 +712,7 @@
     "use_action": {
       "target": "tear_gas_payload_act",
       "msg": "You pull the pin on the payload.",
-      "target_charges": 5,
-      "active": true,
-      "menu_text": "Pull pin",
+      "target_timer": "5 seconds",
       "type": "transform"
     },
     "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
@@ -699,18 +725,12 @@
     "description": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
     "symbol": "*",
     "color": "dark_gray",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "use_action": {
+    "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_tear_gas",
       "fields_radius": 3,
       "fields_min_intensity": 1,
-      "fields_max_intensity": 3,
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
+      "fields_max_intensity": 3
     },
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
@@ -942,5 +962,39 @@
     "color": "blue",
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "dressage_whip",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": { "str": "dressage whip" },
+    "description": "A long, thin and flexible rod that tapers to a point, originally used to stimulate a horse and give them orders.",
+    "weight": "90 g",
+    "volume": "732 ml",
+    "longest_side": "1100 mm",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "epoxy", "nylon" ],
+    "flags": [ "REACH_ATTACK", "REACH3" ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 1 }
+  },
+  {
+    "id": "riding_crop",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": { "str": "riding crop" },
+    "description": "A rod ending in a leather popper originally used to stimulate a horse and give them orders.",
+    "weight": "68 g",
+    "volume": "1480 ml",
+    "longest_side": "600 mm",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "epoxy", "leather" ],
+    "flags": [ "REACH_ATTACK" ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 1 }
   }
 ]

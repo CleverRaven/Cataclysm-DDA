@@ -62,8 +62,8 @@ static bool alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
     static time_point last_dia_dream = calendar::turn_zero;
     const bool recent_dream = ( is_alcohol && ( calendar::turn - last_alc_dream < 2_hours ) ) ||
                               ( !is_alcohol && ( calendar::turn - last_dia_dream < 2_hours ) );
-    const auto morale_type = is_alcohol ? MORALE_CRAVING_ALCOHOL :
-                             MORALE_CRAVING_DIAZEPAM;
+    const morale_type morale_type = is_alcohol ? MORALE_CRAVING_ALCOHOL :
+                                    MORALE_CRAVING_DIAZEPAM;
     bool ret = false;
     u.mod_per_bonus( -1 );
     u.mod_int_bonus( -1 );
@@ -121,8 +121,8 @@ static bool crack_coke_add( Character &u, int in, int stim, bool is_crack )
         !is_crack ?
         ( u.in_sleep_state() ? "addict_coke_asleep" : "addict_coke_awake" ) :
         ( u.in_sleep_state() ? "addict_crack_asleep" : "addict_crack_awake" );
-    const auto morale_type = !is_crack ? MORALE_CRAVING_COCAINE :
-                             MORALE_CRAVING_CRACK;
+    const morale_type morale_type = !is_crack ? MORALE_CRAVING_COCAINE :
+                                    MORALE_CRAVING_CRACK;
     bool ret = false;
     auto run_addict_eff = [&ret, &morale_type]( Character & u, int in, bool is_crack,
     const std::string & snippet ) {

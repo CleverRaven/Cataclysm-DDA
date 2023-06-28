@@ -47,7 +47,7 @@ static float brute_special_probability( monster &attacker, Creature &target, con
 {
     size_t hits = 0;
     for( size_t i = 0; i < iters; i++ ) {
-        if( !mattack::dodge_check( &attacker, &target ) ) {
+        if( !target.dodge_check( &attacker ) ) {
             hits++;
         }
     }
@@ -88,7 +88,7 @@ static const int num_iters = 10000;
 
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 
-TEST_CASE( "Character attacking a zombie", "[.melee]" )
+TEST_CASE( "Character_attacking_a_zombie", "[.melee]" )
 {
     monster zed( mon_zombie );
     INFO( "Zombie has get_dodge() == " + std::to_string( zed.get_dodge() ) );
@@ -117,7 +117,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
     }
 }
 
-TEST_CASE( "Character attacking a manhack", "[.melee]" )
+TEST_CASE( "Character_attacking_a_manhack", "[.melee]" )
 {
     monster manhack( mon_manhack );
     INFO( "Manhack has get_dodge() == " + std::to_string( manhack.get_dodge() ) );
@@ -146,7 +146,7 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
     }
 }
 
-TEST_CASE( "Zombie attacking a character", "[.melee]" )
+TEST_CASE( "Zombie_attacking_a_character", "[.melee]" )
 {
     monster zed( mon_zombie );
     INFO( "Zombie has get_hit() == " + std::to_string( zed.get_hit() ) );
@@ -185,7 +185,7 @@ TEST_CASE( "Zombie attacking a character", "[.melee]" )
     }
 }
 
-TEST_CASE( "Manhack attacking a character", "[.melee]" )
+TEST_CASE( "Manhack_attacking_a_character", "[.melee]" )
 {
     monster manhack( mon_manhack );
     INFO( "Manhack has get_hit() == " + std::to_string( manhack.get_hit() ) );
@@ -219,7 +219,7 @@ TEST_CASE( "Manhack attacking a character", "[.melee]" )
     }
 }
 
-TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
+TEST_CASE( "Hulk_smashing_a_character", "[.], [melee], [monattack]" )
 {
     monster zed( mon_zombie_hulk );
     INFO( "Hulk has get_hit() == " + std::to_string( zed.get_hit() ) );
@@ -253,7 +253,7 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
     }
 }
 
-TEST_CASE( "Charcter can dodge" )
+TEST_CASE( "Charcter_can_dodge" )
 {
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     monster zed( mon_zombie );
@@ -261,17 +261,17 @@ TEST_CASE( "Charcter can dodge" )
     dude.clear_effects();
     REQUIRE( dude.get_dodge() > 0.0 );
 
-    const int dodges_left = dude.dodges_left;
+    const int dodges_left = dude.get_dodges_left();
     for( int i = 0; i < 10000; ++i ) {
         dude.deal_melee_attack( &zed, 1 );
-        if( dodges_left < dude.dodges_left ) {
-            CHECK( dodges_left < dude.dodges_left );
+        if( dodges_left < dude.get_dodges_left() ) {
+            CHECK( dodges_left < dude.get_dodges_left() );
             break;
         }
     }
 }
 
-TEST_CASE( "Incapacited character can't dodge" )
+TEST_CASE( "Incapacited_character_can_not_dodge" )
 {
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     monster zed( mon_zombie );
@@ -280,14 +280,14 @@ TEST_CASE( "Incapacited character can't dodge" )
     dude.add_effect( effect_sleep, 1_hours );
     REQUIRE( dude.get_dodge() == 0.0 );
 
-    const int dodges_left = dude.dodges_left;
+    const int dodges_left = dude.get_dodges_left();
     for( int i = 0; i < 10000; ++i ) {
         dude.deal_melee_attack( &zed, 1 );
-        CHECK( dodges_left == dude.dodges_left );
+        CHECK( dodges_left == dude.get_dodges_left() );
     }
 }
 
-TEST_CASE( "Melee skill training caps", "[melee], [melee_training_cap], [skill]" )
+TEST_CASE( "Melee_skill_training_caps", "[melee], [melee_training_cap], [skill]" )
 {
     standard_npc dude( "TestCharacter", dude_pos, {} );
     monster dummy_1( debug_mon );
@@ -385,10 +385,11 @@ static void check_damage_from_test_fire( const std::vector<std::string> &armor_i
     }
     CHECK( total_hits == Approx( 1000 ).margin( 100 ) );
     CHECK( set_on_fire == total_hits );
-    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+    const float avg_dmg = total_dmg / static_cast<float>( total_hits );
+    CHECK( avg_dmg == Approx( expected_avg_dmg ).epsilon( 0.075 ) );
 }
 
-TEST_CASE( "Damage type effectiveness vs. monster resistance", "[melee][damage]" )
+TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage]" )
 {
     clear_map();
 

@@ -1,0 +1,51 @@
+files:
+  'data/mods/Aftershock/**':
+    - Maleclypse
+    - John-Candlebury
+  'data/mods/DinoMod/**':
+    - LyleSY
+  'data/mods/BombasticPerks/**':
+    - bombasticSlacks
+  'data/mods/MMA/**':
+    - Hymore246
+  'data/mods/classic_zombies/**':
+    - I-am-Erk
+  'data/mods/generic_guns/**':
+    - tenmillimaster
+  'data/mods/Magiclysm/**':
+    - KorGgenT
+    - GuardianDll
+  'data/mods/My_Sweet_Cataclysm/**':
+    - Fris0uman
+  'data/mods/ruralbiome/**':
+    - I-am-Erk
+  'data/mods/speedydex/**':
+    - KorGgenT
+  'data/mods/stats_through_kills/**':
+    - KorGgenT
+  'data/mods/Xedra_Evolved/**':
+    - Maleclypse
+    - GuardianDll
+  'data/mods/innawood/**':
+    - Light-Wave
+  'data/mods/MA/**':
+    - ZhilkinSerg
+  'data/mods/No_Hope/**':
+    - Night-Pryanik
+
+  '**/.clang-tidy':
+    - jbytheway
+  '**/magic*.cpp':
+    - KorGgenT
+  '**/magic*.h':
+    - KorGgenT
+  'tools/{spell_checker/!(dictionary.txt){,/**},!(spell_checker){,/**}}':
+    - jbytheway
+  'src/widget.cpp':
+    - wapcaplet
+    - dseguin
+  'src/widget.h':
+    - wapcaplet
+    - dseguin
+  'src/ui_manager.*':
+    - Qrox

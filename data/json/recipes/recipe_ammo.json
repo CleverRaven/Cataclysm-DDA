@@ -875,10 +875,9 @@
       [ "recipe_labchem", 3 ],
       [ "textbook_anarch", 3 ]
     ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "oxy_powder", 100 ] ], [ [ "lye_powder", 100 ] ] ]
+    "components": [ [ [ "bleach", 1 ] ], [ [ "ammonia_hydroxide", 1 ] ] ]
   },
   {
     "type": "recipe",

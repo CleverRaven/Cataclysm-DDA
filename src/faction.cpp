@@ -850,7 +850,7 @@ void faction_manager::display() const
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         camps[i]->camp_name() );
@@ -871,7 +871,7 @@ void faction_manager::display() const
                 if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         followers[i]->disp_name() );
@@ -897,7 +897,7 @@ void faction_manager::display() const
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         _( valfac[i]->name ) );
@@ -1004,10 +1004,12 @@ void faction_manager::display() const
         lore.clear();
         for( const auto &elem : player_character.get_snippets() ) {
             std::optional<translation> name = SNIPPET.get_name_by_id( elem );
-            if( !name->empty() ) {
-                lore.emplace_back( elem, name->translated() );
-            } else {
-                lore.emplace_back( elem, elem.str() );
+            if( name.has_value() ) {
+                if( !name->empty() ) {
+                    lore.emplace_back( elem, name->translated() );
+                } else {
+                    lore.emplace_back( elem, elem.str() );
+                }
             }
         }
         auto compare_second =
@@ -1066,8 +1068,9 @@ void faction_manager::display() const
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
                 if( guy->has_companion_mission() ) {
-                    guy->reset_companion_mission();
-                    popup( _( "%s returns from their mission" ), guy->disp_name() );
+
+                    talk_function::basecamp_mission( *guy );
+
                 } else if( interactable || radio_interactable ) {
                     player_character.talk_to( get_talker_for( *guy ), radio_interactable );
                 }

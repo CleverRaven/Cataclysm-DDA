@@ -1046,10 +1046,17 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
                 if( p.z > 0 ) {
-                    // We're in the air
+                    // We're in the air. Need to invalidate the furniture otherwise it'll cause problems
+                    here.furn_set( p, f_null );
                     here.ter_set( p, t_open_air );
+                } else if( p.z < -1 ) {
+                    // We're deep underground, in bedrock. Whatever terrain was here is burned to the ground, leaving only the carved out rock (including ceiling)
+                    here.ter_set( p, t_rock_floor );
                 } else {
+                    // Need to invalidate the furniture otherwise it'll cause problems when supporting terrain collapses
+                    here.furn_set( p, f_null );
                     here.ter_set( p, t_dirt );
                 }
             }
@@ -1399,6 +1406,16 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     }
 }
 
+static void field_processor_fd_last_known( const tripoint &p, field_entry &cur,
+        field_proc_data &pd )
+{
+    ( void )pd;
+    Creature *const loc_creature = get_creature_tracker().creature_at( p, false );
+    // Remove field when duration expires or non-player creature enters
+    if( cur.get_field_age() > 5_seconds || ( loc_creature != nullptr && !loc_creature->is_avatar() ) ) {
+        cur.set_field_intensity( 0 );
+    }
+}
 // This entire function makes very little sense. Why are the rules the way they are? Why does walking into some things destroy them but not others?
 
 /*
@@ -1882,16 +1899,10 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( MF_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
                     z.add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
-                    dam += rng( 4, 10 );
                 } else if( cur.get_field_intensity() == 2 ) {
                     z.add_effect( effect_stunned, rng( 5_turns, 10_turns ) );
-                    dam += rng( 2, 5 );
                 } else {
                     z.add_effect( effect_stunned, rng( 1_turns, 5_turns ) );
-                }
-                if( z.made_of( material_veggy ) ) {
-                    z.moves -= rng( cur.get_field_intensity() * 5, cur.get_field_intensity() * 12 );
-                    dam += cur.get_field_intensity() * rng( 8, 14 );
                 }
                 if( z.has_flag( MF_SEES ) ) {
                     z.add_effect( effect_blind, cur.get_field_intensity() * 8_turns );
@@ -2089,7 +2100,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
     using gas_blast = std::pair<float, tripoint>;
     std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp_first> open;
     std::set<tripoint> closed;
-    open.push( { 0.0f, center } );
+    open.emplace( 0.0f, center );
 
     const bool not_gas = type.obj().phase != phase_id::GAS;
 
@@ -2143,7 +2154,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     continue;
                 }
 
-                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
+                open.emplace( static_cast<float>( rl_dist( center, pt ) ), pt );
             }
         }
     }
@@ -2233,6 +2244,9 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
     if( ft.id == fd_fungicidal_gas ) {
         processors.push_back( &field_processor_fd_fungicidal_gas );
+    }
+    if( ft.id == fd_last_known ) {
+        processors.push_back( &field_processor_fd_last_known );
     }
 
     return processors;

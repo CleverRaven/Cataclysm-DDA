@@ -735,7 +735,7 @@ This enchantment adds the dexterity value to strength: a character with str 8 an
     "values": [
       {
         "value": "LUMINATION",
-        "add": { "arithmetic": [ { "global_val": "monsters_nearby", "radius": 25 }, "*", { "const": 20 } ] }
+        "add": { "math": [ "u_monsters_nearby('radius': 25) * 20" ] }
       }
     ]
   }
@@ -805,17 +805,20 @@ Character status value  | Description
 `EXTRA_STAB`            | 
 `EXTRA_ELEC_PAIN`       | Multiplier on electric damage received, the result is applied as extra pain.
 `EVASION`               | Flat chance for your character to dodge incoming attacks regardless of other modifiers. From 0.0 (no evasion chance) to 1.0 (100% evasion chance).
-`FALL_DAMAGE`           | Affects the ammount of fall damage you take.
+`FALL_DAMAGE`           | Affects the amount of fall damage you take.
 `FATIGUE`               | 
 `FOOTSTEP_NOISE`        | 
 `FORCEFIELD`            | Chance your character reduces incoming damage to 0. From 0.0 (no chance), to 1.0 (100% chance to avoid attacks).
 `HUNGER`                | 
+`KNOCKBACK_RESIST`      | The amount knockback effects you, 0 is the regular amount, -100 would be double effect, 100 would be no effect
+`KNOCKDOWN_RESIST`      | The amount knockdown effects you, currently *only* having 100 or greater knockdown_resist makes you immune to knockdown
 `LEARNING_FOCUS`        | Amount of bonus focus you have for learning purposes.
 `LUMINATION`            | Character produces light.
 `MAX_HP`                | 
 `MAX_MANA`              | 
 `MAX_STAMINA`           | 
 `MELEE_DAMAGE`          | 
+`RANGED_DAMAGE`         | Adds damage to ranged attacks
 `METABOLISM`            | 
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
@@ -825,6 +828,7 @@ Character status value  | Description
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `SHOUT_NOISE`           | 
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
+`SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
 `MOTION_VISION_RANGE `  | Reveals all monsters as a red `?` within the specified radius.
 `SLEEPY`                | The higher this the easier you fall asleep.
 `SKILL_RUST_RESIST`     | Chance / 100 to resist skill rust.

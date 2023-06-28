@@ -271,7 +271,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 25,
-    "description": "A stiff green stalk from a cattail plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
+    "description": "A stiff, green stalk from a cattail plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "veggy" ],
@@ -280,6 +280,13 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "burdock_stalk",
+    "name": { "str": "burdock stalk" },
+    "description": "A stiff, green stalk from a burdock plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
+    "copy-from": "cattail_stalk"
   },
   {
     "type": "COMESTIBLE",
@@ -1159,5 +1166,26 @@
     "volume": "4500 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_bottle_gourd"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "eggplant",
+    "name": { "str_sp": "eggplant" },
+    "comestible_type": "FOOD",
+    "weight": "194 g",
+    "volume": "250 ml",
+    "price": 20,
+    "price_postapoc": 50,
+    "color": "black",
+    "material": [ "veggy" ],
+    "calories": 40,
+    "spoils_in": "20 days",
+    "description": "A normal and healthy purple eggplant.",
+    "healthy": -1,
+    "symbol": "e",
+    "looks_like": "eggplant",
+    "flags": [ "RAW" ],
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ], [ "vitC", 10 ] ],
+    "fun": -5
   }
 ]

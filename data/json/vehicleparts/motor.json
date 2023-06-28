@@ -10,10 +10,10 @@
     "noise_factor": 5,
     "m2c": 90,
     "fuel_type": "battery",
-    "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "flags": [ "ENGINE", "E_HIGHER_SKILL", "E_HEATER" ]
+    "flags": [ "ENGINE", "E_HIGHER_SKILL", "E_HEATER" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
   },
   {
     "id": "engine_electric_tiny",
@@ -78,6 +78,7 @@
     "power": "36000 W",
     "energy_consumption": "40 kW",
     "damage_modifier": 80,
+    "//": "20 cm weld per quadrant of damage",
     "folded_volume": "30 L",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -115,6 +116,7 @@
     "power": "150000 W",
     "energy_consumption": "163 kW",
     "damage_modifier": 80,
+    "//": "30 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -124,7 +126,7 @@
         "using": [
           [ "repair_welding_standard", 3 ],
           [ "soldering_standard", 15 ],
-          [ "repair_welding_alloys", 3 ],
+          [ "repair_welding_alloys", 2 ],
           [ "vehicle_wrench_2", 1 ],
           [ "vehicle_screw", 1 ]
         ]
@@ -151,6 +153,7 @@
     "power": "282000 W",
     "energy_consumption": "300 kW",
     "damage_modifier": 80,
+    "//": "30 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -160,7 +163,7 @@
         "using": [
           [ "repair_welding_standard", 3 ],
           [ "soldering_standard", 18 ],
-          [ "repair_welding_alloys", 4 ],
+          [ "repair_welding_alloys", 3 ],
           [ "vehicle_wrench_2", 1 ],
           [ "vehicle_screw", 1 ]
         ]
@@ -187,6 +190,7 @@
     "power": "475000 W",
     "energy_consumption": "500 kW",
     "damage_modifier": 80,
+    "//": "3 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -194,9 +198,9 @@
         "skills": [ [ "mechanics", 6 ] ],
         "time": "60 m",
         "using": [
-          [ "repair_welding_standard", 4 ],
+          [ "repair_welding_standard", 3 ],
           [ "soldering_standard", 20 ],
-          [ "repair_welding_alloys", 5 ],
+          [ "repair_welding_alloys", 3 ],
           [ "vehicle_wrench_2", 1 ],
           [ "vehicle_screw", 1 ]
         ]
@@ -223,6 +227,7 @@
     "power": "1000000 W",
     "energy_consumption": "1050 kW",
     "damage_modifier": 80,
+    "//": "50 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -230,9 +235,9 @@
         "skills": [ [ "mechanics", 10 ] ],
         "time": "60 m",
         "using": [
-          [ "repair_welding_standard", 10 ],
+          [ "repair_welding_standard", 5 ],
           [ "soldering_standard", 30 ],
-          [ "repair_welding_alloys", 6 ],
+          [ "repair_welding_alloys", 5 ],
           [ "vehicle_wrench_2", 1 ],
           [ "vehicle_screw", 1 ]
         ]

@@ -4,28 +4,82 @@
     "type": "vehicle_part",
     "location": "center",
     "categories": [ "hull" ],
-    "standard_symbols": true,
-    "symbols": {
-      "cover_left": "h",
-      "cover_right": "h",
-      "horizontal_front": "h",
-      "hatch_wheel_left": "b",
-      "hatch_wheel_right": "n",
-      "horizontal_rear": "h",
-      "horizontal_2_front": "=",
-      "horizontal_2_rear": "=",
-      "nw_edge": "j",
-      "ne_edge": "j",
-      "vertical_left": "j",
-      "vertical_right": "j",
-      "vertical_T_left": "[",
-      "vertical_T_right": "]",
-      "vertical_2_left": "H",
-      "vertical_2_right": "H",
-      "wheel_left": "j",
-      "wheel_right": "j"
-    },
-    "flags": [ "OBSTACLE", "NO_ROOF_NEEDED" ]
+    "flags": [ "OBSTACLE", "NO_ROOF_NEEDED" ],
+    "variants": [
+      { "id": "horizontal", "label": "Horizontal", "symbols": "──│───│─", "symbols_broken": "#" },
+      {
+        "id": "horizontal_2",
+        "label": "Thick Horizontal",
+        "symbols": "━━┃━━━┃━",
+        "symbols_broken": "#"
+      },
+      { "id": "vertical", "label": "Vertical", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
+      { "id": "vertical_2", "label": "Thick Vertical", "symbols": "┃┃━┃┃┃━┃", "symbols_broken": "#" },
+      { "id": "ne", "label": "Front Right", "symbols": "┐┐┌└└└┘┐", "symbols_broken": "#" },
+      { "id": "nw", "label": "Front Left", "symbols": "┌┌└┘┘┘┐┌", "symbols_broken": "#" },
+      { "id": "se", "label": "Rear Right", "symbols": "┘┘┐┌┌┌└┘", "symbols_broken": "#" },
+      { "id": "sw", "label": "Rear Left", "symbols": "└└┘┐┐┐┌└", "symbols_broken": "#" },
+      { "id": "cross", "label": "Cross", "symbols": "┼X┼X┼X┼X", "symbols_broken": "#" },
+      { "id": "cover", "label": "Cover", "symbols": "^^<vvv>^", "symbols_broken": "#" },
+      { "id": "cover_left", "label": "Cover Left", "symbols": "──│───│─", "symbols_broken": "#" },
+      { "id": "cover_right", "label": "Cover Right", "symbols": "──│───│─", "symbols_broken": "#" },
+      {
+        "id": "horizontal_front",
+        "label": "Front Horizontal",
+        "symbols": "──│───│─",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "hatch_wheel_left",
+        "label": "Hatchback Wheel Left",
+        "symbols": "└└┘┐┐┐┌└",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "hatch_wheel_right",
+        "label": "Hatchback Wheel Right",
+        "symbols": "┘┘┐┌┌┌└┘",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "horizontal_rear",
+        "label": "Rear Horizontal",
+        "symbols": "──│───│─",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "horizontal_2_front",
+        "label": "Front Thick Horizontal",
+        "symbols": "━━┃━━━┃━",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "horizontal_2_rear",
+        "label": "Rear Thick Horizontal",
+        "symbols": "━━┃━━━┃━",
+        "symbols_broken": "#"
+      },
+      { "id": "nw_edge", "label": "Front Left Corner", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
+      { "id": "ne_edge", "label": "Front Right Corner", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
+      { "id": "vertical_T_left", "label": "Left T Joint", "symbols": "[\\-/[\\-/", "symbols_broken": "#" },
+      { "id": "vertical_T_right", "label": "Right T Joint", "symbols": "]\\-/]\\-/", "symbols_broken": "#" },
+      {
+        "id": "vertical_2_left",
+        "label": "Left Thick Vertical",
+        "symbols": "┃┃━┃┃┃━┃",
+        "symbols_broken": "#"
+      },
+      {
+        "id": "vertical_2_right",
+        "label": "Right Thick Vertical",
+        "symbols": "┃┃━┃┃┃━┃",
+        "symbols_broken": "#"
+      },
+      { "id": "wheel_left", "label": "Wheel Left", "symbols": "│\\─/│\\─/", "symbols_broken": "#" },
+      { "id": "wheel_right", "label": "Wheel Right", "symbols": "│\\─/│\\─/", "symbols_broken": "#" }
+    ]
   },
   {
     "abstract": "board_abstract",
@@ -34,10 +88,15 @@
     "item": "sheet_metal",
     "durability": 120,
     "breaks_into": "ig_vp_sheet_metal",
+    "//": "1m square sheet, assume 200cm weld, 50cm weld per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "40 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "damage_reduction": { "all": 7 }
   },
@@ -68,9 +127,13 @@
     "folded_volume": "3750 ml",
     "breaks_into": "ig_vp_cloth",
     "requirements": {
-      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": {
+        "skills": [ [ "fabrication", 1 ] ],
+        "time": "5 m",
+        "using": [ [ "vehicle_nail_install", 1 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "1 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "1 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 }
   },
@@ -98,15 +161,19 @@
     "name": { "str": "stow board" },
     "item": "sheet_metal",
     "color": "white",
-    "broken_symbol": "#",
     "broken_color": "light_gray",
     "durability": 80,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": "62500 ml",
+    "//": "1m square sheet, assume 200cm weld, 50cm weld per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 40 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "extend": { "categories": [ "cargo" ], "flags": [ "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "LOCKABLE_CARGO" ] },
     "damage_reduction": { "all": 7 }
@@ -131,10 +198,15 @@
     "durability": 450,
     "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_steel_plate",
+    "//": "steel plating doesn't have a defined length so assume 200cm weld like regular board, 50cm weld per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 40 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "24 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "damage_reduction": { "all": 20 }
   },
@@ -167,7 +239,7 @@
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "10 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 5 }
   },
@@ -198,10 +270,15 @@
     "durability": 70,
     "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
+    "//": "60cm pipe, assume 120cm weld, 30 weld per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "extend": { "flags": [ "HALF_BOARD" ] },
     "damage_reduction": { "all": 5 }
@@ -216,11 +293,12 @@
     "durability": 600,
     "name": { "str": "counterweight" },
     "description": "A half-height heavy metal wall.  Commonly used in forklifts to balance them when lifting heavy things.",
+    "//": "110cm block, so 1/4 that, 30cm weld per damage quadrant to repair",
     "breaks_into": "ig_vp_hdframe",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "damage_reduction": { "all": 20 },
     "extend": { "flags": [ "HALF_BOARD" ] }

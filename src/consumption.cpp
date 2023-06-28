@@ -531,6 +531,11 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
 void Character::clear_vitamins()
 {
     vitamin_levels.clear();
+    daily_vitamins.clear();
+    for( const auto &[vitamin_id, vitamin] : vitamin::all() ) {
+        vitamin_levels[vitamin_id] = 0;
+        daily_vitamins[vitamin_id] = { 0, 0 };
+    }
 }
 
 std::map<vitamin_id, int> Character::effect_vitamin_mod( const std::map<vitamin_id, int> &vits )
@@ -1305,7 +1310,7 @@ void Character::modify_morale( item &food, const int nutr )
 
     // Allergy check for food that is ingested (not gum)
     if( !food.has_flag( flag_NO_INGEST ) ) {
-        const auto allergy = allergy_type( food );
+        const morale_type allergy = allergy_type( food );
         if( allergy != MORALE_NULL ) {
             add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
             add_morale( allergy, -75, -400, 30_minutes, 24_minutes );

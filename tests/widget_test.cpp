@@ -140,7 +140,7 @@ static std::vector<std::string> scrape_win_at(
     cata_cursesport::WINDOW *win = static_cast<cata_cursesport::WINDOW *>( w.get() );
 
     for( int i = origin.y; i < rows && static_cast<size_t>( i ) < win->line.size(); i++ ) {
-        lines.emplace_back( std::string() );
+        lines.emplace_back( );
         for( int j = origin.x; j < cols && static_cast<size_t>( j ) < win->line[i].chars.size(); j++ ) {
             lines[i] += win->line[i].chars[j].ch;
         }
@@ -162,7 +162,7 @@ static std::vector<std::string> scrape_win_at(
 }
 #endif
 
-TEST_CASE( "widget value strings", "[widget][value][string]" )
+TEST_CASE( "widget_value_strings", "[widget][value][string]" )
 {
     SECTION( "numeric values" ) {
         widget focus = widget_test_focus_num.obj();
@@ -234,7 +234,7 @@ TEST_CASE( "widget value strings", "[widget][value][string]" )
     }
 }
 
-TEST_CASE( "text widgets", "[widget][text]" )
+TEST_CASE( "text_widgets", "[widget][text]" )
 {
     SECTION( "words Zero-Ten for values 0-10" ) {
         widget words = widget_test_text_widget.obj();
@@ -246,7 +246,7 @@ TEST_CASE( "text widgets", "[widget][text]" )
     }
 }
 
-TEST_CASE( "number widgets with color", "[widget][number][color]" )
+TEST_CASE( "number_widgets_with_color", "[widget][number][color]" )
 {
     SECTION( "numbers 0-2 with 3 colors" ) {
         widget colornum = widget_test_color_number_widget.obj();
@@ -263,7 +263,7 @@ TEST_CASE( "number widgets with color", "[widget][number][color]" )
     }
 }
 
-TEST_CASE( "graph widgets", "[widget][graph]" )
+TEST_CASE( "graph_widgets", "[widget][graph]" )
 {
     SECTION( "graph widgets" ) {
         SECTION( "bucket fill with 12 states" ) {
@@ -331,7 +331,7 @@ TEST_CASE( "graph widgets", "[widget][graph]" )
     }
 }
 
-TEST_CASE( "graph widgets with color", "[widget][graph][color]" )
+TEST_CASE( "graph_widgets_with_color", "[widget][graph][color]" )
 {
     SECTION( "graph widget with 4 colors and 10 states" ) {
         widget colornum = widget_test_color_graph_widget.obj();
@@ -399,7 +399,7 @@ TEST_CASE( "graph widgets with color", "[widget][graph][color]" )
     }
 }
 
-TEST_CASE( "widgets showing avatar stats with color for normal value", "[widget][stats][color]" )
+TEST_CASE( "widgets_showing_avatar_stats_with_color_for_normal_value", "[widget][stats][color]" )
 {
     widget str_w = widget_test_str_color_num.obj();
     widget dex_w = widget_test_dex_color_num.obj();
@@ -447,7 +447,7 @@ TEST_CASE( "widgets showing avatar stats with color for normal value", "[widget]
     }
 }
 
-TEST_CASE( "widget showing character fatigue status", "[widget]" )
+TEST_CASE( "widget_showing_character_fatigue_status", "[widget]" )
 {
     widget fatigue_w = widget_test_fatigue_clause.obj();
 
@@ -464,7 +464,7 @@ TEST_CASE( "widget showing character fatigue status", "[widget]" )
     CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_red>Exhausted</color>" );
 }
 
-TEST_CASE( "widgets showing avatar health with color for normal value", "[widget][health][color]" )
+TEST_CASE( "widgets_showing_avatar_health_with_color_for_normal_value", "[widget][health][color]" )
 {
     widget health_w = widget_test_health_color_num.obj();
     widget health_clause_w = widget_test_health_clause.obj();
@@ -495,7 +495,7 @@ TEST_CASE( "widgets showing avatar health with color for normal value", "[widget
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_green>Excellent</color>" );
 }
 
-TEST_CASE( "widgets showing body temperature and delta", "[widget]" )
+TEST_CASE( "widgets_showing_body_temperature_and_delta", "[widget]" )
 {
     widget w_temp = widget_test_body_temp_clause.obj();
     widget w_dtxt = widget_test_body_temp_delta_text.obj();
@@ -547,7 +547,7 @@ TEST_CASE( "widgets showing body temperature and delta", "[widget]" )
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_blue>↓↓↓</color>" );
 }
 
-TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
+TEST_CASE( "widgets_showing_avatar_stamina", "[widget][avatar][stamina]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -598,7 +598,7 @@ static void set_avatar_bmi( avatar &ava, float bmi )
     ava.set_stored_kcal( ava.get_healthy_kcal() * ( bmi / 5 ) );
 }
 
-TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
+TEST_CASE( "widgets_showing_avatar_weight", "[widget][weight]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -660,7 +660,7 @@ TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
 
 }
 
-TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
+TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -746,7 +746,7 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
     }
 }
 
-TEST_CASE( "widgets showing activity level", "[widget][activity]" )
+TEST_CASE( "widgets_showing_activity_level", "[widget][activity]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -781,7 +781,7 @@ TEST_CASE( "widgets showing activity level", "[widget][activity]" )
     CHECK( activity_w.layout( ava ) == "Activity: <color_c_red>Extreme</color>" );
 }
 
-TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )
+TEST_CASE( "widgets_showing_move_counter_and_mode", "[widget][move_mode]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -828,7 +828,7 @@ TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )
     }
 }
 
-TEST_CASE( "thirst and hunger widgets", "[widget]" )
+TEST_CASE( "thirst_and_hunger_widgets", "[widget]" )
 {
     widget wt = widget_test_thirst_clause.obj();
     widget wh = widget_test_hunger_clause.obj();
@@ -890,7 +890,7 @@ TEST_CASE( "thirst and hunger widgets", "[widget]" )
     CHECK( wh.layout( ava ) == "HUNGER: <color_c_red>Engorged</color>" );
 }
 
-TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
+TEST_CASE( "widgets_showing_movement_cost", "[widget][move_cost]" )
 {
     widget cost_num_w = widget_test_move_cost_num.obj();
 
@@ -919,7 +919,7 @@ TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
     }
 }
 
-TEST_CASE( "widgets showing Sun and Moon position", "[widget]" )
+TEST_CASE( "widgets_showing_Sun_and_Moon_position", "[widget]" )
 {
     widget sundial_w = widget_test_sundial_text.obj();
 
@@ -1316,7 +1316,7 @@ static void check_bp_has_status( const std::string_view layout,
     }
 }
 
-TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
+TEST_CASE( "widget_showing_body_part_status_text", "[widget][bp_status]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -1423,7 +1423,7 @@ TEST_CASE( "widget showing body part status text", "[widget][bp_status]" )
     }
 }
 
-TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
+TEST_CASE( "compact_bodypart_status_widgets_+_legend", "[widget][bp_status]" )
 {
     const int sidebar_width = 36;
     avatar &ava = get_avatar();
@@ -1564,7 +1564,7 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
     }
 }
 
-TEST_CASE( "outer armor widget", "[widget][armor]" )
+TEST_CASE( "outer_armor_widget", "[widget][armor]" )
 {
     widget torso_armor_w = widget_test_torso_armor_outer_text.obj();
 
@@ -1590,7 +1590,7 @@ TEST_CASE( "outer armor widget", "[widget][armor]" )
            "Torso Armor: <color_c_green>++</color>\u00A0TEST hazmat suit (poor fit)" );
 }
 
-TEST_CASE( "radiation badge widget", "[widget][radiation]" )
+TEST_CASE( "radiation_badge_widget", "[widget][radiation]" )
 {
     widget rads_w = widget_test_rad_badge_text.obj();
 
@@ -1623,7 +1623,7 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 
-TEST_CASE( "moon and lighting widgets", "[widget]" )
+TEST_CASE( "moon_and_lighting_widgets", "[widget]" )
 {
     // The CI tests have inconsistent lighting values for the same
     // time/day/weather/sun azimuth/etc, so just validate extreme lighting
@@ -1658,7 +1658,7 @@ TEST_CASE( "moon and lighting widgets", "[widget]" )
     CHECK( w_light.layout( ava ) == "LIGHTING: <color_c_yellow>bright</color>" );
 }
 
-TEST_CASE( "compass widget", "[widget][compass]" )
+TEST_CASE( "compass_widget", "[widget][compass]" )
 {
     const int sidebar_width = 36;
     widget c5s_N = widget_test_compass_N.obj();
@@ -1813,7 +1813,7 @@ TEST_CASE( "compass widget", "[widget][compass]" )
 // This test case calls layout() at different widths for 2-, 3-, and 4-column layouts,
 // to verify and demonstrate how the space is distributed among widgets in columns.
 //
-TEST_CASE( "layout widgets in columns", "[widget][layout][columns]" )
+TEST_CASE( "layout_widgets_in_columns", "[widget][layout][columns]" )
 {
     widget stat_w = widget_test_stat_panel.obj();
     widget two_w = widget_test_2_column_layout.obj();
@@ -1902,7 +1902,7 @@ TEST_CASE( "layout widgets in columns", "[widget][layout][columns]" )
     CHECK( four_w.layout( ava, 60 ) == "MOVE: 50        SPEED: 100      FOCUS: 120     MANA: 1000   " );
 }
 
-TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
+TEST_CASE( "widgets_showing_weather_conditions", "[widget][weather]" )
 {
     widget weather_w = widget_test_weather_text.obj();
 
@@ -1956,7 +1956,7 @@ static void fill_overmap_area( const avatar &ava, const oter_id &oter )
     }
 }
 
-TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
+TEST_CASE( "multi-line_overmap_text_widget", "[widget][overmap]" )
 {
     widget overmap_w = widget_test_overmap_3x3_text.obj();
     avatar &ava = get_avatar();
@@ -2019,7 +2019,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
     // TODO: Horde indicators
 }
 
-TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
+TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
 {
     widget height1 = widget_test_weather_text.obj();
     widget height5 = widget_test_weather_text_height5.obj();
@@ -2081,7 +2081,7 @@ static int get_height_from_widget_factory( const widget_id &id )
 }
 
 // Use the compass legend as a proof-of-concept
-TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
+TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
 {
     const int sidebar_width = 36;
     widget c5s_legend3 = widget_test_compass_legend_3.obj();
@@ -2217,7 +2217,7 @@ TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
  *           L ARM:          $
  *           TORSO:          B
  */
-TEST_CASE( "Widget alignment", "[widget]" )
+TEST_CASE( "Widget_alignment", "[widget]" )
 {
     const int sidebar_width = 36;
     const int row_label_width = 15;
@@ -2514,7 +2514,7 @@ TEST_CASE( "Widget alignment", "[widget]" )
     }
 }
 
-TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]" )
+TEST_CASE( "Clause_conditions_-_pure_JSON_widgets", "[widget][clause][condition]" )
 {
     const int sidebar_width = 20;
 
@@ -2592,7 +2592,7 @@ TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]
     }
 }
 
-TEST_CASE( "widget disabled when empty", "[widget]" )
+TEST_CASE( "widget_disabled_when_empty", "[widget]" )
 {
     item blindfold( "blindfold" );
     avatar &ava = get_avatar();
@@ -2653,7 +2653,7 @@ TEST_CASE( "widget disabled when empty", "[widget]" )
 #endif
 }
 
-TEST_CASE( "widget rows in columns", "[widget]" )
+TEST_CASE( "widget_rows_in_columns", "[widget]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -2815,7 +2815,7 @@ static void test_widget_flag_nopad( const bodypart_id &bid, int bleed_int, avata
     }
 }
 
-TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
+TEST_CASE( "W_NO_PADDING_widget_flag", "[widget]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -2825,7 +2825,12 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
     ava.movecounter = 0;
 
     // workaround for mbstowcs to process multibyte utf-8 chars
-    setlocale( LC_ALL, "" );
+    std::locale const &oldloc = std::locale();
+    on_out_of_scope reset_loc( [&oldloc]() {
+        std::locale::global( oldloc );
+    } );
+    char *result = setlocale( LC_ALL, "" );
+    REQUIRE( result );
 
     SECTION( "without flag" ) {
         const widget_id &wgt = widget_test_layout_nopad_noflag;
@@ -2898,6 +2903,4 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
             test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, true );
         }
     }
-
-    setlocale( LC_ALL, "C" );
 }

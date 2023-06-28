@@ -242,10 +242,10 @@ auto_note_manager_gui::auto_note_manager_gui()
             continue;
         }
 
-        char_mapExtraCache.emplace( std::make_pair( extra.id, std::make_pair( extra,
-                                    settings.has_auto_note_enabled( extra.id, true ) ) ) );
-        global_mapExtraCache.emplace( std::make_pair( extra.id, std::make_pair( extra,
-                                      settings.has_auto_note_enabled( extra.id, false ) ) ) );
+        char_mapExtraCache.emplace( extra.id, std::make_pair( extra,
+                                    settings.has_auto_note_enabled( extra.id, true ) ) );
+        global_mapExtraCache.emplace( extra.id, std::make_pair( extra,
+                                      settings.has_auto_note_enabled( extra.id, false ) ) );
 
         if( settings.was_discovered( extra.id ) ) {
             char_displayCache.push_back( extra.id );

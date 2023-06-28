@@ -15,7 +15,7 @@
     "effect": {
       "run_eocs": {
         "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_ACCEPTANCE",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] },
+        "condition": { "math": [ "ps_str", ">", "4" ] },
         "effect": {
           "weighted_list_eocs": [
             [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", { "const": 10 } ],
@@ -93,8 +93,8 @@
         "u_message": "You suddenly feel wakeful and energized, as if something that was slowing you down is now gone.",
         "type": "good"
       },
-      { "arithmetic": [ { "u_val": "fatigue" }, "-=", { "const": 20 } ] },
-      { "arithmetic": [ { "u_val": "stamina" }, "+=", { "const": 20 } ] }
+      { "math": [ "u_val('fatigue')", "-=", "20" ] },
+      { "math": [ "u_val('stamina')", "+=", "20" ] }
     ]
   },
   {
@@ -141,7 +141,7 @@
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
       { "u_message": "Everything suddenly feels more clear.", "type": "good" },
-      { "arithmetic": [ { "u_val": "focus" }, "+=", { "const": 10 } ] }
+      { "math": [ "u_val('focus')", "+=", "10" ] }
     ]
   },
   {
@@ -219,7 +219,7 @@
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
       { "u_message": "You try to recall what you were about to do, but you can't focus…", "type": "bad" },
-      { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 10 } ] }
+      { "math": [ "u_val('focus')", "-=", "10" ] }
     ]
   },
   {

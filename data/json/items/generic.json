@@ -131,7 +131,7 @@
     "symbol": ",",
     "material": [ "paper" ],
     "volume": "50 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -224,6 +224,24 @@
   },
   {
     "type": "GENERIC",
+    "id": "nre_anomaly_printout_data",
+    "copy-from": "small_printout_portal_storm_data",
+    "name": { "str": "NRE anomaly printout" },
+    "description": "A long sequence of overlapping numbers plotted in thermal paper, at times so densely-packed that they disappear into thick blots of oxide-colored ink.  The printed values increased along rhythmical waves, but the number 5 is always skipped.",
+    "weight": "10 g",
+    "volume": "50 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "nre_zero_reading_printout",
+    "copy-from": "small_printout_portal_storm_data",
+    "name": { "str": "NRE zero reading" },
+    "description": "A long near uniform sequence of evenly spaced zeroes plotted in thermal paper.  The monotony is rarely broken by small numbered series.",
+    "weight": "10 g",
+    "volume": "50 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -233,7 +251,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED", "TINDER" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -248,7 +266,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "volume": "100 ml",
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -261,7 +279,7 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "100 ml",
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -274,7 +292,7 @@
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -728,7 +746,6 @@
       }
     ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "flags": [ "MC_USED" ],
     "//": "Based on https://www.amazon.com/SanDisk-Ultra-Flair-128GB-Flash/dp/B015CH1PJU/ref=sr_1_3?crid=3QN3ALWDNXCOT&keywords=usb%2Bdrive&qid=1683302125&sprefix=usb%2Bdrive%2Caps%2C499&sr=8-3&th=1"
   },
   {
@@ -884,7 +901,48 @@
     "price_postapoc": 10,
     "material": [ "steel" ],
     "weight": "11 g",
+    "volume": "50 ml",
+    "qualities": [ [ "TREE_TAP", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "makeshift_tree_spile",
+    "copy-from": "tree_spile",
+    "color": "brown",
+    "name": { "str": "makeshift tree spile" },
+    "description": "A carved piece of wood which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
+    "material": [ "wood" ],
+    "qualities": [ [ "TREE_TAP", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "egg_void_spider",
+    "name": { "str": "luminescent bead" },
+    "weight": "55 g",
+    "color": "white",
+    "symbol": "o",
+    "description": "Strange lights perpetually glimmer within the sharpened internals of this glass globule.",
+    "price": 44,
+    "price_postapoc": 50,
+    "material": [ "glass" ],
+    "flags": [ "LIGHT_8" ],
     "volume": "50 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tattered_garment",
+    "name": { "str_sp": "tattered garments" },
+    "category": "other",
+    "description": "Time and the elements have reduced them to a mound of filthy ribbons.",
+    "weight": "1175 g",
+    "volume": "3 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cotton_patchwork",
+    "color": "brown"
   },
   {
     "type": "GENERIC",
@@ -1569,6 +1627,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "TINDER" ],
     "volume": "6 ml",
     "longest_side": "297 mm",
     "ammo_type": "paper"
@@ -2074,7 +2133,7 @@
     "symbol": ",",
     "color": "yellow",
     "name": { "str": "ceramic armor plate" },
-    "description": "A ceramic armor plate, specifically engineered for use in a bullet-resistant vest.",
+    "description": "A ceramic armor plate, specifically engineered for use as armor.  Not suitable for human use.",
     "price": 8000,
     "price_postapoc": 100,
     "material": [ "ceramic" ],
@@ -2140,32 +2199,19 @@
   },
   {
     "type": "GENERIC",
-    "id": "mobile_memory_card",
+    "id": "memory_card",
+    "name": { "str": "memory card" },
+    "description": "A memory card, can be used to store data.",
+    "looks_like": "mobile_memory_card",
+    "weight": "1 g",
+    "volume": "1 ml",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "SD-Memory card" },
-    "description": "A memory card, used.  Might be worth a look.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "plastic" ],
-    "ascii_picture": "mobile_memory_card",
-    "flags": [ "MC_MOBILE", "MC_RANDOM_STUFF", "MC_MAY_BE_ENCRYPTED", "MC_TURN_USED" ],
-    "weight": "5 g",
-    "volume": "2 ml"
-  },
-  {
-    "type": "TOOL",
-    "id": "mobile_memory_card_used",
-    "looks_like": "mobile_memory_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "SD-Memory card (clean)", "str_pl": "SD-Memory cards (clean)" },
-    "description": "This memory card is either unused or has been wiped clean.  You could use it to store your own data.",
-    "price": 500,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "ascii_picture": "mobile_memory_card",
-    "flags": [ "MC_MOBILE", "MC_USED" ],
+    "ascii_picture": "memory_card",
+    "flags": [ "MC_MOBILE" ],
     "pocket_data": [
       {
         "pocket_type": "EBOOK",
@@ -2174,41 +2220,43 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0
       }
-    ],
-    "weight": "5 g",
-    "volume": "1 ml"
+    ]
   },
   {
     "type": "GENERIC",
-    "id": "mobile_memory_card_encrypted",
-    "looks_like": "mobile_memory_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
-    "description": "This memory card appears to have the firmware encryption set.  Hopefully it contains something worth encrypting.",
-    "price": 2000,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "ascii_picture": "mobile_memory_card",
-    "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED" ],
-    "weight": "5 g",
-    "volume": "1 ml"
+    "id": "memory_card_unread",
+    "copy-from": "memory_card",
+    "name": { "str": "memory card (unread)", "str_pl": "memory cards (unread)" },
+    "description": "A memory card, can be used to store data.  Looks like it has been in use, might be worth taking a look.",
+    "memory_card": {
+      "data_chance": 0.875,
+      "on_read_convert_to": "memory_card",
+      "photos_chance": 0.33,
+      "photos_amount": 30,
+      "songs_chance": 0.33,
+      "songs_amount": 15,
+      "recipes_chance": 0.33,
+      "recipes_amount": 3,
+      "recipes_categories": [ "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON" ],
+      "recipes_level_max": 5
+    },
+    "pocket_data": [  ]
   },
   {
     "type": "GENERIC",
-    "id": "mobile_memory_card_science",
-    "looks_like": "mobile_memory_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "Science SD-Memory card" },
-    "description": "This memory card appears to be related to 'XEDRA', and is certainly encrypted.  Looks *Interesting*, though…",
-    "price": 10000,
-    "price_postapoc": 100,
-    "material": [ "plastic" ],
-    "ascii_picture": "mobile_memory_card",
-    "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF" ],
-    "weight": "5 g",
-    "volume": "1 ml"
+    "id": "memory_card_science",
+    "copy-from": "memory_card",
+    "name": { "str": "memory card (XEDRA)", "str_pl": "memory cards (XEDRA)" },
+    "description": "A memory card, can be used to store data.  This one appears to be related to 'XEDRA'.",
+    "memory_card": {
+      "data_chance": 1.0,
+      "on_read_convert_to": "memory_card",
+      "recipes_chance": 1.0,
+      "recipes_amount": 3,
+      "recipes_categories": [ "CC_CHEM" ],
+      "recipes_level_min": 6
+    },
+    "pocket_data": [  ]
   },
   {
     "type": "GENERIC",
@@ -2816,7 +2864,7 @@
     "category": "spare_parts",
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "TINDER" ],
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2
@@ -2831,6 +2879,7 @@
     "price": 100,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "TINDER" ],
     "weight": "80 g",
     "volume": "500 ml"
   },
@@ -2876,7 +2925,6 @@
     "price": 1500,
     "price_postapoc": 100,
     "material": [ "cotton" ],
-    "repairs_like": "tshirt",
     "weight": "774 g",
     "volume": "1750 ml",
     "flags": [ "SLEEP_AID" ],
@@ -3192,7 +3240,7 @@
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml",
     "to_hit": -3,
@@ -3250,7 +3298,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "MISSION_ITEM" ],
+    "flags": [ "MISSION_ITEM", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3275,7 +3323,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ],
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3291,7 +3339,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2" ],
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3307,7 +3355,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3" ],
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3", "CREDIT_CARD_SHAPED" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -3732,7 +3780,6 @@
   },
   {
     "id": "wallet",
-    "repairs_like": "backpack",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "wallet" },
@@ -3754,19 +3801,7 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [
-          "FMCNote",
-          "signed_chit",
-          "family_photo",
-          "money_one",
-          "money_two",
-          "money_five",
-          "money_ten",
-          "money_twenty",
-          "money_fifty",
-          "money_hundred",
-          "condom"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED" ]
       },
       {
         "//": "Card Sleeves",
@@ -3775,32 +3810,7 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [
-          "cash_card",
-          "gasdiscount_silver",
-          "gasdiscount_gold",
-          "gasdiscount_platinum",
-          "id_science",
-          "id_military",
-          "id_industrial",
-          "fp_loyalty_card",
-          "scorecard",
-          "robofac_test_data",
-          "icon",
-          "labmap",
-          "id_science_visitor_1",
-          "id_science_transport_1",
-          "id_science_maintenance_green",
-          "id_science_maintenance_yellow",
-          "id_science_maintenance_blue",
-          "id_science_security_yellow",
-          "id_science_security_magenta",
-          "id_science_security_black",
-          "id_science_mutagen_green",
-          "id_science_mutagen_pink",
-          "id_science_mutagen_cyan",
-          "id_science_medical_red"
-        ]
+        "flag_restriction": [ "CREDIT_CARD_SHAPED" ]
       },
       {
         "//": "Coin Purse",
@@ -3809,19 +3819,7 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "150 ml",
         "moves": 200,
-        "item_restriction": [
-          "FMCNote",
-          "RobofacCoin",
-          "FlatCoin",
-          "coin_penny",
-          "coin_nickel",
-          "coin_dime",
-          "coin_quarter",
-          "coin_half_dollar",
-          "coin_dollar",
-          "coin_silver",
-          "coin_gold"
-        ]
+        "flag_restriction": [ "COIN_SHAPED" ]
       }
     ]
   },
@@ -3836,7 +3834,6 @@
   },
   {
     "id": "wallet_leather",
-    "repairs_like": "leather_belt",
     "type": "GENERIC",
     "copy-from": "wallet",
     "name": { "str": "leather wallet" },
@@ -3845,7 +3842,6 @@
   },
   {
     "id": "wallet_large",
-    "repairs_like": "leather_belt",
     "type": "GENERIC",
     "copy-from": "wallet",
     "name": { "str": "large wallet" },
@@ -3862,19 +3858,7 @@
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
         "moves": 100,
-        "item_restriction": [
-          "FMCNote",
-          "signed_chit",
-          "family_photo",
-          "money_one",
-          "money_two",
-          "money_five",
-          "money_ten",
-          "money_twenty",
-          "money_fifty",
-          "money_hundred",
-          "condom"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED" ]
       },
       {
         "//": "Card Sleeves",
@@ -3883,32 +3867,7 @@
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
         "moves": 100,
-        "item_restriction": [
-          "cash_card",
-          "gasdiscount_silver",
-          "gasdiscount_gold",
-          "gasdiscount_platinum",
-          "id_science",
-          "id_military",
-          "id_industrial",
-          "fp_loyalty_card",
-          "scorecard",
-          "robofac_test_data",
-          "icon",
-          "labmap",
-          "id_science_visitor_1",
-          "id_science_transport_1",
-          "id_science_maintenance_green",
-          "id_science_maintenance_yellow",
-          "id_science_maintenance_blue",
-          "id_science_security_yellow",
-          "id_science_security_magenta",
-          "id_science_security_black",
-          "id_science_mutagen_green",
-          "id_science_mutagen_pink",
-          "id_science_mutagen_cyan",
-          "id_science_medical_red"
-        ]
+        "flag_restriction": [ "CREDIT_CARD_SHAPED" ]
       },
       {
         "//": "Coin Purse",
@@ -3917,25 +3876,12 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "175 ml",
         "moves": 200,
-        "item_restriction": [
-          "FMCNote",
-          "RobofacCoin",
-          "FlatCoin",
-          "coin_penny",
-          "coin_nickel",
-          "coin_dime",
-          "coin_quarter",
-          "coin_half_dollar",
-          "coin_dollar",
-          "coin_silver",
-          "coin_gold"
-        ]
+        "flag_restriction": [ "COIN_SHAPED" ]
       }
     ]
   },
   {
     "id": "wallet_stylish",
-    "repairs_like": "leather_belt",
     "type": "GENERIC",
     "copy-from": "wallet",
     "name": { "str": "stylish wallet" },
@@ -3945,7 +3891,6 @@
   },
   {
     "id": "wallet_travel",
-    "repairs_like": "leather_belt",
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "symbol": ";",
@@ -3967,18 +3912,7 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "500 ml",
         "moves": 400,
-        "item_restriction": [
-          "cash_card",
-          "gasdiscount_silver",
-          "gasdiscount_gold",
-          "gasdiscount_platinum",
-          "id_science",
-          "id_military",
-          "id_industrial",
-          "fp_loyalty_card",
-          "robofac_test_data",
-          "condom"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
     ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
@@ -4008,40 +3942,7 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [
-          "cash_card",
-          "gasdiscount_silver",
-          "gasdiscount_gold",
-          "gasdiscount_platinum",
-          "id_science",
-          "id_military",
-          "id_industrial",
-          "fp_loyalty_card",
-          "robofac_test_data",
-          "icon",
-          "labmap",
-          "FMCNote",
-          "signed_chit",
-          "family_photo",
-          "money_one",
-          "money_two",
-          "money_five",
-          "money_ten",
-          "money_twenty",
-          "condom",
-          "id_science_visitor_1",
-          "id_science_transport_1",
-          "id_science_maintenance_green",
-          "id_science_maintenance_yellow",
-          "id_science_maintenance_blue",
-          "id_science_security_yellow",
-          "id_science_security_magenta",
-          "id_science_security_black",
-          "id_science_mutagen_green",
-          "id_science_mutagen_pink",
-          "id_science_mutagen_cyan",
-          "id_science_medical_red"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
     ],
     "armor": [ { "encumbrance": 0, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
@@ -4167,6 +4068,31 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
+    "id": "parachute_mil",
+    "type": "GENERIC",
+    "name": { "str": "military parachute" },
+    "description": "This is a big, bulky military-level parachute, designed to slow the fall of up to a thousand kilograms of cargo dropped from an aircraft.  You have no clue how to put all the straps back in their place.",
+    "weight": "113400 g",
+    "volume": "136080 ml",
+    "price": 200000,
+    "price_postapoc": 1000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "green"
+  },
+  {
+    "id": "pallet",
+    "type": "GENERIC",
+    "name": { "str": "wooden pallet" },
+    "description": "This is a heavy and bulky 40x48-inch palette.",
+    "weight": "28 kg",
+    "volume": "194400 ml",
+    "material": [ "wood" ],
+    "symbol": "#",
+    "color": "brown"
+  },
+  {
     "type": "TOOL",
     "id": "training_dummy_light",
     "symbol": "@",
@@ -4238,44 +4164,7 @@
         "max_contains_weight": "2 kg",
         "max_contains_volume": "1 L",
         "moves": 100,
-        "item_restriction": [
-          "money_one",
-          "money_two",
-          "money_five",
-          "money_ten",
-          "money_twenty",
-          "money_fifty",
-          "money_hundred",
-          "FMCNote",
-          "money_strap_one",
-          "money_strap_two",
-          "money_strap_five",
-          "money_strap_ten",
-          "money_strap_twenty",
-          "money_strap_fifty",
-          "money_strap_hundred",
-          "money_strap_FMCNote",
-          "money_bundle_one",
-          "money_bundle_two",
-          "money_bundle_five",
-          "money_bundle_ten",
-          "money_bundle_twenty",
-          "money_bundle_fifty",
-          "money_bundle_hundred",
-          "money_bundle_FMCNote",
-          "coin_penny",
-          "coin_nickel",
-          "coin_dime",
-          "coin_quarter",
-          "coin_half_dollar",
-          "coin_dollar",
-          "coin_wrapper",
-          "coin_silver",
-          "coin_gold",
-          "RobofacCoin",
-          "FlatCoin",
-          "survnote"
-        ]
+        "flag_restriction": [ "BANK_NOTE_SHAPED", "BANK_NOTE_STRAP_SHAPED", "COIN_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
     ],
     "melee_damage": { "bash": 12 }

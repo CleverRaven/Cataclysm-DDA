@@ -7,7 +7,7 @@
     "name": { "str": "science ID card" },
     "description": "An ID card that once belonged to a scientist.  The reverse side describes the protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 60000,
-    "flags": [ "SCIENCE_CARD" ],
+    "flags": [ "SCIENCE_CARD", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": 250,
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -23,7 +23,7 @@
     "name": { "str": "military ID card" },
     "description": "An ID card that once belonged to a military officer.  The reverse side describes the protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 120000,
-    "flags": [ "MILITARY_CARD" ],
+    "flags": [ "MILITARY_CARD", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": 500,
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -40,7 +40,7 @@
     "name": { "str": "industrial ID card" },
     "description": "An ID card that once belonged to a high-level technician.  The reverse side describes the protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 120000,
-    "flags": [ "INDUSTRIAL_CARD" ],
+    "flags": [ "INDUSTRIAL_CARD", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": 100,
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -57,7 +57,7 @@
     "name": { "str": "co-op badge" },
     "description": "A manually-encoded badge giving you access to the artisans' workshop.  It even has your name written on the back.",
     "price": 120000,
-    "flags": [ "COOP_CARD" ],
+    "flags": [ "COOP_CARD", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": 100,
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -73,7 +73,7 @@
     "name": { "str": "visitor's pass", "str_pl": "visitor's passes" },
     "description": "A visitor's pass to some sort of facility.  The reverse side describes the protocol for using it; this could grant one-time access at a card reader, if you can find one.  It also lists the addresses of nearby facilities; activate it to add their locations to your map.",
     "price": 60000,
-    "flags": [ "SCIENCE_CARD_VISITOR" ],
+    "flags": [ "SCIENCE_CARD_VISITOR", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": 250,
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -123,7 +123,7 @@
     "copy-from": "id_science",
     "name": { "str": "Maintenance: green zone badge" },
     "description": "An employee badge for a maintenance worker.  The reverse side describes the protocol for using it; this could grant access at green zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -132,7 +132,7 @@
     "copy-from": "id_science",
     "name": { "str": "Maintenance: ocher zone badge" },
     "description": "An employee badge for a maintenance worker.  The reverse side describes the protocol for using it; this could grant access at ocher zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -141,7 +141,7 @@
     "copy-from": "id_science",
     "name": { "str": "Maintenance: blue zone badge" },
     "description": "An employee badge for a maintenance worker.  The reverse side describes the protocol for using it; this could grant access at blue zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -150,7 +150,7 @@
     "copy-from": "id_science",
     "name": { "str": "transport freight employee badge" },
     "description": "An employee badge for a freight hauler.  The reverse side describes the protocol for using it; this could grant one-time access to a transport freight card reader.  It also lists the addresses of nearby facilities; activate it to add their locations to your map.",
-    "flags": [ "SCIENCE_CARD_TRANSPORT_1" ],
+    "flags": [ "SCIENCE_CARD_TRANSPORT_1", "CREDIT_CARD_SHAPED" ],
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
@@ -194,7 +194,7 @@
     "copy-from": "id_science",
     "name": { "str": "Security: yellow zone badge" },
     "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at yellow zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_YELLOW", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_YELLOW", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -203,7 +203,7 @@
     "copy-from": "id_science",
     "name": { "str": "Security: magenta zone badge" },
     "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at magenta zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -212,7 +212,7 @@
     "copy-from": "id_science",
     "name": { "str": "Security: black zone badge" },
     "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at black zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_BLACK", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_BLACK", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -221,7 +221,7 @@
     "copy-from": "id_science",
     "name": { "str": "Researcher: light green zone badge" },
     "description": "An employee badge for a research scientist.  The reverse side describes the protocol for using it; this could grant access at light green zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -230,7 +230,7 @@
     "copy-from": "id_science",
     "name": { "str": "Researcher: pink zone badge" },
     "description": "An employee badge for a research scientist.  The reverse side describes the protocol for using it; this could grant access at pink zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_PINK", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_PINK", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -239,7 +239,7 @@
     "copy-from": "id_science",
     "name": { "str": "Researcher: cyan zone badge" },
     "description": "An employee badge for a research scientist.  The reverse side describes the protocol for using it; this could grant access at cyan zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -248,7 +248,7 @@
     "copy-from": "id_science",
     "name": { "str": "Doctor: red zone badge" },
     "description": "An employee badge for a medical doctor.  The reverse side describes the protocol for using it; this could grant access at red zone card readers.",
-    "flags": [ "SCIENCE_CARD_MEDICAL_RED", "PRESERVE_SPAWN_OMT" ]
+    "flags": [ "SCIENCE_CARD_MEDICAL_RED", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -258,6 +258,6 @@
     "name": { "str": "System supervisor: slate zone badge" },
     "//": "Given by Hub 01's director, intentionally works everywhere.",
     "description": "An employee badge for a system's supervisor.  The reverse side describes the protocol for using it; this could grant access through white zone card readers.",
-    "flags": [ "SCIENCE_CARD_MU_UNIVERSAL" ]
+    "flags": [ "SCIENCE_CARD_MU_UNIVERSAL", "CREDIT_CARD_SHAPED" ]
   }
 ]

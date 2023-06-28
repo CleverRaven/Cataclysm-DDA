@@ -79,6 +79,9 @@ using drop_locations = std::list<drop_location>;
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = itype_id::NULL_ID() );
 
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
+                 const dialogue &d, const itype_id &item_type = itype_id::NULL_ID() );
+
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
  * Trade:  Trust mid->high, fear low->midlow, need is a bonus
@@ -342,7 +345,9 @@ enum class ally_rule : int {
     hold_the_line = 4096,
     ignore_noise = 8192,
     forbid_engage = 16384,
-    follow_distance_2 = 32768
+    follow_distance_2 = 32768,
+    lock_doors = 65536,
+    avoid_locks = 131072
 };
 
 struct ally_rule_data {
@@ -423,6 +428,13 @@ const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
             }
         },
         {
+            "lock_doors", {
+                ally_rule::lock_doors,
+                "<ally_rule_lock_doors_true_text>",
+                "<ally_rule_lock_doors_false_text>"
+            }
+        },
+        {
             "follow_close", {
                 ally_rule::follow_close,
                 "<ally_rule_follow_close_true_text>",
@@ -434,6 +446,13 @@ const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
                 ally_rule::avoid_doors,
                 "<ally_rule_avoid_doors_true_text>",
                 "<ally_rule_avoid_doors_false_text>"
+            }
+        },
+        {
+            "avoid_locks", {
+                ally_rule::avoid_locks,
+                "<ally_rule_avoid_locks_true_text>",
+                "<ally_rule_avoid_locks_false_text>"
             }
         },
         {
@@ -922,7 +941,7 @@ class npc : public Character
         bool wear_if_wanted( const item &it, std::string &reason );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         time_duration time_to_read( const item &book, const Character &reader ) const;
-        void do_npc_read();
+        void do_npc_read( bool ebook = false );
         void stow_item( item &it );
         bool wield( item &it ) override;
         void drop( const drop_locations &what, const tripoint &target,
@@ -1294,6 +1313,8 @@ class npc : public Character
 
         // Where we last saw the player
         std::optional<tripoint_abs_ms> last_player_seen_pos;
+        // Player orders a friendly NPC to move to this position
+        std::optional<tripoint_abs_ms> goto_to_this_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint

@@ -215,7 +215,9 @@
       { "item": "tinderbox", "prob": 10, "charges": [ 0, 100 ] },
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
-      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] }
+      [ "light_snare_kit", 8 ],
+      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
+      { "item": "teargas_sprayer", "prob": 15, "charges": 10 }
     ]
   },
   {
@@ -595,7 +597,7 @@
       [ "multitool", 5 ],
       [ "pockknife", 50 ],
       [ "knife_folding", 30 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 75, 100 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       {
         "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 350, 400 ] } ],
@@ -613,7 +615,7 @@
       [ "horse_tack", 3 ],
       [ "saddlebag", 5 ],
       [ "lifestraw", 3 ],
-      [ "acetylene_machine", 2 ],
+      [ "light_snare_kit", 3 ],
       { "item": "propane_lantern", "prob": 15, "charges": [ 2000, 3000 ] },
       { "item": "propane_cooker", "prob": 15, "charges": [ 2000, 3000 ] }
     ]
@@ -689,7 +691,7 @@
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
       [ "gasfilter_s", 5 ],
       [ "glasses_safety", 5 ],
-      { "item": "UPS_off", "prob": 3, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 3, "charges": [ 0, 1000 ] },
       [ "microscope", 5 ],
       [ "microscope_dissecting", 5 ],
       [ "funnel_separation", 3 ],
@@ -756,7 +758,7 @@
     "//": "tools and equipment you might find on robotics laboratories.",
     "items": [
       [ "recipe_lab_elec", 4 ],
-      { "item": "UPS_off", "prob": 6, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 6, "charges": [ 0, 1000 ] },
       [ "file", 10 ],
       [ "atomic_lamp", 1 ],
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
@@ -793,7 +795,7 @@
       [ "screwdriver_set", 20 ],
       [ "socket_screwdriver_set", 20 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
-      [ "mobile_memory_card_science", 40 ],
+      [ "memory_card_science", 40 ],
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
       [ "element", 5 ],
