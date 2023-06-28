@@ -618,7 +618,10 @@
       },
       {
         "id": "holybook_talmud_49",
-        "name": { "str": "Talmud, Vol. 49, Tractate Avodah Zara (Part 2)", "str_pl": "copies of the Talmud, Vol. 49, Tractate Avodah Zara (Part 2)" },
+        "name": {
+          "str": "Talmud, Vol. 49, Tractate Avodah Zara (Part 2)",
+          "str_pl": "copies of the Talmud, Vol. 49, Tractate Avodah Zara (Part 2)"
+        },
         "description": "This is volume 49 of 51, containing the second part of Tractate Avodah Zara.  It continues the discussion of contact and commerce with idolators, including the prohibition on buying or consuming wine that may have been used in sacrifices to idols.",
         "append": true,
         "weight": 1
