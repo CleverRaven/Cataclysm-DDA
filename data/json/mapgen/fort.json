@@ -2,12 +2,31 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "fort_zombie",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "palettes": [ "fort_parameter_palette" ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "variant", "fallback": "closed" },
+            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_FORT", "closed": "GROUP_NULL" }
+          },
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [
       [ "fort_1a", "fort_2a", "fort_3a", "fort_4a" ],
       [ "fort_1b", "fort_2b", "fort_3b", "fort_4b" ],
       [ "fort_1c", "fort_2c", "fort_3c", "fort_4c" ]
     ],
-    "weight": 250,
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -57,10 +76,10 @@
         "                *###********************~~~~~*********************###*                          ",
         "                *###*******7***7***7****~~~~~***7***7****7********###*                          ",
         "                **###****__________________________________******###**                          ",
-        "               ***####**_____________________________________***####**                          ",
-        "               *#######______###########_____###########_______######*                          ",
-        "             ***#######____#############_____##############____######***                        ",
-        "           ***#########+################_____#################+########***                      ",
+        "               ***####**______eee___eee_______eee___eee______***####**                          ",
+        "               *#######______############___############_______######*                          ",
+        "             ***#######____##############___###############____######***                        ",
+        "           ***#########D#################___##################D########***                      ",
         "           *#####T+,s#,,,####***********?___?************#####......#####**                     ",
         "           *#######,,+,,,###**          ??_??           **###R..ttt..R####*                     ",
         "           *####T,+,&##+####*           ?????            *###R..ttt..R####*                     ",
@@ -86,61 +105,66 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "fort_palette", "fort_parameter_palette" ],
-      "place_monsters": [
+      "terrain": {
+        "+": {
+          "switch": { "param": "variant", "fallback": "closed" },
+          "cases": { "tourist": "t_door_locked", "reenactors": "t_door_c", "closed": "t_door_locked" }
+        },
+        "D": {
+          "switch": { "param": "variant", "fallback": "closed" },
+          "cases": { "tourist": "t_door_c", "reenactors": "t_door_c", "closed": "t_door_locked" }
+        }
+      },
+      "place_monster": [
         {
-          "monster": {
-            "switch": { "param": "variant", "fallback": "night" },
-            "cases": { "tourist": "GROUP_NULL", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
+          "group": {
+            "switch": { "param": "variant", "fallback": "closed" },
+            "cases": { "tourist": "GROUP_NULL", "reenactors": "GROUP_FORT", "closed": "GROUP_NULL" }
           },
-          "x": [ 24, 39 ],
-          "y": [ 24, 43 ],
-          "repeat": [ 4, 8 ],
-          "density": 0.1
+          "x": [ 30, 36 ],
+          "y": [ 27, 37 ],
+          "repeat": [ 12, 16 ]
         },
         {
-          "monster": {
-            "switch": { "param": "variant", "fallback": "night" },
-            "cases": { "tourist": "GROUP_NULL", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
+          "group": {
+            "switch": { "param": "variant", "fallback": "closed" },
+            "cases": { "tourist": "GROUP_NULL", "reenactors": "GROUP_FORT", "closed": "GROUP_NULL" }
           },
-          "x": [ 48, 61 ],
-          "y": [ 24, 43 ],
-          "repeat": [ 4, 8 ],
-          "density": 0.1
+          "x": [ 48, 54 ],
+          "y": [ 27, 37 ],
+          "repeat": [ 12, 16 ]
+        },
+        {
+          "group": {
+            "switch": { "param": "variant", "fallback": "closed" },
+            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_ZOMBIE", "closed": "GROUP_NULL" }
+          },
+          "x": [ 30, 38 ],
+          "y": 46,
+          "repeat": [ 0, 3 ]
+        },
+        {
+          "group": {
+            "switch": { "param": "variant", "fallback": "closed" },
+            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_ZOMBIE", "closed": "GROUP_NULL" }
+          },
+          "x": [ 48, 54 ],
+          "y": 46,
+          "repeat": [ 0, 2 ]
         }
       ],
-      "monsters": {
-        "*": {
-          "monster": {
-            "switch": { "param": "variant", "fallback": "night" },
-            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
-          },
-          "chance": 1,
-          "density": 0.1
-        },
-        ".": {
-          "monster": {
-            "switch": { "param": "variant", "fallback": "night" },
-            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
-          },
-          "chance": 5,
-          "density": 0.1
-        },
-        ",": {
-          "monster": {
-            "switch": { "param": "variant", "fallback": "night" },
-            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_FORT", "night": "GROUP_NULL" }
-          },
-          "chance": 5,
-          "density": 0.1
-        },
+      "monster": {
         "/": {
           "monster": {
-            "switch": { "param": "variant", "fallback": "night" },
-            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_ZOMBIE", "night": "GROUP_NULL" }
-          },
-          "chance": 100,
-          "density": 0.01
+            "switch": { "param": "variant", "fallback": "closed" },
+            "cases": { "tourist": "mon_zombie", "reenactors": "mon_zombie", "closed": "mon_null" }
+          }
         }
+      },
+      "nested": {
+        "*": { "chunks": [ [ "fort_zombie", 8 ], [ "null", 1701 ] ] },
+        ".": { "chunks": [ [ "fort_zombie", 2 ], [ "null", 94 ] ] },
+        ",": { "chunks": [ [ "fort_zombie", 2 ], [ "null", 17 ] ] }
       }
     }
   },
@@ -216,7 +240,6 @@
       [ "fort_1b_1", "fort_2b_1", "fort_3b_1", "fort_4b_1" ],
       [ "fort_1c_1", "fort_2c_1", "fort_3c_1", "fort_4c_1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_rock_floor_no_roof",
       "rows": [
@@ -298,21 +321,12 @@
       "monster": {
         "Z": {
           "monster": {
-            "switch": { "param": "variant", "fallback": "night" },
-            "cases": { "tourist": "mon_null", "reenactors": "mon_zombie_tough", "night": "mon_null" }
+            "switch": { "param": "variant", "fallback": "closed" },
+            "cases": { "tourist": "mon_null", "reenactors": "mon_zombie_tough", "closed": "mon_null" }
           }
         }
       },
-      "monsters": {
-        ".": {
-          "monster": {
-            "switch": { "param": "variant", "fallback": "night" },
-            "cases": { "tourist": "GROUP_ZOMBIE", "reenactors": "GROUP_NULL", "night": "GROUP_NULL" }
-          },
-          "chance": 1,
-          "density": 0.01
-        }
-      },
+      "nested": { ".": { "chunks": [ [ "fort_zombie", 8 ], [ "null", 1058 ] ] } },
       "vehicles": { "U": { "vehicle": "cannon_3in", "chance": 100 }, "Q": { "vehicle": "cannon_3in_plugged", "chance": 100 } }
     }
   }
