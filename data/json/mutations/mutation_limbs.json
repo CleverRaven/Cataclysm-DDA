@@ -1,0 +1,79 @@
+[
+  {
+    "id": "gastropod_foot",
+    "type": "body_part",
+    "name": "gastropod foot",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "gastropod foot" },
+    "heading": "gastropod foot",
+    "heading_multiple": "gastropod feet",
+    "hp_bar_ui_text": "G. FOOT",
+    "encumbrance_text": "Running and swimming are slowed.",
+    "encumbrance_threshold": 20,
+    "main_part": "gastropod_foot",
+    "connected_to": "torso",
+    "opposite_part": "gastropod_foot",
+    "limb_types": [ [ "leg", 0.8 ], [ "foot", 0.5 ], [ "tail", 0.2 ] ],
+    "limb_scores": [ [ "move_speed", 0.3 ], [ "crawl", 0.6 ], [ "footing", 0.8 ] ],
+    "hit_size": 30,
+    "hit_difficulty": 1.2,
+    "side": "both",
+    "grabbing_effect": "grabbing_gastropod_foot",
+    "stylish_bonus": 3,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "fire_warmth_bonus": 150,
+    "squeamish_penalty": 5,
+    "base_hp": 120,
+    "drench_capacity": 700,
+    "bionic_slots": 58,
+    "flags": [ "LIMB_LOWER" ],
+    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
+    "encumbrance_per_weight": [
+      { "weight": "1 mg", "encumbrance": 1 },
+      { "weight": "300 g", "encumbrance": 4 },
+      { "weight": "800 g", "encumbrance": 8 },
+      { "weight": "1300 g", "encumbrance": 20 },
+      { "weight": "1600 g", "encumbrance": 30 },
+      { "weight": "2200 g", "encumbrance": 50 },
+      { "weight": "5600 g", "encumbrance": 80 },
+      { "weight": "10000 g", "encumbrance": 160 }
+    ],
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "bouldering",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 3,
+        "duration": 3,
+        "max_duration": 15
+      }
+    ]
+  }
+]

@@ -38,7 +38,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting" } }
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
           ]
         }
       },
@@ -48,7 +48,7 @@
         "condition": {
           "and": [
             { "not": { "npc_has_effect": "u_got_meal" } },
-            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting" }
+            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
           ]
         }
       },
@@ -67,7 +67,7 @@
   {
     "id": "TALK_GODCO_chef_idle_chat",
     "type": "talk_topic",
-    "dynamic_line": [ "Okay, shoot.", "Sure, what's up?", "ALright, lets chat." ],
+    "dynamic_line": [ "Okay, shoot.", "Sure, what's up?", "Alright, lets chat." ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_GODCO_chef_past" },
       { "text": "How are you holding up?", "topic": "TALK_GODCO_chef_mood" },

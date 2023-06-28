@@ -63,7 +63,7 @@
     "clip_size": 1,
     "reload": 2500,
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "flags": [ "NEVER_JAMS" ],
+    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
     "melee_damage": { "bash": 5 }
   },
@@ -101,7 +101,7 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ],
+    "flags": [ "NEVER_JAMS", "DURABLE_MELEE", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
     "melee_damage": { "bash": 15 }
   },
@@ -111,6 +111,16 @@
     "type": "GUN",
     "name": { "str": "flintlock rifle" },
     "description": "Also called a Pennsylvania rifle, this long-barreled rifled flintlock gun has significantly increased accuracy at the cost of taking even longer to reload.",
+    "variants": [
+      {
+        "id": "leadworks_longrifle_flintlock",
+        "name": { "str": "Leadworks Pennsylvania 2068" },
+        "description": "A high quality commemorative replica of a Pennsylvania rifle.  Its engraved stock plate claims it was built for the \"Northern American Federation Tricentennial Exhibition\".",
+        "color": "dark_gray",
+        "weight": 0,
+        "append": false
+      }
+    ],
     "weight": "3700 g",
     "volume": "1700 ml",
     "longest_side": "1278 mm",

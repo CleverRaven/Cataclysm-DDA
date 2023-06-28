@@ -617,11 +617,15 @@ std::optional<input_event> hotkey_for_action( const action_id action,
 
 bool can_butcher_at( const tripoint &p )
 {
+    map_stack items = get_map().i_at( p );
+    // Early exit when there's definitely nothing to butcher
+    if( items.empty() ) {
+        return false;
+    }
     Character &player_character = get_player_character();
     // TODO: unify this with game::butcher
     const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
     const int factorD = player_character.max_quality( qual_CUT_FINE, PICKUP_RANGE );
-    map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
@@ -1125,17 +1129,18 @@ std::optional<tripoint> choose_adjacent( const std::string &message, const bool 
 }
 
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const action_id action, bool allow_vertical )
+        const std::string &failure_message, const action_id action,
+        const bool allow_vertical, const bool allow_autoselect )
 {
     const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
         return can_interact_at( action, p );
     };
-    return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
+    return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
 }
 
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical )
+        const bool allow_vertical, const bool allow_autoselect )
 {
     std::vector<tripoint> valid;
     avatar &player_character = get_avatar();
@@ -1148,7 +1153,7 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         }
     }
 
-    const bool auto_select = get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
+    const bool auto_select = allow_autoselect && get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
     if( valid.empty() && auto_select ) {
         add_msg( failure_message );
         return std::nullopt;

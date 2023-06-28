@@ -487,6 +487,10 @@ class Creature : public viewer
         */
         void longpull( const std::string &name, const tripoint &p );
 
+        bool dodge_check( float hit_roll, bool force_try = false );
+        bool dodge_check( monster *z );
+        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst );
+
         // Temporarily reveals an invisible player when a monster tries to enter their location
         bool stumble_invis( const Creature &player, bool stumblemsg = true );
         // Attack an empty location
@@ -498,15 +502,17 @@ class Creature : public viewer
          */
         virtual void on_dodge( Creature *source, float difficulty ) = 0;
         /**
+         * Invoked when the creature attempts to dodge, regardless of success or failure.
+         */
+        virtual void on_try_dodge() = 0;
+        /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
-        /** Returns true if this monster has any sort of ranged attack. This doesn't necessarily mean direct damage ranged attack,
-        * but also includes any sort of potentially dangerous ranged interaction, e.g. monster with RANGED_PULL special attack will fit here too.
-         */
+        /** Returns true if this monster has a gun-type attack or the RANGED_ATTACKER flag*/
         virtual bool is_ranged_attacker() const;
 
         virtual bool digging() const;
@@ -522,6 +528,9 @@ class Creature : public viewer
 
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
+
+        // returns true if the creature has an electric field
+        virtual bool is_nether() const = 0;
 
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
@@ -618,9 +627,11 @@ class Creature : public viewer
         /** Check if creature has any effect with the given flag. */
         bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         bool has_effect_with_flag( const flag_id &flag ) const;
-        std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
-        std::vector<effect> get_effects_from_bp( const bodypart_id &bp ) const;
-        std::vector<effect> get_effects() const;
+        std::vector<std::reference_wrapper<const effect>> get_effects_with_flag(
+                    const flag_id &flag ) const;
+        std::vector<std::reference_wrapper<const effect>> get_effects_from_bp(
+                    const bodypart_id &bp ) const;
+        std::vector<std::reference_wrapper<const effect>> get_effects() const;
 
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id,

@@ -35,6 +35,11 @@
     "type": "json_flag"
   },
   {
+    "id": "CABLE_PORTS",
+    "type": "json_flag",
+    "info": "You can connect electrical cables to this part."
+  },
+  {
     "id": "CARGO",
     "type": "json_flag",
     "info": "You can store items here."
@@ -480,10 +485,6 @@
     "type": "json_flag"
   },
   {
-    "id": "OVER",
-    "type": "json_flag"
-  },
-  {
     "id": "PLANTER",
     "type": "json_flag"
   },
@@ -599,6 +600,10 @@
     "type": "json_flag"
   },
   {
+    "id": "WALL_MOUNTED",
+    "type": "json_flag"
+  },
+  {
     "id": "WASHING_MACHINE",
     "type": "json_flag"
   },
@@ -628,6 +633,10 @@
   },
   {
     "id": "WINDSHIELD",
+    "type": "json_flag"
+  },
+  {
+    "id": "WIRING",
     "type": "json_flag"
   }
 ]

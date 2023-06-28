@@ -316,7 +316,8 @@
         "hitsize_min": 4
       },
       { "id": "tail_club" },
-      [ "GRAB_DRAG", 15 ]
+      { "id": "grab_drag", "cooldown": 15, "grab_data": { "drag_distance": 2, "drag_movecost_mod": 0.2 } },
+      { "id": "drag_followup", "grab_data": { "drag_distance": 2, "drag_movecost_mod": 0.2 } }
     ],
     "dodge": 3,
     "vision_night": 8,

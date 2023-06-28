@@ -112,6 +112,14 @@ int base_camps::max_upgrade_by_type( const std::string &type )
 
 basecamp::basecamp() = default;
 
+basecamp_map::basecamp_map( const basecamp_map & ) {}
+
+basecamp_map &basecamp_map::operator=( const basecamp_map & )
+{
+    map_.reset();
+    return *this;
+}
+
 basecamp::basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )
 {
@@ -158,7 +166,6 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
 
     const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
-    reset_camp_resources();
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
@@ -455,7 +462,7 @@ void basecamp::update_in_progress( const std::string &bldg, const point &dir )
     }
 }
 
-void basecamp::reset_camp_resources()
+void basecamp::reset_camp_resources( map &here )
 {
     reset_camp_workers();
     for( auto &e : expansions ) {
@@ -474,7 +481,7 @@ void basecamp::reset_camp_resources()
             add_resource( it );
         }
     }
-    form_crafting_inventory();
+    form_crafting_inventory( here );
 }
 
 // available companion list manipulation
@@ -657,20 +664,44 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     }
     return ret;
 }
+void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
+{
+    zone_manager &mgr = zone_manager::get_manager();
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
+        mgr.cache_vzones();
+    }
+    tripoint src_loc = here.getlocal( bb_pos ) + point_north;
+    if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
+        const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
+                60 );
+        // Find the nearest unsorted zone to dump objects at
+        if( !zones.empty() ) {
+            if( zones != storage_zones ) {
+                std::unordered_set<tripoint_abs_ms> src_set;
+                for( const zone_data *zone : zones ) {
+                    for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
+                             zone->get_start_point(), zone->get_end_point() ) ) {
+                        src_set.emplace( p );
+                    }
+                }
+                set_storage_tiles( src_set );
+            }
+            src_loc = here.getlocal( zones.front()->get_center_point() );
+            set_storage_zone( zones );
+        }
+    }
+    set_dumping_spot( here.getglobal( src_loc ) );
 
+}
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint_abs_ms &dump_spot = get_dumping_spot();
-    const tripoint &origin = target_map.getlocal( dump_spot );
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
-    if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint_abs_ms> src_set =
-            mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
+    if( !src_set.empty() ) {
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*
@@ -688,7 +719,9 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
 
     // find available fuel
-    for( const tripoint &pt : target_map.points_in_radius( origin, inv_range ) ) {
+
+    for( const tripoint_abs_ms &abs_ms_pt : src_set ) {
+        const tripoint &pt = target_map.getlocal( abs_ms_pt );
         if( target_map.accessible_items( pt ) ) {
             for( const item &i : target_map.i_at( pt ) ) {
                 for( basecamp_fuel &bcp_f : fuels ) {
@@ -699,6 +732,7 @@ void basecamp::form_crafting_inventory( map &target_map )
                 }
             }
         }
+
     }
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
@@ -741,15 +775,30 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
 }
 
-void basecamp::form_crafting_inventory()
+map &basecamp::get_camp_map()
 {
     if( by_radio ) {
-        tinymap target_map;
-        target_map.load( project_to<coords::sm>( omt_pos ), false );
-        form_crafting_inventory( target_map );
-    } else {
-        form_crafting_inventory( get_map() );
+        if( !camp_map.map_ ) {
+            camp_map.map_ = std::make_unique<map>();
+            camp_map.map_->load( project_to<coords::sm>( omt_pos ) - point( 5, 5 ), false );
+        }
+        return *camp_map.map_;
     }
+    return get_map();
+}
+
+void basecamp::unload_camp_map()
+{
+    if( camp_map.map_ ) {
+        camp_map.map_.reset();
+    }
+}
+
+void basecamp::form_crafting_inventory()
+{
+    map &here = get_camp_map();
+    form_crafting_inventory( here );
+    here.save();
 }
 
 // display names
@@ -845,32 +894,25 @@ bool basecamp_action_components::choose_components()
 
 void basecamp_action_components::consume_components()
 {
-    map *target_map = &get_map();
-    if( base_.by_radio ) {
-        map_ = std::make_unique<tinymap>();
-        map_->load( project_to<coords::sm>( base_.camp_omt_pos() ), false );
-        target_map = map_.get();
-    }
-    const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );
+    map &target_map = base_.get_camp_map();
     avatar &player_character = get_avatar();
+    std::vector<tripoint> src;
+    src.resize( base_.src_set.size() );
+    for( const tripoint_abs_ms &p : base_.src_set ) {
+        src.emplace_back( target_map.getlocal( p ) );
+    }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        player_character.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
-                                        basecamp::inv_range );
+        player_character.consume_items( target_map, sel, batch_size_, is_crafting_component, src );
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
-        player_character.consume_tools( *target_map, sel, batch_size_, origin, basecamp::inv_range,
-                                        &base_ );
+        player_character.consume_tools( target_map, sel, batch_size_, src, &base_ );
     }
     // go back and consume the actual resources
     for( basecamp_resource &bcp_r : base_.resources ) {
         if( bcp_r.consumed > 0 ) {
-            target_map->use_charges( origin, basecamp::inv_range, bcp_r.ammo_id, bcp_r.consumed );
-            bcp_r.consumed = 0;
+            target_map.use_charges( src, bcp_r.ammo_id, bcp_r.consumed );
         }
     }
-    if( map_ ) {
-        map_->save();
-        map_.reset();
-    }
+    target_map.save();
 }

@@ -30,6 +30,10 @@ class fault_fix
         std::set<fault_id> faults_added; // which faults are added on applying
         int mod_damage = 0; // mod_damage with this value is called on item applied to
         int mod_degradation = 0; // mod_degradation with this value is called on item applied to
+        std::map<proficiency_id, float>
+        time_save_profs; // map of proficiency_id and the time saving for posessing it
+        std::map<flag_id, float>
+        time_save_flags; // map of flag_id and the time saving for the mendee item posessing it
 
         const requirement_data &get_requirements() const;
 

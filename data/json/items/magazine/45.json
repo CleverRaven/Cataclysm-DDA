@@ -317,5 +317,58 @@
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 26 } } ]
+  },
+  {
+    "id": "greasegun30mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": ".45 WWII SMG 30-round magazine" },
+    "description": "A standard 30-round magazine for the .45 WWII submachine gun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "greasegun30mag",
+        "name": { "str": "M3 SMG 30-round magazine" },
+        "description": "A standard 30-round magazine for the M3 submachine gun."
+      }
+    ],
+    "weight": "340 g",
+    "volume": "227 ml",
+    "longest_side": "235 mm",
+    "price": 3000,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "45" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ]
+  },
+  {
+    "id": "greasegun32mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": ".45 WWII SMG 32-round magazine" },
+    "description": "A standard 32-round magazine for the .45 WWII submachine gun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "greasegun32mag",
+        "name": { "str": "M3 SMG 32-round magazine" },
+        "description": "A standard 32-round magazine for the M3 submachine gun.",
+        "weight": 1
+      }
+    ],
+    "weight": "355 g",
+    "volume": "236 ml",
+    "longest_side": "245 mm",
+    "price": 3000,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "45" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 32 } } ]
   }
 ]

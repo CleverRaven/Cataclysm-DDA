@@ -19,6 +19,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -100,8 +101,6 @@ static const efftype_id effect_winded( "winded" );
 
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 
-static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
-
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_mana( "mana" );
@@ -131,6 +130,8 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
     avatar &player_character = get_avatar();
+    const tripoint part_pos = veh.global_part_pos3( part );
+
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = player_character.activity;
     map &here = get_map();
@@ -145,7 +146,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
     // TODO: maybe do this for all the nearby NPCs as well?
     if( player_character.get_grab_type() == object_type::VEHICLE &&
-        player_character.pos() + player_character.grab_point == veh.global_part_pos3( part ) ) {
+        player_character.pos() + player_character.grab_point == part_pos ) {
         if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
             add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
             player_character.grab( object_type::NONE );
@@ -153,6 +154,8 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
 
     here.dirty_vehicle_list.insert( &veh );
+    here.clear_vehicle_point_from_cache( &veh, part_pos );
+    here.add_vehicle_to_cache( &veh );
 }
 
 // Vehicle stack methods.
@@ -177,34 +180,44 @@ units::volume vehicle_stack::max_volume() const
 
 // Vehicle class methods.
 
-vehicle::vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel,
-                  int init_veh_status, bool may_spawn_locked ): type( type_id )
+vehicle::vehicle( const vproto_id &proto_id )
 {
-    turn_dir = 0_degrees;
     face.init( 0_degrees );
     move.init( 0_degrees );
-    of_turn_carry = 0;
 
-    if( !type.str().empty() && type.is_valid() ) {
-        const vehicle_prototype &proto = type.obj();
+    if( proto_id.is_empty() ) {
+        refresh(); // we're not using any blueprint, just return an empty initialized vehicle
+    } else if( !proto_id.is_valid() ) {
+        debugmsg( "trying to construct vehicle from invalid prototype '%s'", proto_id.str() );
+    } else {
+        type = proto_id;
+        const vehicle_prototype &proto = *type;
         // Copy the already made vehicle. The blueprint is created when the json data is loaded
         // and is guaranteed to be valid (has valid parts etc.).
         *this = *proto.blueprint;
         // The game language may have changed after the blueprint was created,
         // so translated the prototype name again.
         name = proto.name.translated();
-        init_state( placed_on, init_veh_fuel, init_veh_status, may_spawn_locked );
+        refresh();
     }
-    precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
-    refresh();
-}
-
-vehicle::vehicle() : vehicle( get_map(), vproto_id() )
-{
-    sm_pos = tripoint_zero;
 }
 
 vehicle::~vehicle() = default;
+
+turret_cpu::~turret_cpu() = default;
+
+turret_cpu &turret_cpu::operator=( const turret_cpu & )
+{
+    brain.reset();
+    return *this;
+}
+
+turret_cpu::turret_cpu( const turret_cpu & ) {}
+
+safe_reference<vehicle> vehicle::get_safe_reference()
+{
+    return anchor.reference_to( this );
+}
 
 bool vehicle::player_in_control( const Character &p ) const
 {
@@ -245,8 +258,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
-                          bool may_spawn_locked )
+void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status )
 {
     // vehicle parts excluding engines in non-owned vehicles are by default turned off
     for( vehicle_part &pt : parts ) {
@@ -321,7 +333,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         }
     }
 
-    if( one_in( 3 ) && may_spawn_locked ) {
+    if( one_in( 3 ) ) {
         //33% chance for a locked vehicle
         has_no_key = true;
     }
@@ -525,7 +537,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         auto_select_fuel( parts[p] );
     }
 
-    invalidate_mass();
+    refresh();
 }
 
 void vehicle::activate_magical_follow()
@@ -852,7 +864,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
             const vpart_info &p_info = part_info( p );
             const vpart_info &other_p_info = part_info( other_p );
 
-            if( p_info.get_id() == other_p_info.get_id() ||
+            if( p_info.id == other_p_info.id ||
                 ( !p_info.location.empty() && p_info.location == other_p_info.location ) ) {
                 // Deferred creation of the handler to here so it is only created when actually needed.
                 if( !handler_ptr ) {
@@ -985,6 +997,19 @@ bool vehicle::has_security_working() const
     return found_security;
 }
 
+void vehicle::unlock()
+{
+    is_locked = false;
+    for( vehicle_part &vp : parts ) {
+        if( vp.info().has_flag( "SECURITY" ) ) {
+            vp.enabled = false;
+        }
+        if( vp.is_engine() ) {
+            vp.base.faults.erase( fault_engine_immobiliser );
+        }
+    }
+}
+
 void vehicle::backfire( const vehicle_part &vp ) const
 {
     // single space after the exclamation mark because it does not end the sentence
@@ -1114,17 +1139,19 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
         }
     } else {
         const vpart_info &vpi_first_in_square = part( parts_in_square[0] ).info();
-        // Parts can't be placed on tiles with an animal harness or protrusions
+        // Only tow cables can be placed on tiles with an animal harness or protrusion
         if( vpi_first_in_square.has_flag( "ANIMAL_CTRL" ) ||
             vpi_first_in_square.has_flag( "PROTRUSION" ) ) {
-            return ret_val<void>::make_failure( _( "%s is in the way." ), vpi_first_in_square.name() );
+            if( !vpi.has_flag( "TOW_CABLE" ) ) {
+                return ret_val<void>::make_failure( _( "%s is in the way." ), vpi_first_in_square.name() );
+            }
         }
     }
 
     for( const int elem : parts_in_square ) {
         const vpart_info &vpi_other = part( elem ).info();
         // No part type can stack with itself, except power cables
-        if( vpi.get_id() == vpi_other.get_id() && !vpi.has_flag( "POWER_TRANSFER" ) ) {
+        if( vpi.id == vpi_other.id && !vpi.has_flag( "POWER_TRANSFER" ) ) {
             return ret_val<void>::make_failure( _( "%s is already installed here." ), vpi.name() );
         }
         // Only parts with empty or different locations can be on same tile
@@ -1194,7 +1221,7 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
             continue;
         }
         std::set<std::string> possible_parts;
-        for( const auto&[id, vpi_option] : vpart_info::all() ) {
+        for( const vpart_info &vpi_option : vehicles::parts::get_all() ) {
             if( vpi_option.has_flag( required_flag ) &&
                 !vpi_option.has_flag( "NO_INSTALL_PLAYER" ) &&
                 !vpi_option.has_flag( "NO_INSTALL_HIDDEN" ) ) {
@@ -1395,7 +1422,7 @@ int vehicle::install_part( const point &dp, vehicle_part &&vp )
     const vpart_info &vpi = vp.info();
     const ret_val<void> valid_mount = can_mount( dp, vpi );
     if( !valid_mount.success() ) {
-        debugmsg( "installing %s would make invalid vehicle: %s", vpi.get_id().str(), valid_mount.str() );
+        debugmsg( "installing %s would make invalid vehicle: %s", vpi.id.str(), valid_mount.str() );
         return -1;
     }
     // Should be checked before installing the part
@@ -1798,8 +1825,10 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     const tripoint part_loc = global_part_pos3( vp );
 
     if( !handler.get_map_ref().inbounds( part_loc ) ) {
-        debugmsg( "Removing out of bounds vehicle part at %s from vehicle %s (%s)",
-                  part_loc.to_string(), name, type.str() );
+        debugmsg( "vehicle::remove_part part '%s' at mount %s bub pos %s is out of map "
+                  "bounds on vehicle '%s'(%s), vehicle::pos is %s, vehicle::sm_pos is %s",
+                  vp.info().id.str(), vp.mount.to_string(), part_loc.to_string(),
+                  name, type.str(), pos.to_string(), sm_pos.to_string() );
     }
 
     // Unboard any entities standing on removed boardable parts
@@ -2547,6 +2576,17 @@ int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken ) c
     return -1;
 }
 
+int vehicle::part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const
+{
+    for( const int p : parts_at_relative( pt, /* use_cache = */ true ) ) {
+        const vehicle_part &vp_here = this->part( p );
+        if( vp_here.info().has_flag( f ) && !( unbroken && vp_here.is_broken() ) ) {
+            return p;
+        }
+    }
+    return -1;
+}
+
 int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken ) const
 {
     for( const int p : parts_at_relative( pt, /* use_cache = */ false ) ) {
@@ -2879,13 +2919,13 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts(
     // start from the real part, otherwise it fails in certain orientations
     part = get_non_fake_part( part );
 
-    vpart_id part_id = part_info( part ).get_id();
+    vpart_id part_id = part_info( part ).id;
     // create vectors of parts on the same X or Y axis
     point target = parts[ part ].mount;
     for( const vpart_reference &vp : possible_parts ) {
         if( vp.part().is_unavailable() ||
             !vp.has_feature( "MULTISQUARE" ) ||
-            vp.info().get_id() != part_id )  {
+            vp.info().id != part_id )  {
             continue;
         }
         if( vp.mount().x == target.x ) {
@@ -3234,8 +3274,11 @@ void vehicle::set_submap_moved( const tripoint &p )
 
 units::mass vehicle::total_mass() const
 {
+    // local_center_of_mass() is more frequently called
+    // than rotated_center_of_mass().
+    // To improve performance, refresh mass_center_no_precalc.
     if( mass_dirty ) {
-        calc_mass_center( true );
+        calc_mass_center( false );
     }
 
     return mass_cache;
@@ -4824,7 +4867,7 @@ units::power vehicle::net_battery_charge_rate( bool include_reactors ) const
 {
     return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
            total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
-           ( include_reactors ? active_reactor_epower() : 0_W );
+           linked_item_epower_this_turn + ( include_reactors ? active_reactor_epower() : 0_W );
 }
 
 units::power vehicle::active_reactor_epower() const
@@ -5278,16 +5321,21 @@ void vehicle::idle( bool on_map )
     power_parts();
     Character &player_character = get_player_character();
     if( engine_on && total_power() > 0_W ) {
-        int idle_rate = alternator_load;
-        if( idle_rate < 10 ) {
-            idle_rate = 10;    // minimum idle is 1% of full throttle
-        }
-        if( has_engine_type_not( fuel_type_muscle, true ) ) {
-            consume_fuel( idle_rate, true );
-        }
+        // Consume fuel at here only if the vehicle is not thrusting.
+        // See the condition under which vehicle::thrust() is called in vehicle::gain_moves().
+        if( !( ( player_in_control( player_character ) || is_following || is_patrolling ) &&
+               cruise_velocity != 0 ) ) {
+            int idle_rate = alternator_load;
+            if( idle_rate < 10 ) {
+                idle_rate = 10;    // minimum idle is 1% of full throttle
+            }
+            if( has_engine_type_not( fuel_type_muscle, true ) ) {
+                consume_fuel( idle_rate, true );
+            }
 
-        if( on_map ) {
-            noise_and_smoke( idle_rate, 1_turns );
+            if( on_map ) {
+                noise_and_smoke( idle_rate, 1_turns );
+            }
         }
     } else {
         if( engine_on &&
@@ -5309,6 +5357,7 @@ void vehicle::idle( bool on_map )
         }
     }
 
+    linked_item_epower_this_turn = 0_W;
     smart_controller_handle_turn();
 
     if( !on_map ) {
@@ -5852,6 +5901,7 @@ void vehicle::refresh( const bool remove_fakes )
     mufflers.clear();
     planters.clear();
     accessories.clear();
+    cable_ports.clear();
 
     alternator_load = 0;
     extra_drag = 0_W;
@@ -6007,6 +6057,9 @@ void vehicle::refresh( const bool remove_fakes )
         if( vpi.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
             accessories.push_back( p );
         }
+        if( vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_APPLIANCE ) ) {
+            cable_ports.push_back( p );
+        }
     }
 
     rail_wheel_bounding_box.p1 = point( railwheel_xmin, railwheel_ymin );
@@ -6064,7 +6117,7 @@ void vehicle::refresh( const bool remove_fakes )
             fake_parts.push_back( fake_index );
             relative_parts[ part_fake.mount ].push_back( fake_index );
             edges.emplace( real_mount, edge_info );
-            parts.push_back( part_fake );
+            parts.push_back( std::move( part_fake ) );
         }
     };
     // re-install fake parts - this could be done in a separate function, but we want to
@@ -6418,15 +6471,8 @@ bool vehicle::is_towed() const
 
 int vehicle::get_tow_part() const
 {
-    for( const vpart_reference &vpr : get_all_parts() ) {
-        const int tow_cable_idx = part_with_feature( vpr.mount(), "TOW_CABLE", true );
-        if( tow_cable_idx < 0 ) {
-            continue;
-        }
-        const vehicle_part &vp = part( tow_cable_idx );
-        if( !vp.removed && vp.is_available() ) {
-            return tow_cable_idx;
-        }
+    for( const vpart_reference &vpr : this->get_any_parts( "TOW_CABLE" ) ) {
+        return vpr.part_index();
     }
     return -1;
 }
@@ -6469,7 +6515,7 @@ bool towing_data::set_towing( vehicle *tower_veh, vehicle *towed_veh )
     return true;
 }
 
-void vehicle::invalidate_towing( bool first_vehicle )
+void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
 {
     if( !is_towing() && !is_towed() ) {
         return;
@@ -6477,21 +6523,47 @@ void vehicle::invalidate_towing( bool first_vehicle )
     if( first_vehicle ) {
         vehicle *other_veh = is_towing() ? tow_data.get_towed() :
                              is_towed() ? tow_data.get_towed_by() : nullptr;
+        const int tow_cable_idx = get_tow_part();
+        if( tow_cable_idx > -1 ) {
+            vehicle_part &vp = parts[tow_cable_idx];
+            item drop = vp.properties_to_item();
+            drop.set_damage( 0 );
+            if( other_veh != nullptr ) {
+                if( is_towing() ) {
+                    drop.link->s_state = link_state::no_link;
+                    drop.link->t_state = link_state::vehicle_tow;
+                } else {
+                    drop.link->s_state = link_state::vehicle_tow;
+                    drop.link->t_state = link_state::no_link;
+                }
+                const int other_tow_cable_idx = other_veh->get_tow_part();
+                drop.link->t_abs_pos = other_veh->global_square_location();
+                if( other_tow_cable_idx > -1 ) {
+                    drop.link->t_mount = other_veh->part( other_tow_cable_idx ).mount;
+                }
+            } else {
+                drop.reset_cable();
+            }
+
+            if( remover != nullptr ) {
+                std::list<item> drops{ drop };
+                put_into_vehicle_or_drop( *remover, item_drop_reason::deliberate, drops );
+            } else {
+                get_map().add_item_or_charges( global_part_pos3( vp ), drop );
+            }
+            remove_part( tow_cable_idx );
+        }
         if( other_veh ) {
             other_veh->invalidate_towing();
         }
+        tow_data.clear_towing();
+    } else {
+        const int tow_cable_idx = get_tow_part();
+        if( tow_cable_idx > -1 ) {
+            remove_part( tow_cable_idx );
+        }
+        tow_data.clear_towing();
     }
-    tow_data.clear_towing();
-    const int tow_cable_idx = get_tow_part();
-    if( tow_cable_idx < 0 ) {
-        return;
-    }
-    if( first_vehicle ) {
-        vehicle_part &vp = parts[tow_cable_idx];
-        item drop = vp.properties_to_item();
-        get_map().add_item_or_charges( global_part_pos3( vp ), drop );
-    }
-    remove_part( tow_cable_idx );
 }
 
 // to be called on the towed vehicle
@@ -6612,18 +6684,13 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
                                     _( "The %s's power connection was detached!" ), name );
             remove_remote_part( elem );
         }
-        if( is_towing() || is_towed() ) {
-            vehicle *other_veh = is_towing() ? tow_data.get_towed() : tow_data.get_towed_by();
-            if( other_veh ) {
-                other_veh->remove_part( other_veh->get_tow_part() );
-                other_veh->tow_data.clear_towing();
-            }
-            tow_data.clear_towing();
+        if( part_flag( elem, "TOW_CABLE" ) ) {
+            invalidate_towing( true );
+            continue;
         }
-        const vehicle_part *part = &parts[elem];
-        if( !magic && !part->properties_to_item().has_flag( json_flag_POWER_CORD ) ) {
-            item drop = part->properties_to_item();
-            here.add_item_or_charges( global_part_pos3( *part ), drop );
+        const item drop = part( elem ).properties_to_item();
+        if( !magic && !drop.has_flag( flag_AUTO_DELETE_CABLE ) ) {
+            here.add_item_or_charges( global_part_pos3( part( elem ) ), drop );
         }
 
         remove_part( elem );
@@ -6764,7 +6831,7 @@ int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool
     const bool overhead = vpi_target.has_flag( "ROOF" ) || vpi_target.location == "on_roof";
     // Calling damage_direct may remove the damaged part completely, therefore the
     // other index (target_part) becomes wrong if target_part > armor_part.
-    // Damaging the part with the higher index first is save, as removing a part
+    // Damaging the part with the higher index first is safe, as removing a part
     // only changes indices after the removed part.
     if( armor_part < target_part ) {
         damage_direct( here, target_part, overhead ? dmg : dmg - protection, type );
@@ -6907,7 +6974,19 @@ int vehicle::break_off( map &here, int p, int dmg )
                 continue;
             }
 
-            if( parts[ parts_in_square[ index ] ].is_broken() ) {
+            if( part_flag( parts_in_square[ index ], "TOW_CABLE" ) ) {
+                // Tow cables - remove it in one piece, remove remote part, and remove towing data
+                add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                        parts[ parts_in_square[ index ] ].name() );
+                invalidate_towing( true );
+            } else if( part_flag( parts_in_square[ index ], "POWER_TRANSFER" ) ) {
+                // Electrical cables - remove it in one piece and remove remote part
+                add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                        parts[ parts_in_square[ index ] ].name() );
+                item part_as_item = parts[parts_in_square[index]].properties_to_item();
+                here.add_item_or_charges( pos, part_as_item );
+                remove_remote_part( parts_in_square[ index ] );
+            } else if( parts[ parts_in_square[ index ] ].is_broken() ) {
                 // Tearing off a broken part - break it up
                 add_msg_if_player_sees( pos, m_bad, _( "The %s's %s breaks into pieces!" ), name,
                                         parts[ parts_in_square[ index ] ].name() );
@@ -6929,10 +7008,24 @@ int vehicle::break_off( map &here, int p, int dmg )
         remove_part( p, *handler_ptr );
         find_and_split_vehicles( here, { p } );
     } else {
-        //Just break it off
-        add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
+        if( part_flag( p, "TOW_CABLE" ) ) {
+            // Tow cables - remove it in one piece, remove remote part, and remove towing data
+            add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                    parts[ p ].name() );
+            invalidate_towing( true );
+        } else if( part_flag( p, "POWER_TRANSFER" ) ) {
+            // Electrical cables - remove it in one piece and remove remote part
+            add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                    parts[ p ].name() );
+            item part_as_item = parts[p].properties_to_item();
+            here.add_item_or_charges( pos, part_as_item );
+            remove_remote_part( p );
+        } else {
+            //Just break it off
+            add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
 
-        scatter_parts( parts[p] );
+            scatter_parts( parts[p] );
+        }
         const point position = parts[p].mount;
         remove_part( p, *handler_ptr );
 
@@ -6953,9 +7046,16 @@ int vehicle::break_off( map &here, int p, int dmg )
                     }
                 }
                 if( remove ) {
-                    item part_as_item = parts[part].properties_to_item();
-                    here.add_item_or_charges( pos, part_as_item );
-                    remove_part( part, *handler_ptr );
+                    if( part_flag( part, "TOW_CABLE" ) ) {
+                        invalidate_towing( true );
+                    } else {
+                        if( part_flag( p, "POWER_TRANSFER" ) ) {
+                            remove_remote_part( part );
+                        }
+                        item part_as_item = parts[part].properties_to_item();
+                        here.add_item_or_charges( pos, part_as_item );
+                        remove_part( part, *handler_ptr );
+                    }
                 }
             }
         }
@@ -7048,8 +7148,6 @@ int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &typ
     if( parts[p].is_fuel_store() ) {
         explode_fuel( p, type );
     } else if( parts[ p ].is_broken() && part_flag( p, "UNMOUNT_ON_DAMAGE" ) ) {
-        here.spawn_item( global_part_pos3( p ), part_info( p ).base_item, 1, 0, calendar::turn,
-                         part_info( p ).base_item.obj().damage_max() - 1 );
         monster *mon = get_monster( p );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );
@@ -7057,6 +7155,18 @@ int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &typ
         if( part_flag( p, "TOW_CABLE" ) ) {
             invalidate_towing( true );
         } else {
+            item part_as_item = parts[p].properties_to_item();
+            add_msg_if_player_sees( global_part_pos3( p ), m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                    parts[p].name() );
+            if( part_flag( p, "POWER_TRANSFER" ) ) {
+                remove_remote_part( p );
+                part_as_item.set_damage( 0 );
+            } else {
+                part_as_item.set_damage( part_info( p ).base_item.obj().damage_max() - 1 );
+            }
+            if( !magic && !part_as_item.has_flag( flag_AUTO_DELETE_CABLE ) ) {
+                here.add_item_or_charges( global_part_pos3( p ), part_as_item );
+            }
             if( !g || &get_map() != &here ) {
                 MapgenRemovePartHandler handler( here );
                 remove_part( p, handler );
@@ -7152,7 +7262,7 @@ time_duration vehicle::unfolding_time() const
 item vehicle::get_folded_item() const
 {
     item folded( "generic_folded_vehicle", calendar::turn );
-    const std::vector<vehicle_part> parts = real_parts();
+    const std::vector<std::reference_wrapper<const vehicle_part>> &parts = real_parts();
     try {
         std::ostringstream veh_data;
         JsonOut json( veh_data );
@@ -7198,15 +7308,8 @@ item vehicle::get_folded_item() const
 
 bool vehicle::restore_folded_parts( const item &it )
 {
-    const std::string data = it.get_var( "folded_parts" );
-    try {
-        JsonValue json = json_loader::from_string( data );
-        parts.clear();
-        json.read( parts );
-    } catch( const JsonError &e ) {
-        debugmsg( "Error restoring folded vehicle parts: %s", e.c_str() );
-        return false;
-    }
+    const JsonValue jv_parts = json_loader::from_string( it.get_var( "folded_parts" ) );
+    deserialize_parts( static_cast<JsonArray>( jv_parts ) );
 
     // item should have snapshot of average part damage in item var. take difference of current
     // item's damage and snapshotted damage, then randomly apply to parts in chunks to roughly match.
@@ -7692,14 +7795,14 @@ int vehicle::part_count_real_cached() const
     return static_cast<int>( parts.size() - fake_parts.size() );
 }
 
-std::vector<vehicle_part> vehicle::real_parts() const
+std::vector<std::reference_wrapper<const vehicle_part>> vehicle::real_parts() const
 {
-    std::vector<vehicle_part> ret;
+    std::vector<std::reference_wrapper<const vehicle_part>> ret;
     for( const vehicle_part &vp : parts ) {
         if( vp.removed || vp.is_fake ) {
             continue;
         }
-        ret.emplace_back( vp );
+        ret.emplace_back( std::ref( vp ) );
     }
     return ret;
 }

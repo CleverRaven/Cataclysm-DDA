@@ -27,6 +27,7 @@ AMMO_TYPE_WHITELIST = {
     'metal_rail',
     'nail',
     'nuts_bolts',
+    'oxygen',
     'paintball',
     'pebble',
     'plasma',
@@ -54,6 +55,9 @@ ID_WHITELIST = {
     '223_speedloader5',
     'coin_wrapper',
     'bio_shotgun_gun',
+    'gasfilter_med',
+    'gasfilter_sm',
+    "rebreather_cartridge"
 }
 
 

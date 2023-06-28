@@ -220,10 +220,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "attack_override", attack_override, false );
-    optional( jo, was_loaded, "downed_target", downed_target, false );
-    optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
-    optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
 
@@ -258,6 +255,13 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
         eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
+
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        optional( jo, was_loaded, "condition_desc", condition_desc );
+        has_condition = true;
+    }
+
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -594,6 +598,7 @@ bool ma_requirements::buff_requirements_satisfied( const Character &u ) const
 bool ma_requirements::is_valid_character( const Character &u ) const
 {
     if( !buff_requirements_satisfied( u ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "Buff requirements not satisfied, attack discarded" );
         return false;
     }
 
@@ -627,6 +632,8 @@ bool ma_requirements::is_valid_character( const Character &u ) const
 
     for( const auto &pr : min_skill ) {
         if( ( cqb ? 5 : static_cast<int>( u.get_skill_level( pr.first ) ) ) < pr.second ) {
+            add_msg_debug( debugmode::DF_MELEE, "Skill level requirement %d not satisfied, attack discarded",
+                           pr.second );
             return false;
         }
     }
@@ -639,12 +646,14 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             }
         }
         if( !has_flag ) {
+            add_msg_debug( debugmode::DF_MELEE, "Required flag(any) not found, attack discarded" );
             return false;
         }
     }
 
     for( const json_character_flag &flag : req_char_flags_all ) {
         if( !u.has_flag( flag ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "Required flags(all) not found, attack discarded" );
             return false;
         }
     }
@@ -657,6 +666,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             }
         }
         if( has_flag ) {
+            add_msg_debug( debugmode::DF_MELEE, "Forbidden flag found, attack discarded" );
             return false;
         }
     }
@@ -669,6 +679,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             }
         }
         if( !valid_weap_cat ) {
+            add_msg_debug( debugmode::DF_MELEE, "Not using weapon from a valid category, attack discarded" );
             return false;
         }
     }
@@ -826,10 +837,7 @@ ma_technique::ma_technique()
     block_counter = false; // like tec_counter
 
     // conditional
-    downed_target = false;    // only works on downed enemies
-    stunned_target = false;   // only works on stunned enemies
     wall_adjacent = false;    // only works near a wall
-    human_target = false;     // only works on humanoid enemies
 
     needs_ammo = false;       // technique only works if the item is loaded with ammo
 
@@ -1828,6 +1836,8 @@ std::string ma_technique::get_description() const
 
     dump += reqs.get_description();
 
+    dump += string_format( _( condition_desc ) ) + "\n";
+
     if( weighting > 1 ) {
         dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
                                ( 100 * ( weighting - 1 ) ) ) + "\n";
@@ -1850,18 +1860,6 @@ std::string ma_technique::get_description() const
     if( wall_adjacent ) {
         dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
                 std::string( "\n" );
-    }
-
-    if( downed_target ) {
-        dump += _( "* Only works on a <info>downed</info> target" ) + std::string( "\n" );
-    }
-
-    if( stunned_target ) {
-        dump += _( "* Only works on a <info>stunned</info> target" ) + std::string( "\n" );
-    }
-
-    if( human_target ) {
-        dump += _( "* Only works on a <info>humanoid</info> target" ) + std::string( "\n" );
     }
 
     if( powerful_knockback ) {

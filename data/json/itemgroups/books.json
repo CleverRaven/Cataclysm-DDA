@@ -303,6 +303,7 @@
       { "item": "cookbook_indian", "prob": 10 },
       { "item": "cookbook_native", "prob": 5 },
       { "item": "cookbook_mexican", "prob": 10 },
+      { "item": "cookbook_turkish", "prob": 5 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "survnote", "prob": 1 },
       { "item": "arduino_experiments", "prob": 5 },
@@ -572,8 +573,7 @@
       { "item": "vacuum_sealing", "prob": 15 },
       { "item": "baking_book", "prob": 190 },
       { "item": "book_pneumatics", "prob": 8 },
-      { "item": "cookbook_bloodforgood", "prob": 50 },
-      { "group": "memorial_mansion", "prob": 10 }
+      { "item": "cookbook_bloodforgood", "prob": 50 }
     ]
   },
   {

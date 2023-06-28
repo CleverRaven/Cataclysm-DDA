@@ -296,6 +296,21 @@
   },
   {
     "type": "recipe",
+    "result": "rifle_380",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_32",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_9x18",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "rifle_223",
     "obsolete": true
   },

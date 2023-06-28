@@ -240,6 +240,7 @@ parsers = {
     "tool_quality": parse_tool_quality,
     "toolmod": parse_generic,
     "uncraft": dummy_parser,
+    "var_migration": dummy_parser,
     "vehicle": parse_vehicle,
     "vehicle_group": dummy_parser,
     "vehicle_part": parse_vehicle_part,

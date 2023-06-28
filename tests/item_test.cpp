@@ -192,7 +192,7 @@ TEST_CASE( "stacking_over_time", "[item]" )
     }
 }
 
-TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][combine]" )
+TEST_CASE( "liquids_at_different_temperatures", "[item][temperature][stack][combine]" )
 {
     item liquid_hot( "test_liquid" );
     item liquid_cold( "test_liquid" );
@@ -258,7 +258,7 @@ static void assert_minimum_length_to_volume_ratio( const item &target )
     CHECK( units::to_millimeter( target.length() ) >= minimal_diameter * 10.0 );
 }
 
-TEST_CASE( "item length sanity check", "[item]" )
+TEST_CASE( "item_length_sanity_check", "[item]" )
 {
     for( const itype *type : item_controller->all() ) {
         const item sample( type, calendar::turn_zero, item::solitary_tag {} );
@@ -266,7 +266,7 @@ TEST_CASE( "item length sanity check", "[item]" )
     }
 }
 
-TEST_CASE( "corpse length sanity check", "[item]" )
+TEST_CASE( "corpse_length_sanity_check", "[item]" )
 {
     for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
         const item sample = item::make_corpse( type.id );
@@ -296,7 +296,7 @@ static void check_spawning_in_container( const std::string &item_type )
     }
 }
 
-TEST_CASE( "items spawn in their default containers", "[item]" )
+TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
 {
     check_spawning_in_container( "water" );
     check_spawning_in_container( "gunpowder" );
@@ -311,7 +311,7 @@ TEST_CASE( "items spawn in their default containers", "[item]" )
     check_spawning_in_container( "software_useless" );
 }
 
-TEST_CASE( "item variables round-trip accurately", "[item]" )
+TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
 {
     item i( "water" );
     i.set_var( "A", 17 );
@@ -322,7 +322,7 @@ TEST_CASE( "item variables round-trip accurately", "[item]" )
     CHECK( i.get_var( "C", tripoint() ) == tripoint( 2, 3, 4 ) );
 }
 
-TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" )
+TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" )
 {
     avatar &guy = get_avatar();
     clear_avatar();

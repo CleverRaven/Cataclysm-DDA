@@ -83,6 +83,7 @@ namespace io
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
             case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
+            case enchant_vals::mod::SIGHT_RANGE_NETHER: return "SIGHT_RANGE_NETHER";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
             case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
@@ -139,6 +140,8 @@ namespace io
             case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
             case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
             case enchant_vals::mod::COMBAT_CATCHUP: return "COMBAT_CATCHUP";
+            case enchant_vals::mod::KNOCKBACK_RESIST: return "KNOCKBACK_RESIST";
+            case enchant_vals::mod::KNOCKDOWN_RESIST: return "KNOCKDOWN_RESIST";
             case enchant_vals::mod::FALL_DAMAGE: return "FALL_DAMAGE";
             case enchant_vals::mod::FORCEFIELD: return "FORCEFIELD";
             case enchant_vals::mod::EVASION: return "EVASION";
@@ -214,7 +217,8 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
 
     if( !( active_conditions.first == has::HELD ||
            ( active_conditions.first == has::WIELD && guy.is_wielding( parent ) ) ||
-           ( active_conditions.first == has::WORN && guy.is_worn( parent ) ) ) ) {
+           ( active_conditions.first == has::WORN &&
+             ( guy.is_worn( parent ) || guy.is_worn_module( parent ) ) ) ) ) {
         return false;
     }
 

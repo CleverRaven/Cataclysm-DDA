@@ -438,14 +438,12 @@ TEST_CASE( "npc-movement" )
 
 TEST_CASE( "npc_can_target_player" )
 {
-    set_time_to_day();
-
     g->faction_manager_ptr->create_if_needed();
 
+    clear_map();
+    clear_avatar();
+    set_time_to_day();
     g->place_player( tripoint_zero );
-
-    clear_npcs();
-    clear_creatures();
 
     Character &player_character = get_player_character();
     npc &hostile = spawn_npc( player_character.pos().xy() + point_south, "thug" );

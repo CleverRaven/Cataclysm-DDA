@@ -19,6 +19,10 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 {
     map &here = get_map();
 
+    const on_out_of_scope restore_vertical_shift( [&here]() {
+        here.vertical_shift( 0 );
+    } );
+
     tripoint test_point =
         GENERATE( tripoint_zero, tripoint_south, tripoint_east, tripoint_above, tripoint_below );
     tripoint_bub_ms test_bub( test_point );

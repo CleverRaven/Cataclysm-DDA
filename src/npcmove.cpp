@@ -31,6 +31,7 @@
 #include "dispersion.h"
 #include "effect.h"
 #include "enums.h"
+#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
@@ -164,6 +165,7 @@ enum npc_action : int {
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
+    npc_goto_to_this_pos,
     npc_goto_destination,
     npc_avoid_friendly_fire,
     npc_escape_explosion,
@@ -926,6 +928,10 @@ void npc::move()
         }
     }
 
+    if( action == npc_undecided && is_walking_with() && goto_to_this_pos ) {
+        action = npc_goto_to_this_pos;
+    }
+
     // check if in vehicle before doing any other follow activities
     if( action == npc_undecided && is_walking_with() && player_character.in_vehicle &&
         !in_vehicle ) {
@@ -1376,6 +1382,16 @@ void npc::execute_action( npc_action action )
             mug_player( player_character );
             break;
 
+        case npc_goto_to_this_pos: {
+            update_path( get_map().getlocal( *goto_to_this_pos ) );
+            move_to_next();
+
+            if( get_location() == *goto_to_this_pos ) {
+                goto_to_this_pos = std::nullopt;
+            }
+            break;
+        }
+
         case npc_goto_destination:
             go_to_omt_destination();
             break;
@@ -1492,6 +1508,11 @@ void npc::evaluate_best_weapon( const Creature *target )
         }
         return VisitResponse::NEXT;
     } );
+    if( magic->spells().empty() ) {
+        magic->clear_opens_spellbook_data();
+        get_event_bus().send<event_type::opens_spellbook>( getID() );
+        magic->evaluate_opens_spellbook_data();
+    }
     for( const spell_id &sp : magic->spells() ) {
         compare( std::make_shared<npc_attack_spell>( sp ) );
     }
@@ -2074,9 +2095,7 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     if( !it.is_gun() ) {
         return res;
     }
-    if( confident_range_cache ) {
-        return *confident_range_cache;
-    }
+
     for( const auto &m : it.gun_all_modes() ) {
         res = std::max( res, confident_gun_mode_range( m.second, recoil ) );
     }
@@ -4305,6 +4324,8 @@ std::string npc_action_name( npc_action action )
             return "Do nothing";
         case npc_do_attack:
             return "Attack";
+        case npc_goto_to_this_pos:
+            return "Go to position";
         case num_npc_actions:
             return "Unnamed action";
     }
