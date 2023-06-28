@@ -85,6 +85,7 @@ TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
 TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutation]" )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
     // TODO: Include `healing_rate_medicine` for trait-related healing effects, since many of these
     // affect healing while awake (which can only happen there), or have such small effects as to be
@@ -214,6 +215,7 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
 TEST_CASE( "health_effects_on_healing_rate", "[heal][health]" )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
     // Normal healing rate from game_balance.json
     const float normal = get_option<float>( "PLAYER_HEALING_RATE" );
