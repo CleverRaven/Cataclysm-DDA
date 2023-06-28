@@ -608,7 +608,10 @@
       },
       {
         "id": "holybook_talmud_48",
-        "name": { "str": "Talmud, Vol. 48, Tractate Avodah Zara (Part 1)", "str_pl": "copies of the Talmud, Vol. 48, Tractate Avodah Zara (Part 1)" },
+        "name": {
+          "str": "Talmud, Vol. 48, Tractate Avodah Zara (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 48, Tractate Avodah Zara (Part 1)"
+        },
         "description": "This is volume 48 of 51, containing the first part of Tractate Avodah Zara.  It discusses forbidden idolatry and the laws regulating contact and commerce with idolators.",
         "append": true,
         "weight": 1
