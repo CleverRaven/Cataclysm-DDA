@@ -584,7 +584,10 @@
       },
       {
         "id": "holybook_talmud_45",
-        "name": { "str": "Talmud, Vol. 45, Tractate Sanhedrin (Part 1)", "str_pl": "copies of the Talmud, Vol. 45, Tractate Sanhedrin (Part 1)" },
+        "name": {
+          "str": "Talmud, Vol. 45, Tractate Sanhedrin (Part 1)",
+          "str_pl": "copies of the Talmud, Vol. 45, Tractate Sanhedrin (Part 1)"
+        },
         "description": "This is volume 45 of 51, containing the first part of Tractate Sanhedrin.  It discusses the selection of judges and the formation of courts.",
         "append": true,
         "weight": 1
