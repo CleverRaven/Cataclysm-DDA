@@ -592,7 +592,7 @@
       {
         "id": "holybook_talmud_46",
         "name": { "str": "Talmud, Vol. 46, Tractate Sanhedrin (Part 2)", "str_pl": "copies of the Talmud, Vol. 46, Tractate Sanhedrin (Part 2)" },
-        "description": "This is volume 46 of 51, containing the first part of Tractate Sanhedrin.  It continues the discussion of judges, the punishments administered by the courts, and ends with a discussion of who will have a place in Olam Haba, the afterlife".",
+        "description": "This is volume 46 of 51, containing the first part of Tractate Sanhedrin.  It continues the discussion of judges, the punishments administered by the courts, and ends with a discussion of who will have a place in Olam Haba, the afterlife.",
         "append": true,
         "weight": 1
       },
