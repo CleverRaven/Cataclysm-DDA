@@ -727,7 +727,7 @@
     "type": "ARMOR",
     "name": { "str": "large nylon holster" },
     "description": "A belt holster consisting of a loop and strap intended for use with larger firearms, but made with nylon instead of leather.  Activate to holster/draw a gun",
-    "weight": "400 g",
+    "weight": "300 g",
     "volume": "250 ml",
     "price": 900,
     "price_postapoc": 500,
