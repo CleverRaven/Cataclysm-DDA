@@ -31,10 +31,7 @@
         "encumbrance": 0
       },
       {
-        "material": [
-          { "type": "denim", "covered_by_mat": 1, "thickness": 1.0 },
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 5
@@ -49,7 +46,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "PADDED" ]
   },
   {
     "id": "xl_helmet_nomad",
