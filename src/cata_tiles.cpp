@@ -334,6 +334,11 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events );
 
     set_draw_scale( 16 );
+
+    // Precalculate fog transparency
+    // On isometric tilesets, fog intensity scales with zlevel_height in tile_config.json
+    fog_alpha = is_isometric() ? std::min( std::max( int( 255.0f - 255.0f * pow( 155.0f / 255.0f,
+                                           zlevel_height / 100.0f ) ), 40 ), 150 ) : 100;
 }
 
 void cata_tiles::reinit()
@@ -598,6 +603,7 @@ void cata_tiles::set_draw_scale( int scale )
     cata_assert( tileset_ptr );
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
     tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
+    zlevel_height = tileset_ptr->get_zlevel_height();
 
     tile_ratiox = ( static_cast<float>( tile_width ) / static_cast<float>( fontwidth ) );
     tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
@@ -660,6 +666,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     for( const JsonObject curr_info : config.get_array( "tile_info" ) ) {
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
+        ts.zlevel_height = curr_info.get_int( "zlevel_height", 0 );
         ts.tile_isometric = curr_info.get_bool( "iso", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
         ts.prevent_occlusion_min_dist = curr_info.get_float( "retract_dist_min", -1.0f );
@@ -1206,9 +1213,10 @@ struct tile_render_info {
     int height_3d = 0;
     lit_level ll;
     std::array<bool, 5> invisible;
+    int draw_min_z = -OVERMAP_DEPTH;
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
-                      const std::array<bool, 5> &inv )
-        : pos( pos ), height_3d( height_3d ), ll( ll ), invisible( inv ) {
+                      const std::array<bool, 5> &inv, const int draw_min_z )
+        : pos( pos ), height_3d( height_3d ), ll( ll ), invisible( inv ), draw_min_z( draw_min_z ) {
     }
 };
 
@@ -1356,9 +1364,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
 
     creature_tracker &creatures = get_creature_tracker();
-    std::vector<tile_render_info> draw_points;
+    std::map<int, std::vector<tile_render_info>> draw_points;
+    // Limit draw depth to vertical vision setting
+    // Disable multi z-level display on isometric tilesets until height_3d issues resolved
+    const int max_draw_depth = fov_3d_z_range;
     for( int row = min_row; row < max_row; row ++ ) {
-        draw_points.reserve( max_col );
+        draw_points[row].reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
             point temp;
             if( is_isometric() ) {
@@ -1574,7 +1585,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             int height_3d = 0;
 
-            draw_points.emplace_back( pos, height_3d, ll, invisible );
+            // Determine lowest z-level to draw for 3D vision
+            int draw_min_z;
+            tripoint p_temp = pos;
+            while( !here.dont_draw_lower_floor( p_temp ) && pos.z - p_temp.z < max_draw_depth ) {
+                p_temp.z -= 1;
+            }
+            draw_min_z = p_temp.z;
+
+            draw_points[row].emplace_back( pos, height_3d, ll, invisible, draw_min_z );
         }
     }
 
@@ -1599,69 +1618,77 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     };
 
-    // Limit draw depth to vertical vision setting
-    // Disable multi z-level display on isometric tilesets until height_3d issues resolved
-    const int max_draw_depth = is_isometric() ? 0 : fov_3d_z_range;
-    const int height_3d_mult = is_isometric() ? 10 : 0;
     if( max_draw_depth <= 0 ) {
         // Legacy draw mode
-        for( tile_render_info &p : draw_points ) {
+        for( int row = min_row; row < max_row; row ++ ) {
             for( auto f : drawing_layers_legacy ) {
-                ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
+                for( tile_render_info &p : draw_points[row] ) {
+                    ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
+                }
             }
         }
     } else {
         // Multi z-level draw mode
-
-        // Categorize draw_points by lowest level to draw
-        std::map<int, std::vector<tile_render_info>> draw_points_3d;
-        for( tile_render_info &p : draw_points ) {
-            tripoint p_draw = p.pos;
-            while( !here.dont_draw_lower_floor( p_draw ) && p.pos.z - p_draw.z < max_draw_depth ) {
-                p_draw.z -= 1;
-            }
-            draw_points_3d[p_draw.z].emplace_back( p );
-        }
-
         // Start drawing from the bottom-most z-level
         int cur_zlevel = -OVERMAP_DEPTH;
         do {
-            int cur_height_3d = ( cur_zlevel - center.z ) * height_3d_mult;
-            // Iterate through all relevant points
-            int iter = -OVERMAP_DEPTH;
-            do {
-                for( tile_render_info &p : draw_points_3d[iter] ) {
-                    tripoint draw_loc = p.pos;
-                    draw_loc.z = cur_zlevel;
-                    // Draw each layer
-                    for( auto f : drawing_layers ) {
-                        ( this->*f )( draw_loc, p.ll, cur_height_3d, p.invisible );
+            // For each row
+            for( int row = min_row; row < max_row; row ++ ) {
+                // Set base height for each tile
+                for( tile_render_info &p : draw_points[row] ) {
+                    p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
+                }
+                // For each layer
+                for( auto f : drawing_layers ) {
+                    // For each tile
+                    for( tile_render_info &p : draw_points[row] ) {
+                        // Skip if z-level less than draw_min_z
+                        // Basically occlusion culling
+                        if( cur_zlevel < p.draw_min_z ) {
+                            continue;
+                        }
+                        tripoint draw_loc = p.pos;
+                        draw_loc.z = cur_zlevel;
+                        if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
+                            int temp_height_3d = p.height_3d;
+                            // Reset height_3d to base when drawing vehicles
+                            p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
+                            // Draw
+                            if( !( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible ) ) {
+                                // If no vpart drawn, revert height_3d changes
+                                p.height_3d = temp_height_3d;
+                            }
+                        } else {
+                            // Draw
+                            ( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible );
+                        }
                     }
                 }
-                iter += 1;
-            } while( iter <= cur_zlevel );
+            }
             cur_zlevel += 1;
         } while( cur_zlevel <= center.z );
     }
 
     // display number of monsters to spawn in mapgen preview
-    for( const tile_render_info &p : draw_points ) {
-        const auto mon_override = monster_override.find( p.pos );
-        if( mon_override != monster_override.end() ) {
-            const int count = std::get<1>( mon_override->second );
-            const bool more = std::get<2>( mon_override->second );
-            if( count > 1 || more ) {
-                std::string text = "x" + std::to_string( count );
-                if( more ) {
-                    text += "+";
+    for( int row = min_row; row < max_row; row ++ ) {
+        for( const tile_render_info &p : draw_points[row] ) {
+            const auto mon_override = monster_override.find( p.pos );
+            if( mon_override != monster_override.end() ) {
+                const int count = std::get<1>( mon_override->second );
+                const bool more = std::get<2>( mon_override->second );
+                if( count > 1 || more ) {
+                    std::string text = "x" + std::to_string( count );
+                    if( more ) {
+                        text += "+";
+                    }
+                    overlay_strings.emplace( player_to_screen( p.pos.xy() ) + half_tile,
+                                             formatted_text( text, catacurses::red,
+                                                     direction::NORTH ) );
                 }
-                overlay_strings.emplace( player_to_screen( p.pos.xy() ) + half_tile,
-                                         formatted_text( text, catacurses::red,
-                                                 direction::NORTH ) );
             }
-        }
-        if( !p.invisible[0] ) {
-            here.check_and_set_seen_cache( p.pos );
+            if( !p.invisible[0] ) {
+                here.check_and_set_seen_cache( p.pos );
+            }
         }
     }
     // tile overrides are already drawn in the previous code
@@ -2891,8 +2918,8 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     // first memorize the actual terrain
     const ter_id &t = here.ter( p );
     const std::string &tname = t.id().str();
-    // Non-isometric legacy mode does not draw fog sprites
-    if( !is_isometric() && fov_3d_z_range == 0 && tname == "t_open_air" ) {
+    // Legacy mode does not draw fog sprites
+    if( fov_3d_z_range == 0 && tname == "t_open_air" ) {
         return false;
     }
     if( t && !invisible[0] ) {
@@ -2909,7 +2936,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             get_terrain_orientation( p, rotation, subtile, {}, invisible, rotate_group );
             // do something to get other terrain orientation values
         }
-        if( here.check_seen_cache( p ) ) {
+        if( here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
             get_avatar().memorize_terrain( here.getabs( p ), tname, subtile, rotation );
         }
         // draw the actual terrain if there's no override
@@ -2992,7 +3019,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         const std::string &fname = f.id().str();
         if( !( you.get_grab_type() == object_type::FURNITURE
                && p == you.pos() + you.grab_point )
-            && here.check_seen_cache( p ) ) {
+            && here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
             you.memorize_decoration( here.getabs( p ), fname, subtile, rotation );
         }
         // draw the actual furniture if there's no override
@@ -3079,7 +3106,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         int rotation = 0;
         get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation, 0 );
         const std::string trname = tr.loadid.id().str();
-        if( here.check_seen_cache( p ) ) {
+        if( here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
             you.memorize_decoration( here.getabs( p ), trname, subtile, rotation );
         }
         // draw the actual trap if there's no override
@@ -3137,7 +3164,7 @@ bool cata_tiles::draw_part_con( const tripoint &p, const lit_level ll, int &heig
     if( here.partial_con_at( tripoint_bub_ms( p ) ) != nullptr && !invisible[0] ) {
         avatar &you = get_avatar();
         std::string const &trname = tr_unfinished_construction.str();;
-        if( here.check_seen_cache( p ) ) {
+        if( here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
             you.memorize_decoration( here.getabs( p ), trname, 0, 0 );
         }
         return draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, 0,
@@ -3212,7 +3239,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                 //get field intensity
                 int intensity = fd_pr.second.get_field_intensity();
-                int nullint = 0;
 
                 bool has_drawn = false;
 
@@ -3240,7 +3266,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                             // if we have found info on the item go through and draw its stuff
                             ret_draw_field = draw_from_id_string( sprite_to_draw, TILE_CATEGORY::FIELD, empty_string, p,
-                                                                  subtile, rotation, lit, nv, nullint, intensity, "", layer_var.offset );
+                                                                  subtile, rotation, lit, nv, height_3d, intensity, "", layer_var.offset );
                             has_drawn = true;
                             break;
                         }
@@ -3268,7 +3294,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                                 // if we have found info on the item go through and draw its stuff
                                 ret_draw_field = draw_from_id_string( sprite_to_draw, TILE_CATEGORY::FIELD, empty_string, p,
-                                                                      subtile, rotation, lit, nv, nullint, intensity, "", layer_var.offset );
+                                                                      subtile, rotation, lit, nv, height_3d, intensity, "", layer_var.offset );
                                 has_drawn = true;
                                 break;
                             }
@@ -3279,7 +3305,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 // draw the default sprite
                 if( !has_drawn ) {
                     ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
-                                                          p, subtile, rotation, lit, nv, nullint, intensity );
+                                                          p, subtile, rotation, lit, nv, height_3d, intensity );
                 }
 
             }
@@ -3310,9 +3336,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
             //get field intensity
             int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity();
-            int nullint = 0;
             ret_draw_field = draw_from_id_string( fld.id().str(), TILE_CATEGORY::FIELD, empty_string,
-                                                  p, subtile, rotation, lit, nv, nullint, intensity );
+                                                  p, subtile, rotation, lit, nv, height_3d, intensity );
         }
     }
 
@@ -3513,14 +3538,15 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             if( !veh.forward_velocity() && !veh.player_in_control( you )
                 && !( you.get_grab_type() == object_type::VEHICLE
                       && veh.get_points().count( you.pos() + you.grab_point ) )
-                && here.check_seen_cache( p ) ) {
+                && here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
                 you.memorize_decoration( here.getabs( p ), vd.get_tileset_id(), subtile, rotation );
             }
             if( !overridden ) {
-                int height_3d_temp = 0;
+                int height_3d_temp = height_3d;
                 const bool ret = draw_from_id_string( "vp_" + vd.id.str(), TILE_CATEGORY::VEHICLE_PART,
                                                       empty_string, p, subtile, rotation, ll,
                                                       nv_goggles_activated, height_3d_temp, 0, vd.variant.id );
+                // Do not increment height_3d for non-roof vparts
                 if( !roof ) {
                     height_3d = height_3d_temp;
                 }
@@ -3542,7 +3568,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             const std::string vpname = "vp_" + vp2.str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
-            int height_3d_temp = 0;
+            int height_3d_temp = height_3d;
             const bool ret =
                 draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
                                      rotation, lit_level::LIT, false, height_3d_temp );
@@ -3559,7 +3585,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const memorized_tile &t = get_vpart_memory_at( p );
         std::string_view tid = t.get_dec_id();
         if( !tid.empty() ) {
-            int height_3d_temp = 0;
+            int height_3d_temp = height_3d;
             std::string_view tvar;
             const size_t variant_separator = tid.find( vehicles::variant_separator );
             if( variant_separator != std::string::npos ) {
@@ -3779,7 +3805,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
 }
 
 bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_level /*ll*/,
-        int &/*height_3d*/, const std::array<bool, 5> &invisible )
+        int &height_3d, const std::array<bool, 5> &invisible )
 {
     map &here = get_map();
     if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
@@ -3788,7 +3814,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
         for( item &i : here.i_at( pos ) ) {
             if( i.can_revive() ) {
                 return draw_from_id_string( ZOMBIE_REVIVAL_INDICATOR, TILE_CATEGORY::NONE,
-                                            empty_string, pos, 0, 0, lit_level::LIT, false );
+                                            empty_string, pos, 0, 0, lit_level::LIT, false, height_3d );
             }
         }
     }
@@ -3797,9 +3823,6 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
 
 void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int &height_3d )
 {
-    if( is_isometric() ) {
-        return;
-    }
     // Draws zlevel fog using geometry renderer
     // Slower than sprites so only use as fallback when sprite missing
     const point screen = player_to_screen( p.xy() );
@@ -3820,7 +3843,8 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
         fog_color = curses_color_to_SDL( c_dark_gray );
     }
     // Setting for fog transparency
-    fog_color.a = 100;
+    // On isometric tilesets, fog intensity scales with zlevel_height in tile_config.json
+    fog_color.a = fog_alpha;
 
     // Change blend mode for transparency to work
     // Disable after to avoid visual bugs
@@ -4831,7 +4855,7 @@ void cata_tiles::do_tile_loading_report()
         return;
     }
 
-    tile_loading_report_map( vpart_info::all(), TILE_CATEGORY::VEHICLE_PART, "vp_" );
+    tile_loading_report_seq_types( vehicles::parts::get_all(), TILE_CATEGORY::VEHICLE_PART, "vp_" );
     tile_loading_report_count<ter_t>( ter_t::count(), TILE_CATEGORY::TERRAIN );
 
     std::map<itype_id, const itype *> items;

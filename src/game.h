@@ -59,11 +59,6 @@ class input_context;
 
 input_context get_default_mode_input_context();
 
-enum class dump_mode : int {
-    TSV,
-    HTML
-};
-
 enum quit_status {
     QUIT_NO = 0,    // Still playing
     QUIT_SUICIDE,   // Quit with 'Q'
@@ -214,9 +209,6 @@ class game
         void unserialize( std::istream &fin, const cata_path &path ); // for load
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
-
-        /** write statistics to stdout and @return true if successful */
-        bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
         bool save();

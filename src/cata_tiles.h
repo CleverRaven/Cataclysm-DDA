@@ -142,6 +142,7 @@ class tileset
         bool tile_isometric = false;
         int tile_width = 0;
         int tile_height = 0;
+        int zlevel_height = 0;
 
         float prevent_occlusion_min_dist = 0.0;
         float prevent_occlusion_max_dist = 0.0;
@@ -185,6 +186,9 @@ class tileset
         }
         int get_tile_height() const {
             return tile_height;
+        }
+        int get_zlevel_height() const {
+            return zlevel_height;
         }
         float get_tile_pixelscale() const {
             return tile_pixelscale;
@@ -694,12 +698,15 @@ class cata_tiles
 
         int tile_height = 0;
         int tile_width = 0;
+        int zlevel_height = 0;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
         int screentile_width = 0;
         int screentile_height = 0;
         float tile_ratiox = 0.0f;
         float tile_ratioy = 0.0f;
+
+        int fog_alpha = 0;
 
         bool in_animation = false;
 

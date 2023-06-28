@@ -130,7 +130,6 @@
   {
     "copy-from": "basketsm_abstract",
     "id": "basketsm",
-    "looks_like": "basketlg",
     "type": "vehicle_part",
     "variants_bases": [ { "id": "bike_rear", "label": "Bike Rear" }, { "id": "wheelchair", "label": "Wheelchair" } ],
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]

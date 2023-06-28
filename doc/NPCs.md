@@ -1,5 +1,6 @@
+# NPCs
 
-# Contents
+## Contents
 
 - [Creating new NPCs](#creating-new-npcs)
   - [NPC Class definition](#npc-class-definition)
@@ -244,6 +245,7 @@ Case use example:
 For further information on snippets, see [New Contributor Guide: Dialogue](https://github.com/CleverRaven/Cataclysm-DDA/wiki/New-Contributor-Guide-Dialogue)
 
 ### Custom Entries
+
 Field | Default messages/snippets | Used for...
 ---|---|---
 `<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags.json
@@ -337,6 +339,7 @@ Field | Used for...
 `<topic_item_your_total_price>` | TODO Add
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
+`<context_val:VAR>` | The context variable VAR
 `<global_val:VAR>` | The global variable VAR
 `<item_name:ID>` | The name of the item with ID
 `<item_description:ID>` | The description of the item with ID
@@ -906,6 +909,7 @@ Effect | Description
 `u_set_guard_pos,npc_set_guard_pos` : [variable object](#variable-object), (*optional* `unique_id`: bool) | Set the NPC's guard pos to the contents of `_set_guard_pos`.  If the NPC has the `RETURN_TO_START_POS` trait then when they are idle they will attempt to move to this position.  If `unique_id`(defaults to false) is true then the NPC's `unique_id` will be added as a prefix to the variables name.  For example a guard with `unique_id` = `GUARD1` would check the variable `GUARD1_First` in the following json statement:  `{ "u_set_guard_pos": { "global_val": "_First" }, "unique_id": true }`
 
 #### Map Updates
+
 Effect | Description
 ---|---
 `mapgen_update: `string or [variable object](#variable-object)<br/>`mapgen_update:` *array of string or [variable objects](#variable-object)*, (optional `assign_mission_target` parameters), (optional `target_var: `[variable object](#variable-object)), (*optional* `time_in_future: `duration or [variable object](#variable-object)), (*optional* `key: `string or [variable object](#variable-object)) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update` (or for each `mapgen_update` entry). If `time_in_future` is set the update will happen that far in the future, in this case however the target location will be determined now and not changed even if its variables update.  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`. If `target_var` is set this effect will be centered on a location saved to a variable with its name instead.
@@ -922,6 +926,7 @@ Effect | Description
 `u_set_field, npc_set_field: `string or [variable object](#variable-object),(*optional* `intensity: `int or [variable object](#variable-object)), (*optional* `age: `int or [variable object](#variable-object)), (*optional* `radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`), (*optional* `hit_player : hit_player_bool`), (*optional* `target_var: `[variable object](#variable-object)) | Add a field centered on you or the npc of type `_set_field`, of intensity `intensity`( defaults to 1,) of radius `radius`(defaults to 10000000) and age `age` (defaults 1). It will only happen outdoors if `outdoor_only` is true, it defaults to false. `indoor_only` is the opposite. It will hit the player as if they entered it if `hit_player` is true, it defaults to true. If `target_var` is set this effect will be centered on a location saved to a variable with its name.
 
 #### General
+
 Effect | Description
 ---|---
 `sound_effect: `string or [variable object](#variable-object), (*optional* `sound_effect_variant: `string or [variable object](#variable-object)), (*optional* `outdoor_event: outdoor_event`), (*optional* `volume: `int or [variable object](#variable-object))  | Will play a sound effect of id `sound_effect` and variant `sound_effect_variant`. If `volume` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
@@ -934,7 +939,7 @@ Effect | Description
 `finish_mission: `string or [variable object](#variable-object), (*optional* `success: success_bool` ), (*optional* `step: step_int`)  | Will complete mission to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
 `offer_mission: `string or [variable object](#variable-object) or array of them | Adds mission_type_id(s) to the npc's missions that they offer.  Assumes if there is no beta talker that the alpha is an NPC.
 `run_eocs :` effect_on_condition_array or single effect_condition_object | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
-`run_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs | Runs the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition.
+`run_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs `beta_loc` a variable containing a location | Runs the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition. If `beta_loc` is provided then the creature at the given location will become the beta talker for the EOC to run.
 `run_eoc_select :` array of strings or [variable objects](#variable-object), `variables :` Object with variable names and values as pairs, `names: ` string or variables, `keys: ` single character strings, `title: ` string, `hide_failing`: bool | Opens a menu with title `title` that lets you select one of the EOCs whos ids are in the array provided, they each get a matched `names`, `description`, and `keys` value if provided, selected EOC runs with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or variable containing the ID of an effect on condition. If `hide_failing` is true EOCs whos condition fail will be hiden instead of shown and unselectable.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: `duration or [variable object](#variable-object) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
 `queue_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs, `time_in_future: `duration or [variable object](#variable-object) | Queues the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition.  EOC will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
@@ -943,7 +948,15 @@ Effect | Description
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
 `weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
 
+#### Detailed Info
+New EOC effects that are documented should be in the format below.
+| Effect | Options | Description |
+| ----- | ------ | ------ |
+`u_attack, npc_attack` | `u_attack`: string or [variable object](#variable-object) The technique ID to use, if you don't want a specific tech provide "tec_none" </br> `allow_special: ` bool, **default true**, whether or not a special attack should be selected. </br> `allow_unarmed: ` bool **default true** if unarmed techs should be considered </br> `forced_movecost: ` double or [variable object](#variable-object) **default -1.0** the attack will take a fixed amount of moves, any negative value will be ignored (giving the moves standard cost) | the selected talker attacks the other talker with a melee attack. 
+
+
 #### Deprecated
+
 Effect | Description
 ---|---
 `deny_follow`<br/>`deny_lead`<br/>`deny_train`<br/>`deny_personal_info` | Sets the appropriate effect on the NPC for a few hours.<br/>These are *deprecated* in favor of the more flexible `npc_add_effect` described above.
@@ -978,6 +991,7 @@ example json:
 ```
 "condition": { "u_has_strength": { "name" :"variable_name", "type":"test", "context":"documentation", "default":5 } }
 ```
+
 Condition | Type | Description
 --- | --- | ---
 `"u_male"`<br/>`"npc_male"` | simple string | `true` if the player character or NPC is male.
@@ -1014,6 +1028,7 @@ Condition | Type | Description
 `"u_has_wielded_with_flag"`<br/>`"npc_has_wielded_with_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC is wielding something with the `u_has_wielded_with_flag` or `npc_has_wielded_with_flag` flag.
 `"u_can_see"`<br/>`"npc_can_see"` | simple string | `true` if the player character or NPC is not blind and is either not sleeping or has the see_sleep trait.
 `"u_is_deaf"`<br/>`"npc_is_deaf"` | simple string | `true` if the player character or NPC can't hear.
+`"u_is_alive"`<br/>`"npc_is_alive"` | simple string | `true` if the entity is alive.
 `"u_is_on_terrain"`<br/>`"npc_is_on_terrain"` | string or [variable object](#variable-object) | `true` if the player character or NPC is on terrain named `"u_is_on_terrain"` or `"npc_is_on_terrain"`.
 `"u_is_on_terrain_with_flag"`<br/>`"npc_is_on_terrain_with_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC is on terrain with flag named `"u_is_on_terrain_with_flag"` or `"npc_is_on_terrain_with_flag"`.
 `"u_is_in_field"`<br/>`"npc_is_in_field"` | string or [variable object](#variable-object) | `true` if the player character or NPC is in a field of type `"u_is_in_field"` or `"npc_is_in_field"`..
@@ -1252,6 +1267,7 @@ Example:
 
 #### var_val
 var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
+
 | Name | Type | Value |
 | --- | --- | --- |
 | ref | context_val | key1 |
@@ -1271,10 +1287,15 @@ The values for var_val use the same syntax for scope that math [variables](#vari
 ```
 
 #### List Of Mutators
+
 Mutator Name | Required Keys | Description
 --- | --- | ---
 `"mon_faction"` | `mtype_id`: String or [variable object](#variable-object). | Returns the faction of the monster with mtype_id.
 `"game_option"` | `option`: String or [variable object](#variable-object). | Returns the value of the option as a string, for numerical options you should instead use the math function.
+`"ma_technique_name"` | `matec_id`: String or [variable object](#variable-object). | Returns the name of the martial arts tech with ID `matec_id` 
+`"ma_technique_description"` | `matec_id`: String or [variable object](#variable-object). | Returns the description of the martial arts tech with ID `matec_id` 
+`"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). </br> `crit`: bool </br> `dodge_counter`: bool </br> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
+`"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
 
 
 ### Compare Numbers and Arithmetics

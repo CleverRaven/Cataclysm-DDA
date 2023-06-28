@@ -192,8 +192,7 @@
     "name": { "str": "electric forge" },
     "description": "An electric forge, plugged in and ready to be used for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "looks_like": "veh_forge"
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ]
   },
   {
     "type": "vehicle_part",
@@ -390,6 +389,33 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_catalytic_cracking_reactor",
+    "name": { "str": "catalytic cracking reactor" },
+    "looks_like": "f_catalytic_cracking_reactor",
+    "variants": [ { "symbols": "Y", "symbols_broken": "x" } ],
+    "color": "light_cyan",
+    "categories": [ "utility" ],
+    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "catalytic_cracking_reactor_tool" } ],
+    "epower": "0 W",
+    "item": "catalytic_cracking_reactor",
+    "breaks_into": [
+      { "item": "element", "charges": [ 4, 8 ] },
+      { "item": "55gal_drum", "count": [ 3, 5 ] },
+      { "item": "pipe", "count": [ 2, 5 ] },
+      { "item": "thermometer", "count": [ 1, 4 ] },
+      { "item": "well_pump", "count": [ 0, 1 ] },
+      { "item": "laptop", "count": [ 0, 1 ] },
+      { "item": "pump_complex", "count": [ 0, 3 ] },
+      { "item": "cable", "count": [ 3, 8 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_hydraulic_press",
     "name": { "str": "hydraulic press" },
     "looks_like": "f_hydraulic_press",
@@ -583,6 +609,29 @@
     "variants": [ { "symbols": "{", "symbols_broken": "s" } ]
   },
   {
+    "id": "ap_wall_light",
+    "type": "vehicle_part",
+    "name": { "str": "wall light" },
+    "item": "wall_light",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "blue",
+    "durability": 20,
+    "description": "A floor lamp that provides illumination when turned on.",
+    "epower": "-20 W",
+    "bonus": 200,
+    "damage_modifier": 10,
+    "looks_like": "app_directed_floodlight",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "WALL_MOUNTED", "HALF_CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
+  },
+  {
     "id": "ap_standing_lamp",
     "type": "vehicle_part",
     "name": { "str": "standing lamp" },
@@ -635,7 +684,7 @@
     "broken_color": "red",
     "durability": 20,
     "description": "Electric wires embedded in the wall.",
-    "flags": [ "APPLIANCE", "OBSTACLE" ],
+    "flags": [ "APPLIANCE", "OBSTACLE", "WALL_MOUNTED", "WIRING" ],
     "variants": [ { "symbols": "_", "symbols_broken": "/" } ]
   },
   {

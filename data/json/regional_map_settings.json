@@ -1083,6 +1083,7 @@
         "cs_open_sewer": 33
       },
       "shops": {
+        "deserter_city": 30,
         "bus_station": 200,
         "city_block_2": 300,
         "textile_mill_museum": 50,

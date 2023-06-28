@@ -268,6 +268,50 @@
   {
     "type": "mapgen",
     "method": "json",
+    "update_mapgen_id": "robofachq_ancilla_bar_autodoc",
+    "//": "Spawns by itself at the moment, spawning should be triggered by missions later on.",
+    "object": {
+      "rows": [
+        "########################",
+        "########################",
+        "||||||||||||||||||||||||",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "=======|||||========:::|",
+        "         |      =   :71A",
+        "         |      =   :.YA",
+        "         |      =   :h..",
+        "         |==[=====[=::[:",
+        "^        2              ",
+        "=======|||||===========|",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "||||||||||||||||||||||||",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "robofachq" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "remove_all": { "7": {  }, "1": {  }, "A": {  }, "h": {  } },
+      "terrain": { "'": "t_open_air", "Y": "t_metal_floor_olight", ":": "t_wall_metal_corrugated", "#": "t_rock" },
+      "furniture": { "7": "f_autodoc_couch", "1": "f_autodoc", "A": "f_rack", "h": "f_chair" },
+      "npcs": { "h": { "class": "ancilla_doctor" } },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "no_faction", "x": 23, "y": 8 },
+        { "type": "LOOT_CURRENCY", "faction": "no_faction", "x": 23, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "BEM_hireable",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],

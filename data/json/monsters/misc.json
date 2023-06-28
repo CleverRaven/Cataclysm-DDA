@@ -109,8 +109,25 @@
     "type": "MONSTER",
     "copy-from": "mon_debug_puller_strong",
     "name": { "str": "incompetent debug puller" },
-    "description": "This monster exists only to fail pulling its target despite technically beign able to.  Truly a cursed existence.",
+    "description": "This monster exists only to fail pulling its target despite technically being able to.  Truly a cursed existence.",
     "special_attacks": [ { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 2.5, "pull_chance": 0 }, "cooldown": 0, "move_cost": 0 } ]
+  },
+  {
+    "id": "mon_debug_dragger",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_grabber",
+    "weight": "100 kg",
+    "name": { "str": "debug dragger" },
+    "description": "This monster exists to drag you behind it briefly",
+    "special_attacks": [
+      {
+        "id": "grab_drag",
+        "cooldown": 0,
+        "move_cost": 0,
+        "grab_data": { "drag_grab_break_distance": 999, "drag_movecost_mod": 0.001 }
+      },
+      { "id": "drag_followup", "move_cost": 0, "cooldown": 0, "grab_data": { "drag_grab_break_distance": 999 } }
+    ]
   },
   {
     "id": "weakpoint_mon",

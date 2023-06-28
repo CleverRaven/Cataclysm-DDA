@@ -43,7 +43,6 @@
     ],
     "warmth": 30,
     "material_thickness": 2,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 6,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
@@ -112,7 +111,6 @@
     ],
     "warmth": 80,
     "material_thickness": 2,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -198,7 +196,6 @@
     ],
     "warmth": 90,
     "material_thickness": 2,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ]
   },
@@ -422,7 +419,6 @@
     ],
     "warmth": 70,
     "material_thickness": 2,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ]
   },
@@ -515,7 +511,7 @@
     "looks_like": "duster_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 9, 13 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 86,
@@ -523,7 +519,7 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 13, 13 ] }
     ],
     "pocket_data": [
       {
@@ -571,7 +567,6 @@
     ],
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
@@ -652,7 +647,7 @@
     "looks_like": "duster",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 86,
@@ -660,7 +655,7 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
     ],
     "pocket_data": [
       {
@@ -709,7 +704,6 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
@@ -787,7 +781,6 @@
     ],
     "warmth": 50,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
   },
@@ -953,7 +946,6 @@
     ],
     "warmth": 20,
     "material_thickness": 0.3,
-    "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "SOFT" ]
   },
   {
@@ -1013,7 +1005,6 @@
     ],
     "warmth": 20,
     "material_thickness": 0.4,
-    "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -1295,48 +1286,61 @@
     "name": { "str": "leather jacket" },
     "description": "A jacket made from thick leather.  Offers more protection than your average jacket.",
     "weight": "1450 g",
-    "volume": "4500 ml",
+    "volume": "2000 ml",
     "price": 17900,
-    "price_postapoc": 500,
+    "price_postapoc": 750,
     "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 12 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_item_length": "13 cm",
-        "max_contains_weight": "3 kg",
-        "moves": 80
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_item_length": "13 cm",
-        "max_contains_weight": "3 kg",
-        "moves": 80
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
       }
     ],
-    "warmth": 30,
-    "material_thickness": 1.5,
-    "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
+    "warmth": 25,
+    "material_thickness": 1.0,
+    "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "jacket_leather_red",
     "type": "ARMOR",
     "name": { "str": "red leather jacket" },
-    "description": "A candy-apple-red leather jacket with black strips and shoulder protrusions.  It has a number of zippers and snaps in the front.",
-    "weight": "1450 g",
-    "volume": "4500 ml",
+    "description": "A candy-apple-red leather jacket with black strips and shoulder protrusions.  It has a number of zippers and snaps in the front and a low-cut neck.  The leather it's made of isn't especially thick, so it's not as protective as you might have liked.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
     "price": 17900,
     "price_postapoc": 500,
     "to_hit": 1,
@@ -1345,30 +1349,43 @@
     "looks_like": "jacket_leather",
     "color": "red",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 15, 20 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 6, 10 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "13 cm",
-        "moves": 80
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "13 cm",
-        "moves": 80
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
       }
     ],
-    "warmth": 30,
-    "material_thickness": 1.0,
+    "warmth": 20,
+    "material_thickness": 0.75,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -1712,36 +1729,81 @@
   {
     "id": "leather_police_jacket",
     "type": "ARMOR",
-    "name": { "str": "leather police jacket" },
-    "description": "A thick and heavy leather jacket emblazoned with the insignia of the local police force.",
-    "weight": "1450 g",
-    "volume": "4500 ml",
-    "price": 17900,
-    "price_postapoc": 500,
-    "to_hit": 1,
+    "name": { "str": "leather riding jacket" },
+    "description": "A thick and heavy leather jacket used most commonly by motorcyclists, equestrians and Australian vigilantes.",
+    "weight": "2700 g",
+    "volume": "3500 ml",
+    "price": 30000,
+    "price_postapoc": 1500,
+    "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "motorbike_armor",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": 12 },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
-        "coverage": 100,
-        "encumbrance": [ 10, 10 ]
-      }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "10 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 80,
+        "max_item_length": "13 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 80,
+        "max_item_length": "13 cm"
+      }
     ],
     "warmth": 30,
     "material_thickness": 1.5,
-    "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "leather_police_jacket",
+        "name": { "str": "leather police jacket" },
+        "description": "It is emblazoned with the insignia of the local police force.",
+        "weight": 0,
+        "append": true
+      },
+      {
+        "id": "leather_biker_gang_jacket",
+        "name": { "str": "biker gang jacket" },
+        "description": "It is emblazoned with the bad-to-the-bone symbol of a biker gang.",
+        "color": "dark_gray",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "leather_riding_jacket",
+        "name": { "str": "leather riding jacket" },
+        "description": "This one is plain, lacking any particular decals.",
+        "color": "brown",
+        "weight": 80,
+        "append": true
+      }
+    ]
   },
   {
     "id": "peacoat",
@@ -1794,7 +1856,6 @@
     ],
     "warmth": 50,
     "material_thickness": 1.0,
-    "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "FANCY" ]
   },
   {
@@ -2268,7 +2329,6 @@
     ],
     "warmth": 80,
     "material_thickness": 2,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER", "SOFT" ]
   },
@@ -2429,7 +2489,6 @@
     ],
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
@@ -2459,7 +2518,7 @@
     "looks_like": "duster_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 8, 15 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 85,
@@ -2521,7 +2580,6 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
@@ -2552,8 +2610,7 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ],
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
       {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
@@ -2599,12 +2656,10 @@
     ],
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 19 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 9, 19 ] },
       {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
@@ -2660,12 +2715,10 @@
     ],
     "warmth": 30,
     "material_thickness": 1.5,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
       {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
@@ -2754,8 +2807,7 @@
     "looks_like": "coat_winter",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -2798,9 +2850,8 @@
     "looks_like": "trenchcoat_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 19 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 9, 9 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 9, 19 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
@@ -2824,7 +2875,6 @@
     ],
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -2853,9 +2903,8 @@
     "looks_like": "trenchcoat",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
@@ -2880,7 +2929,6 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -3120,7 +3168,6 @@
     ],
     "warmth": 50,
     "material_thickness": 1,
-    "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "SOFT" ]
   }
 ]
