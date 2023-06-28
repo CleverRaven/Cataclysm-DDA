@@ -1507,9 +1507,9 @@ void basecamp::choose_new_leader()
     }
     std::vector<std::string> choices;
     int choice = 0;
-    choices.push_back _( "autocratic" );
-    choices.push_back _( "sortition" );
-    choices.push_back _( "democratic" );
+    choices.emplace_back _( "autocratic" );
+    choices.emplace_back _( "sortition" );
+    choices.emplace_back _( "democratic" );
 
     choice = uilist( _( "Choose how the new leader will be determined." ), choices );
 
