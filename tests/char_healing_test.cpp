@@ -54,7 +54,7 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
 TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
 {
     avatar dummy;
-
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     // What is considered normal baseline healing rate comes from game_balance.json.
     const float normal = get_option<float>( "PLAYER_HEALING_RATE" );
     REQUIRE( normal > 1.0f * hp_per_day );
@@ -64,6 +64,7 @@ TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
 
     GIVEN( "character with no healing traits" ) {
         dummy.clear_mutations();
+        dummy.set_stored_kcal( dummy.get_healthy_kcal() ); // just in case we mutated into something of a different size
         // Ensure there are no healing modifiers from traits/mutations
         REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 1.0f );
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.0f );
