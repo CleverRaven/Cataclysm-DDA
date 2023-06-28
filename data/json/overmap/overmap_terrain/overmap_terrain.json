@@ -401,7 +401,13 @@
     "type": "overmap_terrain",
     "id": "crater_core",
     "sym": "O",
-    "copy-from": "crater"
+    "copy-from": "crater",
+	"flags": [ "NO_ROTATE" ]
+  },
+  {
+	  "type": "overmap_terrain",
+    "id": [ "meteor", "meteor_small" ],
+    "copy-from": "special_air"
   },
   {
     "type": "overmap_terrain",

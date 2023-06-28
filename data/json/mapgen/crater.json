@@ -37,6 +37,50 @@
     "melee_damage": { "bash": 20 }
   },
   {
+    "id": "crater_bomb_small",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active alien bomb" },
+    "description": "This item is used to make a hole for a crater.  It should not otherwise appear in game.",
+    "weight": "4400 g",
+    "volume": "10 L",
+    "price": 0,
+    "to_hit": -5,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_red",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 12500, "max_noise": 0 },
+    "use_action": {
+      "type": "explosion",
+      "no_deactivate_msg": "You've already activated the bomb - clear the area immediately!",
+      "explosion": { "power": 12500, "max_noise": 0 }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ],
+    "melee_damage": { "bash": 20 }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crater_bomb",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_item": [ { "item": "crater_bomb", "x": 0, "y": 0, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crater_bomb_small",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_item": [ { "item": "crater_bomb_small", "x": 0, "y": 0, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ]
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "rubble",
@@ -47,7 +91,7 @@
     "type": "mapgen",
     "method": "json",
     "object": {
-      "fallback_predecessor_mapgen": "field",
+      "fill_ter": "t_region_groundcover_barren",
       "rows": [
         "........................",
         "........................",
@@ -57,14 +101,14 @@
         "........................",
         "........................",
         "........................",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
         "........................",
         "........................",
         "........................",
@@ -74,15 +118,36 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "crater_palette" ],
-      "//": "It's important that the bombs get placed on tiles without wreckage, otherwise they can get destroyed before they explode",
+      "palettes": [ "crater_palette" ]
+    }
+  },
+  {
+    "om_terrain": "meteor",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_open_air",
       "place_nested": [
-        { "chunks": [ "crater_bomb" ], "x": [ 8, 11 ], "y": [ 8, 11 ] },
-        { "chunks": [ "crater_bomb" ], "x": [ 8, 11 ], "y": [ 12, 15 ] },
-        { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 8, 11 ] },
-        { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 12, 15 ] }
-      ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+        { "chunks": [ [ "crater_bomb", 2 ], [ "null", 1 ] ], "x": [ 6, 17 ], "y": [ 6, 17 ] },
+        { "chunks": [ [ "crater_bomb", 2 ], [ "null", 1 ] ], "x": [ 6, 17 ], "y": [ 6, 17 ] },
+        { "chunks": [ [ "crater_bomb", 2 ], [ "null", 1 ] ], "x": [ 6, 17 ], "y": [ 6, 17 ] },
+        { "chunks": [ "crater_bomb_small", "null" ], "x": [ 6, 17 ], "y": [ 6, 17 ] },
+        { "chunks": [ "crater_bomb_small", "null" ], "x": [ 6, 17 ], "y": [ 6, 17 ] },
+        { "chunks": [ "crater_bomb_small", "null" ], "x": [ 6, 17 ], "y": [ 6, 17 ] }
+      ]
+    }
+  },
+  {
+    "om_terrain": "meteor_small",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_open_air",
+      "place_nested": [
+        { "chunks": [ "crater_bomb_small", "null" ], "x": [ 6, 17 ], "y": [ 6, 17 ] },
+        { "chunks": [ "crater_bomb_small", "null" ], "x": [ 6, 17 ], "y": [ 6, 17 ] },
+        { "chunks": [ "crater_bomb_small", "null" ], "x": [ 6, 17 ], "y": [ 6, 17 ] }
+      ]
     }
   },
   {
