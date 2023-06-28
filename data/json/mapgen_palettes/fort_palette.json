@@ -2,9 +2,7 @@
   {
     "type": "palette",
     "id": "fort_parameter_palette",
-    "parameters": {
-      "variant": { "type": "string", "default": { "distribution": [ [ "tourist", 2 ], [ "reenactors", 1 ], [ "closed", 1 ] ] } }
-    }
+    "parameters": { "variant": { "type": "string", "default": { "distribution": [ "tourist", "reenactors", "closed" ] } } }
   },
   {
     "type": "palette",
