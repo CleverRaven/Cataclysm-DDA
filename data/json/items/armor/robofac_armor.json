@@ -3,7 +3,6 @@
     "id": "robofac_armor_rig",
     "type": "ARMOR",
     "category": "ARMOR",
-    "repairs_like": "coat_rain",
     "looks_like": "poncho",
     "name": { "str": "Hub 01 modular defense system" },
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  Striped in brown and blue, the white seal of Hub 01 is emblazoned proudly on the front.  It features several quick access pouches attached to a waist drawstring, and two waterproof dry bags for carrying liquids.  It also features several tight clamps and velcro strips around the waist and shoulders; perhaps something attaches to them.",
@@ -197,7 +196,12 @@
           "robofac_gun_46"
         ]
       },
-      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] }
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_atomic_battery_cell"
+      }
     ],
     "ammo": "battery",
     "use_action": {
@@ -249,7 +253,6 @@
   {
     "id": "robofac_armor_anchor_on",
     "copy-from": "robofac_armor_anchor",
-    "repairs_like": "robofac_armor_anchor",
     "type": "TOOL_ARMOR",
     "name": { "str": "Hub 01 modular defense anchor (on)", "str_pl": "Hub 01 modular defense anchors (on)" },
     "looks_like": "robofac_armor_anchor",
@@ -266,7 +269,6 @@
   },
   {
     "id": "robofac_head_rig",
-    "repairs_like": "coat_rain",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "Hub 01 modular recon headgear" },
@@ -395,7 +397,6 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract mantle",
-    "repairs_like": "armor_lightplate",
     "weight": "6853 g",
     "volume": "6600 ml",
     "price": 60000,
@@ -439,7 +440,6 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract armored skirt",
-    "repairs_like": "armor_lightplate",
     "weight": "2454 g",
     "volume": "3500 ml",
     "price": 60000,
@@ -475,7 +475,6 @@
     "category": "armor",
     "name": { "str": "pair of abstract armored vambraces", "str_pl": "pairs of abstract armored vambraces" },
     "looks_like": "armguard_hard",
-    "repairs_like": "armguard_hard",
     "weight": "845 g",
     "volume": "4000 ml",
     "price": 60000,
@@ -503,7 +502,6 @@
     "category": "armor",
     "name": { "str": "pair of abstract armored greaves", "str_pl": "pairs of abstract armored greaves" },
     "looks_like": "legguard_hard",
-    "repairs_like": "legguard_hard",
     "weight": "1295 g",
     "volume": "5000 ml",
     "price": 60000,
@@ -530,7 +528,6 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract helmet",
-    "repairs_like": "armor_lightplate",
     "weight": "1176 g",
     "volume": "1750 ml",
     "price": 60000,

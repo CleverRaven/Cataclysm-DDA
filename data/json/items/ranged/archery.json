@@ -303,6 +303,33 @@
   },
   {
     "type": "AMMO",
+    "id": "arrow_meteor",
+    "price": 2000,
+    "name": { "str": "emerald arrow" },
+    "symbol": "=",
+    "color": "light_green",
+    "looks_like": "arrow_fire_hardened_fletched",
+    "description": "A fletched lance carved from inscrutable green stone.  Impractically heavy, its difficult to imagine who or what could have fired it from a bow.",
+    "material": [ "monolith_heavy" ],
+    "volume": "1000 ml",
+    "price_postapoc": 1000,
+    "weight": "27 kg",
+    "longest_side": "105 cm",
+    "ammo_type": "strange_arrow",
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 2.25, "armor_penetration": 55 },
+    "range": 4,
+    "dispersion": 120,
+    "loudness": 0,
+    "count": 10,
+    "stack_size": 10,
+    "critical_multiplier": 6,
+    "effects": [ "RECOVER_1000000" ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 10, "stab": 26 }
+  },
+  {
+    "type": "AMMO",
     "id": "arrow_exploding",
     "price": 1000,
     "name": { "str": "explosive arrow" },
@@ -359,7 +386,7 @@
     "effects": [ "RECOVER_35" ],
     "use_action": {
       "target": "arrow_flamming",
-      "target_charges": 1,
+      "target_timer": "20 seconds",
       "msg": "You light the arrow.",
       "active": true,
       "need_fire": 1,
@@ -389,8 +416,7 @@
     "count": 1,
     "stack_size": 1,
     "critical_multiplier": 10,
-    "countdown_interval": 20,
-    "countdown_action": { "type": "transform", "target": "arrow_field_point_fletched" },
+    "revert_to": "arrow_field_point_fletched",
     "effects": [ "IGNITE", "RECOVER_35" ],
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 2 }
@@ -917,6 +943,40 @@
         }
       ]
     },
+    "durability": 8,
+    "loudness": 16,
+    "ranged_damage": { "damage_type": "stab", "amount": 11 },
+    "range": 20
+  },
+  {
+    "id": "greatbow_meteor",
+    "copy-from": "longbow",
+    "type": "GUN",
+    "name": { "str": "blackwood greatbow" },
+    "description": "A tall bow made from very finely grained black wood.  Its large asymmetrical limbs are improperly shaped to fire arrows of regular length, and they require incredible strength to pull back.",
+    "price": "10 USD",
+    "ammo": "strange_arrow",
+    "material": [ "wood", "monolith_heavy" ],
+    "min_strength": 15,
+    "weight": "22 kg",
+    "volume": "6250 ml",
+    "longest_side": "218 cm",
+    "price_postapoc": 2000,
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 },
+            { "type": "monolith_heavy", "covered_by_mat": 10, "thickness": 2.0 }
+          ],
+          "encumbrance": 25,
+          "coverage": 14,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "strange_arrow": 1 } } ],
     "durability": 8,
     "loudness": 16,
     "ranged_damage": { "damage_type": "stab", "amount": 11 },

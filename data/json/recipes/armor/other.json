@@ -64,7 +64,12 @@
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "amplifier", 1 ] ]
+    ],
     "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
@@ -322,7 +327,7 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
-    "result": "rebreather_filter",
+    "result": "rebreather_cartridge",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -350,7 +355,7 @@
     ]
   },
   {
-    "result": "gasfilter_s",
+    "result": "gasfilter_sm",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -362,7 +367,7 @@
     "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
-    "result": "gasfilter_m",
+    "result": "gasfilter_med",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",

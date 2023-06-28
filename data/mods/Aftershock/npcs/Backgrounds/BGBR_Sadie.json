@@ -41,7 +41,7 @@
           "yes": "What a beautiful facility.  I bet they have all kinds of lovely toys to play with.  We should kill everyone here and do some creative self-experimentation."
         },
         {
-          "npc_at_om_location": "Mansion_Wild",
+          "npc_at_om_location": "Mansion_Road_1",
           "no": "",
           "yes": "Ooh, it's like a murder mystery here.  Are we the murderers, the murdered, or the mystery?"
         }

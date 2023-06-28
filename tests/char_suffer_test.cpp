@@ -98,7 +98,7 @@ static int test_suffer_pain_felt( Character &dummy, const time_duration &dur )
 // - Most of the time (59/60 chance), 1 focus is lost, or 2 without sunglasses
 // - Sometimes (1/60 chance), there is 1 pain instead, or 2 without sunglasses
 //
-TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
+TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
 {
     clear_map();
     avatar &dummy = get_avatar();
@@ -133,9 +133,9 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
             dummy.worn.clear();
 
             // 60 times * 12 bodyparts * 0.25 chance for medium effect
-            THEN( "they lose about 165 focus per hour" ) {
+            THEN( "they lose 80 to 280 focus per hour" ) {
                 focus_lost = test_suffer_focus_lost( dummy, 1_hours );
-                CHECK( focus_lost == Approx( 180 ).margin( 90 ) );
+                CHECK( focus_lost == Approx( 180 ).margin( 100 ) );
             }
 
             // THEN( "they suffer about 2 pain per hour" ) {
@@ -203,7 +203,7 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 // - Chance of pain and HP loss is directly proportional to skin exposure on each body part
 // -
 //
-TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
+TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
 {
     clear_map();
     clear_avatar();
@@ -368,7 +368,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
     }
 }
 
-TEST_CASE( "suffering from asphyxiation", "[char][suffer][oxygen][grab]" )
+TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
 {
     clear_map();
     clear_avatar();

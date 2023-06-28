@@ -632,14 +632,25 @@ static void draw_traits_tab( ui_adaptor &ui, const catacurses::window &w_traits,
 }
 
 static void draw_traits_info( const catacurses::window &w_info, const unsigned line,
-                              const std::vector<trait_and_var> &traitslist )
+                              const std::vector<trait_and_var> &traitslist, const unsigned info_line )
 {
     werase( w_info );
     if( line < traitslist.size() ) {
         const trait_and_var &cur = traitslist[line];
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format( "%s: %s",
-                        colorize( cur.name(), cur.trait->get_display_color() ), cur.desc() ) );
+        std::vector<std::string> desc =
+            foldstring( string_format( "%s: %s", colorize( cur.name(), cur.trait->get_display_color() ),
+                                       cur.desc() ), FULL_SCREEN_WIDTH - 3 );
+        const int winh = catacurses::getmaxy( w_info );
+        const bool do_scroll = desc.size() > static_cast<unsigned>( std::abs( winh ) );
+        const int fline = do_scroll ? info_line % ( desc.size() + 1 - winh ) : 0;
+        const int lline = do_scroll ? fline + winh : desc.size();
+        for( int i = fline; i < lline; i++ ) {
+            trim_and_print( w_info, point( 1, i - fline ), FULL_SCREEN_WIDTH - 3, c_light_gray, desc[i] );
+        }
+        if( do_scroll ) {
+            draw_scrollbar( w_info, fline, winh, desc.size(), point( FULL_SCREEN_WIDTH - 3, 0 ), c_white,
+                            true );
+        }
     }
     wnoutrefresh( w_info );
 }
@@ -1057,7 +1068,7 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_skills_info( w_info, you, line, skillslist );
             break;
         case player_display_tab::traits:
-            draw_traits_info( w_info, line, traitslist );
+            draw_traits_info( w_info, line, traitslist, info_line );
             break;
         case player_display_tab::bionics:
             draw_bionics_info( w_info, line, bionicslist );

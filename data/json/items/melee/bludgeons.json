@@ -334,7 +334,6 @@
   {
     "type": "GENERIC",
     "id": "sinister_cane",
-    "repairs_like": "hollow_cane",
     "name": { "str": "sinister cane" },
     "description": "A sinister looking cane made of plastic.  It has a shiny red orb gripped by claws at the handle.",
     "copy-from": "cane",
@@ -350,7 +349,6 @@
   {
     "type": "TOOL",
     "id": "wizard_cane_cheap",
-    "repairs_like": "hollow_cane",
     "name": { "str": "cheap wizard cane (off)", "str_pl": "cheap wizard canes (off)" },
     "description": "An arcane but cheap-looking cane made of plastic.  It has a white light-up orb on the end.  Using it will turn it on and provide a weak light.",
     "copy-from": "cane",
@@ -402,7 +400,6 @@
   {
     "type": "TOOL",
     "id": "wizard_cane",
-    "repairs_like": "hollow_cane",
     "name": { "str": "wizard cane (off)", "str_pl": "wizard canes (off)" },
     "description": "An arcane-looking cane made of wood and aluminum.  It has a white light-up orb on the end.  Using it will turn it on and illuminate the area around you.",
     "copy-from": "cane",

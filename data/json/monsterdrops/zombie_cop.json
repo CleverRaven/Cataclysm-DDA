@@ -91,7 +91,8 @@
       { "item": "airhorn", "prob": 5 },
       { "item": "rope_30", "prob": 5 },
       { "item": "sm_extinguisher", "prob": 5 },
-      { "group": "cop_melee", "prob": 60 }
+      { "group": "cop_melee", "prob": 60 },
+      { "item": "teargas_sprayer", "prob": 50, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -140,7 +141,12 @@
   {
     "id": "cop_torso",
     "type": "item_group",
-    "items": [ [ "dress_shirt", 50 ], [ "sheriffshirt", 45 ], [ "jacket_light", 40 ], [ "leather_police_jacket", 50 ] ]
+    "items": [
+      [ "dress_shirt", 50 ],
+      [ "sheriffshirt", 45 ],
+      [ "jacket_light", 40 ],
+      { "item": "leather_police_jacket", "variant": "leather_police_jacket", "prob": 40 }
+    ]
   },
   {
     "id": "cop_melee",
@@ -211,7 +217,8 @@
           { "item": "flashbang", "prob": 10 },
           { "item": "gasbomb", "prob": 10 },
           { "item": "sm_extinguisher", "prob": 5 },
-          { "item": "rope_30", "prob": 10 }
+          { "item": "rope_30", "prob": 10 },
+          { "item": "teargas_sprayer", "prob": 30, "charges": [ 1, 10 ] }
         ],
         "prob": 30
       },

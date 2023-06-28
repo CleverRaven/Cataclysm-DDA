@@ -1,4 +1,4 @@
-# vitamin
+# Vitamins
 
 ## definition
 

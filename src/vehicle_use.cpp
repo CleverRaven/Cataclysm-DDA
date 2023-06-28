@@ -504,30 +504,27 @@ void vehicle::toggle_tracking()
 
 item vehicle::init_cord( const tripoint &pos )
 {
-    item powercord( "power_cord" );
-    powercord.set_var( "source_x", pos.x );
-    powercord.set_var( "source_y", pos.y );
-    powercord.set_var( "source_z", pos.z );
-    powercord.set_var( "state", "pay_out_cable" );
-    powercord.active = true;
+    item cord( "power_cord" );
+    cord.link = cata::make_value<item::link_data>();
+    cord.link->t_state = link_state::vehicle_port;
+    cord.link->t_veh_safe = get_safe_reference();
+    cord.link->t_abs_pos = get_map().getglobal( pos );
+    cord.active = true;
 
-    return powercord;
+    return cord;
 }
 
 void vehicle::plug_in( const tripoint &pos )
 {
-    item powercord = init_cord( pos );
+    item cord = init_cord( pos );
 
-    if( powercord.get_use( "CABLE_ATTACH" ) ) {
-        powercord.get_use( "CABLE_ATTACH" )->call( get_player_character(), powercord, powercord.active,
-                pos );
+    if( cord.get_use( "link_up" ) ) {
+        cord.type->get_use( "link_up" )->call( get_player_character(), cord, false, pos );
     }
-
 }
 
 void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 {
-
     item cord = init_cord( source_pos );
     map &here = get_map();
 
@@ -544,8 +541,6 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     }
 
     tripoint target_global = here.getabs( target_pos );
-    // TODO: make sure there is always a matching vpart id here. Maybe transform this into
-    // a iuse_actor class, or add a check in item_factory.
     const vpart_id vpid( cord.typeId().str() );
 
     point vcoords = source_vp->mount();
@@ -556,10 +551,7 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 
     vcoords = target_vp->mount();
     vehicle_part target_part( vpid, item( cord ) );
-    tripoint source_global( cord.get_var( "source_x", 0 ),
-                            cord.get_var( "source_y", 0 ),
-                            cord.get_var( "source_z", 0 ) );
-    target_part.target.first = here.getabs( source_global );
+    target_part.target.first = cord.link->t_abs_pos.raw();
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, std::move( target_part ) );
 }
@@ -634,7 +626,7 @@ bool vehicle::start_engine( vehicle_part &vp )
                 add_msg( _( "You cannot use %s with a broken arm." ), vp.name() );
                 return false;
             } else if( vpi.has_flag( "MUSCLE_LEGS" ) && ( player_character.get_working_leg_count() < 2 ) ) {
-                add_msg( _( "You cannot use %s with a broken leg." ), vp.name() );
+                add_msg( _( "You cannot use %s without at least two legs." ), vp.name() );
                 return false;
             }
         } else {
@@ -705,7 +697,7 @@ bool vehicle::start_engine( vehicle_part &vp )
     sounds::sound( pos, vpi.engine_noise_factor(), sounds::sound_t::movement,
                    string_format( _( "the %s starting." ), vp.name() ) );
 
-    std::string variant = vpi.get_id().str();
+    std::string variant = vpi.id.str();
 
     if( sfx::has_variant_sound( "engine_start", variant ) ) {
         // has special sound variant for this vpart id
@@ -734,7 +726,7 @@ void vehicle::stop_engines()
 
         sounds::sound( global_part_pos3( vp ), 2, sounds::sound_t::movement, _( "the engine go silent" ) );
 
-        std::string variant = vp.info().get_id().str();
+        std::string variant = vp.info().id.str();
 
         if( sfx::has_variant_sound( "engine_stop", variant ) ) {
             // has special sound variant for this vpart id
@@ -822,7 +814,7 @@ void vehicle::honk_horn() const
     for( const vpart_reference &vp : get_avail_parts( "HORN" ) ) {
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = vp.info();
-        if( ( horn_type.get_id() != vpart_horn_bicycle ) && no_power ) {
+        if( ( horn_type.id != vpart_horn_bicycle ) && no_power ) {
             continue;
         }
         if( !honked ) {
@@ -860,7 +852,7 @@ void vehicle::reload_seeds( const tripoint &pos )
     } );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_null, _( "No seed" ), 0 ) );
+    seed_entries.emplace( seed_entries.begin(), itype_null, _( "No seed" ), 0 );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
@@ -1273,7 +1265,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     const int dist = rl_dist( get_player_character().pos(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
-                                 parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
+                                 parts[ part_index ].info().id.str(), 100 - dist * 3 );
     }
     for( const std::vector<int> &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( const int &partID : vec ) {

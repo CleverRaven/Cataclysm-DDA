@@ -202,6 +202,21 @@
     "type": "ARMOR",
     "name": { "str_sp": "boxer shorts" },
     "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_boxer_shorts",
+        "name": { "str_sp": "boxer shorts" },
+        "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
+        "weight": 30
+      },
+      {
+        "id": "flag_boxer_shorts",
+        "name": { "str_sp": "star-spangled boxer shorts" },
+        "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
+        "append": true
+      }
+    ],
     "weight": "42 g",
     "volume": "250 ml",
     "price": 1000,
@@ -243,6 +258,21 @@
     "type": "ARMOR",
     "name": { "str_sp": "boy shorts" },
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_boy_shorts",
+        "name": { "str_sp": "boy shorts" },
+        "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
+        "weight": 30
+      },
+      {
+        "id": "flag_boy_shorts",
+        "name": { "str_sp": "star-spangled boy shorts" },
+        "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
+        "append": true
+      }
+    ],
     "weight": "42 g",
     "volume": "250 ml",
     "price": 1000,
@@ -317,7 +347,6 @@
   },
   {
     "id": "camisole",
-    "repairs_like": "tank_top",
     "type": "ARMOR",
     "name": { "str": "camisole" },
     "description": "A small camisole made from silk.  Typically used as an undergarment, it is light and easy to wear.",
@@ -411,7 +440,6 @@
   },
   {
     "id": "corset",
-    "repairs_like": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "leather corset" },
     "description": "A snug, black leather corset.  Has no pockets, but its thick material provides good protection from harm.  Use it to loosen it if you want to wear it over normal clothing.",
@@ -451,7 +479,6 @@
   },
   {
     "id": "corset_waist",
-    "repairs_like": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "waist corset" },
     "description": "A snug, black leather waist corset.  Works as a stylish solution for back pain.  Use it to loosen it if you want to wear it over normal clothing.",
@@ -797,7 +824,6 @@
   },
   {
     "id": "tights",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "tights" },
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",

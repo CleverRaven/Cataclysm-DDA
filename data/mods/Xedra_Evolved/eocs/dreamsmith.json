@@ -8,7 +8,26 @@
     "effect": [
       { "math": [ "DREAMSMITH_RECIPE_SCORE", "+=", "u_skill('deduction')" ] },
       { "run_eocs": "EOC_DREAMSMITHS_RECIPES_ENCH" },
-      { "u_roll_remainder": [ "dreamdross_bo", "dreamdross_knife", "dreamdross_club" ], "type": "recipe" }
+      {
+        "u_roll_remainder": [
+          "dreamdross_bo",
+          "dreamdross_knife",
+          "dreamdross_club",
+          "dreamsmith_research",
+          "dreamdross_lump",
+          "forged_dreamstuff_ingot"
+        ],
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_MESSAGE_SCORE_TIMER",
+          "effect": [
+            {
+              "u_message": "Something sparked in your head, and you realize an interesting property of dreamdross.  Maybe you can forge something new?",
+              "type": "info"
+            }
+          ]
+        }
+      }
     ]
   },
   {
@@ -17,23 +36,10 @@
     "//": "Increase the dreamsmith recipe score and recipe superscore for each `training` spell cast.  Each cast increase the gain score for 1",
     "condition": { "u_has_trait": "DREAMSMITH" },
     "effect": [
-      { "u_message": "You increase your score and your super score for some number." },
-      {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE" },
-          "+=",
-          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TRAINS" }
-        ]
-      },
-      { "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TRAINS" }, "++" ] },
-      {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER" },
-          "+=",
-          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER" }
-        ]
-      },
-      { "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER" }, "++" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE", "+=", "DREAMSMITH_RECIPE_SCORE_TRAINS" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_TRAINS", "++" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", "+=", "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER", "++" ] },
       { "run_eocs": "EOC_DREAMSMITHS_RECIPES_ENCH" },
       { "run_eocs": "EOC_DREAMSMITHS_RECIPES_SUPER" }
     ]
@@ -45,15 +51,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "DREAMSMITH" },
-        {
-          "compare_int": [
-            { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE" },
-            ">=",
-            {
-              "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TARGET" }, "+", { "const": 20 } ]
-            }
-          ]
-        }
+        { "math": [ "DREAMSMITH_RECIPE_SCORE", ">=", "DREAMSMITH_RECIPE_SCORE_TARGET + 20" ] }
       ]
     },
     "effect": [
@@ -90,19 +88,27 @@
           "dreamforged_helmet_ench",
           "dreamforged_plate_armor_ench",
           "dreamforged_armguard_plate_ench",
-          "dreamforged_boots_ench"
+          "dreamforged_boots_ench",
+          "dreamforged_longbow",
+          "arrow_dreamforged",
+          "dreamforged_crossbow",
+          "bolt_dreamforged"
         ],
-        "type": "recipe"
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_MESSAGE_POSITIVE",
+          "effect": [
+            {
+              "u_message": "A brilliant idea about the properties of dreamdross  hits your head, and you think you know how to utilize it now.",
+              "type": "good"
+            }
+          ]
+        }
       },
-      {
-        "u_message": "A brilliant idea about the dreamdross properties hit your head, and you think you know how to utilize one now.",
-        "type": "info"
-      },
-      { "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE" }, "=", { "const": 0 } ] },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_TARGET" }, "+=", { "const": 100 } ]
-      }
-    ]
+      { "math": [ "DREAMSMITH_RECIPE_SCORE", "=", "0" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "100" ] }
+    ],
+    "false_effect": [ { "u_message": "You tried to test a new idea, but it failed.  Try again.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -111,15 +117,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "DREAMSMITH" },
-        {
-          "compare_int": [
-            { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER" },
-            ">=",
-            {
-              "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET" }, "+", { "const": 1000 } ]
-            }
-          ]
-        }
+        { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", ">=", "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET + 1000" ] }
       ]
     },
     "effect": [
@@ -135,16 +133,19 @@
           "dreamforged_q_staff_exp",
           "dreamforged_armguard_plate_gunslinger"
         ],
-        "type": "recipe"
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_SUPER_MESSAGE_POSITIVE",
+          "effect": [
+            {
+              "u_message": "You found a pretty smart way to utilize dreamdross' abilities, and you can't wait to use it.",
+              "type": "good"
+            }
+          ]
+        }
       },
-      {
-        "u_message": "You found pretty smart way to utilize a dreamdross abilities, and you can't wait to use it.",
-        "type": "info"
-      },
-      { "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER" }, "=", { "const": 0 } ] },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET" }, "+=", { "const": 200 } ]
-      }
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", "=", "0" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET", "+=", "200" ] }
     ]
   }
 ]

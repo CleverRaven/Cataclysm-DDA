@@ -159,6 +159,7 @@ class monster : public Creature
         std::string extended_description() const override;
         // Inverts color if inv==true
         bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
+        // Evaluates monster for both JSON and monster flags (converted to m_flag)
         bool has_flag( flag_id f ) const;
         bool can_see() const;      // MF_SEES and no MF_BLIND
         bool can_hear() const;     // MF_HEARS and no MF_DEAF
@@ -414,6 +415,7 @@ class monster : public Creature
         float stability_roll() const override;
         // We just dodged an attack from something
         void on_dodge( Creature *source, float difficulty ) override;
+        void on_try_dodge() override {}
         // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
@@ -477,6 +479,9 @@ class monster : public Creature
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
         bool is_electrical() const override;    // true if the monster produces electric radiation
+
+        bool is_nether() const override;    // true if the monster is from the nether
+
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;

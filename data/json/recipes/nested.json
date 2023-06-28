@@ -32,6 +32,18 @@
     "difficulty": 1
   },
   {
+    "id": "nested_pipe_rifles",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "name": "pipe rifles",
+    "description": "Recipes related to constructing pistol-caliber rifles using pipes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "rifle_22", "rifle_38", "rifle_40", "rifle_45", "rifle_9mm", "rifle_44", "rifle_32", "rifle_9x18", "rifle_380" ],
+    "difficulty": 3
+  },
+  {
     "id": "nested_staffs",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -147,7 +159,7 @@
     "name": "standard batteries",
     "description": "Recipes related to constructing standard rechargeable batteries.",
     "skill_used": "electronics",
-    "nested_category_data": [ "UPS_off", "medium_battery_cell", "medium_plus_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ],
+    "nested_category_data": [ "UPS_OFF", "medium_battery_cell", "medium_plus_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ],
     "difficulty": 3
   },
   {
@@ -1503,7 +1515,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_hauberk", "mc_chainmail_hauberk_xs", "xl_mc_chainmail_hauberk" ],
-    "difficulty": 2
+    "difficulty": 1
   },
   {
     "id": "nested_hc_chainmail_hauberk",
@@ -1515,7 +1527,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_hauberk", "hc_chainmail_hauberk_xs", "xl_hc_chainmail_hauberk" ],
-    "difficulty": 3
+    "difficulty": 1
   },
   {
     "id": "nested_ch_chainmail_hauberk",
@@ -1527,7 +1539,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_hauberk", "ch_chainmail_hauberk_xs", "xl_ch_chainmail_hauberk" ],
-    "difficulty": 4
+    "difficulty": 1
   },
   {
     "id": "nested_qt_chainmail_hauberk",
@@ -1539,7 +1551,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_hauberk", "qt_chainmail_hauberk_xs", "xl_qt_chainmail_hauberk" ],
-    "difficulty": 5
+    "difficulty": 1
   },
   {
     "id": "nested_all_chainmail_hauberk",
@@ -1557,7 +1569,198 @@
       "nested_ch_chainmail_hauberk",
       "nested_qt_chainmail_hauberk"
     ],
-    "difficulty": 2
+    "difficulty": 1
+  },
+  {
+    "id": "nested_lc_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "low steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_chainmail_sjumpsuit", "lc_chainmail_sjumpsuit_xs", "xl_lc_chainmail_sjumpsuit" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_chainmail_sjumpsuit", "mc_chainmail_sjumpsuit_xs", "xl_mc_chainmail_sjumpsuit" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_hc_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_chainmail_sjumpsuit", "hc_chainmail_sjumpsuit_xs", "xl_hc_chainmail_sjumpsuit" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_ch_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_sjumpsuit", "ch_chainmail_sjumpsuit_xs", "xl_ch_chainmail_sjumpsuit" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_qt_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain sleeveless jumpsuits",
+    "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_chainmail_sjumpsuit", "qt_chainmail_sjumpsuit_xs", "xl_qt_chainmail_sjumpsuit" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_chainmail_sjumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "steel chain sleeveless jumpsuits",
+    "description": "Recipes related to fitting together chainmail armor to make chainmail sleeveless jumpsuits in various types and sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_chainmail_sjumpsuit",
+      "nested_mc_chainmail_sjumpsuit",
+      "nested_hc_chainmail_sjumpsuit",
+      "nested_ch_chainmail_sjumpsuit",
+      "nested_qt_chainmail_sjumpsuit"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_lc_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "lc_chainmail_jumpsuit",
+      "lc_chainmail_jumpsuit_xs",
+      "xl_lc_chainmail_jumpsuit",
+      "lc_chainmail_jumpsuit_hauberk",
+      "lc_chainmail_jumpsuit_xs_hauberk",
+      "xl_lc_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "mc_chainmail_jumpsuit",
+      "mc_chainmail_jumpsuit_xs",
+      "xl_mc_chainmail_jumpsuit",
+      "mc_chainmail_jumpsuit_hauberk",
+      "mc_chainmail_jumpsuit_xs_hauberk",
+      "xl_mc_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_hc_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "hc_chainmail_jumpsuit",
+      "hc_chainmail_jumpsuit_xs",
+      "xl_hc_chainmail_jumpsuit",
+      "hc_chainmail_jumpsuit_hauberk",
+      "hc_chainmail_jumpsuit_xs_hauberk",
+      "xl_hc_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_ch_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "ch_chainmail_jumpsuit",
+      "ch_chainmail_jumpsuit_xs",
+      "xl_ch_chainmail_jumpsuit",
+      "ch_chainmail_jumpsuit_hauberk",
+      "ch_chainmail_jumpsuit_xs_hauberk",
+      "xl_ch_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_qt_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "qt_chainmail_jumpsuit",
+      "qt_chainmail_jumpsuit_xs",
+      "xl_qt_chainmail_jumpsuit",
+      "qt_chainmail_jumpsuit_hauberk",
+      "qt_chainmail_jumpsuit_xs_hauberk",
+      "xl_qt_chainmail_jumpsuit_hauberk"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_chainmail_jumpsuit",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "steel chain jumpsuits",
+    "description": "Recipes related to constructing chainmail jumpsuits in various types and sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_chainmail_jumpsuit",
+      "nested_mc_chainmail_jumpsuit",
+      "nested_hc_chainmail_jumpsuit",
+      "nested_ch_chainmail_jumpsuit",
+      "nested_qt_chainmail_jumpsuit"
+    ],
+    "difficulty": 1
   },
   {
     "id": "nested_lc_chainmail_suit",
@@ -1568,14 +1771,7 @@
     "name": "mild steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "lc_chainmail_suit",
-      "lc_chainmail_suit_xs",
-      "xl_lc_chainmail_suit",
-      "lc_chainmail_suit_hauberk",
-      "lc_chainmail_suit_xs_hauberk",
-      "xl_lc_chainmail_suit_hauberk"
-    ],
+    "nested_category_data": [ "lc_chainmail_suit", "lc_chainmail_suit_xs", "xl_lc_chainmail_suit" ],
     "difficulty": 1
   },
   {
@@ -1587,15 +1783,8 @@
     "name": "medium steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "mc_chainmail_suit",
-      "mc_chainmail_suit_xs",
-      "xl_mc_chainmail_suit",
-      "mc_chainmail_suit_hauberk",
-      "mc_chainmail_suit_xs_hauberk",
-      "xl_mc_chainmail_suit_hauberk"
-    ],
-    "difficulty": 2
+    "nested_category_data": [ "mc_chainmail_suit", "mc_chainmail_suit_xs", "xl_mc_chainmail_suit" ],
+    "difficulty": 1
   },
   {
     "id": "nested_hc_chainmail_suit",
@@ -1606,15 +1795,8 @@
     "name": "high steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "hc_chainmail_suit",
-      "hc_chainmail_suit_xs",
-      "xl_hc_chainmail_suit",
-      "hc_chainmail_suit_hauberk",
-      "hc_chainmail_suit_xs_hauberk",
-      "xl_hc_chainmail_suit_hauberk"
-    ],
-    "difficulty": 3
+    "nested_category_data": [ "hc_chainmail_suit", "hc_chainmail_suit_xs", "xl_hc_chainmail_suit" ],
+    "difficulty": 1
   },
   {
     "id": "nested_ch_chainmail_suit",
@@ -1625,15 +1807,8 @@
     "name": "hardened steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "ch_chainmail_suit",
-      "ch_chainmail_suit_xs",
-      "xl_ch_chainmail_suit",
-      "ch_chainmail_suit_hauberk",
-      "ch_chainmail_suit_xs_hauberk",
-      "xl_ch_chainmail_suit_hauberk"
-    ],
-    "difficulty": 4
+    "nested_category_data": [ "ch_chainmail_suit", "ch_chainmail_suit_xs", "xl_ch_chainmail_suit" ],
+    "difficulty": 1
   },
   {
     "id": "nested_qt_chainmail_suit",
@@ -1644,15 +1819,8 @@
     "name": "tempered steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "qt_chainmail_suit",
-      "qt_chainmail_suit_xs",
-      "xl_qt_chainmail_suit",
-      "qt_chainmail_suit_hauberk",
-      "qt_chainmail_suit_xs_hauberk",
-      "xl_qt_chainmail_suit_hauberk"
-    ],
-    "difficulty": 5
+    "nested_category_data": [ "qt_chainmail_suit", "qt_chainmail_suit_xs", "xl_qt_chainmail_suit" ],
+    "difficulty": 1
   },
   {
     "id": "nested_chainmail_suit_faraday",
@@ -1683,7 +1851,7 @@
       "nested_chainmail_suit_faraday",
       "nested_qt_chainmail_suit"
     ],
-    "difficulty": 6
+    "difficulty": 1
   },
   {
     "id": "nested_scrap_cuirass",
@@ -3921,11 +4089,95 @@
     "nested_category_data": [ "survivor_belt_notools", "webbing_belt", "fireman_belt", "police_belt", "tool_belt", "santa_belt", "leather_belt" ]
   },
   {
+    "id": "nested_every_helm_close",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "steel close helms",
+    "description": "Recipes related to constructing different thicknesses of steel close helms from different qualities of steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_lighthelm_close", "nested_helm_close", "nested_heavyhelm_close" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_lighthelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "light close helms",
+    "description": "Recipes related to creating light close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_lighthelm_close",
+      "nested_mc_lighthelm_close",
+      "nested_hc_lighthelm_close",
+      "nested_ch_lighthelm_close",
+      "nested_qt_lighthelm_close"
+    ]
+  },
+  {
+    "id": "nested_lc_lighthelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel light close helms",
+    "description": "Recipes related to creating poor quality light close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_lighthelm_close", "xl_lc_lighthelm_close" ]
+  },
+  {
+    "id": "nested_mc_lighthelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel light close helms",
+    "description": "Recipes related to creating light close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_lighthelm_close", "xl_mc_lighthelm_close" ]
+  },
+  {
+    "id": "nested_hc_lighthelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel light close helms",
+    "description": "Recipes related to creating light close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_lighthelm_close", "xl_hc_lighthelm_close" ]
+  },
+  {
+    "id": "nested_ch_lighthelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel light close helms",
+    "description": "Recipes related to creating light close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_lighthelm_close", "xl_ch_lighthelm_close" ]
+  },
+  {
+    "id": "nested_qt_lighthelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel light close helms",
+    "description": "Recipes related to creating light close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_lighthelm_close", "xl_qt_lighthelm_close" ]
+  },
+  {
     "id": "nested_helm_close",
     "type": "nested_category",
     "activity_level": "fake",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "name": "close helms",
     "description": "Recipes related to creating close helms to protect the head.",
     "skill_used": "fabrication",
@@ -3993,6 +4245,78 @@
     "nested_category_data": [ "qt_helm_close", "xl_qt_helm_close" ]
   },
   {
+    "id": "nested_heavyhelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "heavy close helms",
+    "description": "Recipes related to creating heavy close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_heavyhelm_close",
+      "nested_mc_heavyhelm_close",
+      "nested_hc_heavyhelm_close",
+      "nested_ch_heavyhelm_close",
+      "nested_qt_heavyhelm_close"
+    ]
+  },
+  {
+    "id": "nested_lc_heavyhelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel heavy close helms",
+    "description": "Recipes related to creating poor quality close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_heavyhelm_close", "xl_lc_heavyhelm_close" ]
+  },
+  {
+    "id": "nested_mc_heavyhelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel heavy close helms",
+    "description": "Recipes related to creating close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_heavyhelm_close", "xl_mc_heavyhelm_close" ]
+  },
+  {
+    "id": "nested_hc_heavyhelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel heavy close helms",
+    "description": "Recipes related to creating close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_heavyhelm_close", "xl_hc_heavyhelm_close" ]
+  },
+  {
+    "id": "nested_ch_heavyhelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel heavy close helms",
+    "description": "Recipes related to creating close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_heavyhelm_close", "xl_ch_heavyhelm_close" ]
+  },
+  {
+    "id": "nested_qt_heavyhelm_close",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel heavy close helms",
+    "description": "Recipes related to creating close helms to protect the head.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_heavyhelm_close", "xl_qt_heavyhelm_close" ]
+  },
+  {
     "id": "nested_primers",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -4044,7 +4368,8 @@
     "name": "arming swords",
     "description": "Recipes for making arming swords.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_arming_sword", "mc_arming_sword", "hc_arming_sword", "ch_arming_sword", "qt_arming_sword" ]
+    "nested_category_data": [ "lc_arming_sword", "mc_arming_sword", "hc_arming_sword", "ch_arming_sword", "qt_arming_sword" ],
+    "difficulty": 7
   },
   {
     "id": "nested_broadsword",
@@ -4055,7 +4380,8 @@
     "name": "broadswords",
     "description": "Recipes for making broadswords.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_broadsword", "mc_broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ]
+    "nested_category_data": [ "lc_broadsword", "mc_broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ],
+    "difficulty": 7
   },
   {
     "id": "nested_cavalry_sabre",
@@ -4066,7 +4392,8 @@
     "name": "cavalry sabres",
     "description": "Recipes for making cavalry sabres.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_cavalry_sabre", "mc_cavalry_sabre", "hc_cavalry_sabre", "ch_cavalry_sabre", "qt_cavalry_sabre" ]
+    "nested_category_data": [ "lc_cavalry_sabre", "mc_cavalry_sabre", "hc_cavalry_sabre", "ch_cavalry_sabre", "qt_cavalry_sabre" ],
+    "difficulty": 7
   },
   {
     "id": "nested_cutlass",
@@ -4077,7 +4404,8 @@
     "name": "cutlasses",
     "description": "Recipes for making cutlasses.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ]
+    "nested_category_data": [ "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ],
+    "difficulty": 7
   },
   {
     "id": "nested_estoc",
@@ -4099,7 +4427,8 @@
     "name": "falxes",
     "description": "Recipes for making falxes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_falx", "mc_falx", "hc_falx", "ch_falx", "qt_falx" ]
+    "nested_category_data": [ "lc_falx", "mc_falx", "hc_falx", "ch_falx", "qt_falx" ],
+    "difficulty": 7
   },
   {
     "id": "nested_jian",
@@ -4110,7 +4439,8 @@
     "name": "jians",
     "description": "Recipes for making jians.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_jian", "mc_jian", "hc_jian", "ch_jian", "qt_jian" ]
+    "nested_category_data": [ "lc_jian", "mc_jian", "hc_jian", "ch_jian", "qt_jian" ],
+    "difficulty": 7
   },
   {
     "id": "nested_katana",
@@ -4121,7 +4451,8 @@
     "name": "katanas",
     "description": "Recipes for making katanas.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_katana", "mc_katana", "hc_katana", "ch_katana", "qt_katana" ]
+    "nested_category_data": [ "lc_katana", "mc_katana", "hc_katana", "ch_katana", "qt_katana" ],
+    "difficulty": 7
   },
   {
     "id": "nested_kriegsmesser",
@@ -4132,7 +4463,8 @@
     "name": "kriegsmessers",
     "description": "Recipes for making kriegsmessers.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_kriegsmesser", "mc_kriegsmesser", "hc_kriegsmesser", "ch_kriegsmesser", "qt_kriegsmesser" ]
+    "nested_category_data": [ "lc_kriegsmesser", "mc_kriegsmesser", "hc_kriegsmesser", "ch_kriegsmesser", "qt_kriegsmesser" ],
+    "difficulty": 5
   },
   {
     "id": "nested_longsword",
@@ -4143,7 +4475,8 @@
     "name": "longswords",
     "description": "Recipes for making longswords.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_longsword", "mc_longsword", "hc_longsword", "ch_longsword", "qt_longsword" ]
+    "nested_category_data": [ "lc_longsword", "mc_longsword", "hc_longsword", "ch_longsword", "qt_longsword" ],
+    "difficulty": 7
   },
   {
     "id": "nested_nodachi",
@@ -4154,7 +4487,8 @@
     "name": "nodachis",
     "description": "Recipes for making nodachis.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_nodachi", "mc_nodachi", "hc_nodachi", "ch_nodachi", "qt_nodachi" ]
+    "nested_category_data": [ "lc_nodachi", "mc_nodachi", "hc_nodachi", "ch_nodachi", "qt_nodachi" ],
+    "difficulty": 7
   },
   {
     "id": "nested_rapier",
@@ -4176,7 +4510,8 @@
     "name": "scimitars",
     "description": "Recipes for making scimitars.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_scimitar", "mc_scimitar", "hc_scimitar", "ch_scimitar", "qt_scimitar" ]
+    "nested_category_data": [ "lc_scimitar", "mc_scimitar", "hc_scimitar", "ch_scimitar", "qt_scimitar" ],
+    "difficulty": 7
   },
   {
     "id": "nested_wakizashi",
@@ -4187,7 +4522,8 @@
     "name": "wakizashis",
     "description": "Recipes for making wakizashis.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_wakizashi", "mc_wakizashi", "hc_wakizashi", "ch_wakizashi", "qt_wakizashi" ]
+    "nested_category_data": [ "lc_wakizashi", "mc_wakizashi", "hc_wakizashi", "ch_wakizashi", "qt_wakizashi" ],
+    "difficulty": 7
   },
   {
     "id": "nested_zweihander",
@@ -4198,7 +4534,19 @@
     "name": "zweihänders",
     "description": "Recipes for making zweihänders.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ]
+    "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_methanol_tank",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "name": "methanol fuel cartridges",
+    "description": "Recipes related to refilling methanol fuel cartridges.",
+    "skill_used": "mechanics",
+    "nested_category_data": [ "5l_methanol_tank", "10l_methanol_tank", "28l_methanol_tank", "60l_methanol_tank" ]
   },
   {
     "id": "nested_aluminum_scrap",
@@ -4578,6 +4926,45 @@
     "nested_category_data": [ "nested_posts_short", "nested_posts_normal", "wooden_post_long" ]
   },
   {
+    "id": "nested_bots",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "name": "inactive bots",
+    "description": "Recipes related to constructing deployable robots.",
+    "skill_used": "electronics",
+    "nested_category_data": [
+      "bot_crows_m240",
+      "bot_rifleturret",
+      "bot_c4_hack",
+      "bot_hazmatbot",
+      "bot_EMP_hack",
+      "bot_eyebot",
+      "bot_flashbang_hack",
+      "bot_grenade_hack",
+      "bot_grocerybot",
+      "bot_science_bot",
+      "bot_talon_m202a1",
+      "bot_antimateriel",
+      "bot_manhack",
+      "bot_dispatch",
+      "bot_dispatch_military",
+      "bot_turret_searchlight",
+      "bot_molebot",
+      "bot_mininuke_hack",
+      "bot_nursebot",
+      "bot_copbot",
+      "bot_riotbot",
+      "bot_skitterbot",
+      "bot_secubot",
+      "bot_tazer_hack",
+      "bot_gasbomb_hack",
+      "bot_turret"
+    ],
+    "difficulty": 3
+  },
+  {
     "id": "nested_planks_all",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
@@ -4587,5 +4974,1117 @@
     "description": "Recipes related to constructing all planks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "nested_planks_short", "nested_planks_normal", "plank_long" ]
+  },
+  {
+    "id": "nested_lc_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_lc_brigandine", "armguard_lc_brigandine_xs", "xl_armguard_lc_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_mc_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_mc_brigandine", "armguard_mc_brigandine_xs", "xl_armguard_mc_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_hc_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_hc_brigandine", "armguard_hc_brigandine_xs", "xl_armguard_hc_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_ch_brigandine", "armguard_ch_brigandine_xs", "xl_armguard_ch_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_qt_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armguard_qt_brigandine", "armguard_qt_brigandine_xs", "xl_armguard_qt_brigandine" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_all_brigandine_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "name": "steel splint arm guards",
+    "description": "Recipes related to constructing various sizes of splint arm guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_arms",
+      "nested_mc_brigandine_arms",
+      "nested_hc_brigandine_arms",
+      "nested_ch_brigandine_arms",
+      "nested_qt_brigandine_arms"
+    ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_lc_elbow_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel elbow guards",
+    "description": "Recipes related to forging various sizes of elbow guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_elbow_guards", "lc_elbow_guards_xs", "xl_lc_elbow_guards" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_mc_elbow_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel elbow guards",
+    "description": "Recipes related to forging various sizes of elbow guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_elbow_guards", "mc_elbow_guards_xs", "xl_mc_elbow_guards" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_hc_elbow_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel elbow guards",
+    "description": "Recipes related to forging various sizes of elbow guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_elbow_guards", "hc_elbow_guards_xs", "xl_hc_elbow_guards" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_elbow_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel elbow guards",
+    "description": "Recipes related to forging various sizes of elbow guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_elbow_guards", "ch_elbow_guards_xs", "xl_ch_elbow_guards" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_qt_elbow_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel elbow guards",
+    "description": "Recipes related to forging various sizes of elbow guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_elbow_guards", "qt_elbow_guards_xs", "xl_qt_elbow_guards" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_all_elbow_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "name": "steel elbow guards",
+    "description": "Recipes related to forging various sizes of elbow guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_elbow_guards",
+      "nested_mc_elbow_guards",
+      "nested_hc_elbow_guards",
+      "nested_ch_elbow_guards",
+      "nested_qt_elbow_guards"
+    ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_lc_brigandine_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel splint leg guards",
+    "description": "Recipes related to constructing various sizes of splint leg guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "legguard_lc_brigandine", "legguard_lc_brigandine_xs", "xl_legguard_lc_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_mc_brigandine_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel splint leg guards",
+    "description": "Recipes related to constructing various sizes of splint leg guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "legguard_mc_brigandine", "legguard_mc_brigandine_xs", "xl_legguard_mc_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_hc_brigandine_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel splint leg guards",
+    "description": "Recipes related to constructing various sizes of splint leg guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "legguard_hc_brigandine", "legguard_hc_brigandine_xs", "xl_legguard_hc_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_brigandine_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel splint leg guards",
+    "description": "Recipes related to constructing various sizes of splint leg guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "legguard_ch_brigandine", "legguard_ch_brigandine_xs", "xl_legguard_ch_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_qt_brigandine_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel splint leg guards",
+    "description": "Recipes related to constructing various sizes of splint leg guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "legguard_qt_brigandine", "legguard_qt_brigandine_xs", "xl_legguard_qt_brigandine" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_all_brigandine_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "steel splint leg guards",
+    "description": "Recipes related to constructing various sizes of splint leg guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_legs",
+      "nested_mc_brigandine_legs",
+      "nested_hc_brigandine_legs",
+      "nested_ch_brigandine_legs",
+      "nested_qt_brigandine_legs"
+    ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_lc_knee_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel knee guards",
+    "description": "Recipes related to forging various sizes of knee guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_knee_guards", "lc_knee_guards_xs", "xl_lc_knee_guards" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_mc_knee_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel knee guards",
+    "description": "Recipes related to forging various sizes of knee guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_knee_guards", "mc_knee_guards_xs", "xl_mc_knee_guards" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_hc_knee_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel knee guards",
+    "description": "Recipes related to forging various sizes of knee guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_knee_guards", "hc_knee_guards_xs", "xl_hc_knee_guards" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_knee_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel knee guards",
+    "description": "Recipes related to forging various sizes of knee guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_knee_guards", "ch_knee_guards_xs", "xl_ch_knee_guards" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_qt_knee_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel knee guards",
+    "description": "Recipes related to forging various sizes of knee guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_knee_guards", "qt_knee_guards_xs", "xl_qt_knee_guards" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_all_knee_guards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "steel knee guards",
+    "description": "Recipes related to forging various sizes of knee guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_knee_guards",
+      "nested_mc_knee_guards",
+      "nested_hc_knee_guards",
+      "nested_ch_knee_guards",
+      "nested_qt_knee_guards"
+    ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_lc_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_lc_brigandine", "armor_lc_brigandine_xs", "xl_armor_lc_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_mc_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_mc_brigandine", "armor_mc_brigandine_xs", "xl_armor_mc_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_hc_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_hc_brigandine", "armor_hc_brigandine_xs", "xl_armor_hc_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_ch_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_ch_brigandine", "armor_ch_brigandine_xs", "xl_armor_ch_brigandine" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_qt_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_qt_brigandine", "armor_qt_brigandine_xs", "xl_armor_qt_brigandine" ],
+    "difficulty": 8
+  },
+  {
+    "id": "nested_all_brigandine_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "brigandines",
+    "description": "Recipes related to constructing various sizes of brigandines.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_vest",
+      "nested_mc_brigandine_vest",
+      "nested_hc_brigandine_vest",
+      "nested_ch_brigandine_vest",
+      "nested_qt_brigandine_vest"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_lc_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_lc_coat_brigandine", "armor_lc_coat_brigandine_xs", "xl_armor_lc_coat_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_mc_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_mc_coat_brigandine", "armor_mc_coat_brigandine_xs", "xl_armor_mc_coat_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_hc_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_hc_coat_brigandine", "armor_hc_coat_brigandine_xs", "xl_armor_hc_coat_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_ch_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_ch_coat_brigandine", "armor_ch_coat_brigandine_xs", "xl_armor_ch_coat_brigandine" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_qt_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_qt_coat_brigandine", "armor_qt_coat_brigandine_xs", "xl_armor_qt_coat_brigandine" ],
+    "difficulty": 8
+  },
+  {
+    "id": "nested_all_brigandine_coat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "brigandine coats",
+    "description": "Recipes related to constructing various sizes of brigandine coats.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_coat",
+      "nested_mc_brigandine_coat",
+      "nested_hc_brigandine_coat",
+      "nested_ch_brigandine_coat",
+      "nested_qt_brigandine_coat"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_lc_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_lc_brigandine_shoulders", "armor_lc_brigandine_shoulders_xs", "xl_armor_lc_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_mc_brigandine_shoulders", "armor_mc_brigandine_shoulders_xs", "xl_armor_mc_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_hc_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_hc_brigandine_shoulders", "armor_hc_brigandine_shoulders_xs", "xl_armor_hc_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_ch_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_ch_brigandine_shoulders", "armor_ch_brigandine_shoulders_xs", "xl_armor_ch_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_qt_brigandine_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_qt_brigandine_shoulders", "armor_qt_brigandine_shoulders_xs", "xl_armor_qt_brigandine_shoulders" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_brigandin_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "brigandines with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandines with shoulder guards..",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_shoulders",
+      "nested_mc_brigandine_shoulders",
+      "nested_hc_brigandine_shoulders",
+      "nested_ch_brigandine_shoulders",
+      "nested_qt_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_lc_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_lc_coat_brigandine_shoulders",
+      "armor_lc_coat_brigandine_shoulders_xs",
+      "xl_armor_lc_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_mc_coat_brigandine_shoulders",
+      "armor_mc_coat_brigandine_shoulders_xs",
+      "xl_armor_mc_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_hc_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_hc_coat_brigandine_shoulders",
+      "armor_hc_coat_brigandine_shoulders_xs",
+      "xl_armor_hc_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_ch_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_ch_coat_brigandine_shoulders",
+      "armor_ch_coat_brigandine_shoulders_xs",
+      "xl_armor_ch_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_qt_brigandine_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "armor_qt_coat_brigandine_shoulders",
+      "armor_qt_coat_brigandine_shoulders_xs",
+      "xl_armor_qt_coat_brigandine_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_brigandin_coat_shoulders",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "brigandine coats with shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_coat_shoulders",
+      "nested_mc_brigandine_coat_shoulders",
+      "nested_hc_brigandine_coat_shoulders",
+      "nested_ch_brigandine_coat_shoulders",
+      "nested_qt_brigandine_coat_shoulders"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_lc_brigandine_shoulderguards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel shoulder guards",
+    "description": "Recipes related to constructing various sizes of shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_shoulder_guards", "lc_shoulder_guards_xs", "xl_lc_shoulder_guards" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_mc_brigandine_shoulderguards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel shoulder guards",
+    "description": "Recipes related to constructing various sizes of shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_shoulder_guards", "mc_shoulder_guards_xs", "xl_mc_shoulder_guards" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_hc_brigandine_shoulderguards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel shoulder guards",
+    "description": "Recipes related to constructing various sizes of shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_shoulder_guards", "hc_shoulder_guards_xs", "xl_hc_shoulder_guards" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_brigandine_shoulderguards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel shoulder guards",
+    "description": "Recipes related to constructing various sizes of shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_shoulder_guards", "ch_shoulder_guards_xs", "xl_ch_shoulder_guards" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_qt_brigandine_shoulderguards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel shoulder guards",
+    "description": "Recipes related to constructing various sizes of shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_shoulder_guards", "qt_shoulder_guards_xs", "xl_qt_shoulder_guards" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_all_brigandin_shoulderguards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "steel shoulder guards",
+    "description": "Recipes related to constructing various sizes of shoulder guards.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_shoulderguards",
+      "nested_mc_brigandine_shoulderguards",
+      "nested_hc_brigandine_shoulderguards",
+      "nested_ch_brigandine_shoulderguards",
+      "nested_qt_brigandine_shoulderguards"
+    ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_brigandin_hands",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "steel shoulder guards",
+    "description": "Recipes related to constructing various sizes of brigandine gloves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_brigandine_hands",
+      "nested_mc_brigandine_hands",
+      "nested_hc_brigandine_hands",
+      "nested_ch_brigandine_hands",
+      "nested_qt_brigandine_hands"
+    ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_lc_brigandine_hands",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "Mild steel brigandine gloves",
+    "description": "Recipes related to constructing various sizes of brigandine gloves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_brigandine_hands", "lc_brigandine_hands_xs", "xl_lc_brigandine_hands" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_mc_brigandine_hands",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "Medium steel brigandine gloves",
+    "description": "Recipes related to constructing various sizes of brigandine gloves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_brigandine_hands", "mc_brigandine_hands_xs", "xl_mc_brigandine_hands" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_hc_brigandine_hands",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "High steel brigandine gloves",
+    "description": "Recipes related to constructing various sizes of brigandine gloves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_brigandine_hands", "hc_brigandine_hands_xs", "xl_hc_brigandine_hands" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_brigandine_hands",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "Case hardened steel brigandine gloves",
+    "description": "Recipes related to constructing various sizes of brigandine gloves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_brigandine_hands", "ch_brigandine_hands_xs", "xl_ch_brigandine_hands" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_qt_brigandine_hands",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "Tempered steel brigandine gloves",
+    "description": "Recipes related to constructing various sizes of brigandine gloves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_brigandine_hands", "qt_brigandine_hands_xs", "xl_qt_brigandine_hands" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_lc_chainmail_face",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "low steel chain partial aventails",
+    "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_chainmail_face", "xl_lc_chainmail_face", "xs_lc_chainmail_face" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_chainmail_face",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chain partial aventails",
+    "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_chainmail_face", "xl_mc_chainmail_face", "xs_mc_chainmail_face" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_chainmail_face",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chain partial aventails",
+    "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_chainmail_face", "xl_hc_chainmail_face", "xs_hc_chainmail_face" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_qt_chainmail_face",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain partial aventails",
+    "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_chainmail_face", "xl_qt_chainmail_face", "xs_qt_chainmail_face" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_chainmail_face",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain partial aventails",
+    "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_face", "xl_ch_chainmail_face", "xs_ch_chainmail_face" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_chainmail_face",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "steel chain partial aventails",
+    "description": "Recipes related to constructing various types and sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_chainmail_face",
+      "nested_mc_chainmail_face",
+      "nested_hc_chainmail_face",
+      "nested_qt_chainmail_face",
+      "nested_ch_chainmail_face"
+    ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_lc_chainmail_aventail",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "low steel chain aventails",
+    "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_chainmail_aventail", "xl_lc_chainmail_aventail", "xs_lc_chainmail_aventail" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_chainmail_aventail",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chain aventails",
+    "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_chainmail_aventail", "xl_mc_chainmail_aventail", "xs_mc_chainmail_aventail" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_chainmail_aventail",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chain aventails",
+    "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_chainmail_aventail", "xl_hc_chainmail_aventail", "xs_hc_chainmail_aventail" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_qt_chainmail_aventail",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain aventails",
+    "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_chainmail_aventail", "xl_qt_chainmail_aventail", "xs_qt_chainmail_aventail" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_chainmail_aventail",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain aventails",
+    "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_aventail", "xl_ch_chainmail_aventail", "xs_ch_chainmail_aventail" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_chainmail_aventail",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "steel chain aventails",
+    "description": "Recipes related to constructing various types and sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_chainmail_aventail",
+      "nested_mc_chainmail_aventail",
+      "nested_hc_chainmail_aventail",
+      "nested_qt_chainmail_aventail",
+      "nested_ch_chainmail_aventail"
+    ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_lc_helmet_nasal",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "low steel nasal helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_helmet_nasal", "xl_lc_helmet_nasal", "xs_lc_helmet_nasal" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_helmet_nasal",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel nasal helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_helmet_nasal", "xl_mc_helmet_nasal", "xs_mc_helmet_nasal" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_helmet_nasal",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel nasal helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_helmet_nasal", "xl_hc_helmet_nasal", "xs_hc_helmet_nasal" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_qt_helmet_nasal",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel nasal helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_helmet_nasal", "xl_qt_helmet_nasal", "xs_qt_helmet_nasal" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_helmet_nasal",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel nasal helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_helmet_nasal", "xl_ch_helmet_nasal", "xs_ch_helmet_nasal" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_helmet_nasal",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "steel nasal helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_helmet_nasal",
+      "nested_mc_helmet_nasal",
+      "nested_hc_helmet_nasal",
+      "nested_qt_helmet_nasal",
+      "nested_ch_helmet_nasal"
+    ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_lc_helmet_turban",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "low steel turban helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_helmet_turban", "xl_lc_helmet_turban", "xs_lc_helmet_turban" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_helmet_turban",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel turban helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_helmet_turban", "xl_mc_helmet_turban", "xs_mc_helmet_turban" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_helmet_turban",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel turban helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_helmet_turban", "xl_hc_helmet_turban", "xs_hc_helmet_turban" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_qt_helmet_turban",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel turban helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_helmet_turban", "xl_qt_helmet_turban", "xs_qt_helmet_turban" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_helmet_turban",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel turban helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_helmet_turban", "xl_ch_helmet_turban", "xs_ch_helmet_turban" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_helmet_turban",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "steel turban helmets",
+    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_helmet_turban",
+      "nested_mc_helmet_turban",
+      "nested_hc_helmet_turban",
+      "nested_qt_helmet_turban",
+      "nested_ch_helmet_turban"
+    ],
+    "difficulty": 7
   }
 ]

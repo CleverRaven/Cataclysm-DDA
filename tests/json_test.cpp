@@ -81,7 +81,7 @@ TEST_CASE( "avoid_serializing_default_values", "[json]" )
     REQUIRE( os.str() == "\"bar\":\"foo\"" );
 }
 
-TEST_CASE( "spell_type handles all members", "[json]" )
+TEST_CASE( "spell_type_handles_all_members", "[json]" )
 {
     const spell_type &test_spell = spell_test_spell_json.obj();
 

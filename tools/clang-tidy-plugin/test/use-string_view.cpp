@@ -1,28 +1,7 @@
-// RUN: %check_clang_tidy %s cata-use-string_view %t -- -load=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-use-string_view %t -- -load=%cata_plugin -- -isystem %cata_include
 
-namespace std
-{
-
-template<class T>
-struct allocator;
-
-template<class CharT>
-class char_traits;
-
-template <
-    class CharT,
-    class Traits = std::char_traits<CharT>,
-    class Allocator = std::allocator<CharT>
-    > class basic_string
-{
-    public:
-        unsigned size() const;
-        const char *c_str() const;
-};
-
-typedef basic_string<char> string;
-
-}
+#include <string>
+#include <string_view>
 
 // Should change both declaration and definition when both are present, and
 // retain their respective parameter names.
