@@ -305,6 +305,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "special_attacks": [
       {
+        "id": "psi_pattern_scream",
         "type": "spell",
         "spell_data": { "id": "telepathic_shrieking_monster", "min_level": 3 },
         "cooldown": 15,
@@ -366,12 +367,14 @@
     "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin2" },
     "special_attacks": [
       {
+        "id": "psi_pyrokin1_flameblast",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 3 },
         "cooldown": 10,
         "monster_message": "%1$s summons a blast of flame!"
       },
       {
+        "id": "psi_pyrokin1_flashbang",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 1 },
         "cooldown": 15,
@@ -433,18 +436,21 @@
     "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin2" },
     "special_attacks": [
       {
+        "id": "psi_pyrokin2_flameblast",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 6 },
         "cooldown": 10,
         "monster_message": "%1$s summons a blast of flame!"
       },
       {
+       "id": "psi_pyrokin1_flangbang",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 4 },
         "cooldown": 15,
         "monster_message": "The air erupts into an eye-searing flash!"
       },
       {
+        "id": "psi_pyrokin2_flamebomb",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_blast_monster", "min_level": 4 },
         "cooldown": 15,
@@ -511,18 +517,21 @@
     "luminance": 200,
     "special_attacks": [
       {
+        "id": "psi_pyrokin3_flameblast",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 7 },
         "cooldown": 10,
         "monster_message": "%1$s summons a blast of flame!"
       },
       {
+        "id": "psi_pyrokin3_flashbang",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 5 },
         "cooldown": 15,
         "monster_message": "The air erupts into an eye-searing flash!"
       },
       {
+        "id": "psi_pyrokin3_flamebomb",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_blast_monster", "min_level": 6 },
         "cooldown": 15,
@@ -582,6 +591,7 @@
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
       {
+        "id": "psi_telekin1_telegrab",
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 2 },
         "cooldown": 15,
@@ -670,12 +680,14 @@
     "death_function": { "effect": { "id": "death_telekeinetic_hit_oneinthree", "hit_self": false } },
     "special_attacks": [
       {
+        "id": "psi_telekin2_telegrab",
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 3 },
         "cooldown": 10,
         "monster_message": "%1$s stares at you and you are lifted off your feet and pulled towards them!"
       },
       {
+        "id": "psi_telekin2_mindhammer",
         "type": "spell",
         "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 4 },
         "cooldown": 10,
@@ -755,6 +767,7 @@
     "upgrades": { "half_life": 45, "into": "mon_feral_human_teep2" },
     "special_attacks": [
       {
+        "id": "psi_telepath1_scream",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": 10,
@@ -814,12 +827,14 @@
     },
     "special_attacks": [
       {
+        "id": "psi_telepath2_scream",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": 8,
         "monster_message": "A roar fills your mind and the world is blotted out!"
       },
       {
+        "id": "psi_telepath2_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 2 },
         "cooldown": 10,
@@ -876,6 +891,7 @@
     "upgrades": { "half_life": 45, "into": "mon_feral_human_porter2" },
     "special_attacks": [
       {
+        "id": "psi_teleport1_slow",
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 2 },
         "cooldown": 15,
@@ -940,6 +956,7 @@
     "upgrades": { "half_life": 45, "into": "mon_feral_human_porter3" },
     "special_attacks": [
       {
+        "id": "psi_teleport2_slow",
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 4 },
         "cooldown": 10,
@@ -1006,12 +1023,14 @@
     "luminance": 25,
     "special_attacks": [
       {
+        "id": "psi_teleport3_slow",
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 6 },
         "cooldown": 10,
         "monster_message": "%1$s glances at you and the world lurches."
       },
       {
+        "id": "psi_teleport3_instability",
         "type": "spell",
         "spell_data": { "id": "teleport_blink_attack_monster", "min_level": 4 },
         "cooldown": 20,
@@ -1083,6 +1102,7 @@
     "upgrades": { "half_life": 45, "into": "mon_feral_human_vita2" },
     "special_attacks": [
       {
+        "id": "psi_vitakin1_weakness",
         "type": "spell",
         "spell_data": { "id": "vitakinetic_health_down", "min_level": 4 },
         "cooldown": 15,
@@ -1143,6 +1163,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "special_attacks": [
       {
+        "id": "psi_vitakin2_weakness",
         "type": "spell",
         "spell_data": { "id": "vitakinetic_healing_down", "min_level": 4 },
         "cooldown": 15,
