@@ -4136,10 +4136,7 @@ void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::stri
 
     str_or_var condition = get_str_or_var( jo.get_member( "condition" ), "condition" );
 
-    dbl_or_var iteration_count;
-    if( jo.has_member( "iteration_count" ) ) {
-        iteration_count = get_dbl_or_var( jo.get_member( "iteration_count" ), "iteration_count" );
-    }
+    dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration_count", false, 100 );
 
 
     function = [eoc, condition, iteration_count]( dialogue & d ) {
@@ -4148,12 +4145,8 @@ void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::stri
             debugmsg( string_format( "No condition with the name %s", condition.evaluate( d ) ) );
             return;
         }
-        int max_iteration = 100;
-        int given_iteration = iteration_count.evaluate( d );
 
-        if( given_iteration > 0 ) {
-            max_iteration = given_iteration;
-        }
+        int max_iteration = iteration_count.evaluate( d );
 
         int curr_iteration = 0;
 
