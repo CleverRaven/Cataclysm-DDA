@@ -554,6 +554,7 @@
     "copy-from": "car_micro_abstract",
     "name": "Hybrid Microcar",
     "parts": [
+      { "x": 0, "y": 0, "parts": [ "smart_engine_controller" ] },
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_truck" ] },
       { "x": 1, "y": 1, "parts": [ "engine_electric" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
