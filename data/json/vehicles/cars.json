@@ -552,28 +552,19 @@
     "id": "car_micro_hybrid",
     "type": "vehicle",
     "copy-from": "car_micro_abstract",
+    "name": "Hybrid Microcar",
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_truck" ] },
       { "x": 1, "y": 1, "parts": [ "engine_electric" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
-      { "x": -1, "y": 2, "parts": [ "medium_storage_battery" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 2, "parts": [ "medium_storage_battery" ] }
     ]
   },
   {
-    "id": "car_micro_hybrid",
+    "id": "car_micro_electric",
     "type": "vehicle",
     "copy-from": "car_micro_abstract",
-    "parts": [
-      { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_truck" ] },
-      { "x": 1, "y": 1, "parts": [ "engine_electric" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
-      { "x": -1, "y": 2, "parts": [ "medium_storage_battery" ] },
-    ]
-  },
-  {
-    "id": "car_micro_hybrid",
-    "type": "vehicle",
-    "copy-from": "car_micro_abstract",
+    "name": "Electric Microcar",
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_electric" ] },
       { "x": -1, "y": -1, "parts": [ "storage_battery" ] }
