@@ -1,9 +1,27 @@
 [
   {
     "type": "mapgen",
-    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_log_nested",
+    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_construction_nested",
     "method": "json",
     "object": {
+      "parameters": {
+        "fbmc_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbmc_concrete_palette",
+              "fbmc_log_palette",
+              "fbmc_metal_palette",
+              "fbmc_migo_resin_palette",
+              "fbmc_rammed_earth_palette",
+              "fbmc_rock_palette",
+              "fbmc_wad_palette",
+              "fbmc_wood_palette"
+            ]
+          }
+        }
+      },
       "mapgensize": [ 6, 6 ],
       "rows": [
         "www+vw",
@@ -13,152 +31,15 @@
         "w.... ",
         "wwwww "
       ],
-      "palettes": [ "fbmh_0_log_palette" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbmc_construction_palette" } ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_metal_nested",
+    "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_construction",
     "method": "json",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "www+vw",
-        "w....w",
-        "w.... ",
-        "w.... ",
-        "w.... ",
-        "wwwww "
-      ],
-      "palettes": [ "fbmh_0_metal_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_migo_resin_nested",
-    "method": "json",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "www+vw",
-        "w....w",
-        "w.... ",
-        "w.... ",
-        "w.... ",
-        "wwwww "
-      ],
-      "palettes": [ "fbmh_0_migo_resin_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_rammed_earth_nested",
-    "method": "json",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "www+vw",
-        "w....w",
-        "w.... ",
-        "w.... ",
-        "w.... ",
-        "wwwww "
-      ],
-      "palettes": [ "fbmh_0_rammed_earth_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_rock_nested",
-    "method": "json",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "www+vw",
-        "w....w",
-        "w.... ",
-        "w.... ",
-        "w.... ",
-        "wwwww "
-      ],
-      "palettes": [ "fbmh_0_rock_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_wad_nested",
-    "method": "json",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "www+vw",
-        "w....w",
-        "w.... ",
-        "w.... ",
-        "w.... ",
-        "wwwww "
-      ],
-      "palettes": [ "fbmh_0_wad_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_wood_nested",
-    "method": "json",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "www+vw",
-        "w....w",
-        "w.... ",
-        "w.... ",
-        "w.... ",
-        "wwwww "
-      ],
-      "palettes": [ "fbmh_0_wood_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_log",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_log_nested" ], "x": 8, "y": 16 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_metal",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_metal_nested" ], "x": 8, "y": 16 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_migo_resin",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_migo_resin_nested" ], "x": 8, "y": 16 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_rammed_earth",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_rammed_earth_nested" ], "x": 8, "y": 16 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_rock",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_rock_nested" ], "x": 8, "y": 16 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_wad",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_wad_nested" ], "x": 8, "y": 16 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_pottery_cottage_blacksmith_wood",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_wood_nested" ], "x": 8, "y": 16 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_construction_nested" ], "x": 8, "y": 16 } ] }
   },
   {
     "type": "mapgen",
