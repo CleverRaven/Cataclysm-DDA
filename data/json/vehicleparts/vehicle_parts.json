@@ -2196,7 +2196,6 @@
     "variants": [ { "symbols": "+", "symbols_broken": "&" } ],
     "categories": [ "hull" ],
     "looks_like": "door_trunk",
-    "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 750,
     "description": "A strong, short door.  You can always see over it, open or closed.",
