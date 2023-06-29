@@ -284,8 +284,8 @@ The NECC discriminates against anyone that's not part of their sect.  They are u
 
 They are strongly against anyone with bionics, or anyone who willingly mutated.
 
-Allied with Free Merchants, Tacoma Commune
-Friendly with Isherwood Family
+Knows of the Free Merchants and the Tacoma Commune and is friendly enough to trade, but like with all outsiders, keeps them at arms length.
+Standoffish with the Isherwood Family.
 Dislike the Old Guard (for being percieved as getting us into this mess) and any group that promotes bionics, mutations, or interactions with the nether creatures.
 Hostile towards Hell's Raiders and Marloss Evangelists 
 
