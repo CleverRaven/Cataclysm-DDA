@@ -10,12 +10,12 @@
         "sym": "^",
         "dangerous": true,
         "intensity_upgrade_chance": 10,
-        "intensity_upgrade_duration": "5 minutes"
+        "intensity_upgrade_duration": "6 hours"
       },
       {
         "name": "nauseating tension",
         "color": "cyan",
-        "monster_spawn_chance": 200,
+        "monster_spawn_chance": 5,
         "monster_spawn_count": 1,
         "monster_spawn_radius": 1,
         "monster_spawn_group": "GROUP_CHANGELING_MIRRORED_FIELD"
@@ -24,7 +24,7 @@
         "name": "broken reflections",
         "color": "magenta_yellow",
         "transparent": false,
-        "monster_spawn_chance": 100,
+        "monster_spawn_chance": 10,
         "monster_spawn_count": 3,
         "monster_spawn_radius": 6,
         "monster_spawn_group": "GROUP_CHANGELING_MIRRORED_FIELD"
