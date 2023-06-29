@@ -405,6 +405,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "crater_wibbly_wobbly",
+    "sym": "~",
+    "copy-from": "crater"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "radio_tower",
       "radio_tower_even",
