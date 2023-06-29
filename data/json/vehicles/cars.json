@@ -899,9 +899,9 @@
       { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
-      { "x": -1, "y": 0, "parts": [ "seat_back_leather#left", "seatbelt", ] },
-      { "x": -1, "y": 1, "parts": [ "seat_back_leather#rear", "seatbelt", ] },
-      { "x": -1, "y": 2, "parts": [ "seat_back_leather#right", "seatbelt", ] },
+      { "x": -1, "y": 0, "parts": [ "seat_back_leather#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back_leather#rear", "seatbelt" ] },
+      { "x": -1, "y": 2, "parts": [ "seat_back_leather#right", "seatbelt" ] },
     ]
   },
   {
@@ -1034,7 +1034,21 @@
     "name": "V6 Sports Coupe",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_car" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": 0, "y": 0, "parts": [ "seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "seat#windshield_front", "seatbelt" ] }
+    ]
+  },
+  {
+    "id": "car_coupe_sports_v6",
+    "type": "vehicle",
+    "copy-from": "car_coupe_abstract",
+    "name": "Luxury Coupe",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_car" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": 0, "y": 0, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "seat_leather#windshield_front", "seatbelt" ] }
     ]
   },
   {
