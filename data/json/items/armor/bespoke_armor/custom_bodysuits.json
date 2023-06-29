@@ -15,8 +15,8 @@
     "armor": [
       {
         "material": [
-          { "type": "denim", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "leather", "covered_by_mat": 45, "thickness": 1.5 }
+          { "type": "denim", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1.5 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "cover_vitals": 40,
@@ -49,8 +49,8 @@
     "armor": [
       {
         "material": [
-          { "type": "denim", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "leather", "covered_by_mat": 45, "thickness": 1.5 }
+          { "type": "denim", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1.5 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "cover_vitals": 40,
@@ -122,11 +122,11 @@
     "armor": [
       {
         "material": [
-          { "type": "denim", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "leather", "covered_by_mat": 30, "thickness": 1.5 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "cover_vitals": 35,
+        "cover_vitals": 30,
         "coverage": 100,
         "encumbrance": [ 2, 2 ],
         "breathability": "AVERAGE"
