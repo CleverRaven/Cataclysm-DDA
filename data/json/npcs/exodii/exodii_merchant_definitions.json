@@ -8,15 +8,19 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_EXODII_MERCHANT",
-    "faction": "exodii",
-    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "exodii"
   },
   {
     "type": "npc_class",
     "id": "NC_EXODII_TYPE_1_Merchant",
     "name": { "str": "Cyborg, type 1" },
     "job_description": "I'm a cyborg.",
-    "traits": [ { "trait": "EXODII_BODY_1" } ],
+    "traits": [
+      { "trait": "EXODII_BODY_1" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_str": { "rng": [ 0, 6 ] },
     "bonus_dex": { "rng": [ 0, 6 ] },

@@ -3,10 +3,10 @@
 #define CATA_SRC_AVATAR_ACTION_H
 
 #include <iosfwd>
+#include <optional>
 #include <vector>
 
 #include "activity_type.h"
-#include "optional.h"
 #include "point.h"
 #include "units_fwd.h"
 
@@ -63,18 +63,19 @@ void fire_wielded_weapon( avatar &you );
 void fire_ranged_mutation( Character &you, const item &fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
-void fire_ranged_bionic( avatar &you, const item &fake_gun, const units::energy &cost_per_shot );
+void fire_ranged_bionic( avatar &you, const item &fake_gun );
 
 /**
  * Checks if the player can manually (with their 2 hands, not via vehicle controls)
  * fire a turret and then starts interactive aiming.
  * Assumes that the turret is on player position.
+ * @return true if attempt to fire was successful (aim then cancel is also considered success)
  */
-void fire_turret_manual( avatar &you, map &m, turret_data &turret );
+bool fire_turret_manual( avatar &you, map &m, turret_data &turret );
 
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
-              const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
+              const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
 
 void unload( avatar &you );
 

@@ -128,7 +128,7 @@ TextJsonObject::TextJsonObject( TextJsonIn &j )
     final_separator = jsin->get_ate_separator();
 }
 
-void TextJsonObject::mark_visited( const std::string &name ) const
+void TextJsonObject::mark_visited( const std::string_view name ) const
 {
 #ifndef CATA_IN_TOOL
     visited_members.emplace( name );
@@ -141,7 +141,7 @@ void TextJsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
     if( report_unvisited_members && !reported_unvisited_members &&
-        !std::uncaught_exception() ) {
+        !std::uncaught_exceptions() ) {
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
@@ -194,12 +194,12 @@ void TextJsonObject::copy_visited_members( const TextJsonObject &rhs ) const
 #endif
 }
 
-int TextJsonObject::verify_position( const std::string &name,
+int TextJsonObject::verify_position( const std::string_view name,
                                      const bool throw_exception ) const
 {
     if( !jsin ) {
         if( throw_exception ) {
-            throw JsonError( std::string( "member lookup on empty object: " ) + name );
+            throw JsonError( str_cat( "member lookup on empty object: ", name ) );
         }
         // 0 is always before the opening brace,
         // so it will never indicate a valid member position
@@ -209,7 +209,7 @@ int TextJsonObject::verify_position( const std::string &name,
     if( iter == positions.end() ) {
         if( throw_exception ) {
             jsin->seek( start );
-            jsin->error( "member not found: " + name );
+            jsin->error( str_cat( "member not found: ", name ) );
         }
         // 0 is always before the opening brace,
         // so it will never indicate a valid member position
@@ -242,7 +242,7 @@ std::string TextJsonObject::str() const
     }
 }
 
-void TextJsonObject::throw_error_at( const std::string &name, const std::string &err ) const
+void TextJsonObject::throw_error_at( const std::string_view name, const std::string &err ) const
 {
     mark_visited( name );
     if( !jsin ) {
@@ -292,7 +292,7 @@ void TextJsonObject::throw_error( const std::string &err ) const
     jsin->error( err );
 }
 
-TextJsonIn *TextJsonObject::get_raw( const std::string &name ) const
+TextJsonIn *TextJsonObject::get_raw( const std::string_view name ) const
 {
     int pos = verify_position( name );
     mark_visited( name );
@@ -317,12 +317,12 @@ json_source_location TextJsonObject::get_source_location() const
 
 /* returning values by name */
 
-bool TextJsonObject::get_bool( const std::string &name ) const
+bool TextJsonObject::get_bool( const std::string_view name ) const
 {
     return get_member( name ).get_bool();
 }
 
-bool TextJsonObject::get_bool( const std::string &name, const bool fallback ) const
+bool TextJsonObject::get_bool( const std::string_view name, const bool fallback ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -333,12 +333,12 @@ bool TextJsonObject::get_bool( const std::string &name, const bool fallback ) co
     return jsin->get_bool();
 }
 
-int TextJsonObject::get_int( const std::string &name ) const
+int TextJsonObject::get_int( const std::string_view name ) const
 {
     return get_member( name ).get_int();
 }
 
-int TextJsonObject::get_int( const std::string &name, const int fallback ) const
+int TextJsonObject::get_int( const std::string_view name, const int fallback ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -349,12 +349,12 @@ int TextJsonObject::get_int( const std::string &name, const int fallback ) const
     return jsin->get_int();
 }
 
-double TextJsonObject::get_float( const std::string &name ) const
+double TextJsonObject::get_float( const std::string_view name ) const
 {
     return get_member( name ).get_float();
 }
 
-double TextJsonObject::get_float( const std::string &name, const double fallback ) const
+double TextJsonObject::get_float( const std::string_view name, const double fallback ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -365,12 +365,13 @@ double TextJsonObject::get_float( const std::string &name, const double fallback
     return jsin->get_float();
 }
 
-std::string TextJsonObject::get_string( const std::string &name ) const
+std::string TextJsonObject::get_string( const std::string_view name ) const
 {
     return get_member( name ).get_string();
 }
 
-std::string TextJsonObject::get_string( const std::string &name, const std::string &fallback ) const
+std::string TextJsonObject::get_string( const std::string_view name,
+                                        const std::string &fallback ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -383,7 +384,7 @@ std::string TextJsonObject::get_string( const std::string &name, const std::stri
 
 /* returning containers by name */
 
-TextJsonArray TextJsonObject::get_array( const std::string &name ) const
+TextJsonArray TextJsonObject::get_array( const std::string_view name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -394,7 +395,7 @@ TextJsonArray TextJsonObject::get_array( const std::string &name ) const
     return TextJsonArray( *jsin );
 }
 
-std::vector<int> TextJsonObject::get_int_array( const std::string &name ) const
+std::vector<int> TextJsonObject::get_int_array( const std::string_view name ) const
 {
     std::vector<int> ret;
     for( const int entry : get_array( name ) ) {
@@ -403,7 +404,7 @@ std::vector<int> TextJsonObject::get_int_array( const std::string &name ) const
     return ret;
 }
 
-std::vector<std::string> TextJsonObject::get_string_array( const std::string &name ) const
+std::vector<std::string> TextJsonObject::get_string_array( const std::string_view name ) const
 {
     std::vector<std::string> ret;
     for( const std::string entry : get_array( name ) ) {
@@ -412,7 +413,7 @@ std::vector<std::string> TextJsonObject::get_string_array( const std::string &na
     return ret;
 }
 
-std::vector<std::string> TextJsonObject::get_as_string_array( const std::string &name ) const
+std::vector<std::string> TextJsonObject::get_as_string_array( const std::string_view name ) const
 {
     std::vector<std::string> ret;
     if( has_array( name ) ) {
@@ -425,7 +426,7 @@ std::vector<std::string> TextJsonObject::get_as_string_array( const std::string 
     return ret;
 }
 
-TextJsonObject TextJsonObject::get_object( const std::string &name ) const
+TextJsonObject TextJsonObject::get_object( const std::string_view name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -438,7 +439,7 @@ TextJsonObject TextJsonObject::get_object( const std::string &name ) const
 
 /* non-fatal member existence and type testing */
 
-bool TextJsonObject::has_null( const std::string &name ) const
+bool TextJsonObject::has_null( const std::string_view name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -449,7 +450,7 @@ bool TextJsonObject::has_null( const std::string &name ) const
     return jsin->test_null();
 }
 
-bool TextJsonObject::has_bool( const std::string &name ) const
+bool TextJsonObject::has_bool( const std::string_view name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -459,7 +460,7 @@ bool TextJsonObject::has_bool( const std::string &name ) const
     return jsin->test_bool();
 }
 
-bool TextJsonObject::has_number( const std::string &name ) const
+bool TextJsonObject::has_number( const std::string_view name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -469,7 +470,7 @@ bool TextJsonObject::has_number( const std::string &name ) const
     return jsin->test_number();
 }
 
-bool TextJsonObject::has_string( const std::string &name ) const
+bool TextJsonObject::has_string( const std::string_view name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -479,7 +480,7 @@ bool TextJsonObject::has_string( const std::string &name ) const
     return jsin->test_string();
 }
 
-bool TextJsonObject::has_array( const std::string &name ) const
+bool TextJsonObject::has_array( const std::string_view name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -489,7 +490,7 @@ bool TextJsonObject::has_array( const std::string &name ) const
     return jsin->test_array();
 }
 
-bool TextJsonObject::has_object( const std::string &name ) const
+bool TextJsonObject::has_object( const std::string_view name ) const
 {
     int pos = verify_position( name, false );
     if( !pos ) {
@@ -789,7 +790,7 @@ bool TextJsonArray::has_object( const size_t i ) const
 }
 
 void add_array_to_set( std::set<std::string> &s, const TextJsonObject &json,
-                       const std::string &name )
+                       const std::string_view name )
 {
     for( const std::string line : json.get_array( name ) ) {
         s.insert( line );
@@ -1924,7 +1925,7 @@ void TextJsonIn::error( int offset, const std::string &message )
     rewind( 3, 240 );
     size_t startpos = tell();
     std::string buffer( pos - startpos, '\0' );
-    stream->read( &buffer[0], pos - startpos );
+    stream->read( buffer.data(), pos - startpos );
     auto it = buffer.begin();
     for( ; it < buffer.end() && ( *it == '\r' || *it == '\n' ); ++it ) {
         // skip starting newlines
@@ -2073,7 +2074,7 @@ std::string TextJsonIn::substr( size_t pos, size_t len )
     }
     ret.resize( len );
     stream->seekg( pos );
-    stream->read( &ret[0], len );
+    stream->read( ret.data(), len );
     return ret;
 }
 
@@ -2214,7 +2215,7 @@ void JsonOut::write_null()
     need_separator = true;
 }
 
-void JsonOut::write( const std::string &val )
+void JsonOut::write( const std::string_view val )
 {
     if( need_separator ) {
         write_separator();
@@ -2273,13 +2274,13 @@ void JsonOut::write( const std::bitset<N> &b )
     need_separator = true;
 }
 
-void JsonOut::member( const std::string &name )
+void JsonOut::member( const std::string_view name )
 {
     write( name );
     write_member_separator();
 }
 
-void JsonOut::null_member( const std::string &name )
+void JsonOut::null_member( const std::string_view name )
 {
     member( name );
     write_null();
@@ -2307,11 +2308,11 @@ TextJsonIn &TextJsonValue::seek() const
     return jsin_;
 }
 
-TextJsonValue TextJsonObject::get_member( const std::string &name ) const
+TextJsonValue TextJsonObject::get_member( const std::string_view name ) const
 {
     const auto iter = positions.find( name );
     if( !jsin || iter == positions.end() ) {
-        throw_error( "missing required field \"" + name + "\" in object: " + str() );
+        throw_error( str_cat( "missing required field \"", name, "\" in object: ", str() ) );
     }
     mark_visited( name );
     return TextJsonValue( *jsin, iter->second );

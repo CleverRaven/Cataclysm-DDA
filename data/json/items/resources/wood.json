@@ -13,9 +13,9 @@
     "weight": "30 kg",
     "volume": "50 L",
     "longest_side": "140 cm",
-    "bashing": 10,
     "to_hit": -10,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -29,10 +29,10 @@
     "weight": "150 g",
     "volume": "250 ml",
     "longest_side": "30 cm",
-    "bashing": 4,
     "to_hit": 1,
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "FIREWOOD" ]
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "FIREWOOD" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -48,9 +48,9 @@
     "weight": "1500 g",
     "volume": "2500 ml",
     "longest_side": "130 cm",
-    "bashing": 14,
     "to_hit": -1,
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "melee_damage": { "bash": 14 }
   },
   {
     "type": "GENERIC",
@@ -66,10 +66,10 @@
     "volume": "5000 ml",
     "longest_side": "260 cm",
     "looks_like": "stick",
-    "bashing": 18,
     "to_hit": -1,
     "use_action": [ "BREAK_STICK" ],
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "GENERIC",
@@ -85,12 +85,12 @@
     "weight": "2250 g",
     "volume": "3750 ml",
     "longest_side": "305 cm",
-    "bashing": 19,
     "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "price": 4000,
     "price_postapoc": 50,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 19 }
   },
   {
     "type": "GENERIC",
@@ -108,10 +108,10 @@
     "weight": "1000 g",
     "volume": "1250 ml",
     "longest_side": "180 cm",
-    "bashing": 12,
     "category": "weapons",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -126,11 +126,11 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "4130 ml",
     "longest_side": "122 cm",
-    "bashing": 16,
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 1000,
     "price_postapoc": 10,
-    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ]
+    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
+    "melee_damage": { "bash": 16 }
   },
   {
     "type": "GENERIC",
@@ -144,11 +144,11 @@
     "material": [ "wood" ],
     "volume": "2066 ml",
     "longest_side": "61 cm",
-    "bashing": 6,
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 500,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -163,11 +163,11 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "8264 ml",
     "longest_side": "244 cm",
-    "bashing": 26,
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 1500,
     "price_postapoc": 15,
-    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ]
+    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
+    "melee_damage": { "bash": 26 }
   },
   {
     "type": "GENERIC",
@@ -182,10 +182,10 @@
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
-    "bashing": 16,
     "price": 40000,
     "price_postapoc": 50,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 16 }
   },
   {
     "type": "GENERIC",
@@ -200,11 +200,11 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "9642 ml",
     "longest_side": "122 cm",
-    "bashing": 26,
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 1000,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 26 }
   },
   {
     "type": "GENERIC",
@@ -218,11 +218,11 @@
     "material": [ "wood" ],
     "volume": "4821 ml",
     "longest_side": "61 cm",
-    "bashing": 6,
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 500,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -237,11 +237,11 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "19248 ml",
     "longest_side": "244 cm",
-    "bashing": 26,
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 1000,
     "price_postapoc": 10,
-    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ]
+    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
+    "melee_damage": { "bash": 26 }
   },
   {
     "type": "GENERIC",
@@ -255,11 +255,11 @@
     "material": [ "wood" ],
     "volume": "328 ml",
     "longest_side": "13 cm",
-    "bashing": 1,
     "to_hit": -2,
     "price": 1000,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -277,10 +277,10 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": "19 L",
-    "bashing": 8,
     "price": 8000,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -297,10 +297,10 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "38 L",
     "longest_side": "244 cm",
-    "bashing": 8,
     "price": 20000,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -316,9 +316,9 @@
     "color": "brown",
     "symbol": "§",
     "material": [ "wood" ],
-    "bashing": 12,
     "price": 30000,
     "price_postapoc": 20,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 12 }
   }
 ]

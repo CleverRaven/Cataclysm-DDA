@@ -8,11 +8,10 @@
     "volume": "500 ml",
     "price": 9000,
     "price_postapoc": 750,
-    "bashing": 5,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "holster",
-    "repairs_like": "tool_belt",
+    "repairs_like": "leather",
     "color": "yellow",
     "pocket_data": [
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
@@ -26,7 +25,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": [ 2, 5 ],
@@ -38,7 +37,8 @@
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "abstract": "judo_belt_abstract",
@@ -122,11 +122,11 @@
     "volume": "350 ml",
     "price": 2000,
     "price_postapoc": 100,
-    "bashing": 5,
+    "repairs_like": "leather",
     "material": [ { "type": "leather", "portion": 75 }, { "type": "steel", "portion": 25 } ],
     "symbol": "[",
     "color": "brown",
-    "material_thickness": 1.5,
+    "material_thickness": 2,
     "pocket_data": [
       {
         "holster": true,
@@ -139,7 +139,18 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "specifically_covers": [ "torso_waist" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      }
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "obi_gi",
@@ -164,11 +175,10 @@
     "volume": "2 L",
     "price": 10000,
     "price_postapoc": 750,
-    "bashing": 5,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "fireman_belt",
-    "repairs_like": "tool_belt",
+    "repairs_like": "leather",
     "color": "brown",
     "pocket_data": [
       {
@@ -208,7 +218,8 @@
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "santa_belt",
@@ -219,11 +230,10 @@
     "volume": "350 ml",
     "price": 9000,
     "price_postapoc": 250,
-    "bashing": 5,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "leather_belt",
-    "repairs_like": "leather_belt",
+    "repairs_like": "leather",
     "color": "dark_gray",
     "material_thickness": 1.5,
     "pocket_data": [
@@ -238,7 +248,8 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "tool_belt",
@@ -249,7 +260,6 @@
     "volume": "2500 ml",
     "price": 4500,
     "price_postapoc": 1500,
-    "bashing": 5,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -304,8 +314,9 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "webbing_belt",
@@ -319,7 +330,7 @@
     "material": [ "nylon", "steel" ],
     "symbol": "[",
     "looks_like": "leather_belt",
-    "repairs_like": "tool_belt",
+    "repairs_like": "nylon",
     "color": "yellow",
     "material_thickness": 1.5,
     "pocket_data": [
@@ -359,6 +370,7 @@
     "price": 1000,
     "price_postapoc": 25,
     "material": [ "cotton", "steel" ],
+    "repairs_like": "scarf",
     "symbol": "#",
     "looks_like": "leather_belt",
     "color": "black",
@@ -382,7 +394,7 @@
     "description": "A pair of leather suspenders with a holster placed near the stomach.",
     "copy-from": "suspenders_leather",
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "WATER_FRIENDLY", "NO_QUICKDRAW" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "pocket_data": [
       {
         "magazine_well": "350 ml",

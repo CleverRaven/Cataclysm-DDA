@@ -1,7 +1,7 @@
 [
   {
     "type": "GENERIC",
-    "id": "skull_abstract",
+    "abstract": "skull_abstract",
     "name": { "str": "abstract skull" },
     "description": "This is a dummy item.  If you see it something went wrong.",
     "flags": [ "TRADER_AVOID" ],

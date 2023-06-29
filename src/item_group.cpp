@@ -107,7 +107,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
 
 static void put_into_container(
     Item_spawn_data::ItemList &items, std::size_t num_items,
-    const cata::optional<itype_id> &container_type,
+    const std::optional<itype_id> &container_type,
     time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
     const std::string &context )
 {
@@ -149,7 +149,9 @@ static void put_into_container(
             }
         }
     }
-    excess.push_back( ctr );
+    ctr.add_automatic_whitelist();
+
+    excess.emplace_back( std::move( ctr ) );
     items.erase( items.end() - num_items, items.end() );
     items.insert( items.end(), excess.begin(), excess.end() );
 }
@@ -194,7 +196,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     if( modifier ) {
         modifier->modify( tmp, "modifier for " + context() );
     } else {
-        int qty = tmp.charges;
+        int qty = tmp.count();
         if( modifier ) {
             qty = rng( modifier->charges.first, modifier->charges.second );
         } else if( tmp.made_of_from_type( phase_id::LIQUID ) ) {
@@ -207,7 +209,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         tmp.overwrite_relic( artifact->generate_relic( tmp.typeId() ) );
     }
     if( container_item ) {
-        tmp = tmp.in_container( *container_item, tmp.charges, sealed );
+        tmp = tmp.in_container( *container_item, tmp.count(), sealed );
     }
     return tmp;
 }
@@ -425,9 +427,22 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     }
 
     int max_capacity = -1;
-    if( charges.first != -1 && charges.second == -1 && new_item.is_magazine() ) {
-        const int max_ammo = new_item.ammo_capacity( item_controller->find_template(
-                                 new_item.ammo_default() )->ammo->type );
+
+    if( charges.first != -1 && charges.second == -1 && ( new_item.is_magazine() ||
+            new_item.uses_magazine() ) ) {
+        int max_ammo = 0;
+
+        if( new_item.is_magazine() ) {
+            // Get the ammo capacity of the new item itself
+            max_ammo = new_item.ammo_capacity( item_controller->find_template(
+                                                   new_item.ammo_default() )->ammo->type );
+        } else if( !new_item.magazine_default().is_null() ) {
+            // Get the capacity of the item's default magazine
+            max_ammo = item_controller->find_template( new_item.magazine_default() )->magazine->capacity;
+        }
+        // Don't change the ammo capacity from 0 if the item isn't a magazine
+        // and doesn't have a default magazine with a capacity
+
         if( max_ammo > 0 ) {
             max_capacity = max_ammo;
         }
@@ -542,6 +557,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     if( !cont.is_null() ) {
         const item_pocket::pocket_type pk_type = guess_pocket_for( cont, new_item );
         cont.put_in( new_item, pk_type );
+        cont.add_automatic_whitelist();
         new_item = cont;
         if( sealed ) {
             new_item.seal();
@@ -717,24 +733,6 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
     }
     const std::size_t items_created = list.size() - prev_list_size;
     put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
-
-    if( birthday == calendar::start_of_cataclysm ) {
-        // randomize rot value for comestibles generated at the 'start of cataclysm'
-        for( item &e : list ) {
-            e.visit_items( []( item * visit_itm, item * ) {
-                if( visit_itm->is_comestible() && visit_itm->get_comestible()->spoils > 0_turns ) {
-                    const double x_input = rng_float( 0.0, 1.0 );
-                    const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2 * x_input );
-                    visit_itm->set_rot( visit_itm->get_shelf_life() * k_rot );
-                    return VisitResponse::SKIP;
-                } else  if( visit_itm->is_container() && visit_itm->all_pockets_sealed() ) {
-                    return VisitResponse::SKIP;
-                }
-
-                return VisitResponse::NEXT;
-            } );
-        }
-    }
 
     return list.size() - prev_list_size;
 }

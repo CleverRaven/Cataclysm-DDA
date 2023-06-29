@@ -99,7 +99,7 @@ TEST_CASE( "focus" )
         CHECK( you.get_focus() == 1 );
     }
     SECTION( "time to level" ) {
-        REQUIRE( you.get_skill_level( skill_fabrication ) == 0 );
+        REQUIRE( static_cast<int>( you.get_skill_level( skill_fabrication ) ) == 0 );
         std::array<int, 11> expected_practice_times = {{
                 0, 173, 2137, 6304, 12137, 19637, 28804, 39637, 52137, 66304, 82137
             }
@@ -107,7 +107,7 @@ TEST_CASE( "focus" )
         for( int lvl = 1; lvl <= 10; ++lvl ) {
             int turns = 0;
             you.set_focus( 100 );
-            while( you.get_skill_level( skill_fabrication ) < lvl ) {
+            while( static_cast<int>( you.get_skill_level( skill_fabrication ) ) < lvl ) {
                 you.practice( skill_fabrication, 1, lvl, true );
                 if( turns % 60 == 0 ) {
                     you.update_mental_focus();

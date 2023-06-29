@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <utility>
@@ -14,10 +15,10 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "game.h"
+#include "gates.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "point.h"
 #include "submap.h"
 #include "trap.h"
@@ -100,7 +101,7 @@ struct pathfinder {
         layer.gscore[index] = gscore;
         layer.parent[index] = from;
         layer.score [index] = score;
-        open.push( std::make_pair( score, to ) );
+        open.emplace( score, to );
     }
 
     void close_point( const tripoint &p ) {
@@ -206,13 +207,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         return ret;
     }
 
-    int max_length = settings.max_length;
-    int bash = settings.bash_strength;
-    int climb_cost = settings.climb_cost;
-    bool doors = settings.allow_open_doors;
-    bool trapavoid = settings.avoid_traps;
-    bool roughavoid = settings.avoid_rough_terrain;
-    bool sharpavoid = settings.avoid_sharp;
+    const int max_length = settings.max_length;
+    const int bash = settings.bash_strength;
+    const int climb_cost = settings.climb_cost;
+    const bool doors = settings.allow_open_doors;
+    const bool locks = settings.allow_unlock_doors;
+    const bool trapavoid = settings.avoid_traps;
+    const bool roughavoid = settings.avoid_rough_terrain;
+    const bool sharpavoid = settings.avoid_sharp;
 
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     tripoint min( std::min( f.x, t.x ) - pad, std::min( f.y, t.y ) - pad, std::min( f.z, t.z ) );
@@ -327,11 +329,13 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part();
                         part = vpobst ? vpobst->part_index() : -1;
                         int dummy = -1;
-                        if( doors && veh->part_flag( part, VPFLAG_OPENABLE ) &&
-                            ( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) ||
-                              veh_at_internal( cur, dummy ) == veh ) ) {
+                        const bool is_outside_veh = veh_at_internal( cur, dummy ) != veh;
+
+                        if( doors && veh->next_part_to_open( part, is_outside_veh ) ) {
                             // Handle car doors, but don't try to path through curtains
                             newg += 10; // One turn to open, 4 to move there
+                        } else if( locks && veh->next_part_to_unlock( part, is_outside_veh ) ) {
+                            newg += 12; // 2 turns to open, 4 to move there
                         } else if( part >= 0 && bash > 0 ) {
                             // Car obstacle that isn't a door
                             // TODO: Account for armor
@@ -425,8 +429,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const ter_t &parent_terrain = parent_tile.get_ter_t();
         if( settings.allow_climb_stairs && cur.z > min.z &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
-            cata::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                                cur.z - 1, rope_ladder, false, cur );
+            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                               cur.z - 1, rope_ladder, false, cur );
             if( !opt_dest ) {
                 continue;
             }
@@ -443,8 +447,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
         if( settings.allow_climb_stairs && cur.z < max.z &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
-            cata::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                                cur.z + 1, rope_ladder, false, cur );
+            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                               cur.z + 1, rope_ladder, false, cur );
             if( !opt_dest ) {
                 continue;
             }

@@ -118,6 +118,11 @@
     "monsters": [ { "monster": "mon_spinosaurus_hatchling", "weight": 1 }, { "monster": "mon_tyrannosaurus_hatchling", "weight": 8 } ]
   },
   {
+    "name": "GROUP_EGG_tawa",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tawa_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_coelophysis",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_coelophysis_hatchling" } ]
@@ -221,6 +226,11 @@
     "name": "GROUP_EGG_albertonykus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_albertonykus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_therizinosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_therizinosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_nothronychus",

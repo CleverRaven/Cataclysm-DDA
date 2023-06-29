@@ -51,7 +51,7 @@ class smart_controller_ui
 
         // Output window. This class assumes win's size does not change.
         catacurses::window win;
-        input_context input_ctx;
+        input_context ctxt;
         // current state of settings
         const smart_controller_settings settings;
 

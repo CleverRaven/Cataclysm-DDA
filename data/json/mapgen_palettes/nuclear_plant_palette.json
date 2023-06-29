@@ -32,14 +32,12 @@
       "P": "t_sewage_pump",
       "o": "t_bulk_tank",
       "=": "t_metal_ventilation_shutter",
-      "m": [ [ "t_machinery_heavy", 40 ], [ "t_machinery_light", 40 ], [ "t_machinery_electronic", 20 ] ],
       "b": [ [ "t_oil_circ_brkr_l", 80 ], [ "t_oil_circ_brkr_s", 20 ] ],
       "e": [ [ "t_station_disc", 60 ], [ "t_current_trans", 10 ], [ "t_potential_trans", 30 ] ],
       "8": "t_potential_trans",
       "E": [ [ "t_switchgear_l", 90 ], [ "t_switchgear_s", 10 ] ],
       "n": [ [ "t_sai_box", 90 ], [ "t_sai_box_damaged", 10 ] ],
       "x": "t_rad_platform",
-      "G": "t_generator_broken",
       "y": "t_carpet_strconcrete_yellow",
       "H": "t_railroad_track_small",
       "-": "t_railroad_track",
@@ -56,6 +54,8 @@
       ">": "t_stairs_down"
     },
     "furniture": {
+      "m": [ [ "f_machinery_heavy", 40 ], [ "f_machinery_light", 40 ], [ "f_machinery_electronic", 20 ] ],
+      "G": "f_generator_broken",
       "s": "f_server",
       "w": "f_sink",
       "h": "f_water_heater",

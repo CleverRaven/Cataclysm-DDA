@@ -35,15 +35,8 @@
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch" },
-      "terrain": {
-        ",": "t_floor_blue",
-        "C": "t_centrifuge",
-        "?": "t_floor_blue",
-        "/": "t_floor_blue",
-        "7": "t_console",
-        "r": "t_floor_blue"
-      },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "C": "f_centrifuge", "7": "f_console" },
+      "terrain": { ",": "t_floor_blue", "?": "t_floor_blue", "/": "t_floor_blue", "r": "t_floor_blue" },
       "place_loot": [
         { "item": "anesthetic_kit", "x": 15, "y": 11, "repeat": [ 4, 9 ], "ammo": 100 },
         { "item": "id_science", "x": 7, "y": 11, "chance": 100 },

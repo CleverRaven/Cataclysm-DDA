@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-header-guard,cata-no-long %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-header-guard,cata-no-long %t -- --load=%cata_plugin --
 // Should not need a header guard because it's not a header.
 
 // Include another warning just to avoid the "there were no warnings in your

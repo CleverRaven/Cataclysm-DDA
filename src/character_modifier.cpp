@@ -88,7 +88,7 @@ static float load_float_or_maxmovecost( const JsonObject &jo, const std::string 
     return val;
 }
 
-void character_modifier::load( const JsonObject &jo, const std::string & )
+void character_modifier::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "description", desc );
@@ -220,9 +220,11 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     if( score == limb_score_manip ) {
         return manipulator_score( body, bp, override_encumb, override_wounds ) * effect_mul;
     } else if( score == limb_score_swim ) {
-        skill = get_skill_level( skill_swimming );
+        skill = round( get_skill_level( skill_swimming ) );
     }
     float total = 0.0f;
+    // Avoid call has_flag() in a loop to improve performance
+    bool cache_flag_EFFECT_LIMB_SCORE_MOD_LOCAL = has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL );
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         float mod = 0.0f;
         if( bp == body_part_type::type::num_types ) {
@@ -231,7 +233,7 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
             mod = id.second.get_limb_score( score, skill, override_encumb,
                                             override_wounds ) * id.first->limbtypes.at( bp );
         }
-        if( has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+        if( cache_flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) {
             for( const effect &local : get_effects_from_bp( id.first ) ) {
                 float local_mul = 1.0f;
                 // Second filter to only apply the local effects at this step (non-local modifiers are already calulated)
@@ -262,7 +264,8 @@ static float aim_speed_skill_modifier( const Character &c, const skill_id &gun_s
         skill_mult = 0.5f;
         base_modifier = -1.5f;
     }
-    return skill_mult * std::min( MAX_SKILL, c.get_skill_level( gun_skill ) ) + base_modifier;
+    return skill_mult * std::min( static_cast<float>( MAX_SKILL ),
+                                  c.get_skill_level( gun_skill ) ) + base_modifier;
 }
 
 static float aim_speed_dex_modifier( const Character &c, const skill_id & )
@@ -270,12 +273,18 @@ static float aim_speed_dex_modifier( const Character &c, const skill_id & )
     return ( c.get_dex() - 8 ) * 0.5f;
 }
 
+static float move_mode_move_cost_modifier( const Character &c, const skill_id & )
+{
+    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    // Convert stamina to a float first to allow for decimal place carrying
+    return c.move_mode->move_speed_mult();
+}
+
 static float stamina_move_cost_modifier( const Character &c, const skill_id & )
 {
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
-    float stamina_modifier = ( static_cast<float>( c.get_stamina() ) / c.get_stamina_max() + 1 ) / 2;
-    return stamina_modifier * c.move_mode->move_speed_mult();
+    return ( static_cast<float>( c.get_stamina() ) / c.get_stamina_max() + 1 ) / 2;
 }
 
 static float limb_run_cost_modifier( const Character &c, const skill_id & )
@@ -289,6 +298,7 @@ static float call_builtin( const std::string &builtin, const Character &c, const
     static const std::map<std::string, std::function<float( const Character &, const skill_id & )>>
     func_map = {
         { "limb_run_cost_modifier", limb_run_cost_modifier },
+        { "move_mode_move_cost_modifier", move_mode_move_cost_modifier },
         { "stamina_move_cost_modifier", stamina_move_cost_modifier },
         { "aim_speed_dex_modifier", aim_speed_dex_modifier },
         { "aim_speed_skill_modifier", aim_speed_skill_modifier }

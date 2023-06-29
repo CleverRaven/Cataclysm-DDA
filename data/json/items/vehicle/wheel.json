@@ -40,11 +40,11 @@
     "longest_side": "204 mm",
     "price": 3000,
     "price_postapoc": 500,
-    "bashing": 14,
     "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "wheel_mount_heavy",
@@ -57,11 +57,11 @@
     "longest_side": "254 mm",
     "price": 5000,
     "price_postapoc": 500,
-    "bashing": 14,
     "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "wheel_rim_medium",
@@ -71,14 +71,14 @@
     "description": "A medium-size steel rim for a car tire.",
     "weight": "5245 g",
     "volume": "28 L",
-    "bashing": 8,
     "to_hit": -4,
     "longest_side": "432 mm",
     "price": 5000,
     "price_postapoc": 500,
     "material": [ "steel" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_rim_motorbike",
@@ -88,14 +88,14 @@
     "description": "A steel rim for a motorbike tire.",
     "weight": "3000 g",
     "volume": "12 L",
-    "bashing": 8,
     "to_hit": -4,
     "longest_side": "508 mm",
     "price": 5000,
     "price_postapoc": 500,
     "material": [ "steel" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_rim_wide",
@@ -105,14 +105,14 @@
     "description": "A wide steel rim for a larger tire.",
     "weight": "7600 g",
     "volume": "70 L",
-    "bashing": 10,
     "to_hit": -4,
     "longest_side": "610 mm",
     "price": 5000,
     "price_postapoc": 500,
     "material": [ "steel" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wheel_rim_bicycle",
@@ -122,14 +122,14 @@
     "description": "A large, spoked rim for a bicycle tire.",
     "weight": "750 g",
     "volume": "11 L",
-    "bashing": 6,
     "to_hit": -2,
     "longest_side": "686 mm",
     "price": 5000,
     "price_postapoc": 500,
     "material": [ "aluminum" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "tire_medium",
@@ -143,12 +143,12 @@
     "longest_side": "432 mm",
     "price": 5000,
     "price_postapoc": 500,
-    "bashing": 6,
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "tire_medium_slick",
@@ -162,12 +162,12 @@
     "longest_side": "407 mm",
     "price": 20000,
     "price_postapoc": 500,
-    "bashing": 6,
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "tire_motorbike",
@@ -181,12 +181,12 @@
     "longest_side": "407 mm",
     "price": 10000,
     "price_postapoc": 300,
-    "bashing": 9,
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "tire_motorbike_or",
@@ -208,12 +208,12 @@
     "longest_side": "610 mm",
     "price": 27000,
     "price_postapoc": 550,
-    "bashing": 15,
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 15 }
   },
   {
     "id": "tire_wide_or",
@@ -234,12 +234,12 @@
     "longest_side": "686 mm",
     "price": 2000,
     "price_postapoc": 125,
-    "bashing": 8,
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "tire_bicycle_or",
@@ -260,11 +260,11 @@
     "longest_side": "432 mm",
     "price": 10000,
     "price_postapoc": 750,
-    "bashing": 12,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "deflated_wheel_slick",
@@ -278,11 +278,11 @@
     "longest_side": "407 mm",
     "price": 24000,
     "price_postapoc": 500,
-    "bashing": 14,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "deflated_wheel_motorbike",
@@ -295,11 +295,11 @@
     "longest_side": "407 mm",
     "price": 14000,
     "price_postapoc": 500,
-    "bashing": 10,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "deflated_wheel_motorbike_or",
@@ -320,11 +320,11 @@
     "longest_side": "610 mm",
     "price": 34000,
     "price_postapoc": 750,
-    "bashing": 17,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 17 }
   },
   {
     "id": "deflated_wheel_wide_or",
@@ -344,11 +344,11 @@
     "longest_side": "686 mm",
     "price": 4000,
     "price_postapoc": 250,
-    "bashing": 8,
     "to_hit": -1,
     "material": [ "aluminum", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "deflated_wheel_bicycle_or",
@@ -368,13 +368,13 @@
     "longest_side": "432 mm",
     "price": 10000,
     "price_postapoc": 750,
-    "bashing": 12,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 17,
-    "width": 9
+    "width": 9,
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "wheel_slick",
@@ -387,13 +387,13 @@
     "longest_side": "407 mm",
     "price": 24000,
     "price_postapoc": 500,
-    "bashing": 14,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 16,
-    "width": 11
+    "width": 11,
+    "melee_damage": { "bash": 14 }
   },
   {
     "type": "WHEEL",
@@ -406,13 +406,13 @@
     "longest_side": "813 mm",
     "price": 34000,
     "price_postapoc": 750,
-    "bashing": 17,
     "to_hit": -1,
     "material": [ "qt_steel", "ceramic" ],
     "symbol": "]",
     "color": "green",
     "diameter": 32,
-    "width": 20
+    "width": 20,
+    "melee_damage": { "bash": 17 }
   },
   {
     "id": "wheel_barrow",
@@ -425,13 +425,13 @@
     "longest_side": "204 mm",
     "price": 2000,
     "price_postapoc": 250,
-    "bashing": 10,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 8,
-    "width": 3
+    "width": 3,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wheel_bicycle",
@@ -444,13 +444,13 @@
     "longest_side": "686 mm",
     "price": 4000,
     "price_postapoc": 250,
-    "bashing": 8,
     "to_hit": -1,
     "material": [ "aluminum", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 27,
-    "width": 3
+    "width": 3,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_bicycle_or",
@@ -470,13 +470,13 @@
     "longest_side": "102 mm",
     "price": 14000,
     "price_postapoc": 100,
-    "bashing": 6,
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 4,
-    "width": 1
+    "width": 1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "wheel_10",
@@ -489,13 +489,13 @@
     "longest_side": "254 mm",
     "price": 14000,
     "price_postapoc": 500,
-    "bashing": 6,
     "to_hit": -1,
     "material": [ "rubber", "steel" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 10,
-    "width": 4
+    "width": 4,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "wheel_metal",
@@ -508,13 +508,13 @@
     "longest_side": "508 mm",
     "price": 1200,
     "price_postapoc": 250,
-    "bashing": 8,
     "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_gray",
     "diameter": 20,
-    "width": 4
+    "width": 4,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_rail",
@@ -527,13 +527,13 @@
     "longest_side": "508 mm",
     "price": 1200,
     "price_postapoc": 250,
-    "bashing": 8,
     "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_gray",
     "diameter": 20,
-    "width": 4
+    "width": 4,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_rail_small_pair",
@@ -560,13 +560,13 @@
     "longest_side": "407 mm",
     "price": 14000,
     "price_postapoc": 500,
-    "bashing": 10,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 16,
-    "width": 4
+    "width": 4,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wheel_motorbike_or",
@@ -588,13 +588,13 @@
     "longest_side": "1524 mm",
     "price": 50000,
     "price_postapoc": 1500,
-    "bashing": 60,
     "to_hit": -2,
     "material": [ "steel" ],
     "symbol": "m",
     "color": "light_gray",
     "diameter": 60,
-    "width": 30
+    "width": 30,
+    "melee_damage": { "bash": 60 }
   },
   {
     "id": "wheel_small",
@@ -607,13 +607,13 @@
     "longest_side": "254 mm",
     "price": 14000,
     "price_postapoc": 100,
-    "bashing": 10,
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 10,
-    "width": 3
+    "width": 3,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wheel_skate",
@@ -626,13 +626,13 @@
     "longest_side": "77 mm",
     "price": 1400,
     "price_postapoc": 10,
-    "bashing": 1,
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 3,
-    "width": 1
+    "width": 1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "wheel_tricycle",
@@ -645,13 +645,13 @@
     "longest_side": "178 mm",
     "price": 7000,
     "price_postapoc": 100,
-    "bashing": 3,
     "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 7,
-    "width": 1
+    "width": 1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "wheel_wheelchair",
@@ -664,13 +664,13 @@
     "longest_side": "508 mm",
     "price": 8000,
     "price_postapoc": 250,
-    "bashing": 8,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 20,
-    "width": 2
+    "width": 2,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_wide",
@@ -683,13 +683,13 @@
     "longest_side": "610 mm",
     "price": 34000,
     "price_postapoc": 750,
-    "bashing": 17,
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 24,
-    "width": 14
+    "width": 14,
+    "melee_damage": { "bash": 17 }
   },
   {
     "id": "wheel_wide_or",
@@ -708,13 +708,13 @@
     "volume": "8750 ml",
     "longest_side": "508 mm",
     "price": 1200,
-    "bashing": 8,
     "to_hit": -4,
     "material": [ "wood" ],
     "symbol": "]",
     "color": "brown",
     "diameter": 20,
-    "width": 3
+    "width": 3,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_wood_b",

@@ -86,7 +86,7 @@
     "color": "magenta",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "You inject the %s in hopes of ending your thirst for blood.",
+      "description": "Inject the treatment.",
       "effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ]
     },
     "flags": [ "NPC_SAFE", "TRADER_AVOID" ]

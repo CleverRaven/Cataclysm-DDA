@@ -60,6 +60,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "TREE_TAP",
+    "name": { "str": "tree tapping" }
+  },
+  {
+    "type": "tool_quality",
     "id": "SMOOTH",
     "name": { "str": "smoothing" }
   },
@@ -353,6 +358,12 @@
     "id": "WHEEL_FAST",
     "//": "A tool that is capable of manipulating the lug nuts of a vehicle's wheels or smaller to replace or fasten them.",
     "name": { "str": "wheel fastening" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "JUMPSTART",
+    "//": "A tool that is capable of charging something with electricity.",
+    "name": { "str": "jump starting" }
   },
   {
     "type": "tool_quality",

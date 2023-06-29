@@ -53,6 +53,7 @@ class advanced_inventory
             NUM_PANES = 2
         };
         static constexpr int head_height = 5;
+        bool move_all_items_and_waiting_to_quit = false;
 
         std::unique_ptr<ui_adaptor> ui;
         std::unique_ptr<string_input_popup> spopup;

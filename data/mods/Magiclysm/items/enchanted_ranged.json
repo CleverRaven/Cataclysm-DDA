@@ -35,7 +35,7 @@
         }
       ]
     },
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "dampening", 1 ] ],
     "ranged_damage": { "damage_type": "stab", "amount": 9 },
     "range": 13,
     "dispersion": 855
@@ -51,7 +51,6 @@
     "longest_side": "25 cm",
     "price": 74000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -63,7 +62,6 @@
     "loudness": 23,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "accessories", 1 ],
       [ "mechanism", 1 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
@@ -73,7 +71,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "380": 6, "357mag": 6, "38": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "380": 6, "357mag": 6, "38": 6 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "enchanted_blackpowder_pistol",
@@ -84,7 +83,6 @@
     "price": 74000,
     "price_postapoc": 25750,
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -96,16 +94,10 @@
     "durability": 7,
     "loudness": 23,
     "reload": 600,
-    "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "gunblade",
@@ -117,8 +109,6 @@
     "longest_side": "90 cm",
     "price": 8000,
     "to_hit": 2,
-    "bashing": 10,
-    "cutting": 32,
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
@@ -140,7 +130,8 @@
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ],
+    "melee_damage": { "bash": 10, "cut": 32 }
   },
   {
     "id": "boreal_mosin",
@@ -153,7 +144,6 @@
     "clip_size": 5,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -167,7 +157,7 @@
     ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 }, "allowed_speedloaders": [ "borealmosin_clip" ] } ],
-    "proportional": { "price": 3, "price_postapoc": 3, "bashing": 1.1, "weight": 0.9, "dispersion": 0.9 },
+    "proportional": { "price": 3, "price_postapoc": 3, "weight": 0.9, "dispersion": 0.9, "melee_damage": { "bash": 1.1 } },
     "relative": { "to_hit": 1 }
   },
   {
@@ -196,7 +186,6 @@
     "longest_side": "130 cm",
     "ammo": [ "barb" ],
     "clip_size": 1,
-    "bashing": 5,
     "to_hit": 1,
     "ranged_damage": { "damage_type": "bullet", "amount": 24 },
     "reload_noise_volume": 2,
@@ -213,7 +202,8 @@
       "need_wielding": true,
       "ammo_scale": 0,
       "moves": 400
-    }
+    },
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "AMMO",
@@ -227,13 +217,12 @@
     "flags": [ "TRADER_AVOID" ],
     "volume": "250ml",
     "weight": "37 g",
-    "bashing": 6,
-    "cutting": 2,
     "ammo_type": "barb",
     "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 10 },
     "dispersion": 120,
     "loudness": 0,
     "count": 10,
-    "show_stats": true
+    "show_stats": true,
+    "melee_damage": { "bash": 6, "cut": 2 }
   }
 ]

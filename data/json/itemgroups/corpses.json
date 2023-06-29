@@ -90,6 +90,8 @@
       [ "corpse_generic_boy", 15 ],
       [ "corpse_generic_girl", 15 ],
       [ "corpse_generic_human", 10 ],
+      [ "corpse_generic_gunned", 40 ],
+      [ "corpse_generic_infected", 40 ],
       [ "corpse_bloody", 10 ],
       [ "corpse_painful", 10 ],
       [ "corpse_scorched", 10 ],
@@ -101,6 +103,11 @@
       [ "corpse_child_gunned", 10 ],
       [ "corpse_oldwoman_jewelry", 10 ]
     ]
+  },
+  {
+    "id": "corpses_bodybag",
+    "type": "item_group",
+    "items": [ { "group": "corpses", "prob": 100, "container-item": "bag_body_bag" } ]
   },
   {
     "id": "corpse_male",

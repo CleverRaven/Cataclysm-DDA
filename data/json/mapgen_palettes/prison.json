@@ -95,7 +95,10 @@
       "d": [ { "item": "magazines", "chance": 30, "repeat": [ 1, 5 ] }, { "item": "SUS_office_desk", "chance": 30 } ],
       "0": [
         { "item": "prison_weapons", "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "prison_armor", "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "prison_armor", "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "police_armory_any_pistol", "chance": 8 },
+        { "item": "police_armory_any_assaultrifle", "chance": 3 },
+        { "item": "police_armory_any_shotgun", "chance": 3 }
       ],
       "1": { "item": "SUS_office_filing_cabinet", "chance": 50 },
       "o": { "item": "novels", "chance": 70, "repeat": [ 1, 3 ] },
@@ -211,6 +214,14 @@
     "id": "prison_island_palette",
     "palettes": [ "prison_base_palette" ],
     "terrain": {
+      " ": [
+        [ "t_region_groundcover_urban", 20 ],
+        [ "t_region_groundcover_barren", 5 ],
+        [ "t_region_shrub", 2 ],
+        [ "t_region_tree", 1 ]
+      ],
+      "<": "t_slope_down",
+      "§": "t_stairs_down",
       ":": "t_region_groundcover_barren",
       "*": "t_region_groundcover_barren",
       ";": "t_thconc_floor",
@@ -221,6 +232,7 @@
       "’": "t_concrete",
       "'": "t_concrete",
       "Ø": "t_concrete",
+      "%": "t_thconc_floor",
       "8": "t_concrete",
       "J": "t_linoleum_white",
       "Б": "t_linoleum_white",
@@ -234,6 +246,7 @@
       "I": "t_dock",
       "{": "t_dock",
       "¦": "t_slope_down",
+      "¡": "t_region_groundcover",
       "µ": "t_gates_control_metal",
       "¶": "t_card_industrial",
       "}": "t_door_metal_locked",
@@ -248,9 +261,11 @@
       "Z": "t_fence_rope",
       "Д": "t_sewage_pump",
       "д": "t_sewage_pipe",
-      "Е": "t_water_pump"
+      "Е": "t_water_pump",
+      "V": "t_thconc_floor"
     },
     "furniture": {
+      "<": "f_bookcase",
       "{": "f_bitts",
       "%": "f_air_conditioner",
       "£": "f_control_station",
@@ -278,6 +293,7 @@
       "л": "f_rack_coat",
       "А": "f_speaker_cabinet",
       "а": "f_fridge",
+      "ё": "f_counter",
       "Ё": "f_active_backup_generator",
       "З": "f_bookcase",
       "Н": "f_bookcase",

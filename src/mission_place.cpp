@@ -1,6 +1,6 @@
+#include "city.h"
 #include "coordinates.h"
 #include "mission.h" // IWYU pragma: associated
-#include "overmap.h"
 #include "overmapbuffer.h"
 
 // Input position is in global overmap terrain coordinates!

@@ -22,7 +22,7 @@
     "subtype": "hobby",
     "id": "crackhead",
     "name": "Crack Cocaine Dependence",
-    "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some rocks, and before you knew it you were turning tricks behind the local pharmacy just to score a little more.  Where are you going to get your next fix now?",
+    "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some rocks, and before you knew it you were turning tricks behind the local pharmacy just to score a little more.  Where are you going to get your fix now?",
     "points": -2,
     "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 20, "type": "crack" } ]
@@ -69,11 +69,20 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "caffiend",
+    "name": "Caffeine Fiend",
+    "description": "Caffeine gave you life and without it you are nothing.  Your dependence upon it was so extreme that you can barely function in its absence and you've done lasting psychological harm to yourself.  You'd better find a steady supply, and fast.",
+    "points": -1,
+    "traits": [ "STIMBOOST", "SLEEPY" ],
+    "addictions": [ { "intensity": 50, "type": "caffeine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "caffeine_junkie",
     "name": "Caffeine Dependence",
     "description": "Coffee was your faithful companion every morning, and without it you feel like a zombie.  Thanks to all the actual zombies shambling about, getting your caffeine fix will be much harder now.",
     "points": -1,
-    "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ]
   },
   {
@@ -189,6 +198,17 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "wrestling",
+    "name": "Wrestling",
+    "description": "While not the type of wrestler to use folding chairs as weapons, you have experience wrasslin' and tusslin' with others out on the mat.  There's no referees around to see, but hopefully your skills will help you avoid getting pinned by the undead.",
+    "points": 4,
+    "//": "If Grab Break ever becomes a proficiency instead of tied to martial arts, it should absolutely be added here and replace Fast Reflexes.",
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
+    "traits": [ "FAST_REFLEXES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "vid_games",
     "name": "Video Gaming",
     "description": "You loved immersing yourself in virtual worlds through video games.  Now you're faced with real survival horror, and no extra lives.",
@@ -255,6 +275,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "cheesemaking",
+    "name": "Cheesemaking",
+    "description": "The art of producing the finest quality cheeses has been passed down through your family for generations.  How useful these skills will be in the apocalypse remains to *brie* seen.",
+    "points": 2,
+    "proficiencies": [ "prof_food_prep", "prof_cheesemaking_1", "prof_cheesemaking_2" ],
+    "skills": [ { "level": 3, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "paintball",
     "name": "Paintball",
     "description": "Pretending to shoot at your friends has always been fun.  Now you can do it for real.",
@@ -313,7 +343,7 @@
     "subtype": "hobby",
     "id": "sewing",
     "name": "Sewing",
-    "description": "You used to sew torn clothes back together, and have even made your own clothes a few times.",
+    "description": "You are quite good at sewing torn clothes back together, and have even made your own clothes a few times.",
     "points": 3,
     "proficiencies": [ "prof_closures", "prof_elastics", "prof_knitting" ],
     "skills": [ { "level": 3, "name": "tailor" }, { "level": 1, "name": "fabrication" } ]
@@ -352,7 +382,7 @@
     "subtype": "hobby",
     "id": "self_defense",
     "name": "Self-Defense",
-    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a local gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "points": 4,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
     "traits": [ "MARTIAL_ARTS2" ]
@@ -397,7 +427,7 @@
     "subtype": "hobby",
     "id": "gourmand_alt",
     "name": "Competitive Eating",
-    "description": "You were a professional eater before the Cataclysm and frequently participated in eating contests.  Thanks to your training you can eat huge amounts of food without getting sick, and while eating forty hot dogs in ten minutes might not be too useful in a world of zombies, your fortitude might help you survive off food other survivors would pass over.",
+    "description": "You were a professional eater before the Cataclysm and frequently participated in eating contests.  Thanks to your training, you can eat huge amounts of food without getting sick, and while eating forty hot dogs in ten minutes might not be too useful in the apocalypse, your fortitude might help you survive off food other survivors would pass over.",
     "points": 3,
     "traits": [ "GOURMAND", "STRONGSTOMACH" ]
   },
@@ -507,7 +537,7 @@
     "id": "handloading",
     "description": "You figured you could save money on ammo by learning to make your own.  Now that the factories are shut down, your abilities just went from handy to lifesaving.",
     "points": 3,
-    "proficiencies": [ "prof_handloading" ],
+    "proficiencies": [ "prof_handloading", "prof_gun_cleaning" ],
     "skills": [ { "level": 3, "name": "fabrication" }, { "level": 2, "name": "gun" } ]
   },
   {
@@ -526,7 +556,7 @@
     "subtype": "hobby",
     "id": "ham_radio_operator",
     "name": "Ham Radio",
-    "description": "You whiled your nights away using, building and repairing old ham radios.  Now you have no one to talk to. But you won't give up hope, and maybe your electronics knowledge can help you somehow.",
+    "description": "You whiled your nights away using, building, and repairing old ham radios.  Now you have no one to talk to. But you won't give up hope, and maybe your electronics knowledge can help you somehow.",
     "points": 2,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits" ]
@@ -565,6 +595,7 @@
     "name": "Target Shooting",
     "description": "You liked going to the local gun range and shooting at some targets or blasting cans off of fence posts.  Maybe if you just imagine targets on those undead, this could help.",
     "points": 2,
+    "proficiencies": [ "prof_gun_cleaning" ],
     "skills": [ { "level": 3, "name": "gun" } ]
   },
   {
@@ -582,8 +613,9 @@
     "subtype": "hobby",
     "id": "trap_shooting",
     "name": "Trap Shooting",
-    "description": "Nothing like the smell of gunsmoke and blowing ceramic orange discs out of the sky.  Time to shoot at things a little fleshier than clay pigeons.",
+    "description": "You loved the smell of gunsmoke and blowing ceramic discs out of the sky.  Your future will likely involve shooting things a little fleshier than clay pigeons.",
     "points": 2,
+    "proficiencies": [ "prof_gun_cleaning" ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "shotgun" } ]
   },
   {
@@ -608,6 +640,16 @@
   },
   {
     "type": "profession",
+    "subtype": "hobby",
+    "id": "home_improvement",
+    "name": "Home Improvement",
+    "points": 2,
+    "description": "You'd fix up any holes and appliances in your own home with nothing but your two hands and some elbow grease.  You did it to save money on repairmen, but now it seems you'll do it to save your life.",
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "mechanics" }, { "level": 1, "name": "electronics" } ],
+    "proficiencies": [ "prof_carpentry_basic", "prof_appliance_repair" ]
+  },
+  {
+    "type": "profession",
     "id": "fishing",
     "subtype": "hobby",
     "name": "Fishing",
@@ -623,7 +665,7 @@
     "name": "Home Gunsmithing",
     "description": "You could have been the next Browning, if not for the those pesky corpses walking around.  It's time to test for accuracy.",
     "points": 3,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv", "prof_gun_cleaning" ],
     "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "traps" } ]
   },
   {

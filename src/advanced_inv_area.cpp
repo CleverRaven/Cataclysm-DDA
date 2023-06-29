@@ -4,6 +4,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -22,7 +23,6 @@
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "trap.h"
@@ -90,7 +90,7 @@ void advanced_inv_area::init()
             off = player_character.grab_point;
             // Reset position because offset changed
             pos = player_character.pos() + off;
-            if( const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO",
+            if( const std::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO",
                     false ) ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
@@ -109,6 +109,7 @@ void advanced_inv_area::init()
             }
             break;
         case AIM_CONTAINER:
+        case AIM_CONTAINER2:
             // set container position based on location
             set_container_position();
             // location always valid, actual check is done in canputitems()
@@ -131,7 +132,7 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST: {
-            const cata::optional<vpart_reference> vp =
+            const std::optional<vpart_reference> vp =
                 here.veh_at( pos ).part_with_feature( "CARGO", false );
             if( vp ) {
                 veh = &vp->vehicle();
@@ -206,7 +207,8 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     // e.g. dragged vehicle (to the south) and AIM_SOUTH are the same.
     if( id != AIM_INVENTORY && other.id != AIM_INVENTORY &&
         id != AIM_WORN && other.id != AIM_WORN &&
-        id != AIM_CONTAINER && other.id != AIM_CONTAINER ) {
+        ( id != AIM_CONTAINER && other.id != AIM_CONTAINER ) &&
+        ( id != AIM_CONTAINER2 && other.id != AIM_CONTAINER2 ) ) {
         //     have a vehicle?...     ...do the cargo index and pos match?...    ...at least pos?
         return veh == other.veh ? pos == other.pos && vstor == other.vstor : pos == other.pos;
     }
@@ -218,7 +220,8 @@ bool advanced_inv_area::canputitems( const item_location &container ) const
 {
     bool canputitems = false;
     switch( id ) {
-        case AIM_CONTAINER: {
+        case AIM_CONTAINER:
+        case AIM_CONTAINER2: {
             if( container ) {
                 if( container.get_item()->is_container() ) {
                     canputitems = true;
@@ -269,7 +272,7 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = player_character.pos() + off;
     // update vehicle information
-    if( const cata::optional<vpart_reference> vp = get_map().veh_at( pos ).part_with_feature( "CARGO",
+    if( const std::optional<vpart_reference> vp = get_map().veh_at( pos ).part_with_feature( "CARGO",
             false ) ) {
         veh = &vp->vehicle();
         vstor = vp->part_index();
@@ -312,7 +315,7 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
     std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
     for( item &elem : items ) {
-        const auto id = elem.typeId();
+        const itype_id id = elem.typeId();
         auto iter = cache.find( id );
         bool got_stacked = false;
         // cache entry exists

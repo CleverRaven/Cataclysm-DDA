@@ -19,10 +19,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 1,
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
     "bleed_rate": 80,
     "vision_day": 50,
     "vision_night": 3,
@@ -31,7 +28,8 @@
     "dissect": "dissect_beast_sample_small",
     "upgrades": { "half_life": 42, "into": "mon_flesh_golem" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 }
   },
   {
     "id": "mon_flesh_golem",
@@ -53,10 +51,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 6,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 1,
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
     "bleed_rate": 60,
     "vision_day": 50,
     "vision_night": 3,
@@ -65,7 +60,8 @@
     "dissect": "dissect_beast_sample_small",
     "upgrades": { "half_life": 60, "into": "mon_jabberwock" },
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ],
+    "armor": { "bash": 6, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
     "id": "mon_jabberwock",
@@ -87,11 +83,8 @@
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
     "dodge": 3,
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "armor_elec": 3,
     "bleed_rate": 40,
     "vision_day": 50,
     "vision_night": 3,
@@ -99,6 +92,7 @@
     "harvest": "jabberwock",
     "dissect": "dissect_beast_sample_large",
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON", "NEVER_WANDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON", "NEVER_WANDER" ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 3 }
   }
 ]

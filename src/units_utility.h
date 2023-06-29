@@ -22,7 +22,20 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
  *
  * With a second argument, can use a different maximum.
  */
-units::angle normalize( units::angle a, const units::angle &mod = 360_degrees );
+units::angle normalize( units::angle a, units::angle mod = 360_degrees );
+
+// @example angle_delta( 270_degrees, 0_degrees ) == 90_degrees
+// @example angle_delta( 90_degrees, 0_degrees ) == 90_degrees
+// @returns the smaller difference angle between \p a and \p b angles
+units::angle angle_delta( units::angle a, units::angle b );
+
+// convert angle to nearest of 0=north, 1=west, 2=south, 3=east, NE/NW return N, SE/SW return S,
+// this is used to render vehicle parts in tiles mode where they only have 4 orientations and
+// biased to north / south.
+int angle_to_dir4( units::angle direction );
+
+// convert angle to nearest of 0=north 1=NE 2=east 3=SE...
+int angle_to_dir8( units::angle direction );
 
 template<typename T, typename U, std::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
 units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of )

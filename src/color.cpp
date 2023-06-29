@@ -614,13 +614,13 @@ std::string hilite_string( const std::string &text )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color color_from_string( const std::string &color,
+nc_color color_from_string( const std::string_view color,
                             const report_color_error color_error )
 {
     if( color.empty() ) {
         return c_unset;
     }
-    std::string new_color = color;
+    std::string new_color( color );
     if( new_color.substr( 1, 1 ) != "_" ) { //c_  //i_  //h_
         new_color = "c_" + new_color;
     }
@@ -697,7 +697,7 @@ nc_color bgcolor_from_string( const std::string &color )
     return i_white;
 }
 
-color_tag_parse_result get_color_from_tag( const std::string &s,
+color_tag_parse_result get_color_from_tag( const std::string_view s,
         const report_color_error color_error )
 {
     if( s.empty() || s[0] != '<' ) {
@@ -713,7 +713,7 @@ color_tag_parse_result get_color_from_tag( const std::string &s,
     if( tag_close == std::string::npos ) {
         return { color_tag_parse_result::non_color_tag, {} };
     }
-    std::string color_name = s.substr( 7, tag_close - 7 );
+    std::string_view color_name = s.substr( 7, tag_close - 7 );
     const nc_color color = color_from_string( color_name, color_error );
     if( color != c_unset ) {
         return { color_tag_parse_result::open_color_tag, color };
@@ -761,9 +761,11 @@ std::string get_note_string_from_color( const nc_color &color )
     return "Y";
 }
 
-nc_color get_note_color( const std::string &note_id )
+nc_color get_note_color( const std::string_view note_id )
 {
-    const auto candidate_color = color_by_string_map.find( note_id );
+    // TODO in C++20 we can pass a string_view in directly rather than
+    // constructing a string to use as the find argument
+    const auto candidate_color = color_by_string_map.find( std::string( note_id ) );
     if( candidate_color != std::end( color_by_string_map ) ) {
         return candidate_color->second.color;
     }
@@ -859,9 +861,8 @@ void color_manager::show_gui()
     const int iMaxColors = color_array.size();
     bool bStuffChanged = false;
     input_context ctxt( "COLORS" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "REMOVE_CUSTOM" );
@@ -916,7 +917,7 @@ void color_manager::show_gui()
         // display color manager
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
             if( i >= iStartPos &&
-                i < iStartPos + ( iContentHeight > iMaxColors ? iMaxColors : iContentHeight ) ) {
+                i < iStartPos + std::min( iContentHeight, iMaxColors ) ) {
                 color_manager::color_struct &entry = iter->second;
 
                 if( iCurrentLine == i ) {
@@ -952,42 +953,9 @@ void color_manager::show_gui()
         const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "QUIT" ) {
             break;
-        } else if( action == "UP" ) {
-            iCurrentLine--;
-            if( iCurrentLine < 0 ) {
-                iCurrentLine = recmax - 1;
-            }
-        } else if( action == "DOWN" ) {
-            iCurrentLine++;
-            if( iCurrentLine >= recmax ) {
-                iCurrentLine = 0;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( iCurrentLine == recmax - 1 ) {
-                iCurrentLine = 0;
-            } else if( iCurrentLine + scroll_rate >= recmax ) {
-                iCurrentLine = recmax - 1;
-            } else {
-                iCurrentLine += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( iCurrentLine == 0 ) {
-                iCurrentLine = recmax - 1;
-            } else if( iCurrentLine <= scroll_rate ) {
-                iCurrentLine = 0;
-            } else {
-                iCurrentLine += -scroll_rate;
-            }
-        } else if( action == "LEFT" ) {
-            iCurrentCol--;
-            if( iCurrentCol < 1 ) {
-                iCurrentCol = iTotalCols;
-            }
-        } else if( action == "RIGHT" ) {
-            iCurrentCol++;
-            if( iCurrentCol > iTotalCols ) {
-                iCurrentCol = 1;
-            }
+        } else if( navigate_ui_list( action, iCurrentLine, scroll_rate, recmax, true ) ) {
+        } else if( action == "LEFT" || action == "RIGHT" ) {
+            iCurrentCol = inc_clamp_wrap( iCurrentCol, 1, iTotalCols );
         } else if( action == "REMOVE_CUSTOM" ) {
             color_manager::color_struct &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 

@@ -59,7 +59,7 @@
       { "item": "waist_apron_long", "prob": 5 },
       { "item": "waist_apron_short", "prob": 5 },
       { "item": "apron_cotton", "variant": "camo_apron_cotton", "prob": 10 },
-      { "item": "apron_cotton", "variant": "maid_apron", "prob": 20 },
+      { "item": "apron_cotton", "variant": "maid_apron", "prob": 15 },
       { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
       { "item": "waist_apron_short", "variant": "camo_apron_cotton", "prob": 5 },
       { "item": "waist_apron_short", "variant": "maid_apron", "prob": 10 },
@@ -93,6 +93,7 @@
       { "item": "cloak_leather", "prob": 20 },
       { "item": "cloak_wool", "prob": 10 },
       { "item": "pride_flag", "prob": 2 },
+      { "item": "national_flag", "prob": 1 },
       { "item": "state_flag", "prob": 1 }
     ]
   },
@@ -271,7 +272,7 @@
     "entries": [
       { "item": "santa_pants", "prob": 20 },
       { "item": "santa_shorts", "prob": 10 },
-      { "item": "flag_pants", "prob": 15 },
+      { "item": "pants", "variant": "pants_flag", "prob": 15 },
       { "item": "trousers_ninja", "prob": 10 },
       { "item": "pants_army", "prob": 10 },
       { "item": "striped_pants", "prob": 15 },
@@ -298,7 +299,7 @@
     "//": "shirts for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "cheerleader_top", "prob": 25 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 25 },
       { "item": "cheerleader_top_short", "prob": 35 },
       { "item": "rashguard", "variant": "lifeguard_rashguard_shirt", "prob": 10 },
       { "item": "rashguard", "variant": "skull_rashguard_shirt", "prob": 10 },
@@ -370,7 +371,7 @@
     "entries": [
       { "item": "flag_jumpsuit", "prob": 25 },
       { "item": "flag_shirt", "prob": 25 },
-      { "item": "flag_pants", "prob": 25 },
+      { "item": "pants", "variant": "pants_flag", "prob": 25 },
       { "item": "american_flag", "prob": 25 },
       { "group": "costume_independence_undergarments_women", "prob": 25 },
       { "item": "rashguard", "variant": "flag_rashguard_shirt", "prob": 15 },
@@ -407,7 +408,7 @@
     "id": "costume_cheerleader_set",
     "//": "clothing set for a normal cheerleader outfit",
     "subtype": "collection",
-    "entries": [ { "item": "cheerleader_top", "prob": 100 }, { "item": "cheerleader_skirt", "prob": 100 } ]
+    "entries": [ { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 100 }, { "item": "cheerleader_skirt", "prob": 100 } ]
   },
   {
     "type": "item_group",

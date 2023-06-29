@@ -1,0 +1,52 @@
+[
+  {
+    "id": "fd_mirrored",
+    "type": "field_type",
+    "//": "Similar effect to Angle Dog Fog.",
+    "intensity_levels": [
+      {
+        "name": "rainbow glimmer",
+        "color": "light_green_yellow",
+        "sym": "^",
+        "dangerous": true,
+        "intensity_upgrade_chance": 10,
+        "intensity_upgrade_duration": "6 hours"
+      },
+      {
+        "name": "nauseating tension",
+        "color": "cyan",
+        "monster_spawn_chance": 200,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_CHANGELING_MIRRORED_FIELD"
+      },
+      {
+        "name": "broken reflections",
+        "color": "magenta_yellow",
+        "transparent": false,
+        "monster_spawn_chance": 100,
+        "monster_spawn_count": 3,
+        "monster_spawn_radius": 6,
+        "monster_spawn_group": "GROUP_CHANGELING_MIRRORED_FIELD"
+      }
+    ],
+    "description_affix": "under",
+    "priority": 8,
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_blood_karma",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "karma splatter", "color": "cyan" }, { "name": "karma stain" }, { "name": "puddle of karma" } ],
+    "description_affix": "covered_in",
+    "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
+    "is_splattering": true,
+    "half_life": "2 days",
+    "phase": "liquid",
+    "accelerated_decay": true,
+    "display_field": true
+  }
+]

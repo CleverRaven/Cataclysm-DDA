@@ -9,7 +9,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "ANIMIST" ],
-    "spells_learned": [ [ "create_rune_magus", 1 ] ]
+    "spells_learned": [ [ "create_rune_magus", 0 ] ]
   },
   {
     "type": "mutation",
@@ -21,7 +21,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "MAGUS" ],
-    "spells_learned": [ [ "create_rune_animist", 1 ] ]
+    "spells_learned": [ [ "create_rune_animist", 0 ] ]
   },
   {
     "type": "mutation",
@@ -32,18 +32,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "school": "KELVINIST" }, "/", { "const": -6 } ] }
-          }
-        ]
-      }
-    ],
+    "enchantments": [ "KELVINIST" ],
     "cancels": [ "STORMSHAPER" ],
-    "spells_learned": [ [ "create_rune_kelvinist", 1 ] ]
+    "spells_learned": [ [ "create_rune_kelvinist", 0 ] ]
   },
   {
     "type": "mutation",
@@ -54,18 +45,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "ARMOR_ELEC",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "school": "STORMSHAPER" }, "/", { "const": -6 } ] }
-          }
-        ]
-      }
-    ],
+    "enchantments": [ "STORMSHAPER" ],
     "cancels": [ "KELVINIST" ],
-    "spells_learned": [ [ "create_rune_stormshaper", 1 ] ]
+    "spells_learned": [ [ "create_rune_stormshaper", 0 ] ]
   },
   {
     "type": "mutation",
@@ -77,7 +59,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "EARTHSHAPER" ],
-    "spells_learned": [ [ "create_rune_technomancer", 1 ] ]
+    "spells_learned": [ [ "create_rune_technomancer", 0 ] ]
   },
   {
     "type": "mutation",
@@ -89,7 +71,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "TECHNOMANCER" ],
-    "spells_learned": [ [ "create_rune_earthshaper", 1 ] ]
+    "spells_learned": [ [ "create_rune_earthshaper", 0 ] ]
   },
   {
     "type": "mutation",
@@ -101,7 +83,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "DRUID" ],
-    "spells_learned": [ [ "create_rune_biomancer", 1 ] ]
+    "spells_learned": [ [ "create_rune_biomancer", 0 ] ]
   },
   {
     "type": "mutation",
@@ -113,6 +95,6 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "BIOMANCER" ],
-    "spells_learned": [ [ "create_rune_druid", 1 ] ]
+    "spells_learned": [ [ "create_rune_druid", 0 ] ]
   }
 ]

@@ -237,12 +237,10 @@
     "melee_dice": 3,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "armor_bullet": 5,
     "vision_night": 4,
     "harvest": "zombie_thorny",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "PARA_STING", 30 ] ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, [ "PARA_STING", 30 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_fiend",
     "upgrades": { "half_life": 21, "into": "mon_hulk_thorns" },
@@ -251,6 +249,7 @@
       "HEARS",
       "SMELLS",
       "STUMBLES",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -259,7 +258,8 @@
       "PUSH_MON",
       "FILTHY",
       "PARALYZEVENOM"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 6, "bullet": 5 }
   },
   {
     "id": "mon_hulk_thorns",
@@ -283,9 +283,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 8,
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "vision_day": 83,
     "vision_night": 4,
     "harvest": "zombie_thorny",
@@ -306,7 +303,8 @@
       "PUSH_VEH",
       "FILTHY",
       "PARALYZEVENOM"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 12, "bullet": 10 }
   },
   {
     "id": "mon_shrieker_vines",
@@ -334,7 +332,8 @@
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "zombie_thorny",
-    "special_attacks": [ [ "SHRIEK", 10 ], [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ [ "SHRIEK", 10 ], { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -345,6 +344,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -424,7 +424,7 @@
     "dodge": 2,
     "vision_night": 3,
     "harvest": "zombie_thorny",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -435,6 +435,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -468,9 +469,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 5,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "weakpoints": [
       { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -480,9 +478,10 @@
     "vision_night": 3,
     "harvest": "zombie_thorny",
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
+    "grab_strength": 30,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_humanoid",
         "cooldown": 4,
         "accuracy": 5,
         "damage_max_instance": [
@@ -490,7 +489,7 @@
           { "damage_type": "bash", "amount": 10, "armor_multiplier": 0.3 }
         ]
       },
-      [ "GRAB", 4 ]
+      { "id": "grab", "cooldown": 4 }
     ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -500,6 +499,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -510,6 +510,7 @@
       "FILTHY",
       "WATER_CAMOUFLAGE",
       "PARALYZEVENOM"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 2, "bullet": 2 }
   }
 ]

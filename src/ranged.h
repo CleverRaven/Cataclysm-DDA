@@ -19,7 +19,7 @@ class vehicle;
 struct vehicle_part;
 
 // Recoil change less or equal to this value (in MoA) stops further aiming
-static constexpr double MIN_RECOIL_IMPROVEMENT = 0.01;
+constexpr double MIN_RECOIL_IMPROVEMENT = 0.01;
 
 namespace target_handler
 {

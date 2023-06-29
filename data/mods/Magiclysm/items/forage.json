@@ -60,6 +60,7 @@
     "id": "foraging_faction_camp_spring",
     "type": "item_group",
     "copy-from": "foraging_faction_camp_spring",
+    "subtype": "distribution",
     "extend": {
       "entries": [
         { "item": "golden_reed_stalk", "count": [ 1, 4 ], "prob": 1 },
@@ -71,6 +72,7 @@
     "id": "foraging_faction_camp_summer",
     "type": "item_group",
     "copy-from": "foraging_faction_camp_summer",
+    "subtype": "distribution",
     "extend": {
       "entries": [
         { "item": "golden_reed_stalk", "count": [ 1, 4 ], "prob": 1 },
@@ -83,6 +85,7 @@
     "id": "foraging_faction_camp_fall",
     "type": "item_group",
     "copy-from": "foraging_faction_camp_fall",
+    "subtype": "distribution",
     "extend": {
       "entries": [
         { "item": "golden_reed_stalk", "count": [ 1, 4 ], "prob": 1 },

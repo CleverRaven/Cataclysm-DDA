@@ -314,6 +314,16 @@
   },
   {
     "type": "snippet",
+    "category": "melchior_science_doc",
+    "text": [
+      {
+        "id": "ruthenium_alloy",
+        "text": "Results for a so called  \"predictive material science experiment\".  Numerous graphs detail the deformation testing of a complex ruthenium alloy."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",

@@ -9,7 +9,6 @@
     "volume": "1250 ml",
     "price": 4500,
     "price_postapoc": 250,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
@@ -18,7 +17,8 @@
     "max_level": 7,
     "proficiencies": [ { "proficiency": "prof_glassblowing", "time_factor": 0.7, "fail_factor": 0.5 } ],
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "plastics_book",
@@ -34,7 +34,6 @@
     "volume": "1250 ml",
     "price": 4500,
     "price_postapoc": 250,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
@@ -43,7 +42,8 @@
     "max_level": 7,
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_factor": 0.6, "fail_factor": 0.5 } ],
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "theater_props",
@@ -59,7 +59,6 @@
     "volume": "1250 ml",
     "price": 4500,
     "price_postapoc": 250,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "brown_yellow",
@@ -71,7 +70,8 @@
       { "proficiency": "prof_carpentry_basic", "time_factor": 0.2, "fail_factor": 0.2 }
     ],
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "jewelry_book",
@@ -327,7 +327,6 @@
     "volume": "1750 ml",
     "price": 4500,
     "price_postapoc": 750,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "recipe_lab_elec",
@@ -336,7 +335,8 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "textbook_fireman",
@@ -409,7 +409,6 @@
     "volume": "1750 ml",
     "price": 6500,
     "price_postapoc": 1500,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
@@ -418,7 +417,8 @@
     "max_level": 7,
     "proficiencies": [ { "proficiency": "prof_welding", "time_factor": 0.25, "fail_factor": 0.3, "include_prereqs": true } ],
     "intelligence": 9,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "101_carpentry",
@@ -453,7 +453,6 @@
     "volume": "2 L",
     "price": 8200,
     "price_postapoc": 1000,
-    "bashing": 8,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "recipe_lab_elec",
@@ -467,7 +466,8 @@
     ],
     "intelligence": 9,
     "time": "55 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mag_carpentry",
@@ -523,7 +523,6 @@
     "volume": "1500 ml",
     "price": 6500,
     "price_postapoc": 1000,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
@@ -532,7 +531,8 @@
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "reference_fabrication1",
@@ -544,14 +544,14 @@
     "volume": "500 ml",
     "price": 8000,
     "price_postapoc": 1500,
-    "bashing": 7,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "recipe_lab_elec",
     "color": "blue",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "concrete_book",
@@ -563,7 +563,6 @@
     "volume": "1250 ml",
     "price": 4000,
     "price_postapoc": 750,
-    "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "recipe_lab_elec",
@@ -572,7 +571,8 @@
     "required_level": 3,
     "max_level": 4,
     "intelligence": 9,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "recipe_migo_plate",

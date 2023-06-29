@@ -253,8 +253,8 @@
   {
     "id": "MISSION_REFUGEE_Uyen_3",
     "type": "mission_definition",
-    "name": { "str": "Find 6 bottles of antidepressant" },
-    "description": "Find 6 bottles of antidepressant for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> merch.",
+    "name": { "str": "Find 60 doses of antidepressant" },
+    "description": "Find 60 doses of antidepressant for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> merch.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,

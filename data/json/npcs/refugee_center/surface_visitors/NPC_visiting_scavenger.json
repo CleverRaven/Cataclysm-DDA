@@ -18,7 +18,7 @@
       "effect": [
         { "npc_first_topic": "TALK_RC_SURVIVOR_2" },
         {
-          "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
+          "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 3 } ]
         }
       ]
     },

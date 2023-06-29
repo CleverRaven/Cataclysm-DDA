@@ -21,11 +21,11 @@ class monster_oracle_t : public oracle_t
         /**
          * Predicates used by AI to determine goals.
          */
-        status_t not_hallucination( const std::string & ) const;
-        status_t items_available( const std::string & ) const;
-        status_t adjacent_plants( const std::string & ) const;
-        status_t special_available( const std::string &special_name ) const;
-        status_t split_possible( const std::string & ) const;
+        status_t not_hallucination( std::string_view ) const;
+        status_t items_available( std::string_view ) const;
+        status_t adjacent_plants( std::string_view ) const;
+        status_t special_available( std::string_view special_name ) const;
+        status_t split_possible( std::string_view ) const;
     private:
         const monster *subject;
 };

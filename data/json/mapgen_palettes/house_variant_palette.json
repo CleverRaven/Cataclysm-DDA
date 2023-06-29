@@ -2,7 +2,8 @@
   {
     "type": "palette",
     "id": "house_hoarder_palette",
-    "//": "Based on the standard_domestic_palette. Changes furniture and item spawns to give a choatic and cluttered interior. ! is used for placing random indoor storage furniture and associated random item spawns, ~ for indoor floor spawns. ? is used for outdoor storage furniture, = for outdoor floor spawns. Symbols still open for use: 0 $ % & / , ` and some symbols that conflict with json (like brackets).",
+    "//": "Intended as a palette for non-nested hoarder houses.  Changes furniture and item spawns to give a choatic and cluttered interior, adds roach spawns.",
+    "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "interior_wall_type": {
         "type": "ter_str_id",
@@ -85,17 +86,19 @@
       "8": "f_counter",
       "9": "f_shower",
       "@": "f_bed",
+      "¤": "f_table",
       "₸": "f_deckchair",
       "∞": "f_foot_locker",
       "≠": "f_chest",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
       "ʭ": "f_ladder",
-      "!": [
+      "é": "f_freezer",
+      " ": [
         [ "f_chest", 2 ],
         [ "f_crate_c", 5 ],
         [ "f_crate_o", 5 ],
-        [ "f_cardboard_box", 80 ],
+        [ "f_cardboard_box", 100 ],
         [ "f_dresser", 20 ],
         [ "f_rack", 10 ],
         [ "f_bookcase", 45 ],
@@ -103,10 +106,9 @@
         [ "f_rack_coat", 5 ],
         [ "f_safe_l", 1 ],
         [ "f_wardrobe", 20 ],
-        [ "f_mannequin", 5 ]
-      ],
-      "?": [ [ "f_crate_c", 2 ], [ "f_crate_o", 10 ], [ "f_rack", 2 ], [ "f_gas_tank_smashed", 1 ], [ "f_dumpster", 5 ] ],
-      "_": [ [ "f_cardboard_box", 20 ], [ "f_crate_o", 5 ], [ "f_wardrobe", 4 ], [ "f_bookcase", 4 ], [ "f_null", 67 ] ]
+        [ "f_mannequin", 5 ],
+        [ "f_null", 650 ]
+      ]
     },
     "terrain": {
       "Ŧ": "t_privacy_fence",
@@ -118,7 +120,15 @@
       "X": "t_region_groundcover_urban",
       ".": "t_region_groundcover_urban",
       "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
-      "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked", 10 ], "t_door_c" ],
+      "*": [
+        [ "t_door_locked_peep", 2 ],
+        "t_door_locked_alarm",
+        [ "t_door_locked", 10 ],
+        [ "t_door_elocked_peep", 4 ],
+        [ "t_door_elocked_alarm", 3 ],
+        [ "t_door_elocked", 15 ],
+        "t_door_c"
+      ],
       "^": "t_gutter_downspout",
       "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
       "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
@@ -127,15 +137,9 @@
       "-": "t_sidewalk",
       "o": [ [ "t_window_boarded", 10 ], [ "t_curtains", 90 ] ],
       "<": "t_wood_stairs_up",
-      ">": "t_wood_stairs_down",
-      "?": "t_region_groundcover_urban",
-      "=": "t_region_groundcover_urban",
-      "_": "t_linoleum_white"
+      ">": "t_wood_stairs_down"
     },
-    "liquids": {
-      "g": { "liquid": "water_clean", "amount": [ 0, 100 ] },
-      "~": [ { "liquid": "coffee", "chance": 30 }, { "liquid": "cola", "chance": 30 }, { "liquid": "oj", "chance": 30 } ]
-    },
+    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
       "a": [
         { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
@@ -284,6 +288,7 @@
       ],
       "9": [ { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "hoarder", "chance": 80, "repeat": [ 2, 4 ] } ],
       "@": [ { "item": "bed", "chance": 50 }, { "item": "hoarder", "chance": 80, "repeat": [ 2, 4 ] } ],
+      "¤": { "item": "nightstand", "chance": 30 },
       "Z": [ { "item": "laundry", "chance": 100 }, { "item": "hoarder", "chance": 80, "repeat": [ 2, 4 ] } ],
       "W": [ { "item": "laundry", "chance": 50 }, { "item": "hoarder", "chance": 80, "repeat": [ 2, 4 ] } ],
       "z": [
@@ -304,11 +309,10 @@
       "h": { "item": "hoarder", "chance": 80, "repeat": [ 2, 3 ] },
       "E": { "item": "hoarder", "chance": 80, "repeat": [ 2, 3 ] },
       "H": { "item": "hoarder", "chance": 80, "repeat": [ 2, 3 ] },
-      "!": { "item": "hoarder", "chance": 80, "repeat": [ 5, 8 ] },
-      "~": { "item": "hoarder", "chance": 80, "repeat": [ 4, 6 ] },
-      "?": { "item": "hoarder", "chance": 80, "repeat": [ 5, 10 ] },
-      "=": { "item": "hoarder", "chance": 80, "repeat": [ 4, 8 ] },
-      "_": { "item": "hoarder", "chance": 90, "repeat": [ 2, 4 ] }
-    }
+      " ": { "item": "hoarder", "chance": 50, "repeat": [ 5, 8 ] },
+      "'": { "item": "hoarder", "chance": 33, "repeat": [ 2, 3 ] }
+    },
+    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55, "repeat": [ 1, 3 ] } } },
+    "monster": { " ": { "group": "GROUP_ROACH", "chance": 5 }, "'": { "group": "GROUP_ROACH", "chance": 7 } }
   }
 ]

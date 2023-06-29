@@ -4,9 +4,6 @@
     "type": "requirement",
     "components": [
       [
-        [ "5x50dart", 1 ],
-        [ "5x50heavy", 1 ],
-        [ "reloaded_5x50dart", 1 ],
         [ "8mm_bootleg", 1 ],
         [ "8mm_caseless", 1 ],
         [ "8mm_civilian", 1 ],

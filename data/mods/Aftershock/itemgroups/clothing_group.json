@@ -4,7 +4,7 @@
     "type": "item_group",
     "id": "mil_armor",
     "subtype": "distribution",
-    "/2": "replace helmet full carbide's below with body armors once those are made.",
+    "//2": "replace helmet full carbide's below with body armors once those are made.",
     "copy-from": "mil_armor",
     "extend": {
       "entries": [

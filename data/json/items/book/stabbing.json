@@ -107,9 +107,6 @@
         "name": { "str": "Polearms of Paulus Hector Mair", "str_pl": "copies of Polearms of Paulus Hector Mair" },
         "description": "The summarized and preserved experience of Paulus Hector Mair, an ancient German fencing master, using spears, lances, halberds, poleaxes, and similar weapons.",
         "//": "978-1648371059",
-        "required_level": 2,
-        "max_level": 5,
-        "intelligence": 7,
         "weight": 1
       },
       {

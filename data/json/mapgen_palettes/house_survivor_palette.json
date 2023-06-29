@@ -1,0 +1,294 @@
+[
+  {
+    "type": "palette",
+    "id": "house_survivor_palette",
+    "//": "Intended as a palette for non-nested survivor houses.  Barricades doors and windows, replaces glass walls with sandbags, adds traps to doormat tiles, changes item groups to survivor variants, clutters floor with empty cans.",
+    "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_wall_b", 1 ],
+            [ "t_wall_g", 1 ],
+            [ "t_wall_p", 1 ],
+            [ "t_wall_P", 1 ],
+            [ "t_wall_r", 1 ],
+            [ "t_wall_w", 6 ],
+            [ "t_wall_y", 1 ]
+          ]
+        }
+      },
+      "exterior_wall_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_rock_wall", 3 ], [ "t_wall_wood", 3 ], [ "t_concrete_wall", 4 ] ] }
+      },
+      "house_fence_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_splitrail_fence", 3 ],
+            [ "t_chainfence", 2 ],
+            [ "t_fence", 2 ],
+            [ "t_privacy_fence", 1 ],
+            [ "t_drystone_wall_half", 1 ]
+          ]
+        }
+      }
+    },
+    "toilets": { "t": {  } },
+    "furniture": {
+      "a": "f_fireplace",
+      "b": "f_bigmirror",
+      "c": "f_statue",
+      "d": "f_dresser",
+      "e": "f_pool_table",
+      "f": "f_table",
+      "g": "f_water_heater",
+      "h": "f_chair",
+      "i": "f_bench",
+      "j": "f_bench",
+      "k": "f_woodstove",
+      "l": "f_coffee_table",
+      "m": "f_glass_fridge",
+      "n": "f_dishwasher",
+      "p": "f_mailbox",
+      "q": "f_rack",
+      "r": "f_desk",
+      "s": "f_table",
+      "u": "f_rotary_clothesline",
+      "v": [ "f_gun_safe_el", "f_safe_l" ],
+      "w": "f_rack_wood",
+      "x": "f_entertainment_center",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "z": "f_cardboard_box",
+      "A": "f_stool",
+      "B": "f_bathtub",
+      "C": "f_cupboard",
+      "D": "f_wardrobe",
+      "E": "f_armchair",
+      "F": "f_fridge",
+      "G": "f_camp_chair",
+      "H": "f_sofa",
+      "I": "f_desk",
+      "J": "f_counter",
+      "K": "f_tourist_table",
+      "L": "f_rack_coat",
+      "M": "f_displaycase",
+      "N": "f_workbench",
+      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
+      "P": "f_filing_cabinet",
+      "Q": "f_rack_wood",
+      "R": "f_bookcase",
+      "S": "f_sink",
+      "T": "f_floor_lamp",
+      "U": "f_utility_shelf",
+      "V": "f_glass_cabinet",
+      "W": "f_washer",
+      "X": "f_birdbath",
+      "Y": "f_trashcan",
+      "Z": "f_dryer",
+      "1": "f_cupboard",
+      "2": "f_cupboard",
+      "3": "f_cupboard",
+      "4": "f_cupboard",
+      "5": "f_sink",
+      "6": "f_rack_wood",
+      "7": "f_cupboard",
+      "8": "f_counter",
+      "9": "f_shower",
+      "@": "f_bed",
+      "¤": "f_table",
+      "₸": "f_deckchair",
+      "∞": "f_foot_locker",
+      "≠": "f_chest",
+      "Ø": "f_pinball_machine",
+      "Æ": "f_arcade_machine",
+      "ʭ": "f_ladder",
+      "é": "f_freezer",
+      ":": "f_sandbag_wall",
+      "¶": "f_sandbag_wall"
+    },
+    "terrain": {
+      "Ŧ": { "param": "house_fence_type", "fallback": "t_fence" },
+      "ɤ": {
+        "switch": { "param": "house_fence_type", "fallback": "t_fence" },
+        "cases": {
+          "t_splitrail_fence": "t_splitrail_fencegate_c",
+          "t_chainfence": "t_chaingate_c",
+          "t_fence": "t_fencegate_c",
+          "t_privacy_fence": "t_privacy_fencegate_c",
+          "t_drystone_wall_half": "t_chaingate_l"
+        }
+      },
+      "a": "t_thconc_floor",
+      "j": "t_region_groundcover_urban",
+      "p": "t_region_groundcover_urban",
+      "u": "t_region_groundcover_urban",
+      "X": "t_region_groundcover_urban",
+      ".": "t_region_groundcover_urban",
+      "+": [ [ "t_door_c", 3 ], [ "t_door_o", 3 ], [ "t_door_b", 1 ], [ "t_door_frame", 1 ], "t_door_boarded" ],
+      "*": [ [ "t_door_boarded", 5 ], [ "t_rdoor_boarded", 2 ], "t_rdoor_b", "t_door_b", "t_door_frame" ],
+      "^": "t_gutter_downspout",
+      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
+      "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
+      "-": "t_sidewalk",
+      "o": [
+        [ "t_window_boarded", 7 ],
+        [ "t_window_boarded_noglass", 5 ],
+        [ "t_window_reinforced", 3 ],
+        [ "t_window_reinforced_noglass", 2 ],
+        "t_window_frame",
+        "t_window_empty"
+      ],
+      "<": "t_wood_stairs_up",
+      ">": "t_wood_stairs_down"
+    },
+    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "items": {
+      "a": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
+      "d": [
+        { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "e": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
+      "f": [
+        { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "dining", "chance": 10 },
+        { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] }
+      ],
+      "k": { "item": "stash_wood", "chance": 30, "repeat": [ 2, 5 ] },
+      "l": [
+        { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "s": [
+        { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "m": { "item": "SUS_fridge_survivor", "chance": 48 },
+      "n": { "item": "SUS_dishwasher", "chance": 70 },
+      "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+      "q": [
+        { "item": "tools_home", "chance": 40 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "mechanics", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 10 },
+        { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "r": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
+      "v": [
+        { "item": "art", "chance": 5 },
+        { "item": "home_display_case", "chance": 30 },
+        { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "maps", "chance": 2 },
+        { "item": "guns_pistol_common", "chance": 50, "ammo": 90, "magazine": 100 },
+        { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "w": [
+        { "item": "shower", "chance": 20 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "x": { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+      "B": { "item": "shower", "chance": 10, "repeat": [ 1, 2 ] },
+      "D": [
+        { "item": "SUS_wardrobe_mens", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "F": { "item": "SUS_fridge_survivor", "chance": 60 },
+      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "J": [ { "item": "kitchen_counters", "chance": 5 }, { "item": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] } ],
+      "L": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
+      "M": { "item": "home_display_case", "chance": 70 },
+      "N": [
+        { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
+      ],
+      "O": { "item": "SUS_oven", "chance": 100 },
+      "P": { "item": "office_paper", "chance": 100 },
+      "Q": [
+        { "item": "shower", "chance": 20 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "R": [ { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] }, { "item": "games", "chance": 20, "repeat": [ 1, 2 ] } ],
+      "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
+      "U": [
+        { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "V": { "item": "home_display_case", "chance": 50 },
+      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
+      "2": { "item": "SUS_cookware", "chance": 100 },
+      "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+      "4": { "item": "SUS_junk_drawer", "chance": 100 },
+      "5": { "item": "SUS_kitchen_sink", "chance": 100 },
+      "6": [ { "item": "SUS_pantry", "chance": 12 }, { "item": "cannedfood", "chance": 10, "repeat": [ 1, 2 ] } ],
+      "7": [
+        { "item": "SUS_breakfast_cupboard", "chance": 30 },
+        { "item": "SUS_coffee_cupboard", "chance": 50 },
+        { "item": "SUS_spice_collection", "chance": 100 }
+      ],
+      "8": [
+        { "item": "SUS_hair_drawer", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_medicine", "chance": 40 },
+        { "item": "harddrugs", "chance": 2 }
+      ],
+      "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+      "@": { "item": "bed", "chance": 50 },
+      "¤": { "item": "nightstand", "chance": 30 },
+      "Z": { "item": "laundry", "chance": 100 },
+      "W": { "item": "laundry", "chance": 50 },
+      "z": [
+        { "item": "allsporting", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "chem_home", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "child_items", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "stash_drugs", "chance": 1 },
+        { "item": "maps", "chance": 4 }
+      ],
+      "≠": [
+        { "item": "toy_box", "chance": 80, "repeat": [ 1, 2 ] },
+        { "item": "toy_store", "chance": 60, "repeat": [ 1, 2 ] },
+        { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "allsporting", "chance": 5 }
+      ]
+    },
+    "nested": {
+      "¶": { "chunks": [ [ "destroyed_glass_door_wall", 50 ], [ "null", 50 ] ] },
+      ":": { "chunks": [ [ "destroyed_glass_door_wall", 50 ], [ "null", 50 ] ] }
+    },
+    "mapping": {
+      "÷": {
+        "item": { "item": "doormat", "chance": 55 },
+        "traps": [
+          [ "tr_nailboard", 3 ],
+          [ "tr_tripwire", 3 ],
+          [ "tr_bubblewrap", 2 ],
+          [ "tr_beartrap", 2 ],
+          [ "tr_shotgun_2", 1 ],
+          [ "tr_shotgun_2_1", 1 ],
+          [ "tr_shotgun_1", 1 ],
+          [ "tr_null", 4 ]
+        ]
+      },
+      " ": {
+        "item": [
+          { "item": "can_food", "chance": 4 },
+          { "item": "can_medium", "chance": 1 },
+          { "item": "can_food_big", "chance": 1 },
+          { "item": "jar_glass_sealed", "chance": 1 },
+          { "item": "jar_3l_glass_sealed", "chance": 1 },
+          { "item": "can_drink", "chance": 1 },
+          { "item": "bottle_glass", "chance": 1 },
+          { "item": "bottle_plastic", "chance": 1 }
+        ]
+      }
+    }
+  }
+]

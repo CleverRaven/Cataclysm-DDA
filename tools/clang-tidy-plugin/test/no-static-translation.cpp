@@ -1,6 +1,6 @@
-// RUN: %check_clang_tidy %s cata-no-static-translation %t -- -plugins=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-no-static-translation %t -- --load=%cata_plugin -- -I %cata_include -DLOCALIZE
 
-#include "mock-translation.h"
+#include "translations.h"
 
 class foo
 {
@@ -19,9 +19,6 @@ const std::string global_str_2{ _( "global_str_2" ) };
 
 static const std::string global_static_str = _( "global_static_str" );
 // CHECK-MESSAGES: [[@LINE-1]]:46: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
-
-const std::string global_gettext_str = gettext( "global_gettext_str" );
-// CHECK-MESSAGES: [[@LINE-1]]:40: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
 
 const std::string global_pgettext_str = pgettext( "ctxt", "global_pgettext_str" );
 // CHECK-MESSAGES: [[@LINE-1]]:41: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.

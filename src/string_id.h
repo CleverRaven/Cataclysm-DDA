@@ -9,8 +9,8 @@
 #include <string>
 #include <type_traits>
 
-static constexpr int64_t INVALID_VERSION = -1;
-static constexpr int INVALID_CID = -1;
+constexpr int64_t INVALID_VERSION = -1;
+constexpr int INVALID_CID = -1;
 
 template<typename T>
 class generic_factory;
@@ -30,7 +30,7 @@ struct lexicographic;
  * if( critter.type->id == mtype_id("mon_cat") ) { ...
  * \endcode
  * This allows to find all ids that are initialized from static literals (and not
- * through the json loading). The can than easily be checked against the json
+ * through the json loading). That can then easily be checked against the json
  * definition to see whether they are actually defined there (or whether they are
  * defined only in a mod).
  *
@@ -158,7 +158,7 @@ class string_identity_static
         friend class string_id;
 
         template<typename T>
-        friend struct std::hash;
+        friend struct std::hash; // NOLINT(cert-dcl58-cpp)
 };
 
 /**
@@ -190,7 +190,7 @@ class string_identity_dynamic
         friend class string_id;
 
         template<typename T>
-        friend struct std::hash;
+        friend struct std::hash; // NOLINT(cert-dcl58-cpp)
 };
 
 template<typename T>
@@ -214,12 +214,16 @@ class string_id
         // a std::string, otherwise a "no matching function to call..." error is generated.
         template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
         explicit string_id( S && id ) : _id( std::forward<S>( id ) ) {}
+
+        // string_view is not implicitly convertible to std::string, so need a
+        // separate constructor for that
+        explicit string_id( const std::string_view id ) : string_id( std::string( id ) ) {}
         /**
          * Default constructor constructs an empty id string.
          * Note that this id class does not enforce empty id strings (or any specific string at all)
          * to be special. Every string (including the empty one) may be a valid id.
          */
-        string_id() : _id() {}
+        string_id() : _id() {} // NOLINT(clang-analyzer-optin.cplusplus.UninitializedObject)
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key.
          * Guarantees total order, but DOESN'T guarantee the same order after process restart!
@@ -358,16 +362,14 @@ class string_id
 };
 
 // Support hashing of string based ids by forwarding the hash of the string.
-namespace std
-{
 template<typename T>
-struct hash<string_id<T>> {
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+struct std::hash<string_id<T>> {
     std::size_t operator()( const string_id<T> &v ) const noexcept {
         using IdType = decltype( v._id._id );
         return std::hash<IdType>()( v._id._id );
     }
 };
-} // namespace std
 
 /** Lexicographic order comparator for string_ids */
 template<typename T>

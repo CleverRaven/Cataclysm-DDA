@@ -36,11 +36,12 @@
     "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
-    "initial_charges": 50,
-    "max_charges": 50,
+    "ammo": [ "notch" ],
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
-    "flags": [ "FIRESTARTER", "BURNOUT" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank", "notched_stick" ] } ],
+    "use_action": { "type": "firestarter", "moves": 30000, "moves_slow": 60000 },
+    "qualities": [ [ "DRILL_ROCK", 1 ] ],
+    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   },
   {
     "id": "fire_drill_large",
@@ -54,11 +55,12 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
-    "initial_charges": 50,
-    "max_charges": 50,
+    "ammo": [ "notch" ],
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
-    "flags": [ "FIRESTARTER", "BURNOUT" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank", "notched_stick" ] } ],
+    "use_action": { "type": "firestarter", "moves": 6000, "moves_slow": 15000 },
+    "qualities": [ [ "DRILL_ROCK", 1 ] ],
+    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   },
   {
     "id": "flint_steel",
@@ -159,6 +161,7 @@
     "type": "TOOL",
     "name": { "str": "matchbook" },
     "description": "A small book of matches with a coarse strike surface on the outside flap for lighting them.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.  Due to the matches being lightly glued to the matchbook, they can be removed, but not replaced on the book.",
+    "category": "containers",
     "weight": "10 g",
     "volume": "10 ml",
     "price": 10,
@@ -196,6 +199,7 @@
     "name": { "str": "matchbox", "str_pl": "matchboxes" },
     "description": "A small box of matches with a coarse strike surface on the side for lighting them.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "looks_like": "matches",
+    "category": "containers",
     "weight": "10 g",
     "volume": "25 ml",
     "price_postapoc": 50,

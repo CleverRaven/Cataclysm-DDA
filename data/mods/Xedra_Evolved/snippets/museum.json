@@ -1,0 +1,47 @@
+[
+  {
+    "type": "snippet",
+    "category": "museum_plaques_items",
+    "text": [
+      {
+        "id": "museum_plaques_items_1",
+        "text": "Discovered in an estate sale in upper Chappaquaddick these baubles were labeled as the owners most precious possessions and proof of other worlds."
+      },
+      {
+        "id": "museum_plaques_items_2",
+        "text": "Found in a Boston pawn shop, the owner claimed that late one night a strange person entered the establishment and handed over this collection of items for 'whatever is in the register'."
+      },
+      {
+        "id": "museum_plaques_items_3",
+        "text": "Found in an archeological dig in the Memphis Delta.  How did these objects arrive there?"
+      },
+      {
+        "id": "museum_plaques_items_4",
+        "text": "A home in Norton caught and burned with all inhabitants inside, the only thing not destroyed was an old sailors chest that contained these items."
+      },
+      {
+        "id": "museum_plaques_items_5",
+        "text": "Natives in Vermont traded these anachronistic objects to early missionaries."
+      },
+      { "id": "museum_plaques_items_6", "text": "Found in a smugglers stash in a cave in Rhode Island." }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "museum_plaques_visitors",
+    "text": [
+      {
+        "id": "museum_plaques_visitors_1",
+        "text": "These items were worn by an unidentified man who walked out of a swamp with amnesia after an eclipse."
+      },
+      {
+        "id": "museum_plaques_visitors_2",
+        "text": "Missing person reappeared in the alleyway they disappeared from twelve years before, they appeared to have only aged a few of those years."
+      },
+      {
+        "id": "museum_plaques_visitors_3",
+        "text": "A woman went missing for six hours.  During the next 7 hours an elderly woman attempted to convince people there, that she was the missing woman.  DNA evidence suggests she is a half sister or aunt to the much younger woman.  No family records suggest this relation exists."
+      }
+    ]
+  }
+]

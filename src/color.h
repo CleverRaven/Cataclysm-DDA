@@ -511,18 +511,18 @@ nc_color magenta_background( const nc_color &c );
 nc_color cyan_background( const nc_color &c );
 std::string hilite_string( const std::string &text );
 
-nc_color color_from_string( const std::string &color,
+nc_color color_from_string( std::string_view color,
                             report_color_error color_error = report_color_error::yes );
 std::string string_from_color( const nc_color &color );
 nc_color bgcolor_from_string( const std::string &color );
-color_tag_parse_result get_color_from_tag( const std::string &s,
+color_tag_parse_result get_color_from_tag( std::string_view s,
         report_color_error color_error = report_color_error::yes );
 std::string get_tag_from_color( const nc_color &color );
 std::string colorize( const std::string &text, const nc_color &color );
 std::string colorize( const translation &text, const nc_color &color );
 
 std::string get_note_string_from_color( const nc_color &color );
-nc_color get_note_color( const std::string &note_id );
+nc_color get_note_color( std::string_view note_id );
 const std::unordered_map<std::string, note_color> &get_note_color_names();
 
 #endif // CATA_SRC_COLOR_H

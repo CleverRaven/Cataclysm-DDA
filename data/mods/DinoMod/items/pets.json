@@ -8,15 +8,14 @@
     "volume": "50 L",
     "price": 2000,
     "price_postapoc": 200,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "properties": [ [ "creature_size_capacity", "HUGE" ] ],
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ],
-    "looks_like": "pet_carrier"
+    "looks_like": "pet_carrier",
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "dino_carrier_wooden",
@@ -27,14 +26,13 @@
     "volume": "50 L",
     "price": 1600,
     "price_postapoc": 100,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "wood" ],
     "symbol": "#",
     "color": "brown",
     "properties": [ [ "creature_size_capacity", "HUGE" ] ],
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ],
-    "looks_like": "pet_carrier"
+    "looks_like": "pet_carrier",
+    "melee_damage": { "bash": 1, "cut": 1 }
   }
 ]

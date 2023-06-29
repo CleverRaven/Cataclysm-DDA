@@ -17,12 +17,14 @@ generic_factory<ammo_effect> &get_all_ammo_effects();
 
 struct ammo_effect {
     public:
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 
         field_type_id aoe_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */
+        int trigger_chance = 1;
+
         std::string aoe_field_type_name = "fd_null";
         int aoe_intensity_min = 0;
         int aoe_intensity_max = 0;

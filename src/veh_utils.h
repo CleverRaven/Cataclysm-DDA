@@ -3,11 +3,11 @@
 #define CATA_SRC_VEH_UTILS_H
 
 #include <iosfwd>
+#include <optional>
 #include <vector>
 
 #include "input.h"
 #include "type_id.h"
-#include "optional.h"
 
 class Character;
 class vehicle;
@@ -20,29 +20,29 @@ namespace veh_utils
 /** Calculates xp for interacting with given part. */
 int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who );
 /**
- * Returns a part on a given vehicle that a given character can repair.
- * Prefers the most damaged parts that don't need replacements.
- * If no such part exists, returns a null part.
+ * @return a pointer to vehicle_part repairable by \p who_arg
+ * If no such part exists, returns a pointer to vehicle_part replaceable by \p whoarg
+ * If no such part exists, returns a nullptr.
  */
-vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg,
-                                    bool only_repairable = false );
+vehicle_part *most_repairable_part( vehicle &veh, Character &who_arg );
 /**
  * Repairs a given part on a given vehicle by given character.
  * Awards xp and consumes components.
  */
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::string &variant );
+bool repair_part( vehicle &veh, vehicle_part &pt, Character &who );
 } // namespace veh_utils
 
 struct veh_menu_item {
     std::string _text;
     std::string _desc;
-    cata::optional<tripoint> _location = cata::nullopt;
+    std::optional<tripoint> _location = std::nullopt;
     bool _enabled = true;
     bool _check_theft = true;
     bool _check_locked = true;
     bool _keep_menu_open = false;
-    cata::optional<char> _hotkey_char = cata::nullopt;
-    cata::optional<std::string> _hotkey_action = cata::nullopt;
+    std::optional<char> _hotkey_char = std::nullopt;
+    std::optional<std::string> _hotkey_action = std::nullopt;
+    std::optional<input_event> _hotkey_event = std::nullopt;
     std::function<void()> _on_submit;
 
     veh_menu_item &text( const std::string &text );
@@ -52,10 +52,11 @@ struct veh_menu_item {
     veh_menu_item &skip_locked_check( bool skip_locked_check = true );
     veh_menu_item &hotkey( char hotkey_char );
     veh_menu_item &hotkey( const std::string &action );
+    veh_menu_item &hotkey( const input_event &ev );
     veh_menu_item &hotkey_auto();
     veh_menu_item &on_submit( const std::function<void()> &on_submit );
     veh_menu_item &keep_menu_open( bool keep_menu_open = true );
-    veh_menu_item &location( const cata::optional<tripoint> &location );
+    veh_menu_item &location( const std::optional<tripoint> &location );
 };
 
 class veh_menu

@@ -1,7 +1,6 @@
 [
   {
     "id": "beekeeping_hood",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "beekeeping hood" },
     "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.",
@@ -237,82 +236,6 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "gambeson_hood",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "gambeson hood" },
-    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.",
-    "weight": "510 g",
-    "volume": "300 ml",
-    "price": 412,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "balclava",
-    "color": "light_red",
-    "warmth": 25,
-    "material_thickness": 5,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
-  },
-  {
-    "id": "xl_gambeson_hood",
-    "type": "ARMOR",
-    "copy-from": "gambeson_hood",
-    "name": { "str": "XL gambeson hood" },
-    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.  Comes in XL size.",
-    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_gambeson_hood",
-    "type": "ARMOR",
-    "copy-from": "gambeson_hood",
-    "name": { "str": "XS gambeson hood" },
-    "description": "A customized hood made from quilted fabrics.  Can be worn under helmets.  Comes in XS size.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
-    "id": "k_gambeson_hood",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "Kevlar gambeson hood" },
-    "description": "A customized gambeson hood made from Kevlar.  Can be worn under helmets.",
-    "weight": "340 g",
-    "volume": "300 ml",
-    "price": 412,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
-    "symbol": "[",
-    "looks_like": "balclava",
-    "color": "light_red",
-    "warmth": 25,
-    "material_thickness": 3.2,
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
-  },
-  {
-    "id": "xl_k_gambeson_hood",
-    "type": "ARMOR",
-    "copy-from": "k_gambeson_hood",
-    "name": { "str": "XL Kevlar gambeson hood" },
-    "description": "A customized gambeson hood made from Kevlar.  Can be worn under helmets.  Comes in XL size.",
-    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_k_gambeson_hood",
-    "type": "ARMOR",
-    "copy-from": "k_gambeson_hood",
-    "name": { "str": "XS Kevlar gambeson hood" },
-    "description": "A customized hood made from quilted fabrics and Kevlar.  Can be worn under helmets.  Comes in XS size.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
     "id": "hood_rain",
     "type": "ARMOR",
     "name": { "str": "rain hood" },
@@ -372,7 +295,6 @@
   },
   {
     "id": "hood_ninja",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "ninja hood" },
     "description": "A black hood commonly used by ninja.",

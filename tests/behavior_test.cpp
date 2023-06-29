@@ -46,7 +46,7 @@ static behavior::node_t make_test_node( const std::string &goal, const behavior:
     if( !goal.empty() ) {
         node.set_goal( goal );
     }
-    node.add_predicate( [status]( const behavior::oracle_t *, const std::string & ) {
+    node.add_predicate( [status]( const behavior::oracle_t *, const std::string_view ) {
         return *status;
     } );
     return node;
