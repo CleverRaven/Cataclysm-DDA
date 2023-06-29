@@ -36,18 +36,21 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_CLOSE" ],
     "special_attacks": [
       {
+        "id": "psi_drbrain_flashbang",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
         "cooldown": 12,
         "monster_message": "A roar fills your mind and the world is blotted out!"
       },
       {
+        "id": "psi_drbrain_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 4 },
         "cooldown": 10,
         "monster_message": "A searing pain fills your head!"
       },
       {
+        "id": "psi_drbrain_mindhammer",
         "type": "spell",
         "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 6 },
         "cooldown": 12,
