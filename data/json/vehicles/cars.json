@@ -710,11 +710,11 @@
       [ "-o++o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "reclining_seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_2" ] },
       { "x": 0, "y": 0, "parts": [ "controls", "dashboard", "vehicle_alarm" ] },
       { "x": 0, "y": 0, "parts": [ "stereo", "horn_car", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
-      { "x": 0, "y": 1, "parts": [ "frame#vertical_2", "reclining_seat#windshield_front", "seatbelt", "roof" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#vertical_2", "roof" ] },
       { "x": 0, "y": 2, "parts": [ "frame#vertical_right", "door#ne" ] },
       { "x": 1, "y": -1, "parts": [ "frame#vertical_T_left", "windshield#wheel_left" ] },
       { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
@@ -728,8 +728,8 @@
       { "x": 2, "y": 1, "parts": [ "frame#horizontal_front", "halfboard#cover_right" ] },
       { "x": 2, "y": 2, "parts": [ "frame#ne", "halfboard#ne", "headlight" ] },
       { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "door#sw" ] },
-      { "x": -1, "y": 0, "parts": [ "frame#vertical_2", "seat_back#left", "seatbelt", "roof" ] },
-      { "x": -1, "y": 1, "parts": [ "frame#vertical_2", "seat_back#right", "seatbelt", "roof" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#vertical_2", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#vertical_2", "roof" ] },
       { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "door#se" ] },
       { "x": -2, "y": -1, "parts": [ "frame#vertical_left", "windshield#wheel_left" ] },
       { "x": -2, "y": -1, "parts": [ "wheel_mount_medium", "wheel" ] },
@@ -757,6 +757,10 @@
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_inline4", "alternator_car" ] },
       { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+      { "x": -1, "y": 0, "parts": [ "seat_back#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back#right", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
     ]
   },
   {
@@ -765,7 +769,53 @@
     "copy-from": "car_sedan_abstract",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "diesel_engine_inline4", "alternator_car" ] },
-      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] }
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
+      { "x": -1, "y": 0, "parts": [ "seat_back#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back#right", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] }
+    ]
+  },
+  {
+    "id": "car_sedan_v8",
+    "type": "vehicle",
+    "copy-from": "car_coupe_abstract",
+    "name": "V8 Sports Sedan",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "engine_v8", "alternator_car" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 0, "parts": [ "seat_back_leather#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back_leather#right", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] }
+    ]
+  },
+  {
+    "id": "car_sedan_sports_v12",
+    "type": "vehicle",
+    "copy-from": "car_coupe_abstract",
+    "name": "V12 Sports Coupe",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "engine_v12", "alternator_car" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 0, "parts": [ "seat_back_leather#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back_leather#right", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] }
+    ]
+  },
+  {
+    "id": "car_sedan_sports_v6",
+    "type": "vehicle",
+    "copy-from": "car_coupe_abstract",
+    "name": "V6 Sports Sedan",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_car" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 0, "parts": [ "seat_back#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back#right", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] }
     ]
   },
   {
@@ -856,11 +906,11 @@
       [ "-o+o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_2" ] },
       { "x": 0, "y": 0, "parts": [ "controls", "dashboard", "vehicle_alarm" ] },
       { "x": 0, "y": 0, "parts": [ "stereo", "horn_car", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
-      { "x": 0, "y": 1, "parts": [ "frame#vertical_2", "seat#windshield_front", "seatbelt", "roof" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#vertical_2", "roof" ] },
       { "x": 0, "y": 2, "parts": [ "frame#vertical_right", "door#ne" ] },
       { "x": 1, "y": -1, "parts": [ "frame#vertical_T_left", "windshield#wheel_left" ] },
       { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
@@ -898,16 +948,20 @@
     "copy-from": "car_coupe_abstract",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_inline4", "alternator_car" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": 0, "y": 0, "parts": [ "seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "seat#windshield_front", "seatbelt" ] }
     ]
   },
   {
-    "id": "car_sedan_diesel",
+    "id": "car_coupe_diesel",
     "type": "vehicle",
     "copy-from": "car_coupe_abstract",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "diesel_engine_inline4", "alternator_car" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] }
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
+      { "x": 0, "y": 0, "parts": [ "seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "seat#windshield_front", "seatbelt" ] }
     ]
   },
   {
@@ -917,7 +971,9 @@
     "name": "Muscle Car",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_v8", "alternator_car" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": 0, "y": 0, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "seat_leather#windshield_front", "seatbelt" ] }
     ]
   },
   {
@@ -927,7 +983,9 @@
     "name": "V12 Sports Coupe",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_v12", "alternator_car" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": 0, "y": 0, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "seat_leather#windshield_front", "seatbelt" ] }
     ]
   },
   {
