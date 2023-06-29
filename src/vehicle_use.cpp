@@ -1862,7 +1862,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     }
 
     if( is_locked && controls_here ) {
-        if( player_inside) {
+        if( player_inside ) {
             menu.add( _( "Hotwire" ) )
             .enable( get_player_character().crafting_inventory().has_quality( qual_SCREW ) )
             .desc( _( "Attempt to hotwire the car using a screwdriver." ) )
