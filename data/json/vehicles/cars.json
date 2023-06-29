@@ -568,8 +568,8 @@
     "name": "Electric Microcar",
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_electric" ] },
-      { "x": -1, "y": -1, "parts": [ "storage_battery" ] }
-      { "x": -1, "y": 2, "parts": [ "storage_battery" ] },
+      { "x": -1, "y": -1, "parts": [ "storage_battery" ] },
+      { "x": -1, "y": 2, "parts": [ "storage_battery" ] }
     ]
   },
   {
