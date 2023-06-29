@@ -103,7 +103,6 @@
     "copy-from": "hddoor",
     "description": "A strong door.  Solid construction means you can't see through it when closed.",
     "durability": 660,
-    "location": "center",
     "looks_like": "door_opaque",
     "name": { "str": "heavy-duty opaque door" },
     "extend": { "flags": [ "OPAQUE" ] },
