@@ -506,7 +506,7 @@ void vehicle::toggle_autopilot()
         autopilot_on = true;
         is_following = true;
         is_patrolling = false;
-        if (!engine_on) start_engines();
+        if( !engine_on ) start_engines();
     } );
 
     menu.add( _( "Stop…" ) )
