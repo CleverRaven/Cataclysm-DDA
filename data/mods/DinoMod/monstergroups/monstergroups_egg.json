@@ -158,6 +158,11 @@
     "monsters": [ { "monster": "mon_acrocanthosaurus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_giganotosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_giganotosaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_siats",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_siats_hatchling" } ]
