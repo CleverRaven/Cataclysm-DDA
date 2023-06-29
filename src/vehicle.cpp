@@ -4023,7 +4023,6 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
             d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
-            d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR_SIMPLE" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
@@ -5992,7 +5991,7 @@ void vehicle::refresh( const bool remove_fakes )
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
             solar_panels.push_back( p );
         }
-        if( vpi.has_flag( VPFLAG_ROTOR ) || vpi.has_flag( VPFLAG_ROTOR_SIMPLE ) ) {
+        if( vpi.has_flag( VPFLAG_ROTOR ) ) {
             rotors.push_back( p );
         }
         if( vp.part().is_battery() ) {
