@@ -124,6 +124,16 @@
     "type": "oter_id_migration",
     "//": "migrated in 0.H",
     "oter_ids": {
+      "trail_intersection_north": "forest_trail_intersection_north",
+      "trail_intersection_east": "forest_trail_intersection_east",
+      "trail_intersection_south": "forest_trail_intersection_south",
+      "trail_intersection_west": "forest_trail_intersection_west"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
       "refctr_NW1a_north": "refctr_fence_NW_north",
       "refctr_NW2a_north": "refctr_fence_h_north",
       "refctr_NW3a_north": "refctr_fence_h_north",

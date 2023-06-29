@@ -189,7 +189,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "junkyard_1a", "junkyard_roof_1a", "junkyard_1b", "junkyard_roof_1b", "junkyard_2a", "junkyard_2b" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "junkyard",
     "sym": "J",
     "color": "i_brown",

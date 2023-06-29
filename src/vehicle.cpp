@@ -4023,7 +4023,6 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
             d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
-            d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR_SIMPLE" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
@@ -5366,6 +5365,26 @@ void vehicle::idle( bool on_map )
         update_time( calendar::turn );
     }
 
+    map &here = get_map();
+    // Parts emitting fields
+    const std::pair<int, double> exhaust_and_muffle = get_exhaust_part();
+    for( const int emitter_idx : emitters ) {
+        const vehicle_part &pt = parts[emitter_idx];
+        if( pt.is_unavailable() || !pt.enabled ) {
+            continue;
+        }
+        for( const emit_id &e : pt.info().emissions ) {
+            here.emit_field( global_part_pos3( pt ), e );
+        }
+        for( const emit_id &e : pt.info().exhaust ) {
+            if( exhaust_and_muffle.first == -1 ) {
+                here.emit_field( global_part_pos3( pt ), e );
+            } else {
+                here.emit_field( exhaust_dest( exhaust_and_muffle.first ), e );
+            }
+        }
+    }
+
     if( has_part( "STEREO", true ) ) {
         play_music();
     }
@@ -5972,7 +5991,7 @@ void vehicle::refresh( const bool remove_fakes )
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
             solar_panels.push_back( p );
         }
-        if( vpi.has_flag( VPFLAG_ROTOR ) || vpi.has_flag( VPFLAG_ROTOR_SIMPLE ) ) {
+        if( vpi.has_flag( VPFLAG_ROTOR ) ) {
             rotors.push_back( p );
         }
         if( vp.part().is_battery() ) {
@@ -7511,34 +7530,6 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     map &here = get_map();
-    // Parts emitting fields
-    const std::pair<int, double> exhaust_and_muffle = get_exhaust_part();
-    for( const int emitter_idx : emitters ) {
-        const vehicle_part &pt = parts[emitter_idx];
-        if( pt.is_unavailable() || !pt.enabled ) {
-            continue;
-        }
-        for( const emit_id &e : pt.info().emissions ) {
-            here.emit_field( global_part_pos3( pt ), e );
-        }
-        for( const emit_id &e : pt.info().exhaust ) {
-            if( exhaust_and_muffle.first == -1 ) {
-                here.emit_field( global_part_pos3( pt ), e );
-            } else {
-                here.emit_field( exhaust_dest( exhaust_and_muffle.first ), e );
-            }
-        }
-        // reduce interval of parts with VPFLAG_ENABLED_DRAINS_EPOWER, otherwise their epower
-        // get charged twice - once by power_parts in vehicle::idle and once here
-        const time_duration interval = pt.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER )
-                                       ? update_to - last_update - 1_seconds
-                                       : update_to - last_update;
-        if( interval < 0_seconds ) {
-            debugmsg( "emitter simulating negative time interval, something is fishy / buggy" );
-            break;
-        }
-        discharge_battery( power_to_energy_bat( -pt.info().epower, interval ) );
-    }
 
     if( sm_pos.z < 0 ) {
         last_update = update_to;

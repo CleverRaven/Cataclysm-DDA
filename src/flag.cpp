@@ -28,6 +28,7 @@ const flag_id flag_ALLOWS_BODY_BLOCK( "ALLOWS_BODY_BLOCK" );
 const flag_id flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
 const flag_id flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 const flag_id flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
+const flag_id flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
 const flag_id flag_AURA( "AURA" );
 const flag_id flag_AUTO_DELETE_CABLE( "AUTO_DELETE_CABLE" );
 const flag_id flag_BAROMETER( "BAROMETER" );

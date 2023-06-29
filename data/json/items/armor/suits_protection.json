@@ -146,7 +146,7 @@
         "moves": 80
       }
     ],
-    "warmth": 60,
+    "warmth": 45,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ],
@@ -166,6 +166,65 @@
     "copy-from": "armor_farmor",
     "looks_like": "armor_farmor",
     "name": { "str": "XS fur body armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE" ]
+  },
+  {
+    "id": "armor_faux_farmor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "faux fur body armor" },
+    "description": "Thick body armor made from faux furs.",
+    "weight": "3414 g",
+    "volume": "10 L",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "to_hit": -5,
+    "material": [ "faux_fur" ],
+    "symbol": "[",
+    "longest_side": "30 cm",
+    "looks_like": "armor_larmor",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 21, 25 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 21, 21 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 21, 21 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "xl_armor_faux_farmor",
+    "type": "ARMOR",
+    "name": { "str": "XL faux fur body armor" },
+    "copy-from": "armor_faux_farmor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_faux_farmor_xs",
+    "type": "ARMOR",
+    "copy-from": "armor_faux_farmor",
+    "looks_like": "armor_farmor",
+    "name": { "str": "XS faux fur body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE" ]
   },
