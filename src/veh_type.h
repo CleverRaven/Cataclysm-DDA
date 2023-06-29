@@ -465,7 +465,9 @@ class vpart_info
         int list_order = 0;
     private:
         bool was_loaded = false; // used by generic_factory
+        std::vector<std::pair<vpart_id, mod_id>> src;
         friend class generic_factory<vpart_info>;
+        friend struct mod_tracker;
 };
 
 struct vehicle_item_spawn {
