@@ -836,7 +836,7 @@
     ]
   },
   {
-    "id": "car_town",
+    "id": "car_town_budget",
     "type": "vehicle",
     "copy-from": "car_town_abstract",
     "name": "Budget Town Car",
