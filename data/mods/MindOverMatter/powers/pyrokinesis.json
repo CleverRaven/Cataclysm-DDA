@@ -296,7 +296,7 @@
     "id": "pyrokinetic_aura",
     "type": "SPELL",
     "name": "[Ψ]Blazing Aura",
-    "description": "Surround yourself with a cloud of flames, damaging anyone in melee combat with you. The flames also produce light.",
+    "description": "Surround yourself with a cloud of flames, damaging anyone in melee combat with you.  The flames also produce light.",
     "message": "You set the air around you ablaze.",
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",

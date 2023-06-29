@@ -2,7 +2,7 @@
   {
     "id": "matrix_channeling_tool",
     "type": "TOOL",
-    "name": { "str": "matrix channeling array" },
+    "name": { "str": "matrix channeling array", "str_pl": "matrix channeling arrays"  },
     "description": "A set of matrix crystals arranged together to direct Netherium energy.  You're not entirely sure all the crystals are actually touching the metal assembly you soldered around them.",
     "weight": "2500 g",
     "volume": "500 ml",
