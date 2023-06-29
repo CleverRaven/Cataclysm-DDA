@@ -16,6 +16,7 @@
     "name": "GROUP_DINOSAUR_SOUTH_AMERICA",
     "monsters": [
       { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_giganotosaurus", "weight": 10, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_amargasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] }
     ]
   },
