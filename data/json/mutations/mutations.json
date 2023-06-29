@@ -6854,7 +6854,7 @@
   {
     "type": "mutation",
     "id": "MAKAYLA_MUTATOR",
-    "name": { "str": "Catastrophic mutation" },
+    "name": { "str": "Catastrophic Mutation" },
     "points": -2,
     "mixed_effect": true,
     "description": "Exposure to portal storms and related phenomena causes you to mutate in a mostly predictable fashion.",
