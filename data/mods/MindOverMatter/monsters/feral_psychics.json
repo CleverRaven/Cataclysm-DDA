@@ -37,7 +37,7 @@
     "upgrades": { "half_life": 45, "into": "mon_feral_human_bio2" },
     "special_attacks": [
       { "id": "smash", "attack_upper": true, "throw_strength": 30, "cooldown": 15 },
-      { "id": "bio_op_disarm", "cooldown": 10 }
+      [ "BIO_OP_DISARM", 10 ]
     ],
     "flags": [
       "SEES",
@@ -91,7 +91,7 @@
     "upgrades": { "half_life": 45, "into": "mon_feral_human_bio3" },
     "special_attacks": [
       { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 10 },
-      { "id": "bio_op_disarm", "cooldown": 10 },
+      [ "BIO_OP_DISARM", 10 ],
       { "id": "bio_op_takedown", "cooldown": 15 }
     ],
     "flags": [
@@ -155,7 +155,7 @@
         "max_range": 5,
         "message": "%1$s moves so quickly your eyes can barely follow them!"
       },
-      { "id": "bio_op_disarm", "cooldown": 10 },
+      [ "BIO_OP_DISARM", 10 ],
       { "id": "bio_op_takedown", "cooldown": 15 }
     ],
     "flags": [
