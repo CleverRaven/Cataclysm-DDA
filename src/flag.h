@@ -37,6 +37,7 @@ extern const flag_id flag_ALLOWS_BODY_BLOCK;
 extern const flag_id flag_ALLOWS_NATURAL_ATTACKS;
 extern const flag_id flag_ALLOWS_REMOTE_USE;
 extern const flag_id flag_ALWAYS_TWOHAND;
+extern const flag_id flag_ANIMAL_PRODUCT;
 extern const flag_id flag_OLD_CURRENCY;
 extern const flag_id flag_AURA;
 extern const flag_id flag_AUTO_DELETE_CABLE;

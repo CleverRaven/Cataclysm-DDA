@@ -97,6 +97,7 @@
   {
     "id": "E_ALTERNATOR",
     "type": "json_flag",
+    "//": "The engine can mount and power an alternator",
     "info": "An alternator can be attached, and it will generate electrical power while the engine is on at the cost of some motive power."
   },
   {
@@ -225,6 +226,7 @@
   {
     "id": "INTERNAL",
     "type": "json_flag",
+    "//": "Can be mounted inside other parts",
     "requires_flag": "CARGO"
   },
   {
@@ -337,7 +339,8 @@
   },
   {
     "id": "E_COLD_START",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Cold weather makes the engine take longer to start"
   },
   {
     "id": "E_DIESEL_FUEL",
@@ -350,11 +353,13 @@
   },
   {
     "id": "E_HIGHER_SKILL",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Multiple engines with this flag are harder to install"
   },
   {
     "id": "E_STARTS_INSTANTLY",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "The engine takes no time to start, like foot pedals"
   },
   {
     "id": "EVENTURN",
@@ -424,7 +429,8 @@
   },
   {
     "id": "MOUNTABLE",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Usable as a point to fire a mountable weapon from"
   },
   {
     "id": "MUFFLER",

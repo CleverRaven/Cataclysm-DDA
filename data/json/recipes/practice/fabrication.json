@@ -73,12 +73,12 @@
       { "proficiency": "prof_welding_basic", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
-    "//": "240cm of welding",
-    "components": [ [ [ "sheet_metal_small", 24 ] ] ],
-    "byproducts": [ [ "scrap", 6 ] ],
-    "using": [ [ "welding_standard", 240 ] ],
-    "autolearn": [ [ "fabrication", 3 ] ],
-    "book_learn": [ [ "textbook_fabrication", 2 ] ]
+    "//": "40cm of welding, you're taking it slow and probably referencing a manual",
+    "components": [ [ [ "sheet_metal_small", 4 ] ] ],
+    "byproducts": [ [ "scrap", 4 ] ],
+    "using": [ [ "welding_standard", 40 ] ],
+    "autolearn": [ [ "fabrication", 4 ] ],
+    "book_learn": [ [ "textbook_fabrication", 2 ], [ "welding_book", 2 ] ]
   },
   {
     "id": "prac_welding_adv",
@@ -96,11 +96,11 @@
       { "proficiency": "prof_welding", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
-    "//": "300cm of welding",
-    "components": [ [ [ "sheet_metal_small", 30 ] ] ],
-    "byproducts": [ [ "scrap", 9 ] ],
-    "using": [ [ "welding_standard", 300 ] ],
-    "autolearn": [ [ "fabrication", 5 ] ],
+    "//": "60cm of welding, you're taking it slow and probably referencing a manual",
+    "components": [ [ [ "sheet_metal_small", 6 ] ] ],
+    "byproducts": [ [ "scrap", 6 ] ],
+    "using": [ [ "welding_standard", 60 ] ],
+    "autolearn": [ [ "fabrication", 6 ] ],
     "book_learn": [ [ "welding_book", 4 ] ]
   }
 ]

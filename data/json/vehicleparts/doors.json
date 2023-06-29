@@ -59,7 +59,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 },
-    "delete": { "flags": [ "WINDOW" ] }
+    "delete": { "flags": [ "LOCKABLE_DOOR", "WINDOW" ] }
   },
   {
     "copy-from": "cloth_flap_door",
@@ -103,7 +103,6 @@
     "copy-from": "hddoor",
     "description": "A strong door.  Solid construction means you can't see through it when closed.",
     "durability": 660,
-    "location": "center",
     "looks_like": "door_opaque",
     "name": { "str": "heavy-duty opaque door" },
     "extend": { "flags": [ "OPAQUE" ] },
@@ -116,7 +115,6 @@
     "copy-from": "door_opaque",
     "damage_modifier": 75,
     "description": "An interior door.  Solid construction means you can't see through it when closed.",
-    "durability": 240,
     "name": { "str": "internal door" },
     "type": "vehicle_part"
   },
@@ -202,7 +200,6 @@
     "damage_modifier": 75,
     "durability": 160,
     "size": "0 ml",
-    "description": "A door.  Has a window so you can see out of it, even when closed.",
     "item": "frame_wood",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
@@ -221,7 +218,6 @@
     "name": { "str": "opaque wooden door" },
     "durability": 170,
     "description": "A door.  Solid construction means you can't see through it when closed.",
-    "size": "0 ml",
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
     "damage_reduction": { "all": 12 }
@@ -284,9 +280,7 @@
     "copy-from": "door_trunk",
     "name": { "str": "sliding door" },
     "looks_like": "door",
-    "durability": 150,
     "description": "A door.  A window lets you see through it when closed.",
-    "item": "frame",
     "breaks_into": "ig_vp_frame",
     "delete": { "flags": [ "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW" ] }
   }

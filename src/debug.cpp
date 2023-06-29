@@ -83,8 +83,8 @@
 #include <sys/system_properties.h>
 #endif
 
-#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
-#define BSD
+#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(CATA_IS_ON_BSD)
+#define CATA_IS_ON_BSD
 #endif
 
 // Static defines                                                   {{{1
@@ -1073,7 +1073,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
     } else {
         out << "\n    " << frame;
     }
-#elif defined(BSD)
+#elif defined(CATA_IS_ON_BSD)
     static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
     std::cmatch match_result;
     if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
@@ -1486,7 +1486,7 @@ std::string game_info::operating_system()
     /* OSX */
     return "MacOs";
 #endif // TARGET_IPHONE_SIMULATOR
-#elif defined(BSD)
+#elif defined(CATA_IS_ON_BSD)
     return "BSD";
 #else
     return "Unix";
@@ -1496,7 +1496,7 @@ std::string game_info::operating_system()
 #endif
 }
 
-#if !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) ) // linux; unix; MacOs; BSD
+#if !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(CATA_IS_ON_BSD) ) // linux; unix; MacOs; BSD
 /** Execute a command with the shell by using `popen()`.
  * @param command The full command to execute.
  * @note The output buffer is limited to 512 characters.
@@ -1560,7 +1560,7 @@ static std::string android_version()
     return output;
 }
 
-#elif defined(BSD)
+#elif defined(CATA_IS_ON_BSD)
 
 /** Get a precise version number for BSD systems.
  * @note The code shells-out to call `uname -a`.
@@ -1604,7 +1604,7 @@ static std::string linux_version()
     return output;
 }
 
-#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(CATA_IS_ON_BSD)
 
 /** Get a precise version number for MacOs systems.
  * @note The code shells-out to call `sw_vers` with various options.
@@ -1747,11 +1747,11 @@ std::string game_info::operating_system_version()
 {
 #if defined(__ANDROID__)
     return android_version();
-#elif defined(BSD)
+#elif defined(CATA_IS_ON_BSD)
     return bsd_version();
 #elif defined(__linux__)
     return linux_version();
-#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(CATA_IS_ON_BSD)
     return mac_os_version();
 #elif defined(_WIN32)
     return windows_version();
