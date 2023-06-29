@@ -293,7 +293,7 @@ Hostile towards Hell's Raiders and Marloss Evangelists
 New England Church Retreat camp located in a forest.
 
 #### Trade/Economics
-Miscellaneous, tools, supplies, and pelts.
+Miscellaneous, tools, supplies, and pelts. They use their own form of currency based on religious icons to manage internal trade, which are virtually worthless to outsiders. As the Cataclysm wears on, they may gain enough economic power to be worth something.
 
 #### Missions
 Helping with various tasks around the camp, and later personal matters of the members.
