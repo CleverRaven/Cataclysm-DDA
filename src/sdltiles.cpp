@@ -852,9 +852,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const point full_s = get_window_full_tile_counts( point( width, height ) );
 
     op = point( dest.x * fontwidth, dest.y * fontheight );
-    // Rounding up to include incomplete tiles at the bottom/right edges
-    screentile_width = divide_round_up( width, tile_width );
-    screentile_height = divide_round_up( height, tile_height );
+    screentile_width = s.x;
+    screentile_height = s.y;
 
     const int min_col = 0;
     const int max_col = s.x;
@@ -1069,14 +1068,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( !viewing_weather && uistate.overmap_show_city_labels ) {
 
         const auto abs_sm_to_draw_label = [&]( const tripoint_abs_sm & city_pos, const int label_length ) {
-            const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
-                                           ( city_pos ) ) - o;
-            point draw_point( tile_draw_pos.x * tile_width + dest.x,
-                              tile_draw_pos.y * tile_height + dest.y );
+            const point omt_pos = global_omt_to_draw_position( project_to<coords::omt>( city_pos ) ).xy();
+            const point draw_point = player_to_screen( omt_pos );
             // center text on the tile
-            draw_point += point( ( tile_width - label_length * fontwidth ) / 2,
-                                 ( tile_height - fontheight ) / 2 );
-            return draw_point;
+            return draw_point + point( ( tile_width - label_length * fontwidth ) / 2,
+                                       ( tile_height - fontheight ) / 2 );
         };
 
         // draws a black rectangle behind a label for visibility and legibility
@@ -1154,10 +1150,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         // Find screen coordinates to the right of the center tile
         auto center_sm = project_to<coords::sm>( tripoint_abs_omt( center_abs_omt.x() + 1,
                          center_abs_omt.y(), center_abs_omt.z() ) );
-        const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
-                                       ( center_sm ) ) - o;
-        point draw_point( tile_draw_pos.x * tile_width + dest.x,
-                          tile_draw_pos.y * tile_height + dest.y );
+        const point omt_pos = global_omt_to_draw_position( project_to<coords::omt>( center_sm ) ).xy();
+        point draw_point = player_to_screen( omt_pos );
         draw_point += point( padding, padding );
 
         // Draw notes header. Very simple label at the moment

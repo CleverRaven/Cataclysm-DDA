@@ -1278,9 +1278,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     o = is_isometric() ? center.xy() : center.xy() - point( POSX, POSY );
 
     op = dest;
-    // Rounding up to include incomplete tiles at the bottom/right edges
-    screentile_width = divide_round_up( width, tile_width );
-    screentile_height = divide_round_up( height, tile_height );
+    screentile_width = s.x;
+    screentile_height = s.y;
 
     const int min_col = 0;
     const int max_col = s.x;
@@ -1371,21 +1370,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     for( int row = min_row; row < max_row; row ++ ) {
         draw_points[row].reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
-            point temp;
-            if( is_isometric() ) {
-                // in isometric, rows and columns represent a checkerboard screen space,
-                // and we place the appropriate tile in valid squares by getting position
-                // relative to the screen center.
-                if( modulo( row - s.y / 2, 2 ) != modulo( col - s.x / 2, 2 ) ) {
-                    continue;
-                }
-                temp.x = divide_round_down( col - row - s.x / 2 + s.y / 2, 2 ) + o.x;
-                temp.y = divide_round_down( row + col - s.y / 2 - s.x / 2, 2 ) + o.y;
-            } else {
-                temp.x = col + o.x;
-                temp.y = row + o.y;
+            const std::optional<point> temp = tile_to_player( { col, row } );
+            if( !temp.has_value() ) {
+                continue;
             }
-            const tripoint pos( temp, center.z );
+            const tripoint pos( temp.value(), center.z );
             const int &x = pos.x;
             const int &y = pos.y;
 
@@ -1708,32 +1697,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
             half_open_rectangle<point> already_drawn(
                 point( min_col, min_row ), point( max_col, max_row ) );
-            if( is_isometric() ) {
-                // calculate the screen position according to the drawing code above
-                // (division rounded down):
-
-                // mem_x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
-                // mem_y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
-                // ( col - sx / 2 ) % 2 = ( row - sy / 2 ) % 2
-                // ||
-                // \/
-                const int col = mem_y + mem_x + s.x / 2 - o.y - o.x;
-                const int row = mem_y - mem_x + s.y / 2 - o.y + o.x;
-                if( already_drawn.contains( point( col, row ) ) ) {
-                    continue;
-                }
-            } else {
-                // calculate the screen position according to the drawing code above:
-
-                // mem_x = col + o.x
-                // mem_y = row + o.y
-                // ||
-                // \/
-                // col = mem_x - o.x
-                // row = mem_y - o.y
-                if( already_drawn.contains( point( mem_x, mem_y ) - o ) ) {
-                    continue;
-                }
+            const point colrow = player_to_tile( { mem_x, mem_y } );
+            if( already_drawn.contains( colrow ) ) {
+                continue;
             }
             const tripoint p( mem_x, mem_y, center.z );
             lit_level lighting = ch.visibility_cache[p.x][p.y];
@@ -1839,10 +1805,41 @@ void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int wi
 point cata_tiles::get_window_tile_counts( const point &size ) const
 {
     if( is_isometric() ) {
-        const int columns = divide_round_up( size.x, tile_width ) * 2 + 4;
-        const int rows = divide_round_up( size.y * 2, tile_width - 2 ) * 2 + 4;
+        //  |---sx---|
+        //  w        |
+        //  ~
+        //         1\  }h
+        //  /\/\/\/\2\ --
+        //  \/\/\/\3\/  |
+        //  /\/\/\/\4\  sy
+        //  \/\/\/\5\/  |
+        //  /\/\/\/\6\ --
+        //
+        // `w = tile_width / 2` is half tile width and `h = tile_width / 4` is
+        // half tile height. `tile_height` is the maximum sprite height and can
+        // be larger than the basic tile height `tile_width / 2`.
+        //
+        // There is no strict requirement about the exact position of pixels
+        // in a sprite, except that the tiles should be able to densely tile the
+        // screen area, and any extra pixels should not be occluded by the basic
+        // pixels of the sprites of the next row.
+        //
+        // Currently, only the area from (0, 0) to (tile_width, tile_width / 2)
+        // is considered when checking which tiles are on-screen, and the exact
+        // position of pixels are disregarded. The numbers in the figure above
+        // denote the first to the last drawn cells in the vertical direction.
+        // Therefore, we can see that,
+        //
+        // cols = 1 + divide_round_up(sx, w)
+        // rows = 1 + divide_round_up(sy, h)
+        // ||
+        // \/
+        const int columns = divide_round_up( size.x * 2, tile_width ) + 1;
+        const int rows = divide_round_up( size.y * 4, tile_width ) + 1;
         return point( columns, rows );
     } else {
+        // Currently, only the area from (0, 0) to (tile_width, tile_height)
+        // is considered when checking which tiles are on-screen.
         const int columns = divide_round_up( size.x, tile_width );
         const int rows = divide_round_up( size.y, tile_height );
         return point( columns, rows );
@@ -1852,13 +1849,86 @@ point cata_tiles::get_window_tile_counts( const point &size ) const
 point cata_tiles::get_window_full_tile_counts( const point &size ) const
 {
     if( is_isometric() ) {
-        const int columns = divide_round_down( size.x, tile_width ) * 2 + 4;
-        const int rows = divide_round_down( size.y * 2, tile_width - 2 ) * 2 + 4;
+        // (following comments in get_window_tile_counts)
+        //
+        // Currently, the area from (0, 0) to (tile_width, tile_width / 2) is
+        // considered when checking which tiles are fully on-screen, and the
+        // exact position of pixels are disregarded. In the figure above, as
+        // opposed to 1-6, only 2-5 are fully shown on-screen. Therefore, we can
+        // see that,
+        //
+        // cols = divide_round_down(sx, w) - 1
+        // rows = divide_round_down(sy, h) - 1
+        // ||
+        // \/
+        const int columns = divide_round_down( size.x * 2, tile_width ) - 1;
+        const int rows = divide_round_down( size.y * 4, tile_width ) - 1;
         return point( columns, rows );
     } else {
+        // Currently, only the area from (0, 0) to (tile_width, tile_height)
+        // is considered when checking which tiles are fully on-screen.
         const int columns = divide_round_down( size.x, tile_width );
         const int rows = divide_round_down( size.y, tile_height );
         return point( columns, rows );
+    }
+}
+
+std::optional<point> cata_tiles::tile_to_player( const point &colrow ) const
+{
+    if( is_isometric() ) {
+        // (following comments in get_window_tile_counts)
+        //
+        // Based on the screen tile pattern, the player position can be calculated
+        // from the column and row numbers as follows
+        if( modulo( colrow.y - screentile_height / 2, 2 )
+            != modulo( colrow.x - screentile_width / 2, 2 ) ) {
+            return std::nullopt;
+        }
+        const int posx = divide_round_down( colrow.x - colrow.y - screentile_width / 2
+                                            + screentile_height / 2, 2 ) + o.x;
+        const int posy = divide_round_down( colrow.y + colrow.x - screentile_height / 2
+                                            - screentile_width / 2, 2 ) + o.y;
+        return point( posx, posy );
+    } else {
+        return colrow + o;
+    }
+}
+
+point cata_tiles::player_to_tile( const point &pos ) const
+{
+    // (calculate the screen position according to cata_tiles::tile_to_player)
+    if( is_isometric() ) {
+        // (division rounded down):
+        //
+        // pos.x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
+        // pos.y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
+        // ( col - sx / 2 ) % 2 = ( row - sy / 2 ) % 2
+        // ||
+        // \/
+        const int col = pos.y + pos.x + screentile_width / 2 - o.y - o.x;
+        const int row = pos.y - pos.x + screentile_height / 2 - o.y + o.x;
+        return { col, row };
+    } else {
+        return pos - o;
+    }
+}
+
+point cata_tiles::player_to_screen( const point &pos ) const
+{
+    const point colrow = player_to_tile( pos );
+    if( is_isometric() ) {
+        // To ensure the first 'fully' drawn tile (col or row = 1, according to
+        // the definition in get_window_full_tile_counts) starts at 0,
+        //
+        // tile left = ( col - 1 ) * ( tw / 2.0 ) + op.x =>
+        const int scrx = divide_round_down( ( colrow.x - 1 ) * tile_width, 2 ) + op.x;
+        // tile top = ( row - 1 ) * ( tw / 4.0 ) - th + tw / 2.0 + op.y =>
+        const int scry = divide_round_down( ( colrow.y + 1 ) * tile_width, 4 ) - tile_height + op.y;
+        return { scrx, scry };
+    } else {
+        const int scrx = colrow.x * tile_width + op.x;
+        const int scry = colrow.y * tile_height + op.y;
+        return { scrx, scry };
     }
 }
 
@@ -2157,14 +2227,6 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     // If the ID string does not produce a drawable tile
     // it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
-
-    // check to make sure that we are drawing within a valid area
-    // [0->width|height / tile_width|height]
-
-    half_open_rectangle<point> screen_bounds( o, o + point( screentile_width, screentile_height ) );
-    if( !is_isometric() && !screen_bounds.contains( pos.xy() ) ) {
-        return false;
-    }
 
     const tile_type *tt = nullptr;
     std::optional<tile_lookup_res> res;
@@ -2836,6 +2898,42 @@ const memorized_tile &cata_tiles::get_vpart_memory_at( const tripoint &p ) const
     return mm_submap::default_tile;
 }
 
+void cata_tiles::draw_square_below( const point &p, const nc_color &col, const int sizefactor )
+{
+    const SDL_Color sdlcol = curses_color_to_SDL( col );
+    SDL_Rect sdlrect;
+    const point screen = player_to_screen( p );
+    if( is_isometric() ) {
+        // See comments in get_window_tile_counts for an explanation of tile width
+        // tw / sizefactor * 3.0 / 4.0
+        sdlrect.w = ( tile_width * 3 ) / ( sizefactor * 4 );
+        if( tile_width % 2 != sdlrect.w % 2 ) {
+            sdlrect.w++;
+        }
+        // (tw / 2.0) / sizefactor * 3.0 / 4.0
+        sdlrect.h = ( tile_width * 3 ) / ( sizefactor * 8 );
+        if( tile_width / 2 % 2 != sdlrect.h % 2 ) {
+            sdlrect.h++;
+        }
+        // scrx + (tw - rectw) / 2.0
+        sdlrect.x = screen.x + divide_round_down( tile_width - sdlrect.w, 2 );
+        // scry + th - tw / 2.0 + (tw / 2.0 - recth) / 2.0
+        sdlrect.y = screen.y + tile_height + divide_round_down( -tile_width - sdlrect.h * 2, 4 );
+    } else {
+        sdlrect.w = tile_width / sizefactor;
+        if( tile_width % 2 != sdlrect.w % 2 ) {
+            sdlrect.w++;
+        }
+        sdlrect.h = tile_height / sizefactor;
+        if( tile_height % 2 != sdlrect.h % 2 ) {
+            sdlrect.h++;
+        }
+        sdlrect.x = screen.x + divide_round_down( tile_width - sdlrect.w, 2 );
+        sdlrect.y = screen.y + divide_round_down( tile_height - sdlrect.h, 2 );
+    }
+    geometry->rect( renderer, sdlrect, sdlcol );
+}
+
 bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
                                      const std::array<bool, 5> &invisible, const bool memorize_only )
 {
@@ -2852,57 +2950,30 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     }
 
     tripoint pbelow = tripoint( p.xy(), p.z - 1 );
-    SDL_Color tercol = curses_color_to_SDL( c_dark_gray );
+    nc_color col = c_dark_gray;
 
     const ter_t &curr_ter = here.ter( pbelow ).obj();
     const furn_t &curr_furn = here.furn( pbelow ).obj();
     int part_below;
     int sizefactor = 2;
     if( curr_furn.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) || curr_furn.movecost < 0 ) {
-        tercol = curses_color_to_SDL( curr_furn.color() );
+        col = curr_furn.color();
     } else if( const vehicle *veh = here.veh_at_internal( pbelow, part_below ) ) {
         const int roof = veh->roof_at_part( part_below );
         const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ),
                                             part_below ).obstacle_at_part();
-        tercol = curses_color_to_SDL( ( roof >= 0 ||
-                                        vpobst ) ? c_light_gray : c_magenta );
+        col = ( roof >= 0 || vpobst ) ? c_light_gray : c_magenta;
         sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
     } else if( curr_ter.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) ||
                curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
                curr_ter.movecost == 0 ) {
-        tercol = curses_color_to_SDL( curr_ter.color() );
+        col = curr_ter.color();
     } else {
         sizefactor = 4;
-        tercol = curses_color_to_SDL( curr_ter.color() );
+        col = curr_ter.color();
     }
 
-    SDL_Rect belowRect;
-    point screen;
-    belowRect.h = tile_width / sizefactor;
-    belowRect.w = tile_height / sizefactor;
-    if( is_isometric() ) {
-        belowRect.h = ( belowRect.h * 2 ) / 3;
-        belowRect.w = ( belowRect.w * 3 ) / 4;
-
-        // translate from player-relative to screen relative tile position
-        screen.x = ( ( pbelow.x - o.x ) - ( o.y - pbelow.y ) + screentile_width - 2 ) *
-                   tile_width / 2 + op.x;
-        // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, arbitrarily tall
-        screen.y = ( ( pbelow.y - o.y ) - ( pbelow.x - o.x ) - 4 ) * tile_width / 4 +
-                   screentile_height * tile_height / 2 + // TODO: more obvious centering math
-                   op.y;
-    } else {
-        screen.x = ( pbelow.x - o.x ) * tile_width + op.x;
-        screen.y = ( pbelow.y - o.y ) * tile_height + op.y;
-    }
-    belowRect.x = screen.x + ( tile_width - belowRect.w ) / 2;
-    belowRect.y = screen.y + ( tile_height - belowRect.h ) / 2;
-    if( is_isometric() ) {
-        belowRect.y += tile_height / 8;
-    }
-    geometry->rect( renderer, belowRect, tercol );
-
+    draw_square_below( pbelow.xy(), col, sizefactor );
     return true;
 }
 
@@ -3677,28 +3748,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
         return false;
     }
 
-    const point screen_point = player_to_screen( pbelow.xy() );
-
-    SDL_Color tercol = curses_color_to_SDL( c_red );
-    const int sizefactor = 2;
-
-    SDL_Rect belowRect;
-    belowRect.h = tile_width / sizefactor;
-    belowRect.w = tile_height / sizefactor;
-
-    if( is_isometric() ) {
-        belowRect.h = ( belowRect.h * 2 ) / 3;
-        belowRect.w = ( belowRect.w * 3 ) / 4;
-    }
-
-    belowRect.x = screen_point.x + ( tile_width - belowRect.w ) / 2;
-    belowRect.y = screen_point.y + ( tile_height - belowRect.h ) / 2;
-
-    if( is_isometric() ) {
-        belowRect.y += tile_height / 8;
-    }
-
-    geometry->rect( renderer, belowRect, tercol );
+    draw_square_below( pbelow.xy(), c_red, 2 );
 
     return true;
 }
@@ -3886,12 +3936,27 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
     // Slower than sprites so only use as fallback when sprite missing
     const point screen = player_to_screen( p.xy() );
     SDL_Rect draw_rect;
-    draw_rect.x = screen.x;
-    draw_rect.y = screen.y - height_3d;
-    draw_rect.w = tile_width;
-    draw_rect.h = tile_height;
     if( is_isometric() ) {
-        draw_rect.y += tile_height / 4;
+        // See comments in get_window_tile_counts for an explanation of tile width
+        //
+        // Because different tilesets may have different tile shapes, we cannot
+        // draw a tile that fits every tileset, so this only acts as a placeholder
+        // and the tilesets should make a tile that matches the shape of other
+        // sprites.
+        draw_rect.x = screen.x;
+        // scry
+        // + th - tw / 2.0   /* shift considering the maximum tile height */
+        // - height_3d
+        // + tw / 8.0        /* shift 1/4 of normal height to avoid overlap */
+        draw_rect.y = screen.y + tile_height - tile_width * 3 / 8 - height_3d;
+        draw_rect.w = tile_width;
+        // Make the tile half the normal height to avoid overlap
+        draw_rect.h = tile_width / 4;
+    } else {
+        draw_rect.x = screen.x;
+        draw_rect.y = screen.y - height_3d;
+        draw_rect.w = tile_width;
+        draw_rect.h = tile_height;
     }
 
     // Overlay color is based on light level
@@ -4391,12 +4456,17 @@ void cata_tiles::draw_weather_frame()
 
     for( auto &vdrop : anim_weather.vdrops ) {
         // TODO: Z-level awareness if weather ever happens on anything but z-level 0.
-        tripoint p( vdrop.first, vdrop.second, 0 );
+        point p( vdrop.first, vdrop.second );
         if( !is_isometric() ) {
             // currently in ASCII screen coordinates
-            p += o;
+            const std::optional temp = tile_to_player( p );
+            if( !temp.has_value() ) {
+                continue;
+            }
+            p = temp.value();
         }
-        draw_from_id_string( weather_name, TILE_CATEGORY::WEATHER, empty_string, p, 0, 0,
+        const tripoint pos( p, 0 );
+        draw_from_id_string( weather_name, TILE_CATEGORY::WEATHER, empty_string, pos, 0, 0,
                              lit_level::LIT, nv_goggles_activated );
     }
 }
@@ -4962,24 +5032,6 @@ void cata_tiles::do_tile_loading_report()
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );
-}
-
-point cata_tiles::player_to_screen( const point &p ) const
-{
-    point screen;
-    if( is_isometric() ) {
-        screen.x = ( ( p.x - o.x ) - ( o.y - p.y ) + screentile_width - 2 ) * tile_width / 2 +
-                   op.x;
-        // y uses tile_width because width is definitive for iso tiles
-        // tile footprints are half as tall as wide, arbitrarily tall
-        screen.y = ( ( p.y - o.y ) - ( p.x - o.x ) - 4 ) * tile_width / 4 +
-                   screentile_height * tile_height / 2 + // TODO: more obvious centering math
-                   op.y;
-    } else {
-        screen.x = ( p.x - o.x ) * tile_width + op.x;
-        screen.y = ( p.y - o.y ) * tile_height + op.y;
-    }
-    return {screen};
 }
 
 template<typename Iter, typename Func>

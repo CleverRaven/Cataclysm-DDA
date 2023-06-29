@@ -502,6 +502,7 @@ class cata_tiles
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
+        void draw_square_below( const point &p, const nc_color &col, const int sizefactor );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
                            const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
@@ -658,7 +659,9 @@ class cata_tiles
             return tile_ratioy;
         }
         void do_tile_loading_report();
-        point player_to_screen( const point & ) const;
+        std::optional<point> tile_to_player( const point &colrow ) const;
+        point player_to_tile( const point &pos ) const;
+        point player_to_screen( const point &pos ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
@@ -699,8 +702,7 @@ class cata_tiles
         int tile_height = 0;
         int tile_width = 0;
         int zlevel_height = 0;
-        // The width and height of the area we can draw in,
-        // measured in map coordinates, *not* in pixels.
+        // The number of visible tiles in a row or column
         int screentile_width = 0;
         int screentile_height = 0;
         float tile_ratiox = 0.0f;
