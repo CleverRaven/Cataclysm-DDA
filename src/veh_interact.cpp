@@ -3173,7 +3173,9 @@ void veh_interact::complete_vehicle( Character &you )
                 break;
             }
             ::vehicle_part &vp_new = veh->part( partnum );
-            do_change_shape_menu( vp_new );
+            if( vp_new.info().variants.size() > 1 ) {
+                do_change_shape_menu( vp_new );
+            }
 
             // Need map-relative coordinates to compare to output of look_around.
             // Need to call coord_translate() directly since it's a new part.
