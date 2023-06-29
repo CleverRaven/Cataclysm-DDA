@@ -205,6 +205,25 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "giganotosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "giganotosaurus_juvenile", "giganotosaurus_hatchling" ],
+    "by_mood": [ "giganotosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "giganotosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "giganotosaurus", "giganotosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "giganotosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "giganotosaurus", "giganotosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "siats",
     "base_faction": "predator_dino",
     "friendly": [ "siats_juvenile", "siats_hatchling" ],
