@@ -1,5 +1,5 @@
 [
-  {
+    {
     "type": "mutation",
     "id": "BIOKINETIC",
     "name": "Awakened Biokinetic",
@@ -8,7 +8,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "biokin_physical_enhance", 2 ], [ "biokin_overcome_pain", 2 ], [ "biokin_flexibility", 2 ] ]
+    "spells_learned": [ [ "biokin_physical_enhance", 2 ], [ "biokin_overcome_pain", 2 ], [ "biokin_flexibility", 2] ]
   },
   {
     "type": "mutation",
@@ -41,12 +41,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "telepathic_concentration", 2 ],
-      [ "telepathic_shield", 2 ],
-      [ "telepathic_concentration_end", 1 ],
-      [ "telepathic_morale", 2 ]
-    ]
+    "spells_learned": [ [ "telepathic_concentration", 2 ], [ "telepathic_shield", 2 ], ["telepathic_concentration_end", 1 ], [ "telepathic_morale", 2 ] ]
   },
   {
     "type": "mutation",
@@ -70,7 +65,7 @@
     "valid": false,
     "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "teleport_transpose", 2 ] ]
   },
-  {
+    {
     "type": "mutation",
     "id": "VITAKINETIC",
     "name": "Awakened Vitakinetic",
