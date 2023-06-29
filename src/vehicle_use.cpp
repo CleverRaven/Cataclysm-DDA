@@ -1872,7 +1872,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 const int moves = to_moves<int>( 6000_seconds / skill );
                 const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
                 const hotwire_car_activity_actor hotwire_act( moves, target );
-                get_player_character().assign_activity(hotwire_act );
+                get_player_character().assign_activity( hotwire_act );
             } );
         }
 
