@@ -55,7 +55,7 @@ Survive through trade.  Form friendly mutually beneficial relationships with oth
 In the early to mid game, a key priority of the Merchants should be to build a self-sufficient defensible base.  While they don't require the player's aid for that, they may value the player as an experienced consultant.
 
 #### Attitudes
-Allied to the Old Guard as the last remnants of military force and organized government.  The Tacoma Commune is an allied off-shoot.  Trades with the Robofac, Exodii, random scavengers, God's Chosen, the Great Library, the Campus, the Brotherhood of the Tentacle, Strongarm Survivalists, Marloss Evangelists, and Fence Men.  Preyed on by the Hell's Raiders.  Distrusted by Isherwood Farm; would probably trade with them if they'd allow it.
+Allied to the Old Guard as the last remnants of military force and organized government.  The Tacoma Commune is an allied off-shoot.  Trades with the Robofac, Exodii, random scavengers, New England Church Community, the Great Library, the Campus, the Brotherhood of the Tentacle, Strongarm Survivalists, Marloss Evangelists, and Fence Men.  Preyed on by the Hell's Raiders.  Distrusted by Isherwood Farm; would probably trade with them if they'd allow it.
 
 Opposed to Mycus, triffids, zombies, and nether creatures, though has no ability to take the fight to them and can barely defend itself against zombie hordes.
 
@@ -134,7 +134,7 @@ Undo the Cataclysm, or failing that, re-establish civilization under the Old Gua
 Theoretically, tens of thousands of people.  Practically, a few dozen.
 
 #### Attitudes
-Friendly to any organization that accepts Old Guard guidance and seeks to stabilize the Cataclysm.  They're on good terms with the Free Merchants, Tacoma Commune, God's Chosen, the Great Library, and the Campus.  Opposed to the Fence Men, Hell's Raider, Neo-Natives, and Bravo Deserters.  Wants to establish control over the Strongarm Survivalists, Farm Survivalists, and Robofac, and would be willing to use force to settle the issue.  To the extent that the Old Guard understands that Marloss Evangelists are a front for the Mycus, they're against them.
+Friendly to any organization that accepts Old Guard guidance and seeks to stabilize the Cataclysm.  They're on good terms with the Free Merchants, Tacoma Commune, New England Church Community, the Great Library, and the Campus.  Opposed to the Fence Men, Hell's Raider, Neo-Natives, and Bravo Deserters.  Wants to establish control over the Strongarm Survivalists, Farm Survivalists, and Robofac, and would be willing to use force to settle the issue.  To the extent that the Old Guard understands that Marloss Evangelists are a front for the Mycus, they're against them.
 
 Completely neutral on the subject of mutants and augmentees.
 
