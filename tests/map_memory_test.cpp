@@ -112,7 +112,7 @@ TEST_CASE( "map_memory_forgets", "[map_memory]" )
     CHECK( mt.get_dec_rotation() == 3 );
     memory.set_tile_symbol( p1, 1 );
     CHECK( mt.symbol == 1 );
-    memory.clear_tile_vehicles( p1 );
+    memory.clear_tile_decoration( p1, /* prefix = */ "vp_" );
     CHECK( mt.symbol == 0 );
     CHECK( mt.get_ter_id() == "t_foo" );
     CHECK( mt.get_ter_subtile() == 43 );

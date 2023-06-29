@@ -50,6 +50,7 @@
     "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
+    "show_in_info": true,
     "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
   },
   {
@@ -3253,10 +3254,10 @@
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 0.0 },
       { "limb_score": "grip", "modifier": 0.0 },
-      { "limb_score": "lift", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "lift", "modifier": 0.6, "scaling": -0.015 },
       { "limb_score": "block", "modifier": 0.25, "scaling": -0.01 },
       { "limb_score": "breathing", "modifier": 0.75, "scaling": -0.005 },
-      { "limb_score": "balance", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "balance", "modifier": 0.6, "scaling": -0.016 },
       { "limb_score": "move_speed", "modifier": 0.6, "scaling": -0.01 },
       { "limb_score": "footing", "modifier": 0.6, "scaling": -0.01 },
       { "limb_score": "swim", "modifier": 0.0 }

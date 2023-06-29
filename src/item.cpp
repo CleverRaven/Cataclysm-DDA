@@ -1214,6 +1214,7 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed ) cons
             debugmsg( "ERROR: failed to put %s in its container %s", typeId().c_str(), cont.c_str() );
             return *this;
         }
+        container.add_automatic_whitelist();
         return container;
     } else if( is_software() && container.is_software_storage() ) {
         container.put_in( *this, item_pocket::pocket_type::SOFTWARE );
@@ -1221,6 +1222,25 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed ) cons
         return container;
     }
     return *this;
+}
+
+void item::add_automatic_whitelist()
+{
+    std::vector<item_pocket *> pkts = get_all_contained_pockets();
+    if( pkts.size() == 1 && contents_only_one_type() ) {
+        pkts.front()->settings.whitelist_item( contents.first_item().typeId() );
+    }
+}
+
+void item::clear_automatic_whitelist()
+{
+    std::vector<item_pocket *> pkts = get_all_contained_pockets();
+    if( pkts.size() == 1 && !pkts.front()->settings.was_edited() ) {
+        cata::flat_set<itype_id> const &wl = pkts.front()->settings.get_item_whitelist();
+        if( !wl.empty() ) {
+            pkts.front()->settings.clear_item( *wl.begin() );
+        }
+    }
 }
 
 void item::update_modified_pockets()
@@ -5694,9 +5714,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const itype_id tid = typeId();
         std::vector<vpart_info> vparts;
 
-        for( const std::pair<const vpart_id, vpart_info> &vp : vpart_info::all() ) {
-            if( vp.second.base_item == tid ) {
-                vparts.push_back( vp.second );
+        for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+            if( vpi.base_item == tid ) {
+                vparts.push_back( vpi );
             }
         }
 
@@ -6315,6 +6335,9 @@ void item::on_contents_changed()
     cached_relative_encumbrance.reset();
     encumbrance_update_ = true;
     update_inherited_flags();
+    if( empty_container() ) {
+        clear_automatic_whitelist();
+    }
 }
 
 std::string item::dirt_symbol() const
@@ -6447,6 +6470,22 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     } else {
         maintext = label( quantity ) + ( is_armor() && has_clothing_mod() ? "+1" : "" );
     }
+
+    std::vector<const item_pocket *> pkts = get_all_contained_pockets();
+    bool wl = false;
+    bool bl = false;
+    bool player_wbl = false;
+    for( item_pocket const *pkt : pkts ) {
+        bool const wl_ = !pkt->settings.get_item_whitelist().empty() ||
+                         !pkt->settings.get_category_whitelist().empty();
+        bool const bl_ = !pkt->settings.get_item_blacklist().empty() ||
+                         !pkt->settings.get_category_blacklist().empty();
+        player_wbl |= ( wl_ || bl_ ) && pkt->settings.was_edited();
+        wl |= wl_;
+        bl |= bl_;
+    }
+    std::string const wltext =
+        wl || bl ? colorize( "⁺", player_wbl ? c_light_gray : c_dark_gray ) : std::string();
 
     /* only expand full contents name if with_contents == true */
     if( with_contents_full && !contents.empty() && contents_only_one_type() ) {
@@ -6653,9 +6692,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").%7s: inner contents suffix (e.g. " > rock" or " > 5 items").
-    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s%7$s" ), damtext, burntext, modtext,
-                                     vehtext, maintext, tagtext, contents_suffix_text );
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). %5$s: main item text (e.g. "apple"). %6$s: whitelist marker (e.g. "⁺"). %7$s: tags (e.g. "(wet) (poor fit)").%8$s: inner contents suffix (e.g. " > rock" or " > 5 items").
+    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s" ), damtext, burntext,
+                                     modtext, vehtext, maintext, wltext, tagtext, contents_suffix_text );
 
     if( truncate != 0 ) {
         ret = utf8_truncate( ret, truncate + truncate_override );
@@ -10540,7 +10579,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     return wanted_qty - qty;
 }
 
-units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier )
+units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
+                                    float fuel_efficiency )
 {
     if( qty < 0_kJ ) {
         debugmsg( "Cannot consume negative quantity of energy for %s", tname() );
@@ -10549,10 +10589,14 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
 
     const units::energy wanted_energy = qty;
 
-    // Consume battery(ammo)
-    if( is_battery() ) {
-        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos );
+    // Consume battery(ammo) and other fuel (if allowed)
+    if( is_battery() || fuel_efficiency >= 0 ) {
+        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
         qty -= units::from_kilojoule( consumed_kj );
+        // fix negative quantity
+        if( qty < 0_J ) {
+            qty = 0_J;
+        }
     }
 
     // Consume energy from contained magazine
@@ -12160,7 +12204,8 @@ int item::processing_speed() const
     }
 
     if( active || ethereal || wetness || contents_linked ||
-        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ||
+        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -13216,8 +13261,13 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
 bool item::process_blackpowder_fouling( Character *carrier )
 {
-    if( damage() < max_damage() && one_in( 2000 ) ) {
+    // rust is deterministic. 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
+    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level.
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + static_cast<int>( get_var( "dirt",
+             0 ) / 2000 ) );
+    if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 43200.0 / ( damage() + 1 ) ) {
         inc_damage();
+        set_var( "rust_timer", 0 );
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
         }
@@ -14183,7 +14233,8 @@ item const *item::this_or_single_content() const
 bool item::contents_only_one_type() const
 {
     std::list<const item *> const items = contents.all_items_top( []( item_pocket const & pkt ) {
-        return pkt.is_standard_type() || pkt.is_type( item_pocket::pocket_type::SOFTWARE );
+        return pkt.is_type( item_pocket::pocket_type::CONTAINER ) ||
+               pkt.is_type( item_pocket::pocket_type::SOFTWARE );
     } );
     return items.size() == 1 ||
            ( items.size() > 1 &&

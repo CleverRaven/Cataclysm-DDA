@@ -1187,9 +1187,9 @@
       }
     ],
     "weight": "3080 g",
-    "volume": "3421 ml",
+    "volume": "3121 ml",
     "longest_side": "402 mm",
-    "//": "The length and weight number is assigned to, roughly, represent an MDRX without a protruding barrel. the difference will be made up for with the installable conversion kits.",
+    "//": "The length, weight, and volume numbers are assigned to, roughly, represent an MDRX without a protruding barrel. the difference will be made up for with the installable conversion kits.",
     "price": 173900,
     "price_postapoc": 5000,
     "to_hit": -1,
@@ -1359,7 +1359,7 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
-    "flags": [ "NO_TURRET" ],
+    "flags": [ "NO_TURRET", "EASY_CLEAN" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
       {

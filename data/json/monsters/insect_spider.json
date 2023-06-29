@@ -633,8 +633,17 @@
     "melee_damage": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 25 } ],
     "grab_strength": 75,
     "special_attacks": [
-      { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
-      [ "GRAB_DRAG", 12 ],
+      {
+        "id": "grab_drag",
+        "cooldown": 5,
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "grab_data": { "drag_distance": 5, "drag_movecost_mod": 0.5 }
+      },
+      {
+        "id": "drag_followup",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+        "grab_data": { "drag_distance": 5, "drag_movecost_mod": 0.5 }
+      },
       {
         "type": "bite",
         "cooldown": 5,
@@ -1130,7 +1139,16 @@
     "grab_strength": 75,
     "special_attacks": [
       { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
-      [ "GRAB_DRAG", 10 ],
+      {
+        "id": "grab_drag",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "grab_data": { "drag_movecost_mod": 0.5, "drag_deviation": 1 }
+      },
+      {
+        "id": "drag_followup",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+        "grab_data": { "drag_movecost_mod": 0.5, "drag_deviation": 1 }
+      },
       {
         "type": "bite",
         "move_cost": 120,
@@ -2414,7 +2432,16 @@
         "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
       },
-      [ "GRAB_DRAG", 10 ]
+      {
+        "id": "grab_drag",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_mandible" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] }
+      },
+      {
+        "id": "drag_followup",
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "maimed_mandible" } }, { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ]
+        }
+      }
     ],
     "zombify_into": "mon_meat_cocoon_large",
     "dissect": "dissect_insect_sample_large",
@@ -2638,8 +2665,7 @@
     "//grab": "Good at pulling, grabbing, chewing your face off afterwards",
     "grab_strength": 35,
     "special_attacks": [
-      { "id": "ranged_pull", "cooldown": 30, "grab_data": { "pull_weight_ratio": 1.0 } },
-      [ "GRAB_DRAG", 10 ],
+      { "id": "ranged_pull", "cooldown": 12, "grab_data": { "pull_weight_ratio": 1.0 } },
       {
         "type": "leap",
         "cooldown": 8,
@@ -2712,8 +2738,7 @@
         "infection_chance": 75,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 18 } ]
       },
-      { "id": "ranged_pull", "move_cost": 50, "cooldown": 30, "grab_data": { "pull_weight_ratio": 1.0 } },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "ranged_pull", "move_cost": 50, "cooldown": 10, "grab_data": { "pull_weight_ratio": 1.0 } }
     ],
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },

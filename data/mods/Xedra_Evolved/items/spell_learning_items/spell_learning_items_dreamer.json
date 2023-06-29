@@ -230,5 +230,32 @@
     "symbol": "o",
     "color": "cyan",
     "use_action": { "type": "learn_spell", "spells": [ "spell_karma_arms" ] }
+  },
+  {
+    "id": "artifact_stalker_eyes",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "presence" },
+    "description": "You feel like something took a glance at this place, and it was so menacing, that the world itself curled up here.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "spell_stalker_eyes" ] }
+  },
+  {
+    "id": "artifact_devil_tail",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "lizard tail" },
+    "looks_like": "fur_cat_tail",
+    "description": "Small lizard tail, that was ripped off.  Looks like someone's joke.",
+    "weight": "3 g",
+    "volume": "3 ml",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "~",
+    "color": "green",
+    "use_action": { "type": "learn_spell", "spells": [ "spell_devil_tail" ] }
   }
 ]

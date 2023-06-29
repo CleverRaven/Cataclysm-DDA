@@ -763,7 +763,7 @@
     "charges_per_use": 1,
     "use_action": {
       "ammo_scale": 0,
-      "target": "UPS_off",
+      "target": "UPS_OFF",
       "msg": "The charger is turned off.",
       "menu_text": "Turn off",
       "type": "transform"
@@ -887,6 +887,7 @@
     "name": { "str": "gas-powered UPS (on)", "str_pl": "gas-powered UPSes (on)" },
     "description": "A compact thermoelectric generator.  When connected to a propane tank, it will slowly charge UPS-compatible devices.",
     "power_draw": "60 mW",
+    "fuel_efficiency": 0.3,
     "revert_to": "gas_charger",
     "use_action": {
       "ammo_scale": 0,

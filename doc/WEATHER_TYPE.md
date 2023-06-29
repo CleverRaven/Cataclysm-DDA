@@ -1,4 +1,4 @@
-# WEATHER TYPES
+# Weather Types
 
 Each weather type is a type of weather that occurs, and what causes it. The only required entries are null and clear.
 
