@@ -503,35 +503,35 @@ class cata_tiles
         bool would_apply_vision_effects( visibility_type visibility ) const;
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
-                           const std::array<bool, 5> &invisible );
+                           const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible );
+                                 const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible );
+                             const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
-                            const std::array<bool, 5> &invisible );
+                            const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
-                        const std::array<bool, 5> &invisible );
+                        const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_part_con( const tripoint &p, lit_level ll, int &height_3d,
-                            const std::array<bool, 5> &invisible );
+                            const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible );
+                                 const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                         const std::array<bool, 5> &invisible, bool roof );
+                         const std::array<bool, 5> &invisible, bool roof, const bool memorize_only );
         bool draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible );
+                                 const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
-                              const std::array<bool, 5> &invisible );
+                              const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
-                               const std::array<bool, 5> &invisible );
+                               const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
-                              const std::array<bool, 5> &invisible );
+                              const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
-                                    const std::array<bool, 5> &invisible );
+                                    const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible );
+                             const std::array<bool, 5> &invisible, const bool memorize_only );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
-                                             const std::array<bool, 5> &invisible );
+                                             const std::array<bool, 5> &invisible, const bool memorize_only );
         void draw_zlevel_overlay( const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );

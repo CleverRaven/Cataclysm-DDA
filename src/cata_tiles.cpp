@@ -1623,7 +1623,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         for( int row = min_row; row < max_row; row ++ ) {
             for( auto f : drawing_layers_legacy ) {
                 for( tile_render_info &p : draw_points[row] ) {
-                    ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
+                    ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible, false );
                 }
             }
         }
@@ -1654,13 +1654,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             // Reset height_3d to base when drawing vehicles
                             p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                             // Draw
-                            if( !( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible ) ) {
+                            if( !( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible, false ) ) {
                                 // If no vpart drawn, revert height_3d changes
                                 p.height_3d = temp_height_3d;
                             }
                         } else {
                             // Draw
-                            ( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible );
+                            ( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible, false );
                         }
                     }
                 }
@@ -1737,7 +1737,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
             const tripoint p( mem_x, mem_y, center.z );
             lit_level lighting = ch.visibility_cache[p.x][p.y];
-            if( apply_vision_effects( p, here.get_visibility( lighting, cache ) ) ) {
+            // `apply_vision_effects` does not memorize anything so we only need
+            // to call `would_apply_vision_effects` here.
+            if( would_apply_vision_effects( here.get_visibility( lighting, cache ) ) ) {
                 continue;
             }
             int height_3d = 0;
@@ -1747,15 +1749,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 const tripoint np = p + neighborhood[i];
                 invisible[1 + i] = apply_visible( np, ch, here );
             }
-            //calling draw to memorize everything.
+            //calling draw to memorize (and only memorize) everything.
             //bypass cache check in case we learn something new about the terrain's connections
-            draw_terrain( p, lighting, height_3d, invisible );
+            draw_terrain( p, lighting, height_3d, invisible, true );
             if( here.check_seen_cache( p ) ) {
-                draw_furniture( p, lighting, height_3d, invisible );
-                draw_trap( p, lighting, height_3d, invisible );
-                draw_part_con( p, lighting, height_3d, invisible );
-                draw_vpart_no_roof( p, lighting, height_3d, invisible );
-                draw_vpart_roof( p, lighting, height_3d, invisible );
+                draw_furniture( p, lighting, height_3d, invisible, true );
+                draw_trap( p, lighting, height_3d, invisible, true );
+                draw_part_con( p, lighting, height_3d, invisible, true );
+                draw_vpart_no_roof( p, lighting, height_3d, invisible, true );
+                draw_vpart_roof( p, lighting, height_3d, invisible, true );
                 here.check_and_set_seen_cache( p );
             }
         }
@@ -2835,8 +2837,12 @@ const memorized_tile &cata_tiles::get_vpart_memory_at( const tripoint &p ) const
 }
 
 bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
-                                     const std::array<bool, 5> &invisible )
+                                     const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    if( memorize_only ) {
+        return false;
+    }
+
     map &here = get_map();
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
@@ -2901,7 +2907,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
 }
 
 bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &height_3d,
-                               const std::array<bool, 5> &invisible )
+                               const std::array<bool, 5> &invisible, const bool memorize_only )
 {
     map &here = get_map();
     const auto override = terrain_override.find( p );
@@ -2941,8 +2947,10 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         }
         // draw the actual terrain if there's no override
         if( !neighborhood_overridden ) {
-            return draw_from_id_string( tname, TILE_CATEGORY::TERRAIN, empty_string, p, subtile,
-                                        rotation, ll, nv_goggles_activated, height_3d );
+            return memorize_only
+                   ? false
+                   : draw_from_id_string( tname, TILE_CATEGORY::TERRAIN, empty_string, p, subtile,
+                                          rotation, ll, nv_goggles_activated, height_3d );
         }
     }
     if( invisible[0] ? overridden : neighborhood_overridden ) {
@@ -2966,14 +2974,18 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
             const bool nv = overridden ? false : nv_goggles_activated;
-            return draw_from_id_string( tname, TILE_CATEGORY::TERRAIN, empty_string, p, subtile,
-                                        rotation, lit, nv, height_3d );
+            return memorize_only
+                   ? false
+                   : draw_from_id_string( tname, TILE_CATEGORY::TERRAIN, empty_string, p, subtile,
+                                          rotation, lit, nv, height_3d );
         }
     } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
         const memorized_tile &mt = get_terrain_memory_at( p );
         if( !mt.get_ter_id().empty() ) {
-            return draw_from_id_string(
+            return memorize_only
+                   ? false
+                   : draw_from_id_string(
                        mt.get_ter_id(), TILE_CATEGORY::TERRAIN, empty_string, p, mt.get_ter_subtile(),
                        mt.get_ter_rotation(), lit_level::MEMORIZED, nv_goggles_activated, height_3d );
         }
@@ -2982,7 +2994,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
 }
 
 bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible )
+                                 const std::array<bool, 5> &invisible, const bool memorize_only )
 {
     avatar &you = get_avatar();
     const auto override = furniture_override.find( p );
@@ -3024,8 +3036,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         }
         // draw the actual furniture if there's no override
         if( !neighborhood_overridden ) {
-            return draw_from_id_string( fname, TILE_CATEGORY::FURNITURE, empty_string, p, subtile,
-                                        rotation, ll, nv_goggles_activated, height_3d );
+            return memorize_only
+                   ? false
+                   : draw_from_id_string( fname, TILE_CATEGORY::FURNITURE, empty_string, p, subtile,
+                                          rotation, ll, nv_goggles_activated, height_3d );
         }
     }
     if( invisible[0] ? overridden : neighborhood_overridden ) {
@@ -3061,14 +3075,18 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
             const bool nv = overridden ? false : nv_goggles_activated;
-            return draw_from_id_string( fname, TILE_CATEGORY::FURNITURE, empty_string, p, subtile,
-                                        rotation, lit, nv, height_3d );
+            return memorize_only
+                   ? false
+                   : draw_from_id_string( fname, TILE_CATEGORY::FURNITURE, empty_string, p, subtile,
+                                          rotation, lit, nv, height_3d );
         }
     } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
         const memorized_tile &mt = get_furniture_memory_at( p );
         if( !mt.get_dec_id().empty() ) {
-            return draw_from_id_string(
+            return memorize_only
+                   ? false
+                   : draw_from_id_string(
                        mt.get_dec_id(), TILE_CATEGORY::FURNITURE, empty_string, p, mt.get_dec_subtile(),
                        mt.get_dec_rotation(), lit_level::MEMORIZED, nv_goggles_activated, height_3d );
         }
@@ -3077,7 +3095,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
 }
 
 bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3d,
-                            const std::array<bool, 5> &invisible )
+                            const std::array<bool, 5> &invisible, const bool memorize_only )
 {
     const auto override = trap_override.find( p );
     const bool overridden = override != trap_override.end();
@@ -3111,8 +3129,10 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         }
         // draw the actual trap if there's no override
         if( !neighborhood_overridden ) {
-            return draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, subtile,
-                                        rotation, ll, nv_goggles_activated, height_3d );
+            return memorize_only
+                   ? false
+                   : draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, subtile,
+                                          rotation, ll, nv_goggles_activated, height_3d );
         }
     }
     if( overridden || ( !invisible[0] && neighborhood_overridden &&
@@ -3141,14 +3161,18 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
             const bool nv = overridden ? false : nv_goggles_activated;
-            return draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, subtile,
-                                        rotation, lit, nv, height_3d );
+            return memorize_only
+                   ? false
+                   : draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, subtile,
+                                          rotation, lit, nv, height_3d );
         }
     } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
         const memorized_tile &mt = get_trap_memory_at( p );
         if( !mt.get_dec_id().empty() ) {
-            return draw_from_id_string(
+            return memorize_only
+                   ? false
+                   : draw_from_id_string(
                        mt.get_dec_id(), TILE_CATEGORY::TRAP, empty_string, p, mt.get_dec_subtile(), mt.get_dec_rotation(),
                        lit_level::MEMORIZED, nv_goggles_activated, height_3d );
         }
@@ -3157,7 +3181,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
 }
 
 bool cata_tiles::draw_part_con( const tripoint &p, const lit_level ll, int &height_3d,
-                                const std::array<bool, 5> &invisible )
+                                const std::array<bool, 5> &invisible, const bool memorize_only )
 {
     map &here = get_map();
     // FIXME: fix tripoint type
@@ -3167,15 +3191,21 @@ bool cata_tiles::draw_part_con( const tripoint &p, const lit_level ll, int &heig
         if( here.check_seen_cache( p ) ) {
             you.memorize_decoration( here.getabs( p ), trname, 0, 0 );
         }
-        return draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, 0,
-                                    0, ll, nv_goggles_activated, height_3d );
+        return memorize_only
+               ? false
+               : draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, 0,
+                                      0, ll, nv_goggles_activated, height_3d );
     }
     return false;
 }
 
 bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &height_3d,
-                                const std::array<bool, 5> &invisible )
+                                const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    if( memorize_only ) {
+        return false;
+    }
+
     map &here = get_map();
     const auto override = graffiti_override.find( p );
     const bool overridden = override != graffiti_override.end();
@@ -3192,8 +3222,12 @@ bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &heig
 }
 
 bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int &height_3d,
-                                     const std::array<bool, 5> &invisible )
+                                     const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    if( memorize_only ) {
+        return false;
+    }
+
     const auto fld_override = field_override.find( p );
     const bool fld_overridden = fld_override != field_override.end();
     map &here = get_map();
@@ -3492,8 +3526,12 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 }
 
 bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, int &/*height_3d*/,
-                                   const std::array<bool, 5> &invisible )
+                                   const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    if( memorize_only ) {
+        return false;
+    }
+
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
@@ -3504,25 +3542,25 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, in
     int height_3d_below = 0;
     std::array<bool, 5> below_invisible;
     std::fill( below_invisible.begin(), below_invisible.end(), false );
-    return draw_vpart_no_roof( pbelow, lit_level::LOW, height_3d_below, below_invisible );
+    return draw_vpart_no_roof( pbelow, lit_level::LOW, height_3d_below, below_invisible,
+                               memorize_only );
 }
 
 bool cata_tiles::draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
-                                     const std::array<bool, 5> &invisible )
+                                     const std::array<bool, 5> &invisible, const bool memorize_only )
 {
-    return draw_vpart( p, ll, height_3d, invisible, false );
+    return draw_vpart( p, ll, height_3d, invisible, false, memorize_only );
 }
 
 bool cata_tiles::draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
-                                  const std::array<bool, 5> &invisible )
+                                  const std::array<bool, 5> &invisible, const bool memorize_only )
 {
-    return draw_vpart( p, ll, height_3d, invisible, true );
+    return draw_vpart( p, ll, height_3d, invisible, true, memorize_only );
 }
 
 bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible, bool roof )
+                             const std::array<bool, 5> &invisible, bool roof, const bool memorize_only )
 {
-    ( void ) roof;
     const auto override = vpart_override.find( p );
     const bool overridden = override != vpart_override.end();
     map &here = get_map();
@@ -3543,9 +3581,11 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             }
             if( !overridden ) {
                 int height_3d_temp = height_3d;
-                const bool ret = draw_from_id_string( "vp_" + vd.id.str(), TILE_CATEGORY::VEHICLE_PART,
-                                                      empty_string, p, subtile, rotation, ll,
-                                                      nv_goggles_activated, height_3d_temp, 0, vd.variant.id );
+                const bool ret = memorize_only
+                                 ? false
+                                 : draw_from_id_string( "vp_" + vd.id.str(), TILE_CATEGORY::VEHICLE_PART,
+                                                        empty_string, p, subtile, rotation, ll,
+                                                        nv_goggles_activated, height_3d_temp, 0, vd.variant.id );
                 // Do not increment height_3d for non-roof vparts
                 if( !roof ) {
                     height_3d = height_3d_temp;
@@ -3569,9 +3609,10 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
             int height_3d_temp = height_3d;
-            const bool ret =
-                draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
-                                     rotation, lit_level::LIT, false, height_3d_temp );
+            const bool ret = memorize_only
+                             ? false
+                             : draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
+                                                    rotation, lit_level::LIT, false, height_3d_temp );
             if( !roof ) {
                 height_3d = height_3d_temp;
             }
@@ -3592,7 +3633,9 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
                 tvar = tid.substr( variant_separator + 1 );
                 tid = tid.substr( 0, variant_separator );
             }
-            return draw_from_id_string(
+            return memorize_only
+                   ? false
+                   : draw_from_id_string(
                        std::string( tid ), TILE_CATEGORY::VEHICLE_PART, empty_string, p, t.get_dec_subtile(),
                        t.get_dec_rotation(), lit_level::MEMORIZED, nv_goggles_activated, height_3d_temp, 0,
                        std::string( tvar ) );
@@ -3602,8 +3645,12 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
 }
 
 bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int &,
-                                        const std::array<bool, 5> &invisible )
+                                        const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    if( memorize_only ) {
+        return false;
+    }
+
     // Check if we even need to draw below. If not, bail.
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
@@ -3657,8 +3704,12 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
 }
 
 bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
-                                  const std::array<bool, 5> &invisible )
+                                  const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    if( memorize_only ) {
+        return false;
+    }
+
     bool result;
     bool is_player;
     bool sees_player;
@@ -3778,8 +3829,12 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
 }
 
 bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible )
+                                 const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    if( memorize_only ) {
+        return false;
+    }
+
     if( invisible[0] ) {
         return false;
     }
@@ -3805,8 +3860,12 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
 }
 
 bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_level /*ll*/,
-        int &height_3d, const std::array<bool, 5> &invisible )
+        int &height_3d, const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    if( memorize_only ) {
+        return false;
+    }
+
     map &here = get_map();
     if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
         item_override.find( pos ) == item_override.end() &&
