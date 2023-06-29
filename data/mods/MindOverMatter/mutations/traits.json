@@ -48,7 +48,7 @@
     "id": "TELEKINETIC",
     "name": "Awakened Telekinetic",
     "points": 0,
-    "description": "Mental control over the motion of bjects and people at a distance.",
+    "description": "Mental control over the motion of objects and people at a distance.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
