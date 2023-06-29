@@ -160,6 +160,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_giganotosaurus",
+    "name": "giganotosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_giganotosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_siats",
     "name": "siats egg",
     "copy-from": "egg_dino_theropod",
