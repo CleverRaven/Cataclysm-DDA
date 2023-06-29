@@ -296,7 +296,7 @@ New England Church Retreat camp located in a forest.
 Miscellaneous, tools, supplies, and pelts. They use their own form of currency based on religious icons to manage internal trade, which are virtually worthless to outsiders. As the Cataclysm wears on, they may gain enough economic power to be worth something.
 
 #### Missions
-Helping with various tasks around the camp, and later personal matters of the members.
+Helping with various tasks around the camp, and later personal matters of the members. A trusted individual may be able to assist in outside politicking or spreading the word of God.
 
 
 ## Extradimensional and Alien Factions
