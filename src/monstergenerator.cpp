@@ -133,6 +133,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ACIDTRAIL: return "ACIDTRAIL";
         case MF_SHORTACIDTRAIL: return "SHORTACIDTRAIL";
         case MF_FIREPROOF: return "FIREPROOF";
+        case MF_IRONWROUGHT: return "IRONWROUGHT";
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
         case MF_SMALLSLUDGETRAIL: return "SMALLSLUDGETRAIL";
@@ -631,9 +632,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
     add_hardcoded_attack( "STRETCH_ATTACK", mattack::stretch_attack );
     add_hardcoded_attack( "STRETCH_BITE", mattack::stretch_bite );
-    add_hardcoded_attack( "RANGED_PULL", mattack::ranged_pull );
-    add_hardcoded_attack( "GRAB", mattack::grab );
-    add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "DSA_DRONE_SCAN", mattack::dsa_drone_scan );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
@@ -811,7 +809,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "weakpoint_sets" ) ) {
         weakpoints_deferred.clear();
         for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
-            weakpoints_deferred.emplace_back( weakpoints_id( jval.get_string() ) );
+            weakpoints_deferred.emplace_back( jval.get_string() );
         }
     }
 
@@ -893,10 +891,10 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         absorb_material.clear();
         if( jo.has_array( "absorb_material" ) ) {
             for( std::string mat : jo.get_string_array( "absorb_material" ) ) {
-                absorb_material.emplace_back( material_id( mat ) );
+                absorb_material.emplace_back( mat );
             }
         } else {
-            absorb_material.emplace_back( material_id( jo.get_string( "absorb_material" ) ) );
+            absorb_material.emplace_back( jo.get_string( "absorb_material" ) );
         }
     }
 

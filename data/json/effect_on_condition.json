@@ -124,7 +124,7 @@
     "type": "effect_on_condition",
     "id": "get_m4_carbine",
     "global": true,
-    "effect": { "u_spawn_item": "m4_carbine" }
+    "effect": { "u_spawn_item": "modular_m4_carbine" }
   },
   {
     "type": "effect_on_condition",
@@ -443,46 +443,137 @@
     "recurrence": "5 minutes",
     "global": true,
     "condition": {
-      "and": [ { "is_weather": "portal_storm" }, { "u_has_items": { "item": "nre_recorder", "charges": 1 } }, "u_is_outside" ]
+      "and": [
+        {
+          "or": [
+            { "is_weather": "portal_storm" },
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "one_in_chance": 12 } ] },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        "u_is_outside"
+      ]
     },
-    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "deactivate_condition": {
+      "not": {
+        "or": [ { "is_weather": "portal_storm" }, { "is_weather": "distant_portal_storm" }, { "is_weather": "close_portal_storm" } ]
+      }
+    },
     "effect": [
-      { "u_adjust_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "adjustment": 1 },
+      { "math": [ "u_portal_storm_record", "++" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "large_printout_portal_storm_data_ping",
+            "condition": { "math": [ "u_portal_storm_record", ">=", "25" ] },
+            "effect": [ { "u_message": "The NRE recorder emits a three beep sequence!", "type": "info" } ],
+            "false_effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "medium_printout_portal_storm_data_ping",
+                    "condition": { "math": [ "u_portal_storm_record", ">=", "3" ] },
+                    "effect": [ { "u_message": "The NRE recorder emits a two beep sequence!", "type": "info" } ],
+                    "false_effect": [
+                      {
+                        "run_eocs": [
+                          {
+                            "id": "small_printout_portal_storm_data_ping",
+                            "condition": { "math": [ "u_portal_storm_record", ">=", "1" ] },
+                            "effect": [ { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" } ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "capture_generic_nre_anomaly",
+    "global": true,
+    "condition": { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+    "effect": [
+      { "math": [ "u_generic_nre_anomaly", "++" ] },
       { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "print_portal_storm_data",
-    "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 1 },
-    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "id": "EOC_on_kill_capture_generic_nre_anomaly",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "//": "Only add monsters with significant reality altering powers, not just anything in the nether species.",
+    "condition": {
+      "and": [
+        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        {
+          "or": [
+            { "compare_string": [ "mon_hound_tindalos", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_darkman", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_zombie_phase_shrike", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_swarm_structure", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_better_half", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_hallucinator", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_archunk_strong", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_void_spider", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_XEDRA_officer", { "context_val": "victim_type" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_generic_nre_anomaly", "++" ] },
+      { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "print_nre_data",
+    "condition": { "or": [ { "math": [ "u_portal_storm_record", ">", "0" ] }, { "math": [ "u_generic_nre_anomaly", ">", "0" ] } ] },
     "effect": {
       "run_eocs": [
         {
           "id": "large_printout_portal_storm_data",
-          "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 25 },
+          "condition": { "math": [ "u_portal_storm_record", ">=", "25" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "large_printout_portal_storm_data", "count": 1 },
-            { "u_add_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "value": "0" }
+            { "math": [ "u_portal_storm_record", "=", "0" ] }
           ]
         },
         {
           "id": "medium_printout_portal_storm_data",
-          "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 3 },
+          "condition": { "math": [ "u_portal_storm_record", ">=", "3" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "medium_printout_portal_storm_data", "count": 1 },
-            { "u_add_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "value": "0" }
+            { "math": [ "u_portal_storm_record", "=", "0" ] }
           ]
         },
         {
           "id": "small_printout_portal_storm_data",
-          "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 1 },
+          "condition": { "math": [ "u_portal_storm_record", ">=", "1" ] },
           "effect": [
             { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
             { "u_spawn_item": "small_printout_portal_storm_data", "count": 1 },
-            { "u_add_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "value": "0" }
+            { "math": [ "u_portal_storm_record", "=", "0" ] }
+          ]
+        },
+        {
+          "id": "printout_nre_anomaly_data",
+          "condition": { "math": [ "u_generic_nre_anomaly", ">=", "1" ] },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "nre_anomaly_printout_data", "count": { "u_val": "generic_nre_anomaly", "default": 1 } },
+            { "math": [ "u_generic_nre_anomaly", "=", "0" ] }
           ]
         }
       ]
@@ -492,7 +583,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_last_amigara_death",
-    "condition": { "compare_num": [ { "global_val": "monsters_nearby", "id": "mon_amigara_horror" }, "<", { "const": 1 } ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror')", "<", "1" ] },
     "effect": [
       { "mapgen_update": "amigara_death" },
       { "u_lose_effect": "effect_amigara" },
@@ -645,7 +736,7 @@
       {
         "run_eocs": {
           "id": "EOC_HALLUCINATION_ATTACKS",
-          "condition": { "compare_num": [ { "global_val": "monsters_nearby" }, ">", { "const": 1 } ] },
+          "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
           "effect": [
             {
               "u_spawn_monster": "GROUP_YOUR_FEARS",
@@ -999,6 +1090,213 @@
         ],
         "unique_ids": [ "GUARD1", "GUARD2", "GUARD3", "GUARD4", "GUARD5", "GUARD6", "GUARD7" ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin2_molt_timer1",
+    "recurrence": [ "24 days", "42 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } },
+        { "not": { "u_has_trait": "CHITIN3" } },
+        { "not": { "u_has_trait": "CRUSTACEAN_CARAPACE" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin2_molt_timer2",
+    "recurrence": [ "1 days", "2 days" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "molting" },
+        { "not": { "u_has_effect": "molting_imminent" } },
+        { "not": { "u_has_trait": "CHITIN3" } },
+        { "not": { "u_has_trait": "CRUSTACEAN_CARAPACE" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "molting_imminent", "intensity": 1, "duration": "PERMANENT" }, { "u_lose_effect": "molting" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin2_molt_timer_3",
+    "recurrence": [ "1 hours", "3 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "molting_imminent" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_trait": "CHITIN3" } },
+        { "not": { "u_has_trait": "CRUSTACEAN_CARAPACE" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "narcosis", "duration": "5 minutes" },
+      { "u_add_effect": "sleep", "duration": "5 minutes" },
+      {
+        "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move. You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.",
+        "type": "bad"
+      },
+      { "u_lose_trait": "CHITIN2" },
+      { "u_lose_trait": "CHITIN" },
+      { "u_lose_effect": "molting_imminent" },
+      { "u_spawn_item": "chitin_piece", "count": 3 },
+      { "u_add_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN2_MOLTED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin2_molt_timer4",
+    "recurrence": [ "8 hours", "12 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2_MOLTED" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } },
+        { "not": { "u_has_trait": "CHITIN3_MOLTED" } },
+        { "not": { "u_has_trait": "CRUSTACEAN_CARAPACE_MOLTED" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your exoskeleton has finished hardening.", "type": "good" },
+      { "u_lose_trait": "CHITIN_MOLTED" },
+      { "u_lose_trait": "CHITIN2_MOLTED" },
+      { "u_add_trait": "CHITIN" },
+      { "u_add_trait": "CHITIN2" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin3_molt_timer1",
+    "recurrence": [ "24 days", "42 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2" },
+        { "or": [ { "u_has_trait": "CHITIN3" }, { "u_has_trait": "CRUSTACEAN_CARAPACE" } ] },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin3_molt_timer2",
+    "recurrence": [ "1 days", "2 days" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "molting" },
+        { "u_has_trait": "CHITIN2" },
+        { "or": [ { "u_has_trait": "CHITIN3" }, { "u_has_trait": "CRUSTACEAN_CARAPACE" } ] },
+        { "not": { "u_has_effect": "molting_imminent" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "molting_imminent", "intensity": 1, "duration": "PERMANENT" }, { "u_lose_effect": "molting" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin3_molt_timer3",
+    "recurrence": [ "1 hours", "3 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2" },
+        { "u_has_trait": "CHITIN3" },
+        { "u_has_effect": "molting_imminent" },
+        { "not": { "u_has_effect": "molting" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "narcosis", "duration": "15 minutes" },
+      { "u_add_effect": "sleep", "duration": "15 minutes" },
+      {
+        "u_message": "Your exoskeleton locks up around you like a straitjacket, completely immobilizing you.  As you try to move, you begin to feel it painlessly rip, opening a hole through which you can slowly emerge, raw, soft, and vulnerable.",
+        "type": "bad"
+      },
+      { "u_lose_trait": "CHITIN3" },
+      { "u_lose_trait": "CHITIN2" },
+      { "u_lose_trait": "CHITIN" },
+      { "u_lose_effect": "molting_imminent" },
+      { "u_spawn_item": "chitin_piece", "count": 4 },
+      { "u_add_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN2_MOLTED" },
+      { "u_add_trait": "CHITIN3_MOLTED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin3_molt_timer4",
+    "recurrence": [ "8 hours", "12 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2_MOLTED" },
+        { "u_has_trait": "CHITIN3_MOLTED" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your exoskeleton has finished hardening.", "type": "good" },
+      { "u_lose_trait": "CHITIN3_MOLTED" },
+      { "u_lose_trait": "CHITIN2_MOLTED" },
+      { "u_lose_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN" },
+      { "u_add_trait": "CHITIN2" },
+      { "u_add_trait": "CHITIN3" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin_carapace_molt_timer3",
+    "recurrence": [ "1 hours", "3 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2" },
+        { "u_has_trait": "CRUSTACEAN_CARAPACE" },
+        { "u_has_effect": "molting_imminent" },
+        { "not": { "u_has_effect": "molting" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "narcosis", "duration": "15 minutes" },
+      { "u_add_effect": "sleep", "duration": "15 minutes" },
+      {
+        "u_message": "Your exoskeleton locks up around you like a straitjacket, completely immobilizing you.  As you try to move, you begin to feel it painlessly rip, opening a hole through which you can slowly emerge, raw, soft, and vulnerable.",
+        "type": "bad"
+      },
+      { "u_lose_trait": "CRUSTACEAN_CARAPACE" },
+      { "u_lose_trait": "CHITIN2" },
+      { "u_lose_trait": "CHITIN" },
+      { "u_lose_effect": "molting_imminent" },
+      { "u_spawn_item": "chitin_piece", "count": 5 },
+      { "u_add_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN2_MOLTED" },
+      { "u_add_trait": "CRUSTACEAN_CARAPACE_MOLTED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin_carapace_molt_timer4",
+    "recurrence": [ "8 hours", "12 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2_MOLTED" },
+        { "u_has_trait": "CRUSTACEAN_CARAPACE_MOLTED" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your exoskeleton has finished hardening.", "type": "good" },
+      { "u_lose_trait": "CRUSTACEAN_CARAPACE_MOLTED" },
+      { "u_lose_trait": "CHITIN2_MOLTED" },
+      { "u_lose_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN" },
+      { "u_add_trait": "CHITIN2" },
+      { "u_add_trait": "CRUSTACEAN_CARAPACE" }
     ]
   }
 ]

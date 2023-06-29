@@ -187,7 +187,8 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof", " ": "t_open_air" }
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
   {
@@ -255,23 +256,16 @@
         "                        ",
         "                        ",
         "                        ",
-        "    |22223              ",
-        "    |....3              ",
-        "    |....3              ",
-        "    |....3              ",
-        "    |5---3              ",
+        "    ------              ",
+        "    -....-              ",
+        "    -....-              ",
+        "    -....-              ",
+        "    -5----              ",
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_shingle_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      }
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
   {

@@ -132,6 +132,7 @@ static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
@@ -876,7 +877,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         std::vector<tool_comp> writing_tools;
         writing_tools.reserve( writing_tools_filter.size() );
         for( const item *tool : writing_tools_filter ) {
-            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
+            writing_tools.emplace_back( tool->typeId(), 1 );
         }
 
         p.consume_tools( writing_tools, pages );
@@ -2442,9 +2443,20 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     const tripoint target = here.getlocal( this->target );
     const ter_id ter_type = here.ter( target );
     const furn_id furn_type = here.furn( target );
+    optional_vpart_position const veh = here.veh_at( target );
+    int locked_part = -1;
     ter_id new_ter_type;
     furn_id new_furn_type;
     std::string open_message = _( "The lock opens…" );
+
+    if( veh ) {
+        std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
+                    target, "LOCKABLE_DOOR", part_status_flag::available );
+        if( !parts_at_target.empty() ) {
+            locked_part = veh->vehicle().next_part_to_unlock(
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
+        }
+    }
 
     if( here.has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
@@ -2456,6 +2468,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         if( !furn_type->lockpick_message.empty() ) {
             open_message = furn_type->lockpick_message.translated();
         }
+    } else if( locked_part >= 0 ) {
+        // no-op.
     } else {
         if( ter_type->lockpick_result.is_null() ) {
             who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
@@ -2519,6 +2533,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
         if( here.has_furn( target ) ) {
             here.furn_set( target, new_furn_type );
+        } else if( locked_part >= 0 ) {
+            veh->vehicle().unlock( locked_part );
         } else {
             here.ter_set( target, new_ter_type );
         }
@@ -2577,10 +2593,13 @@ std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
     }
 
     const std::function<bool( const tripoint & )> is_pickable = [&you]( const tripoint & p ) {
+        const map &here = get_map();
+        const optional_vpart_position vpart = here.veh_at( p );
         if( p == you.pos() ) {
             return false;
         }
-        return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
+        return here.has_flag( ter_furn_flag::TFLAG_PICKABLE, p ) ||
+               ( vpart && vpart->vehicle().next_part_to_unlock( vpart->part_index() ) >= 0 );
     };
 
     std::optional<tripoint> target = choose_adjacent_highlight(
@@ -3199,6 +3218,8 @@ craft_activity_actor::craft_activity_actor( item_location &it, const bool is_lon
     cached_assistants = 0;
     cached_base_total_moves = 1;
     cached_cur_total_moves = 1;
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
@@ -3234,6 +3255,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     }
     activity_override = craft_item.get_item()->get_making().exertion_level();
     cached_crafting_speed = 0;
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -3249,7 +3272,13 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const std::optional<tripoint> location = craft_item.where() == item_location::type::character
             ? std::optional<tripoint>() : std::optional<tripoint>( craft_item.position() );
     const recipe &rec = craft.get_making();
-    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location );
+    if( !use_cached_workbench_multiplier ) {
+        cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
+        use_cached_workbench_multiplier = true;
+    }
+    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location,
+                                 use_cached_workbench_multiplier,
+                                 cached_workbench_multiplier );
     const int assistants = crafter.available_assistant_count( craft.get_making() );
 
     if( crafting_speed <= 0.0f ) {
@@ -3312,6 +3341,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
         // Invalidate the crafting time cache because proficiencies may have changed
         cached_crafting_speed = 0;
+        // Also reset the multiplier
+        use_cached_workbench_multiplier = false;
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
@@ -4658,6 +4689,9 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     target->set_var( "activity_var", who.name );
 
     activity_override = target->get_making().exertion_level();
+
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -4672,7 +4706,12 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 
     const std::optional<tripoint> location = target.where() == item_location::type::character
             ? std::optional<tripoint>() : std::optional<tripoint>( target.position() );
-    const float crafting_speed = who.crafting_speed_multiplier( craft, location );
+    if( !use_cached_workbench_multiplier ) {
+        cached_workbench_multiplier = who.workbench_crafting_speed_multiplier( craft, location );
+        use_cached_workbench_multiplier = true;
+    }
+    const float crafting_speed = who.crafting_speed_multiplier( craft, location,
+                                 use_cached_workbench_multiplier, cached_workbench_multiplier );
 
     if( crafting_speed <= 0.0f ) {
         who.cancel_activity();
@@ -4996,6 +5035,51 @@ std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( Js
     data.read( "radius", actor.radius );
     data.read( "target", actor.target );
     data.read( "tent", actor.tent );
+
+    return actor.clone();
+}
+
+void reel_cable_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void reel_cable_activity_actor::finish( player_activity &act, Character &who )
+{
+    cable->active = false;
+    cable->charges = cable->link->max_length;
+    cable->link.reset();
+    if( parent_item ) {
+        parent_item->contents_linked = false;
+        who.add_msg_if_player( m_info, string_format( _( "You gather the cable up with the %s." ),
+                               parent_item->label( 1 ) ) );
+    } else {
+        who.add_msg_if_player( m_info, string_format( _( "You reel in the %s and wind it up." ),
+                               cable->label( 1 ) ) );
+    }
+    if( cable->has_flag( flag_AUTO_DELETE_CABLE ) ) {
+        cable.remove_item();
+    }
+    act.set_to_null();
+}
+
+void reel_cable_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "cable", cable );
+    jsout.member( "parent_item", parent_item );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValue &jsin )
+{
+    reel_cable_activity_actor actor( 0, {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "cable", actor.cable );
+    data.read( "parent_item", actor.parent_item );
 
     return actor.clone();
 }
@@ -6474,8 +6558,9 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         num_processed = 0;
         // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
+        src_set.reserve( coord_set.size() );
         for( const tripoint &p : coord_set ) {
-            src_set.emplace_back( tripoint_abs_ms( p ) );
+            src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -7116,6 +7201,7 @@ deserialize_functions = {
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
+    { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },

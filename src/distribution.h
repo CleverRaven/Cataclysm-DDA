@@ -15,7 +15,6 @@ class int_distribution
     public:
         int_distribution();
         explicit int_distribution( int value );
-
         int minimum() const;
         int sample() const;
         std::string description() const;

@@ -516,7 +516,7 @@
       "tec_eskrima_low",
       "tec_eskrima_combination"
     ],
-    "weapon_category": [ "KNIVES", "BATONS", "BLADED_FARMING", "CLAWS", "SHIVS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "SHORT_SWORDS", "CLAWS", "SHIVS" ]
   },
   {
     "type": "martial_art",
@@ -976,7 +976,7 @@
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_swift_crit", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "BLADED_FARMING", "CLAWS" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "CLAWS" ]
   },
   {
     "type": "martial_art",
@@ -1143,7 +1143,7 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "POLEARMS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "SHORT_SWORDS", "POLEARMS" ]
   },
   {
     "type": "martial_art",

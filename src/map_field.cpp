@@ -1046,10 +1046,17 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
                 if( p.z > 0 ) {
-                    // We're in the air
+                    // We're in the air. Need to invalidate the furniture otherwise it'll cause problems
+                    here.furn_set( p, f_null );
                     here.ter_set( p, t_open_air );
+                } else if( p.z < -1 ) {
+                    // We're deep underground, in bedrock. Whatever terrain was here is burned to the ground, leaving only the carved out rock (including ceiling)
+                    here.ter_set( p, t_rock_floor );
                 } else {
+                    // Need to invalidate the furniture otherwise it'll cause problems when supporting terrain collapses
+                    here.furn_set( p, f_null );
                     here.ter_set( p, t_dirt );
                 }
             }
@@ -2093,7 +2100,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
     using gas_blast = std::pair<float, tripoint>;
     std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp_first> open;
     std::set<tripoint> closed;
-    open.push( { 0.0f, center } );
+    open.emplace( 0.0f, center );
 
     const bool not_gas = type.obj().phase != phase_id::GAS;
 
@@ -2147,7 +2154,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     continue;
                 }
 
-                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
+                open.emplace( static_cast<float>( rl_dist( center, pt ) ), pt );
             }
         }
     }

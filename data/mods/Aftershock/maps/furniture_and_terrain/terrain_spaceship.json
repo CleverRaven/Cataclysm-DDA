@@ -116,5 +116,120 @@
         { "item": "scrap", "count": [ 6, 24 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_locker_room",
+    "name": "Locker room card reader",
+    "description": "This is a smartcard reader.  Bold lettering proclaims that this controls access to the locker room.  You could swipe an appropriate crew ID card near it to unlock the gates.",
+    "//": "Entrance card for the barracks locker room.  Low security access.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "AFS_CS_LOCKER_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 2,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_armory_room",
+    "name": "Armory card reader",
+    "description": "This is a smartcard reader.  Bold lettering proclaims that this controls access to the armory.  You could swipe an appropriate crew ID card near it to unlock the gates.",
+    "//": "Entrance card for the barracks armory.  High security access.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "AFS_CS_LOCKER_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 2,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_exobay_room",
+    "name": "Exobay card reader",
+    "description": "This is a smartcard reader.  Bold lettering proclaims that this controls access to the exosuit bay.  You could swipe an appropriate crew ID card near it to unlock the gates.",
+    "//": "Entrance card for the barracks armory.  Medium security access.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "AFS_CS_EXOBAY_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 2,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_shuttlepod_g",
+    "name": "shuttle pod guidance system",
+    "description": "The complex controls of a shuttlepod.  Doesn't seem to be working right now.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "f_console_broken",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "o",
+    "color": "white",
+    "copy-from": "t_afs_space_ship_hull_wall",
+    "deconstruct": {
+      "ter_set": "t_afs_space_ship_hull_wall",
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_energy_storage_3", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "afs_material_2", "count": [ 0, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 30,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "cable", "charges": [ 2, 6 ] },
+        { "item": "plastic_chunk", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
   }
 ]

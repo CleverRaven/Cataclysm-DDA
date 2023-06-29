@@ -50,6 +50,7 @@
     "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
+    "show_in_info": true,
     "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
   },
   {
@@ -424,6 +425,15 @@
   },
   {
     "type": "effect_type",
+    "id": "grabbing_gastropod_foot",
+    "name": [ "Grabbing G. Foot" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "desc": [ "You're grabbing the snail like lower body of somebody." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
     "id": "grabbing_appendix",
     "name": [ "Grabbing" ],
     "show_in_info": true,
@@ -506,6 +516,13 @@
     "name": [ "Cracked Shell" ],
     "//": "Exposes certain weakpoints",
     "desc": [ "You feel exposed -and pretty buggy- without your shell." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_arm",
+    "name": [ "Broken Arm" ],
+    "//": "Disables base grabs and scratches",
+    "desc": [ "Your arms are broken.  Your imaginary monster arms, so this is probably a bug." ]
   },
   {
     "type": "effect_type",
@@ -3237,10 +3254,10 @@
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 0.0 },
       { "limb_score": "grip", "modifier": 0.0 },
-      { "limb_score": "lift", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "lift", "modifier": 0.6, "scaling": -0.015 },
       { "limb_score": "block", "modifier": 0.25, "scaling": -0.01 },
       { "limb_score": "breathing", "modifier": 0.75, "scaling": -0.005 },
-      { "limb_score": "balance", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "balance", "modifier": 0.6, "scaling": -0.016 },
       { "limb_score": "move_speed", "modifier": 0.6, "scaling": -0.01 },
       { "limb_score": "footing", "modifier": 0.6, "scaling": -0.01 },
       { "limb_score": "swim", "modifier": 0.0 }
@@ -4207,5 +4224,43 @@
     "show_intensity": false,
     "//": "Don't multiply speed by 0 or else the effect will never be removed for creatures with 0 damage(e.g. rabbits)",
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "molting",
+    "name": [ "Molting" ],
+    "desc": [ "You feel a strong urge to hide somewhere safe." ],
+    "apply_message": "Your chitin plating itches against your body.",
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 15 ]
+    },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.95 }, { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "molting_imminent",
+    "name": [ "Imminent Molting" ],
+    "desc": [ "Seek shelter, you will be helpless when it begins." ],
+    "apply_message": "You can hardly move in your tightening exoskeleton, and you feel a strong impulse to hunker down somewhere safe.",
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -2 ],
+      "dex_mod": [ -3 ],
+      "str_mod": [ -3 ],
+      "speed_mod": [ -30 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 35 ]
+    },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.75 }, { "limb_score": "manip", "modifier": 0.75 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

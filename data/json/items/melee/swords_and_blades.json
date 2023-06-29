@@ -507,7 +507,7 @@
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", -27 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ],
-    "weapon_category": [ "BLADED_FARMING" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 5, "cut": 16 }
   },
   {
@@ -528,7 +528,7 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "BLADED_FARMING" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 5, "cut": 21 }
   },
   {
@@ -547,7 +547,7 @@
     "material": [ "steel" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weapon_category": [ "BLADED_FARMING" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 5, "cut": 15 }
   },
   {
@@ -1462,7 +1462,7 @@
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE" ],
-    "weapon_category": [ "BLADED_FARMING" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 9, "cut": 27 }
   },
   {
@@ -1526,7 +1526,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ],
+    "weapon_category": [ "SHORT_SWORDS", "CONSTRUCTED_SWORDS" ],
     "melee_damage": { "bash": 6, "cut": 23 }
   },
   {
@@ -1565,7 +1565,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 14 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ],
+    "weapon_category": [ "SHORT_SWORDS", "CONSTRUCTED_SWORDS" ],
     "looks_like": "survivor_machete",
     "melee_damage": { "bash": 6, "cut": 28 }
   },
@@ -2993,7 +2993,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "mild steel kriegsmesser" },
-    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with mild carbon steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
+    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with mild carbon steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "weight": "1600 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
@@ -3013,7 +3013,7 @@
     "type": "TOOL",
     "copy-from": "lc_kriegsmesser",
     "name": { "str": "medium steel kriegsmesser" },
-    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
+    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1690 g",
     "price": 100000,
     "price_postapoc": 4500,
@@ -3031,7 +3031,7 @@
     "type": "TOOL",
     "copy-from": "lc_kriegsmesser",
     "name": { "str": "high steel kriegsmesser" },
-    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
+    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1690 g",
     "price": 100000,
     "price_postapoc": 4500,
@@ -3049,7 +3049,7 @@
     "type": "TOOL",
     "copy-from": "lc_kriegsmesser",
     "name": { "str": "hardened kriegsmesser" },
-    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
+    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "1665 g",
     "price": 100000,
     "price_postapoc": 4500,
@@ -3067,7 +3067,7 @@
     "type": "TOOL",
     "copy-from": "lc_kriegsmesser",
     "name": { "str": "tempered kriegsmesser" },
-    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
+    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "1665 g",
     "price": 100000,
     "price_postapoc": 4500,

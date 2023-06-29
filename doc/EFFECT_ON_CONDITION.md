@@ -1,12 +1,14 @@
-# effect_on_condition
+
+# Effect On Condition
+
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
 ## Fields
 
-Identifier            | Type      | Description |
---------------------- | --------- | ----------- |
-`recurrence`          | int or variable object or array | The effect_on_condition is automatically invoked (activated) with this many seconds in-between. If it is an object it must have strings `name`, `type`, and `context`. `default` can be either an int or a string describing a time span. `global` is an optional bool (default false), if it is true the variable used will always be from the player character rather than the target of the dialog.  If it is an array it must have two values which are either ints or varible_objects.
-`condition`           | condition  | The condition(s) under which this effect_on_condition, upon activation, will cause its effect.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
+| Identifier            | Type      | Description |
+|--------------------- | --------- | ----------- |
+|`recurrence`          | int or variable object or array | The effect_on_condition is automatically invoked (activated) with this many seconds in-between. If it is an object it must have strings `name`, `type`, and `context`. `default` can be either an int or a string describing a time span. `global` is an optional bool (default false), if it is true the variable used will always be from the player character rather than the target of the dialog.  If it is an array it must have two values which are either ints or varible_objects.
+|`condition`           | condition  | The condition(s) under which this effect_on_condition, upon activation, will cause its effect.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
 `deactivate_condition`| condition  | *optional* When an effect_on_condition is automatically activated (invoked) and fails its condition(s), `deactivate_condition` will be tested if it exists and there is no `false_effect` entry.  If it returns true, this effect_on_condition will no longer be invoked automatically every `recurrence` seconds.  Whenever the player/npc gains/loses a trait or bionic all deactivated effect_on_conditions will have `deactivate_condition` run; on a return of false, the effect_on_condition will start being run again.  This is to allow adding effect_on_conditions for specific traits or bionics that don't waste time running when you don't have the target bionic/trait.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
 `required_event`      | cata_event | The event that when it triggers, this EOC does as well. Only relevant for an EVENT type EOC.
 `effect`              | effect     | The effect(s) caused if `condition` returns true upon activation.  See the "Dialogue Effects" section of [NPCs](NPCs.md) for the full syntax.
@@ -128,6 +130,7 @@ learns_martial_art | |  { "character", `character_id` }, { "martial_art", `matyp
 loses_addiction | | { "character", `character_id` }, { "add_type", `addiction_id` }, |
 npc_becomes_hostile | | { "npc", `character_id` }, { "npc_name", `string` }, |
 opens_portal | | NONE |
+opens_spellbook | | { "character", `character_id` } |
 opens_temple | | NONE |
 player_fails_conduct | | { "conduct", `achievement_id` }, { "achievements_enabled", `bool` }, |
 player_gets_achievement | | { "achievement", `achievement_id` }, { "achievements_enabled", `bool` }, |
@@ -136,6 +139,7 @@ reads_book | | { "character", `character_id` } |
 releases_subspace_specimens | | NONE |
 removes_cbm | |  { "character", `character_id` }, { "bionic", `bionic_id` }, |
 seals_hazardous_material_sarcophagus | | NONE |
+spellcasting_finish | | { "character", `character_id` }, { "spell", `spell_id` }, { "school", `trait_id` }  |
 telefrags_creature | | { "character", `character_id` }, { "victim_name", `string` }, |
 teleglow_teleports | | { "character", `character_id` } |
 teleports_into_wall | | { "character", `character_id` }, { "obstacle_name", `string` }, |
@@ -146,3 +150,11 @@ uses_debug_menu | | { "debug_menu_option", `debug_menu_index` }, |
 u_var_changed | | { "var", `string` }, { "value", `string` }, |
 vehicle_moves | | { "avatar_on_board", `bool` }, { "avatar_is_driving", `bool` }, { "avatar_remote_control", `bool` }, { "is_flying_aircraft", `bool` }, { "is_floating_watercraft", `bool` }, { "is_on_rails", `bool` }, { "is_falling", `bool` }, { "is_sinking", `bool` }, { "is_skidding", `bool` }, { "velocity", `int` }, // vehicle current velocity, mph * 100 { "z", `int` }, |
 
+## Context Variables For Other EOCs
+Other EOCs have some variables as well that they have access to, they are as follows:
+
+EOC            | Context Variables |
+--------------------- | ----------- |
+mutation: "activated_eocs" | { "this", `mutation_id` }
+mutation: "processed_eocs" | { "this", `mutation_id` }
+mutation: "deactivated_eocs" | { "this", `mutation_id` }

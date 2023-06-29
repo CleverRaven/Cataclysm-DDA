@@ -747,7 +747,7 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
         merge_invlet_test( dummy, from ); \
     }
 
-TEST_CASE( "Inventory letter test", "[.invlet]" )
+TEST_CASE( "Inventory_letter_test", "[.invlet]" )
 {
     avatar &dummy = get_avatar();
     const tripoint spot( 60, 60, 0 );
