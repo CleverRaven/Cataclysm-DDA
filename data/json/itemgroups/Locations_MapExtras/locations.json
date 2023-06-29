@@ -1620,7 +1620,8 @@
       { "item": "file", "prob": 25 },
       { "item": "baton", "prob": 20 },
       { "item": "kevlar", "prob": 15 },
-      { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster", "prob": 10 },
+      { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster", "prob": 4 },
+      { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "nylon_holster", "prob": 6 },
       { "item": "survnote", "prob": 10 },
       { "item": "family_photo", "prob": 10 },
       { "item": "tazer", "prob": 5 }
@@ -2852,7 +2853,7 @@
           { "item": "pants_checkered", "prob": 10 },
           { "item": "pants", "prob": 40 },
           { "item": "jeans", "prob": 20 },
-          { "item": "flag_pants", "prob": 5 },
+          { "item": "pants", "variant": "pants_flag", "prob": 5 },
           { "item": "breeches", "prob": 25 }
         ]
       },

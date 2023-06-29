@@ -616,5 +616,13 @@
     "time": "2 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "cotton_patchwork", 20 ] ], [ [ "down_feather", 50 ] ] ]
+  },
+  {
+    "result": "well_pump",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "chunk_cast_iron", 9 ] ] ]
   }
 ]
