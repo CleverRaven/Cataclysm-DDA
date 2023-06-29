@@ -16,6 +16,7 @@ This document will outline deep design concepts and lore for existing and planne
 * * [Tacoma Commune](#tacoma-commune)
 * * [Hub 01](#hub-01)
 * * [Isherwood Farm](#isherwood-farm)
+* * [New England Church Community](#New-England-Church-Community)
 * [Extradimensional and Alien Factions](#extradimensional-and-alien-factions)
 * * ["The Blob", XE-037](#the-blob-xe-037)
 * * [The Mycus](#the-mycus)
@@ -249,6 +250,54 @@ Acquire supplies necessary to expand the commune, help build the commune, defend
 
 
 #### Missions
+
+
+### New England Church Community
+
+*"A benign religious faction attempting to keep Christianity and the Teachings of Jesus alive for the following generations."*
+
+#### Description - Background
+Before the Cataclysm, the New England Church Community (NECC) was an ordinary congregation of American Evangelists with slight doomsday-cultish/end-of-the-world undertones.  Formed by the one they refer to as "The Founder", he believed that God was speaking to him through his dreams, and that he was being warned of an approaching apocalypse. He spread the word to his followers, who subsequently began preparing for the apocalypse.  They amassed many years' worth of canned foods and supplies to weather through what they named "the Second Flood".
+
+The Founder died a few years before his prophecy came true. His eldest daughter, Helena, has since taken over running the sect, who sternly follows his father's principles.
+
+#### Description - Beliefs
+The NECC believes that God has punished all of humanity for their wickedness and let loose a temporary Hell on earth.
+
+The followers of The Founder refer to the Cataclysm as "the Second Flood".  They see themselves as too worthy to have been left behind in the Rapture, so they've decided to name it after the Great Flood from the Book of Genesis.  In their eyes, the Second Flood, and the Great Flood both serve the same purpose – to cleanse earth of violence and the corrupt – the difference being that God let loose the Beasts of the Devil instead of making it rain for 40 days and 40 nights so as not to break the promise He made to Noah[^1] (the rich have yachts anyway). The NECC believes itself to be God's chosen, to whom He confided His intentions, and see their campground and stockpile as their metaphorical ark. They believe that the Cataclysm is only a temporary state.
+
+[^1]: God made a covenant with Noah and promised never again to destroy all the Earth's creatures with a flood.
+
+#### Structure
+They are theoretically one based on equality, but in reality the Founder's eldest daughter Helena is the leader and has the most sway.
+
+#### Goals
+They believe that the Cataclysm is only a temporary state.
+
+#### Size
+22 people made up of a few religious leaders, their followers, and a few outsiders that stay around.
+
+#### Attitudes
+The NECC didn't expect outsiders to survive the Cataclysm, nevertheless they're generally friendly, but distant towards other survivors.  They are willing to offer shelter to anyone that needs it and are eager to trade medicinal herbs, raw materials, or small crafts for the right price. That's where their Good Samaritanism ends, however.
+
+The NECC discriminates against anyone that's not part of their sect.  They are unwilling to let anyone in their "ark" – share their stockpile with outsiders or letting them join their congregation.  They put the blame on the victims for not joining their sect when they had the time – after all, the NECC did put out flyers urging people to join them while they still could.  Now the ark's gate has shut, and the rest must fend off for themselves.
+
+They are strongly against anyone with bionics, or anyone who willingly mutated.
+
+Allied with Free Merchants, Tacoma Commune
+Friendly with Isherwood Family
+Dislike the Old Guard (for being percieved as getting us into this mess) and any group that promotes bionics, mutations, or interactions with the nether creatures.
+Hostile towards Hell's Raiders and Marloss Evangelists 
+
+#### Bases
+New England Church Retreat camp located in a forest.
+
+#### Trade/Economics
+Miscellaneous, tools, supplies, and pelts.
+
+#### Missions
+Helping with various tasks around the camp, and later personal matters of the members.
+
 
 ## Extradimensional and Alien Factions
 
