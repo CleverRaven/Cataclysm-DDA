@@ -11,7 +11,6 @@
       { "item": "chalice", "prob": 10 },
       { "group": "tinware", "prob": 5 },
       { "item": "heels", "prob": 50 },
-      { "item": "coat_fur_sf", "prob": 1 },
       { "item": "tricorne", "prob": 3 },
       { "item": "gold_bracelet", "prob": 8 },
       { "item": "gold_necklace", "prob": 8 },
