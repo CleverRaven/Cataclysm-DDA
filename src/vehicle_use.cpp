@@ -1843,7 +1843,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
                                &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
                                false;
-    const bool player_is_nearby = rl_dist( get_player_character().pos(), p ) < 2;
 
     if( !is_appliance() ) {
         menu.add( _( "Examine vehicle" ) )
@@ -1861,7 +1860,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     }
 
     if( is_locked && controls_here ) {
-        if( player_is_nearby) {
+        if( player_inside) {
             menu.add( _( "Hotwire" ) )
             .enable( get_player_character().crafting_inventory().has_quality( qual_SCREW ) )
             .desc( _( "Attempt to hotwire the car using a screwdriver." ) )
@@ -1889,7 +1888,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( is_alarm_on && controls_here && !is_moving() && player_is_nearby ) {
+    if( is_alarm_on && controls_here && !is_moving() && player_inside ) {
         menu.add( _( "Try to smash alarm" ) )
         .skip_locked_check()
         .hotkey( "TOGGLE_ALARM" )
