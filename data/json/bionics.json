@@ -502,7 +502,7 @@
     "id": "bio_blindfold",
     "type": "bionic",
     "name": { "str": "Optical Dampers" },
-    "description": "The lenses surgically installed over your eyes can be tinted to block out incoming light.",
+    "description": "A pair of lenses surgically installed over your eyes that can be tinted to block out incoming light.",
     "included": true,
     "flags": [ "BIONIC_TOGGLED" ],
     "active_flags": [ "BLIND" ]

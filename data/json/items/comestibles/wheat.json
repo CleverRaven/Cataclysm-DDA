@@ -618,7 +618,7 @@
     "price": 5000,
     "price_postapoc": 300,
     "charges": 4,
-    "material": [ "wheat" ],
+    "material": [ "wheat", "egg" ],
     "symbol": "%",
     "color": "brown",
     "calories": 278,

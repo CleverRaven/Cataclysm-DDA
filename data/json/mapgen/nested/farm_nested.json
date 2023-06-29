@@ -1014,7 +1014,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "14x14_trail_intersection_north",
+    "nested_mapgen_id": "14x14_forest_trail_intersection_north",
     "object": {
       "mapgensize": [ 14, 14 ],
       "rotation": [ 0, 3 ],
@@ -1042,7 +1042,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "14x14_trail_intersection_east",
+    "nested_mapgen_id": "14x14_forest_trail_intersection_east",
     "object": {
       "mapgensize": [ 14, 14 ],
       "rotation": [ 0, 3 ],
@@ -1070,7 +1070,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "14x14_trail_intersection_south",
+    "nested_mapgen_id": "14x14_forest_trail_intersection_south",
     "object": {
       "mapgensize": [ 14, 14 ],
       "rotation": [ 0, 3 ],
@@ -1098,7 +1098,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "14x14_trail_intersection_west",
+    "nested_mapgen_id": "14x14_forest_trail_intersection_west",
     "object": {
       "mapgensize": [ 14, 14 ],
       "rotation": [ 0, 3 ],

@@ -256,6 +256,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "~",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "spell_stalker_eyes" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "spell_devil_tail" ] }
   }
 ]

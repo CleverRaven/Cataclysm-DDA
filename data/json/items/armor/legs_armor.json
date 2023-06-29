@@ -2020,6 +2020,60 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "canvas_pants_padded",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "cloth-padded pants", "str_pl": "pairs of cloth-padded pants" },
+    "description": "A pair of tough canvas pants with sections of cotton sewn onto it in a crossing pattern, clearly done by an amateur.",
+    "weight": "1970 g",
+    "volume": "2500 ml",
+    "price_postapoc": 1200,
+    "looks_like": "technician_pants_gray",
+    "to_hit": 1,
+    "material": [ "canvas", "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_lower_l", "leg_lower_r" ],
+        "coverage": 100,
+        "encumbrance": [ 6, 8 ]
+      },
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 2.0,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
     "id": "armor_riot_leg",
     "type": "ARMOR",
     "category": "armor",
