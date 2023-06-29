@@ -555,7 +555,8 @@
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_truck" ] },
       { "x": 1, "y": 1, "parts": [ "engine_electric" ] },
-      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+      { "x": -1, "y": 2, "parts": [ "medium_storage_battery" ] },
     ]
   },
   {
