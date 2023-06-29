@@ -161,12 +161,6 @@ static const std::array<flag_id, 2> herbivore_blacklist {{
         json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG
     }};
 
-static const std::array<flag_id, 5> vegan_blacklist {{
-        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG,
-        json_flag_ALLERGEN_MILK, json_flag_ANIMAL_PRODUCT,
-        flag_URSINE_HONEY
-    }};
-
 // TODO: Move pizza scraping here.
 static int compute_default_effective_kcal( const item &comest, const Character &you,
         const cata::flat_set<flag_id> &extra_flags = {} )
@@ -834,6 +828,11 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "The thought of eating that makes you feel sick." ) );
     }
+    const std::array<flag_id, 5> vegan_blacklist {{
+        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG,
+        json_flag_ALLERGEN_MILK, json_flag_ANIMAL_PRODUCT,
+        flag_URSINE_HONEY
+    }};
     if( has_trait( trait_VEGAN ) &&
         food.has_any_flag( vegan_blacklist ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
