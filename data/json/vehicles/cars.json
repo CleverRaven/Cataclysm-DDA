@@ -745,9 +745,8 @@
     "items": [
       { "x": 0, "y": 0, "chance": 90, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
-      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
-      { "x": -2, "y": 1, "chance": 90, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
+      { "x": -3, "y": 1, "chance": 90, "item_groups": [ "car_kit" ] },
+      { "x": -3, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -760,7 +759,11 @@
       { "x": -1, "y": 0, "parts": [ "seat_back#left", "seatbelt" ] },
       { "x": -1, "y": 1, "parts": [ "seat_back#right", "seatbelt" ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 1, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] }
     ]
   },
   {
@@ -774,6 +777,9 @@
       { "x": -1, "y": 1, "parts": [ "seat_back#right", "seatbelt" ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] }
     ]
   },
   {
@@ -788,6 +794,12 @@
       { "x": -1, "y": 1, "parts": [ "seat_back_leather#right", "seatbelt" ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
+      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] },
+      { "x": -1, "y": 0, "chance": 5, "item_groups": [ "snacks_fancy" ] },
+      { "x": -1, "y": 1, "chance": 5, "item_groups": [ "snacks_fancy" ] }
     ]
   },
   {
@@ -802,6 +814,12 @@
       { "x": -1, "y": 1, "parts": [ "seat_back_leather#right", "seatbelt" ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
+      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] },
+      { "x": -1, "y": 0, "chance": 5, "item_groups": [ "snacks_fancy" ] },
+      { "x": -1, "y": 1, "chance": 5, "item_groups": [ "snacks_fancy" ] }
     ]
   },
   {
@@ -816,6 +834,12 @@
       { "x": -1, "y": 1, "parts": [ "seat_back#right", "seatbelt" ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
+      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] },
+      { "x": -1, "y": 0, "chance": 5, "item_groups": [ "snacks_fancy" ] },
+      { "x": -1, "y": 1, "chance": 5, "item_groups": [ "snacks_fancy" ] }
     ]
   },
   {
@@ -830,6 +854,9 @@
       { "x": -1, "y": 1, "parts": [ "seat_back_leather#right", "seatbelt" ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "suits" ] }
     ]
   },
   {
@@ -885,9 +912,12 @@
     "items": [
       { "x": 0, "y": 0, "chance": 90, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
-      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
-      { "x": -2, "y": 1, "chance": 90, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
+      { "x": 0, "y": 2, "chance": 2, "item_groups": [ "fast_food" ] },
+      { "x": -1, "y": 2, "chance": 1, "item_groups": [ "fast_food" ] },
+      { "x": -1, "y": 2, "chance": 1, "item_groups": [ "fast_food" ] },
+      { "x": -1, "y": 2, "chance": 1, "item_groups": [ "fast_food" ] },
+      { "x": -3, "y": 1, "chance": 90, "item_groups": [ "car_kit" ] },
+      { "x": -3, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -975,8 +1005,6 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 90, "item_groups": [ "car_misc" ] },
-      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
-      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 1, "chance": 90, "item_groups": [ "car_kit" ] },
       { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
@@ -990,6 +1018,10 @@
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 0, "parts": [ "seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "seat#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] }
     ]
   },
   {
@@ -1001,6 +1033,10 @@
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
       { "x": 0, "y": 0, "parts": [ "seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "seat#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] }
     ]
   },
   {
@@ -1013,6 +1049,10 @@
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 0, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "seat_leather#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
+      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] }
     ]
   },
   {
@@ -1025,6 +1065,10 @@
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 0, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "seat_leather#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
+      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] }
     ]
   },
   {
@@ -1037,6 +1081,10 @@
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 0, "parts": [ "seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "seat#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] }
     ]
   },
   {
@@ -1049,6 +1097,9 @@
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 0, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "seat_leather#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "suits" ] }
     ]
   },
   {
