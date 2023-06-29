@@ -37,7 +37,7 @@
     "id": "telelixir_random",
     "type": "SPELL",
     "name": "[Ψ]Telelixir Random Choice",
-    "description": "Part of the Telekinetic Elixir spell that chooses another spell to cast. It's a bug if you have it.",
+    "description": "Part of the Telekinetic Elixir spell that chooses another spell to cast.  It's a bug if you have it.",
     "flags": [ "WONDER", "NO_PROJECTILE", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "hostile" ],
     "message": "",
