@@ -2195,7 +2195,6 @@
     "name": { "str": "heavy-duty trunk door" },
     "variants": [ { "symbols": "+", "symbols_broken": "&" } ],
     "categories": [ "hull" ],
-    "color": "light_gray",
     "looks_like": "door_trunk",
     "broken_color": "light_gray",
     "damage_modifier": 80,
