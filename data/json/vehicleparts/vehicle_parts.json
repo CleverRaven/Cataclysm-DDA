@@ -794,7 +794,7 @@
     "damage_modifier": 80,
     "durability": 350,
     "size": "300 L",
-    "//": "200 L storage based on an average station wagon trunk being around 600 L, and our cars having two tiles.",
+    "//": "300 L storage based on an average station wagon trunk being around 600 L, and our cars having two tiles.",
     "item": "frame",
     "//1": "120cm weld to install, 30cm per damage quadrant for repair",
     "location": "center",
