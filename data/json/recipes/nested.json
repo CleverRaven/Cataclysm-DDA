@@ -87,20 +87,25 @@
     "skill_used": "fabrication",
     "nested_category_data": [
       "XL_holster",
+      "XL_nylon_holster",
       "baldric_holster",
       "back_holster",
       "bholster",
       "bbholster",
       "bootstrap",
       "holster",
+      "nylon_holster",
       "western_holster",
       "shoulder_holster",
       "tactical_holster",
       "XS_holster",
+      "XS_nylon_holster",
       "sholster",
       "suspenders_holster",
       "FB_double_holster",
-      "side_double_holster"
+      "FB_nylon_double_holster",
+      "side_double_holster",
+      "side_nylon_double_holster"
     ],
     "difficulty": 1
   },

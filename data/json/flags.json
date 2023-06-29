@@ -1186,6 +1186,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ANIMAL_PRODUCT",
+    "type": "json_flag"
+  },
+  {
     "id": "ALWAYS_TWOHAND",
     "info": "<bad>You must</bad> have two free hands to wield this item.",
     "type": "json_flag"
