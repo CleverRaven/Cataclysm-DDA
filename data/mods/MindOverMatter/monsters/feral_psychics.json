@@ -53,7 +53,7 @@
   {
     "id": "mon_feral_human_bio2",
     "type": "MONSTER",
-    "name": "feral dervish",
+    "name":  { "str": "feral dervish", "str_pl": "feral dervishes" },
     "description": "Despite their appearance, this creature moves too quickly and smoothly to be truly human.  Bloodshot eyes are the only indicator that they are not some kind of perfectly precise android.",
     "default_faction": "zombie",
     "looks_like": "chud",
@@ -224,7 +224,7 @@
   {
     "id": "mon_feral_human_clair2",
     "type": "MONSTER",
-    "name": "feral visionary",
+    "name":  { "str": "feral visionary", "str_pl": "feral visionaries" },
     "description": "By the time you see this feral, they have already noticed you.  They stare straight at you, regardless of obstruction or any obstacle in between.",
     "default_faction": "zombie",
     "looks_like": "chud",
