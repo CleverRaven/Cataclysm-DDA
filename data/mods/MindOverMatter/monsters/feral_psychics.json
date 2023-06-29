@@ -443,7 +443,7 @@
         "monster_message": "%1$s summons a blast of flame!"
       },
       {
-       "id": "psi_pyrokin1_flangbang",
+        "id": "psi_pyrokin1_flangbang",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 4 },
         "cooldown": 15,
