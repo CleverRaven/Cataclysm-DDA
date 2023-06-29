@@ -10,7 +10,7 @@
         "sym": "^",
         "dangerous": true,
         "intensity_upgrade_chance": 10,
-        "intensity_upgrade_duration": "6 hours"
+        "intensity_upgrade_duration": "5 minutes"
       },
       {
         "name": "nauseating tension",
