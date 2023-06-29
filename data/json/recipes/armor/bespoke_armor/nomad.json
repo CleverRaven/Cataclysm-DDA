@@ -64,7 +64,7 @@
     "difficulty": 5,
     "time": "4 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "filament_canvas", 300 ], [ "fastener_large", 4 ] ],
+    "using": [ [ "filament_canvas", 240 ], [ "fastener_large", 4 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -74,7 +74,7 @@
     ],
     "components": [
       [ [ "leather", 16 ], [ "tanned_hide", 4 ], [ "sheet_leather", 4 ], [ "sheet_leather_patchwork", 4 ] ],
-      [ [ "sheet_denim", 24 ], [ "sheet_denim_patchwork", 24 ] ],
+      [ [ "sheet_denim", 12 ], [ "sheet_denim_patchwork", 12 ] ],
       [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ],
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
       [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
@@ -93,7 +93,7 @@
     "difficulty": 5,
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "filament_canvas", 150 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "filament_canvas", 120 ], [ "fastener_large", 1 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -103,9 +103,7 @@
     "components": [
       [ [ "armor_nomad_light", 1 ] ],
       [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
-      [ [ "sheet_denim", 6 ], [ "sheet_denim_patchwork", 6 ] ],
-      [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
-      [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
+      [ [ "sheet_denim", 12 ], [ "sheet_denim_patchwork", 12 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -120,7 +118,7 @@
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 3 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
-    "using": [ [ "filament_canvas", 150 ], [ "fastener_large", 3 ] ],
+    "using": [ [ "filament_canvas", 120 ], [ "fastener_large", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -129,7 +127,7 @@
     ],
     "components": [
       [ [ "leather", 12 ], [ "tanned_hide", 3 ], [ "sheet_leather", 3 ], [ "sheet_leather_patchwork", 3 ] ],
-      [ [ "sheet_denim", 12 ], [ "sheet_denim_patchwork", 12 ] ],
+      [ [ "sheet_denim", 6 ], [ "sheet_denim_patchwork", 6 ] ],
       [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ],
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
       [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
