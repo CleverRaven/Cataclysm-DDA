@@ -200,25 +200,25 @@ Acquire supplies necessary to expand the commune, help build the commune, defend
 *"Summary"*
 
 #### Description
- 
+
 
 #### Structure
- 
+
 
 #### Goals
- 
+
 
 #### Size
- 
+
 
 #### Attitudes
- 
+
 
 #### Bases
- 
+
 
 #### Trade/Economics
- 
+
 
 **Missions** 
 
@@ -228,25 +228,25 @@ Acquire supplies necessary to expand the commune, help build the commune, defend
 *"Summary"*
 
 #### Description
- 
+
 
 #### Structure
- 
+
 
 #### Goals
- 
+
 
 #### Size
- 
+
 
 #### Attitudes
- 
+
 
 #### Bases
- 
+
 
 #### Trade/Economics
- 
+
 
 #### Missions
 
