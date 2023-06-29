@@ -59,7 +59,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 },
-    "delete": { "flags": [ "WINDOW" ] }
+    "delete": { "flags": [ "LOCKABLE_DOOR", "WINDOW" ] }
   },
   {
     "copy-from": "cloth_flap_door",
