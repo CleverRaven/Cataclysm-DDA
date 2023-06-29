@@ -829,10 +829,10 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 _( "The thought of eating that makes you feel sick." ) );
     }
     const std::array<flag_id, 5> vegan_blacklist {{
-        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG,
-        json_flag_ALLERGEN_MILK, json_flag_ANIMAL_PRODUCT,
-        flag_URSINE_HONEY
-    }};
+            json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG,
+            json_flag_ALLERGEN_MILK, json_flag_ANIMAL_PRODUCT,
+            flag_URSINE_HONEY
+        }};
     if( has_trait( trait_VEGAN ) &&
         food.has_any_flag( vegan_blacklist ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
