@@ -838,7 +838,9 @@ void vehicle::enable_patrol()
     is_patrolling = true;
     autopilot_on = true;
     autodrive_local_target = tripoint_zero;
-    if (!engine_on) start_engines();
+    if( !engine_on ) {
+        start_engines();
+    }
 }
 
 void vehicle::honk_horn() const
