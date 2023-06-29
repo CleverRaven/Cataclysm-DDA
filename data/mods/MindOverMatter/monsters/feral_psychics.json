@@ -110,7 +110,7 @@
     "id": "mon_feral_human_bio3",
     "type": "MONSTER",
     "name": "human whirlwind",
-    "description": "With inhumanly precise movements, this feral moves toward you.  They are clearly still alive, but their mouth is closed and their chest does not rise or fall.  As you watch, they suddenly blur into rapid motion. ",
+    "description": "With inhumanly precise movements, this feral moves toward you.  They are clearly still alive, but their mouth is closed and their chest does not rise or fall.  As you watch, they suddenly blur into rapid motion.",
     "//": "NO_BREATHE here is due to the biokinetic Sealed System power.",
     "default_faction": "zombie",
     "looks_like": "chud",
