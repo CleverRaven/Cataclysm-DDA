@@ -2,7 +2,7 @@
   {
     "id": "matrix_channeling_tool",
     "type": "TOOL",
-    "name": { "str": "matrix channeling array", "str_pl": "matrix channeling arrays" },
+    "name": { "str": "matrix channeling array" },
     "description": "A set of matrix crystals arranged together to direct Netherium energy.  You're not entirely sure all the crystals are actually touching the metal assembly you soldered around them.",
     "weight": "2500 g",
     "volume": "500 ml",
@@ -19,7 +19,7 @@
   {
     "id": "matrix_aligning_tool",
     "type": "TOOL",
-    "name": { "str": "crystalline focusing assembly" },
+    "name": { "str": "crystalline focusing assembly", "str_pl": "crystalline focusing assemblies" },
     "description": "A precise arrangement of cut crystal pieces from the crystal outgrowths left by the portal storms.  The air in the center shimmers like a summer heat gaze when you look through the focal point of the apparatus.",
     "weight": "4000 g",
     "volume": "750 ml",
