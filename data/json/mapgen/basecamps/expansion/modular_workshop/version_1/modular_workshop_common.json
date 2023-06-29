@@ -18,7 +18,7 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "faction_base_workshop_0",
+    "update_mapgen_id": "faction_base_workshop_0"
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmw_0" ], "x": 15, "y": 3 } ] }
   },
