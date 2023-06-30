@@ -529,7 +529,7 @@
       { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": -1, "y": -1, "parts": [ "frame#sw" ] },
       { "x": -1, "y": -1, "parts": [ "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
-      { "x": -1, "y": 0, "parts": [ "frame#horizontal_rear", "hatch", "muffler" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#horizontal_rear", "hatch" ] },
       { "x": -1, "y": 1, "parts": [ "frame#horizontal_rear", "hatch" ] },
       { "x": -1, "y": 2, "parts": [ "frame#se" ] },
       { "x": -1, "y": 2, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] }
@@ -545,7 +545,8 @@
     "copy-from": "car_micro_abstract",
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_inline4", "alternator_car", "battery_car" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] }
+      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 0, "parts": [ "muffler" ] }
     ]
   },
   {
@@ -558,7 +559,8 @@
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_truck" ] },
       { "x": 1, "y": 1, "parts": [ "engine_electric" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
-      { "x": -1, "y": 2, "parts": [ "medium_storage_battery" ] }
+      { "x": -1, "y": 2, "parts": [ "medium_storage_battery" ] },
+      { "x": -1, "y": 0, "parts": [ "muffler" ] }
     ]
   },
   {
@@ -604,7 +606,7 @@
     ]
   },
   {
-    "id": "car_supercompact",
+    "id": "scompact",
     "type": "vehicle",
     "copy-from": "car_micro_abstract",
     "parts": [
@@ -1161,8 +1163,7 @@
       { "x": 1, "y": 3, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": 2, "y": -1, "parts": [ "frame#nw", "halfboard#nw", "headlight" ] },
       { "x": 2, "y": 0, "parts": [ "frame#horizontal_front", "halfboard#cover_left" ] },
-      { "x": 2, "y": 1, "parts": [ "frame#cover", "halfboard#cover", "engine_v6" ] },
-      { "x": 2, "y": 1, "parts": [ "battery_car" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#cover", "halfboard#cover" ] },
       { "x": 2, "y": 2, "parts": [ "frame#horizontal_front", "halfboard#cover_right" ] },
       { "x": 2, "y": 3, "parts": [ "frame#ne", "halfboard#ne", "headlight" ] },
       { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "door#sw" ] },
@@ -1199,7 +1200,7 @@
     "type": "vehicle",
     "copy-from": "car_town_abstract",
     "parts": [
-      { "x": 2, "y": 1, "parts": [ "engine_v8", "alternator_car" ] },
+      { "x": 2, "y": 1, "parts": [ "engine_v8", "alternator_car", "battery_car" ] },
       { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
@@ -1214,7 +1215,7 @@
     "copy-from": "car_town_abstract",
     "name": "Budget Town Car",
     "parts": [
-      { "x": 2, "y": 1, "parts": [ "engine_v6", "alternator_car" ] },
+      { "x": 2, "y": 1, "parts": [ "engine_v6", "alternator_car", "battery_car" ] },
       { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
@@ -1229,7 +1230,7 @@
     "copy-from": "car_town_abstract",
     "name": "Budget Town Car",
     "parts": [
-      { "x": 2, "y": 1, "parts": [ "engine_v8", "alternator_car" ] },
+      { "x": 2, "y": 1, "parts": [ "engine_v8", "alternator_car", "battery_car" ] },
       { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
