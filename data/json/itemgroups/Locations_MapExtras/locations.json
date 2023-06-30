@@ -2816,7 +2816,7 @@
           { "item": "welding_rod_steel", "prob": 20, "charges": [ 1000, 1600 ], "container-item": "box_small" },
           { "item": "welding_rod_alloy", "prob": 15, "charges": [ 1000, 1600 ], "container-item": "box_small" },
           { "item": "brazing_rod_bronze", "prob": 10, "charges": [ 500, 1500 ], "container-item": "box_medium" },
-          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 400, 1200 ], "container-item": "box_medium" }.
+          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 400, 1200 ], "container-item": "box_medium" }
         ]
       }
     ]
