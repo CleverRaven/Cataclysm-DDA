@@ -270,9 +270,9 @@
     "//2": "Stuff you might find in a jobsite, a hardware store, or a home workshop.",
     "items": [
       { "item": "nuts_bolts", "prob": 80, "charges": 500, "container-item": "box_small" },
-      { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500, "container-item": "box_medium" },
-      { "item": "welding_rod_steel", "prob": 20, "charges": 1500, "container-item": "box_small" },
-      { "item": "welding_wire_steel", "prob": 20, "charges": 1500, "container-item": "box_small" },
+      { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500 },
+      { "item": "welding_rod_steel", "prob": 20, "charges": 1500 },
+      { "item": "welding_wire_steel", "prob": 20, "charges": 1500 },
       [ "concrete", 20 ],
       {
         "collection": [
