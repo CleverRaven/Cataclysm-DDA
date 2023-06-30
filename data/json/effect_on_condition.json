@@ -815,6 +815,7 @@
     "effect": { "u_add_var": "seen_zomborg", "type": "dialogue", "context": "exodii", "value": "yes" }
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_BANDIT_ASSASSIN",
     "recurrence": [ "7 days", "14 days" ],
     "condition": {
