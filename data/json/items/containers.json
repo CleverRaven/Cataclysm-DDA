@@ -2621,7 +2621,7 @@
       {
         "id": "condom_flavored_strawberry",
         "name": { "str": "strawberry flavored condom" },
-        "description": "A condom with strawberry flavored lube, in red packaging to match. ",
+        "description": "A condom with strawberry flavored lube, in red packaging to match.",
         "weight": 40,
         "append": true
       },
