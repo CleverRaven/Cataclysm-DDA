@@ -286,7 +286,7 @@
       {
         "id": "binder_top_meme",
         "name": { "str": "meme binder" },
-        "description": "This one has an image of a stuffed rat chef lacking a chef hat, looking up with arms spread as begging god to do something, with text above reading \"I don't want to cook anymore\", and the bottom text reading \"I want to DIE\" all in a comic sans font.",
+        "description": "This one has an image of a stuffed rat chef, looking up with arms spread to the heavens, with text above reading \"I don't want to cook anymore\", and the bottom text reading \"I want to DIE\" all in a comic sans font.",
         "weight": 4,
         "append": true
       }

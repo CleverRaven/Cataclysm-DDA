@@ -2122,7 +2122,7 @@
   {
     "type": "item_group",
     "id": "female_underwear_top",
-    "items": [ [ "corset", 10 ], [ "binder_top", 1 ], [ "corset_waist", 10 ], { "group": "female_underwear_top_child", "prob": 280 } ]
+    "items": [ [ "corset", 5 ], [ "binder_top", 1 ], [ "corset_waist", 5 ], { "group": "female_underwear_top_child", "prob": 190 } ]
   },
   {
     "type": "item_group",
