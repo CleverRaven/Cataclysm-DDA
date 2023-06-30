@@ -1118,8 +1118,8 @@
   {
     "type": "material",
     "id": "iron",
-    "name": "Iron",
-    "density": 8,
+    "name": "Cast iron",
+    "density": 7.3,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
     "latent_heat": 247,

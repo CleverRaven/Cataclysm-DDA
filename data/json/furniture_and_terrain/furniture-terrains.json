@@ -1027,6 +1027,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_bike_rack",
+    "name": "bike rack",
+    "looks_like": "t_metal_railing",
+    "description": "A loop of metal in the shape of an upside down U used to securely park bikes.",
+    "symbol": "n",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "rotates_to": "PAVEMENT",
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "deconstruct": { "items": [ { "item": "pipe", "count": [ 2, 3 ] } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_flagpole",
     "name": "flagpole",
     "description": "A 6-meter tall metal flagpole.  You could hoist up a flag here.",

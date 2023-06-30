@@ -782,6 +782,11 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     }
 }
 
+bool tinymap::pl_sees( const tripoint &, int ) const
+{
+    return false;
+}
+
 bool map::pl_sees( const tripoint &t, const int max_range ) const
 {
     if( !inbounds( t ) ) {

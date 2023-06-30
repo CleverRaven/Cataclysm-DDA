@@ -34,6 +34,7 @@
 #include "faction.h"
 #include "flag.h"
 #include "game.h"
+#include "gates.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
@@ -242,7 +243,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true );
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
@@ -3454,6 +3455,13 @@ std::set<tripoint> npc::get_path_avoid() const
     if( rules.has_flag( ally_rule::avoid_doors ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
             if( here.open_door( *this, p, true, true ) ) {
+                ret.insert( p );
+            }
+        }
+    }
+    if( rules.has_flag( ally_rule::avoid_locks ) ) {
+        for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
+            if( doors::can_unlock_door( here, *this, p ) ) {
                 ret.insert( p );
             }
         }

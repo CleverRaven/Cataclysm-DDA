@@ -24,7 +24,7 @@
       { "monster": "mon_camelops", "weight": 15, "cost_multiplier": 0, "pack_size": [ 1, 6 ] },
       { "monster": "mon_glyptotherium", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_soergoat", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
-      { "monster": "mon_titanis_walleri", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_titanis_walleri", "weight": 3, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       {
         "monster": "mon_bat",
         "weight": 50,

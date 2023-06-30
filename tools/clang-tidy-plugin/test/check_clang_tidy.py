@@ -23,9 +23,8 @@ Usage:
     [-check-suffixes=<comma-separated-file-check-suffixes>] \
     [-std=c++(98|11|14|17|20)[-or-later]] \
     [-clang-tidy-binary=<path/to/clang-tidy>] \
-    [optional clang-tidy arguments]
     <source-file> <check-name> <temp-file> \
-    -- [optional clang arguments]
+    -- [optional clang-tidy arguments]
 
 Example:
   // RUN: %check_clang_tidy %s llvm-include-order %t -- -- -isystem %S/Inputs
@@ -34,6 +33,11 @@ Notes:
   -std=c++(98|11|14|17|20)-or-later:
     This flag will cause multiple runs within the same check_clang_tidy
     execution. Make sure you don't have shared state across these runs.
+  optional clang-tidy arguments:
+    Passed to clang-tidy. Use another `--` to separate clang-tidy and clang
+    arguments. Although optional clang-tidy arguments before the first `--`
+    is supported, care should be taken as it may cause unexpected behavior for
+    specific argument types and orders (https://github.com/CleverRaven/Cataclysm-DDA/pull/66315/files#r1247288210)
 """
 
 import argparse
