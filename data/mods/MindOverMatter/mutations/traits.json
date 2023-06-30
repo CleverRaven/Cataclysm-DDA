@@ -65,7 +65,7 @@
     "valid": false,
     "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "teleport_transpose", 2 ] ]
   },
-    {
+  {
     "type": "mutation",
     "id": "VITAKINETIC",
     "name": "Awakened Vitakinetic",
