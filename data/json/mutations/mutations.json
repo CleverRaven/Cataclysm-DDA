@@ -8597,7 +8597,7 @@
     "name": { "str": "Debug Bionic Power" },
     "points": 99,
     "valid": false,
-    "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
+    "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated).",
     "debug": true,
     "active": true
   },
