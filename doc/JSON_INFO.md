@@ -3751,6 +3751,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 },
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
+"fuel_efficiency": 0.2, // When combined with being a UPS this item will burn fuel for its given energy value to produce energy with the efficiency provided. Needs to be > 0 for this to work
 "use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below
 "qualities": [ [ "SCREW", 1 ] ], // Inherent item qualities like hammering, sawing, screwing (see tool_qualities.json)
 "charged_qualities": [ [ "DRILL", 3 ] ], // Qualities available if tool has at least charges_per_use charges left
