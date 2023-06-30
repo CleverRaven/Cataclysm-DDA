@@ -127,14 +127,14 @@
     "result": "binder_XL",
     "type": "recipe",
     "type": "recipe",
-    "copy-from" "binder",
+    "copy-from": "binder",
     "time": "2 h",
     "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_lycra_patchwork", 5 ] ]
   },
   {
     "result": "XS_binder",
     "type": "recipe",
-    "copy-from" "binder",
+    "copy-from": "binder",
     "using": [ [ "tailoring_cotton_patchwork", 3 ],  [ "tailoring_lycra_patchwork", 2 ] ]
   },
   {
