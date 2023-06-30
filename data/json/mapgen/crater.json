@@ -134,7 +134,13 @@
         { "vehicles": [  ], "x": [ 0, 7 ], "y": [ 8, 15 ] },
         { "vehicles": [  ], "x": [ 16, 23 ], "y": [ 8, 15 ] }
       ],
-      "place_nested": [ { "chunks": [ "crater_bomb" ], "x": [ 8, 15 ], "y": [ 8, 15 ] } ],
+      "//": "Remove all but one bomb, merging their areas once #59781 is resolved",
+      "place_nested": [
+        { "chunks": [ "crater_bomb" ], "x": [ 8, 11 ], "y": [ 8, 11 ] },
+        { "chunks": [ "crater_bomb" ], "x": [ 8, 11 ], "y": [ 12, 15 ] },
+        { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 8, 11 ] },
+        { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 12, 15 ] }
+      ],
       "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -175,6 +181,10 @@
           "y": 0,
           "neighbors": { "north_west": "crater_core_large" }
         },
+        { "chunks": [ "24x24_crater_small_north" ], "x": 0, "y": 0, "neighbors": { "north": "crater_core_small" } },
+        { "chunks": [ "24x24_crater_small_east" ], "x": 0, "y": 0, "neighbors": { "east": "crater_core_small" } },
+        { "chunks": [ "24x24_crater_small_south" ], "x": 0, "y": 0, "neighbors": { "south": "crater_core_small" } },
+        { "chunks": [ "24x24_crater_small_west" ], "x": 0, "y": 0, "neighbors": { "west": "crater_core_small" } },
         { "chunks": [ "24x24_crater_north" ], "x": 0, "y": 0, "neighbors": { "north": "crater_core_large" } },
         {
           "chunks": [ "24x24_crater_north_east" ],
@@ -203,23 +213,6 @@
           "y": 0,
           "neighbors": { "north_west": "crater_core_large" }
         }
-      ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "crater_small",
-    "object": {
-      "fallback_predecessor_mapgen": "field",
-      "//": "Vehicle removal because place_rubble isn't gelling well with vehicles and I'm getting the odd crash that I think is related",
-      "remove_vehicles": [ { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "place_nested": [
-        { "chunks": [ "24x24_crater_small_north" ], "x": 0, "y": 0, "neighbors": { "north": "crater_core_small" } },
-        { "chunks": [ "24x24_crater_small_east" ], "x": 0, "y": 0, "neighbors": { "east": "crater_core_small" } },
-        { "chunks": [ "24x24_crater_small_south" ], "x": 0, "y": 0, "neighbors": { "south": "crater_core_small" } },
-        { "chunks": [ "24x24_crater_small_west" ], "x": 0, "y": 0, "neighbors": { "west": "crater_core_small" } }
       ],
       "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
