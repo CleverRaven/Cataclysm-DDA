@@ -17,7 +17,12 @@
               {
                 "distribution": [
                   { "item": "brazing_rod_bronze", "prob": 100, "charges": [ 1000, 2000 ], "container-item": "box_medium" },
-                  { "item": "brazing_rod_alloy", "prob": 70, "charges": [ 500, 1500 ], "container-item": "box_medium" }
+                  {
+                    "item": "brazing_rod_alloy",
+                    "prob": 70,
+                    "charges": [ 500, 1500 ],
+                    "container-item": "box_medium"
+                  }
                 ]
               }
             ],
