@@ -613,7 +613,7 @@
     ]
   },
   {
-    "id": "car_supercompact",
+    "id": "car_supercompact_hybrid",
     "type": "vehicle",
     "copy-from": "car_micro_abstract",
     "name": "Hybrid Supercompact Car",
