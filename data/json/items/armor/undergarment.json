@@ -234,7 +234,6 @@
         "weight": 4,
         "append": true
       },
-      //Brighter ones are rarer as many people don't like bringing attention to the fact they're wearing a binder
       {
         "id": "binder_top_american",
         "name": { "str": "american binder" },
