@@ -578,11 +578,26 @@ phases are processed strictly in order.
 Each *phase* is a list of rules.  Each *rule* specifies an overmap and an
 integer `max` and/or `weight`.
 
-Weight must always be a simple integer, but `max` may also be an object
+Weight must always be a simple integer, but `max` may also be an object or array
 defining a probability distribution over integers.  Each time the special is
-spawned, a value is sampled from that distribution.  Currently only a Poisson
-distribution is supported, specified via an object such as `{ "poisson": 5 }`
-where 5 will be the mean of the distribution (λ).
+spawned, a value is sampled from that distribution.  Currently uniform, binomial
+and Poisson distributions are supported.  Uniform is specified by using an
+array such as `"max": [ 1, 5 ]` resulting in an evenly distributed 20% chance for each
+number from 1 to 5 being picked as the max.  Poisson and binomial are specified
+via an object such as `"max": { "poisson": 5 }` where 5 will be the mean of the
+poisson distribution (λ) or `"max": { "binomial": [ 5, 0.3 ] }` where 5 will be
+the number of trials and 0.3 the success probability of the binomial distribution
+( n, p ).  Both have a higher chance for values to fall closer to the mean
+(λ in the case of Poisson and n x p in the case of binomial) with Poisson being more
+symetrical while binomial can be skewed by altering p to result in most values being
+on the lower end of the range 0-n or vice versa useful to produce more consistent results
+with rarer chances of large or small values or just one kind respectively.  Hard bounds
+may be specified in addition to poisson or binomial to limit the range of possibilities,
+useful for guarenteeing a max of at least 1 or to prevent large values making overall
+size management difficult.  To do this add an array `bounds` such as
+`"max": { "poisson": 5, "bounds": [ 1, -1 ] }` in this case guarenteeing at least a max
+of 1 without bounding upper values.  Any value that would fall outside of these bounds
+becomes the relevant bound (as opposed to being rerolled).
 
 Within each phase, the game looks for unsatisfied joins from the existing
 overmaps and attempts to find an overmap from amongst those available in its

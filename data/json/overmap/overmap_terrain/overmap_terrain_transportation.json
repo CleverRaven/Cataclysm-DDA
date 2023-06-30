@@ -324,7 +324,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_reststop_1", "s_reststop_2" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "rest area",
     "sym": "#",
     "color": "blue"
@@ -340,7 +340,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_restparking_1", "s_restparking_2" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "rest area parking",
     "sym": "+",
     "color": "dark_gray"
@@ -575,6 +575,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_lot_no_sidewalk", "trailer_hub_00" ],
+    "copy-from": "s_lot",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "trailer_road", "trailer_road_1parkway", "trailer_road_2parkway" ],
     "copy-from": "generic_transportation",
     "extras": "road",
@@ -606,12 +612,6 @@
     "copy-from": "trailer_road",
     "name": "mobile home park entrance",
     "sym": "┼"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailer_hub_00",
-    "copy-from": "s_lot",
-    "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
     "type": "overmap_terrain",

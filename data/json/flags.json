@@ -1186,6 +1186,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ANIMAL_PRODUCT",
+    "type": "json_flag"
+  },
+  {
     "id": "ALWAYS_TWOHAND",
     "info": "<bad>You must</bad> have two free hands to wield this item.",
     "type": "json_flag"
@@ -2212,16 +2216,29 @@
   {
     "id": "GASFILTER_SM",
     "type": "json_flag",
-    "info": "A small-sized gasmask filter."
+    "info": "A small-sized gasmask filter.",
+    "name": "filter mask cartridge"
   },
   {
     "id": "GASFILTER_MED",
     "type": "json_flag",
-    "info": "A medium-sized gasmask filter."
+    "info": "A medium-sized gasmask filter.",
+    "name": "gas mask cartridge"
   },
   {
     "id": "REBREATHER_CART",
     "type": "json_flag",
-    "info": "A filter for a rebreather."
+    "info": "A filter for a rebreather.",
+    "name": "rebreather cartridge"
+  },
+  {
+    "id": "OLD_GUN",
+    "type": "json_flag",
+    "info": "An old gun, WWII or earlier."
+  },
+  {
+    "id": "USE_POWER_WHEN_HIT",
+    "type": "json_flag",
+    "info": "This armor <info>expends energy when hit</info>."
   }
 ]

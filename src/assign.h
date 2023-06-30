@@ -234,7 +234,8 @@ bool assign( const JsonObject &jo, std::string_view name, units::power &val,
              units::power lo = units::power_min,
              units::power hi = units::power_max );
 
-bool assign( const JsonObject &jo, const std::string &name, nc_color &val );
+bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
+             bool strict = false );
 
 class time_duration;
 

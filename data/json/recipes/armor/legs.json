@@ -273,6 +273,21 @@
     "byproducts": [ [ "denim_patch", 6 ] ]
   },
   {
+    "result": "canvas_pants_padded",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "using": [ [ "tailoring_cotton", 15 ], [ "sewing_standard", 90 ] ],
+    "components": [ [ [ "technician_pants_gray", 1 ] ] ],
+    "byproducts": [ [ "scrap_cotton", 5 ], [ "cotton_patchwork", 4 ] ]
+  },
+  {
     "result": "skirt",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
