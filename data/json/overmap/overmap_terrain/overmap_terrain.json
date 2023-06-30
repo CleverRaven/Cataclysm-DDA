@@ -399,7 +399,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "crater_core_large", "crater_core_small"],
+    "id": [ "crater_core_large", "crater_core_small" ],
     "sym": "O",
     "copy-from": "crater"
   },

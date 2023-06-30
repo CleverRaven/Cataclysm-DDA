@@ -78,11 +78,10 @@
           "max": 1
         },
         {
-          "name": "crater_adjacent_gap",
+          "name": "crater_diagonal_gap",
           "chunk": [
             { "overmap": "core_large", "pos": [ 0, 0, 0 ] },
-            { "overmap": "crater_to_crater_n", "pos": [ -1, 0, 10 ] },
-            { "overmap": "crater", "pos": [ -1, -1, 0 ] },
+            { "overmap": "crater_to_crater_n", "pos": [ -1, -1, 10 ] },
             { "overmap": "crater", "pos": [ 0, -1, 0 ] },
             { "overmap": "crater", "pos": [ 1, -1, 0 ] },
             { "overmap": "crater", "pos": [ -1, 0, 0 ] },
@@ -94,11 +93,10 @@
           "max": 1
         },
         {
-          "name": "crater_adjacent_gap_small",
+          "name": "crater_diagonal_gap_small",
           "chunk": [
             { "overmap": "core_small", "pos": [ 0, 0, 0 ] },
-            { "overmap": "crater_to_crater_n", "pos": [ -1, 0, 10 ] },
-            { "overmap": "crater", "pos": [ 0, -1, 0 ] },
+            { "overmap": "crater_to_crater_n", "pos": [ -1, -1, 10 ] },
             { "overmap": "crater", "pos": [ -1, 0, 0 ] },
             { "overmap": "crater", "pos": [ 1, 0, 0 ] },
             { "overmap": "crater", "pos": [ 0, 1, 0 ] }
@@ -125,6 +123,34 @@
           "chunk": [
             { "overmap": "core_small", "pos": [ 0, 0, 0 ] },
             { "overmap": "crater_to_crater_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "crater", "pos": [ -1, 0, 0 ] },
+            { "overmap": "crater", "pos": [ 1, 0, 0 ] },
+            { "overmap": "crater", "pos": [ 0, 1, 0 ] }
+          ],
+          "max": 1
+        },
+        {
+          "name": "crater_adjacent_gap",
+          "chunk": [
+            { "overmap": "core_large", "pos": [ 0, 0, 0 ] },
+            { "overmap": "crater_to_crater_n", "pos": [ 0, -1, 10 ] },
+            { "overmap": "crater", "pos": [ -1, -1, 0 ] },
+            { "overmap": "crater", "pos": [ 0, -1, 0 ] },
+            { "overmap": "crater", "pos": [ 1, -1, 0 ] },
+            { "overmap": "crater", "pos": [ -1, 0, 0 ] },
+            { "overmap": "crater", "pos": [ 1, 0, 0 ] },
+            { "overmap": "crater", "pos": [ -1, 1, 0 ] },
+            { "overmap": "crater", "pos": [ 0, 1, 0 ] },
+            { "overmap": "crater", "pos": [ 1, 1, 0 ] }
+          ],
+          "max": 1
+        },
+        {
+          "name": "crater_adjacent_gap_small",
+          "chunk": [
+            { "overmap": "core_small", "pos": [ 0, 0, 0 ] },
+            { "overmap": "crater_to_crater_n", "pos": [ 0, -1, 10 ] },
+            { "overmap": "crater", "pos": [ 0, -1, 0 ] },
             { "overmap": "crater", "pos": [ -1, 0, 0 ] },
             { "overmap": "crater", "pos": [ 1, 0, 0 ] },
             { "overmap": "crater", "pos": [ 0, 1, 0 ] }
