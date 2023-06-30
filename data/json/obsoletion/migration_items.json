@@ -168,6 +168,11 @@
     "flags": [ "IS_UPS" ]
   },
   {
+    "id": "rebreather_filter",
+    "type": "MIGRATION",
+    "replace": "rebreather_filler_soda_lime"
+  },
+  {
     "id": "coat_fur_sf",
     "type": "MIGRATION",
     "replace": "coat_fur",

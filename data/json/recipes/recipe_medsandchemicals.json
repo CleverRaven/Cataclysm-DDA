@@ -753,6 +753,28 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_potassium",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "120 m",
+    "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
+    "charges": 350,
+    "batch_time_factors": [ 60, 4 ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "electrolysis_kit", 1500 ] ], [ [ "surface_heat", 1, "LIST" ] ], [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "chem_potassium_hydroxide", 800 ] ], [ [ "lamp_oil", 200 ] ] ],
+    "//": "kerosene is used here because potassium metal needs to be suspended in a mineral oil to prevent it from reacting with air."
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "heatpack",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
