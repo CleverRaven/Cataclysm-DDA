@@ -658,7 +658,7 @@
       { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
       { "x": -1, "y": 1, "parts": [ "frame#vertical_right", "door#ne" ] },
       { "x": -2, "y": -1, "parts": [ "frame#sw" ] },
-      { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "stowboard#horisontal_rear", "muffler" ] },
+      { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "stowboard#horizontal_rear", "muffler" ] },
       { "x": -2, "y": 1, "parts": [ "frame#se" ] }
     ],
     "items": [
