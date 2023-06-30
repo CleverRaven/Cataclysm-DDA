@@ -594,7 +594,7 @@
       { "x": 1, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": -1, "y": -1, "parts": [ "frame#sw" ] },
       { "x": -1, "y": -1, "parts": [ "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
-      { "x": -1, "y": 0, "parts": [ "frame#horizontal_rear", "hatch", "muffler" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#horizontal_rear", "hatch" ] },
       { "x": -1, "y": 1, "parts": [ "frame#se" ] },
       { "x": -1, "y": 1, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] }
     ],
@@ -609,7 +609,8 @@
     "copy-from": "car_micro_abstract",
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] }
+      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 0, "parts": [ "muffler" ] }
     ]
   },
   {
@@ -622,6 +623,7 @@
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_truck" ] },
       { "x": -1, "y": 0, "parts": [ "engine_electric" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 0, "parts": [ "muffler" ] },
       { "x": -1, "y": 1, "parts": [ "medium_storage_battery" ] }
     ]
   },
@@ -658,7 +660,7 @@
       { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
       { "x": -1, "y": 1, "parts": [ "frame#vertical_right", "door#ne" ] },
       { "x": -2, "y": -1, "parts": [ "frame#sw" ] },
-      { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "stowboard#horizontal_rear", "muffler" ] },
+      { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "stowboard#horizontal_rear" ] },
       { "x": -2, "y": 1, "parts": [ "frame#se" ] }
     ],
     "items": [
@@ -676,6 +678,7 @@
       { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": 1, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "muffler" ] },
       { "x": -2, "y": 1, "parts": [ "halfboard#wheel_right", "wheel_mount_medium", "wheel" ] }
     ]
   },
@@ -704,7 +707,7 @@
       { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": -2, "y": 0, "parts": [ "wheel_mount_light", "wheel_motorbike" ] },
-      { "x": -2, "y": -1, "parts": [ "halfboard#sw" ] },
+      { "x": -2, "y": -1, "parts": [ "halfboard#sw", "muffler" ] },
       { "x": -2, "y": 1, "parts": [ "halfboard#se" ] }
     ]
   },
