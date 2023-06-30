@@ -168,7 +168,7 @@
     "volume": "250 ml",
     "price": 3500,
     "price_postapoc": 150,
-    "material": [ "lycra, cotton" ],
+    "material": [ "lycra", "cotton" ],
     "symbol": "[",
     "looks_like": "bikini_top",
     "color": "dark_gray",
@@ -234,7 +234,6 @@
         "weight": 4,
         "append": true
       },
-      //Brighter ones are rarer as many people don't like bringing attention to the fact they're wearing a binder
       {
         "id": "binder_top_american",
         "name": { "str": "american binder" },
@@ -289,12 +288,10 @@
   {
     "id": "xl_binder_top",
     "type": "ARMOR",
+    "copy-from": "binder_top",
     "name": { "str_sp": "XL binder" },
     "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accomodate larger mutants.",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "weight": "50 g",
-    "volume": "350 ml",
-    "copy-from": "binder_top",
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -474,6 +471,25 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "xl_bra",
+    "type": "ARMOR",
+    "copy-from": "bra",
+    "name": { "str_sp": "XL bra" },
+    "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for larger mutants.",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_bra",
+    "type": "ARMOR",
+    "copy-from": "bra",
+    "looks_like": "bra",
+    "name": { "str_sp": "XS bra" },
+    "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for smaller mutants.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "briefs",
