@@ -7583,7 +7583,7 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "alternator_truck", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ] ]
+    "qualities": [ { "id": "WRENCH", "level": 2 } ],
+    "components": [ [ [ "alternator_truck", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   }
 ]

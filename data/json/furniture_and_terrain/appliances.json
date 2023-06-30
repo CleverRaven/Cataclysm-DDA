@@ -979,7 +979,7 @@
     "location": "structure",
     "damage_modifier": 80,
     "durability": 400,
-    "description": "FIXME",
+    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.",
     "//1": "BIZARRE FIELD NAMES HERE! Weird stuff happening! Epower determines how fast it is converted, power determines the ratio of diesel(mL) to battery charges output. In other words, *power* is *fuel efficiency*.",
     "//2": "On a normal vehicle 250mL of diesel in an I4 with a truck alternator (what the active backup gen uses) should provide ~1692 charges (kW?) of power in about 24 minutes based on a test setup. That's a little less than 7W power, rounded up as I assume a larger dedicated generator is more efficient.",
     "power": "7 W",
