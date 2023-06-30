@@ -15,6 +15,11 @@
   },
   {
     "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": { "gunshow_0": "gunshow_0_north", "gunshow_1": "gunshow_1_north" }
+  },
+  {
+    "type": "oter_id_migration",
     "//": "obsoleted in 0.G, but no migration in 0.G so keep until 0.I",
     "oter_ids": {
       "apartments_con_tower_001_east": "omt_obsolete",
