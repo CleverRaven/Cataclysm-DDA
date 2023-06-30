@@ -579,7 +579,7 @@
     "coverage": 80,
     "required_str": 8,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "active_backup_generator" },
-    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR" ],
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 5,
       "str_max": 40,
@@ -595,14 +595,6 @@
         { "item": "bearing", "charges": [ 5, 60 ] }
       ]
     },
-    "deconstruct": {
-      "items": [
-        { "item": "scrap", "count": [ 5, 15 ] },
-        { "item": "sheet_metal", "count": [ 4, 6 ] },
-        { "item": "jp8", "charges": [ 1000, 10000 ], "container-item": "jerrycan_big" },
-        { "item": "i4_diesel" },
-        { "item": "bearing", "charges": [ 5, 40 ] }
-      ]
-    }
+    "deconstruct": { "items": [ { "item": "active_backup_generator" } ] }
   }
 ]
