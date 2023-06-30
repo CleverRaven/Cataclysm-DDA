@@ -6,7 +6,7 @@
     "locations": [ "land", "road", "crater", "open_air" ],
     "occurrences": [ 66, 100 ],
     "flags": [ "UNIQUE", "BLOB", "CLASSIC" ],
-    "check_for_locations_area": [ { "type": [ "land", "road" ], "from": [ -3, -3, 0 ], "to": [ 3, 3, 0 ] } ],
+    "check_for_locations_area": [ { "type": [ "land", "road" ], "from": [ -1, -1, 0 ], "to": [ 1, 1, 0 ] } ],
     "joins": [ "crater_to_crater", "root" ],
     "overmaps": {
       "core_large": { "overmap": "crater_core_large" },
@@ -64,7 +64,7 @@
             { "overmap": "crater", "pos": [ 0, 1, 0 ] },
             { "overmap": "crater", "pos": [ 1, 1, 0 ] }
           ],
-          "max": 1
+          "max": { "binomial": [ 1, 0.66 ] }
         },
         {
           "name": "crater_diagonal_small",
@@ -75,7 +75,7 @@
             { "overmap": "crater", "pos": [ 1, 0, 0 ] },
             { "overmap": "crater", "pos": [ 0, 1, 0 ] }
           ],
-          "max": 1
+          "max": { "binomial": [ 1, 0.66 ] }
         },
         {
           "name": "crater_diagonal_gap",
@@ -90,7 +90,7 @@
             { "overmap": "crater", "pos": [ 0, 1, 0 ] },
             { "overmap": "crater", "pos": [ 1, 1, 0 ] }
           ],
-          "max": 1
+          "max": { "binomial": [ 1, 0.66 ] }
         },
         {
           "name": "crater_diagonal_gap_small",
@@ -101,7 +101,7 @@
             { "overmap": "crater", "pos": [ 1, 0, 0 ] },
             { "overmap": "crater", "pos": [ 0, 1, 0 ] }
           ],
-          "max": 1
+          "max": { "binomial": [ 1, 0.66 ] }
         },
         {
           "name": "crater_adjacent",
@@ -116,7 +116,7 @@
             { "overmap": "crater", "pos": [ 0, 1, 0 ] },
             { "overmap": "crater", "pos": [ 1, 1, 0 ] }
           ],
-          "max": 1
+          "max": { "binomial": [ 1, 0.66 ] }
         },
         {
           "name": "crater_adjacent_small",
@@ -127,7 +127,7 @@
             { "overmap": "crater", "pos": [ 1, 0, 0 ] },
             { "overmap": "crater", "pos": [ 0, 1, 0 ] }
           ],
-          "max": 1
+          "max": { "binomial": [ 1, 0.66 ] }
         },
         {
           "name": "crater_adjacent_gap",
@@ -143,7 +143,7 @@
             { "overmap": "crater", "pos": [ 0, 1, 0 ] },
             { "overmap": "crater", "pos": [ 1, 1, 0 ] }
           ],
-          "max": 1
+          "max": { "binomial": [ 1, 0.66 ] }
         },
         {
           "name": "crater_adjacent_gap_small",
@@ -155,7 +155,7 @@
             { "overmap": "crater", "pos": [ 1, 0, 0 ] },
             { "overmap": "crater", "pos": [ 0, 1, 0 ] }
           ],
-          "max": 1
+          "max": { "binomial": [ 1, 0.66 ] }
         }
       ],
       [ { "overmap": "cleanup", "weight": 1 } ]
