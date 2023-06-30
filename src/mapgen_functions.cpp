@@ -41,7 +41,6 @@ static const item_group_id Item_spawn_data_field( "field" );
 static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
 static const item_group_id Item_spawn_data_road( "road" );
 static const item_group_id Item_spawn_data_sewer( "sewer" );
-static const item_group_id Item_spawn_data_wreckage( "wreckage" );
 
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
