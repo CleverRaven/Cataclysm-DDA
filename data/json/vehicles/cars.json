@@ -505,7 +505,7 @@
     ]
   },
   {
-    "id": "car_micro_abstract",
+    "abstract": "car_micro_abstract",
     "type": "vehicle",
     "name": "Microcar",
     "blueprint": [
@@ -573,7 +573,7 @@
     ]
   },
   {
-    "id": "scompact_abstract",
+    "abstract": "scompact_abstract",
     "type": "vehicle",
     "name": "Supercompact Car",
     "blueprint": [
@@ -639,7 +639,7 @@
     ]
   },
   {
-    "id": "scompact_tandem_abstract",
+    "abstract": "scompact_tandem_abstract",
     "type": "vehicle",
     "name": "Supercompact Tandem Car",
     "blueprint": [
@@ -1061,7 +1061,7 @@
   {
     "id": "car_sedan_v8",
     "type": "vehicle",
-    "copy-from": "car_coupe_abstract",
+    "copy-from": "car_sedan_abstract",
     "name": "V8 Sports Sedan",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_v8", "alternator_car" ] },
@@ -1081,8 +1081,8 @@
   {
     "id": "car_sedan_sports_v12",
     "type": "vehicle",
-    "copy-from": "car_coupe_abstract",
-    "name": "V12 Sports Coupe",
+    "copy-from": "car_sedan_abstract",
+    "name": "V12 Sports Sedan",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_v12", "alternator_car" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
@@ -1101,7 +1101,7 @@
   {
     "id": "car_sedan_sports_v6",
     "type": "vehicle",
-    "copy-from": "car_coupe_abstract",
+    "copy-from": "car_sedan_abstract",
     "name": "V6 Sports Sedan",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_car" ] },
@@ -1121,7 +1121,7 @@
   {
     "id": "car_sedan_luxury_v6",
     "type": "vehicle",
-    "copy-from": "car_coupe_abstract",
+    "copy-from": "car_sedan_abstract",
     "name": "Luxury Sedan",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_car" ] },
