@@ -653,7 +653,7 @@
       { "x": 0, "y": 1, "parts": [ "frame#vertical_right", "door#ne" ] },
       { "x": 1, "y": -1, "parts": [ "frame#vertical_T_left", "windshield#wheel_left", "headlight" ] },
       { "x": 1, "y": 0, "parts": [ "frame#horizontal_2", "windshield#cover_left" ] },
-      { "x": 1, "y": 1, "parts": [ "frame#vertical_T_right", "windshield#wheel_right", "headlight" ] }
+      { "x": 1, "y": 1, "parts": [ "frame#vertical_T_right", "windshield#wheel_right", "headlight" ] },
       { "x": -1, "y": 0, "parts": [ "frame#cross", "seat#rear", "seatbelt", "roof" ] },
       { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
       { "x": -1, "y": 1, "parts": [ "frame#vertical_right", "door#ne" ] },
