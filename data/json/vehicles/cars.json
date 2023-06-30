@@ -1042,9 +1042,7 @@
       { "x": 2, "y": 0, "parts": [ "engine_v12", "alternator_car", "battery_car" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
     ],
-    "items": [
-      { "x": -1, "y": 0, "chance": 5, "item_groups": [ "hunting_lodge_weapons" ] }
-    ]
+    "items": [ { "x": -1, "y": 0, "chance": 5, "item_groups": [ "hunting_lodge_weapons" ] } ]
   },
   {
     "id": "car_shootingbrake_electric",
