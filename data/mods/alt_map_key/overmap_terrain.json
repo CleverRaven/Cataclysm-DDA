@@ -208,7 +208,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "park",
+    "id": [ "park", "park_roof", "park_2", "park_3", "park_4", "park_5", "park_5_roof", "park_6", "park_7", "park_7_roof" ],
     "copy-from": "park",
     "name": "park",
     "sym": "p",
@@ -4467,7 +4467,7 @@
     "color": "brown"
   },
   {
-    "id": "gym_fitness",
+    "id": [ "gym_fitness", "gym_fitness_1", "gym_fitness_2ndFloor_1" ],
     "copy-from": "gym_fitness",
     "type": "overmap_terrain",
     "name": "fitness gym",
@@ -4515,7 +4515,7 @@
     "color": "magenta"
   },
   {
-    "id": "dojo",
+    "id": [ "dojo", "dojo_1" ],
     "copy-from": "dojo",
     "type": "overmap_terrain",
     "name": "dojo",
