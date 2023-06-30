@@ -228,6 +228,7 @@
     "name": { "str": "brown trout" },
     "looks_like": "mon_fish_salmon",
     "description": "A brown trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
+    "volume": "18320 ml",
     "weight": "3 kg",
     "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 }
   },
@@ -245,7 +246,7 @@
     "name": { "str": "brook trout" },
     "looks_like": "mon_fish_salmon",
     "description": "A brook trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
-    "volume": "3500 ml",
+    "volume": "900 ml",
     "weight": "1650 g",
     "reproduction": { "baby_egg": "egg_brook_trout", "baby_count": 2, "baby_timer": 17 }
   },
@@ -263,6 +264,7 @@
     "name": { "str": "lake trout" },
     "looks_like": "mon_fish_salmon",
     "description": "A lake trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
+    "volume": "6140 ml",
     "weight": "4 kg",
     "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 }
   },
@@ -280,7 +282,7 @@
     "name": { "str": "rainbow trout" },
     "looks_like": "mon_fish_salmon",
     "description": "A rainbow trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
-    "volume": "12 L",
+    "volume": "10600 ml",
     "weight": "3 kg",
     "reproduction": { "baby_egg": "egg_rainbow_trout", "baby_count": 2, "baby_timer": 17 }
   },
@@ -297,6 +299,7 @@
     "copy-from": "mon_fish_large",
     "name": { "str_sp": "atlantic salmon" },
     "description": "An Atlantic salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
+    "volume": "10600 ml",
     "weight": "4 kg",
     "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 }
   },
@@ -314,7 +317,7 @@
     "name": { "str_sp": "kokanee salmon" },
     "looks_like": "mon_fish_salmon",
     "description": "A Kokanee salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
-    "volume": "6 L",
+    "volume": "4470 ml",
     "weight": "3500 g",
     "reproduction": { "baby_egg": "egg_kokanee_salmon", "baby_count": 2, "baby_timer": 17 }
   },
@@ -331,7 +334,7 @@
     "copy-from": "mon_fish_medium",
     "name": { "str_sp": "lake whitefish" },
     "description": "A lake whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
-    "volume": "5 L",
+    "volume": "7730 ml",
     "weight": "2 kg",
     "reproduction": { "baby_egg": "egg_whitefish", "baby_count": 2, "baby_timer": 17 }
   },
