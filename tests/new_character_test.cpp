@@ -206,8 +206,6 @@ TEST_CASE( "Generated_character_with_category_mutations", "[mutation]" )
     REQUIRE( !trait_TAIL_FLUFFY.obj().category.empty() );
     avatar &u = get_avatar();
     clear_avatar();
-    u.clear_mutations();
-    u.mutation_category_level.clear();
     REQUIRE( u.get_mutations().empty() );
     REQUIRE( u.get_base_traits().empty() );
     REQUIRE( u.mutation_category_level.empty() );
