@@ -537,7 +537,7 @@ class cata_tiles
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );
 
-        bool draw_item_highlight( const tripoint &pos );
+        bool draw_item_highlight( const tripoint &pos, int &height_3d );
 
     public:
         // Animation layers

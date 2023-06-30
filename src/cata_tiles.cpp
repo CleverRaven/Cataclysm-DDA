@@ -3584,13 +3584,13 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
                                                       0, lit, nv, height_3d, 0, variant );
                 if( ret_draw_items && hilite ) {
-                    draw_item_highlight( p );
+                    draw_item_highlight( p, height_3d );
                 }
             }
         }
         // we may still need to draw the highlight
         else if( tile.get_item_count() > 1 && here.sees_some_items( p, get_player_character() ) ) {
-            draw_item_highlight( p );
+            draw_item_highlight( p, height_3d );
         }
     }
     return ret_draw_field && ret_draw_items;
@@ -3657,12 +3657,12 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
                                  : draw_from_id_string( "vp_" + vd.id.str(), TILE_CATEGORY::VEHICLE_PART,
                                                         empty_string, p, subtile, rotation, ll,
                                                         nv_goggles_activated, height_3d_temp, 0, vd.variant.id );
-                // Do not increment height_3d for non-roof vparts
+                if( ret && vd.has_cargo ) {
+                    draw_item_highlight( p, height_3d_temp );
+                }
+                // Do not increment height_3d for roof vparts
                 if( !roof ) {
                     height_3d = height_3d_temp;
-                }
-                if( ret && vd.has_cargo ) {
-                    draw_item_highlight( p );
                 }
                 return ret;
             }
@@ -3684,11 +3684,11 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
                              ? false
                              : draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
                                                     rotation, lit_level::LIT, false, height_3d_temp );
+            if( ret && draw_highlight ) {
+                draw_item_highlight( p, height_3d_temp );
+            }
             if( !roof ) {
                 height_3d = height_3d_temp;
-            }
-            if( ret && draw_highlight ) {
-                draw_item_highlight( p );
             }
             return ret;
         }
@@ -4019,10 +4019,10 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
     }
 }
 
-bool cata_tiles::draw_item_highlight( const tripoint &pos )
+bool cata_tiles::draw_item_highlight( const tripoint &pos, int &height_3d )
 {
     return draw_from_id_string( ITEM_HIGHLIGHT, TILE_CATEGORY::NONE, empty_string, pos, 0, 0,
-                                lit_level::LIT, false );
+                                lit_level::LIT, false, height_3d );
 }
 
 std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &tileset_id,
