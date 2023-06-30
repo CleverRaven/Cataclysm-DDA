@@ -968,7 +968,7 @@
       { "x": -2, "y": -1, "parts": [ "frame#sw", "halfboard#hatch_wheel_left", "wheel_mount_medium" ] },
       { "x": -2, "y": -1, "parts": [ "wheel_slick" ] },
       { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "door_trunk#wheel_left" ] },
-      { "x": -2, "y": 1, "parts": [ "frame#horizontal_rear", "door_trunk#wheel_left" ] },
+      { "x": -2, "y": 1, "parts": [ "frame#horizontal_rear", "door_trunk#wheel_right" ] },
       { "x": -2, "y": 2, "parts": [ "frame#se", "halfboard#hatch_wheel_right", "wheel_mount_medium" ] },
       { "x": -2, "y": 2, "parts": [ "wheel_slick" ] }
     ],
@@ -1011,8 +1011,8 @@
       { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "halfboard#vertical_right" ] },
       { "x": -2, "y": -1, "parts": [ "frame#sw", "halfboard#hatch_wheel_left", "wheel_mount_medium" ] },
       { "x": -2, "y": -1, "parts": [ "wheel" ] },
-      { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "door_trunk#wheel" ] },
-      { "x": -2, "y": 1, "parts": [ "frame#horizontal_rear", "door_trunk#wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
+      { "x": -2, "y": 1, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
       { "x": -2, "y": 2, "parts": [ "frame#se", "halfboard#hatch_wheel_right", "wheel_mount_medium" ] },
       { "x": -2, "y": 2, "parts": [ "wheel" ] }
     ],
