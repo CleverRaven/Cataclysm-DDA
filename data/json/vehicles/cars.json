@@ -731,7 +731,7 @@
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
-      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] }
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
       { "x": -2, "y": 1, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] }
     ]
