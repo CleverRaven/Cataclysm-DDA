@@ -9,7 +9,7 @@
     "sub": "char_kiln",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "charcoal" ],
-    "//1": "250 liters of materials can produce 100 liters of charcoal."
+    "//1": "250 liters of materials can produce 100 liters of charcoal.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 20000 } } ]
   },
   {
