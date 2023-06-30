@@ -527,7 +527,7 @@
       { "x": 1, "y": 1, "parts": [ "frame#horizontal_2", "windshield#cover_right" ] },
       { "x": 1, "y": 2, "parts": [ "frame#vertical_T_right", "windshield#wheel_right", "headlight" ] },
       { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
-      { "x": -1, "y": -1, "parts": [ "frame#sw", { "part": "tank_small", "fuel": "gasoline" } ] },
+      { "x": -1, "y": -1, "parts": [ "frame#sw" ] },
       { "x": -1, "y": -1, "parts": [ "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
       { "x": -1, "y": 0, "parts": [ "frame#horizontal_rear", "hatch", "muffler" ] },
       { "x": -1, "y": 1, "parts": [ "frame#horizontal_rear", "hatch" ] },
@@ -557,7 +557,7 @@
       { "x": 0, "y": 0, "parts": [ "smart_engine_controller" ] },
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_truck" ] },
       { "x": 1, "y": 1, "parts": [ "engine_electric" ] },
-      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
       { "x": -1, "y": 2, "parts": [ "medium_storage_battery" ] }
     ]
   },
@@ -570,6 +570,73 @@
       { "x": 1, "y": 0, "parts": [ "engine_electric" ] },
       { "x": -1, "y": -1, "parts": [ "storage_battery" ] },
       { "x": -1, "y": 2, "parts": [ "storage_battery" ] }
+    ]
+  },
+  {
+    "id": "car_supercompact_abstract",
+    "type": "vehicle",
+    "name": "Supercompact Car",
+    "blueprint": [
+      [ "o+o" ],
+      [ "+#'" ],
+      [ "o+o" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "stereo" ] },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
+      { "x": 0, "y": 0, "parts": [ "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#vertical_right", "door#ne" ] },
+      
+      { "x": 1, "y": -1, "parts": [ "frame#vertical_T_left", "windshield#wheel_left", "headlight" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#horizontal_2", "windshield#cover_left" ] },
+      { "x": 1, "y": 1, "parts": [ "frame#vertical_T_right", "windshield#wheel_right", "headlight" ] },
+      { "x": 1, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      
+      { "x": -1, "y": -1, "parts": [ "frame#sw", { "part": "tank_small", "fuel": "gasoline" } ] },
+      { "x": -1, "y": -1, "parts": [ "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#horizontal_rear", "hatch", "muffler" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#se" ] },
+      { "x": -1, "y": 1, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 50, "item_groups": [ "car_misc" ] },
+      { "x": -1, "y": 0, "chance": 5, "items": [ "mag_glam" ] }
+    ]
+  },
+  {
+    "id": "car_supercompact",
+    "type": "vehicle",
+    "copy-from": "car_micro_abstract",
+    "name": "Supercompact Car",
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] }
+    ]
+  },
+  {
+    "id": "car_supercompact",
+    "type": "vehicle",
+    "copy-from": "car_micro_abstract",
+    "name": "Hybrid Supercompact Car",
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "smart_engine_controller" ] },
+      { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_truck" ] },
+      { "x": -1, "y": 0, "parts": [ "engine_electric" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": -1, "y": 1, "parts": [ "medium_storage_battery" ] }
+    ]
+  },
+  {
+    "id": "car_supercompact_electric",
+    "type": "vehicle",
+    "copy-from": "car_micro_abstract",
+    "name": "Electric Supercompact Car",
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "engine_electric" ] },
+      { "x": -1, "y": -1, "parts": [ "storage_battery" ] },
+      { "x": -1, "y": 1, "parts": [ "storage_battery" ] }
     ]
   },
   {
@@ -1084,7 +1151,7 @@
     ]
   },
   {
-    "id": "car_coupe_sports_v6",
+    "id": "car_coupe_luxury_v6",
     "type": "vehicle",
     "copy-from": "car_coupe_abstract",
     "name": "Luxury Coupe",
