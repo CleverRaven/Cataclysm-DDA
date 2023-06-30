@@ -573,7 +573,7 @@
     ]
   },
   {
-    "id": "car_supercompact_abstract",
+    "id": "scompact_abstract",
     "type": "vehicle",
     "name": "Supercompact Car",
     "blueprint": [
@@ -614,7 +614,7 @@
     ]
   },
   {
-    "id": "car_supercompact_hybrid",
+    "id": "scompact_hybrid",
     "type": "vehicle",
     "copy-from": "car_micro_abstract",
     "name": "Hybrid Supercompact Car",
@@ -628,7 +628,7 @@
     ]
   },
   {
-    "id": "car_supercompact_electric",
+    "id": "scompact_electric",
     "type": "vehicle",
     "copy-from": "car_micro_abstract",
     "name": "Electric Supercompact Car",
@@ -639,7 +639,7 @@
     ]
   },
   {
-    "id": "car_supercompact_tandem_abstract",
+    "id": "scompact_tandem_abstract",
     "type": "vehicle",
     "name": "Supercompact Tandem Car",
     "blueprint": [
@@ -660,7 +660,7 @@
       { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
       { "x": -1, "y": 1, "parts": [ "frame#vertical_right", "door#ne" ] },
       { "x": -2, "y": -1, "parts": [ "frame#sw" ] },
-      { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear", "stowboard#horizontal_rear" ] },
+      { "x": -2, "y": 0, "parts": [ "frame#horizontal_rear" ] },
       { "x": -2, "y": 1, "parts": [ "frame#se" ] }
     ],
     "items": [
@@ -669,9 +669,9 @@
     ]
   },
   {
-    "id": "car_supercompact_tandem",
+    "id": "scompact_tandem_stow",
     "type": "vehicle",
-    "copy-from": "car_supercompact_tandem_abstract",
+    "copy-from": "scompact_tandem_abstract",
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
@@ -679,13 +679,29 @@
       { "x": 1, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#wheel_left", "wheel_mount_medium", "wheel" ] },
       { "x": -2, "y": 0, "parts": [ "muffler" ] },
-      { "x": -2, "y": 1, "parts": [ "halfboard#wheel_right", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 1, "parts": [ "halfboard#wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "stowboard#horizontal_rear" ] }
     ]
   },
   {
-    "id": "car_supercompact_tandem_electric",
+    "id": "scompact_tandem_hboard",
     "type": "vehicle",
-    "copy-from": "car_supercompact_tandem_abstract",
+    "copy-from": "scompact_tandem_abstract",
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -2, "y": -1, "parts": [ "halfboard#wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "muffler" ] },
+      { "x": -2, "y": 1, "parts": [ "halfboard#wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "halfboard#horizontal" ] }
+    ]
+  },
+  {
+    "id": "scompact_tandem_electric_stow",
+    "type": "vehicle",
+    "copy-from": "scompact_tandem_abstract",
     "name": "Electric Supercompact Tandem Car",
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_electric" ] },
@@ -694,13 +710,30 @@
       { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#wheel_left", "wheel_mount_medium", "wheel" ] },
-      { "x": -2, "y": 1, "parts": [ "halfboard#wheel_right", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 1, "parts": [ "halfboard#wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "stowboard#horizontal_rear" ] }
     ]
   },
   {
-    "id": "car_supercompact_tandem_2wheel",
+    "id": "scompact_tandem_electric_hboard",
     "type": "vehicle",
-    "copy-from": "car_supercompact_tandem_abstract",
+    "copy-from": "scompact_tandem_abstract",
+    "name": "Electric Supercompact Tandem Car",
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "engine_electric" ] },
+      { "x": -1, "y": -1, "parts": [ "storage_battery" ] },
+      { "x": -1, "y": 1, "parts": [ "storage_battery" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": -2, "y": -1, "parts": [ "halfboard#wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 1, "parts": [ "halfboard#wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "halfboard#horizontal" ] }
+    ]
+  },
+  {
+    "id": "scompact_tandem_2wheel_stow",
+    "type": "vehicle",
+    "copy-from": "scompact_tandem_abstract",
     "name": "Tandem Cabin Motorcycle",
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
@@ -708,13 +741,29 @@
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": -2, "y": 0, "parts": [ "wheel_mount_light", "wheel_motorbike" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#sw", "muffler" ] },
-      { "x": -2, "y": 1, "parts": [ "halfboard#se" ] }
+      { "x": -2, "y": 1, "parts": [ "halfboard#se" ] },
+      { "x": -2, "y": 0, "parts": [ "stowboard#horizontal_rear" ] }
     ]
   },
   {
-    "id": "car_supercompact_tandem_electric_2wheel",
+    "id": "scompact_tandem_2wheel_hboard",
     "type": "vehicle",
-    "copy-from": "car_supercompact_tandem_abstract",
+    "copy-from": "scompact_tandem_abstract",
+    "name": "Tandem Cabin Motorcycle",
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
+      { "x": -2, "y": 0, "parts": [ "wheel_mount_light", "wheel_motorbike" ] },
+      { "x": -2, "y": -1, "parts": [ "halfboard#sw", "muffler" ] },
+      { "x": -2, "y": 1, "parts": [ "halfboard#se" ] },
+      { "x": -2, "y": 0, "parts": [ "halfboard#horizontal" ] }
+    ]
+  },
+  {
+    "id": "scompact_tandem_electric_2wheel_stow",
+    "type": "vehicle",
+    "copy-from": "scompact_tandem_abstract",
     "name": "Electric Tandem Cabin Motorcycle",
     "parts": [
       { "x": -2, "y": 0, "parts": [ "engine_electric" ] },
@@ -723,26 +772,58 @@
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": -2, "y": 0, "parts": [ "wheel_mount_light", "wheel_motorbike" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#sw" ] },
-      { "x": -2, "y": 1, "parts": [ "halfboard#se" ] }
+      { "x": -2, "y": 1, "parts": [ "halfboard#se" ] },
+      { "x": -2, "y": 0, "parts": [ "stowboard#horizontal_rear" ] }
     ]
   },
   {
-    "id": "car_supercompact_tandem_3wheel",
+    "id": "scompact_tandem_electric_2wheel_hboard",
     "type": "vehicle",
-    "copy-from": "car_supercompact_tandem_abstract",
+    "copy-from": "scompact_tandem_abstract",
+    "name": "Electric Tandem Cabin Motorcycle",
+    "parts": [
+      { "x": -2, "y": 0, "parts": [ "engine_electric" ] },
+      { "x": -1, "y": -1, "parts": [ "storage_battery" ] },
+      { "x": -1, "y": 1, "parts": [ "storage_battery" ] },
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
+      { "x": -2, "y": 0, "parts": [ "wheel_mount_light", "wheel_motorbike" ] },
+      { "x": -2, "y": -1, "parts": [ "halfboard#sw" ] },
+      { "x": -2, "y": 1, "parts": [ "halfboard#se" ] },
+      { "x": -2, "y": 0, "parts": [ "halfboard#horizontal" ] }
+    ]
+  },
+  {
+    "id": "scompact_tandem_3wheel_stow",
+    "type": "vehicle",
+    "copy-from": "scompact_tandem_abstract",
     "name": "Tandem Three-Wheeled Supercompact Car",
     "parts": [
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
-      { "x": -2, "y": 1, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 1, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "stowboard#horizontal_rear" ] }
     ]
   },
   {
-    "id": "car_supercompact_tandem_electric_3wheel",
+    "id": "scompact_tandem_3wheel_hboard",
     "type": "vehicle",
-    "copy-from": "car_supercompact_tandem_abstract",
+    "copy-from": "scompact_tandem_abstract",
+    "name": "Tandem Three-Wheeled Supercompact Car",
+    "parts": [
+      { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
+      { "x": -2, "y": -1, "parts": [ "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 1, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "halfboard#horizontal" ] }
+    ]
+  },
+  {
+    "id": "scompact_tandem_electric_3wheel_stow",
+    "type": "vehicle",
+    "copy-from": "scompact_tandem_abstract",
     "name": "Electric Tandem Three-Wheeled Supercompact Car",
     "parts": [
       { "x": -2, "y": 0, "parts": [ "engine_electric" ] },
@@ -750,7 +831,23 @@
       { "x": -1, "y": 1, "parts": [ "storage_battery" ] },
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": -2, "y": -1, "parts": [ "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
-      { "x": -2, "y": 1, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] }
+      { "x": -2, "y": 1, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "stowboard#horizontal_rear" ] }
+    ]
+  },
+  {
+    "id": "scompact_tandem_electric_3wheel_hboard",
+    "type": "vehicle",
+    "copy-from": "scompact_tandem_abstract",
+    "name": "Electric Tandem Three-Wheeled Supercompact Car",
+    "parts": [
+      { "x": -2, "y": 0, "parts": [ "engine_electric" ] },
+      { "x": -1, "y": -1, "parts": [ "storage_battery" ] },
+      { "x": -1, "y": 1, "parts": [ "storage_battery" ] },
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_motorbike" ] },
+      { "x": -2, "y": -1, "parts": [ "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 1, "parts": [ "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 0, "parts": [ "halfboard#horizontal" ] }
     ]
   },
   {
