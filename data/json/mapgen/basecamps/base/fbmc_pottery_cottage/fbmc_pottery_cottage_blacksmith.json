@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_construction_nested"
+    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_construction_nested",
     "method": "json",
     "object": {
       "parameters": {
