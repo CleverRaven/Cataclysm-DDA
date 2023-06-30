@@ -1610,10 +1610,10 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "tailor", 7 ],
-    "time": "1 h",
+    "time": "1 h 10 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 10 ], [ "plastic_molding", 4 ] ],
+    "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 10 ], [ "plastic_molding", 8 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "rebreather", 1 ] ], [ [ "goggles_swim", 1 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ] ]
   },
@@ -1622,30 +1622,18 @@
     "type": "recipe",
     "copy-from": "mask_h20survivor",
     "time": "1 h",
-    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 7 ], [ "plastic_molding", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 7 ], [ "plastic_molding", 7 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "rebreather", 1 ] ], [ [ "goggles_swim", 1 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ] ]
   },
   {
     "result": "mask_h20survivorxl",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "skills_required": [ "tailor", 7 ],
-    "time": "1 h 10 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 15 ], [ "plastic_molding", 4 ] ],
+    "copy-from": "mask_h20survivor",
+    "time": "1 h 20 m",
+    "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 15 ], [ "plastic_molding", 9 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "rebreather", 1 ] ],
-      [ [ "goggles_swim", 1 ] ],
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ]
-    ]
+    "components": [ [ [ "rebreather", 1 ] ], [ [ "goggles_swim", 1 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 5 ] ] ]
   },
   {
     "result": "mask_hsurvivor",
