@@ -791,13 +791,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 entry = om_upgrade_description( upgrade.bldg, upgrade.args );
                 if( foodcost > available_calories ) {
                     can_upgrade = false;
-                    entry += string_format( _( "Total calorie cost: " ) ) +
-                             string_format( colorize( std::to_string( foodcost ), c_red ) ) +
-                             string_format( _( "(have %s)" ), available_calories );
+                    entry += string_format( _( "Total calorie cost: %s (have %d)" ),
+                                            colorize( std::to_string( foodcost ), c_red ),
+                                            available_calories );
                 } else {
-                    entry += string_format( _( "Total calorie cost: " ) ) +
-                             string_format( colorize( std::to_string( foodcost ), c_green ) ) +
-                             string_format( _( "(have %s)" ), available_calories );
+                    entry += string_format( _( "Total calorie cost: %s (have %d)" ),
+                                            colorize( std::to_string( foodcost ), c_green ),
+                                            available_calories );
                 }
                 mission_key.add_start( miss_id, display_name, entry, can_upgrade );
             } else {
