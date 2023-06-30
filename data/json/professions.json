@@ -183,7 +183,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "full_rebreather_mask",
-    "entries": [ { "item": "rebreather", "ammo-item": "rebreather_cartridge", "charges": 30 } ]
+    "entries": [ { "item": "rebreather", "ammo-item": "rebreather_cartridge_o2", "charges": 180 } ]
   },
   {
     "type": "item_group",
