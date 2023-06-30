@@ -255,7 +255,14 @@
         "weight": 10,
         "append": true
       },
-       {
+      {
+        "id": "binder_top_floral",
+        "name": { "str": "floral binder" },
+        "description": "This one has a floral pattern.",
+        "weight": 10,
+        "append": true
+      },
+      {
         "id": "binder_top_dinos",
         "name": { "str": "dinosaur binder" },
         "description": "This one has a cartoon rendition of a stegosarus on it.",

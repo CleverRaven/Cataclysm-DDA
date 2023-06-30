@@ -126,7 +126,6 @@
   {
     "result": "xl_binder_top",
     "type": "recipe",
-    "type": "recipe",
     "copy-from": "binder_top",
     "time": "2 h",
     "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_lycra_patchwork", 5 ] ]
