@@ -3,8 +3,8 @@
     "type": "palette",
     "id": "crater_palette",
     "terrain": {
-      ".": "t_region_groundcover_barren",
-      "?": [ [ "t_region_groundcover_barren", 3 ], "t_null" ],
+      ".": [ [ "t_region_groundcover_barren", 4 ], "t_null" ],
+      "?": [ [ "t_region_groundcover_barren", 2 ], "t_null" ],
       "0": "t_region_groundcover_barren"
     },
     "nested": { ".": { "chunks": [ [ "rubble", 10 ], [ "null", 3 ] ] }, "?": { "chunks": [ [ "rubble", 3 ], [ "null", 10 ] ] } }
@@ -47,35 +47,9 @@
     "method": "json",
     "object": {
       "fallback_predecessor_mapgen": "field",
-      "rows": [
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........00000000........",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................"
-      ],
-      "palettes": [ "crater_palette" ],
       "//": "It's important that the bombs get placed on tiles without wreckage, otherwise they can get destroyed before they explode",
       "place_nested": [
+        { "chunks": [ "24x24_crater_core" ], "x": 0, "y": 0 },
         { "chunks": [ "crater_bomb" ], "x": [ 8, 11 ], "y": [ 8, 11 ] },
         { "chunks": [ "crater_bomb" ], "x": [ 8, 11 ], "y": [ 12, 15 ] },
         { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 8, 11 ] },
@@ -88,9 +62,10 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "crater",
-    "weight": 250,
     "object": {
       "fallback_predecessor_mapgen": "field",
+      "//": "Vehicle removal because place_rubble isn't gelling well with vehicles and I'm getting the odd crash that I think is related",
+      "remove_vehicles": [ { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_nested": [
         { "chunks": [ "24x24_crater_outer_north" ], "x": 0, "y": 0, "neighbors": { "north": "crater_core" } },
         {
@@ -129,6 +104,52 @@
         { "chunks": [ "24x24_crater_west" ], "x": 0, "y": 0, "neighbors": { "west": "crater_core" } },
         { "chunks": [ "24x24_crater_north_west" ], "x": 0, "y": 0, "neighbors": { "north_west": "crater_core" } }
       ],
+      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_crater_core",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........00000000........",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "//": "Vehicle removal because place_rubble isn't gelling well with vehicles and I'm getting the odd crash that I think is related",
+      "remove_vehicles": [
+        { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 7 ] },
+        { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 16, 23 ] },
+        { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 16, 23 ] },
+        { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 7 ] },
+        { "vehicles": [  ], "x": [ 0, 7 ], "y": [ 8, 15 ] },
+        { "vehicles": [  ], "x": [ 16, 23 ], "y": [ 8, 15 ] }
+      ],
+      "palettes": [ "crater_palette" ],
       "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
