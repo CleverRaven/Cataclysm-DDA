@@ -1060,9 +1060,7 @@
       { "x": -1, "y": 0, "parts": [ "storage_battery" ] },
       { "x": -1, "y": 1, "parts": [ "storage_battery" ] }
     ],
-    "items": [
-      { "x": -1, "y": 0, "chance": 5, "item_groups": [ "hunting_lodge_weapons" ] }
-    ]
+    "items": [ { "x": -1, "y": 0, "chance": 5, "item_groups": [ "hunting_lodge_weapons" ] } ]
   },
   {
     "abstract": "car_sedan_abstract",
