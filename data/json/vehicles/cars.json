@@ -931,7 +931,7 @@
       { "x": 0, "y": 2, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
       { "x": -1, "y": 0, "parts": [ "seat_back_leather#left", "seatbelt" ] },
       { "x": -1, "y": 1, "parts": [ "seat_back_leather#rear", "seatbelt" ] },
-      { "x": -1, "y": 2, "parts": [ "seat_back_leather#right", "seatbelt" ] },
+      { "x": -1, "y": 2, "parts": [ "seat_back_leather#right", "seatbelt" ] }
     ]
   },
   {
