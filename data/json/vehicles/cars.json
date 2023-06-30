@@ -1125,11 +1125,25 @@
     ]
   },
   {
-    "id": "car_sedan_diesel",
+    "id": "car_sedan_diesel_i4",
     "type": "vehicle",
     "copy-from": "car_sedan_abstract",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "diesel_engine_inline4", "alternator_car", "battery_car" ] },
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
+      { "x": -1, "y": 0, "parts": [ "seat_back#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back#right", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] }
+    ],
+    "items": [ { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] } ]
+  },
+  {
+    "id": "car_sedan_diesel_v6",
+    "type": "vehicle",
+    "copy-from": "car_sedan_abstract",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "diesel_engine_v6", "alternator_car", "battery_car" ] },
       { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
       { "x": -1, "y": 0, "parts": [ "seat_back#left", "seatbelt" ] },
       { "x": -1, "y": 1, "parts": [ "seat_back#right", "seatbelt" ] },
@@ -1288,6 +1302,20 @@
     ]
   },
   {
+    "id": "car_town_diesel",
+    "type": "vehicle",
+    "copy-from": "car_town_abstract",
+    "parts": [
+      { "x": 2, "y": 1, "parts": [ "v6_diesel", "alternator_car", "battery_car" ] },
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
+      { "x": 0, "y": 0, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 2, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
+      { "x": -1, "y": 0, "parts": [ "seat_back_leather#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back_leather#rear", "seatbelt" ] },
+      { "x": -1, "y": 2, "parts": [ "seat_back_leather#right", "seatbelt" ] }
+    ]
+  },
+  {
     "id": "car_town_budget",
     "type": "vehicle",
     "copy-from": "car_town_abstract",
@@ -1310,6 +1338,20 @@
     "parts": [
       { "x": 2, "y": 1, "parts": [ "engine_v8", "alternator_car", "battery_car" ] },
       { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 2, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
+      { "x": -1, "y": 0, "parts": [ "seat_back#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back#rear", "seatbelt" ] },
+      { "x": -1, "y": 2, "parts": [ "seat_back#left", "seatbelt" ] }
+    ]
+  },
+  {
+    "id": "car_town_diesel_budget",
+    "type": "vehicle",
+    "copy-from": "car_town_abstract",
+    "parts": [
+      { "x": 2, "y": 1, "parts": [ "diesel_engine_v6", "alternator_car", "battery_car" ] },
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
       { "x": -1, "y": 0, "parts": [ "seat_back#left", "seatbelt" ] },
@@ -1377,11 +1419,26 @@
     ]
   },
   {
-    "id": "car_coupe_diesel",
+    "id": "car_coupe_diesel_i4",
     "type": "vehicle",
     "copy-from": "car_coupe_abstract",
     "parts": [
       { "x": 2, "y": 0, "parts": [ "diesel_engine_inline4", "alternator_car", "battery_car" ] },
+      { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
+      { "x": 0, "y": 0, "parts": [ "seat#windshield_front", "seatbelt" ] },
+      { "x": 0, "y": 1, "parts": [ "seat#windshield_front", "seatbelt" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] }
+    ]
+  },
+  {
+    "id": "car_coupe_diesel_v6",
+    "type": "vehicle",
+    "copy-from": "car_coupe_abstract",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "diesel_engine_v6", "alternator_car", "battery_car" ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank", "fuel": "diesel" } ] },
       { "x": 0, "y": 0, "parts": [ "seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 1, "parts": [ "seat#windshield_front", "seatbelt" ] }
