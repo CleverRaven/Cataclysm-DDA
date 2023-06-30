@@ -134,7 +134,7 @@
     "result": "xs_binder_top",
     "type": "recipe",
     "copy-from": "binder_top",
-    "using": [ [ "tailoring_cotton_patchwork", 3 ],  [ "tailoring_lycra_patchwork", 2 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 3 ], [ "tailoring_lycra_patchwork", 2 ] ]
   },
   {
     "result": "bikini_top",

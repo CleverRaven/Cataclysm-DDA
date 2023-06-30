@@ -177,8 +177,8 @@
     "flags": [ "SKINTIGHT" ],
     "armor": [ { "encumbrance": 10, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
     "variant_type": "generic",
-    "variants": [ 
-       {
+    "variants": [
+      {
         "id": "binder_top_black",
         "name": { "str": "black binder" },
         "description": "This one is black.",

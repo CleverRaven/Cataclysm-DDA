@@ -2155,7 +2155,14 @@
   {
     "type": "item_group",
     "id": "male_underwear_top",
-    "items": [ [ "undershirt", 50 ], [ "binder_top", 2 ], [ "long_undertop", 20 ], [ "thermal_shirt", 10 ], [ "under_armor", 20 ], [ "tank_top", 50 ] ]
+    "items": [
+      [ "undershirt", 50 ],
+      [ "binder_top", 2 ],
+      [ "long_undertop", 20 ],
+      [ "thermal_shirt", 10 ],
+      [ "under_armor", 20 ],
+      [ "tank_top", 50 ]
+    ]
   },
   {
     "type": "item_group",
