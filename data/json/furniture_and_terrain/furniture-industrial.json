@@ -578,6 +578,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 8,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "active_backup_generator" },
     "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR" ],
     "bash": {
       "str_min": 5,
