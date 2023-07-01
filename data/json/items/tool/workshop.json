@@ -364,8 +364,8 @@
     "id": "elec_jackhammer",
     "type": "TOOL",
     "name": { "str": "electric jackhammer" },
-    "description": "A construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with a UPS.  Use it to blast a hole in adjacent solid terrain.",
-    "weight": "40000 g",
+    "description": "A construction tool for drilling through hard rock or other surfaces. Comes with a 12 meter long cable.  Use it to blast a hole in adjacent solid terrain.",
+    "weight": "26000 g",
     "volume": "12 L",
     "longest_side": "81 cm",
     "price": 40000,
@@ -375,10 +375,47 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7920 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 3960 } } ],
     "charges_per_use": 3960,
+    "use_action": [
+      "JACKHAMMER",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 12,
+        "charge_rate": "2200 W"
+      }
+    ],
+    "flags": [ "DIG_TOOL", "POWERED", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 14, "stab": 6 }
+  },
+  {
+    "id": "elec_jackhammer_battery",
+    "type": "TOOL",
+    "name": { "str": "electric jackhammer battery" },
+    "description": "A construction tool for drilling through hard rock or other surfaces.  It runs on a swapable battery pack.  Use it to blast a hole in adjacent solid terrain.",
+    "weight": "26000 g",
+    "volume": "12 L",
+    "longest_side": "81 cm",
+    "price": 40000,
+    "price_postapoc": 500,
+    "to_hit": -8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "500 ml",
+        "default_magazine": "medium_storage_battery",
+        "item_restriction": [ "medium_storage_battery" ]
+      }
+    ],
+    "charges_per_use": 5000,
     "use_action": [ "JACKHAMMER" ],
-    "flags": [ "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "DIG_TOOL", "POWERED", "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 14, "stab": 6 }
   },
   {
