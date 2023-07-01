@@ -747,7 +747,7 @@
     "weight": "204 g",
     "volume": "364 ml",
     "longest_side": "21 cm",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "//": "Based on https://www.amazon.com/AmazonCommercial-Stainless-Steel-Can-Opener/dp/B087MSWH65/ref=sr_1_36?crid=15C7UP9YX6W0E&keywords=can+opener&qid=1688240425&sprefix=can+opener%2Caps%2C610&sr=8-36 with the volume multiplied by 0.85 - otherwise the volume is way higher than it should be since Amazon lists package volume"
   },
   {
