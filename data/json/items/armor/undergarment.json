@@ -265,7 +265,7 @@
       {
         "id": "binder_top_dinos",
         "name": { "str": "dinosaur binder" },
-        "description": "This one has a cartoon rendition of a stegosarus on it.",
+        "description": "This one has a cartoon rendition of a stegosaurus on it.",
         "weight": 8,
         "append": true
       },
@@ -297,7 +297,7 @@
     "type": "ARMOR",
     "copy-from": "binder_top",
     "name": { "str_sp": "XL binder" },
-    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accomodate larger mutants.",
+    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate larger mutants.",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -307,7 +307,7 @@
     "copy-from": "binder_top",
     "looks_like": "binder_top",
     "name": { "str_sp": "XS binder" },
-    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accomodate smaller mutants.",
+    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate smaller mutants.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
