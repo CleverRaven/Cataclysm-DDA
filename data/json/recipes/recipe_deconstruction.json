@@ -69,7 +69,7 @@
     "result": "can_opener",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "uncraft",
