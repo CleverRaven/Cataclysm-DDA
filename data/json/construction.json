@@ -5508,6 +5508,19 @@
   },
   {
     "type": "construction",
+    "id": "app_active_backup_generator",
+    "group": "place_active_backup_generator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "mechanics", 1 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "active_backup_generator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_pontoon_dp",
     "group": "build_pontoon_bridge",
     "//": "Set up pontoon bridge",

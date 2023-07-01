@@ -2553,6 +2553,100 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "condom_plain",
+        "name": { "str": "condom" },
+        "description": "This one is plain, no coloring or flavoring.",
+        "weight": 200,
+        "append": true
+      },
+      {
+        "id": "condom_blue",
+        "name": { "str": "blue condom" },
+        "description": "This one is colored blue.",
+        "weight": 80,
+        "append": true
+      },
+      {
+        "id": "condom_red",
+        "name": { "str": "red condom" },
+        "description": "This one is colored red.",
+        "weight": 80,
+        "append": true
+      },
+      {
+        "id": "condom_green",
+        "name": { "str": "green condom" },
+        "description": "This one is colored green.",
+        "weight": 80,
+        "append": true
+      },
+      {
+        "id": "condom_yellow",
+        "name": { "str": "yellow condom" },
+        "description": "This one is colored yellow.",
+        "weight": 80,
+        "append": true
+      },
+      {
+        "id": "condom_pink",
+        "name": { "str": "pink condom" },
+        "description": "This one is colored pink.",
+        "weight": 80,
+        "append": true
+      },
+      {
+        "id": "condom_ribbed",
+        "name": { "str": "ribbed condom" },
+        "description": "This one is ribbed for pleasure!",
+        "weight": 100,
+        "append": true
+      },
+      {
+        "id": "condom_flavored_cherry",
+        "name": { "str": "cherry flavored condom" },
+        "description": "A condom with cherry flavored lube, in red packaging to match.",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "condom_flavored_banana",
+        "name": { "str": "banana flavored condom" },
+        "description": "A condom with banana flavored lube, in yellow packaging to match.",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "condom_flavored_strawberry",
+        "name": { "str": "strawberry flavored condom" },
+        "description": "A condom with strawberry flavored lube, in red packaging to match.",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "condom_flavored_orange",
+        "name": { "str": "orange flavored condom" },
+        "description": "A condom with orange flavored lube, in orange packaging to match.",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "condom_flavored_foodplace",
+        "name": { "str": "food™ flavored condom" },
+        "description": "A condom with Foodplace's delicious food™ flavored lube, in purple packaging to match.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "condom_flavored_jalapeno",
+        "name": { "str": "jalapeno flavored condom" },
+        "description": "For those who need to spice up their sex life, are masochistic, or just hate themselves, this condom is flavored after jalapeños.",
+        "weight": 1,
+        "append": true
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

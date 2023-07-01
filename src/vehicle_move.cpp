@@ -1286,17 +1286,9 @@ monster *vehicle::get_harnessed_animal() const
 
 void vehicle::selfdrive( const point &p )
 {
-    if( !is_towed() && !magic ) {
-        for( size_t e = 0; e < parts.size(); e++ ) {
-            const vehicle_part &vp = parts[ e ];
-            if( vp.info().fuel_type == fuel_type_animal ) {
-                monster *mon = get_monster( e );
-                if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
-                    is_following = false;
-                    return;
-                }
-            }
-        }
+    if( !is_towed() && !magic && !get_harnessed_animal() && !has_part( "AUTOPILOT" ) ) {
+        is_following = false;
+        return;
     }
     if( p.x != 0 ) {
         if( steering_effectiveness() <= 0 ) {
