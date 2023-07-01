@@ -981,14 +981,15 @@
     "copy-from": "base_cookpot",
     "material": [ "iron" ],
     "color": "dark_gray",
-    "weight": "2628 g",
-    "volume": "1335 ml",
-    "longest_side": "36 cm",
-    "to_hit": -3,
+    "weight": "2427 g",
+    "volume": "2940 ml",
+    "longest_side": "41 cm",
+    "price": "20 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_volume": "168 ml",
+        "max_contains_weight": "500 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -996,7 +997,8 @@
     ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] },
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "//": "Based on https://www.amazon.com/Lodge-Skillet-Pre-Seasoned-Ready-Stove/dp/B00006JSUA/ref=sr_1_5?crid=SPLV6RIP18RL&keywords=cast%2Biron%2Bfrying%2Bpan&qid=1688243417&sprefix=cast%2Biron%2Bfrying%2Bp%2Caps%2C491&sr=8-5&th=1 BUT volume calculated as a cylinder - 2 inches height x 10.68 inches diameter"
   },
   {
     "type": "GENERIC",
