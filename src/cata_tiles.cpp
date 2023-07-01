@@ -1657,9 +1657,18 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     } else {
         // Multi z-level draw mode
-        // Start drawing from the bottom-most z-level
-        int cur_zlevel = -OVERMAP_DEPTH;
-        do {
+        // Start drawing from the lowest visible z-level
+        int cur_zlevel = center.z + 1;
+        for( const std::pair<const int, std::vector<tile_render_info>> &pts : draw_points ) {
+            for( const tile_render_info &p : pts.second ) {
+                cur_zlevel = std::min( cur_zlevel, p.com.draw_min_z );
+                if( cur_zlevel <= center.z - max_draw_depth
+                    || cur_zlevel <= -OVERMAP_DEPTH ) {
+                    break;
+                }
+            }
+        }
+        while( cur_zlevel <= center.z ) {
             // For each row
             for( int row = min_row; row < max_row; row ++ ) {
                 // Set base height for each tile
@@ -1702,7 +1711,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
             }
             cur_zlevel += 1;
-        } while( cur_zlevel <= center.z );
+        }
     }
 
     // display number of monsters to spawn in mapgen preview
