@@ -19,7 +19,7 @@
         "overmap": "trailer_hub_01_north",
         "east": "hub_to_hub",
         "south": "hub_to_extension",
-        "connections": { "west": { "connection": "local_road" } }
+        "connections": { "west": { "connection": "local_road_no_bridge" } }
       },
       "trailer_road_2parkway_north": { "overmap": "trailer_road_2parkway_north" },
       "trailer_road_2parkway_east": { "overmap": "trailer_road_2parkway_east" },

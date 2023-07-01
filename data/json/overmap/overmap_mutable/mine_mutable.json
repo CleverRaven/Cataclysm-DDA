@@ -35,14 +35,14 @@
       "parking_lot": {
         "overmap": "s_lot_no_sidewalk_east",
         "south": "parking_lot_to_entrance",
-        "connections": { "east": { "connection": "local_road" } }
+        "connections": { "east": { "connection": "local_road_no_bridge" } }
       },
       "mine_entrance": { "overmap": "mine_entrance_north", "north": "parking_lot_to_entrance", "below": "surface_to_shaft" },
       "mine_entrance_roof": { "overmap": "mine_entrance_roof_north" },
       "loading_zone": {
         "overmap": "mine_entrance_loading_zone_north",
         "below": "surface_to_shaft",
-        "connections": { "north": { "connection": "local_road" } }
+        "connections": { "north": { "connection": "local_road_no_bridge" } }
       },
       "loading_zone_roof": { "overmap": "mine_entrance_loading_zone_roof_north" },
       "shaft_west": { "overmap": "mine_shaft_middle_north", "above": "surface_to_shaft", "below": "shaft_lower_to_shaft_middle" },

@@ -29,8 +29,8 @@
       { "point": [ -1, 2, -4 ], "overmap": "mine_spiral_finale_se_north" }
     ],
     "connections": [
-      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 1, 0 ] }
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road_no_bridge", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road_no_bridge", "from": [ 1, 1, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
@@ -62,8 +62,8 @@
       { "point": [ -3, 1, -4 ], "overmap": "mine_amigara_finale_west_north" }
     ],
     "connections": [
-      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 1, 0 ] }
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road_no_bridge", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road_no_bridge", "from": [ 1, 1, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
@@ -90,8 +90,8 @@
       { "point": [ -3, 1, -3 ], "overmap": "mine_wyrms_finale_north" }
     ],
     "connections": [
-      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 1, 0 ] }
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road_no_bridge", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road_no_bridge", "from": [ 1, 1, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
