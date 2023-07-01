@@ -6854,7 +6854,7 @@
   {
     "type": "mutation",
     "id": "MAKAYLA_MUTATOR",
-    "name": { "str": "Catastrophic mutation" },
+    "name": { "str": "Catastrophic Mutation" },
     "points": -2,
     "mixed_effect": true,
     "description": "Exposure to portal storms and related phenomena causes you to mutate in a mostly predictable fashion.",
@@ -8597,7 +8597,7 @@
     "name": { "str": "Debug Bionic Power" },
     "points": 99,
     "valid": false,
-    "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
+    "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated).",
     "debug": true,
     "active": true
   },
