@@ -1,6 +1,24 @@
 [
   {
     "type": "oter_id_migration",
+    "//": "obsoleted in 0.H",
+    "oter_ids": {
+      "school_2_3_north": "open_air",
+      "school_2_3_east": "open_air",
+      "school_2_3_south": "open_air",
+      "school_2_3_west": "open_air",
+      "school_3_3_north": "open_air",
+      "school_3_3_east": "open_air",
+      "school_3_3_south": "open_air",
+      "school_3_3_west": "open_air",
+      "school_4_3_north": "open_air",
+      "school_4_3_east": "open_air",
+      "school_4_3_south": "open_air",
+      "school_4_3_west": "open_air"
+    }
+  },
+  {
+    "type": "oter_id_migration",
     "//": "obsoleted in 0.G, but no migration in 0.G so keep until 0.I",
     "oter_ids": {
       "dirt_road_turn1_east": "dirt_road_turn_east",
