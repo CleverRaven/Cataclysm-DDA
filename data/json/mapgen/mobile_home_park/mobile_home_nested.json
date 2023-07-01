@@ -343,8 +343,12 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "1x1_tree",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "T" ], "terrain": { "T": "t_region_tree" } },
-    "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "T" ],
+      "terrain": { "T": "t_region_tree" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
+    }
   },
   {
     "type": "mapgen",
