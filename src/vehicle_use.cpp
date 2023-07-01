@@ -506,7 +506,7 @@ void vehicle::toggle_autopilot()
         autopilot_on = true;
         is_following = true;
         is_patrolling = false;
-        start_engines();
+        if( !engine_on ) start_engines();
     } );
 
     menu.add( _( "Stop…" ) )
@@ -838,7 +838,9 @@ void vehicle::enable_patrol()
     is_patrolling = true;
     autopilot_on = true;
     autodrive_local_target = tripoint_zero;
-    start_engines();
+    if( !engine_on ) {
+        start_engines();
+    }
 }
 
 void vehicle::honk_horn() const
@@ -1860,19 +1862,21 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     }
 
     if( is_locked && controls_here ) {
-        menu.add( _( "Hotwire" ) )
-        .enable( get_player_character().crafting_inventory().has_quality( qual_SCREW ) )
-        .desc( _( "Attempt to hotwire the car using a screwdriver." ) )
-        .skip_locked_check()
-        .hotkey( "HOTWIRE" )
-        .on_submit( [this] {
-            ///\EFFECT_MECHANICS speeds up vehicle hotwiring
-            const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );
-            const int moves = to_moves<int>( 6000_seconds / skill );
-            const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
-            const hotwire_car_activity_actor hotwire_act( moves, target );
-            get_player_character().assign_activity( hotwire_act );
-        } );
+        if( player_inside ) {
+            menu.add( _( "Hotwire" ) )
+            .enable( get_player_character().crafting_inventory().has_quality( qual_SCREW ) )
+            .desc( _( "Attempt to hotwire the car using a screwdriver." ) )
+            .skip_locked_check()
+            .hotkey( "HOTWIRE" )
+            .on_submit( [this] {
+                ///\EFFECT_MECHANICS speeds up vehicle hotwiring
+                const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );
+                const int moves = to_moves<int>( 6000_seconds / skill );
+                const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
+                const hotwire_car_activity_actor hotwire_act( moves, target );
+                get_player_character().assign_activity( hotwire_act );
+            } );
+        }
 
         if( !is_alarm_on && has_security_working() ) {
             menu.add( _( "Trigger the alarm" ) )
@@ -1886,7 +1890,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( is_alarm_on && controls_here && !is_moving() ) {
+    if( is_alarm_on && controls_here && !is_moving() && player_inside ) {
         menu.add( _( "Try to smash alarm" ) )
         .skip_locked_check()
         .hotkey( "TOGGLE_ALARM" )
