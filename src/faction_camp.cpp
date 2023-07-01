@@ -789,8 +789,24 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
 
             if( npc_list.empty() ) {
                 std::string display_name = name_display_of( miss_id );
+                const recipe &making = *recipe_id( miss_id.parameters );
+                const int foodcost = time_to_food( base_camps::to_workdays( time_duration::from_moves(
+                                                       making.blueprint_build_reqs().reqs_by_parameters.find( miss_id.mapgen_args )->second.time ) ),
+                                                   BRISK_EXERCISE );
+                const int available_calories = camp_food_supply( 0, false );
+                bool can_upgrade = upgrade.avail;
                 entry = om_upgrade_description( upgrade.bldg, upgrade.args );
-                mission_key.add_start( miss_id, display_name, entry, upgrade.avail );
+                if( foodcost > available_calories ) {
+                    can_upgrade = false;
+                    entry += string_format( _( "Total calorie cost: %s (have %d)" ),
+                                            colorize( std::to_string( foodcost ), c_red ),
+                                            available_calories );
+                } else {
+                    entry += string_format( _( "Total calorie cost: %s (have %d)" ),
+                                            colorize( std::to_string( foodcost ), c_green ),
+                                            available_calories );
+                }
+                mission_key.add_start( miss_id, display_name, entry, can_upgrade );
             } else {
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
@@ -4896,9 +4912,11 @@ std::string basecamp::craft_description( const recipe_id &itm )
     for( auto &elem : component_print_buffer ) {
         str_append( comp, elem, "\n" );
     }
-    comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
+    comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\nCalories per craft: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ) );
+                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ),
+                          time_to_food( base_camps::to_workdays( making.batch_duration( get_player_character() ) ),
+                                        itm.obj().exertion_level() ) );
     return comp;
 }
 
