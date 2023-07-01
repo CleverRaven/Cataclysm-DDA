@@ -119,7 +119,8 @@
       "container": "mflask_hip_whiskey",
       "target_charges": 7,
       "moves": 50,
-      "type": "transform"
+      "type": "transform",
+      "need_empty": true
     }
   },
   {
@@ -136,7 +137,8 @@
       "container": "mteapot",
       "target_charges": 2,
       "moves": 50,
-      "type": "transform"
+      "type": "transform",
+      "need_empty": true
     }
   },
   {
