@@ -3941,6 +3941,11 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
             // TODO: Redraw this after weather etc. animations
             mvwputch( w_terrain, point( mx, my ), c_green_cyan, 'v' );
         }
+        if( critter.posz() == center.z + 1 &&
+            ( debug_mode || u.sees( critter ) ) &&
+            m.valid_move( critter.pos(), critter.pos() + tripoint_below, false, true ) ) {
+            mvwputch( w_terrain, point( mx, my ), c_green_cyan, '^' );
+        }
         return;
     }
     if( u.sees( critter ) || &critter == &u ) {
