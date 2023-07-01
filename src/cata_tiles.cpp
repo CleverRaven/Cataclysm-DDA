@@ -1658,6 +1658,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                 // If no vpart drawn, revert height_3d changes
                                 p.height_3d = temp_height_3d;
                             }
+                        } else if( f == &cata_tiles::draw_critter_at ) {
+                            // Draw
+                        	if( !( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible ) && cur_zlevel == p.draw_min_z ) {
+                        		// Draw shadow of flying critters on bottom-most tile if no other critter drawn
+                            	draw_critter_above( draw_loc, p.ll, p.height_3d, p.invisible );
+                            }
                         } else {
                             // Draw
                             ( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible );
@@ -3764,6 +3770,65 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
     }
 
+    if( result && !is_player ) {
+        std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
+        if( sees_player && !you.has_trait( trait_INATTENTIVE ) ) {
+            draw_id += "_sees_player";
+        }
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            draw_from_id_string( draw_id, TILE_CATEGORY::NONE, empty_string, p, 0, 0,
+                                 lit_level::LIT, false, height_3d );
+        }
+    }
+    return result;
+}
+
+bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &height_3d,
+                                  const std::array<bool, 5> &	 )
+{
+    tripoint scan_p( p.xy(), p.z + 1 );
+    map &here = get_map();
+    Character &you = get_player_character();
+    const Creature *pcritter = nullptr;
+    // Search for a creature above
+    while( pcritter == nullptr && !here.dont_draw_lower_floor( scan_p ) && scan_p.z - you.pos().z <= fov_3d_z_range ) {
+        pcritter = get_creature_tracker().creature_at( scan_p, true );
+        scan_p.z++;
+    }
+
+    // Abort if no creature found
+    if( pcritter == nullptr ) {
+        return false;
+    }
+    
+    
+    bool result = false;
+    bool is_player = false;
+    bool sees_player = false;
+    Creature::Attitude attitude = Creature::Attitude::ANY;
+    
+    const Creature &critter = *pcritter;
+    
+    const monster *m = dynamic_cast<const monster *>( &critter );
+    if( m != nullptr ) {
+            result = draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
+                                          0, 0, ll, false, height_3d );
+            sees_player = m->sees( you );
+            attitude = m->attitude_to( you );
+        }
+        
+    const Character *pl = dynamic_cast<const Character *>( &critter );
+    if( pl != nullptr ) {
+        draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
+                                          0, 0, ll, false, height_3d );
+        if( pl->is_avatar() ) {
+            is_player = true;
+        } else {
+            sees_player = pl->sees( you );
+            attitude = pl->attitude_to( you );
+        }
+    }
+    
     if( result && !is_player ) {
         std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
         if( sees_player && !you.has_trait( trait_INATTENTIVE ) ) {
