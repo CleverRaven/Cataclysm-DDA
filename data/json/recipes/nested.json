@@ -3654,6 +3654,84 @@
     "difficulty": 7
   },
   {
+    "id": "nested_lc_half_chainmail_feet",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel chain half-chausses",
+    "description": "Recipes related to constructing various sizes of chainmail half-chausses.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_half_chainmail_feet", "xs_lc_half_chainmail_feet", "xl_lc_half_chainmail_feet" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_half_chainmail_feet",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chain half-chausses",
+    "description": "Recipes related to constructing various sizes of chainmail half-chausses.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_half_chainmail_feet", "xs_mc_half_chainmail_feet", "xl_mc_half_chainmail_feet" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_half_chainmail_feet",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chain half-chausses",
+    "description": "Recipes related to constructing various sizes of chainmail half-chausses.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_half_chainmail_feet", "xs_hc_half_chainmail_feet", "xl_hc_half_chainmail_feet" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_ch_half_chainmail_feet",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chain half-chausses",
+    "description": "Recipes related to constructing various sizes of chainmail half-chausses.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_half_chainmail_feet", "xs_ch_half_chainmail_feet", "xl_ch_half_chainmail_feet" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_qt_half_chainmail_feet",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain half-chausses",
+    "description": "Recipes related to constructing various sizes of chainmail half-chausses.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_half_chainmail_feet", "xs_qt_half_chainmail_feet", "xl_qt_half_chainmail_feet" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_half_chainmail_feet",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "name": "steel chain half-chausses",
+    "description": "Recipes related to constructing various types and sizes of chainmail half-chausses.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_half_chainmail_feet",
+      "nested_mc_half_chainmail_feet",
+      "nested_hc_half_chainmail_feet",
+      "nested_ch_half_chainmail_feet",
+      "nested_qt_half_chainmail_feet"
+    ],
+    "difficulty": 7
+  },
+  {
     "id": "nested_sling_ready_explosives",
     "type": "nested_category",
     "activity_level": "fake",
