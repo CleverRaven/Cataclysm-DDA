@@ -988,7 +988,7 @@
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "168 ml",
+        "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "watertight": true,
         "open_container": true,
