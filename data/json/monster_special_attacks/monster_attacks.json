@@ -681,7 +681,7 @@
         }
       ]
     },
-    "effects": [ { "id": "dermatik", "duration": 3600 } ],
+    "effects": [ { "id": "dermatik", "duration": 86400, "affect_hit_bp": true } ],
     "cooldown": 25,
     "move_cost": 300,
     "hit_dmg_u": "The %1$s sinks its ovipositor into your %2$s!",
