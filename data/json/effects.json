@@ -5011,6 +5011,6 @@
     "enchantments": [ { "values": [ { "value": "HUNGER", "multiply": 1.5 }, { "value": "METABOLISM", "multiply": 1.5 } ] } ],
     "rating": "bad",
     "remove_message": "The wriggling under your skin stops.",
-    "blood_analysis_description": "test"
+    "blood_analysis_description": "Unknown parasitic infection"
   }
 ]
