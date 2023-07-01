@@ -26,7 +26,7 @@
 
 # indent later lines of multi-line preprocessor directives
 # to be deprecated by --indent-preproc-define
---indent-preprocessor
+--indent-preproc-define
 
 # indent comments on column 1 to match the code block they are in
 --indent-col1-comments
@@ -38,7 +38,7 @@
 --pad-oper
 
 # add brackets to unbracketed one line conditional statements
---add-brackets
+--add-braces
 
 # replaces tabs with spaces in non-indent sections, except in strings
 --convert-tabs
