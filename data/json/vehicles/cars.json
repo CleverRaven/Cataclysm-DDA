@@ -1627,8 +1627,6 @@
     ],
     "items": [ { "x": 0, "y": 1, "chance": 10, "item_groups": [ "suits" ] } ]
   },
-
-
   {
     "id": "car_coupe_electric",
     "type": "vehicle",
