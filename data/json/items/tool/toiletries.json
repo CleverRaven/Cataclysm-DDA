@@ -38,7 +38,7 @@
   {
     "id": "dish_towel",
     "type": "TOOL",
-    "category": "spare_parts",
+    "category": "other",
     "name": { "str": "dish towel" },
     "description": "A dish towel, useful for cleaning hard surfaces.",
     "weight": "65600 mg",
