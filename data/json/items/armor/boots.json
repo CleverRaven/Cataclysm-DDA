@@ -2702,7 +2702,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel chainmail half-chausses", "str_pl": "pairs of mild steel chainmail half-chausses" },
-    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot and are maintained in place by a zigzaging leather lace on the unprotected back.",
     "weight": "1505 g",
     "volume": "375 ml",
     "price": 3508,
@@ -2725,6 +2725,7 @@
       },
       {
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
         "coverage": 75
       }
@@ -2753,7 +2754,7 @@
     "copy-from": "lc_half_chainmail_feet",
     "material": [ "mc_steel_chain" ],
     "name": { "str": "pair of medium steel chainmail half-chausses", "str_pl": "pairs of medium steel chainmail half-chausses" },
-    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot and are maintained in place by a zigzaging leather lace on the unprotected back.",
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2767,6 +2768,7 @@
       },
       {
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
         "coverage": 75
       }
@@ -2801,7 +2803,7 @@
     "copy-from": "lc_half_chainmail_feet",
     "material": [ "hc_steel_chain" ],
     "name": { "str": "pair of high steel chainmail half-chausses", "str_pl": "pairs of high steel chainmail half-chausses" },
-    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot and are maintained in place by a zigzaging leather lace on the unprotected back.",
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2815,6 +2817,7 @@
       },
       {
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
         "coverage": 75
       }
@@ -2842,7 +2845,7 @@
     "copy-from": "lc_half_chainmail_feet",
     "material": [ "ch_steel_chain" ],
     "name": { "str": "pair of hardened steel chainmail half-chausses", "str_pl": "pairs of hardened steel chainmail half-chausses" },
-    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot and are maintained in place by a zigzaging leather lace on the unprotected back.",
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2856,6 +2859,7 @@
       },
       {
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
         "coverage": 75
       }
@@ -2889,7 +2893,7 @@
     "copy-from": "lc_half_chainmail_feet",
     "material": [ "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel chainmail half-chausses", "str_pl": "pairs of tempered steel chainmail half-chausses" },
-    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot and are maintained in place by a zigzaging leather lace on the unprotected back.",
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2903,6 +2907,7 @@
       },
       {
         "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
         "coverage": 75
       }
