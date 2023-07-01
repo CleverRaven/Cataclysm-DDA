@@ -266,7 +266,15 @@
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3960 ], [ "elec_jackhammer_battery", 5000 ] ] ]
+    "tools": [
+      [
+        [ "pickaxe", -1 ],
+        [ "bronze_pickaxe", -1 ],
+        [ "jackhammer", 300 ],
+        [ "elec_jackhammer", 3960 ],
+        [ "elec_jackhammer_battery", 5000 ]
+      ]
+    ]
   },
   {
     "id": "bronzesmithing_tools",
@@ -347,7 +355,13 @@
     "//": "Tools for removing road / sidewalk",
     "qualities": [ { "id": "PRY", "level": 3 } ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ], [ "elec_jackhammer", 2333 ] ],
+      [
+        [ "pickaxe", -1 ],
+        [ "bronze_pickaxe", -1 ],
+        [ "jackhammer", 140 ],
+        [ "elec_jackhammer", 1848 ],
+        [ "elec_jackhammer", 2333 ]
+      ],
       [ [ "masonrysaw_off", 100 ] ]
     ]
   },
