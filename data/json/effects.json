@@ -5007,7 +5007,7 @@
     "desc": [ "You can feel something wriggling beneath your skin…" ],
     "main_parts_only": true,
     "resist_traits": [ "ACIDBLOOD", "PARAIMMUNE" ],
-    "base_mods": { "vomit_chance": [ 600, 1200 ], "vomit_tick": [ 600, 1200 ] },
+    "base_mods": { "vomit_chance": [ 600, 1200 ], "vomit_tick": [ 600, 1200 ], "hurt_amount": [ 999 ], "hurt_tick": [ 86400 ] },
     "enchantments": [ { "values": [ { "value": "HUNGER", "multiply": 1.5 }, { "value": "METABOLISM", "multiply": 1.5 } ] } ],
     "rating": "bad",
     "remove_message": "The wriggling under your skin stops.",
