@@ -1272,49 +1272,7 @@ void Character::hardcoded_effects( effect &it )
     map &here = get_map();
     Character &player_character = get_player_character();
     creature_tracker &creatures = get_creature_tracker();
-    if( id == effect_dermatik ) {
-        bool triggered = false;
-        int formication_chance = 3600;
-        if( dur < 4_hours ) {
-            formication_chance += 14400 - to_turns<int>( dur );
-        }
-        if( one_in( formication_chance ) ) {
-            schedule_effect( effect_formication, 60_minutes, bp );
-        }
-        if( dur < 1_days && one_in( 14400 ) ) {
-            vomit();
-        }
-        if( dur > 1_days ) {
-            // Spawn some larvae!
-            // Choose how many insects; more for large characters
-            ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
-            int num_insects = rng( 1, std::min( 3, str_max / 3 ) );
-            apply_damage( nullptr,  bp, rng( 2, 4 ) * num_insects );
-            // Figure out where they may be placed
-            add_msg_player_or_npc( m_bad,
-                                   _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
-                                   _( "Insects begin to emerge from <npcname>'s skin!" ) );
-            for( ; num_insects > 0; num_insects-- ) {
-                if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
-                    if( one_in( 3 ) ) {
-                        grub->friendly = -1;
-                        grub->add_effect( effect_pet, 1_turns, true );
-                    }
-                }
-            }
-            get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
-            schedule_effect_removal( effect_formication, bp );
-            mod_moves( -to_moves<int>( 6_seconds ) );
-            triggered = true;
-        }
-        if( triggered ) {
-            // Set ourselves up for removal
-            it.set_duration( 0_turns );
-        } else {
-            // Count duration up
-            it.mod_duration( 1_turns );
-        }
-    } else if( id == effect_formication ) {
+    if( id == effect_formication ) {
         ///\EFFECT_INT decreases occurrence of itching from formication effect
         if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {
