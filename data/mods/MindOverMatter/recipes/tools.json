@@ -1,0 +1,122 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "matrix_channeling_tool",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "metaphysics", 3 ],
+    "difficulty": 3,
+    "time": "2 h",
+    "book_learn": [ [ "schematics_matrix_channeling", 3 ] ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "FINE_GRIND", "level": 1 }, { "id": "VISE", "level": 1 } ],
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_psionic_basic", "required": false } ],
+    "using": [ [ "soldering_standard", 15 ], [ "steel_tiny", 5 ] ],
+    "components": [ [ [ "matrix_crystal_drained", 4 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "matrix_aligning_tool",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "metaphysics", 6 ],
+    "difficulty": 5,
+    "time": "5 h",
+    "book_learn": [ [ "schematics_matrix_aligning", 6 ] ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "GRIND", "level": 2 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MATRIX_CHANNEL", "level": 1 }
+    ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_psionic_basic", "required": false },
+      { "proficiency": "prof_fine_metalsmithing", "required": false }
+    ],
+    "using": [ [ "soldering_standard", 15 ], [ "steel_tiny", 5 ] ],
+    "components": [
+      [ [ "matrix_shard", 6 ] ],
+      [ [ "matrix_crystal_drained_dust_refined", 5 ] ],
+      [ [ "gold_small", 15 ], [ "silver_small", 25 ] ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "pyrokinetic_flashlight",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 } ],
+    "book_learn": [ [ "schematics_everglow_lamp", 1 ] ],
+    "components": [
+      [ [ "amplifier", 1 ] ],
+      [
+        [ "scrap_aluminum", 4 ],
+        [ "can_drink", 1 ],
+        [ "can_food", 1 ],
+        [ "canister_empty", 1 ],
+        [ "bottle_glass", 1 ],
+        [ "bottle_plastic", 1 ],
+        [ "bottle_bathroom", 1 ],
+        [ "bottle_plastic_small", 1 ]
+      ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
+      [ [ "matrix_crystal_pyrokin_dust_refined", 2 ] ],
+      [ [ "psionic_serum_base", 1 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "pyrokinetic_lamp",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "metaphysics", 2 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 1,
+    "book_learn": [ [ "schematics_everglow_lamp", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_psionic_basic" } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "MATRIX_CHANNEL", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
+      [ [ "matrix_crystal_pyrokin_dust_refined", 2 ] ],
+      [ [ "psionic_serum_base", 2 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "result": "standing_pyrokinetic_lamp",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "reversible": true,
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": [ [ "electronics", 1 ] ],
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_LIGHTING",
+    "skills_required": [ [ "fabrication", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "cable", 2 ] ], [ [ "pyrokinetic_lamp", 1 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "pipe", 2 ] ] ]
+  }
+]
