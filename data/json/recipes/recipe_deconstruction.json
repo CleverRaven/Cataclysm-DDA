@@ -4353,7 +4353,8 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "peanut",

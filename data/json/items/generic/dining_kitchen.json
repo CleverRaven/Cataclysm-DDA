@@ -330,22 +330,26 @@
     "type": "GENERIC",
     "category": "container",
     "id": "wine_glass",
-    "volume": "262 ml",
+    "volume": "420 ml",
+    "weight": "130 g",
+    "longest_side": "20 cm",
+    "price": "13 USD",
     "name": { "str": "wine glass", "str_pl": "wine glasses" },
-    "proportional": { "weight": 0.5 },
     "symbol": "Y",
     "description": "A stemmed drinking glass that makes you feel very fancy when you drink from it.",
     "copy-from": "base_glass_dish",
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "500 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "//": "Based on https://www.amazon.com/ADERIA-8612-Glass-IPT-Plaisir-Japan/dp/B01M4OEU65/ref=sr_1_5?crid=K7O7AHRUN33T&keywords=250ml%2Bwine%2Bglass&qid=1688217534&sprefix=250ml%2Bwine%2Bglass%2Caps%2C426&sr=8-5&th=1"
   },
   {
     "type": "GENERIC",
