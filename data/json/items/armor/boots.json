@@ -2698,6 +2698,239 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "lc_half_chainmail_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel chainmail half-chausses", "str_pl": "pairs of mild steel chainmail half-chausses" },
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "weight": "1505 g",
+    "volume": "375 ml",
+    "price": 3508,
+    "price_postapoc": 1400,
+    "to_hit": -1,
+    "material": [ "lc_steel_chain" ],
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_ankle_r", "foot_ankle_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 75, "thickness": 2.0 },
+          { "type": "lc_steel_chain", "covered_by_mat": 75, "thickness": 1.2 }
+        ],
+        "encumbrance": 15,
+        "coverage": 75
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 75, "thickness": 4.0 } ],
+        "coverage": 75
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_half_chainmail_feet",
+    "name": { "str": "pair of XL mild steel chainmail half-chausses", "str_pl": "pairs of XL mild steel chainmail half-chausses" },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_lc_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_half_chainmail_feet",
+    "looks_like": "half_chainmail_feet",
+    "name": { "str": "pair of XS mild steel chainmail half-chausses", "str_pl": "pairs of XS mild steel chainmail half-chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_half_chainmail_feet",
+    "material": [ "mc_steel_chain" ],
+    "name": { "str": "pair of medium steel chainmail half-chausses", "str_pl": "pairs of medium steel chainmail half-chausses" },
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_ankle_r", "foot_ankle_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 75, "thickness": 2.0 },
+          { "type": "mc_steel_chain", "covered_by_mat": 75, "thickness": 1.2 }
+        ],
+        "encumbrance": 15,
+        "coverage": 75
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 75, "thickness": 4.0 } ],
+        "coverage": 75
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "mc_half_chainmail_feet",
+    "name": {
+      "str": "pair of XL medium steel chainmail half-chausses",
+      "str_pl": "pairs of XL medium steel chainmail half-chausses"
+    },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "mc_half_chainmail_feet",
+    "looks_like": "half_chainmail_feet",
+    "name": {
+      "str": "pair of XS medium steel chainmail half-chausses",
+      "str_pl": "pairs of XS medium steel chainmail half-chausses"
+    },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_half_chainmail_feet",
+    "material": [ "hc_steel_chain" ],
+    "name": { "str": "pair of high steel chainmail half-chausses", "str_pl": "pairs of high steel chainmail half-chausses" },
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_ankle_r", "foot_ankle_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 75, "thickness": 2.0 },
+          { "type": "hc_steel_chain", "covered_by_mat": 75, "thickness": 1.2 }
+        ],
+        "encumbrance": 15,
+        "coverage": 75
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 75, "thickness": 4.0 } ],
+        "coverage": 75
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "hc_half_chainmail_feet",
+    "name": { "str": "pair of XL high steel chainmail half-chausses", "str_pl": "pairs of XL high steel chainmail half-chausses" },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hc_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "hc_half_chainmail_feet",
+    "name": { "str": "pair of XS high steel chainmail half-chausses", "str_pl": "pairs of XS high steel chainmail half-chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_half_chainmail_feet",
+    "material": [ "ch_steel_chain" ],
+    "name": { "str": "pair of hardened steel chainmail half-chausses", "str_pl": "pairs of hardened steel chainmail half-chausses" },
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_ankle_r", "foot_ankle_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 75, "thickness": 2.0 },
+          { "type": "ch_steel_chain", "covered_by_mat": 75, "thickness": 1.2 }
+        ],
+        "encumbrance": 15,
+        "coverage": 75
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 75, "thickness": 4.0 } ],
+        "coverage": 75
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ch_half_chainmail_feet",
+    "name": {
+      "str": "pair of XL hardened steel chainmail half-chausses",
+      "str_pl": "pairs of XL hardened steel chainmail half-chausses"
+    },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ch_half_chainmail_feet",
+    "name": {
+      "str": "pair of XS hardened steel chainmail half-chausses",
+      "str_pl": "pairs of XS hardened steel chainmail half-chausses"
+    },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_half_chainmail_feet",
+    "material": [ "qt_steel_chain" ],
+    "name": { "str": "pair of tempered steel chainmail half-chausses", "str_pl": "pairs of tempered steel chainmail half-chausses" },
+    "description": "Customized chainmail half-chausses that only cover the front and sides of the foot, leaving the back and sole unprotected.",
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_ankle_r", "foot_ankle_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 75, "thickness": 2.0 },
+          { "type": "qt_steel_chain", "covered_by_mat": 75, "thickness": 1.2 }
+        ],
+        "encumbrance": 15,
+        "coverage": 75
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 75, "thickness": 4.0 } ],
+        "coverage": 75
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "qt_half_chainmail_feet",
+    "name": {
+      "str": "pair of XL tempered steel chainmail half-chausses",
+      "str_pl": "pairs of XL tempered steel chainmail half-chausses"
+    },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_half_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "qt_half_chainmail_feet",
+    "name": {
+      "str": "pair of XS tempered steel chainmail half-chausses",
+      "str_pl": "pairs of XS tempered steel chainmail half-chausses"
+    },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "nomex_socks",
     "type": "ARMOR",
     "name": { "str": "pair of flame-resistant socks", "str_pl": "pairs of flame-resistant socks" },
