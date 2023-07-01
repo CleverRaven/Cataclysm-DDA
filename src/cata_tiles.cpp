@@ -1321,14 +1321,42 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     // Map memory should be at least the size of the view range
     // so that new tiles can be memorized, and at least the size of the display
     // since at farthest zoom displayed area may be bigger than view range.
-    const point min_mm_reg = point(
-                                 std::min( o.x, min_visible.x ),
-                                 std::min( o.y, min_visible.y )
-                             );
-    const point max_mm_reg = point(
-                                 std::max( s.x + o.x, max_visible.x ),
-                                 std::max( s.y + o.y, max_visible.y )
-                             );
+    point min_mm_reg = min_visible;
+    point max_mm_reg = max_visible;
+    if( is_isometric() ) {
+        std::optional<point> northmost = tile_to_player( { min_col, min_row } );
+        if( !northmost.has_value() ) {
+            northmost = tile_to_player( { min_col + 1, min_row } );
+        }
+        std::optional<point> southmost = tile_to_player( { max_col, max_row } );
+        if( !southmost.has_value() ) {
+            southmost = tile_to_player( { max_col - 1, max_row } );
+        }
+        std::optional<point> westmost = tile_to_player( { min_col, max_row } );
+        if( !westmost.has_value() ) {
+            westmost = tile_to_player( { min_col + 1, max_row } );
+        }
+        std::optional<point> eastmost = tile_to_player( { max_col, min_row } );
+        if( !eastmost.has_value() ) {
+            eastmost = tile_to_player( { max_col - 1, min_row } );
+        }
+        if( northmost.has_value() && southmost.has_value()
+            && westmost.has_value() && eastmost.has_value() ) {
+            min_mm_reg = point( std::min( min_mm_reg.x, westmost->x ),
+                                std::min( min_mm_reg.y, northmost->y ) );
+            max_mm_reg = point( std::max( max_mm_reg.x, eastmost->x ),
+                                std::max( max_mm_reg.y, southmost->y ) );
+        }
+    } else {
+        std::optional<point> northwest = tile_to_player( { min_col, min_row } );
+        std::optional<point> southeast = tile_to_player( { max_col, max_row } );
+        if( northwest.has_value() && southeast.has_value() ) {
+            min_mm_reg = point( std::min( min_mm_reg.x, northwest->x ),
+                                std::min( max_mm_reg.y, northwest->y ) );
+            max_mm_reg = point( std::max( max_mm_reg.x, southeast->x ),
+                                std::max( max_mm_reg.y, southeast->y ) );
+        }
+    }
     you.prepare_map_memory_region(
         here.getabs( tripoint( min_mm_reg, center.z ) ),
         here.getabs( tripoint( max_mm_reg, center.z ) )
