@@ -25,7 +25,6 @@
 --indent-switches
 
 # indent later lines of multi-line preprocessor directives
-# to be deprecated by --indent-preproc-define
 --indent-preproc-define
 
 # indent comments on column 1 to match the code block they are in
