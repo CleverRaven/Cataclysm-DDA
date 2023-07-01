@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <tuple>
 #include <unordered_set>
+#include <variant>
 
 #include "action.h"
 #include "avatar.h"
@@ -1208,16 +1209,39 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
 }
 
 struct tile_render_info {
-    const tripoint pos{};
-    // accumulator for 3d tallness of sprites rendered here so far;
-    int height_3d = 0;
-    lit_level ll;
-    std::array<bool, 5> invisible;
-    int draw_min_z = -OVERMAP_DEPTH;
-    tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
-                      const std::array<bool, 5> &inv, const int draw_min_z )
-        : pos( pos ), height_3d( height_3d ), ll( ll ), invisible( inv ), draw_min_z( draw_min_z ) {
-    }
+    struct common {
+        const tripoint pos;
+        // accumulator for 3d tallness of sprites rendered here so far;
+        int height_3d = 0;
+        int draw_min_z = -OVERMAP_DEPTH;
+
+        common( const tripoint &pos, const int height_3d, const int draw_min_z )
+            : pos( pos ), height_3d( height_3d ), draw_min_z( draw_min_z ) {}
+    };
+
+    struct vision_effect {
+        visibility_type vis;
+
+        vision_effect( const visibility_type vis )
+            : vis( vis ) {}
+    };
+
+    struct sprite {
+        lit_level ll;
+        std::array<bool, 5> invisible;
+
+        sprite( const lit_level ll, const std::array<bool, 5> &inv )
+            : ll( ll ), invisible( inv ) {}
+    };
+
+    common com;
+    std::variant<vision_effect, sprite> var;
+
+    tile_render_info( const common &com, const vision_effect &var )
+        : com( com ), var( var ) {}
+
+    tile_render_info( const common &com, const sprite &var )
+        : com( com ), var( var ) {}
 };
 
 static std::map<tripoint, int> display_npc_attack_potential()
@@ -1311,7 +1335,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     );
 
     //set up a default tile for the edges outside the render area
-    visibility_type offscreen_type = visibility_type::DARK;
+    visibility_type offscreen_type = visibility_type::HIDDEN;
     if( cache.u_is_boomered ) {
         offscreen_type = visibility_type::BOOMER_DARK;
     }
@@ -1392,7 +1416,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     ll = lit_level::DARK;
                     invisible[0] = true;
                 } else {
-                    apply_vision_effects( pos, offscreen_type );
+                    if( would_apply_vision_effects( offscreen_type ) ) {
+                        draw_points[row].emplace_back( tile_render_info::common{ pos, 0, pos.z },
+                                                       tile_render_info::vision_effect{ offscreen_type } );
+                    }
                     continue;
                 }
             } else {
@@ -1555,24 +1582,27 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 draw_debug_tile( reachable ? 0 : 6, std::to_string( value ) );
             }
 
-            if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {
-                const Creature *critter = creatures.creature_at( pos, true );
-                if( has_draw_override( pos ) || has_memory_at( pos ) ||
-                    ( critter &&
-                      ( critter->has_flag( MF_ALWAYS_VISIBLE )
-                        || you.sees_with_infrared( *critter )
-                        || you.sees_with_specials( *critter ) ) ) ) {
-                    invisible[0] = true;
-                } else {
-                    continue;
+            if( !invisible[0] ) {
+                const visibility_type vis_type = here.get_visibility( ll, cache );
+                if( would_apply_vision_effects( vis_type ) ) {
+                    const Creature *critter = creatures.creature_at( pos, true );
+                    if( has_draw_override( pos ) || has_memory_at( pos ) ||
+                        ( critter &&
+                          ( critter->has_flag( MF_ALWAYS_VISIBLE )
+                            || you.sees_with_infrared( *critter )
+                            || you.sees_with_specials( *critter ) ) ) ) {
+                        invisible[0] = true;
+                    } else {
+                        draw_points[row].emplace_back( tile_render_info::common{ pos, 0, pos.z },
+                                                       tile_render_info::vision_effect{ vis_type } );
+                        continue;
+                    }
                 }
             }
             for( int i = 0; i < 4; i++ ) {
                 const tripoint np = pos + neighborhood[i];
                 invisible[1 + i] = apply_visible( np, ch, here );
             }
-
-            int height_3d = 0;
 
             // Determine lowest z-level to draw for 3D vision
             int draw_min_z;
@@ -1582,7 +1612,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
             draw_min_z = p_temp.z;
 
-            draw_points[row].emplace_back( pos, height_3d, ll, invisible, draw_min_z );
+            draw_points[row].emplace_back( tile_render_info::common{ pos, 0, draw_min_z },
+                                           tile_render_info::sprite{ ll, invisible } );
         }
     }
 
@@ -1612,7 +1643,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         for( int row = min_row; row < max_row; row ++ ) {
             for( auto f : drawing_layers_legacy ) {
                 for( tile_render_info &p : draw_points[row] ) {
-                    ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible, false );
+                    if( const tile_render_info::vision_effect * const
+                        var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
+                        if( f == &cata_tiles::draw_terrain ) {
+                            apply_vision_effects( p.com.pos, var->vis, p.com.height_3d );
+                        }
+                    } else if( const tile_render_info::sprite * const
+                               var = std::get_if<tile_render_info::sprite>( &p.var ) ) {
+                        ( this->*f )( p.com.pos, var->ll, p.com.height_3d, var->invisible, false );
+                    }
                 }
             }
         }
@@ -1625,7 +1664,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             for( int row = min_row; row < max_row; row ++ ) {
                 // Set base height for each tile
                 for( tile_render_info &p : draw_points[row] ) {
-                    p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
+                    p.com.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                 }
                 // For each layer
                 for( auto f : drawing_layers ) {
@@ -1633,23 +1672,31 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     for( tile_render_info &p : draw_points[row] ) {
                         // Skip if z-level less than draw_min_z
                         // Basically occlusion culling
-                        if( cur_zlevel < p.draw_min_z ) {
+                        if( cur_zlevel < p.com.draw_min_z ) {
                             continue;
                         }
-                        tripoint draw_loc = p.pos;
+                        tripoint draw_loc = p.com.pos;
                         draw_loc.z = cur_zlevel;
-                        if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
-                            int temp_height_3d = p.height_3d;
-                            // Reset height_3d to base when drawing vehicles
-                            p.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
-                            // Draw
-                            if( !( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible, false ) ) {
-                                // If no vpart drawn, revert height_3d changes
-                                p.height_3d = temp_height_3d;
+                        if( const tile_render_info::vision_effect * const
+                            var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
+                            if( f == &cata_tiles::draw_terrain ) {
+                                apply_vision_effects( draw_loc, var->vis, p.com.height_3d );
                             }
-                        } else {
-                            // Draw
-                            ( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible, false );
+                        } else if( const tile_render_info::sprite * const
+                                   var = std::get_if<tile_render_info::sprite>( &p.var ) ) {
+                            if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
+                                int temp_height_3d = p.com.height_3d;
+                                // Reset height_3d to base when drawing vehicles
+                                p.com.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
+                                // Draw
+                                if( !( this->*f )( draw_loc, var->ll, p.com.height_3d, var->invisible, false ) ) {
+                                    // If no vpart drawn, revert height_3d changes
+                                    p.com.height_3d = temp_height_3d;
+                                }
+                            } else {
+                                // Draw
+                                ( this->*f )( draw_loc, var->ll, p.com.height_3d, var->invisible, false );
+                            }
                         }
                     }
                 }
@@ -1661,7 +1708,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     // display number of monsters to spawn in mapgen preview
     for( int row = min_row; row < max_row; row ++ ) {
         for( const tile_render_info &p : draw_points[row] ) {
-            const auto mon_override = monster_override.find( p.pos );
+            const tile_render_info::sprite *const
+            var = std::get_if<tile_render_info::sprite>( &p.var );
+            if( !var ) {
+                continue;
+            }
+            const auto mon_override = monster_override.find( p.com.pos );
             if( mon_override != monster_override.end() ) {
                 const int count = std::get<1>( mon_override->second );
                 const bool more = std::get<2>( mon_override->second );
@@ -1670,13 +1722,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     if( more ) {
                         text += "+";
                     }
-                    overlay_strings.emplace( player_to_screen( p.pos.xy() ) + half_tile,
+                    overlay_strings.emplace( player_to_screen( p.com.pos.xy() ) + half_tile,
                                              formatted_text( text, catacurses::red,
                                                      direction::NORTH ) );
                 }
             }
-            if( !p.invisible[0] ) {
-                here.check_and_set_seen_cache( p.pos );
+            if( !var->invisible[0] ) {
+                here.check_and_set_seen_cache( p.com.pos );
             }
         }
     }
@@ -2797,7 +2849,7 @@ bool cata_tiles::draw_sprite_at(
 
     printErrorIf( ret != 0, "SDL_RenderCopyEx() failed" );
     // this reference passes all the way back up the call chain back to
-    // cata_tiles::draw() std::vector<tile_render_info> draw_points[].height_3d
+    // cata_tiles::draw() draw_points[row][col].com.height_3d
     // where we are accumulating the height of every sprite stacked up in a tile
     height_3d += tile.height_3d;
     return true;
@@ -2822,7 +2874,8 @@ bool cata_tiles::would_apply_vision_effects( const visibility_type visibility ) 
 }
 
 bool cata_tiles::apply_vision_effects( const tripoint &pos,
-                                       const visibility_type visibility )
+                                       const visibility_type visibility,
+                                       int &height_3d )
 {
     if( !would_apply_vision_effects( visibility ) ) {
         return false;
@@ -2851,7 +2904,7 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
 
     // lighting is never rotated, though, could possibly add in random rotation?
     draw_from_id_string( light_name, TILE_CATEGORY::LIGHTING, empty_string, pos, 0, 0,
-                         lit_level::LIT, false );
+                         lit_level::LIT, false, height_3d );
 
     return true;
 }

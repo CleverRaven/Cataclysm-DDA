@@ -501,7 +501,7 @@ class cata_tiles
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
-        bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
+        bool apply_vision_effects( const tripoint &pos, visibility_type visibility, int &height_3d );
         void draw_square_below( const point &p, const nc_color &col, const int sizefactor );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
                            const std::array<bool, 5> &invisible, const bool memorize_only );
