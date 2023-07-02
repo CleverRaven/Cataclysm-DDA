@@ -394,9 +394,12 @@ builtin
 bulette
 bulkiness
 bullhead
+bullheads
 bullpup
 bumbles
 burbles
+burbot
+burbots
 burdocks
 burette
 burnback
@@ -1151,6 +1154,7 @@ garishly
 garlander
 garou
 garried
+gars
 gasbomb
 gasgun
 gasmask
@@ -1644,6 +1648,7 @@ longarm
 longear
 longhair
 longhouse
+longnose
 longsword
 longswords
 lootables
@@ -2574,6 +2579,7 @@ shogi
 shootable
 shortfalls
 shorthair
+shortnose
 shotcestus
 shotgunner
 shotshell
@@ -2763,6 +2769,7 @@ stubbier
 stungun
 sturdily
 sturdiness
+sturgeons
 stylette
 styracosaurus
 subcompact
