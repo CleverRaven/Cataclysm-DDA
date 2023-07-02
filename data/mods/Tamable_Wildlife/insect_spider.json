@@ -619,6 +619,7 @@
     "type": "MONSTER",
     "copy-from": "mon_centipede_mega",
     "name": { "str": "armored centipede" },
+    "mountable_weight_ratio": 0.4,
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   }
 ]
