@@ -24,7 +24,11 @@
       { "id": "forest_to_edge", "opposite": "edge_to_forest" }
     ],
     "overmaps": {
-      "dirt_road_ns_root_s": { "overmap": "dirt_road_north", "south": "root_to_road", "connections": { "north": { "connection": "local_road_no_bridge" } } },
+      "dirt_road_ns_root_s": {
+        "overmap": "dirt_road_north",
+        "south": "root_to_road",
+        "connections": { "north": { "connection": "local_road_no_bridge" } }
+      },
       "dirt_road_ns_root_n": { "overmap": "dirt_road_north", "north": "root_to_road" },
       "dirt_road_nsw_root_n": { "overmap": "dirt_road_3way_east", "north": "root_to_road" },
       "dirt_road_new_root_n": { "overmap": "dirt_road_3way_south", "north": "root_to_road" },

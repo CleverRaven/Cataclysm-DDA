@@ -11,7 +11,11 @@
     "check_for_locations_area": [ { "type": [ "land" ], "from": [ -4, -2, 0 ], "to": [ 4, 22, 0 ] } ],
     "joins": [ "root_to_road", "road_to_house", "road_to_extra", "house_to_extension", "farm_to_farm" ],
     "overmaps": {
-      "dirt_road_ns_root_s": { "overmap": "dirt_road_north", "south": "root_to_road", "connections": { "north": { "connection": "local_road_no_bridge" } } },
+      "dirt_road_ns_root_s": {
+        "overmap": "dirt_road_north",
+        "south": "root_to_road",
+        "connections": { "north": { "connection": "local_road_no_bridge" } }
+      },
       "dirt_road_ns_root_n": { "overmap": "dirt_road_north", "north": "root_to_road" },
       "dirt_road_ns_road_n": { "overmap": "dirt_road_north", "connections": { "north": { "connection": "local_road_no_bridge" } } },
       "dirt_road_ns": { "overmap": "dirt_road_north" },
