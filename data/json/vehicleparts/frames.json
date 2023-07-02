@@ -171,6 +171,7 @@
         "MOUNTABLE",
         "INITIAL_PART",
         "SEAT",
+	"NONBELTABLE",
         "SEAT_REQUIRES_BALANCE",
         "BOARDABLE",
         "ENGINE",

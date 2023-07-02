@@ -398,6 +398,7 @@
     "name": { "str": "skateboard trucks" },
     "item": "wheel_mount_skateboard",
     "location": "axle",
+    "categories": [ "movement" ],
     "damage_modifier": 80,
     "folded_volume": "200 ml",
     "durability": 120,
