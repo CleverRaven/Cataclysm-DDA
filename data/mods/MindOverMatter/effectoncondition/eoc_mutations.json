@@ -5,15 +5,8 @@
     "condition": { "u_has_trait": "TELEKINETIC" },
     "effect": {
       "switch": { "u_val": "spell_level", "school": "TELEKINETIC" },
-      "cases": 
-      [
-        {
-          "case": 2,
-          "effect": 
-          [
-            { "u_add_trait": "TELEKINETIC_LIFTER_1" }
-          ]
-        },
+      "cases": [
+        { "case": 2, "effect": [ { "u_add_trait": "TELEKINETIC_LIFTER_1" } ] },
         {
           "case": 3,
           "effect": 
