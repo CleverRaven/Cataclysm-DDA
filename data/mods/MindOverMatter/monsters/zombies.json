@@ -1,0 +1,9 @@
+[
+  {
+    "id": "mon_zombie_scientist_phavian",
+    "copy-from": "mon_zombie_scientist",
+    "type": "MONSTER",
+    "name": { "str": "zombie scientist" },
+    "death_drops": "mon_zombie_scientist_phavian_death_drops"
+  }
+]

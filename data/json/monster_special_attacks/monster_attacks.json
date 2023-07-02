@@ -215,8 +215,8 @@
     "hit_dmg_npc": "%1$s impales <npcname>!",
     "miss_msg_u": "%1$s tries to impale your %2$s, but you dodge!",
     "miss_msg_npc": "%1$s tries to impale <npcname>, but they dodge!",
-    "no_dmg_msg_u": "%1$s tries to impale your %2$s, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor!",
+    "no_dmg_msg_u": "%1$s tries to impale your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor.",
     "dodgeable": true,
     "blockable": true
   },
@@ -233,8 +233,8 @@
     "hit_dmg_npc": "%1$s buries its beak in <npcname>!",
     "miss_msg_u": "%1$s tries to peck you, but you dodge!",
     "miss_msg_npc": "%1$s tries to peck <npcname>, but they dodge!",
-    "no_dmg_msg_u": "%1$s tries to peck your %2$s, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "%1$s tries to peck <npcname>, but fails to penetrate their armor!"
+    "no_dmg_msg_u": "%1$s tries to peck your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s tries to peck <npcname>, but fails to penetrate their armor."
   },
   {
     "type": "monster_attack",
@@ -293,8 +293,8 @@
     "min_mul": 0.3,
     "hit_dmg_u": "%1$s's head shoots out, and its teeth sink into your %2$s!",
     "hit_dmg_npc": "%1$s's head shoots out, and its teeth sink into <npcname>!",
-    "no_dmg_msg_u": "%1$s's head hits your %2$s, but glances off your armor!",
-    "no_dmg_msg_npc": "%1$s's head hits <npcname>, but glances off their armor!",
+    "no_dmg_msg_u": "%1$s's head hits your %2$s, but glances off your armor.",
+    "no_dmg_msg_npc": "%1$s's head hits <npcname>, but glances off their armor.",
     "miss_msg_u": "%s's head extends to bite you, but you dodge and the head sails past!",
     "miss_msg_npc": "%s's head extends to bite <npcname>, but they dodge and the head sails past!"
   },
@@ -308,8 +308,8 @@
     "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
     "hit_dmg_u": "%1$s thrusts its arms at you, and its claws pierce your %2$s!",
     "hit_dmg_npc": "%1$s thrusts its arms at <npcname>!",
-    "no_dmg_msg_u": "%1$s's arms hit your %2$s, but they glance off your armor!",
-    "no_dmg_msg_npc": "%1$s's arms hit <npcname>, but they glance off their armor!",
+    "no_dmg_msg_u": "%1$s's arms hit your %2$s, but they glance off your armor.",
+    "no_dmg_msg_npc": "%1$s's arms hit <npcname>, but they glance off their armor.",
     "miss_msg_u": "%s thrusts its arms at you, but you evade the stretched arm!",
     "miss_msg_npc": "%s's thrusts its arms at <npcname>, but they dodge!"
   },
@@ -323,9 +323,9 @@
     "damage_max_instance": [ { "damage_type": "bash", "amount": 20 } ],
     "hit_dmg_u": "%1$s stares at you intently and a sudden wind buffets you!",
     "hit_dmg_npc": "%1$s stares intently at <npcname> and a hurricane force wind hits them!",
-    "no_dmg_msg_u": "%1$s's wind buffets your %2$s, but it doesn't catch hold!",
-    "no_dmg_msg_npc": "%1$s's winds hit <npcname>, but it doesn't catch hold!",
-    "miss_msg_u": "%s stares at you, but you the wind bursts past you!",
+    "no_dmg_msg_u": "%1$s's wind buffets your %2$s, but it doesn't catch hold.",
+    "no_dmg_msg_npc": "%1$s's winds hit <npcname>, but it doesn't catch hold.",
+    "miss_msg_u": "%s stares at you, but the wind blows past you!",
     "miss_msg_npc": "%s's stares at <npcname>, but the wind blows past them!"
   },
   {
@@ -340,8 +340,8 @@
     "damage_max_instance": [ { "damage_type": "cut", "amount": 7 } ],
     "hit_dmg_u": "%1$s thrusts a claw at your %2$s, slashing it!",
     "hit_dmg_npc": "%1$s thrusts a claw at <npcname>!",
-    "no_dmg_msg_u": "%1$s thrusts a claw at your %2$s, but glances off your armor!",
-    "no_dmg_msg_npc": "%1$s thrusts a claw at <npcname>, but glances off their armor!",
+    "no_dmg_msg_u": "%1$s thrusts a claw at your %2$s, but glances off your armor.",
+    "no_dmg_msg_npc": "%1$s thrusts a claw at <npcname>, but glances off their armor.",
     "miss_msg_u": "%s thrusts a claw at you, but you evade it!",
     "miss_msg_npc": "%s thrusts a claw at <npcname>, but they evade it!"
   },
@@ -356,8 +356,8 @@
     "damage_max_instance": [ { "damage_type": "cut", "amount": 23 } ],
     "hit_dmg_u": "%1$s slashes at your neck, cutting your throat!",
     "hit_dmg_npc": "%1$s slashes at <npcname>!",
-    "no_dmg_msg_u": "%1$s slashes at your neck, but glances off your armor!",
-    "no_dmg_msg_npc": "%1$s slashes at <npcname>, but glances off armor!",
+    "no_dmg_msg_u": "%1$s slashes at your neck, but glances off your armor.",
+    "no_dmg_msg_npc": "%1$s slashes at <npcname>, but glances off armor.",
     "miss_msg_u": "%s slashes at your neck!  You duck!",
     "miss_msg_npc": "%s slashes at <npcname>, but they duck!"
   },
@@ -390,8 +390,8 @@
     "throw_strength": 60,
     "hit_dmg_u": "%1$s brutally rams you in the %2$s!",
     "hit_dmg_npc": "%1$s brutally rams <npcname>!",
-    "no_dmg_msg_u": "%1$s rams your %2$s, but you hold steady!",
-    "no_dmg_msg_npc": "%1$s rams <npcname>, but they hold steady!",
+    "no_dmg_msg_u": "%1$s rams your %2$s, but you hold steady.",
+    "no_dmg_msg_npc": "%1$s rams <npcname>, but they hold steady.",
     "miss_msg_u": "%s flicks its horns at you, but you dodge!",
     "miss_msg_npc": "%s flicks its horns at <npcname>, but they dodge!"
   },
@@ -456,7 +456,7 @@
     "hit_dmg_u": "%1$s slams into your %2$s!",
     "hit_dmg_npc": "%1$s slams into <npcname>!",
     "miss_msg_u": "%1$s tries to slam into you, but you dodge!",
-    "miss_msg_npc": "%1$s tries slam into <npcname>, but they dodge!",
+    "miss_msg_npc": "%1$s tries to slam into <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s slams into your %2$s, but your armor protects you.",
     "no_dmg_msg_npc": "%1$s slams into <npcname>, but their armor protects them.",
     "dodgeable": true,
@@ -572,8 +572,8 @@
     "effects_require_dmg": false,
     "hit_dmg_u": "%1$s hits your legs, causing you to get knocked on your back!",
     "hit_dmg_npc": "%1$s knocks <npcname> prone!",
-    "no_dmg_msg_u": "%1$s tries to knock you down, but your armor protects you!",
-    "no_dmg_msg_npc": "%1$s tries to knock <npcname> down, but their armor protects them!",
+    "no_dmg_msg_u": "%1$s tries to knock you down, but your armor protects you.",
+    "no_dmg_msg_npc": "%1$s tries to knock <npcname> down, but their armor protects them.",
     "miss_msg_u": "%s goes for your legs!  You duck!",
     "miss_msg_npc": "%s goes <npcname>'s legs, but they duck!",
     "effects": [ { "id": "downed", "chance": 33, "duration": 3 } ]
@@ -592,8 +592,8 @@
     "condition": { "not": { "npc_has_effect": "downed" } },
     "hit_dmg_u": "%1$s kicks your %2$s and slams you to the ground!",
     "hit_dmg_npc": "%1$s kicks <npcname> and slams them to the ground!",
-    "no_dmg_msg_u": "%1$s tries to kick %2$s and knock you down, but your armor protects you!",
-    "no_dmg_msg_npc": "%1$s tries to kick and knock <npcname> down, but their armor protects them!",
+    "no_dmg_msg_u": "%1$s tries to kick %2$s and knock you down, but your armor protects you.",
+    "no_dmg_msg_npc": "%1$s tries to kick and knock <npcname> down, but their armor protects them.",
     "miss_msg_u": "%1$s tries to kick your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to kick and knock down <npcname>, but they dodge!",
     "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 2 } ]
@@ -610,8 +610,8 @@
     "hit_dmg_npc": "%1$s lunges and impales <npcname>!",
     "miss_msg_u": "%1$s lunges and tries to impale your %2$s, but you dodge!",
     "miss_msg_npc": "%1$s lunges and tries to impale <npcname>, but they dodge!",
-    "no_dmg_msg_u": "%1$s lunges and tries to impale your %2$s, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor!",
+    "no_dmg_msg_u": "%1$s lunges and tries to impale your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor.",
     "dodgeable": true,
     "blockable": true
   }

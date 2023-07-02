@@ -1286,7 +1286,7 @@ monster *vehicle::get_harnessed_animal() const
 
 void vehicle::selfdrive( const point &p )
 {
-    if( !is_towed() && !magic && !get_harnessed_animal() ) {
+    if( !is_towed() && !magic && !get_harnessed_animal() && !has_part( "AUTOPILOT" ) ) {
         is_following = false;
         return;
     }

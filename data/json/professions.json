@@ -183,7 +183,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "full_rebreather_mask",
-    "entries": [ { "item": "rebreather", "ammo-item": "rebreather_cartridge", "charges": 30 } ]
+    "entries": [ { "item": "rebreather", "ammo-item": "rebreather_cartridge_o2", "charges": 180 } ]
   },
   {
     "type": "item_group",
@@ -810,8 +810,9 @@
     "proficiencies": [ "prof_intro_chemistry", "prof_intro_biology" ],
     "items": {
       "both": {
-        "items": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
+        "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
         "entries": [
+          { "item": "pants", "variant": "pants_stone" },
           { "group": "charged_smart_phone" },
           { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "chemistry_set" }
         ]
@@ -1754,7 +1755,6 @@
     "items": {
       "both": {
         "items": [
-          "pants",
           "dress_shirt",
           "gloves_medical",
           "socks",
@@ -1769,7 +1769,7 @@
           "aspirin",
           "stethoscope"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+        "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -1827,10 +1827,11 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots_combat", "longshirt", "knife_folding", "hat_ball", "wristwatch", "leather_belt" ],
+        "items": [ "socks", "boots_combat", "longshirt", "knife_folding", "hat_ball", "wristwatch", "leather_belt" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_flashlight" },
+          { "item": "pants", "variant": "pants_urban" },
           { "item": "soft_3a_vest", "variant": "security_armor_vest" },
           { "item": "baton", "custom-flags": [ "auto_wield" ] },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
@@ -1870,7 +1871,6 @@
     "items": {
       "both": {
         "items": [
-          "pants",
           "dress_shirt",
           "gloves_medical",
           "socks",
@@ -1883,7 +1883,11 @@
           "stethoscope",
           "pudding"
         ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "white_mask_dust" } ]
+        "entries": [
+          { "item": "pants", "variant": "pants_blue" },
+          { "group": "charged_smart_phone" },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2142,7 +2146,6 @@
     "items": {
       "both": {
         "items": [
-          "pants",
           "dress_shirt",
           "tie_skinny",
           "waistcoat",
@@ -2161,6 +2164,7 @@
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
+          { "item": "pants", "variant": "pants_stone" },
           { "group": "speedloaders_s&w619_magnum" },
           { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7, "container-item": "holster" }
         ]
@@ -2196,7 +2200,7 @@
           "gloves_tactical",
           "badge_swat",
           "wristwatch",
-          "pants_cargo",
+          "pants_tactical",
           "elbow_pads",
           "knee_pads"
         ],
@@ -2247,7 +2251,7 @@
           "gloves_tactical",
           "badge_swat",
           "wristwatch",
-          "pants_cargo",
+          "pants_tactical",
           "elbow_pads",
           "knee_pads"
         ],
@@ -2332,7 +2336,7 @@
       "both": {
         "items": [
           "socks",
-          "pants_cargo",
+          "pants_tactical",
           "longshirt",
           "boots_combat",
           "gloves_tactical",
@@ -3474,22 +3478,24 @@
     "proficiencies": [ "prof_lockpicking" ],
     "skills": [ { "level": 4, "name": "traps" } ],
     "items": {
-      "both": [
-        "socks",
-        "sneakers",
-        "pants",
-        "striped_shirt",
-        "hoodie",
-        "gloves_light",
-        "mask_ski",
-        "swag_bag",
-        "crowbar",
-        "hacksaw",
-        "wristwatch",
-        "boltcutters",
-        "stethoscope",
-        "picklocks"
-      ],
+      "both": {
+        "items": [
+          "socks",
+          "sneakers",
+          "striped_shirt",
+          "hoodie",
+          "gloves_light",
+          "mask_ski",
+          "swag_bag",
+          "crowbar",
+          "hacksaw",
+          "wristwatch",
+          "boltcutters",
+          "stethoscope",
+          "picklocks"
+        ],
+        "entries": [ { "item": "pants", "variant": "pants_black_camo" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -3943,11 +3949,12 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots", "longshirt", "holster", "pockknife", "wristwatch", "leather_belt" ],
+        "items": [ "socks", "boots", "longshirt", "holster", "pockknife", "wristwatch", "leather_belt" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_flashlight" },
           { "group": "charged_tazer" },
+          { "item": "pants", "variant": "pants_urban" },
           { "item": "stab_vest", "variant": "security_stab_vest" },
           { "item": "baton", "custom-flags": [ "auto_wield" ] }
         ]
@@ -5187,7 +5194,6 @@
       "both": {
         "items": [
           "technician_shirt_gray",
-          "pants",
           "socks",
           "gloves_medical",
           "wristwatch",
@@ -5202,6 +5208,7 @@
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "full_1st_aid" },
+          { "item": "pants", "variant": "pants_blue" },
           { "item": "mask_dust", "variant": "white_mask_dust" }
         ]
       },
@@ -5543,13 +5550,20 @@
     "points": -1,
     "items": {
       "both": {
-        "items": [ "american_flag", "socks", "sneakers", "wristwatch" ],
+        "items": [ "american_flag", "socks", "wristwatch" ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "flag_mask_dust" } ]
       },
-      "male": { "items": [ "flag_shirt", "flag_pants" ], "entries": [ { "item": "flag_swimsuit", "variant": "flag_swimsuit" } ] },
+      "male": {
+        "items": [ "flag_shirt", "sneakers" ],
+        "entries": [ { "item": "flag_swimsuit", "variant": "flag_swimsuit" }, { "item": "pants", "variant": "pants_flag" } ]
+      },
       "female": {
         "items": [ "flag_jumpsuit" ],
-        "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
+        "entries": [
+          { "item": "bikini_top", "variant": "flag_bikini_top" },
+          { "item": "bikini_bottom", "variant": "flag_bikini_bottom" },
+          { "item": "heels", "variant": "heels_flag" }
+        ]
       }
     }
   },
@@ -5865,7 +5879,6 @@
         "items": [
           "wristwatch",
           "jacket_army",
-          "pants",
           "service_medal",
           "boots_combat",
           "socks",
@@ -5875,6 +5888,7 @@
           "beret"
         ],
         "entries": [
+          { "item": "pants", "variant": "pants_british_khaki" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] },
           { "group": "charged_ref_lighter" },
           { "item": "chestrig", "contents-group": "army_mags_m14" },

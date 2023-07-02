@@ -161,7 +161,6 @@
     "name": { "str": "stow board" },
     "item": "sheet_metal",
     "color": "white",
-    "broken_color": "light_gray",
     "durability": 80,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": "62500 ml",
@@ -215,7 +214,6 @@
     "type": "vehicle_part",
     "copy-from": "hdboard_abstract",
     "name": { "str": "heavy-duty board" },
-    "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "extend": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
   },
   {

@@ -15,6 +15,11 @@
   },
   {
     "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": { "gunshow_0": "gunshow_0_north", "gunshow_1": "gunshow_1_north" }
+  },
+  {
+    "type": "oter_id_migration",
     "//": "obsoleted in 0.G, but no migration in 0.G so keep until 0.I",
     "oter_ids": {
       "apartments_con_tower_001_east": "omt_obsolete",
@@ -118,6 +123,16 @@
       "motel_twd_second_floor_east": "motel_twd_1_f1_east",
       "motel_twd_second_floor_south": "motel_twd_1_f1_south",
       "motel_twd_second_floor_west": "motel_twd_1_f1_west"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
+      "trail_intersection_north": "forest_trail_intersection_north",
+      "trail_intersection_east": "forest_trail_intersection_east",
+      "trail_intersection_south": "forest_trail_intersection_south",
+      "trail_intersection_west": "forest_trail_intersection_west"
     }
   },
   {

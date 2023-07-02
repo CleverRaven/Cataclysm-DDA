@@ -1,0 +1,46 @@
+[
+  {
+    "id": "telekinetic_container",
+    "type": "TOOL",
+    "name": { "str": "Telekinetic field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "TRADER_AVOID", "TARDIS", "ZERO_WEIGHT", "ONLY_ONE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "80 L",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "200 cm",
+        "moves": 100,
+        "weight_multiplier": 0.001,
+        "volume_multiplier": 0.001,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "vita_bandages",
+    "type": "GENERIC",
+    "name": { "str": "Vitakinetic Wound Staunching" },
+    "looks_like": "bandage",
+    "description": "The power to stop bleeding",
+    "//": "relic-data exists to make the item purple so it stands out in the inventory.  Shouldn't clutter the inventory or the purple item space since the summon lasts 5 turns max.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 20, "move_cost": 0 },
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  }
+]

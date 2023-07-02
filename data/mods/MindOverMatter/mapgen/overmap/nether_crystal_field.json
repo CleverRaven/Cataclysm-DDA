@@ -1,0 +1,46 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "nether_crystal_field",
+    "object": {
+      "fill_ter": "t_grass",
+      "rows": [
+        " _ _  __ ___    __   _ _",
+        "__ _____ ___    _______ ",
+        "_______________________ ",
+        " _______ ___A____A______",
+        "________ ___ _____A____ ",
+        " _ ____________________ ",
+        " __ __________A______ _ ",
+        " ________A_______A_____ ",
+        " ________A_N_AAA_______ ",
+        " ___ __AACAACAACAA______",
+        "_______CAACCNCAANA___  _",
+        "___ ___ANACNCCNNAA____ _",
+        " ______ANACCNCANA__A____",
+        " _______ACANCCAANAA____ ",
+        "  ___ AANAACAAACAA_____ ",
+        "_________NAAAN_A________",
+        "_________A_AA__A_______ ",
+        "____ __________________ ",
+        " _____A __________A_____",
+        " ____A_____ _____A_A___ ",
+        " ______A____  _________ ",
+        " ____ A____________ ____",
+        " ______  ______________ ",
+        " _  __ __  _   _ _ ___  "
+      ],
+      "terrain": {
+        "_": [ [ "t_grass", 20 ], [ "t_dirt", 5 ], [ "t_grass_alien", 1 ] ],
+        "A": [ [ "t_grass_alien", 20 ], [ "t_dirt", 5 ], [ "t_grass", 1 ] ],
+        "N": [ [ "t_grass", 10 ], [ "t_grass_alien", 10 ], [ "t_nether_crystal_structure", 10 ] ],
+        "C": [ [ "t_grass", 5 ], [ "t_grass_alien", 10 ], [ "t_nether_crystal_structure", 20 ] ]
+      },
+      "place_monster": [
+        { "group": "GROUP_NETHER", "x": [ 2, 23 ], "y": [ 2, 23 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_FERAL_PSYCHIC", "x": [ 2, 23 ], "y": [ 2, 23 ], "chance": 25, "repeat": [ 1, 3 ] }
+      ]
+    }
+  }
+]

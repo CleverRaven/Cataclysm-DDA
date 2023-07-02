@@ -214,7 +214,7 @@
     "id": "dreamforged_glaive",
     "copy-from": "glaive",
     "name": { "str": "dreamforged glaive" },
-    "description": "Twohand halberd, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Twohand glaive, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2285 g",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "melee_damage": { "cut": 1.1 } }
@@ -272,7 +272,7 @@
     "id": "dreamforged_broadsword",
     "copy-from": "broadsword",
     "name": { "str": "dreamforged broadsword" },
-    "description": "Arming sword, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Broadsword, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.5 } }
   },
@@ -281,7 +281,7 @@
     "id": "dreamforged_battleaxe",
     "copy-from": "battleaxe",
     "name": { "str": "dreamforged battle axe" },
-    "description": "Arming sword, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Battle axe, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "1216 g",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "melee_damage": { "cut": 0.7 } }
@@ -318,7 +318,7 @@
     "id": "dreamforged_kukri",
     "copy-from": "kukri",
     "name": { "str": "dreamforged kukri" },
-    "description": "Small curved knife, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Small kukri, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.3, "stab": 0.9 } }
   },
@@ -336,7 +336,7 @@
     "id": "dreamforged_rapier",
     "copy-from": "rapier",
     "name": { "str": "dreamforged rapier" },
-    "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Short rapier, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "stab": 0.65 } }
   },
@@ -345,7 +345,7 @@
     "id": "dreamforged_tanto",
     "copy-from": "tanto",
     "name": { "str_sp": "dreamforged tanto" },
-    "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Long tanto, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "stab": 0.3 } }
   },
@@ -354,7 +354,7 @@
     "id": "dreamforged_wakizashi",
     "copy-from": "wakizashi",
     "name": { "str_sp": "dreamforged wakizashi" },
-    "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Long wakizashi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.3 } }
   },
@@ -381,7 +381,7 @@
     "id": "dreamforged_lucerne",
     "copy-from": "lucern_hammer",
     "name": { "str": "dreamforged lucerne hammer" },
-    "description": "lucerne hammer, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Lucerne hammer, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2571 g",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "melee_damage": { "bash": 1.1, "stab": 0.9 } }
