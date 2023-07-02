@@ -1203,6 +1203,7 @@
     "symbol": "n",
     "color": "white",
     "ammo": [ "battery" ],
+    "charges_per_use": 5,
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "qualities": [ [ "CONCENTRATE", 1 ] ],
     "pocket_data": [
