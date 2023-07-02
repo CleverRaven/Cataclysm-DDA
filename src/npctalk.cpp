@@ -4130,6 +4130,38 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
     };
 }
 
+void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::string_view member )
+{
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
+
+    str_or_var condition = get_str_or_var( jo.get_member( "condition" ), "condition" );
+
+    dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration_count", false, 100 );
+
+
+    function = [eoc, condition, iteration_count]( dialogue & d ) {
+        auto itt = d.get_conditionals().find( condition.evaluate( d ) );
+        if( itt == d.get_conditionals().end() ) {
+            debugmsg( string_format( "No condition with the name %s", condition.evaluate( d ) ) );
+            return;
+        }
+
+        int max_iteration = iteration_count.evaluate( d );
+
+        int curr_iteration = 0;
+
+        while( itt->second( d ) ) {
+            curr_iteration++;
+            if( curr_iteration > max_iteration ) {
+                debugmsg( string_format( "EOC loop ran for more instances than the max allowed: %d. Exiting loop.",
+                                         max_iteration ) );
+                break;
+            }
+            eoc->activate( d );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::string &member )
 {
     std::vector<str_or_var> eocs;
@@ -5238,6 +5270,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
         } else if( jo.has_array( "run_eocs" ) || jo.has_member( "run_eocs" ) ) {
             subeffect_fun.set_run_eocs( jo, "run_eocs" );
+        } else if( jo.has_member( "run_eoc_until" ) ) {
+            subeffect_fun.set_run_eoc_until( jo, "run_eoc_until" );
         } else if( jo.has_member( "run_eoc_with" ) ) {
             subeffect_fun.set_run_eoc_with( jo, "run_eoc_with" );
         } else if( jo.has_member( "run_eoc_selector" ) ) {
