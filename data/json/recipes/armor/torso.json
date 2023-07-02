@@ -111,6 +111,32 @@
     "components": [ [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
+    "result": "binder_top",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "90 m",
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork", 5 ], [ "tailoring_lycra_patchwork", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+  },
+  {
+    "result": "xl_binder_top",
+    "type": "recipe",
+    "copy-from": "binder_top",
+    "time": "2 h",
+    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_lycra_patchwork", 5 ] ]
+  },
+  {
+    "result": "xs_binder_top",
+    "type": "recipe",
+    "copy-from": "binder_top",
+    "using": [ [ "tailoring_cotton_patchwork", 3 ], [ "tailoring_lycra_patchwork", 2 ] ]
+  },
+  {
     "result": "bikini_top",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -304,6 +330,20 @@
     "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 3 ] ],
     "components": [ [ [ "wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "xl_bra",
+    "type": "recipe",
+    "copy-from": "bra",
+    "time": "3 h",
+    "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "fastener_small", 5 ] ],
+    "components": [ [ [ "wire", 2 ] ] ]
+  },
+  {
+    "result": "xs_bra",
+    "type": "recipe",
+    "copy-from": "bra",
+    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ]
   },
   {
     "result": "bellyband",
