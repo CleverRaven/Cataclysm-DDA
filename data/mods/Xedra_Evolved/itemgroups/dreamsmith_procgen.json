@@ -381,6 +381,7 @@
     "entries": [
       {
         "item": "dreamforged_fullhelmet",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
           "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
@@ -396,6 +397,7 @@
     "entries": [
       {
         "item": "dreamforged_helmet",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
           "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
@@ -411,6 +413,7 @@
     "entries": [
       {
         "item": "dreamforged_plate_armor",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
           "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
@@ -426,6 +429,7 @@
     "entries": [
       {
         "item": "dreamforged_armguard_plate",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
           "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
@@ -441,6 +445,7 @@
     "entries": [
       {
         "item": "dreamforged_boots",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
           "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
