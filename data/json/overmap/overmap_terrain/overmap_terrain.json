@@ -850,6 +850,13 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "generic_bastion_fort",
+    "name": "bastion fort",
+    "sym": "F",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "fort_1a",
       "fort_2a",
@@ -864,9 +871,7 @@
       "fort_3c",
       "fort_4c"
     ],
-    "name": "bastion fort",
-    "sym": "F",
-    "color": "red",
+    "copy-from": "generic_bastion_fort",
     "see_cost": 5,
     "flags": [ "REQUIRES_PREDECESSOR" ]
   },
@@ -886,9 +891,8 @@
       "fort_3c_1",
       "fort_4c_1"
     ],
-    "copy-from": "fort_1a",
-    "see_cost": 2,
-    "delete": { "flags": [ "REQUIRES_PREDECESSOR" ] }
+    "copy-from": "generic_bastion_fort",
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",
