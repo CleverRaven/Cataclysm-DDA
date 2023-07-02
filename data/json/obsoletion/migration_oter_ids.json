@@ -38,6 +38,28 @@
   },
   {
     "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
+      "2fmotel_1_north": "motel_1_north",
+      "2fmotel_1_east": "motel_1_east",
+      "2fmotel_1_south": "motel_1_south",
+      "2fmotel_1_west": "motel_1_west",
+      "2fmotel_entrance_north": "motel_entrance_north",
+      "2fmotel_entrance_east": "motel_entrance_east",
+      "2fmotel_entrance_south": "motel_entrance_south",
+      "2fmotel_entrance_west": "motel_entrance_west",
+      "2fmotel_2_north": "motel_2_north",
+      "2fmotel_2_east": "motel_2_east",
+      "2fmotel_2_south": "motel_2_south",
+      "2fmotel_2_west": "motel_2_west",
+      "2fmotel_3_north": "motel_3_north",
+      "2fmotel_3_east": "motel_3_east",
+      "2fmotel_3_south": "motel_3_south",
+      "2fmotel_3_west": "motel_3_west"
+    }
+  },
+  {
+    "type": "oter_id_migration",
     "//": "obsoleted in 0.G, but no migration in 0.G so keep until 0.I",
     "oter_ids": {
       "apartments_con_tower_001_east": "omt_obsolete",
