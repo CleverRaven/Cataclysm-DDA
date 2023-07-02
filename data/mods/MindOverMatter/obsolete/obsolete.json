@@ -9,7 +9,9 @@
       { "u_learn_recipe": "improve_telekinesis_lifting_field" },
       { "u_lose_trait": "TELEKINETIC_CARRY" },
       { "u_add_trait": "TELEKINETIC_LIFTER_1" },
-      { "u_message": "You feel more confident in your telekinesis, as though you could carry at least one thing with barely any concentration required." }
+      {
+        "u_message": "You feel more confident in your telekinesis, as though you could carry at least one thing with barely any concentration required."
+      }
     ]
   },
   {

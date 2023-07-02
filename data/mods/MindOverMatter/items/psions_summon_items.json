@@ -292,7 +292,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -307,7 +307,7 @@
       }
     ]
   },
- {
+  {
     "id": "telekinetic_container_12",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -320,7 +320,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -335,7 +335,7 @@
       }
     ]
   },
- {
+  {
     "id": "telekinetic_container_13",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -348,7 +348,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -363,7 +363,7 @@
       }
     ]
   },
- {
+  {
     "id": "telekinetic_container_14",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -376,7 +376,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -391,7 +391,7 @@
       }
     ]
   },
- {
+  {
     "id": "telekinetic_container_15",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -404,7 +404,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -419,7 +419,7 @@
       }
     ]
   },
- {
+  {
     "id": "telekinetic_container_16",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -432,7 +432,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -447,7 +447,7 @@
       }
     ]
   },
- {
+  {
     "id": "telekinetic_container_17",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -460,7 +460,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -475,7 +475,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_18",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -488,7 +488,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -503,7 +503,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_19",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -516,7 +516,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -531,7 +531,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_20",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -544,7 +544,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -559,7 +559,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_21",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -572,7 +572,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -587,7 +587,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_22",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -600,7 +600,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -615,7 +615,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_23",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -628,7 +628,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -643,7 +643,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_24",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -656,7 +656,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -671,7 +671,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_25",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -684,7 +684,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -699,7 +699,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_26",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -712,7 +712,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -727,7 +727,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_27",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -740,7 +740,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -755,7 +755,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_28",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -768,7 +768,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -783,7 +783,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_29",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -796,7 +796,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -811,7 +811,7 @@
       }
     ]
   },
-{
+  {
     "id": "telekinetic_container_30",
     "type": "TOOL",
     "name": { "str": "lifting field" },
@@ -824,7 +824,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
