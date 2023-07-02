@@ -9,8 +9,7 @@
         { "case": 2, "effect": [ { "u_add_trait": "TELEKINETIC_LIFTER_1" } ] },
         {
           "case": 3,
-          "effect": 
-          [
+          "effect": [
             { "u_add_trait": "TELEKINETIC_LIFTER_2" },
             { "u_lose_trait": "TELEKINETIC_LIFTER_1" },
             { "u_message": "You meditate on your lifting field.", "type": "good" }
