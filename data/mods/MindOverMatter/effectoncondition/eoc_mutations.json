@@ -199,7 +199,7 @@
             { "u_message": "You meditate on your lifting field.", "type": "good" }
           ]
         },
-     {
+        {
           "case": 16,
           "effect": 
           [
