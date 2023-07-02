@@ -3810,7 +3810,7 @@ bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &heigh
 
     // Draw shadow
     if( draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
-                             0, 0, ll, false, height_3d ) ) {
+                             0, 0, ll, false, height_3d ) && scan_p.z - 1 > you.pos().z ) {
 
         bool is_player = false;
         bool sees_player = false;
