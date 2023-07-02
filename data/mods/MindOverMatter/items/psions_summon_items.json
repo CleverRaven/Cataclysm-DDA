@@ -251,7 +251,7 @@
       }
     ]
   },
- {
+  {
     "id": "telekinetic_container_10",
     "type": "TOOL",
     "name": { "str": "lifting field" },
