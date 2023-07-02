@@ -56,8 +56,8 @@ static const itype_id fuel_type_muscle( "muscle" );
 
 static const skill_id skill_driving( "driving" );
 
-static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_DEFT( "DEFT" );
+static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 
 static const std::string part_location_structure( "structure" );
 
