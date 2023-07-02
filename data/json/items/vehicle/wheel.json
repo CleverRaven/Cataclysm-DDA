@@ -655,7 +655,7 @@
     "id": "wheel_skateboard",
     "type": "WHEEL",
     "category": "veh_parts",
-    "name": { "str": "set of skateboard wheels" },
+    "name": { "str": "set of skateboard wheels", "str_pl": "sets of skateboard wheels" },
     "description": "A set of four small wheels, for a skateboard.",
     "weight": "200 g",
     "volume": "200 ml",
