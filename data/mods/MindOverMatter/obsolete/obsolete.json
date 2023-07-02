@@ -11,5 +11,16 @@
       { "u_add_trait": "TELEKINETIC_LIFTER_1" },
       { "u_message": "You feel more confident in your telekinesis, as though you could carry at least one thing with barely any concentration required." }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_CARRY",
+    "name": { "str": "Lightened Burden" },
+    "points": 0,
+    "description": "You are using your psionic powers to ease your carry burden.",
+    "weight_capacity_modifier": 1.1,
+    "valid": false,
+    "player_display": true,
+    "purifiable": false
   }
 ]
