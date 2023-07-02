@@ -239,6 +239,7 @@ std::vector<display_proficiency> proficiency_set::display() const
         sorted_known.emplace_back( cur->name(), cur );
     }
 
+    sorted_learning.reserve( learning.size() );
     for( const learning_proficiency &cur : learning ) {
         sorted_learning.emplace_back( cur.id->name(), cur.id );
     }
@@ -487,6 +488,7 @@ std::vector<proficiency_id> proficiency_set::known_profs() const
 std::vector<proficiency_id> proficiency_set::learning_profs() const
 {
     std::vector<proficiency_id> ret;
+    ret.reserve( learning.size() );
     for( const learning_proficiency &subject : learning ) {
         ret.push_back( subject.id );
     }

@@ -959,7 +959,7 @@
     "category": "armor",
     "copy-from": "armor_lightplate",
     "name": { "str_sp": "mage armor" },
-    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level.",
+    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level and is affected by your intelligence.",
     "weight": "1 g",
     "material": [ "concentrated_mana" ],
     "warmth": 0,
@@ -1353,6 +1353,23 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ]
+  },
+  {
+    "type": "AMMO",
+    "id": "elastic_potential_energy",
+    "category": "spare_parts",
+    "price": 12000,
+    "price_postapoc": 2,
+    "name": { "str_sp": "elastic potential energy" },
+    "symbol": "=",
+    "color": "yellow",
+    "description": "Some free-floating elastic potential energy.",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "material": [ "battery" ],
+    "effects": [ "COOKOFF" ],
+    "volume": "0 ml",
+    "ammo_type": "elastic_potential_energy",
+    "count": 100
   },
   {
     "id": "druid_bandages",

@@ -1,0 +1,55 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_SCAVENGER_PREPPER",
+    "name": { "str": "Scavenger" },
+    "job_description": "I'm just trying to survive.",
+    "traits": [
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "GETS_RANDOM_MISSION_NOMOVE" }
+    ],
+    "//": "Override to erase shopkeep item groups appearing when spawned! A tiny bit safer than overriding all the item groups themevles",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SCAVENGER_MOONSHINER",
+    "name": { "str": "Scavenger" },
+    "job_description": "I'm just trying to survive.",
+    "traits": [
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "GETS_RANDOM_MISSION_NOMOVE" }
+    ],
+    "//": "Override to erase shopkeep item groups appearing when spawned! A tiny bit safer than overriding all the item groups themevles",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SLAVE",
+    "name": { "str": "Slave" },
+    "job_description": "I've had very bad luck recently.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "carry_override": "naked_prisoner",
+    "weapon_override": "naked_prisoner",
+    "//": "Override to erase worn_override so they'll get a full selection of random innawoods NPC clothes (without having to define a new item group)",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ]
+  }
+]

@@ -352,9 +352,10 @@ void worldfactory::init()
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
         for( auto &world_sav_file : world_sav_files ) {
-            size_t save_index = world_sav_file.find( SAVE_EXTENSION );
-            world_sav_file = world_sav_file.substr( world_dir.size() + 1,
-                                                    save_index - ( world_dir.size() + 1 ) );
+            const size_t start_of_file = world_dir.size() + 1;
+            size_t save_index = world_sav_file.find( SAVE_EXTENSION, start_of_file );
+            world_sav_file = world_sav_file.substr( start_of_file,
+                                                    save_index - start_of_file );
         }
 
         // the directory name is the name of the world
@@ -408,7 +409,10 @@ void worldfactory::init()
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-                rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() );
+                if( rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() ) ) {
+                    debugmsg( "Error while moving world files: %s.  World may have been corrupted",
+                              strerror( errno ) );
+                }
             }
             newworld->world_saves = old_world.world_saves;
             newworld->WORLD_OPTIONS = old_world.WORLD_OPTIONS;
@@ -435,6 +439,7 @@ const std::map<std::string, std::unique_ptr<WORLD>> &worldfactory::get_all_world
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
+    result.reserve( all_worlds.size() );
     for( const auto &elem : all_worlds ) {
         result.push_back( elem.first );
     }
@@ -1816,7 +1821,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         } else if( action == "PICK_MODS" ) {
             show_worldgen_tab_modselection( w_confirmation, world, false );
         } else if( action == "ADVANCED_SETTINGS" ) {
-            auto WOPTIONS_OLD = world->WORLD_OPTIONS;
+            options_manager::options_container WOPTIONS_OLD = world->WORLD_OPTIONS;
             show_worldgen_tab_options( w_confirmation, world, false );
             for( auto &iter : WOPTIONS_OLD ) {
                 if( iter.second != world->WORLD_OPTIONS[iter.first] ) {

@@ -39,6 +39,23 @@
     "fun": 0
   },
   {
+    "id": "caster_boosts_info",
+    "type": "BOOK",
+    "category": "manuals",
+    "copy-from": "spellcraft_theory",
+    "name": { "str": "The Basics of Caster Levels", "str_pl": "copies of The Basics of Caster Levels" },
+    "description": "This book goes into details about different ways to boost one's caster level above what one would normally achieve.  Domination schools can be boosted by various items detailed inside, while harmony schools can be boosted by circumstances.  Regardless, the book cautions that this boost can not exceed 1 + ( your highest caster level in that school / 5 ).  For animist, they get a boost if they stand in blood.  More blood means a higher maximum boost.  Stormshapers gets a boost while being outside during precipitation.  More precipitation means a higher maximum boost.  Earthshapers get a boost by being underground, and by standing on dirt, sand, clay or the like.  Apparently, standing in pits is also very effective.  Druids gets a boost by standing on grass, fern, bushes, and the like.  Hugging a young tree gives among the highest possible boosts for druids.",
+    "weight": "1087 g",
+    "volume": "1450 ml",
+    "price": 5200,
+    "price_postapoc": 550,
+    "required_level": 0,
+    "max_level": 2,
+    "intelligence": 9,
+    "time": "45 m",
+    "fun": 0
+  },
+  {
     "id": "textbook_mithril",
     "type": "BOOK",
     "category": "manuals",

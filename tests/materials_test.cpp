@@ -3,6 +3,7 @@
 #include "fire.h"
 #include "item.h"
 #include "cata_catch.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "projectile.h"
 
@@ -33,7 +34,7 @@ static void check_near( const std::string &subject, float prob, const float expe
     }
 }
 
-TEST_CASE( "Resistance vs. material portions", "[material]" )
+TEST_CASE( "Resistance_vs_material_portions", "[material]" )
 {
     const item mostly_steel( "test_shears_mostly_steel" );
     const item mostly_plastic( "test_shears_mostly_plastic" );
@@ -50,7 +51,7 @@ TEST_CASE( "Resistance vs. material portions", "[material]" )
     CHECK( mostly_steel.chip_resistance() > mostly_plastic.chip_resistance() );
 }
 
-TEST_CASE( "Portioned material flammability", "[material]" )
+TEST_CASE( "Portioned_material_flammability", "[material]" )
 {
     const item mostly_steel( "test_fire_ax_mostly_steel" );
     const item mostly_wood( "test_fire_ax_mostly_wood" );
@@ -68,8 +69,9 @@ TEST_CASE( "Portioned material flammability", "[material]" )
     CHECK( steel_burn < wood_burn );
 }
 
-TEST_CASE( "Glass portion breakability", "[material] [slow]" )
+TEST_CASE( "Glass_portion_breakability", "[material] [slow]" )
 {
+    clear_creatures();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     item mostly_glass( "test_glass_pipe_mostly_glass" );
     item mostly_steel( "test_glass_pipe_mostly_steel" );

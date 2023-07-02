@@ -58,7 +58,7 @@ static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
-static const overmap_special_id overmap_special_Mansion_Wild( "Mansion_Wild" );
+static const overmap_special_id overmap_special_Mansion_Road_1( "Mansion_Road_1" );
 static const overmap_special_id overmap_special_bar( "bar" );
 static const overmap_special_id overmap_special_hospital( "hospital" );
 static const overmap_special_id
@@ -280,7 +280,7 @@ void defense_game::init_map()
             break;
 
         case DEFLOC_MANSION:
-            defloc_special = overmap_special_Mansion_Wild;
+            defloc_special = overmap_special_Mansion_Road_1;
             break;
     }
     starting_om.place_special_forced( defloc_special, defloc_pos, om_direction::type::north );

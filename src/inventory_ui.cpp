@@ -985,11 +985,13 @@ void inventory_entry::reset_entry_cell_cache() const
 const inventory_entry::entry_cell_cache_t &inventory_entry::get_entry_cell_cache(
     inventory_selector_preset const &preset ) const
 {
-
-    if( !entry_cell_cache ) {
+    //lang check here is needed to rebuild cache when using "Toggle language to English" option
+    if( !entry_cell_cache ||
+        entry_cell_cache->lang_version != detail::get_current_language_version() ) {
         make_entry_cell_cache( preset, false );
         cache_denial( preset );
         cata_assert( entry_cell_cache.has_value() );
+        entry_cell_cache->lang_version = detail::get_current_language_version();
     }
 
     return *entry_cell_cache;
@@ -1386,6 +1388,8 @@ void inventory_column::collate()
             if( e->is_item() && e->get_category_ptr() == outer->get_category_ptr() &&
                 e->any_item()->is_favorite == outer->any_item()->is_favorite &&
                 e->any_item()->typeId() == outer->any_item()->typeId() &&
+                e->any_item()->contents_linked == outer->any_item()->contents_linked &&
+                !!e->any_item()->link == !!outer->any_item()->link &&
                 ( !indent_entries() ||
                   e->any_item().parent_item() == outer->any_item().parent_item() ) &&
                 ( e->is_collation_header() || !e->chevron ) &&

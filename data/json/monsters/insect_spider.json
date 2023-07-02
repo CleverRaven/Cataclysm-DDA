@@ -458,7 +458,8 @@
     "fear_triggers": [ "HURT" ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" },
-    "armor": { "bash": 1, "cut": 3, "stab": 2, "bullet": 2 }
+    "armor": { "bash": 1, "cut": 3, "stab": 2, "bullet": 2 },
+    "delete": { "flags": [ "GRABS" ] }
   },
   {
     "id": "mon_centipede_giant",
@@ -483,8 +484,9 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "grab_strength": 35,
     "special_attacks": [
-      [ "GRAB", 5 ],
+      { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
       {
         "type": "bite",
         "cooldown": 3,
@@ -509,7 +511,7 @@
     "dissect": "dissect_insect_sample_small",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_GIANT" },
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "CLIMBS", "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ],
+    "flags": [ "CLIMBS", "SEES", "GRABS", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 10, "cut": 25, "stab": 14, "bullet": 12 }
   },
   {
@@ -572,8 +574,9 @@
     "aggro_character": false,
     "melee_skill": 3,
     "melee_dice_sides": 5,
+    "grab_strength": 25,
     "special_attacks": [
-      [ "GRAB", 8 ],
+      { "id": "grab", "cooldown": 8, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
       {
         "type": "bite",
         "move_cost": 120,
@@ -628,8 +631,19 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 25 } ],
+    "grab_strength": 75,
     "special_attacks": [
-      [ "GRAB_DRAG", 12 ],
+      {
+        "id": "grab_drag",
+        "cooldown": 5,
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "grab_data": { "drag_distance": 5, "drag_movecost_mod": 0.5 }
+      },
+      {
+        "id": "drag_followup",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+        "grab_data": { "drag_distance": 5, "drag_movecost_mod": 0.5 }
+      },
       {
         "type": "bite",
         "cooldown": 5,
@@ -722,8 +736,13 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8, "armor_penetration": 10 } ],
+    "grab_strength": 20,
     "special_attacks": [
-      [ "GRAB", 100 ],
+      {
+        "id": "grab",
+        "cooldown": 100,
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "not": { "u_has_effect": "maimed_wings" } } ] }
+      },
       {
         "type": "bite",
         "cooldown": 6,
@@ -731,7 +750,8 @@
         "move_cost": 300,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 20 } ],
         "min_mul": 1,
-        "max_mul": 2
+        "max_mul": 2,
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "dodge": 2,
@@ -745,7 +765,7 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "upgrades": { "age_grow": 60, "into": "mon_dragonfly_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "GRABS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_dragonfly_mega",
@@ -1015,7 +1035,8 @@
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR" },
     "delete": {
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
-      "special_attacks": [ "GRAB" ],
+      "flags": [ "GRABS" ],
+      "special_attacks": [ "grab" ],
       "reproduction": { "baby_egg": "egg_spider_cellar", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     }
@@ -1043,8 +1064,9 @@
     "melee_dice": 1,
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "grab_strength": 20,
     "special_attacks": [
-      [ "GRAB", 10 ],
+      { "id": "grab", "condition": { "not": { "u_has_effect": "maimed_leg" } } },
       {
         "type": "bite",
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "stab", "amount": 6 } ],
@@ -1068,7 +1090,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR_GIANT" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ],
     "armor": { "bash": 1, "cut": 5, "acid": 3, "bullet": 2 }
   },
   {
@@ -1099,7 +1121,7 @@
     "speed": 85,
     "aggression": -15,
     "morale": 10,
-    "special_attacks": [ [ "GRAB", 25 ] ],
+    "special_attacks": [ { "id": "grab", "cooldown": 25, "condition": { "not": { "u_has_effect": "maimed_leg" } } } ],
     "death_function": { "message": "The spiderlings fall to the ground!", "effect": { "id": "death_spider_cellar_mom", "hit_self": true } },
     "delete": { "flags": [ "HARDTOSHOOT" ], "anger_triggers": [ "PLAYER_WEAK" ] },
     "extend": { "flags": [ "STUMBLES" ] }
@@ -1112,12 +1134,21 @@
     "copy-from": "mon_spider_cellar_giant",
     "proportional": { "hp": 7, "weight": 5, "volume": 5, "speed": 1.2, "attack_cost": 1.2 },
     "morale": 50,
-    "grab_strength": 3,
     "melee_dice": 3,
     "melee_skill": 7,
+    "grab_strength": 75,
     "special_attacks": [
-      [ "GRAB", 5 ],
-      [ "GRAB_DRAG", 10 ],
+      { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
+      {
+        "id": "grab_drag",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "grab_data": { "drag_movecost_mod": 0.5, "drag_deviation": 1 }
+      },
+      {
+        "id": "drag_followup",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+        "grab_data": { "drag_movecost_mod": 0.5, "drag_deviation": 1 }
+      },
       {
         "type": "bite",
         "move_cost": 120,
@@ -1215,11 +1246,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "special_attacks": [ [ "SUICIDE", 180 ], [ "GRAB", 5 ] ],
+    "grab_strength": 10,
+    "special_attacks": [ { "id": "grab", "cooldown": 5 }, [ "SUICIDE", 180 ] ],
     "dodge": 7,
     "bleed_rate": 0,
     "death_function": { "corpse_type": "NO_CORPSE" },
-    "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "WEBWALK", "ATTACKMON", "HARDTOSHOOT", "STUN_IMMUNE", "NOHEAD" ]
+    "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "WEBWALK", "GRABS", "ATTACKMON", "HARDTOSHOOT", "STUN_IMMUNE", "NOHEAD" ]
   },
   {
     "id": "mon_spider_jumping_small",
@@ -1361,6 +1393,8 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "grab" } ],
     "dodge": 2,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
@@ -1406,7 +1440,7 @@
     "weight": "815 kg",
     "melee_dice": 2,
     "dissect": "dissect_spider_sample_small",
-    "special_attacks": [ [ "GRAB", 5 ] ],
+    "grab_strength": 75,
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1480,7 +1514,8 @@
     "weight": "815 kg",
     "melee_dice": 2,
     "dissect": "dissect_spider_sample_small",
-    "special_attacks": [ [ "GRAB", 5 ] ],
+    "grab_strength": 75,
+    "special_attacks": [ { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } } ],
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
     "armor": { "bash": 2, "cut": 6, "bullet": 5, "electric": 1 }
@@ -1571,7 +1606,8 @@
     "weight": "815 kg",
     "melee_dice": 3,
     "dissect": "dissect_spider_sample_large",
-    "special_attacks": [ [ "GRAB", 5 ] ],
+    "grab_strength": 75,
+    "special_attacks": [ { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } } ],
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -2262,18 +2298,17 @@
     "weight": "815 kg",
     "morale": 30,
     "melee_dice": 2,
-    "grab_strength": 3,
     "bleed_rate": 60,
+    "grab_strength": 100,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
       { "id": "leg_sweep" },
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 5,
         "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
       },
-      [ "GRAB", 10 ],
       [ "ACID", 20 ]
     ],
     "dissect": "dissect_insect_sample_large",
@@ -2356,6 +2391,8 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "grab_strength": 35,
+    "special_attacks": [ { "id": "bite_grab" } ],
     "dodge": 2,
     "bleed_rate": 80,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
@@ -2384,18 +2421,27 @@
     "weight": "815 kg",
     "morale": 30,
     "melee_dice": 2,
-    "grab_strength": 3,
     "bleed_rate": 60,
+    "grab_strength": 75,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
       { "id": "leg_sweep" },
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 5,
         "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
       },
-      [ "GRAB_DRAG", 10 ]
+      {
+        "id": "grab_drag",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_mandible" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] }
+      },
+      {
+        "id": "drag_followup",
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "maimed_mandible" } }, { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ]
+        }
+      }
     ],
     "zombify_into": "mon_meat_cocoon_large",
     "dissect": "dissect_insect_sample_large",
@@ -2616,9 +2662,10 @@
     "fear_triggers": [ "FIRE", "HURT" ],
     "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
+    "//grab": "Good at pulling, grabbing, chewing your face off afterwards",
+    "grab_strength": 35,
     "special_attacks": [
-      [ "RANGED_PULL", 30 ],
-      [ "GRAB_DRAG", 10 ],
+      { "id": "ranged_pull", "cooldown": 12, "grab_data": { "pull_weight_ratio": 1.0 } },
       {
         "type": "leap",
         "cooldown": 8,
@@ -2682,6 +2729,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 15.0, "armor_penetration": 16 } ],
     "dodge": 2,
     "attack_cost": 25,
+    "grab_strength": 75,
     "special_attacks": [
       {
         "type": "bite",
@@ -2690,8 +2738,7 @@
         "infection_chance": 75,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 18 } ]
       },
-      [ "RANGED_PULL", 30 ],
-      [ "GRAB_DRAG", 10 ]
+      { "id": "ranged_pull", "move_cost": 50, "cooldown": 10, "grab_data": { "pull_weight_ratio": 1.0 } }
     ],
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
@@ -3054,12 +3101,12 @@
       {
         "id": "stag_smash",
         "throw_strength": 60,
-        "hit_dmg_u": "The %1$s rams you in the %2$s!",
-        "hit_dmg_npc": "The %1$s rams <npcname> in the %2$s!",
-        "no_dmg_msg_u": "The %1$s rams your %2$s, but you hold steady!",
-        "no_dmg_msg_npc": "The %1$s rams <npcname>'s %2$s, but they hold steady!",
-        "miss_msg_u": "The %s flicks its horns at you, but you dodge!",
-        "miss_msg_npc": "The %s flicks its horns at <npcname>, but they dodge!"
+        "hit_dmg_u": "%1$s rams you in the %2$s!",
+        "hit_dmg_npc": "%1$s rams <npcname> in the %2$s!",
+        "no_dmg_msg_u": "%1$s rams your %2$s, but you hold steady!",
+        "no_dmg_msg_npc": "%1$s rams <npcname>'s %2$s, but they hold steady!",
+        "miss_msg_u": "%s flicks its horns at you, but you dodge!",
+        "miss_msg_npc": "%s flicks its horns at <npcname>, but they dodge!"
       }
     ],
     "upgrades": { "half_life": 60, "into": "mon_stag_beetle_mega" },
@@ -3168,9 +3215,10 @@
     "upgrades": { "age_grow": 42, "into": "mon_antlion_giant" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
+    "grab_strength": 3,
     "special_attacks": [
-      [ "RANGED_PULL", 10 ],
-      [ "GRAB", 3 ],
+      { "id": "grab", "cooldown": 3 },
+      { "id": "ranged_pull", "cooldown": 10 },
       { "id": "impale", "accuracy": 6, "attack_upper": false, "cooldown": 10 },
       {
         "type": "bite",
@@ -3430,7 +3478,7 @@
     "weight": "75 kg",
     "hp": 30,
     "symbol": "C",
-    "color": "green",
+    "color": "light_green",
     "speed": 30,
     "dissect": "dissect_insect_sample_large",
     "upgrades": { "age_grow": 20, "into": "mon_butterfly_cocoon" },
@@ -3574,7 +3622,7 @@
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "mutant_shellfish",
-    "dissect": "dissect_insect_sample_single",
+    "dissect": "dissect_crustacean_single",
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
     "reproduction": { "baby_monster": "mon_woodlouse_manca", "baby_count": 5, "baby_timer": 210 },

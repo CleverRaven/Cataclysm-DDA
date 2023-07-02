@@ -376,20 +376,20 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 bp_resources.emplace_back( resource );
             }
             for( JsonObject provide : jo.get_array( "blueprint_provides" ) ) {
-                bp_provides.emplace_back( std::make_pair( provide.get_string( "id" ),
-                                          provide.get_int( "amount", 1 ) ) );
+                bp_provides.emplace_back( provide.get_string( "id" ),
+                                          provide.get_int( "amount", 1 ) );
             }
             // all blueprints provide themselves with needing it written in JSON
-            bp_provides.emplace_back( std::make_pair( result_.str(), 1 ) );
+            bp_provides.emplace_back( result_.str(), 1 );
             for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
-                bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
-                                          require.get_int( "amount", 1 ) ) );
+                bp_requires.emplace_back( require.get_string( "id" ),
+                                          require.get_int( "amount", 1 ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
-            bp_excludes.emplace_back( std::make_pair( result_.str(), 1 ) );
+            bp_excludes.emplace_back( result_.str(), 1 );
             for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
-                bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
-                                          exclude.get_int( "amount", 1 ) ) );
+                bp_excludes.emplace_back( exclude.get_string( "id" ),
+                                          exclude.get_int( "amount", 1 ) );
             }
             check_blueprint_needs = jo.get_bool( "check_blueprint_needs", true );
             bool has_needs = jo.has_member( "blueprint_needs" );
@@ -521,6 +521,7 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
         std::sort( mapgen_values.begin(), mapgen_values.end() );
 
         std::vector<std::string> bp_values;
+        bp_values.reserve( bp_param.second.size() );
         for( const std::pair<const std::string, translation> &p : bp_param.second ) {
             bp_values.push_back( p.first );
         }
@@ -766,11 +767,12 @@ std::vector<item> recipe::create_results( int batch, item_components *used ) con
                               is_reversible();
         bool is_food_no_override = temp.is_food() && !temp.has_flag( flag_NUTRIENT_OVERRIDE );
         bool set_components = used && ( is_uncraftable || is_food_no_override );
+        bool is_cooked = hot_result() || removes_raw();
         if( set_components ) {
-            batch_comps = used->split( batch, i );
+            batch_comps = used->split( batch, i, is_cooked );
         }
         for( int j = 0; j < result_mult; j++ ) {
-            item_components mult_comps = batch_comps.split( result_mult, j );
+            item_components mult_comps = batch_comps.split( result_mult, j, is_cooked );
             std::vector<item> newits = create_result( set_components, temp.is_food(), &mult_comps );
 
             for( const item &it : newits ) {
@@ -958,6 +960,7 @@ std::string recipe::recipe_proficiencies_string() const
 {
     std::vector<proficiency_id> profs;
 
+    profs.reserve( proficiencies.size() );
     for( const recipe_proficiency &rec : proficiencies ) {
         profs.push_back( rec.id );
     }

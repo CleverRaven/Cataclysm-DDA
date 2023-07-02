@@ -1,5 +1,6 @@
 #include "flexbuffer_json.h"
 
+#include <atomic>
 #include <cstring>
 #include <istream>
 #include <optional>
@@ -7,6 +8,16 @@
 #include "cata_unreachable.h"
 #include "filesystem.h"
 #include "json.h"
+
+namespace
+{
+std::atomic_bool report_unvisited_members{true};
+} // namespace
+
+bool Json::globally_report_unvisited_members( bool do_report )
+{
+    return report_unvisited_members.exchange( do_report );
+}
 
 const std::string &Json::flexbuffer_type_to_string( flexbuffers::Type t )
 {
@@ -240,7 +251,8 @@ bool JsonValue::read( std::string &s, bool throw_on_error ) const
 
 void JsonObject::report_unvisited() const
 {
-    if( !std::uncaught_exceptions() && !visited_fields_bitset_.all() ) {
+#ifndef CATA_IN_TOOL
+    if( !std::uncaught_exceptions() && report_unvisited_members && !visited_fields_bitset_.all() ) {
         std::vector<size_t> skipped_members;
         skipped_members.reserve( visited_fields_bitset_.size() );
         tiny_bitset::block_t *bits = visited_fields_bitset_.bits();
@@ -250,7 +262,7 @@ void JsonObject::report_unvisited() const
             tiny_bitset::block_t block = bits[block_idx];
             tiny_bitset::block_t mask = tiny_bitset::kLowBit << ( tiny_bitset::kBitsPerBlock - 1 );
             for( size_t bit_idx = 0; bit_idx < tiny_bitset::kBitsPerBlock; ++bit_idx ) {
-                if( block & mask ) {
+                if( !( block & mask ) ) {
                     skipped_members.emplace_back( block_idx * tiny_bitset::kBitsPerBlock + bit_idx );
                 }
                 mask >>= 1;
@@ -267,9 +279,19 @@ void JsonObject::report_unvisited() const
             mask >>= 1;
         }
 
-        error_skipped_members( skipped_members );
+        // Don't error on skipped comments.
+        skipped_members.erase( std::remove_if( skipped_members.begin(),
+        skipped_members.end(), [this]( size_t idx ) {
+            flexbuffers::String name = keys_[idx].AsString();
+            return strncmp( "//", name.c_str(), 2 ) == 0;
+        } ), skipped_members.end() );
+
+        if( !skipped_members.empty() ) {
+            error_skipped_members( skipped_members );
+        }
         visited_fields_bitset_.set_all();
     }
+#endif
 }
 
 void JsonObject::error_no_member( const std::string_view member ) const
@@ -311,14 +333,12 @@ void JsonObject::error_skipped_members( const std::vector<size_t> &skipped_membe
     jo.allow_omitted_members();
     for( size_t skipped_member_idx : skipped_members ) {
         flexbuffers::String name = keys_[skipped_member_idx].AsString();
-        if( strncmp( "//", name.c_str(), 2 ) != 0 ) {
-            try {
-                jo.throw_error_at( name.c_str(),
-                                   string_format( "Invalid or misplaced field name \"%s\" in JSON data",
-                                                  name.c_str() ) );
-            } catch( const JsonError &e ) {
-                debugmsg( "(json-error)\n%s", e.what() );
-            }
+        try {
+            jo.throw_error_at( name.c_str(),
+                               string_format( "Invalid or misplaced field name \"%s\" in JSON data",
+                                              name.c_str() ) );
+        } catch( const JsonError &e ) {
+            debugmsg( "(json-error)\n%s", e.what() );
         }
         mark_visited( skipped_member_idx );
     }

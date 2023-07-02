@@ -1,7 +1,6 @@
 [
   {
     "id": "waist_apron_long",
-    "repairs_like": "apron_cotton",
     "type": "ARMOR",
     "name": { "str": "long waist apron" },
     "description": "A long waist apron made of cotton.",
@@ -106,7 +105,6 @@
   },
   {
     "id": "waist_apron_short",
-    "repairs_like": "apron_cotton",
     "type": "ARMOR",
     "name": { "str": "short waist apron" },
     "description": "A short waist apron made of cotton.",
@@ -211,7 +209,6 @@
   },
   {
     "id": "apron_cotton",
-    "repairs_like": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "cotton apron" },
     "description": "An apron made of cotton.",
@@ -351,7 +348,6 @@
   },
   {
     "id": "apron_plastic",
-    "repairs_like": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "plastic apron" },
     "description": "An apron made of plastic, provides good protection against accidental chemical splashes.",
@@ -362,7 +358,6 @@
   },
   {
     "id": "apron_cut_resistant",
-    "repairs_like": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "cut-resistant apron" },
     "description": "An apron made of Kevlar fabric.",
@@ -375,7 +370,6 @@
   },
   {
     "id": "bee_dress",
-    "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "bee dress", "str_pl": "bee dresses" },
     "description": "A short black and yellow dress, reminiscent of a bee.  It includes bee wings, a hood, and a pair of antennae.",
@@ -468,7 +462,6 @@
     "type": "ARMOR",
     "name": { "str": "cheerleader dress", "str_pl": "cheerleader dresses" },
     "description": "A light and breezy cheerleader dress.  It's blue and white with the word \"Cheers\" printed at the top.",
-    "repairs_like": "sundress",
     "weight": "200 g",
     "volume": "500 ml",
     "price": 1250,
@@ -486,27 +479,7 @@
     ]
   },
   {
-    "id": "cheerleader_top",
-    "repairs_like": "tank_top",
-    "type": "ARMOR",
-    "name": { "str": "cheerleader tank top" },
-    "description": "A red cheerleader tank top.  It has the word \"Cheers\" printed at the top.",
-    "weight": "120 g",
-    "volume": "250 ml",
-    "price": 850,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "tank_top",
-    "color": "red",
-    "armor": [ { "covers": [ "torso" ], "coverage": 90, "encumbrance": 3 } ],
-    "warmth": 2,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
-  },
-  {
     "id": "cheerleader_top_short",
-    "repairs_like": "tank_top",
     "type": "ARMOR",
     "name": { "str": "short cheerleader tank top" },
     "description": "A short red cheerleader tank top.  It has the word \"Cheers\" printed at the top.",
@@ -524,7 +497,6 @@
   },
   {
     "id": "combat_shirt",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "combat shirt" },
     "description": "An oddly balanced long-sleeved shirt with a thin, moisture-wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets.  It has a pocket for your pen!",
@@ -569,7 +541,6 @@
   },
   {
     "id": "dress",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "dress", "str_pl": "dresses" },
     "description": "A long cotton dress.",
@@ -589,7 +560,6 @@
   },
   {
     "id": "dress_shirt",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "dress shirt" },
     "description": "A white button-down shirt with long sleeves.  Looks professional!",
@@ -620,7 +590,6 @@
   },
   {
     "id": "dress_wedding",
-    "repairs_like": "haori",
     "type": "ARMOR",
     "name": { "str": "wedding dress", "str_pl": "wedding dresses" },
     "description": "A beautiful white wedding dress.  What good will it be now?",
@@ -643,7 +612,6 @@
   },
   {
     "id": "flag_shirt",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "flag t-shirt" },
     "description": "A t-shirt embroidered with an American flag pattern.",
@@ -670,7 +638,6 @@
   },
   {
     "id": "flotation_vest",
-    "repairs_like": "flotation_vest_ms",
     "type": "ARMOR",
     "name": { "str": "flotation vest" },
     "description": "A brightly-colored vest designed to keep you upright and floating in water.",
@@ -711,7 +678,6 @@
   },
   {
     "id": "gown",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "evening gown" },
     "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
@@ -730,7 +696,6 @@
   },
   {
     "id": "halter_top",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "halter top" },
     "description": "A short top made from cotton.",
@@ -781,7 +746,6 @@
   },
   {
     "id": "jersey",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "sports jersey" },
     "//": "Genuine team merch, and priced like it!",
@@ -846,7 +810,6 @@
   },
   {
     "id": "linuxtshirt",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "Linux t-shirt" },
     "description": "A t-shirt with a picture of the Tux mascot on it.  Underneath it says \"You wouldn't buy a car with the hood welded shut.\"",
@@ -925,7 +888,6 @@
   },
   {
     "id": "maid_dress",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str_sp": "French maid clothes" },
     "description": "The French maid dress, blue with a frilly white apron.",
@@ -957,7 +919,6 @@
   },
   {
     "id": "maid_dress_short",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str_sp": "short French maid clothes" },
     "description": "The French maid dress, black with a frilly white apron.  This version is much lighter and shorter than normal.",
@@ -992,7 +953,6 @@
   },
   {
     "id": "mummy_dress",
-    "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "mummy dress", "str_pl": "mummy dresses" },
     "description": "A short off-white dress printed to look like the tattered wrappings of an ancient mummy.  Very easy to move in, but it doesn't offer any type of protection.",
@@ -1015,7 +975,6 @@
   },
   {
     "id": "ninja_dress",
-    "repairs_like": "sundress",
     "type": "ARMOR",
     "name": { "str": "ninja dress", "str_pl": "ninja dresses" },
     "description": {
@@ -1045,7 +1004,6 @@
   },
   {
     "id": "ninja_dress_sleeveless",
-    "repairs_like": "sundress",
     "type": "ARMOR",
     "name": { "str": "ninja sleeveless dress", "str_pl": "ninja sleeveless dresses" },
     "description": {
@@ -1080,7 +1038,6 @@
   },
   {
     "id": "polo_shirt",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "polo shirt" },
     "description": "A short-sleeved cotton shirt, slightly thicker than a t-shirt.",
@@ -1107,7 +1064,6 @@
   },
   {
     "id": "postman_shirt",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "mail carrier shirt" },
     "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it.",
@@ -1156,7 +1112,6 @@
   },
   {
     "id": "santa_dress",
-    "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "santa dress", "str_pl": "santa dresses" },
     "description": {
@@ -1189,7 +1144,6 @@
   },
   {
     "id": "santa_dress_long",
-    "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "luxury santa dress", "str_pl": "luxury santa dresses" },
     "description": "A long red dress with full sleeves and white faux fur trim.  A very fancy dress for a queen of the north pole.",
@@ -1213,7 +1167,6 @@
   },
   {
     "id": "santa_dress_short",
-    "repairs_like": "sundress",
     "type": "ARMOR",
     "name": { "str": "short santa dress", "str_pl": "short santa dresses" },
     "description": {
@@ -1245,7 +1198,6 @@
   },
   {
     "id": "sheriffshirt",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "sheriff's shirt" },
     "description": "A tan button-down shirt with long sleeves.",
@@ -1316,7 +1268,6 @@
   },
   {
     "id": "sinister_dress",
-    "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "sinister dress", "str_pl": "sinister dresses" },
     "description": { "str": "A long black and red dress with full sleeves, a collar, and embroidery reminiscent of a vampire duchess." },
@@ -1338,7 +1289,6 @@
   },
   {
     "id": "sinister_dress_short",
-    "repairs_like": "sundress",
     "type": "ARMOR",
     "name": { "str": "short sinister dress", "str_pl": "short sinister dresses" },
     "description": { "str": "A short red dress made in gothic lolita fashion." },
@@ -1372,7 +1322,6 @@
   },
   {
     "id": "sinister_gown",
-    "repairs_like": "gown",
     "type": "ARMOR",
     "name": { "str": "sinister gown" },
     "description": "A red and black gown with full sleeves.  It has a gothic style and looks pretty luxurious.",
@@ -1395,7 +1344,6 @@
   },
   {
     "id": "striped_shirt",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "striped shirt" },
     "description": "A long-sleeved shirt with horizontal black and white stripes.",
@@ -1458,7 +1406,6 @@
   },
   {
     "id": "sweatshirt",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "sweatshirt" },
     "description": "A thick cotton shirt.",
@@ -1478,7 +1425,6 @@
   },
   {
     "id": "technician_shirt_gray",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "work t-shirt" },
     "description": "A gray work t-shirt with a small front pocket.",
@@ -1668,7 +1614,6 @@
   },
   {
     "id": "tshirt_text",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "t-shirt" },
     "description": "A short-sleeved cotton shirt.",
@@ -1721,7 +1666,6 @@
   },
   {
     "id": "tshirt_tour",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "copy-from": "tshirt",
     "name": { "str": "tour t-shirt" },
@@ -1779,7 +1723,6 @@
   },
   {
     "id": "uttarasanga",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "uttarasanga" },
     "description": "A traditional Buddhist shirt, covering most of the upper body, but not the arms.",
@@ -1843,7 +1786,6 @@
   },
   {
     "id": "witch_dress",
-    "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "witch dress", "str_pl": "witch dresses" },
     "description": { "str": "A black dress with full sleeves and pointed cuts at the edges.  Perfect for Halloween." },
@@ -1872,7 +1814,6 @@
   },
   {
     "id": "witch_dress_long",
-    "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "long witch dress", "str_pl": "long witch dresses" },
     "description": "A long black dress with sleeves, typical of a witch.  It includes a pouch for storing potions and other magical items.",
@@ -1904,7 +1845,6 @@
   },
   {
     "id": "witch_dress_short",
-    "repairs_like": "sundress",
     "type": "ARMOR",
     "name": { "str": "short witch dress", "str_pl": "short witch dresses" },
     "description": { "str": "A short black dress typically used by witches." },

@@ -17,6 +17,8 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "8x40mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -16 },
+    "//2": "Barrel length is estimated to be 6 inches.",
     "skill": "pistol",
     "dispersion": 175,
     "durability": 9,
@@ -30,7 +32,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -51,9 +53,10 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "8x40mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 6 },
+    "//2": "Barrel length is estimated to be 24 inches.",
     "skill": "rifle",
     "range": 20,
-    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 10,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 2 ] ],
@@ -68,7 +71,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ] } ],
     "melee_damage": { "bash": 10 }
   },
@@ -89,6 +92,8 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "8x40mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -9 },
+    "//2": "Barrel length is estimated to be 9-inches.",
     "skill": "smg",
     "dispersion": 120,
     "durability": 9,
@@ -104,7 +109,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_25_mag", "8x40_10_mag" ] } ],
     "melee_damage": { "bash": 11 }
   },
@@ -142,7 +147,7 @@
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_500_mag", "8x40_250_mag" ] } ],
     "melee_damage": { "bash": 18 }
   },
@@ -163,7 +168,6 @@
     "color": "dark_gray",
     "ammo": [ "8x40mm" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 50,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
@@ -178,7 +182,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_50_mag", "8x40_100_mag" ] } ],
     "melee_damage": { "bash": 12 }
@@ -199,8 +203,9 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "8x40mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
+    "//2": "Barrel length is estimated to be 21-inches.",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 70,
     "durability": 9,
     "reload": 200,
@@ -217,7 +222,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_250_mag", "8x40_500_mag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -237,8 +242,9 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "8x40mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "//2": "Barrel length is estimated to be 18-inches.",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 30,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
@@ -254,7 +260,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] } ],
     "melee_damage": { "bash": 12 }

@@ -108,10 +108,6 @@
         "text": "EYEBOTS SEE WIDESPREAD USE.  A recent survey of police departments in the Eastern US found that over 85% of police stations, even in small towns, now contain at least one flight of facial recognition drones.  \"They're awesome,\" Sheriff Mark Louis told a reporter from his office in Pontstown, Vermont.  \"We've got a flight of four eyebots on a solar dock on the roof.  They take hardly any maintenance, they respond to any suspicious business downtown, and they don't hurt anyone.  If it's just a minor scuffle they grab some photos and help keep things from escalating.  If it's a bigger deal, or if it's someone they know is trouble, they call us in right away.  They save us a lot of false alarms: if we get an eyebot call-in we know it's a big deal.\""
       },
       {
-        "id": "years_old_news_6",
-        "text": "MEET THE SOLDIER OF THE FUTURE.  [Photograph: Colonel Andrea Sylver poses in her powered combat exoskeleton.]  The new wave of military exoskeleton, or 'power armor', has been unveiled to the public after extensive testing on battlefields in Afghanistan and in police actions in South America and Indonesia.  \"These suits are like being a real-life super hero,\" Colonel Sylver announced to a gathered press.  \"I'm immune to all but the heaviest weapons, but just as mobile and light as any infantry soldier.  With an attached hauling rig, I can carry as much as a civilian cargo exoskeleton.  I'm basically a bulletproof forklift in a human-sized package.\"  We attempted to inquire about rumors of bionic-enhanced supersoldiers deploying alongside the new power armor, but Colonel Sylver declined to answer those questions."
-      },
-      {
         "id": "years_old_news_8",
         "text": "EDITORIAL: EYEBOTS ARE GOOD FOR US.  The controversy around increasing eyebot use by police forces has everyone worried, and I was on board for a long time.  Facial recognition databases under government control are something we should be worried about!  Then, my daughter was accosted on her way home from dance class.  Long before any police officer could have arrived, an eyebot had snagged video of her attackers and reported them to Central.  That, alone, probably saved her life: just knowing they'd been tagged sent the criminals packing before any real damage was done, and the information allowed us to press charges on a crime that would have gone unreported before.  All safety must come at a cost, and I'll gladly pay my privacy if it's the cost to keep my family safe."
       },
@@ -127,6 +123,12 @@
         "id": "years_old_news_11",
         "text": {
           "str": "THE 'UNCANNY' SUCCESS STORY.  Everyone's talking about the meteoric rise of tech startup \"Uncanny\" over the last few months.  From zero to household name, the company leapt to the public eye with its, well, uncanny line of talking toys.  Before we even knew what to expect, they were Wall Street's new darling, with the fastest rise in manufacturing capacity of any company in the last thirty years.  We spoke to James Hawthorne, America's newest billionaire and the man behind the name on everyone's lips.  Interview on page 3."
+        }
+      },
+      {
+        "id": "years_old_news_12",
+        "text": {
+          "str": "SOYPELUSA SUITS FIND NEW AMMO:  Following the infamous disaster of the DaiZoom product launch and the numerous lawsuits that sprung from its failure, research from Harvard's Cognitive Neuropsychology labs has brought new evidence in the ongoing litigation against the company.  We spoke with lead researcher Doctor Soren Eldridge who had this to say: \"The DaiZoom bar, beyond its notoriously bad taste, appears to cause in its consumers symptoms similar to those of a major depressive disorder.  There is an actual tangible impact on mood that lasts well beyond the initial consumption of even just a few bars in a short span of time - we suspect DaiZoom may actually be chemically inhibiting dopamine receptors.  This is unprecedented, and quite exciting, given that it consists entirely of otherwise biochemically bland ingredients.\"  Doctor Eldridge stated that further research would be needed to determine the full extent of the issue and whether consumption of DaiZoom had long-term health effects similar to existing dopamine blocking drugs, and if there is any role for it as a medical therapy in the future.  The full interview can be found on page 7."
         }
       }
     ]

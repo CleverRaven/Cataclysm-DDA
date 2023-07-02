@@ -14,7 +14,7 @@ static std::array<tripoint, 9> range_1_2d_centered = {
     }
 };
 
-TEST_CASE( "Radius one 2D square centered at origin.", "[tripoint_range]" )
+TEST_CASE( "Radius_one_2D_square_centered_at_origin", "[tripoint_range]" )
 {
     tripoint_range<tripoint> tested( tripoint_north_west, tripoint_south_east );
     REQUIRE( tested.size() == range_1_2d_centered.size() );
@@ -31,7 +31,7 @@ static std::array<tripoint, 9> range_1_2d_offset = {
     }
 };
 
-TEST_CASE( "Radius one 2D square centered at -4/-4/0.", "[tripoint_range]" )
+TEST_CASE( "Radius_one_2D_square_centered_at_-4/-4/0", "[tripoint_range]" )
 {
     tripoint_range<tripoint> tested( {-5, -5, 0}, {-3, -3, 0} );
     REQUIRE( tested.size() == range_1_2d_offset.size() );
@@ -41,7 +41,7 @@ TEST_CASE( "Radius one 2D square centered at -4/-4/0.", "[tripoint_range]" )
     }
 }
 
-TEST_CASE( "Radius one 2D square centered at -4/-4/0 in abs_omt coords.", "[tripoint_range]" )
+TEST_CASE( "Radius_one_2D_square_centered_at_-4/-4/0_in_abs_omt_coords", "[tripoint_range]" )
 {
     tripoint_range<tripoint_abs_omt> tested( {-5, -5, 0}, {-3, -3, 0} );
     REQUIRE( tested.size() == range_1_2d_offset.size() );
@@ -110,7 +110,7 @@ static std::array<tripoint, 343> range_3_3d_offset = {
     }
 };
 
-TEST_CASE( "Radius three 3D square centered at 8/8/1.", "[tripoint_range]" )
+TEST_CASE( "Radius_three_3D_square_centered_at_8/8/1", "[tripoint_range]" )
 {
     tripoint_range<tripoint> tested( {5, 5, -2}, {11, 11, 4} );
     REQUIRE( tested.size() == range_3_3d_offset.size() );

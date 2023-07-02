@@ -11,7 +11,8 @@
     "reversible": true,
     "autolearn": false,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],
-    "using": [ [ "welding_standard", 20 ] ],
+    "//": "1000cm weld",
+    "using": [ [ "welding_standard", 1000 ] ],
     "proficiencies": [ { "proficiency": "prof_basic_engines" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -36,9 +37,10 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "10 m",
+    "time": "130 m",
+    "//": "400cm weld",
     "autolearn": true,
-    "using": [ [ "welding_standard", 20 ] ],
+    "using": [ [ "welding_standard", 400 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 3 ] ] ]
   },
@@ -263,6 +265,39 @@
     ]
   },
   {
+    "result": "yoke_harness_heavyduty",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "50 m",
+    "book_learn": [ [ "textbook_fabrication", 5 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "GLARE", "level": 1 }
+    ],
+    "using": [ [ "welding_standard", 25 ], [ "steel_standard", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "yoke_harness", 1 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "scrap", 15 ], [ "steel_chunk", 5 ], [ "steel_lump", 2 ] ],
+      [ [ "pipe", 4 ], [ "scrap", 20 ], [ "steel_chunk", 6 ], [ "steel_lump", 3 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "chain", 2 ], [ "hd_tow_cable", 1 ] ],
+      [ [ "spring", 2 ], [ "tanned_hide", 2 ] ],
+      [ [ "nuts_bolts", 6 ] ],
+      [ [ "rope_superior_short", 2, "LIST" ], [ "sheet_canvas", 4 ], [ "sheet_canvas_patchwork", 4 ] ]
+    ]
+  },
+  {
     "result": "hd_tow_cable",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -273,7 +308,8 @@
     "time": "480 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "using": [ [ "welding_standard", 30 ] ],
+    "//": "90cm weld",
+    "using": [ [ "welding_standard", 90 ] ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "grip_hook", 1 ] ], [ [ "chain", 8 ] ], [ [ "cable", 10 ] ] ]
   },
   {
@@ -286,11 +322,13 @@
     "difficulty": 3,
     "time": "30 m",
     "reversible": true,
+    "//": "50cm weld",
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 50 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 4 ] ],
+      [ [ "pipe_fittings", 4 ] ],
       [ [ "scrap", 9 ], [ "steel_chunk", 3 ], [ "steel_lump", 1 ] ],
       [ [ "rope_natural_short", 2, "LIST" ] ]
     ]
@@ -307,7 +345,8 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 20 ] ],
+    "//1": "60cm weld",
+    "using": [ [ "welding_standard", 60 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "rebar", 4 ] ], [ [ "scrap", 3 ] ] ]
   },
@@ -322,7 +361,8 @@
     "time": "45 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 20 ] ],
+    "//": "75cm weld",
+    "using": [ [ "welding_standard", 75 ] ],
     "components": [ [ [ "steel_plate", 1 ] ], [ [ "spring", 3 ] ] ]
   },
   {
@@ -333,9 +373,10 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "60 m",
+    "time": "120 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 30 ] ],
+    "using": [ [ "welding_standard", 300 ] ],
+    "//": "300cm weld",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap", 18 ], [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ],
@@ -358,7 +399,8 @@
     "reversible": true,
     "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "welding_standard", 50 ] ],
+    "//": "400cm weld",
+    "using": [ [ "welding_standard", 400 ] ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 },
       { "proficiency": "prof_appliance_repair" }
@@ -463,6 +505,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
+    "//": "15cm weld",
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "large_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
@@ -479,6 +522,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
+    "//": "15cm weld",
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "small_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
@@ -491,11 +535,12 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "30 m",
+    "time": "120 m",
     "reversible": true,
     "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "welding_standard", 20 ] ],
+    "//": "200cm weld",
+    "using": [ [ "welding_standard", 200 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
@@ -537,7 +582,8 @@
     "difficulty": 5,
     "time": "170 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
-    "using": [ [ "welding_standard", 25 ] ],
+    "//": "360cm weld",
+    "using": [ [ "welding_standard", 350 ] ],
     "proficiencies": [ { "proficiency": "prof_basic_engines" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
@@ -564,7 +610,8 @@
     "difficulty": 5,
     "time": "170 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
-    "using": [ [ "welding_standard", 25 ] ],
+    "//": "350cm weld",
+    "using": [ [ "welding_standard", 350 ] ],
     "proficiencies": [ { "proficiency": "prof_basic_engines" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
@@ -590,7 +637,8 @@
     "difficulty": 5,
     "time": "90 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 4 ], [ "plastic_molding", 1 ] ],
+    "//": "20cm weld",
+    "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 4 ], [ "plastic_molding", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
@@ -720,7 +768,8 @@
     "autolearn": true,
     "time": "60 m",
     "reversible": true,
-    "using": [ [ "welding_standard", 15 ] ],
+    "//": "200cm weld",
+    "using": [ [ "welding_standard", 200 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 3 ] ], [ [ "hinge", 2 ] ] ]
   },
@@ -763,7 +812,8 @@
     "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ] ],
+    "//": "10cm weld",
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "DRILL", "level": 3 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
@@ -779,7 +829,8 @@
     "time": "1 h",
     "reversible": true,
     "book_learn": [ [ "arduino_experiments", 2 ] ],
-    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
+    "//": "40cm weld",
+    "using": [ [ "welding_standard", 40 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -825,7 +876,8 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ], [ "cutting_wire_standard", 1 ] ],
+    "//": "40cm weld",
+    "using": [ [ "welding_standard", 40 ], [ "cutting_wire_standard", 1 ] ],
     "components": [ [ [ "wire", 40 ] ] ]
   },
   {
@@ -839,7 +891,8 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ], [ "cutting_wire_standard", 1 ] ],
+    "//": "45cm weld",
+    "using": [ [ "welding_standard", 45 ], [ "cutting_wire_standard", 1 ] ],
     "components": [ [ [ "wire", 40 ], [ "basket", 1 ] ], [ [ "scrap", 8 ] ] ]
   },
   {
@@ -853,7 +906,8 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 3 ], [ "cutting_wire_standard", 1 ] ],
+    "//": "10cm weld",
+    "using": [ [ "welding_standard", 10 ], [ "cutting_wire_standard", 1 ] ],
     "components": [ [ [ "wire", 8 ] ] ]
   },
   {
@@ -867,8 +921,9 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "components": [ [ [ "pipe", 4 ] ] ]
+    "//": "20cm weld",
+    "using": [ [ "welding_standard", 20 ] ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -896,7 +951,8 @@
     "time": "25 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 8 ] ],
+    "//": "15cm weld",
+    "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "wheel_bicycle", 2 ] ] ]
   },
@@ -939,10 +995,11 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "4 m",
+    "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ] ],
+    "//": "15cm weld",
+    "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ] ]
   },
@@ -1223,7 +1280,12 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [ [ [ "metal_tank", 1 ] ], [ [ "element", 6 ] ], [ [ "thermostat", 1 ] ], [ [ "plastic_chunk", 8 ] ] ]
+    "components": [
+      [ [ "metal_tank", 1 ] ],
+      [ [ "element", 6 ], [ "crude_heating_element", 9 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1303,7 +1365,7 @@
       [ [ "funnel", 1 ], [ "metal_funnel", 1 ] ],
       [ [ "frame", 1 ] ],
       [ [ "sheet_metal", 4 ] ],
-      [ [ "element", 4 ] ],
+      [ [ "element", 4 ], [ "crude_heating_element", 6 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "cable", 10 ] ],
       [ [ "power_supply", 1 ] ],

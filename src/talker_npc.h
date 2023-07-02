@@ -17,7 +17,7 @@ class talker;
 
 /*
  */
-class talker_npc : public talker_character
+class talker_npc : public talker_cloner<talker_npc, talker_character>
 {
     public:
         explicit talker_npc( npc *new_me );

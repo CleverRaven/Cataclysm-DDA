@@ -66,6 +66,37 @@ class mon_spellcasting_actor : public mattack_actor
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
+struct grab {
+    // Intensity of grab effect applied, defaults to the monster's defined grab_strength unless specified
+    int grab_strength;
+    // Percent chance to initiate a pull
+    int pull_chance;
+    // Ratio of pullee:puller weight
+    float pull_weight_ratio;
+    // Which effect should we apply on a successful grab to our target (bp)
+    // Limited to one GRAB-flagged effect per bp
+    efftype_id grab_effect;
+    // If true will attempt to remove all other GRAB flagged effects from the target and cancel the attack on failure
+    bool exclusive_grab;
+    // If true drags/pulls fail when targeting a character in a seat with seatbelts
+    bool respect_seatbelts;
+    // Distance the enemy drags you on successful drag attempt (also enable dragging in the first place)
+    int drag_distance;
+    // Deviation of each dragging step from a straight line away from the opponent
+    int drag_deviation;
+    // Number of drag steps which give you a grab break attempt
+    int drag_grab_break_distance;
+    // Movecost modifier for drag-related movements
+    float drag_movecost_mod;
+    // Messages for pulls and drags, those are mutually exclusive
+    translation pull_msg_u;
+    translation pull_fail_msg_u;
+    translation pull_msg_npc;
+    translation pull_fail_msg_npc;
+    void load_grab( const JsonObject &jo );
+    bool was_loaded = false;
+};
+
 class melee_actor : public mattack_actor
 {
     public:
@@ -98,6 +129,8 @@ class melee_actor : public mattack_actor
         int hitsize_min = -1;
         int hitsize_max = -1;
         bool attack_upper = true;
+        grab grab_data;
+        bool is_grab = false;
 
         /**
          * If empty, regular melee roll body part selection is used.
@@ -138,6 +171,9 @@ class melee_actor : public mattack_actor
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
+        /* Dedicated grab faction. Possible returns: -1 fails silently (attempting another attack instead)
+        0 fails loudly (resetting the cooldown), 1 succeeds */
+        int do_grab( monster &, Creature *target, bodypart_id bp_id ) const;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };

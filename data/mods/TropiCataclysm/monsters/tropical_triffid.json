@@ -123,20 +123,20 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "bleed_rate": 60,
     "harvest": "triffid_paralytic",
+    "grab_strength": 30,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "infection_chance": 50
       }
     ],
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "flags": [ "SEES", "SMELLS", "GRABS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
     "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {

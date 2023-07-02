@@ -99,6 +99,9 @@ class material_type
         // the thickness that sheets of this material come in, anything that uses it should be a multiple of this
         float _sheet_thickness = 0.0f;
 
+        // the skill needed to repair this type of material
+        int _repair_difficulty = 10;
+
         translation _bash_dmg_verb;
         translation _cut_dmg_verb;
         std::vector<translation> _dmg_adj;
@@ -134,8 +137,9 @@ class material_type
         float resist( const damage_type_id &dmg_type ) const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
-        std::string dmg_adj( int damage ) const;
+        std::string dmg_adj( int damage_level ) const;
         int chip_resist() const;
+        int repair_difficulty() const;
         float specific_heat_liquid() const;
         float specific_heat_solid() const;
         float latent_heat() const;

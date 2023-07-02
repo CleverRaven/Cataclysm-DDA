@@ -21,7 +21,8 @@
       { "fuel": 1, "smoke": 5, "burn": 2 },
       { "fuel": 1, "smoke": 10, "burn": 4 }
     ],
-    "resist": { "bash": 2, "cut": 2, "acid": 3, "heat": 1, "bullet": 6, "electric": 2 }
+    "resist": { "bash": 2, "cut": 2, "acid": 3, "heat": 1, "bullet": 6, "electric": 2 },
+    "repair_difficulty": 4
   },
   {
     "type": "material",
@@ -72,7 +73,8 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 }
+    "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 },
+    "repair_difficulty": 4
   },
   {
     "type": "material",
@@ -88,7 +90,8 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "GOOD",
-    "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 }
+    "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 },
+    "repair_difficulty": 5
   },
   {
     "type": "material",
@@ -106,7 +109,8 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "GOOD",
-    "resist": { "bash": 3, "cut": 4, "acid": 16, "heat": 2, "bullet": 2 }
+    "resist": { "bash": 3, "cut": 4, "acid": 16, "heat": 2, "bullet": 2 },
+    "repair_difficulty": 5
   },
   {
     "type": "material",
@@ -125,7 +129,8 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "GOOD",
-    "resist": { "bash": 8, "cut": 9, "acid": 16, "heat": 4, "bullet": 6 }
+    "resist": { "bash": 8, "cut": 9, "acid": 16, "heat": 4, "bullet": 6 },
+    "repair_difficulty": 6
   },
   {
     "type": "material",

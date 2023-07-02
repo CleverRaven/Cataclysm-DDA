@@ -1218,6 +1218,58 @@ item_location game_menus::inv::gun_to_modify( Character &you, const item &gunmod
                          _( "You don't have any guns to modify." ) );
 }
 
+class ereader_inventory_preset : public pickup_inventory_preset
+{
+    public:
+        explicit ereader_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
+            you( you ) {
+            _collate_entries = true;
+            if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
+                append_cell( [ this ]( const item_location & loc ) {
+                    return string_format( "<color_light_green>%s</color>", get_action_name( *loc ) );
+                }, _( "ACTION" ) );
+            }
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_ebook_storage();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item &it = *loc;
+
+            if( it.is_broken() ) {
+                return _( "E-reader is broken and won't turn on." );
+            }
+
+            if( !it.ammo_sufficient( &you, "EBOOKREAD" ) ) {
+                return string_format(
+                           n_gettext( "Needs at least %d charge.",
+                                      "Needs at least %d charges.", loc->ammo_required() ),
+                           loc->ammo_required() );
+            }
+
+            if( !it.has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+                return pickup_inventory_preset::get_denial( loc );
+            }
+
+            return std::string();
+        }
+
+    protected:
+        std::string get_action_name( const item &it ) const {
+            return string_format( "Read on %s.", it.tname() );
+        }
+    private:
+        const Character &you;
+};
+
+item_location game_menus::inv::ereader_to_use( Character &you )
+{
+    const std::string msg = _( "You don't have any e-readers you can use." );
+    return inv_internal( you, ereader_inventory_preset( you ), _( "Select e-reader." ), 1, msg );
+}
+
 class read_inventory_preset: public pickup_inventory_preset
 {
     public:
@@ -1725,10 +1777,6 @@ class attach_molle_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
 
-            if( !loc.get_item()->empty() ) {
-                return "item needs to be empty.";
-            }
-
             if( actor->size - vest->get_contents().get_additional_space_used() < loc->get_pocket_size() ) {
                 return "not enough space left on the vest.";
             }
@@ -1854,6 +1902,13 @@ class repair_inventory_preset: public inventory_selector_preset
                                          chance.first > 0 ? c_light_green : c_unset ) );
             },
             _( "DAMAGE CHANCE" ) );
+
+            append_cell( [actor, &you]( const item_location & loc ) {
+                const int difficulty = actor->repair_recipe_difficulty( *loc );
+                return colorize( string_format( "%d", difficulty ),
+                                 difficulty > you.get_skill_level( actor->used_skill ) ? c_red : c_unset );
+            },
+            _( "DIFFICULTY" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -2066,72 +2121,80 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
 bool game_menus::inv::compare_items( const item &first, const item &second,
                                      const std::string &confirm_message )
 {
-    std::vector<iteminfo> v_item_first;
-    std::vector<iteminfo> v_item_second;
-
-    first.info( true, v_item_first );
-    second.info( true, v_item_second );
-
+    std::string action;
+    input_context ctxt;
+    ui_adaptor ui;
+    item_info_data item_info_first;
+    item_info_data item_info_second;
+    int page_size = 0;
     int scroll_pos_first = 0;
     int scroll_pos_second = 0;
-
-    item_info_data item_info_first( first.tname(), first.type_name(),
-                                    v_item_first, v_item_second, scroll_pos_first );
-
-    item_info_data item_info_second( second.tname(), second.type_name(),
-                                     v_item_second, v_item_first, scroll_pos_second );
-
-    item_info_first.without_getch = true;
-    item_info_second.without_getch = true;
-
-    input_context ctxt;
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    if( !confirm_message.empty() ) {
-        ctxt.register_action( "CONFIRM" );
-    }
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "UP" );
-    ctxt.register_action( "DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
-
-    catacurses::window wnd_first;
-    catacurses::window wnd_second;
-    catacurses::window wnd_message;
-
-    const int half_width = TERMX / 2;
-    const int height = TERMY;
-    const int offset_y = confirm_message.empty() ? 0 : 3;
-    const int page_size = TERMY - offset_y - 2;
-
-    ui_adaptor ui;
-    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
-        wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
-
-        if( !confirm_message.empty() ) {
-            wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
-        }
-
-        ui.position( point_zero, point( half_width * 2, height ) );
-    } );
-    ui.mark_resize();
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        if( !confirm_message.empty() ) {
-            draw_border( wnd_message );
-            mvwputch( wnd_message, point( 3, 1 ), c_white, confirm_message
-                      + " " + ctxt.describe_key_and_name( "CONFIRM" )
-                      + " " + ctxt.describe_key_and_name( "QUIT" ) );
-            wnoutrefresh( wnd_message );
-        }
-
-        draw_item_info( wnd_first, item_info_first );
-        draw_item_info( wnd_second, item_info_second );
-    } );
-
-    std::string action;
-
+    bool first_execution = true;
+    static int lang_version = detail::get_current_language_version();
     do {
+        //lang check here is needed to redraw the menu when using "Toggle language to English" option
+        if( first_execution || lang_version != detail::get_current_language_version() ) {
+            std::vector<iteminfo> v_item_first;
+            std::vector<iteminfo> v_item_second;
+
+            first.info( true, v_item_first );
+            second.info( true, v_item_second );
+
+            item_info_first = item_info_data( first.tname(), first.type_name(),
+                                              v_item_first, v_item_second, scroll_pos_first );
+
+            item_info_second = item_info_data( second.tname(), second.type_name(),
+                                               v_item_second, v_item_first, scroll_pos_second );
+
+            item_info_first.without_getch = true;
+            item_info_second.without_getch = true;
+
+            ctxt.register_action( "HELP_KEYBINDINGS" );
+            if( !confirm_message.empty() ) {
+                ctxt.register_action( "CONFIRM" );
+            }
+            ctxt.register_action( "QUIT" );
+            ctxt.register_action( "UP" );
+            ctxt.register_action( "DOWN" );
+            ctxt.register_action( "PAGE_UP" );
+            ctxt.register_action( "PAGE_DOWN" );
+
+            catacurses::window wnd_first;
+            catacurses::window wnd_second;
+            catacurses::window wnd_message;
+
+            ui.reset();
+            ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+                const int half_width = TERMX / 2;
+                const int height = TERMY;
+                const int offset_y = confirm_message.empty() ? 0 : 3;
+                page_size = TERMY - offset_y - 2;
+                wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
+                wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
+
+                if( !confirm_message.empty() ) {
+                    wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
+                }
+
+                ui.position( point_zero, point( half_width * 2, height ) );
+            } );
+            ui.mark_resize();
+            ui.on_redraw( [&]( const ui_adaptor & ) {
+                if( !confirm_message.empty() ) {
+                    draw_border( wnd_message );
+                    mvwputch( wnd_message, point( 3, 1 ), c_white, confirm_message
+                              + " " + ctxt.describe_key_and_name( "CONFIRM" )
+                              + " " + ctxt.describe_key_and_name( "QUIT" ) );
+                    wnoutrefresh( wnd_message );
+                }
+
+                draw_item_info( wnd_first, item_info_first );
+                draw_item_info( wnd_second, item_info_second );
+            } );
+            lang_version = detail::get_current_language_version();
+            first_execution = false;
+        }
+
         ui_manager::redraw();
 
         action = ctxt.handle_input();

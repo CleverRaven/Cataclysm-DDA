@@ -196,6 +196,7 @@ void Character::update_body( const time_point &from, const time_point &to )
 {
     // Early return if we already did update previously on the same turn (e.g. when loading savegame).
     if( to <= last_updated ) {
+        last_updated = to;
         return;
     }
     if( !is_npc() ) {
@@ -423,7 +424,7 @@ void Character::update_bodytemp()
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
     int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
-                                            pos(), weather_man.winddirection, sheltered );
+                                            get_location(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );

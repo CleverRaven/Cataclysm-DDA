@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "milspec_arsenal_weapon&ammo_collection",
-    "//": "This file provide some milspec loot groups for using in military armament rooms - part is deployed and ready to use (or already used), and part is store the ammo. This was made to make some consistency and order in arsenals.",
+    "//": "This file provides some milspec loot groups for use in military armament rooms - part is deployed and ready to use (or already used), and part is stored. This was made to make some consistency and order in arsenals.",
     "//2": "the list of armament picked from <https://en.wikipedia.org/wiki/List_of_equipment_of_the_United_States_Army#Small_arms>. If you have a better source you're welcome.",
     "//3": "i tried to make them flexible enough, so each part can be reused, without making 10 different copies for each using",
     "//4": "each file contains (in basic): an ammo can with weapon of one caliber, a gun with its mags, a group of these guns, the group of few gun groups (gun&mags), gun&mags + ammo (gun&ammo), and gun&ammo + empty cans (gun&mags&cans).  Then each of them can be united in group of similar weapons, so we can generate, for example, group from only guns, only ammo or, as the very first idea, the 'deployed' group with a bit of ammo and a few guns of same caliber.",
@@ -46,6 +46,7 @@
       { "group": "milspec_arsenal_223_mg_gun&mags&cans", "prob": 260 },
       { "group": "milspec_arsenal_300blk_gun&mags&cans", "prob": 100 },
       { "group": "milspec_arsenal_300_sniper_gun&mags&cans", "prob": 95 },
+      { "group": "milspec_arsenal_338lapua_sniper_gun&mags&cans", "prob": 60 },
       { "group": "milspec_arsenal_308_sniper_gun&mags&cans", "prob": 95 },
       { "group": "milspec_arsenal_308_mg_gun&mags&cans", "prob": 192 }
     ]
@@ -83,6 +84,7 @@
       { "group": "ammo_can_belt223_any_full", "count": [ 3, 6 ], "prob": 260 },
       { "group": "ammo_can_300blk_full", "count": [ 3, 6 ], "prob": 100 },
       { "group": "ammo_can_300_full", "count": [ 3, 6 ], "prob": 95 },
+      { "group": "ammo_can_338lapua_full", "count": [ 3, 6 ], "prob": 60 },
       { "group": "ammo_can_308_full", "count": [ 3, 6 ], "prob": 95 },
       { "group": "ammo_can_belt308_full", "count": [ 3, 6 ], "prob": 192 },
       { "group": "ammo_can_50bmg_full", "count": [ 3, 6 ], "prob": 30 },
@@ -116,6 +118,7 @@
       { "group": "milspec_arsenal_223_mg_gun&mags", "count": [ 1, 2 ], "prob": 260 },
       { "group": "milspec_arsenal_300blk_gun&mags", "count": [ 1, 2 ], "prob": 100 },
       { "group": "milspec_arsenal_300_sniper_gun&mags", "count": [ 1, 2 ], "prob": 95 },
+      { "group": "milspec_arsenal_338lapua_sniper_gun&mags", "count": [ 1, 2 ], "prob": 60 },
       { "group": "milspec_arsenal_308_sniper_gun&mags", "count": [ 1, 2 ], "prob": 95 },
       { "group": "milspec_arsenal_308_mg_gun&mags", "count": [ 1, 2 ], "prob": 192 },
       { "group": "milspec_arsenal_50bmg_sniper_gun&mags", "count": [ 1, 2 ], "prob": 30 },

@@ -65,8 +65,8 @@ class iuse_transform : public iuse_actor
         /** if this has values, set remaining ammo of @ref target to one of them chosen at random (after transformation) */
         std::vector<int> random_ammo_qty;
 
-        /** if positive set transformed item active and start countdown */
-        int countdown = 0;
+        /** if positive set transformed item active and start countdown for countdown_action*/
+        time_duration target_timer = 0_seconds;
 
         /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
         itype_id ammo_type;
@@ -141,27 +141,22 @@ class unpack_actor : public iuse_actor
         void info( const item &, std::vector<iteminfo> &dump ) const override;
 };
 
-class countdown_actor : public iuse_actor
+class message_iuse : public iuse_actor
 {
     public:
-        explicit countdown_actor( const std::string &type = "countdown" ) : iuse_actor( type ) {}
+        explicit message_iuse( const std::string &type = "message" ) : iuse_actor( type ) {}
 
         /** if specified overrides default action name */
         translation name;
 
-        /** turns before countdown action (defaults to @ref itype::countdown_interval) */
-        int interval = 0;
-
         /** message if player sees activation with %s replaced by item name */
         translation message;
 
-        ~countdown_actor() override = default;
+        ~message_iuse() override = default;
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
-        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::string get_name() const override;
-        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -803,11 +798,11 @@ class repair_item_actor : public iuse_actor
         /** What are we most likely trying to do with this item? */
         repair_type default_action( const item &fix, int current_skill_level ) const;
         /**
-         * Calculates the difficulty to repair an item
-         * based on recipes to craft it and player's knowledge of them.
-         * If `training` is true, player's lacking knowledge and skills are not used to increase difficulty.
+         * Calculates the difficulty to repair an item based on its materials.
+         * Normally the difficulty to repair is that of the most difficult material.
+         * If the item has a repairs_like, use the materials of that item instead.
          */
-        int repair_recipe_difficulty( const Character &pl, const item &fix, bool training = false ) const;
+        int repair_recipe_difficulty( const item &fix ) const;
         /** Describes members of `repair_type` enum */
         static std::string action_description( repair_type );
 
@@ -1033,6 +1028,34 @@ class modify_gunmods_actor : public iuse_actor
         ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
+};
+
+class link_up_actor : public iuse_actor
+{
+    public:
+        /** True if the link_up action is called by the cable item itself, rather than by a device. */
+        bool is_cable_item = false;
+        /** The type of cable created with this action */
+        itype_id type = itype_id( "generic_device_cable" );
+        /** Maximum length of the cable. At -1, will use the item type's max_charges. */
+        int cable_length = -1;
+        /** Charge rate in watts */
+        units::power charge_rate = 0_W;
+        /** one_in(this) chance to fail adding 1 charge */
+        int charge_efficiency = 7;
+        /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
+        translation menu_text;
+
+        std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
+
+        link_up_actor() : iuse_actor( "link_up" ) {}
+
+        ~link_up_actor() override = default;
+        void load( const JsonObject &jo ) override;
+        std::optional<int> use( Character &p, item &it, bool t, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+        std::string get_name() const override;
 };
 
 class deploy_tent_actor : public iuse_actor

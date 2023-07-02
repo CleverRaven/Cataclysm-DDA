@@ -23,6 +23,18 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_DEBUG_BIG_HEAD",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "head" }, { "gain": "big_head" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_GASTROPOD_FOOT",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
+  },
+  {
+    "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
     "values": [
@@ -81,6 +93,24 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "STRENGTH", "add": 10 } ]
+  },
+  {
+    "id": "ench_meteor_armor",
+    "type": "enchantment",
+    "name": { "str": "Hyperdense" },
+    "description": "Your armor's massive weight makes it nearly impossible to be knocked over or pushed back.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "KNOCKBACK_RESIST", "add": 1.0 }, { "value": "KNOCKDOWN_RESIST", "add": 1.0 } ]
+  },
+  {
+    "id": "ench_meteor_mask",
+    "type": "enchantment",
+    "name": { "str": "Detect Evil" },
+    "description": "Your armor lets you detect otherworldly presence with ease.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 10 } ]
   },
   {
     "id": "ench_dampened_steps",

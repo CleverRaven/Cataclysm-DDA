@@ -2,50 +2,20 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RandEnc_Roadstop_add",
-    "recurrence": 3000,
+    "recurrence": 1800,
     "global": true,
-    "condition": {
-      "and": [
-        { "u_near_om_location": "roadstop_a", "range": 30 },
-        "is_day",
-        { "one_in_chance": 10 },
-        { "days_since_cataclysm": 7 },
-        {
-          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": "<", "time": "1 d" }
-        },
-        { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        { "not": { "is_season": "winter" } }
-      ]
-    },
     "effect": [
-      { "mapgen_update": "nest_RandEnc_roadstop_a_add", "om_terrain": "roadstop_a" },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "caravan", "time": true },
+      { "set_condition": "random_enc_condition", "condition": { "and": [ { "not": { "is_season": "winter" } }, "is_day" ] } },
       {
-        "u_location_variable": { "global_val": "randenc_caravan_loc" },
-        "target_params": { "om_terrain": "roadstop_a" }
-      },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc_Caravan" }, "=", { "const": 1 } ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_RandEnc_Roadstop_remove",
-    "recurrence": 200,
-    "global": true,
-    "condition": {
-      "and": [
-        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" },
-        { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        { "compare_num": [ { "global_val": "var", "var_name": "RandEnc_Caravan" }, "==", { "const": 1 } ] }
-      ]
-    },
-    "effect": [
-      {
-        "mapgen_update": "nest_RandEnc_roadstop_a_remove",
-        "om_terrain": "roadstop_a",
-        "target_var": { "global_val": "randenc_caravan_loc" }
-      },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc_Caravan" }, "=", { "const": 0 } ] }
+        "run_eoc_with": "EOC_RandEnc",
+        "variables": {
+          "omt": "roadstop_a",
+          "map_update": "nest_RandEnc_roadstop_a_add",
+          "map_removal": "nest_RandEnc_roadstop_a_remove",
+          "chance": "10",
+          "days_till_spawn": "7"
+        }
+      }
     ]
   },
   {
@@ -78,52 +48,24 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_RandEnc_Roadstop_Refugee_add",
-    "recurrence": 3000,
+    "id": "EOC_RandEnc_Roadstop_refugee_add",
+    "recurrence": 1800,
     "global": true,
-    "condition": {
-      "and": [
-        { "u_near_om_location": "roadstop_a", "range": 30 },
-        "is_day",
-        { "one_in_chance": 10 },
-        { "days_since_cataclysm": 7 },
-        {
-          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "refugee", "op": "<", "time": "1 d" }
-        },
-        { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        { "not": { "days_since_cataclysm": 45 } },
-        { "not": { "is_season": "winter" } }
-      ]
-    },
-    "effect": [
-      { "mapgen_update": "nest_RandEnc_roadstop_a_refugee_add", "om_terrain": "roadstop_a" },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "refugee", "time": true },
-      {
-        "u_location_variable": { "global_val": "randenc_refugee_loc" },
-        "target_params": { "om_terrain": "roadstop_a" }
-      },
-      { "math": [ "RandEnc_Refugee", "=", "1" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_RandEnc_Roadstop_Refugee_remove",
-    "recurrence": 200,
-    "global": true,
-    "condition": {
-      "and": [
-        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "refugee", "op": ">", "time": "1 h" },
-        { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        { "math": [ "RandEnc_Refugee", "==", "1" ] }
-      ]
-    },
     "effect": [
       {
-        "mapgen_update": "nest_RandEnc_roadstop_a_refugee_remove",
-        "om_terrain": "roadstop_a",
-        "target_var": { "global_val": "randenc_refugee_loc" }
+        "set_condition": "random_enc_condition",
+        "condition": { "and": [ { "not": { "is_season": "winter" } }, "is_day", { "not": { "days_since_cataclysm": 45 } } ] }
       },
-      { "math": [ "RandEnc_Refugee", "=", "0" ] }
+      {
+        "run_eoc_with": "EOC_RandEnc",
+        "variables": {
+          "omt": "roadstop_a",
+          "map_update": "nest_RandEnc_roadstop_a_refugee_add",
+          "map_removal": "nest_RandEnc_roadstop_a_refugee_remove",
+          "chance": "10",
+          "days_till_spawn": "7"
+        }
+      }
     ]
   },
   {

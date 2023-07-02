@@ -419,7 +419,7 @@ void widget::load( const JsonObject &jo, const std::string_view )
 
     if( jo.has_string( "bodypart" ) ) {
         _bps.clear();
-        _bps.emplace( bodypart_id( jo.get_string( "bodypart" ) ) );
+        _bps.emplace( jo.get_string( "bodypart" ) );
     }
 
     if( jo.has_array( "bodyparts" ) ) {
@@ -429,7 +429,7 @@ void widget::load( const JsonObject &jo, const std::string_view )
                 jo.throw_error_at( "bodyparts", "Invalid string value in bodyparts array" );
                 continue;
             }
-            _bps.emplace( bodypart_id( val.get_string() ) );
+            _bps.emplace( val.get_string() );
         }
     }
 
@@ -705,7 +705,11 @@ void widget::set_default_var_range( const avatar &ava )
         case widget_var::bp_hp:
             // HP for body part
             _var_min = 0;
-            _var_max = ava.get_part_hp_max( only_bp() );
+            if( ava.has_part( only_bp() ) ) {
+                _var_max = ava.get_part_hp_max( only_bp() );
+            } else {
+                _var_max = 0;
+            }
             break;
         case widget_var::bp_encumb:
             _var_min = 0;

@@ -88,6 +88,9 @@ using event_statistic_id = string_id<event_statistic>;
 class fault;
 using fault_id = string_id<fault>;
 
+class fault_fix;
+using fault_fix_id = string_id<fault_fix>;
+
 struct field_type;
 using field_type_id = int_id<field_type>;
 using field_type_str_id = string_id<field_type>;
@@ -297,6 +300,9 @@ class json_flag;
 using flag_id = string_id<json_flag>;
 
 using json_character_flag = string_id<json_flag>;
+
+struct jmath_func;
+using jmath_func_id = string_id<jmath_func>;
 
 class widget;
 using widget_id = string_id<widget>;

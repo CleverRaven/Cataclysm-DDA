@@ -51,38 +51,30 @@
         "                        ",
         "                        ",
         "         O    O         ",
-        "      |22######223      ",
-        "      |..#____#..3      ",
-        "      |..#>oo<#..3      ",
-        "   |22|..#____#..3223   ",
-        "   |.....######.....3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   ||..............33   ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    ||............33    ",
-        "     |------------3     ",
+        "      ---######---      ",
+        "      -..#____#..-      ",
+        "      -..#>oo<#..-      ",
+        "   ----..#____#..----   ",
+        "   -.....######.....-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   --..............--   ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    --............--    ",
+        "     --------------     ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": {
-        "O": "t_column",
-        ".": "t_shingle_flat_roof",
-        ">": "t_stairs_down",
-        "<": "t_stairs_up",
-        "#": "t_wall_w",
-        "Q": "t_open_air",
-        "o": "t_open_air_rooved"
-      }
+      "terrain": { "O": "t_column", ".": "t_shingle_flat_roof", "<": "t_stairs_up", "#": "t_wall_w", "o": "t_open_air_rooved" }
     }
   },
   {
@@ -118,7 +110,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "o": "t_wall_glass", "#": "t_wall_w", "-": "t_open_air_rooved" }
+      "terrain": { "<": "t_stairs_up", "o": "t_wall_glass", "#": "t_wall_w", "-": "t_open_air_rooved" }
     }
   },
   {
@@ -154,7 +146,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_stairs_down", "#": "t_wall_w", "o": "t_wall_glass", "-": "t_open_air_rooved" }
+      "terrain": { "#": "t_wall_w", "o": "t_wall_glass", "-": "t_open_air_rooved" }
     }
   },
   {
@@ -280,6 +272,7 @@
       "palettes": [ "roof_palette" ],
       "terrain": {
         ".": "t_floor",
+        "f": "t_floor",
         "x": "t_rock_wall_half",
         "w": "t_rock_wall",
         "+": "t_door_locked",
@@ -287,11 +280,10 @@
         "B": "t_window_stained_blue",
         "_": "t_rock_floor_no_roof",
         "U": "t_rock_floor_no_roof",
-        ">": "t_stairs_down",
         "<": "t_stairs_up",
         "G": "t_window_stained_green"
       },
-      "furniture": { "d": "f_desk", "H": "f_bookcase", "c": "f_armchair", "b": "f_bench", "h": "f_chair", "f": "f_filing_cabinet" },
+      "furniture": { "d": "f_desk", "H": "f_bookcase", "c": "f_armchair", "h": "f_chair", "f": "f_filing_cabinet" },
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 50 },
         "H": { "item": "religious_books", "chance": 50, "repeat": [ 1, 4 ] },
@@ -350,17 +342,14 @@
         "D": "t_window_domestic",
         "B": "t_window_stained_blue",
         "_": "t_flat_roof",
-        ">": "t_stairs_down",
         "G": "t_window_stained_green"
       },
       "furniture": {
-        "d": "f_desk",
         "H": "f_bookcase",
         "K": "f_wardrobe",
         "m": "f_armchair",
         "j": "f_bed",
         "h": "f_chair",
-        "f": "f_filing_cabinet",
         "1": "f_cupboard",
         "6": "f_cupboard",
         "7": "f_cupboard"

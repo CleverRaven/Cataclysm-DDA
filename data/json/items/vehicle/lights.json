@@ -11,7 +11,8 @@
     "weight": "1000 g",
     "volume": "1 L",
     "price": 3000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "motorcycle_headlight",

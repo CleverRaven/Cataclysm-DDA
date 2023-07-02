@@ -202,8 +202,8 @@
   },
   {
     "type": "item_action",
-    "id": "countdown",
-    "name": { "str": "Start countdown" }
+    "id": "message",
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -309,21 +309,6 @@
     "type": "item_action",
     "id": "C4",
     "name": { "str": "Activate" }
-  },
-  {
-    "type": "item_action",
-    "id": "CABLE_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "CORD_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "TOW_ATTACH",
-    "name": { "str": "Attach" }
   },
   {
     "type": "item_action",
@@ -483,6 +468,11 @@
   {
     "type": "item_action",
     "id": "EXTINGUISHER",
+    "name": { "str": "Spray" }
+  },
+  {
+    "type": "item_action",
+    "id": "MACE",
     "name": { "str": "Spray" }
   },
   {
@@ -989,6 +979,11 @@
     "type": "item_action",
     "id": "heal",
     "name": { "str": "Apply to wound" }
+  },
+  {
+    "type": "item_action",
+    "id": "link_up",
+    "name": { "str": "Attach / Detach" }
   },
   {
     "type": "item_action",

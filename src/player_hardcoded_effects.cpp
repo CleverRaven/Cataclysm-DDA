@@ -66,8 +66,6 @@ static const efftype_id effect_evil( "evil" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_frostbite( "frostbite" );
 static const efftype_id effect_fungus( "fungus" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
@@ -1418,20 +1416,6 @@ void Character::hardcoded_effects( effect &it )
         // effects: reduces effective redcells regen and depletes redcells at high intensity
         if( calendar::once_every( vitamin_rate( vitamin_redcells ) ) ) {
             vitamin_mod( vitamin_redcells, -rng( 0, intense ) );
-        }
-    } else if( id == effect_grabbed ) {
-        set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
-        int zed_number = 0;
-        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->has_effect( effect_grabbing ) ) {
-                zed_number += mon->get_grab_strength();
-            }
-        }
-        if( zed_number > 0 ) {
-            //If intensity isn't pass the cap, average it with # of zeds
-            schedule_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
-                             ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;
