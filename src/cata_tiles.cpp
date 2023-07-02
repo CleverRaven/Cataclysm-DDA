@@ -204,8 +204,6 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer
 
     tile_height = 0;
     tile_width = 0;
-    tile_ratiox = 0;
-    tile_ratioy = 0;
 
     in_animation = false;
     do_draw_explosion = false;
@@ -602,12 +600,17 @@ void tileset_cache::loader::load_tileset( const cata_path &img_path, const bool 
 void cata_tiles::set_draw_scale( int scale )
 {
     cata_assert( tileset_ptr );
-    tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
-    tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
+    const int mult = tileset_ptr->get_tile_pixelscale() * scale;
+    const int div = 16;
+    tile_width = tileset_ptr->get_tile_width() * mult / div;
+    tile_height = tileset_ptr->get_tile_height() * mult / div;
+    max_tile_extent = tileset_ptr->get_max_tile_extent();
+    // Rounding down because the extent may be negative
+    max_tile_extent.p_min.x = divide_round_down( max_tile_extent.p_min.x * mult, div );
+    max_tile_extent.p_min.y = divide_round_down( max_tile_extent.p_min.y * mult, div );
+    max_tile_extent.p_max.x = divide_round_down( max_tile_extent.p_max.x * mult, div );
+    max_tile_extent.p_max.y = divide_round_down( max_tile_extent.p_max.y * mult, div );
     zlevel_height = tileset_ptr->get_zlevel_height();
-
-    tile_ratiox = ( static_cast<float>( tile_width ) / static_cast<float>( fontwidth ) );
-    tile_ratioy = ( static_cast<float>( tile_height ) / static_cast<float>( fontheight ) );
 }
 
 void tileset_cache::loader::load( const std::string &tileset_id, const bool precheck,
@@ -667,6 +670,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     for( const JsonObject curr_info : config.get_array( "tile_info" ) ) {
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
+        ts.max_tile_extent = half_open_rectangle<point>( point_zero, { ts.tile_width, ts.tile_height } );
         ts.zlevel_height = curr_info.get_int( "zlevel_height", 0 );
         ts.tile_isometric = curr_info.get_bool( "iso", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
@@ -800,6 +804,20 @@ void tileset_cache::loader::load_internal( const JsonObject &config,
             sprite_offset_retracted.x = tile_part_def.get_int( "sprite_offset_x_retracted", sprite_offset.x );
             sprite_offset_retracted.y = tile_part_def.get_int( "sprite_offset_y_retracted", sprite_offset.y );
             sprite_pixelscale = tile_part_def.get_float( "pixelscale", 1.0 );
+            // Update maximum tile extent
+            ts.max_tile_extent = half_open_rectangle<point> {
+                {
+                    std::min( ts.max_tile_extent.p_min.x,
+                              std::min( sprite_offset.x, sprite_offset_retracted.x ) ),
+                    std::min( ts.max_tile_extent.p_min.y,
+                              std::min( sprite_offset.y, sprite_offset_retracted.y ) ),
+                }, {
+                    std::max( ts.max_tile_extent.p_max.x,
+                              sprite_width + std::max( sprite_offset.x, sprite_offset_retracted.x ) ),
+                    std::max( ts.max_tile_extent.p_max.y,
+                              sprite_height + std::max( sprite_offset.y, sprite_offset_retracted.y ) ),
+                }
+            };
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
             load_tileset( tileset_image_path, pump_events );
@@ -1293,7 +1311,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
-    const point s = get_window_tile_counts( point( width, height ) );
+    const point s = get_window_base_tile_counts( point( width, height ) );
 
     init_light();
     map &here = get_map();
@@ -1305,10 +1323,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     screentile_width = s.x;
     screentile_height = s.y;
 
-    const int min_col = 0;
-    const int max_col = s.x;
-    const int min_row = 0;
-    const int max_row = s.y;
+    const half_open_rectangle<point> any_tile_range = get_window_any_tile_range( { width, height } );
+    const int min_col = any_tile_range.p_min.x;
+    const int max_col = any_tile_range.p_max.x;
+    const int min_row = any_tile_range.p_min.y;
+    const int max_row = any_tile_range.p_max.y;
 
     avatar &you = get_avatar();
     //limit the render area to maximum view range (121x121 square centered on player)
@@ -1420,7 +1439,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     // Disable multi z-level display on isometric tilesets until height_3d issues resolved
     const int max_draw_depth = fov_3d_z_range;
     for( int row = min_row; row < max_row; row ++ ) {
-        draw_points[row].reserve( max_col );
+        draw_points[row].reserve( std::max( 0, max_col - min_col ) );
         for( int col = min_col; col < max_col; col ++ ) {
             const std::optional<point> temp = tile_to_player( { col, row } );
             if( !temp.has_value() ) {
@@ -1891,7 +1910,7 @@ void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int wi
     minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
 }
 
-point cata_tiles::get_window_tile_counts( const point &size ) const
+point cata_tiles::get_window_base_tile_counts( const point &size ) const
 {
     if( is_isometric() ) {
         //  |---sx---|
@@ -1905,8 +1924,8 @@ point cata_tiles::get_window_tile_counts( const point &size ) const
         //  /\/\/\/\6\ --
         //
         // The rhombuses above represent the basic tiles excluding any extra
-        // pixels for representation of the z direction. `w = tile_width / 2` is
-        // half basic tile width and `h = tile_width / 4` is half basic tile
+        // pixel that represents things in the z direction. `w = tile_width / 2`
+        // is half basic tile width and `h = tile_width / 4` is half basic tile
         // height. `tile_height` is unrelated to and can be large than the basic
         // tile height `tile_width / 2`.
         //
@@ -1916,8 +1935,8 @@ point cata_tiles::get_window_tile_counts( const point &size ) const
         // represent the z direction because they will be occluded by sprites in
         // the next row and occlude sprites in the previous row.
         //
-        // Currently, only the area from (0, 0) to (tile_width, tile_width / 2)
-        // is considered when checking which tiles are on-screen, and the exact
+        // Only the area from (0, 0) to (tile_width, tile_width / 2) is
+        // considered when checking which tiles are on-screen, and the exact
         // position of pixels is disregarded. The numbers in the figure above
         // denote the first to the last drawn cells in the vertical direction.
         // Therefore, we can see that,
@@ -1930,21 +1949,49 @@ point cata_tiles::get_window_tile_counts( const point &size ) const
         const int rows = divide_round_up( size.y * 4, tile_width ) + 1;
         return point( columns, rows );
     } else {
-        // Currently, only the area from (0, 0) to (tile_width, tile_height)
-        // is considered when checking which tiles are on-screen.
+        // Only the area from (0, 0) to (tile_width, tile_height) is considered
+        // when checking which tiles are on-screen.
         const int columns = divide_round_up( size.x, tile_width );
         const int rows = divide_round_up( size.y, tile_height );
         return point( columns, rows );
     }
 }
 
-point cata_tiles::get_window_full_tile_counts( const point &size ) const
+half_open_rectangle<point> cata_tiles::get_window_any_tile_range( const point &size ) const
+{
+    // (following comments in get_window_base_tile_counts)
+    //
+    // Based on the maximum tile extent, these ensure that any tile that can be
+    // possibly on screen is included in the range.
+    if( is_isometric() ) {
+        const int col_beg = divide_round_down( ( tile_width - max_tile_extent.p_max.x ) * 2, tile_width );
+        const int col_end = divide_round_up( ( size.x - max_tile_extent.p_min.x ) * 2, tile_width ) + 1;
+        const int row_beg = divide_round_down( ( tile_height - max_tile_extent.p_max.y ) * 4, tile_width );
+        // The difference between the default sprite height `tile_height` and
+        // base tile height `tile_width / 2` should be added to the tile extent
+        // here. Because `player_to_screen` shifts the sprite up by this extra
+        // height, it means this extra height should be subtracted from the
+        // minimum extent.
+        // (sy - miny + th - tw / 2) / (tw / 4) + 1 =>
+        const int row_end = divide_round_up( ( size.y - max_tile_extent.p_min.y + tile_height ) * 4,
+                                             tile_width ) - 1;
+        return { { col_beg, row_beg }, { col_end, row_end } };
+    } else {
+        const int col_beg = divide_round_down( tile_width - max_tile_extent.p_max.x, tile_width );
+        const int col_end = divide_round_up( size.x - max_tile_extent.p_min.x, tile_width );
+        const int row_beg = divide_round_down( tile_height - max_tile_extent.p_max.y, tile_height );
+        const int row_end = divide_round_up( size.y - max_tile_extent.p_min.y, tile_height );
+        return { { col_beg, row_beg }, { col_end, row_end } };
+    }
+}
+
+half_open_rectangle<point> cata_tiles::get_window_full_base_tile_range( const point &size ) const
 {
     if( is_isometric() ) {
-        // (following comments in get_window_tile_counts)
+        // (following comments in get_window_base_tile_counts)
         //
-        // Currently, only the area from (0, 0) to (tile_width, tile_width / 2)
-        // is considered when checking which tiles are fully on-screen, and the
+        // Only the area from (0, 0) to (tile_width, tile_width / 2) is
+        // considered when checking which tiles are fully on-screen, and the
         // exact position of pixels is disregarded. In the figure above, as
         // opposed to 1-6, only 2-5 are fully shown on-screen. Therefore, we can
         // see that,
@@ -1955,20 +2002,20 @@ point cata_tiles::get_window_full_tile_counts( const point &size ) const
         // \/
         const int columns = divide_round_down( size.x * 2, tile_width ) - 1;
         const int rows = divide_round_down( size.y * 4, tile_width ) - 1;
-        return point( columns, rows );
+        return { { 1, 1 }, { columns + 1, rows + 1 } };
     } else {
-        // Currently, only the area from (0, 0) to (tile_width, tile_height)
-        // is considered when checking which tiles are fully on-screen.
+        // Only the area from (0, 0) to (tile_width, tile_height) is considered
+        // when checking which tiles are fully on-screen.
         const int columns = divide_round_down( size.x, tile_width );
         const int rows = divide_round_down( size.y, tile_height );
-        return point( columns, rows );
+        return { point_zero, { columns, rows } };
     }
 }
 
 std::optional<point> cata_tiles::tile_to_player( const point &colrow ) const
 {
     if( is_isometric() ) {
-        // (following comments in get_window_tile_counts)
+        // (following comments in get_window_base_tile_counts)
         //
         // Based on the screen tile pattern, the player position can be calculated
         // from the column and row numbers as follows
@@ -2010,7 +2057,7 @@ point cata_tiles::player_to_screen( const point &pos ) const
     const point colrow = player_to_tile( pos );
     if( is_isometric() ) {
         // To ensure the first fully drawn basic tile (col or row = 1, according
-        // to the definition in get_window_full_tile_counts) starts at 0,
+        // to the definition in get_window_full_base_tile_range) starts at 0,
         //
         // left = ( col - 1 ) * ( tw / 2.0 ) + op.x =>
         const int scrx = divide_round_down( ( colrow.x - 1 ) * tile_width, 2 ) + op.x;
@@ -2814,9 +2861,11 @@ bool cata_tiles::draw_sprite_at(
                                    + ( ( tile.offset_retracted - tile.offset ) * retract ) / 100
                                  );
     SDL_Rect destination;
-    destination.x = p.x + ( tile_offset.x + offset.x ) * tile_width / tileset_ptr->get_tile_width();
-    destination.y = p.y + ( tile_offset.y + offset.y - height_3d ) *
-                    tile_width / tileset_ptr->get_tile_width();
+    // Using divide_round_down because the offset might be negative.
+    destination.x = p.x + divide_round_down( ( tile_offset.x + offset.x ) * tile_width,
+                    tileset_ptr->get_tile_width() );
+    destination.y = p.y + divide_round_down( ( tile_offset.y + offset.y - height_3d ) * tile_width,
+                    tileset_ptr->get_tile_width() );
     destination.w = width * tile_width * tile.pixelscale / tileset_ptr->get_tile_width();
     destination.h = height * tile_height * tile.pixelscale / tileset_ptr->get_tile_height();
 
@@ -2999,7 +3048,7 @@ void cata_tiles::draw_square_below( const point &p, const nc_color &col, const i
     SDL_Rect sdlrect;
     const point screen = player_to_screen( p );
     if( is_isometric() ) {
-        // See comments in get_window_tile_counts for an explanation of tile width and height
+        // See comments in get_window_base_tile_counts for an explanation of tile width and height
         // tw / sizefactor * 3.0 / 4.0
         sdlrect.w = ( tile_width * 3 ) / ( sizefactor * 4 );
         if( tile_width % 2 != sdlrect.w % 2 ) {
@@ -4033,7 +4082,7 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
     const point screen = player_to_screen( p.xy() );
     SDL_Rect draw_rect;
     if( is_isometric() ) {
-        // See comments in get_window_tile_counts for an explanation of tile width
+        // See comments in get_window_base_tile_counts for an explanation of tile width
         // and height.
         //
         // Because different tilesets may have different tile shapes, we cannot

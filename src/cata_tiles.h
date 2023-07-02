@@ -14,6 +14,7 @@
 #include "animation.h"
 #include "cata_type_traits.h"
 #include "creature.h"
+#include "cuboid_rectangle.h"
 #include "enums.h"
 #include "lightmap.h"
 #include "line.h"
@@ -140,8 +141,12 @@ class tileset
         std::string tileset_id;
 
         bool tile_isometric = false;
+        // Unscaled default size of sprites. See cata_tiles::tile_(width|height)
+        // for more detail.
         int tile_width = 0;
         int tile_height = 0;
+        // The maximum extent of loaded sprites.
+        half_open_rectangle<point> max_tile_extent;
         int zlevel_height = 0;
 
         float prevent_occlusion_min_dist = 0.0;
@@ -186,6 +191,9 @@ class tileset
         }
         int get_tile_height() const {
             return tile_height;
+        }
+        const half_open_rectangle<point> &get_max_tile_extent() const {
+            return max_tile_extent;
         }
         int get_zlevel_height() const {
             return zlevel_height;
@@ -413,12 +421,17 @@ class cata_tiles
          ** or partially shown, but disregarding any extra contents outside the
          ** basic x range of [0, tile_width) and the basic y range of
          ** [0, tile_width / 2) (isometric) or [0, tile_height) (non-isometric) **/
-        point get_window_tile_counts( const point &size ) const;
-        /** How many rows and columns of tiles can be fully shown in the given
+        point get_window_base_tile_counts( const point &size ) const;
+        /** Coordinate range of tiles that fit into the given dimensions, fully
+         ** or partially shown, according to the maximum tile extent. May be
+         ** negative, and 0 corresponds to the first fully or partially shown
+         ** base tile as defined by get_window_base_tile_counts. **/
+        half_open_rectangle<point> get_window_any_tile_range( const point &size ) const;
+        /** Coordinate range of fully shown tiles that fit into the given
          ** dimensions, disregarding any extra contents outside the basic x
          ** range of [0, tile_width] and the basic y range of [0, tile_width / 2)
          ** (isometric) or [0, tile_height) (non-isometric) **/
-        point get_window_full_tile_counts( const point &size ) const;
+        half_open_rectangle<point> get_window_full_base_tile_range( const point &size ) const;
 
         std::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
@@ -658,11 +671,8 @@ class cata_tiles
         int get_tile_width() const {
             return tile_width;
         }
-        float get_tile_ratiox() const {
-            return tile_ratiox;
-        }
-        float get_tile_ratioy() const {
-            return tile_ratioy;
+        const half_open_rectangle<point> get_max_tile_extent() const {
+            return max_tile_extent;
         }
         void do_tile_loading_report();
         std::optional<point> tile_to_player( const point &colrow ) const;
@@ -711,12 +721,13 @@ class cata_tiles
         // `tile_width / 2`, and `tile_height` is only the default sprite height.
         int tile_height = 0;
         int tile_width = 0;
+        // The scaled maximum extent of loaded sprites.
+        half_open_rectangle<point> max_tile_extent;
         int zlevel_height = 0;
         // The number of visible tiles in a row or column
+        // (see get_window_base_tile_counts for detail).
         int screentile_width = 0;
         int screentile_height = 0;
-        float tile_ratiox = 0.0f;
-        float tile_ratioy = 0.0f;
 
         int fog_alpha = 0;
 
