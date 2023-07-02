@@ -4820,7 +4820,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_dock_moving",
+    "id": "constr_dock_moving",/
     "group": "build_river_dock_shallow_bridge",
     "//": "Set up dock",
     "category": "CONSTRUCT",
