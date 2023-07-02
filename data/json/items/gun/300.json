@@ -126,7 +126,6 @@
     "default_mods": [ "match_trigger", "high_end_folding_stock", "muzzle_brake" ],
     "barrel_volume": "456 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
