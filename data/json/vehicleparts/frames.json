@@ -154,6 +154,8 @@
     "item": "frame_wood_deck",
     "looks_like": "frame_wood",
     "folded_volume": "2500 ml",
+    "folding_time": "0 seconds",
+    "unfolding_time": "0 seconds",
     "categories": [ "hull" ],
     "durability": 100,
     "description": "A light wooden decking.  Other skateboard components can be mounted on it.",
