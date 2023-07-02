@@ -346,6 +346,23 @@
     "name": { "str_sp": "fry" }
   },
   {
+    "id": "mon_fish_whitefish_round",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "round whitefish" },
+    "description": "A round whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
+    "volume": "850 ml",
+    "weight": "355 g",
+    "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_whitefish_round",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_whitefish_round" },
+    "name": { "str_sp": "fry" }
+  },
+  {
     "id": "mon_fish_lbass",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
@@ -678,6 +695,23 @@
     "name": { "str_sp": "fry" }
   },
   {
+    "id": "mon_fish_pickerel_american",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "american pickerel" },
+    "description": "An american pickerel.  It looks like a pike, but way smaller.",
+    "volume": "170 ml",
+    "weight": "200 g",
+    "reproduction": { "baby_egg": "egg_pickerel_american", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_pickerel_american",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_pickerel_american" },
+    "name": { "str_sp": "fry" }
+  },
+  {
     "id": "mon_fish_muskellunge",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
@@ -746,6 +780,23 @@
     "type": "MONSTER",
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_grass_carp" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_goldfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str_sp": "goldfish" },
+    "description": "A golden-yellow common carp.  Some people think they don't taste great, but you can't afford to be choosy in the Cataclysm.",
+    "volume": "570 ml",
+    "weight": "300 g",
+    "reproduction": { "baby_egg": "egg_goldfish", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_goldfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_goldfish" },
     "name": { "str_sp": "fry" }
   },
   {
