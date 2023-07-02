@@ -31,6 +31,7 @@
     "blackpowder_tolerance": 40,
     "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -78,6 +79,7 @@
     "blackpowder_tolerance": 40,
     "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
+      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
