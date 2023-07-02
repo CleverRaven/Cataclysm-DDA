@@ -396,6 +396,7 @@
       { "item": "oil_lamp", "prob": 5, "charges-min": 0 },
       { "item": "lamp_oil", "prob": 5, "charges-min": 0 },
       [ "folded_bicycle", 1 ],
+      [ "folded_skateboard_generic", 1 ],
       [ "coat_rain", 10 ],
       [ "hood_rain", 5 ],
       [ "rubber_harness_dog", 3 ],
