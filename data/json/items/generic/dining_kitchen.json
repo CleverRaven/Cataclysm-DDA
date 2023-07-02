@@ -330,22 +330,26 @@
     "type": "GENERIC",
     "category": "container",
     "id": "wine_glass",
-    "volume": "262 ml",
+    "volume": "420 ml",
+    "weight": "130 g",
+    "longest_side": "20 cm",
+    "price": "13 USD",
     "name": { "str": "wine glass", "str_pl": "wine glasses" },
-    "proportional": { "weight": 0.5 },
     "symbol": "Y",
     "description": "A stemmed drinking glass that makes you feel very fancy when you drink from it.",
     "copy-from": "base_glass_dish",
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "500 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "//": "Based on https://www.amazon.com/ADERIA-8612-Glass-IPT-Plaisir-Japan/dp/B01M4OEU65/ref=sr_1_5?crid=K7O7AHRUN33T&keywords=250ml%2Bwine%2Bglass&qid=1688217534&sprefix=250ml%2Bwine%2Bglass%2Caps%2C426&sr=8-5&th=1"
   },
   {
     "type": "GENERIC",
@@ -738,7 +742,13 @@
     "name": { "str": "can opener" },
     "description": "A tool for opening cans that lack pull-tabs.  Now that you think about it, you haven't seen any of those around lately.",
     "looks_like": "hand_crank_charger",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "price": "9 USD",
+    "weight": "204 g",
+    "volume": "364 ml",
+    "longest_side": "21 cm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/AmazonCommercial-Stainless-Steel-Can-Opener/dp/B087MSWH65/ref=sr_1_36?crid=15C7UP9YX6W0E&keywords=can+opener&qid=1688240425&sprefix=can+opener%2Caps%2C610&sr=8-36 with the volume multiplied by 0.85 - otherwise the volume is way higher than it should be since Amazon lists package volume"
   },
   {
     "type": "GENERIC",
@@ -971,14 +981,15 @@
     "copy-from": "base_cookpot",
     "material": [ "iron" ],
     "color": "dark_gray",
-    "weight": "2628 g",
-    "volume": "1335 ml",
-    "longest_side": "36 cm",
-    "to_hit": -3,
+    "weight": "2427 g",
+    "volume": "2940 ml",
+    "longest_side": "41 cm",
+    "price": "20 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -986,7 +997,8 @@
     ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] },
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "//": "Based on https://www.amazon.com/Lodge-Skillet-Pre-Seasoned-Ready-Stove/dp/B00006JSUA/ref=sr_1_5?crid=SPLV6RIP18RL&keywords=cast%2Biron%2Bfrying%2Bpan&qid=1688243417&sprefix=cast%2Biron%2Bfrying%2Bp%2Caps%2C491&sr=8-5&th=1 BUT volume calculated as a cylinder - 2 inches height x 10.68 inches diameter"
   },
   {
     "type": "GENERIC",

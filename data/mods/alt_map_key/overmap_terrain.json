@@ -1431,35 +1431,143 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "motel_entrance",
-    "copy-from": "motel_entrance",
+    "abstract": "generic_motel",
+    "copy-from": "generic_motel",
     "name": "motel",
-    "sym": "M",
+    "sym": "m",
     "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_entrance",
+    "copy-from": "generic_motel",
+    "sym": "M"
   },
   {
     "type": "overmap_terrain",
     "id": "motel_1",
-    "copy-from": "motel_1",
-    "name": "motel",
-    "sym": "m",
-    "color": "i_light_green"
+    "copy-from": "generic_motel"
   },
   {
     "type": "overmap_terrain",
     "id": "motel_2",
-    "copy-from": "motel_2",
-    "name": "motel",
-    "sym": "m",
-    "color": "i_light_green"
+    "copy-from": "generic_motel"
   },
   {
     "type": "overmap_terrain",
     "id": "motel_3",
-    "copy-from": "motel_3",
-    "name": "motel",
-    "sym": "m",
-    "color": "i_light_green"
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_1",
+    "copy-from": "generic_motel",
+    "sym": "M"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_entrance_no_sidewalk",
+    "copy-from": "generic_motel",
+    "sym": "M"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_1_f1",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_1_no_sidewalk",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_2_no_sidewalk",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_3_no_sidewalk",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_entrance_f2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_1_f2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_2_f2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_3_f2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_2_f1",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_1_f2",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_entrance_roof",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_1_roof",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_2_roof",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_3_roof",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_1_r",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_2_r",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_3_r",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
   },
   {
     "type": "overmap_terrain",
