@@ -1904,18 +1904,21 @@ point cata_tiles::get_window_tile_counts( const point &size ) const
         //  \/\/\/\5\/  |
         //  /\/\/\/\6\ --
         //
-        // `w = tile_width / 2` is half tile width and `h = tile_width / 4` is
-        // half tile height. `tile_height` is the maximum sprite height and can
-        // be larger than the basic tile height `tile_width / 2`.
+        // The rhombuses above represent the basic tiles excluding any extra
+        // pixels for representation of the z direction. `w = tile_width / 2` is
+        // half basic tile width and `h = tile_width / 4` is half basic tile
+        // height. `tile_height` is unrelated to and can be large than the basic
+        // tile height `tile_width / 2`.
         //
         // There is no strict requirement about the exact position of pixels
-        // in a sprite, except that the tiles should be able to densely tile the
-        // screen area, and any extra pixels should not be occluded by the basic
-        // pixels of the sprites of the next row.
+        // in a sprite, except that the basic tiles should be able to densely
+        // tile the screen area, and any extra pixels should only be used to
+        // represent the z direction because they will be occluded by sprites in
+        // the next row and occlude sprites in the previous row.
         //
         // Currently, only the area from (0, 0) to (tile_width, tile_width / 2)
         // is considered when checking which tiles are on-screen, and the exact
-        // position of pixels are disregarded. The numbers in the figure above
+        // position of pixels is disregarded. The numbers in the figure above
         // denote the first to the last drawn cells in the vertical direction.
         // Therefore, we can see that,
         //
@@ -1940,9 +1943,9 @@ point cata_tiles::get_window_full_tile_counts( const point &size ) const
     if( is_isometric() ) {
         // (following comments in get_window_tile_counts)
         //
-        // Currently, the area from (0, 0) to (tile_width, tile_width / 2) is
-        // considered when checking which tiles are fully on-screen, and the
-        // exact position of pixels are disregarded. In the figure above, as
+        // Currently, only the area from (0, 0) to (tile_width, tile_width / 2)
+        // is considered when checking which tiles are fully on-screen, and the
+        // exact position of pixels is disregarded. In the figure above, as
         // opposed to 1-6, only 2-5 are fully shown on-screen. Therefore, we can
         // see that,
         //
@@ -2006,12 +2009,14 @@ point cata_tiles::player_to_screen( const point &pos ) const
 {
     const point colrow = player_to_tile( pos );
     if( is_isometric() ) {
-        // To ensure the first 'fully' drawn tile (col or row = 1, according to
-        // the definition in get_window_full_tile_counts) starts at 0,
+        // To ensure the first fully drawn basic tile (col or row = 1, according
+        // to the definition in get_window_full_tile_counts) starts at 0,
         //
-        // tile left = ( col - 1 ) * ( tw / 2.0 ) + op.x =>
+        // left = ( col - 1 ) * ( tw / 2.0 ) + op.x =>
         const int scrx = divide_round_down( ( colrow.x - 1 ) * tile_width, 2 ) + op.x;
-        // tile top = ( row - 1 ) * ( tw / 4.0 ) - th + tw / 2.0 + op.y =>
+        // top = ( row - 1 ) * ( tw / 4.0 ) - th + tw / 2.0 + op.y =>
+        // (shifted so that sprites with default height end at the basic height
+        // of `tile_width / 4`)
         const int scry = divide_round_down( ( colrow.y + 1 ) * tile_width, 4 ) - tile_height + op.y;
         return { scrx, scry };
     } else {
@@ -2994,7 +2999,7 @@ void cata_tiles::draw_square_below( const point &p, const nc_color &col, const i
     SDL_Rect sdlrect;
     const point screen = player_to_screen( p );
     if( is_isometric() ) {
-        // See comments in get_window_tile_counts for an explanation of tile width
+        // See comments in get_window_tile_counts for an explanation of tile width and height
         // tw / sizefactor * 3.0 / 4.0
         sdlrect.w = ( tile_width * 3 ) / ( sizefactor * 4 );
         if( tile_width % 2 != sdlrect.w % 2 ) {
@@ -3008,6 +3013,7 @@ void cata_tiles::draw_square_below( const point &p, const nc_color &col, const i
         // scrx + (tw - rectw) / 2.0
         sdlrect.x = screen.x + divide_round_down( tile_width - sdlrect.w, 2 );
         // scry + th - tw / 2.0 + (tw / 2.0 - recth) / 2.0
+        // Adding th and subtracting tw/2 here to cancel out the shifting in player_to_screen.
         sdlrect.y = screen.y + tile_height + divide_round_down( -tile_width - sdlrect.h * 2, 4 );
     } else {
         sdlrect.w = tile_width / sizefactor;
@@ -4028,6 +4034,7 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
     SDL_Rect draw_rect;
     if( is_isometric() ) {
         // See comments in get_window_tile_counts for an explanation of tile width
+        // and height.
         //
         // Because different tilesets may have different tile shapes, we cannot
         // draw a tile that fits every tileset, so this only acts as a placeholder
@@ -4035,12 +4042,12 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
         // sprites.
         draw_rect.x = screen.x;
         // scry
-        // + th - tw / 2.0   /* shift considering the maximum tile height */
+        // + th - tw / 2.0   /* cancel out the shifting in player_to_screen */
         // - height_3d
-        // + tw / 8.0        /* shift 1/4 of normal height to avoid overlap */
+        // + tw / 8.0        /* shift 1/4 of normal height to avoid overlap among overlays */
         draw_rect.y = screen.y + tile_height - tile_width * 3 / 8 - height_3d;
         draw_rect.w = tile_width;
-        // Make the tile half the normal height to avoid overlap
+        // Make the tile half the normal height to avoid overlap among overlays
         draw_rect.h = tile_width / 4;
     } else {
         draw_rect.x = screen.x;

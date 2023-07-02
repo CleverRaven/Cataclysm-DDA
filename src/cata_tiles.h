@@ -409,9 +409,15 @@ class cata_tiles
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
 
     protected:
-        /** How many rows and columns of tiles fit into given dimensions, fully or partially shown **/
+        /** How many rows and columns of tiles fit into given dimensions, fully
+         ** or partially shown, but disregarding any extra contents outside the
+         ** basic x range of [0, tile_width) and the basic y range of
+         ** [0, tile_width / 2) (isometric) or [0, tile_height) (non-isometric) **/
         point get_window_tile_counts( const point &size ) const;
-        /** How many rows and columns of tiles can be fully shown in the given dimensions **/
+        /** How many rows and columns of tiles can be fully shown in the given
+         ** dimensions, disregarding any extra contents outside the basic x
+         ** range of [0, tile_width] and the basic y range of [0, tile_width / 2)
+         ** (isometric) or [0, tile_height) (non-isometric) **/
         point get_window_full_tile_counts( const point &size ) const;
 
         std::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
@@ -699,6 +705,10 @@ class cata_tiles
         tileset_cache &cache;
         std::shared_ptr<const tileset> tileset_ptr;
 
+        // the scaled default sprite width and height. in non-isometric mode,
+        // the basic tile width and height equal the default sprite width and
+        // height, but in isometric mode, the basic tile height is always
+        // `tile_width / 2`, and `tile_height` is only the default sprite height.
         int tile_height = 0;
         int tile_width = 0;
         int zlevel_height = 0;
