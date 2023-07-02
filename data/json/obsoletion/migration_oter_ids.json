@@ -39,6 +39,11 @@
   {
     "type": "oter_id_migration",
     "//": "migrated in 0.H",
+    "oter_ids": { "crater_core": "crater_core_large" }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
     "oter_ids": {
       "2fmotel_1_north": "motel_1_north",
       "2fmotel_1_east": "motel_1_east",
