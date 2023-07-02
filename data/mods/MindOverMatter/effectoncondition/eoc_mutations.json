@@ -306,8 +306,7 @@
         },
         {
           "case": 21,
-          "effect": 
-          [
+          "effect": [
             { "u_add_trait": "TELEKINETIC_LIFTER_20" },
             { "u_lose_trait": "TELEKINETIC_LIFTER_19" },
             { "u_lose_trait": "TELEKINETIC_LIFTER_18" },
