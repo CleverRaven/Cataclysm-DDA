@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_empath",
+    "id": "EOC_TELEKINETIC_SWAPPER",
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "u_has_trait": "TELEKINETIC_CARRY" } ] },
