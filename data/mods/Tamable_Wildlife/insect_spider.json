@@ -564,9 +564,9 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_spider_wolf_s",
+    "id": "mon_spider_wolf_giant_s",
     "type": "MONSTER",
-    "copy-from": "mon_spider_wolf_s",
+    "copy-from": "mon_spider_wolf_giant_s",
     "name": { "str": "wolf spiderling" },
     "petfood": {
       "food": [ "BUGFOOD" ],
