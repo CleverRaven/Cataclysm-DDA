@@ -491,9 +491,9 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_spider_web_giant",
+    "id": "mon_spider_web",
     "type": "MONSTER",
-    "copy-from": "mon_spider_web_giant",
+    "copy-from": "mon_spider_web",
     "name": { "str": "giant web spider" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -531,9 +531,9 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_spider_widow_s",
+    "id": "mon_spider_widow_giant_s",
     "type": "MONSTER",
-    "copy-from": "mon_spider_widow_s",
+    "copy-from": "mon_spider_widow_giant_s",
     "name": { "str": "black widow spiderling" },
     "petfood": {
       "food": [ "BUGFOOD" ],
