@@ -1,0 +1,115 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_controls_room_construction",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_construction_wall_tile" ], "x": 19, "y": 15 },
+        { "chunks": [ "fbmc_construction_wall_tile" ], "x": 16, "y": 16 },
+        { "chunks": [ "fbmc_construction_wall_tile" ], "x": 17, "y": 16 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_radio_tower_construction_shack",
+    "object": {
+      "parameters": {
+        "fbmc_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbmc_concrete_palette",
+              "fbmc_log_palette",
+              "fbmc_metal_palette",
+              "fbmc_migo_resin_palette",
+              "fbmc_rammed_earth_palette",
+              "fbmc_rock_palette",
+              "fbmc_wad_palette",
+              "fbmc_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwwwww",
+        "w....w",
+        "w....w",
+        "w....w",
+        "w ...w",
+        "ww+vww"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbmc_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_construction_shack_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_radio_tower_construction_shack" ], "x": 10, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_construction_shack_1",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_construction_shack_south" ], "x": 16, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_construction_shack_2",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_construction_wall_vertical" ], "x": 1, "y": 15 },
+        { "chunks": [ "fbmc_construction_shack_north" ], "x": 2, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_construction_shack_3",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_construction_shack_north" ], "x": 7, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_construction_shack_4",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_construction_shack_north" ], "x": 12, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_construction_shack_5",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_construction_shack_north" ], "x": 17, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_construction_shack_6",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_construction_shack_west" ], "x": 14, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_construction_shack_7",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_construction_wall_horizontal" ], "x": 3, "y": 10 },
+        { "chunks": [ "fbmc_construction_shack_east" ], "x": 3, "y": 11 }
+      ],
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": 9, "y": 13 }, { "point": "terrain", "id": "t_dirt", "x": 11, "y": 16 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_construction_shack_8",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_construction_shack_east" ], "x": 3, "y": 16 } ] }
+  }
+]

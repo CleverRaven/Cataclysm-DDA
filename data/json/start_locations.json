@@ -486,7 +486,11 @@
     "type": "start_location",
     "id": "sloc_school",
     "name": "School",
-    "terrain": [ { "om_terrain": "school", "om_terrain_match_type": "CONTAINS" } ]
+    "terrain": [
+      { "om_terrain": "school_1", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "school_2", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "school_3", "om_terrain_match_type": "PREFIX" }
+    ]
   },
   {
     "type": "start_location",

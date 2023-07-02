@@ -17,6 +17,7 @@
     "aggression": 100,
     "morale": 100,
     "vision_night": 3,
+    "weakpoint_sets": [ "wps_turret" ],
     "revert_to_itype": "bot_turret",
     "starting_ammo": { "9mm": 30 },
     "special_attacks": [
@@ -42,8 +43,8 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO", "STUN_IMMUNE" ],
-    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ],
+    "armor": { "bash": 10, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
     "id": "mon_turret_searchlight",
@@ -62,6 +63,7 @@
     "color": "light_green",
     "aggression": 100,
     "morale": 100,
+    "weakpoint_sets": [ "wps_searchlight" ],
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "luminance": 4,
     "revert_to_itype": "bot_turret_searchlight",
@@ -72,8 +74,8 @@
       "message": "As the final light is destroyed, it erupts in a blinding flare!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS", "STUN_IMMUNE" ],
-    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
     "id": "mon_turret_bmg",
@@ -94,6 +96,7 @@
     "morale": 100,
     "vision_day": 50,
     "vision_night": 3,
+    "weakpoint_sets": [ "wps_turret" ],
     "revert_to_itype": "bot_antimateriel",
     "starting_ammo": { "50bmg": 400 },
     "special_attacks": [
@@ -129,10 +132,9 @@
       "NO_BREATHE",
       "DROPS_AMMO",
       "CONSOLE_DESPAWN",
-      "ID_CARD_DESPAWN",
-      "STUN_IMMUNE"
+      "ID_CARD_DESPAWN"
     ],
-    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
+    "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
     "id": "mon_turret_rifle",
@@ -153,6 +155,7 @@
     "morale": 100,
     "vision_day": 50,
     "vision_night": 3,
+    "weakpoint_sets": [ "wps_turret" ],
     "revert_to_itype": "bot_rifleturret",
     "starting_ammo": { "556": 1600 },
     "special_attacks": [
@@ -188,10 +191,9 @@
       "NO_BREATHE",
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
-      "CONSOLE_DESPAWN",
-      "STUN_IMMUNE"
+      "CONSOLE_DESPAWN"
     ],
-    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
+    "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
     "id": "mon_crows_m240",
@@ -212,6 +214,7 @@
     "morale": 100,
     "vision_day": 50,
     "vision_night": 3,
+    "weakpoint_sets": [ "wps_turret" ],
     "revert_to_itype": "bot_crows_m240",
     "starting_ammo": { "762_51": 1000 },
     "special_attacks": [
@@ -247,10 +250,9 @@
       "NO_BREATHE",
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
-      "CONSOLE_DESPAWN",
-      "STUN_IMMUNE"
+      "CONSOLE_DESPAWN"
     ],
-    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
+    "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
     "id": "mon_turret_riot",
@@ -273,6 +275,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "vision_day": 50,
     "vision_night": 3,
+    "weakpoint_sets": [ "wps_turret" ],
     "revert_to_itype": "bot_turret_riot",
     "starting_ammo": { "40x46mm_m1006": 6 },
     "special_attacks": [
@@ -298,18 +301,8 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [
-      "SEES",
-      "NOHEAD",
-      "ELECTRONIC",
-      "COLDPROOF",
-      "IMMOBILE",
-      "NO_BREATHE",
-      "DROPS_AMMO",
-      "ID_CARD_DESPAWN",
-      "STUN_IMMUNE"
-    ],
-    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO", "ID_CARD_DESPAWN" ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
     "id": "mon_turret_speaker",
@@ -335,8 +328,8 @@
     "special_attacks": [ [ "SPEAKER", 10 ] ],
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "turret_speaker", 1 ] ] },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "STUN_IMMUNE" ],
-    "armor": { "bash": 14, "cut": 16, "bullet": 14 }
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 14, "stab": 16 }
   },
   {
     "id": "mon_exodii_turret",
@@ -357,6 +350,7 @@
     "aggro_character": false,
     "vision_day": 50,
     "vision_night": 20,
+    "weakpoint_sets": [ "wps_turret" ],
     "luminance": 1,
     "starting_ammo": { "123ln": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
@@ -383,18 +377,8 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "NOHEAD",
-      "IMMOBILE",
-      "NO_BREATHE",
-      "PRIORITIZE_TARGETS",
-      "INTERIOR_AMMO",
-      "STUN_IMMUNE"
-    ],
-    "armor": { "bash": 24, "cut": 26 }
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS", "INTERIOR_AMMO" ],
+    "armor": { "bash": 24, "bullet": 24, "cut": 26, "stab": 26 }
   },
   {
     "id": "mon_turret_artisans",
@@ -408,7 +392,7 @@
     "aggression": -10,
     "aggro_character": false,
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "armor": { "bash": 25, "cut": 25, "bullet": 25 },
+    "armor": { "bash": 20, "cut": 22, "bullet": 20, "stab": 22 },
     "special_attacks": [
       {
         "type": "gun",
