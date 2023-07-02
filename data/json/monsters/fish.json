@@ -697,7 +697,7 @@
   {
     "id": "mon_fish_pickerel_american",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
+    "copy-from": "mon_fish_tiny",
     "name": { "str": "american pickerel" },
     "description": "An american pickerel.  It looks like a pike, but way smaller.",
     "volume": "170 ml",
@@ -785,7 +785,7 @@
   {
     "id": "mon_fish_goldfish",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
+    "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "goldfish" },
     "description": "A golden-yellow common carp.  Some people think they don't taste great, but you can't afford to be choosy in the Cataclysm.",
     "volume": "570 ml",
@@ -819,7 +819,7 @@
   {
     "id": "mon_fish_gar_longnose",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
+    "copy-from": "mon_fish_small",
     "name": { "str": "longnose gar" },
     "description": "A northern pike.  Pike can be pretty aggressive fish, careful around those teeth.",
     "volume": "4820 ml",
@@ -836,7 +836,7 @@
   {
     "id": "mon_fish_burbot",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
+    "copy-from": "mon_fish_tiny",
     "name": { "str": "burbot" },
     "description": "A bowfin.  These fish are related to gar but without the huge teeth, skin-rending scales, and aggression.",
     "volume": "1400 ml",
@@ -870,7 +870,7 @@
   {
     "id": "mon_fish_sturgeon_shortnose",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
+    "copy-from": "mon_fish_small",
     "name": { "str": "shortnose sturgeon" },
     "description": "A huge grass carp.  A golden, herbivorous fish.",
     "volume": "2720 ml",
