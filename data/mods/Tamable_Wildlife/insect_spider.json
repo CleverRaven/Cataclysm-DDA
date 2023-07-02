@@ -581,7 +581,6 @@
     "name": { "str": "necrowolf spider" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
-  
   {
     "id": "mon_centipede_small",
     "type": "MONSTER",
