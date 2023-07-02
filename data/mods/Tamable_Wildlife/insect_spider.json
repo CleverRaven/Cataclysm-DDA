@@ -396,7 +396,7 @@
     "type": "MONSTER",
     "copy-from": "mon_spider_jumping_mega",
     "name": { "str": "missile spider" },
-    "extend": { "flags": [ "CANPLAY" ] }
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_spider_jumping_giant_s",
@@ -447,7 +447,6 @@
     "id": "mon_spider_cellar_mega",
     "type": "MONSTER",
     "name": { "str": "warehouse spider" },
-    "name": { "str": "mommy long-legs", "str_pl": "mommy long legs" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
@@ -481,7 +480,7 @@
     "type": "MONSTER",
     "copy-from": "mon_spider_trapdoor_mega",
     "name": { "str": "deathtrap spider" },
-    "extend": { "flags": [ "CANPLAY" ] }
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_spider_web_small",
@@ -514,7 +513,7 @@
     "type": "MONSTER",
     "copy-from": "mon_spider_web_mega",
     "name": { "str": "wyrd spider" },
-    "extend": { "flags": [ "CANPLAY" ] }
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_spider_widow_small",
@@ -547,7 +546,7 @@
     "type": "MONSTER",
     "copy-from": "mon_spider_widow_mega",
     "name": { "str": "black death widow" },
-    "extend": { "flags": [ "CANPLAY" ] }
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_spider_wolf_small",
@@ -580,6 +579,47 @@
     "type": "MONSTER",
     "copy-from": "mon_spider_wolf_mega",
     "name": { "str": "necrowolf spider" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  
+  {
+    "id": "mon_centipede_small",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_small",
+    "name": { "str": "centipede" },
     "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_centipede_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_giant",
+    "name": { "str": "giant centipede" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_centipede_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_larva",
+    "name": { "str": "centipede larva", "str_pl": "centipede larvae" },
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_centipede_mom",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_mom",
+    "name": { "str": "centipede matriarch" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_centipede_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_mega",
+    "name": { "str": "armored centipede" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   }
 ]
