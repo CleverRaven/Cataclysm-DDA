@@ -531,7 +531,6 @@ class fireweapon_off_actor : public iuse_actor
     public:
         itype_id target_id;
         translation success_message = to_translation( "hsss" );
-        translation lacks_fuel_message;
         translation failure_message = to_translation( "hsss" ); // Due to bad roll
         int noise = 0; // If > 0 success message is a success sound instead
         int moves = 0;

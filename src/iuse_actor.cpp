@@ -1830,7 +1830,6 @@ void fireweapon_off_actor::load( const JsonObject &obj )
 {
     obj.read( "target_id", target_id, true );
     obj.read( "success_message", success_message );
-    obj.get_member( "lacks_fuel_message" ).read( lacks_fuel_message );
     obj.read( "failure_message", failure_message );
     noise               = obj.get_int( "noise", 0 );
     moves               = obj.get_int( "moves", 0 );
@@ -1846,11 +1845,6 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it, bool t,
         const tripoint & ) const
 {
     if( t ) {
-        return std::nullopt;
-    }
-
-    if( it.charges <= 0 ) {
-        p->add_msg_if_player( "%s", lacks_fuel_message );
         return std::nullopt;
     }
 
@@ -1874,7 +1868,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it, bool t,
 ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.ammo_sufficient( &p ) ) {
+    if( !it.ammo_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -1908,7 +1902,7 @@ std::optional<int> fireweapon_on_actor::use( Character *p, item &it, bool t,
         const tripoint & ) const
 {
     bool extinguish = true;
-    if( it.charges == 0 ) {
+    if( !it.ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_bad, "%s", charges_extinguish_message );
     } else if( p->is_underwater() ) {
         p->add_msg_if_player( m_bad, "%s", water_extinguish_message );
