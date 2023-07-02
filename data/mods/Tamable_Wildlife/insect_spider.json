@@ -446,6 +446,7 @@
   {
     "id": "mon_spider_cellar_mega",
     "type": "MONSTER",
+    "copy-from": "mon_spider_cellar_mega",
     "name": { "str": "warehouse spider" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
