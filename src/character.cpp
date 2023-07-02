@@ -7679,7 +7679,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     const optional_vpart_position veh_part = here.veh_at( pos() );
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
 
-    if( worn_with_flag( ( flag_REQUIRES_BALANCE ) ) || ( in_skater_vehicle && !is_on_ground() ) )  {
+    if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
         int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
             rolls += 2;
