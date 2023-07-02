@@ -72,8 +72,7 @@
         },
         {
           "case": 9,
-          "effect": 
-          [
+          "effect": [
             { "u_add_trait": "TELEKINETIC_LIFTER_8" },
             { "u_lose_trait": "TELEKINETIC_LIFTER_7" },
             { "u_lose_trait": "TELEKINETIC_LIFTER_6" },
