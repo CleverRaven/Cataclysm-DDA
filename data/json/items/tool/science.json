@@ -1151,7 +1151,6 @@
     "color": "white",
     "charges_per_use": 5,
     "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
-    "qualities": [ [ "FINE_DISTILL", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
