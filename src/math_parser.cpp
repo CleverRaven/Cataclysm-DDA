@@ -719,7 +719,8 @@ void math_exp::math_exp_impl::error( std::string_view str, std::string_view what
                               std::get<var>( output.top().data ).varinfo.name.substr( 12 ) );
     }
 
-    debugmsg( "%s\n\n%.80s\n%*s^\n", mess, str.data(), offset, " " );
+    offset = std::max<std::ptrdiff_t>( 0, offset - 1 );
+    debugmsg( "%s\n\n%.80s\n%*s▲▲▲\n", mess, str.data(), offset, " " );
 }
 
 void math_exp::math_exp_impl::validate_string( std::string_view str, std::string_view label,
