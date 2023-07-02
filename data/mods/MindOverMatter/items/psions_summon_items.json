@@ -236,7 +236,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "yellow",
-    "flags": ["INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT"  ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
