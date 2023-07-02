@@ -3799,8 +3799,6 @@ void game::draw_async_anim_curses()
         const nc_color nccol = anim.second.second;
 
         mvwprintz( w_terrain, p.xy(), nccol, ncstr );
-        //shared_ptr_fast<game::draw_callback_t> hit_cb = make_shared_fast<game::draw_callback_t>( [&]() { mvwprintz( w_terrain, p.xy(), nccol, ncstr ); } );
-        //g->add_draw_callback( hit_cb );
     }
 }
 

@@ -1366,7 +1366,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     creature_tracker &creatures = get_creature_tracker();
     std::map<int, std::vector<tile_render_info>> draw_points;
     // Limit draw depth to vertical vision setting
-    // Disable multi z-level display on isometric tilesets until height_3d issues resolved
     const int max_draw_depth = fov_3d_z_range;
     for( int row = min_row; row < max_row; row ++ ) {
         draw_points[row].reserve( max_col );
@@ -1623,7 +1622,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     if( find_tile_looks_like( "shadow", TILE_CATEGORY::NONE, "" ) ) {
         do_draw_shadow = true;
     }
-    
+
     if( max_draw_depth <= 0 ) {
         // Legacy draw mode
         for( int row = min_row; row < max_row; row ++ ) {
@@ -1666,9 +1665,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             }
                         } else if( f == &cata_tiles::draw_critter_at ) {
                             // Draw
-                        	if( !( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible ) && do_draw_shadow && cur_zlevel == p.draw_min_z ) {
-                        		// Draw shadow of flying critters on bottom-most tile if no other critter drawn
-                            	draw_critter_above( draw_loc, p.ll, p.height_3d, p.invisible );
+                            if( !( this->*f )( draw_loc, p.ll, p.height_3d, p.invisible ) && do_draw_shadow &&
+                                cur_zlevel == p.draw_min_z ) {
+                                // Draw shadow of flying critters on bottom-most tile if no other critter drawn
+                                draw_critter_above( draw_loc, p.ll, p.height_3d, p.invisible );
                             }
                         } else {
                             // Draw
@@ -3790,14 +3790,15 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
 }
 
 bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &height_3d,
-                                  const std::array<bool, 5> &	 )
+                                     const std::array<bool, 5> & )
 {
     tripoint scan_p( p.xy(), p.z + 1 );
     map &here = get_map();
     Character &you = get_player_character();
     const Creature *pcritter = nullptr;
     // Search for a creature above
-    while( pcritter == nullptr && !here.dont_draw_lower_floor( scan_p ) && scan_p.z - you.pos().z <= fov_3d_z_range ) {
+    while( pcritter == nullptr && !here.dont_draw_lower_floor( scan_p ) &&
+           scan_p.z - you.pos().z <= fov_3d_z_range ) {
         pcritter = get_creature_tracker().creature_at( scan_p, true );
         scan_p.z++;
     }
@@ -3806,46 +3807,49 @@ bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &heigh
     if( pcritter == nullptr ) {
         return false;
     }
-    
-    
-    bool result = false;
-    bool is_player = false;
-    bool sees_player = false;
-    Creature::Attitude attitude = Creature::Attitude::ANY;
-    
-    const Creature &critter = *pcritter;
-    
-    const monster *m = dynamic_cast<const monster *>( &critter );
-    if( m != nullptr ) {
-            result = draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
-                                          0, 0, ll, false, height_3d );
+
+    // Draw shadow
+    if( draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
+                             0, 0, ll, false, height_3d ) ) {
+
+        bool is_player = false;
+        bool sees_player = false;
+        Creature::Attitude attitude = Creature::Attitude::ANY;
+        const Creature &critter = *pcritter;
+
+        // Get critter status disposition if monster
+        const monster *m = dynamic_cast<const monster *>( &critter );
+        if( m != nullptr ) {
             sees_player = m->sees( you );
             attitude = m->attitude_to( you );
         }
-        
-    const Character *pl = dynamic_cast<const Character *>( &critter );
-    if( pl != nullptr ) {
-        draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
-                                          0, 0, ll, false, height_3d );
-        if( pl->is_avatar() ) {
-            is_player = true;
-        } else {
-            sees_player = pl->sees( you );
-            attitude = pl->attitude_to( you );
+
+        // Get critter status disposition if character
+        const Character *pl = dynamic_cast<const Character *>( &critter );
+        if( pl != nullptr ) {
+            if( pl->is_avatar() ) {
+                is_player = true;
+            } else {
+                sees_player = pl->sees( you );
+                attitude = pl->attitude_to( you );
+            }
         }
+
+        // Draw overlay for shadow owner
+        if( !is_player ) {
+            std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
+            if( sees_player && !you.has_trait( trait_INATTENTIVE ) ) {
+                draw_id += "_sees_player";
+            }
+            if( tileset_ptr->find_tile_type( draw_id ) ) {
+                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, empty_string, p, 0, 0,
+                                     lit_level::LIT, false, height_3d );
+            }
+        }
+        return true;
+    } else {
+        return false;
     }
-    
-    if( result && !is_player ) {
-        std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
-        if( sees_player && !you.has_trait( trait_INATTENTIVE ) ) {
-            draw_id += "_sees_player";
-        }
-        if( tileset_ptr->find_tile_type( draw_id ) ) {
-            draw_from_id_string( draw_id, TILE_CATEGORY::NONE, empty_string, p, 0, 0,
-                                 lit_level::LIT, false, height_3d );
-        }
-    }
-    return result;
 }
 
 bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
