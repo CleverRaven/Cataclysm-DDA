@@ -5,7 +5,7 @@
     "responses": [
       {
         "condition": { "not": { "u_has_trait": "perk_ALCHEMY1" } },
-        "text": "Gain [ Basic Alchemical Knowledge ]",
+        "text": "Gain [<trait_name:perk_ALCHEMY1>]",
         "topic": "TALK_PERK_MENU_ALCHEMY1"
       }
     ]
@@ -38,7 +38,7 @@
     "responses": [
       {
         "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY1" }, { "not": { "u_has_trait": "perk_ALCHEMY2" } } ] },
-        "text": "Gain [ Initiate Alchemy ]",
+        "text": "Gain [<trait_name:perk_ALCHEMY2>]",
         "topic": "TALK_PERK_MENU_ALCHEMY2"
       }
     ]
@@ -71,7 +71,7 @@
     "responses": [
       {
         "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY2" }, { "not": { "u_has_trait": "perk_ALCHEMY3" } } ] },
-        "text": "Gain [ Adept Alchemy ]",
+        "text": "Gain [<trait_name:perk_ALCHEMY3>]",
         "topic": "TALK_PERK_MENU_ALCHEMY3"
       }
     ]
@@ -110,7 +110,7 @@
             { "not": { "u_has_trait": "perk_ALCHEMY3_COLD_IRON" } }
           ]
         },
-        "text": "Gain [ Cold Iron Knowledge ]",
+        "text": "Gain [<trait_name:perk_ALCHEMY3_COLD_IRON>]",
         "topic": "TALK_PERK_MENU_ALCHEMY3_COLD_IRON"
       }
     ]
@@ -143,7 +143,7 @@
     "responses": [
       {
         "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY3" }, { "not": { "u_has_trait": "perk_ALCHEMY4" } } ] },
-        "text": "Gain [ Magister Alchemy ]",
+        "text": "Gain [<trait_name:perk_ALCHEMY4>]",
         "topic": "TALK_PERK_MENU_ALCHEMY4"
       }
     ]
@@ -176,7 +176,7 @@
     "responses": [
       {
         "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY4" }, { "not": { "u_has_trait": "perk_ALCHEMY5" } } ] },
-        "text": "Gain [ Illuminated Alchemy ]",
+        "text": "Gain [<trait_name:perk_ALCHEMY5>]",
         "topic": "TALK_PERK_MENU_ALCHEMY5"
       }
     ]

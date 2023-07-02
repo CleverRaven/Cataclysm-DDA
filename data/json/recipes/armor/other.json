@@ -349,7 +349,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "material_quicklime", 70 ] ], [ [ "lye_potassium", 4 ] ] ],
+    "components": [ [ [ "material_quicklime", 70 ] ], [ [ "lye_potassium", 4 ], [ "lye", 4 ] ] ],
     "//": "Quicklime is slaked with KOH solution (1 part KOH per 2 parts CaO, I assume mass), after that water is evaporated, the resulting mix is heated up in a crucible and resulting chunks are broken into granules"
   },
   {
@@ -379,6 +379,7 @@
   },
   {
     "result": "rebreather_cartridge_air",
+    "id_suffix": "ground_up",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -408,6 +409,7 @@
   },
   {
     "result": "rebreather_cartridge_o2",
+    "id_suffix": "ground_up",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -438,6 +440,7 @@
   },
   {
     "result": "rebreather_cartridge_air",
+    "id_suffix": "refill",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -448,10 +451,11 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "rebreather_filler_soda_lime", 90 ] ], [ [ "rebreather_cartridge_air", 1 ], [ "rebreather_cartridge_o2", 4 ] ] ]
+    "components": [ [ [ "rebreather_filler_soda_lime", 90 ] ], [ [ "rebreather_cartridge_air", 1 ], [ "rebreather_cartridge_o2", 1 ] ] ]
   },
   {
     "result": "rebreather_cartridge_o2",
+    "id_suffix": "refill",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -462,10 +466,11 @@
     "time": "20 m",
     "autolearn": true,
     "tools": [ [ [ "pseudo_app_oxygen_concentrator", 1620 ] ], [ [ "pseudo_app_hd_compressor_unit", 1350 ] ] ],
-    "components": [ [ [ "rebreather_filler_soda_lime", 180 ] ], [ [ "rebreather_cartridge_air", 1 ], [ "rebreather_cartridge_o2", 4 ] ] ]
+    "components": [ [ [ "rebreather_filler_soda_lime", 180 ] ], [ [ "rebreather_cartridge_air", 1 ], [ "rebreather_cartridge_o2", 1 ] ] ]
   },
   {
     "result": "rebreather_cartridge_regen",
+    "id_suffix": "ground_up",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -494,6 +499,7 @@
   },
   {
     "result": "rebreather_cartridge_regen",
+    "id_suffix": "refill",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",

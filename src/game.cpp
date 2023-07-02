@@ -10358,7 +10358,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
                             mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
-                        !( u.has_trait( trait_M_IMMUNE ) && fungus );
+                        ( !u.has_trait( trait_M_IMMUNE ) && fungus );
     if( slowed && !u.is_mounted() ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
         if( mcost_to >= mcost_from ) {

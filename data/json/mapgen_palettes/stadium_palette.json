@@ -19,9 +19,7 @@
       },
       "e_wall_type": {
         "type": "ter_str_id",
-        "default": {
-          "distribution": [ [ "t_brick_wall", 6 ], [ "t_adobe_brick_wall", 2 ], [ "t_concrete_wall", 3 ], [ "t_strconc_wall", 5 ] ]
-        }
+        "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_concrete_wall", 3 ], [ "t_strconc_wall", 5 ] ] }
       },
       "bush": {
         "type": "ter_str_id",
