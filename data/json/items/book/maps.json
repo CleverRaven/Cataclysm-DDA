@@ -1,6 +1,7 @@
 [
   {
     "abstract": "abstractmap",
+    "//": "Add maps/brochures/pamphlets as appopriate to itemgroups/books.json 's groups",
     "type": "GENERIC",
     "category": "maps",
     "name": { "str": "abstract map" },
@@ -130,6 +131,23 @@
         { "om_terrain": "underground_sub_station", "om_terrain_match_type": "TYPE" }
       ],
       "message": "You add subway lines and underground stations to your map."
+    }
+  },
+  {
+    "id": "subwaystationmap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "subway map" },
+    "looks_like": "roadmap",
+    "description": "A schematic diagram of local subway networks, too stylised to garter much useful information.  Using it will add subway stations to your map.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 90,
+      "terrain": [
+        { "om_terrain": "sub_station", "om_terrain_match_type": "TYPE" }
+      ],
+      "message": "You add subway stations to your map."
     }
   },
   {
@@ -340,7 +358,8 @@
         "dojo",
         "pool",
         "s_dive_shop",
-        "s_sports"
+        "s_sports",
+        "tennis_court"
       ],
       "message": "You add roads, gyms and pools along with shops where you can buy sporting gear to your map."
     }
@@ -363,7 +382,8 @@
         "NatureTrail",
         "trailhead",
         "s_petstore",
-        "animalshelter"
+        "animalshelter",
+		"dog_park"
       ],
       "message": "You add roads, pet shops, animal shelters, parks, trailheads and vets to your map."
     }
