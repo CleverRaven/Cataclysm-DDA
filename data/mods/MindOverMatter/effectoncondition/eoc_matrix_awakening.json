@@ -38,6 +38,7 @@
       },
       { "u_add_trait": "BIOKINETIC" },
       { "u_add_trait": "BIOKIN_NEEDS" },
+      { "u_consume_item": "matrix_crystal_biokinesis", "count": 1 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_biokin_physical", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
@@ -54,6 +55,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
+      { "u_consume_item": "matrix_crystal_biokinesis", "count": 1 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
     ]
   },
@@ -96,6 +98,7 @@
       },
       { "u_add_trait": "CLAIRSENTIENT" },
       { "u_add_trait": "CLAIR_SENSES" },
+      { "u_consume_item": "matrix_crystal_clairsentience", "count": 1 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_clair_clear_sight", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
@@ -155,6 +158,7 @@
       { "u_add_trait": "PYROKINETIC" },
       { "u_add_trait": "PYROGLOW_WEAK" },
       { "u_add_trait": "PYROGLOW_STRONG" },
+      { "u_consume_item": "matrix_crystal_pyrokinesis", "count": 1 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_pyrokinetic_cloak", "duration": "5 minutes" },
       { "u_add_effect": "effect_pyrokinetic_aura", "duration": "5 minutes" },
@@ -213,7 +217,8 @@
         "popup": true
       },
       { "u_add_trait": "TELEKINETIC" },
-      { "u_add_trait": "TELEKINETIC_LIFTER_1" },
+      { "u_add_trait": "TELEKINETIC_CARRY" },
+      { "u_consume_item": "matrix_crystal_telekinesis", "count": 1 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_telekinetic_armor", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
@@ -272,6 +277,7 @@
       },
       { "u_add_trait": "TELEPATH" },
       { "u_add_trait": "TELEPATHIC_SUGGESTION" },
+      { "u_consume_item": "matrix_crystal_telepathy", "count": 1 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_telepathic_learning_bonus", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
@@ -330,6 +336,7 @@
       },
       { "u_add_trait": "TELEPORTER" },
       { "u_add_trait": "TELEPORTER_PROTECT" },
+      { "u_consume_item": "matrix_crystal_teleportation", "count": 1 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       {
         "u_cast_spell": { "id": "teleport_blink_monster", "message": "Reality suddenly warps around you and you are somewhere else!" }
@@ -390,6 +397,7 @@
       },
       { "u_add_trait": "VITAKINETIC" },
       { "u_add_trait": "VITAKINETIC_HEALTH" },
+      { "u_consume_item": "matrix_crystal_vitakinesis", "count": 1 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
       { "u_add_effect": "effect_vita_health", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
