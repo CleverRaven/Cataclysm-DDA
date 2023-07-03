@@ -8843,6 +8843,8 @@ void item::mitigate_damage( damage_unit &du, const bodypart_id &bp, int roll ) c
 {
     const resistances res = resistances( *this, false, roll, bp );
     const float mitigation = res.get_effective_resist( du );
+    du.res_pen -= res.type_resist( du.type );
+    du.res_pen = std::max( 0.0f, du.res_pen );
     du.amount -= mitigation;
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -8851,6 +8853,8 @@ void item::mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll
 {
     const resistances res = resistances( *this, false, roll, bp );
     const float mitigation = res.get_effective_resist( du );
+    du.res_pen -= res.type_resist( du.type );
+    du.res_pen = std::max( 0.0f, du.res_pen );
     du.amount -= mitigation;
     du.amount = std::max( 0.0f, du.amount );
 }
