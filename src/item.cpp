@@ -6002,8 +6002,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         }
     } else if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0 ) {
         ret = c_light_green;
-    } else if( ( active && !has_temperature() ) || ( is_corpse() && can_revive() ) ||
-               ( link && has_flag( flag_CABLE_SPOOL ) ) ) {
+    } else if( ( active && !has_temperature() ) || ( is_corpse() && can_revive() ) ) {
         // Active items show up as yellow (corpses only if reviving)
         ret = c_yellow;
     } else if( is_medication() || is_medical_tool() ) {
@@ -6662,12 +6661,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (lit)" );
     } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
         tagtext += _( " (plugged in)" );
-    } else if( link ) {
-        if( link->s_state == link_state::needs_reeling ) {
-            tagtext += _( " (unspooled)" );
-        } else {
-            tagtext += _( " (connected)" );
-        }
     } else if( active && !has_temperature() && !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
@@ -6742,6 +6735,7 @@ std::string item::display_name( unsigned int quantity ) const
     std::string name = tname( quantity );
     std::string sidetxt;
     std::string amt;
+    std::string cable;
 
     switch( get_side() ) {
         case side::BOTH:
@@ -6852,6 +6846,30 @@ std::string item::display_name( unsigned int quantity ) const
         amt = " (" + ammotext + ")";
     }
 
+    if( type->can_use( "link_up" ) ) {
+        std::string extensions = cables().empty() ? "" : string_format( "+%d", cables().size() );
+        if( link ) {
+            if( link->has_state( link_state::needs_reeling ) ) {
+                cable = string_format( _( " (%1$s cable%2$s)" ), colorize( string_format( "×/%d",
+                                       link->max_length ), c_light_red ), extensions );
+            } else {
+                nc_color cable_color;
+                const double ratio = static_cast<double>( link->length ) / static_cast<double>( link->max_length );
+                if( ratio < 1.0 / 3.0 ) {
+                    cable_color = c_light_green;
+                } else if( ratio < 2.0 / 3.0 ) {
+                    cable_color = c_yellow;
+                } else {
+                    cable_color = c_red;
+                }
+                cable = string_format( " (%s)", colorize( string_format( _( "%d/%d cable%s" ),
+                                       link->max_length - link->length, link->max_length, extensions ), cable_color ) );
+            }
+        } else if( !extensions.empty() ) {
+            cable = string_format( _( " (-/%1$d cable%2$s)" ), link_length( true ), extensions );
+        }
+    }
+
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
         // TODO: fix point types
@@ -6865,7 +6883,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    return string_format( "%s%s%s", name, sidetxt, amt );
+    return string_format( "%s%s%s%s", name, sidetxt, amt, cable );
 }
 
 bool item::is_collapsed() const
@@ -10349,7 +10367,7 @@ int item::ammo_remaining( const Character *carrier, bool cable_links ) const
     }
 
     // Cable connections
-    if( cable_links && link_length() > -1 ) {
+    if( cable_links && link_length() >= 0 ) {
         if( link->t_veh_safe ) {
             ret += link->t_veh_safe->connected_battery_power_level().first;
         } else {
