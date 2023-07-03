@@ -533,6 +533,38 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
     // NOLINTEND(cata-text-style)
 }
 
+TEST_CASE( "correct_cursor_position_for_unicode_json_error", "[json]" )
+{
+    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    restore_on_out_of_scope<json_error_output_colors_t> error_colors( json_error_output_colors );
+    error_log_format = error_log_format_t::human_readable;
+    json_error_output_colors = json_error_output_colors_t::no_colors;
+
+    // NOLINTBEGIN(cata-text-style)
+    // check long unicode strings point at the correct column
+    const std::string json =
+        R"({ "两两两两两两两两两两两两两两两两两两两两两两两两": 两 })";
+    try {
+        JsonArray ja = json_loader::from_string( json );
+        JsonValue jv = ja.next_value();
+    } catch( JsonError &e ) {
+        // check that the correct debug message is shown
+        const std::string e_what = e.what();
+        const std::string e_expected =
+            R"(Json error: <unknown source file>:1:79: illegal character: code: -28)"
+            "\n\n"
+            R"({ "两两两两两两两两两两两两两两两两两两两两两两两两": 两 })"
+            "\n"
+            R"(                                                     ▲▲▲)"
+            "\n";
+        CHECK_THAT( e_what, Catch::Equals( e_expected ) );
+        SUCCEED();
+        return;
+    }
+    FAIL();
+    // NOLINTEND(cata-text-style)
+}
+
 static void test_get_string( const std::string &str, const std::string &json )
 {
     CAPTURE( json );
