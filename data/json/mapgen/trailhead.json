@@ -151,10 +151,7 @@
       ],
       "palettes": [ "trailhead" ],
       "place_vehicles": [ { "chance": 50, "rotation": 0, "vehicle": "campground_vehicles", "x": 17, "y": 9 } ],
-      "place_signs": [
-        { "signage": "<family_name> Trail", "x": 16, "y": 22 },
-        { "snippet": "trailhead", "x": 17, "y": 22 }
-      ]
+      "place_signs": [ { "signage": "<family_name> Trail", "x": 16, "y": 22 }, { "snippet": "trailhead", "x": 17, "y": 22 } ]
     }
   },
   {

@@ -1,7 +1,8 @@
 [
   {
     "abstract": "abstractmap",
-    "//": "Add maps/brochures/pamphlets as appopriate to itemgroups/books.json 's groups",
+    "//": "Match type options in iuse_actor.cpp",
+    "//1": "Add maps/brochures/pamphlets as appopriate to itemgroups/books.json 's groups",
     "type": "GENERIC",
     "category": "maps",
     "name": { "str": "abstract map" },
@@ -144,9 +145,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
-      "terrain": [
-        { "om_terrain": "sub_station", "om_terrain_match_type": "TYPE" }
-      ],
+      "terrain": [ { "om_terrain": "sub_station", "om_terrain_match_type": "TYPE" } ],
       "message": "You add subway stations to your map."
     }
   },
@@ -383,7 +382,7 @@
         "trailhead",
         "s_petstore",
         "animalshelter",
-		"dog_park"
+        "dog_park"
       ],
       "message": "You add roads, pet shops, animal shelters, parks, trailheads and vets to your map."
     }
