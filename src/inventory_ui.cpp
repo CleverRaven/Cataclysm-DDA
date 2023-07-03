@@ -1671,7 +1671,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
 
             if( denial_width > 0 ) {
 	      // Print from right rather than trim_and_print to avoid improper positioning of wide characters
-	      right_print( win, yy, 1, c_red, trim_by_length( denial, denial_width ) );
+	      right_print( win, yy, 1, c_red, trim_by_length( selected ? hilite_string( colorize( denial, c_red ) ) : denial, denial_width ) );
             }
         }
 
