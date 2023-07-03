@@ -673,12 +673,12 @@
   {
     "id": "TALK_EXODII_MERCHANT_Robot_Make",
     "type": "talk_topic",
-    "dynamic_line": "Rubik's not the finest dandy to yark it, an I'm ken, but this'n'll do best as can.  Ol' Rubik an' the stompy-clanker gang be shiny an' fine as can be, for y'see so well, but on the wind-up, the guts be nigh so fleshy as they were afore, twixt as they be with wire and steel.  Ain't none so left as remembers precise how it all goes, and much is boggled from bits and drabs o' a dozen elsewheres.  'Tis a marked fine they work at all, though work they do, and nicely.  Still, 'tis hard to know what'll crumple out from the can.  Those as return, they be... less well made as ol' Rubik.  Some as did work themselves, even, and mayhap against the good old ways.",
+    "dynamic_line": "Rubik's not the finest dandy to yark it, an I'm ken, but this'n'll do best as can.  Ol' Rubik an' the stompy-clanker gang be shiny an' fine as can be, for y'see so well, but on the wind-up, the guts be nigh so fleshy as they were afore, twixt as they be with wire and steel.  Ain't none so left as remembers precise how it all goes, and much is boggled from bits and drabs o' a dozen elsewheres.  'Tis a marked fine they work at all, though work they do, and nicely.  Still, 'tis hard to know what'll crumple out from the can.  Those as return, they be… less well made as ol' Rubik.  Some as did work themselves, even, and mayhap against the good old ways.",
     "//": "Lore note: Rubik is an unreliable narrator here, by giving part-truths.  Nothing here is a lie but they're omitting some important details.",
     "//~": "I don't think I'm the best to explain that, but I'll do my best.  Our technology might seem pretty high-tech and well made to you, but on the inside I'm still mostly human meat bound up in wires and steel.  Nobody's left thar remembers exactly how it all goes, and much of it is cobbled together from a few different dimensions.  It's a miracle they work as well as they do, but somehow it's actually pretty functional.  Still, it can be hard to know exactly what could go wrong.  The ones who come back as zombies, they're generally less well made than me.  Some even did their own cybernetic conversions, and didn't exactly follow best practices.",
     "responses": [
       {
-        "text": "You seem to have a lot of standardized robotic helpers, like those quads. Is that a different thing?",
+        "text": "You seem to have a lot of standardized robotic helpers, like those quads.  Is that a different thing?",
         "topic": "TALK_EXODII_MERCHANT_Robot_Quads"
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
