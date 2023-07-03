@@ -698,8 +698,8 @@
     "id": "mon_fish_pickerel_american",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": { "str": "american pickerel" },
-    "description": "An american pickerel.  It looks like a pike, but way smaller.",
+    "name": { "str": "American pickerel" },
+    "description": "An American pickerel.  It looks like a pike, but way smaller.",
     "volume": "170 ml",
     "weight": "200 g",
     "reproduction": { "baby_egg": "egg_pickerel_american", "baby_count": 2, "baby_timer": 17 }
