@@ -74,7 +74,7 @@ int throw_cost( const Character &c, const item &to_throw );
 double calc_steadiness( const Character &you, const item &weapon, const tripoint &pos,
                         double predicted_recoil );
 
-double calculate_aim_cap(const Character &you, const tripoint &target);
+double calculate_aim_cap( const Character &you, const tripoint &target );
 
 double occupied_tile_fraction( creature_size target_size );
 
