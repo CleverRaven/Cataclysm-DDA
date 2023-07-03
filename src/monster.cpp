@@ -582,7 +582,6 @@ void monster::digest_food()
 {
     if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
         amount_eaten -= 1;
-        add_msg( _( "The %1s digests its food, and has %2s in its stomach." ), name(), amount_eaten );
         stomach_timer = calendar::turn;
     }
 }
@@ -3482,7 +3481,6 @@ void monster::on_load()
     try_reproduce();
     try_biosignature();
     if( has_flag( MF_EATS ) ) {
-        add_msg( _( "Tried to digest on loading." ) );
         digest_food();
     }
     if( has_flag( MF_MILKABLE ) ) {
