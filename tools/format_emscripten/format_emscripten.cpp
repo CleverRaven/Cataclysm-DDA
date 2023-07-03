@@ -1,8 +1,8 @@
 enum class error_log_format_t { human_readable };
 extern constexpr error_log_format_t error_log_format = error_log_format_t::human_readable;
 
-#include "../../src/json.h"
-#include "../../tools/format/format.h"
+#include "json.h"
+#include "format.h"
 
 extern "C" {
     const char *json_format( const char *input )
