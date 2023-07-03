@@ -606,7 +606,8 @@
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
-    "extend": { "flags": [ "CANPLAY" ] }
+    "extend": { "flags": [ "CANPLAY" ] },
+    "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
   },
   {
     "id": "mon_centipede_mom",
