@@ -12,7 +12,7 @@
     "id": "EOC_CLAIR_MATRIX_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_CLAIRSENTIENT" } ] },
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_CLAIRSENTIENCE" } ] },
     "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "4" ] } ]
   },
   {
