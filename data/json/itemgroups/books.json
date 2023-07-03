@@ -997,7 +997,11 @@
     "//": "Public messages posted on bulletin boards in public spaces to advertise items wanted or for sale, announce events, or provide information.",
     "//2": "TO DO: local adverts, event announcements, job application posters, etc.",
     "subtype": "collection",
-    "entries": [ { "group": "missing_poster_all", "prob": 30 }, { "item": "flyer", "prob": 70, "count": [ 1, 2 ] }, { "item": "buylocalpamphlet", "prob": 15 } ]
+    "entries": [
+      { "group": "missing_poster_all", "prob": 30 },
+      { "item": "flyer", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "buylocalpamphlet", "prob": 15 }
+    ]
   },
   {
     "id": "bulletin_police",
