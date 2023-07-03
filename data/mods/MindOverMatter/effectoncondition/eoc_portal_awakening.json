@@ -319,7 +319,7 @@
         "popup": true
       },
       { "u_add_trait": "TELEKINETIC" },
-      { "u_add_trait": "TELEKINETIC_CARRY" },
+      { "u_add_trait": "TELEKINETIC_LIFTER_1" },
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       {
         "u_add_effect": "psionic_awakened",
