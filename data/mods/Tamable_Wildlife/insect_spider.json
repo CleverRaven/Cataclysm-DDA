@@ -597,7 +597,7 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_centipede_larva",
+    "id": "mon_centipede_larva_friendly",
     "type": "MONSTER",
     "copy-from": "mon_centipede_larva",
     "name": { "str": "centipede larva", "str_pl": "centipede larvae" },
