@@ -2050,7 +2050,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contents_volume": "3800",
+        "max_contents_volume": "3800 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "14 kg"
       }
