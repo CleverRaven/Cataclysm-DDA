@@ -110,7 +110,7 @@
       { "level": 1, "name": "driving" },
       { "level": 1, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_CARRY" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ],
     "spells": [
       { "id": "telekinetic_push", "level": 4 },
       { "id": "telekinetic_pull", "level": 3 },
