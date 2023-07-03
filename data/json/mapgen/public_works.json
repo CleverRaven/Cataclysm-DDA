@@ -122,6 +122,7 @@
         { "item": "log", "x": 21, "y": 45, "amount": [ 5, 20 ] },
         { "item": "pipe", "x": 15, "y": 45, "amount": [ 5, 10 ] },
         { "item": "glass_sheet", "x": 4, "y": 45, "amount": [ 2, 7 ] },
+        { "item": "sewermap", "x": [ 18, 20 ], "y": 12, "chance": 50 },
         { "item": "2x4", "x": 16, "y": 42, "amount": [ 5, 50 ] },
         { "item": "2x4", "x": 16, "y": 40, "amount": [ 5, 50 ] },
         { "item": "nail", "x": 12, "y": 45, "amount": [ 5, 10 ] },
