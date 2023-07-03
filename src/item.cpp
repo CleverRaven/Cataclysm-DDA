@@ -873,7 +873,11 @@ void item::set_damage( int qty )
 
 void item::set_degradation( int qty )
 {
-    degradation_ = std::clamp( qty, 0, max_damage() );
+    if( type->degrade_increments() > 0 ) {
+        degradation_ = std::clamp( qty, 0, max_damage() );
+    } else {
+        degradation_ = 0;
+    }
     set_damage( damage_ );
 }
 

@@ -1384,7 +1384,7 @@ struct itype {
         }
         /** Number of degradation increments before the item is destroyed */
         int degrade_increments() const {
-            return count_by_charges() ? 0 : degrade_increments_;
+            return degrade_increments_;
         }
 
         /**
