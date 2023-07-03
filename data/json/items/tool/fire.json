@@ -231,7 +231,7 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "ammo_restriction": { "lamp_oil": 50, "camphine": 50 },
+        "ammo_restriction": { "lamp_oil": 50 },
         "watertight": true
       }
     ],
@@ -268,7 +268,7 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "ammo_restriction": { "lamp_oil": 50, "camphine": 50 },
+        "ammo_restriction": { "lamp_oil": 50 },
         "watertight": true
       }
     ],
