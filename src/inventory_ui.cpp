@@ -3596,7 +3596,12 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         }
     }
 
-    if( selected.empty() || !selected.front()->is_selectable() ) {
+    if( selected.empty() ) {
+        count = 0;
+        return;
+    }
+
+    if( !selected.front()->is_selectable() ) {
         if( !selected.front()->is_selectable() && mode == toggle_mode::SELECTED &&
             selected.front()->is_item() ) {
             const std::string denial = preset.get_denial( selected.front()->any_item() );
@@ -3609,8 +3614,8 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
                 .query();
             }
         }
-        count = 0;
-        return;
+	count = 0;
+	return;
     }
 
     // No amount entered, select all
