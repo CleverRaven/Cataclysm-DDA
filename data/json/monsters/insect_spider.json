@@ -228,7 +228,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid_tainted",
-    "reproduction": { "baby_egg": "egg_roach_plague", "baby_count": 1, "baby_timer": 7 },
+    "reproduction": { "baby_egg": "egg_roach_plague", "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "upgrades": { "half_life": 42, "into": "mon_plague_vector" },
