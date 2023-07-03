@@ -33,7 +33,6 @@ Added enable and disable mutation EOCs
 3D vision for isometric tilesets
 Unhardcode dragging, grab fixes
 Make vehicle doors lockable and pickable
-Give electric lanterns power cords
 
 
 ## Content:
@@ -61,24 +60,7 @@ Living lore document
 Gastropod Foot Limb: Mutant limbs can be added in json
 Added a small office building fortified by bandits
 New location: speedway
-Adds a couple new nightmares based on nightmares that I've had
-Double Decker Holsters
-adds cosmetic variants for various items, including regular pants, fur coats, high-heels, and knee-length boots, as well as also adding tactical pants to the game.
-Vegan Trait
-Actual cast iron resources
-Reworks rebreathers
 You can now choose a new leader for your faction without dying
-Condom Varieties
-Active backup generator can now be transformed into an appliance
-Adds the Digitigrade Legs mutation which increases crouching move-speed and restricts footwear.
-replace single-volume Talmud with the 51 volumes of the English Talmud Yerushalmi using variants
-Characters with Meat Intolerance are now allergic to raw snails
-Mutable (the large not extra ones) craters are now round
-Gave Turrets Weakpoints
-Adds binders, XL, and XS bras
-Minor motel changes
-Makes slime samples craftable from slime globs
-Add hm12 to possible trades
 
 
 ## Interface:
@@ -121,11 +103,7 @@ Alchemy Perks for Xedra Evolved
 Bombastic Perks adds Playstyle Perks
 [Magiclysm] Ways to boost your caster level
 Disable the Bionic Professions mod by default
-Adds a new perk giving increased gun damage for pre WWII guns to bombastic perks. Also adds ranged damage enchantment
-Added few magic related profs
-[Alternative Map Key] Building alternatives now show correctly on the map
 Add the Mind Over Matter mod to the CDDA repository
-[Alternative Map Key] Add missing buildings
 
 
 ## Balance:
@@ -147,16 +125,7 @@ player can drag heavier vehicles
 difficulty to repair depends on what the thing is made of instead of its crafting difficulty
 Hound afterimages also copy their host nicknames
 The player is substantially less effective with guns at low skill values
-Requires firebricks to construct electric forge
 RM13 armor has a lower power draw but spends power when dealt damage
-Add missing mutagen types to mutagen item groups (spawn in labs etc)
-multitool no longer has fine screwdriving
-welding practice uses less materials
-Elf-As are Glorious again
-mines spawn less coal
-Less of aketons/gambesons coverage is 100%
-bigger spawns of weld consumables
-Most friendly breedable animals can now be culled without having to attack them
 
 
 ## Bugfixes:
@@ -204,23 +173,7 @@ Charge integrated magazines when plugged in
 Don't allow to scan books that are owned by other characters
 Fix NPC putting items in open air when fetching items during an activity when 3D FOV is on
 Trees and other FLAMMABLE_ASH terrain leaves behind ash when burned down
-Decreases titanis spawn rates, fixes its attack
-Fixes #66466
-partially resolves issues in #65824 by adding barrel-length entries to the newly added rifle conversion kits.
-city size 0 disables roads
-[Magiclysm] Fixes runes' duration
-No more memorial items spawning in bookstore shelves, only books!
-Sanity checks special placement and road connections
-Fix and re-enable 3D map memory
-Autopilot & vehicle remote controls
-Camps properly display required calories for building and crafting
-Open counter gates are faster to navigate than counters
-Fixes the spawn rates for the founders’ leg bag, and also adds spawn weights for the American/ patriotic items which lacked them.
-Fixes rebreather cartridge crafting recipes
 Do not report monsters breaking free of unknown grabbers if the player cannot see them
-Fix error when activating non-empty endless teapot
-Lessens chance to fall on school start
-Adds migration for craters
 Fix Down Mattress interactions with smashing, construction, and deconstructing beds
 
 
