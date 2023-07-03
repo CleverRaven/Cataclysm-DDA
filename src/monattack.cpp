@@ -456,9 +456,11 @@ bool mattack::eat_food( monster *z )
                 int consumed = 1;
                 if( item.count_by_charges() ) {
                     z->amount_eaten += 1;
+                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
                     z->amount_eaten += 1;
+                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
                 return true;
@@ -491,9 +493,9 @@ bool mattack::eat_carrion( monster *z )
             if( item.has_flag( flag_CORPSE ) && z->amount_eaten < z->stomach_size &&
                 ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
                   item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
-                item.mod_damage( 300 );
+                item.mod_damage( 400 );
                 z->amount_eaten += 1;
-                add_msg_if_player_sees( *z, _( "The %1s gnaws on a corpse." ), z->name() );
+                add_msg_if_player_sees( *z, _( "The %1s gnaws on the %2s." ), z->name(), item.display_name() );
                 return true;
             }
         }
