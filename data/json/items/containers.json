@@ -2052,7 +2052,7 @@
         "watertight": true,
         "max_contents_volume": "3800 ml",
         "max_item_volume": "32 ml",
-        "max_contains_weight": "14 kg"
+        "max_contains_weight": "8 kg"
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ]
