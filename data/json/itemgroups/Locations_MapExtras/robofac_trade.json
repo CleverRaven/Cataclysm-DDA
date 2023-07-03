@@ -2,6 +2,7 @@
   {
     "type": "item_group",
     "id": "NC_ROBOFAC_gear",
+    "//": "Should contain all Hub 01 gear",
     "subtype": "collection",
     "entries": [
       { "group": "robofac_armor_pieces" },
@@ -9,8 +10,29 @@
       { "group": "robofac_gun_mags" },
       { "group": "robofac_gun_exodii" },
       { "group": "robofac_gun_kit" },
+      { "group": "robofac_armor_pieces_basic" },
       { "item": "robofac_enviro_suit" },
-      { "item": "robofac_enviro_suit_casual" }
+      { "item": "robofac_enviro_suit_casual" },
+      { "item": "robofac_armor_rig" },
+      { "item": "robofac_armor_anchor" },
+      { "item": "robofac_armor_anchor_on" },
+      { "item": "robofac_head_rig" },
+      { "item": "robofac_head_rig_nv" },
+      { "item": "robofac_head_rig_ir" },
+      { "item": "template_photonics" },
+      { "item": "template_armor" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_armor_pieces_basic",
+    "subtype": "collection",
+    "entries": [
+      { "item": "robofac_basic_mantle" },
+      { "item": "robofac_basic_skirt" },
+      { "item": "robofac_basic_vambraces" },
+      { "item": "robofac_basic_greaves" },
+      { "item": "robofac_basic_helmet" }
     ]
   },
   {
