@@ -6131,6 +6131,18 @@
     "difficulty": 6
   },
   {
+    "id": "nested_helmet_corinthian",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "Corinthian helms",
+    "description": "Recipes related to constructing various sizes of helmets made out of bronze in the Ancient Greek Corinthian style.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "helmet_corinthian", "xl_helmet_corinthian", "xs_helmet_corinthian" ],
+    "difficulty": 6
+  },
+  {
     "id": "nested_legguard_metal",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
