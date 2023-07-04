@@ -134,7 +134,7 @@
     "proportional": { "weight": 1.4, "volume": 1.4 },
     "name": { "str": "pair of XL survivor boots", "str_pl": "pairs of XL survivor boots" },
     "description": "A pair of huge, custom-made boots constructed of thick Kevlar and a chemical resistant layer, featuring steel toes for extra protection.  Keeps your feet safe from the myriad dangers of the apocalypse.",
-    "extend": { "flags": [ "OVERSIZE"] }
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "boots_xssurvivor",
