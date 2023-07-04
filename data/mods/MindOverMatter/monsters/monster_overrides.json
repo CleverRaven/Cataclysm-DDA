@@ -1,0 +1,128 @@
+[
+  {
+    "id": "mon_zombie_crawler_pupa_decoy",
+    "copy-from": "mon_zombie_crawler_pupa_decoy",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_zombie_crawler_pupa",
+    "copy-from": "mon_zombie_crawler_pupa",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_zombie_pupa_decoy",
+    "copy-from": "mon_zombie_pupa_decoy",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_zombie_pupa",
+    "copy-from": "mon_zombie_pupa",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_brute_pupa_decoy",
+    "copy-from": "mon_brute_pupa_decoy",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_brute_pupa",
+    "copy-from": "mon_brute_pupa",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_hulk_pupa_decoy",
+    "copy-from": "mon_hulk_pupa_decoy",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_hulk_pupa",
+    "copy-from": "mon_hulk_pupa",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_zombie_pupa_decoy_shady",
+    "copy-from": "mon_zombie_pupa_decoy_shady",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ]
+  },
+  {
+    "id": "mon_zombie_pupa_shady",
+    "copy-from": "mon_zombie_pupa_shady",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ]
+  },
+  {
+    "id": "mon_zombie_medical_pupa",
+    "copy-from": "mon_zombie_medical_pupa",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_zombie_pupa_medical_decoy",
+    "copy-from": "mon_zombie_pupa_medical_decoy",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -5 ] ]
+  },
+  {
+    "id": "mon_mutant_evolved",
+    "copy-from": "mon_mutant_evolved",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -1 ] ]
+  },
+  {
+    "id": "mon_devourer_lab_sec",
+    "copy-from": "mon_devourer_lab_sec",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -1 ] ]
+  },
+  {
+    "id": "mon_sludge_crawler",
+    "copy-from": "mon_sludge_crawler",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ]
+  },
+  {
+    "id": "mon_frog_mega",
+    "copy-from": "mon_frog_mega",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ]
+  },
+  {
+    "id": "mon_zombie_regenerating",
+    "copy-from": "mon_zombie_regenerating",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -6 ] ]
+  },
+  {
+    "id": "mon_zombie_medical_regenerating",
+    "copy-from": "mon_zombie_medical_regenerating",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -6 ] ]
+  },
+  {
+    "id": "mon_frog_mother",
+    "copy-from": "mon_frog_mother",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -20 ] ]
+  },
+  {
+    "id": "mon_zombie_nemesis",
+    "copy-from": "mon_zombie_nemesis",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -7 ] ]
+  },
+  {
+    "id": "mon_shoggoth",
+    "copy-from": "mon_shoggoth",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ]
+  }
+]

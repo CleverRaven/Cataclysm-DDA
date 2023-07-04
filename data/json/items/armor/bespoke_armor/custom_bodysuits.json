@@ -115,7 +115,6 @@
   {
     "id": "armor_nomad_advanced_on",
     "copy-from": "armor_nomad_advanced",
-    "repairs_like": "armor_nomad",
     "type": "TOOL_ARMOR",
     "name": { "str": "advanced nomad jumpsuit (on)", "str_pl": "advanced nomad jumpsuits (on)" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Its clever construction adds additional core support, helping you to carry more equipment.  The internal cooling tubes are active and humming.",

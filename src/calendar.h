@@ -7,6 +7,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <climits>
 
 #include "units_fwd.h"
 
@@ -544,6 +545,11 @@ constexpr time_point before_time_starts = time_point::from_turn( -1 );
  */
 
 constexpr time_point turn_zero = time_point::from_turn( 0 );
+
+/**
+ * Largest possible time point. About 69 years after turn_zero
+ */
+constexpr time_point turn_max = time_point::from_turn( INT_MAX );
 
 } // namespace calendar
 

@@ -67,7 +67,7 @@ static void create_bird_char( Character &dude )
     REQUIRE( !dude.has_part( body_part_foot_r ) );
 }
 
-TEST_CASE( "Basic limb score test", "[character][encumbrance]" )
+TEST_CASE( "Basic_limb_score_test", "[character][encumbrance]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -109,7 +109,7 @@ TEST_CASE( "Basic limb score test", "[character][encumbrance]" )
     }
 }
 
-TEST_CASE( "Basic character modifier test", "[character][encumbrance]" )
+TEST_CASE( "Basic_character_modifier_test", "[character][encumbrance]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -153,7 +153,7 @@ TEST_CASE( "Basic character modifier test", "[character][encumbrance]" )
     }
 }
 
-TEST_CASE( "Body part armor vs. damage", "[character]" )
+TEST_CASE( "Body_part_armor_vs_damage", "[character]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -208,7 +208,7 @@ static double get_limbtype_modval( const double &val, const bodypart_id &id,
     return ret;
 }
 
-TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
+TEST_CASE( "Mutation_armor_vs_damage", "[character][mutation]" )
 {
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
@@ -350,7 +350,7 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
     }
 }
 
-TEST_CASE( "Multi-limbscore modifiers", "[character]" )
+TEST_CASE( "Multi-limbscore_modifiers", "[character]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -402,7 +402,7 @@ TEST_CASE( "Multi-limbscore modifiers", "[character]" )
     }
 }
 
-TEST_CASE( "Slip prevention modifier / weighted-list multi-score modifiers", "[character]" )
+TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[character]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -450,7 +450,7 @@ TEST_CASE( "Slip prevention modifier / weighted-list multi-score modifiers", "[c
     }
 }
 
-TEST_CASE( "Weighted limb types", "[character]" )
+TEST_CASE( "Weighted_limb_types", "[character]" )
 {
     item boxing_gloves( "test_boxing_gloves" );
     item wing_covers( "test_winglets" );

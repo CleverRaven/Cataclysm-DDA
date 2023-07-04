@@ -96,9 +96,6 @@ bool bio_op_random_biojutsu( monster *z );
 bool bio_op_takedown( monster *z );
 bool bio_op_impale( monster *z );
 bool bio_op_disarm( monster *z );
-bool ranged_pull( monster *z );
-bool grab( monster *z );
-bool grab_drag( monster *z );
 bool suicide( monster *z );
 bool riotbot( monster *z );
 bool stretch_attack( monster *z );
@@ -117,7 +114,6 @@ void frag( monster *z, Creature *target );              // Automated MGL
 void tankgun( monster *z, Creature *target );           // Tankbot primary.
 void flame( monster *z, Creature *target );
 
-bool dodge_check( monster *z, Creature *target );
 } //namespace mattack
 
 #endif // CATA_SRC_MONATTACK_H

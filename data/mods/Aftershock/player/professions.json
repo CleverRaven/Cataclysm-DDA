@@ -405,7 +405,6 @@
       "both": {
         "items": [
           "winter_pants_army",
-          "army_top",
           "winter_jacket_army",
           "gloves_tactical",
           "rucksack",
@@ -424,6 +423,7 @@
           { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           {
             "item": "m2010",
             "ammo-item": "300_winmag",
@@ -525,5 +525,12 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "afs_ship_escape",
+    "copy-from": "afs_rating",
+    "name": "Escaping Crew",
+    "description": "You awake in your cabin to the sound of emergency sirens and the ship's computer calmly announcing in a posh English voice 'Abandon the vessel immediately.', and then counting down from five minutes.  You've got just enough time to hit a supply locker before you need to activate the escape pod down the hall."
   }
 ]

@@ -151,9 +151,19 @@
     "description": "This prototype 'energy weapon' was apparently manufactured by Hub 01.  It somewhat resembles an oversize radar gun, mounted on a rectangular frame of white sheet metal.  It will temporarily stun robots, if you manage to hit their sensors with a clean shot.",
     "price_postapoc": 15000,
     "ranged_damage": { "damage_type": "pure", "amount": 1 },
-    "energy_drain": "1 kJ",
+    "energy_drain": "20 kJ",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ],
+      [ "underbarrel", 1 ]
+    ]
   },
   {
     "id": "v29",

@@ -732,7 +732,7 @@ void computer_session::action_miss_launch()
             !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
             !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
             !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
-            overmap_buffer.ter_set( p, oter_id( "crater" ) );
+            overmap_buffer.ter_set( p, oter_id( "field" ) );
         }
     }
     explosion_handler::nuke( target );

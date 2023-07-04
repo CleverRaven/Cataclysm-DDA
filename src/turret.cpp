@@ -389,7 +389,7 @@ int vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets )
             bool has_target = t->target.first != t->target.second;
             if( has_target ) {
                 turret_data turret = turret_query( *t );
-                npc cpu = get_targeting_npc( *t );
+                npc &cpu = t->get_targeting_npc( *this );
                 shots += turret.fire( cpu, t->target.second );
                 t->reset_target( global_part_pos3( *t ) );
             }
@@ -544,29 +544,30 @@ void vehicle::turrets_set_mode()
     }
 }
 
-npc vehicle::get_targeting_npc( const vehicle_part &pt ) const
+npc &vehicle_part::get_targeting_npc( vehicle &veh )
 {
     // Make a fake NPC to represent the targeting system
-    npc cpu;
-    cpu.set_body();
-    cpu.set_fake( true );
-    cpu.name = string_format( _( "The %s turret" ), pt.get_base().tname( 1 ) );
-    // turrets are subject only to recoil_vehicle()
-    cpu.recoil = 0;
-
-    // These might all be affected by vehicle part damage, weather effects, etc.
-    cpu.set_skill_level( pt.get_base().gun_skill(), 8 );
-    cpu.set_skill_level( skill_gun, 4 );
-
-    cpu.str_cur = 16;
-    cpu.dex_cur = 8;
-    cpu.per_cur = 12;
-    cpu.setpos( global_part_pos3( pt ) );
-    cpu.recalc_sight_limits();
-    // Assume vehicle turrets are friendly to the player.
-    cpu.set_attitude( NPCATT_FOLLOW );
-    cpu.set_fac( get_owner() );
-    return cpu;
+    if( !cpu.brain ) {
+        cpu.brain = std::make_unique<npc>();
+        npc &brain = *cpu.brain;
+        brain.set_body();
+        brain.set_fake( true );
+        // turrets are subject only to recoil_vehicle()
+        brain.recoil = 0;
+        // These might all be affected by vehicle part damage, weather effects, etc.
+        brain.str_cur = 16;
+        brain.dex_cur = 8;
+        brain.per_cur = 12;
+        // Assume vehicle turrets are friendly to the player.
+        brain.set_attitude( NPCATT_FOLLOW );
+        brain.set_fac( veh.get_owner() );
+        brain.set_skill_level( skill_gun, 4 );
+        brain.name = string_format( _( "The %s turret" ), get_base().tname( 1 ) );
+        brain.set_skill_level( get_base().gun_skill(), 8 );
+    }
+    cpu.brain->setpos( veh.global_part_pos3( *this ) );
+    cpu.brain->recalc_sight_limits();
+    return *cpu.brain;
 }
 
 int vehicle::automatic_fire_turret( vehicle_part &pt )
@@ -583,7 +584,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     tripoint pos = global_part_pos3( pt );
 
     // Create the targeting computer's npc
-    npc cpu = get_targeting_npc( pt );
+    npc &cpu = pt.get_targeting_npc( *this );
 
     int area = max_aoe_size( gun.ammo_effects() );
     if( area > 0 ) {

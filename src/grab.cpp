@@ -72,21 +72,13 @@ bool game::grabbed_veh_move( const tripoint &dp )
     // Make sure the mass and pivot point are correct
     grabbed_vehicle->invalidate_mass();
 
-    //vehicle movement: strength check
+    //vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
     int mc = 0;
-    int str_req = grabbed_vehicle->total_mass() / 25_kilogram; //strength required to move vehicle.
+    int str_req = grabbed_vehicle->total_mass() / 100_kilogram; //strength required to move vehicle.
     // ARM_STR governs dragging heavy things
     int str = u.get_arm_str();
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
-
-    // Vehicle just too big to grab & move; 41-45 lets folks have a bit of a window
-    // (Roughly 1.1K kg = danger zone; cube vans are about the max)
-    if( str_req > 45 ) {
-        add_msg( m_info, _( "The %s is too bulky for you to move by hand." ),
-                 grabbed_vehicle->name );
-        return true; // No shoving around an RV.
-    }
 
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
     if( grabbed_vehicle->valid_wheel_config() ) {
@@ -104,9 +96,11 @@ bool game::grabbed_veh_move( const tripoint &dp )
         } else {
             str_req = mc / wheel_indices.size() + 1;
         }
+        //finally, adjust by the off-road coefficient (always 1.0 on a road, as low as 0.1 off road.)
+        str_req /= grabbed_vehicle->k_traction( get_map().vehicle_wheel_traction( *grabbed_vehicle ) );
     } else {
-        str_req++;
-        //if vehicle has no wheels str_req make a noise.
+        str_req *= 10;
+        //if vehicle has no wheels str_req make a noise. since it has no wheels assume it has the worst off roading possible (0.1)
         if( str_req <= str ) {
             sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
                            _( "a scraping noise." ), true, "misc", "scraping" );
@@ -118,8 +112,10 @@ bool game::grabbed_veh_move( const tripoint &dp )
     if( str_req <= str ) {
         //calculate exertion factor and movement penalty
         ///\EFFECT_STR increases speed of dragging vehicles
-        u.moves -= 100 * str_req / std::max( 1, str );
-        const int ex = dice( 1, 3 ) - 1 + str_req;
+        u.moves -= 400 * str_req / std::max( 1, str );
+        ///\EFFECT_STR decreases stamina cost of dragging vehicles
+        u.mod_stamina( -200 * str_req / std::max( 1, str ) );
+        const int ex = dice( 1, 6 ) - 1 + str_req;
         if( ex > str + 1 ) {
             // Pain and movement penalty if exertion exceeds character strength
             add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name );

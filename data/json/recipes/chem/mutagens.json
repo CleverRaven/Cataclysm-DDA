@@ -1392,6 +1392,28 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "slime_sample",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 6,
+    "time": "20 m",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_creepy", 6 ], [ "recipe_maiar", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
+    "using": [ [ "serum_production_standard", 10 ] ],
+    "components": [ [ [ "slime_scrap", 20 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "elfa_sample",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",

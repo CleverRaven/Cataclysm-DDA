@@ -443,6 +443,7 @@
         { "u_sell_item": "cattail_stalk", "count": 80 },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
+        { "u_message": "You learn how to craft cattail jelly.", "popup": true },
         { "u_spawn_item": "cattail_jelly", "container": "stomach_sealed", "count": 7 }
       ]
     },
@@ -473,7 +474,7 @@
       "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
       "assign_mission_target": { "om_terrain": "forest", "om_terrain_match_type": "PREFIX", "search_range": 75, "random": true, "z": 0 }
     },
-    "end": { "effect": [ "follow", { "u_consume_item": "tinder" }, { "mapgen_update": "MISSION_PYROMANIAC_BURN" } ] },
+    "end": { "effect": [ "follow", { "u_consume_item": "tinder" }, { "mapgen_update": "MISSION_PYROMANIAC_BURN_INNAWOOD" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
       "describe": "Oh man, I want to <swear> burn it so bad…",
@@ -490,11 +491,24 @@
   {
     "//": "For MISSION_PYROMANIAC. Will spawn fire on tile where PC is standing.",
     "type": "mapgen",
-    "update_mapgen_id": "MISSION_PYROMANIAC_BURN",
+    "update_mapgen_id": "MISSION_PYROMANIAC_BURN_INNAWOOD",
     "method": "json",
     "object": {
       "place_item": [ { "item": "tinder", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
       "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
     }
+  },
+  {
+    "//": "MISSION_PYROMANIAC mission set this topic as starting topic for mission giver.",
+    "type": "talk_topic",
+    "id": "MISSION_PYROMANIAC",
+    "dynamic_line": "Are we there yet, <name_g>?  I can't wait to burn that tree!",
+    "responses": [
+      {
+        "text": "We're here.  Let's do it!",
+        "topic": "TALK_MISSION_INQUIRE",
+        "condition": { "and": [ "mission_complete", { "u_has_items": { "item": "tinder", "count": 1 } } ] }
+      }
+    ]
   }
 ]

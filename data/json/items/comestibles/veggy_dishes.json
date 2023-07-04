@@ -14,6 +14,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "cooked_burdock_stalk",
+    "name": { "str": "cooked burdock stalk" },
+    "copy-from": "cooked_cattail_stalk",
+    "description": "A cooked stalk from a burdock plant.  Its fibrous outer leaves have been stripped away, and now it is quite delicious."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "roasted_cattail_rhizome",
     "name": { "str": "roasted cattail rhizome" },
     "copy-from": "cattail_rhizome",
@@ -791,6 +798,7 @@
       { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str_sp": "%s, carrot" } },
       { "type": "COMPONENT_ID", "condition": "carrot_wild", "name": { "str_sp": "%s, wild root" } },
       { "type": "COMPONENT_ID", "condition": "cattail_stalk", "name": { "str_sp": "%s, cattail stalk" } },
+      { "type": "COMPONENT_ID", "condition": "burdock_stalk", "name": { "str_sp": "%s, burdock stalk" } },
       { "type": "COMPONENT_ID", "condition": "celery", "name": { "str_sp": "%s, celery" } },
       { "type": "COMPONENT_ID", "condition": "corn_kernels", "name": { "str_sp": "%s, corn kernels" } },
       { "type": "COMPONENT_ID", "condition": "cucumber", "name": { "str_sp": "%s, cucumber" } },
@@ -815,7 +823,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "weight": "259 g",
     "color": "green",
@@ -870,7 +883,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "weight": "192 g",
     "color": "green",
@@ -1029,7 +1047,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "copy-from": "veggy",
     "proportional": { "weight": 0.5 },
@@ -1103,7 +1126,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "copy-from": "veggy",
     "color": "light_green",

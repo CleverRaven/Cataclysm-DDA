@@ -81,7 +81,7 @@
       {
         "id": "buff_centipede_onhit",
         "name": "Centipede's Frenzy",
-        "description": "Your attacks are a blur of hands and legs that become faster as your strike your opponents without rest.\n\n-4 move cost.\nLasts 3 turns.  Stacks 4 times.",
+        "description": "Your attacks are a blur of hands and legs that become faster as you strike your opponents without rest.\n\n-4 move cost.\nLasts 3 turns.  Stacks 4 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 3,
@@ -210,7 +210,7 @@
       {
         "id": "buff_scorpion_onmove",
         "name": "Scorpion's Charge",
-        "description": "Rush forward and catch your prey!\n\n+10% damage.\nEnables \"Pincer Strike\" technique.\nLasts 2 turns.  Stacks 2 times.",
+        "description": "Rush forward and catch your prey!\n\n+10% damage.\nEnables \"Pincer Fist\" technique.\nLasts 2 turns.  Stacks 2 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "unarmed_allowed": true,
         "buff_duration": 2,
@@ -333,7 +333,7 @@
       {
         "id": "buff_venom_snake_onhit",
         "name": "Viper's Rattle",
-        "description": "You are terrifying monster on the battlefield!  Opponents will have a harder time fighting back.\n\n+1 accuracy, +1.0 Dodging skill.\nLasts 3 turns.  Stacks 2 times.",
+        "description": "You are a terrifying monster on the battlefield!  Opponents will have a harder time fighting back.\n\n+1 accuracy, +1.0 Dodging skill.\nLasts 3 turns.  Stacks 2 times.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "buff_duration": 3,
@@ -417,6 +417,8 @@
     "unarmed_weapons_allowed": false,
     "weighting": 2,
     "crit_ok": true,
+    "condition": { "not": { "npc_has_effect": "downed" } },
+    "condition_desc": "* Only works on a <info>non-downed</info> target",
     "down_dur": 2,
     "attack_vectors": [ "FOOT" ]
   },
@@ -528,7 +530,8 @@
     "messages": [ "You beat %s down with a powerful Viper Tail", "<npcname> beats %s down with a powerful Viper Tail" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
-    "stunned_target": true,
+    "condition": { "npc_has_effect": "stunned" },
+    "condition_desc": "Requires a stunned target",
     "weighting": 2,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ],
     "attack_vectors": [ "HAND" ]
@@ -540,7 +543,8 @@
     "messages": [ "You devastate %s with a spectacular Viper Strike", "<npcname> devastates %s with a spectacular Viper Strike" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
-    "stunned_target": true,
+    "condition": { "npc_has_effect": "stunned" },
+    "condition_desc": "Requires a stunned target",
     "weighting": 2,
     "crit_tec": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
@@ -613,6 +617,8 @@
     "unarmed_allowed": true,
     "required_buffs_all": [ "buff_toad_ongethit" ],
     "crit_ok": true,
+    "condition": { "not": { "npc_has_effect": "downed" } },
+    "condition_desc": "* Only works on a <info>non-downed</info> target",
     "down_dur": 2,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
     "attack_vectors": [ "HAND" ]
@@ -649,6 +655,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
+    "condition": { "not": { "npc_has_effect": "downed" } },
+    "condition_desc": "* Only works on a <info>non-downed</info> target",
     "down_dur": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
     "attack_vectors": [ "PALM" ]

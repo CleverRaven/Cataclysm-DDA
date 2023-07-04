@@ -1218,6 +1218,58 @@ item_location game_menus::inv::gun_to_modify( Character &you, const item &gunmod
                          _( "You don't have any guns to modify." ) );
 }
 
+class ereader_inventory_preset : public pickup_inventory_preset
+{
+    public:
+        explicit ereader_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
+            you( you ) {
+            _collate_entries = true;
+            if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
+                append_cell( [ this ]( const item_location & loc ) {
+                    return string_format( "<color_light_green>%s</color>", get_action_name( *loc ) );
+                }, _( "ACTION" ) );
+            }
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_ebook_storage();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item &it = *loc;
+
+            if( it.is_broken() ) {
+                return _( "E-reader is broken and won't turn on." );
+            }
+
+            if( !it.ammo_sufficient( &you, "EBOOKREAD" ) ) {
+                return string_format(
+                           n_gettext( "Needs at least %d charge.",
+                                      "Needs at least %d charges.", loc->ammo_required() ),
+                           loc->ammo_required() );
+            }
+
+            if( !it.has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+                return pickup_inventory_preset::get_denial( loc );
+            }
+
+            return std::string();
+        }
+
+    protected:
+        std::string get_action_name( const item &it ) const {
+            return string_format( "Read on %s.", it.tname() );
+        }
+    private:
+        const Character &you;
+};
+
+item_location game_menus::inv::ereader_to_use( Character &you )
+{
+    const std::string msg = _( "You don't have any e-readers you can use." );
+    return inv_internal( you, ereader_inventory_preset( you ), _( "Select e-reader." ), 1, msg );
+}
+
 class read_inventory_preset: public pickup_inventory_preset
 {
     public:
@@ -1725,10 +1777,6 @@ class attach_molle_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
 
-            if( !loc.get_item()->empty() ) {
-                return "item needs to be empty.";
-            }
-
             if( actor->size - vest->get_contents().get_additional_space_used() < loc->get_pocket_size() ) {
                 return "not enough space left on the vest.";
             }
@@ -1854,6 +1902,13 @@ class repair_inventory_preset: public inventory_selector_preset
                                          chance.first > 0 ? c_light_green : c_unset ) );
             },
             _( "DAMAGE CHANCE" ) );
+
+            append_cell( [actor, &you]( const item_location & loc ) {
+                const int difficulty = actor->repair_recipe_difficulty( *loc );
+                return colorize( string_format( "%d", difficulty ),
+                                 difficulty > you.get_skill_level( actor->used_skill ) ? c_red : c_unset );
+            },
+            _( "DIFFICULTY" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {

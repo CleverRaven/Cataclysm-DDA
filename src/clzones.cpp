@@ -319,7 +319,7 @@ plot_options::query_seed_result plot_options::query_seed()
         }
     }
     std::vector<seed_tuple> seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_null, _( "No seed" ), 0 ) );
+    seed_entries.emplace( seed_entries.begin(), itype_null, _( "No seed" ), 0 );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
@@ -394,8 +394,8 @@ std::string unload_options::get_zone_name_suggestion() const
 std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const
 {
     std::vector<std::pair<std::string, std::string>> options;
-    options.emplace_back( std::make_pair( _( "Loot: Custom: " ),
-                                          !mark.empty() ? mark : _( "No filter" ) ) );
+    options.emplace_back( _( "Loot: Custom: " ),
+                          !mark.empty() ? mark : _( "No filter" ) );
 
     return options;
 }
@@ -403,9 +403,9 @@ std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions(
 std::vector<std::pair<std::string, std::string>> unload_options::get_descriptions() const
 {
     std::vector<std::pair<std::string, std::string>> options;
-    options.emplace_back( std::make_pair( _( "Unload: " ),
-                                          string_format( "%s%s%s", mods ? _( "mods " ) : "",  molle ? _( "MOLLE " ) : "",
-                                                  always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) ) );
+    options.emplace_back( _( "Unload: " ),
+                          string_format( "%s%s%s", mods ? _( "mods " ) : "",  molle ? _( "MOLLE " ) : "",
+                                         always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) );
 
     return options;
 }
@@ -484,8 +484,8 @@ std::vector<std::pair<std::string, std::string>> blueprint_options::get_descript
 {
     std::vector<std::pair<std::string, std::string>> options =
                 std::vector<std::pair<std::string, std::string>>();
-    options.emplace_back( std::make_pair( _( "Construct: " ),
-                                          group ? group->name() : _( "No Construction" ) ) );
+    options.emplace_back( _( "Construct: " ),
+                          group ? group->name() : _( "No Construction" ) );
 
     return options;
 }
@@ -494,8 +494,8 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
     options.emplace_back(
-        std::make_pair( _( "Plant seed: " ),
-                        !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
+        _( "Plant seed: " ),
+        !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) );
 
     return options;
 }
@@ -785,7 +785,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
 {
     std::unordered_set<tripoint> res;
     map &here = get_map();
-    for( const tripoint &elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
+    for( const tripoint &elem : here.points_in_radius( here.getlocal( where ), radius, radius ) ) {
         const zone_data *zone = get_zone_at( here.getglobal( elem ), true, fac );
         if( zone == nullptr ) {
             continue;
@@ -823,10 +823,8 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint_abs_ms &wh
 {
     const auto &point_set = get_point_set( type, fac );
     for( const tripoint_abs_ms &point : point_set ) {
-        if( point.z() == where.z() ) {
-            if( square_dist( point, where ) <= range ) {
-                return true;
-            }
+        if( square_dist( point, where ) <= range ) {
+            return true;
         }
     }
 
@@ -840,6 +838,30 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint_abs_ms &wh
     }
 
     return false;
+}
+
+std::vector<zone_data const *> zone_manager::get_near_zones( const zone_type_id &type,
+        const tripoint_abs_ms &where, int range,
+        const faction_id &fac ) const
+{
+    std::vector<zone_data const *> ret;
+    for( const zone_data &zone : zones ) {
+        if( square_dist( zone.get_center_point(), where ) <= range && zone.get_type() == type &&
+            zone.get_faction() == fac ) {
+            ret.emplace_back( &zone );
+        }
+    }
+
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
+    for( const zone_data *zone : vzones ) {
+        if( square_dist( zone->get_center_point(), where ) <= range && zone->get_type() == type &&
+            zone->get_faction() == fac ) {
+            ret.emplace_back( zone );
+        }
+    }
+
+    return ret;
 }
 
 bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
@@ -926,12 +948,10 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
     std::unordered_set<tripoint_abs_ms> near_point_set;
 
     for( const tripoint_abs_ms &point : point_set ) {
-        if( point.z() == where.z() ) {
-            if( square_dist( point, where ) <= range ) {
-                if( ( type != zone_type_LOOT_CUSTOM && type != zone_type_LOOT_ITEM_GROUP ) ||
-                    ( it != nullptr && custom_loot_has( point, it, type, fac ) ) ) {
-                    near_point_set.insert( point );
-                }
+        if( square_dist( point, where ) <= range ) {
+            if( ( type != zone_type_LOOT_CUSTOM && type != zone_type_LOOT_ITEM_GROUP ) ||
+                ( it != nullptr && custom_loot_has( point, it, type, fac ) ) ) {
+                near_point_set.insert( point );
             }
         }
     }

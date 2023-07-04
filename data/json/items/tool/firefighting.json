@@ -55,7 +55,7 @@
     "type": "TOOL",
     "name": { "str": "fire axe" },
     "description": "A large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
-    "weight": "2520 g",
+    "weight": "3448 g",
     "volume": "2 L",
     "price": 20000,
     "longest_side": "90 cm",
@@ -79,7 +79,7 @@
         "holster": true
       }
     ],
-    "melee_damage": { "bash": 17, "cut": 34 }
+    "melee_damage": { "bash": 18, "cut": 37 }
   },
   {
     "id": "halligan",
@@ -145,7 +145,7 @@
     "color": "blue",
     "use_action": {
       "target": "throw_extinguisher_act",
-      "target_charges": 3,
+      "target_timer": "3 seconds",
       "menu_text": "Pull plug",
       "msg": "You pull the plug on the extinguisher grenade.",
       "active": true,
@@ -168,9 +168,6 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "light_red",
-    "initial_charges": 3,
-    "max_charges": 3,
-    "turns_per_charge": 1,
     "emits": [ "emit_extinguisher_burst" ],
     "revert_to": "canister_empty",
     "flags": [ "TRADER_AVOID" ],

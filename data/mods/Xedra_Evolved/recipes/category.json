@@ -2,6 +2,13 @@
   {
     "type": "recipe_category",
     "id": "CC_XEDRA",
-    "recipe_subcategories": [ "CSC_XEDRA_RESEARCH", "CSC_XEDRA_WEAPONS", "CSC_XEDRA_ARMOR", "CSC_XEDRA_ROBOTS", "CSC_XEDRA_MISC" ]
+    "recipe_subcategories": [
+      "CSC_XEDRA_RESEARCH",
+      "CSC_XEDRA_WEAPONS",
+      "CSC_XEDRA_ARMOR",
+      "CSC_XEDRA_ROBOTS",
+      "CSC_XEDRA_MISC",
+      "CSC_XEDRA_ALCHEMY"
+    ]
   }
 ]
