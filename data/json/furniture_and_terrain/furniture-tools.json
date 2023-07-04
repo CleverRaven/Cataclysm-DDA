@@ -1102,7 +1102,7 @@
     "coverage": 40,
     "required_str": 16,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "heavy_lathe" },
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -1113,7 +1113,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "steel_lump", "count": [ 1, 2 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [ { "item": "heavy_lathe", "count": 1 } ] }
   },
   {
     "type": "furniture",
