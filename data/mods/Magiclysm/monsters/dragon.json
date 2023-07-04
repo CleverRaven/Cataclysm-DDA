@@ -88,10 +88,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 9 } ],
     "dodge": 5,
-    "armor_bash": 2,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_acid": 600,
     "vision_day": 30,
     "vision_night": 20,
     "path_settings": { "//min_dist": 8, "avoid_traps": true, "avoid_sharp": true },
@@ -101,7 +97,8 @@
       [ "scratch", 7 ],
       { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 4 }, "cooldown": 20 }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "ACIDPROOF", "PUSH_MON", "FLIES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "ACIDPROOF", "PUSH_MON", "FLIES" ],
+    "armor": { "bash": 2, "cut": 12, "acid": 600, "bullet": 10 }
   },
   {
     "id": "mon_dragon_black_young",
@@ -117,14 +114,12 @@
     "melee_dice": 3,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 16 } ],
-    "armor_bash": 8,
-    "armor_cut": 20,
-    "armor_bullet": 16,
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
       [ "scratch", 3 ],
       { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 12 }, "cooldown": 20 }
-    ]
+    ],
+    "armor": { "acid": 600, "bash": 8, "cut": 20, "bullet": 16 }
   },
   {
     "id": "mon_dragon_black_adult",
@@ -138,9 +133,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 28 } ],
-    "armor_bash": 14,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "dodge": 3,
     "//2": "Large means powerful, but it does not mean fast.",
     "speed": 100,
@@ -150,6 +142,7 @@
       { "type": "bite", "cooldown": 10 },
       [ "scratch", 3 ],
       { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 22 }, "cooldown": 30 }
-    ]
+    ],
+    "armor": { "acid": 600, "bash": 14, "cut": 30, "bullet": 24 }
   }
 ]

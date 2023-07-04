@@ -321,7 +321,7 @@ class Item_factory
          */
         template<typename SlotType>
         void load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                                 const std::string &member, const std::string &src );
+                                 std::string_view member, const std::string &src );
 
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
@@ -330,7 +330,7 @@ class Item_factory
         void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
         void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
         void load( islot_bionic &slot, const JsonObject &jo, const std::string &src );
-        void load( relic &slot, const JsonObject &jo, const std::string &src );
+        void load( relic &slot, const JsonObject &jo, std::string_view src );
 
         //json data handlers
         void emplace_usage( std::map<std::string, use_function> &container,
@@ -358,14 +358,14 @@ class Item_factory
          */
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                            const std::string &name, const Item_group &parent );
-        bool load_string( std::vector<std::string> &vec, const JsonObject &obj, const std::string &name );
+        bool load_string( std::vector<std::string> &vec, const JsonObject &obj, std::string_view name );
         void add_entry( Item_group &ig, const JsonObject &obj, const std::string &context );
 
         void load_basic_info( const JsonObject &jo, itype &def, const std::string &src );
         void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
-        void extend_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
-        void delete_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
-        void set_properties_from_json( const JsonObject &jo, const std::string &member, itype &def );
+        void extend_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void delete_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void set_properties_from_json( const JsonObject &jo, std::string_view member, itype &def );
 
         // declared here to have friendship status with itype
         static void npc_implied_flags( itype &item_template );

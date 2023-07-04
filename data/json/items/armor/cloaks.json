@@ -1,7 +1,6 @@
 [
   {
     "id": "american_flag",
-    "repairs_like": "sheet",
     "type": "ARMOR",
     "name": { "str": "American flag" },
     "description": "A large American flag, made to fly in even the worst conditions.",
@@ -17,7 +16,7 @@
     "warmth": 20,
     "material_thickness": 0.3,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "encumbrance": 50,
@@ -28,7 +27,6 @@
   },
   {
     "id": "pride_flag",
-    "repairs_like": "sheet",
     "type": "ARMOR",
     "name": { "str": "pride flag" },
     "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
@@ -425,9 +423,9 @@
         "append": true
       },
       {
-        "id": "congolese_flag",
-        "name": { "str": "Congolese flag" },
-        "description": "A large red stripe divides a blue background into two triangles, the upper left corner sporting a yellow star.",
+        "id": "congo_flag",
+        "name": { "str": "Congo flag" },
+        "description": "It has a diagonal tricolor of green, yellow and red radiating from the lower hoist side corner.",
         "weight": 10,
         "append": true
       },
@@ -437,12 +435,1075 @@
         "description": "Five horizontal stripes of white, blue, and red run across it, with the coat of arms lying off-center.",
         "weight": 10,
         "append": true
+      },
+      {
+        "id": "croatian_flag",
+        "name": { "str": "Croatian flag" },
+        "description": "A flag of three horizontal stripes of red, white, and blue and a checkered red and white coat of arms shield, above which stands a crown of a dark and light blue pattern.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "cuban_flag",
+        "name": { "str": "Cuban flag" },
+        "description": "Blue and white stripes run horizontally across the flag, a red triangle forms over the left side with a white star in its center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "cypriot_flag",
+        "name": { "str": "Cypriot flag" },
+        "description": "A white flag with a yellow emblem of the island stands in the center, two green olive branches stand below it.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "czech_flag",
+        "name": { "str": "Czech flag" },
+        "description": "A flag with a blue triangle at the hoist and a horizontal white and red color on it.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "democratic_congo_flag",
+        "name": { "str": "Democratic Republic Congo flag" },
+        "description": "A sky blue flag with a yellow star in the upper left canton, diagonally running across the flag is a red strip and yellow fimbriation.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "danish_flag",
+        "name": { "str": "Danish flag" },
+        "description": "A flag of a red field with a white Nordic cross over it.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "djiboutian_flag",
+        "name": { "str": "Djiboutian flag" },
+        "description": "A flag that has a white triangle in the left portion with light blue and green color running horizontally.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "dominica_flag",
+        "name": { "str": "Dominica flag" },
+        "description": "A green flag with a running tricolor cross of yellow, black, and white, in the center stands a red circle with a parrot in the middle surrounded by green stars.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "dominican_flag",
+        "name": { "str": "Dominican flag" },
+        "description": "A flag with a white cross and a coat of arms in the center with a pattern of blue and red on the outside of the cross.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "ecuadorian_flag",
+        "name": { "str": "Ecuadorian flag" },
+        "description": "A horizontal tricolor flag of yellow, blue, and red with its coat of arms in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "egyptian_flag",
+        "name": { "str": "Egyptian flag" },
+        "description": "A horizontal tricolor flag of red, white, and black with a yellow eagle in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "salvadoran_flag",
+        "name": { "str": "Salvadoran flag" },
+        "description": "It is a horizontal pattern flag of blue, white, and blue with a coat of arms in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "equatorial_guinean_flag",
+        "name": { "str": "Equatorial Guinean flag" },
+        "description": "A horizontal tricolor flag, with green, white and red stripes and a blue triangle at the hoist with a coat of arms in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "eritrean_flag",
+        "name": { "str": "Eritrean flag" },
+        "description": "A tricolor flag of green, red, and blue with a golden wreath surrounding an olive branch near the hoist.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "estonian_flag",
+        "name": { "str": "Estonian flag" },
+        "description": "A horizontal tricolor flag of blue, black, and white.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "swazi_flag",
+        "name": { "str": "Swazi flag" },
+        "description": "A triband flag of blue with a yellow outline and red in the middle, in the center is a Nguni shield and two spears.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "ethiopian_flag",
+        "name": { "str": "Ethiopia flag" },
+        "description": "A horizontally running tricolor flag of green, yellow, and red, in the center is a blue circle and a yellow star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "fijian_flag",
+        "name": { "str": "Fijian flag" },
+        "description": "A sky blue flag with a Union Jack in the hoist and a shield centered in the outer half of it with the cross of Saint George within it.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "finnish_flag",
+        "name": { "str": "Finnish flag" },
+        "description": "A white flag with a blue Nordic cross over it.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "french_flag",
+        "name": { "str": "French flag" },
+        "description": "A tricolor flag of blue, white, and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "gabonese_flag",
+        "name": { "str": "Gabonese flag" },
+        "description": "A horizontal tricolor flag of green, yellow, and blue.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "gambian_flag",
+        "name": { "str": "Gambian flag" },
+        "description": "A flag consisting of horizontal red, blue, and green stripes separated by two thin stripes of white.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "georgian_flag",
+        "name": { "str": "Georgian flag" },
+        "description": "It is a white field flag with a red cross of Saint George and four equilateral crosses.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "german_flag",
+        "name": { "str": "German flag" },
+        "description": "A horizontal tricolor flag of black, red, and gold.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "ghanaian_flag",
+        "name": { "str": "Ghanaian flag" },
+        "description": "A horizontal tricolor flag of red, gold, and green, a black star standing in its center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "greek_flag",
+        "name": { "str": "Greek flag" },
+        "description": "A striped colored flag of four white and five blue alternating horizontal stripes, with a white cross on the upper left corner.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "grenadian_flag",
+        "name": { "str": "Grenadian flag" },
+        "description": "A flag that is diagonally divided field of yellow, green, yellow, green with a red border, in addition to the six yellow stars in the border, there is a central star in a red disk and, at the hoist, a nutmeg symbol.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "guatemalan_flag",
+        "name": { "str": "Guatemalan flag" },
+        "description": "A vertical triband flag that features a central band of white that holds the nation's coat of arms nestled between two bands of light blue.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "guinean_flag",
+        "name": { "str": "Guinean flag" },
+        "description": "A vertical triband flag of red, gold, and green.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bissau_guinean_flag",
+        "name": { "str": "Bissau Guinean flag" },
+        "description": "A flag that features two horizontal bands of gold and green with a red vertical band charged with a black star on the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "guyanese_flag",
+        "name": { "str": "Guyanese flag" },
+        "description": "A flag of a green field with the black edged red isosceles triangle based on the hoist side superimposed on the larger white edged golden triangle, also based on the hoist side, pointed toward the fly-side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "haitian_flag",
+        "name": { "str": "Haitian flag" },
+        "description": "A bicolor horizontal flag of blue and red, with a white rectangle in the center featuring a coat of arms.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "holy_see_flag",
+        "name": { "str": "Holy See flag" },
+        "description": "A flag with a bicolor of gold and white with the crossed keys of Saint Peter and the Papal Tiara centered in the white band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "honduran_flag",
+        "name": { "str": "Honduran flag" },
+        "description": "A flag with a horizontal triband of turquoise and white with five turquoise five pointed stars arranged in an x pattern centered on the white band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "hungarian_flag",
+        "name": { "str": "Hungarian flag" },
+        "description": "A tricolor flag consisting of horizontal red, white and green.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "icelandic_flag",
+        "name": { "str": "Icelandic flag" },
+        "description": "A flag of a blue field with the white edged red Nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "indian_flag",
+        "name": { "str": "Indian flag" },
+        "description": "A flag that has a horizontal triband of saffron, white, and green with a navy blue wheel with twenty four spokes in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "indonesian_flag",
+        "name": { "str": "Indonesian flag" },
+        "description": "A flag with a horizontal bicolor of red and white.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "iranian_flag",
+        "name": { "str": "Iranian flag" },
+        "description": "A flag that has a horizontal tricolor of green, white and red with the national emblem in red centered on the white band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "iraqi_flag",
+        "name": { "str": "Iraqi flag" },
+        "description": "A tricolor flag of horizontal stripes in red, white, and black with the inscription in Kufic script in the center white band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "irish_flag",
+        "name": { "str": "Irish flag" },
+        "description": "A tricolor flag featuring vertical stripes of green, white, and orange.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "israeli_flag",
+        "name": { "str": "Israeli flag" },
+        "description": "A flag that has a white field bearing two horizontal blue stripes and a blue central Shield of David.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "italian_flag",
+        "name": { "str": "Italian flag" },
+        "description": "A flag that has a tricolor vertical stripes of green, white, and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "jamaican_flag",
+        "name": { "str": "Jamaican flag" },
+        "description": "A flag that has a gold diagonal cross which divides the field into four triangles of green and black.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "japanese_flag",
+        "name": { "str": "Japanese flag" },
+        "description": "A flag of a white field with a red circle in the center piece.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "jordanian_flag",
+        "name": { "str": "Jordanian flag" },
+        "description": "A flag of a horizontal triband of black, white and green; with a red chevron based on the hoist side containing a white seven-pointed star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "kazakhstani_flag",
+        "name": { "str": "Kazakhstani flag" },
+        "description": "A flag that features a gold sun above a soaring golden steppe eagle, both centered on a turquoise field.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "kenyan_flag",
+        "name": { "str": "Kenyan flag" },
+        "description": "A flag that features a horizontal tricolor of black, white-edged red, and green with two crossed white spears behind a red, white, and black Maasai shield.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "kiribati_flag",
+        "name": { "str": "Kiribati flag" },
+        "description": "A flag that features a horizontal bicolor of red and blue with the yellow frigate bird flying over the rising sun with seventeen rays centered on the upper half and three white wavy horizontal stripes on the lower half.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "kuwaiti_flag",
+        "name": { "str": "Kuwaiti flag" },
+        "description": "A flag that features a horizontal triband of green, white and red; with a black trapezium based on the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "kyrgyz_flag",
+        "name": { "str": "Kyrgyz flag" },
+        "description": "A flag that features a red field charged with a yellow sun with forty uniformly spaced rays, the sun is crossed by two sets of three lines.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "laotian_flag",
+        "name": { "str": "Laotian flag" },
+        "description": "A flag that features a horizontal triband of red, blue and red, charged in the center a white circle.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "latvian_flag",
+        "name": { "str": "Latvian flag" },
+        "description": "A flag that features a carmine red field bisected by a narrow white stripe.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "lebanese_flag",
+        "name": { "str": "Lebanese flag" },
+        "description": "A flag that features a horizontal triband of red, white, and red, charged in the center is a green cedar tree.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "basotho_flag",
+        "name": { "str": "Basotho flag" },
+        "description": "A horizontal triband of blue, white and green charged with a black mokorotlo centered on the white band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "liberian_flag",
+        "name": { "str": "Liberian flag" },
+        "description": "A flag that features eleven horizontal stripes alternating red and white, in the canton is a white star on a blue field.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "libyan_flag",
+        "name": { "str": "Libyan flag" },
+        "description": "A flag that features a horizontal triband of red, black, and green charged with a white crescent and five pointed star centered on the black stripe.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "liechtensteiner_flag",
+        "name": { "str": "Liechtensteiner flag" },
+        "description": "A flag that features a horizontal bicolor of blue and red, charged with a gold crown in the canton.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "lithuanian_flag",
+        "name": { "str": "Lithuanian flag" },
+        "description": "A flag that features a horizontal triband of yellow, green and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "luxembourger_flag",
+        "name": { "str": "Luxembourger flag" },
+        "description": "A flag that features a horizontal triband of red, white and light blue.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "madagascan_flag",
+        "name": { "str": "Madagascan flag" },
+        "description": "A flag that features two horizontal bands of red and green with a white vertical band on the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "malawian_flag",
+        "name": { "str": "Malawian flag" },
+        "description": "A flag that features a horizontal triband of black, red, and green; charged with a red rising sun with rays centered on the black stripe.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "malaysia_flag",
+        "name": { "str": "Malaysian flag" },
+        "description": "A flag that features fourteen horizontal stripes alternating red and white, a yellow crescent and fourteen-point star on a blue field in on the canton.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "maldivian_flag",
+        "name": { "str": "Maldivian flag" },
+        "description": "A flag that features a green rectangle centered on a red field; charged with a white crescent.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "malian_flag",
+        "name": { "str": "Malian flag" },
+        "description": "A flag that features a vertical tricolor of green, gold and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "maltese_flag",
+        "name": { "str": "Maltese flag" },
+        "description": "A flag that features a vertical bicolor of white and red with the representation of the George Cross edged in red on the upper hoist-side corner of the white band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "marshallese_flag",
+        "name": { "str": "Marshallese flag" },
+        "description": "A flag that features a blue field with two diagonal stripes of orange and white radiating from the lower hoist side corner to the upper fly side corner and the large white star with four large rays and twenty small rays on the upper hoist side corner above the stripes.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "mauritanian_flag",
+        "name": { "str": "Mauritanian flag" },
+        "description": "A flag that features two red stripes flanking a green field with a golden upward-pointed crescent and star charged in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "mexican_flag",
+        "name": { "str": "Mexican flag" },
+        "description": "A flag that features a vertical tricolor of green, white and red, with the national coat of arms centered on the white band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "micronesian_flag",
+        "name": { "str": "Micronesian flag" },
+        "description": "A flag with a light blue field with four white five-pointed stars arranged in the diamond pattern in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "moldovan_flag",
+        "name": { "str": "Moldovan flag" },
+        "description": "A vertical tricolor of blue, yellow and red charged with the coat of arms centered on the yellow band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "monegasque_flag",
+        "name": { "str": "Monegasque flag" },
+        "description": "A horizontal bicolor flag of red and white.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "mongolian_flag",
+        "name": { "str": "Mongolian flag" },
+        "description": "A flag that features a vertical triband of red and blue with a Soyombo symbol centered on the hoist-side of the red band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "montenegrin_flag",
+        "name": { "str": "Montenegrin flag" },
+        "description": "A flag that features a red field surrounded by a golden border charged with the coat of arms at the center of a two headed eagle.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "moroccan_flag",
+        "name": { "str": "Moroccan flag" },
+        "description": "A flag that features a red field with a green pentagram, a five-pointed linear star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "myanma_flag",
+        "name": { "str": "Myanma flag" },
+        "description": "A flag that features a horizontal triband of yellow, green and red charged with a large white five pointed star at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "namibian_flag",
+        "name": { "str": "Namibian flag" },
+        "description": "A flag that features a white edged red diagonal band radiating from the lower hoist side corner.  The upper triangle is blue, charged with a gold sun with rays and the lower triangle is green.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "nauruan_flag",
+        "name": { "str": "Nauruan flag" },
+        "description": "A flag that features a blue field with the thin yellow narrow horizontal stripe across in the center and the large white twelve pointed star on the bottom of the stripe and near the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "nepali_flag",
+        "name": { "str": "Nepali flag" },
+        "description": "A unique looking flag of two juxtaposed triangular figures with a blue colored base and deep blue borders, there being a white emblem of the crescent moon with eight rays visible out of sixteen in the upper part and a white emblem of a twelve rayed sun in the lower part.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "dutch_flag",
+        "name": { "str": "Dutch flag" },
+        "description": "A flag that features a horizontal triband of red, white, and cobalt blue.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "new_zealand_flag",
+        "name": { "str": "New Zealand flag" },
+        "description": "A flag that features a blue ensign with a Union Jack in the first quarter and four five-pointed red stars with white borders on the fly.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "nicaraguan_flag",
+        "name": { "str": "Nicaraguan flag" },
+        "description": "A flag that features a horizontal triband of azure and white with the coat of arms centered on the white band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "nigerien_flag",
+        "name": { "str": "Nigerien flag" },
+        "description": "A flag that features a horizontal triband of orange, white and green; charged with an orange circle in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "nigerian_flag",
+        "name": { "str": "Nigerian flag" },
+        "description": "A flag that features a vertical bicolor triband of green, white and green.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "north_korean_flag",
+        "name": { "str": "North Korean flag" },
+        "description": "A flag that features a wide red stripe at the center, bordered by a narrow white stripe both above and below, followed by a blue stripe.  The central red stripe carries a five pointed red star within a white circle near the hoist.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "macedonian_flag",
+        "name": { "str": "Macedonian flag" },
+        "description": "A flag that features a stylised yellow sun on a red field, with eight broadening rays extending from the center to the edge of the field.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "norwegian_flag",
+        "name": { "str": "Norwegian flag" },
+        "description": "A flag of a red field charged with a white fimbriated dark blue Nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "omani_flag",
+        "name": { "str": "Omani flag" },
+        "description": "A flag that features a horizontal tricolor of white, red and green with a vertical red stripe at the hoist, charged with the national emblem in the canton.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pakistani_flag",
+        "name": { "str": "Pakistani flag" },
+        "description": "A flag that features a white star and crescent on a dark green field, with a vertical white stripe at the hoist.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "palauan_flag",
+        "name": { "str": "Palauan flag" },
+        "description": "A flag that features a light blue field with the large yellow disk shifted slightly to the hoist-side of center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "palestinian_flag",
+        "name": { "str": "Palestinian flag" },
+        "description": "A flag that features a horizontal tricolor of black, white, and green with a red triangle based at the hoist.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "panamanian_flag",
+        "name": { "str": "Panamanian flag" },
+        "description": "A flag divided into four rectangles, going clockwise from the top left it features a blue star, a red rectangle, a red star, and a blue rectangle.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "papuan_flag",
+        "name": { "str": "Papuan flag" },
+        "description": "A flag divided diagonally from the upper hoist side corner to the lower fly side corner, the upper triangle is red with the soaring raggiana bird and the lower triangle is black with the Southern Cross of four white larger five pointed stars and the smaller star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "paraguayan_flag",
+        "name": { "str": "Paraguayan flag" },
+        "description": "A flag that features a horizontal triband of red, white and blue with a coat of arms in the center white band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "peruvian_flag",
+        "name": { "str": "Peruvian flag" },
+        "description": "A simple flag that features a vertical triband of red, white, and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "filipino_flag",
+        "name": { "str": "Filipino flag" },
+        "description": "A flag that features a horizontal bicolor of blue and red with a white equilateral triangle based at the hoist containing three, five pointed gold stars at its vertices, and an eight rayed gold sun at its center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "polish_flag",
+        "name": { "str": "Polish flag" },
+        "description": "A flag that features a horizontal bicolor of white and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "portugese_flag",
+        "name": { "str": "Portugese flag" },
+        "description": "A flag that features a vertically striped bicolor of green and red, with the lesser coat of arms of centered over the color boundary.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "qatari_flag",
+        "name": { "str": "Qatari flag" },
+        "description": "A flag that features a white band on the hoist side, separated from a maroon area on the fly side by nine white triangles which act as a serrated line.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "romanian_flag",
+        "name": { "str": "Romanian flag" },
+        "description": "A simple vertical tricolor flag of blue, yellow, and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "russian_flag",
+        "name": { "str": "Russian flag" },
+        "description": "A simple horizontal tricolor flag of white, blue and red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "rwandan_flag",
+        "name": { "str": "Rwandan flag" },
+        "description": "A horizontal tricolor flag of light blue, yellow and green charged with a sun-yellow sun in the upper fly side corner.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "saint_kitts_and_nevis_flag",
+        "name": { "str": "Saint Kitts and Nevis flag" },
+        "description": "It is a flag that features a yellow edged black diagonal band bearing two white five pointed stars divided diagonally from the lower hoist side corner to the upper fly side corner, the upper triangle is green and the lower triangle is red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "saint_lucian_flag",
+        "name": { "str": "Saint Lucian flag" },
+        "description": "A flag with a light blue field with a small golden isosceles triangle in front of a large white-edged black isosceles triangle in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "vincentian_flag",
+        "name": { "str": "Vincentian flag" },
+        "description": "A flag that features a pale triband of blue, gold, and green, with three green diamonds in the center arranged to form a v shape.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "samoan_flag",
+        "name": { "str": "Samoan flag" },
+        "description": "A flag with a red field and a blue rectangle on the upper hoist side quadrant bearing the Southern Cross of four white larger five pointed stars and the smaller star in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "sammarinese_flag",
+        "name": { "str": "Sammarinese flag" },
+        "description": "A flag that features a horizontal bicolor of white and light blue; charged with the national coat of arms in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "sao_tomean_flag",
+        "name": { "str": "Sao Tomean flag" },
+        "description": "A horizontal tricolor flag of green, yellow and green with a red triangle based at the hoist and two five pointed black stars of in the yellow stripe.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "saudi_arabian_flag",
+        "name": { "str": "Saudi Arabian flag" },
+        "description": "A flag that features a green field with the shahada or Muslim creed written in the Thuluth script in white above a horizontal sword, having its tip pointed to the left.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "senegalese_flag",
+        "name": { "str": "Senegalese flag" },
+        "description": "A flag that features a vertical tricolor of green, yellow and red; charged with a green five pointed star at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "serbian_flag",
+        "name": { "str": "Serbian flag" },
+        "description": "A flag that features a horizontal tricolor of red, blue, and white charged with the lesser coat of arms left of center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "seychellois_flag",
+        "name": { "str": "Seychellois flag" },
+        "description": "A flag that features five oblique bands of blue, yellow, red, white, and green radiating from the bottom of the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "sierra_leonean_flag",
+        "name": { "str": "Sierra Leonean flag" },
+        "description": "A flag that features a horizontal tricolor of light green, white and light blue.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "singaporean_flag",
+        "name": { "str": "Singaporean flag" },
+        "description": "A flag that features a horizontal bicolor of red and white, in the canton is a crescent facing the fly and a pentagon of five stars.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "slovakian_flag",
+        "name": { "str": "Slovakian flag" },
+        "description": "A flag that features a horizontal tricolor flag of white, blue, and red; charged with coat of arms at the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "slovenian_flag",
+        "name": { "str": "Slovenian flag" },
+        "description": "A flag that features a horizontal tricolor flag of white, blue, and red charged with a small coat of arms at the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "solomon_islands_flag",
+        "name": { "str": "Solomon Islands flag" },
+        "description": "A flag that has a thin, yellow stripe dividing diagonally from the lower hoist side corner to the upper fly side corner, the upper triangle is blue with five white five pointed stars arranged in an x pattern and the lower triangle is green.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "somali_flag",
+        "name": { "str": "Somali flag" },
+        "description": "A flag that has a single white five pointed star centered on a cyan field.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "south_africa_flag",
+        "name": { "str": "South African flag" },
+        "description": "A horizontal bicolor flag of red and blue with a black isosceles triangle based on the hoist side and a green pall, a central green band that splits into a horizontal Y, centered over the partition lines and was edged in both white against the red and the blue bands and yellow against the triangle, in which the arms of the Y ends at the corners of the hoist and embraces the triangle on the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "south_korea_flag",
+        "name": { "str": "South Korean flag" },
+        "description": "A flag of a white field with a centered red and blue taegeuk surrounded by four trigrams.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "south_sudan_flag",
+        "name": { "str": "South Sudan flag" },
+        "description": "A horizontal tricolor flag of black, red, and green, fimbriated with white stripes with a blue equilateral triangle based on the hoist side bearing a gold star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "spanish_flag",
+        "name": { "str": "Spanish flag" },
+        "description": "A flag that has a horizontal triband flag of red, yellow and red charged with the spanish coat of arms off centered toward the hoist.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "sri_lankan_flag",
+        "name": { "str": "Sri Lankan flag" },
+        "description": "A flag of a golden field with two panels the smaller hoist side panel has only two vertical bands of teal and orange and the larger fly side panel is the maroon field depicting the golden lion holding the kastane sword.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "sudanese_flag",
+        "name": { "str": "Sudanese flag" },
+        "description": "A flag that has a horizontal tricolor of red, white, and black with a green triangle based at the hoist.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "surinamese_flag",
+        "name": { "str": "Surinamese flag" },
+        "description": "A flag that features a horizontal triband of green and red with large white border with the large yellow five pointed star centered on the red band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "swedish_flag",
+        "name": { "str": "Swedish flag" },
+        "description": "A flag that features a blue field charged with a yellow nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "swiss_flag",
+        "name": { "str": "Swiss flag" },
+        "description": "A red square flag with a white cross in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "syrian_flag",
+        "name": { "str": "Syrian flag" },
+        "description": "A flag that features a horizontal tricolor of red, white, and black charged with two green stars at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "taiwanese_flag",
+        "name": { "str": "Taiwanese flag" },
+        "description": "A flag with a red field and blue canton with a white sun in the canton.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "tajikistani_flag",
+        "name": { "str": "Tajikistani flag" },
+        "description": "A horizontal tricolor flag of red, white, and green, with a yellow crown surmounted by an arc of seven stars at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "tanzanian_flag",
+        "name": { "str": "Tanzanian flag" },
+        "description": "A flag that features a yellow edged black diagonal band divided diagonally from the lower hoist side corner, the upper triangle is green and the lower triangle is light blue.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "thai_flag",
+        "name": { "str": "Thai flag" },
+        "description": "A flag of five horizontal stripes of red, white, purple, white and red, the middle stripe being twice as wide as the others.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "timorese_flag",
+        "name": { "str": "Timorese flag" },
+        "description": "A flag of a red field with the black isosceles triangle based on the hoist side bearing a white five pointed star in the center superimposed on the larger yellow triangle, also based on the hoist-side, that extends to the center of the flag.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "togolese_flag",
+        "name": { "str": "Togolese flag" },
+        "description": "A flag that features five equal horizontal bands of green alternating with yellow with a red canton bearing a white five pointed star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "tongan_flag",
+        "name": { "str": "Tongan flag" },
+        "description": "A flag of a red field with the white rectangle on the upper hoist side corner bearing the red Greek Cross in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "trinidad_and_tobago_flag",
+        "name": { "str": "Trinidad and Tobago flag" },
+        "description": "A flag of a red field with a white fimbriated black diagonal band from the upper hoist side to the lower fly side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "tunisian_flag",
+        "name": { "str": "Tunisian flag" },
+        "description": "A flag of a red field with a centered white sun disc containing a red five pointed star surrounded by a red crescent.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "turkish_flag",
+        "name": { "str": "Turkish flag" },
+        "description": "A flag of a red field with a white star and crescent slightly left of center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "turkmen_flag",
+        "name": { "str": "Turkmen flag" },
+        "description": "A flag of a green field with a vertical red stripe near the hoist side, containing five carpet guls stacked above two crossed olive branches; a white waxing crescent moon and five white five pointed stars appear in the upper field, to the fly side of the red stripe.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "tuvaluan_flag",
+        "name": { "str": "Tuvaluan flag" },
+        "description": "A flag of a light blue field with a union jack in the canton and nine yellow stars on the fly half of the flag.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "ugandan_flag",
+        "name": { "str": "Ugandan flag" },
+        "description": "A flag that features six equal horizontal bands of black, yellow, red, black, yellow, and red, a white disc is superimposed at the center with a grey crowned crane, facing the hoist side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "ukrainian_flag",
+        "name": { "str": "Ukrainian flag" },
+        "description": "A horizontal bicolor flag of blue and yellow.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "emirati_flag",
+        "name": { "str": "Emirati flag" },
+        "description": "A horizontal tricolor flag of green, white and black with a vertical red bar at the hoist.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "united_kingdom_flag",
+        "name": { "str": "United Kingdom flag" },
+        "description": "A flag with white fimbriated asymmetric red cross on a blue field with a white fimbriated counterchanged saltire of red and white.  Also known as the Union Jack.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "uruguayan_flag",
+        "name": { "str": "Uruguayan flag" },
+        "description": "A flag of four horizontal stripes of blue with the upper hoist side corner bearing the sun of may in the center over a white field.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "uzbek_flag",
+        "name": { "str": "Uzbek flag" },
+        "description": "A horizontal triband flag of azure, white and green, separated by two narrow red stripes.  A white crescent and three rows of twelve white five pointed stars are situated on the left side of the upper azure stripe.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "vanuatuan_flag",
+        "name": { "str": "Vanuatuan flag" },
+        "description": "A horizontal bicolor flag of red and green with a golden pall, fimbriated in black, with a black chevron filling the left hand space and two gold crossed namele cycad fronds encircled in a gold boar tusk centered on the chevron.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "venezuelan_flag",
+        "name": { "str": "Venezuelan flag" },
+        "description": "A horizontal tricolor flag of yellow, blue and red with an arc of eight white five pointed stars centered on the blue band.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "vietnamese_flag",
+        "name": { "str": "Vietnamese flag" },
+        "description": "A flag with a red field and large yellow star in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "yemenis_flag",
+        "name": { "str": "Yemenis flag" },
+        "description": "A horizontal tricolor flag of red, white and black.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "zambian_flag",
+        "name": { "str": "Zambian flag" },
+        "description": "A flag featuring green field with an orange fish eagle in flight over a rectangular block of three vertical stripes colored from left to right in red, black and orange.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "zimbabwean_flag",
+        "name": { "str": "Zimbabwean flag" },
+        "description": "A flag of seven horizontal stripes of green, yellow, red, black, red, yellow and green with a black edged white isosceles triangle base on the hoist side bearing a Zimbabwe bird superimposed on a red five pointed star.",
+        "weight": 10,
+        "append": true
       }
     ]
   },
   {
     "id": "state_flag",
-    "repairs_like": "sheet",
     "type": "ARMOR",
     "name": { "str": "state flag" },
     "description": "A large white flag with a shield featuring an American Native and a star which represents the state of Massachusetts.",
@@ -479,20 +1540,19 @@
       {
         "id": "connecticut_flag",
         "name": { "str": "Connecticut flag" },
-        "description": "A large blue flag featuring a white baroque shield with three grapevines, each bearing three bunches of purple grapes on a field of royal blue, below the shield reads “Qui Transtulit Sustinet”, which is Latin for “He who transplanted sustains” which represents the state of Connecticut.",
+        "description": "A large blue flag featuring a white baroque shield with three grapevines, each bearing three bunches of purple grapes on a field of royal blue, below the shield reads \"Qui Transtulit Sustinet\", which is Latin for \"He who transplanted sustains\" which represents the state of Connecticut.",
         "weight": 5
       },
       {
         "id": "rhode_island_flag",
         "name": { "str": "Rhode Island flag" },
-        "description": "A large white flag of Rhode Island that features a golden anchor in the middle of it surrounded by thirteen gold stars, below the anchor is a blue banner that reads “hope”.",
+        "description": "A large white flag of Rhode Island that features a golden anchor in the middle of it surrounded by thirteen gold stars, below the anchor is a blue banner that reads \"hope\".",
         "weight": 5
       }
     ]
   },
   {
     "id": "cape_fp",
-    "repairs_like": "sheet",
     "type": "ARMOR",
     "name": { "str": "Foodperson's cape" },
     "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
@@ -511,6 +1571,36 @@
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
+    "id": "cape_sci_fi",
+    "type": "ARMOR",
+    "copy-from": "cape_fp",
+    "name": { "str": "heraldic cape" },
+    "looks_like": "holo_cloak",
+    "description": "Sable and argent fields retreat diagonally from a full-moon sigil.  Its metallic fibers reveal holographic motifs in accordance with ambient light.",
+    "weight": "5900 g",
+    "price_postapoc": "750 USD",
+    "sided": true,
+    "//": "It is worn as a half-cape.",
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": [ "torso_hanging_back", "arm_shoulder_l", "arm_upper_l", "arm_shoulder_r", "arm_upper_r" ]
+      },
+      {
+        "encumbrance": 1,
+        "coverage": 80,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_lower_l", "arm_elbow_r", "arm_lower_r" ]
+      }
+    ],
+    "flags": [ "OVERSIZE", "BELTED", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ],
+    "material": [ "nanotubes" ],
+    "material_thickness": 2.5,
+    "color": "blue"
+  },
+  {
     "id": "grass_cloak",
     "type": "ARMOR",
     "name": { "str": "grass cloak" },
@@ -526,7 +1616,7 @@
     "color": "yellow",
     "warmth": 10,
     "material_thickness": 0.4,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "BELTED" ],
     "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
@@ -546,13 +1636,12 @@
     "warmth": 30,
     "material_thickness": 0.4,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
     "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "cloak_vampire",
     "type": "ARMOR",
-    "repairs_like": "cloak",
     "name": { "str": "sinister cloak (black)", "str_pl": "sinister cloaks (black)" },
     "description": "A sinister-looking hooded cloak meant to be thrown over your body.  The black side is currently facing outwards.  Use it to reverse it and show the red side.",
     "weight": "150 g",
@@ -567,7 +1656,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "FANCY" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "FANCY" ],
     "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
     "use_action": {
       "type": "transform",
@@ -579,7 +1668,6 @@
   {
     "id": "cloak_vampire_red",
     "copy-from": "cloak_vampire",
-    "repairs_like": "cloak",
     "type": "ARMOR",
     "name": { "str": "sinister cloak (red)", "str_pl": "sinister cloaks (red)" },
     "description": "A sinister-looking hooded cloak meant to be thrown over your body.  The red side is currently facing outwards.  Use it to reverse it and show the black side.",
@@ -594,7 +1682,6 @@
   {
     "id": "cloak_black",
     "type": "ARMOR",
-    "repairs_like": "cloak",
     "name": { "str": "dark cloak" },
     "description": "A black cloak meant to be thrown over your body.  Commonly used by witches and other creatures of the night.",
     "weight": "100 g",
@@ -608,7 +1695,7 @@
     "color": "dark_gray",
     "warmth": 8,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "BELTED" ],
     "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -628,7 +1715,7 @@
     "warmth": 60,
     "material_thickness": 0.6,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "WATERPROOF", "RAINPROOF" ],
     "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -648,7 +1735,7 @@
     "warmth": 40,
     "material_thickness": 1.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "WATERPROOF", "RAINPROOF" ],
     "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -668,12 +1755,11 @@
     "warmth": 50,
     "material_thickness": 0.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
     "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jedi_cloak",
-    "repairs_like": "cloak",
     "type": "ARMOR",
     "name": { "str": "Jedi cloak" },
     "description": "A long, flowing robe.  Be sure to tear it off dramatically before fighting any foes!",
@@ -689,7 +1775,7 @@
     "warmth": 5,
     "material_thickness": 0.3,
     "environmental_protection": 5,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "BELTED" ],
     "armor": [
       {
         "encumbrance": 3,
@@ -724,18 +1810,28 @@
       "need_charges": 20,
       "need_charges_msg": "You don't have enough UPS charges to turn on the %s"
     },
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "SOFT" ],
+    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "BELTED", "VARSIZE", "SOFT", "NO_REPAIR" ],
     "armor": [ { "encumbrance": 50, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "optical_cloak_on",
     "copy-from": "optical_cloak",
-    "repairs_like": "optical_cloak",
     "looks_like": "optical_cloak",
     "type": "TOOL_ARMOR",
     "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from a UPS.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "ACTIVE_CLOAKING", "TRADER_AVOID", "SOFT" ],
+    "flags": [
+      "USE_UPS",
+      "OVERSIZE",
+      "HOOD",
+      "WATERPROOF",
+      "OUTER",
+      "VARSIZE",
+      "ACTIVE_CLOAKING",
+      "TRADER_AVOID",
+      "SOFT",
+      "NO_REPAIR"
+    ],
     "power_draw": "20 kW",
     "revert_to": "optical_cloak",
     "use_action": {

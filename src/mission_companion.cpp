@@ -150,6 +150,7 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Forage_Job: return "Forage_Job";
         case mission_kind::Caravan_Commune_Center_Job: return "Caravan_Commune_Center_Job";
         case mission_kind::Camp_Distribute_Food: return "Camp_Distribute_Food";
+		case mission_kind::Camp_Determine_Leadership: return "Camp_Determine_Leadership";
         case mission_kind::Camp_Hide_Mission: return "Camp_Hide_Mission";
         case mission_kind::Camp_Reveal_Mission: return "Camp_Reveal_Mission";
         case mission_kind::Camp_Assign_Jobs: return "Camp_Assign_Jobs";
@@ -223,6 +224,10 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
         //  Faction camp missions
         {
             "Camp_Distribute_Food",
+            no_translation( "" )
+        },
+        {
+            "Camp_Determine_Leadership",
             no_translation( "" )
         },
         {
@@ -1068,7 +1073,7 @@ bool talk_function::display_and_choose_opts(
         const int recmax = static_cast<int>( cur_key_list.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "UP" || action == "SCROLL_UP" || action == "DOWN" || action == "SCROLL_DOWN" ) {
-            sel = increment_and_wrap( sel, action == "DOWN" || action == "SCROLL_DOWN", cur_key_list.size() );
+            sel = inc_clamp_wrap( sel, action == "DOWN" || action == "SCROLL_DOWN", cur_key_list.size() );
             info_offset = 0;
         } else if( action == "SCROLL_MISSION_INFO_UP" ) {
             if( info_offset > 0 ) {
@@ -1077,8 +1082,7 @@ bool talk_function::display_and_choose_opts(
         } else if( action == "SCROLL_MISSION_INFO_DOWN" ) {
             info_offset++;
         } else if( action == "PAGE_UP" || action == "PAGE_DOWN" ) {
-            sel = increment_and_wrap( sel, action == "PAGE_UP" ? -scroll_rate : scroll_rate,
-                                      cur_key_list.size() );
+            sel = inc_clamp_wrap( sel, action == "PAGE_UP" ? -scroll_rate : scroll_rate, cur_key_list.size() );
             info_offset = 0;
 
         } else if( action == "NEXT_TAB" && role_id == role_id_faction_camp ) {
@@ -1198,6 +1202,7 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
             return false;
 
         case Camp_Distribute_Food:
+        case Camp_Determine_Leadership:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
@@ -1459,7 +1464,7 @@ int talk_function::combat_score( const std::vector<npc_ptr> &group )
         if( elem->get_part_hp_cur( bodypart_id( "torso" ) ) != 0 ) {
             const skill_id best = elem->best_combat_skill( combat_skills::ALL ).first;
             if( best ) {
-                score += elem->get_skill_level( best );
+                score += round( elem->get_skill_level( best ) );
             } else {
                 score += 1;
             }
@@ -2143,7 +2148,7 @@ bool talk_function::forage_return( npc &p )
     // the following doxygen aliases do not yet exist. this is marked for future reference
 
     ///\EFFECT_SURVIVAL_NPC affects forage mission results
-    int skill = comp->get_skill_level( skill_survival );
+    float skill = comp->get_skill_level( skill_survival );
     if( skill > rng_float( -.5, 8 ) ) {
         item_group_id itemlist = Item_spawn_data_farming_seeds;
         if( one_in( 2 ) ) {
@@ -2463,7 +2468,7 @@ static int companion_combat_rank( const npc &p )
 
 static int companion_survival_rank( const npc &p )
 {
-    int survival = 2 * p.get_dex() + p.get_str() + 2 * p.get_per() + 1.5 * p.get_int();
+    float survival = 2 * p.get_dex() + p.get_str() + 2 * p.get_per() + 1.5 * p.get_int();
     for( const Skill &sk : Skill::skills ) {
         survival += p.get_skill_level( sk.ident() ) * sk.companion_survival_rank_factor();
     }
@@ -2506,7 +2511,8 @@ comp_list talk_function::companion_sort( comp_list available,
         }
 
         bool operator()( const npc_ptr &first, const npc_ptr &second ) const {
-            return first->get_skill_level( req_skill ) > second->get_skill_level( req_skill );
+            return static_cast<int>( first->get_skill_level( req_skill ) ) > static_cast<int>
+                   ( second->get_skill_level( req_skill ) );
         }
 
         skill_id req_skill;

@@ -1,0 +1,229 @@
+[
+  {
+    "id": "ar15_223long",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_223rem_extended" ]
+  },
+  {
+    "id": "ar15_223medium",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_223rem_medium" ]
+  },
+  {
+    "id": "ar15_223short",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_223rem_short" ]
+  },
+  {
+    "id": "ar15_300",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_300blk" ]
+  },
+  {
+    "id": "ar15_300medium",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_300blk_medium" ]
+  },
+  {
+    "id": "ar15_300short",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_300blk_short" ]
+  },
+  {
+    "id": "ar15_50",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_50beowulf" ]
+  },
+  {
+    "id": "ar15_50medium",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_50beowulf_medium" ]
+  },
+  {
+    "id": "ar15_50short",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_50beowulf_short" ]
+  },
+  {
+    "id": "ar15_450",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_450" ]
+  },
+  {
+    "id": "ar15_450medium",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_450_medium" ]
+  },
+  {
+    "id": "ar15_450short",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_450_short" ]
+  },
+  {
+    "id": "ar15_762",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_762" ]
+  },
+  {
+    "id": "mdrx_223",
+    "copy-from": "mdrx",
+    "type": "GUN",
+    "name": { "str": "Desert Tech bullpup carbine" },
+    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for .223 Remington, .308 Winchester, and .300 AAC Blackout being available.",
+    "default_mods": [ "retool_mdrx_223rem" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mdrx_223",
+        "name": { "str": "Desert Tech MDRX" },
+        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "mdrx_223short",
+    "copy-from": "mdrx",
+    "type": "GUN",
+    "name": { "str": "Desert Tech bullpup carbine" },
+    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for .223 Remington, .308 Winchester, and .300 AAC Blackout being available.",
+    "default_mods": [ "retool_mdrx_223rem_short" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mdrx_223short",
+        "name": { "str": "Desert Tech MDRX" },
+        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or 3.00 AAC Blackout.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "mdrx_300",
+    "copy-from": "mdrx",
+    "type": "GUN",
+    "name": { "str": "Desert Tech bullpup carbine" },
+    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for .223 Remington, .308 Winchester, and .300 AAC Blackout being available.",
+    "default_mods": [ "retool_mdrx_300blk" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mdrx_300",
+        "name": { "str": "Desert Tech MDRX" },
+        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "mdrx_308",
+    "copy-from": "mdrx",
+    "type": "GUN",
+    "name": { "str": "Desert Tech bullpup carbine" },
+    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for .223 Remington, .308 Winchester, and .300 AAC Blackout being available.",
+    "default_mods": [ "retool_mdrx_308win" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mdrx_308",
+        "name": { "str": "Desert Tech MDRX" },
+        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "mdrx_308medium",
+    "copy-from": "mdrx",
+    "type": "GUN",
+    "name": { "str": "Desert Tech bullpup carbine" },
+    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for .223 Remington, .308 Winchester, and .300 AAC Blackout being available.",
+    "default_mods": [ "retool_mdrx_308win_medium" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mdrx_308medium",
+        "name": { "str": "Desert Tech MDRX" },
+        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "axmc_300",
+    "copy-from": "axmc",
+    "type": "GUN",
+    "name": { "str": "modular sniper rifle" },
+    "description": "A weapon platform that prides itself on modularity and customizability, this highly accurate precision rifle may be configured with various caliber conversion kits that can allow it to fire either the .338 Lapua, .300 Win Mag, or .308 Winchester cartridges.  The rifle's size prevents it from being a particularly mobile piece of equipment, but the weapon's folding buttstock aids in portability.",
+    "default_mods": [ "retool_axmc_300win" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "axmc_300",
+        "name": { "str_sp": "Accuracy International AXMC" },
+        "description": "Produced by the British precision rifle company Accuracy International, the AX Modular Caliber Weapon System is a highly-accurate combat sniper rifle offered to military, law enforcement, and civilian precision marksmen.  The rifle is compatible with a wide range of aftermarket components, including caliber conversion kits, and is built upon a base aluminum chassis, into which the weapon's parts may be installed or removed at the user's discretion.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "axmc_308",
+    "copy-from": "axmc",
+    "type": "GUN",
+    "name": { "str": "modular sniper rifle" },
+    "description": "A weapon platform that prides itself on modularity and customizability, this highly accurate precision rifle may be configured with various caliber conversion kits that can allow it to fire either the .338 Lapua, .300 Win Mag, or .308 Winchester cartridges.  The rifle's size prevents it from being a particularly mobile piece of equipment, but the weapon's folding buttstock aids in portability.",
+    "default_mods": [ "retool_axmc_308win" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "axmc_308",
+        "name": { "str_sp": "Accuracy International AXMC" },
+        "description": "Produced by the British precision rifle company Accuracy International, the AX Modular Caliber Weapon System is a highly-accurate combat sniper rifle offered to military, law enforcement, and civilian precision marksmen.  The rifle is compatible with a wide range of aftermarket components, including caliber conversion kits, and is built upon a base aluminum chassis, into which the weapon's parts may be installed or removed at the user's discretion.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cz600_762",
+    "copy-from": "cz600",
+    "type": "GUN",
+    "name": { "str": "bolt-action trail carbine" },
+    "description": "Compact, svelte, and lightweight, this Leen bolt-action rifle packs the same features of larger sporting weapons into a backpack-sized package.  Possessing an adjustable buttstock, a detachable magazine-based system, and a quick-swap barrel that can be exchanged to accommodate the firing of .223 Remington or 7.62x39mm Soviet ammunition, the weapon is a commendable backpacker or prepper rifle.",
+    "default_mods": [ "retool_cz600_762" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "cz600_762",
+        "name": { "str": "CZ 600 Trail" },
+        "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers.",
+        "weight": 1
+      }
+    ]
+  }
+]

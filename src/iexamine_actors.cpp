@@ -134,6 +134,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
         if( !run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr, false ) ) {
             debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
         }
+        set_queued_points();
         here.set_seen_cache_dirty( examp );
         here.set_transparency_cache_dirty( examp.z );
     } else {

@@ -25,7 +25,6 @@
     "weight": "540 g",
     "volume": "210 ml",
     "longest_side": "75 mm",
-    "bashing": 2,
     "to_hit": 1,
     "loudness": 2,
     "range": 6,
@@ -40,7 +39,8 @@
         "max_item_length": "2000 m",
         "ammo_restriction": { "throwing_knives": 3 }
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "monster_attack",
@@ -75,7 +75,6 @@
     "price_postapoc": 2500,
     "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
-    "bashing": 8,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -91,7 +90,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "renfield_remington",
@@ -108,11 +108,11 @@
     "weight": "3400 g",
     "volume": "2487 ml",
     "longest_side": "1234 mm",
-    "bashing": 3,
     "dispersion": 3250,
     "range": 65,
     "durability": 9,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "feral_57",
@@ -129,7 +129,6 @@
     "price_postapoc": 2500,
     "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
-    "bashing": 6,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "light_gray",
@@ -139,7 +138,8 @@
     "durability": 7,
     "min_cycle_recoil": 120,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "shifting",

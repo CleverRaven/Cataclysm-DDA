@@ -32,7 +32,7 @@ void speed_description::reset()
     speed_description_factory.reset();
 }
 
-void speed_description::load( const JsonObject &jo, const std::string & )
+void speed_description::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "values", values_ );
     std::sort( values_.begin(), values_.end(),

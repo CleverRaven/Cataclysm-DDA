@@ -308,7 +308,7 @@ struct trap {
         /**
          * Loads this specific trap.
          */
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         std::string debug_describe() const;
 

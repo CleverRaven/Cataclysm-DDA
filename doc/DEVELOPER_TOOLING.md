@@ -1,3 +1,5 @@
+# Developer Tooling
+
 ## Pre-commit hook
 
 If you have all the relevant tools installed, you can have git automatically

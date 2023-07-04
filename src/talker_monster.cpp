@@ -91,6 +91,27 @@ std::string talker_monster_const:: get_value( const std::string &var_name ) cons
     return me_mon_const->get_value( var_name );
 }
 
+bool talker_monster_const::has_flag( const flag_id &f ) const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Monster %s checked for flag %s", me_mon_const->name(),
+                   f.c_str() );
+    return me_mon_const->has_flag( f );
+}
+
+bool talker_monster_const::has_species( const species_id &species ) const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Monster %s checked for species %s", me_mon_const->name(),
+                   species.c_str() );
+    return me_mon_const->in_species( species );
+}
+
+bool talker_monster_const::bodytype( const bodytype_id &bt ) const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Monster %s checked for bodytype %s", me_mon_const->name(),
+                   bt );
+    return me_mon_const->type->bodytype == bt;
+}
+
 void talker_monster::set_value( const std::string &var_name, const std::string &value )
 {
     me_mon->set_value( var_name, value );
@@ -131,9 +152,32 @@ int talker_monster_const::get_friendly() const
     return me_mon_const->friendly;
 }
 
+int talker_monster_const::get_size() const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Size category of monster %s = %d", me_mon_const->name(),
+                   me_mon_const->get_size() - 0 );
+    return me_mon_const->get_size() - 0;
+}
+
+int talker_monster_const::get_grab_strength() const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Grab strength of monster %s = %d", me_mon_const->name(),
+                   me_mon_const->get_grab_strength() );
+    return  me_mon_const->get_grab_strength();
+}
 void talker_monster::set_friendly( int new_val )
 {
     me_mon->friendly = new_val;
+}
+
+bool talker_monster::get_is_alive() const
+{
+    return !me_mon->is_dead();
+}
+
+void talker_monster::die()
+{
+    me_mon->die( nullptr );
 }
 
 std::vector<std::string> talker_monster_const::get_topics( bool )

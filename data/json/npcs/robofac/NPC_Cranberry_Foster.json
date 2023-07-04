@@ -278,8 +278,8 @@
             {
               "or": [
                 { "u_has_perception": 10 },
-                { "u_has_skill": { "skill": "mechanics", "level": 4 } },
-                { "u_has_skill": { "skill": "gun", "level": 2 } }
+                { "math": [ "u_skill('mechanics')", ">=", "4" ] },
+                { "math": [ "u_skill('gun')", ">=", "2" ] }
               ]
             },
             {

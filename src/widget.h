@@ -166,7 +166,7 @@ struct widget_clause {
 
         // Condition for using this clause
         bool has_condition = false;
-        std::function<bool( const dialogue & )> condition;
+        std::function<bool( dialogue & )> condition;
         bool meets_condition( const std::string &opt_var = "" ) const;
         bool meets_condition( const std::set<bodypart_id> &bps ) const;
 
@@ -289,7 +289,7 @@ class widget
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         // Finalize anything that must wait until all widgets are loaded
         static void finalize();
         // Recursively derive _label_width for nested layouts in this widget

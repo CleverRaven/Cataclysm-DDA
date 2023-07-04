@@ -83,7 +83,7 @@ void ter_furn_data<T>::load( const JsonObject &jo )
     message_good = jo.get_bool( "message_good", true );
 }
 
-void ter_furn_transform::load( const JsonObject &jo, const std::string & )
+void ter_furn_transform::load( const JsonObject &jo, const std::string_view )
 {
     std::string input;
     mandatory( jo, was_loaded, "id", input );

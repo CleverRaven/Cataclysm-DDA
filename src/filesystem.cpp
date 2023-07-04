@@ -21,15 +21,6 @@
 
 bool assure_dir_exist( const std::string &path )
 {
-    // TEMPORARY until we drop VS2019 support
-    // VS2019 std::filesystem doesn't handle trailing slashes well in this
-    // situation.  We think this is a bug.  Work around it by removing the
-    // trailing slash if present.
-    if( string_ends_with( path, "/" ) ) {
-        std::string p = path;
-        p.pop_back();
-        return assure_dir_exist( fs::u8path( p ) );
-    }
     return assure_dir_exist( fs::u8path( path ) );
 }
 
@@ -38,10 +29,26 @@ bool assure_dir_exist( const cata_path &path )
     return assure_dir_exist( path.get_unrelative_path() );
 }
 
-bool assure_dir_exist( const fs::path &p )
+bool assure_dir_exist( const fs::path &path )
 {
     std::error_code ec;
-    bool ret = fs::is_directory( p, ec ) || ( !fs::exists( p, ec ) && fs::create_directories( p, ec ) );
+    bool exists{false};
+    bool created{false};
+    const fs::path p = fs::u8path( as_norm_dir( path ) );
+    bool is_dir{ fs::is_directory( p, ec ) };
+    if( !is_dir ) {
+        exists = fs::exists( p, ec );
+        if( !exists ) {
+            created = fs::create_directories( p, ec );
+            if( !created ) {
+                // TEMPORARY until we drop VS2019 support
+                // VS2019 std::filesystem doesn't handle trailing slashes well in this
+                // situation.  We think this is a bug.  Work around it by checking again
+                created = fs::exists( p, ec );
+            }
+        }
+    }
+    bool ret = is_dir || ( !exists && created );
     return !ec && ret;
 }
 
@@ -69,6 +76,22 @@ bool file_exist( const cata_path &path )
 {
     const fs::path unrelative_path = path.get_unrelative_path();
     return fs::exists( unrelative_path ) && !fs::is_directory( unrelative_path );
+}
+
+std::string as_norm_dir( const std::string &path )
+{
+    fs::path dir = fs::u8path( path ) / fs::path{};
+    fs::path norm = dir.lexically_normal();
+    std::string ret = norm.generic_u8string();
+    if( "." == ret ) {
+        ret = "./"; // TODO Change the many places that use strings instead of paths
+    }
+    return ret;
+}
+
+std::string as_norm_dir( const fs::path &path )
+{
+    return as_norm_dir( path.u8string() );
 }
 
 bool remove_file( const std::string &path )
@@ -130,14 +153,14 @@ const char *cata_files::eol()
 
 std::string read_entire_file( const std::string &path )
 {
-    cata::ifstream infile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
+    std::ifstream infile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
     return std::string( std::istreambuf_iterator<char>( infile ),
                         std::istreambuf_iterator<char>() );
 }
 
 std::string read_entire_file( const fs::path &path )
 {
-    cata::ifstream infile( path, std::ifstream::in | std::ifstream::binary );
+    std::ifstream infile( path, std::ifstream::in | std::ifstream::binary );
     return std::string( std::istreambuf_iterator<char>( infile ),
                         std::istreambuf_iterator<char>() );
 }
@@ -165,11 +188,6 @@ void for_each_dir_entry( const fs::path &path, Function &&function )
     for( const fs::directory_entry &dir_entry : dir_iter ) {
         function( dir_entry );
     }
-}
-template <typename Function>
-void for_each_dir_entry( const std::string &path, Function &&function )
-{
-    for_each_dir_entry( fs::u8path( path ), std::forward < Function && > ( function ) );
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -244,7 +262,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
     std::vector<std::string> results;
 
     while( !directories.empty() ) {
-        const fs::path path = std::move( directories.front() );
+        const fs::path path = fs::u8path( directories.front() );
         directories.pop_front();
 
         const std::ptrdiff_t n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
@@ -252,7 +270,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 
         // We could use fs::recursive_directory_iterator maybe
         for_each_dir_entry( path, [&]( const fs::directory_entry & entry ) {
-            const auto full_path = entry.path().generic_u8string();
+            const std::string full_path = entry.path().generic_u8string();
 
             // don't add files ending in '~'.
             if( full_path.back() == '~' ) {
@@ -478,8 +496,8 @@ std::vector<cata_path> get_directories_with( const std::vector<std::string> &pat
 
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
-    cata::ifstream source_stream( fs::u8path( source_path ),
-                                  std::ifstream::in | std::ifstream::binary );
+    std::ifstream source_stream( fs::u8path( source_path ),
+                                 std::ifstream::in | std::ifstream::binary );
     if( !source_stream ) {
         return false;
     }
@@ -490,8 +508,8 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
 
 bool copy_file( const cata_path &source_path, const cata_path &dest_path )
 {
-    cata::ifstream source_stream( source_path.get_unrelative_path(),
-                                  std::ifstream::in | std::ifstream::binary );
+    std::ifstream source_stream( source_path.get_unrelative_path(),
+                                 std::ifstream::in | std::ifstream::binary );
     if( !source_stream ) {
         return false;
     }
@@ -517,25 +535,3 @@ std::string ensure_valid_file_name( const std::string &file_name )
 
     return new_file_name;
 }
-
-#if defined(_WIN32) && defined(__GLIBCXX__)
-// GLIBCXX does not offer the wchar_t extension for fstream paths
-std::string cata::_details::path_to_native( const fs::path &p )
-{
-    if( GetACP() == 65001 ) { // utf-8 code page
-        return p.u8string();
-    } else {
-        return wstr_to_native( p.wstring() );
-    }
-}
-#elif defined(_WIN32)
-std::wstring cata::_details::path_to_native( const fs::path &p )
-{
-    return p.wstring();
-}
-#else
-std::string cata::_details::path_to_native( const fs::path &p )
-{
-    return p.u8string();
-}
-#endif

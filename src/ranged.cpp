@@ -92,6 +92,7 @@ static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
 static const ammotype ammo_metal_rail( "metal_rail" );
+static const ammotype ammo_strange_arrow( "strange_arrow" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
 
@@ -103,6 +104,9 @@ static const character_modifier_id
 character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
 static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_dex_mod" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
@@ -110,6 +114,8 @@ static const efftype_id effect_on_roof( "on_roof" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+
+static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_case_hardened_steel( "case_hardened_steel" );
@@ -130,6 +136,7 @@ static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
@@ -815,11 +822,11 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     /** @EFFECT_RIFLE delays effects of recoil during automatic fire */
     /** @EFFECT_SHOTGUN delays effects of recoil during automatic fire */
     double absorb = std::min( get_skill_level( gun.gun_skill() ),
-                              MAX_SKILL ) / static_cast<double>( MAX_SKILL * 2 );
+                              static_cast<float>( MAX_SKILL ) ) / static_cast<double>( MAX_SKILL * 2 );
 
     itype_id gun_id = gun.typeId();
     skill_id gun_skill = gun.gun_skill();
-    add_msg_debug( debugmode::DF_RANGED, "Gun skill (%s) %d", gun_skill.c_str(),
+    add_msg_debug( debugmode::DF_RANGED, "Gun skill (%s) %g", gun_skill.c_str(),
                    get_skill_level( gun_skill ) ) ;
     tripoint aim = target;
     int curshot = 0;
@@ -847,6 +854,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
         projectile proj = make_gun_projectile( gun );
+
+        for( damage_unit &elem : proj.impact.damage_units ) {
+            elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
+        }
         dispersion_sources dispersion = get_weapon_dispersion( gun );
         dispersion.add_range( recoil_total() );
         dispersion.add_spread( proj.shot_spread );
@@ -1004,7 +1015,8 @@ int throw_cost( const Character &c, const item &to_throw )
     // Dex is more (2x) important for throwing speed
     // At 10 skill, the cost is down to 0.75%, not 0.66%
     const int base_move_cost = to_throw.attack_time( c ) / 2;
-    const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
+    const float throw_skill = std::min( static_cast<float>( MAX_SKILL ),
+                                        c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
@@ -1089,7 +1101,8 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
-    const int throw_skill = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
+    const float throw_skill = std::min( static_cast<float>( MAX_SKILL ),
+                                        get_skill_level( skill_throw ) );
     int dispersion = 10 * throw_difficulty / ( 8 * throw_skill + 4 );
     // If the target is a creature, it moves around and ruins aim
     // TODO: Inform projectile functions if the attacker actually aims for the critter or just the tile
@@ -1126,12 +1139,12 @@ static std::optional<int> character_throw_assist( const Character &guy )
     return throw_assist;
 }
 
-static int throwing_skill_adjusted( const Character &guy )
+static float throwing_skill_adjusted( const Character &guy )
 {
-    int skill_level = std::min( MAX_SKILL, guy.get_skill_level( skill_throw ) );
+    float skill_level = std::min( static_cast<float>( MAX_SKILL ), guy.get_skill_level( skill_throw ) );
     // if you are lying on the floor, you can't really throw that well
     if( guy.has_effect( effect_downed ) ) {
-        skill_level = std::max( 0, skill_level - 5 );
+        skill_level = std::max( 0.0f, skill_level - 5 );
     }
     return skill_level;
 }
@@ -1150,7 +1163,7 @@ int Character::thrown_item_adjusted_damage( const item &thrown ) const
     stats_mod = throw_assist ? *throw_assist / 2.0 : stats_mod;
     // modify strength impact based on skill level, clamped to [0.15 - 1]
     // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
-    stats_mod *= ( std::min( MAX_SKILL,
+    stats_mod *= ( std::min( static_cast<float>( MAX_SKILL ),
                              get_skill_level( skill_throw ) ) /
                    static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
     return stats_mod;
@@ -1161,14 +1174,14 @@ projectile Character::thrown_item_projectile( const item &thrown ) const
     // We'll be constructing a projectile
     projectile proj;
     proj.impact = thrown.base_damage_thrown();
-    proj.speed = 10 + throwing_skill_adjusted( *this );
+    proj.speed = 10 + round( throwing_skill_adjusted( *this ) );
     return proj;
 }
 
 int Character::thrown_item_total_damage_raw( const item &thrown ) const
 {
     projectile proj = thrown_item_projectile( thrown );
-    proj.impact.add_damage( damage_type::BASH, std::min( thrown.weight() / 100.0_gram,
+    proj.impact.add_damage( damage_bash, std::min( thrown.weight() / 100.0_gram,
                             static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
     const int glass_portion = thrown.made_of( material_glass );
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
@@ -1176,11 +1189,11 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     if( !thrown.active && glass_portion &&
         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_arm_str() * 100 ) {
-        proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
+        proj.impact.add_damage( damage_cut, units::to_milliliter( volume ) / 500.0f );
     }
     // Some minor (skill/2) armor piercing for skillful throws
     // Not as much as in melee, though
-    const int skill_level = throwing_skill_adjusted( *this );
+    const float skill_level = throwing_skill_adjusted( *this );
     for( damage_unit &du : proj.impact.damage_units ) {
         du.res_pen += skill_level / 2.0f;
     }
@@ -1201,7 +1214,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const int move_cost = throw_cost( *this, to_throw );
     mod_moves( -move_cost );
 
-    const int throwing_skill = get_skill_level( skill_throw );
+    const int throwing_skill = round( get_skill_level( skill_throw ) );
     const units::volume volume = to_throw.volume();
     const units::mass weight = to_throw.weight();
     const std::optional<int> throw_assist = character_throw_assist( *this );
@@ -1211,8 +1224,8 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
         mod_stamina( stamina_cost + throwing_skill );
     }
 
-    const int skill_level = throwing_skill_adjusted( *this );
-    add_msg_debug( debugmode::DF_RANGED, "Adjusted throw skill %d", skill_level );
+    const float skill_level = throwing_skill_adjusted( *this );
+    add_msg_debug( debugmode::DF_RANGED, "Adjusted throw skill %g", skill_level );
     projectile proj = thrown_item_projectile( thrown );
     damage_instance &impact = proj.impact;
     std::set<std::string> &proj_effects = proj.proj_effects;
@@ -1220,7 +1233,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                             !throw_assist;
 
-    impact.add_damage( damage_type::BASH, std::min( weight / 100.0_gram,
+    impact.add_damage( damage_bash, std::min( weight / 100.0_gram,
                        static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
@@ -1268,7 +1281,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
+        impact.add_damage( damage_cut, units::to_milliliter( volume ) / 500.0f );
         proj_effects.insert( "SHATTER_SELF" );
     }
 
@@ -1304,7 +1317,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
 
     float range = rl_dist( throw_from, target );
     proj.range = range;
-    int skill_lvl = get_skill_level( skill_throw );
+    float skill_lvl = get_skill_level( skill_throw );
     // Avoid awarding tons of xp for lucky throws against hard to hit targets
     const float range_factor = std::min<float>( range, skill_lvl + 3 );
     // We're aiming to get a damaging hit, not just an accurate one - reward proper weapons
@@ -1319,11 +1332,14 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
                                            this, nullptr, wp_attack );
 
     const double missed_by = dealt_attack.missed_by;
-    if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
+
+    if( critter && dealt_attack.hit_critter != nullptr && missed_by <= 0.1 &&
+        !critter->has_flag( MF_IMMOBILE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
-    } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
+    } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
+               !critter->has_flag( MF_IMMOBILE ) ) {
         practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
@@ -1386,9 +1402,9 @@ static void mod_stamina_archery( Character &you, const item &relevant )
     you.set_activity_level( scaled_str_ratio );
 
     // Calculate stamina drain based on archery and athletics skill
-    const int archery_skill = you.get_skill_level( skill_archery );
-    const int athletics_skill = you.get_skill_level( skill_archery );
-    const int skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3;
+    const float archery_skill = you.get_skill_level( skill_archery );
+    const float athletics_skill = you.get_skill_level( skill_swimming );
+    const float skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3.0f;
 
     const int stamina_cost = pow( 20 - skill_modifier, 2 );
     you.mod_stamina( -stamina_cost );
@@ -1928,6 +1944,7 @@ static projectile make_gun_projectile( const item &gun )
     proj.speed  = 1000;
     proj.impact = gun.gun_damage();
     proj.shot_impact = gun.gun_damage( true, true );
+
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
@@ -1940,7 +1957,7 @@ static projectile make_gun_projectile( const item &gun )
 
     if( gun.ammo_data() ) {
         // Some projectiles have a chance of being recoverable
-        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string & e ) {
+        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string_view e ) {
             if( !string_starts_with( e, "RECOVER_" ) ) {
                 return false;
             }
@@ -1984,7 +2001,8 @@ int time_to_attack( const Character &p, const itype &firing )
     const skill_id &skill_used = firing.gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
     return std::max( info.min_time,
-                     info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
+                     static_cast<int>( round( info.base_time - info.time_reduction_per_level * p.get_skill_level(
+                                           skill_used ) ) ) );
 }
 
 static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos )
@@ -2007,18 +2025,22 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( !!ammo->ammo->casing ) {
-        const itype_id casing = *ammo->ammo->casing;
+        item casing = item( *ammo->ammo->casing );
+        // blackpowder can gum up casings too
+        if( ( *ammo->ammo ).ammo_effects.count( "BLACKPOWDER" ) ) {
+            casing.set_flag( json_flag_FILTHY );
+        }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
-            weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
+            weap.force_insert_item( casing.set_flag( flag_CASING ),
                                     item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
-            if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
-                brass_catcher->put_in( item( casing ), item_pocket::pocket_type::CONTAINER );
+            if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
+                brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
             } else if( cargo.empty() ) {
-                here.add_item_or_charges( eject, item( casing ) );
+                here.add_item_or_charges( eject, casing );
             } else {
-                vp->vehicle().add_item( *cargo.front(), item( casing ) );
+                vp->vehicle().add_item( *cargo.front(), casing );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -2084,6 +2106,8 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { 4, _( "Fwoosh!" ) };
     } else if( at.count( ammo_arrow ) ) {
         return { noise, _( "whizz!" ) };
+    } else if( at.count( ammo_strange_arrow ) ) {
+        return { noise, _( "Crack!" ) };
     } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
     }
@@ -2136,7 +2160,7 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
         return 0.0;
     }
     double skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
-    double dispersion_penalty = 3 * skill_shortfall;
+    double dispersion_penalty = 10 * skill_shortfall;
     double skill_threshold = 5;
     if( skill >= skill_threshold ) {
         double post_threshold_skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
@@ -2147,7 +2171,7 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
     double pre_threshold_skill_shortfall = skill_threshold - skill;
     dispersion_penalty += weapon_dispersion *
-                          ( 1.25 + pre_threshold_skill_shortfall * 3.75 / skill_threshold );
+                          ( 1.25 + pre_threshold_skill_shortfall * 10.0 / skill_threshold );
 
     return dispersion_penalty;
 }
@@ -2167,7 +2191,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
         const int vol = ( parent ? parent->volume() : obj.volume() ) / 250_ml;
 
         /** @EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving */
-        dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
+        dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1.0f ) * 20 );
     }
 
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
@@ -3142,7 +3166,10 @@ void target_ui::recalc_aim_turning_penalty()
     } else {
         // Raise it proportionally to how much
         // the player has to turn from previous aiming point
-        const double recoil_per_degree = MAX_RECOIL / 180.0;
+        // the player loses their aim more quickly if less skilled, normalizing at 5 skill.
+        /** @EFFECT_GUN increases the penalty for reorienting aim while below 5 */
+        const double skill_penalty = std::max( 0.0, 5.0 - you->get_skill_level( skill_gun ) );
+        const double recoil_per_degree = skill_penalty * MAX_RECOIL / 180.0;
         const units::angle angle_curr = coord_to_angle( src, curr_recoil_pos );
         const units::angle angle_desired = coord_to_angle( src, dst );
         const units::angle phi = normalize( angle_curr - angle_desired );

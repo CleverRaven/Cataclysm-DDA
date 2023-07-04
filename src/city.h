@@ -14,7 +14,7 @@ class JsonObject;
 template <typename T> class generic_factory;
 
 struct city {
-    void load( const JsonObject &, const std::string & );
+    void load( const JsonObject &, std::string_view );
     void check() const;
     static void load_city( const JsonObject &, const std::string & );
     static void finalize();

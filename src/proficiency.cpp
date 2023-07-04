@@ -94,7 +94,7 @@ void proficiency_category::reset()
     proficiency_category_factory.reset();
 }
 
-void proficiency::load( const JsonObject &jo, const std::string & )
+void proficiency::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );
@@ -119,7 +119,7 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     }
 }
 
-void proficiency_category::load( const JsonObject &jo, const std::string & )
+void proficiency_category::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );
@@ -239,6 +239,7 @@ std::vector<display_proficiency> proficiency_set::display() const
         sorted_known.emplace_back( cur->name(), cur );
     }
 
+    sorted_learning.reserve( learning.size() );
     for( const learning_proficiency &cur : learning ) {
         sorted_learning.emplace_back( cur.id->name(), cur.id );
     }
@@ -487,6 +488,7 @@ std::vector<proficiency_id> proficiency_set::known_profs() const
 std::vector<proficiency_id> proficiency_set::learning_profs() const
 {
     std::vector<proficiency_id> ret;
+    ret.reserve( learning.size() );
     for( const learning_proficiency &subject : learning ) {
         ret.push_back( subject.id );
     }

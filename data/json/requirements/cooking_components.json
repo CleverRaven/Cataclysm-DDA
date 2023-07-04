@@ -1079,6 +1079,7 @@
         [ "carrot", 2 ],
         [ "irradiated_carrot", 2 ],
         [ "cattail_stalk", 1 ],
+        [ "burdock_stalk", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "corn_kernels", 1 ],
@@ -1107,7 +1108,8 @@
         [ "irradiated_zucchini", 1 ],
         [ "carrot_wild", 1 ],
         [ "wild_garlic", 2 ],
-        [ "spinach", 1 ]
+        [ "spinach", 1 ],
+        [ "japanese_knotweed_stem", 1 ]
       ]
     ]
   },

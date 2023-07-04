@@ -8,12 +8,12 @@
     "category": "spare_parts",
     "description": "A chunk of iron-rich earth.  Could be refined with a bloomery.",
     "price": 531,
-    "bashing": 7,
     "price_postapoc": 10,
     "material": [ "iron" ],
     "weight": "1000 g",
     "volume": "235 ml",
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -28,7 +28,7 @@
     "volume": "1 L",
     "//": "Density of one liter of copper, item is native metal.",
     "weight": "8960 g",
-    "bashing": 2
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -43,7 +43,7 @@
     "volume": "1 L",
     "//": "Density of one liter of silver, item is native metal.",
     "weight": "10490 g",
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -58,7 +58,7 @@
     "volume": "1 L",
     "//": "Density of one liter of gold, item is native metal.  Massivelly heavy.",
     "weight": "19320 g",
-    "bashing": 4
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -73,7 +73,7 @@
     "volume": "1 L",
     "//": "Density of one liter of aluminum, item is native metal.",
     "weight": "2700 g",
-    "bashing": 1
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -88,7 +88,7 @@
     "volume": "1 L",
     "//": "One liter, roughly 6.26 grams per cubic centimeter.",
     "weight": "6260 g",
-    "bashing": 2
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -103,7 +103,7 @@
     "volume": "1 L",
     "//": "One liter, roughly 7.6 grams per cubic centimeter.",
     "weight": "7600 g",
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -118,6 +118,6 @@
     "volume": "1 L",
     "//": "One liter, roughly 5.04 grams per cubic centimeter.",
     "weight": "5040 g",
-    "bashing": 2
+    "melee_damage": { "bash": 2 }
   }
 ]

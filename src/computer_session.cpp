@@ -226,7 +226,7 @@ bool computer_session::hack_attempt( Character &you, int Security ) const
     if( Security == -1 ) {
         Security = comp.security;    // Set to main system security if no value passed
     }
-    const int hack_skill = you.get_skill_level( skill_computer );
+    const int hack_skill = round( you.get_skill_level( skill_computer ) );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -732,7 +732,7 @@ void computer_session::action_miss_launch()
             !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
             !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
             !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
-            overmap_buffer.ter_set( p, oter_id( "crater" ) );
+            overmap_buffer.ter_set( p, oter_id( "field" ) );
         }
     }
     explosion_handler::nuke( target );

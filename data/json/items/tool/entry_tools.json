@@ -10,8 +10,6 @@
     "price": 1300,
     "price_postapoc": 500,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "bashing": 15,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -19,7 +17,8 @@
     "use_action": [ "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
-    "weapon_category": [ "BATONS" ]
+    "weapon_category": [ "BATONS" ],
+    "melee_damage": { "bash": 15, "cut": 1 }
   },
   {
     "id": "emergency_lockpick",
@@ -62,8 +61,6 @@
     "price": 5000,
     "price_postapoc": 500,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "uneven" },
-    "bashing": 20,
-    "cutting": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -71,7 +68,8 @@
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRY", 2 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ],
-    "weapon_category": [ "HAND_AXES" ]
+    "weapon_category": [ "HAND_AXES" ],
+    "melee_damage": { "bash": 20, "cut": 8 }
   },
   {
     "id": "makeshift_crowbar",
@@ -84,8 +82,6 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "bashing": 12,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -93,7 +89,8 @@
     "use_action": [ "CROWBAR_WEAK" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ],
-    "weapon_category": [ "BATONS" ]
+    "weapon_category": [ "BATONS" ],
+    "melee_damage": { "bash": 12, "cut": 1 }
   },
   {
     "id": "picklocks",
@@ -139,9 +136,9 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "ALWAYS_TWOHAND", "SHEATH_SPEAR" ],
-    "bashing": 45,
     "price": 10000,
     "qualities": [ [ "HAMMER", 1 ], [ "PRY", 3 ], [ "COOK", 1 ] ],
-    "use_action": [ "CROWBAR" ]
+    "use_action": [ "CROWBAR" ],
+    "melee_damage": { "bash": 45 }
   }
 ]

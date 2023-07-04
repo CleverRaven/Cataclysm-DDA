@@ -547,8 +547,18 @@ void map::generate_lightmap( const int zlev )
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                if( vp.has_flag( VPFLAG_WALL_MOUNTED ) ) {
+                    tileray tdir( v->face.dir() + pt->direction );
+                    tdir.advance();
+                    tripoint offset = src;
+                    offset.x = src.x + tdir.dx();
+                    offset.y = src.y + tdir.dy();
+                    add_light_source( offset, M_SQRT2 ); // Add a little surrounding light
+                    apply_light_arc( offset, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                } else {
+                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
+                    apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                }
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );
@@ -770,6 +780,11 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     } else {
         return lit_level::BLANK;
     }
+}
+
+bool tinymap::pl_sees( const tripoint &, int ) const
+{
+    return false;
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range ) const

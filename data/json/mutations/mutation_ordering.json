@@ -118,6 +118,9 @@
       },
       {
         "id": [
+          "buzzcut",
+          "crewcut",
+          "fro",
           "hair_black_crewcut",
           "hair_black_mohawk",
           "hair_black_fro",
@@ -154,7 +157,16 @@
           "hair_white_short",
           "hair_white_medium",
           "hair_white_long",
-          "hair_bald"
+          "hair_bald",
+          "long",
+          "long_over_eye",
+          "medium",
+          "messy",
+          "mohawk",
+          "ponytail",
+          "short",
+          "short_no_fringe",
+          "short_over_eye"
         ],
         "order": 1600
       },
@@ -212,7 +224,7 @@
       { "id": [ "FANGS", "MANDIBLES", "SABER_TEETH" ], "order": 7500 },
       { "id": [ "FORKED_TONGUE" ], "order": 8000 },
       { "id": [ "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ], "order": 8500 },
-      { "id": [ "EXODII_BODY_1" ], "order": 10000 }
+      { "id": [ "EXODII_BODY_1", "EXODII_BODY_2" ], "order": 10000 }
     ]
   }
 ]

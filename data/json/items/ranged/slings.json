@@ -49,7 +49,7 @@
     "dispersion": 75,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "underbarrel mount", 1 ], [ "stock mount", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   },
@@ -85,14 +85,14 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
-    "bashing": 16,
     "range": 10,
     "dispersion": 200,
     "durability": 8,
     "clip_size": 1,
     "valid_mod_locations": [ [ "bore", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1, "sling-ready_grenade": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1, "sling-ready_grenade": 1 } } ],
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "wristrocket",
@@ -117,7 +117,7 @@
     "dispersion": 45,
     "durability": 7,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "underbarrel mount", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   }

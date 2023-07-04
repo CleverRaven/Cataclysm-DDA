@@ -46,7 +46,8 @@ void give_skills( Character &u, construction const &build )
     for( auto const *cons : constructions_by_group( build.group ) ) {
         for( auto const &skill : cons->required_skills ) {
             u.set_skill_level( skill.first,
-                               std::max( u.get_skill_level( skill.first ), skill.second ) );
+                               std::max( static_cast<int>( static_cast<int>( u.get_skill_level( skill.first ) ) ),
+                                         skill.second ) );
         }
     }
     REQUIRE( u.meets_skill_requirements( build ) );

@@ -38,7 +38,6 @@
     "volume": "1500 ml",
     "price": 7800,
     "price_postapoc": 500,
-    "bashing": 6,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_traps",
@@ -48,7 +47,8 @@
     "max_level": 8,
     "intelligence": 12,
     "time": "50 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "computer_science",
@@ -92,7 +92,6 @@
     "volume": "1750 ml",
     "price": 7900,
     "price_postapoc": 250,
-    "bashing": 5,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_traps",
@@ -102,7 +101,8 @@
     "max_level": 5,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "howto_computer",
@@ -328,7 +328,6 @@
     "volume": "1750 ml",
     "price": 8500,
     "price_postapoc": 500,
-    "bashing": 5,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_traps",
@@ -338,7 +337,8 @@
     "max_level": 6,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "webbasics_computer",

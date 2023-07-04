@@ -135,8 +135,6 @@ static const mtype_id mon_generator( "mon_generator" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_NONE( "NONE" );
 
-static const vproto_id vehicle_prototype_custom( "custom" );
-
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
@@ -228,6 +226,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
+        case debug_menu::debug_menu_index::VEHICLE_DELETE: return "VEHICLE_DELETE";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
         case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";
@@ -318,12 +317,12 @@ bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint>
                       tripoint_range<tripoint> const &regs )
 {
     // discard map memory outside of current region and adjacent regions
-    if( dep.parent_path().extension() == ".mm1" &&
+    if( dep.parent_path().extension() == fs::u8path( ".mm1" ) &&
         !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
         return false;
     }
     // discard map buffer outside of current and adjacent segments
-    if( dep.parent_path().filename() == "maps" &&
+    if( dep.parent_path().filename() == fs::u8path( "maps" ) &&
         !segs.is_point_inside(
             tripoint{ _from_map_string( dep.filename().string() ).xy(), 0 } ) ) {
         iter.disable_recursion_pending();
@@ -347,7 +346,7 @@ bool _trim_overmapbuffer( fs::path const &dep, tripoint_range<tripoint> const &o
 
 bool _discard_temporary( fs::path const &dep )
 {
-    return !dep.has_extension() || dep.extension() != ".temp";
+    return !dep.has_extension() || dep.extension() != fs::u8path( ".temp" );
 }
 
 void write_min_archive()
@@ -428,8 +427,8 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::CONTROL_NPC, true, 'x', _( "Control NPC follower" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
-        uilist_initializer.emplace_back( uilist_entry( debug_menu_index::CHANGE_SPELLS, true, 'S',
-                                         _( "Change spells" ) ) );
+        uilist_initializer.emplace_back( debug_menu_index::CHANGE_SPELLS, true, 'S',
+                                         _( "Change spells" ) );
     }
 
     return uilist( _( "Player…" ), uilist_initializer );
@@ -503,6 +502,8 @@ static int vehicle_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change battery charge" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 's', _( "Spawn a vehicle" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_DELETE, true, 'd', _( "Delete vehicle" ) ) },
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -518,8 +519,8 @@ static int teleport_uilist()
     };
 
     const bool teleport_city_enabled = get_option<bool>( "SELECT_STARTING_CITY" );
-    uilist_initializer.emplace_back( uilist_entry( debug_menu_index::OM_TELEPORT_CITY,
-                                     teleport_city_enabled, 'c', _( "Teleport - specific city" ) ) );
+    uilist_initializer.emplace_back( debug_menu_index::OM_TELEPORT_CITY,
+                                     teleport_city_enabled, 'c', _( "Teleport - specific city" ) );
 
     return uilist( _( "Teleport…" ), uilist_initializer );
 }
@@ -2464,11 +2465,10 @@ static void debug_menu_spawn_vehicle()
     } else {
         // Vector of name, id so that we can sort by name
         std::vector<std::pair<std::string, vproto_id>> veh_strings;
-        for( auto &elem : vehicle_prototype::get_all() ) {
-            if( elem == vehicle_prototype_custom ) {
-                continue;
+        for( const vehicle_prototype &proto : vehicles::get_all_prototypes() ) {
+            if( !proto.parts.empty() ) {
+                veh_strings.emplace_back( proto.name.translated(), proto.id );
             }
-            veh_strings.emplace_back( elem->name.translated(), elem );
         }
         std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
         uilist veh_menu;
@@ -2639,6 +2639,8 @@ void debug()
         debug_menu_index::UNLOCK_ALL,
         debug_menu_index::BENCHMARK,
         debug_menu_index::SHOW_MSG,
+        debug_menu_index::QUICKLOAD,
+        debug_menu_index::QUIT_NOSAVE
     };
     const bool should_disable_achievements = action && !is_debug_character() &&
             !non_cheaty_options.count( *action );
@@ -3149,7 +3151,7 @@ void debug()
             debugmsg( "Test debugmsg" );
             break;
         case debug_menu_index::CRASH_GAME:
-            raise( SIGSEGV );
+            static_cast<void>( raise( SIGSEGV ) );
             break;
         case debug_menu_index::ACTIVATE_EOC: {
             const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
@@ -3371,6 +3373,21 @@ void debug()
                     veh.charge_battery( amount, false );
                 } else {
                     veh.discharge_battery( -amount, false );
+                }
+            }
+            break;
+        }
+
+        case debug_menu_index::VEHICLE_DELETE: {
+
+            if( const optional_vpart_position ovp = here.veh_at( player_character.pos() ) ) {
+                here.destroy_vehicle( &ovp->vehicle() );
+                break;
+            }
+            if( query_yn( _( "There's no vehicle there, destroy vehicles in all loaded submaps?" ) ) ) {
+                for( VehicleList vehs = here.get_vehicles(); !vehs.empty(); vehs = here.get_vehicles() ) {
+                    vehicle *veh = vehs.begin()->v;
+                    here.destroy_vehicle( veh );
                 }
             }
             break;

@@ -45,5 +45,34 @@
       }
     ],
     "weight_capacity_modifier": 3
+  },
+  {
+    "type": "mutation",
+    "id": "EXODII_BODY_2",
+    "flags": [ "Exodii_Body" ],
+    "name": { "str": "Exodii cyborg framework - style 2a" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "Your brain and some of your organs are shielded in a shiny gold bipedal walker frame.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cyberframe", "Cybernetic" ],
+    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
+    "hp_adjustment": 10,
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "cut": 15,
+        "bash": 15,
+        "stab": 15,
+        "bullet": 10,
+        "acid": 25,
+        "electric": 0
+      }
+    ],
+    "weight_capacity_modifier": 3
   }
 ]

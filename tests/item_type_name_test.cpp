@@ -22,7 +22,7 @@ static const itype_id itype_test_test_item( "test_test_item" );
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_zombie( "mon_zombie" );
 
-TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
+TEST_CASE( "item_name_pluralization", "[item][type_name][plural]" )
 {
     SECTION( "singular and plural item names" ) {
 
@@ -83,7 +83,7 @@ TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
     }
 }
 
-TEST_CASE( "custom named item", "[item][type_name][named]" )
+TEST_CASE( "custom_named_item", "[item][type_name][named]" )
 {
     // Shop smart. Shop S-Mart.
     item shotgun( "shotgun_410" );
@@ -93,7 +93,7 @@ TEST_CASE( "custom named item", "[item][type_name][named]" )
     CHECK( shotgun.type_name() == "Boomstick" );
 }
 
-TEST_CASE( "blood item", "[item][type_name][blood]" )
+TEST_CASE( "blood_item", "[item][type_name][blood]" )
 {
     SECTION( "blood from a zombie corpse" ) {
         item corpse = item::make_corpse( mon_zombie );
@@ -124,7 +124,7 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
     }
 }
 
-TEST_CASE( "corpse item", "[item][type_name][corpse]" )
+TEST_CASE( "corpse_item", "[item][type_name][corpse]" )
 {
     // Anonymous corpses
 

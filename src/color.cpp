@@ -614,13 +614,13 @@ std::string hilite_string( const std::string &text )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color color_from_string( const std::string &color,
+nc_color color_from_string( const std::string_view color,
                             const report_color_error color_error )
 {
     if( color.empty() ) {
         return c_unset;
     }
-    std::string new_color = color;
+    std::string new_color( color );
     if( new_color.substr( 1, 1 ) != "_" ) { //c_  //i_  //h_
         new_color = "c_" + new_color;
     }
@@ -697,7 +697,7 @@ nc_color bgcolor_from_string( const std::string &color )
     return i_white;
 }
 
-color_tag_parse_result get_color_from_tag( const std::string &s,
+color_tag_parse_result get_color_from_tag( const std::string_view s,
         const report_color_error color_error )
 {
     if( s.empty() || s[0] != '<' ) {
@@ -713,7 +713,7 @@ color_tag_parse_result get_color_from_tag( const std::string &s,
     if( tag_close == std::string::npos ) {
         return { color_tag_parse_result::non_color_tag, {} };
     }
-    std::string color_name = s.substr( 7, tag_close - 7 );
+    std::string_view color_name = s.substr( 7, tag_close - 7 );
     const nc_color color = color_from_string( color_name, color_error );
     if( color != c_unset ) {
         return { color_tag_parse_result::open_color_tag, color };
@@ -761,9 +761,11 @@ std::string get_note_string_from_color( const nc_color &color )
     return "Y";
 }
 
-nc_color get_note_color( const std::string &note_id )
+nc_color get_note_color( const std::string_view note_id )
 {
-    const auto candidate_color = color_by_string_map.find( note_id );
+    // TODO in C++20 we can pass a string_view in directly rather than
+    // constructing a string to use as the find argument
+    const auto candidate_color = color_by_string_map.find( std::string( note_id ) );
     if( candidate_color != std::end( color_by_string_map ) ) {
         return candidate_color->second.color;
     }
@@ -953,7 +955,7 @@ void color_manager::show_gui()
             break;
         } else if( navigate_ui_list( action, iCurrentLine, scroll_rate, recmax, true ) ) {
         } else if( action == "LEFT" || action == "RIGHT" ) {
-            iCurrentCol = increment_and_wrap( iCurrentCol, 1, iTotalCols );
+            iCurrentCol = inc_clamp_wrap( iCurrentCol, 1, iTotalCols );
         } else if( action == "REMOVE_CUSTOM" ) {
             color_manager::color_struct &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 

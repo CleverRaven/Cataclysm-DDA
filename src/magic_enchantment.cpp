@@ -76,6 +76,7 @@ namespace io
             case enchant_vals::mod::PAIN: return "PAIN";
             case enchant_vals::mod::PAIN_REMOVE: return "PAIN_REMOVE";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
+            case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
@@ -83,6 +84,7 @@ namespace io
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
             case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
+            case enchant_vals::mod::SIGHT_RANGE_NETHER: return "SIGHT_RANGE_NETHER";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
             case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
@@ -138,7 +140,12 @@ namespace io
             case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
             case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
             case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
+            case enchant_vals::mod::COMBAT_CATCHUP: return "COMBAT_CATCHUP";
+            case enchant_vals::mod::KNOCKBACK_RESIST: return "KNOCKBACK_RESIST";
+            case enchant_vals::mod::KNOCKDOWN_RESIST: return "KNOCKDOWN_RESIST";
             case enchant_vals::mod::FALL_DAMAGE: return "FALL_DAMAGE";
+            case enchant_vals::mod::FORCEFIELD: return "FORCEFIELD";
+            case enchant_vals::mod::EVASION: return "EVASION";
             case enchant_vals::mod::OVERKILL_DAMAGE: return "OVERKILL_DAMAGE";
             case enchant_vals::mod::NUM_MOD: break;
         }
@@ -174,7 +181,8 @@ void enchantment::reset()
     spell_factory.reset();
 }
 
-enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const std::string &src,
+enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv,
+        const std::string_view src,
         std::string &inline_id )
 {
     if( jv.test_string() ) {
@@ -210,7 +218,8 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
 
     if( !( active_conditions.first == has::HELD ||
            ( active_conditions.first == has::WIELD && guy.is_wielding( parent ) ) ||
-           ( active_conditions.first == has::WORN && guy.is_worn( parent ) ) ) ) {
+           ( active_conditions.first == has::WORN &&
+             ( guy.is_worn( parent ) || guy.is_worn_module( parent ) ) ) ) ) {
         return false;
     }
 
@@ -267,7 +276,7 @@ void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void enchantment::load( const JsonObject &jo, const std::string &,
+void enchantment::load( const JsonObject &jo, const std::string_view,
                         const std::optional<std::string> &inline_id, bool is_child )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
@@ -364,7 +373,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     }
 }
 
-void enchant_cache::load( const JsonObject &jo, const std::string &,
+void enchant_cache::load( const JsonObject &jo, const std::string_view,
                           const std::optional<std::string> &inline_id )
 {
     enchantment::load( jo, "", inline_id, true );

@@ -38,7 +38,7 @@ static bool bandages_filter( const item &it )
     return ( it.typeId() == itype_bandages );
 }
 
-TEST_CASE( "avatar does healing", "[activity][firstaid][avatar]" )
+TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
@@ -55,8 +55,7 @@ TEST_CASE( "avatar does healing", "[activity][firstaid][avatar]" )
     GIVEN( "avatar has a damaged right arm" ) {
         dummy.apply_damage( nullptr, right_arm, 20 );
         WHEN( "avatar bandages self" ) {
-            dummy.assign_activity( player_activity( firstaid_activity_actor( moves, bandages->tname(),
-                                                    dummy.getID() ) ) );
+            dummy.assign_activity( firstaid_activity_actor( moves, bandages->tname(), dummy.getID() ) );
             dummy.activity.targets.emplace_back( bandages );
             dummy.activity.str_values.emplace_back( right_arm.id().c_str() );
             process_activity( dummy );
@@ -69,8 +68,7 @@ TEST_CASE( "avatar does healing", "[activity][firstaid][avatar]" )
     GIVEN( "avatar has a damaged right arm" ) {
         dummy.apply_damage( nullptr, right_arm, 20 );
         WHEN( "avatar bandages self and is interrupted before finishing" ) {
-            dummy.assign_activity( player_activity( firstaid_activity_actor( moves, bandages->tname(),
-                                                    dummy.getID() ) ) );
+            dummy.assign_activity( firstaid_activity_actor( moves, bandages->tname(), dummy.getID() ) );
             dummy.activity.targets.emplace_back( bandages );
             dummy.activity.str_values.emplace_back( right_arm.id().c_str() );
             process_activity_interrupt( dummy, moves / 2 );
@@ -83,8 +81,7 @@ TEST_CASE( "avatar does healing", "[activity][firstaid][avatar]" )
     GIVEN( "npc has a damaged right arm" ) {
         dunsel.apply_damage( nullptr, right_arm, 20 );
         WHEN( "avatar bandages npc" ) {
-            dummy.assign_activity( player_activity( firstaid_activity_actor( moves, bandages->tname(),
-                                                    dunsel.getID() ) ) );
+            dummy.assign_activity( firstaid_activity_actor( moves, bandages->tname(), dunsel.getID() ) );
             dummy.activity.targets.emplace_back( bandages );
             dummy.activity.str_values.emplace_back( right_arm.id().c_str() );
             process_activity( dummy );
@@ -96,7 +93,7 @@ TEST_CASE( "avatar does healing", "[activity][firstaid][avatar]" )
     }
 }
 
-TEST_CASE( "npc does healing", "[activity][firstaid][npc]" )
+TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();

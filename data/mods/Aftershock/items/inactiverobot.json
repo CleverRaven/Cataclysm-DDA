@@ -8,7 +8,6 @@
     "volume": "30 L",
     "price": 600000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "alien_resin" ],
     "symbol": ";",
     "color": "green",
@@ -21,7 +20,8 @@
       "moves": 100,
       "skills": [ "cooking", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_tankbot",
@@ -34,7 +34,6 @@
     "volume": "250 L",
     "price": 100000000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -48,7 +47,8 @@
       "moves": 500,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_chickenbot",
@@ -61,7 +61,6 @@
     "volume": "250 L",
     "price": 100000000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -74,7 +73,8 @@
       "difficulty": 10,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_tripod",
@@ -86,7 +86,6 @@
     "volume": "92500 ml",
     "price": 100000000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -100,7 +99,8 @@
       "moves": 500,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -114,10 +114,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "430000 g",
     "volume": "187500 ml",
-    "bashing": 10,
-    "cutting": 6,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 10, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -131,10 +130,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "1223850 g",
     "volume": "875 L",
-    "bashing": 20,
-    "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
     "type": "GENERIC",
@@ -148,10 +146,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "1023850 g",
     "volume": "1100 L",
-    "bashing": 20,
-    "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
     "id": "bot_sentinel_lx",
@@ -162,7 +159,6 @@
     "volume": "30 L",
     "price": 600000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -174,7 +170,8 @@
       "skills": [ "computer" ],
       "is_pet": true
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_wraitheon_kaburaya",
@@ -185,7 +182,6 @@
     "volume": "250 ml",
     "price": 5000,
     "to_hit": -3,
-    "bashing": 0,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -198,7 +194,8 @@
       "moves": 100,
       "skills": [ "throw" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 0 }
   },
   {
     "id": "bot_bloodhound_drone",
@@ -209,8 +206,6 @@
     "volume": "750 ml",
     "price": 60000,
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_green",
@@ -225,7 +220,8 @@
       "skills": [ "electronics", "computer" ],
       "is_pet": true
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_laserturret_x-ray",
@@ -237,7 +233,6 @@
     "price": 600000,
     "price_postapoc": 12000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "white",
@@ -248,7 +243,8 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_utilibot_beehive",
@@ -277,7 +273,6 @@
     "price": 10000,
     "price_postapoc": 10000,
     "to_hit": -3,
-    "bashing": 6,
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
@@ -288,7 +283,8 @@
       "skills": [ "electronics", "computer" ],
       "is_pet": true
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "abstract": "bot_utilibot_base",
@@ -300,11 +296,11 @@
     "weight": "140 kg",
     "volume": "62500 ml",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "abstract": "bot_hack_base",
@@ -316,12 +312,11 @@
     "price": 10000,
     "price_postapoc": 10000,
     "to_hit": -3,
-    "bashing": 4,
-    "cutting": 4,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
     "id": "bot_light_hack",
@@ -353,10 +348,10 @@
     "price": 10000,
     "price_postapoc": 10000,
     "to_hit": -3,
-    "bashing": 8,
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_milbot_308",
@@ -384,10 +379,10 @@
     "price": 10000,
     "price_postapoc": 10000,
     "to_hit": -3,
-    "bashing": 8,
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "abstract": "bot_skitterbot_base",
@@ -400,10 +395,10 @@
     "price": 10000,
     "price_postapoc": 10000,
     "to_hit": -3,
-    "bashing": 6,
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "TRADER_AVOID", "SINGLE_USE" ]
+    "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "bot_skitterbot_rat",
@@ -416,14 +411,14 @@
     "volume": "1 L",
     "price": "200 USD",
     "to_hit": -3,
-    "bashing": 2,
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_skitterbot_rat",
       "difficulty": 1,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "bot_skitterbot_grab",
@@ -466,12 +461,11 @@
     "material": [ "steel", "plastic" ],
     "weight": "62650 g",
     "volume": "30 L",
-    "bashing": 4,
-    "cutting": 4,
     "to_hit": -3,
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
     "id": "bot_eyebot_heater",
@@ -500,7 +494,6 @@
     "price": 600000,
     "price_postapoc": 12000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "white",
@@ -511,6 +504,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   }
 ]

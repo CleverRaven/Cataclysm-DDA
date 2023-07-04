@@ -57,18 +57,10 @@ Property                 | Description
 `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
 `grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
 `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
-`armor_bash`             | (integer) Monster's protection from bash damage
-`armor_bullet`           | (integer) Monster's protection from bullet damage
-`armor_cut`              | (integer) Monster's protection from cut damage
-`armor_stab`             | (integer) Monster's protection from stab damage
-`armor_acid`             | (integer) Monster's protection from acid damage
-`armor_fire`             | (integer) Monster's protection from fire damage
-`armor_electric`         | (integer) Monster's protection from electric damage
-`armor_cold`             | (integer) Monster's protection from cold damage
-`armor_pure`             | (integer) Monster's protection from pure damage
+`armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
-`families`               | (array of objects) Weakpoint families that the monster belongs to
+`families`               | (array of objects or strings) Weakpoint families that the monster belongs to
 `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
 `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `3`.
@@ -331,10 +323,14 @@ Lower and upper bound of limb sizes the monster's melee attack can target - see 
 
 Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A monster with grab_strength = n applies a grab as if it was n zombies. A player with `max(Str,Dex)<=n` has no chance of breaking that grab.
 
-## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire", "armor_electric", "armor_biological", "armor_pure"
-(integer, optional)
+## "armor"
+(object, optional)
 
-Monster protection from bashing, cutting, stabbing, acid and fire damage.
+Monster protection from various types of damage. Any `damage_type` id can be used here, see `damage_types.json`.
+
+```JSON
+"armor": { "bash": 7, "cut": 7, "acid": 4, "bullet": 6, "electric": 2 }
+```
 
 ## "weakpoints"
 (array of objects, optional)
@@ -406,7 +402,7 @@ In the example above, the `"humanoid"` weakpoint set is applied as a base, then 
 Weakpoints only match if they share the same id, so it's important to define the weakpoint's id field if you plan to overwrite previous weakpoints.
 
 ## "families"
-(array of objects, optional)
+(array of objects or strings, optional)
 
 Weakpoint families that the monster belongs to.
 
@@ -416,6 +412,8 @@ Field              | Description
 `proficiency`      | The proficiency ID corresponding to the family.
 `bonus`            | The bonus to weak point skill, if the attacker has the proficiency.
 `penalty`          | The penalty to weak point skill, if the attacker lacks the proficiency.
+
+`"families": [ "prof_intro_biology" ]` is equivalent to `"families": [ { "proficiency": "prof_intro_biology" } ]`
 
 ## "vision_day", "vision_night"
 (integer, optional)
@@ -654,45 +652,8 @@ Field                | Description
 `avoid_sharp`        | (bool, default false) Monster may avoid sharp things like barbed wire
 
 ## "special_attacks"
-(array of special attack definitions, optional)
 
-Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
-
-The old style array should contain 2 elements: the id of the attack (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) for a list) and the cooldown for that attack. Example:
-
-```JSON
-"special_attacks": [ [ "GRAB", 10 ] ]
-```
-
-The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see [MAGIC.md]). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
-
-```JSON
-"special_attacks": [
-  { "type": "leap", "cooldown": 10, "max_range": 4 }
-]
-```
-In the case of separately defined attacks the object has to contain at least an "id" member. In this case the attack will use the default attack data defined in monster_attacks.json, if a field is additionally defined it will overwrite those defaults. These attacks have the common "type": "monster_attack", see below for possible fields. Example:
-
-```JSON
-"special_attacks": [
-  { "id": "impale" }
-]
-```
-
-"special_attacks" may contain any mixture of old and new style entries:
-
-```JSON
-"special_attacks": [
-  [ "GRAB", 10 ],
-  { "type": "leap", "cooldown": 8, "max_range": 4 },
-  { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
-]
-```
-This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
-
-# Monster special attack types
-The listed attack types can be as monster special attacks (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)).
-
+See [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)
 # Testing Monsters
 
 To help facilitate playtesting monsters use the loadouts from the Standard Combat Testing mod (included under Misc), and document your results in the PR's Testing section.

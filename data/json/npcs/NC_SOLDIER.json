@@ -10,7 +10,7 @@
     "id": "NC_SOLDIER_shirt",
     "subtype": "distribution",
     "entries": [
-      { "item": "army_top", "prob": 20 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       { "item": "tshirt", "prob": 20 },
       { "item": "polo_shirt", "prob": 20 },
       { "item": "longshirt", "prob": 20 }
@@ -121,13 +121,13 @@
     "type": "item_group",
     "id": "NC_SOLDIER_rifle",
     "subtype": "distribution",
-    "entries": [ { "item": "m4_carbine", "variant": "m4a1", "prob": 90 }, { "item": "m14ebr", "prob": 10 } ]
+    "entries": [ { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 90 }, { "item": "m14ebr", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "id": "NC_SOLDIER_weapon_random",
     "subtype": "distribution",
-    "entries": [ { "item": "m4_carbine", "variant": "m4a1", "prob": 35 } ]
+    "entries": [ { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 35 } ]
   },
   {
     "type": "item_group",
@@ -140,7 +140,7 @@
       { "item": "goggles_nv", "prob": 1 },
       { "item": "goggles_ir", "prob": 1 },
       { "item": "optical_cloak", "prob": 1 },
-      { "item": "UPS_off", "prob": 8 },
+      { "item": "UPS_OFF", "prob": 8 },
       { "item": "tacvest", "prob": 10 },
       { "item": "backpack", "prob": 8 },
       { "item": "dump_pouch", "prob": 20 },

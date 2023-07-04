@@ -172,7 +172,7 @@ void smart_controller_ui::control()
                     break;
             }
         } else if( action == "UP" || action == "DOWN" ) {
-            selection = increment_and_wrap( selection, action == "DOWN", MENU_ITEMS_N );
+            selection = inc_clamp_wrap( selection, action == "DOWN", MENU_ITEMS_N );
         } else if( selection == smart_controller_ui_selection::lo_and_hi_slider && ( action == "LEFT" ||
                    action == "RIGHT" ) ) {
             const int dx = action == "RIGHT" ? 1 : -1;
