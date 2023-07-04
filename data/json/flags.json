@@ -1150,6 +1150,18 @@
     "craft_inherit": true
   },
   {
+    "id": "ALLERGEN_BREAD",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_CHEESE",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_DRIED_VEGETABLE",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLERGEN_EGG",
     "type": "json_flag"
   },
@@ -1167,18 +1179,6 @@
   },
   {
     "id": "ALLERGEN_MILK",
-    "type": "json_flag"
-  },
-  {
-    "id": "ALLERGEN_BREAD",
-    "type": "json_flag"
-  },
-  {
-    "id": "ALLERGEN_DRIED_VEGETABLE",
-    "type": "json_flag"
-  },
-  {
-    "id": "ALLERGEN_CHEESE",
     "type": "json_flag"
   },
   {

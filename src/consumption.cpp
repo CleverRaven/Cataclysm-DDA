@@ -77,17 +77,17 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
+static const flag_id json_flag_ALLERGEN_BREAD( "ALLERGEN_BREAD" );
+static const flag_id json_flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
+static const flag_id json_flag_ALLERGEN_DRIED_VEGETABLE( "ALLERGEN_DRIED_VEGETABLE" );
 static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 static const flag_id json_flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
 static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
 static const flag_id json_flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
-static const flag_id json_flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
 static const flag_id json_flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 static const flag_id json_flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 static const flag_id json_flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
 static const flag_id json_flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
-static const flag_id json_flag_ALLERGEN_BREAD( "ALLERGEN_BREAD" );
-static const flag_id json_flag_ALLERGEN_DRIED_VEGETABLE( "ALLERGEN_DRIED_VEGETABLE" );
 
 static const item_category_id item_category_chems( "chems" );
 
