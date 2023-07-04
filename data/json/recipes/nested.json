@@ -6119,6 +6119,18 @@
     "difficulty": 5
   },
   {
+    "id": "nested_helmet_bronze",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "bronze helmets",
+    "description": "Recipes related to constructing various sizes of single piece helmets made out of bronze.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "helmet_bronze", "xl_helmet_bronze", "xs_helmet_bronze" ],
+    "difficulty": 6
+  },
+  {
     "id": "nested_legguard_metal",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
