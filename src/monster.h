@@ -330,7 +330,7 @@ class monster : public Creature
         bool is_on_ground() const override;
         bool is_warm() const override;
         bool in_species( const species_id &spec ) const override;
-        void respond_to_light( const float light_level );
+        void respond_to_light( float light_level );
 
         bool has_weapon() const override;
         bool is_dead_state() const override; // check if we should be dead or not
