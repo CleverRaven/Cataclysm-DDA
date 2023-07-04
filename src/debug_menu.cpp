@@ -2487,8 +2487,8 @@ static void debug_menu_spawn_vehicle()
             tripoint dest = player_character.pos();
             uilist veh_cond_menu;
             veh_cond_menu.text = _( "Vehicle condition" );
-            veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
             veh_cond_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
+            veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
             veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
             veh_cond_menu.query();
 
