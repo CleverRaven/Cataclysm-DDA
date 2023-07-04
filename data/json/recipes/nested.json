@@ -6210,7 +6210,6 @@
       "iv_mutagen_crustacean",
       "iv_mutagen_troglobite",
       "iv_mutagen_batrachian",
-      "iv_mutagen_crustacean",
       "iv_mutagen_cephalopod"
     ],
     "difficulty": 8
@@ -6250,7 +6249,6 @@
       "mutagen_crustacean",
       "mutagen_troglobite",
       "mutagen_batrachian",
-      "mutagen_crustacean",
       "mutagen_cephalopod"
     ],
     "difficulty": 8
