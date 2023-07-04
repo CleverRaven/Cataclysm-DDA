@@ -3596,26 +3596,28 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         }
     }
 
+    // Deal with entries that can be highlighted but not selected (e.g. items too large to pick up)
+    inventory_entry &highlighted_entry = get_active_column().get_highlighted();
+    if( !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
+	cata_assert( highlighted_entry.denial.has_value() );
+	const std::string &denial = *highlighted_entry.denial;
+
+	if( !denial.empty() ) {
+	  const std::string assembled = highlighted_entry.any_item().get_item()->display_name() + ":\n"
+	    + colorize( denial, c_red );
+	  query_popup()
+	    .message( "%s", assembled )
+	    .option( "QUIT" )
+	    .query();
+	}
+	count = 0;
+	return;
+    }
+
+    // Deal with anything else that can't be selected
     if( selected.empty() ) {
         count = 0;
         return;
-    }
-
-    if( !selected.front()->is_selectable() ) {
-        if( !selected.front()->is_selectable() && mode == toggle_mode::SELECTED &&
-            selected.front()->is_item() ) {
-            const std::string denial = preset.get_denial( selected.front()->any_item() );
-            if( !denial.empty() ) {
-                const std::string assembled = selected.front()->any_item().get_item()->display_name() + ":\n"
-                                              + colorize( denial, c_red );
-                query_popup()
-                .message( "%s", assembled )
-                .option( "QUIT" )
-                .query();
-            }
-        }
-	count = 0;
-	return;
     }
 
     // No amount entered, select all
