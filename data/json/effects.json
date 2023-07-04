@@ -1933,14 +1933,32 @@
   {
     "type": "effect_type",
     "id": "smoke",
-    "name": [ { "ctxt": "inhaled", "str": "Smoke" } ],
-    "desc": [ "You've inhaled a lungful of thick smoke." ],
-    "apply_message": "You inhale a lungful of thick smoke.",
+    "name": [ "Inhaled Some Smoke", "Inhaled Plenty of Smoke", "Smoke Inhalation", "Bad Smoke Inhalation" ],
+    "desc": [
+      "You draw in a faint whiff of smoke.",
+      "Noticeable amount of smoke fills your lungs.",
+      "Dense cloud of smoke enter your lungs.",
+      "You inhale an overwhelming amount of smoke."
+    ],
+    "apply_message": [
+      [ "You draw in a faint whiff of smoke.", "bad" ],
+      [ "Noticeable amount of smoke fills your lungs.", "bad" ],
+      [ "Dense cloud of smoke enter your lungs.", "bad" ],
+      [ "You inhale an overwhelming amount of smoke.", "bad" ]
+    ],
     "rating": "bad",
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,
-    "max_duration": "10 m",
+    "max_duration": "3 m",
+    "max_intensity": 4,
+    "int_decay_tick": 40,
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "breathing", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
   {
