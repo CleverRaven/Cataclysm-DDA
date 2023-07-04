@@ -2024,11 +2024,11 @@ std::optional<point> cata_tiles::tile_to_player( const point &colrow ) const
             != modulo( colrow.x - screentile_width / 2, 2 ) ) {
             return std::nullopt;
         }
-        return point {
+        return o + point {
             divide_round_down( colrow.x - colrow.y - screentile_width / 2
-                               + screentile_height / 2, 2 ) + o.x,
+                               + screentile_height / 2, 2 ),
             divide_round_down( colrow.y + colrow.x - screentile_height / 2
-                               - screentile_width / 2, 2 ) + o.y,
+                               - screentile_width / 2, 2 ),
         };
     } else {
         return colrow + o;
@@ -2060,19 +2060,16 @@ point cata_tiles::player_to_screen( const point &pos ) const
     if( is_isometric() ) {
         // To ensure the first fully drawn basic tile (col or row = 1, according
         // to the definition in get_window_full_base_tile_range) starts at 0,
-        return {
-            // left = ( col - 1 ) * ( tw / 2.0 ) + op.x =>
-            divide_round_down( ( colrow.x - 1 ) * tile_width, 2 ) + op.x,
-            // top = ( row - 1 ) * ( tw / 4.0 ) - th + tw / 2.0 + op.y =>
+        return op + point {
+            // left = ( col - 1 ) * ( tw / 2.0 ) =>
+            divide_round_down( ( colrow.x - 1 ) * tile_width, 2 ),
+            // top = ( row - 1 ) * ( tw / 4.0 ) - th + tw / 2.0 =>
             // (shifted so that sprites with default height end at the basic height
             // of `tile_width / 4`)
-            divide_round_down( ( colrow.y + 1 ) * tile_width, 4 ) - tile_height + op.y,
+            divide_round_down( ( colrow.y + 1 ) * tile_width, 4 ) - tile_height,
         };
     } else {
-        return {
-            colrow.x *tile_width + op.x,
-            colrow.y *tile_height + op.y,
-        };
+        return op + point { colrow.x * tile_width, colrow.y * tile_height };
     }
 }
 
