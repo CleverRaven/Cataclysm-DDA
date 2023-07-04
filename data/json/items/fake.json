@@ -238,7 +238,7 @@
     "copy-from": "fake_appliance_tool",
     "name": { "str": "power lathe" },
     "charges_per_use": 1,
-    "charged_qualities": [ [ "DRILL", 6 ], [ "SCREW_CUT", 2 ], [ "TURN_LATHE", 2 ], [ "DRILL_GUNBARREL", 1 ] ],
+    "charged_qualities": [ [ "DRILL", 6 ], [ "SCREW_CUT", 2 ], [ "TURN_LATHE", 2 ], [ "DRILL_GUNBARREL", 1 ], [ "CUT_NUT", 1 ] ],
     "//": "Lathes often have rulers on them. Those are equal to simple ruler and primitive calipers, good for checking smoothness of the received turned piece and length of turned part",
     "qualities": [ [ "MEASURE_L", 1 ], [ "MEASURE_L_PRECISE", 1 ], [ "VISE", 3 ] ]
   },
