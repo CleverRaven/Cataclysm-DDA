@@ -6129,5 +6129,38 @@
     "skill_used": "tailoring",
     "nested_category_data": [ "loincloth", "loincloth_fur", "loincloth_leather", "loincloth_wool" ],
     "difficulty": 0
+  },
+  {
+    "id": "nested_pouch",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "pouches",
+    "description": "Recipes related to making pouches for a variety of roles and purposes.",
+    "skill_used": "tailoring",
+    "nested_category_data": [
+      "legrig",
+      "dump_pouch",
+      "legpouch",
+      "legpouch_large",
+      "armrig",
+      "chestpouch",
+      "chestpouch_leather",
+      "grenade_pouch",
+      "grenadebandolier",
+      "tactical_grenade_pouch",
+      "stone_pouch",
+      "leather_stone_pouch",
+      "flintlock_pouch",
+      "tactical_shotshell_pouch",
+      "tool_pouch",
+      "triple_stacker_pouch",
+      "ammo_pouch",
+      "ankle_wallet_pouch",
+      "ragpouch",
+      "leather_pouch"
+    ],
+    "difficulty": 5
   }
 ]
