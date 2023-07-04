@@ -6174,7 +6174,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "loincloths",
     "description": "Recipes related to making loincloths out of varied materials.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [ "loincloth", "loincloth_fur", "loincloth_leather", "loincloth_wool" ],
     "difficulty": 0
   },
@@ -6186,7 +6186,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "pouches",
     "description": "Recipes related to making pouches for a variety of roles and purposes.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [
       "legrig",
       "dump_pouch",
@@ -6219,7 +6219,7 @@
     "subcategory": "CSC_*_NESTED",
     "name": "cloaks",
     "description": "Recipes related to making cloaks out of varied materials.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [ "cloak", "cloak_fur", "cloak_leather", "cloak_wool", "grass_cloak" ],
     "difficulty": 2
   },
