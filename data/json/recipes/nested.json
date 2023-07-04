@@ -6254,5 +6254,28 @@
       "mutagen_cephalopod"
     ],
     "difficulty": 8
+  },
+  {
+    "id": "nested_acid",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "acids",
+    "description": "Recipes related to synthesizing various acidic substances.",
+    "skill_used": "chemistry",
+    "nested_category_data": [
+      "formic_acid",
+      "chem_acetic_acid",
+      "chem_muriatic_acid",
+      "chem_citric_acid",
+      "chem_nitric_acid",
+      "chem_sulphuric_acid",
+      "chem_acetic_acid",
+      "acetic_anhydride",
+      "chem_hydrogen_peroxide",
+      "chem_hydrogen_peroxide_conc"
+    ],
+    "difficulty": 5
   }
 ]
