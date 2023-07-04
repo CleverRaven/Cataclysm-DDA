@@ -436,7 +436,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "heavy_lathe_tool" } ],
-    "epower": "0 W",
     "item": "heavy_lathe",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
