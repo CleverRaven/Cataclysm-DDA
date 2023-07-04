@@ -103,6 +103,7 @@ static const material_id material_iflesh( "iflesh" );
 static const material_id material_bread( "bread" );
 static const material_id material_junk( "junk" );
 static const material_id material_milk( "milk" );
+static const material_id material_cheese( "cheese" );
 static const material_id material_mushroom( "mushroom" );
 static const material_id material_nut( "nut" );
 static const material_id material_oil( "oil" );
@@ -3469,7 +3470,7 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::array<std::pair<material_id, flag_id>, 30> all_pairs = { {
+    static const std::array<std::pair<material_id, flag_id>, 29> all_pairs = { {
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
             { material_hflesh, flag_CANNIBALISM },
@@ -3478,6 +3479,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_iflesh, flag_ALLERGEN_MEAT },
             { material_bread, flag_ALLERGEN_BREAD },
             { material_flesh, flag_ALLERGEN_MEAT },
+            { material_cheese, flag_ALLERGEN_CHEESE},
             { material_blood, flag_ALLERGEN_MEAT },
             { material_hblood, flag_ALLERGEN_MEAT },
             { material_bone, flag_ALLERGEN_MEAT },
