@@ -1240,7 +1240,7 @@ struct tile_render_info {
     struct vision_effect {
         visibility_type vis;
 
-        vision_effect( const visibility_type vis )
+        explicit vision_effect( const visibility_type vis )
             : vis( vis ) {}
     };
 
@@ -2002,6 +2002,7 @@ half_open_rectangle<point> cata_tiles::get_window_full_base_tile_range( const po
         // \/
         const int columns = divide_round_down( size.x * 2, tile_width ) - 1;
         const int rows = divide_round_down( size.y * 4, tile_width ) - 1;
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
         return { { 1, 1 }, { columns + 1, rows + 1 } };
     } else {
         // Only the area from (0, 0) to (tile_width, tile_height) is considered
@@ -2023,11 +2024,12 @@ std::optional<point> cata_tiles::tile_to_player( const point &colrow ) const
             != modulo( colrow.x - screentile_width / 2, 2 ) ) {
             return std::nullopt;
         }
-        const int posx = divide_round_down( colrow.x - colrow.y - screentile_width / 2
-                                            + screentile_height / 2, 2 ) + o.x;
-        const int posy = divide_round_down( colrow.y + colrow.x - screentile_height / 2
-                                            - screentile_width / 2, 2 ) + o.y;
-        return point( posx, posy );
+        return point {
+            divide_round_down( colrow.x - colrow.y - screentile_width / 2
+                               + screentile_height / 2, 2 ) + o.x,
+            divide_round_down( colrow.y + colrow.x - screentile_height / 2
+                               - screentile_width / 2, 2 ) + o.y,
+        };
     } else {
         return colrow + o;
     }
@@ -2058,18 +2060,19 @@ point cata_tiles::player_to_screen( const point &pos ) const
     if( is_isometric() ) {
         // To ensure the first fully drawn basic tile (col or row = 1, according
         // to the definition in get_window_full_base_tile_range) starts at 0,
-        //
-        // left = ( col - 1 ) * ( tw / 2.0 ) + op.x =>
-        const int scrx = divide_round_down( ( colrow.x - 1 ) * tile_width, 2 ) + op.x;
-        // top = ( row - 1 ) * ( tw / 4.0 ) - th + tw / 2.0 + op.y =>
-        // (shifted so that sprites with default height end at the basic height
-        // of `tile_width / 4`)
-        const int scry = divide_round_down( ( colrow.y + 1 ) * tile_width, 4 ) - tile_height + op.y;
-        return { scrx, scry };
+        return {
+            // left = ( col - 1 ) * ( tw / 2.0 ) + op.x =>
+            divide_round_down( ( colrow.x - 1 ) * tile_width, 2 ) + op.x,
+            // top = ( row - 1 ) * ( tw / 4.0 ) - th + tw / 2.0 + op.y =>
+            // (shifted so that sprites with default height end at the basic height
+            // of `tile_width / 4`)
+            divide_round_down( ( colrow.y + 1 ) * tile_width, 4 ) - tile_height + op.y,
+        };
     } else {
-        const int scrx = colrow.x * tile_width + op.x;
-        const int scry = colrow.y * tile_height + op.y;
-        return { scrx, scry };
+        return {
+            colrow.x *tile_width + op.x,
+            colrow.y *tile_height + op.y,
+        };
     }
 }
 
