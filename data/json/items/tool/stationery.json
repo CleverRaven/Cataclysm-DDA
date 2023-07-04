@@ -248,28 +248,7 @@
         "max_contains_volume": "2500 ml",
         "max_item_length": "300 mm",
         "moves": 150,
-        "item_restriction": [
-          "paper",
-          "militarymap",
-          "survivormap",
-          "roadmap",
-          "subwaymap",
-          "trailmap",
-          "touristmap",
-          "restaurantmap",
-          "flyer",
-          "survnote",
-          "character_sheet",
-          "newest_newspaper",
-          "many_years_old_newspaper",
-          "years_old_newspaper",
-          "one_year_old_newspaper",
-          "months_old_newspaper",
-          "weeks_old_newspaper",
-          "death_note",
-          "note_mutant_alpha_boss",
-          "evac_pamphlet"
-        ]
+        "flag_restriction": [ "PAPER_SHAPED" ]
       }
     ]
   }

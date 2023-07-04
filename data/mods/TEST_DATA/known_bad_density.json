@@ -223,7 +223,6 @@
       "chem_formaldehyde",
       "sandwich_deluxe",
       "robofac_test_data",
-      "snail_garden",
       "irradiated_cranberries",
       "hallula",
       "chem_chloroform",
@@ -795,7 +794,9 @@
       "lizardfolk_club",
       "rocuronium",
       "alumentum",
-      "tourniquet_lower_XS"
+      "tourniquet_lower_XS",
+      "rebreather_filler_ko2",
+      "rebreather_filler_soda_lime"
     ]
   }
 ]

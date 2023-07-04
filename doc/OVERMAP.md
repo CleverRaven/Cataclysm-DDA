@@ -756,28 +756,27 @@ the final phase, in some situations you can make this easier using optional
 joins.  This feature can also be used in other phases.
 
 When specifying the joins associated with an overmap in a mutable special, you
-can elaborate with a type, like this example from the `Crater` overmap special:
+can elaborate with a type, like this example from the [`homeless_camp_mutable`](../data/json/overmap/overmap_mutable/homeless_camp_mutable.json) overmap special:
 
 ```json
 "overmaps": {
-  "crater_core": {
-    "overmap": "crater_core",
-    "north": "crater_to_crater",
-    "east": "crater_to_crater",
-    "south": "crater_to_crater",
-    "west": "crater_to_crater"
-  },
-  "crater_edge": {
-    "overmap": "crater",
-    "north": "crater_to_crater",
-    "east": { "id": "crater_to_crater", "type": "available" },
-    "south": { "id": "crater_to_crater", "type": "available" },
-    "west": { "id": "crater_to_crater", "type": "available" }
-  }
-},
+      "camp_core": {
+        "overmap": "homelesscamp_north",
+        "north": "camp_to_camp",
+        "east": "camp_to_camp",
+        "south": "camp_to_camp",
+        "west": "camp_to_camp"
+      },
+      "camp_edge": {
+        "overmap": "homelesscamp_north",
+        "north": "camp_to_camp",
+        "east": { "id": "camp_to_camp", "type": "available" },
+        "south": { "id": "camp_to_camp", "type": "available" },
+        "west": { "id": "camp_to_camp", "type": "available" }
+      }
 ```
 
-The definition of `crater_edge` has one mandatory join to the north, and three
+The definition of `camp_edge` has one mandatory join to the north, and three
 'available' joins to the other cardinal directions.  The semantics of an
 'available' join are that it will not be considered an unresolved join, and
 therefore will never cause more overmaps to be placed, but it can satisfy other
@@ -788,8 +787,8 @@ The overmap will always be rotated in such a way that as many of its mandatory
 joins as possible are satisfied and available joins are left to point in other
 directions that don't currently need joins.
 
-As such, this `crater_edge` overmap can satisfy any unresolved joins for the
-`Crater` special without generating any new unresolved joins of its own.  This
+As such, this `camp_edge` overmap can satisfy any unresolved joins for the
+`homeless_camp_mutable` special without generating any new unresolved joins of its own.  This
 makes it great to finish off the special in the final phase.
 
 #### Asymmetric joins

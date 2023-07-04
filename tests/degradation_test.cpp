@@ -85,6 +85,17 @@ TEST_CASE( "Damage_indicator_thresholds", "[item][damage_level]" )
     }
 }
 
+TEST_CASE( "only_degrade_items_with_defined_degradation", "[item][degradation]" )
+{
+    // can be removed once all items degrade
+    item no_degradation_item( itype_tailors_kit );
+    CHECK( no_degradation_item.degradation() == 0 );
+    no_degradation_item.set_degradation( 1000 );
+    CHECK( no_degradation_item.degradation() == 0 );
+    no_degradation_item.rand_degradation();
+    CHECK( no_degradation_item.degradation() == 0 );
+}
+
 TEST_CASE( "Degradation_on_spawned_items", "[item][degradation]" )
 {
     clear_map();

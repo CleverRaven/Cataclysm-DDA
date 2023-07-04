@@ -488,7 +488,7 @@
     "id": "infantry_officer_gear",
     "subtype": "collection",
     "entries": [
-      { "item": "holster", "contents-group": "military_standard_pistols", "prob": 90 },
+      { "item": "nylon_holster", "contents-group": "military_standard_pistols", "prob": 90 },
       { "item": "id_military", "prob": 90 }
     ]
   },
@@ -604,7 +604,7 @@
       { "item": "gloves_fingerless", "prob": 20 },
       { "item": "glasses_safety", "prob": 40 },
       { "item": "hat_boonie", "prob": 10 },
-      { "item": "holster", "prob": 15 },
+      { "item": "nylon_holster", "prob": 15 },
       { "item": "sholster", "prob": 10 },
       { "item": "bandolier_shotgun", "prob": 12 },
       { "item": "torso_bandolier_shotgun", "prob": 8 },

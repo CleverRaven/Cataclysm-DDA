@@ -1709,7 +1709,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
-    if( player_character.sees( p ) ) {
+    if( pl_sees( p, player_character.sight_max ) ) {
         player_character.memorize_clear_decoration( getabs( p ), "f_" );
     }
 
@@ -2153,7 +2153,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
 
     set_memory_seen_cache_dirty( p );
     avatar &player_character = get_avatar();
-    if( player_character.sees( p ) ) {
+    if( pl_sees( p, player_character.sight_max ) ) {
         player_character.memorize_clear_decoration( getabs( p ), "t_" );
     }
 
@@ -4434,7 +4434,11 @@ bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
 
         return true;
     } else if( const optional_vpart_position vp = veh_at( p ) ) {
-        int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
+        const optional_vpart_position creature_veh = veh_at( u.pos() );
+        const bool creature_outside = !creature_veh.has_value() ||
+                                      &creature_veh->vehicle() != &veh_at( p )->vehicle();
+
+        const int openable = vp->vehicle().next_part_to_open( vp->part_index(), creature_outside );
         if( openable >= 0 ) {
             if( !check_only ) {
                 if( ( u.is_npc() || u.is_avatar() ) &&
@@ -4941,8 +4945,8 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
         std::vector<tripoint> tiles = closest_points_first( pos, max_dist );
         tiles.erase( tiles.begin() ); // we already tried this position
         const int max_path_length = 4 * max_dist;
-        const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, true, false, false,
-                                            false );
+        const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, false, true, false,
+                                            false, false );
         for( const tripoint &e : tiles ) {
             if( !inbounds( e ) ) {
                 continue;
@@ -5913,7 +5917,7 @@ void map::partial_con_remove( const tripoint_bub_ms &p )
     current_submap->partial_constructions.erase( tripoint_sm_ms( l, p.z() ) );
     set_memory_seen_cache_dirty( p.raw() );
     avatar &player_character = get_avatar();
-    if( player_character.sees( p ) ) {
+    if( pl_sees( p.raw(), player_character.sight_max ) ) {
         player_character.memorize_clear_decoration( getabs( p ), "tr_" );
     }
 }
@@ -5956,7 +5960,7 @@ void map::trap_set( const tripoint &p, const trap_id &type )
 
     set_memory_seen_cache_dirty( p );
     avatar &player_character = get_avatar();
-    if( player_character.sees( p ) ) {
+    if( pl_sees( p, player_character.sight_max ) ) {
         player_character.memorize_clear_decoration( getabs( p ), "tr_" );
     }
     // If there was already a trap here, remove it.
@@ -5993,7 +5997,7 @@ void map::remove_trap( const tripoint &p )
         if( g != nullptr && this == &get_map() ) {
             set_memory_seen_cache_dirty( p );
             avatar &player_character = get_avatar();
-            if( player_character.sees( p ) ) {
+            if( pl_sees( p, player_character.sight_max ) ) {
                 player_character.memorize_clear_decoration( getabs( p ), "tr_" );
             }
             player_character.add_known_trap( p, tr_null.obj() );

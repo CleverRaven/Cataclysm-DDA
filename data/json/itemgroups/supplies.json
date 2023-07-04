@@ -269,7 +269,10 @@
     "//": "General purpose supplies for building / blue collar work.",
     "//2": "Stuff you might find in a jobsite, a hardware store, or a home workshop.",
     "items": [
-      { "item": "nuts_bolts", "prob": 80, "charges": [ 5, 10 ], "container-item": "box_small" },
+      { "item": "nuts_bolts", "prob": 80, "charges": 500, "container-item": "box_small" },
+      { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500 },
+      { "item": "welding_rod_steel", "prob": 20, "charges": 1500 },
+      { "item": "welding_wire_steel", "prob": 20, "charges": 1500 },
       [ "concrete", 20 ],
       {
         "collection": [
@@ -341,6 +344,7 @@
       { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
       [ "denat_alcohol", 3 ],
       [ "methed_alcohol", 2 ],
+      [ "lamp_oil", 25 ],
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
@@ -394,6 +398,7 @@
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
       { "item": "mercury", "prob": 10, "charges-min": 100 },
       { "item": "chem_sodium", "prob": 10, "charges-min": 100 },
+      { "item": "chem_potassium", "prob": 10, "charges-min": 100 },
       [ "chem_ammonium_nitrate", 10 ],
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
@@ -537,7 +542,7 @@
         ],
         "prob": 35
       },
-      { "item": "nuts_bolts", "prob": 80, "charges": [ 20, 40 ], "container-item": "box_small" },
+      { "item": "nuts_bolts", "prob": 80, "charges": 500, "container-item": "box_small" },
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
       [ "stereo", 25 ],
