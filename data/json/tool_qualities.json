@@ -435,6 +435,12 @@
   },
   {
     "type": "tool_quality",
+    "id": "CUT_NUT",
+    "name": { "str": "inner thread cutting" },
+    "//": "For cutting threads inside a tube"
+  },
+  {
+    "type": "tool_quality",
     "id": "MILLING_METAL",
     "name": { "str": "milling" },
     "//": "For milling machines, similar to filing and is rotary filing in most cases..."
@@ -449,7 +455,7 @@
     "type": "tool_quality",
     "id": "CUT_GUNBARREL",
     "name": { "str": "rifle cutting" },
-    "//": "For cutting threads inside a tube"
+    "//": "For cutting rifling inside a tube"
   },
   {
     "type": "tool_quality",
