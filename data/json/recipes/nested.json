@@ -6124,7 +6124,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "loincloth",
+    "name": "loincloths",
     "description": "Recipes related to making loincloths out of varied materials.",
     "skill_used": "tailoring",
     "nested_category_data": [ "loincloth", "loincloth_fur", "loincloth_leather", "loincloth_wool" ],
