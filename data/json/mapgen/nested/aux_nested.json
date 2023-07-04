@@ -234,6 +234,39 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "1x1_trailmap",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "6" ],
+      "furniture": { "6": "f_board_map" },
+      "item": { "6": { "item": "trailmap", "chance": 100 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_sewermap",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "6" ],
+      "furniture": { "6": "f_board_map" },
+      "item": { "6": { "item": "sewermap", "chance": 100 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_subwaystationmap",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "6" ],
+      "furniture": { "6": "f_board_map" },
+      "item": { "6": { "item": "subwaystationmap", "chance": 100 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "corpse_blood_casings_3x3",
     "object": {
       "mapgensize": [ 3, 3 ],
