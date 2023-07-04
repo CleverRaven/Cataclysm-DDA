@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "name": "centering meditation",
     "id": "psi_centering_meditation_drain_reduce",
     "description": "Through practice, you've learned how to calm and focus yourself during meditation.  If you meditated properly, you could channel the unnatural drain of psionic channeling into mundane tiredness, though it may take some time to meditate all of your drain away.",
