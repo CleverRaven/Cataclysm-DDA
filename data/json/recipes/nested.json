@@ -6229,7 +6229,7 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
     "name": "mutagen primers",
-    "description": "Recipes related to synthesizing substances to aid in directing mutategenic change.",
+    "description": "Recipes related to synthesizing substances to aid in directing mutagenic change.",
     "skill_used": "chemistry",
     "nested_category_data": [
       "iv_purifier",
