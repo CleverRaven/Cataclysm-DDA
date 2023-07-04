@@ -100,6 +100,7 @@ static const material_id material_hflesh( "hflesh" );
 static const material_id material_honey( "honey" );
 static const material_id material_hydrocarbons( "hydrocarbons" );
 static const material_id material_iflesh( "iflesh" );
+static const material_id material_bread( "bread" );
 static const material_id material_junk( "junk" );
 static const material_id material_milk( "milk" );
 static const material_id material_mushroom( "mushroom" );
@@ -107,6 +108,7 @@ static const material_id material_nut( "nut" );
 static const material_id material_oil( "oil" );
 static const material_id material_tomato( "tomato" );
 static const material_id material_veggy( "veggy" );
+static const material_id material_dried_vegetable( "dried_vegetable" );
 static const material_id material_wheat( "wheat" );
 static const material_id material_wool( "wool" );
 
@@ -3467,13 +3469,14 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::array<std::pair<material_id, flag_id>, 28> all_pairs = { {
+    static const std::array<std::pair<material_id, flag_id>, 30> all_pairs = { {
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
             { material_hflesh, flag_CANNIBALISM },
             { material_hblood, flag_CANNIBALISM },
             { material_hflesh, flag_ALLERGEN_MEAT },
             { material_iflesh, flag_ALLERGEN_MEAT },
+            { material_bread, flag_ALLERGEN_BREAD },
             { material_flesh, flag_ALLERGEN_MEAT },
             { material_blood, flag_ALLERGEN_MEAT },
             { material_hblood, flag_ALLERGEN_MEAT },
@@ -3481,6 +3484,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_wheat, flag_ALLERGEN_WHEAT },
             { material_fruit, flag_ALLERGEN_FRUIT },
             { material_veggy, flag_ALLERGEN_VEGGY },
+            { material_dried_vegetable, flag_ALLERGEN_DRIED_VEGETABLE },
             { material_bean, flag_ALLERGEN_VEGGY },
             { material_tomato, flag_ALLERGEN_VEGGY },
             { material_garlic, flag_ALLERGEN_VEGGY },
@@ -3495,8 +3499,6 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_flesh, flag_CARNIVORE_OK },
             { material_hflesh, flag_CARNIVORE_OK },
             { material_iflesh, flag_CARNIVORE_OK },
-            { material_milk, flag_CARNIVORE_OK },
-            { material_egg, flag_CARNIVORE_OK },
             { material_blood, flag_CARNIVORE_OK },
             { material_hblood, flag_CARNIVORE_OK },
             { material_honey, flag_URSINE_HONEY }
