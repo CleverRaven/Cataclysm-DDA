@@ -1889,6 +1889,21 @@
     "items": [ [ "duffelbag", 5 ], [ "backpack", 5 ], [ "bag_plastic", 30 ], [ "basket_laundry", 30 ] ]
   },
   {
+    "id": "plastic_dishes",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [ { "item": "plastic_plate" }, { "item": "plastic_fork" }, { "item": "plastic_knife" }, { "item": "tumbler_plastic" } ],
+        "prob": 50
+      },
+      {
+        "collection": [ { "item": "bowl_plastic" }, { "item": "plastic_fork" }, { "item": "plastic_spoon" }, { "item": "tumbler_plastic" } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
     "id": "clothing_sport",
     "type": "item_group",
     "//": "for sports_store",
