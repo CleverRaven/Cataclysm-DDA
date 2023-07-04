@@ -330,7 +330,7 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "60 s",
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 180 ] ],
     "//": "180cm weld",
