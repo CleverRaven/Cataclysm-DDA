@@ -427,7 +427,7 @@
   {
     "id": "loincloth",
     "type": "ARMOR",
-    "name": { "str": "loincloth" },
+    "name": { "str": "loincloth", "str_pl": "loincloths" },
     "description": "Rags stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "75 g",
     "volume": "250 ml",
@@ -444,7 +444,7 @@
   {
     "id": "loincloth_fur",
     "type": "ARMOR",
-    "name": { "str": "fur loincloth" },
+    "name": { "str": "fur loincloth", "str_pl": "fur loincloths" },
     "description": "A fur pelt tied into a loincloth.  Covers your modesty, but not much else.  Now you are a true barbarian warrior.",
     "weight": "250 g",
     "volume": "250 ml",
@@ -462,7 +462,7 @@
   {
     "id": "loincloth_leather",
     "type": "ARMOR",
-    "name": { "str": "leather loincloth" },
+    "name": { "str": "leather loincloth", "str_pl": "leather loincloths" },
     "description": "Leather patches stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "550 g",
     "volume": "250 ml",
@@ -479,7 +479,7 @@
   {
     "id": "loincloth_wool",
     "type": "ARMOR",
-    "name": { "str": "wool loincloth" },
+    "name": { "str": "wool loincloth", "str_pl": "wool loincloths" },
     "description": "Bits of wool stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "56 g",
     "volume": "250 ml",
