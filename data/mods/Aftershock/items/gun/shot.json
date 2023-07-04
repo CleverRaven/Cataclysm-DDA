@@ -1,5 +1,26 @@
 [
   {
+    "id": "afs_shotgun",
+    "copy-from": "mossberg_590",
+    "type": "GUN",
+    "name": { "str": "Benelli 315" },
+    "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",
+    "variants": [
+      {
+        "id": "vatforged",
+        "name": { "str": "vatforged shotgun" },
+        "description": "A crude but otherwise serviceable pump-action shotgun built from a hacked or scavenged template.  Frequently seen in the hands of frontier pirates, settlers or salvors.  Not that such groups are much different from one another.",
+        "weight": 3
+      },
+      {
+        "id": "military",
+        "name": { "str": "m2101-UASTA shotgun" },
+        "description": "The standard issue combat shotgun of UICA marine and colonial forces.  Shot shells have poor performance against modern combat armor, so the M2101 is more often used during policing and peacekeeping operations.",
+        "weight": 2
+      }
+    ]
+  },
+  {
     "id": "afs_raketa_shotgun",
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",

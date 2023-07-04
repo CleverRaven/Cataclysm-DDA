@@ -1931,7 +1931,7 @@ class joins_tracker
             consistency_check();
             for( iterator it : unresolved.all_at( pos ) ) {
                 postponed.add( *it );
-                bool erased = erase_unresolved( it->where );
+                [[maybe_unused]] const bool erased = erase_unresolved( it->where );
                 cata_assert( erased );
             }
             consistency_check();
@@ -2029,13 +2029,13 @@ class joins_tracker
             iterator add( const join &j ) {
                 joins.push_front( j );
                 auto it = joins.begin();
-                auto insert_result = position_index.emplace( j.where, it );
-                cata_assert( insert_result.second );
+                [[maybe_unused]] const bool inserted = position_index.emplace( j.where, it ).second;
+                cata_assert( inserted );
                 return it;
             }
 
             void erase( const iterator it ) {
-                size_t erased = position_index.erase( it->where );
+                [[maybe_unused]] const size_t erased = position_index.erase( it->where );
                 cata_assert( erased );
                 joins.erase( it );
             }
@@ -2052,8 +2052,8 @@ class joins_tracker
             if( unresolved_priority_index.size() <= priority ) {
                 unresolved_priority_index.resize( priority + 1 );
             }
-            auto insert_result_2 = unresolved_priority_index[priority].insert( it );
-            cata_assert( insert_result_2.second );
+            [[maybe_unused]] const bool inserted = unresolved_priority_index[priority].insert( it ).second;
+            cata_assert( inserted );
         }
 
         bool erase_unresolved( const om_pos_dir &p ) {
@@ -2064,7 +2064,7 @@ class joins_tracker
             iterator it = pos_it->second;
             unsigned priority = it->join->priority;
             cata_assert( priority < unresolved_priority_index.size() );
-            size_t erased = unresolved_priority_index[priority].erase( it );
+            [[maybe_unused]] const size_t erased = unresolved_priority_index[priority].erase( it );
             cata_assert( erased );
             unresolved.erase( it );
             return true;
@@ -4793,6 +4793,10 @@ void overmap::place_swamps()
 void overmap::place_roads( const overmap *north, const overmap *east, const overmap *south,
                            const overmap *west )
 {
+    int op_city_size = get_option<int>( "CITY_SIZE" );
+    if( op_city_size <= 0 ) {
+        return;
+    }
     std::vector<tripoint_om_omt> &roads_out = connections_out[overmap_connection_local_road];
 
     // At least 3 exit points, to guarantee road continuity across overmaps

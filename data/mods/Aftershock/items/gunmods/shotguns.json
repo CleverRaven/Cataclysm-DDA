@@ -1,0 +1,23 @@
+[
+  {
+    "id": "afs_magnetic_choke",
+    "type": "GUNMOD",
+    "name": { "str": "magnetic choke" },
+    "//": "Yes lead isn't magnetic, no I don't care.",
+    "description": "A choke that uses a powerful cross-shaped electromagnet to pull the shot cloud together, greatly reducing the spread of shot.  Prevents the use of slugs.",
+    "weight": "300 g",
+    "volume": "150 ml",
+    "longest_side": "4 cm",
+    "integral_longest_side": "1 cm",
+    "price": 78000,
+    "price_postapoc": 1500,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "muzzle",
+    "mod_targets": [ "shotgun" ],
+    "install_time": "3 m",
+    "shot_spread_multiplier_modifier": -0.8,
+    "flags": [ "CHOKE" ]
+  }
+]

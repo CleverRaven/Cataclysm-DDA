@@ -311,7 +311,7 @@ void DynamicDataLoader::initialize()
         item_action_generator::generator().load_item_action( jo );
     } );
 
-    add( "vehicle_part",  &vpart_info::load );
+    add( "vehicle_part",  &vehicles::parts::load );
     add( "vehicle_part_category",  &vpart_category::load );
     add( "vehicle_part_migration", &vpart_migration::load );
     add( "vehicle", &vehicles::load_prototype );
@@ -650,7 +650,7 @@ void DynamicDataLoader::unload_data()
     VehicleSpawn::reset();
     vehicles::reset_prototypes();
     vitamin::reset();
-    vpart_info::reset();
+    vehicles::parts::reset();
     vpart_category::reset();
     vpart_migration::reset();
     weakpoints::reset();
@@ -706,7 +706,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
                 }
             },
             { _( "Vehicle part categories" ), &vpart_category::finalize },
-            { _( "Vehicle parts" ), &vpart_info::finalize },
+            { _( "Vehicle parts" ), &vehicles::parts::finalize },
             { _( "Traps" ), &trap::finalize },
             { _( "Terrain" ), &set_ter_ids },
             { _( "Furniture" ), &set_furn_ids },
@@ -799,7 +799,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &fault::check_consistency },
             { _( "Fault fixes" ), &fault_fix::check_consistency },
-            { _( "Vehicle parts" ), &vpart_info::check },
+            { _( "Vehicle parts" ), &vehicles::parts::check },
             { _( "Vehicle part migrations" ), &vpart_migration::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
             { _( "Mapgen palettes" ), &mapgen_palette::check_definitions },

@@ -49,7 +49,7 @@
     "volume": "5 ml",
     "price": 800,
     "price_postapoc": 0,
-    "flags": [ "BANK_NOTE_SHAPED" ],
+    "flags": [ "BANK_NOTE_SHAPED", "PAPER_SHAPED" ],
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"

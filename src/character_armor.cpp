@@ -245,7 +245,13 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( roll > armor.get_coverage( sbp, ctype ) ) {
         return false;
     }
-
+    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
+    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
+        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
+                pos(), nullptr ) ) {
+        armor.deactivate( nullptr, false );
+        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
+    }
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, sbp, -1 );
@@ -267,7 +273,13 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( roll > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
-
+    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
+    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
+        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
+                pos(), nullptr ) ) {
+        armor.deactivate( nullptr, false );
+        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
+    }
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, bp, -1 );

@@ -2,28 +2,17 @@
   {
     "type": "palette",
     "id": "fbmc_firestation1_palette",
-    "terrain": {
-      "u": "t_rootcellar",
-      ".": "t_dirt",
-      "^": "t_dirtmound",
-      "|": "t_wall_w",
-      "d": "t_door_c",
-      "G": "t_privacy_fencegate_c",
-      "#": "t_privacy_fence"
-    },
+    "terrain": { "u": "t_rootcellar", ".": "t_dirt", "^": "t_dirtmound", "G": "t_privacy_fencegate_c", "#": "t_privacy_fence" },
     "furniture": {
       "u": "f_clear",
       ".": "f_clear",
       "^": "f_clear",
-      "|": "f_clear",
-      "d": "f_clear",
       "G": "f_clear",
       "#": "f_clear",
       "h": "f_chair",
       "t": "f_table",
       "c": "f_counter",
       "r": "f_rack",
-      "b": "f_bed",
       "L": "f_locker",
       "s": "f_sofa",
       "C": "f_armchair",
@@ -316,13 +305,20 @@
     "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters_SW",
     "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
       "mapgensize": [ 3, 3 ],
       "rows": [
         "bbL",
         "t  ",
         "bb "
       ],
-      "palettes": [ "fbmc_firestation1_palette" ]
+      "palettes": [ { "param": "fbmc_bed_palette" }, "fbmc_firestation1_palette" ]
     }
   },
   {
@@ -336,13 +332,20 @@
     "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters_NW",
     "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
       "mapgensize": [ 3, 3 ],
       "rows": [
         "bbL",
         "t  ",
         "bbL"
       ],
-      "palettes": [ "fbmc_firestation1_palette" ]
+      "palettes": [ { "param": "fbmc_bed_palette" }, "fbmc_firestation1_palette" ]
     }
   },
   {
@@ -356,13 +359,20 @@
     "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters_NE",
     "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
       "mapgensize": [ 3, 3 ],
       "rows": [
         "Lbb",
         "  t",
         "Lbb"
       ],
-      "palettes": [ "fbmc_firestation1_palette" ]
+      "palettes": [ { "param": "fbmc_bed_palette" }, "fbmc_firestation1_palette" ]
     }
   },
   {
@@ -376,13 +386,20 @@
     "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters_SE",
     "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
       "mapgensize": [ 3, 3 ],
       "rows": [
         "Lbb",
         "  t",
         " bb"
       ],
-      "palettes": [ "fbmc_firestation1_palette" ]
+      "palettes": [ { "param": "fbmc_bed_palette" }, "fbmc_firestation1_palette" ]
     }
   },
   {

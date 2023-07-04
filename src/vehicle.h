@@ -507,6 +507,9 @@ struct vehicle_part {
         /** door is open */
         bool open = false;
 
+        /** door is locked */
+        bool locked = false;
+
         /** direction the part is facing */
         units::angle direction = 0_degrees;
 
@@ -797,6 +800,7 @@ class vehicle
         bool has_structural_part( const point &dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
+        void lock_or_unlock( int part_index, bool locking );
         bool is_connected( const vehicle_part &to, const vehicle_part &from,
                            const vehicle_part &excluded ) const;
 
@@ -872,9 +876,11 @@ class vehicle
         /// May load the connected vehicles' submaps
         std::map<vpart_reference, float> search_connected_batteries();
 
-        vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel = -1,
-                 int init_veh_status = -1, bool may_spawn_locked = false );
-        vehicle();
+        // constructs a vehicle, if the given \p proto_id is an empty string the vehicle is
+        // constructed empty, invalid proto_id will construct empty and raise a debugmsg,
+        // if given \p proto_id is valid then parts are copied from the vproto's blueprint,
+        // and prototype's fuel/ammo will be spawned in init_state / place_spawn_items
+        explicit vehicle( const vproto_id &proto_id );
         vehicle( const vehicle & ) = delete;
         ~vehicle();
         vehicle &operator=( vehicle && ) = default;
@@ -915,8 +921,8 @@ class vehicle
         // check if player controls this vehicle remotely
         bool remote_controlled( const Character &p ) const;
 
-        // init parts state for randomly generated vehicle
-        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status, bool may_spawn_locked );
+        // initializes parts and fuel state for randomly generated vehicle and calls refresh()
+        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status );
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
@@ -1249,6 +1255,30 @@ class vehicle
          *  @return part index or -1 if no part
          */
         int next_part_to_close( int p, bool outside = false ) const;
+
+        /**
+         *  Return the index of the next part to lock at part `p`'s location.
+         *
+         *  The next part to lock is the first closed, unlocked part in the list of
+         *  parts at part `p`'s coordinates with the lockable_door flag.
+         *
+         *  @param p part whose coordinates provide the location to check
+         *  @param outside if true, give parts that can be locked from outside only
+         *  @returns a part index or -1 if no part
+         */
+        int next_part_to_lock( int p, bool outside = false ) const;
+
+        /**
+         *  Return the index of the next part to unlock at part `p`'s location.
+         *
+         *  The next part to unlock is the first locked part in the list of
+         *  parts at part `p`'s coordinates with the lockable_door flag.
+         *
+         *  @param p part whose coordinates provide the location to check
+         *  @param outside if true, give parts that can be unlocked from outside only
+         *  @returns part index or -1 if no part
+         */
+        int next_part_to_unlock( int p, bool outside = false ) const;
 
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
@@ -1885,10 +1915,13 @@ class vehicle
         std::list<item> use_charges( const vpart_position &vp, const itype_id &type, int &quantity,
                                      const std::function<bool( const item & )> &filter, bool in_tools = false );
 
-        // opens/closes doors or multipart doors
+        // opens/closes/locks doors or multipart doors
         void open( int part_index );
         void close( int part_index );
-
+        void lock( int part_index );
+        void unlock( int part_index );
+        // returns whether the door can be locked with an attached DOOR_LOCKING part.
+        bool part_has_lock( int part_index ) const;
         bool can_close( int part_index, Character &who );
 
         // @returns true if vehicle only has foldable parts
@@ -1905,6 +1938,8 @@ class vehicle
 
         //true if an alarm part is installed on the vehicle
         bool has_security_working() const;
+        // unlocks the vehicle, turns off SECURITY parts, clears engine immobilizer faults
+        void unlock();
         /**
          *  Opens everything that can be opened on the same tile as `p`
          */
@@ -2167,7 +2202,7 @@ class vehicle
          * is loaded into the map the values are directly set. The vehicles position does
          * not change therefore no call to set_submap_moved is required.
          */
-        tripoint sm_pos; // NOLINT(cata-serialize)
+        tripoint sm_pos = tripoint_zero; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0; // NOLINT(cata-serialize)
@@ -2180,7 +2215,7 @@ class vehicle
          * Note that vehicles are "moved" by map::displace_vehicle. You should not
          * set them directly, except when initializing the vehicle or during mapgen.
          */
-        point pos;
+        point pos = point_zero;
         // vehicle current velocity, mph * 100
         int velocity = 0;
         /**

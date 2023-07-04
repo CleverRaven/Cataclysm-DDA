@@ -6,39 +6,47 @@
     "magazine": 100,
     "entries": [
       { "group": "survivor_basic_outfit", "damage": [ 1, 4 ] },
-      { "group": "bugout_bag" },
+      { "group": "bugout_bag", "prob": 20 },
       { "group": "book_survival", "prob": 15 },
-      { "group": "gear_survival", "prob": 25, "damage": [ 1, 4 ] },
-      { "group": "survivor_knife", "damage": [ 1, 4 ] },
+      { "group": "gear_survival", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "survivor_knife", "damage": [ 1, 4 ], "prob": 50 },
       {
         "distribution": [
-          { "group": "survivor_melee", "prob": 40, "damage": [ 1, 4 ] },
-          { "group": "survivor_longguns", "prob": 60, "contents-item": "shoulder_strap", "damage": [ 1, 4 ] }
+          { "group": "survivor_melee", "prob": 70, "damage": [ 1, 4 ] },
+          { "group": "survivor_longguns", "prob": 30, "contents-item": "shoulder_strap", "damage": [ 1, 4 ] }
         ],
         "prob": 50
       },
-      { "group": "survivor_grenades", "prob": 25 },
-      { "group": "stash_food", "prob": 90 },
-      { "group": "ammo_common", "prob": 95 },
-      { "group": "stash_drugs", "prob": 80 },
-      { "group": "gear_survival", "prob": 80 },
-      { "group": "mil_food", "prob": 55 },
-      { "group": "mil_food_nodrugs", "prob": 55 },
-      { "group": "shelter", "prob": 8 },
-      { "group": "mil_surplus", "prob": 60 },
-      { "group": "default_zombie_items_bags", "prob": 80 },
-      { "group": "default_zombie_items_pockets", "prob": 95 },
+      { "group": "survivor_grenades", "prob": 10 },
+      { "group": "stash_food", "prob": 20 },
+      { "group": "ammo_common", "prob": 25 },
+      { "group": "ammo_rare", "prob": 10 },
+      { "group": "stash_drugs", "prob": 25 },
+      { "group": "gear_survival", "prob": 15 },
+      { "group": "mil_food", "prob": 10 },
+      { "group": "mil_food_nodrugs", "prob": 10 },
+      { "group": "shelter", "prob": 3 },
+      { "group": "mil_surplus", "prob": 15 },
+      { "group": "default_zombie_items_bags", "prob": 15 },
+      { "group": "default_zombie_items_pockets", "prob": 15 },
       { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 },
       {
         "distribution": [ { "group": "full_survival_kit", "damage": [ 1, 4 ] }, { "group": "used_survival_kit", "damage": [ 1, 4 ] } ],
-        "prob": 15
+        "prob": 5
       },
       {
         "distribution": [
-          { "group": "guns_pistol_common_everyday_carry", "damage": [ 1, 2 ], "prob": 1 },
-          { "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry" } ], "prob": 80 }
+          { "item": "teargas_sprayer", "prob": 10, "charges-min": 0, "charges-max": 5 },
+          {
+            "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry", "damage": [ 0, 2 ] } ],
+            "prob": 10
+          },
+          {
+            "collection": [ { "item": "holster" }, { "item": "tazer", "damage": [ 0, 2 ], "charges-min": 0, "charges-max": 100 } ],
+            "prob": 5
+          }
         ],
-        "prob": 80
+        "prob": 35
       }
     ]
   },
@@ -419,7 +427,6 @@
       [ "motorbike_armor", 25 ],
       [ "ski_jacket", 10 ],
       [ "coat_winter", 10 ],
-      [ "coat_fur_sf", 1 ],
       [ "coat_fur", 1 ],
       [ "coat_faux_fur", 1 ]
     ]

@@ -333,7 +333,7 @@ bodkin
 bodyglove
 bodymesh
 bodypart
-bodyweight 
+bodyweight
 bokken
 bolas
 bolded
@@ -788,7 +788,7 @@ doesnt
 doffing
 dogbane
 doggo
-doglike 
+doglike
 domestica
 dongle
 doomseer
@@ -904,6 +904,8 @@ eou
 epicuticle
 epistemology
 eppies
+equestrian
+equestrians
 ergometer
 ergonomics
 erlischt
@@ -939,9 +941,9 @@ excreta
 excretions
 exhorts
 existentialists
-exoplanet
 exobay
 exodii
+exoplanet
 exosuit
 exosuits
 expansionary
@@ -1585,7 +1587,7 @@ lbs
 leache
 leatherbacked
 leatherbound
-leathercrafters 
+leathercrafters
 leatherworking
 leavening
 lectern
@@ -1761,7 +1763,7 @@ midden
 mideast
 mideastern
 midgame
-midground 
+midground
 midrange
 midsentence
 migo
@@ -2024,7 +2026,7 @@ overclock
 overclocks
 overdosage
 overdrinking
-overengineered 
+overengineered
 overexertion
 overgrowth
 overmap
@@ -2129,6 +2131,7 @@ phyle
 physicochemical
 pickelhaube
 pickerel
+pickerels
 pickhead
 pickin
 pickins
@@ -2381,6 +2384,7 @@ regia
 regrows
 regurgitates
 reimpose
+reinstalling
 remodulator
 rended
 renderer
@@ -2520,8 +2524,8 @@ screwdriving
 scrrrash
 scruffs
 scutcher
-scutellosaurus
 scute
+scutellosaurus
 scutes
 scuttles
 sealab
@@ -2689,6 +2693,7 @@ spinnerets
 spinosaurus
 spinwheel
 spitter
+splashproof
 splicer
 splinting
 splorch
@@ -2791,6 +2796,7 @@ supergluing
 supergravity
 superheroic
 supermaterials
+superoxide
 superpositional
 supersoldier
 supersoldiers
@@ -2858,7 +2864,7 @@ testbed
 tetradrachm
 tetrahedron
 th
-thaumaturgical 
+thaumaturgical
 thawb
 themm
 therizinosaurus
@@ -2873,6 +2879,7 @@ thorned
 thornothurian
 thosun
 threateningly
+throated
 throating
 throwable
 thru
@@ -2890,6 +2897,8 @@ tinamou
 tinning
 tiredly
 tireplate
+titani
+titanis
 titanochelon
 toecaps
 toggled
@@ -2981,7 +2990,7 @@ uggo
 uistate
 ultracapacitor
 ultralight
-ultras 
+ultras
 ultratech
 unarmored
 unawareness
@@ -3033,7 +3042,6 @@ unlively
 unlives
 unlooted
 unlubricated
-unspooled
 unmalted
 unmark
 unmarred
@@ -3058,6 +3066,7 @@ unsiatable
 unskillfully
 unsorted
 unspecialized
+unspooled
 unsteadily
 unstocked
 unstrained
@@ -3136,6 +3145,7 @@ wabbits
 wacka
 wakizashi
 wakizashis
+walleri
 walleye
 wammles
 wanderin
@@ -3228,6 +3238,7 @@ wyrmling
 wyrms
 x
 xamine
+xedra
 xenobiology
 xiph
 xiphos
@@ -3246,7 +3257,7 @@ ynn
 yoroi
 youre
 yourselves
-youthful 
+youthful
 yowl
 yoyos
 yugg

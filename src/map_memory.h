@@ -152,15 +152,16 @@ class map_memory
         void set_tile_symbol( const tripoint &pos, char32_t symbol );
 
         /**
-         * Clears memorized vehicles and symbol.
+         * Clears memorized decorations and symbol.
          * @param pos tile position, in global ms coords.
+         * @param prefix if non-empty only clears if decoration starts with this prefix
          */
-        void clear_tile_vehicles( const tripoint &pos );
+        void clear_tile_decoration( const tripoint &pos, std::string_view prefix = "" );
 
     private:
         std::map<tripoint, shared_ptr_fast<mm_submap>> submaps;
 
-        std::vector<shared_ptr_fast<mm_submap>> cached;
+        mutable std::map<int, std::vector<shared_ptr_fast<mm_submap>>> cached;
         tripoint cache_pos;
         point cache_size;
 

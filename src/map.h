@@ -1320,6 +1320,7 @@ class map
          * hot or perishable liquid to a container.
          */
         void make_active( item_location &loc );
+        void make_active( tripoint_abs_sm const &loc );
 
         /**
          * Update luminosity before and after item's transformation
@@ -1716,18 +1717,24 @@ class map
             const tripoint &start, const tripoint &end,
             cata::mdarray<fragment_cloud, point_bub_ms> &obstacle_cache );
 
-        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
-        vehicle *add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
+        // this function spawns a vehicle from a blueprint \p type and adds it to this map
+        // @param type              vehicle prototype to use for constructing the vehicle
+        // @param p                 position to spawn at, in tripoint_bub_ms coords
+        // @param dir               vehicle facing to spawn at
+        // @param init_veh_fuel     value of 0 spawns the vehicle with no fuel
+        //                          value in range of [1..99] spawns exact percentage of fuel
+        //                          value of 100 spawns full tanks
+        //                          a negative value will spawns some fuel left
+        //                          can be overriden by VEHICLE_FUEL_AT_SPAWN EXTERNAL_OPTION
+        // @param init_veh_status   value of -1 spawns lightly damaged vehicle
+        //                          value of 0 spawns fully intact vehicle
+        //                          value of 1 spawns with destroyed seats / controls / tanks / tires / engines
+        //                          can be overriden by VEHICLE_STATUS_AT_SPAWN EXTERNAL_OPTION
+        // @param merge_wrecks      if true and vehicle overlaps another then both turn into wrecks
+        //                          if false and vehicle will overlap aborts and returns nullptr
         vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
-        vehicle *add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
+                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
+
         // Light/transparency
         float light_transparency( const tripoint &p ) const;
         // Assumes 0,0 is light map center
@@ -1748,7 +1755,7 @@ class map
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
-        bool pl_sees( const tripoint &t, int max_range ) const;
+        virtual bool pl_sees( const tripoint &t, int max_range ) const;
         /**
          * Uses the map cache to tell if the player could see the given square.
          * pl_sees implies pl_line_of_sight
@@ -2286,6 +2293,8 @@ class tinymap : public map
     public:
         tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
+        // @returns false
+        bool pl_sees( const tripoint &t, int max_range ) const override;
 };
 
 class fake_map : public tinymap

@@ -1,0 +1,37 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_alien_grass",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            G           ",
+        "          G G           ",
+        "       GGGGGGGG         ",
+        "      GGGGGGGG          ",
+        "        GGGGGGGG        ",
+        "       GGGGGGGG         ",
+        "        GGGGGGGG        ",
+        "         G   G          ",
+        "             GG         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "G": [ [ "t_grass_alien", 25 ], [ "t_null", 75 ] ] }
+    }
+  }
+]

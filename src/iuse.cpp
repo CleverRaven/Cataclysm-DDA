@@ -7602,9 +7602,10 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripoi
         }
     } else if( choice == 1 ) {
         const auto rctrl_parts = veh->get_avail_parts( "REMOTE_CONTROLS" );
+        const auto electronics_parts = veh->get_avail_parts( "CTRL_ELECTRONIC" );
         // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
-            veh->interact_with( pos );
+            veh->interact_with( electronics_parts.begin()->pos() );
         } else {
             veh->interact_with( rctrl_parts.begin()->pos() );
         }
@@ -8881,8 +8882,9 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoi
     }
 
     const item_location book = game_menus::inv::titled_filter_menu(
-    [&ebooks]( const item & itm ) {
-        return itm.is_book() && itm.type->book->is_scannable && !ebooks.count( itm.typeId() );
+    [&ebooks, &p]( const item & itm ) {
+        return itm.is_book() && itm.type->book->is_scannable && !ebooks.count( itm.typeId() ) &&
+               itm.is_owned_by( *p, true );
     },
     *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
 

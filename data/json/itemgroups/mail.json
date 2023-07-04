@@ -9,14 +9,10 @@
       { "item": "postcard", "prob": 20 },
       { "group": "magazines", "prob": 10 },
       { "group": "newspaper_recent", "prob": 60 },
+      { "group": "brochures", "prob": 15 },
+      { "group": "pamphlets", "prob": 5 },
       { "item": "flyer", "prob": 30, "count-max": 2 },
-      { "item": "survnote", "prob": 3 },
-      { "item": "restaurantbrochure", "prob": 6 },
-      { "item": "grocerybrochure", "prob": 6 },
-      { "item": "historybrochure", "prob": 3 },
-      { "item": "mallbrochure", "prob": 6 },
-      { "item": "furniturebrochure", "prob": 3 },
-      { "item": "technologybrochure", "prob": 3 }
+      { "item": "survnote", "prob": 3 }
     ]
   },
   {
