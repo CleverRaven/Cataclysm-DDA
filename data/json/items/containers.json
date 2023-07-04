@@ -3303,6 +3303,43 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
   },
   {
+    "id": "stand_flyer",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "flyer stand" },
+    "description": "A small stand made to show off various flyers.",
+    "weight": "326 g",
+    "volume": "5962 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "plastic" ],
+    "symbol": "H",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_weight": "90 g",
+        "max_contains_volume": "750 ml",
+        "open_container": true,
+        "flag_restriction": [ "PAPER_SHAPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_weight": "90 g",
+        "max_contains_volume": "750 ml",
+        "open_container": true,
+        "flag_restriction": [ "PAPER_SHAPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_weight": "90 g",
+        "max_contains_volume": "750 ml",
+        "open_container": true,
+        "flag_restriction": [ "PAPER_SHAPED" ]
+      }
+    ]
+  },
+  {
     "id": "1st_aid_box",
     "type": "GENERIC",
     "category": "container",

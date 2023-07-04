@@ -2194,6 +2194,11 @@
     "info": "ID card granting access to the crashing ship's exobay."
   },
   {
+    "id": "PAPER_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like paper"
+  },
+  {
     "id": "CREDIT_CARD_SHAPED",
     "type": "json_flag",
     "restriction": "Item must be shaped like a credit card"
