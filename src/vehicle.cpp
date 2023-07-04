@@ -1246,65 +1246,50 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
     return ret_val<void>::make_success();
 }
 
-bool vehicle::can_unmount( const int p ) const
+ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove ) const
 {
-    std::string no_reason;
-    return can_unmount( p, no_reason );
-}
-
-bool vehicle::can_unmount( const int p, std::string &reason ) const
-{
-    if( p < 0 || p > static_cast<int>( parts.size() ) ) {
-        return false;
-    }
-
-    const vehicle_part &vp_to_remove = parts[p];
+    const vpart_info &vpi_to_remove = vp_to_remove.info();
     const std::vector<int> parts_here = parts_at_relative( vp_to_remove.mount, false );
 
     // make sure there are no parts which require flags from this part
     for( const int elem : parts_here ) {
         const vehicle_part &vp_here = parts[elem];
         for( const std::string &flag : vp_here.info().get_flags() ) {
-            if( vp_to_remove.info().has_flag( json_flag::get( flag ).requires_flag() ) ) {
-                reason = string_format( _( "Remove the attached %s first." ), vp_here.name() );
-                return false;
+            if( vpi_to_remove.has_flag( json_flag::get( flag ).requires_flag() ) ) {
+                return ret_val<void>::make_failure( _( "Remove the attached %s first." ), vp_here.name() );
             }
         }
     }
 
     if( vp_to_remove.has_flag( vp_flag::animal_flag ) ) {
-        reason = _( "Remove carried animal first." );
-        return false;
+        return ret_val<void>::make_failure( _( "Remove carried animal first." ) );
     }
 
     if( vp_to_remove.has_flag( vp_flag::carrying_flag ) ||
         vp_to_remove.has_flag( vp_flag::carried_flag ) ) {
-        reason = _( "Unracking is required before removing this part." );
-        return false;
+        return ret_val<void>::make_failure( _( "Unracking is required before removing this part." ) );
     }
 
-    if( vp_to_remove.info().has_flag( "DOOR_LOCKING" ) && next_part_to_unlock( p ) >= 0 ) {
-        reason = _( "Unlock this part first." );
-        return false;
+    const int p = index_of_part( &vp_to_remove );
+    if( vpi_to_remove.has_flag( "DOOR_LOCKING" ) && next_part_to_unlock( p ) >= 0 ) {
+        return ret_val<void>::make_failure( _( "Unlock this part first." ) );
     }
 
-    if( vp_to_remove.info().location != part_location_structure ) {
-        return true; // non-structure parts don't have extra requirements
+    if( vpi_to_remove.location != part_location_structure ) {
+        return ret_val<void>::make_success(); // non-structure parts don't have extra requirements
     }
 
     // structure parts can only be removed when no non-structure parts are on tile
     for( const int elem : parts_here ) {
         const vehicle_part &vp_here = parts[elem];
         if( vp_here.info().location != part_location_structure ) {
-            reason = _( "Remove all other attached parts first." );
-            return false;
+            return ret_val<void>::make_failure( _( "Remove all other attached parts first." ) );
         }
     }
 
     // reaching here means only structure parts left on this tile
-
     if( parts_here.size() > 1 ) {
-        return true; // wrecks can have more than one structure part, so it's valid for removal
+        return ret_val<void>::make_success(); // wrecks can have more than one structure part, so it's valid for removal
     }
 
     // find all the vehicle's tiles adjacent to the one we're removing
@@ -1318,14 +1303,14 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     }
 
     if( adjacent_parts.empty() ) {
-        return true; // this is the only vehicle tile left, valid to remove
+        return ret_val<void>::make_success(); // this is the only vehicle tile left, valid to remove
     }
 
     if( adjacent_parts.size() == 1 ) {
         // removing this will create invalid vehicle with only a PROTRUSION part (wing mirror, forklift etc)
         if( adjacent_parts[0].info().has_flag( "PROTRUSION" ) ) {
-            reason = _( "Remove other parts before removing last structure part." );
-            return false;
+            return ret_val<void>::make_failure(
+                       _( "Remove other parts before removing last structure part." ) );
         }
     }
 
@@ -1337,14 +1322,13 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         for( size_t i = 0; i < adjacent_parts.size(); i++ ) {
             for( size_t j = i + 1; j < adjacent_parts.size(); j++ ) {
                 if( !is_connected( adjacent_parts[i], adjacent_parts[j], vp_to_remove ) ) {
-                    reason = _( "Removing this part would split the vehicle." );
-                    return false;
+                    return ret_val<void>::make_failure( _( "Removing this part would split the vehicle." ) );
                 }
             }
         }
     }
 
-    return true; // Anything not explicitly denied is permitted
+    return ret_val<void>::make_success(); // Anything not explicitly denied is permitted
 }
 
 /**

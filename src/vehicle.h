@@ -1016,9 +1016,8 @@ class vehicle
          */
         ret_val<void> can_mount( const point &dp, const vpart_info &vpi ) const;
 
-        // check if certain part can be unmounted
-        bool can_unmount( int p ) const;
-        bool can_unmount( int p, std::string &reason ) const;
+        // @returns true if part \p vp_to_remove can be uninstalled
+        ret_val<void> can_unmount( const vehicle_part &vp_to_remove ) const;
 
         // install a part of type \p type at mount \p dp
         // @return installed part index or -1 if can_mount(...) failed

@@ -682,7 +682,8 @@ task_reason veh_interact::cant_do( char mode )
             // remove mode
             enough_morale = player_character.has_morale_to_craft();
             valid_target = cpart >= 0;
-            part_free = parts_here.size() > 1 || ( cpart >= 0 && veh->can_unmount( cpart ) );
+            part_free = parts_here.size() > 1 ||
+                        ( cpart >= 0 && veh->can_unmount( veh->part( cpart ) ).success() );
             //tool and skill checks processed later
             has_tools = true;
             has_skill = true;
@@ -1785,10 +1786,10 @@ bool veh_interact::can_remove_part( int idx, const Character &you )
     }
     nmsg += res.second;
 
-    std::string reason;
-    if( !veh->can_unmount( idx, reason ) ) {
+    const ret_val<void> unmount = veh->can_unmount( *sel_vehicle_part );
+    if( !unmount.success() ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
-        nmsg += string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) + "\n";
+        nmsg += string_format( _( "> %1$s%2$s</color>" ), status_color( false ), unmount.str() ) + "\n";
         ok = false;
     }
     const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
