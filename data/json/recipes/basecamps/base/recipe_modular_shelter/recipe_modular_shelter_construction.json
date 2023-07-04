@@ -9,7 +9,16 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_bedroom_se",
-    "blueprint_name": "build SE standard bedroom walls",
+    "blueprint_name": "build SE bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_palette_log": "Log walls",
+        "fbmc_shelter_palette_rock": "Rock walls",
+        "fbmc_shelter_palette_standard": "Standard walls",
+        "fbmc_shelter_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_fire" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom1" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom1" } ]
@@ -24,7 +33,16 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_bedroom_e",
-    "blueprint_name": "build E standard bedroom walls",
+    "blueprint_name": "build E bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_palette_log": "Log walls",
+        "fbmc_shelter_palette_rock": "Rock walls",
+        "fbmc_shelter_palette_standard": "Regular walls",
+        "fbmc_shelter_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom2" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom2" } ]
@@ -39,7 +57,16 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_bedroom_SW",
-    "blueprint_name": "build SW standard bedroom walls",
+    "blueprint_name": "build SW bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_palette_log": "Log walls",
+        "fbmc_shelter_palette_rock": "Rock walls",
+        "fbmc_shelter_palette_standard": "Regular walls",
+        "fbmc_shelter_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom2" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom3" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom3" } ]
@@ -54,7 +81,16 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_bedroom_W",
-    "blueprint_name": "build W standard bedroom walls",
+    "blueprint_name": "build W bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_palette_log": "Log walls",
+        "fbmc_shelter_palette_rock": "Rock walls",
+        "fbmc_shelter_palette_standard": "Regular walls",
+        "fbmc_shelter_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom3" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom4" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom4" } ]
@@ -69,7 +105,16 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_bedroom_NW",
-    "blueprint_name": "build NW standard bedroom walls",
+    "blueprint_name": "build NW bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_palette_log": "Log walls",
+        "fbmc_shelter_palette_rock": "Rock walls",
+        "fbmc_shelter_palette_standard": "Regular walls",
+        "fbmc_shelter_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom4" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom5" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom5" } ]
