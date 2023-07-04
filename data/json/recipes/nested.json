@@ -6181,7 +6181,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "cloaks",
+    "name": "mutagen primers",
     "description": "Recipes related to synthesizing substances to aid in directing mutategenic change.",
     "skill_used": "chemistry",
     "nested_category_data": [
