@@ -1099,7 +1099,7 @@ class vehicle
          * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
          * a vehicle part on both sides.
          */
-        void remove_remote_part( int part_num );
+        void remove_remote_part( const vehicle_part &vp_local ) const;
         /**
          * Yields a range containing all parts (including broken ones) that can be
          * iterated over.
