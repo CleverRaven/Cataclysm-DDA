@@ -6093,5 +6093,17 @@
       "nested_ch_helmet_turban"
     ],
     "difficulty": 7
+  },
+  {
+    "id": "nested_legguard_bronze",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "bronze greaves",
+    "description": "Recipes related to constructing various sizes of greaves made out of bronze.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "legguard_bronze", "xl_legguard_bronze", "xs_legguard_bronze" ],
+    "difficulty": 5
   }
 ]
