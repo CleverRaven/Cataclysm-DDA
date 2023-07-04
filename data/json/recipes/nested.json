@@ -6313,10 +6313,11 @@
     "skill_used": "chemistry",
     "nested_category_data": [
       "formic_acid",
+      "formic_acid_from_oxalic_acid",
       "chem_acetic_acid",
       "chem_muriatic_acid",
       "chem_citric_acid",
-      "chem_nitric_acid",
+      "chem_nitric_acid_from_muriatic",
       "chem_sulphuric_acid",
       "chem_acetic_acid",
       "acetic_anhydride",
