@@ -85,6 +85,7 @@
         "max_contains_volume": "65 L",
         "max_contains_weight": "90 kg",
         "max_item_length": "65 cm",
+        "watertight": true,
         "magazine_well": "5 L",
         "moves": 450
       },
