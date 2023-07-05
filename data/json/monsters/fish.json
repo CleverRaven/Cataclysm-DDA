@@ -701,7 +701,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
     "name": { "str": "American pickerel" },
-    "description": "An American pickerel.  It looks like a pike, but unlike its chain cousin, this one is way smaller.",
+    "description": "An American pickerel.  It looks like a pike, but unlike its chain pickerel cousin, this one is way smaller.",
     "volume": "170 ml",
     "weight": "200 g",
     "reproduction": { "baby_egg": "egg_pickerel_american", "baby_count": 2, "baby_timer": 17 }
@@ -790,7 +790,7 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "goldfish" },
     "looks_like": "mon_fish_carp",
-    "description": "Yes, this is that common pet fish.  Though, given its size and the fact that it's still alive you can take a wild guess that this one is feral.",
+    "description": "Yes, this is that common pet fish.  Though, given its size and the fact that it's still alive, you can take a wild guess that this one is feral.",
     "volume": "570 ml",
     "weight": "300 g",
     "reproduction": { "baby_egg": "egg_goldfish", "baby_count": 2, "baby_timer": 17 }
@@ -877,7 +877,7 @@
     "copy-from": "mon_fish_small",
     "name": { "str": "shortnose sturgeon" },
     "looks_like": "mon_fish_sturgeon_lake",
-    "description": "While the shortnose sturgeon it is still large, it is nothing compared to its cousin - the lake sturgeon.  What really sets it apart, however, is its signature shorter snout.",
+    "description": "While the shortnose sturgeon is still large, it is nothing compared to its cousin - the lake sturgeon.  What really sets it apart, however, is its signature shorter snout.",
     "volume": "2720 ml",
     "weight": "980 g",
     "reproduction": { "baby_egg": "egg_sturgeon_shortnose", "baby_count": 2, "baby_timer": 17 }
