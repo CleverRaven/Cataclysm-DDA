@@ -82,7 +82,7 @@
     "description": "A fur coat with a couple small pockets.  Extremely warm.",
     "weight": "1677 g",
     "volume": "5750 ml",
-    "price": 45000,
+    "price": 500000,
     "price_postapoc": 500,
     "to_hit": -5,
     "material": [ "fur", "cotton" ],
@@ -91,28 +91,123 @@
     "color": "brown",
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 26, 26 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ]
+      }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "3 kg",
         "max_item_length": "16 cm",
-        "moves": 80
+        "moves": 80,
+        "description": "side pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "3 kg",
         "max_item_length": "16 cm",
-        "moves": 80
+        "moves": 80,
+        "description": "side pocket."
       }
     ],
     "warmth": 80,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "coat_mink_fur",
+        "name": { "str": "mink coat" },
+        "description": "A classic status symbol for the rich and famous, this is a heavy and expensive coat made from luxuriously thick, soft, and rather short fur, with a color palette consisting of rich, deep brown.  One of the most popular types of fur coats produced and traded, this jacket is incredibly warm and comes with two modest pockets.",
+        "color": "brown",
+        "weight": 10
+      },
+      {
+        "id": "coat_fox_arctic_fur",
+        "name": { "str": "arctic fox jacket" },
+        "description": "Fluffy and insulating, this expensive fur coat is composed of a small battalion’s worth of snowy-white arctic fox pelts with silver tips.  A straight section forms the back and lower sweep, while triangularly cut furs are sown in an inverse pattern to form the rest of the jacket.",
+        "color": "white",
+        "weight": 10
+      },
+      {
+        "id": "coat_fox_frost_fur",
+        "name": { "str": "frost fox overcoat" },
+        "description": "A straight-cut, classically stylish jacket crafted from soft and voluminous gray fox fur with a blue undercoat, this article of winter apparel comes kitted out with a tall collar and two modest pockets.",
+        "color": "light_gray",
+        "weight": 8
+      },
+      {
+        "id": "bomber_fox_fur",
+        "name": { "str": "fox fur bomber jacket" },
+        "description": "What was once a rugged piece of military clothing has metamorphosed into a fashion icon within this slim-cut and insulated jacket, with wide, cinchable sleeves and a broad collar.  Composed of sewn-together fox pelts and fastened with a zipper at the front, the inside of this jacket is lined with plush, reddish orange fur.",
+        "color": "light_red",
+        "weight": 8
+      },
+      {
+        "id": "coat_chinchilla _fur",
+        "name": { "str": "chinchilla jacket" },
+        "description": "Luxuriously velvety and ridiculously extra, this warm, gray-hued coat is ribbed with patterns of black and white highlights.  Composed of a small army’s worth of dead chinchilla pelts and naturally hypoallergenic, the world might be going to hell, but at least you’ll look like a celebrity while enveloped within this dreamily soft, timelessly stylish coat.",
+        "color": "light_gray",
+        "weight": 8
+      },
+      {
+        "id": "coat_rabbit_fur",
+        "name": { "str": "rabbit overcoat" },
+        "description": "Prey and predator are brought together within this luxurious fir coat, sewn from panels of velvety, snowy-white rabbit pelts and accentuated by a beige layer of fox fur trimming the collar and cuffs.  With a tapered waist and two side pockets, the jacket is both comfortable to wear and stylish.",
+        "color": "white",
+        "weight": 6
+      },
+      {
+        "id": "bomber_beaver_fur",
+        "name": { "str": "beaver skin bomber jacket" },
+        "description": "The skins of what used to be several beavers have taken to the skies within the composition of this sleek-fitting flight jacket, or, rather, they would if the coat were in any way designed to be a practical piece of kit.  With a soft spread of brown fur lining the inside of this wide-necked overcoat and its exterior finished in a bold, glossy black color, it’s safe to say that this garment belongs more within a ski chalet than the cockpit of a fighter craft.",
+        "color": "black",
+        "weight": 6
+      },
+      {
+        "id": "coat_albino_mink_fur",
+        "name": { "str": "albino mink coat" },
+        "description": "Even more prized than regular mink jackets, this coat is exclusively composed of plush white fur with no markings or color in its undercoat.  Extremely warm and equipped with dual pockets, this expensive fashion statement would certainly turn some heads if anyone left alive could still care about aesthetics.",
+        "color": "white",
+        "weight": 5
+      },
+      {
+        "id": "coat_lynx_fur",
+        "name": { "str": "lynx coat" },
+        "description": "Possessing bell-bottom sleeves, a tapered waist, and a snowy-white fox fur trim around the collar, hem, and cuffs, this pure white fur coat dappled with striking spots would make any self-respecting aristocrat’s heart swell in admiration.  Sown from sections of long and silky abdominal lynx fur and featuring two side pockets, the coat is extremely warm, elegant, and, thanks to the Cataclysm, completely free.",
+        "color": "white",
+        "weight": 4
+      },
+      {
+        "id": "coat_sable_fur",
+        "name": { "str": "sable coat" },
+        "description": "The favorite coat of old European royalty, this extravagant jacket of Russian sable is composed of stitched panels of cinnamon brown fur with a pale yellow undercoat and silver tips.  Possessing a tall collar and flaring hips that just might require you to walk sideways through narrower door frames, the coat is impractical, swelteringly warm, and incredibly stylish.",
+        "color": "yellow",
+        "weight": 4
+      },
+      {
+        "id": "coat_coyote_fur",
+        "name": { "str": "coyote jacket" },
+        "description": "Before the Cataclysm, this fur coat would have likely been termed \"ruggedly handsome,\" a nice way of saying that, while it’s not as nice or as luxurious as other fur garments, its price was the same.  Regardless, the jacket’s cinnamon brown fur and rust-red undercoat give it a pleasing aesthetic, while its long hairs are also both dense and durable.",
+        "color": "brown",
+        "weight": 2
+      },
+      {
+        "id": "coat_tiger_fur",
+        "name": { "str": "tiger-skin overcoat" },
+        "description": "This is a vintage tiger skin jacket smelling distinctly of mothballs, possessing an alternating blend of orange, white, and black striations ribbing its shaggy exterior, broadly flaring hips, and an interior lining of velvety chinchilla fur.  Illegal, before the Cataclysm, to either produce or sell, this coat is almost certainly one of the last of its kind and would make for a killer fashion statement, if you don’t mind wearing the skin of a murdered, endangered animal, that is.",
+        "color": "red",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "xl_coat_fur",
@@ -159,45 +254,6 @@
     "name": { "str": "XS faux fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
-    "id": "coat_fur_sf",
-    "type": "ARMOR",
-    "name": { "str": "sable coat" },
-    "description": "A very well-made fur coat, featuring thick panels of sable fur.  Very warm and very good-looking.",
-    "weight": "1677 g",
-    "volume": "5750 ml",
-    "price": 7760000,
-    "price_postapoc": 1500,
-    "to_hit": -5,
-    "material": [ "fur", "cotton" ],
-    "symbol": "[",
-    "looks_like": "coat_fur",
-    "color": "brown",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 30, 35 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 30, 30 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "16 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "16 cm",
-        "moves": 80
-      }
-    ],
-    "warmth": 90,
-    "material_thickness": 2,
-    "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ]
   },
   {
     "id": "coat_lab",

@@ -903,12 +903,7 @@
   {
     "name": "GROUP_FORT",
     "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_zombie", "weight": 25, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_child", "weight": 25, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zombie_reenactor", "weight": 850 },
-      { "monster": "mon_zombie_reenactor", "weight": 100, "pack_size": [ 1, 2 ] }
-    ]
+    "monsters": [ { "monster": "mon_zombie_reenactor" } ]
   },
   {
     "name": "GROUP_CIVILIAN",

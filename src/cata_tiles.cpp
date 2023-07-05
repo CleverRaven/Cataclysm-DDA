@@ -2936,7 +2936,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             get_terrain_orientation( p, rotation, subtile, {}, invisible, rotate_group );
             // do something to get other terrain orientation values
         }
-        if( here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
+        if( here.check_seen_cache( p ) ) {
             get_avatar().memorize_terrain( here.getabs( p ), tname, subtile, rotation );
         }
         // draw the actual terrain if there's no override
@@ -3019,7 +3019,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         const std::string &fname = f.id().str();
         if( !( you.get_grab_type() == object_type::FURNITURE
                && p == you.pos() + you.grab_point )
-            && here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
+            && here.check_seen_cache( p ) ) {
             you.memorize_decoration( here.getabs( p ), fname, subtile, rotation );
         }
         // draw the actual furniture if there's no override
@@ -3106,7 +3106,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         int rotation = 0;
         get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation, 0 );
         const std::string trname = tr.loadid.id().str();
-        if( here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
+        if( here.check_seen_cache( p ) ) {
             you.memorize_decoration( here.getabs( p ), trname, subtile, rotation );
         }
         // draw the actual trap if there's no override
@@ -3164,7 +3164,7 @@ bool cata_tiles::draw_part_con( const tripoint &p, const lit_level ll, int &heig
     if( here.partial_con_at( tripoint_bub_ms( p ) ) != nullptr && !invisible[0] ) {
         avatar &you = get_avatar();
         std::string const &trname = tr_unfinished_construction.str();;
-        if( here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
+        if( here.check_seen_cache( p ) ) {
             you.memorize_decoration( here.getabs( p ), trname, 0, 0 );
         }
         return draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, 0,
@@ -3538,7 +3538,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             if( !veh.forward_velocity() && !veh.player_in_control( you )
                 && !( you.get_grab_type() == object_type::VEHICLE
                       && veh.get_points().count( you.pos() + you.grab_point ) )
-                && here.check_seen_cache( p ) && p.z == get_avatar().pos().z ) {
+                && here.check_seen_cache( p ) ) {
                 you.memorize_decoration( here.getabs( p ), vd.get_tileset_id(), subtile, rotation );
             }
             if( !overridden ) {

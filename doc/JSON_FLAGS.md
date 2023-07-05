@@ -874,7 +874,7 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```mx_clearcut``` ... All trees become stumps.
 - ```mx_collegekids``` ... Corpses and items.
 - ```mx_corpses``` ... Up to 5 corpses with everyday loot.
-- ```mx_crater``` ... Crater with rubble (and radioactivity).
+- ```mx_crater``` ... Crater formed using a bomb.
 - ```mx_drugdeal``` ... Corpses and some drugs.
 - ```mx_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.)
 - ```mx_exocrash_1``` ... Area of glassed sand created by a crashed pod of space travelers. Populated by zomborgs.

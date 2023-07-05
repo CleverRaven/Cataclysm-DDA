@@ -235,7 +235,7 @@ class tileset
          * @param id : "raw" tile id (without season suffix)
          * @param season : season suffix encoded as season_type enum
          * @return std::nullopt if no tile is found,
-         *    cata::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
+         *    std::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
          *
          * Note: this method is guaranteed to return pointers to the keys and values stored inside the
          * `tileset::tile_ids` collection. I.e. result of this method call is invalidated when

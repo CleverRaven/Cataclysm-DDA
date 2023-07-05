@@ -1055,6 +1055,7 @@
     "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
+    "material": [ "flesh" ],
     "calories": 15,
     "spoils_in": "15 days",
     "rot_spawn": "GROUP_MUTATION_SNAIL",

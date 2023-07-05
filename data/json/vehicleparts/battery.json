@@ -71,7 +71,6 @@
     "copy-from": "large_storage_battery",
     "type": "vehicle_part",
     "name": { "str": "swappable very large storage battery" },
-    "item": "large_storage_battery",
     "location": "on_battery_mount",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] },
@@ -140,7 +139,6 @@
     "copy-from": "storage_battery",
     "type": "vehicle_part",
     "name": { "str": "swappable large storage battery" },
-    "item": "storage_battery",
     "location": "on_battery_mount",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] },

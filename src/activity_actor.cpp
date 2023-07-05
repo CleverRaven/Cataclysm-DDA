@@ -2443,9 +2443,20 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     const tripoint target = here.getlocal( this->target );
     const ter_id ter_type = here.ter( target );
     const furn_id furn_type = here.furn( target );
+    optional_vpart_position const veh = here.veh_at( target );
+    int locked_part = -1;
     ter_id new_ter_type;
     furn_id new_furn_type;
     std::string open_message = _( "The lock opens…" );
+
+    if( veh ) {
+        std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
+                    target, "LOCKABLE_DOOR", part_status_flag::available );
+        if( !parts_at_target.empty() ) {
+            locked_part = veh->vehicle().next_part_to_unlock(
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
+        }
+    }
 
     if( here.has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
@@ -2457,6 +2468,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         if( !furn_type->lockpick_message.empty() ) {
             open_message = furn_type->lockpick_message.translated();
         }
+    } else if( locked_part >= 0 ) {
+        // no-op.
     } else {
         if( ter_type->lockpick_result.is_null() ) {
             who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
@@ -2520,6 +2533,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
         if( here.has_furn( target ) ) {
             here.furn_set( target, new_furn_type );
+        } else if( locked_part >= 0 ) {
+            veh->vehicle().unlock( locked_part );
         } else {
             here.ter_set( target, new_ter_type );
         }
@@ -2578,10 +2593,13 @@ std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
     }
 
     const std::function<bool( const tripoint & )> is_pickable = [&you]( const tripoint & p ) {
+        const map &here = get_map();
+        const optional_vpart_position vpart = here.veh_at( p );
         if( p == you.pos() ) {
             return false;
         }
-        return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
+        return here.has_flag( ter_furn_flag::TFLAG_PICKABLE, p ) ||
+               ( vpart && vpart->vehicle().next_part_to_unlock( vpart->part_index() ) >= 0 );
     };
 
     std::optional<tripoint> target = choose_adjacent_highlight(

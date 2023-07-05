@@ -69,7 +69,7 @@
     "result": "can_opener",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "uncraft",
@@ -1870,12 +1870,10 @@
   {
     "result": "iron_pot",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
+    "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 10 ], [ "steel_chunk", 1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "chunk_cast_iron", 8 ] ], [ [ "lump_cast_iron", 1 ] ] ]
   },
   {
     "result": "pathfinding_module",
@@ -4355,7 +4353,8 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "peanut",
@@ -5003,11 +5002,9 @@
     "result": "pan",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
     "time": "3 m",
-    "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "sheet_metal_small", 9 ] ], [ [ "scrap", 3 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "chunk_cast_iron", 5 ] ], [ [ "lump_cast_iron", 1 ] ], [ [ "scrap_cast_iron", 3 ] ] ]
   },
   {
     "result": "pot",
@@ -7312,7 +7309,7 @@
     "activity_level": "BRISK_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "steel_lump", 109 ] ] ]
+    "components": [ [ [ "lump_cast_iron", 109 ] ] ]
   },
   {
     "result": "30gal_drum_aluminum",
@@ -7577,5 +7574,13 @@
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "steel_chunk", 4 ] ] ]
+  },
+  {
+    "result": "active_backup_generator",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "WRENCH", "level": 2 } ],
+    "components": [ [ [ "alternator_truck", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   }
 ]

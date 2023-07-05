@@ -1671,7 +1671,8 @@ bool mattack::triffid_heartbeat( monster *z )
 
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false );
+    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false,
+            false );
     if( rl_dist( z->pos(), player_character.pos() ) > 5 &&
         !here.route( player_character.pos(), z->pos(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );

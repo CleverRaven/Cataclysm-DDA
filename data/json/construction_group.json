@@ -66,6 +66,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_down_bed",
+    "name": "Build Down Bed/Bunk bed"
+  },
+  {
+    "type": "construction_group",
     "id": "build_bookcase",
     "name": "Build Bookcase"
   },
@@ -1708,6 +1713,11 @@
     "type": "construction_group",
     "id": "place_asrg_containment",
     "name": "Place ASRG"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_active_backup_generator",
+    "name": "Place backup generator"
   },
   {
     "type": "construction_group",

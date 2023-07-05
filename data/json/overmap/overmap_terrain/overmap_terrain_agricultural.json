@@ -542,10 +542,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "paddock_trailhead_5", "paddock_trailhead_8", "trail_intersection" ],
+    "id": [ "paddock_trailhead_5", "paddock_trailhead_8" ],
     "copy-from": "generic_rural_building",
     "name": "forest trail",
     "sym": "│",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "forest_trail_intersection" ],
+    "copy-from": "generic_rural_building",
+    "name": "forest trail",
+    "sym": "O",
     "color": "green"
   },
   {

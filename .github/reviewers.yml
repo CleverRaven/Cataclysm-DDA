@@ -26,6 +26,8 @@ files:
   'data/mods/Xedra_Evolved/**':
     - Maleclypse
     - GuardianDll
+  'data/mods/MindOverMatter/**':
+    - Standing-Storm
   'data/mods/innawood/**':
     - Light-Wave
   'data/mods/MA/**':
