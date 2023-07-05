@@ -1139,7 +1139,7 @@
       {
         "id": "russian_flag",
         "name": { "str": "Russian flag" },
-        "description": "A simple horizontal tricolor flag of white, blue and red",
+        "description": "A simple horizontal tricolor flag of white, blue and red.",
         "weight": 10,
         "append": true
       },
