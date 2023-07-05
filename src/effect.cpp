@@ -640,55 +640,52 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string_view m
 {
     return jo.read( member, miss_msgs );
 }
+
+// helps load the internal message arrays for decay and apply into the msgs vector
+void load_msg_help( const JsonArray ja,
+                    std::vector<std::pair<translation, game_message_type>> &apply_msgs )
+{
+    translation msg;
+    ja.read( 0, msg );
+    std::string r = ja.get_string( 1 );
+    game_message_type rate = m_neutral;
+    if( r == "good" ) {
+        rate = m_good;
+    } else if( r == "neutral" ) {
+        rate = m_neutral;
+    } else if( r == "bad" ) {
+        rate = m_bad;
+    } else if( r == "mixed" ) {
+        rate = m_mixed;
+    } else {
+        ja.throw_error(
+            1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                              "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
+    }
+    apply_msgs.emplace_back( msg, rate );
+}
+
 bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string_view member )
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
-            translation msg;
-            inner.read( 0, msg );
-            std::string r = inner.get_string( 1 );
-            game_message_type rate = m_neutral;
-            if( r == "good" ) {
-                rate = m_good;
-            } else if( r == "neutral" ) {
-                rate = m_neutral;
-            } else if( r == "bad" ) {
-                rate = m_bad;
-            } else if( r == "mixed" ) {
-                rate = m_mixed;
-            } else {
-                inner.throw_error(
-                    1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
-                                      "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
-            }
-            decay_msgs.emplace_back( msg, rate );
+            load_msg_help( inner, decay_msgs );
         }
         return true;
     }
     return false;
 }
+
 bool effect_type::load_apply_msgs( const JsonObject &jo, const std::string_view member )
 {
     if( jo.has_array( member ) ) {
-        for( JsonArray inner : jo.get_array( member ) ) {
-            translation msg;
-            inner.read( 0, msg );
-            std::string r = inner.get_string( 1 );
-            game_message_type rate = m_neutral;
-            if( r == "good" ) {
-                rate = m_good;
-            } else if( r == "neutral" ) {
-                rate = m_neutral;
-            } else if( r == "bad" ) {
-                rate = m_bad;
-            } else if( r == "mixed" ) {
-                rate = m_mixed;
-            } else {
-                inner.throw_error(
-                    1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
-                                      "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
+        JsonArray ja = jo.get_array( member );
+        if( ja.has_string( 0 ) ) {
+            load_msg_help( ja, apply_msgs );
+        } else {
+            for( JsonArray inner : jo.get_array( member ) ) {
+                load_msg_help( inner, apply_msgs );
             }
-            apply_msgs.emplace_back( msg, rate );
         }
         return true;
     }
@@ -1148,10 +1145,7 @@ int effect::set_intensity( int val, bool alert )
     }
 
     val = std::max( std::min( val, eff_type->max_intensity ), 0 );
-    if( val == intensity
-        val - 1 < static_cast<int>( eff_type->apply_msgs.size() ) ) {
-        add_msg( eff_type->apply_msgs[ val - 1 ].second,
-                 eff_type->apply_msgs[ val - 1 ].first.translated() );
+    if( val == intensity ) {
         // Nothing to change
         return intensity;
     }
@@ -1161,6 +1155,15 @@ int effect::set_intensity( int val, bool alert )
         val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
+    } else if( alert ) {
+        if( val - 1 < static_cast<int>( eff_type->apply_msgs.size() ) ) {
+            add_msg( eff_type->apply_msgs[val - 1].second,
+                     eff_type->apply_msgs[val - 1].first.translated() );
+        } else {
+            add_msg( eff_type->apply_msgs[0].second,
+                     eff_type->apply_msgs[0].first.translated() );
+        }
+
     }
 
     if( val == 0 && !eff_type->int_decay_remove ) {
