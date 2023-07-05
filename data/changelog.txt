@@ -125,7 +125,6 @@ player can drag heavier vehicles
 difficulty to repair depends on what the thing is made of instead of its crafting difficulty
 Hound afterimages also copy their host nicknames
 The player is substantially less effective with guns at low skill values
-RM13 armor has a lower power draw but spends power when dealt damage
 
 
 ## Bugfixes:
@@ -174,7 +173,6 @@ Don't allow to scan books that are owned by other characters
 Fix NPC putting items in open air when fetching items during an activity when 3D FOV is on
 Trees and other FLAMMABLE_ASH terrain leaves behind ash when burned down
 Do not report monsters breaking free of unknown grabbers if the player cannot see them
-Fix Down Mattress interactions with smashing, construction, and deconstructing beds
 
 
 ## Performance:
@@ -194,8 +192,6 @@ Add units::temperature_delta
 Upgrade clang-tidy used in CI to LLVM 16
 Allow C++ standard includes in clang-tidy tests
 Refactor timer items to be a bit more time based
-Adds binomial and uniform distributions as well as bounds to max field of mutable phases
-EOC run until
 
 
 ## Build:
