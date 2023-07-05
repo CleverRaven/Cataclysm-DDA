@@ -280,6 +280,12 @@
           "x": 0,
           "y": 0,
           "neighbors": { "above": "s_restaurant_foodplace_roof" }
+        },
+		{
+          "chunks": [ [ "24x24_kitchen_roach_infestation", 25 ], [ "24x24_angry_diners", 25 ], [ "null", 50 ] ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "above": "s_restaurant_foodplace_roof" }
         }
       ],
       "place_items": [ { "item": "trash", "x": [ 0, 17 ], "y": [ 22, 23 ], "chance": 20, "repeat": [ 1, 2 ] } ]
