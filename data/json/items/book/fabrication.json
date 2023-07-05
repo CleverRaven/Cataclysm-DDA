@@ -297,11 +297,11 @@
     "fun": -1
   },
   {
-    "id": "textbook_armschina",
+    "id": "textbook_weparabic",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Arms and Armor of Imperial China", "str_pl": "copies of Arms and Armor of Imperial China" },
-    "description": "This textbook details the military history of ancient China, with a particular focus on the nature of historical arms and armor.  It also details some of the equipment used by other cultures that came into conflict with the empire over various dynasties.",
+    "name": { "str": "Tools of Warfare in the Arabic World", "str_pl": "copies of Tools of Warfare in the Arabic World" },
+    "description": "This exhaustive book details various forms of medieval period middle eastern and south asian weapons and armor, it is incredibly detailed with diagrams and pictures, but quite dry",
     "weight": "654 g",
     "volume": "1250 ml",
     "price": 6400,
@@ -400,11 +400,11 @@
     "fun": -1
   },
   {
-    "id": "textbook_weparabic",
+    "id": "textbook_weapwest",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Tools of Warfare in the Arabic World", "str_pl": "copies of Tools of Warfare in the Arabic World" },
-    "description": "This exhaustive book details various forms of medieval period middle eastern and south asian weapons and armor, it is incredibly detailed with diagrams and pictures, but quite dry",
+    "name": { "str": "The Historic Weaponsmith", "str_pl": "copies of The Historic Weaponsmith" },
+    "description": "This in-depth and technical text details various forms of ancient European weapon smithing, and is well illustrated with step by step photo instructions.",
     "weight": "654 g",
     "volume": "1250 ml",
     "price": 6400,
