@@ -45,7 +45,7 @@
             "u_message": "You channel all of the unnatural fatigue into the drained matrix crystal in your hands.  As you do, the faint light in its depths grows steadily brighter and the crystal begins to feel warm in your hands.  Suddenly, the crystal shatters…and with it, all of the fatigue your powers caused you vanishes."
           },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "=", "0" ] },
-          { "u_spawn_item": "matrix_crystal_drained_dust" }
+          { "u_spawn_item": "matrix_crystal_drained_dust", "count": 10 }
         ]
       }
     ]
