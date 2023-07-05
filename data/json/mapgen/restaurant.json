@@ -342,7 +342,7 @@
     "nested_mapgen_id": "foodperson_break_room",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_nested": [ { "chunks": [ [ "foodperson_barred_bathroom", 20 ], [ "null", 80 ] ], "x": 3, "y": 1 } ],
+      "place_nested": [ { "chunks": [ [ "foodperson_barred_bathroom", 1 ], [ "null", 1 ] ], "x": 3, "y": 1 } ],
       "place_npcs": [ { "class": "true_foodperson", "x": 4, "y": 8 } ]
     }
   },
@@ -361,22 +361,40 @@
         "   X  "
       ],
       "terrain": { "X": "t_rdoor_boarded" },
-      "item": { "F": { "item": "corpse", "chance": 100 } },
-      "items": { "F": { "item": "foodperson_outfit", "chance": 100 } }
+      "items": { "F": { "item": "dead_foodperson", "chance": 100 } },
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "no_faction", "x": [ 0, 5 ], "y": [ 0, 5 ] } ]
     }
+  },
+  {
+    "id": "foodperson_mask_loaded",
+    "type": "item_group",
+    "subtype": "collection",
+	"container-item": "foodperson_mask",
+    "entries": [
+      { "item": "medium_disposable_cell" }
+    ]
   },
   {
     "id": "foodperson_outfit",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "foodperson_mask" },
+      { "group": "foodperson_mask_loaded" },
       { "item": "cape_fp" },
       { "item": "chestguard_hard" },
       { "item": "legguard_hard" },
       { "item": "armguard_hard" },
       { "item": "gloves_rubber" },
       { "item": "boots_rubber" }
+    ]
+  },
+  {
+    "id": "dead_foodperson",
+    "type": "item_group",
+    "subtype": "collection",
+	"container-item": "corpse",
+    "entries": [
+      { "group": "foodperson_outfit" }
     ]
   },
   {
@@ -457,7 +475,7 @@
       },
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true } },
       "place_loot": [ { "item": "television", "x": [ 3, 4 ], "y": 20, "repeat": 1, "chance": 100 } ],
-      "place_nested": [ { "chunks": [ [ "foodperson_break_room", 5 ], [ "null", 95 ] ], "x": 15, "y": 10 } ]
+      "place_nested": [ { "chunks": [ [ "foodperson_break_room", 25 ], [ "null", 75 ] ], "x": 15, "y": 10 } ]
     }
   },
   {
