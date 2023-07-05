@@ -181,7 +181,10 @@
     "name": { "str": "Head Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
-    "protec": [ [ "head", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ], [ "mouth", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ] ],
+    "protec": [
+      [ "head", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "mouth", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ]
+    ],
     "encumbrance": [ [ "head", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
