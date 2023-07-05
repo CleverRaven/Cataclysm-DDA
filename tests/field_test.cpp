@@ -89,6 +89,7 @@ TEST_CASE( "field_expiry", "[field]" )
     test_field_expiry( "fd_sludge" );
     test_field_expiry( "fd_extinguisher" );
     test_field_expiry( "fd_electricity" );
+    test_field_expiry( "fd_short_halflife" );
 }
 
 static void fire_duration( const std::string &terrain_type, const time_duration minimum,
