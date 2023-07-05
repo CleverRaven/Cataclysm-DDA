@@ -1579,7 +1579,7 @@
     "price": 500,
     "price_postapoc": 250,
     "charges": 20,
-    "fun": 1
+    "fun": 1,
     "stack_size": 30,
     "symbol": "!",
     "color": "white",
