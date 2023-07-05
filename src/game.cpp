@@ -10096,6 +10096,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
                     danger_dest = false;
                 } else if( fe.immune_outside_vehicle && !veh_dest_inside ) {
                     danger_dest = false;
+                } else if( u.is_immune_effect( fe.id ) || u.check_immunity_data( fe.immunity_data ) ) {
+                    danger_dest = false;
                 }
             }
             if( has_field_here && !danger_here ) {
@@ -10105,6 +10107,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
                 } else if( fe.immune_inside_vehicle && veh_here_inside ) {
                     danger_here = false;
                 } else if( fe.immune_outside_vehicle && !veh_here_inside ) {
+                    danger_here = false;
+                } else if( u.is_immune_effect( fe.id ) || u.check_immunity_data( fe.immunity_data ) ) {
                     danger_here = false;
                 }
             }

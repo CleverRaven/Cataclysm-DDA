@@ -5439,14 +5439,8 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
-bool Character::is_immune_field( const field_type_id &fid ) const
+bool Character::check_immunity_data( const field_immunity_data &ft ) const
 {
-    // Obviously this makes us invincible
-    if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
-        return true;
-    }
-    // Check to see if we are immune
-    const field_type &ft = fid.obj();
     for( const json_character_flag &flag : ft.immunity_data_flags ) {
         if( has_flag( flag ) ) {
             return true;
@@ -5495,6 +5489,23 @@ bool Character::is_immune_field( const field_type_id &fid ) const
                 return true;
             }
         }
+    }
+
+    return false;
+}
+
+bool Character::is_immune_field( const field_type_id &fid ) const
+{
+    // Obviously this makes us invincible
+    if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
+        return true;
+    }
+
+    // Check to see if we are immune
+    const field_type &ft = fid.obj();
+
+    if( check_immunity_data( ft.immunity_data ) ) {
+        return true;
     }
 
     if( ft.has_elec ) {
