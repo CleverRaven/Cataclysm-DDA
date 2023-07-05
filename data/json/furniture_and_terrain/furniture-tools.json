@@ -1267,7 +1267,7 @@
     "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
     "examine_action": "fvat_empty",
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 14 }, { "item": "string_6", "charges": [ 18, 36 ] }, { "item": "splinter", "count": 2 } ]
+      "items": [ { "item": "2x4", "count": 14 }, { "item": "cordage_6", "count": [ 150, 180 ] }, { "item": "splinter", "count": 2 } ]
     },
     "bash": {
       "str_min": 3,
@@ -1276,8 +1276,8 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "2x4", "count": [ 4, 8 ] },
-        { "item": "string_6", "charges": [ 12, 18 ] },
-        { "item": "splinter", "count": 1 }
+        { "item": "cordage_6", "count": [ 80, 120 ] },
+        { "item": "splinter", "count": 2 }
       ]
     }
   },
@@ -1294,7 +1294,7 @@
     "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
     "examine_action": "fvat_full",
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 14 }, { "item": "string_6", "charges": [ 18, 36 ] }, { "item": "splinter", "count": 2 } ]
+      "items": [ { "item": "2x4", "count": 14 }, { "item": "cordage_6", "count": [ 150, 180 ] }, { "item": "splinter", "count": 2 } ]
     },
     "bash": {
       "str_min": 12,
@@ -1303,8 +1303,8 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "2x4", "count": [ 4, 8 ] },
-        { "item": "string_6", "charges": [ 12, 18 ] },
-        { "item": "splinter", "count": 1 }
+        { "item": "cordage_6", "count": [ 80, 120 ] },
+        { "item": "splinter", "count": 2 }
       ]
     }
   },

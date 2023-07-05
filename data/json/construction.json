@@ -2528,7 +2528,7 @@
     "components": [
       [ [ "2x4", 14 ] ],
       [ [ "stick_long", 6 ] ],
-      [ [ "rope_30", 1 ], [ "rope_6", 5 ], [ "string_36", 30 ], [ "string_6", 180 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "cordage_6", 180 ] ],
       [ [ "splinter", 2 ] ]
     ],
     "pre_special": "check_empty",
