@@ -45,6 +45,7 @@ static void give_one_trait( Character &dummy, const std::string &trait_name )
 static float healing_rate_at_health( Character &dummy, const int healthy_value,
                                      const float rest_quality )
 {
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     dummy.set_lifestyle( healthy_value );
     return dummy.healing_rate( rest_quality );
 }
