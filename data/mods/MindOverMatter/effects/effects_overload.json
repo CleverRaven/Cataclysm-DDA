@@ -74,7 +74,7 @@
       },
       {
         "limb_score": "breathing",
-        "modifier": 0.9,
+        "modifier": 0.95,
         "resist_modifier": 1.0,
         "scaling": -0.035,
         "resist_scaling": -0.017
