@@ -7602,9 +7602,10 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripoi
         }
     } else if( choice == 1 ) {
         const auto rctrl_parts = veh->get_avail_parts( "REMOTE_CONTROLS" );
+        const auto electronics_parts = veh->get_avail_parts( "CTRL_ELECTRONIC" );
         // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
-            veh->interact_with( pos );
+            veh->interact_with( electronics_parts.begin()->pos() );
         } else {
             veh->interact_with( rctrl_parts.begin()->pos() );
         }

@@ -1709,7 +1709,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
-    if( player_character.sees( p ) ) {
+    if( pl_sees( p, player_character.sight_max ) ) {
         player_character.memorize_clear_decoration( getabs( p ), "f_" );
     }
 
@@ -2153,7 +2153,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
 
     set_memory_seen_cache_dirty( p );
     avatar &player_character = get_avatar();
-    if( player_character.sees( p ) ) {
+    if( pl_sees( p, player_character.sight_max ) ) {
         player_character.memorize_clear_decoration( getabs( p ), "t_" );
     }
 
@@ -5917,7 +5917,7 @@ void map::partial_con_remove( const tripoint_bub_ms &p )
     current_submap->partial_constructions.erase( tripoint_sm_ms( l, p.z() ) );
     set_memory_seen_cache_dirty( p.raw() );
     avatar &player_character = get_avatar();
-    if( player_character.sees( p ) ) {
+    if( pl_sees( p.raw(), player_character.sight_max ) ) {
         player_character.memorize_clear_decoration( getabs( p ), "tr_" );
     }
 }
@@ -5960,7 +5960,7 @@ void map::trap_set( const tripoint &p, const trap_id &type )
 
     set_memory_seen_cache_dirty( p );
     avatar &player_character = get_avatar();
-    if( player_character.sees( p ) ) {
+    if( pl_sees( p, player_character.sight_max ) ) {
         player_character.memorize_clear_decoration( getabs( p ), "tr_" );
     }
     // If there was already a trap here, remove it.
@@ -5997,7 +5997,7 @@ void map::remove_trap( const tripoint &p )
         if( g != nullptr && this == &get_map() ) {
             set_memory_seen_cache_dirty( p );
             avatar &player_character = get_avatar();
-            if( player_character.sees( p ) ) {
+            if( pl_sees( p, player_character.sight_max ) ) {
                 player_character.memorize_clear_decoration( getabs( p ), "tr_" );
             }
             player_character.add_known_trap( p, tr_null.obj() );

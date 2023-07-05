@@ -7,7 +7,7 @@
     "object": {
       "place_nested": [
         {
-          "chunks": [ [ "mx_airdrop_humanitarian_full", 10 ], [ "mx_airdrop_humanitarian_looted", 80 ], [ "mx_airdrop_mil", 2 ] ],
+          "chunks": [ [ "mx_airdrop_humanitarian_full", 5 ], [ "mx_airdrop_humanitarian_looted", 93 ], [ "mx_airdrop_mil", 2 ] ],
           "x": 0,
           "y": 0
         }

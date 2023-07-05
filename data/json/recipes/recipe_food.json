@@ -670,6 +670,7 @@
     "result": "mutant_lard",
     "copy-from": "lard",
     "byproducts": [ [ "mutant_cracklins" ] ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "mutant_fat", 2 ] ] ]

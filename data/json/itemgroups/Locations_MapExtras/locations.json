@@ -163,6 +163,7 @@
     "items": [
       { "group": "magazines", "prob": 2000 },
       { "group": "kids_books", "prob": 35 },
+      { "group": "stand_flyer", "prob": 100 },
       [ "recipe_augs", 20 ],
       [ "decoy_anarch", 50 ],
       { "group": "newspaper_recent", "prob": 200 },
@@ -632,10 +633,10 @@
       { "item": "scuba_tank", "prob": 5, "charges": [ 0, 60 ] },
       { "item": "small_scuba_tank", "prob": 5, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],
+      { "item": "rebreather", "prob": 2, "ammo-item": "rebreather_cartridge_o2", "charges": 180 },
       [ "dry_bag", 10 ],
       [ "dry_duffelbag", 10 ],
       [ "dry_bag_large", 5 ],
-      { "item": "rebreather", "prob": 2, "ammo-item": "rebreather_cartridge", "charges": 100 },
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
       [ "hand_pump", 10 ],
@@ -902,6 +903,7 @@
       [ "steel_pan", 10 ],
       [ "teapot", 25 ],
       [ "kettle", 25 ],
+      [ "fuel_tin", 25 ],
       [ "fishing_hook_basic", 35 ],
       [ "spike", 30 ],
       [ "wire_barbed", 25 ],
@@ -1620,7 +1622,8 @@
       { "item": "file", "prob": 25 },
       { "item": "baton", "prob": 20 },
       { "item": "kevlar", "prob": 15 },
-      { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster", "prob": 10 },
+      { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster", "prob": 4 },
+      { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "nylon_holster", "prob": 6 },
       { "item": "survnote", "prob": 10 },
       { "item": "family_photo", "prob": 10 },
       { "item": "tazer", "prob": 5 }
@@ -2810,12 +2813,12 @@
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 30, "charges": [ 50, 360 ] },
-          { "item": "welding_rod_alloy", "prob": 20, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_steel", "prob": 20, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 50, 360 ] },
-          { "item": "brazing_rod_bronze", "prob": 10, "charges": [ 50, 200 ] },
-          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 50, 200 ] }
+          { "item": "welding_rod_steel", "prob": 30, "charges": [ 1000, 1600 ] },
+          { "item": "welding_rod_alloy", "prob": 20, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_steel", "prob": 20, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 1000, 1600 ] },
+          { "item": "brazing_rod_bronze", "prob": 10, "charges": [ 500, 1500 ] },
+          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 400, 1200 ] }
         ]
       }
     ]
@@ -2852,7 +2855,7 @@
           { "item": "pants_checkered", "prob": 10 },
           { "item": "pants", "prob": 40 },
           { "item": "jeans", "prob": 20 },
-          { "item": "flag_pants", "prob": 5 },
+          { "item": "pants", "variant": "pants_flag", "prob": 5 },
           { "item": "breeches", "prob": 25 }
         ]
       },

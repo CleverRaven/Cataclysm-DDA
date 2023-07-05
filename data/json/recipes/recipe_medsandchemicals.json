@@ -753,6 +753,28 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_potassium",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "120 m",
+    "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
+    "charges": 350,
+    "batch_time_factors": [ 60, 4 ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "electrolysis_kit", 1500 ] ], [ [ "surface_heat", 1, "LIST" ] ], [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "chem_potassium_hydroxide", 800 ] ], [ [ "lamp_oil", 200 ] ] ],
+    "//": "kerosene is used here because potassium metal needs to be suspended in a mineral oil to prevent it from reacting with air."
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "heatpack",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
@@ -1310,7 +1332,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "charges": 470,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
-    "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 1 ] ] ]
+    "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1321,17 +1343,17 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "chemistry",
     "difficulty": 4,
-    "time": "5 m",
+    "time": "60 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
       { "proficiency": "prof_organic_chemistry" }
     ],
-    "charges": 421,
+    "charges": 2183,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [
-      [ [ "chem_saltpetre", 10 ] ],
+      [ [ "chem_saltpetre", 50 ] ],
       [ [ "water_clean", 1 ] ],
       [
         [ "chem_ethanol", 83 ],
@@ -1340,7 +1362,7 @@
         [ "denat_alcohol", 83 ],
         [ "methed_alcohol", 83 ]
       ],
-      [ [ "charcoal", 1 ] ]
+      [ [ "charcoal", 64 ] ]
     ]
   },
   {

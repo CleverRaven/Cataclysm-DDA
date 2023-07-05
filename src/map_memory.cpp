@@ -275,10 +275,15 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     cache_pos = sm_pos;
     cache_size = sm_size;
     cached.clear();
-    cached.reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y );
-    for( int dy = 0; dy < cache_size.y; dy++ ) {
-        for( int dx = 0; dx < cache_size.x; dx++ ) {
-            cached.push_back( fetch_submap( cache_pos + point( dx, dy ) ) );
+    // Loop through each z-level in vision range
+    for( int z = std::max( sm_pos.z - fov_3d_z_range, -OVERMAP_DEPTH );
+         z <= std::min( sm_pos.z + fov_3d_z_range, OVERMAP_HEIGHT ); z++ ) {
+        cached[z].reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y );
+        for( int dy = 0; dy < cache_size.y; dy++ ) {
+            for( int dx = 0; dx < cache_size.x; dx++ ) {
+                // Store submap pointer in cache, categorized by z-level
+                cached[z].push_back( fetch_submap( tripoint( cache_pos.xy(), z ) + point( dx, dy ) ) );
+            }
         }
     }
     return true;
@@ -383,8 +388,9 @@ const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
         return invalid_mz_submap;
     }
     const point idx = ( sm_pos - cache_pos ).xy();
-    if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-        return *cached[idx.y * cache_size.x + idx.x];
+    if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y &&
+        !cached[sm_pos.z].empty() ) {
+        return *cached[sm_pos.z][idx.y * cache_size.x + idx.x];
     } else {
         return null_mz_submap;
     }
@@ -396,8 +402,9 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
         return invalid_mz_submap;
     }
     const point idx = ( sm_pos - cache_pos ).xy();
-    if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-        return *cached[idx.y * cache_size.x + idx.x];
+    if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y &&
+        !cached[sm_pos.z].empty() ) {
+        return *cached[sm_pos.z][idx.y * cache_size.x + idx.x];
     } else {
         return null_mz_submap;
     }

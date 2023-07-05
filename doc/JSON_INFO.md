@@ -3751,6 +3751,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 },
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
+"fuel_efficiency": 0.2, // When combined with being a UPS this item will burn fuel for its given energy value to produce energy with the efficiency provided. Needs to be > 0 for this to work
 "use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below
 "qualities": [ [ "SCREW", 1 ] ], // Inherent item qualities like hammering, sawing, screwing (see tool_qualities.json)
 "charged_qualities": [ [ "DRILL", 3 ] ], // Qualities available if tool has at least charges_per_use charges left
@@ -3924,11 +3925,17 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
     "need_charges": 1,                      // Number of charges the item needs to transform.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
-    "need_worn": true;                        // Whether the item must be worn to be transformed; false by default.
-    "need_wielding": true;                    // Whether the item must be wielded to be transformed; false by default.
-    "target_charges" : 3, // Number of charges the transformed item has.
+    "need_empty": true,                       // Whether the item must be empty to be transformed; false by default.
+    "need_worn": true,                        // Whether the item must be worn to be transformed; false by default.
+    "need_wielding": true,                    // Whether the item must be wielded to be transformed; false by default.
+    "qualities_needed": { "WRENCH_FINE": 1 }, // Tool qualities needed, e.g. "fine bolt turning 1".
+    "target_charges": 3, // Number of charges the transformed item has.
     "rand_target_charges": [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
-    "container" : "jar",  // Container holding the target item.
+    "ammo_qty": 3,              // If zero or positive set remaining ammo of transformed item to this.
+    "random_ammo_qty": [1, 5],  // If this has values, set remaining ammo of transformed item to one of them chosen at random.
+    "ammo_type": "tape",        // If both this and ammo_qty are specified then set transformed item to this specific ammo.
+    "container": "jar",  // Container holding the target item.
+    "sealed": true,      // Whether the transformed container is sealed; true by default.
     "menu_text": "Lower visor"      // (Optional) Text displayed in the activation screen, defaults to "Turn on".
     "moves" : 500         // Moves required to transform the item in excess of a normal action.
 },

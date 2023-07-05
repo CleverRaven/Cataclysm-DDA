@@ -225,6 +225,35 @@
     "using": [ [ "tailoring_fur_small", 5 ] ]
   },
   {
+    "result": "gloves_faux_fur",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "9 h",
+    "autolearn": true,
+    "book_learn": [ [ "manual_tailor", 1 ], [ "textbook_survival", 1 ], [ "pocket_survival", 1 ], [ "recipe_fauxfur", 1 ] ],
+    "using": [ [ "tailoring_faux_fur_small", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
+  },
+  {
+    "result": "xs_gloves_faux_fur",
+    "type": "recipe",
+    "copy-from": "gloves_faux_fur",
+    "time": "9 h",
+    "using": [ [ "tailoring_faux_fur_small", 2 ] ]
+  },
+  {
+    "result": "xl_gloves_faux_fur",
+    "type": "recipe",
+    "copy-from": "gloves_faux_fur",
+    "time": "10 h 10 m",
+    "using": [ [ "tailoring_faux_fur_small", 5 ] ]
+  },
+  {
     "result": "gloves_wsurvivor_nofur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

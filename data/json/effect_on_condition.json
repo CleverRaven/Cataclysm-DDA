@@ -808,6 +808,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_discover_zomborg",
+    "condition": { "math": [ "u_monsters_nearby('mon_zomborg')", ">=", "1" ] },
+    "effect": [ { "u_add_var": "seen_zomborg", "type": "dialogue", "context": "exodii", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BANDIT_ASSASSIN",
     "recurrence": [ "7 days", "14 days" ],
     "condition": {

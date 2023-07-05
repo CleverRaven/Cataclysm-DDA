@@ -156,7 +156,6 @@
         "items": [
           "under_armor",
           "under_armor_shorts",
-          "xedra_jumpsuit",
           "tac_helmet",
           "glasses_bal",
           "gloves_tactical",
@@ -168,6 +167,7 @@
           "molle_pack"
         ],
         "entries": [
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
           { "group": "military_ballistic_vest_light" },
           { "group": "torso_grenade_bandolier_jotunn" },
           { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
@@ -199,7 +199,6 @@
         "items": [
           "under_armor",
           "under_armor_shorts",
-          "xedra_jumpsuit",
           "tac_helmet",
           "glasses_bal",
           "gloves_tactical",
@@ -211,6 +210,7 @@
           "badge_zebra"
         ],
         "entries": [
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
           { "group": "military_ballistic_vest_light" },
@@ -251,7 +251,6 @@
         "items": [
           "under_armor",
           "under_armor_shorts",
-          "xedra_jumpsuit",
           "tac_helmet",
           "glasses_bal",
           "gloves_tactical",
@@ -263,6 +262,190 @@
           "badge_zebra"
         ],
         "entries": [
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xe_eater",
+    "name": "Mobile Task Force: Upsilon 4 \"Devourers\"",
+    "description": "Being part of Upsilon 4, you were always at the front of your unit, protecting other operatives from danger ahead using your eater's abilities.  This one was no different, but something went really wrong.",
+    "points": 7,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "shotgun" },
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "melee" },
+      { "level": 3, "name": "deduction" }
+    ],
+    "spells": [
+      { "id": "spring_heeled_leap", "level": 7 },
+      { "id": "spell_dodge", "level": 7 },
+      { "id": "spell_endurance", "level": 7 }
+    ],
+    "traits": [ "EATER" ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "pants_army",
+          "undershirt",
+          "combat_shirt",
+          "tac_fullhelmet",
+          "armguard_hard",
+          "legguard_hard",
+          "mask_ski",
+          "gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "boots_combat",
+          "wristwatch",
+          "molle_pack",
+          "hammer_sledge"
+        ],
+        "entries": [
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_eater" },
+          { "group": "charged_two_way_radio" },
+          { "group": "us_ballistic_vest_pristine" },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "mossberg_500", "ammo-item": "shot_00", "charges": 6, "contents-item": [ "shoulder_strap" ] },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xe_dreamer",
+    "name": "Mobile Task Force: Theta 1 \"Middle-Management\"",
+    "description": "Theta 1, also known as \"kindergarten\" between other task forces, is used when missions are expected to be too dangerous to send people or when reconnaissance can't obtain any important information about the target, which is why otherworldly creatures, summoned by dreamers, are sent.  It's not the best course of action, but the unit's nearly zero fatality rate makes it worth using.",
+    "points": 7,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "melee" },
+      { "level": 4, "name": "deduction" }
+    ],
+    "spells": [
+      { "id": "banish_nether_monsters", "level": 7 },
+      { "id": "spell_dreamer_clairvoyance_eff", "level": 7 },
+      { "id": "summon_shifter", "level": 7 },
+      { "id": "summon_winch", "level": 7 }
+    ],
+    "traits": [ "DREAMER" ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "tac_helmet",
+          "glasses_bal",
+          "gloves_tactical",
+          "boots_combat",
+          "holster",
+          "legrig",
+          "tacvest",
+          "socks"
+        ],
+        "entries": [
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_dreamer" },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xe_inventor",
+    "name": "Mobile Task Force: Nu 3 \"Techno Savvy\"",
+    "description": "Despite the \"Task Force\" in their name, Nu 3 is rarely called into the actual mission; their main task is reconnaissance and developing tools to support another task force, even if these tools last only a few weeks.  But when they do accept a task, it's almost guaranteed to be successful.  It should've been your first day here, but something went really wrong.",
+    "points": 7,
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "melee" },
+      { "level": 2, "name": "fabrication" },
+      { "level": 2, "name": "mechanics" },
+      { "level": 3, "name": "electronics" },
+      { "level": 4, "name": "deduction" }
+    ],
+    "spells": [ { "id": "firmament_driver", "level": 7 }, { "id": "cable_whip", "level": 7 } ],
+    "traits": [ "INVENTOR" ],
+    "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_elec_soldering" ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "tac_helmet",
+          "glasses_bal",
+          "gloves_tactical",
+          "boots_combat",
+          "holster",
+          "legrig",
+          "tacvest",
+          "socks"
+        ],
+        "entries": [
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_inventor" },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xe_dreamsmith",
+    "name": "Mobile Task Force: Tau 8 \"Anvil\"",
+    "description": "Sharing the same problem with Nu 3, dreamsmiths from Tau 8 are not called on the operation very often, and their main work looks really medieval.  Despite this, they are really popular among other branches, as their tools and armor have everything a modern soldier can dream of.",
+    "//": "TODO: add some recipes they could know, if possible",
+    "points": 7,
+    "skills": [ { "level": 4, "name": "fabrication" }, { "level": 4, "name": "deduction" } ],
+    "spells": [ { "id": "spell_oneiric_hammer", "level": 0 } ],
+    "traits": [ "DREAMSMITH" ],
+    "proficiencies": [ "prof_metalworking", "prof_dreamsmithing" ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "under_armor",
+          "under_armor_shorts",
+          "tac_helmet",
+          "glasses_bal",
+          "gloves_tactical",
+          "boots_combat",
+          "holster",
+          "legrig",
+          "tacvest",
+          "socks"
+        ],
+        "entries": [
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_dreamsmith" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
           { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },

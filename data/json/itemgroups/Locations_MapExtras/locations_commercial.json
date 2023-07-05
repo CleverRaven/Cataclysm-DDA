@@ -356,9 +356,8 @@
       [ "sweater", 75 ],
       [ "blazer", 35 ],
       [ "jacket_leather", 30 ],
-      [ "coat_fur", 5 ],
+      [ "coat_fur", 6 ],
       [ "coat_faux_fur", 10 ],
-      [ "coat_fur_sf", 1 ],
       [ "peacoat", 30 ],
       [ "greatcoat", 15 ],
       [ "coat_lab", 20 ],
@@ -1888,6 +1887,21 @@
     "id": "laundromat_containers",
     "type": "item_group",
     "items": [ [ "duffelbag", 5 ], [ "backpack", 5 ], [ "bag_plastic", 30 ], [ "basket_laundry", 30 ] ]
+  },
+  {
+    "id": "plastic_dishes",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [ { "item": "plastic_plate" }, { "item": "plastic_fork" }, { "item": "plastic_knife" }, { "item": "tumbler_plastic" } ],
+        "prob": 50
+      },
+      {
+        "collection": [ { "item": "bowl_plastic" }, { "item": "plastic_fork" }, { "item": "plastic_spoon" }, { "item": "tumbler_plastic" } ],
+        "prob": 50
+      }
+    ]
   },
   {
     "id": "clothing_sport",
