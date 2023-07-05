@@ -1580,7 +1580,7 @@
     "price_postapoc": 250,
     "charges": 20,
     "fun": 1,
-    "stack_size": 30,
+    "stack_size": 25,
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_small",
