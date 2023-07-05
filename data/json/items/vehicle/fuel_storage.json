@@ -1,7 +1,7 @@
 [
   {
     "id": "fuel_bunker",
-    "type": "MAGAZINE",
+    "type": "GENERIC",
     "name": { "str": "fuel bunker" },
     "description": "A bin for holding solid fuel.",
     "symbol": "]",
