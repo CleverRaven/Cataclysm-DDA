@@ -16,6 +16,13 @@
     "ammo_type": [ "charcoal" ],
     "price": 3000,
     "price_postapoc": 100,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "100 kg"
+      }
+    ]
   }
 ]
