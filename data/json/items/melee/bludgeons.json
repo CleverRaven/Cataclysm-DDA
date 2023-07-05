@@ -1010,27 +1010,6 @@
     "price_postapoc": 500
   },
   {
-    "id": "lucern_hammer",
-    "type": "GENERIC",
-    "symbol": "/",
-    "color": "light_gray",
-    "name": { "str": "lucerne hammer" },
-    "description": "A versatile polearm with a spiked hammer head, a spike, and a hook attached to a beefy wooden pole.",
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
-    "price": 50000,
-    "material": [ "wood", "steel" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
-    "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
-    "weight": "3200 g",
-    "volume": "3750 ml",
-    "longest_side": "200 cm",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
-    "price_postapoc": 10000,
-    "qualities": [ [ "COOK", 1 ] ],
-    "category": "weapons",
-    "melee_damage": { "bash": 44, "stab": 33 }
-  },
-  {
     "type": "GENERIC",
     "id": "mace",
     "name": { "str": "mace" },

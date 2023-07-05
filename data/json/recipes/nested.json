@@ -4650,30 +4650,6 @@
     "difficulty": 7
   },
   {
-    "id": "nested_battleaxe",
-    "type": "nested_category",
-    "activity_level": "fake",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "battle axes",
-    "description": "Recipes for making battle axes.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe" ],
-    "difficulty": 7
-  },
-  {
-    "id": "nested_battleaxe",
-    "type": "nested_category",
-    "activity_level": "fake",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "battle axes",
-    "description": "Recipes for making battle axes.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe" ],
-    "difficulty": 7
-  },
-  {
     "id": "nested_methanol_tank",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
