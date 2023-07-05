@@ -2040,7 +2040,7 @@
     "material": [ "flesh" ],
     "symbol": "H",
     "color": "brown",
-    "starting_ammo": { "milk_raw": 20 },
+    "starting_ammo": { "milk_raw": 4 },
     "morale": 20,
     "aggro_character": false,
     "melee_skill": 6,
