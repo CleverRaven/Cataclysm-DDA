@@ -37,6 +37,7 @@
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "wcwidth.h"
+#include "math_parser_func.h"
 
 class npc;
 
@@ -54,6 +55,8 @@ static const itype_id itype_null( "null" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
+static const quality_id qual_PISTOL( "PISTOL" );
+static const quality_id qual_SMG( "SMG");
 
 static const skill_id skill_launcher( "launcher" );
 
@@ -542,6 +545,12 @@ void vehicles::parts::finalize()
             electronics_req += static_cast<int>( std::ceil( battery_mags_drain / 15.0 ) );
         }
 
+        // make part foldable for pistols and SMGs
+        bool turret_foldable = item->qualities.find(qual_PISTOL) != item->qualities.end() || item->qualities.find( qual_SMG) != item->qualities.end();
+        if ( turret_foldable ) {
+            new_part.folded_volume = item->volume;
+        }
+
         // cap all skills at 8
         primary_req = std::min( 8, primary_req );
         mechanics_req = std::min( 8, mechanics_req );
@@ -559,7 +568,9 @@ void vehicles::parts::finalize()
         }
 
         int difficulty = primary_req + mechanics_req + electronics_req * 2;
-        time_duration install_time = 10_minutes * difficulty;
+        //time_duration install_time = std::max(5_minutes, std::min(10_minutes * difficulty * (item->weight / 2000_gram), 60_minutes));
+        double modifier = std::sqrt(item->weight) / 2000_gram;
+        time_duration install_time = 10_minutes * difficulty * modifier;
         time_duration removal_time = 10_minutes * difficulty / 2;
 
         new_part.install_moves = install_time;

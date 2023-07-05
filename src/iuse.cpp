@@ -7524,10 +7524,14 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
         return nullptr;
     }
 
-    pointmenu_cb callback( locations );
-    pmenu.callback = &callback;
-    pmenu.w_y_setup = 0;
-    pmenu.query();
+    if (vehs.size() == 1) {
+        return vehs[0];
+    } else {
+        pointmenu_cb callback( locations );
+        pmenu.callback = &callback;
+        pmenu.w_y_setup = 0;
+        pmenu.query();
+    }
 
     if( pmenu.ret < 0 || pmenu.ret >= static_cast<int>( vehs.size() ) ) {
         return nullptr;
@@ -7560,8 +7564,11 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripoi
     }
 
     bool controlling = it->active && remote != nullptr;
+
+    // const vector<uilist_entry> choices =
+
     int choice = uilist( _( "What to do with the remote vehicle control:" ), {
-        controlling ? _( "Stop controlling the vehicle." ) : _( "Take control of a vehicle." ),
+         controlling ? _( "Stop controlling the vehicle." ) : _( "Take control of a vehicle." ),
         _( "Execute one vehicle action" )
     } );
 

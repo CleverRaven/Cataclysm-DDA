@@ -693,6 +693,9 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     Character &player_character = get_player_character();
     if( follow_protocol && player_character.in_vehicle ) {
         stop_autodriving();
+        sounds::sound( global_pos3(), 10, sounds::sound_t::alert,
+                       string_format( _( "the %s emitting a beep and saying \"Autonomous driving protocols suspended!\"" ),
+                                      name ) );
         return;
     }
     refresh();
@@ -5769,7 +5772,7 @@ void vehicle::gain_moves()
 {
     fuel_used_last_turn.clear();
     check_falling_or_floating();
-    const bool pl_control = player_in_control( get_player_character() );
+    //const bool pl_control = player_in_control( get_player_character() );
     if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {
             shed_loose_parts();
@@ -5777,7 +5780,7 @@ void vehicle::gain_moves()
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
         if( vslowdown > std::abs( velocity ) ) {
-            if( cruise_velocity && pl_control ) {
+            if( cruise_velocity ) { //&& pl_control ) {
                 velocity = velocity > 0 ? 1 : -1;
             } else {
                 stop();
@@ -5793,7 +5796,7 @@ void vehicle::gain_moves()
     }
     of_turn_carry = 0;
     // cruise control TODO: enable for NPC?
-    if( ( pl_control || is_following || is_patrolling ) && cruise_velocity != velocity ) {
+    if( /*( pl_control || is_following || is_patrolling ) && */cruise_velocity != velocity ) {
         thrust( cruise_velocity > velocity ? 1 : -1 );
     } else if( is_rotorcraft() && velocity == 0 ) {
         // rotorcraft uses fuel for hover
