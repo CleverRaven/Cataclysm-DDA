@@ -614,7 +614,7 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str": "yellow bullhead" },
     "looks_like": "mon_fish_bullhead",
-    "description": "A yellow bullhead, a type of catfish.  Delicious when battered and fried.",
+    "description": "A yellow bullhead, a type of catfish.  Delicious when battered and fried, though smaller than its brown cousin.",
     "volume": "250 ml",
     "weight": "454 g",
     "reproduction": { "baby_egg": "egg_bullhead_yellow", "baby_count": 2, "baby_timer": 17 }
@@ -701,7 +701,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
     "name": { "str": "American pickerel" },
-    "description": "An American pickerel.  It looks like a pike, but way smaller.",
+    "description": "An American pickerel.  It looks like a pike, but unlike its chain cousin, this one is way smaller.",
     "volume": "170 ml",
     "weight": "200 g",
     "reproduction": { "baby_egg": "egg_pickerel_american", "baby_count": 2, "baby_timer": 17 }
@@ -790,7 +790,7 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "goldfish" },
     "looks_like": "mon_fish_carp",
-    "description": "A golden-yellow common carp.  Some people think they don't taste great, but you can't afford to be choosy in the Cataclysm.",
+    "description": "Yes, this is that common pet fish.  Though, given its size and the fact that it's still alive you can take a wild guess that this one is feral.",
     "volume": "570 ml",
     "weight": "300 g",
     "reproduction": { "baby_egg": "egg_goldfish", "baby_count": 2, "baby_timer": 17 }
@@ -825,7 +825,7 @@
     "copy-from": "mon_fish_small",
     "name": { "str": "longnose gar" },
     "looks_like": "mon_fish_pike",
-    "description": "A northern pike.  Pike can be pretty aggressive fish, careful around those teeth.",
+    "description": "A large ancient type of fish with a mean jaw and poisonous eggs.",
     "volume": "4820 ml",
     "weight": "920 g",
     "reproduction": { "baby_egg": "egg_gar_longnose", "baby_count": 2, "baby_timer": 17 }
@@ -842,7 +842,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
     "name": { "str": "burbot" },
-    "description": "A bowfin.  These fish are related to gar but without the huge teeth, skin-rending scales, and aggression.",
+    "description": "A relatively large fish that looks like a cross between a catfish and an eel, and is the only freshwater fish from the order that cods hail from.",
     "volume": "1400 ml",
     "weight": "620 g",
     "reproduction": { "baby_egg": "egg_burbot", "baby_count": 2, "baby_timer": 17 }
@@ -859,7 +859,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "lake sturgeon" },
-    "description": "A huge grass carp.  A golden, herbivorous fish.",
+    "description": "A very large armored bottom-feeder, the lake sturgeon is one of the largest unmutated fish one can find in the freshwater regions of New England.",
     "volume": "20220 ml",
     "weight": "14500 g",
     "reproduction": { "baby_egg": "egg_sturgeon_lake", "baby_count": 2, "baby_timer": 17 }
@@ -877,7 +877,7 @@
     "copy-from": "mon_fish_small",
     "name": { "str": "shortnose sturgeon" },
     "looks_like": "mon_fish_sturgeon_lake",
-    "description": "A huge grass carp.  A golden, herbivorous fish.",
+    "description": "While the shortnose sturgeon it is still large, it is nothing compared to its cousin - the lake sturgeon.  What really sets it apart, however, is its signature shorter snout.",
     "volume": "2720 ml",
     "weight": "980 g",
     "reproduction": { "baby_egg": "egg_sturgeon_shortnose", "baby_count": 2, "baby_timer": 17 }
