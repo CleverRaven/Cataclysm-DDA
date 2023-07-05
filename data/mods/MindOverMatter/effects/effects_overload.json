@@ -61,7 +61,26 @@
       "fatigue_min": [ 0.5 ],
       "fatigue_chance": [ -15 ],
       "fatigue_tick": [ -15 ]
-    }
+    },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 1.0, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.025 },
+      { "limb_score": "manip", "modifier": 0.95, "resist_modifier": 1.0, "scaling": -0.04, "resist_scaling": -0.02 },
+      {
+        "limb_score": "balance",
+        "modifier": 0.95,
+        "resist_modifier": 1.0,
+        "scaling": -0.03,
+        "resist_scaling": -0.015
+      },
+      {
+        "limb_score": "breathing",
+        "modifier": 0.9,
+        "resist_modifier": 1.0,
+        "scaling": -0.035,
+        "resist_scaling": -0.017
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
