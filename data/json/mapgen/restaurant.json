@@ -136,7 +136,7 @@
       ],
       "terrain": { "W": "t_window_boarded" },
       "furniture": { "R": "f_rack", "F": "f_fridge", "x": "f_trashcan", "T": "f_table" },
-	  "remove_all": { "N": { } },
+      "remove_all": { "N": {  } },
       "place_npcs": [ { "class": "survivor_chef", "x": 12, "y": 19 } ],
       "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 7, 19 ], "y": [ 18, 20 ] } ],
       "items": {
@@ -276,12 +276,17 @@
         { "chunks": [ "3x3_foodplace_stairwell" ], "x": 20, "y": 21, "neighbors": { "above": "s_restaurant_foodplace_roof" } },
         { "chunks": [ "13x13_checkered_floor" ], "x": 7, "y": 18 },
         {
-          "else_chunks": [ [ "24x24_chef_survivor", 10 ], [ "24x24_kitchen_roach_infestation", 25 ], [ "24x24_angry_diners", 25 ], [ "null", 40 ] ],
+          "else_chunks": [
+            [ "24x24_chef_survivor", 10 ],
+            [ "24x24_kitchen_roach_infestation", 25 ],
+            [ "24x24_angry_diners", 25 ],
+            [ "null", 40 ]
+          ],
           "x": 0,
           "y": 0,
           "neighbors": { "above": "s_restaurant_foodplace_roof" }
         },
-		{
+        {
           "chunks": [ [ "24x24_kitchen_roach_infestation", 25 ], [ "24x24_angry_diners", 25 ], [ "null", 50 ] ],
           "x": 0,
           "y": 0,
@@ -375,10 +380,8 @@
     "id": "foodperson_mask_loaded",
     "type": "item_group",
     "subtype": "collection",
-	"container-item": "foodperson_mask",
-    "entries": [
-      { "item": "medium_disposable_cell" }
-    ]
+    "container-item": "foodperson_mask",
+    "entries": [ { "item": "medium_disposable_cell" } ]
   },
   {
     "id": "foodperson_outfit",
@@ -398,10 +401,8 @@
     "id": "dead_foodperson",
     "type": "item_group",
     "subtype": "collection",
-	"container-item": "corpse",
-    "entries": [
-      { "group": "foodperson_outfit" }
-    ]
+    "container-item": "corpse",
+    "entries": [ { "group": "foodperson_outfit" } ]
   },
   {
     "type": "mapgen",
