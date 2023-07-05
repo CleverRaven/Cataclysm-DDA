@@ -422,11 +422,12 @@ class cata_tiles
          ** basic x range of [0, tile_width) and the basic y range of
          ** [0, tile_width / 2) (isometric) or [0, tile_height) (non-isometric) **/
         point get_window_base_tile_counts( const point &size ) const;
-        /** Coordinate range of tiles that fit into the given dimensions, fully
-         ** or partially shown, according to the maximum tile extent. May be
-         ** negative, and 0 corresponds to the first fully or partially shown
-         ** base tile as defined by get_window_base_tile_counts. **/
-        half_open_rectangle<point> get_window_any_tile_range( const point &size ) const;
+        /** Coordinate range of tiles at the given relative z-level that fit
+         ** into the given dimensions, fully or partially shown, according to
+         ** the maximum tile extent. May be negative, and 0 corresponds to the
+         ** first fully or partially shown base tile at relative z of 0 as
+         ** defined by `get_window_base_tile_counts`. **/
+        half_open_rectangle<point> get_window_any_tile_range( const point &size, int z ) const;
         /** Coordinate range of fully shown tiles that fit into the given
          ** dimensions, disregarding any extra contents outside the basic x
          ** range of [0, tile_width] and the basic y range of [0, tile_width / 2)

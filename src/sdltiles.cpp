@@ -855,7 +855,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     screentile_width = s.x;
     screentile_height = s.y;
 
-    const half_open_rectangle<point> any_tile_range = get_window_any_tile_range( { width, height } );
+    const half_open_rectangle<point> any_tile_range = get_window_any_tile_range( { width, height }, 0 );
     const int min_col = any_tile_range.p_min.x;
     const int max_col = any_tile_range.p_max.x;
     const int min_row = any_tile_range.p_min.y;

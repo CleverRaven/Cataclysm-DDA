@@ -1323,11 +1323,23 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     screentile_width = s.x;
     screentile_height = s.y;
 
-    const half_open_rectangle<point> any_tile_range = get_window_any_tile_range( { width, height } );
-    const int min_col = any_tile_range.p_min.x;
-    const int max_col = any_tile_range.p_max.x;
-    const int min_row = any_tile_range.p_min.y;
-    const int max_row = any_tile_range.p_max.y;
+    // Limit draw depth to vertical vision setting
+    const int max_draw_depth = fov_3d_z_range;
+    const int num_ranges = is_isometric() ? 1 + std::max( 0, max_draw_depth ) : 1;
+    std::vector<half_open_rectangle<point>> z_any_tile_range( num_ranges );
+    for( int z = 0; z < num_ranges; ++z ) {
+        z_any_tile_range[z] = get_window_any_tile_range( { width, height }, -z );
+    }
+    const half_open_rectangle<point> &top_any_tile_range = z_any_tile_range[0];
+    const half_open_rectangle<point> &bottom_any_tile_range = z_any_tile_range[num_ranges - 1];
+    cata_assert( top_any_tile_range.p_min.x == bottom_any_tile_range.p_min.x );
+    cata_assert( top_any_tile_range.p_max.x == bottom_any_tile_range.p_max.x );
+    cata_assert( top_any_tile_range.p_min.y >= bottom_any_tile_range.p_min.y );
+    cata_assert( top_any_tile_range.p_max.y >= bottom_any_tile_range.p_max.y );
+    const int min_col = top_any_tile_range.p_min.x;
+    const int max_col = top_any_tile_range.p_max.x;
+    const int min_row = bottom_any_tile_range.p_min.y;
+    const int max_row = top_any_tile_range.p_max.y;
 
     avatar &you = get_avatar();
     //limit the render area to maximum view range (121x121 square centered on player)
@@ -1435,9 +1447,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     creature_tracker &creatures = get_creature_tracker();
     std::map<int, std::vector<tile_render_info>> draw_points;
-    // Limit draw depth to vertical vision setting
-    // Disable multi z-level display on isometric tilesets until height_3d issues resolved
-    const int max_draw_depth = fov_3d_z_range;
     for( int row = min_row; row < max_row; row ++ ) {
         draw_points[row].reserve( std::max( 0, max_col - min_col ) );
         for( int col = min_col; col < max_col; col ++ ) {
@@ -1651,7 +1660,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 invisible[1 + i] = apply_visible( np, ch, here );
             }
 
-            // Determine lowest z-level to draw for 3D vision
+            // Determine lowest z-level to draw for 3D vision. Some off-screen
+            // tiles are also considered here to simply the logic.
             int draw_min_z;
             tripoint p_temp = pos;
             while( !here.dont_draw_lower_floor( p_temp ) && pos.z - p_temp.z < max_draw_depth ) {
@@ -1704,7 +1714,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     } else {
         // Multi z-level draw mode
-        // Start drawing from the lowest visible z-level
+        // Start drawing from the lowest visible z-level (some off-screen tiles
+        // are considered visible here to simplify the logic.)
         int cur_zlevel = center.z + 1;
         for( const std::pair<const int, std::vector<tile_render_info>> &pts : draw_points ) {
             for( const tile_render_info &p : pts.second ) {
@@ -1716,8 +1727,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
         }
         while( cur_zlevel <= center.z ) {
+            const half_open_rectangle<point> &cur_any_tile_range = is_isometric()
+                    ? z_any_tile_range[center.z - cur_zlevel] : top_any_tile_range;
             // For each row
-            for( int row = min_row; row < max_row; row ++ ) {
+            for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
                 // Set base height for each tile
                 for( tile_render_info &p : draw_points[row] ) {
                     p.com.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
@@ -1762,7 +1775,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
 
     // display number of monsters to spawn in mapgen preview
-    for( int row = min_row; row < max_row; row ++ ) {
+    for( int row = top_any_tile_range.p_min.y; row < top_any_tile_range.p_max.y; row ++ ) {
         for( const tile_render_info &p : draw_points[row] ) {
             const tile_render_info::sprite *const
             var = std::get_if<tile_render_info::sprite>( &p.var );
@@ -1803,10 +1816,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = min_visible.y; mem_y <= max_visible.y; mem_y++ ) {
         for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
-            half_open_rectangle<point> already_drawn(
-                point( min_col, min_row ), point( max_col, max_row ) );
             const point colrow = player_to_tile( { mem_x, mem_y } );
-            if( already_drawn.contains( colrow ) ) {
+            if( top_any_tile_range.contains( colrow ) ) {
                 continue;
             }
             const tripoint p( mem_x, mem_y, center.z );
@@ -1957,23 +1968,31 @@ point cata_tiles::get_window_base_tile_counts( const point &size ) const
     }
 }
 
-half_open_rectangle<point> cata_tiles::get_window_any_tile_range( const point &size ) const
+half_open_rectangle<point> cata_tiles::get_window_any_tile_range(
+    const point &size, const int z ) const
 {
     // (following comments in get_window_base_tile_counts)
     //
     // Based on the maximum tile extent, these ensure that any tile that can be
     // possibly on screen is included in the range.
     if( is_isometric() ) {
-        const int col_beg = divide_round_down( ( tile_width - max_tile_extent.p_max.x ) * 2, tile_width );
-        const int col_end = divide_round_up( ( size.x - max_tile_extent.p_min.x ) * 2, tile_width ) + 1;
-        const int row_beg = divide_round_down( ( tile_height - max_tile_extent.p_max.y ) * 4, tile_width );
+        // z-level below => negative z_height => smaller row_beg and row_end
+        const int z_height = zlevel_height * z;
+        const int col_beg = divide_round_down( ( tile_width - max_tile_extent.p_max.x ) * 2,
+                                               tile_width );
+        const int col_end = divide_round_up( ( size.x - max_tile_extent.p_min.x ) * 2,
+                                             tile_width ) + 1;
+        const int row_beg = divide_round_down( ( z_height + tile_height
+                                               - max_tile_extent.p_max.y ) * 4,
+                                               tile_width );
         // The difference between the default sprite height `tile_height` and
         // base tile height `tile_width / 2` should be added to the tile extent
         // here. Because `player_to_screen` shifts the sprite up by this extra
         // height, it means this extra height should be subtracted from the
         // minimum extent.
-        // (sy - miny + th - tw / 2) / (tw / 4) + 1 =>
-        const int row_end = divide_round_up( ( size.y - max_tile_extent.p_min.y + tile_height ) * 4,
+        // (sy + zh - miny + th - tw / 2) / (tw / 4) + 1 =>
+        const int row_end = divide_round_up( ( size.y + z_height
+                                               - max_tile_extent.p_min.y + tile_height ) * 4,
                                              tile_width ) - 1;
         return { { col_beg, row_beg }, { col_end, row_end } };
     } else {
@@ -2002,7 +2021,7 @@ half_open_rectangle<point> cata_tiles::get_window_full_base_tile_range( const po
         // \/
         const int columns = divide_round_down( size.x * 2, tile_width ) - 1;
         const int rows = divide_round_down( size.y * 4, tile_width ) - 1;
-        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        //NOLINTNEXTLINE(cata-use-named-point-constants): the name would be confusing here (screen 'NSWE' are not map NSWE)
         return { { 1, 1 }, { columns + 1, rows + 1 } };
     } else {
         // Only the area from (0, 0) to (tile_width, tile_height) is considered
