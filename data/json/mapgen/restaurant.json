@@ -276,7 +276,7 @@
         { "chunks": [ "3x3_foodplace_stairwell" ], "x": 20, "y": 21, "neighbors": { "above": "s_restaurant_foodplace_roof" } },
         { "chunks": [ "13x13_checkered_floor" ], "x": 7, "y": 18 },
         {
-          "else_chunks": [ [ "24x24_chef_survivor", 5 ], [ "24x24_kitchen_roach_infestation", 20 ], [ "24x24_angry_diners", 5 ], [ "null", 75 ] ],
+          "else_chunks": [ [ "24x24_chef_survivor", 10 ], [ "24x24_kitchen_roach_infestation", 25 ], [ "24x24_angry_diners", 25 ], [ "null", 40 ] ],
           "x": 0,
           "y": 0,
           "neighbors": { "above": "s_restaurant_foodplace_roof" }
