@@ -1574,7 +1574,7 @@
     "name": { "str": "antacid tablet" },
     "description": "A common stomach soother in flavored tablet form.  Makes you less likely to vomit.",
     "weight": "1 g",
-    "looks-like": "melatonin_tablet",
+    "looks_like": "melatonin_tablet",
     "volume": "250 ml",
     "price": 500,
     "price_postapoc": 250,
