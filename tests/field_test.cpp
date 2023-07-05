@@ -62,10 +62,10 @@ static void test_field_expiry( const std::string &field_type_str )
     std::vector<field_entry> test_fields;
     for( int i = 0; i < 10000; ++i ) {
         test_fields.emplace_back( field_type, 1, 0_seconds );
-        test_fields[i].do_decay();
+        test_fields[i].initialize_decay();
     }
     // Reduce time advancement by 2 seconds because age gets incremented by do_decay()
-    calendar::turn += field_type.obj().half_life - 2_seconds;
+    calendar::turn += field_type.obj().half_life - 1_seconds;
     float decayed = 0.0f;
     float alive = 0.0f;
     for( field_entry &test_field : test_fields ) {
