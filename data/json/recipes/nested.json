@@ -6206,7 +6206,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel facemasks",
-    "description": "Recipes related to constructing various sizes of arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_steel_facemask", "xl_lc_steel_facemask", "xs_lc_steel_facemask" ],
     "difficulty": 1
@@ -6218,7 +6218,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel facemasks",
-    "description": "Recipes related to constructing various sizes of arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_steel_facemask", "xl_mc_steel_facemask", "xs_mc_steel_facemask" ],
     "difficulty": 2
@@ -6230,7 +6230,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel facemasks",
-    "description": "Recipes related to constructing various sizes of arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_steel_facemask", "xl_hc_steel_facemask", "xs_hc_steel_facemask" ],
     "difficulty": 3
@@ -6242,7 +6242,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel facemasks",
-    "description": "Recipes related to constructing various sizes of arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_steel_facemask", "xl_qt_steel_facemask", "xs_qt_steel_facemask" ],
     "difficulty": 5
@@ -6254,7 +6254,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel facemasks",
-    "description": "Recipes related to constructing various sizes of arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_steel_facemask", "xl_ch_steel_facemask", "xs_ch_steel_facemask" ],
     "difficulty": 5
@@ -6266,7 +6266,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel steel facemasks",
-    "description": "Recipes related to constructing various sizes of arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_steel_facemask",
@@ -6284,7 +6284,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel mirror armor",
-    "description": "Recipes related to constructing various sizes of arabic style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_mirror_armor", "xl_lc_mirror_armor", "xs_lc_mirror_armor" ],
     "difficulty": 1
@@ -6296,7 +6296,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel mirror armor",
-    "description": "Recipes related to constructing various sizes of arabic style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_mirror_armor", "xl_mc_mirror_armor", "xs_mc_mirror_armor" ],
     "difficulty": 2
