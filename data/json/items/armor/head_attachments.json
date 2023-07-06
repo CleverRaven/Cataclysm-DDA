@@ -699,7 +699,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of low carbon steel",
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of low carbon steel.",
     "weight": "2000 g",
     "volume": "300 ml",
     "price": 5012,

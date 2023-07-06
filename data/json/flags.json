@@ -194,7 +194,7 @@
   {
     "id": "GEMSTONE",
     "type": "json_flag",
-    "info": "This item is a precious gemstone, used for ornamentation this is mostly useless post cataclysm."
+    "info": "This item is a precious gemstone, used for ornamentation.  This is mostly useless post-Cataclysm."
   },
   {
     "id": "DIG_TOOL",
