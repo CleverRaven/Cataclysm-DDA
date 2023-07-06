@@ -1,0 +1,23 @@
+[
+   {
+    "id": "psi_telepathic_damage",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "yellow",
+    "name": "telepathic",
+    "skill": "metaphysics",
+    "derived_from": [ "cut", 1 ],
+    "immune_flags": { "character": [ "TEEPSHIELD" ], "monster": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "psi_telepathic_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "mindblasting",
+    "bionic_info": { "order": 999900, "show_type": false },
+    "protection_info": { "order": 999900, "show_type": false },
+    "pet_prot_info": { "order": 999900, "show_type": false },
+    "melee_combat_info": { "order": 999900, "show_type": false },
+    "ablative_info": { "order": 999900, "show_type": false }
+  }
+]
