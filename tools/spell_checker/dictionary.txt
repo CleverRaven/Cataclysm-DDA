@@ -1514,6 +1514,7 @@ kickin
 kickstand
 killbasa
 killin
+killij
 kilns
 kilroy
 kilted
@@ -2557,6 +2558,7 @@ shadowboxing
 shadowcat
 shahada
 shambler
+shamshir
 shantak
 shantytowns
 shapechangers
@@ -2728,6 +2730,7 @@ staunchable
 staunching
 std
 steadfastness
+steelshod
 steeltoed
 steeping
 steerable
@@ -2826,6 +2829,7 @@ tadfish
 taegeuk
 taitsu
 takedowns
+talwar
 tamable
 tambaqui
 tamina
