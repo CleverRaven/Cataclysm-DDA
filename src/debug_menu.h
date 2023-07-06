@@ -11,12 +11,6 @@
 struct tripoint;
 template <typename E> struct enum_traits;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 class Character;
 
 namespace debug_menu
@@ -94,6 +88,7 @@ enum class debug_menu_index : int {
     TEST_MAP_EXTRA_DISTRIBUTION,
     NESTED_MAPGEN,
     VEHICLE_BATTERY_CHARGE,
+    VEHICLE_DELETE,
     GENERATE_EFFECT_LIST,
     EDIT_CAMP_LARDER,
     WRITE_GLOBAL_EOCS,

@@ -570,17 +570,19 @@
     "type": "TOOL",
     "name": { "str": "mess kit" },
     "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking.",
-    "weight": "500 g",
-    "volume": "1100 ml",
-    "longest_side": "12 cm",
+    "weight": "520 g",
+    "volume": "2100 ml",
+    "//": "This item is based off https://www.amazon.com/gp/product/B01743BX1A/ref=as_li_ss_tl?ie=UTF8&linkCode=sl1&language=en_US&th=1 ",
+    "longest_side": "15 cm",
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": -1,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": [ "HEAT_FOOD" ],
+    "pocket_data": [ { "max_contains_volume": "1000 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1101,6 +1103,27 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "default_magazine": "heavy_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "makeshift_pressure_cooker",
+    "type": "TOOL",
+    "name": { "str": "makeshift pressure cooker" },
+    "description": "A large pot with 20 gauge walls and a thick aluminum bottom, modified to serve as a bulky but passable pressure cooker.",
+    "copy-from": "stock_pot",
+    "material": [ "steel", "aluminum" ],
+    "color": "light_gray",
+    "weight": "2590 g",
+    "volume": "12800 ml",
+    "longest_side": "30 cm",
+    "pocket_data": [
+      {
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "12 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
       }
     ]
   }

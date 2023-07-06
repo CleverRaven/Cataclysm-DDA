@@ -1,0 +1,28 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_SWAPPER",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "u_has_trait": "TELEKINETIC_CARRY" } ] },
+    "effect": [
+      { "u_learn_recipe": "improve_telekinesis_lifting_field" },
+      { "u_lose_trait": "TELEKINETIC_CARRY" },
+      { "u_add_trait": "TELEKINETIC_LIFTER_1" },
+      {
+        "u_message": "You feel more confident in your telekinesis, as though you could carry at least one thing with barely any concentration required."
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_CARRY",
+    "name": { "str": "Lightened Burden" },
+    "points": 0,
+    "description": "You are using your psionic powers to ease your carry burden.",
+    "weight_capacity_modifier": 1.1,
+    "valid": false,
+    "player_display": true,
+    "purifiable": false
+  }
+]

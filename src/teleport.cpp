@@ -165,7 +165,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 collision = true;
                 //determine a random angle to throw the thing it teleported into, then fling it.
                 collision_angle = rng( 0, 360 );
-                g->fling_creature( poor_soul, units::from_degrees( collision_angle - 180 ), 40 );
+                g->fling_creature( poor_soul, units::from_degrees( collision_angle - 180 ), 40, false, true );
                 //spawn a mostly cosmetic explosion for flair.
                 explosion_handler::explosion( &critter, target, 10 );
                 //if it was grabbed, it isn't anymore.
@@ -187,7 +187,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     //there was a collision with a creature at some point, so handle that.
     if( collision ) {
         //throw the thing that teleported in the opposite direction as the thing it teleported into.
-        g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 40 );
+        g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 40, false, true );
         //do a bunch of damage to it too.
         critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
         critter.apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );

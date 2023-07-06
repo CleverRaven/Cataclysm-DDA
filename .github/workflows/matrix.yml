@@ -251,6 +251,7 @@ jobs:
       run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev ccache gettext parallel
+          sudo locale-gen en_US.UTF-8 de_DE.UTF-8
     - name: install SDL2 dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
       run: |

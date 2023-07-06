@@ -1,0 +1,859 @@
+[
+  {
+    "id": "telekinetic_container_1",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_2",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_3",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_4",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "12 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_5",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "17 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_6",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "23 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_7",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_8",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "38 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_9",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "47 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_10",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "57 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_11",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "68 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_12",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "80 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_13",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "93 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_14",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "107 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_15",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "122 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_16",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "138 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_17",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "155 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_18",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "173 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_19",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "192 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_20",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "212 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_21",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "233 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_22",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "255 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_23",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "278 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_24",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "302 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_25",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "327 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_26",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "353 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_27",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "380 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_28",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "408 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_29",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "437 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "telekinetic_container_30",
+    "type": "TOOL",
+    "name": { "str": "lifting field" },
+    "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "telekinetic_force" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "yellow",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "467 kg",
+        "max_item_length": "2000 cm",
+        "moves": 10,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "vita_bandages",
+    "type": "GENERIC",
+    "name": { "str": "Vitakinetic Wound Staunching" },
+    "looks_like": "bandage",
+    "description": "The power to stop bleeding",
+    "//": "relic-data exists to make the item purple so it stands out in the inventory.  Shouldn't clutter the inventory or the purple item space since the summon lasts 5 turns max.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 20, "move_cost": 0 },
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  }
+]

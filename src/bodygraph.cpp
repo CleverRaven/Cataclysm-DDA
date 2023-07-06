@@ -418,12 +418,12 @@ void bodygraph_display::prepare_partlist()
     partlist.clear();
     for( const auto &bgp : id->parts ) {
         for( const bodypart_id &bid : bgp.second.bodyparts ) {
-            partlist.emplace_back( std::make_tuple( bid, static_cast<const sub_body_part_type *>( nullptr ),
-                                                    &bgp.second, u->has_part( bid ) ) );
+            partlist.emplace_back( bid, static_cast<const sub_body_part_type *>( nullptr ),
+                                   &bgp.second, u->has_part( bid ) );
         }
         for( const sub_bodypart_id &sid : bgp.second.sub_bodyparts ) {
             const bodypart_id bid = sid->parent.id();
-            partlist.emplace_back( std::make_tuple( bid, &*sid, &bgp.second, u->has_part( bid ) ) );
+            partlist.emplace_back( bid, &*sid, &bgp.second, u->has_part( bid ) );
         }
     }
     std::sort( partlist.begin(), partlist.end(),
@@ -639,7 +639,7 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                 txt.insert( txt.begin(), center_text_pos( txt, 0, width ), ' ' );
                 ret.emplace_back( colorize( txt, c_light_red ) );
             } else {
-                ret.emplace_back( std::string( width, ' ' ) );
+                ret.emplace_back( width, ' ' );
             }
         }
         return ret;

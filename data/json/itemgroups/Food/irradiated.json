@@ -46,7 +46,8 @@
       [ "potato", 50 ],
       [ "cucumber", 50 ],
       [ "celery", 50 ],
-      [ "rhubarb", 50 ]
+      [ "rhubarb", 50 ],
+      [ "eggplant", 50 ]
     ]
   },
   {
@@ -96,7 +97,8 @@
       [ "irradiated_potato", 50 ],
       [ "irradiated_cucumber", 50 ],
       [ "irradiated_celery", 50 ],
-      [ "irradiated_rhubarb", 50 ]
+      [ "irradiated_rhubarb", 50 ],
+      [ "irradiated_eggplant", 50 ]
     ]
   }
 ]

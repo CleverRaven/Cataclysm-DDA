@@ -164,7 +164,11 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "renfield_death_drops",
-    "entries": [ { "group": "default_zombie_clothes", "prob": 100 }, { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] } ]
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] },
+      { "group": "blood_containers", "prob": 15 }
+    ]
   },
   {
     "type": "item_group",
@@ -178,6 +182,7 @@
           { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
         ]
       },
+      { "group": "blood_containers", "prob": 15 },
       { "group": "default_zombie_clothes", "prob": 100 }
     ]
   },
@@ -207,6 +212,7 @@
           { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
         ]
       },
+      { "group": "blood_containers", "prob": 15 },
       { "group": "default_zombie_clothes", "prob": 100 }
     ]
   },

@@ -39,7 +39,7 @@ static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
-TEST_CASE( "being knocked down triples movement cost", "[move_cost][downed]" )
+TEST_CASE( "being_knocked_down_triples_movement_cost", "[move_cost][downed]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -55,7 +55,7 @@ TEST_CASE( "being knocked down triples movement cost", "[move_cost][downed]" )
     CHECK( ava.run_cost( 400 ) == 1200 );
 }
 
-TEST_CASE( "footwear may affect movement cost", "[move_cost][shoes]" )
+TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
 {
     avatar &ava = get_avatar();
     map &here = get_map();
@@ -157,7 +157,7 @@ TEST_CASE( "footwear may affect movement cost", "[move_cost][shoes]" )
     }
 }
 
-TEST_CASE( "mutations may affect movement cost", "[move_cost][mutation]" )
+TEST_CASE( "mutations_may_affect_movement_cost", "[move_cost][mutation]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -216,7 +216,7 @@ TEST_CASE( "mutations may affect movement cost", "[move_cost][mutation]" )
     }
 }
 
-TEST_CASE( "Crawl score effects on movement cost", "[move_cost]" )
+TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
 {
     // No limb damage
     GIVEN( "Character is uninjured and unencumbered" ) {
