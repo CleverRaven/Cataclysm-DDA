@@ -3,7 +3,7 @@
     "id": "mon_snail_larva",
     "type": "MONSTER",
     "copy-from": "mon_snail_larva",
-    "name": { "str": "snail larva" },
+    "name": { "str": "snail larva", "str_pl": "snail larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a mollusk could like you.",
