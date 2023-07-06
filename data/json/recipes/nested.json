@@ -6207,8 +6207,7 @@
       "ankle_wallet_pouch",
       "ragpouch",
       "leather_pouch"
-    ],
-    "difficulty": 5
+    ]
   },
   {
     "id": "nested_cloak",
@@ -6260,7 +6259,7 @@
       "iv_mutagen_batrachian",
       "iv_mutagen_cephalopod"
     ],
-    "difficulty": 8
+    "difficulty": 7
   },
   {
     "id": "nested_mutagen",
@@ -6301,7 +6300,7 @@
       "mutagen_batrachian",
       "mutagen_cephalopod"
     ],
-    "difficulty": 8
+    "difficulty": 7
   },
   {
     "id": "nested_acid",
@@ -6335,7 +6334,7 @@
       "chem_hydrogen_peroxide",
       "chem_hydrogen_peroxide_conc"
     ],
-    "difficulty": 5
+    "difficulty": 2
   },
   {
     "id": "nested_link_sheet",
