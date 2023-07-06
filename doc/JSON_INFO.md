@@ -5587,9 +5587,9 @@ Fields can exist on top of terrain/furniture, and support different intensity le
 Immunity data can be provided at the field level or at the effect level based on intensity and body part. At the field level it applies immunity to all effects.
 
 ```JSON
-"immunity_data": {  // Array containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
-      { "flags": [ "WEBWALK" ] },  // Immune if the character has any of the defined character flags (see Character flags)
-      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] }, // Immune if ALL bodyparts of the defined types have the defined amount of env protection
+"immunity_data": {  // Object containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
+      "flags": [ "WEBWALK" ],  // Immune if the character has any of the defined character flags (see Character flags)
+      "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ], // Immune if ALL bodyparts of the defined types have the defined amount of env protection
       "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ], // Immune if ALL parts of the defined types wear an item with the defined flag
       "immunity_flags_worn_any": [ [ "sensor", "BLIND" ], [ "hand", "PADDED" ] ], // Immune if ANY part of the defined type wears an item with the corresponding flag -- in this example either a blindfold OR padded gloves confer immunity
 },
