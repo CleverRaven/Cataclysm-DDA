@@ -2381,7 +2381,7 @@
     "description": "Thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
     "item": "jumper_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
@@ -2399,7 +2399,7 @@
     "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
     "item": "extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
@@ -2417,7 +2417,7 @@
     "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
     "item": "long_extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
@@ -2435,7 +2435,7 @@
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "item": "jumper_cable_heavy",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "wire", "count": [ 4, 8 ] }, { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
@@ -2467,7 +2467,7 @@
     "durability": 120,
     "item": "jumper_cable_debug",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "jumper_cable_debug" } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },

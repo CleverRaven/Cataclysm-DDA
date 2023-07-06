@@ -5927,7 +5927,7 @@ void vehicle::refresh( const bool remove_fakes )
         if( vpi.has_flag( "FUNNEL" ) ) {
             funnels.push_back( p );
         }
-        if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
+        if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) || vpi.has_flag( "POWER_TRANSFER" ) ) {
             loose_parts.push_back( p );
         }
         if( !vpi.emissions.empty() || !vpi.exhaust.empty() ) {

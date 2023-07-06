@@ -2095,7 +2095,7 @@ class vehicle
         std::vector<int> sails; // NOLINT(cata-serialize)
         std::vector<int> funnels; // NOLINT(cata-serialize)
         std::vector<int> emitters; // NOLINT(cata-serialize)
-        // Parts that will fall off the next time the vehicle moves.
+        // Parts that will fall off and cables that might disconnect when the vehicle moves.
         std::vector<int> loose_parts; // NOLINT(cata-serialize)
         std::vector<int> wheelcache; // NOLINT(cata-serialize)
         std::vector<int> rotors; // NOLINT(cata-serialize)
