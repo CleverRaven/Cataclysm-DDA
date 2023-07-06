@@ -159,7 +159,7 @@
         "y": 0,
         "parts": [ "motorcycle_headlight", { "part": "tank_small", "fuel": "gasoline" }, "plating_steel" ]
       },
-      { "x": -1, "y": 0, "parts": [ "frame#horizontal", "muffler", "trunk" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#horizontal", "muffler", "box" ] },
       { "x": 1, "y": 1, "parts": [ "frame#horizontal", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
       { "x": 1, "y": -1, "parts": [ "frame#horizontal", "wheel_mount_light_steerable", "wheel_motorbike_or" ] },
       { "x": -1, "y": -1, "parts": [ "frame#horizontal", "wheel_mount_light", "wheel_motorbike_or#rear" ] },
