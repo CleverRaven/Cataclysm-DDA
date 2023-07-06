@@ -4,6 +4,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "effect.h"
 #include "field.h"
 #include "field_type.h"
 #include "item.h"
@@ -17,7 +18,10 @@
 #include "type_id.h"
 #include "weather.h"
 
+static const efftype_id effect_test_rash( "test_rash" );
+
 static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_test( "fd_test" );
 
 static const ter_str_id ter_t_tree_walnut( "t_tree_walnut" );
 
@@ -470,5 +474,100 @@ TEST_CASE( "field_API_test", "[field]" )
     CHECK( m.set_field_intensity( p, fd_fire, 1 ) == 1 );
     CHECK( f.find_field( fd_fire ) );
 
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_double_effect_field_test", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    dummy.setpos( p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_single_effect_field_test_head", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    item head_armor( "test_hazmat_hat" );
+    dummy.wear_item( head_armor );
+
+    dummy.setpos( p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_single_effect_field_test_torso", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    item torso_armor( "test_hazmat_shirt" );
+    dummy.wear_item( torso_armor );
+
+    dummy.setpos( p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_single_effect_field_test_all", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    item torso_armor( "test_hazmat_shirt" );
+    dummy.wear_item( torso_armor );
+    item head_armor( "test_hazmat_hat" );
+    dummy.wear_item( head_armor );
+
+    dummy.setpos( p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
     fields_test_cleanup();
 }

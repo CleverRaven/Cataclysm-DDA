@@ -455,7 +455,7 @@
     "color": "light_cyan",
     "container": "bottle_plastic",
     "sealed": false,
-    "comestible_type": "DRINK",
+    "comestible_type": "INVALID",
     "symbol": "~",
     "quench": -5,
     "healthy": -1,

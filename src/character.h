@@ -2323,6 +2323,8 @@ class Character : public Creature, public visitable
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
 
+        // checks if your character is immune to an effect or field based on field_immunity_data
+        bool check_immunity_data( const field_immunity_data &ft ) const override;
         bool is_immune_field( const field_type_id &fid ) const override;
         /** Returns true is the player is protected from electric shocks */
         bool is_elec_immune() const override;
