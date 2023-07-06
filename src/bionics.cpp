@@ -1199,7 +1199,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             }
         }
     }
-
+    bio_flag_cache.clear();
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
     reset();
@@ -1245,7 +1245,7 @@ ret_val<void> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) con
 bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 {
     const auto can_deactivate = can_deactivate_bionic( bio, eff_only );
-
+    bio_flag_cache.clear();
     if( !can_deactivate.success() ) {
         if( !can_deactivate.str().empty() ) {
             add_msg( m_info,  can_deactivate.str() );
@@ -2783,7 +2783,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
             wear_item( tmparmor, false );
         }
     }
-
+    bio_flag_cache.clear();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
 
@@ -2869,6 +2869,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    bio_flag_cache.clear();
     update_last_bionic_uid();
     invalidate_pseudo_items();
     update_bionic_power_capacity();

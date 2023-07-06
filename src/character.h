@@ -3319,6 +3319,8 @@ class Character : public Creature, public visitable
         float leak_level = 0.0f;
         /** Signify that leak_level needs refreshing. Set to true on inventory change. */
         bool leak_level_dirty = true;
+        // Cache if current bionic layout has certain json flag. Refreshed upon bionics add/remove, activation/deactivation.
+        mutable std::map<const json_character_flag, bool> bio_flag_cache;
     public:
         float get_leak_level() const;
         /** Iterate through the character inventory to get its leak level */

@@ -10760,18 +10760,24 @@ int Character::book_fun_for( const item &book, const Character &p ) const
 
 bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
 {
+    auto iter = bio_flag_cache.find( flag );
+    if( iter != bio_flag_cache.end() ) {
+        return iter->second;
+    }
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().has_flag( flag ) ) {
+            bio_flag_cache[flag] = true;
             return true;
         }
         if( bio.info().activated ) {
             if( ( bio.info().has_active_flag( flag ) && has_active_bionic( bio.id ) ) ||
                 ( bio.info().has_inactive_flag( flag ) && !has_active_bionic( bio.id ) ) ) {
+                bio_flag_cache[flag] = true;
                 return true;
             }
         }
     }
-
+    bio_flag_cache[flag] = false;
     return false;
 }
 
