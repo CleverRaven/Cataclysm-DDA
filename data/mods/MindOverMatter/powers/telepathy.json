@@ -174,6 +174,7 @@
     "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
     "effect": "attack",
     "effect_str": "stunned",
+    "damage_type": "psi_telepathic_damage",
     "extra_effects": [
       { "id": "pyrokinetic_flash", "hit_self": false, "max_level": 20 },
       { "id": "psionic_drained_difficulty_five", "hit_self": true }
@@ -213,7 +214,7 @@
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
-    "damage_type": "biological",
+    "damage_type": "psi_telepathic_damage",
     "min_damage": 25,
     "max_damage": 120,
     "damage_increment": 1,
@@ -244,6 +245,7 @@
     "effect": "charm_monster",
     "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
+    "damage_type": "psi_telepathic_damage",
     "min_damage": {
       "math": [ "( ( (u_val('spell_level', 'spell: telepathic_mind_control') * 4) + 30) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
     },
