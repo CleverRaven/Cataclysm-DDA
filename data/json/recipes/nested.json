@@ -4419,7 +4419,7 @@
     "type": "nested_category",
     "activity_level": "fake",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "subcategory": "CSC_WEAPON_PIERCING",
     "name": "estocs",
     "description": "Recipes for making estocs.",
     "skill_used": "fabrication",
