@@ -11,12 +11,6 @@
 struct tripoint;
 template <typename E> struct enum_traits;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 class Character;
 
 namespace debug_menu

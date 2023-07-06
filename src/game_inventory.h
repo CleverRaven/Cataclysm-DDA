@@ -14,11 +14,6 @@
 class Character;
 struct tripoint;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class avatar;
 class item;
 class repair_item_actor;

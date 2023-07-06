@@ -14,7 +14,8 @@
       "egg_antlion_tame",
       "egg_cicada_tame",
       "egg_water_beetle_tame",
-      "egg_water_bug_tame"
+      "egg_water_bug_tame",
+      "egg_centipede_tame"
     ],
     "difficulty": 5
   }

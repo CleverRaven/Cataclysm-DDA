@@ -8,9 +8,6 @@
       "h": "f_chair",
       "t": "f_table",
       "x": "f_coffee_table",
-      "b": "f_bed",
-      "m": "f_straw_bed",
-      "n": "f_makeshift_bed",
       "L": "f_locker",
       "s": "f_sofa",
       "C": "f_armchair",
@@ -58,7 +55,7 @@
         { "point": "furniture", "id": "f_woodstove", "x": 8, "y": 8 },
         { "point": "furniture", "id": "f_table", "x": 9, "y": 8 }
       ],
-      "place_loot": [ { "item": "pot", "x": 8, "y": 9, "chance": 100 } ]
+      "place_loot": [ { "item": "pot", "x": 9, "y": 8, "chance": 100 } ]
     }
   },
   {
@@ -70,56 +67,48 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_straw_nw_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "mm",
-        "L*"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_NW",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_nw_wall" ], "x": 3, "y": 11 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_makeshift_nw_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "nn",
-        "L*"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_NW",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_nw_wall" ], "x": 3, "y": 11 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_standard_bed_nw_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "nested_mapgen_id": "fbmc_shelter_2_bed_nw_wall",
+    "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "bb",
         "L*"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
+      ],
+      "palettes": [ "fbmc_shelter_2_palette", { "param": "fbmc_bed_palette" } ]
+    }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_standard_NW",
+    "update_mapgen_id": "fbmc_shelter_2_bed_NW",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_standard_bed_nw_wall" ], "x": 3, "y": 11 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_nw_wall" ], "x": 3, "y": 11 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmc_shelter_2_bed_w1_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "bb",
         "L*"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
+      ],
+      "palettes": [ "fbmc_shelter_2_palette", { "param": "fbmc_bed_palette" } ]
+    }
   },
   {
     "type": "mapgen",
@@ -137,10 +126,21 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmc_shelter_2_bed_w2_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "*L",
         "bb"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
+      ],
+      "palettes": [ "fbmc_shelter_2_palette", { "param": "fbmc_bed_palette" } ]
+    }
   },
   {
     "type": "mapgen",
@@ -151,308 +151,124 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_straw_west_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "mm",
-        "L*"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_W1",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_west_wall" ], "x": 3, "y": 14 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_W2",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_west_wall" ], "x": 3, "y": 17 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_straw_west2_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "*L",
-        "mm"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_W3",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_west2_wall" ], "x": 8, "y": 15 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_makeshift_west_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "nn",
-        "L*"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_W1",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_west_wall" ], "x": 3, "y": 14 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_W2",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_west_wall" ], "x": 3, "y": 17 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_makeshift_west2_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "*L",
-        "nn"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_W3",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_west2_wall" ], "x": 8, "y": 15 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_standard_southwest_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "nested_mapgen_id": "fbmc_shelter_2_bed_southwest_wall",
+    "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "*b",
         "Lb"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
+      ],
+      "palettes": [ "fbmc_shelter_2_palette", { "param": "fbmc_bed_palette" } ]
+    }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_standard_SW",
+    "update_mapgen_id": "fbmc_shelter_2_bed_SW",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_standard_southwest_wall" ], "x": 7, "y": 20 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_straw_southwest_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "*m",
-        "Lm"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_SW",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_southwest_wall" ], "x": 7, "y": 20 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_southwest_wall" ], "x": 7, "y": 20 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_makeshift_southwest_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "*n",
-        "Ln"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_SW",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_southwest_wall" ], "x": 7, "y": 20 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_standard_south1_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "nested_mapgen_id": "fbmc_shelter_2_bed_south1_wall",
+    "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "b*",
         "bL"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
+      ],
+      "palettes": [ "fbmc_shelter_2_palette", { "param": "fbmc_bed_palette" } ]
+    }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_standard_S1",
+    "update_mapgen_id": "fbmc_shelter_2_bed_S1",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_standard_south1_wall" ], "x": 10, "y": 20 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_south1_wall" ], "x": 10, "y": 20 } ] }
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "fbmc_shelter_2_bed_S2",
     "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_straw_south1_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "m*",
-        "mL"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_S1",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_south1_wall" ], "x": 10, "y": 20 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_south1_wall" ], "x": 13, "y": 21 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_makeshift_south1_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "n*",
-        "nL"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_S1",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_south1_wall" ], "x": 10, "y": 20 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_standard_S2",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_standard_south1_wall" ], "x": 13, "y": 21 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_S2",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_south1_wall" ], "x": 13, "y": 21 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_S2",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_south1_wall" ], "x": 13, "y": 21 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_standard_east1_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "nested_mapgen_id": "fbmc_shelter_2_bed_east1_wall",
+    "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "Lb",
         "*b"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
+      ],
+      "palettes": [ "fbmc_shelter_2_palette", { "param": "fbmc_bed_palette" } ]
+    }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_standard_E1",
+    "update_mapgen_id": "fbmc_shelter_2_bed_E1",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_standard_east1_wall" ], "x": 14, "y": 15 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_straw_east1_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "Lm",
-        "*m"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_E1",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_east1_wall" ], "x": 14, "y": 15 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_east1_wall" ], "x": 14, "y": 15 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_makeshift_east1_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "Ln",
-        "*n"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_E1",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_east1_wall" ], "x": 14, "y": 15 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_standard_east2_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "nested_mapgen_id": "fbmc_shelter_2_bed_east2_wall",
+    "object": {
+      "parameters": {
+        "fbmc_bed_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmc_straw_bed_palette", "fbmc_makeshift_bed_palette", "fbmc_bed_palette" ] }
+        }
+      },
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "bb",
         "*L"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
+      ],
+      "palettes": [ "fbmc_shelter_2_palette", { "param": "fbmc_bed_palette" } ]
+    }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_standard_E2",
+    "update_mapgen_id": "fbmc_shelter_2_bed_E2",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_standard_east2_wall" ], "x": 19, "y": 11 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_east2_wall" ], "x": 19, "y": 11 } ] }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_standard_E3",
+    "update_mapgen_id": "fbmc_shelter_2_bed_E3",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_standard_east2_wall" ], "x": 19, "y": 14 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_east2_wall" ], "x": 19, "y": 14 } ] }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_standard_E4",
+    "update_mapgen_id": "fbmc_shelter_2_bed_E4",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_standard_east2_wall" ], "x": 19, "y": 17 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_straw_east2_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "mm",
-        "*L"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_E2",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_east2_wall" ], "x": 19, "y": 11 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_E3",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_east2_wall" ], "x": 19, "y": 14 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_straw_E4",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_straw_east2_wall" ], "x": 19, "y": 17 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_shelter_2_bed_makeshift_east2_wall",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
-        "nn",
-        "*L"
-      ], "palettes": [ "fbmc_shelter_2_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_E2",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_east2_wall" ], "x": 19, "y": 11 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_E3",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_east2_wall" ], "x": 19, "y": 14 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_shelter_2_bed_makeshift_E4",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_makeshift_east2_wall" ], "x": 19, "y": 17 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmc_shelter_2_bed_east2_wall" ], "x": 19, "y": 17 } ] }
   },
   {
     "type": "mapgen",
