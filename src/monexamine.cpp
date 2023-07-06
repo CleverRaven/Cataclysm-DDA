@@ -186,6 +186,13 @@ void attach_bag_to( monster &z )
         add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
         return;
     }
+    if( !it.is_container_empty() ) {
+        for( item *top_item : it.all_items_top() ) {
+            item &i = *top_item;
+            z.add_item( i );
+            it.remove_item( i );
+        }
+    }
     z.storage_item = cata::make_value<item>( it );
     add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     player_character.i_rem( &it );

@@ -30,7 +30,7 @@
   {
     "type": "recipe",
     "result": "faction_base_helipad_barricade_wood",
-    "description": "We need to barricade front windows, let's build wooden walls over them.",
+    "description": "We need to barricade the front windows, let's build wooden walls over them.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -44,7 +44,7 @@
   {
     "type": "recipe",
     "result": "faction_base_helipad_migo_resin",
-    "description": "We need to barricade front windows, let's build mi-go resin walls over them.",
+    "description": "We need to barricade the front windows, let's build mi-go resin walls over them.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -58,7 +58,7 @@
   {
     "type": "recipe",
     "result": "faction_base_helipad_root_cellar",
-    "description": "Digging a root cellar will allow us trapping small game and preserving it.",
+    "description": "Digging a root cellar will allow us to preserve any small game that we trap.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -72,7 +72,7 @@
   {
     "type": "recipe",
     "result": "faction_base_helipad_butchery_rack",
-    "description": "We could build butchery rack to start hunting larger animals.",
+    "description": "We could build a butchery rack to start hunting larger animals.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -86,7 +86,7 @@
   {
     "type": "recipe",
     "result": "faction_base_helipad_reinforce_doors",
-    "description": "We should reinforce front doors to make this base safer.",
+    "description": "We should reinforce the front doors to make this base safer.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

@@ -29,12 +29,6 @@ DISADVANTAGES
 
 3) Long-term power use is debilitating--powers have a chance to cause Drain, which will gradually reduce your maximum Stamina, Strength, Dexterity, and Perception as well as make you hungry and tired. Drain goes away naturally on its own with rest. (I would have used weariness but that's impossible)  
 
-LORE
-
-When the government began noticing that some XEDRA explorers of alternate dimensions returned with anomalous capabilities, Project PHAVIAN was founded to study these in full. Within the year, this led to the discover of latent psychic powers in a portion of humanity. On Earth these were minor, almost trivial--the ability to always find your lost keys or know the next sentence someone is going to say moments before they do are useful powers but not lifechanging--but exposure to extra-dimensional energy seemed to increase psionic power. A PHAVIAN test subject who on Earth could manipulate a quarter to make sure it always landed heads up could sometimes throw large objects on the other side of a portal, or even lift a person. Soon after, it was discovered that specific crystalline formations found in extra-dimensional locations had the effect of amplifying psionic power even further, and that exposure to these crystals could awaken powers in previously mundane individuals. 
-
-Soon after that, the world ended. The weakening of dimensional barriers has made psionic power much stronger on Earth, but there's no longer anyone around to conduct any experiments on it. It's just one more method that survivors use in the wake of the Cataclysm. 
-
 GAINING POWERS
 
 The easiest way to gain psionics is to pick a profession that starts with them (or debug them in). There are also some strange crystals you might find in places with a strong connection with the Nether, or which are carried by psychic ferals. Or you could walk out into a portal storm unprotected.

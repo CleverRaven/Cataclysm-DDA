@@ -11,7 +11,7 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "WILDERNESS" ],
+    "flags": [ "WILDERNESS", "MAN_MADE" ],
     "rotate": false
   },
   {

@@ -24,7 +24,7 @@
   {
     "type": "recipe",
     "result": "fbmc_lightindustry_10_barricades_wood",
-    "description": "We must barricade windows, let's use wooden walls.",
+    "description": "We must barricade the windows, let's use wooden walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -44,7 +44,7 @@
   {
     "type": "recipe",
     "result": "fbmc_lightindustry_10_barricades_migo",
-    "description": "We must barricade windows, let's use resin walls.",
+    "description": "We must barricade the windows, let's use mi-go resin walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -64,7 +64,7 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_root_cellar",
-    "description": "Digging a root cellar will allow us trapping small game and preserving it.",
+    "description": "Digging a root cellar will allow us to preserve any small game that we trap.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -78,7 +78,7 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_butchery_rack",
-    "description": "Building a butchery rack will allow us hunting bigger animals.",
+    "description": "Building a butchery rack will allow us to hunt bigger animals.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -120,7 +120,7 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_reinforce_doors",
-    "description": "We should reinforce doors to further secure our base.",
+    "description": "We should reinforce the doors to further secure our base.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
