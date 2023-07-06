@@ -2053,6 +2053,14 @@ void TextJsonIn::error( int offset, const std::string &message )
     const int max_context_lines = 3;   // limits context length to this many lines
     const int max_context_chars = 480; // limits context length to this many chars
     stream->seekg( offset, std::istream::cur );
+
+    // if offset points to middle of a codepoint then rewind stream to codepoint start
+    // this is so utf8_width below has correct utf-8 to count length.
+    // pattern of 10xxxxxx means the byte is utf-8 continuation byte.
+    while( ( stream->tellg() > 0 ) && ( ( stream->peek() & 0xC0 ) == 0x80 ) ) {
+        stream->seekg( -1, std::istream::cur );
+    }
+
     // remember positions of several places to print a few lines of context
     const size_t cursor_pos = tell();               // exact position of error
     rewind( 1, max_context_chars );                 // rewind to start of line
