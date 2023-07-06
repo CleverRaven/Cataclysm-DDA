@@ -1,0 +1,44 @@
+[
+  {
+    "id": "fd_test",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "rashification",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "test_rash",
+            "body_part": "head",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "head", 7 ] ] }
+          },
+          {
+            "effect_id": "test_rash",
+            "body_part": "torso",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "torso", 7 ] ] }
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 12,
+    "dirty_transparency_cache": true,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "2 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_fog"
+  }
+]
