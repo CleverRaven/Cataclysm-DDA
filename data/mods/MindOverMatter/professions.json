@@ -47,7 +47,7 @@
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES", "SCHIZOPHRENIC" ],
     "spells": [
       { "id": "clair_night_vision", "level": 4 },
-      { "id": "clair_perfect_path", "level": 2 },
+      { "id": "clair_danger_sense", "level": 3 },
       { "id": "clair_spot_weakness", "level": 3 },
       { "id": "clair_voyance", "level": 2 }
     ],
@@ -110,7 +110,7 @@
       { "level": 1, "name": "driving" },
       { "level": 1, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_CARRY" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ],
     "spells": [
       { "id": "telekinetic_push", "level": 4 },
       { "id": "telekinetic_pull", "level": 3 },

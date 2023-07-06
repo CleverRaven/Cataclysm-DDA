@@ -2185,7 +2185,9 @@ bool monster::move_effects( bool )
             if( grabber == nullptr ) {
                 remove_effect( grab.get_id() );
                 add_msg_debug( debugmode::DF_MATTACK, "Orphan grab found and removed" );
-                add_msg( _( "The %s is no longer grabbed!" ), name() );
+                if( u_see_me ) {
+                    add_msg( _( "The %s is no longer grabbed!" ), name() );
+                }
                 continue;
             }
             int monster = type->melee_skill + type->melee_damage.total_damage();

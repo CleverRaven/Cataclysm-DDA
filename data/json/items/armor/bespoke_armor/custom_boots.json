@@ -129,24 +129,12 @@
   {
     "id": "boots_xlsurvivor",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "boots_survivor",
+    "looks_like": "boots_survivor",
+    "proportional": { "weight": 1.4, "volume": 1.4 },
     "name": { "str": "pair of XL survivor boots", "str_pl": "pairs of XL survivor boots" },
     "description": "A pair of huge, custom-made boots constructed of thick Kevlar and a chemical resistant layer, featuring steel toes for extra protection.  Keeps your feet safe from the myriad dangers of the apocalypse.",
-    "weight": "2460 g",
-    "volume": "5 L",
-    "price": 24000,
-    "price_postapoc": 4000,
-    "to_hit": -1,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "looks_like": "boots_combat",
-    "color": "brown",
-    "warmth": 15,
-    "material_thickness": 4,
-    "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 38, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
-    "melee_damage": { "bash": 1 }
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "boots_xssurvivor",

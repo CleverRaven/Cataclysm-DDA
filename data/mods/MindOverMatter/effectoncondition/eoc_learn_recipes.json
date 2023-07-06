@@ -48,7 +48,8 @@
       { "u_learn_recipe": "practice_telekinetic_wave" },
       { "u_learn_recipe": "practice_telekinetic_hammer" },
       { "u_learn_recipe": "practice_telekinetic_shield" },
-      { "u_learn_recipe": "practice_telekinetic_explosion" }
+      { "u_learn_recipe": "practice_telekinetic_explosion" },
+      { "u_learn_recipe": "improve_telekinesis_lifting_field" }
     ]
   },
   {

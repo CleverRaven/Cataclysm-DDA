@@ -219,7 +219,7 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s lets out a happy squeak as you give its head a small scritch."
     },
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "CANPLAY", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "CANPLAY", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_boar_wild_piglet",
@@ -400,7 +400,8 @@
       "CLIMBS",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "CAN_BE_CULLED"
     ],
     "armor": { "cold": 2 }
   },
@@ -964,6 +965,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "GROUP_MORALE",
       "HEARS",
       "PET_MOUNTABLE",
@@ -2018,7 +2020,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 10 },
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CAN_BE_CULLED" ],
     "armor": { "bash": 2, "electric": 1 }
   },
   {
@@ -2038,6 +2040,7 @@
     "material": [ "flesh" ],
     "symbol": "H",
     "color": "brown",
+    "starting_ammo": { "milk_raw": 4 },
     "morale": 20,
     "aggro_character": false,
     "melee_skill": 6,
@@ -2057,7 +2060,7 @@
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "zombify_into": "mon_zombie_horse",
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
     "armor": { "bash": 2, "electric": 1 }
   },
   {
@@ -2459,7 +2462,7 @@
     "families": [ "prof_intro_biology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_raccoon",
@@ -2554,7 +2557,7 @@
     "upgrades": { "age_grow": 240, "into": "mon_sheep" },
     "//": "Puberty reached in 6-9 months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_sheep",
@@ -2625,7 +2628,18 @@
     "baby_flags": [ "SPRING" ],
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
     "zombify_into": "mon_zombie_goat",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE", "CLIMBS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "PET_WONT_FOLLOW",
+      "MILKABLE",
+      "CLIMBS",
+      "CAN_BE_CULLED"
+    ]
   },
   {
     "id": "mon_squirrel",
@@ -2933,7 +2947,7 @@
     "families": [ "prof_intro_biology" ],
     "reproduction": { "baby_monster": "mon_ferret_kit", "baby_count": 5, "baby_timer": 100 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "CANPLAY", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_ferret_kit",
