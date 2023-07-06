@@ -3,20 +3,7 @@
     "type": "start_location",
     "id": "sloc_fort",
     "name": "Bastion Fort",
-    "terrain": [
-      "fort_1a",
-      "fort_2a",
-      "fort_3a",
-      "fort_4a",
-      "fort_1b",
-      "fort_2b",
-      "fort_3b",
-      "fort_4b",
-      "fort_1c",
-      "fort_2c",
-      "fort_3c",
-      "fort_4c"
-    ]
+    "terrain": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" } ]
   },
   {
     "type": "start_location",
@@ -486,7 +473,11 @@
     "type": "start_location",
     "id": "sloc_school",
     "name": "School",
-    "terrain": [ { "om_terrain": "school", "om_terrain_match_type": "CONTAINS" } ]
+    "terrain": [
+      { "om_terrain": "school_1", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "school_2", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "school_3", "om_terrain_match_type": "PREFIX" }
+    ]
   },
   {
     "type": "start_location",

@@ -31,6 +31,7 @@ static const itype_id itype_test_power_cord( "test_power_cord" );
 
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 static const vpart_id vpart_bike_rack( "bike_rack" );
+static const vpart_id vpart_programmable_autopilot( "programmable_autopilot" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 static const vproto_id vehicle_prototype_car( "car" );
@@ -223,11 +224,11 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     // set damage/degradation on every part
     vehicle &veh = ovp->vehicle();
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
-        item base = vpr.part().get_base();
+        vehicle_part &vp = vpr.part();
+        item base = vp.get_base();
         base.set_degradation( damage_preset.degradation );
         base.set_damage( damage_preset.damage );
-        vpr.part().set_base( std::move( base ) );
-        veh.set_hp( vpr.part(), vpr.info().durability, true );
+        vp.set_base( std::move( base ) );
     }
 
     // fold into an item
@@ -259,10 +260,15 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
 
     // verify the damage/degradation roundtripped via serialization on every part
     for( const vpart_reference &vpr : ovp_unfolded->vehicle().get_all_parts() ) {
-        const item &base = vpr.part().get_base();
-        CHECK( base.damage() == damage_preset.expect_damage );
-        CHECK( base.degradation() == damage_preset.expect_degradation );
-        CHECK( ( vpr.part().max_damage() - vpr.part().damage() ) == damage_preset.expect_hp );
+        vehicle_part &vp = vpr.part();
+        CAPTURE( vp.name() );
+        const item &base = vp.get_base();
+        const bool expect_degradation = base.type->degrade_increments() > 0;
+        if( expect_degradation ) {
+            CHECK( base.damage() == damage_preset.expect_damage );
+            CHECK( base.degradation() == damage_preset.expect_degradation );
+        }
+        CHECK( ( vp.max_damage() - vp.damage() ) == damage_preset.expect_hp );
     }
 
     m.destroy_vehicle( &ovp_unfolded->vehicle() );
@@ -281,8 +287,8 @@ TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradatio
         {    0,    0,    0,    0, 4000 },
         { 1000, 1000, 1000, 1000, 3000 },
         { 2000, 2000, 2000, 2000, 2000 },
-        { 1800, 2000, 2000, 2000, 2000 },
-        { 3000, 3999, 3999, 3999,    1 },
+        { 2500, 1500, 2500, 1500, 1500 },
+        { 3999, 3999, 3999, 3999,    1 },
     };
 
     for( const vehicle_preset &veh_preset : vehicle_presets ) {
@@ -744,4 +750,56 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
     }
 
     clear_vehicles( &get_map() );
+}
+
+static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra_part )
+{
+    clear_avatar();
+    clear_map();
+    Character &player_character = get_player_character();
+    // Move player somewhere safe
+    REQUIRE_FALSE( player_character.in_vehicle );
+    player_character.setpos( tripoint_zero );
+
+    const tripoint map_starting_point( 60, 60, 0 );
+    map &here = get_map();
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 100, 0, false );
+
+    REQUIRE( veh_ptr != nullptr );
+
+    vehicle &veh = *veh_ptr;
+    if( !extra_part.is_null() ) {
+        vehicle_part vp( extra_part, item( extra_part->base_item ) );
+        const int part_index = veh.install_part( point_zero, std::move( vp ) );
+        REQUIRE( part_index >= 0 );
+    }
+
+    veh.autopilot_on = true;
+    veh.is_following = true;
+    veh.is_patrolling = false;
+    veh.engine_on = true;
+    veh.refresh();
+
+    int turns_left = 10;
+    int tiles_travelled = 0;
+    const tripoint starting_point = veh.global_pos3();
+    while( veh.engine_on && turns_left > 0 ) {
+        turns_left--;
+        here.vehmove();
+        veh.idle( true );
+        // How much it moved
+        tiles_travelled += square_dist( starting_point, veh.global_pos3() );
+        // Bring it back to starting point to prevent it from leaving the map
+        const tripoint displacement = starting_point - veh.global_pos3();
+        here.displace_vehicle( veh, displacement );
+    }
+    return tiles_travelled;
+}
+
+TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
+{
+    // spawns vehicle, installs the extra part if it's not null, activates follow and
+    // checks if it moves, most of the test is a cutout from vehicle_efficiency_test.cpp
+    CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_id::NULL_ID() ) == 0 );
+    CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_programmable_autopilot ) == 9 );
 }

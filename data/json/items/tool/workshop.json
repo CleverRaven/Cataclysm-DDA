@@ -1243,6 +1243,13 @@
         "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 7,
+        "charge_rate": "3000 W"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -1313,6 +1320,13 @@
         "tool_quality": 5,
         "cost_scaling": 0.1,
         "move_cost": 1000
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 7,
+        "charge_rate": "1500 W"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -1385,6 +1399,13 @@
         "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 7,
+        "charge_rate": "3000 W"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],

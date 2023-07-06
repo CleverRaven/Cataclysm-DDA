@@ -63,7 +63,7 @@
         [ "can_tomato", 1 ],
         [ "wild_herbs", 10 ]
       ],
-      [ [ "meat_cooked", 1, "LIST" ], [ "can_chicken", 1 ], [ "dry_meat", 1 ] ]
+      [ [ "meat_cooked", 1, "LIST" ], [ "can_chicken", 1 ], [ "dry_meat", 1 ], [ "meatball", 2 ] ]
     ]
   },
   {
