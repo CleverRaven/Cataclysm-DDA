@@ -36,10 +36,10 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
     REQUIRE( bomba.type->price_post != units::from_cent( 0 ) );
     item backpack( "debug_backpack" );
 
-    int const price_separate = adjusted_price( &m4, 1, *buyer, *seller ) +
-                               adjusted_price( &mag, 1, *buyer, *seller ) +
-                               adjusted_price( &ammo, ammo_amount, *buyer, *seller ) +
-                               adjusted_price( &backpack, 1, *buyer, *seller );
+    int const price_separate = adjusted_price( &m4, 1, get_talker_for( *buyer ).get(), get_talker_for( *seller ).get() ) +
+                               adjusted_price( &mag, 1, get_talker_for( *buyer ).get(), get_talker_for( *seller ).get() ) +
+                               adjusted_price( &ammo, ammo_amount, get_talker_for( *buyer ).get(), get_talker_for( *seller ).get() ) +
+                               adjusted_price( &backpack, 1, get_talker_for( *buyer ).get(), get_talker_for( *seller ).get() );
 
     mag.put_in( ammo, item_pocket::pocket_type::MAGAZINE );
     m4.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -67,9 +67,9 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     WHEN( "item has no rules (default adjustment)" ) {
         item const hammer( "hammer" );
         clear_character( guy );
-        REQUIRE( npc_trading::adjusted_price( &hammer, 1, get_avatar(), guy ) ==
+        REQUIRE( npc_trading::adjusted_price( &hammer, 1, get_talker_for( get_avatar() ).get(), get_talker_for( guy ).get() ) ==
                  Approx( units::to_cent( hammer.type->price_post ) * 1.25 ).margin( 1 ) );
-        REQUIRE( npc_trading::adjusted_price( &hammer, 1, guy, get_avatar() ) ==
+        REQUIRE( npc_trading::adjusted_price( &hammer, 1, get_talker_for( guy ).get(), get_talker_for( get_avatar() ).get() ) ==
                  Approx( units::to_cent( hammer.type->price_post ) * 0.75 ).margin( 1 ) );
     }
 
@@ -77,9 +77,9 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         guy.int_max = 1000;
         guy.set_skill_level( skill_speech, 10 );
         item const fmcnote( "FMCNote" );
-        REQUIRE( npc_trading::adjusted_price( &fmcnote, 1, get_avatar(), guy ) ==
+        REQUIRE( npc_trading::adjusted_price( &fmcnote, 1, get_talker_for( get_avatar() ).get(), get_talker_for( guy ).get() ) ==
                  units::to_cent( fmcnote.type->price_post ) );
-        REQUIRE( npc_trading::adjusted_price( &fmcnote, 1, guy, get_avatar() ) ==
+        REQUIRE( npc_trading::adjusted_price( &fmcnote, 1, get_talker_for( guy ).get(), get_talker_for( get_avatar() ).get() ) ==
                  units::to_cent( fmcnote.type->price_post ) );
     }
 
@@ -87,9 +87,9 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     WHEN( "item is secondary currency (fixed_adj=0)" ) {
         get_avatar().int_max = 1000;
         get_avatar().set_skill_level( skill_speech, 10 );
-        REQUIRE( npc_trading::adjusted_price( &pants_fur, 1, get_avatar(), guy ) ==
+        REQUIRE( npc_trading::adjusted_price( &pants_fur, 1, get_talker_for( get_avatar() ).get(), get_talker_for( guy ).get() ) ==
                  units::to_cent( pants_fur.type->price_post ) );
-        REQUIRE( npc_trading::adjusted_price( &pants_fur, 1, guy, get_avatar() ) ==
+        REQUIRE( npc_trading::adjusted_price( &pants_fur, 1, get_talker_for( guy ).get(), get_talker_for( get_avatar() ).get() ) ==
                  units::to_cent( pants_fur.type->price_post ) );
     }
     WHEN( "faction desperately needs this item (premium=25)" ) {
@@ -97,11 +97,11 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         REQUIRE( fac.get_price_rules( multitool, guy )->premium == 25 );
         REQUIRE( fac.get_price_rules( multitool, guy )->markup == 1.1 );
         THEN( "NPC selling to avatar includes premium and markup" ) {
-            REQUIRE( npc_trading::adjusted_price( &multitool, 1, get_avatar(), guy ) ==
+            REQUIRE( npc_trading::adjusted_price( &multitool, 1, get_talker_for( get_avatar() ).get(), get_talker_for( guy ).get() ) ==
                      Approx( units::to_cent( multitool.type->price_post ) * 25 * 1.1 ).margin( 1 ) );
         }
         THEN( "avatar selling to NPC includes only premium" ) {
-            REQUIRE( npc_trading::adjusted_price( &multitool, 1, guy, get_avatar() ) ==
+            REQUIRE( npc_trading::adjusted_price( &multitool, 1, get_talker_for( guy ).get(), get_talker_for( get_avatar() ).get() ) ==
                      Approx( units::to_cent( multitool.type->price_post ) * 25 ).margin( 1 ) );
         }
     }
@@ -113,27 +113,27 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         if( log.count_by_charges() ) {
             price /= log.type->stack_size;
         }
-        REQUIRE( npc_trading::adjusted_price( &log, 1, get_avatar(), guy ) ==
+        REQUIRE( npc_trading::adjusted_price( &log, 1, get_talker_for( get_avatar() ).get(), get_talker_for( guy ).get() ) ==
                  Approx( price * 1.25 ).margin( 1 ) );
-        REQUIRE( npc_trading::adjusted_price( &log, 1, guy, get_avatar() ) ==
+        REQUIRE( npc_trading::adjusted_price( &log, 1, get_talker_for( guy ).get(), get_talker_for( get_avatar() ).get() ) ==
                  Approx( price * 0.75 ).margin( 1 ) );
     }
     item const carafe( "test_nuclear_carafe" );
     WHEN( "condition for price rules not satisfied" ) {
         clear_character( guy );
         REQUIRE( fac.get_price_rules( carafe, guy ) == nullptr );
-        REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_avatar(), guy ) ==
+        REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_talker_for( get_avatar() ).get(), get_talker_for( guy ).get() ) ==
                  Approx( units::to_cent( carafe.type->price_post ) * 1.25 ).margin( 1 ) );
     }
     WHEN( "condition for price rules satisfied" ) {
         guy.set_value( "npctalk_var_bool_allnighter_thirsty", "yes" );
         REQUIRE( fac.get_price_rules( carafe, guy )->markup == 2.0 );
         THEN( "NPC selling to avatar includes markup and positive fixed adjustment" ) {
-            REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_avatar(), guy ) ==
+            REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_talker_for( get_avatar() ).get(), get_talker_for( guy ).get() ) ==
                      Approx( units::to_cent( carafe.type->price_post ) * 2.0 * 1.1 ).margin( 1 ) );
         }
         THEN( "avatar selling to NPC includes only negative fixed adjustment" ) {
-            REQUIRE( npc_trading::adjusted_price( &carafe, 1, guy, get_avatar() ) ==
+            REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_talker_for( guy ).get(), get_talker_for( get_avatar() ).get() ) ==
                      Approx( units::to_cent( carafe.type->price_post ) * 0.9 ).margin( 1 ) );
         }
     }

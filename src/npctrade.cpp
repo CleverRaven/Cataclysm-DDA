@@ -171,12 +171,6 @@ int npc_trading::bionic_install_price( talker *installer, talker *patient,
              : npc_trading::trading_price( patient, installer, { bionic, 1 } ) );
 }
 
-int npc_trading::adjusted_price( item const *it, int amount, Character const &buyer,
-                                 Character const &seller )
-{
-    return adjusted_price( it, amount, get_talker_for( buyer ).get(), get_talker_for( seller ).get() );
-}
-
 int npc_trading::adjusted_price( item const *it, int amount, const talker *buyer,
                                  const talker *seller )
 {
