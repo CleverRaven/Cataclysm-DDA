@@ -6358,6 +6358,8 @@
     "description": "Recipes related to making spears from various materials.",
     "skill_used": "fabrication",
     "nested_category_data": [
+      "pointy_stick",
+      "pointy_stick_long",
       "simple_spear_pipe",
       "spear_bronze",
       "spear_copper",
@@ -6366,13 +6368,15 @@
       "spear_knife_superior",
       "spear_knife_superior_from simple version",
       "spear_pipe",
+      "spear_rebar",
+      "spear_shaft_sharpened",
+      "spear_spike",
       "spear_steel",
       "spear_steel_crude",
       "spear_stone",
       "spear_stone_simple",
       "spear_wood",
       "spear_wood_simple"
-    ],
-    "difficulty": 1
+    ]
   }
 ]
