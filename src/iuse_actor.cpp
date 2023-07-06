@@ -132,6 +132,8 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
+static const mon_flag_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
+
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
@@ -889,7 +891,7 @@ std::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const 
     p.moves -= moves;
 
     newmon.ammo = newmon.type->starting_ammo;
-    if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
+    if( !newmon.has_flag( mon_flag_INTERIOR_AMMO ) ) {
         for( std::pair<const itype_id, int> &amdef : newmon.ammo ) {
             item ammo_item( amdef.first, calendar::turn_zero );
             const int available = p.charges_of( amdef.first );

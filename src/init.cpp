@@ -390,6 +390,9 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_species( jo, src );
     } );
+    add( "monster_flag", []( const JsonObject & jo, const std::string & src ) {
+        MonsterGenerator::generator().load_mon_flags( jo, src );
+    } );
 
     add( "LOOT_ZONE", &zone_type::load_zones );
     add( "monster_adjustment", &load_monster_adjustment );

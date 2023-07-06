@@ -2409,23 +2409,25 @@ static void debug_menu_game_state()
     map &here = get_map();
     tripoint_abs_sm abs_sub = here.get_abs_sub();
     std::string mfus;
-    std::vector<std::pair<m_flag, int>> sorted;
-    sorted.reserve( m_flag::MF_MAX );
-    for( int f = 0; f < m_flag::MF_MAX; f++ ) {
-        sorted.emplace_back( static_cast<m_flag>( f ),
-                             MonsterGenerator::generator().m_flag_usage_stats[f] );
+    std::vector<std::pair<mon_flag_id, int>> sorted;
+    for( const mon_flag &mflag : MonsterGenerator::generator().get_all_mon_flags() ) {
+        sorted.emplace_back( mflag.id,
+                             MonsterGenerator::generator().m_flag_usage_stats.count( mflag.id ) ?
+                             MonsterGenerator::generator().m_flag_usage_stats.at( mflag.id ) : 0 );
     }
-    std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
-        return a.second != b.second ? a.second > b.second : a.first < b.first;
+    std::sort( sorted.begin(), sorted.end(), []( const std::pair<mon_flag_id, int> &a,
+    const std::pair<mon_flag_id, int> &b ) {
+        return a.second > b.second;
     } );
     popup( player_character.total_daily_calories_string() );
     for( auto &m_flag_stat : sorted ) {
-        mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
+        mfus += string_format( "%s;%d\n", m_flag_stat.first.c_str(),
                                m_flag_stat.second );
     }
     DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-    std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
-               MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
+    for( std::pair<const mon_flag_id, int> &fs : MonsterGenerator::generator().m_flag_usage_stats ) {
+        fs.second = 0;
+    }
     popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
     std::string s = _( "Location %d:%d in %d:%d, %s\n" );
