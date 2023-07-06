@@ -6505,7 +6505,11 @@ visibility_type map::get_visibility( const lit_level ll,
             return visibility_type::CLEAR;
         case lit_level::BLANK:
         case lit_level::MEMORIZED:
-            return visibility_type::HIDDEN;
+            if( cache.u_is_boomered ) {
+                return visibility_type::BOOMER_DARK;
+            } else {
+                return visibility_type::HIDDEN;
+            }
     }
     return visibility_type::HIDDEN;
 }
