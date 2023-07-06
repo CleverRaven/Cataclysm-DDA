@@ -97,6 +97,9 @@ enum class debug_menu_index : int {
     ACTIVATE_EOC,
     WRITE_TIMED_EVENTS,
     QUICKLOAD,
+    IMPORT_FOLLOWER,
+    EXPORT_FOLLOWER,
+    EXPORT_SELF,
     last
 };
 
