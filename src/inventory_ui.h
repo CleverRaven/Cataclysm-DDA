@@ -620,6 +620,7 @@ class inventory_selector
                                   const item_category *custom_category = nullptr, item_location const &topmost_parent = {},
                                   int indent = 0 );
         void add_contained_ebooks( item_location &container );
+        void add_talker_items( talker &you );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );

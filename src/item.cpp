@@ -1914,6 +1914,17 @@ bool item::is_owned_by( const Character &c, bool available_to_take ) const
     return c.get_faction()->id == get_owner();
 }
 
+bool item::is_owned_by( const faction_id &fid, bool available_to_take ) const
+{
+    // owner.is_null() implies faction_id( "no_faction" ) which shouldn't happen, or no owner at all.
+    // either way, certain situations this means the thing is available to take.
+    // in other scenarios we actually really want to check for id == id, even for no_faction
+    if( get_owner().is_null() ) {
+        return available_to_take;
+    }
+    return fid == get_owner();
+}
+
 bool item::is_old_owner( const Character &c, bool available_to_take ) const
 {
     if( get_old_owner().is_null() ) {

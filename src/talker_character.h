@@ -12,6 +12,7 @@
 #include "npc.h"
 #include "talker.h"
 #include "type_id.h"
+#include <trade_ui.h>
 
 class character_id;
 class faction;
@@ -126,11 +127,20 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_size() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
         bool is_avatar() const override;
+        bool is_shopkeeper() const override;
+        bool will_exchange_items_freely() const override;
+        int max_credit_extended() const override;
+        bool can_fit_items( std::vector<std::pair<item_location, int>> const &to_trade ) const override;
+        int max_willing_to_owe() const override;
+        bool is_worn( const item &clothing ) const override;
 
+        item_location get_wielded_item() const override;
+        bool is_wielding( const item &target ) const override;
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
         bool has_item_with_flag( const flag_id &flag ) const override;
         int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
+        int get_debt() const override;
 
         bool can_see() const override;
         int morale_cur() const override;
@@ -225,6 +235,8 @@ class talker_character: public talker_cloner<talker_character, talker_character_
                                               bool allow_wield = true, bool ignore_pkt_settings = false ) override;
         void remove_items_with( const std::function<bool( const item & )> &filter,
                                 int count = INT_MAX ) override;
+        std::vector<item_location> top_items_loc() override;
+        ret_val<void> can_takeoff( const item &it, const std::list<item> *res ) override;
 
         void drop_invalid_inventory() override;
         void set_stored_kcal( int value ) override;

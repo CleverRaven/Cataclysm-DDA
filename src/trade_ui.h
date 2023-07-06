@@ -17,7 +17,7 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-class npc;
+class talker;
 class trade_ui;
 struct point;
 
@@ -52,21 +52,21 @@ class trade_selector : public inventory_drop_selector
 class trade_preset : public inventory_selector_preset
 {
     public:
-        explicit trade_preset( Character const &you, Character const &trader );
+        explicit trade_preset( talker const &you, talker const &trader );
 
         bool is_shown( item_location const &loc ) const override;
         std::string get_denial( const item_location &loc ) const override;
         bool cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override;
 
     private:
-        Character const &_u, &_trader;
+        talker const &_u, &_trader;
 };
 
 class trade_ui
 {
     public:
         using pane_t = trade_selector;
-        using party_t = Character;
+        using party_t = talker;
         using entry_t = trade_selector::entry_t;
         using select_t = trade_selector::select_t;
         using currency_t = int;
@@ -81,7 +81,7 @@ class trade_ui
 
         enum class event { TRADECANCEL = 0, TRADEOK = 1, SWITCH = 2, NEVENTS = 3 };
 
-        trade_ui( party_t &you, npc &trader, currency_t cost = 0, std::string title = _( "Trade" ) );
+        trade_ui( party_t &you, talker &trader, currency_t cost = 0, std::string title = _( "Trade" ) );
 
         void pushevent( event const &ev );
 

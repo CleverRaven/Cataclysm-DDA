@@ -142,7 +142,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     return result;
 }
 
-double npc_trading::net_price_adjustment( talker *buyer, talker *seller )
+double npc_trading::net_price_adjustment( const talker *buyer, const talker *seller )
 {
     // Adjust the prices based on your social skill.
     // cap adjustment so nothing is ever sold below value
@@ -177,10 +177,11 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     return adjusted_price( it, amount, get_talker_for( buyer ).get(), get_talker_for( seller ).get() );
 }
 
-int npc_trading::adjusted_price( item const *it, int amount, talker *buyer, talker *seller )
+int npc_trading::adjusted_price( item const *it, int amount, const talker *buyer,
+                                 const talker *seller )
 {
     bool seller_is_npc = buyer->is_avatar();
-    talker *faction_party = ( seller_is_npc ) ? seller : buyer;
+    const talker *faction_party = ( seller_is_npc ) ? seller : buyer;
     faction_price_rule const *const fpr = faction_party->get_price_rules( *it );
 
     double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : std::nullopt );
@@ -212,7 +213,7 @@ int npc_trading::adjusted_price( item const *it, int amount, talker *buyer, talk
 
 namespace
 {
-int _trading_price( talker *buyer, talker *seller, item_location const &it,
+int _trading_price( const talker *buyer, const talker *seller, item_location const &it,
                     int amount )
 {
     bool seller_is_npc = buyer->is_avatar();
@@ -236,7 +237,7 @@ int _trading_price( talker *buyer, talker *seller, item_location const &it,
 }
 } // namespace
 
-int npc_trading::trading_price( talker *buyer, talker *seller,
+int npc_trading::trading_price( const talker *buyer, const talker *seller,
                                 trade_selector::entry_t const &it )
 {
     return _trading_price( buyer, seller, it.first, it.second );
@@ -264,7 +265,7 @@ void item_pricing::set_values( int ip_count )
 
 // Returns how much the NPC will owe you after this transaction.
 // You must also check if they will accept the trade.
-int npc_trading::calc_npc_owes_you( const npc &np, int your_balance )
+int npc_trading::calc_npc_owes_you( const talker &np, int your_balance )
 {
     // Friends don't hold debts against friends.
     if( np.will_exchange_items_freely() ) {
@@ -277,17 +278,21 @@ int npc_trading::calc_npc_owes_you( const npc &np, int your_balance )
     //
     // When could they owe you more than max_willing_to_owe? It could be from quest rewards,
     // when they were less angry, or from when you were better friends.
-    if( your_balance > np.op_of_u.owed && your_balance > np.max_willing_to_owe() ) {
-        return std::max( np.op_of_u.owed, np.max_willing_to_owe() );
+    if( your_balance > np.debt() && your_balance > np.max_willing_to_owe() ) {
+        return std::max( np.debt(), np.max_willing_to_owe() );
     }
 
     // Fair's fair. NPC will remember this debt (or credit they've extended)
     return your_balance;
 }
-void npc_trading::update_npc_owed( npc &np, int your_balance, int your_sale_value )
+
+void npc_trading::update_npc_owed( talker &np, int your_balance, int your_sale_value )
 {
-    np.op_of_u.owed = calc_npc_owes_you( np, your_balance );
-    np.op_of_u.sold += your_sale_value;
+    npc *trader_npc = np.get_npc();
+    if( trader_npc ) {
+        trader_npc->op_of_u.owed = calc_npc_owes_you( np, your_balance );
+        trader_npc->op_of_u.sold += your_sale_value;
+    }
 }
 
 // Oh my aching head
@@ -303,7 +308,8 @@ bool npc_trading::trade( talker *trader, int cost, const std::string &deal )
     //               np.volume_carried() - np.volume_capacity() );
     trader->drop_invalid_inventory();
 
-    std::unique_ptr<trade_ui> tradeui = std::make_unique<trade_ui>( get_avatar(), *trader_npc, cost,
+    std::unique_ptr<trade_ui> tradeui = std::make_unique<trade_ui>( *get_talker_for(
+                                            get_avatar() ).get(), *trader, cost,
                                         deal );
     trade_ui::trade_result_t trade_result = tradeui->perform_trade();
 
@@ -315,12 +321,14 @@ bool npc_trading::trade( talker *trader, int cost, const std::string &deal )
         std::list<item> escrow;
         std::unique_ptr<talker> player_character = get_talker_for( get_avatar() );
         // Movement of items in 3 steps: player to escrow - npc to player - escrow to npc.
-        escrow = npc_trading::transfer_items( trade_result.items_you, player_character.get(), trader, from_map,
+        escrow = npc_trading::transfer_items( trade_result.items_you, player_character.get(), trader,
+                                              from_map,
                                               true );
-        npc_trading::transfer_items( trade_result.items_trader, trader, player_character.get(), from_map, false);
+        npc_trading::transfer_items( trade_result.items_trader, trader, player_character.get(), from_map,
+                                     false );
         // Now move items from escrow to the npc. Keep the weapon wielded.
         if( trader_npc ) {
-            if( trader_npc->is_shopkeeper() ) {
+            if( trader->is_shopkeeper() ) {
                 distribute_items_to_npc_zones( escrow, *trader_npc );
             } else {
                 for( const item &i : escrow ) {
@@ -351,7 +359,7 @@ bool npc_trading::trade( talker *trader, int cost, const std::string &deal )
         if( trader_npc ) {
             // NPCs will remember debts, to the limit that they'll extend credit or previous debts
             if( !trader_npc->will_exchange_items_freely() ) {
-                update_npc_owed( *trader_npc, trade_result.balance, trade_result.value_you );
+                update_npc_owed( *trader, trade_result.balance, trade_result.value_you );
                 get_avatar().practice( skill_speech, trade_result.value_you / 10000 );
             }
         }
@@ -360,31 +368,7 @@ bool npc_trading::trade( talker *trader, int cost, const std::string &deal )
 }
 
 // Will the NPC accept the trade that's currently on offer?
-bool npc_trading::npc_will_accept_trade( npc const &np, int your_balance )
+bool npc_trading::npc_will_accept_trade( talker const &np, int your_balance )
 {
     return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() >= 0;
-}
-bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t const &to_trade )
-{
-    std::vector<item> avail_pockets = np.worn.available_pockets();
-
-    if( !to_trade.empty() && avail_pockets.empty() ) {
-        return false;
-    }
-    for( trade_selector::entry_t const &it : to_trade ) {
-        bool item_stored = false;
-        for( item &pkt : avail_pockets ) {
-            const units::volume pvol = pkt.max_containable_volume();
-            const item &i = *it.first;
-            if( pkt.can_holster( i ) || ( pkt.can_contain( i ).success() && pvol > i.volume() ) ) {
-                pkt.put_in( i, item_pocket::pocket_type::CONTAINER );
-                item_stored = true;
-                break;
-            }
-        }
-        if( !item_stored && !np.can_wear( *it.first, false ).success() ) {
-            return false;
-        }
-    }
-    return true;
 }

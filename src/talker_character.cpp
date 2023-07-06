@@ -666,6 +666,68 @@ bool talker_character_const::is_avatar() const
     return me_chr_const->is_avatar();
 }
 
+bool talker_character_const::is_shopkeeper() const
+{
+    return me_chr_const->is_npc() && me_chr_const->as_npc()->is_shopkeeper();
+}
+
+bool talker_character_const::will_exchange_items_freely() const
+{
+    return me_chr_const->is_npc() && me_chr_const->as_npc()->will_exchange_items_freely();
+}
+
+int talker_character_const::max_credit_extended() const
+{
+    if( me_chr_const->is_npc() ) {
+        return me_chr_const->as_npc()->max_credit_extended();
+    }
+    return 0;
+}
+
+bool talker_character_const::can_fit_items( std::vector<std::pair<item_location, int>> const
+        &to_trade ) const
+{
+    std::vector<item> avail_pockets = me_chr_const->worn.available_pockets();
+
+    if( !to_trade.empty() && avail_pockets.empty() ) {
+        return false;
+    }
+    for( trade_selector::entry_t const &it : to_trade ) {
+        bool item_stored = false;
+        for( item &pkt : avail_pockets ) {
+            const units::volume pvol = pkt.max_containable_volume();
+            const item &i = *it.first;
+            if( pkt.can_holster( i ) || ( pkt.can_contain( i ).success() && pvol > i.volume() ) ) {
+                pkt.put_in( i, item_pocket::pocket_type::CONTAINER );
+                item_stored = true;
+                break;
+            }
+        }
+        if( !item_stored && !me_chr_const->can_wear( *it.first, false ).success() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int talker_character_const::max_willing_to_owe() const
+{
+    if( me_chr_const->is_npc() ) {
+        return me_chr_const->as_npc()->max_willing_to_owe();
+    }
+    return 0;
+}
+
+bool talker_character_const::is_worn( const item &clothing ) const
+{
+    return me_chr_const->is_worn( clothing );
+}
+
+ret_val<void> talker_character::can_takeoff( const item &it, const std::list<item> *res )
+{
+    return me_chr->can_takeoff( it, res );
+}
+
 void talker_character::shout( const std::string &speech, bool order )
 {
     me_chr->shout( speech, order );
@@ -689,6 +751,21 @@ void talker_character::mod_pain( int amount )
 void talker_character::set_pain( int amount )
 {
     me_chr->set_pain( amount );
+}
+
+item_location talker_character_const::get_wielded_item() const
+{
+    return me_chr_const->get_wielded_item();
+}
+
+bool talker_character_const::is_wielding( const item &target ) const
+{
+    return me_chr_const->is_wielding( target );
+}
+
+std::vector<item_location> talker_character::top_items_loc()
+{
+    return me_chr->top_items_loc();
 }
 
 bool talker_character_const::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
@@ -715,6 +792,14 @@ int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_f
         }
     }
     return aggregate( rad_vals, agg_func );
+}
+
+int talker_character_const::get_debt() const
+{
+    if( me_chr_const->is_npc() ) {
+        return me_chr_const->as_npc()->op_of_u.owed;
+    }
+    return 0;
 }
 
 units::energy talker_character_const::power_cur() const

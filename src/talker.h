@@ -8,6 +8,7 @@
 #include "messages.h"
 #include "type_id.h"
 #include "item_location.h"
+#include "output.h"
 #include "units.h"
 #include "units_fwd.h"
 #include <list>
@@ -675,6 +676,43 @@ class talker
         virtual void shop_restock() {}
         virtual bool is_avatar() const {
             return false;
+        }
+        virtual bool is_shopkeeper() const {
+            return false;
+        }
+        virtual bool will_exchange_items_freely() const {
+            return false;
+        }
+        virtual int max_credit_extended() const {
+            return 0;
+        }
+        virtual bool can_fit_items( std::vector<std::pair<item_location, int>> const &to_trade ) const {
+            return false;
+        }
+        virtual int max_willing_to_owe() const {
+            return 0;
+        }
+        virtual bool is_wielding( const item &target ) const {
+            return false;
+        }
+        virtual std::string replace_with_npc_name( std::string input ) const {
+            replace_substring( input, "<npcname>", disp_name(), true );
+            return input;
+        }
+        virtual bool is_worn( const item &clothing ) const {
+            return false;
+        }
+        virtual ret_val<void> can_takeoff( const item &it, const std::list<item> *res ) {
+            return ret_val<void>::make_failure( _( "Not defined for this talker type." ) );
+        }
+        virtual item_location get_wielded_item() const {
+            return item_location();
+        }
+        virtual std::vector<item_location> top_items_loc() {
+            return std::vector<item_location>();
+        }
+        virtual int get_debt() const {
+            return 0;
         }
 };
 template <class T, class B = talker>

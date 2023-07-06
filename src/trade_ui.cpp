@@ -38,14 +38,14 @@ point _pane_size()
 
 } // namespace
 
-trade_preset::trade_preset( Character const &you, Character const &trader )
+trade_preset::trade_preset( talker const &you, talker const &trader )
     : _u( you ), _trader( trader )
 {
     save_state = &inventory_ui_default_state;
     append_cell(
     [&]( item_location const & loc ) {
-        return format_money( npc_trading::trading_price( get_talker_for( _trader ).get(),
-                             get_talker_for( _u ).get(), {loc, 1} ) );
+        return format_money( npc_trading::trading_price( &_trader,
+                             &_u, {loc, 1} ) );
     },
     _( "Unit price" ) );
 }
@@ -53,37 +53,35 @@ trade_preset::trade_preset( Character const &you, Character const &trader )
 bool trade_preset::is_shown( item_location const &loc ) const
 {
     return !loc->has_var( VAR_TRADE_IGNORE ) && inventory_selector_preset::is_shown( loc ) &&
-           loc->is_owned_by( _u ) && loc->made_of( phase_id::SOLID ) && !loc->is_frozen_liquid() &&
+           loc->is_owned_by( _u.get_faction()->id ) && loc->made_of( phase_id::SOLID ) &&
+           !loc->is_frozen_liquid() &&
            ( !_u.is_wielding( *loc ) || !loc->has_flag( json_flag_NO_UNWIELD ) );
 }
 
 std::string trade_preset::get_denial( const item_location &loc ) const
 {
-    int const price = npc_trading::trading_price( get_talker_for( _trader ).get(),
-                      get_talker_for( _u ).get(), {loc, 1} );
-
-    if( _u.is_npc() ) {
-        npc const &np = *_u.as_npc();
-        ret_val<void> const ret = np.wants_to_sell( loc, price );
+    int const price = npc_trading::trading_price( &_trader, &_u, {loc, 1} );
+    bool u_is_npc = _trader.is_avatar();
+    if( u_is_npc ) {
+        ret_val<void> const ret = _u.wants_to_sell( loc, price );
         if( !ret.success() ) {
             if( ret.str().empty() ) {
-                return string_format( _( "%s does not want to sell this" ), np.get_name() );
+                return string_format( _( "%s does not want to sell this" ), _u.disp_name() );
             }
-            return np.replace_with_npc_name( ret.str() );
+            return _u.replace_with_npc_name( ret.str() );
         }
-    } else if( _trader.is_npc() ) {
-        npc const &np = *_trader.as_npc();
-        ret_val<void> const ret = np.wants_to_buy( *loc, price );
+    } else {
+        ret_val<void> const ret = _trader.wants_to_buy( *loc, price );
         if( !ret.success() ) {
             if( ret.str().empty() ) {
-                return string_format( _( "%s does not want to buy this" ), np.get_name() );
+                return string_format( _( "%s does not want to buy this" ), _trader.disp_name() );
             }
-            return np.replace_with_npc_name( ret.str() );
+            return _trader.replace_with_npc_name( ret.str() );
         }
     }
 
     if( _u.is_worn( *loc ) ) {
-        ret_val<void> const ret = const_cast<Character &>( _u ).can_takeoff( *loc );
+        ret_val<void> const ret = const_cast<talker &>( _u ).can_takeoff( *loc, nullptr );
         if( !ret.success() ) {
             return _u.replace_with_npc_name( ret.str() );
         }
@@ -103,35 +101,36 @@ bool trade_preset::cat_sort_compare( const inventory_entry &lhs, const inventory
     return fudge_rank( lhs ) < fudge_rank( rhs );
 }
 
-trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string title )
+trade_ui::trade_ui( party_t &you, talker &trader, currency_t cost, std::string title )
     : _upreset{ you, trader }, _tpreset{ trader, you },
-      _panes{ std::make_unique<pane_t>( this, trader, _tpreset, std::string(), _pane_size(),
+      _panes{ std::make_unique<pane_t>( this, *trader.get_character(), _tpreset, std::string(), _pane_size(),
                                         _pane_orig( -1 ) ),
-              std::make_unique<pane_t>( this, you, _upreset, std::string(), _pane_size(),
+              std::make_unique<pane_t>( this, *you.get_character(), _upreset, std::string(), _pane_size(),
                                         _pane_orig( 1 ) ) },
       _parties{ &trader, &you }, _title( std::move( title ) )
 
 {
-    _panes[_you]->add_character_items( you );
+    _panes[_you]->add_talker_items( you );
     _panes[_you]->add_nearby_items( 1 );
-    _panes[_trader]->add_character_items( trader );
+    _panes[_trader]->add_talker_items( trader );
     if( trader.is_shopkeeper() ) {
         _panes[_trader]->categorize_map_items( true );
-
-        add_fallback_zone( trader );
-
+        npc *trader_npc = trader.get_npc();
+        if( trader_npc ) {
+            add_fallback_zone( *trader_npc );
+        }
         zone_manager &zmgr = zone_manager::get_manager();
 
         // FIXME: migration for traders in old saves - remove after 0.G
         zone_data const *const fallback =
-            zmgr.get_zone_at( trader.get_location(), true, trader.get_fac_id() );
+            zmgr.get_zone_at( trader.global_pos(), true, trader.get_faction()->id );
         bool const legacy = fallback != nullptr && fallback->get_name() == fallback_name;
 
         if( legacy ) {
             _panes[_trader]->add_nearby_items( PICKUP_RANGE );
         } else {
             std::unordered_set<tripoint> const src =
-                zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
+                zmgr.get_point_set_loot( trader.global_pos(), PICKUP_RANGE, trader.get_faction()->id );
 
             for( tripoint const &pt : src ) {
                 _panes[_trader]->add_map_items( pt );
@@ -145,7 +144,7 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     if( trader.will_exchange_items_freely() ) {
         _cost = 0;
     } else {
-        _cost = trader.op_of_u.owed - cost;
+        _cost = trader.get_debt() - cost;
     }
     _balance = _cost;
 
@@ -204,10 +203,10 @@ void trade_ui::recalc_values_cpane()
     for( entry_t const &it : _panes[_cpane]->to_trade() ) {
         // FIXME: cache trading_price
         _trade_values[_cpane] +=
-            npc_trading::trading_price( get_talker_for( *_parties[-_cpane + 1] ).get(),
-                                        get_talker_for( *_parties[_cpane] ).get(), it );
+            npc_trading::trading_price( _parties[-_cpane + 1],
+                                        _parties[_cpane], it );
     }
-    if( !_parties[_trader]->as_npc()->will_exchange_items_freely() ) {
+    if( !_parties[_trader]->will_exchange_items_freely() ) {
         _balance = _cost + _trade_values[_you] - _trade_values[_trader];
     }
     _header_ui.invalidate_ui();
@@ -219,8 +218,8 @@ void trade_ui::autobalance()
     if( ( sign < 0 && _balance < 0 ) || ( sign > 0 && _balance > 0 ) ) {
         inventory_entry &entry = _panes[_cpane]->get_active_column().get_highlighted();
         size_t const avail = entry.get_available_count() - entry.chosen_count;
-        double const price = npc_trading::trading_price( get_talker_for( *_parties[-_cpane + 1] ).get(),
-                             get_talker_for( *_parties[_cpane] ).get(),
+        double const price = npc_trading::trading_price( _parties[-_cpane + 1],
+                             _parties[_cpane],
                              entry_t{ entry.any_item(), 1 } ) * sign;
         double const num = _balance / price;
         double const extra = sign < 0 ? std::ceil( num ) : std::floor( num );
@@ -261,24 +260,23 @@ void trade_ui::_process( event const &ev )
 
 bool trade_ui::_confirm_trade() const
 {
-    npc const &np = *_parties[_trader]->as_npc();
-
-    if( !npc_trading::npc_will_accept_trade( np, _balance ) ) {
-        if( np.max_credit_extended() == 0 ) {
+    if( !npc_trading::npc_will_accept_trade( *_parties[_trader], _balance ) ) {
+        if( _parties[_trader]->max_credit_extended() == 0 ) {
             popup( _( "You'll need to offer me more than that." ) );
         } else {
             popup( _( "Sorry, I'm only willing to extend you %s in credit." ),
-                   format_money( np.max_credit_extended() ) );
+                   format_money( _parties[_trader]->max_credit_extended() ) );
         }
-    } else if( !np.is_shopkeeper() &&
-               !npc_trading::npc_can_fit_items( np, _panes[_you]->to_trade() ) ) {
-        popup( _( "%s doesn't have the appropriate pockets to accept that." ), np.get_name() );
-    } else if( npc_trading::calc_npc_owes_you( np, _balance ) < _balance ) {
+    } else if( !_parties[_trader]->is_shopkeeper() &&
+               !_parties[_trader]->can_fit_items( _panes[_you]->to_trade() ) ) {
+        popup( _( "%s doesn't have the appropriate pockets to accept that." ),
+               _parties[_trader]->disp_name() );
+    } else if( npc_trading::calc_npc_owes_you( *_parties[_trader], _balance ) < _balance ) {
         // NPC is happy with the trade, but isn't willing to remember the whole debt.
         return query_yn(
                    _( "I'm never going to be able to pay you back for all that.  The most I'm "
                       "willing to owe you is %s.\n\nContinue with trade?" ),
-                   format_money( np.max_willing_to_owe() ) );
+                   format_money( _parties[_trader]->max_willing_to_owe() ) );
 
     } else {
         return query_yn( _( "Looks like a deal!  Accept this trade?" ) );
@@ -291,16 +289,15 @@ void trade_ui::_draw_header()
 {
     draw_border( _header_w, c_light_gray );
     center_print( _header_w, 1, c_white, _title );
-    npc const &np = *_parties[_trader]->as_npc();
     nc_color const trade_color =
-        npc_trading::npc_will_accept_trade( np, _balance ) ? c_green : c_red;
+        npc_trading::npc_will_accept_trade( *_parties[_trader], _balance ) ? c_green : c_red;
     std::string cost_str = _( "Exchange" );
-    if( !np.will_exchange_items_freely() ) {
+    if( !_parties[_trader]->will_exchange_items_freely() ) {
         cost_str = string_format( _balance >= 0 ? _( "Credit %s" ) : _( "Debt %s" ),
                                   format_money( std::abs( _balance ) ) );
     }
     center_print( _header_w, 2, trade_color, cost_str );
-    mvwprintz( _header_w, { 1, 3 }, c_white, _parties[_trader]->get_name() );
+    mvwprintz( _header_w, { 1, 3 }, c_white, _parties[_trader]->disp_name() );
     right_print( _header_w, 3, 1, c_white, _( "You" ) );
     center_print( _header_w, header_size - 1, c_white,
                   string_format( _( "%s to switch panes" ),

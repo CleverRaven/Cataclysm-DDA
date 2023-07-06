@@ -2013,6 +2013,26 @@ void inventory_selector::add_contained_ebooks( item_location &container )
     }
 }
 
+
+void inventory_selector::add_talker_items( talker &you )
+{
+    item_location weapon = you.get_wielded_item();
+    bool const hierarchy = _uimode == uimode::hierarchy;
+    if( weapon ) {
+        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, weapon,
+                       &item_category_WEAPON_HELD.obj(),
+                       hierarchy ? &item_category_WEAPON_HELD.obj() : nullptr );
+    }
+    for( item_location &worn_item : you.top_items_loc() ) {
+        item_category const *const custom_cat = wielded_worn_category( worn_item, u );
+        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, worn_item,
+                       custom_cat, hierarchy ? custom_cat : nullptr );
+    }
+    if( !hierarchy ) {
+        own_inv_column.set_indent_entries_override( false );
+    }
+}
+
 void inventory_selector::add_character_items( Character &character )
 {
     item_location weapon = character.get_wielded_item();
