@@ -7,6 +7,7 @@
     "name": { "str": ".22 caliber submachine gun" },
     "description": "A dramatically uncommon automatic weapon, making use of high-capacity pan magazines and firing the low power .22 calibre cartridge: an unusual ammunition choice for a submachine gun.  With negligible recoil on account of its modest cartridge and a suppressively high rate of fire, a burst of .22 LR rounds from this little machine gun can be best likened with a swarm of hornets… an incredibly angry swarm of hornets.",
     "variant_type": "gun",
+    "range": 7,
     "variants": [
       {
         "id": "american_180",
@@ -60,6 +61,7 @@
     "name": { "str": "small game rifle" },
     "description": "A venerable .22 caliber lever-action rifle, with a 19-round tube magazine and a classic design that dates back over a century.  Generally used for the hunting of small game like rabbits, the strict taxonomic classification of zombies as 'small game' is debatable, but this decades-old weapon can still be counted upon to help manage the undead population.",
     "variant_type": "gun",
+    "range": 11,
     "variants": [
       {
         "id": "marlin_9a",
@@ -205,6 +207,7 @@
     "name": { "str": "varmint rifle" },
     "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheep ammunition, and low recoil made this a very popular varmint rifle amongst civilian shooters.",
     "variant_type": "gun",
+    "range": 11,
     "variants": [
       {
         "id": "ruger_1022",
