@@ -1018,5 +1018,118 @@
       [ "hippie_van", 250 ],
       [ "car_sports", 30 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cars_micros",
+    "//": "All the microcars!",
+    "vehicles": [
+      [ "car_micro", 100 ],
+      [ "car_micro_hybrid", 375 ],
+      [ "car_micro_electric", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cars_scompacts",
+    "//": "All the supercompacts!",
+    "vehicles": [
+      [ "scompact", 100 ],
+      [ "scompact_hybrid", 375 ],
+      [ "scompact_electric", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cars_scompact_tandems",
+    "//": "All the supercompact tandems!",
+    "vehicles": [
+      [ "scompact_tandem_stow", 100 ],
+      [ "scompact_tandem_hboard", 375 ],
+      [ "scompact_tandem_electric_stow", 200 ],
+      [ "scompact_tandem_electric_hboard", 375 ],
+      [ "scompact_tandem_2wheel_stow", 200 ],
+      [ "scompact_tandem_2wheel_hboard", 375 ],
+      [ "scompact_tandem_electric_2wheel_stow", 200 ],
+      [ "scompact_tandem_electric_2wheel_hboard", 200 ],
+      [ "scompact_tandem_3wheel_stow", 200 ],
+      [ "scompact_tandem_3wheel_hboard", 375 ],
+      [ "scompact_tandem_electric_3wheel_stow", 200 ],
+      [ "scompact_tandem_electric_3wheel_hboard", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cars_shootingbrakes",
+    "//": "All the shooting brakes!",
+    "vehicles": [
+      [ "car_shootingbrake_v8", 100 ],
+      [ "car_shootingbrake_v12", 375 ],
+      [ "car_shootingbrake_electric", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cars_sedans",
+    "//": "All the sedans!",
+    "vehicles": [
+      [ "car_sedan", 100 ],
+      [ "car_sedan_diesel_i4", 375 ],
+      [ "car_sedan_diesel_v6", 200 ],
+      [ "car_sedan_v8", 375 ],
+      [ "car_sedan_sports_v12", 200 ],
+      [ "car_sedan_sports_v6", 375 ],
+      [ "car_sedan_luxury_v6", 200 ],
+      [ "car_sedan_electric", 375 ],
+      [ "car_sedan_luxury_electric", 200 ],
+      [ "car_sedan_sports_electric", 375 ],
+      [ "car_sedan_solar", 200 ],
+      [ "car_sedan_luxury_solar", 375 ],
+      [ "car_sedan_sports_solar", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cars_town",
+    "//": "All the town cars!",
+    "vehicles": [
+      [ "car_town", 100 ],
+      [ "car_town_diesel", 375 ],
+      [ "car_town_budget", 200 ],
+      [ "car_town_budget_superior", 200 ],
+      [ "car_town_diesel_budget", 375 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cars_coupes",
+    "//": "All the coupes!",
+    "vehicles": [
+      [ "car_coupe", 100 ],
+      [ "car_coupe_diesel_i4", 375 ],
+      [ "car_coupe_diesel_v6", 200 ],
+      [ "car_coupe_muscle", 375 ],
+      [ "car_coupe_sports_v12", 200 ],
+      [ "car_coupe_sports_v6", 375 ],
+      [ "car_coupe_luxury_v6", 200 ],
+      [ "car_coupe_electric", 375 ],
+      [ "car_coupe_luxury_electric", 200 ],
+      [ "car_coupe_sports_electric", 375 ],
+      [ "car_coupe_solar", 200 ],
+      [ "car_coupe_luxury_solar", 375 ],
+      [ "car_coupe_sports_solar", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cars_super",
+    "//": "All the supercars!",
+    "vehicles": [
+      [ "car_super_v12", 100 ],
+      [ "car_super_electric", 375 ],
+      [ "car_super_electric_alt", 200 ],
+      [ "car_super_solar", 375 ],
+      [ "car_super_solar_alt", 200 ]
+    ]
   }
 ]
