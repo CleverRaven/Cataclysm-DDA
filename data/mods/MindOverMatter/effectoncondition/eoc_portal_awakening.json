@@ -14,7 +14,11 @@
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
-    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "deactivate_condition": {
+      "not": {
+        "or": [ { "is_weather": "portal_storm" }, { "is_weather": "distant_portal_storm" }, { "is_weather": "close_portal_storm" } ]
+      }
+    },
     "effect": {
       "switch": { "global_val": "var", "var_name": "ps_str" },
       "cases": [
