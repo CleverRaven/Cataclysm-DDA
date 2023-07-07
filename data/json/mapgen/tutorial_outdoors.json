@@ -133,9 +133,7 @@
       "terrain": { "s": "t_shrub", "r": "t_dirt" },
       "furniture": { "r": "f_boulder_small" },
       "signs": {
-        "A": {
-          "signage": "Careful!  There is a shack up ahead with some zombies.  Make sure you are armed."
-        },
+        "A": { "signage": "Careful!  There is a shack up ahead with some zombies.  Make sure you are armed." },
         "B": {
           "signage": "Combat tip: You surely have noticed that e.g long grass and shrubs will slow down your movement.  Terrain like this will slow down most enemies, too.  Use this to your advantage."
         }
