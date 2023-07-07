@@ -741,9 +741,7 @@ static void smash()
                           player_character.get_wielded_item()->attack_time( player_character ) *
                           0.8;
     bool mech_smash = false;
-    int smashskill = player_character.calculate_by_enchantment( player_character.get_arm_str(),
-                     enchant_vals::mod::STRENGTH,
-                     true );
+    int smashskill = player_character.get_arm_str();
     ///\EFFECT_STR increases smashing capability
     if( player_character.is_mounted() ) {
         auto *mon = player_character.mounted_creature.get();
@@ -755,6 +753,7 @@ static void smash()
                           enchant_vals::mod::MELEE_DAMAGE,
                           true );
     }
+    smashskill += player_character.calculate_by_enchantment( 0, enchant_vals::mod::ITEM_DAMAGE_BASH, true );
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
