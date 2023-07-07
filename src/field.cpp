@@ -78,6 +78,14 @@ time_duration field_entry::set_field_age( const time_duration &new_age )
     return age = new_age;
 }
 
+void field_entry::initialize_decay()
+{
+    std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
+                                       ( type.obj().half_life ) ) );
+    const time_duration decay_delay = time_duration::from_turns( d( rng_get_engine() ) );
+    decay_time = calendar::turn - age + decay_delay;
+}
+
 void field_entry::do_decay()
 {
     // Bypass set_field_age() so we don't reset decay_time;
@@ -92,10 +100,7 @@ void field_entry::do_decay()
             return;
         }
         if( decay_time == calendar::turn_zero ) {
-            std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
-                                               ( type.obj().half_life ) ) );
-            const time_duration decay_delay = time_duration::from_turns( d( rng_get_engine() ) );
-            decay_time = calendar::turn - age + decay_delay;
+            initialize_decay();
         }
         if( decay_time <= calendar::turn ) {
             set_field_age( 0_turns );

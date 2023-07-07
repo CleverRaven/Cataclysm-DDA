@@ -1106,7 +1106,7 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "path_settings": { "max_dist": 4 },
+    "path_settings": { "max_dist": 4, "allow_climb_stairs": false },
     "grab_strength": 20,
     "special_attacks": [
       { "id": "grab" },

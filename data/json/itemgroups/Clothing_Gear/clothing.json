@@ -2122,7 +2122,7 @@
   {
     "type": "item_group",
     "id": "female_underwear_top",
-    "items": [ [ "corset", 5 ], [ "corset_waist", 5 ], { "group": "female_underwear_top_child", "prob": 190 } ]
+    "items": [ [ "corset", 5 ], [ "binder_top", 1 ], [ "corset_waist", 5 ], { "group": "female_underwear_top_child", "prob": 190 } ]
   },
   {
     "type": "item_group",
@@ -2155,7 +2155,14 @@
   {
     "type": "item_group",
     "id": "male_underwear_top",
-    "items": [ [ "undershirt", 50 ], [ "long_undertop", 20 ], [ "thermal_shirt", 10 ], [ "under_armor", 20 ], [ "tank_top", 50 ] ]
+    "items": [
+      [ "undershirt", 50 ],
+      [ "binder_top", 2 ],
+      [ "long_undertop", 20 ],
+      [ "thermal_shirt", 10 ],
+      [ "under_armor", 20 ],
+      [ "tank_top", 50 ]
+    ]
   },
   {
     "type": "item_group",
@@ -2611,7 +2618,7 @@
     "type": "item_group",
     "id": "diving_masks",
     "//": "Only diving appropriate masks, it needs to let the user breath underwater.",
-    "items": [ [ "rebreather", 100 ], [ "rebreather_cartridge", 100 ] ]
+    "items": [ [ "rebreather", 100 ], [ "rebreather_cartridge_o2", 100 ] ]
   },
   {
     "type": "item_group",

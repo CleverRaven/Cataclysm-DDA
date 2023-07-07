@@ -11,13 +11,13 @@
           {
             "collection": [
               { "item": "oxy_torch" },
-              { "item": "weldtank", "count": [ 1, 3 ], "prob": 80 },
-              { "item": "tinyweldtank", "count": [ 1, 3 ], "prob": 60 },
-              { "item": "oxygen_cylinder", "count": [ 1, 2 ], "prob": 90 },
+              { "item": "weldtank", "count": [ 1, 3 ], "prob": 95 },
+              { "item": "tinyweldtank", "count": [ 1, 3 ], "prob": 95 },
+              { "item": "oxygen_cylinder", "count": [ 1, 2 ], "prob": 95 },
               {
                 "distribution": [
-                  { "item": "brazing_rod_bronze", "prob": 75, "charges": [ 100, 360 ] },
-                  { "item": "brazing_rod_alloy", "prob": 50, "charges": [ 80, 360 ] }
+                  { "item": "brazing_rod_bronze", "prob": 100, "charges": [ 1000, 2000 ] },
+                  { "item": "brazing_rod_alloy", "prob": 70, "charges": [ 500, 1500 ] }
                 ]
               }
             ],
@@ -30,14 +30,14 @@
           {
             "collection": [
               { "item": "propane_torch" },
-              { "item": "medium_propane_tank", "count": [ 0, 1 ], "prob": 60, "charges": [ 0, 15000 ] },
-              { "item": "small_propane_tank", "count": [ 1, 2 ], "prob": 80, "charges": [ 0, 3000 ] },
-              { "item": "medium_propane_tank", "count": [ 0, 1 ], "prob": 60, "charges": 15000 },
-              { "item": "small_propane_tank", "count": [ 1, 2 ], "prob": 80, "charges": 3000 },
+              { "item": "medium_propane_tank", "count": [ 0, 1 ], "prob": 95, "charges": [ 0, 15000 ] },
+              { "item": "small_propane_tank", "count": [ 1, 2 ], "prob": 95, "charges": [ 0, 3000 ] },
+              { "item": "medium_propane_tank", "count": [ 0, 1 ], "prob": 95, "charges": 15000 },
+              { "item": "small_propane_tank", "count": [ 1, 2 ], "prob": 95, "charges": 3000 },
               {
                 "distribution": [
-                  { "item": "brazing_rod_bronze", "prob": 75, "charges": [ 100, 360 ] },
-                  { "item": "brazing_rod_alloy", "prob": 50, "charges": [ 80, 360 ] }
+                  { "item": "brazing_rod_bronze", "prob": 100, "charges": [ 1000, 2000 ] },
+                  { "item": "brazing_rod_alloy", "prob": 70, "charges": [ 500, 1500 ] }
                 ]
               }
             ],
@@ -48,13 +48,13 @@
       { "distribution": [ { "item": "welding_mask", "prob": 70 }, { "item": "goggles_welding", "prob": 70 } ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 65, "charges": [ 50, 360 ] },
-          { "item": "welding_rod_alloy", "prob": 35, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_steel", "prob": 45, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 50, 360 ] },
-          { "item": "brazing_rod_bronze", "prob": 25, "charges": [ 50, 200 ] },
-          { "item": "brazing_rod_alloy", "prob": 10, "charges": [ 50, 200 ] },
-          { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] }
+          { "item": "welding_rod_steel", "prob": 90, "charges": [ 1000, 1600 ] },
+          { "item": "welding_rod_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_steel", "prob": 90, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
+          { "item": "brazing_rod_bronze", "prob": 80, "charges": [ 500, 1500 ] },
+          { "item": "brazing_rod_alloy", "prob": 30, "charges": [ 400, 1200 ] },
+          { "item": "welding_blanket", "prob": 20, "count": [ 0, 1 ] }
         ]
       }
     ]

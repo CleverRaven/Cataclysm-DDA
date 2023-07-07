@@ -225,6 +225,7 @@
       { "item": "eyedrops", "prob": 25 },
       { "item": "charcoal", "prob": 15 },
       { "item": "tin", "prob": 15 },
+      { "item": "lamp_oil", "prob": 12 },
       { "item": "chem_hydrogen_peroxide", "prob": 15 },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
