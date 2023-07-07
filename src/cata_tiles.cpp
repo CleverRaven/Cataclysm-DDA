@@ -3807,15 +3807,15 @@ bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &heigh
     if( pcritter == nullptr ) {
         return false;
     }
+    const Creature &critter = *pcritter;
 
     // Draw shadow
     if( draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
-                             0, 0, ll, false, height_3d ) && scan_p.z - 1 > you.pos().z ) {
+                             0, 0, ll, false, height_3d ) && scan_p.z - 1 > you.pos().z && you.sees( critter ) ) {
 
         bool is_player = false;
         bool sees_player = false;
         Creature::Attitude attitude = Creature::Attitude::ANY;
-        const Creature &critter = *pcritter;
 
         // Get critter status disposition if monster
         const monster *m = dynamic_cast<const monster *>( &critter );
