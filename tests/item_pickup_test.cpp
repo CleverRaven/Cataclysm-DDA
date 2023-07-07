@@ -20,7 +20,7 @@ static const itype_id itype_rope_6( "rope_6" );
 //
 // namely, that these functions create *copies* of the items, and the original item
 // references will not refer to the items placed in inventory.
-TEST_CASE( "putting items into inventory with put_in or i_add", "[pickup][inventory]" )
+TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][inventory]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
@@ -133,7 +133,7 @@ TEST_CASE( "putting items into inventory with put_in or i_add", "[pickup][invent
 // The reproduction use case here is: Wearing only a backpack containing a rope, when picking up
 // an M4 from the ground, the M4 should go into the backpack, not into the rope, and neither the
 // rope nor the M4 should be dropped.
-TEST_CASE( "pickup m4 with a rope in a hiking backpack", "[pickup][container]" )
+TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();

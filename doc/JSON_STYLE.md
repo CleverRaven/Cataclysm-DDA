@@ -89,3 +89,6 @@ Additionally, you can configure a keybinding for this command by navigating to
 containing `Tools.ExternalCommand` and pick the one that corresponds to the
 position of your command in the list (e.g. `Tools.ExternalCommand1` if it's the
 top item in the list) and then assign shortcut keys to it.
+
+### Visual Studio Code
+If you install the recommended extensions you should have access to the the cdda-toys.cdda-json-formatter which will auto format your json.

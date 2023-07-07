@@ -141,15 +141,17 @@
       "u": "t_region_groundcover_urban",
       "X": "t_region_groundcover_urban",
       ".": "t_region_groundcover_urban",
-      "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
+      "+": [ [ "t_door_b", 2 ], [ "t_door_frame", 2 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "*": [
+        [ "t_door_b", 5 ],
         [ "t_door_locked_peep", 2 ],
         "t_door_locked_alarm",
         [ "t_door_locked", 10 ],
         [ "t_door_elocked_peep", 4 ],
         "t_door_elocked_alarm",
         [ "t_door_elocked", 15 ],
-        "t_door_c"
+        "t_door_c",
+        [ "t_door_o", 2 ]
       ],
       "^": "t_gutter_downspout",
       "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
@@ -158,6 +160,7 @@
       ":": "t_wall_glass",
       "-": "t_sidewalk",
       "o": [
+        [ "t_window_frame", 4 ],
         [ "t_window_domestic", 10 ],
         "t_window_no_curtains",
         "t_window_open",
@@ -282,9 +285,14 @@
         { "item": "toy_store", "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "allsporting", "chance": 5 }
-      ]
+      ],
+      " ": { "item": "trash", "chance": 1 }
     },
-    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } }
+    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } },
+    "nested": {
+      "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
+      " ": { "chunks": [ [ "corpse_blood_1x1", 1 ], [ "blood_field", 2 ], [ "bile_field", 1 ], [ "null", 196 ] ] }
+    }
   },
   {
     "type": "palette",

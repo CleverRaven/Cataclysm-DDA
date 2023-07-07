@@ -1108,7 +1108,9 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_wields_item:
         case event_type::character_casts_spell:
         case event_type::cuts_tree:
+        case event_type::opens_spellbook:
         case event_type::reads_book:
+        case event_type::spellcasting_finish:
         case event_type::game_load:
         case event_type::game_over:
         case event_type::game_save:

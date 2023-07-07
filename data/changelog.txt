@@ -23,6 +23,16 @@ Add support for running and smashing animations
 Allow zones to interact across multiple Z levels
 Creatures can stumble into invisible players to discover them
 Add molting for exoskeleton mutations
+3D vision of lower levels with distance fog
+Rework MA tech requirements
+Allow NPCs to read E-books - new activity added
+Allow mutation transformation using the normal mutation rules
+Implement setting direction for appliances and add a directed floodlight appliance
+Asynchronous animations including sprinting and smashing
+Added enable and disable mutation EOCs
+3D vision for isometric tilesets
+Unhardcode dragging, grab fixes
+Make vehicle doors lockable and pickable
 
 
 ## Content:
@@ -44,6 +54,13 @@ Added a new location called survivor forest camp
 Addition of non-NPC civilians for lore reasons
 Nether spiders as a new bossfight for the game.
 New conversion kits, guns, and calibres
+Crashing ship start for Aftershock
+Add more monsters to the nether monster corpse
+Living lore document
+Gastropod Foot Limb: Mutant limbs can be added in json
+Added a small office building fortified by bandits
+New location: speedway
+You can now choose a new leader for your faction without dying
 
 
 ## Interface:
@@ -57,6 +74,7 @@ Mouse thumb button support
 Show NPC location when selecting NPC to chat with, guard, or follow
 Display why vehicle parts cannot be installed
 Open multiple containers in Advanced Inventory Manager
+Adds the 'Mark as dangerous' keybinding to the overmap
 
 
 ## Mods:
@@ -81,6 +99,11 @@ Open multiple containers in Advanced Inventory Manager
 [Aftershock] Elemental bionic weapons.
 [Bombastic Perks] Adds the recycler perk
 [Xedra Evolved] Revamped the inventor class
+Alchemy Perks for Xedra Evolved
+Bombastic Perks adds Playstyle Perks
+[Magiclysm] Ways to boost your caster level
+Disable the Bionic Professions mod by default
+Add the Mind Over Matter mod to the CDDA repository
 
 
 ## Balance:
@@ -99,6 +122,9 @@ Add a more accessible holy symbol mission, replacing the small relic one
 Most materials now burn at least a little slower than gunpowder
 stationary monsters don't let you train throwing to high levels
 player can drag heavier vehicles
+difficulty to repair depends on what the thing is made of instead of its crafting difficulty
+Hound afterimages also copy their host nicknames
+The player is substantially less effective with guns at low skill values
 
 
 ## Bugfixes:
@@ -139,11 +165,20 @@ Fix UI and accessibility issues in the overmap UI and character creation menu
 Fix unicode path encoding error in Windows MinGW build
 Difficulty 0 recipes are no longer arbitrarily difficult
 Make EOC u_sell_item() actually transfers the items' ownership
+Improving NPC shooting frequency
+Enable death effects on limited lifespan monsters
+Make Hub01 globally unique
+Charge integrated magazines when plugged in
+Don't allow to scan books that are owned by other characters
+Fix NPC putting items in open air when fetching items during an activity when 3D FOV is on
+Trees and other FLAMMABLE_ASH terrain leaves behind ash when burned down
+Do not report monsters breaking free of unknown grabbers if the player cannot see them
 
 
 ## Performance:
 Make `Character::best_item_with_quality` examine items non-recursively
 Refactor effect types to use map indirection and enums instead of strings
+Removes the ludicrous amount of OMs the refugee and research centres define
 
 
 ## Infrastructure:
@@ -156,10 +191,12 @@ Migrate some JSON APIs to string_view
 Add units::temperature_delta
 Upgrade clang-tidy used in CI to LLVM 16
 Allow C++ standard includes in clang-tidy tests
+Refactor timer items to be a bit more time based
 
 
 ## Build:
 Support Mac arm64 build
+Adds VS Code Dev Containers & Workspace Config
 
 
 ## I18N and A11Y:

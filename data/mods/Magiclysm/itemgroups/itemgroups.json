@@ -40,6 +40,7 @@
         { "group": "magic_recipe_advanced", "prob": 1 },
         { "group": "dragon_books", "prob": 3 },
         { "item": "spellcraft_theory", "prob": 2 },
+        { "item": "caster_boosts_info", "prob": 2 },
         { "item": "alchemy_illegal", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
       ]
@@ -78,7 +79,11 @@
   {
     "type": "item_group",
     "id": "spellcraft_books",
-    "items": [ { "item": "spellcraft_theory_basic", "prob": 70 }, { "item": "spellcraft_theory", "prob": 30 } ]
+    "items": [
+      { "item": "spellcraft_theory_basic", "prob": 70 },
+      { "item": "spellcraft_theory", "prob": 30 },
+      { "item": "caster_boosts_info", "prob": 30 }
+    ]
   },
   {
     "type": "item_group",
@@ -217,7 +222,8 @@
       { "group": "spellbook_tier_0", "prob": 80 },
       { "group": "spellbook_tier_0", "prob": 60 },
       { "group": "spellbook_tier_0", "prob": 20 },
-      { "item": "spellcraft_theory_basic", "prob": 10 }
+      { "item": "spellcraft_theory_basic", "prob": 10 },
+      { "item": "caster_boosts_info", "prob": 10 }
     ]
   },
   {

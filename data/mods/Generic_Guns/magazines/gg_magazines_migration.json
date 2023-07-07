@@ -94,7 +94,8 @@
       "p226mag_15rd_9mm",
       "sp2022mag_10rd_9mm",
       "sp2022mag_12rd_9mm",
-      "sp2022mag_15rd_9mm"
+      "sp2022mag_15rd_9mm",
+      "hpt3895mag_10rd"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
@@ -166,7 +167,9 @@
       "skorpion82mag",
       "mp5_10_mag",
       "tdi_10mm_mag",
-      "robofac60"
+      "robofac60",
+      "greasegun30mag",
+      "greasegun32mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_smg_mag"
@@ -275,6 +278,9 @@
       "scarhmag",
       "hk417mag_20rd",
       "ar10mag_20rd",
+      "ar10mag_10rd",
+      "ar10mag_25rd",
+      "ar10mag_50rd",
       "ak74mag",
       "rpk74mag",
       "casket74mag",
@@ -371,6 +377,8 @@
       "saiga410mag_30rd",
       "saiga10mag",
       "saiga30mag",
+      "afs_raketa30mag",
+      "afs_shot_speedloader8",
       "USAS10mag",
       "USAS20mag",
       "shotbelt_20",

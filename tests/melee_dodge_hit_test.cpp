@@ -83,7 +83,7 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
     return dummy.get_dodge();
 }
 
-TEST_CASE( "monster::get_hit_base", "[monster][melee][hit]" )
+TEST_CASE( "monster_get_hit_base", "[monster][melee][hit]" )
 {
     clear_map();
 
@@ -93,7 +93,7 @@ TEST_CASE( "monster::get_hit_base", "[monster][melee][hit]" )
     }
 }
 
-TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
+TEST_CASE( "Character_get_hit_base", "[character][melee][hit][dex]" )
 {
     clear_map();
 
@@ -112,7 +112,7 @@ TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
     }
 }
 
-TEST_CASE( "monster::get_dodge_base", "[monster][melee][dodge]" )
+TEST_CASE( "monster_get_dodge_base", "[monster][melee][dodge]" )
 {
     clear_map();
 
@@ -122,7 +122,7 @@ TEST_CASE( "monster::get_dodge_base", "[monster][melee][dodge]" )
     }
 }
 
-TEST_CASE( "Character::get_dodge_base", "[character][melee][dodge][dex][skill]" )
+TEST_CASE( "Character_get_dodge_base", "[character][melee][dodge][dex][skill]" )
 {
     clear_map();
 
@@ -183,7 +183,7 @@ TEST_CASE( "Character::get_dodge_base", "[character][melee][dodge][dex][skill]" 
     }
 }
 
-TEST_CASE( "monster::get_dodge with effects", "[monster][melee][dodge][effect]" )
+TEST_CASE( "monster_get_dodge_with_effects", "[monster][melee][dodge][effect]" )
 {
     clear_map();
 
@@ -214,7 +214,7 @@ TEST_CASE( "monster::get_dodge with effects", "[monster][melee][dodge][effect]" 
     }
 }
 
-TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
+TEST_CASE( "player_get_dodge", "[player][melee][dodge]" )
 {
     clear_map();
 
@@ -235,7 +235,7 @@ TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
     }
 }
 
-TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
+TEST_CASE( "player_get_dodge_with_effects", "[player][melee][dodge][effect]" )
 {
     clear_map();
 
@@ -294,7 +294,7 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
     }
 }
 
-TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]" )
+TEST_CASE( "player_get_dodge_stamina_effects", "[player][melee][dodge][stamina]" )
 {
     avatar &dummy = get_avatar();
     clear_character( dummy );

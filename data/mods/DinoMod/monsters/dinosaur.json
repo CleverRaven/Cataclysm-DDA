@@ -280,7 +280,8 @@
     "special_attacks": [
       { "id": "bio_op_takedown", "cooldown": 20 },
       { "id": "ranged_pull", "cooldown": 20 },
-      [ "GRAB_DRAG", 10 ],
+      { "id": "grab_drag" },
+      { "id": "drag_followup" },
       { "id": "teeth_rip", "cooldown": 10 }
     ],
     "description": "Huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
