@@ -483,7 +483,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
             }
 
             //Solar panels have 25% of being destroyed
-            if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) ) {
+            if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) && init_veh_status != 2 ) {
                 set_hp( pt, 0, false );
             }
 
