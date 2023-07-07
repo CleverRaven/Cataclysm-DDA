@@ -575,6 +575,7 @@ TEST_CASE( "Unified_grab_break_test", "[mattack][grab]" )
                 success++;
                 you.clear_effects();
                 you.set_stamina( you.get_stamina_max() );
+                test_monster_1.clear_effects();
                 REQUIRE( attack_1.call( test_monster_1 ) );
             }
         }
