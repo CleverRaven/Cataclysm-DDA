@@ -263,7 +263,7 @@ class game
         void draw_blink_curses();
         void void_blink_curses();
         bool has_blink_curses();
-        bool blink_active_phase = true;
+        bool blink_active_phase = true; // NOLINT(cata-serialize)
     protected:
         std::map<tripoint, std::pair <std::string, nc_color>>
                 blink_layer_curses; // NOLINT(cata-serialize)
