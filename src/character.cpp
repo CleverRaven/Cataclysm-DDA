@@ -1074,12 +1074,12 @@ double Character::aim_per_move( const item &gun, double recoil,
     aim_speed += sight_speed_modifier;
 
     if( !use_cache ) {
-    // Ranges [-1.5 - 3.5] for archery Ranges [0 - 2.5] for others
-    aim_speed += get_modifier( character_modifier_aim_speed_skill_mod, gun_skill );
+        // Ranges [-1.5 - 3.5] for archery Ranges [0 - 2.5] for others
+        aim_speed += get_modifier( character_modifier_aim_speed_skill_mod, gun_skill );
 
-    /** @EFFECT_DEX increases aiming speed */
-    // every DEX increases 0.5 aim_speed
-    aim_speed += get_modifier( character_modifier_aim_speed_dex_mod );
+        /** @EFFECT_DEX increases aiming speed */
+        // every DEX increases 0.5 aim_speed
+        aim_speed += get_modifier( character_modifier_aim_speed_dex_mod );
 
         aim_speed *= get_modifier( character_modifier_aim_speed_mod );
     } else {
@@ -1099,14 +1099,14 @@ double Character::aim_per_move( const item &gun, double recoil,
     double base_aim_speed_cap = 5.0 +  1.0 * get_skill_level( gun_skill ) + std::max( 10.0,
                                 3.0 * get_skill_level( gun_skill ) );
     if( !use_cache ) {
-    // This upper limit usually only affects the first half of the aiming process
-    // Pistols have a much higher aiming speed limit
-    aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_volume( gun ) );
+        // This upper limit usually only affects the first half of the aiming process
+        // Pistols have a much higher aiming speed limit
+        aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_volume( gun ) );
 
-    // When the character is in an open area, it will not be affected by the length of the weapon.
-    // This upper limit usually only affects the first half of the aiming process
-    // Weapons shorter than carbine are usually not affected by it
-    aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_length( gun ) );
+        // When the character is in an open area, it will not be affected by the length of the weapon.
+        // This upper limit usually only affects the first half of the aiming process
+        // Weapons shorter than carbine are usually not affected by it
+        aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_length( gun ) );
     } else {
         aim_speed = std::min( aim_speed,
                               base_aim_speed_cap * aim_cache.value().get().aim_factor_from_volume );
