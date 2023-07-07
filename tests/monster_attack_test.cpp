@@ -325,8 +325,8 @@ TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
     //Have two grabs, the monsters have the right filter effects
     REQUIRE( you.has_effect( effect_grabbed, body_part_arm_r ) );
     REQUIRE( you.has_effect( effect_grabbed, body_part_arm_l ) );
-    REQUIRE( test_monster_right.has_effect( body_part_arm_r->grabbing_effect ) );
-    REQUIRE( test_monster_left.has_effect( body_part_arm_l->grabbing_effect ) );
+    REQUIRE( test_monster_right.is_grabbing( body_part_arm_r ) );
+    REQUIRE( test_monster_left.is_grabbing( body_part_arm_l ) );
 
     // Kill the left grabber
     test_monster_left.die( nullptr );

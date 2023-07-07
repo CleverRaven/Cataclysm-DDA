@@ -567,9 +567,9 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 
     if( grab_data.grab_effect != effect_null ) {
         if( foe ) {
-            z.add_effect( bp_id->grabbing_effect, 1_days, true, 1 );
-            add_msg_debug( debugmode::DF_MATTACK, "Added grabbing filter effect %s",
-                           bp_id->grabbing_effect.c_str() );
+            z.add_grab( bp_id.id() );
+            add_msg_debug( debugmode::DF_MATTACK, "Added grabbing on %s",
+                           bp_id->name );
             // Add grabbed - permanent, removal handled in try_remove_grab on move/wait
             target->add_effect( grab_data.grab_effect, 1_days, bp_id, true, eff_grab_strength );
         } else {
@@ -751,7 +751,7 @@ bool melee_actor::call( monster &z ) const
                     monster *mon = creatures.creature_at<monster>( loc );
                     if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon->attack_target() == target ) {
                         if( target->is_monster() || ( !target->is_monster() &&
-                                                      mon->has_effect( eff.get_bp()->grabbing_effect ) ) ) {
+                                                      mon->is_grabbing( eff.get_bp().id() ) ) ) {
                             grabber = mon;
                             break;
                         }
