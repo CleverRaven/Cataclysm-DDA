@@ -216,6 +216,18 @@ class user_turn
             return elapsed_ms.count() > get_option<int>( "ANIMATION_DELAY" );
         }
 
+        std::chrono::steady_clock::time_point last_blink_transition = std::chrono::steady_clock::now();
+        bool blink_timeout() {
+            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+            std::chrono::milliseconds elapsed_ms =
+                std::chrono::duration_cast<std::chrono::milliseconds>( now - last_blink_transition );
+            if( elapsed_ms.count() > get_option<int>( "BLINK_SPEED" ) ) {
+                last_blink_transition = now;
+                return true;
+            }
+            return false;
+        }
+
 };
 
 input_context game::get_player_input( std::string &action )
@@ -395,6 +407,12 @@ input_context game::get_player_input( std::string &action )
                 // Curses does not redraw itself so do it here
                 g->invalidate_main_ui_adaptor();
 #endif
+            }
+
+            if( g->has_blink_curses() && current_turn.blink_timeout() ) {
+                // Toggle blink phase and redraw
+                g->blink_active_phase = !g->blink_active_phase;
+                g->invalidate_main_ui_adaptor();
             }
 
             ui_manager::redraw_invalidated();
