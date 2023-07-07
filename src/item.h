@@ -1435,8 +1435,8 @@ class item : public visitable
             int max_length = 2;
             /// The cable's power capacity in watts, affects battery charge rate. Set during initialization.
             int wattage = 0;
-            /// one_in(this) chance to fail adding 1 charge. Set during initialization.
-            int efficiency = 7;
+            /// (this) out of 1.0 chance to successfully add 1 charge every charge interval.
+            float efficiency = 0.0f;
             /// The turn interval between charges. Set during initialization.
             int charge_interval = 0;
 

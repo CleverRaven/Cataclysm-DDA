@@ -10367,7 +10367,7 @@ int item::ammo_remaining( const Character *carrier, bool cable_links ) const
     }
 
     // Cable connections
-    if( cable_links && link_length() >= 0 ) {
+    if( cable_links && link_length() >= 0 && link->efficiency >= 0.001f ) {
         if( link->t_veh_safe ) {
             ret += link->t_veh_safe->connected_battery_power_level().first;
         } else {
@@ -10553,7 +10553,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Consume power from appliances/vehicles connected with cables
     if( link ) {
-        if( link->t_veh_safe ) {
+        if( link->t_veh_safe && link->efficiency >= 0.001f ) {
             qty = link->t_veh_safe->discharge_battery( qty, true );
         } else {
             const optional_vpart_position vp = get_map().veh_at( link->t_abs_pos );
@@ -12925,7 +12925,7 @@ void item::set_link_traits()
                                      ( cable->get_use( "link_up" )->get_actor_ptr() );
         link->max_length += actor->cable_length == -1 ? cable->type->maximum_charges() :
                             actor->cable_length;
-        link->efficiency *= actor->efficiency == 0 ? 0 : 1.0 - 1.0 / actor->efficiency;
+        link->efficiency = link->efficiency < 0.001f ? 0.0f : link->efficiency * actor->efficiency;
     }
 }
 
@@ -13109,6 +13109,9 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
         int power_draw = 0;
 
+        if( link->efficiency < 0.001f ) {
+            return false;
+        }
         // Recharge or charge linked batteries
         power_draw -= charge_linked_batteries( *t_veh, turns_elapsed );
 
@@ -13131,7 +13134,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
-    if( link->wattage == 0 || turns_elapsed < 1 || link->charge_interval < 1 ) {
+    if( link->wattage == 0 || turns_elapsed < 1 ||
+        link->charge_interval < 1 || link->efficiency < 0.001f ) {
         return link->wattage;
     }
 
@@ -13148,28 +13152,28 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
         return 0;
     }
 
-    // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
-    // spent ouside the reality bubble it should be applied as a percentage of the total instead.
+    // Normally efficiency is the chance to get a charge every charge_interval, but if we're catching up from
+    // time spent ouside the reality bubble it should be applied as a percentage of the total instead.
     bool short_time_passed = turns_elapsed <= link->charge_interval;
 
-    if( !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) &&
-        short_time_passed ) {
+    if( short_time_passed &&
+        !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) ) {
         return link->wattage;
     }
 
     // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
     int transfer_total = short_time_passed ? 1 :
-                         ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->efficiency );
+                         ( turns_elapsed * 1.0f / link->charge_interval ) * link->charge_interval;
 
     if( power_in ) {
         const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
         // Around 85% efficient by default; a few of the discharges don't actually recharge
-        if( battery_deficit == 0 && !( short_time_passed && one_in( link->efficiency ) ) ) {
+        if( battery_deficit == 0 && !( short_time_passed && rng_float( 0.0, 1.0 ) > link->efficiency ) ) {
             ammo_set( itype_battery, ammo_remaining() + transfer_total );
         }
     } else {
         // Around 85% efficient by default; a few of the discharges don't actually charge
-        if( !( short_time_passed && one_in( link->efficiency ) ) ) {
+        if( !( short_time_passed && rng_float( 0.0, 1.0 ) > link->efficiency ) ) {
             const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
             if( battery_surplus == 0 ) {
                 ammo_set( itype_battery, ammo_remaining() - transfer_total );

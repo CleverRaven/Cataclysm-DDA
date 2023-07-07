@@ -110,7 +110,7 @@
     "price_postapoc": 500,
     "max_charges": 6,
     "initial_charges": 6,
-    "use_action": { "type": "link_up", "menu_text": "Attach / Manage connections", "targets": [ "no_link", "vehicle_tow" ] },
+    "use_action": { "type": "link_up", "menu_text": "Attach / Manage connections", "efficiency": 0.0, "targets": [ "no_link", "vehicle_tow" ] },
     "qualities": [ [ "ROPE", 2 ] ],
     "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 6 }
@@ -128,7 +128,7 @@
     "use_action": {
       "type": "link_up",
       "menu_text": "Attach / Manage connections",
-      "efficiency": 1000,
+      "efficiency": 1.0,
       "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_port", "vehicle_battery", "vehicle_tow" ],
       "can_extend": [ "ELECTRICAL_DEVICES" ]
     }

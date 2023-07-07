@@ -1036,8 +1036,8 @@ class link_up_actor : public iuse_actor
         int cable_length = -1;
         /** Charge rate in watts */
         units::power wattage = 0_W;
-        /** one_in(this) chance to fail adding 1 charge */
-        int efficiency = 7;
+        /** (this) out of 1.0 chance to successfully add 1 charge every charge interval */
+        float efficiency = 0.85f;
         /** (Optional) The move cost to attach the cable. */
         int move_cost = 5;
         /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
