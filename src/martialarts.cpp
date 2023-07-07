@@ -535,7 +535,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_remove = false;
             name.push_back( buff.name );
             desc.push_back( buff.description );
-            rating = e_good;
+            apply_msgs.emplace_back( no_translation( "" ), m_good );
         }
 };
 

@@ -502,9 +502,9 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s:", colorize( _( "Effects" ), c_magenta ) ) );
     for( const effect &eff : info.effects ) {
         if( eff.get_id()->is_show_in_info() ) {
-            effect_rating rt = eff.get_id()->get_rating();
+            game_message_type rt = eff.get_id()->get_rating( eff.get_intensity() );
             info_txt.emplace_back( string_format( "  %s", colorize( eff.disp_name(),
-                                                  rt == e_good ? c_green : rt == e_bad ? c_red : c_yellow ) ) );
+                                                  rt == m_good ? c_green : rt == m_bad ? c_red : c_yellow ) ) );
         }
     }
     info_txt.emplace_back( "--" );

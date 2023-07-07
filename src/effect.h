@@ -29,13 +29,6 @@ class JsonOut;
 /** Handles the large variety of weed messages. */
 void weed_msg( Character &p );
 
-enum effect_rating {
-    e_good,     // The effect is good for the one who has it.
-    e_neutral,  // There is no effect or the effect is very nominal. This is the default.
-    e_bad,      // The effect is bad for the one who has it.
-    e_mixed     // The effect has good and bad parts to the one who has it.
-};
-
 /** @relates string_id */
 template<>
 const effect_type &string_id<effect_type>::obj() const;
@@ -112,7 +105,7 @@ class effect_type
         efftype_id id;
 
         /** Returns if an effect is good or bad for message display. */
-        effect_rating get_rating() const;
+        game_message_type get_rating( int intensity = 1 ) const;
 
         /** Returns true if there is a listed name in the JSON entry for each intensity from
          *  1 to max_intensity. */
@@ -121,12 +114,12 @@ class effect_type
          *  from 1 to max_intensity with the matching reduced value. */
         bool use_desc_ints( bool reduced ) const;
 
-        /** Returns the appropriate game_message_type when a new effect is obtained. This is equal to
-         *  an effect's "rating" value. */
-        game_message_type gain_game_message_type() const;
         /** Returns the appropriate game_message_type when an effect is lost. This is opposite to
          *  an effect's "rating" value. */
-        game_message_type lose_game_message_type() const;
+        game_message_type lose_game_message_type( int intensity = 1 ) const;
+
+        // adds a message to the log for applying an effect
+        void add_apply_msg( int intensity ) const;
 
         /** Returns the memorial log added when a new effect is obtained. */
         std::string get_apply_memorial_log( memorial_gender gender ) const;
@@ -226,8 +219,6 @@ class effect_type
         std::vector<std::pair<translation, game_message_type>> decay_msgs;
 
         std::vector<std::pair<translation, game_message_type>> apply_msgs;
-
-        effect_rating rating = effect_rating::e_neutral;
 
         std::string apply_memorial_log;
         translation remove_message;
