@@ -753,7 +753,8 @@ static void smash()
                           enchant_vals::mod::MELEE_DAMAGE,
                           true );
     }
-    smashskill += player_character.calculate_by_enchantment( 0, enchant_vals::mod::ITEM_DAMAGE_BASH, true );
+    smashskill += player_character.calculate_by_enchantment( 0, enchant_vals::mod::ITEM_DAMAGE_BASH,
+                  true );
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
