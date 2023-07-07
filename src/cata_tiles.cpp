@@ -1771,9 +1771,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             } else if( f == &cata_tiles::draw_critter_at ) {
                                 // Draw
                                 if( !( this->*f )( draw_loc, var->ll, p.com.height_3d, var->invisible, false ) && do_draw_shadow &&
-                                    cur_zlevel == p.draw_min_z ) {
+                                    cur_zlevel == p.com.draw_min_z ) {
                                     // Draw shadow of flying critters on bottom-most tile if no other critter drawn
-                                    draw_critter_above( draw_loc, p.ll, p.height_3d, p.invisible );
+                                    draw_critter_above( draw_loc, var->ll, p.com.height_3d, var->invisible );
                                 }
                             } else {
                                 // Draw
