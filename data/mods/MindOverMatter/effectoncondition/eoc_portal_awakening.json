@@ -489,7 +489,7 @@
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3.25) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ],
     "false_effect": [
       {
@@ -522,7 +522,7 @@
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3.25) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ],
     "false_effect": [
       {
@@ -556,7 +556,7 @@
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3.25) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ],
     "false_effect": [
       {
@@ -589,7 +589,7 @@
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3.25) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ],
     "false_effect": [
       {
@@ -621,7 +621,7 @@
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3.25) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ],
     "false_effect": [
       {
@@ -654,7 +654,7 @@
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3.25) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ],
     "false_effect": [
       {
@@ -686,7 +686,7 @@
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3.25) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ],
     "false_effect": [
       {
