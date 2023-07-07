@@ -3507,7 +3507,7 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
-    "id": "duct_tape_roll",
+    "id": "cardboard_roll",
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "cardboard roll" },
