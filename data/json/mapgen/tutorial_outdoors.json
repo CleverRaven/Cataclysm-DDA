@@ -1,0 +1,181 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "tutorial_shack",
+    "weight": 300,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  hhhhhhhhhhhhhhhhhhh   ",
+        "  h                 h   ",
+        "  h                 h   ",
+        "  h  |------------| h   ",
+        "  h  |cc..dBBd..s.| h   ",
+        "  h  |c....BB..stS| h   ",
+        "  h  |c....Z....SS| h   ",
+        "  h  |-----+------| h   ",
+        "  h       ZZZ       h   ",
+        "  h                 h   ",
+        "  hhhhhhhh   hhhhhhhh   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_floor", "h": "t_shrub", "+": "t_door_c", "-": "t_wall", "|": "t_wall" },
+      "furniture": { "B": "f_bed", "d": "f_dresser", "c": "f_cupboard", "S": "f_sofa", "s": "f_stool", "t": "f_table" },
+      "items": {
+        "t": { "item": "livingroom", "chance": 100, "repeat": [ 2, 3 ] },
+        "c": [ { "item": "home_hw", "chance": 50, "repeat": [ 5, 10 ] }, { "item": "chem_home", "chance": 50, "repeat": [ 5, 10 ] } ],
+        "d": [
+          { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "item": { "t": { "item": "smart_phone", "chance": 100 } },
+      "monster": { "Z": { "monster": "mon_zombie_crawler", "chance": 100 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "tutorial_sign1",
+    "weight": 300,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          A             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  u              r      ",
+        "  B              C      ",
+        "                        ",
+        "                        ",
+        "          D             ",
+        "                        "
+      ],
+      "terrain": { "u": "t_underbrush", "r": "t_dirt" },
+      "furniture": { "r": "f_boulder_small" },
+      "signs": {
+        "A": {
+          "signage": "You are now in a safe, enclosed forest.  Most of the land in the game is covered by wilderness.  Learning to utilize said wilderness to survive is crucial.  To the west is the next, still locked, area which will have more advanced supplies, but there are some zombies.  Scour the forest and forage the underbrushes and see what you can make."
+        },
+        "B": {
+          "signage": "Forage underbrushes by examining them.  They are a renewable resource and will regenerate after a season (3 months).  You will likely not find anything right away, so keep trying with other, still unforaged underbrushes.  You can increase your survival skill up to 3 by foraging."
+        },
+        "C": {
+          "signage": "Small boulders can be smashed for plenty of stones and also sharp rocks.  Sharp rocks act as a crude cutting tool, enabling you to craft basic things."
+        },
+        "D": {
+          "signage": "Is the sheer amount of things you can craft overwhelming you?  Start with a simple, long pointy stick as a weapon.  It is trivial to make and can be used to attack enemies from a distance.  Smash some young trees to get long sticks."
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "tutorial_sign2",
+    "weight": 300,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  A                     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          B             ",
+        "          s             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "s": "t_shrub", "r": "t_dirt" },
+      "furniture": { "r": "f_boulder_small" },
+      "signs": {
+        "A": {
+          "signage": "Careful!  There is a shack up ahead with some zombies.  Make sure you are armed."
+        },
+        "B": {
+          "signage": "Combat tip: You surely have noticed that e.g long grass and shrubs will slow down your movement.  Terrain like this will slow down most enemies, too.  Use this to your advantage."
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "tutorial_gate",
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        ".                      .",
+        "..                    ..",
+        "...                  ...",
+        "............D...........",
+        "............D...........",
+        "...                  ...",
+        "..                    ..",
+        ".                      .",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "D": "t_door_metal_locked", ".": "t_rock_floor_no_roof" }
+    }
+  }
+]
