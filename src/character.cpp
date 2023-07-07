@@ -929,6 +929,9 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
     const float light_limit = 120.0f;
     bool laser_light_available = target_attributes.range <= ( base_distance + per_cur ) * std::max(
                                      1.0f - target_attributes.light / light_limit, 0.0f ) && target_attributes.visible;
+    // There are only two kinds of parallaxes, one with zoom and one without. So cache them.
+    std::vector<std::optional<int>> parallaxes;
+    parallaxes.resize( 2 );
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         if( mod.sight_dispersion < 0 || mod.field_of_view <= 0 ) {
@@ -938,11 +941,15 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
             continue;
         }
         bool zoom = e->has_flag( flag_ZOOM );
-        double e_effective_dispersion = effective_dispersion( mod.sight_dispersion,
-                                        zoom );
+        // zoom==true will access parallaxes[1], zoom==false will access parallaxes[0].
+        int parallax = parallaxes[static_cast<int>( zoom )].has_value() ? parallaxes[static_cast<int>
+                       ( zoom )].value() : get_character_parallax( zoom );
+        parallaxes[static_cast<int>( zoom )].emplace( parallax );
+        // Maunal expansion of effective_dispersion() for performance.
+        double e_effective_dispersion = parallax + mod.sight_dispersion;
 
         // The character can hardly get the aiming speed bonus from a non-magnifier sight when aiming at a target that is too far or too small
-        double effective_aim_speed_modifier = 4 * get_character_parallax( zoom ) >
+        double effective_aim_speed_modifier = 4 * parallax >
                                               target_attributes.size_in_moa ? std::min( 0.0, mod.aim_speed_modifier ) : mod.aim_speed_modifier;
         if( e_effective_dispersion < recoil && recoil <= mod.field_of_view ) {
             double e_speed = recoil < mod.field_of_view ? modified_sight_speed( effective_aim_speed_modifier,
