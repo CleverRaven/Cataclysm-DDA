@@ -741,18 +741,19 @@ static void smash()
                           player_character.get_wielded_item()->attack_time( player_character ) *
                           0.8;
     bool mech_smash = false;
-    int smashskill;
+    int smashskill = player_character.calculate_by_enchantment( player_character.get_arm_str(),
+                     enchant_vals::mod::STRENGTH,
+                     true );
     ///\EFFECT_STR increases smashing capability
     if( player_character.is_mounted() ) {
         auto *mon = player_character.mounted_creature.get();
-        smashskill = player_character.get_arm_str() + mon->mech_str_addition() + mon->type->melee_dice *
-                     mon->type->melee_sides;
+        smashskill += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
         mech_smash = true;
-    } else {
-        smashskill = player_character.get_arm_str();
-        if( player_character.get_wielded_item() ) {
-            smashskill += player_character.get_wielded_item()->damage_melee( damage_bash );
-        }
+    } else if( player_character.get_wielded_item() ) {
+        smashskill += player_character.calculate_by_enchantment(
+                          player_character.get_wielded_item()->damage_melee( damage_bash ),
+                          enchant_vals::mod::MELEE_DAMAGE,
+                          true );
     }
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
