@@ -3625,6 +3625,27 @@ static void init_term_size_and_scaling_factor()
     TERMINAL_HEIGHT = terminal.y / scaling_factor;
 }
 
+static font_blending_mode font_blending_mode_from_string( const std::string &str )
+{
+    if( str == "solid" ) {
+        return font_blending_mode::solid;
+    } else if( str == "blended" ) {
+        return font_blending_mode::blended;
+    } else if( str == "lcd" ) {
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+        if( get_lcd_blending_availability( renderer ) == lcd_blending_availability::available ) {
+            return font_blending_mode::lcd;
+        } else {
+#endif
+            return font_blending_mode::blended;
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+        }
+#endif
+    } else {
+        return font_blending_mode::solid;
+    }
+}
+
 //Basic Init, create the font, backbuffer, etc
 void catacurses::init_interface()
 {
@@ -3637,20 +3658,8 @@ void catacurses::init_interface()
     get_options().load();
     set_language_from_options(); //Prevent translated language strings from causing an error if language not set
 
-    font_loader fl;
-    fl.load();
-    fl.fontwidth = get_option<int>( "FONT_WIDTH" );
-    fl.fontheight = get_option<int>( "FONT_HEIGHT" );
-    fl.fontsize = get_option<int>( "FONT_SIZE" );
-    fl.fontblending = get_option<bool>( "FONT_BLENDING" );
-    fl.map_fontsize = get_option<int>( "MAP_FONT_SIZE" );
-    fl.map_fontwidth = get_option<int>( "MAP_FONT_WIDTH" );
-    fl.map_fontheight = get_option<int>( "MAP_FONT_HEIGHT" );
-    fl.overmap_fontsize = get_option<int>( "OVERMAP_FONT_SIZE" );
-    fl.overmap_fontwidth = get_option<int>( "OVERMAP_FONT_WIDTH" );
-    fl.overmap_fontheight = get_option<int>( "OVERMAP_FONT_HEIGHT" );
-    ::fontwidth = fl.fontwidth;
-    ::fontheight = fl.fontheight;
+    ::fontwidth = get_option<int>( "FONT_WIDTH" );
+    ::fontheight = get_option<int>( "FONT_HEIGHT" );
 
     init_term_size_and_scaling_factor();
 
@@ -3708,6 +3717,19 @@ void catacurses::init_interface()
 
     // initialize sound set
     load_soundset();
+
+    font_loader fl;
+    fl.load();
+    fl.fontwidth = ::fontwidth;
+    fl.fontheight = ::fontheight;
+    fl.fontsize = get_option<int>( "FONT_SIZE" );
+    fl.fontblending = font_blending_mode_from_string( get_option<std::string>( "FONT_BLENDING_MODE" ) );
+    fl.map_fontsize = get_option<int>( "MAP_FONT_SIZE" );
+    fl.map_fontwidth = get_option<int>( "MAP_FONT_WIDTH" );
+    fl.map_fontheight = get_option<int>( "MAP_FONT_HEIGHT" );
+    fl.overmap_fontsize = get_option<int>( "OVERMAP_FONT_SIZE" );
+    fl.overmap_fontwidth = get_option<int>( "OVERMAP_FONT_WIDTH" );
+    fl.overmap_fontheight = get_option<int>( "OVERMAP_FONT_HEIGHT" );
 
     font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
             windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );

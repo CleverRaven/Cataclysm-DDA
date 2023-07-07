@@ -23,6 +23,24 @@
 
 using palette_array = std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT>;
 
+#define LCD_BLENDING_SUPPORTED_BY_SDL_TTF ( SDL_TTF_VERSION_ATLEAST( 2, 19, 1 ) )
+
+enum class font_blending_mode {
+    solid, blended,
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+    lcd
+#endif
+};
+
+enum class lcd_blending_availability {
+    available,
+    low_sdl_ttf_compiled_version,
+    low_sdl_ttf_runtime_version,
+    renderer_unsupported,
+};
+
+lcd_blending_availability get_lcd_blending_availability( const SDL_Renderer_Ptr &renderer );
+
 /// Interface which is capable of rendering a single character on the screen.
 class Font
 {
@@ -57,7 +75,7 @@ class Font
             const std::string &typeface, int fontsize, int fontwidth,
             int fontheight,
             const palette_array &palette,
-            bool fontblending );
+            font_blending_mode fontblending );
 
         // the width of the font, background is always this size.
         int width;
@@ -75,7 +93,7 @@ class CachedTTFFont : public Font
         CachedTTFFont(
             int w, int h,
             const palette_array &palette,
-            std::string typeface, int fontsize, bool fontblending );
+            std::string typeface, int fontsize, font_blending_mode fontblending );
         ~CachedTTFFont() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
@@ -115,7 +133,7 @@ class CachedTTFFont : public Font
 
         std::unordered_map<key_t, cached_t, key_t_hash> glyph_cache_map;
 
-        const bool fontblending;
+        const font_blending_mode fontblending;
 };
 
 /// A font created from a bitmap. Each character is taken from a
@@ -155,7 +173,7 @@ class FontFallbackList : public Font
             int w, int h,
             const palette_array &palette,
             const std::vector<std::string> &typefaces,
-            int fontsize, bool fontblending );
+            int fontsize, font_blending_mode fontblending );
         ~FontFallbackList() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;

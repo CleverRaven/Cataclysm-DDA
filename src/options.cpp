@@ -28,6 +28,7 @@
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
+#include "sdl_font.h"
 #include "sdltiles.h" // IWYU pragma: keep
 #include "sdlsound.h"
 #include "sounds.h"
@@ -2238,9 +2239,16 @@ void options_manager::add_options_graphics()
     add_option_group( "graphics", Group( "font_params", to_translation( "Font settings" ),
                                          to_translation( "Font display settings.  To change font type or source file, edit fonts.json in config directory." ) ),
     [&]( const std::string & page_id ) {
-        add( "FONT_BLENDING", page_id, to_translation( "Font blending" ),
-             to_translation( "If true, fonts will look better." ),
-             false, COPT_CURSES_HIDE
+        add( "FONT_BLENDING_MODE", page_id, to_translation( "Font blending mode" ),
+             to_translation( "Set TTF font blending mode.  Requires restart.  'Blended' looks better than 'Solid'.  "
+                             "For LCD display, 'LCD' uses sub-pixel rendering to further improve resolution, "
+        "but it is not supported by some renderers (in which case it falls back to 'Blended')." ), {
+            { "solid", to_translation( "Solid" ) },
+            { "blended", to_translation( "Blended" ) },
+            // Do not hide this option even if it's unavailable, in case the
+            // user wants to use it by default once available.
+            { "lcd", to_translation( "LCD" ) }
+        }, "lcd", COPT_CURSES_HIDE
            );
 
         add( "FONT_WIDTH", page_id, to_translation( "Font width" ),

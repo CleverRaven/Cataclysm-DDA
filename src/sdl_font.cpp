@@ -3,6 +3,7 @@
 
 #include "font_loader.h"
 #include "output.h"
+#include "sdl_utils.h"
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -44,11 +45,45 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
     return faceIndex;
 }
 
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+static const SDL_BlendMode CATA_BLENDMODE_LCD_DST = SDL_ComposeCustomBlendMode(
+            SDL_BLENDFACTOR_ZERO, SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR, SDL_BLENDOPERATION_ADD,
+            SDL_BLENDFACTOR_ZERO, SDL_BLENDFACTOR_ONE, SDL_BLENDOPERATION_ADD );
+#endif
+
+lcd_blending_availability get_lcd_blending_availability( const SDL_Renderer_Ptr &renderer )
+{
+#if !LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+    static_cast<void>( renderer );
+    return lcd_blending_availability::low_sdl_ttf_compiled_version;
+#else
+    const SDL_version *const ttf_ver = TTF_Linked_Version();
+    if( std::forward_as_tuple( ttf_ver->major, ttf_ver->minor, ttf_ver->patch )
+        < std::forward_as_tuple( 2, 19, 1 ) ) {
+        return lcd_blending_availability::low_sdl_ttf_runtime_version;
+    }
+
+    SDL_Surface_Ptr surface;
+    SDL_Texture_Ptr texture;
+    try {
+        surface = renderer ? create_surface_32( 1, 1 ) : nullptr;
+        texture = surface ? CreateTextureFromSurface( renderer, surface ) : nullptr;
+    } catch( const std::runtime_error & ) {
+    }
+    if( !texture || SDL_SetTextureBlendMode( texture.get(), CATA_BLENDMODE_LCD_DST ) < 0
+        || SDL_SetTextureColorMod( texture.get(), 0, 0, 0 ) < 0
+        || SDL_SetTextureAlphaMod( texture.get(), 0 ) < 0 ) {
+        return lcd_blending_availability::renderer_unsupported;
+    }
+    return lcd_blending_availability::available;
+#endif
+}
+
 std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
                                        const std::string &typeface, int fontsize, int width,
                                        int height,
                                        const palette_array &palette,
-                                       const bool fontblending )
+                                       const font_blending_mode fontblending )
 {
     if( string_ends_with( typeface, ".bmp" ) || string_ends_with( typeface, ".png" ) ) {
         // Seems to be an image file, not a font.
@@ -185,7 +220,7 @@ CachedTTFFont::CachedTTFFont(
     const int w, const int h,
     const palette_array &palette,
     std::string typeface, int fontsize,
-    const bool fontblending )
+    const font_blending_mode fontblending )
     : Font( w, h, palette )
     , fontblending( fontblending )
 {
@@ -284,30 +319,30 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         const std::string &ch,
         const int color )
 {
-    const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
-    SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
+    SDL_Surface_Ptr sglyph;
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+    if( fontblending == font_blending_mode::lcd ) {
+        // When using LCD blending mode, the texture represents the alpha value
+        // of individual RGB channels, so we need to generate the texture using
+        // white foreground and black background, and the font color need to be
+        // applied separately.
+        sglyph.reset( TTF_RenderUTF8_LCD( font.get(), ch.c_str(), { 255, 255, 255, 255 }, { 0, 0, 0, 255 } ) );
+    } else {
+#endif
+        const auto function = fontblending == font_blending_mode::solid
+                              ? TTF_RenderUTF8_Solid : TTF_RenderUTF8_Blended;
+        sglyph.reset( function( font.get(), ch.c_str(), windowsPalette[color] ) );
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+    }
+#endif
     if( !sglyph ) {
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return nullptr;
     }
-    /* SDL interprets each pixel as a 32-bit number, so our masks must depend
-       on the endianness (byte order) of the machine */
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    static const Uint32 rmask = 0xff000000;
-    static const Uint32 gmask = 0x00ff0000;
-    static const Uint32 bmask = 0x0000ff00;
-    static const Uint32 amask = 0x000000ff;
-#else
-    static const Uint32 rmask = 0x000000ff;
-    static const Uint32 gmask = 0x0000ff00;
-    static const Uint32 bmask = 0x00ff0000;
-    static const Uint32 amask = 0xff000000;
-#endif
     const int wf = utf8_width( ch );
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface_Ptr surface = CreateRGBSurface( 0, width * wf, height, 32, rmask, gmask, bmask,
-                              amask );
+    SDL_Surface_Ptr surface = create_surface_32( width * wf, height );
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
     SDL_Rect dst_rect = { 0, 0, width * wf, height };
     if( src_rect.w < dst_rect.w ) {
@@ -350,7 +385,14 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
                                 const std::string &ch, const point &p,
                                 unsigned char color, const float opacity )
 {
-    key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
+    const unsigned char fg = color & 0xf;
+    const key_t key { ch,
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+                      // Only save one texture for all colors and apply the color separately
+                      // below. See comments in CachedTTFFont::create_glyph for more detail.
+                      fontblending == font_blending_mode::lcd ? static_cast<unsigned char>( 0 ) :
+#endif
+                      fg };
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
@@ -367,13 +409,40 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
         return;
     }
     SDL_Rect rect {p.x, p.y, value.width, height};
-    if( opacity != 1.0f ) {
-        SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
-    }
-    RenderCopy( renderer, value.texture, nullptr, &rect );
-    if( opacity != 1.0f ) {
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+    if( fontblending == font_blending_mode::lcd ) {
+        const int opa_mod = static_cast<int>( 255.0f * opacity + 0.5f );
+        const SDL_Color &col = windowsPalette[fg];
+        // Considering col(or) rgb, tex(ture) rgb, d(e)st(ination) rgb, & opa(city),
+        // we should blend color rgb with destination rgb using an alpha of
+        // (tex.r/g/b * opa), i.e. for each rgb channel,
+        //   r = col.r * (tex.r * opa) + dst.r * (1 - tex.r * opa)
+        // which can be decomposed into two render-copy operations supported by
+        // SDL2 (subject to some precision loss due to rounding):
+        SDL_SetTextureColorMod( value.texture.get(), opa_mod, opa_mod, opa_mod );
+        SDL_SetTextureBlendMode( value.texture.get(), CATA_BLENDMODE_LCD_DST );
+        RenderCopy( renderer, value.texture, nullptr, &rect );
+
+        SDL_SetTextureColorMod( value.texture.get(), col.r, col.g, col.b );
+        SDL_SetTextureAlphaMod( value.texture.get(), opa_mod );
+        SDL_SetTextureBlendMode( value.texture.get(), SDL_BLENDMODE_ADD );
+        RenderCopy( renderer, value.texture, nullptr, &rect );
+
+        SDL_SetTextureColorMod( value.texture.get(), 255, 255, 255 );
         SDL_SetTextureAlphaMod( value.texture.get(), 255 );
+        SDL_SetTextureBlendMode( value.texture.get(), SDL_BLENDMODE_BLEND );
+    } else {
+#endif
+        if( opacity != 1.0f ) {
+            SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
+        }
+        RenderCopy( renderer, value.texture, nullptr, &rect );
+        if( opacity != 1.0f ) {
+            SDL_SetTextureAlphaMod( value.texture.get(), 255 );
+        }
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
     }
+#endif
 }
 
 BitmapFont::BitmapFont(
@@ -575,7 +644,7 @@ FontFallbackList::FontFallbackList(
     const int w, const int h,
     const palette_array &palette,
     const std::vector<std::string> &typefaces,
-    const int fontsize, const bool fontblending )
+    const int fontsize, const font_blending_mode fontblending )
     : Font( w, h, palette )
 {
     for( const std::string &typeface : typefaces ) {
