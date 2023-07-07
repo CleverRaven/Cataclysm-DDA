@@ -551,7 +551,7 @@ bool effect_type::has_flag( const flag_id &flag ) const
 
 game_message_type effect_type::get_rating( int intensity ) const
 {
-    if( apply_msgs.size() < intensity ) {
+    if( apply_msgs.size() < static_cast<size_t>( intensity ) ) {
         return apply_msgs[intensity - 1].second;
     } else {
         return apply_msgs[0].second;
