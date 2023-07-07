@@ -1,24 +1,328 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_PSION_AWAKENING",
+    "id": "EOC_PORTAL_STORM_PSION_AWAKENING_DISTANT",
+    "global": true,
+    "recurrence": [ "5 minutes", "10 minutes" ],
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "is_weather": "distant_portal_storm" },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": { "u_has_effect": "sleep" } }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "distant_portal_storm" } },
+    "effect": {
+      "switch": { "global_val": "var", "var_name": "ps_str" },
+      "cases": [
+        {
+          "case": 1,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 100 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 2,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 85 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 3,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 65 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 4,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 55 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 5,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 40 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 6,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 25 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 8,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 20 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 10,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 15 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 15,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 10 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_PSION_AWAKENING_MEDIUM",
     "global": true,
     "recurrence": [ "2 minutes", "5 minutes" ],
     "condition": {
       "and": [
         "u_is_outside",
-        {
-          "or": [ { "is_weather": "portal_storm" }, { "is_weather": "distant_portal_storm" }, { "is_weather": "close_portal_storm" } ]
-        },
+        { "is_weather": "portal_storm" },
         { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
-    "deactivate_condition": {
-      "not": {
-        "or": [ { "is_weather": "portal_storm" }, { "is_weather": "distant_portal_storm" }, { "is_weather": "close_portal_storm" } ]
-      }
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": {
+      "switch": { "global_val": "var", "var_name": "ps_str" },
+      "cases": [
+        {
+          "case": 1,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 100 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 2,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 85 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 3,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 65 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 4,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 55 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 5,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 40 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 6,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 25 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 8,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 20 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 10,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 15 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 15,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_NULL_AWAKENING", { "const": 10 } ],
+              [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_PSION_AWAKENING_CLOSE",
+    "global": true,
+    "recurrence": [ "1 minutes", "2 minutes" ],
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "is_weather": "close_portal_storm" },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": { "u_has_effect": "sleep" } }
+      ]
     },
+    "deactivate_condition": { "not": { "is_weather": "close_portal_storm" } },
     "effect": {
       "switch": { "global_val": "var", "var_name": "ps_str" },
       "cases": [
