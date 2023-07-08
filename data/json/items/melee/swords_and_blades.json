@@ -989,7 +989,7 @@
     "longest_side": "50 cm",
     "price": 8000,
     "price_postapoc": 1250,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "lc_steel", "wood" ],
     "symbol": "/",
     "color": "dark_gray",
