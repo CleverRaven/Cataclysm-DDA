@@ -317,7 +317,6 @@ static const json_character_flag json_flag_NO_DISEASE( "NO_DISEASE" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
-static const json_character_flag json_flag_PAWS("PAWS");
 static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
@@ -328,9 +327,6 @@ static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_D
 static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
-static const json_character_flag json_flag_THRESH_BEAST("THRESH_BEAST");
-static const json_character_flag json_flag_THRESH_FELINE("THRESH_FELINE");
-static const json_character_flag json_flag_THRESH_LUPINE("THRESH_LUPINE");
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
@@ -470,6 +466,9 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
+static const trait_id trait_THRESH_BEAST("THRESH_BEAST");
+static const trait_id trait_THRESH_FELINE("THRESH_FELINE");
+static const trait_id trait_THRESH_LUPINE("THRESH_LUPINE");
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
@@ -2027,9 +2026,9 @@ bool Character::is_crouching() const
 bool Character::is_runallfours() const
 {
     bool allfour = false;
-    if ( move_mode->type() == move_mode_type::RUNNING && is_armed() ) {
-        if ( has_trait( PAWS ) && ( has_trait( THRESH_LUPINE ) || has_trait( THRESH_FELINE )
-            || has_trait( THRESH_BEAST ) ) ) {
+    if ( move_mode->type() == move_mode_type::RUNNING && !is_armed() ) {
+        if ( has_trait( trait_PAWS ) && ( has_trait( trait_THRESH_LUPINE ) || has_trait( trait_THRESH_FELINE )
+            || has_trait( trait_THRESH_BEAST ) ) ) {
             allfour = true;
         }
     }
