@@ -108,7 +108,7 @@
     "difficulty": 4,
     "time": "45 m",
     "//": "14 mol(1037g) slaked lime + 14 mol(616g) co2 ~= 14 mol(1400g) caco3 + 14mol(250g) h2o",
-    "//2": "assumption just over 3g of co2 per lump of coal or 205 g per 150g wood splinter, which is fed into the slaked lime to produce caco3",
+    "//2": "assumption just over 3g of co2 per ml of coal or 205 g per 150g wood splinter, which is fed into the slaked lime to produce caco3",
     "batch_time_factors": [ 25, 2 ],
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 4 ] ],
     "proficiencies": [
@@ -117,7 +117,7 @@
       { "proficiency": "prof_inorganic_chemistry" }
     ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
-    "components": [ [ [ "splinter", 3 ], [ "lump_coal", 200 ] ], [ [ "chem_slaked_lime", 470 ] ] ]
+    "components": [ [ [ "splinter", 3 ], [ "coal_lump", 200 ] ], [ [ "chem_slaked_lime", 470 ] ] ]
   },
   {
     "type": "recipe",
