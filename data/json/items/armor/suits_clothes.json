@@ -461,6 +461,93 @@
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
+    "id": "technician_coveralls",
+    "type": "ARMOR",
+    "name": { "str": "work coveralls" },
+    "description": "A thick, fully covering jumpsuit made of waterproof duck canvas.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
+    "weight": "2436 g",
+    "volume": "2000 ml",
+    "price": 12000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "jumpsuit",
+    "color": "yellow",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 5, 9 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 5, 9 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "description": "Shoulder pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "description": "Shoulder pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 0.75,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+  },
+  {
     "id": "subsuit_xl",
     "type": "ARMOR",
     "name": { "str": "subject suit" },
