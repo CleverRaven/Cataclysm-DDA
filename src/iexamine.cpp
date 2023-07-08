@@ -3351,8 +3351,8 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
 static void fvat_set_empty( const tripoint &pos )
 {
     map &here = get_map();
-    auto furn_id = here.furn( pos );
-    if( furn_id == f_fvat_wood_empty || furn_id == f_fvat_wood_full ) {
+    furn_id furn = here.furn( pos );
+    if( furn == f_fvat_wood_empty || furn == f_fvat_wood_full ) {
         here.furn_set( pos, f_fvat_wood_empty );
     } else {
         here.furn_set( pos, f_fvat_empty );
@@ -3362,8 +3362,8 @@ static void fvat_set_empty( const tripoint &pos )
 static void fvat_set_full( const tripoint &pos )
 {
     map &here = get_map();
-    auto furn_id = here.furn( pos );
-    if( furn_id == f_fvat_wood_empty || furn_id == f_fvat_wood_full ) {
+    furn_id furn = here.furn( pos );
+    if( furn == f_fvat_wood_empty || furn == f_fvat_wood_full ) {
         here.furn_set( pos, f_fvat_wood_full );
     } else {
         here.furn_set( pos, f_fvat_full );
