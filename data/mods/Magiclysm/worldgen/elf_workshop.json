@@ -47,7 +47,7 @@
       },
       "place_monsters": [ { "monster": "GROUP_WORKSHOP", "x": [ 3, 5 ], "y": [ 4, 23 ], "density": 0.5, "repeat": [ 1, 6 ] } ],
       "place_loot": [
-        { "group": "tools_anvil", "x": [ 0, 24 ], "y": [ 0, 20 ], "chance": 75, "repeat": [ 1, 2 ] },
+        { "group": "tools_anvil", "x": [ 0, 23 ], "y": [ 0, 20 ], "chance": 75, "repeat": [ 1, 2 ] },
         { "item": "mithril_ingot", "x": [ 0, 23 ], "y": [ 0, 25 ], "chance": 10 },
         { "item": "scrap_copper", "x": [ 0, 22 ], "y": [ 0, 21 ], "chance": 40 },
         { "group": "tools_anvil", "x": [ 0, 13 ], "y": [ 0, 22 ], "chance": 25 },
