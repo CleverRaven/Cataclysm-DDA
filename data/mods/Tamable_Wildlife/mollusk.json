@@ -74,4 +74,5 @@
     "copy-from": "mon_slug_giant",
     "name": { "str": "colossal slug" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  }  
 ]
