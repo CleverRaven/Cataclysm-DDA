@@ -44,6 +44,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "roundabout_edge",
+    "copy-from": "special_field",
+    "delete": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "special_forest", "lab_subway_vent_shaft_surface" ],
     "copy-from": "generic_forest",
     "name": "forest",

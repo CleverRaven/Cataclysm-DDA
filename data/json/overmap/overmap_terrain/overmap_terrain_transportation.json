@@ -83,6 +83,25 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "generic_roundabout",
+    "name": "roundabout",
+    "sym": "o",
+    "color": "dark_gray",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "roundabout_sidewalk",
+    "copy-from": "generic_roundabout",
+    "flags": "NO_ROTATE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "roundabout",
+    "copy-from": "generic_roundabout"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "godco_enter",
     "name": "dirt road",
     "sym": "│",

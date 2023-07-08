@@ -1024,8 +1024,7 @@
         "school": 15,
         "motel_city": 10,
         "fishing_pond_city": 10,
-        "railroad_city": 5,
-        "roundabout_city": 100
+        "railroad_city": 5
       },
       "parks": {
         "park": 50,
@@ -1078,8 +1077,7 @@
         "cs_public_art_piece": 100,
         "cs_public_space": 100,
         "cs_city_dump_small": 100,
-        "cs_open_sewer": 33,
-        "roundabout_city": 100
+        "cs_open_sewer": 33
       },
       "shops": {
         "deserter_city": 30,
@@ -1303,8 +1301,7 @@
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
         "salon": 500,
-        "strip_mall": 750,
-        "roundabout_city": 100
+        "strip_mall": 750
       }
     },
     "weather": {

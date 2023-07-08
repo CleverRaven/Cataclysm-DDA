@@ -92,6 +92,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "road_only",
+    "terrains": [ "road" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "forest_trail",
     "terrains": [ "forest_trail" ]
   },
