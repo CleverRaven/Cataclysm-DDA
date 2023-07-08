@@ -242,7 +242,7 @@
     "name": { "str": "claw bar" },
     "description": "A small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "350 g",
-    "volume": "375 ml",
+    "volume": "75 ml",
     "longest_side": "25 cm",
     "price": 1000,
     "price_postapoc": 250,
