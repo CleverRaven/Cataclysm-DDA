@@ -91,13 +91,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "roundabout_sidewalk",
+    "id": "roundabout_4way",
     "copy-from": "generic_roundabout",
     "flags": "NO_ROTATE"
   },
   {
     "type": "overmap_terrain",
-    "id": "roundabout",
+    "id": "roundabout_3way",
     "copy-from": "generic_roundabout"
   },
   {
