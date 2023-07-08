@@ -96,9 +96,9 @@
   },
   {
     "type": "overmap_special",
-    "id": "Roundabout",
+    "id": "roundabout",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roundabout", "locations": [ "road" ] } ],
-    "occurrences": [ 100, 300 ],
+    "occurrences": [ 3, 6 ],
     "city_distance": [ 3, -1 ],
     "connections": [
       { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true },
@@ -109,8 +109,22 @@
     "flags": [ "CLASSIC", "MAN_MADE", "WILDERNESS" ]
   },
   {
+    "type": "overmap_special",
+    "id": "roundabout_city_special",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roundabout", "locations": [ "road" ] } ],
+    "occurrences": [ 3, 6 ],
+    "city_distance": [ 0, 3 ],
+    "connections": [
+      { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true },
+      { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true },
+      { "point": [ 0, 1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true }
+    ],
+    "flags": [ "CLASSIC", "MAN_MADE", "WILDERNESS" ]
+  },
+  {
     "type": "city_building",
-    "id": "Roundabout_city",
+    "id": "roundabout_city",
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "roundabout_sidewalk", "locations": [ "road" ] },
@@ -119,24 +133,5 @@
       { "point": [ 0, -1, 0 ], "overmap": "road_ns", "locations": [ "road" ] },
       { "point": [ 0, 1, 0 ], "overmap": "road_ns", "locations": [ "road" ] }
     ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "roundabout_mutable",
-    "subtype": "mutable",
-    "locations": [ "road" ],
-    "occurrences": [ 100, 300 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ],
-    "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "road" ] ],
-      [ [ 1, 0, 0 ], [ "road" ] ],
-      [ [ 0, 1, 0 ], [ "road" ] ],
-      [ [ -1, 0, 0 ], [ "road" ] ],
-      [ [ 0, -1, 0 ], [ "road" ] ]
-    ],
-    "joins": [ "camp_to_camp" ],
-    "overmaps": { "roundabout_sidewalk": { "overmap": "roundabout_sidewalk" }, "notused": { "overmap": "special_air" } },
-    "root": "roundabout_sidewalk",
-    "phases": [ [ { "overmap": "notused", "max": 1 } ] ]
   }
 ]
