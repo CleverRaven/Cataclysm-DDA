@@ -255,7 +255,7 @@ bool give_items_to( monster &z )
         const item &it = *itq.first;
         units::volume item_volume = it.volume() * itq.second;
         units::mass item_weight = it.weight() * itq.second;
-        units::length item_length = it.length() * itq.second;
+        units::length item_length = it.length();
         if( max_weight < item_weight ) {
             add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
             continue;
