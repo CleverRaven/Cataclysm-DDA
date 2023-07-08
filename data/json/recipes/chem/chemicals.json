@@ -117,10 +117,7 @@
       { "proficiency": "prof_inorganic_chemistry" }
     ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
-    "components": [
-      [ [ "splinter", 3 ], [ "lump_coal", 200 ] ],
-      [ [ "chem_slaked_lime", 470 ] ]
-    ]
+    "components": [ [ [ "splinter", 3 ], [ "lump_coal", 200 ] ], [ [ "chem_slaked_lime", 470 ] ] ]
   },
   {
     "type": "recipe",
