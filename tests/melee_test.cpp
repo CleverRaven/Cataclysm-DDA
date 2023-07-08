@@ -375,7 +375,7 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
 
             eoc_total_dmg += std::ceil( std::stod(
                                             dude.get_value( "npctalk_var_test_damage_taken" ) ) );
-            REQUIRE( dude.get_value( "npctalk_var_test_bp" ) != "" );
+            REQUIRE( !dude.get_value( "npctalk_var_test_bp" ).empty() );
         }
     }
     Messages::clear_messages();
