@@ -223,7 +223,15 @@
       [ [ "chem_caco3", 23 ] ],
       [ [ "water_clean", 2 ] ],
       [ [ "dry_fruit", 1 ], [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
-      [ [ "chem_citric_acid", 2 ], [ "gelatin_powder", 1 ], [ "gelatin_fresh", 1 ], [ "honeydew", 2 ], [ "honey_bottled", 2 ], [ "syrup", 2 ], [ "wax", 1 ] ]
+      [
+        [ "chem_citric_acid", 2 ],
+        [ "gelatin_powder", 1 ],
+        [ "gelatin_fresh", 1 ],
+        [ "honeydew", 2 ],
+        [ "honey_bottled", 2 ],
+        [ "syrup", 2 ],
+        [ "wax", 1 ]
+      ]
     ]
   },
   {
