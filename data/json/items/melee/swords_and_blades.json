@@ -983,7 +983,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "low carbon steel kukri" },
-    "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of low carbon steel, and barely has a proper handle, you'd probably find a better version in a store somewhere.",
+    "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of low carbon steel, and barely has a proper handle.  You'd probably find a better version in a store somewhere.",
     "weight": "450 g",
     "volume": "750 ml",
     "longest_side": "50 cm",
