@@ -248,7 +248,6 @@ bool give_items_to( monster &z )
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     units::volume max_volume = storage.get_total_capacity() - z.get_carried_volume();
     units::length max_length = storage.max_containable_length();
-    
     avatar &player_character = get_avatar();
     drop_locations items = game_menus::inv::multidrop( player_character );
     drop_locations to_move;
