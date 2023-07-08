@@ -1077,7 +1077,8 @@
         "cs_public_art_piece": 100,
         "cs_public_space": 100,
         "cs_city_dump_small": 100,
-        "cs_open_sewer": 33
+        "cs_open_sewer": 33,
+		"Roundabout_city": 1000000
       },
       "shops": {
         "deserter_city": 30,

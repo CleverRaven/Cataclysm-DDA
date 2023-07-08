@@ -1,0 +1,142 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "roundabout" ],
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "field",
+      "rows": [
+        "    ________y_y_y_y_    ",
+        "   __________________   ",
+        "  ____________________  ",
+        " ______________________ ",
+        "________________________",
+        "y_______________________",
+        "________________________",
+        "y_______________________",
+        "__________,,,,__________",
+        "y________,,,,,,_________",
+        "________,,,,,,,,________",
+        "y_______,,,,,,,,________",
+        "________,,,,,,,,_______y",
+        "________,,,,,,,,________",
+        "_________,,,,,,________y",
+        "__________,,,,__________",
+        "_______________________y",
+        "________________________",
+        "_______________________y",
+        "________________________",
+        " ______________________ ",
+        "  ____________________  ",
+        "   __________________   ",
+        "    _y_y_y_y________    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "_": "t_pavement", "y": "t_pavement_y", ",": "t_region_grass" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "roundabout_sidewalk" ],
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "field",
+      "rows": [
+        "....________y_y_y_y_....",
+        "...__________________...",
+        "..____________________..",
+        ".______________________.",
+        "________________________",
+        "y_______________________",
+        "________________________",
+        "y_______________________",
+        "__________....__________",
+        "y________..,,.._________",
+        "________..,,,,..________",
+        "y_______.,,,,,,.________",
+        "________.,,,,,,._______y",
+        "________..,,,,..________",
+        "_________..,,..________y",
+        "__________....__________",
+        "_______________________y",
+        "________________________",
+        "_______________________y",
+        "________________________",
+        ".______________________.",
+        "..____________________..",
+        "...__________________...",
+        "...._y_y_y_y________...."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_sidewalk", "_": "t_pavement", "y": "t_pavement_y", ",": "t_region_grass" }
+    }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_roundabout",
+    "name": "roundabout",
+    "sym": "!",
+    "color": "white",
+    "see_cost": 1,
+    "flags": "NO_ROTATE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "roundabout_sidewalk",
+    "copy-from": "generic_roundabout",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "roundabout",
+    "copy-from": "generic_roundabout",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_special",
+    "id": "Roundabout",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roundabout", "locations": [ "road" ] } ],
+    "occurrences": [ 100, 300 ],
+    "city_distance": [ 3, -1 ],
+    "connections": [
+      { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true },
+      { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true },
+      { "point": [ 0, 1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ], "existing": true }
+    ],
+    "flags": [ "CLASSIC", "MAN_MADE", "WILDERNESS" ]
+  },
+  {
+    "type": "city_building",
+    "id": "Roundabout_city",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "roundabout_sidewalk", "locations": [ "road" ] },
+      { "point": [ -1, 0, 0 ], "overmap": "road_ew", "locations": [ "road" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "road_ew", "locations": [ "road" ] },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ns", "locations": [ "road" ] },
+      { "point": [ 0, 1, 0 ], "overmap": "road_ns", "locations": [ "road" ] }
+    ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "roundabout_mutable",
+    "subtype": "mutable",
+    "locations": [ "road" ],
+    "occurrences": [ 100, 300 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "road" ] ],
+      [ [ 1, 0, 0 ], [ "road" ] ],
+      [ [ 0, 1, 0 ], [ "road" ] ],
+      [ [ -1, 0, 0 ], [ "road" ] ],
+      [ [ 0, -1, 0 ], [ "road" ] ]
+    ],
+    "joins": [ "camp_to_camp" ],
+    "overmaps": { "roundabout_sidewalk": { "overmap": "roundabout_sidewalk" }, "notused": { "overmap": "special_air" } },
+    "root": "roundabout_sidewalk",
+    "phases": [ [ { "overmap": "notused", "max": 1 } ] ]
+  }
+]
