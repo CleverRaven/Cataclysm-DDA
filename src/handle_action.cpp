@@ -748,7 +748,7 @@ static void smash()
         smashskill += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
         mech_smash = true;
     } else if( player_character.get_wielded_item() ) {
-        smashskill += player_character.get_wielded_item()->damage_melee( damage_bash )
+        smashskill += player_character.get_wielded_item()->damage_melee( damage_bash );
     }
     smashskill = player_character.calculate_by_enchantment( smashskill, enchant_vals::mod::MELEE_DAMAGE,
                  true );
