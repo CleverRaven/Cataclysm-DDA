@@ -2026,9 +2026,10 @@ bool Character::is_crouching() const
 bool Character::is_runallfours() const
 {
     bool allfour = false;
-    if ( move_mode->type() == move_mode_type::RUNNING && !is_armed() ) {
-        if ( has_trait( trait_PAWS ) && ( has_trait( trait_THRESH_LUPINE ) || has_trait( trait_THRESH_FELINE )
-            || has_trait( trait_THRESH_BEAST ) ) ) {
+    if( move_mode->type() == move_mode_type::RUNNING && !is_armed() ) {
+        if( has_trait( trait_PAWS ) && ( has_trait( trait_THRESH_LUPINE ) ||
+                                         has_trait( trait_THRESH_FELINE )
+                                         || has_trait( trait_THRESH_BEAST ) ) ) {
             allfour = true;
         }
     }
