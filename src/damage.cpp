@@ -147,6 +147,7 @@ void damage_type::load( const JsonObject &jo, std::string_view )
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
         onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
+
     for( JsonValue jv : jo.get_array( "ondamage_eocs" ) ) {
         ondamage_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
@@ -425,7 +426,7 @@ void damage_instance::ondamage_effects( Creature *source, Creature *target,
 void damage_type::ondamage_effects( Creature *source, Creature *target, bodypart_str_id bp,
                                     double total_damage, double damage_taken ) const
 {
-    for( const effect_on_condition_id &eoc : onhit_eocs ) {
+    for( const effect_on_condition_id &eoc : ondamage_eocs ) {
         dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
                     target == nullptr ? nullptr : get_talker_for( target ) );
 

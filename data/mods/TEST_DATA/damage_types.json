@@ -22,20 +22,9 @@
     "type": "effect_on_condition",
     "id": "EOC_TEST_FIRE_DAMAGE_DEETS",
     "effect": [
-      { "u_add_var": "test_bp", "type": "general", "context": "dmg_type_test", "value": { "context_val": "bp" } },
-      {
-        "u_add_var": "test_damage_taken",
-        "type": "general",
-        "context": "dmg_type_test",
-        "value": { "context_val": "damage_taken" }
-      },
-      {
-        "u_add_var": "test_fire",
-        "type": "general",
-        "context": "test_total_damage",
-        "value": { "context_val": "total_damage" }
-      },
-      { "npc_add_var": "test_fire", "type": "general", "context": "dmg_type_test", "value": "target" }
+      { "set_string_var": { "context_val": "bp" }, "target_var": { "u_val": "test_bp" } },
+      { "set_string_var": { "context_val": "damage_taken" }, "target_var": { "u_val": "test_damage_taken" } },
+      { "set_string_var": { "context_val": "total_damage" }, "target_var": { "u_val": "test_total_damage" } }
     ]
   },
   {
