@@ -463,7 +463,7 @@
   {
     "id": "technician_coveralls",
     "type": "ARMOR",
-    "name": { "str": "work coveralls" },
+    "name": { "str_sp": "work coveralls" },
     "description": "A thick, fully covering jumpsuit made of waterproof duck canvas.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
     "weight": "2436 g",
     "volume": "2000 ml",
