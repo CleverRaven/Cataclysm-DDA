@@ -748,13 +748,13 @@ static void smash()
         smashskill += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
         mech_smash = true;
     } else if( player_character.get_wielded_item() ) {
-        smashskill += player_character.calculate_by_enchantment(
-                          player_character.get_wielded_item()->damage_melee( damage_bash ),
-                          enchant_vals::mod::MELEE_DAMAGE,
-                          true );
+        smashskill += player_character.get_wielded_item()->damage_melee( damage_bash )
     }
-    smashskill += player_character.calculate_by_enchantment( 0, enchant_vals::mod::ITEM_DAMAGE_BASH,
-                  true );
+    smashskill = player_character.calculate_by_enchantment( smashskill, enchant_vals::mod::MELEE_DAMAGE,
+                 true );
+    smashskill = player_character.calculate_by_enchantment( smashskill,
+                 enchant_vals::mod::ITEM_DAMAGE_BASH,
+                 true );
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
