@@ -3797,7 +3797,7 @@
     "type": "recipe",
     "copy-from": "lc_steel_facemask",
     "time": "8 h 5 m",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [  ] ]
@@ -3837,7 +3837,7 @@
     "type": "recipe",
     "copy-from": "mc_steel_facemask",
     "time": "8 h 5 m",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [  ] ]
@@ -3878,7 +3878,7 @@
     "type": "recipe",
     "copy-from": "hc_steel_facemask",
     "time": "8 h 5 m",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [  ] ]
@@ -3913,17 +3913,17 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "mc_steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [  ] ]
+    "components": [ [ [ "gold_small", 1 ] ] ]
   },
   {
     "result": "xl_qt_steel_facemask",
     "type": "recipe",
     "copy-from": "qt_steel_facemask",
     "time": "12 h 5 m",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [  ] ]
+    "components": [ [ [ "gold_small", 3 ] ] ]
   },
   {
     "result": "ch_steel_facemask",
@@ -3955,16 +3955,16 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "mc_steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [  ] ]
+    "components": [ [ [ "gold_small", 1 ] ] ]
   },
   {
     "result": "xl_ch_steel_facemask",
     "type": "recipe",
     "copy-from": "ch_steel_facemask",
     "time": "11 h 5 m",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [  ] ]
+    "components": [ [ [ "gold_small", 3 ] ] ]
   }
 ]

@@ -724,18 +724,6 @@
         "encumbrance": 7,
         "coverage": 100
       }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": false,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "10 ml",
-        "max_contains_weight": "500 mg",
-        "moves": 250,
-        "description": "Socket for a gemstone.",
-        "flag_restriction": [ "GEMSTONE" ]
-      }
     ]
   },
   {
@@ -864,6 +852,18 @@
         ],
         "encumbrance": 7,
         "coverage": 100
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": false,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "500 mg",
+        "moves": 250,
+        "description": "Socket for a gemstone.",
+        "flag_restriction": [ "GEMSTONE" ]
       }
     ]
   },
