@@ -276,6 +276,7 @@ static float untreated_rate( const std::string &bp_name, const float rest_qualit
 static float bandaged_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     const bodypart_id &bp = bodypart_id( bp_name );
     dummy.add_effect( effect_bandaged, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
