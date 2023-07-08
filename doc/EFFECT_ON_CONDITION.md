@@ -169,6 +169,7 @@ Other EOCs have some variables as well that they have access to, they are as fol
 
 | EOC            | Context Variables |
 | --------------------- | ----------- |
-| mutation: "activated_eocs" | { "this", `mutation_id` }
-| mutation: "processed_eocs" | { "this", `mutation_id` }
-| mutation: "deactivated_eocs" | { "this", `mutation_id` }
+| mutation: "activated_eocs" | { "this", `mutation_id` } |
+| mutation: "processed_eocs" | { "this", `mutation_id` } |
+| mutation: "deactivated_eocs" | { "this", `mutation_id` } |
+| damage_type: "ondamage_eocs" | { "bp", `bodypart_id` }, { "damage_taken", `double` damage the character will take post mitigation }, { "total_damage", `double` damage pre mitigation } |

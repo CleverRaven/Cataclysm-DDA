@@ -326,6 +326,7 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
     int total_dmg = 0;
     int total_hits = 0;
     int set_on_fire = 0;
+    int eoc_total_dmg = 0;
     for( int i = 0; i < 1000; i++ ) {
         clear_creatures();
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
@@ -345,6 +346,10 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
                 REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
                 set_on_fire++;
             }
+
+            eoc_total_dmg += std::stoi(
+                                 dude.get_value( "npctalk_var_general_dmg_type_test_test_damage_taken" ) );
+            REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_bp" ) != "" );
         }
     }
     CHECK( total_hits == Approx( 1000 ).margin( 50 ) );
