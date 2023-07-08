@@ -11,12 +11,18 @@
       "~": "t_water_sh",
       "s": "t_region_shrub_decorative"
     },
-    "furniture": {
-      "!": "f_traffic_light",
-      "*": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ],
-      "@": "f_statue"
-    },
-    "signs": { "?": { "signage": "Statue commemorating yadda yadda who did yadda yadda." } }
+    "furniture": { "!": "f_traffic_light", "*": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ], "@": "f_statue" },
+    "signs": {
+      "?": {
+        "signage": "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered by the people of <city>."
+      }
+    }
+  },
+  {
+    "type": "snippet",
+    "category": "<statue_worthy_act>",
+    "text": [ "provided for our city in a time of need", "founded our great city" ],
+    "//": "Idk, what do peeps get statues for?"
   },
   {
     "type": "mapgen",
@@ -77,12 +83,42 @@
       "palettes": [ "roundabout_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
-        { "else_chunks": [ "4x4_roundabout_sidewalk_ne" ], "x": 20, "y": 0, "neighbors": { "north_east": "land" } },
-        { "else_chunks": [ "4x4_roundabout_sidewalk_se" ], "x": 20, "y": 20, "neighbors": { "south_east": "land" } },
-        { "else_chunks": [ "4x4_roundabout_sidewalk_sw" ], "x": 0, "y": 20, "neighbors": { "south_west": "land" } },
-        { "else_chunks": [ "4x4_roundabout_sidewalk_nw" ], "x": 0, "y": 0, "neighbors": { "north_west": "land" } },
-        { "else_chunks": [ "24x24_roundabout_sidewalk_edge_n" ], "x": 0, "y": 24, "neighbors": { "east": "land" } },
-        { "else_chunks": [ "24x24_roundabout_sidewalk_edge_n" ], "x": 0, "y": 24, "neighbors": { "west": "land" } }
+        {
+          "else_chunks": [ "4x4_roundabout_sidewalk_ne" ],
+          "x": 20,
+          "y": 0,
+          "neighbors": { "north_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        },
+        {
+          "else_chunks": [ "4x4_roundabout_sidewalk_se" ],
+          "x": 20,
+          "y": 20,
+          "neighbors": { "south_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        },
+        {
+          "else_chunks": [ "4x4_roundabout_sidewalk_sw" ],
+          "x": 0,
+          "y": 20,
+          "neighbors": { "south_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        },
+        {
+          "else_chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        },
+        {
+          "else_chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
+          "x": 0,
+          "y": 24,
+          "neighbors": { "east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        },
+        {
+          "else_chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
+          "x": 0,
+          "y": 24,
+          "neighbors": { "west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        }
       ]
     }
   },
@@ -122,15 +158,40 @@
       "palettes": [ "roundabout_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
-        { "else_chunks": [ "4x4_roundabout_sidewalk_ne" ], "x": 20, "y": 0, "neighbors": { "north_east": "land" } },
-        { "else_chunks": [ "4x4_roundabout_sidewalk_se" ], "x": 20, "y": 20, "neighbors": { "south_east": "land" } },
-        { "else_chunks": [ "4x4_roundabout_sidewalk_sw" ], "x": 0, "y": 20, "neighbors": { "south_west": "land" } },
-        { "else_chunks": [ "4x4_roundabout_sidewalk_nw" ], "x": 0, "y": 0, "neighbors": { "north_west": "land" } },
+        {
+          "else_chunks": [ "4x4_roundabout_sidewalk_ne" ],
+          "x": 20,
+          "y": 0,
+          "neighbors": { "north_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        },
+        {
+          "else_chunks": [ "4x4_roundabout_sidewalk_se" ],
+          "x": 20,
+          "y": 20,
+          "neighbors": { "south_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        },
+        {
+          "else_chunks": [ "4x4_roundabout_sidewalk_sw" ],
+          "x": 0,
+          "y": 20,
+          "neighbors": { "south_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        },
+        {
+          "else_chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+        },
         {
           "else_chunks": [ "24x24_roundabout_traffic_lights", "null" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north_east": "land", "south_east": "land", "south_west": "land", "north_west": "land" }
+          "neighbors": {
+            "north_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
+            "south_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
+            "south_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
+            "north_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ]
+          }
         },
         {
           "else_chunks": [
@@ -142,7 +203,12 @@
           ],
           "x": 8,
           "y": 8,
-          "neighbors": { "north_east": "land", "south_east": "land", "south_west": "land", "north_west": "land" }
+          "neighbors": {
+            "north_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
+            "south_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
+            "south_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
+            "north_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ]
+          }
         }
       ]
     }
