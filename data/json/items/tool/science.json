@@ -1149,7 +1149,16 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "symbol": "R",
     "color": "white",
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1167,7 +1176,7 @@
     "looks_like": "glass_tube_small",
     "symbol": "N",
     "color": "light_blue",
-    "qualities": [ [ "FINE_DISTILL", 1 ] ],
+    "qualities": [ [ "FINE_DISTILL", 1 ], [ "CONCENTRATE", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1204,7 +1213,8 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

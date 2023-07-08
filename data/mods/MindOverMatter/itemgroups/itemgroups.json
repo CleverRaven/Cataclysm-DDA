@@ -95,6 +95,16 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "psionic_recipes_advanced",
+    "items": [
+      [ "phavian_report_psionic_drain", 15 ],
+      [ "schematics_instability_remover", 5 ],
+      [ "schematics_psionic_purifier", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "psionic_recipes_weapons",
     "items": [ [ "schematics_grenade_inferno", 1 ] ]
   },

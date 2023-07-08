@@ -32,6 +32,7 @@ Asynchronous animations including sprinting and smashing
 Added enable and disable mutation EOCs
 3D vision for isometric tilesets
 Unhardcode dragging, grab fixes
+Make vehicle doors lockable and pickable
 
 
 ## Content:
@@ -59,6 +60,7 @@ Living lore document
 Gastropod Foot Limb: Mutant limbs can be added in json
 Added a small office building fortified by bandits
 New location: speedway
+You can now choose a new leader for your faction without dying
 
 
 ## Interface:
@@ -101,6 +103,7 @@ Alchemy Perks for Xedra Evolved
 Bombastic Perks adds Playstyle Perks
 [Magiclysm] Ways to boost your caster level
 Disable the Bionic Professions mod by default
+Add the Mind Over Matter mod to the CDDA repository
 
 
 ## Balance:
@@ -169,6 +172,7 @@ Charge integrated magazines when plugged in
 Don't allow to scan books that are owned by other characters
 Fix NPC putting items in open air when fetching items during an activity when 3D FOV is on
 Trees and other FLAMMABLE_ASH terrain leaves behind ash when burned down
+Do not report monsters breaking free of unknown grabbers if the player cannot see them
 
 
 ## Performance:

@@ -344,6 +344,7 @@
       { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
       [ "denat_alcohol", 3 ],
       [ "methed_alcohol", 2 ],
+      [ "lamp_oil", 25 ],
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],

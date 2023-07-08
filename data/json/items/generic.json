@@ -1627,7 +1627,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TINDER" ],
+    "flags": [ "TINDER", "PAPER_SHAPED" ],
     "volume": "6 ml",
     "longest_side": "297 mm",
     "ammo_type": "paper"

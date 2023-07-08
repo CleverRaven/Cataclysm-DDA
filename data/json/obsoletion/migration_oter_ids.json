@@ -39,6 +39,11 @@
   {
     "type": "oter_id_migration",
     "//": "migrated in 0.H",
+    "oter_ids": { "crater_core": "crater_core_large" }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
     "oter_ids": {
       "2fmotel_1_north": "motel_1_north",
       "2fmotel_1_east": "motel_1_east",
@@ -153,6 +158,17 @@
       "pagan_cult_right_corner_up_south": "omt_obsolete",
       "pagan_cult_right_corner_up_west": "omt_obsolete",
       "pagan_cult_right_corner_west": "omt_obsolete"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
+      "hive": "omt_obsolete",
+      "s_restaurant_foodplace_north": "s_restaurant_north",
+      "s_restaurant_foodplace_east": "s_restaurant_east",
+      "s_restaurant_foodplace_south": "s_restaurant_south",
+      "s_restaurant_foodplace_west": "s_restaurant_west"
     }
   },
   {

@@ -1161,6 +1161,18 @@
     "craft_inherit": true
   },
   {
+    "id": "ALLERGEN_BREAD",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_CHEESE",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_DRIED_VEGETABLE",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLERGEN_EGG",
     "type": "json_flag"
   },
@@ -2203,6 +2215,11 @@
     "id": "AFS_CS_EXOBAY_CARD",
     "type": "json_flag",
     "info": "ID card granting access to the crashing ship's exobay."
+  },
+  {
+    "id": "PAPER_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like paper"
   },
   {
     "id": "CREDIT_CARD_SHAPED",
