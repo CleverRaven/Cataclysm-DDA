@@ -282,8 +282,8 @@
   {
     "id": "hair_dryer",
     "name": { "str": "hair dryer" },
-    "type": "GENERIC",
-    "description": "This tool dries your hair by pushing air through a coil of hot wires.  Without a functioning power grid, it is a motorized paper weight.",
+    "type": "TOOL",
+    "description": "This tool dries your hair by pushing air through a coil of hot wires.  The heat can be toggled on and off.",
     "symbol": "(",
     "color": "black",
     "price": 2100,
@@ -291,6 +291,18 @@
     "volume": "500 ml",
     "weight": "680 g",
     "material": [ "plastic", "steel" ],
+    "flags": [ "WATER_BREAK" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 35,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "charged_qualities": [ [ "BLOW_AIR", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
     "to_hit": -1,
     "melee_damage": { "bash": 3 }
   },
