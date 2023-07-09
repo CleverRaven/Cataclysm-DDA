@@ -59,7 +59,7 @@
     "id": "50beowulf_ar15mag",
     "type": "MAGAZINE",
     "name": { "str": ".50 Beowulf 10-round conversion magazine" },
-    "description": "A detachable 10-round box magazine, nearly identical in size and shape to standard 30-round STANAG magazines, and able to be inserted into the same compatible rifles.  The magazine has been engineered to feed a single-stack column of.50 Beowulf ammunition into the chamber of an appropriately converted AR-style firearm.",
+    "description": "A detachable 10-round box magazine, nearly identical in size and shape to standard 30-round STANAG magazines, and able to be inserted into the same compatible rifles.  The magazine has been engineered to feed a single-stack column of .50 Beowulf ammunition into the chamber of an appropriately converted AR-style firearm.",
     "weight": "226 g",
     "volume": "290 ml",
     "longest_side": "190 mm",
