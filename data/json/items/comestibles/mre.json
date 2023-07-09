@@ -311,7 +311,7 @@
     "copy-from": "mre_entree",
     "name": { "str": "pepperoni pizza entree" },
     "calories": 291,
-    "description": "Something less BORING.",
+    "description": "The pizza entree from an MRE.",
     "material": [ "flesh", "wheat", "milk" ],
     "fun": 3
   }
