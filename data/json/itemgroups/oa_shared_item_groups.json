@@ -42,6 +42,7 @@
       [ "hairpin", 5 ],
       [ "leather", 5 ],
       [ "file", 15 ],
+      [ "fuel_tin", 10 ],
       [ "jug_plastic", 10 ],
       [ "spray_can", 20 ],
       [ "jar_glass_sealed", 20 ],

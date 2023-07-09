@@ -183,5 +183,21 @@
     "type": "MIGRATION",
     "replace": "pants",
     "variant": "pants_flag"
+  },
+  {
+    "id": "waterproof_smart_phone_case",
+    "from_variant": "bejewelled_smart_phone_case",
+    "type": "MIGRATION",
+    "replace": "waterproof_smart_phone_case_migration"
+  },
+  {
+    "id": "survivor_light",
+    "type": "MIGRATION",
+    "replace": "wearable_light"
+  },
+  {
+    "id": "survivor_light_on",
+    "type": "MIGRATION",
+    "replace": "wearable_light_on"
   }
 ]

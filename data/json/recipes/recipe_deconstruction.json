@@ -69,7 +69,7 @@
     "result": "can_opener",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "uncraft",
@@ -1991,17 +1991,6 @@
     "components": [ [ [ "motor_micro", 16 ] ], [ [ "power_supply", 8 ] ], [ [ "cable", 16 ] ], [ [ "scrap", 14 ] ] ]
   },
   {
-    "result": "reverse_jointed_legs",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "mechanics",
-    "difficulty": 4,
-    "time": "6 h 40 m",
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "motor_tiny", 6 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 12 ] ], [ [ "steel_chunk", 6 ] ] ]
-  },
-  {
     "result": "omni_wheel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -2173,23 +2162,26 @@
   {
     "result": "ceramic_bowl",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "ceramic_cup",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "ceramic_plate",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "char_purifier",
@@ -4353,7 +4345,8 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "peanut",
@@ -5003,7 +4996,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "chunk_cast_iron", 6 ] ], [ [ "lump_cast_iron", 1 ] ] ]
+    "components": [ [ [ "chunk_cast_iron", 5 ] ], [ [ "lump_cast_iron", 1 ] ], [ [ "scrap_cast_iron", 3 ] ] ]
   },
   {
     "result": "pot",

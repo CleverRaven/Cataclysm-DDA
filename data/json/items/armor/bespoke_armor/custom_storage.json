@@ -85,6 +85,7 @@
         "max_contains_volume": "65 L",
         "max_contains_weight": "90 kg",
         "max_item_length": "65 cm",
+        "watertight": true,
         "magazine_well": "5 L",
         "moves": 450
       },
@@ -507,7 +508,7 @@
     "volume": "3000 ml",
     "price": 24000,
     "price_postapoc": 2500,
-    "material": [ "nylon", "leather" ],
+    "material": [ "denim", "leather" ],
     "symbol": "[",
     "looks_like": "legrig",
     "color": "brown",
