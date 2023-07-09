@@ -480,7 +480,7 @@
         "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
         "coverage": 100,
         "encumbrance": [ 5, 9 ]
-        },
+      },
       {
         "covers": [ "arm_l", "arm_r" ],
         "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
@@ -571,7 +571,7 @@
         ],
         "coverage": 100,
         "encumbrance": [ 7, 11 ]
-        },
+      },
       {
         "covers": [ "arm_l", "arm_r" ],
         "material": [
