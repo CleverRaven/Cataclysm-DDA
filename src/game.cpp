@@ -899,7 +899,6 @@ bool game::start_game()
         overmap_buffer.reveal_route( nearest_road, city_center_omt, 3 );
         // Reveal destination city (scaling with city size setting)
         overmap_buffer.reveal( city_center_omt, city_size );
-        debugmsg( "test" );
     }
 
     u.moves = 0;
