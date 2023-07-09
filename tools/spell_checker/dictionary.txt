@@ -2646,6 +2646,7 @@ smokegun
 smokin
 smoothbore
 snakelet
+snakelets
 snapback
 snappier
 snick
