@@ -263,9 +263,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "upgrades": { "half_life": 65, "into": "mon_rattlesnake_giant" },
     "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 1 },
-    "delete": {
-      "anger_triggers": [ "PLAYER_CLOSE" ]
-    }
+    "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
   },
   {
     "id": "mon_rattlesnake_big_s",
