@@ -3627,11 +3627,7 @@ static void init_term_size_and_scaling_factor()
 
 static font_blending_mode font_blending_mode_from_string( const std::string &str )
 {
-    if( str == "solid" ) {
-        return font_blending_mode::solid;
-    } else if( str == "blended" ) {
-        return font_blending_mode::blended;
-    } else if( str == "lcd" ) {
+    if( str == "lcd" ) {
 #if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
         if( get_lcd_blending_availability( renderer ) == lcd_blending_availability::available ) {
             return font_blending_mode::lcd;
@@ -3641,6 +3637,8 @@ static font_blending_mode font_blending_mode_from_string( const std::string &str
 #if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
         }
 #endif
+    } else if( str == "blended" ) {
+        return font_blending_mode::blended;
     } else {
         return font_blending_mode::solid;
     }

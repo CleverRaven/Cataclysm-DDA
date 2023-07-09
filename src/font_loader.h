@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_FONT_LOADER_H
 #define CATA_SRC_FONT_LOADER_H
 
+#if defined( TILES )
+
 #include <algorithm>
 #include <stdexcept>
 #include <string>
@@ -41,5 +43,7 @@ class font_loader
         /// @throws std::exception upon any kind of error.
         void load();
 };
+
+#endif // TILES
 
 #endif // CATA_SRC_FONT_LOADER_H
