@@ -137,15 +137,15 @@ static bool check_support( const tripoint_bub_ms & ); // at least two orthogonal
 static bool check_support_below( const tripoint_bub_ms
                                  & ); // at least two orthogonal supports at the level below
 static bool check_support_singular( const tripoint_bub_ms & ); // at least one orthogonal support
-static bool check_support_below_singular( const tripoint_bub_ms
-                                 & ); // at least one orthogonal support at the level below
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
 static bool check_empty_stable( const tripoint_bub_ms
                                 & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
+static bool check_nofloor( const tripoint_bub_ms & ); // tile has a flag NO_FLOOR
 static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a flag NO_FLOOR
 static bool check_deconstruct( const tripoint_bub_ms
                                & ); // either terrain or furniture must be deconstructible
 static bool check_empty_up_OK( const tripoint_bub_ms & ); // tile is empty and below OVERMAP_HEIGHT
+static bool check_empty_down_OK( const tripoint_bub_ms & ); // tile is empty and above OVERMAP_HEIGHT
 static bool check_up_OK( const tripoint_bub_ms & ); // tile is below OVERMAP_HEIGHT
 static bool check_down_OK( const tripoint_bub_ms & ); // tile is above OVERMAP_DEPTH
 static bool check_no_trap( const tripoint_bub_ms & );
@@ -1237,38 +1237,6 @@ bool construct::check_support_singular( const tripoint_bub_ms &p )
     return num_supports >= 1;
 }
 
-bool construct::check_support_below_singular( const tripoint_bub_ms &p )
-{
-    bool blocking_creature = g->get_creature_if( [&]( const Creature & creature ) {
-        return creature.pos() == p.raw();
-    } ) != nullptr;
-
-    map &here = get_map();
-    // These checks are based on check_empty_lite, but accept no floor and the traps associated
-    // with it, i.e. ledge, and various forms of pits.
-    // - Check if there's nothing in the way. The "passable" check rejects tiles you can't
-    //   pass through, but we want air and water to be OK as well (that's what we want to bridge).
-    // - Apart from that, vehicles, items, creatures, and furniture also have to be absent.
-    // - Then we have traps, and, unfortunately, there are "ledge" traps on all the open
-    //   space tiles adjacent to passable tiles, so we can't just reject all traps outright,
-    //   but have to accept those.
-    if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
-           here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
-        blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
-                here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||
-        !here.i_at( p ).empty() || here.veh_at( p ) ) {
-        return false;
-    }
-    // need two or more orthogonally adjacent supports at the Z level below
-    int num_supports = 0;
-    for( const tripoint_bub_ms &nb : get_orthogonal_neighbors( p + tripoint_below ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, nb ) ) {
-            num_supports++;
-        }
-    }
-    return num_supports >= 1;
-}
-
 bool construct::check_stable( const tripoint_bub_ms &p )
 {
     return get_map().has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below );
@@ -1277,6 +1245,11 @@ bool construct::check_stable( const tripoint_bub_ms &p )
 bool construct::check_empty_stable( const tripoint_bub_ms &p )
 {
     return check_empty( p ) && check_stable( p );
+}
+
+bool construct::check_nofloor( const tripoint_bub_ms &p )
+{
+    return get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p );
 }
 
 bool construct::check_nofloor_above( const tripoint_bub_ms &p )
@@ -1299,6 +1272,11 @@ bool construct::check_empty_up_OK( const tripoint_bub_ms &p )
     return check_empty( p ) && check_up_OK( p );
 }
 
+bool construct::check_empty_down_OK( const tripoint_bub_ms &p )
+{
+    return check_empty( p ) && check_down_OK( p );
+}
+
 bool construct::check_up_OK( const tripoint_bub_ms & )
 {
     // You're not going above +OVERMAP_HEIGHT.
@@ -1318,12 +1296,12 @@ bool construct::check_no_trap( const tripoint_bub_ms &p )
 
 bool construct::check_ladder_up( const tripoint_bub_ms &p )
 {
-    return check_empty( p ) && check_empty_above( p ) && check_up_OK( p ) && check_support_singular( p ) && check_nofloor_above( p );
+    return check_empty_up_OK( p ) && check_support_singular( p ) && check_nofloor_above( p );
 }
 
 bool construct::check_ladder_down( const tripoint_bub_ms &p )
 {
-    return check_empty( p ) && check_empty_down( p ) && check_down_OK( p ) && check_support_below_singular( p );
+    return check_empty_down_OK( p ) && check_support_singular( p + tripoint_below ) && check_nofloor( p );
 }
 
 bool construct::check_ramp_high( const tripoint_bub_ms &p )
@@ -1725,37 +1703,37 @@ void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::done_ladder_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().furn_set( top, f_ladder_long_down ) );
+    get_map().furn_set( top, f_ladder_long_down );
 }
 
 void construct::done_ladder_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().furn_set( top, f_ladder_long_up ) );
+    get_map().furn_set( top, f_ladder_long_up );
 }
 
 void construct::done_ladder_aluminum_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().furn_set( top, f_ladder_long_down ) );
+    get_map().furn_set( top, f_ladder_aluminum_long_down );
 }
 
 void construct::done_ladder_aluminum_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().furn_set( top, f_ladder_long_up ) );
+    get_map().furn_set( top, f_ladder_aluminum_long_up );
 }
 
 void construct::done_ladder_aluminum_tele_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().furn_set( top, f_ladder_long_down ) );
+    get_map().furn_set( top, f_ladder_aluminum_tele_down );
 }
 
 void construct::done_ladder_aluminum_tele_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().furn_set( top, f_ladder_long_up ) );
+    get_map().furn_set( top, f_ladder_aluminum_tele_up );
 }
 
 void construct::done_window_curtains( const tripoint_bub_ms &, Character &who )
@@ -1984,12 +1962,16 @@ void load_construction( const JsonObject &jo )
             { "check_support_below", construct::check_support_below },
             { "check_stable", construct::check_stable },
             { "check_empty_stable", construct::check_empty_stable },
+            { "check_nofloor", construct::check_nofloor },
             { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
             { "check_empty_up_OK", construct::check_empty_up_OK },
+            { "check_empty_down_OK", construct::check_empty_down_OK },
             { "check_up_OK", construct::check_up_OK },
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
+            { "check_ladder_up", construct::check_ladder_up },
+            { "check_ladder_down", construct::check_ladder_down },
             { "check_ramp_low", construct::check_ramp_low },
             { "check_ramp_high", construct::check_ramp_high },
             { "check_no_wiring", construct::check_no_wiring }
@@ -2010,6 +1992,12 @@ void load_construction( const JsonObject &jo )
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
             { "done_wood_stairs", construct::done_wood_stairs },
+            { "done_ladder_up", construct::done_ladder_up },
+            { "done_ladder_down", construct::done_ladder_down },
+            { "done_ladder_aluminum_up", construct::done_ladder_aluminum_up },
+            { "done_ladder_aluminum_down", construct::done_ladder_aluminum_down },
+            { "done_ladder_aluminum_tele_up", construct::done_ladder_aluminum_tele_up },
+            { "done_ladder_aluminum_tele_down", construct::done_ladder_aluminum_tele_down },
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
             { "done_mark_firewood", construct::done_mark_firewood },
