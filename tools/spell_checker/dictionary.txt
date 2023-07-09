@@ -1183,6 +1183,7 @@ geometries
 gesticulates
 getups
 ghast
+ghurka
 gibbous
 github
 gladius
@@ -3280,6 +3281,7 @@ yateveo
 yd
 yelemi
 yellowjacket
+yelman
 yme
 ynn
 yoroi
