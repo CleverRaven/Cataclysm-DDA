@@ -622,6 +622,134 @@
     "weight": "745 g"
   },
   {
+    "id": "statue_small_stone",
+    "type": "GENERIC",
+    "name": { "str": "small stone statue" },
+    "description": "A small stone statue.",
+    "//": "The variants are just fillers, someone more creative can add some fun things with better descriptions. Volumes and weights are rough averages based on ones I could find for sale.",
+    "symbol": "Ω",
+    "color": "light_gray",
+    "looks_like": "f_statue",
+    "material": [ "stone" ],
+    "price": "50 USD",
+    "price_postapoc": 2,
+    "volume": "12000 ml",
+    "weight": "7750 g",
+    "flags": [ "NO_REPAIR" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "statue_small_stone_toadstool",
+        "name": { "str": "small stone toadstool" },
+        "description": "A small stone statue of a toadstool.",
+        "weight": 5
+      },
+      {
+        "id": "statue_small_stone_fairy",
+        "name": { "str": "small stone toadstool" },
+        "description": "A small stone statue of a fairy.",
+        "weight": 5
+      },
+      {
+        "id": "statue_small_stone_frog",
+        "name": { "str": "small stone frog" },
+        "description": "A small stone statue of a frog.",
+        "weight": 3
+      },
+      {
+        "id": "statue_small_stone_snail",
+        "name": { "str": "small stone snail" },
+        "description": "A small stone statue of a snail.",
+        "weight": 2
+      },
+      {
+        "id": "statue_small_ceramic_pagoda_lantern",
+        "name": { "str": "small ceramic pagoda lantern" },
+        "description": "A small ceramic statue of a pagoda lantern.",
+        "weight": 3
+      }
+    ]
+  },
+  {
+    "id": "statue_small_metal",
+    "type": "GENERIC",
+    "name": { "str": "small metal statue" },
+    "description": "A small metal statue.",
+    "symbol": "Ω",
+    "color": "light_gray",
+    "looks_like": "statue_small_stone",
+    "material": [ "steel" ],
+    "price": "50 USD",
+    "price_postapoc": 2,
+    "volume": "30000 ml",
+    "weight": "800 g",
+    "flags": [ "NO_REPAIR" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "statue_small_metal_flamingo",
+        "name": { "str": "small metal flamingo" },
+        "description": "A small metal statue of a flamingo.",
+        "weight": 5
+      },
+      {
+        "id": "statue_small_metal_duck",
+        "name": { "str": "small metal duck" },
+        "description": "A small metal statue of a duck.",
+        "weight": 5
+      },
+      {
+        "id": "statue_small_metal_chicken",
+        "name": { "str": "small metal chicken" },
+        "description": "A small metal statue of a chicken.",
+        "weight": 5
+      },
+      {
+        "id": "statue_small_metal_peacock",
+        "name": { "str": "small metal peacock" },
+        "description": "A small metal statue of a peacock.",
+        "weight": 3
+      },
+      {
+        "id": "statue_small_metal_crane",
+        "name": { "str": "small metal crane" },
+        "description": "A small metal statue of a crane.",
+        "weight": 3
+      }
+    ]
+  },
+  {
+    "id": "statue_small_ceramic",
+    "type": "GENERIC",
+    "name": { "str": "small ceramic statue" },
+    "description": "A small ceramic statue.",
+    "symbol": "Ω",
+    "color": "brown",
+    "looks_like": "statue_small_stone",
+    "//": "Alot of statues seem to be made of some kind of thermoset resin but I don't think we have an appropriate material for that so I went with ceramic",
+    "material": [ "ceramic" ],
+    "price": "20 USD",
+    "price_postapoc": 2,
+    "volume": "5000 ml",
+    "weight": "500 g",
+    "flags": [ "NO_REPAIR" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "statue_small_ceramic_gnome_watering",
+        "name": { "str": "small ceramic watering gnome" },
+        "description": "A small ceramic statue of a gnome holding a watering can.",
+        "weight": 5
+      },
+      {
+        "id": "statue_small_ceramic_gnome_fishing",
+        "name": { "str": "small ceramic fishing gnome" },
+        "description": "A small ceramic statue of a sitting gnome waiting to catch a fish.",
+        "weight": 3
+      }
+    ]
+  },
+  {
     "id": "incense",
     "type": "AMMO",
     "ammo_type": "incense",
