@@ -181,8 +181,8 @@ static const matec_id RAPID( "RAPID" );
 
 static const material_id material_wool( "wool" );
 
-static const mon_flag_id mon_flag_POISON( "POISON" );
-static const mon_flag_id mon_flag_REVIVES( "REVIVES" );
+static const mon_flag_str_id mon_flag_POISON( "POISON" );
+static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
 
 static const morale_type morale_null( "morale_null" );
 

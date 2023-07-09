@@ -87,7 +87,7 @@ static const mission_type_id
 mission_MISSION_OLD_GUARD_NEC_COMMO_4( "MISSION_OLD_GUARD_NEC_COMMO_4" );
 static const mission_type_id mission_MISSION_REACH_REFUGEE_CENTER( "MISSION_REACH_REFUGEE_CENTER" );
 
-static const mon_flag_id mon_flag_CONSOLE_DESPAWN( "CONSOLE_DESPAWN" );
+static const mon_flag_str_id mon_flag_CONSOLE_DESPAWN( "CONSOLE_DESPAWN" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );

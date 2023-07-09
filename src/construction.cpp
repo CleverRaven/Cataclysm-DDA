@@ -90,7 +90,7 @@ static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 
-static const mon_flag_id mon_flag_HUMAN( "HUMAN" );
+static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
 
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );

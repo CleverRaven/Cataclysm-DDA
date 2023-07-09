@@ -20,8 +20,8 @@ static const efftype_id effect_venom_weaken( "venom_weaken" );
 
 static const flag_id json_flag_INVISIBLE( "INVISIBLE" );
 
-static const mon_flag_id mon_flag_ARTHROPOD_BLOOD( "ARTHROPOD_BLOOD" );
-static const mon_flag_id mon_flag_FLIES( "FLIES" );
+static const mon_flag_str_id mon_flag_ARTHROPOD_BLOOD( "ARTHROPOD_BLOOD" );
+static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
 
 static const mtype_id mon_flaming_eye( "mon_flaming_eye" );
 static const mtype_id mon_fungaloid( "mon_fungaloid" );

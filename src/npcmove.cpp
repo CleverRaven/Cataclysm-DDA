@@ -133,7 +133,7 @@ static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 
-static const mon_flag_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 

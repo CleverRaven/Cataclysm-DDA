@@ -49,17 +49,17 @@ static const item_group_id Item_spawn_data_defense_caravan_melee( "defense_carav
 static const item_group_id Item_spawn_data_defense_caravan_ranged( "defense_caravan_ranged" );
 static const item_group_id Item_spawn_data_defense_caravan_tools( "defense_caravan_tools" );
 
+static const mon_flag_str_id mon_flag_BASHES( "BASHES" );
+static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
+
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
 static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
 static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-
-static const mon_flag_id mon_flag_BASHES( "BASHES" );
-static const mon_flag_id mon_flag_HEARS( "HEARS" );
-static const mon_flag_id mon_flag_SEES( "SEES" );
-static const mon_flag_id mon_flag_SMELLS( "SMELLS" );
 
 static const mtype_id mon_generator( "mon_generator" );
 

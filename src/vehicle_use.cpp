@@ -97,8 +97,8 @@ static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 static const itype_id itype_welding_kit( "welding_kit" );
 
-static const mon_flag_id mon_flag_PET_HARNESSABLE( "PET_HARNESSABLE" );
-static const mon_flag_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
+static const mon_flag_str_id mon_flag_PET_HARNESSABLE( "PET_HARNESSABLE" );
+static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
 
 static const quality_id qual_SCREW( "SCREW" );
 

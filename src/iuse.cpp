@@ -314,12 +314,12 @@ static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
-static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+static const mon_flag_str_id mon_flag_DOGFOOD( "DOGFOOD" );
+static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
+static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
 
-static const mon_flag_id mon_flag_DOGFOOD( "DOGFOOD" );
-static const mon_flag_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_id mon_flag_NO_BREATHE( "NO_BREATHE" );
-static const mon_flag_id mon_flag_SEES( "SEES" );
+static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_dog_thing( "mon_dog_thing" );

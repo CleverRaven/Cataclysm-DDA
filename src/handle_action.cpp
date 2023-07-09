@@ -139,7 +139,7 @@ static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
 
-static const mon_flag_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 

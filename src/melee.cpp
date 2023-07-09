@@ -135,8 +135,8 @@ static const matec_id tec_none( "tec_none" );
 static const material_id material_glass( "glass" );
 static const material_id material_steel( "steel" );
 
-static const mon_flag_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const move_mode_id move_mode_prone( "prone" );
 

@@ -40,16 +40,21 @@
 
 static const material_id material_flesh( "flesh" );
 
+static const mon_flag_str_id mon_flag_BASHES( "BASHES" );
+static const mon_flag_str_id mon_flag_BORES( "BORES" );
+static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
+static const mon_flag_str_id mon_flag_DESTROYS( "DESTROYS" );
+static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
+static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
+static const mon_flag_str_id mon_flag_NOT_HALLUCINATION( "NOT_HALLUCINATION" );
+static const mon_flag_str_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
+
 static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
 
-static const mon_flag_id mon_flag_BASHES( "BASHES" );
-static const mon_flag_id mon_flag_BORES( "BORES" );
-static const mon_flag_id mon_flag_CLIMBS( "CLIMBS" );
-static const mon_flag_id mon_flag_DESTROYS( "DESTROYS" );
-static const mon_flag_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_id mon_flag_MILKABLE( "MILKABLE" );
-static const mon_flag_id mon_flag_NOT_HALLU( "NOT_HALLU" );
-static const mon_flag_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
+namespace
+{
+generic_factory<mon_flag> mon_flags( "monster flags" );
+} // namespace
 
 namespace behavior
 {
@@ -130,18 +135,52 @@ bool string_id<species_type>::is_valid() const
     return MonsterGenerator::generator().mon_species->is_valid( *this );
 }
 
+/** @relates int_id */
+template<>
+bool int_id<mon_flag>::is_valid() const
+{
+    return mon_flags.is_valid( *this );
+}
+
+/** @relates int_id */
+template<>
+const mon_flag &int_id<mon_flag>::obj() const
+{
+    return mon_flags.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+const string_id<mon_flag> &int_id<mon_flag>::id() const
+{
+    return mon_flags.convert( *this );
+}
+
+/** @relates int_id */
+template<>
+int_id<mon_flag> string_id<mon_flag>::id() const
+{
+    return mon_flags.convert( *this, int_id<mon_flag>( 0 ) );
+}
+
+/** @relates int_id */
+template<>
+int_id<mon_flag>::int_id( const string_id<mon_flag> &id ) : _id( id.id() )
+{
+}
+
 /** @relates string_id */
 template<>
 const mon_flag &string_id<mon_flag>::obj() const
 {
-    return MonsterGenerator::generator().mon_flags->obj( *this );
+    return mon_flags.obj( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<mon_flag>::is_valid() const
 {
-    return MonsterGenerator::generator().mon_flags->is_valid( *this );
+    return mon_flags.is_valid( *this );
 }
 
 std::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
@@ -156,11 +195,9 @@ std::optional<mon_action_death> MonsterGenerator::get_death_function( const std:
 MonsterGenerator::MonsterGenerator()
     : mon_templates( "monster type" )
     , mon_species( "species" )
-    , mon_flags( "monster flags" )
 {
     mon_templates->insert( mtype() );
     mon_species->insert( species_type() );
-    mon_flags->insert( mon_flag() );
     init_phases();
     init_attack();
     init_defense();
@@ -175,9 +212,6 @@ void MonsterGenerator::reset()
 
     mon_species->reset();
     mon_species->insert( species_type() );
-
-    mon_flags->reset();
-    mon_flags->insert( mon_flag() );
 
     hallucination_monsters.clear();
 
@@ -300,6 +334,11 @@ void MonsterGenerator::finalize_mtypes()
                       mon.id.str(), mon.default_faction.str() );
         }
 
+        mon.flags.clear();
+        for( const mon_flag_str_id &mf : mon.pre_flags_ ) {
+            mon.flags.emplace( mf );
+        }
+
         apply_species_attributes( mon );
         validate_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
@@ -394,7 +433,7 @@ void MonsterGenerator::finalize_mtypes()
     }
 
     for( const mtype &mon : mon_templates->get_all() ) {
-        if( !mon.has_flag( mon_flag_NOT_HALLU ) ) {
+        if( !mon.has_flag( mon_flag_NOT_HALLUCINATION ) ) {
             hallucination_monsters.push_back( mon.id );
         }
     }
@@ -408,8 +447,9 @@ void MonsterGenerator::apply_species_attributes( mtype &mon )
         }
         const species_type &mspec = spec.obj();
 
-        for( const mon_flag_id &f : mspec.flags ) {
+        for( const mon_flag_str_id &f : mspec.flags ) {
             mon.flags.emplace( f );
+            mon.pre_flags_.emplace( f );
         }
         mon.anger |= mspec.anger;
         mon.fear |= mspec.fear;
@@ -1064,12 +1104,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
               mtype_id::NULL_ID() );
 
     if( jo.has_member( "flags" ) ) {
-        flags.clear();
+        pre_flags_.clear();
         if( jo.has_string( "flags" ) ) {
-            flags.emplace( jo.get_string( "flags" ) );
+            pre_flags_.emplace( jo.get_string( "flags" ) );
         } else {
             for( JsonValue jval : jo.get_array( "flags" ) ) {
-                flags.emplace( jval.get_string() );
+                pre_flags_.emplace( jval.get_string() );
             }
         }
     } else {
@@ -1078,10 +1118,10 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             exjo.allow_omitted_members();
             if( exjo.has_member( "flags" ) ) {
                 if( exjo.has_string( "flags" ) ) {
-                    flags.emplace( exjo.get_string( "flags" ) );
+                    pre_flags_.emplace( exjo.get_string( "flags" ) );
                 } else {
                     for( JsonValue jval : exjo.get_array( "flags" ) ) {
-                        flags.emplace( jval.get_string() );
+                        pre_flags_.emplace( jval.get_string() );
                     }
                 }
             }
@@ -1091,15 +1131,15 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             deljo.allow_omitted_members();
             if( deljo.has_member( "flags" ) ) {
                 if( deljo.has_string( "flags" ) ) {
-                    auto iter = flags.find( mon_flag_id( deljo.get_string( "flags" ) ) );
-                    if( iter != flags.end() ) {
-                        flags.erase( iter );
+                    auto iter = pre_flags_.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
+                    if( iter != pre_flags_.end() ) {
+                        pre_flags_.erase( iter );
                     }
                 } else {
                     for( JsonValue jval : deljo.get_array( "flags" ) ) {
-                        auto iter = flags.find( mon_flag_id( jval.get_string() ) );
-                        if( iter != flags.end() ) {
-                            flags.erase( iter );
+                        auto iter = pre_flags_.find( mon_flag_str_id( jval.get_string() ) );
+                        if( iter != pre_flags_.end() ) {
+                            pre_flags_.erase( iter );
                         }
                     }
                 }
@@ -1166,13 +1206,13 @@ void species_type::load( const JsonObject &jo, const std::string_view )
             deljo.allow_omitted_members();
             if( deljo.has_member( "flags" ) ) {
                 if( deljo.has_string( "flags" ) ) {
-                    auto iter = flags.find( mon_flag_id( deljo.get_string( "flags" ) ) );
+                    auto iter = flags.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
                     if( iter != flags.end() ) {
                         flags.erase( iter );
                     }
                 } else {
                     for( JsonValue jval : deljo.get_array( "flags" ) ) {
-                        auto iter = flags.find( mon_flag_id( jval.get_string() ) );
+                        auto iter = flags.find( mon_flag_str_id( jval.get_string() ) );
                         if( iter != flags.end() ) {
                             flags.erase( iter );
                         }
@@ -1190,14 +1230,14 @@ void species_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "bleeds", bleeds, string_id_reader<::field_type> {}, fd_null );
 }
 
-void MonsterGenerator::load_mon_flags( const JsonObject &jo, const std::string &src )
+void mon_flag::load_mon_flags( const JsonObject &jo, const std::string &src )
 {
-    mon_flags->load( jo, src );
+    mon_flags.load( jo, src );
 }
 
-void mon_flag::load( const JsonObject &, std::string_view )
+void mon_flag::load( const JsonObject &jo, std::string_view )
 {
-    // TODO: id and type already loaded. more to be added in the future.
+    mandatory( jo, was_loaded, "id", id );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
@@ -1205,9 +1245,14 @@ const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
     return mon_templates->get_all();
 }
 
-const std::vector<mon_flag> &MonsterGenerator::get_all_mon_flags() const
+const std::vector<mon_flag> &mon_flag::get_all()
 {
-    return mon_flags->get_all();
+    return mon_flags.get_all();
+}
+
+void mon_flag::reset()
+{
+    mon_flags.reset();
 }
 
 mtype_id MonsterGenerator::get_valid_hallucination() const

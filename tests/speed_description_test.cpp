@@ -6,7 +6,7 @@
 
 #include <algorithm>
 
-static const mon_flag_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
 
 static const mtype_id mon_test_speed_desc_base( "mon_test_speed_desc_base" );
 static const mtype_id mon_test_speed_desc_base_150( "mon_test_speed_desc_base_150" );

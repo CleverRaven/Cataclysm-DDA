@@ -146,7 +146,8 @@ struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;
 
 struct mon_flag;
-using mon_flag_id = string_id<mon_flag>;
+using mon_flag_id = int_id<mon_flag>;
+using mon_flag_str_id = string_id<mon_flag>;
 
 class monfaction;
 using mfaction_id = int_id<monfaction>;

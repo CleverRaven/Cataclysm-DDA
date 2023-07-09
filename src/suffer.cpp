@@ -129,7 +129,7 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
-static const mon_flag_id mon_flag_GROUP_BASH( "GROUP_BASH" );
+static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );

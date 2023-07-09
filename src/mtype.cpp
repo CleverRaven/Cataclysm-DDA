@@ -35,23 +35,23 @@ static const material_id material_hflesh( "hflesh" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
 
-static const mon_flag_id mon_flag_ACID_BLOOD( "ACID_BLOOD" );
-static const mon_flag_id mon_flag_AQUATIC( "AQUATIC" );
-static const mon_flag_id mon_flag_ARTHROPOD_BLOOD( "ARTHROPOD_BLOOD" );
-static const mon_flag_id mon_flag_BILE_BLOOD( "BILE_BLOOD" );
-static const mon_flag_id mon_flag_CLIMBS( "CLIMBS" );
-static const mon_flag_id mon_flag_DIGS( "DIGS" );
-static const mon_flag_id mon_flag_FLIES( "FLIES" );
-static const mon_flag_id mon_flag_GRABS( "GRABS" );
-static const mon_flag_id mon_flag_HEARS( "HEARS" );
-static const mon_flag_id mon_flag_HUMAN( "HUMAN" );
-static const mon_flag_id mon_flag_PARALYZE( "PARALYZE" );
-static const mon_flag_id mon_flag_POISON( "POISON" );
-static const mon_flag_id mon_flag_SEES( "SEES" );
-static const mon_flag_id mon_flag_SMELLS( "SMELLS" );
-static const mon_flag_id mon_flag_SWIMS( "SWIMS" );
-static const mon_flag_id mon_flag_VENOM( "VENOM" );
-static const mon_flag_id mon_flag_WARM( "WARM" );
+static const mon_flag_str_id mon_flag_ACID_BLOOD( "ACID_BLOOD" );
+static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
+static const mon_flag_str_id mon_flag_ARTHROPOD_BLOOD( "ARTHROPOD_BLOOD" );
+static const mon_flag_str_id mon_flag_BILE_BLOOD( "BILE_BLOOD" );
+static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
+static const mon_flag_str_id mon_flag_DIGS( "DIGS" );
+static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
+static const mon_flag_str_id mon_flag_GRABS( "GRABS" );
+static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
+static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
+static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
+static const mon_flag_str_id mon_flag_POISON( "POISON" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
+static const mon_flag_str_id mon_flag_SWIMS( "SWIMS" );
+static const mon_flag_str_id mon_flag_VENOM( "VENOM" );
+static const mon_flag_str_id mon_flag_WARM( "WARM" );
 
 static const species_id species_MOLLUSK( "MOLLUSK" );
 
@@ -92,7 +92,7 @@ mtype::mtype()
 
     aggro_character = true;
 
-    flags.emplace( mon_flag_HUMAN );
+    pre_flags_.emplace( mon_flag_HUMAN );
 }
 
 std::string mtype::nname( unsigned int quantity ) const
@@ -397,7 +397,7 @@ void mtype::faction_display( catacurses::window &w, const point &top_left, const
     if( has_flag( mon_flag_VENOM ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can inflict poison." ) );
     }
-    if( has_flag( mon_flag_PARALYZE ) ) {
+    if( has_flag( mon_flag_PARALYZEVENOM ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can inflict paralysis." ) );
     }
     // Description

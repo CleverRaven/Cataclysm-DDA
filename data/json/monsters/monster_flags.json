@@ -85,7 +85,7 @@
     "//": "Attack may SEVERELY poison the player"
   },
   {
-    "id": "PARALYZE",
+    "id": "PARALYZEVENOM",
     "type": "monster_flag",
     "//": "Attack may paralyze the player with venom"
   },
@@ -370,22 +370,22 @@
     "//": "This monster can't be revived by necros.  It will still rise on its own."
   },
   {
-    "id": "AVOID_DANGER_1",
+    "id": "PATH_AVOID_DANGER_1",
     "type": "monster_flag",
     "//": "This monster will path around some dangers instead of through them"
   },
   {
-    "id": "AVOID_DANGER_2",
+    "id": "PATH_AVOID_DANGER_2",
     "type": "monster_flag",
     "//": "This monster will path around most dangers instead of through them"
   },
   {
-    "id": "AVOID_FIRE",
+    "id": "PATH_AVOID_FIRE",
     "type": "monster_flag",
     "//": "This monster will path around heat-related dangers instead of through them"
   },
   {
-    "id": "AVOID_FALL",
+    "id": "PATH_AVOID_FALL",
     "type": "monster_flag",
     "//": "This monster will path around cliffs instead of off of them"
   },
@@ -395,7 +395,7 @@
     "//": "This monster will prioritize targets depending on their danger levels"
   },
   {
-    "id": "NOT_HALLU",
+    "id": "NOT_HALLUCINATION",
     "type": "monster_flag",
     "//": "Monsters that will NOT appear when player's producing hallucinations"
   },

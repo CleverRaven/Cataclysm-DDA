@@ -64,10 +64,13 @@ struct enum_traits<mon_trigger> {
 };
 
 struct mon_flag {
-    mon_flag_id id = mon_flag_id::NULL_ID();
+    mon_flag_str_id id = mon_flag_str_id::NULL_ID();
     bool was_loaded = false;
 
     void load( const JsonObject &jo, std::string_view src );
+    static void load_mon_flags( const JsonObject &jo, const std::string &src );
+    static void reset();
+    static const std::vector<mon_flag> &get_all();
 };
 
 /** Used to store monster effects placed on attack */
@@ -159,7 +162,8 @@ struct mtype {
         mon_action_defend sp_defense;
     private:
         ascii_art_id picture_id;
-        std::set<mon_flag_id> flags;
+        std::unordered_set<mon_flag_id> flags;
+        std::set<mon_flag_str_id> pre_flags_; // used only for initial loading
     public:
         mtype_id id;
         mfaction_str_id default_faction;

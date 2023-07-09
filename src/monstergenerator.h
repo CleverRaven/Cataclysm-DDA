@@ -33,7 +33,7 @@ struct species_type {
     bool was_loaded = false;
     translation description;
     translation footsteps;
-    std::set<mon_flag_id> flags;
+    std::set<mon_flag_str_id> flags;
     enum_bitset<mon_trigger> anger;
     enum_bitset<mon_trigger> fear;
     enum_bitset<mon_trigger> placate;
@@ -65,7 +65,6 @@ class MonsterGenerator
         // JSON loading functions
         void load_monster( const JsonObject &jo, const std::string &src );
         void load_species( const JsonObject &jo, const std::string &src );
-        void load_mon_flags( const JsonObject &jo, const std::string &src );
         void load_monster_attack( const JsonObject &jo, const std::string &src );
 
         // combines mtype and species information, sets bitflags
@@ -75,13 +74,11 @@ class MonsterGenerator
 
         std::optional<mon_action_death> get_death_function( const std::string &f ) const;
         const std::vector<mtype> &get_all_mtypes() const;
-        const std::vector<mon_flag> &get_all_mon_flags() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
         friend struct species_type;
-        friend struct mon_flag;
         friend class mattack_actor;
-        std::map<mon_flag_id, int> m_flag_usage_stats;
+        std::unordered_map<mon_flag_id, int> m_flag_usage_stats;
 
     private:
         MonsterGenerator();
@@ -105,12 +102,10 @@ class MonsterGenerator
 
         friend class string_id<mtype>;
         friend class string_id<species_type>;
-        friend class string_id<mon_flag>;
         friend class string_id<mattack_actor>;
 
         pimpl<generic_factory<mtype>> mon_templates;
         pimpl<generic_factory<species_type>> mon_species;
-        pimpl<generic_factory<mon_flag>> mon_flags;
         std::vector<mtype_id> hallucination_monsters;
 
         std::unordered_map<std::string, phase_id> phase_map;

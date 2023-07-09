@@ -105,7 +105,7 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
-static const mon_flag_id mon_flag_CONVERSATION( "CONVERSATION" );
+static const mon_flag_str_id mon_flag_CONVERSATION( "CONVERSATION" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
