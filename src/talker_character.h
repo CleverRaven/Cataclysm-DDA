@@ -95,6 +95,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         ret_val<void> wants_to_buy( const item &it, int at_price ) const override;
         int value( const item &it ) const override;
         int value( const item &it, double price ) const override;
+        faction_price_rule const *get_price_rules( item const &it ) const override;
 
         // inventory, buying, and selling
         bool is_wearing( const itype_id &item_id ) const override;

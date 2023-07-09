@@ -444,6 +444,14 @@ int talker_character_const::value( const item &it, double price ) const
     return 0;
 }
 
+faction_price_rule const *talker_character_const::get_price_rules( item const &it ) const
+{
+    if( me_chr_const->is_npc() ) {
+        return me_chr_const->as_npc()->get_price_rules( it );
+    }
+    return nullptr;
+}
+
 void talker_character::set_value( const std::string &var_name, const std::string &value )
 {
     me_chr->set_value( var_name, value );
