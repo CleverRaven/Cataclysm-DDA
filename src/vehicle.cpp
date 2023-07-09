@@ -130,7 +130,8 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
     avatar &player_character = get_avatar();
-    const tripoint part_pos = veh.global_part_pos3( part );
+    const vehicle_part &vp = veh.part( part );
+    const tripoint part_pos = veh.global_part_pos3( vp );
 
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = player_character.activity;
@@ -147,7 +148,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     // TODO: maybe do this for all the nearby NPCs as well?
     if( player_character.get_grab_type() == object_type::VEHICLE &&
         player_character.pos() + player_character.grab_point == part_pos ) {
-        if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
+        if( veh.parts_at_relative( vp.mount, false ).empty() ) {
             add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
             player_character.grab( object_type::NONE );
         }
@@ -156,6 +157,8 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     here.dirty_vehicle_list.insert( &veh );
     here.clear_vehicle_point_from_cache( &veh, part_pos );
     here.add_vehicle_to_cache( &veh );
+    here.set_memory_seen_cache_dirty( part_pos );
+    player_character.memorize_clear_decoration( here.getabs( part_pos ), "vp_" + vp.info().id.str() );
 }
 
 // Vehicle stack methods.
