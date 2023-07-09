@@ -2172,7 +2172,7 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "components": [ [ [ "ceramic_shard", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

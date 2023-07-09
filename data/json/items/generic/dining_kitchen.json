@@ -156,16 +156,23 @@
     "symbol": "u",
     "description": "A light ceramic teacup.  Quite classy.",
     "copy-from": "base_ceramic_dish",
+    "weight": "254 g",
+    "//1": "Weight calculated proportionally from the coffee mug as I couldn't find detailed weight information for the product.",
+    "volume": "380 ml",
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
+        "max_contains_volume": "150 ml",
+        "max_contains_weight": "300 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "//2": "Based on https://www.dimensions.com/element/ikea-vardagen-coffee-cup-saucer"
   },
   {
     "type": "GENERIC",
