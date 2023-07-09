@@ -2408,27 +2408,7 @@ static void debug_menu_game_state()
     avatar &player_character = get_avatar();
     map &here = get_map();
     tripoint_abs_sm abs_sub = here.get_abs_sub();
-    std::string mfus;
-    std::vector<std::pair<mon_flag_id, int>> sorted;
-    for( const mon_flag &mflag : mon_flag::get_all() ) {
-        sorted.emplace_back( mflag.id,
-                             MonsterGenerator::generator().m_flag_usage_stats.count( mflag.id ) ?
-                             MonsterGenerator::generator().m_flag_usage_stats.at( mflag.id ) : 0 );
-    }
-    std::sort( sorted.begin(), sorted.end(), []( const std::pair<mon_flag_id, int> &a,
-    const std::pair<mon_flag_id, int> &b ) {
-        return a.second > b.second;
-    } );
     popup( player_character.total_daily_calories_string() );
-    for( auto &m_flag_stat : sorted ) {
-        mfus += string_format( "%s;%d\n", m_flag_stat.first.id().c_str(),
-                               m_flag_stat.second );
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-    for( std::pair<const mon_flag_id, int> &fs : MonsterGenerator::generator().m_flag_usage_stats ) {
-        fs.second = 0;
-    }
-    popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
     std::string s = _( "Location %d:%d in %d:%d, %s\n" );
     s += _( "Current turn: %d.\n" );
