@@ -3047,11 +3047,11 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "knife_carving",
-    "time": "5 m",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "spike", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "uncraft",
