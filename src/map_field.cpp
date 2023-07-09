@@ -1778,7 +1778,8 @@ void map::creature_in_field( Creature &critter )
             }
 
             const effect field_fx = fe.get_effect();
-            if( critter.is_immune_field( cur_field_id ) || critter.is_immune_effect( field_fx.get_id() ) ) {
+            if( critter.is_immune_field( cur_field_id ) || critter.is_immune_effect( field_fx.get_id() ) ||
+                critter.check_immunity_data( fe.immunity_data ) ) {
                 continue;
             }
             bool effect_added = false;

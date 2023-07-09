@@ -2114,15 +2114,27 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "fan",
     "symbol": ",",
-    "color": "light_gray",
     "name": { "str": "desk fan" },
     "description": "A small fan, used to propel air around a room.",
+    "color": "light_gray",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
+    "flags": [ "WATER_BREAK" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 4,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "charged_qualities": [ [ "BLOW_AIR", 1 ] ],
     "weight": "2857 g",
     "volume": "1 L"
   },
@@ -2856,16 +2868,18 @@
     "description": "A beautiful black onyx."
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "straw_pile",
-    "symbol": ",",
-    "color": "light_gray",
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },
     "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "calories": 15,
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
-    "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID", "TINDER" ],
-    "weight": "20 g",
+    "material": [ "veggy" ],
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER" ],
+    "weight": "34 g",
     "volume": "250 ml",
     "to_hit": -2
   },
