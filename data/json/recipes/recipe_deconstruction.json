@@ -1873,7 +1873,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "chunk_cast_iron", 8 ] ], [ [ "lump_cast_iron", 1 ] ] ]
+    "components": [ [ [ "chunk_cast_iron", 5 ] ], [ [ "lump_cast_iron", 1 ] ], [ [ "scrap_cast_iron", 4 ] ] ]
   },
   {
     "result": "pathfinding_module",

@@ -838,13 +838,14 @@
     "copy-from": "base_cookpot",
     "material": [ "iron" ],
     "color": "dark_gray",
-    "weight": "3000 g",
-    "volume": "2375 ml",
-    "longest_side": "24 cm",
+    "weight": "2490 g",
+    "volume": "3980 ml",
+    "longest_side": "25 cm",
+    "price": "29 USD",
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "2 kg",
+        "max_contains_weight": "4 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
