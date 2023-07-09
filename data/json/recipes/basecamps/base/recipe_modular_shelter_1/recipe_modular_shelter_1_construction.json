@@ -9,7 +9,16 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_1_bedroom_NW",
-    "blueprint_name": "build NW standard bedroom walls",
+    "blueprint_name": "build NW bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_1_palette_log": "Log walls",
+        "fbmc_shelter_1_palette_rock": "Rock walls",
+        "fbmc_shelter_1_palette_standard": "Standard walls",
+        "fbmc_shelter_1_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_1_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_fire" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom1" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom1" } ]
@@ -24,7 +33,16 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_1_bedroom_W1",
-    "blueprint_name": "build W standard bedroom walls",
+    "blueprint_name": "build W bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_1_palette_log": "Log walls",
+        "fbmc_shelter_1_palette_rock": "Rock walls",
+        "fbmc_shelter_1_palette_standard": "Standard walls",
+        "fbmc_shelter_1_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_1_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom2" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom2" } ]
@@ -39,7 +57,16 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_1_bedroom_W2",
-    "blueprint_name": "build W standard bedroom walls",
+    "blueprint_name": "build W bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_1_palette_log": "Log walls",
+        "fbmc_shelter_1_palette_rock": "Rock walls",
+        "fbmc_shelter_1_palette_standard": "Standard walls",
+        "fbmc_shelter_1_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_1_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom2" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom3" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom3" } ]
@@ -53,8 +80,17 @@
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "fbmc_shelter_1_standard_bedroom_SW",
-    "blueprint_name": "build SW standard bedroom walls",
+    "construction_blueprint": "fbmc_shelter_1_bedroom_SW",
+    "blueprint_name": "build SW bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_1_palette_log": "Log walls",
+        "fbmc_shelter_1_palette_rock": "Rock walls",
+        "fbmc_shelter_1_palette_standard": "Standard walls",
+        "fbmc_shelter_1_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_1_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom3" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom5" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom5" } ]
@@ -69,7 +105,16 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_1_bedroom_S",
-    "blueprint_name": "build S standard bedroom walls",
+    "blueprint_name": "build S bedroom walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_shelter_1_palette_log": "Log walls",
+        "fbmc_shelter_1_palette_rock": "Rock walls",
+        "fbmc_shelter_1_palette_standard": "Standard walls",
+        "fbmc_shelter_1_palette_wad": "Wattle-and-daub walls",
+        "fbmc_shelter_1_palette_wood": "Wooden walls"
+      }
+    },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom5" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom6" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom6" } ]

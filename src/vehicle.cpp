@@ -306,6 +306,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     // -1 = light damage (DEFAULT)
     //  0 = undamaged
     //  1 = disabled: destroyed seats, controls, tanks, tires, OR engine
+    //  2 = undamaged with no faults or security
     int veh_status = -1;
     if( init_veh_status == 0 ) {
         veh_status = 0;
@@ -344,6 +345,13 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     }
     // Make engine faults more likely
     destroyEngine = destroyEngine || one_in( 3 );
+
+    if( init_veh_status == 2 ) {
+        veh_status = 0;
+        has_no_key = false;
+        destroyAlarm = false;
+        destroyEngine = false;
+    }
 
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
@@ -475,7 +483,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
             }
 
             //Solar panels have 25% of being destroyed
-            if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) ) {
+            if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) && init_veh_status != 2 ) {
                 set_hp( pt, 0, false );
             }
 

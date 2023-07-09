@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_bed_1",
-    "description": "Let's build a first set of beds replacing existing desks.",
+    "description": "Let's build a first set of beds in place of some existing desks.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -19,7 +19,7 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_bed_2",
-    "description": "Let's build a second set of beds replacing existing desks.",
+    "description": "Let's build a second set of beds in place of some existing desks.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -36,7 +36,7 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_bed_3",
-    "description": "Let's build a third set of beds replacing existing desks.",
+    "description": "Let's build a third set of beds in place of some existing desks.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -53,7 +53,7 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_bed_4",
-    "description": "Let's build a fourth set of beds replacing existing desks.",
+    "description": "Let's build a fourth set of beds in place of some existing desks.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -70,7 +70,7 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_bed_5",
-    "description": "Let's build a fifth set of beds replacing existing desks.",
+    "description": "Let's build a fifth set of beds in place of some existing desks.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

@@ -5587,7 +5587,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_dock",
+    "id": "constr_dock_moving",
     "group": "build_river_dock_shallow_bridge",
     "//": "Set up dock",
     "category": "CONSTRUCT",
@@ -5600,7 +5600,20 @@
   },
   {
     "type": "construction",
-    "id": "constr_dock_deep_pile",
+    "id": "constr_dock",
+    "group": "build_river_dock_shallow_bridge",
+    "//": "Set up dock",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "40 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
+    "pre_terrain": "t_water_sh",
+    "post_terrain": "t_dock"
+  },
+  {
+    "type": "construction",
+    "id": "constr_dock_deep_pile_moving",
     "group": "build_deep_river_dock",
     "//": "Step 1: securing a pile down on the riverbed; not easy work without machinery",
     "category": "CONSTRUCT",
@@ -5609,6 +5622,19 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "wood_beam", 1 ] ], [ [ "spike", 4 ] ] ],
     "pre_terrain": "t_water_moving_dp",
+    "post_terrain": "t_dock_deep_pile"
+  },
+  {
+    "type": "construction",
+    "id": "constr_dock_deep_pile",
+    "group": "build_deep_river_dock",
+    "//": "Step 1: securing a pile down on the lakebed; not easy work without machinery",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "720 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "wood_beam", 1 ] ], [ [ "spike", 4 ] ] ],
+    "pre_terrain": "t_water_dp",
     "post_terrain": "t_dock_deep_pile"
   },
   {

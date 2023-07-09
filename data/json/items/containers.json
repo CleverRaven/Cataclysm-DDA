@@ -2375,7 +2375,7 @@
       {
         "id": "bejeweled_smart_phone_case",
         "name": { "str": "golden smartphone case" },
-        "description": "A shiny, expensive-looking looking golden coloured waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
+        "description": "A shiny, expensive-looking golden coloured waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 5
       },
       {
@@ -4214,5 +4214,29 @@
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "cardboard_roll",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "cardboard roll" },
+    "description": "A small cardboard roll used to conveniently store materials such as tape or toilet paper.",
+    "weight": "1 g",
+    "volume": "6 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": "o",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "item_restriction": [ "duct_tape", "medical_tape", "toilet_paper" ],
+        "volume_multiplier": 0.75
+      }
+    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   }
 ]

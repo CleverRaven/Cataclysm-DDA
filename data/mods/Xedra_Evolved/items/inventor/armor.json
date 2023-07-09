@@ -196,7 +196,7 @@
     "description": "Heavily mechanized boots with small integrated battery slot inside.  Upon activation make you jump higher and farther.",
     "weight": "1657 g",
     "volume": "1500 ml",
-    "material": [ "steel", "copper" ],
+    "material": [ "leather", "kevlar", "rubber", "steel" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
@@ -216,11 +216,33 @@
     ],
     "armor": [
       {
-        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.7 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 95,
-        "encumbrance": 7
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "steel", "covered_by_mat": 5, "thickness": 1.25 }
+        ],
+        "encumbrance": 7,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
       }
     ]
   },

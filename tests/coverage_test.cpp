@@ -161,7 +161,7 @@ TEST_CASE( "Infections_from_filthy_clothing", "[coverage]" )
 {
     SECTION( "Full melee and ranged coverage vs. melee attack" ) {
         const float chance = get_avg_melee_dmg( "test_zentai", true );
-        check_near( "Infection chance", chance, 0.42f, 0.05f );
+        check_near( "Infection chance", chance, 0.48f, 0.05f );
     }
 
     SECTION( "No melee coverage vs. melee attack" ) {

@@ -76,6 +76,7 @@ class field_entry
             return is_field_alive() && type.obj().phase == phase_id::GAS && type.obj().percent_spread > 0;
         }
 
+        void initialize_decay();
         void do_decay();
 
         std::vector<field_effect> field_effects() const;
