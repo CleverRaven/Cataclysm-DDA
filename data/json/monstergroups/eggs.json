@@ -88,7 +88,12 @@
   {
     "name": "GROUP_EGG_SNAKE",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_rattlesnake" } ]
+    "monsters": [ { "monster": "mon_rattlesnake_s" } ]
+  },
+  {
+    "name": "GROUP_EGG_SNAKE_M",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_rattlesnake_big_s" } ]
   },
   {
     "name": "GROUP_EGG_ROACH",
