@@ -161,9 +161,7 @@
     "volume": "250 ml",
     "stack_size": 4,
     "fun": -12,
-    "flags": [ "RAW" ],
-    "rot_spawn": "GROUP_EGG_SNAKE",
-    "rot_spawn_chance": 60
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",
