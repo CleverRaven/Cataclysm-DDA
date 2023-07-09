@@ -765,9 +765,14 @@
     "description": "A utensil used to hold meat still while you slice it.  It's like a tiny pitchfork, or a very large dinner fork.",
     "looks_like": "fork",
     "copy-from": "base_utensil",
-    "proportional": { "melee_damage": { "stab": 2 } },
+    "weight": "90 g",
+    "volume": "180 ml",
+    "longest_side": "29 cm",
+    "price": "12 USD",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "bash": 3, "stab": 2 }
+    "melee_damage": { "bash": 3, "stab": 2 },
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/OXO-Grips-Stainless-Steel-Carving/dp/B083FJXZM5/ref=sr_1_5?crid=RS6T8L8IQF4N&keywords=carving%2Bfork&qid=1688901582&sprefix=carving%2Bfork%2Caps%2C230&sr=8-5&th=1"
   },
   {
     "type": "GENERIC",
