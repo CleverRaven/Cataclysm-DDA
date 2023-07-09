@@ -243,7 +243,7 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "green",
-    "name": { "str": "lawnmower (on)" },
+    "name": { "str": "lawnmower (on)", "str_pl": "lawnmowers (on)" },
     "description": "A motorized pushmower that seems to be broken.  You could take it apart if you had a wrench.",
     "turns_per_charge": 4,
     "use_action": {
