@@ -285,7 +285,7 @@
   {
     "type": "GENERIC",
     "id": "wood_trellis",
-    "name": { "str": "wooden trellis" },
+    "name": { "str": "wooden trellis", "str_pl": "wooden trellises" },
     "description": "A wide, thin wooden trellis, a lattice of thin pressure-treated pine.  Good for making fences the plants can climb.",
     "//": "Weight and volume assumes 100 cm long and 120 cm high of pine with an edge thickness of 2.5 cm and density of 0.6656 g/cm^3, some trellis uses cedar and I couldn't find a source for what's more common.",
     "category": "spare_parts",
