@@ -373,7 +373,7 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
                 REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
             }
 
-            eoc_total_dmg += std::ceil( std::stod(
+            eoc_total_dmg += std::round( std::stod(
                                             dude.get_value( "npctalk_var_test_damage_taken" ) ) );
             REQUIRE( !dude.get_value( "npctalk_var_test_bp" ).empty() );
         }
