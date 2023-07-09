@@ -1705,37 +1705,37 @@ void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::done_ladder_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().furn_set( top, f_ladder_long_down );
+    get_map().furn_set( top, furn_id( "f_ladder_long_down" ) );
 }
 
 void construct::done_ladder_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().furn_set( top, f_ladder_long_up );
+    get_map().furn_set( top, furn_id( "f_ladder_long_up" ) );
 }
 
 void construct::done_ladder_aluminum_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().furn_set( top, f_ladder_aluminum_long_down );
+    get_map().furn_set( top, furn_id( "f_ladder_aluminum_long_down" ) );
 }
 
 void construct::done_ladder_aluminum_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().furn_set( top, f_ladder_aluminum_long_up );
+    get_map().furn_set( top, furn_id( "f_ladder_aluminum_long_up" ) );
 }
 
 void construct::done_ladder_aluminum_tele_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().furn_set( top, f_ladder_aluminum_tele_down );
+    get_map().furn_set( top, furn_id( "f_ladder_aluminum_tele_down" ) );
 }
 
 void construct::done_ladder_aluminum_tele_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().furn_set( top, f_ladder_aluminum_tele_up );
+    get_map().furn_set( top, furn_id( "f_ladder_aluminum_tele_up" ) );
 }
 
 void construct::done_window_curtains( const tripoint_bub_ms &, Character &who )
