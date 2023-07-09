@@ -1125,7 +1125,7 @@
     "connects_to": "WOODFENCE",
     "deconstruct": {
       "items": [
-        { "item": "wood_trellis", "count": 1 },
+        { "item": "wood_trellis_panel", "count": 1 },
         { "item": "pointy_stick_long", "count": [ 0, 2 ] },
         { "item": "leaves", "count": [ 0, 5 ] }
       ]
@@ -1168,7 +1168,7 @@
     "connects_to": "WOODFENCE",
     "deconstruct": {
       "items": [
-        { "item": "wood_trellis", "count": [ 2, 3 ] },
+        { "item": "wood_trellis_panel", "count": [ 2, 3 ] },
         { "item": "pointy_stick_long", "count": [ 0, 2 ] },
         { "item": "stick", "count": 2 },
         { "item": "leaves", "count": [ 0, 5 ] }

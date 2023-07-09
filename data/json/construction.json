@@ -1756,7 +1756,7 @@
     "required_skills": [ [ "fabrication", 1 ], [ "survival", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ], [ [ "wood_trellis", 1 ] ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ], [ [ "wood_trellis_panel", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "pre_special": "check_empty",
     "post_terrain": "f_trellis_fence"
@@ -1767,12 +1767,12 @@
     "group": "build_trellis",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ], [ "survival", 0 ] ],
-    "time": "20 m",
+    "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [
       [ [ "pointy_stick", 4 ], [ "spear_wood", 4 ], [ "pointy_stick_long", 4 ] ],
       [ [ "stick", 2 ] ],
-      [ [ "wood_trellis", 3 ] ]
+      [ [ "wood_trellis_panel", 3 ] ]
     ],
     "pre_flags": "DIGGABLE",
     "pre_special": "check_empty",

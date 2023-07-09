@@ -187,16 +187,16 @@
     "color": "green",
     "looks_like": "lawnmower",
     "name": { "str": "reel lawnmower" },
-    "description": "A hand powered reel pushmower.  You could take it apart if you had a wrench.",
+    "description": "A hand powered reel pushmower.",
     "//": "Based off https://www.amazon.com/American-Lawn-Mower-Company-1204-14/dp/B00004RA3F/ , used a more sane depth of 12in",
-    "price": 9000,
+    "price": "90 USD",
     "price_postapoc": 30,
     "material": [ "steel", "plastic" ],
     "weight": "1000 g",
     "volume": "167148 ml",
     "longest_side": "1 meter",
     "qualities": [ [ "GRASS_CUT", 1 ], [ "GRASS_CUT_FINE", 2 ] ],
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "clumsy" },
     "melee_damage": { "bash": 6 }
   },
   {
@@ -205,8 +205,8 @@
     "symbol": ";",
     "color": "green",
     "name": { "str": "lawnmower (off)", "str_pl": "lawnmowers (off)" },
-    "description": "A motorized pushmower that seems to be broken.  You could take it apart if you had a wrench.",
-    "price": 22000,
+    "description": "A motorized pushmower that takes gasoline as fuel.",
+    "price": "220 USD",
     "price_postapoc": 50,
     "material": [ "steel", "plastic" ],
     "//": "Based off https://www.amazon.com/PowerSmart-Powered-4-Stroke-Powerful-Included/dp/B0BWJB4BZ3/",
@@ -214,7 +214,15 @@
     "volume": "6250 ml",
     "longest_side": "1 meter",
     "ammo": [ "gasoline" ],
-    "use_action": { "target": "lawnmower_on", "msg": "You crank the lawnmower.", "active": true, "type": "transform" },
+    "use_action": {
+      "target": "lawnmower_on",
+      "need_charges": 1,
+      "need_charges_msg": "The lawnmower's tank is empty.",
+      "msg": "You crank the lawnmower.",
+      "active": true,
+      "type": "transform",
+      "menu_text": "Crank"
+    },
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 1000 }, "watertight": true, "rigid": true },
       {
@@ -226,7 +234,7 @@
         "item_restriction": [ "bag_lawnmower" ]
       }
     ],
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "clumsy" },
     "melee_damage": { "bash": 6 }
   },
   {
@@ -238,7 +246,13 @@
     "name": { "str": "lawnmower (on)" },
     "description": "A motorized pushmower that seems to be broken.  You could take it apart if you had a wrench.",
     "turns_per_charge": 4,
-    "use_action": { "target": "lawnmower", "msg": "You turn off the lawnmower.", "active": false, "type": "transform" },
+    "use_action": {
+      "target": "lawnmower",
+      "msg": "You turn off the lawnmower.",
+      "active": false,
+      "type": "transform",
+      "menu_text": "Turn off"
+    },
     "qualities": [ [ "GRASS_CUT", 1 ], [ "GRASS_CUT_FINE", 3 ] ],
     "revert_to": "lawnmower_electric"
   },
@@ -250,7 +264,7 @@
     "looks_like": "lawnmower",
     "name": { "str": "electric lawnmower (off)", "str_pl": "electric lawnmowers (off)" },
     "description": "A cordless electric motorized pushmower.  You could take it apart if you had a wrench.",
-    "price": 15000,
+    "price": "150 USD",
     "price_postapoc": 70,
     "material": [ "steel", "plastic" ],
     "//": "Based off https://www.amazon.com/Sun-Joe-AJ801E-Dethatcher-Collection/dp/B01FEATL2I/",
@@ -258,7 +272,14 @@
     "volume": "98322 ml",
     "longest_side": "60 cm",
     "ammo": [ "battery" ],
-    "use_action": { "target": "lawnmower_electric_on", "msg": "You turn on the electric lawnmower.", "active": true, "type": "transform" },
+    "use_action": {
+      "target": "lawnmower_electric_on",
+      "need_charges": 1,
+      "need_charges_msg": "The lawnmower's battery is empty.",
+      "msg": "You turn on the electric lawnmower.",
+      "active": true,
+      "type": "transform"
+    },
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" },
       {
@@ -270,7 +291,7 @@
         "item_restriction": [ "bag_lawnmower" ]
       }
     ],
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "clumsy" },
     "melee_damage": { "bash": 6 }
   },
   {
@@ -281,7 +302,13 @@
     "color": "green",
     "name": { "str": "electric lawnmower (on)", "str_pl": "electric lawnmowers (on)" },
     "description": "A cordless electric motorized pushmower rumbling quietly.",
-    "use_action": { "target": "lawnmower_electric", "msg": "You turn off the electric lawnmower.", "active": false, "type": "transform" },
+    "use_action": {
+      "target": "lawnmower_electric",
+      "msg": "You turn off the electric lawnmower.",
+      "active": false,
+      "type": "transform",
+      "menu_text": "Turn off"
+    },
     "turns_per_charge": 4,
     "qualities": [ [ "GRASS_CUT", 1 ], [ "GRASS_CUT_FINE", 3 ] ],
     "revert_to": "lawnmower_electric"
