@@ -85,16 +85,6 @@
     "monsters": [ { "monster": "mon_cockatrice_chick" } ]
   },
   {
-    "name": "GROUP_EGG_SNAKE",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_rattlesnake_s" } ]
-  },
-  {
-    "name": "GROUP_EGG_SNAKE_M",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_rattlesnake_big_s" } ]
-  },
-  {
     "name": "GROUP_EGG_ROACH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_giant_cockroach_nymph" } ]
