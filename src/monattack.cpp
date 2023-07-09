@@ -1019,36 +1019,45 @@ bool mattack::resurrect( monster *z )
     bool found_eligible_corpse = false;
     int lowest_raise_score = INT_MAX;
     map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( z->pos(), range ) ) {
-        if( !g->is_empty( p ) || here.get_field_intensity( p, fd_fire ) > 1 ||
-            !here.sees( z->pos(), p, -1 ) ) {
+    // Cache map stats.
+    std::unordered_map<tripoint, bool> sees_and_is_empty_cache;
+    auto sees_and_is_empty = [&sees_and_is_empty_cache, &z, &here]( const tripoint & T ) {
+        auto iter = sees_and_is_empty_cache.find( T );
+        if( iter != sees_and_is_empty_cache.end() ) {
+            return iter->second;
+        }
+        sees_and_is_empty_cache[T] = here.sees( z->pos(), T, -1 ) && g->is_empty( T );
+        return sees_and_is_empty_cache[T];
+    };
+    for( item_location &location : here.get_active_items_in_radius( z->pos(), range,
+            special_item_type::corpse ) ) {
+        const tripoint &p = location.position();
+        item &i = *location;
+        const mtype *mt = i.get_mtype();
+        if( !( i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
+               mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
+            continue;
+        }
+        if( here.get_field_intensity( p, fd_fire ) > 1 || !sees_and_is_empty( p ) ) {
             continue;
         }
 
-        for( item &i : here.i_at( p ) ) {
-            const mtype *mt = i.get_mtype();
-            if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
-                   mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
-                continue;
+        found_eligible_corpse = true;
+        if( raising_level == 0 ) {
+            // Since we have a target, start charging to raise it.
+            if( sees_necromancer ) {
+                add_msg( m_info, _( "The %s throws its arms wide." ), z->name() );
             }
-
-            found_eligible_corpse = true;
-            if( raising_level == 0 ) {
-                // Since we have a target, start charging to raise it.
-                if( sees_necromancer ) {
-                    add_msg( m_info, _( "The %s throws its arms wide." ), z->name() );
-                }
-                while( z->moves >= 0 ) {
-                    z->add_effect( effect_raising, 1_minutes );
-                    z->moves -= 100;
-                }
-                return false;
+            while( z->moves >= 0 ) {
+                z->add_effect( effect_raising, 1_minutes );
+                z->moves -= 100;
             }
-            int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
-            lowest_raise_score = std::min( lowest_raise_score, raise_score );
-            if( raise_score <= raising_level ) {
-                corpses.emplace_back( p, &i );
-            }
+            return false;
+        }
+        int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
+        lowest_raise_score = std::min( lowest_raise_score, raise_score );
+        if( raise_score <= raising_level ) {
+            corpses.emplace_back( p, &i );
         }
     }
 
