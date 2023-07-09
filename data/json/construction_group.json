@@ -1166,6 +1166,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_ladder",
+    "name": "Place Ladder"
+  },
+  {
+    "type": "construction_group",
     "id": "place_veh_tools_kitchen",
     "name": "Place Kitchen Station"
   },
