@@ -474,6 +474,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "yellow",
+    "environmental_protection": 3,
     "armor": [
       {
         "covers": [ "torso" ],
@@ -562,6 +563,7 @@
     "symbol": "[",
     "looks_like": "technician_coveralls",
     "color": "yellow",
+    "environmental_protection": 3,
     "armor": [
       {
         "covers": [ "torso" ],
