@@ -263,5 +263,19 @@
     "name": { "str": "broken laser turret" },
     "weight": "110 kg",
     "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "reverse_jointed_legs",
+    "name": { "str": "set of reverse-jointed legs", "str_pl": "sets of reverse-jointed legs" },
+    "description": "A set of reverse-jointed legs, like the ones found under a chicken walker.",
+    "symbol": "k",
+    "color": "light_gray",
+    "weight": "60000 g",
+    "volume": "20 L",
+    "price": 500000,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "category": "spare_parts"
   }
 ]

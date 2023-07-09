@@ -458,6 +458,13 @@
         "append": true
       },
       {
+        "id": "central_african_flag",
+        "name": { "str": "Central African flag" },
+        "description": "A flag with horizontal stripes of blue, white, green and yellow coloration and one vertical red stripe down the middle with a star in the upper left corner.",
+        "weight": 10,
+        "append": true
+      },
+      {
         "id": "czech_flag",
         "name": { "str": "Czech flag" },
         "description": "A flag with a blue triangle at the hoist and a horizontal white and red color on it.",
@@ -1139,7 +1146,7 @@
       {
         "id": "russian_flag",
         "name": { "str": "Russian flag" },
-        "description": "A simple horizontal tricolor flag of white, blue and red",
+        "description": "A simple horizontal tricolor flag of white, blue and red.",
         "weight": 10,
         "append": true
       },

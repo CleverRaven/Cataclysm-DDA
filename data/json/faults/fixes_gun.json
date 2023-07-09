@@ -21,7 +21,7 @@
     "faults_removed": [ "fault_gun_blackpowder" ],
     "faults_added": [ "fault_gun_unlubricated" ],
     "skills": { "mechanics": 1 },
-    "set_variables": { "dirt": "0" },
+    "set_variables": { "dirt": "0", "rust_timer": "0" },
     "requirements": [ [ "gun_cleaning_bp", 1 ] ],
     "time_save_profs": { "prof_gun_cleaning": 0.5 },
     "time_save_flags": { "EASY_CLEAN": 0.5 }
@@ -46,7 +46,7 @@
     "time": "60 m",
     "faults_removed": [ "fault_gun_blackpowder", "fault_gun_unlubricated" ],
     "skills": { "mechanics": 1 },
-    "set_variables": { "dirt": "0" },
+    "set_variables": { "dirt": "0", "rust_timer": "0" },
     "requirements": [ [ "gun_cleaning_bp", 1 ], [ "gun_lubrication", 1 ] ],
     "time_save_profs": { "prof_gun_cleaning": 0.5 },
     "time_save_flags": { "EASY_CLEAN": 0.5 }
