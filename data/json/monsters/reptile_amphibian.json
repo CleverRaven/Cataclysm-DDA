@@ -304,7 +304,6 @@
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
-    "aggression": 0,
     "morale": 60,
     "aggro_character": false,
     "melee_skill": 6,
