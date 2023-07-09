@@ -145,7 +145,8 @@ static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a 
 static bool check_deconstruct( const tripoint_bub_ms
                                & ); // either terrain or furniture must be deconstructible
 static bool check_empty_up_OK( const tripoint_bub_ms & ); // tile is empty and below OVERMAP_HEIGHT
-static bool check_empty_down_OK( const tripoint_bub_ms & ); // tile is empty and above OVERMAP_HEIGHT
+static bool check_empty_down_OK( const tripoint_bub_ms
+                                 & ); // tile is empty and above OVERMAP_HEIGHT
 static bool check_up_OK( const tripoint_bub_ms & ); // tile is below OVERMAP_HEIGHT
 static bool check_down_OK( const tripoint_bub_ms & ); // tile is above OVERMAP_DEPTH
 static bool check_no_trap( const tripoint_bub_ms & );
@@ -1301,7 +1302,8 @@ bool construct::check_ladder_up( const tripoint_bub_ms &p )
 
 bool construct::check_ladder_down( const tripoint_bub_ms &p )
 {
-    return check_empty_down_OK( p ) && check_support_singular( p + tripoint_below ) && check_nofloor( p );
+    return check_empty_down_OK( p ) && check_support_singular( p + tripoint_below ) &&
+           check_nofloor( p );
 }
 
 bool construct::check_ramp_high( const tripoint_bub_ms &p )
