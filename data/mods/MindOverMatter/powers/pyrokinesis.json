@@ -49,7 +49,7 @@
     "valid_targets": [ "hostile", "ground" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_PROJECTILE", "NO_LEGS", "RANDOM_DURATION", "RANDOM_AOE" ],
+    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_PROJECTILE", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "attack",
     "effect_str": "effect_pyrokinetic_flash",
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
