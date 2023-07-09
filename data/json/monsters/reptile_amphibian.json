@@ -199,7 +199,7 @@
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mammal_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "VENOM", "HARDTOSHOOT", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake",
