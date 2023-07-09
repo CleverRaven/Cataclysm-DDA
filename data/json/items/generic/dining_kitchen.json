@@ -1,6 +1,6 @@
 [
   {
-    "id": "base_silverware",
+    "abstract": "base_silverware",
     "name": { "str": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
@@ -15,7 +15,7 @@
     "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
-    "id": "base_utensil",
+    "abstract": "base_utensil",
     "name": { "str": "generic utensil" },
     "type": "GENERIC",
     "description": "generic item template",
@@ -30,7 +30,7 @@
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
-    "id": "base_plastic_silverware",
+    "abstract": "base_plastic_silverware",
     "name": { "str": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
@@ -45,7 +45,7 @@
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
-    "id": "base_ceramic_dish",
+    "abstract": "base_ceramic_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -60,7 +60,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "id": "base_glass_dish",
+    "abstract": "base_glass_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -75,7 +75,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "id": "base_tin_dish",
+    "abstract": "base_tin_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -90,7 +90,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "id": "base_plastic_dish",
+    "abstract": "base_plastic_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
