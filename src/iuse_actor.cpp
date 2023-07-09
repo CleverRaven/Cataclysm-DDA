@@ -4803,7 +4803,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             if( !can_mount2.success() ) {
                 //~ %1$s - tow cable name, %2$s - the reason why it failed
                 p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                     it.type_name(), can_mount2.str() );
+                                      it.type_name(), can_mount2.str() );
                 return std::nullopt;
             }
 
