@@ -195,24 +195,23 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 // therefore, make the bionic linear so that worst case is 25 kj to reduce 50 damage
                 // costs energy equal to the 500xdamage, before it is reduced, regardless of how much it is reduced
                 // a 50 damage attack would incur the whole 25kJ. A 12 damage attack would cost 1440j
-                const int max_absorption = 50;
+                const int max_absorption = 40;
                 units::energy power_cost = units::from_joule( std::max( -25000.0f,
                                            elem.amount * -500 ) );
-                float ads_factor = 1.0f;
+                float ads_factor = 0.0f;
 
                 // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
                 // Otherwise, divide the damage by X times, depending on damage type
                 // FIXME: Harcoded damage types
                 if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
-                    ads_factor = 0.75f;
+                    ads_factor = std::min( max_absorption, elem.amount) * 0.25f;
                 } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
-                    ads_factor = 0.5f;
+                    ads_factor = std::min( max_absorption, elem.amount) * 0.5f;
                 } else if( elem.type == STATIC( damage_type_id( "stab" ) ) ||
                            elem.type == STATIC( damage_type_id( "bullet" ) ) ) {
-                    ads_factor = 0.25;
-                }
-                if( ads_factor < 1.0f ) {
-                    elem.amount = elem.amount * ads_factor;
+                    ads_factor = std::min( max_absorption, elem.amount) * 0.75f;                }
+                if( ads_factor > 0.0f ) {
+                    elem.amount = elem.amount - ads_factor;
                     mod_power_level( power_cost );
                     add_msg_if_player( m_good,
                                        _( "The defensive forcefield surrounding your body ripples as it reduces velocity of incoming attack." ) );
