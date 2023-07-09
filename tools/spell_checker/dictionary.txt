@@ -1183,7 +1183,6 @@ geometries
 gesticulates
 getups
 ghast
-ghurka
 gibbous
 github
 gladius
@@ -1252,6 +1251,7 @@ gunshop
 gunsmithing
 gunsmoke
 gushingly
+gurkha
 gutskin
 guvnah
 gymnocladus
