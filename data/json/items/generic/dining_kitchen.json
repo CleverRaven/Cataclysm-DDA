@@ -164,7 +164,8 @@
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "150 ml",
+        "max_contains_volume": "250 ml",
+        "//2": "This isn't true. It should contain 150ml. But I can't lower it beyond this much because then it won't be able to hold common liquids. I love charges.",
         "max_contains_weight": "300 g",
         "watertight": true,
         "open_container": true,
@@ -172,7 +173,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "//2": "Based on https://www.dimensions.com/element/ikea-vardagen-coffee-cup-saucer"
+    "//3": "Based on https://www.dimensions.com/element/ikea-vardagen-coffee-cup-saucer"
   },
   {
     "type": "GENERIC",
@@ -914,10 +915,10 @@
     "copy-from": "base_cookpot",
     "material": [ { "type": "steel", "portion": 9 }, { "type": "aluminum", "portion": 1 } ],
     "color": "light_gray",
-    "weight": "1 kg",
-    "volume": "11600 ml",
-    "longest_side": "33 cm",
-    "price": "27 USD",
+    "weight": "2500 g",
+    "volume": "12270 ml",
+    "longest_side": "25 cm",
+    "price": "137 USD",
     "pocket_data": [
       {
         "max_contains_volume": "12 L",
@@ -928,7 +929,7 @@
       }
     ],
     "melee_damage": { "bash": 8 },
-    "//": "Based on https://www.amazon.com/IMUSA-L300-40315-Stainless-12-Quart-Silver/dp/B0018KLOCO/ref=sr_1_5?crid=3F8YHF0O1DRWV&keywords=stock%2Bpot&qid=1688900087&sprefix=stock%2B%2Caps%2C276&sr=8-5&th=1"
+    "//": "Based on https://www.amazon.com/Stockpots-Diameter-Height-Litres-Stainless/dp/B08RD3RDYL/ref=sr_1_4?crid=2LB23F5EZM7PV&keywords=12l%2Bstock%2Bpot&qid=1688902380&sprefix=12l%2Bstock%2Bpo%2Caps%2C206&sr=8-4&th=1"
   },
   {
     "id": "pot_canning",
