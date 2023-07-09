@@ -1733,9 +1733,9 @@
     "type": "harvest",
     "entries": [
       { "drop": "blood_acid_underground", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
-      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.36 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "acidchitin_piece", "type": "bone", "mass_ratio": 0.06 }
     ]
   },
   {

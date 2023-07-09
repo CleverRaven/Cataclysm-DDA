@@ -1664,6 +1664,17 @@ int spell::heal( const tripoint &target, Creature &caster ) const
 
 void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
 {
+    Character *caster = source.as_character();
+    if( caster ) {
+        character_id c_id = caster->getID();
+        // send casting to the event bus
+        get_event_bus().send<event_type::character_casts_spell>( c_id, this->id(),
+                this->get_difficulty( source ), this->energy_cost( *caster ),
+                this->casting_time( *caster ),
+                this->damage( source ) );
+    }
+
+
     type->effect( *this, source, target );
 }
 

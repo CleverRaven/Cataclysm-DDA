@@ -129,7 +129,7 @@
     "value": 10000,
     "start": {
       "effect": [ "follow_only", { "u_spawn_item": "bat" } ],
-      "assign_mission_target": { "om_terrain": "s_restaurant_foodplace", "min_distance": 5, "z": 0 },
+      "assign_mission_target": { "om_terrain": "s_restaurant_foodplace_roof", "min_distance": 5, "z": 1 },
       "update_mapgen": {
         "om_terrain": "s_restaurant_foodplace_roof",
         "place_npcs": [ { "class": "true_foodperson", "x": 12, "y": 19, "target": true } ]
