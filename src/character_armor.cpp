@@ -191,26 +191,32 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 // Assuming it absorbs damage at 10% efficiency, it can absorb at most 2500 J of energy
                 // Taking muzzle energy of 5.56mm ammo as a reference, 1936 J is equal to 44 damage
                 // Having this in mind, let's make 2500 J equal to 50 damage, which will be the maximum damage ADS can absorb
-                // costs energy equal to the 10x damage^2, before it is reduced, regardless of how much it is reduced
+                // while good for setting a sane max limit it means low damage attacks become too cheap to block.
+                // therefore, make the bionic linear so that worst case is 25 kj to reduce 50 damage
+                // costs energy equal to the 500xdamage, before it is reduced, regardless of how much it is reduced
                 // a 50 damage attack would incur the whole 25kJ. A 12 damage attack would cost 1440j
                 const int max_absorption = 50;
                 units::energy power_cost = units::from_joule( std::max( -25000.0f,
-                                           elem.amount * elem.amount * -10 ) );
+                                           elem.amount * -500 ) );
+                float ads_factor = 1.0f;
 
                 // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
                 // Otherwise, divide the damage by X times, depending on damage type
                 // FIXME: Harcoded damage types
                 if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
-                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 2;
+                    ads_factor = 0.75f;
                 } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
-                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 3;
+                    ads_factor = 0.5f;
                 } else if( elem.type == STATIC( damage_type_id( "stab" ) ) ||
                            elem.type == STATIC( damage_type_id( "bullet" ) ) ) {
-                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 4;
+                    ads_factor = 0.25;
                 }
-                mod_power_level( power_cost );
-                add_msg_if_player( m_good,
-                                   _( "The defensive forcefield surrounding your body ripples as it reduces velocity of incoming attack." ) );
+                if( ads_factor < 1.0f ) {
+                    elem.amount = elem.amount * ads_factor;
+                    mod_power_level( power_cost );
+                    add_msg_if_player( m_good,
+                                       _( "The defensive forcefield surrounding your body ripples as it reduces velocity of incoming attack." ) );
+                }
             }
             if( elem.amount < 0 ) {
                 elem.amount = 0;
