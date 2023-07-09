@@ -142,6 +142,9 @@ class scenario
         /** Such as a seasonal start, fiery start, surrounded start, etc. */
         bool has_flag( const std::string &flag ) const;
 
+        // Reveal nearest city and path to it?
+        bool reveal_locale = true;
+
         /**
          * Do you have the necessary achievement state
          */
