@@ -161,7 +161,7 @@ class map_memory
     private:
         std::map<tripoint, shared_ptr_fast<mm_submap>> submaps;
 
-        std::vector<shared_ptr_fast<mm_submap>> cached;
+        mutable std::map<int, std::vector<shared_ptr_fast<mm_submap>>> cached;
         tripoint cache_pos;
         point cache_size;
 

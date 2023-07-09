@@ -115,8 +115,6 @@
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "oven" }, { "id": "hotplate", "hotkey": "h" } ],
-    "//": "Doesn't draw power at baseline, only when cooking.",
-    "epower": "0 W",
     "item": "oven",
     "looks_like": "f_oven",
     "breaks_into": [
@@ -142,7 +140,6 @@
     "durability": 60,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
-    "epower": "0 W",
     "item": "stationary_water_purifier",
     "looks_like": "f_water_purifier",
     "breaks_into": [
@@ -197,9 +194,6 @@
   {
     "type": "vehicle_part",
     "id": "ap_stereo",
-    "name": { "str": "stereo system" },
-    "description": "A stereo system.  When turned on, it plays music, improving your mood.",
-    "item": "stereo",
     "flags": [ "STEREO", "APPLIANCE", "ENABLED_DRAINS_EPOWER" ],
     "copy-from": "stereo"
   },
@@ -226,7 +220,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "drill_press_tool" } ],
-    "epower": "0 W",
     "item": "drill_press",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -251,7 +244,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "tablesaw_tool" } ],
-    "epower": "0 W",
     "item": "tablesaw",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -276,7 +268,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "mitresaw_tool" } ],
-    "epower": "0 W",
     "item": "mitresaw",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -301,7 +292,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "bandsaw_tool" } ],
-    "epower": "0 W",
     "item": "bandsaw",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -326,7 +316,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "router_tool" } ],
-    "epower": "0 W",
     "item": "router",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -351,7 +340,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "planer_tool" } ],
-    "epower": "0 W",
     "item": "planer",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -376,7 +364,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "jointer_tool" } ],
-    "epower": "0 W",
     "item": "jointer",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -401,7 +388,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "catalytic_cracking_reactor_tool" } ],
-    "epower": "0 W",
     "item": "catalytic_cracking_reactor",
     "breaks_into": [
       { "item": "element", "charges": [ 4, 8 ] },
@@ -427,7 +413,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "hydraulic_press_tool" } ],
-    "epower": "0 W",
     "item": "hydraulic_press",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -451,7 +436,6 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "air_compressor_tool" } ],
-    "epower": "0 W",
     "item": "air_compressor",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -600,7 +584,6 @@
     "color": "yellow",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "0 W",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "A power cord sticking out of an appliance.  You need to plug it into a powered grid for the appliance to work properly.",
@@ -690,8 +673,6 @@
   {
     "type": "vehicle_part",
     "id": "ap_solar_panel",
-    "name": { "str": "solar panel" },
-    "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel",
@@ -702,7 +683,6 @@
   {
     "type": "vehicle_part",
     "id": "ap_reinforced_solar_panel",
-    "name": { "str": "reinforced solar panel" },
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A reinforced solar panel, mounted on a frame and ready to power other appliances.",
@@ -714,8 +694,6 @@
   {
     "type": "vehicle_part",
     "id": "ap_solar_panel_v2",
-    "name": { "str": "advanced solar panel" },
-    "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A high-performance solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel_v2",
@@ -726,7 +704,6 @@
   {
     "type": "vehicle_part",
     "id": "ap_reinforced_solar_panel_v2",
-    "name": { "str": "advanced reinforced solar panel" },
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A high-performance reinforced solar panel, mounted on a frame and ready to power other appliances.",
@@ -738,9 +715,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_wind_turbine",
-    "name": { "str": "wind turbine" },
     "location": "structure",
-    "color": "yellow",
     "flags": [ "WIND_TURBINE", "OBSTACLE", "APPLIANCE" ],
     "description": "A mounted wind turbine, ready to power other appliances.",
     "copy-from": "wind_turbine",
@@ -750,9 +725,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_xl_wind_turbine",
-    "name": { "str": "large wind turbine" },
     "location": "structure",
-    "color": "yellow",
     "flags": [ "WIND_TURBINE", "OBSTACLE", "APPLIANCE" ],
     "description": "A large mounted wind turbine, ready to power other appliances.",
     "copy-from": "xl_wind_turbine",
@@ -762,9 +735,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_water_wheel",
-    "name": { "str": "water wheel" },
     "location": "structure",
-    "color": "yellow",
     "flags": [ "WATER_WHEEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A mounted water wheel, ready to power other appliances.",
     "copy-from": "water_wheel",
@@ -774,9 +745,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_xl_water_wheel",
-    "name": { "str": "large water wheel" },
     "location": "structure",
-    "color": "yellow",
     "flags": [ "WATER_WHEEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A mounted large water wheel, ready to power other appliances.",
     "copy-from": "xl_water_wheel",
@@ -798,7 +767,6 @@
     "type": "vehicle_part",
     "id": "ap_battery_medium",
     "name": { "str": "medium grid battery" },
-    "color": "yellow",
     "flags": [ "APPLIANCE" ],
     "description": "A medium battery to store electrical power in a static power grid.",
     "copy-from": "medium_storage_battery",
@@ -849,9 +817,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_washing_machine",
-    "name": { "str": "washing machine" },
     "looks_like": "f_washer",
-    "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "WASHING_MACHINE", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "description": "An appliance used to clean laundry, plugged into a power supply and using internal water tanks.",
     "size": "135 L",
@@ -865,7 +831,6 @@
     "id": "ap_dishwasher",
     "name": { "str": "dishwasher" },
     "looks_like": "f_dishwasher",
-    "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "DISHWASHER", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "description": "An appliance used to clean dishes, plugged into a power supply and using internal tanks.",
     "size": "120 L",
@@ -969,6 +934,44 @@
     "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
   },
   {
+    "type": "vehicle_part",
+    "id": "ap_active_backup_generator",
+    "name": { "str": "active backup generator" },
+    "looks_like": "f_active_backup_generator",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_color": "blue",
+    "location": "structure",
+    "damage_modifier": 80,
+    "durability": 400,
+    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.",
+    "//1": "BIZARRE FIELD NAMES HERE! Weird stuff happening! Epower determines how fast it is converted, power determines the ratio of diesel(mL) to battery charges output. In other words, *power* is *fuel efficiency*.",
+    "//2": "On a normal vehicle 250mL of diesel in an I4 with a truck alternator (what the active backup gen uses) should provide ~1692 charges (kW?) of power in about 24 minutes based on a test setup. That's a little less than 7W power, rounded up as I assume a larger dedicated generator is more efficient.",
+    "power": "7 W",
+    "//3": "Truck alternator value",
+    "epower": "1320 W",
+    "//4": "This value doesn't seem to do anything for the appliance version? Let's keep it commented out for future reference.",
+    "//energy_consumption": "1000 W",
+    "m2c": 5,
+    "//5": "Actually accepts any diesel-type fuel but does NOT account for their relative fuel values! For diesel this is not a huge deal, only a few % inaccuracy, but for e.g. gas turbines this would be very bad!",
+    "fuel_type": "diesel",
+    "//6": "Appliance engine does NOT accept having these fields.",
+    "//fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8" ],
+    "//damaged_power_factor": 0.25,
+    "item": "active_backup_generator",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "ENGINE", "E_DIESEL_FUEL", "OBSTACLE", "COVERED", "APPLIANCE", "REACTOR", "FLUIDTANK" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 16 ] }, { "item": "steel_chunk", "count": [ 1, 6 ] } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
     "id": "app_microwave",
     "type": "vehicle_part",
     "name": { "str": "grid microwave" },
@@ -1008,7 +1011,6 @@
     "type": "vehicle_part",
     "id": "ap_oxygen_concentrator",
     "name": { "str": "oxygen concentrator" },
-    "color": "light_gray",
     "categories": [ "utility" ],
     "broken_color": "dark_gray",
     "damage_modifier": 35,
@@ -1029,7 +1031,6 @@
     "type": "vehicle_part",
     "id": "ap_hd_compressor_unit",
     "name": { "str": "high pressure compressor unit" },
-    "color": "light_gray",
     "categories": [ "utility" ],
     "broken_color": "dark_gray",
     "damage_modifier": 45,

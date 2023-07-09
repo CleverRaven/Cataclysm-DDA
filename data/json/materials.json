@@ -1118,8 +1118,8 @@
   {
     "type": "material",
     "id": "iron",
-    "name": "Iron",
-    "density": 8,
+    "name": "Cast iron",
+    "density": 7.3,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
     "latent_heat": 247,
@@ -1329,7 +1329,7 @@
       { "fuel": 0.05, "smoke": 2, "burn": 0.03 },
       { "fuel": 0.15, "smoke": 5, "burn": 0.5 }
     ],
-    "resist": { "bash": 2, "cut": 2, "acid": 9, "heat": 2, "bullet": 2 },
+    "resist": { "bash": 1, "cut": 1, "acid": 9, "heat": 2, "bullet": 1 },
     "repair_difficulty": 3
   },
   {

@@ -18,7 +18,8 @@
       [ "holo_sight", 20 ],
       [ "balclava", 10 ],
       [ "balaclava_cut_resistant", 5 ],
-      [ "holster", 15 ],
+      [ "nylon_holster", 10 ],
+      [ "holster", 5 ],
       [ "bandolier_shotgun", 15 ],
       [ "torso_bandolier_shotgun", 8 ],
       [ "kevlar", 20 ],
@@ -197,7 +198,7 @@
         "prob": 85
       },
       {
-        "collection": [ { "item": "rebreather_cartridge", "prob": 50, "charges": 100 }, { "item": "rebreather", "prob": 90 } ],
+        "collection": [ { "item": "rebreather_cartridge_o2", "prob": 50, "charges": 180 }, { "item": "rebreather", "prob": 90 } ],
         "prob": 20
       },
       {

@@ -4325,7 +4325,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                     return critter;
                 }
 
-                const pathfinding_settings pf_settings = pathfinding_settings { 8, distance, distance * 2, 4, true, false, true, false, false };
+                const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
                 static const std::set<tripoint> path_avoid = {};
 
                 if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
@@ -10096,6 +10096,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
                     danger_dest = false;
                 } else if( fe.immune_outside_vehicle && !veh_dest_inside ) {
                     danger_dest = false;
+                } else if( u.is_immune_effect( fe.id ) || u.check_immunity_data( fe.immunity_data ) ) {
+                    danger_dest = false;
                 }
             }
             if( has_field_here && !danger_here ) {
@@ -10105,6 +10107,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
                 } else if( fe.immune_inside_vehicle && veh_here_inside ) {
                     danger_here = false;
                 } else if( fe.immune_outside_vehicle && !veh_here_inside ) {
+                    danger_here = false;
+                } else if( u.is_immune_effect( fe.id ) || u.check_immunity_data( fe.immunity_data ) ) {
                     danger_here = false;
                 }
             }
@@ -10357,8 +10361,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                                 dest_loc ); //fungal furniture has no slowing effect on Mycus characters
     const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
                             mcost_from > 2 ) ) ||
-                          mcost_to > 4 || mcost_from > 4 ) &&
-                        !( u.has_trait( trait_M_IMMUNE ) && fungus );
+                          mcost_to > 4 || mcost_from > 4 ) ||
+                        ( !u.has_trait( trait_M_IMMUNE ) && fungus );
     if( slowed && !u.is_mounted() ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
         if( mcost_to >= mcost_from ) {

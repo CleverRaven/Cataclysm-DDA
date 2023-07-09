@@ -1,0 +1,80 @@
+[
+  {
+    "id": "TELELIXIRDOWN",
+    "type": "mutation",
+    "name": { "str": "Elixir PK Surge" },
+    "description": "Thanks to the crystalline elixir, you can lash out with unfocused surges of telekinetic power.",
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "active": true,
+    "player_display": true,
+    "transform": { "target": "TELELIXIRDOWN_active", "msg_transform": "You unleash your powers.", "active": true, "moves": 10 }
+  },
+  {
+    "id": "TELELIXIRDOWN_active",
+    "type": "mutation",
+    "name": { "str": "Elixir PK Surge (active)" },
+    "copy-from": "TELELIXIRDOWN",
+    "description": "You are lashing out with your elixir-forged telekinetic powers.",
+    "fatigue": true,
+    "cost": 1,
+    "time": "1 m",
+    "activated_eocs": [ "EOC_TELELIXIR_CAST" ],
+    "transform": { "target": "TELELIXIRDOWN", "msg_transform": "You rein your powers back in for now.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELELIXIR_CAST",
+    "condition": { "u_has_trait": "TELELIXIRDOWN_active" },
+    "deactivate_condition": { "not": { "u_has_trait": "TELELIXIRDOWN_active" } },
+    "recurrence": [ "2 seconds", "5 seconds" ],
+    "effect": [
+      { "u_cast_spell": { "id": "telelixir_random", "message": "Your crystal-fueled powers activate!" }, "targeted": true }
+    ]
+  },
+  {
+    "id": "telelixir_random",
+    "type": "SPELL",
+    "name": "[Ψ]Telelixir Random Choice",
+    "description": "Part of the Telekinetic Elixir spell that chooses another spell to cast.  It's a bug if you have it.",
+    "flags": [ "WONDER", "NO_PROJECTILE", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "hostile" ],
+    "message": "",
+    "effect": "none",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 8,
+    "max_range": 15,
+    "extra_effects": [ { "id": "telelixir_slam" }, { "id": "telelixir_push" } ]
+  },
+  {
+    "id": "telelixir_slam",
+    "type": "SPELL",
+    "name": "[Ψ]Telelixir Slam",
+    "description": "One spell for the telekinetic elixir mutation.  It's a bug if you have it.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "message": "",
+    "effect": "attack",
+    "effect_str": "downed",
+    "shape": "blast",
+    "difficulty": 1,
+    "min_duration": 200
+  },
+  {
+    "id": "telelixir_push",
+    "type": "SPELL",
+    "name": "[Ψ]Telelixir Shove",
+    "description": "One spell for the telekinetic elixir mutation.  It's a bug if you have it.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "message": "",
+    "effect": "directed_push",
+    "shape": "blast",
+    "difficulty": 1,
+    "min_damage": 3,
+    "max_damage": 8
+  }
+]
