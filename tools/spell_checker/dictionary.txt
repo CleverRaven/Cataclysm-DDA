@@ -976,6 +976,7 @@ eyestalks
 f
 fabricators
 facemask
+facemasks
 faceplates
 faceted
 faders
@@ -1524,7 +1525,8 @@ kickin
 kickstand
 killbasa
 killin
-killij
+kilij
+kilijs
 kilns
 kilroy
 kilted
@@ -2573,6 +2575,7 @@ shadowcat
 shahada
 shambler
 shamshir
+shamshirs
 shantak
 shantytowns
 shapechangers
@@ -2849,6 +2852,7 @@ taegeuk
 taitsu
 takedowns
 talwar
+talwars
 tamable
 tambaqui
 tamina
