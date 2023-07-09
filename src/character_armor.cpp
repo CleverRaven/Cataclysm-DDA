@@ -204,12 +204,13 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 // Otherwise, divide the damage by X times, depending on damage type
                 // FIXME: Harcoded damage types
                 if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
-                    ads_factor = std::min( max_absorption, elem.amount) * 0.25f;
+                    ads_factor = std::min( max_absorption, elem.amount ) * 0.25f;
                 } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
-                    ads_factor = std::min( max_absorption, elem.amount) * 0.5f;
+                    ads_factor = std::min( max_absorption, elem.amount ) * 0.5f;
                 } else if( elem.type == STATIC( damage_type_id( "stab" ) ) ||
                            elem.type == STATIC( damage_type_id( "bullet" ) ) ) {
-                    ads_factor = std::min( max_absorption, elem.amount) * 0.75f;                }
+                    ads_factor = std::min( max_absorption, elem.amount ) * 0.75f;
+                }
                 if( ads_factor > 0.0f ) {
                     elem.amount = elem.amount - ads_factor;
                     mod_power_level( power_cost );
