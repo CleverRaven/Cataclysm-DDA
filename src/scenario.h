@@ -56,6 +56,7 @@ class scenario
         std::optional<achievement_id> _requirement;
 
         bool _custom_start_date = false;
+        bool reveal_locale = true;
         bool _is_random_hour = false;
         int _start_hour = 8;
         bool _is_random_day = false;
@@ -102,6 +103,7 @@ class scenario
         std::optional<achievement_id> get_requirement() const;
 
         bool custom_start_date() const;
+        bool get_reveal_locale() const;
         void rerandomize() const;
         bool is_random_hour() const;
         bool is_random_day() const;
@@ -141,9 +143,6 @@ class scenario
 
         /** Such as a seasonal start, fiery start, surrounded start, etc. */
         bool has_flag( const std::string &flag ) const;
-
-        // Reveal nearest city and path to it?
-        bool reveal_locale = true;
 
         /**
          * Do you have the necessary achievement state

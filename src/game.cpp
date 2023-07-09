@@ -890,8 +890,8 @@ bool game::start_game()
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
     const int city_size = get_option<int>( "CITY_SIZE" );
-    if( scen->reveal_locale && city_size > 0 ) {
-        auto nearest_city = overmap_buffer.closest_city( m.get_abs_sub() );
+    if( get_scenario()->get_reveal_locale() && city_size > 0 ) {
+        city_reference nearest_city = overmap_buffer.closest_city( m.get_abs_sub() );
         const tripoint_abs_omt city_center_omt = project_to<coords::omt>( nearest_city.abs_sm_pos );
         // Very necessary little hack: We look for roads around our start, and path from the closest. Because the most common start(evac shelter) cannot be pathed through...
         const tripoint_abs_omt nearest_road = overmap_buffer.find_closest( omtstart, "road", 3, false );

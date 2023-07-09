@@ -498,6 +498,11 @@ bool scenario::custom_start_date() const
     return _custom_start_date;
 }
 
+bool scenario::get_reveal_locale() const
+{
+    return reveal_locale;
+}
+
 void scenario::rerandomize() const
 {
     scenario *hack = const_cast<scenario *>( this );
