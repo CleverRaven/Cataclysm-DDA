@@ -1,0 +1,26 @@
+[
+  {
+    "type": "city_building",
+    "id": "FakeSpecial_playground",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "playground_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "FakeSpecial_park",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "park_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "FakeSpecial_park_5",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "park_5_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "FakeSpecial_park_7",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "park_7_north" } ]
+  }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "eye_blue",
+    "trait": "eye_color",
+    "variant": "blue"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "eye_brown",
+    "trait": "eye_color",
+    "variant": "brown"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "eye_hazel",
+    "trait": "eye_color",
+    "variant": "hazel"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "eye_amber",
+    "trait": "eye_color",
+    "variant": "amber"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "eye_gray",
+    "trait": "eye_color",
+    "variant": "gray"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "eye_green",
+    "trait": "eye_color",
+    "variant": "green"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PARKOUR",
+    "proficiency": "prof_parkour"
+  }
+]

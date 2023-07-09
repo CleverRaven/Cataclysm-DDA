@@ -1,0 +1,217 @@
+[
+  {
+    "type": "vehicle_part_migration",
+    "from": "laser_gun",
+    "to": "laser_rifle"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "seat_nocargo",
+    "to": "seat"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "engine_plasma",
+    "to": "minireactor"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "battery_truck",
+    "to": "battery_car"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "diesel_tank_little",
+    "to": "tank_little"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "diesel_tank_small",
+    "to": "tank_small"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "diesel_tank_medium",
+    "to": "tank_medium"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "diesel_tank",
+    "to": "tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "external_diesel_tank_small",
+    "to": "external_tank_small"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "external_diesel_tank",
+    "to": "external_tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "gas_tank_little",
+    "to": "tank_little"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "gas_tank_small",
+    "to": "tank_small"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "gas_tank_medium",
+    "to": "tank_medium"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "gas_tank",
+    "to": "tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "external_gas_tank_small",
+    "to": "external_tank_small"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "external_gas_tank",
+    "to": "external_tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "water_dirty_tank_little",
+    "to": "tank_little"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "water_dirty_tank_small",
+    "to": "tank_small"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "water_dirty_tank_medium",
+    "to": "tank_medium"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "water_dirty_tank",
+    "to": "tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "external_water_dirty_tank_small",
+    "to": "external_tank_small"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "external_water_dirty_tank",
+    "to": "external_tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "dirty_water_tank_barrel",
+    "to": "tank_barrel"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "water_tank_little",
+    "to": "tank_little"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "water_tank_small",
+    "to": "tank_small"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "water_tank_medium",
+    "to": "tank_medium"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "water_tank",
+    "to": "tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "external_water_tank_small",
+    "to": "external_tank_small"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "external_water_tank",
+    "to": "external_tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "water_tank_barrel",
+    "to": "tank_barrel"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "napalm_tank",
+    "to": "tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "hydrogen_tank",
+    "to": "tank"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_underbody",
+    "to": "wheel_wide"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_steerable",
+    "to": "wheel"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_slick_steerable",
+    "to": "wheel_slick"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_armor_steerable",
+    "to": "wheel_armor"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_bicycle_steerable",
+    "to": "wheel_bicycle"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_bicycle_or_steerable",
+    "to": "wheel_bicycle_or"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_motorbike_steerable",
+    "to": "wheel_motorbike"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_motorbike_or_steerable",
+    "to": "wheel_motorbike_or"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_small_steerable",
+    "to": "wheel_small"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_wide_steerable",
+    "to": "wheel_wide"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "wheel_wide_or_steerable",
+    "to": "wheel_wide_or"
+  }
+]

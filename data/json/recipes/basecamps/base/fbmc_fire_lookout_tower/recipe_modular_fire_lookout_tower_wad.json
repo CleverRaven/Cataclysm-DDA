@@ -1,0 +1,30 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_fire_lookout_tower_wad_shack_0",
+    "description": "We need some shelter, so build a wattle and daub shack with a sod roof in the northern part of the camp.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_fire_lookout_tower_wad_shack_0",
+    "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_shack_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_shack_0" } ],
+    "blueprint_requires": [ { "id": "fbmc_fire_lookout_tower_0" } ],
+    "blueprint_name": "wattle and daub shack"
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_fire_lookout_tower_wad_shack_1",
+    "description": "We need some shelter, so build a wattle and daub shack with a sod roof in the southern part of the camp.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_fire_lookout_tower_wad_shack_1",
+    "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_shack_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_shack_1" } ],
+    "blueprint_requires": [ { "id": "fbmc_fire_lookout_tower_shack_0" } ],
+    "blueprint_name": "wattle and daub shack"
+  }
+]

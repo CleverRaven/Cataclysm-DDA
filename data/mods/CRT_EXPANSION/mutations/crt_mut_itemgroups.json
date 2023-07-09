@@ -1,0 +1,14 @@
+[
+  {
+    "type": "item_group",
+    "id": "mut_lab",
+    "copy-from": "mut_lab",
+    "extend": { "items": [ [ "iv_mutagen_vamp", 2 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "mut_iv",
+    "copy-from": "mut_iv",
+    "extend": { "items": [ [ "iv_mutagen_vamp", 2 ] ] }
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "type": "obsolete_terrain",
+    "terrains": [
+      "triffid_grove",
+      "triffid_roots",
+      "triffid_finale",
+      "microlab_generic_hallway_start_north",
+      "microlab_generic_hallway_start_east",
+      "microlab_generic_hallway_start_south",
+      "microlab_generic_hallway_start_west",
+      "microlab_generic_hallway_north",
+      "microlab_generic_hallway_east",
+      "microlab_generic_hallway_south",
+      "microlab_generic_hallway_west",
+      "mine",
+      "mine_down",
+      "mine_entrance",
+      "mine_shaft",
+      "mine_finale",
+      "spiral",
+      "spiral_hub",
+      "anthill",
+      "acid_anthill",
+      "ants_food",
+      "ants_food",
+      "ants_larvae",
+      "ants_larvae_acid",
+      "ants_queen",
+      "ants_queen_acid",
+      "pond_forest",
+      "pond_swamp"
+    ]
+  }
+]

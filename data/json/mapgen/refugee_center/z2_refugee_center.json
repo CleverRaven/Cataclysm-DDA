@@ -1,0 +1,15 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [
+      [ "evac_center_1_z2", "evac_center_2_z2", "evac_center_3_z2", "evac_center_4_z2", "evac_center_5_z2" ],
+      [ "evac_center_6_z2", "evac_center_7_z2", "evac_center_8_z2", "evac_center_9_z2", "evac_center_10_z2" ],
+      [ "evac_center_11_z2", "evac_center_12_z2", "evac_center_13_z2", "evac_center_14_z2", "evac_center_15_z2" ],
+      [ "evac_center_16_z2", "evac_center_17_z2", "evac_center_18_z2", "evac_center_19_z2", "evac_center_20_z2" ],
+      [ "evac_center_21_z2", "evac_center_22_z2", "evac_center_23_z2", "evac_center_24_z2", "evac_center_25_z2" ]
+    ],
+    "weight": 100,
+    "object": { "fill_ter": "t_open_air" }
+  }
+]

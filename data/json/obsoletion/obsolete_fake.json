@@ -1,0 +1,61 @@
+[
+  {
+    "//": "All these fake objects may be referenced by preexisting base camps and expansions, and so may have to remain for quite some time after their obsolescence during the 0.E cycle",
+    "id": "rock_forge_pseudo",
+    "type": "TOOL",
+    "name": { "str": "rock forge" },
+    "copy-from": "char_forge",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
+  },
+  {
+    "id": "pseudo_char_smoker",
+    "type": "TOOL",
+    "name": { "str": "smoking rack" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
+    "sub": "char_smoker",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "kiln_pseudo",
+    "type": "TOOL",
+    "name": { "str": "clay kiln" },
+    "copy-from": "brick_kiln",
+    "sub": "brick_kiln",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
+  },
+  {
+    "id": "arcfurnace",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "arc furnace" }
+  },
+  {
+    "id": "fake_router_table",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "router table" }
+  },
+  {
+    "id": "fake_power_lathe",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "power lathe" }
+  },
+  {
+    "id": "butchery_rack_pseudo",
+    "type": "TOOL",
+    "name": { "str": "butchery rack pseudo item" },
+    "description": "This is a pseudo item to represent the support of a tree or butchery rack with a hook.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "[",
+    "color": "dark_gray",
+    "qualities": [ [ "SUSPENDING", 2 ], [ "ROPE", 2 ] ],
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

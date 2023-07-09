@@ -1,0 +1,48 @@
+[
+  {
+    "type": "recipe",
+    "result": "afs_bio_precision_solderers",
+    "obsolete": true
+  },
+  {
+    "result": "afs_sungel",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "id_suffix": "afs_convert",
+    "obsolete": true
+  },
+  {
+    "result": "afs_quilt_patchwork",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "afs_mbr_titanium",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "afs_sunesthesia",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_metal_rig",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_kitchen_rig",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_cooking_rig",
+    "obsolete": true
+  }
+]

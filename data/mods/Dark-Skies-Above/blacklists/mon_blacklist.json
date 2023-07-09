@@ -1,0 +1,8 @@
+[
+  {
+    "//": "edited from no_wildlife",
+    "type": "MONSTER_WHITELIST",
+    "mode": "EXCLUSIVE",
+    "categories": [ "ALIEN", "WILDLIFE" ]
+  }
+]

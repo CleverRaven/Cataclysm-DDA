@@ -1,0 +1,1201 @@
+[
+  {
+    "abstract": "mre_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": { "str": "MRE" },
+    "category": "food",
+    "description": "A generic MRE box, you shouldn't see this.",
+    "price": 1500,
+    "price_postapoc": 1500,
+    "weight": "725 g",
+    "volume": "750 ml",
+    "material": [ "plastic" ],
+    "looks_like": "mre_beef_box",
+    "use_action": [ "DISASSEMBLE" ]
+  },
+  {
+    "abstract": "mre_smallbox",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": { "str": "MRE small box", "str_pl": "MRE small boxes" },
+    "category": "food",
+    "description": "A generic small MRE box, you shouldn't see this",
+    "price": 500,
+    "price_postapoc": 100,
+    "weight": "300 g",
+    "volume": "250 ml",
+    "material": [ "plastic" ],
+    "looks_like": "mre_beef_box",
+    "use_action": [ "DISASSEMBLE" ]
+  },
+  {
+    "id": "mre_accessory",
+    "type": "GENERIC",
+    "copy-from": "mre_smallbox",
+    "name": { "str": "MRE - Accessory Pack", "str_pl": "MREs - Accessory Packs" },
+    "description": "An MRE accessory pack containing a variety of utensils and drinks.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_accessory_pack" }
+  },
+  {
+    "id": "mre_dessert",
+    "type": "GENERIC",
+    "copy-from": "mre_smallbox",
+    "name": { "str": "MRE - Dessert Pack", "str_pl": "MREs - Dessert Packs" },
+    "description": "A sealed plastic bag containing an array of desserts.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_dessert_pack" }
+  },
+  {
+    "id": "mre_chilibeans_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chili & Beans", "str_pl": "MREs - Chili & Beans" },
+    "description": "A 'Meal Ready to Eat' with a chili & beans entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_bbqbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - BBQ Beef", "str_pl": "MREs - BBQ Beef" },
+    "description": "A 'Meal Ready to Eat' with a BBQ beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_chickennoodle_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken & Noodles", "str_pl": "MREs - Chicken & Noodles" },
+    "description": "A 'Meal Ready to Eat' with a chicken & noodles entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_spaghetti_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Spaghetti", "str_pl": "MREs - Spaghetti" },
+    "description": "A 'Meal Ready to Eat' with a spaghetti entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" },
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_chicken_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken Chunks", "str_pl": "MREs - Chicken Chunks" },
+    "description": "A 'Meal Ready to Eat' with a chicken chunk entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_beeftaco_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Beef Taco", "str_pl": "MREs - Beef Taco" },
+    "description": "A 'Meal Ready to Eat' with a beef taco entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_beef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Beef Brisket", "str_pl": "MREs - Beef Brisket" },
+    "description": "A 'Meal Ready to Eat' with a beef brisket entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_meatball_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Meatballs & Marinara", "str_pl": "MREs - Meatballs & Marinara" },
+    "description": "A 'Meal Ready to Eat' with a meatball entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_beefstew_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Beef Stew", "str_pl": "MREs - Beef Stew" },
+    "description": "A 'Meal Ready to Eat' with a beef stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_chilimac_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chili & Macaroni", "str_pl": "MREs - Chili & Macaroni" },
+    "description": "A 'Meal Ready to Eat' with a chili & macaroni entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" },
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_veggy_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Vegetarian Taco", "str_pl": "MREs - Vegetarian Taco" },
+    "description": "A 'Meal Ready to Eat' with a vegetarian taco entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_macaronimarinara_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Macaroni Marinara", "str_pl": "MREs - Macaroni Marinara" },
+    "description": "A 'Meal Ready to Eat' with a macaroni marinara entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" },
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_sfettuccine_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Spinach Fettuccine", "str_pl": "MREs - Spinach Fettuccine" },
+    "description": "A 'Meal Ready to Eat' with a creamy spinach fettuccine entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" },
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_ratatouille_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Ratatouille", "str_pl": "MREs - Ratatouille" },
+    "description": "A 'Meal Ready to Eat' with a ratatouille entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" },
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_cheesetort_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Cheese Tortellini", "str_pl": "MREs - Cheese Tortellini" },
+    "description": "A 'Meal Ready to Eat' with a cheese tortellini entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" },
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_mushroomfettuccine_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Mushroom Fettuccine", "str_pl": "MREs - Mushroom Fettuccine" },
+    "description": "A 'Meal Ready to Eat' with a mushroom fettuccine entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" },
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_mexicanchickenstew_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Mexican Chicken Stew", "str_pl": "MREs - Mexican Chicken Stew" },
+    "description": "A 'Meal Ready to Eat' with a Mexican chicken stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" },
+    "looks_like": "mre_beef_box"
+  },
+  {
+    "id": "mre_chickenburritobowl_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken Burrito Bowl", "str_pl": "MREs - Chicken Burrito Bowl" },
+    "description": "A 'Meal Ready to Eat' with a chicken burrito bowl entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_maplesausage_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Maple Sausage", "str_pl": "MREs - Maple Sausage" },
+    "description": "A 'Meal Ready to Eat' with a maple sausage entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_ravioli_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Ravioli", "str_pl": "MREs - Ravioli" },
+    "description": "A 'Meal Ready to Eat' with a ravioli entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_pepperjackbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Pepper Jack Beef", "str_pl": "MREs - Pepper Jack Beef" },
+    "description": "A 'Meal Ready to Eat' with a pepper jack beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_hashbrownbacon_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Hash Browns & Bacon", "str_pl": "MREs - Hash Browns & Bacon" },
+    "description": "A 'Meal Ready to Eat' with a hash browns & bacon entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_lemontuna_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Lemon Pepper Tuna", "str_pl": "MREs - Lemon Pepper Tuna" },
+    "description": "A 'Meal Ready to Eat' with a lemon pepper tuna entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_asianbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Asian Beef & Vegetables", "str_pl": "MREs - Asian Beef & Vegetables" },
+    "description": "A 'Meal Ready to Eat' with an Asian beef & vegetables entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_chickenpesto_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken Pesto & Pasta", "str_pl": "MREs - Chicken Pesto & Pasta" },
+    "description": "A 'Meal Ready to Eat' with a chicken pesto entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_southwestbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Southwest Beef & Beans", "str_pl": "MREs - Southwest Beef & Beans" },
+    "description": "A 'Meal Ready to Eat' with a southwest beef & beans entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" }
+  },
+  {
+    "id": "mre_hotdog_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Frankfurters & Beans", "str_pl": "MREs - Frankfurters & Beans" },
+    "description": "A vintage MRE, still perfectly preserved and edible.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "use_action": { "type": "unpack", "group": "mre_full_pack" },
+    "price": 1000
+  },
+  {
+    "id": "inj_vitb",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "injectable vitamin B" },
+    "description": "Small vials of pale yellow liquid containing soluble vitamin B for injection.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 150,
+    "price_postapoc": 500,
+    "charges": 2,
+    "stack_size": 10,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "use_action": { "type": "consume_drug", "activation_message": "You inject some vitamin B.", "tools_needed": { "syringe": -1 } }
+  },
+  {
+    "id": "aep_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "AEP suit" },
+    "description": "An armored environmental protection suit.  Custom-built from a cleansuit and body armor, it provides excellent protection against both physical harm and ambient radiation.",
+    "weight": "7200 g",
+    "volume": "9 L",
+    "price": 140000,
+    "price_postapoc": 6000,
+    "material": [ "kevlar_layered", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hazmat_suit",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 7,
+    "environmental_protection": 9,
+    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
+  },
+  {
+    "id": "anbc_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ANBC suit" },
+    "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.  It requires a separate gas mask for full protection.",
+    "weight": "8700 g",
+    "volume": "20 L",
+    "price": 400000,
+    "price_postapoc": 9000,
+    "material": [ "kevlar_layered", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hazmat_suit",
+    "color": "light_red",
+    "warmth": 50,
+    "material_thickness": 7,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spidery_legs_big",
+    "name": { "str": "set of spidery legs", "str_pl": "sets of spidery legs" },
+    "description": "A set of big pointy legs, like the ones found under a tripod.",
+    "symbol": "W",
+    "color": "light_gray",
+    "weight": "40000 g",
+    "volume": "20 L",
+    "price": 200000,
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "id": "rock_pot",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "stone pot" },
+    "description": "A large stone, roughly hollowed out into a pot.",
+    "weight": "1500 g",
+    "volume": "2 L",
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "stone" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "chem_match_head_powder",
+    "category": "chems",
+    "price": 50,
+    "price_postapoc": 10,
+    "name": { "str_sp": "match head powder" },
+    "symbol": "=",
+    "color": "light_red",
+    "description": "Some match head powder from match heads, similar to black gunpowder but a bit weaker.  It can be used in crafting explosives and fuses when other, more suitable candidates are less available.",
+    "material": [ "powder" ],
+    "volume": "10 ml",
+    "weight": "2050 mg",
+    "bashing": 1,
+    "ammo_type": "components",
+    "container": "bag_plastic",
+    "count": 10
+  },
+  {
+    "id": "helmet_lobster",
+    "repairs_like": "xlkevlar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "lobster helmet" },
+    "description": "A heavy helmet that provides excellent protection from all sorts of damage.  It has a tail coming off the back that provides protection to your neck.",
+    "weight": "1383 g",
+    "volume": "2 L",
+    "price": 28000,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "kevlar_rigid", "plastic" ],
+    "symbol": "[",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "head" ], "coverage": 98, "encumbrance": 20 },
+      { "covers": [ "eyes" ], "coverage": 65, "encumbrance": 0 },
+      { "covers": [ "mouth" ], "coverage": 40, "encumbrance": 0 }
+    ],
+    "warmth": 20,
+    "material_thickness": 4,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar chainmail hauberk" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_hauberk",
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
+  },
+  {
+    "id": "xl_kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL Kevlar chainmail hauberk" },
+    "copy-from": "kevlar_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "kevlar_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "kevlar_chainmail_hauberk",
+    "looks_like": "kevlar_chainmail_hauberk",
+    "name": { "str": "XS kevlar chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "UNDERSIZE" ]
+  },
+  {
+    "id": "kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar chainmail armor" },
+    "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_suit",
+    "material_thickness": 6,
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "xl_kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL Kevlar chainmail armor" },
+    "copy-from": "kevlar_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "kevlar_chainmail_suit_xs",
+    "type": "ARMOR",
+    "copy-from": "kevlar_chainmail_suit",
+    "looks_like": "kevlar_chainmail_suit",
+    "name": { "str": "XS kevlar chainmail armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "NONCONDUCTIVE", "UNDERSIZE" ]
+  },
+  {
+    "id": "chainmail_hauberk",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chainmail hauberk" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "14430 g",
+    "volume": "2750 ml",
+    "price": 35988,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "looks_like": "armor_blarmor",
+    "color": "light_red",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL chainmail hauberk" },
+    "copy-from": "chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "chainmail_hauberk",
+    "looks_like": "chainmail_hauberk",
+    "name": { "str": "XS chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "chainmail_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chainmail armor" },
+    "description": "A fully customized chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "16436 g",
+    "volume": "3250 ml",
+    "price": 45000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_red",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL chainmail armor" },
+    "copy-from": "chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "chainmail_suit_xs",
+    "type": "ARMOR",
+    "copy-from": "chainmail_suit",
+    "looks_like": "chainmail_suit",
+    "name": { "str": "XS chainmail armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ornamental plate armor" },
+    "description": "An extremely heavy suit of ornamental armor.",
+    "weight": "18 kg",
+    "volume": "30 L",
+    "price": 780000,
+    "price_postapoc": 6000,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "xl_armor_plate",
+    "type": "ARMOR",
+    "name": { "str": "XL ornamental plate armor" },
+    "copy-from": "armor_plate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_armor_plate",
+    "type": "ARMOR",
+    "copy-from": "armor_plate",
+    "looks_like": "armor_plate",
+    "name": { "str": "XS ornamental plate armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "UNDERSIZE" ]
+  },
+  {
+    "id": "armor_lightplate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "plate armor" },
+    "description": "A suit of Gothic plate armor.",
+    "weight": "11 kg",
+    "volume": "17500 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "xl_armor_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "XL plate armor" },
+    "copy-from": "armor_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_armor_lightplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lightplate",
+    "looks_like": "armor_lightplate",
+    "name": { "str": "XS plate armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "chainmail_hood",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chainmail coif" },
+    "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "looks_like": "balclava",
+    "color": "light_red",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_chainmail_hood",
+    "type": "ARMOR",
+    "copy-from": "chainmail_hood",
+    "name": { "str": "XL chainmail coif" },
+    "description": "A customized chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_chainmail_hood",
+    "type": "ARMOR",
+    "copy-from": "chainmail_hood",
+    "looks_like": "chainmail_hood",
+    "name": { "str": "XS chainmail coif" },
+    "description": "A customized chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "chainmail_vest",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chainmail vest" },
+    "description": "A customized chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
+    "weight": "6953 g",
+    "volume": "1 L",
+    "price": 10000,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "looks_like": "vest_leather",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL chainmail vest" },
+    "copy-from": "chainmail_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "chainmail_vest",
+    "name": { "str": "XS chainmail vest" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "chainmail_arms",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
+    "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "weight": "2812 g",
+    "volume": "750 ml",
+    "price": 7500,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "looks_like": "armguard_metal",
+    "color": "light_red",
+    "material_thickness": 3,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_chainmail_arms",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chainmail sleeves", "str_pl": "pairs of XL chainmail sleeves" },
+    "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "weight": "3212 g",
+    "volume": "1050 ml",
+    "copy-from": "chainmail_arms",
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_chainmail_arms",
+    "type": "ARMOR",
+    "copy-from": "chainmail_arms",
+    "looks_like": "chainmail_arms",
+    "name": { "str": "pair of XS chainmail sleeves", "str_pl": "pairs of XS chainmail sleeves" },
+    "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "chainmail_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chainmail gloves", "str_pl": "pairs of chainmail gloves" },
+    "description": "Customized chainmail gloves that fully enclose the hand.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_red",
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_chainmail_hands",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chainmail gloves", "str_pl": "pairs of XL chainmail gloves" },
+    "copy-from": "chainmail_hands",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "chainmail_hands",
+    "looks_like": "chainmail_hands",
+    "name": { "str": "pair of XS chainmail gloves", "str_pl": "pairs of XS chainmail gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "chainmail_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
+    "description": "Customized chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "weight": "4212 g",
+    "volume": "1500 ml",
+    "price": 7500,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "chainmail_legs",
+    "name": { "str": "XL chainmail leggings", "str_pl": "pairs of XL chainmail leggings" },
+    "description": "Customized chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "chainmail_legs",
+    "name": { "str": "XS chainmail leggings", "str_pl": "pairs of XS chainmail leggings" },
+    "description": "Customized chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "chainmail_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chainmail chausses", "str_pl": "pairs of chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "steel", "iron" ],
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_chainmail_feet",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chainmail chausses", "str_pl": "pairs of XL chainmail chausses" },
+    "copy-from": "chainmail_feet",
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "chainmail_feet",
+    "looks_like": "chainmail_feet",
+    "name": { "str": "pair of XS chainmail chausses", "str_pl": "pairs of XS chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_scavenger",
+    "type": "ARMOR",
+    "name": { "str": "scavenger gear" },
+    "description": "A sturdy scavenger's outfit made from refitted pre-Cataclysm protective gear reinforced with soft armor panels.  It has a lot of storage space.",
+    "weight": "7915 g",
+    "volume": "7500 ml",
+    "price": 180000,
+    "price_postapoc": 2000,
+    "to_hit": -3,
+    "material": [ "kevlar_layered", "nylon", "cotton" ],
+    "symbol": "[",
+    "looks_like": "armor_nomad",
+    "color": "green",
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "volume_encumber_modifier": 0.2,
+        "encumbrance": 15,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 80, "thickness": 4.4 }
+        ],
+        "encumbrance": 15,
+        "volume_encumber_modifier": 0,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "arm_l", "arm_r" ]
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 80, "thickness": 4.4 }
+        ],
+        "volume_encumber_modifier": 0.1,
+        "encumbrance": 10,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Deep leg holster",
+        "holster": true,
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "45 cm",
+        "moves": 70
+      },
+      {
+        "magazine_well": "350 ml",
+        "description": "Small sheath",
+        "holster": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 20,
+        "flag_restriction": [ "SHEATH_KNIFE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Magazine pocket",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 150 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for right side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for left side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      }
+    ],
+    "warmth": 40,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER", "BELTED" ]
+  },
+  {
+    "id": "swat_armor",
+    "repairs_like": "survivor_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "SWAT armor" },
+    "//": "This is well within the pricing structure I found for ballistic vest, shins, and LBE.  LEO gear ain't cheap.",
+    "description": "A suit of black armour plating covering the vital parts of the chest, arms, and legs.  The word SWAT is emblazoned across the back.",
+    "weight": "2200 g",
+    "volume": "9 L",
+    "price": 285000,
+    "price_postapoc": 2500,
+    "to_hit": -3,
+    "material": [ "kevlar", "thermo_resin", "plastic" ],
+    "symbol": "[",
+    "longest_side": "40 cm",
+    "looks_like": "armor_riot",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 65, "encumbrance": [ 10, 17 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 65, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 60, "encumbrance": [ 12, 12 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 12,
+    "material_thickness": 5,
+    "environmental_protection": 1,
+    "flags": [ "POCKETS", "STURDY", "OUTER" ]
+  },
+  {
+    "id": "dragonskinempty",
+    "repairs_like": "survivor_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "lamellar Kevlar vest" },
+    "description": "A lamellar Kevlar vest, there are intricately cut voids usually filled with stitched in ceramic disks, you could repair the stitching if needed",
+    "weight": "2060 g",
+    "volume": "4 L",
+    "price": 1900,
+    "price_postapoc": 2000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar_layered" ],
+    "symbol": "[",
+    "looks_like": "dragonskin",
+    "color": "light_red",
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 6, "coverage": 25, "covers": [ "torso" ] } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "ceramicdisks",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "ceramic disk" },
+    "description": "A set of small slightly elongated disks, made of high-grade ceramic.  They remind you of scales.",
+    "price": 0,
+    "price_postapoc": 25,
+    "material": [ "ceramic" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "bashing": 1,
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "data_card",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "data card" },
+    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.  Didn't someone want this?",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "18 g",
+    "volume": "1 ml",
+    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
+    "to_hit": -3
+  },
+  {
+    "id": "mind_scan_robofac",
+    "type": "GENERIC",
+    "name": { "str_sp": "neural data" },
+    "symbol": "#",
+    "container": "data_card",
+    "description": "Data stolen from a dead scientist memory banks.  Is the owner of these thoughts still hidden here, amidst the unreadable data; or are these just a collection of the precious moments of someone's life?\n\nWhatever the case, the idea of perpetually keeping a part of you within a metallic pill makes you feel uncomfortable.",
+    "flags": [ "NO_DROP" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "mind_splicer",
+    "symbol": "o",
+    "color": "white",
+    "name": { "str": "mind splicer kit" },
+    "description": "Surgical forceps, cables and a modified smartphone inside a small plastic pouch.  Assembled to steal the mind of some poor man, these are tools of the creepy high-tech sandman.",
+    "material": [ "plastic" ],
+    "price": 12500,
+    "price_postapoc": 500,
+    "volume": "1 L",
+    "weight": "600 g",
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

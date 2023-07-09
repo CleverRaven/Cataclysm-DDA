@@ -1,0 +1,119 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_refrigerator",
+    "name": "electric refrigerator",
+    "symbol": "{",
+    "description": "A very modern tall metal storage container that, if powered, will freeze food and other perishables for preservation.",
+    "color": "light_cyan",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": 10,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "fridge", "count": 1 } ] },
+    "max_volume": "200 L",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "pipe_fittings", "count": [ 1, 3 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 4 ] },
+        { "item": "scrap_copper", "count": [ 1, 2 ] },
+        { "item": "motor", "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_icebox",
+    "name": "icebox",
+    "symbol": "{",
+    "looks_like": "f_dresser",
+    "color": "brown",
+    "description": "A traditional wooden icebox, designed to chill food and other perishables for preservation if stocked with ice.",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "max_volume": "2000 L",
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_washer",
+    "name": "automatic washing machine",
+    "description": "A large, chunky drum that uses soap and large amounts of water to wash batches of clothes with minimal effort, with a built in mangle on top.",
+    "symbol": "{",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": 12,
+    "max_volume": "125 L",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "household_washing_machine", "count": 1 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "pipe_fittings", "count": [ 1, 3 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ironstove",
+    "name": "cast-iron stove",
+    "symbol": "#",
+    "looks_like": "f_woodstove",
+    "bgcolor": "red",
+    "description": "A large cast-iron stove heated by a wood burning fire.  With multiple oven compartments, it is the centerpiece of any kitchen, good for cooking or heating food, and safe to have indoors.",
+    "move_cost_mod": 3,
+    "coverage": 80,
+    "required_str": 15,
+    "max_volume": "290 L",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "pipe_fittings", "prob": 50 }
+      ]
+    },
+    "deconstruct": {
+      "items": [ { "item": "metal_tank", "count": 2 }, { "item": "pipe", "count": 3 }, { "item": "pipe_fittings", "count": 1 } ]
+    },
+    "crafting_pseudo_item": "fake_oven"
+  }
+]

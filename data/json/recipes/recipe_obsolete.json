@@ -1,0 +1,783 @@
+[
+  {
+    "type": "recipe",
+    "result": "mre_accessory",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_dessert",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chilibeans_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_bbqbeef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chickennoodle_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_spaghetti_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chicken_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_beeftaco_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_beef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_meatball_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_beefstew_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chilimac_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_veggy_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_macaronimarinara_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_sfettuccine_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_ratatouille_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_cheesetort_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_mushroomfettuccine_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_mexicanchickenstew_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chickenburritobowl_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_maplesausage_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_ravioli_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_pepperjackbeef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_hashbrownbacon_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_lemontuna_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_asianbeef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chickenpesto_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_southwestbeef_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_hotdog_box",
+    "obsolete": true
+  },
+  {
+    "result": "aep_suit",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "anbc_suit",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blindfold",
+    "id_suffix": "from_tape",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bodypillow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_makeshift_30",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "can_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_improvised_barrel_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "improvised_demolition_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_small_improvised_fragmentation_device",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "improvised_pipebomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "improvised_grenade",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_demolition_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_small_primitive_fragmentation_device",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_pipebomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_grenade",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_bootleg_barrel_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_small_bootleg_fragmentation_device",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bootleg_pipebomb_stable",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bootleg_grenade",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "folding_bicycle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ballistic_vest_esapi",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_lsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wsurvivor_suit_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wsurvivor_suit_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "h20survivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_hauberk_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_kevlar_chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_chainmail_suit_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_kevlar_chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hauberk_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_suit_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xshsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlhsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_fsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_fsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hauberk_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_suit_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_scavenger",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_case_xs_soft_leather",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vac_oven_small_full",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil",
+    "id_suffix": "using_pipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_ethanol",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_ethanol",
+    "id_suffix": "using_oil_extractor_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil_ethanol",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_ethanol_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil_ethanol_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_heads",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_heads",
+    "id_suffix": "using lo_q_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_heads",
+    "id_suffix": "using_tails",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dab_pen",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_cart",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "thread_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_6_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_36_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_makeshift_6_spinwheel_dissasemble",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "string_6_spinwheel_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "string_36_spinwheel_dissasemble",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_6_spinwheel_dissasemble",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dragonskin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sourdough_young",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sourdough_split",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "thorazine",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "antiparasitic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bfipowder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "disinfectant",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_black_powder",
+    "id_suffix": "generic",
+    "obsolete": true
+  }
+]

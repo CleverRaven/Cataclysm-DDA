@@ -1,0 +1,127 @@
+[
+  {
+    "id": "TALK_CONVERSATION_DANGER",
+    "type": "talk_topic",
+    "dynamic_line": "Are you sure?  This doesn't seem like a particularly safe place for small talk…",
+    "responses": [
+      {
+        "text": "It's fine, we've got a moment.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "or": [ { "npc_has_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] },
+        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "switch": true
+      },
+      {
+        "text": "It's fine, we've got a moment.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "switch": true,
+        "effect": { "npc_add_trait": "BGSS_No_Past_1" },
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
+        "//2": "This is a stand-in for some kind of better system to add a random trait."
+      },
+      { "text": "Good point, let's find a more appropriate place.", "topic": "TALK_NONE" },
+      { "text": "You're right.  Forget I said anything, let's get moving.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_CONVERSATION",
+    "type": "talk_topic",
+    "dynamic_line": "What did you want to talk about?",
+    "responses": [ { "text": "Actually, never mind.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_FRIEND_CHAT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "days_since_cataclysm": 100,
+        "yes": [
+          { "u_has_item": "beer", "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>", "no": "<neutralchitchat_later>" },
+          {
+            "u_has_item": "european_pilsner",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "u_has_item": "drink_hard_seltzer",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "u_has_item": "pale_ale",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "u_has_item": "india_pale_ale",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "u_has_item": "wine_barley",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "is_season": "summer",
+            "yes": "<chitchat_prefix_summer>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "is_season": "winter",
+            "yes": "<chitchat_prefix_winter>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          {
+            "npc_has_effect": "infected",
+            "yes": "<chitchat_prefix_infected>  <neutralchitchat_later>",
+            "no": "<neutralchitchat_later>"
+          },
+          { "npc_has_intelligence": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" },
+          { "npc_has_perception": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" }
+        ],
+        "no": [
+          { "u_has_item": "beer", "yes": "<chitchat_prefix_booze>  <neutralchitchat>", "no": "<neutralchitchat>" },
+          {
+            "u_has_item": "european_pilsner",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          {
+            "u_has_item": "drink_hard_seltzer",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          { "u_has_item": "pale_ale", "yes": "<chitchat_prefix_booze>  <neutralchitchat>", "no": "<neutralchitchat>" },
+          {
+            "u_has_item": "india_pale_ale",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          {
+            "u_has_item": "wine_barley",
+            "yes": "<chitchat_prefix_booze>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          { "is_season": "summer", "yes": "<chitchat_prefix_summer>  <neutralchitchat>", "no": "<neutralchitchat>" },
+          { "is_season": "winter", "yes": "<chitchat_prefix_winter>  <neutralchitchat>", "no": "<neutralchitchat>" },
+          {
+            "npc_has_effect": "infected",
+            "yes": "<chitchat_prefix_infected>  <neutralchitchat>",
+            "no": "<neutralchitchat>"
+          },
+          { "npc_has_intelligence": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" },
+          { "npc_has_perception": 8, "yes": "<insightfulchitchat>", "no": "<thoughtfulchitchat>" }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
+    ]
+  }
+]
