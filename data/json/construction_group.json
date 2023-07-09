@@ -911,6 +911,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_trellis",
+    "name": "Build Trellis"
+  },
+  {
+    "type": "construction_group",
     "id": "carpet_floor_green",
     "name": "Carpet Floor Green"
   },
@@ -983,6 +988,11 @@
     "type": "construction_group",
     "id": "dig_grave_and_bury_sealed_coffin",
     "name": "Dig Grave and Bury Sealed Coffin"
+  },
+  {
+    "type": "construction_group",
+    "id": "drill_parasol_hole",
+    "name": "Drill Parasol Hole"
   },
   {
     "type": "construction_group",

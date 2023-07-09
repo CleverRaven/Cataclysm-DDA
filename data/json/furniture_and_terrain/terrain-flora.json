@@ -2601,6 +2601,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_grass_lawn",
+    "name": "lawn",
+    "description": "An area of short stripy mowed grass.",
+    "looks_like": "t_grass",
+    "symbol": ".",
+    "color": "light_green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_grass_alien",
     "name": "alien grass",
     "description": "An area of something that almost looks like grass.  The blades are serrated and move on their own.",

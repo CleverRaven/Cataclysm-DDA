@@ -1546,5 +1546,25 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "fire_brick", "count": [ 45, 75 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_brick_oven_small",
+    "looks_like": "f_fireplace",
+    "name": "small brick oven",
+    "symbol": "#",
+    "description": "A small brick oven just big enough to bake a pizza.",
+    "color": "red",
+    "move_cost": 0,
+    "flags": [ "REDUCE_SCENT", "NOITEM", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 30 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "fire_brick", "count": [ 15, 25 ] } ]
+    }
   }
 ]

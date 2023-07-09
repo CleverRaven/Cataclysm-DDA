@@ -462,6 +462,56 @@
   },
   {
     "type": "furniture",
+    "id": "f_hedge_sculpted",
+    "name": "sculpted hedge",
+    "description": "A shrub with small green leaves, meticulously trimmed into an intricate decorative shape.",
+    "symbol": "o",
+    "color": "green",
+    "looks_like": "t_shrub",
+    "move_cost_mod": 3,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick_long", "count": [ 2, 3 ] },
+        { "item": "splinter", "count": [ 5, 10 ] },
+        { "item": "leaves", "count": [ 5, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hedge_archway",
+    "name": "tall hedge archway",
+    "description": "A tall shrub with small green leaves, shaped to form an arched gap to allow passage.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "looks_like": "t_shrub",
+    "move_cost_mod": 1,
+    "coverage": 50,
+    "required_str": -1,
+    "connect_groups": "WOODFENCE",
+    "connects_to": "WOODFENCE",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick_long", "count": [ 2, 3 ] },
+        { "item": "splinter", "count": [ 5, 10 ] },
+        { "item": "leaves", "count": [ 5, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_hedge_tall",
     "name": "tall hedge",
     "description": "A tall shrub with small green leaves, trimmed into a squared shape.  You can't see past this thick hedgerow.",

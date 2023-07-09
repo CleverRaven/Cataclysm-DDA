@@ -295,6 +295,50 @@
   },
   {
     "type": "furniture",
+    "id": "f_table_plastic",
+    "name": "plastic table",
+    "description": "A standard plastic table.  You could sit down at it to eat like a civilized person.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 5,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "5l_plastic", "count": [ 0, 10 ] }, { "item": "plastic_chunk", "count": [ 25, 100 ] } ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_table_rattan",
+    "name": "rattan table",
+    "description": "A rattan table with a glass top.  You could sit down at it to eat like a civilized person.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 5,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "glass_shard", "count": [ 0, 10 ] } ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
     "id": "f_coffee_table",
     "name": "coffee table",
     "description": "A low table usually found in living rooms, it makes an ideal surface for playing games, showing off some tasteful books, or presumably for putting coffee cups on.  No one cares if you use a coaster anymore.",
@@ -356,5 +400,79 @@
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 500000, "volume": "300L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_table_parasol",
+    "name": "parasol table",
+    "description": "A standard wooden table with a hole for a parasol.  You could sit down at it to eat like a civilized person.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 5,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": 1 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_table_plastic_parasol",
+    "name": "plastic table",
+    "description": "A standard plastic table with a hole for a parasol.  You could sit down at it to eat like a civilized person.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 5,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "5l_plastic", "count": [ 0, 10 ] }, { "item": "plastic_chunk", "count": [ 25, 100 ] } ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_table_rattan_parasol",
+    "name": "rattan table",
+    "description": "A rattan table with a glass top and a a hole for a parasol.  You could sit down at it to eat like a civilized person.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 5,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "glass_shard", "count": [ 0, 10 ] } ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
   }
 ]

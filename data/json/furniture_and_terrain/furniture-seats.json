@@ -59,6 +59,51 @@
   },
   {
     "type": "furniture",
+    "id": "f_chair_rattan",
+    "name": "rattan chair",
+    "symbol": "H",
+    "description": "A rattan chair adorned with cushions.  The cushions provide some give meaning it definitely beats the ground for sleeping on, though not by much.",
+    "color": "black",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 1,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 7,
+    "deconstruct": { "items": [ { "item": "armchair", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "wooden_post_short", "count": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sofa_rattan",
+    "name": "rattan sofa",
+    "symbol": "H",
+    "description": "A wide rattan sofa adorned with cushions, large enough for two people to comfortably sit alongside one another, or for one person to lay down on.  The cushions provide some give meaning it definitely beats the ground for sleeping on, though not by much.",
+    "bgcolor": "black",
+    "move_cost_mod": 1,
+    "coverage": 60,
+    "comfort": 2,
+    "floor_bedding_warmth": 500,
+    "required_str": 10,
+    "deconstruct": { "items": [ { "item": "wooden_post_short", "count": 6 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "wooden_post_short", "count": [ 0, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_seat_airplane",
     "name": "airplane seat",
     "//": "Used in airliner.json, it yields short rope as a seatbelt",
@@ -103,6 +148,33 @@
     "symbol": "#",
     "description": "A simple wooden chair with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.",
     "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "chair_wood", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wooden_post_short", "count": 1 },
+        { "item": "nuts_bolts", "charges": [ 2, 10 ] },
+        { "item": "splinter", "count": [ 1, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair_plastic",
+    "name": "plastic chair",
+    "symbol": "#",
+    "description": "A simple plastic chair with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.",
+    "color": "white",
     "move_cost_mod": 1,
     "coverage": 40,
     "comfort": 1,

@@ -7,14 +7,19 @@
   },
   {
     "type": "tool_quality",
+    "id": "CUT_FINE",
+    "name": { "str": "fine cutting" },
+    "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
+  },
+  {
+    "type": "tool_quality",
     "id": "GRASS_CUT",
     "name": { "str": "grass cutting" }
   },
   {
     "type": "tool_quality",
-    "id": "CUT_FINE",
-    "name": { "str": "fine cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
+    "id": "GRASS_CUT_FINE",
+    "name": { "str": "fine grass cutting" }
   },
   {
     "type": "tool_quality",

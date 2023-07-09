@@ -157,6 +157,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_water_feature",
+    "name": "water feature",
+    "description": "A small stone water feature, which used to trickle a pleasant stream of water but now just sits there.",
+    "symbol": "o",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "MINEABLE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 1, 6 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "copper", "count": [ 0, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_gazing_ball",
     "name": "gazing ball",
     "description": "A mirrored glass globe mounted on a cement pedestal.  It warps your reflection when you look into it.",

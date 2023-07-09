@@ -1140,23 +1140,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "lawnmower",
-    "symbol": ";",
-    "color": "green",
-    "name": { "str": "lawnmower" },
-    "description": "A motorized pushmower that seems to be broken.  You could take it apart if you had a wrench.",
-    "category": "other",
-    "price": 10000,
-    "price_postapoc": 50,
-    "material": [ "steel", "iron" ],
-    "weight": "28680 g",
-    "volume": "6250 ml",
-    "longest_side": "1 meter",
-    "to_hit": -4,
-    "melee_damage": { "bash": 6 }
-  },
-  {
-    "type": "GENERIC",
     "id": "broketent",
     "symbol": ";",
     "color": "green",

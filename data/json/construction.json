@@ -1750,6 +1750,36 @@
   },
   {
     "type": "construction",
+    "id": "constr_trellis_fence",
+    "group": "build_trellis",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ], [ "survival", 0 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ], [ [ "wood_trellis", 1 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "f_trellis_fence"
+  },
+  {
+    "type": "construction",
+    "id": "constr_trellis_archway",
+    "group": "build_trellis",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ], [ "survival", 0 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [
+      [ [ "pointy_stick", 4 ], [ "spear_wood", 4 ], [ "pointy_stick_long", 4 ] ],
+      [ [ "stick", 2 ] ],
+      [ [ "wood_trellis", 3 ] ]
+    ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "f_trellis_archway"
+  },
+  {
+    "type": "construction",
     "id": "constr_fence_rope",
     "group": "build_rope_fence",
     "category": "CONSTRUCT",
@@ -2273,6 +2303,30 @@
     "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_coffee_table"
+  },
+  {
+    "type": "construction",
+    "id": "constr_drill_parasol_hole_table",
+    "group": "drill_parasol_hole",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "qualities": [ [ { "id": "DRILL", "level": 2 } ] ],
+    "pre_terrain": "f_table",
+    "post_terrain": "f_table_parasol",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_drill_parasol_hole_table_plastic",
+    "group": "drill_parasol_hole",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "qualities": [ [ { "id": "DRILL", "level": 3 } ] ],
+    "pre_terrain": "f_table_plastic",
+    "post_terrain": "f_table_plastic_parasol",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",

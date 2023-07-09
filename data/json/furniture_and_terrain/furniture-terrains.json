@@ -1099,6 +1099,96 @@
   },
   {
     "type": "furniture",
+    "id": "f_trellis_fence",
+    "name": "trellis fence",
+    "description": "A flimsy lattice fence made of wood with plants growing up.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_fence",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": -1,
+    "examine_action": "chainfence",
+    "flags": [
+      "TRANSPARENT",
+      "DIGGABLE",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "NOITEM",
+      "PERMEABLE",
+      "UNSTABLE",
+      "CLIMBABLE",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE"
+    ],
+    "connect_groups": "WOODFENCE",
+    "connects_to": "WOODFENCE",
+    "deconstruct": {
+      "items": [
+        { "item": "wood_trellis", "count": 1 },
+        { "item": "pointy_stick_long", "count": [ 0, 2 ] },
+        { "item": "leaves", "count": [ 0, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "items": [
+        { "item": "pointy_stick_long", "count": [ 0, 2 ] },
+        { "item": "splinter", "count": [ 5, 15 ] },
+        { "item": "leaves", "count": [ 0, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_trellis_archway",
+    "name": "trellis archway",
+    "description": "A flimsy lattice archway made of wood with plants growing overhead.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_fence",
+    "move_cost_mod": 1,
+    "coverage": 20,
+    "required_str": -1,
+    "flags": [
+      "TRANSPARENT",
+      "DIGGABLE",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "PERMEABLE",
+      "UNSTABLE",
+      "CLIMBABLE",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE"
+    ],
+    "connect_groups": "WOODFENCE",
+    "connects_to": "WOODFENCE",
+    "deconstruct": {
+      "items": [
+        { "item": "wood_trellis", "count": [ 2, 3 ] },
+        { "item": "pointy_stick_long", "count": [ 0, 2 ] },
+        { "item": "stick", "count": 2 },
+        { "item": "leaves", "count": [ 0, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "items": [
+        { "item": "pointy_stick_long", "count": [ 0, 2 ] },
+        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "splinter", "count": [ 5, 15 ] },
+        { "item": "leaves", "count": [ 0, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_utility_pole",
     "name": "utility pole",
     "description": "A long wooden post which used to support overhead power lines and other public utilities, but it doesn't work anymore.",
