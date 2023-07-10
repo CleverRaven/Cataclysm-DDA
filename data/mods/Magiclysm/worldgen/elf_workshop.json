@@ -73,7 +73,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "elf_workshop_roof_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 20, -5 ],
+    "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 13 ],
     "occurrences": [ 0, 2 ]
   },
