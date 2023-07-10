@@ -401,6 +401,10 @@ class monster : public Creature
         bool can_attack_high() const override; // Can we attack upper limbs?
         int get_grab_strength() const; // intensity of grabbed effect
 
+        void add_grab( bodypart_str_id bp );
+        void remove_grab( bodypart_str_id bp );
+        bool is_grabbing( bodypart_str_id bp );
+
         monster_horde_attraction get_horde_attraction();
         void set_horde_attraction( monster_horde_attraction mha );
         bool will_join_horde( int size );
@@ -499,6 +503,9 @@ class monster : public Creature
         using Creature::add_msg_debug_player_or_npc;
         void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
                                           const std::string &npc_msg ) const override;
+
+        // currently grabbed limbs
+        std::unordered_set<bodypart_str_id> grabbed_limbs;
 
         tripoint_abs_ms wander_pos; // Wander destination - Just try to move in that direction
         bool provocative_sound = false; // Are we wandering toward something we think is alive?

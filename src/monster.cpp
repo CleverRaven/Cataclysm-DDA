@@ -88,6 +88,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -2332,6 +2333,25 @@ int monster::get_grab_strength() const
     return type->grab_strength;
 }
 
+void monster::add_grab( bodypart_str_id bp )
+{
+    add_effect( effect_grabbing, 1_days, true, 1 );
+    grabbed_limbs.insert( bp );
+}
+
+void monster::remove_grab( bodypart_str_id bp )
+{
+    grabbed_limbs.erase( bp );
+    if( grabbed_limbs.empty() ) {
+        add_effect( effect_grabbing, 1_days, true, 1 );
+    }
+}
+
+bool monster::is_grabbing( bodypart_str_id bp )
+{
+    return has_effect( effect_grabbing ) && grabbed_limbs.find( bp ) != grabbed_limbs.end();
+}
+
 float monster::fall_damage_mod() const
 {
     if( flies() ) {
@@ -2608,7 +2628,7 @@ void monster::die( Creature *nkiller )
             }
             // Iterate through all your grabs to figure out which one this critter held
             for( const effect &grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
-                if( has_effect( grab.get_bp()->grabbing_effect ) ) {
+                if( is_grabbing( grab.get_bp().id() ) ) {
                     const effect_type effid = *grab.get_effect_type();
                     you->remove_effect( effid.id, grab.get_bp() );
                 }

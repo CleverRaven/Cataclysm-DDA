@@ -1906,11 +1906,14 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         // Remove our grab if we knocked back our grabber (if we can do so is handled by tech conditions)
         if( has_flag( json_flag_GRAB ) && t.has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
             for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
-                if( t.has_effect( eff.get_bp()->grabbing_effect ) ) {
-                    t.remove_effect( eff.get_bp()->grabbing_effect );
-                    remove_effect( eff.get_id(), eff.get_bp() );
-                    add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
-                                   eff.get_bp()->name );
+                if( t.is_monster() ) {
+                    monster *m = t.as_monster();
+                    if( m->is_grabbing( eff.get_bp().id() ) ) {
+                        m->remove_grab( eff.get_bp().id() );
+                        remove_effect( eff.get_id(), eff.get_bp() );
+                        add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
+                                       eff.get_bp()->name );
+                    }
                 }
             }
         }
