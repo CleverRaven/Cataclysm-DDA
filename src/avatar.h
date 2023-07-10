@@ -25,6 +25,7 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
+class cata_path;
 class diary;
 class faction;
 class item;
@@ -91,6 +92,7 @@ class avatar : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
+        void export_as_npc( const cata_path &path );
         void serialize( JsonOut &json ) const override;
         void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
@@ -364,6 +366,7 @@ class avatar : public Character
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
+        npc &get_shadow_npc();
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;
