@@ -16,6 +16,29 @@
     ]
   },
   {
+    "id": [ "TALK_PORTAL_STORM_WHAT_ARE_YOU", "TALK_PORTAL_STORM_DO_FOR_ME", "TALK_PORTAL_STORM_WHAT_DO_YOU_GET" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telepath] *Read the voice's mind(?)*",
+        "topic": "TALK_PORTAL_STORM_telepathy",
+        "condition": { "u_has_trait": "TELEPATH" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_PORTAL_STORM_telepathy" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You reach out to the voice's location(?) and try to touch its thoughts.  In an instant, your mind is filled by a babble of your [own] thoughts, at exactly the moment you think them, which then repeat again as you realize what is happening and your thoughts about the experience are reflected back at you and your brain is filled with an agonizing cacophony until you break the connection.",
+    "responses": [
+      {
+        "text": "Well, that was a mistake.",
+        "topic": "TALK_PORTAL_STORM_CONVERSATION",
+        "effect": [ { "math": [ "u_pain()", "+=", "5" ] } ]
+      }
+    ]
+  },
+  {
     "id": [ "TALK_PORTAL_STORM_DANGER_SENSE_FAIL" ],
     "type": "talk_topic",
     "dynamic_line": "&You extend your senses, alert for danger, and are immediately almost blinded.  In the heart of the portal storm, there's danger everywhere.  In the air and ground, in the things half-glimpsed that vanish when you look at them, and in yourself, just waiting for the right conditions to be unleashed.  If there's any additional danger in the voice's offer, you cannot tell.",
