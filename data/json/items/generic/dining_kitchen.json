@@ -916,7 +916,7 @@
     "material": [ { "type": "steel", "portion": 9 }, { "type": "aluminum", "portion": 1 } ],
     "color": "light_gray",
     "weight": "2500 g",
-    "volume": "12270 ml",
+    "volume": "12700 ml",
     "longest_side": "25 cm",
     "price": "137 USD",
     "pocket_data": [
