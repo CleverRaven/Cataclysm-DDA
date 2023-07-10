@@ -464,7 +464,7 @@
     "id": "technician_coveralls",
     "type": "ARMOR",
     "name": { "str_sp": "work coveralls" },
-    "description": "A fully covering jumpsuit made of waterproof duck canvas.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
+    "description": "A fully covering jumpsuit made of waterproof canvas.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
     "weight": "1328 g",
     "volume": "1000 ml",
     "price": 10000,
@@ -547,13 +547,13 @@
     ],
     "warmth": 15,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ]
   },
   {
     "id": "technician_coveralls_h",
     "type": "ARMOR",
     "name": { "str_sp": "heavy work coveralls" },
-    "description": "A thick, fully covering jumpsuit made of waterproof duck canvas lined with extra fabric for warmth in brisk weather.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
+    "description": "A thick, fully covering jumpsuit made of waterproof canvas lined with extra fabric for warmth in brisk weather.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
     "weight": "2436 g",
     "volume": "2000 ml",
     "price": 12000,
@@ -645,7 +645,7 @@
     ],
     "warmth": 30,
     "material_thickness": 1.0,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ]
   },
   {
     "id": "subsuit_xl",
