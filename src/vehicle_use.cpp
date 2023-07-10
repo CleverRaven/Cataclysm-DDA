@@ -97,6 +97,9 @@ static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 static const itype_id itype_welding_kit( "welding_kit" );
 
+static const mon_flag_str_id mon_flag_PET_HARNESSABLE( "PET_HARNESSABLE" );
+static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
+
 static const quality_id qual_SCREW( "SCREW" );
 
 static const skill_id skill_mechanics( "mechanics" );
@@ -1600,8 +1603,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
             return false;
         }
         monster &f = *mon_ptr;
-        return f.friendly != 0 && ( f.has_flag( MF_PET_MOUNTABLE ) ||
-                                    f.has_flag( MF_PET_HARNESSABLE ) );
+        return f.friendly != 0 && ( f.has_flag( mon_flag_PET_MOUNTABLE ) ||
+                                    f.has_flag( mon_flag_PET_HARNESSABLE ) );
     };
 
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -1622,7 +1625,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
     if( m.friendly == 0 ) {
         add_msg( m_info, _( "This creature is not friendly!" ) );
         return;
-    } else if( !m.has_flag( MF_PET_MOUNTABLE ) && !m.has_flag( MF_PET_HARNESSABLE ) ) {
+    } else if( !m.has_flag( mon_flag_PET_MOUNTABLE ) && !m.has_flag( mon_flag_PET_HARNESSABLE ) ) {
         add_msg( m_info, _( "This creature cannot be harnessed." ) );
         return;
     } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, "HARNESS_any" ) ) {

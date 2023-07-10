@@ -135,6 +135,9 @@ static const matec_id tec_none( "tec_none" );
 static const material_id material_glass( "glass" );
 static const material_id material_steel( "steel" );
 
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_melee( "melee" );
@@ -586,7 +589,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ),
                          mons->get_name() );
@@ -1840,7 +1843,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         }
     }
 
-    if( technique.side_switch && !t.has_flag( MF_IMMOBILE ) ) {
+    if( technique.side_switch && !t.has_flag( mon_flag_IMMOBILE ) ) {
         const tripoint b = t.pos();
         point new_;
 
@@ -1866,7 +1869,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         }
     }
     map &here = get_map();
-    if( technique.knockback_dist && !t.has_flag( MF_IMMOBILE ) ) {
+    if( technique.knockback_dist && !t.has_flag( mon_flag_IMMOBILE ) ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
@@ -1906,11 +1909,14 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         // Remove our grab if we knocked back our grabber (if we can do so is handled by tech conditions)
         if( has_flag( json_flag_GRAB ) && t.has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
             for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
-                if( t.has_effect( eff.get_bp()->grabbing_effect ) ) {
-                    t.remove_effect( eff.get_bp()->grabbing_effect );
-                    remove_effect( eff.get_id(), eff.get_bp() );
-                    add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
-                                   eff.get_bp()->name );
+                if( t.is_monster() ) {
+                    monster *m = t.as_monster();
+                    if( m->is_grabbing( eff.get_bp().id() ) ) {
+                        m->remove_grab( eff.get_bp().id() );
+                        remove_effect( eff.get_id(), eff.get_bp() );
+                        add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
+                                       eff.get_bp()->name );
+                    }
                 }
             }
         }

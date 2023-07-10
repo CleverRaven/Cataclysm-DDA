@@ -122,7 +122,7 @@ void damage_type::load( const JsonObject &jo, std::string_view )
         if( jsobj.has_array( "monster" ) ) {
             mon_immune_flags.clear();
             for( const std::string flg : jsobj.get_array( "monster" ) ) {
-                mon_immune_flags.insert( io::string_to_enum<m_flag>( flg ) );
+                mon_immune_flags.insert( flg );
             }
         }
         if( jsobj.has_array( "character" ) ) {
