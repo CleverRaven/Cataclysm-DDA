@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "elf_workshop_roof" ],
-    "weight": 1000,
     "object": {
       "rows": [
         "||||||||||||||||||||||||",
