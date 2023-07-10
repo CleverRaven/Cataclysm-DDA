@@ -582,25 +582,6 @@ static int map_uilist()
     return uilist( _( "Map…" ), uilist_initializer );
 }
 
-static int import_uilist()
-{
-    const std::vector<uilist_entry> uilist_initializer = {
-        { uilist_entry( debug_menu_index::IMPORT_FOLLOWER, true, 'f', _( "Import follower" ) ) },
-    };
-
-    return uilist( _( "Import…" ), uilist_initializer );
-}
-
-static int export_uilist()
-{
-    const std::vector<uilist_entry> uilist_initializer = {
-        { uilist_entry( debug_menu_index::EXPORT_SELF, true, 's', _( "Export self" ) ) },
-        { uilist_entry( debug_menu_index::EXPORT_FOLLOWER, true, 'f', _( "Export follower" ) ) },
-    };
-
-    return uilist( _( "Export…" ), uilist_initializer );
-}
-
 static int quick_setup_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
