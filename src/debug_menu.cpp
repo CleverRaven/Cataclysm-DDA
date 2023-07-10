@@ -430,6 +430,9 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
         { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set auto move route" ) ) },
         { uilist_entry( debug_menu_index::CONTROL_NPC, true, 'x', _( "Control NPC follower" ) ) },
+        { uilist_entry( debug_menu_index::IMPORT_FOLLOWER, true, 'i', _( "Import follower" ) ) },
+        { uilist_entry( debug_menu_index::EXPORT_FOLLOWER, true, 'e', _( "Export follower" ) ) },
+        { uilist_entry( debug_menu_index::EXPORT_SELF, true, 'E', _( "Export self" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
         uilist_initializer.emplace_back( debug_menu_index::CHANGE_SPELLS, true, 'S',
@@ -584,7 +587,7 @@ static int export_uilist()
         { uilist_entry( debug_menu_index::EXPORT_FOLLOWER, true, 'f', _( "Export follower" ) ) },
     };
 
-    return uilist( _( "Expot…" ), uilist_initializer );
+    return uilist( _( "Export…" ), uilist_initializer );
 }
 
 /**
@@ -607,8 +610,6 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
             { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
             { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
-            { uilist_entry( 8, true, 'i', _( "Import…" ) ) },
-            { uilist_entry( 9, true, 'e', _( "Export…" ) ) },
         };
 
         // insert debug-only menu right after "Info".
@@ -648,12 +649,6 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
                 break;
             case 7:
                 action = vehicle_uilist();
-                break;
-            case 8:
-                action = import_uilist();
-                break;
-            case 9:
-                action = export_uilist();
                 break;
 
             default:
