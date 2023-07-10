@@ -129,6 +129,12 @@
   },
   {
     "type": "GENERIC",
+    "id": "skull_giganotosaurus",
+    "name": { "str": "giganotosaurus skull" },
+    "copy-from": "skull_dino_pred_large"
+  },
+  {
+    "type": "GENERIC",
     "id": "skull_triceratops",
     "name": { "str": "triceratops skull" },
     "description": "Large dinosaur skull with three large horns and a large crest.",
