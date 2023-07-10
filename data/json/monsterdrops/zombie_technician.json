@@ -25,7 +25,9 @@
       { "group": "clothing_work_mask", "prob": 40, "damage": [ 1, 4 ] },
       { "item": "ear_plugs", "prob": 15, "damage": [ 1, 4 ] },
       { "item": "tool_belt", "prob": 25, "damage": [ 1, 4 ] },
-      { "collection": [ { "group": "clothing_work_pants", "damage": [ 1, 4 ] }, { "group": "clothing_work_torso", "damage": [ 1, 4 ] } ] },
+      {
+        "collection": [ { "group": "clothing_work_pants", "damage": [ 1, 4 ] }, { "group": "clothing_work_torso", "damage": [ 1, 4 ] } ]
+      },
       {
         "distribution": [
           { "item": "technician_coveralls", "prob": 60, "damage": [ 1, 4 ] },
