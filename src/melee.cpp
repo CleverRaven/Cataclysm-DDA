@@ -2728,7 +2728,7 @@ int Character::attack_speed( const item &weap ) const
 
 double Character::weapon_value( const item &weap, int ammo ) const
 {
-    if( is_wielding( weap ) ) {
+    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
         if( cached_value != cached_info.end() ) {
             return cached_value->second;
@@ -2743,7 +2743,7 @@ double Character::weapon_value( const item &weap, int ammo ) const
     const double my_val = more + ( less / 2.0 );
     add_msg_debug( debugmode::DF_MELEE, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(),
                    ammo, my_val );
-    if( is_wielding( weap ) ) {
+    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
     return my_val;

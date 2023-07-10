@@ -573,7 +573,7 @@
     "id": "bio_carbon",
     "type": "bionic",
     "name": { "str": "Subdermal Carbon Filament" },
-    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has little impact on blunt trauma but will protect you against deep cuts.",
+    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has no impact on blunt trauma but will protect you against deep cuts.",
     "occupied_bodyparts": [
       [ "torso", 6 ],
       [ "head", 2 ],
@@ -589,17 +589,17 @@
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "protec": [
-      [ "torso", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "head", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "mouth", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "arm_l", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "arm_r", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "leg_l", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "leg_r", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "foot_l", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "foot_r", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "hand_l", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "hand_r", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ]
+      [ "torso", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "head", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "mouth", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "arm_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "arm_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "leg_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "leg_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "foot_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "foot_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "hand_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "hand_r", { "cut": 4, "bullet": 4, "stab": 4 } ]
     ]
   },
   {
