@@ -836,10 +836,7 @@
       { "distribution": [ { "item": "socks" }, { "item": "socks_ankle" } ] },
       { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ] },
       {
-        "distribution": [
-          { "item": "technician_coveralls", "prob": 75 },
-          { "item": "technician_coveralls_h", "prob": 25 }
-        ],
+        "distribution": [ { "item": "technician_coveralls", "prob": 75 }, { "item": "technician_coveralls_h", "prob": 25 } ],
         "prob": 25
       },
       [ "hat_hard", 50 ],
