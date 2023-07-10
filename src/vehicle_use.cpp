@@ -141,7 +141,8 @@ void vehicle::control_doors()
             if( motorized_idx == -1 ) {
                 continue;
             }
-            if( !require_flag.empty() && !part_flag( motorized_idx, require_flag ) ) {
+            vehicle_part &vp = part( motorized_idx );
+            if( !require_flag.empty() && !vp.info().has_flag( require_flag ) ) {
                 continue;
             }
             if( new_open || can_close( motorized_idx, get_player_character() ) ) {
@@ -157,7 +158,8 @@ void vehicle::control_doors()
             if( motorized_idx == -1 ) {
                 continue;
             }
-            if( !require_flag.empty() && !part_flag( motorized_idx, require_flag ) ) {
+            vehicle_part &vp = part( motorized_idx );
+            if( !require_flag.empty() && !vp.info().has_flag( require_flag ) ) {
                 continue;
             }
             lock_or_unlock( motorized_idx, new_lock );
@@ -1298,9 +1300,9 @@ bool vehicle::can_close( int part_index, Character &who )
 
 void vehicle::open_all_at( int p )
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
-    for( int &elem : parts_here ) {
-        if( part_flag( elem, VPFLAG_OPENABLE ) ) {
+    for( const int elem : parts_at_relative( parts[p].mount, true, true ) ) {
+        const vehicle_part &vp = parts[elem];
+        if( vp.info().has_flag( VPFLAG_OPENABLE ) ) {
             // Note that this will open multi-square and non-multipart parts in the tile. This
             // means that adjacent open multi-square openables can still have closed stuff
             // on same tile after this function returns
@@ -1586,7 +1588,11 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
 
 void vehicle::use_harness( int part, const tripoint &pos )
 {
-    if( parts[part].is_unavailable() || parts[part].removed ) {
+    const vehicle_part &vp = parts[part];
+    const vpart_info &vpi = vp.info();
+
+    if( vp.is_unavailable() || vp.removed ) {
+        debugmsg( "use_harness called on invalid part" );
         return;
     }
     if( !g->is_empty( pos ) ) {
@@ -1625,7 +1631,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
     } else if( !m.has_flag( MF_PET_MOUNTABLE ) && !m.has_flag( MF_PET_HARNESSABLE ) ) {
         add_msg( m_info, _( "This creature cannot be harnessed." ) );
         return;
-    } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, "HARNESS_any" ) ) {
+    } else if( !vpi.has_flag( Harness_Bodytype ) && !vpi.has_flag( "HARNESS_any" ) ) {
         add_msg( m_info, _( "The harness is not adapted for this creature morphology." ) );
         return;
     }

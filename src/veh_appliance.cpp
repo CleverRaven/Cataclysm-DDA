@@ -354,7 +354,7 @@ bool veh_app_interact::can_unplug()
 {
     vehicle_part_range vpr = veh->get_all_parts();
     return std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & ref ) {
-        return ref.vehicle().part_flag( static_cast<int>( ref.part_index() ), "POWER_TRANSFER" );
+        return ref.info().has_flag( "POWER_TRANSFER" );
     } );
 }
 
