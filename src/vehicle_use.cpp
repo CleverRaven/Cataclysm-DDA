@@ -1205,9 +1205,9 @@ void vehicle::alarm()
  */
 void vehicle::open( int part_index )
 {
-    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
-        debugmsg( "Attempted to open non-openable part %d (%s) on a %s!", part_index,
-                  parts[ part_index ].name(), name );
+    vehicle_part &vp = part( part_index );
+    if( !vp.info().has_flag( VPFLAG_OPENABLE ) ) {
+        debugmsg( "Attempted to open non-openable part %d (%s) on a %s!", part_index, vp.name(), name );
     } else {
         open_or_close( part_index, true );
     }
@@ -1220,9 +1220,9 @@ void vehicle::open( int part_index )
  */
 void vehicle::close( int part_index )
 {
-    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
-        debugmsg( "Attempted to close non-closeable part %d (%s) on a %s!", part_index,
-                  parts[ part_index ].name(), name );
+    vehicle_part &vp = part( part_index );
+    if( !vp.info().has_flag( VPFLAG_OPENABLE ) ) {
+        debugmsg( "Attempted to close non-closeable part %d (%s) on a %s!", part_index, vp.name(), name );
     } else {
         open_or_close( part_index, false );
     }
@@ -1235,9 +1235,9 @@ void vehicle::close( int part_index )
  */
 void vehicle::unlock( int part_index )
 {
-    if( !part_info( part_index ).has_flag( "LOCKABLE_DOOR" ) ) {
-        debugmsg( "Attempted to unlock non-lockable part %d (%s) on a %s!", part_index,
-                  parts[part_index].name(), name );
+    vehicle_part &vp = part( part_index );
+    if( !vp.info().has_flag( "LOCKABLE_DOOR" ) ) {
+        debugmsg( "Attempted to unlock non-lockable part %d (%s) on a %s!", part_index, vp.name(), name );
     } else {
         lock_or_unlock( part_index, false );
     }
@@ -1250,12 +1250,11 @@ void vehicle::unlock( int part_index )
  */
 void vehicle::lock( int part_index )
 {
-    if( !part_info( part_index ).has_flag( "LOCKABLE_DOOR" ) ) {
-        debugmsg( "Attempted to lock non-lockable part %d (%s) on a %s!", part_index,
-                  parts[part_index].name(), name );
-    } else if( parts[part_index].open ) {
-        debugmsg( "Attempted to lock open part %d (%s) on a %s!", part_index, parts[part_index].name(),
-                  name );
+    vehicle_part &vp = part( part_index );
+    if( !vp.info().has_flag( "LOCKABLE_DOOR" ) ) {
+        debugmsg( "Attempted to lock non-lockable part %d (%s) on a %s!", part_index, vp.name(), name );
+    } else if( vp.open ) {
+        debugmsg( "Attempted to lock open part %d (%s) on a %s!", part_index, vp.name(), name );
     } else {
         lock_or_unlock( part_index, true );
     }

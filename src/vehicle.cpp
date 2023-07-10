@@ -831,8 +831,9 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
 
         std::vector<int> parts_in_square = parts_at_relative( part.mount, true );
         int structures_found = 0;
-        for( int &square_part_index : parts_in_square ) {
-            if( part_info( square_part_index ).location == part_location_structure ) {
+        for( const int square_part_index : parts_in_square ) {
+            const vpart_info &vpi = parts[square_part_index].info();
+            if( vpi.location == part_location_structure ) {
                 structures_found++;
             }
         }
@@ -874,8 +875,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
             if( p == other_p ) {
                 continue;
             }
-            const vpart_info &p_info = part_info( p );
-            const vpart_info &other_p_info = part_info( other_p );
+            const vpart_info &p_info = parts[p].info();
+            const vpart_info &other_p_info = parts[other_p].info();
 
             if( p_info.id == other_p_info.id ||
                 ( !p_info.location.empty() && p_info.location == other_p_info.location ) ) {
@@ -1031,16 +1032,6 @@ void vehicle::backfire( const vehicle_part &vp ) const
     const int volume = 40 + units::to_watt( part_vpower_w( vp, true ) ) / 10000;
     sounds::sound( pos, volume, sounds::sound_t::movement,
                    string_format( text, vp.name() ), true, "vehicle", "engine_backfire" );
-}
-
-const vpart_info &vehicle::part_info( int index, bool include_removed ) const
-{
-    if( index < static_cast<int>( parts.size() ) ) {
-        if( !parts[index].removed || include_removed ) {
-            return parts[index].info();
-        }
-    }
-    return vpart_id::NULL_ID().obj();
 }
 
 // engines & alternators all have power.
@@ -1271,10 +1262,11 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     const std::vector<int> parts_here = parts_at_relative( vp_to_remove.mount, false );
 
     // make sure there are no parts which require flags from this part
-    for( const int &elem : parts_here ) {
-        for( const std::string &flag : part_info( elem ).get_flags() ) {
+    for( const int elem : parts_here ) {
+        const vehicle_part &vp_here = parts[elem];
+        for( const std::string &flag : vp_here.info().get_flags() ) {
             if( vp_to_remove.info().has_flag( json_flag::get( flag ).requires_flag() ) ) {
-                reason = string_format( _( "Remove the attached %s first." ), part_info( elem ).name() );
+                reason = string_format( _( "Remove the attached %s first." ), vp_here.name() );
                 return false;
             }
         }
@@ -1301,8 +1293,9 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     }
 
     // structure parts can only be removed when no non-structure parts are on tile
-    for( const int &elem : parts_here ) {
-        if( part_info( elem ).location != part_location_structure ) {
+    for( const int elem : parts_here ) {
+        const vehicle_part &vp_here = parts[elem];
+        if( vp_here.info().location != part_location_structure ) {
             reason = _( "Remove all other attached parts first." );
             return false;
         }
@@ -2168,11 +2161,12 @@ bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
                 const point dp = parts[test_part].mount + offset;
                 std::vector<int> all_neighbor_parts = parts_at_relative( dp, true );
                 int neighbor_struct_part = -1;
-                for( int p : all_neighbor_parts ) {
-                    if( parts[p].removed ) {
+                for( const int p : all_neighbor_parts ) {
+                    const vehicle_part &vp_neighbor = parts[p];
+                    if( vp_neighbor.removed ) {
                         continue;
                     }
-                    if( part_info( p ).location == part_location_structure ) {
+                    if( vp_neighbor.info().location == part_location_structure ) {
                         neighbor_struct_part = p;
                         break;
                     }
@@ -2245,9 +2239,8 @@ bool vehicle::split_vehicles( map &here,
             // make sure the split_part0 is a legal 0,0 part
             if( split_parts.size() > 1 ) {
                 for( size_t sp = 0; sp < split_parts.size(); sp++ ) {
-                    int p = split_parts[ sp ];
-                    if( part_info( p ).location == part_location_structure &&
-                        !part_info( p ).has_flag( "PROTRUSION" ) ) {
+                    const vpart_info &vpi_split = parts[split_parts[sp]].info();
+                    if( vpi_split.location == part_location_structure && !vpi_split.has_flag( "PROTRUSION" ) ) {
                         split_part0 = sp;
                         break;
                     }
@@ -2931,20 +2924,23 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts(
     // start from the real part, otherwise it fails in certain orientations
     part = get_non_fake_part( part );
 
-    vpart_id part_id = part_info( part ).id;
+    const vehicle_part &vp = parts[part];
+    const vpart_id &part_id = vp.info().id;
+    const point target = vp.mount;
     // create vectors of parts on the same X or Y axis
-    point target = parts[ part ].mount;
-    for( const vpart_reference &vp : possible_parts ) {
-        if( vp.part().is_unavailable() ||
-            !vp.has_feature( "MULTISQUARE" ) ||
-            vp.info().id != part_id )  {
+    for( const vpart_reference &vpr : possible_parts ) {
+        const vehicle_part &vp_other = vpr.part();
+        const vpart_info &vpi_other = vp_other.info();
+        if( vp_other.is_unavailable() ||
+            !vpi_other.has_flag( "MULTISQUARE" ) ||
+            vpi_other.id != part_id )  {
             continue;
         }
-        if( vp.mount().x == target.x ) {
-            x_parts.push_back( vp.part_index() );
+        if( vp_other.mount.x == target.x ) {
+            x_parts.push_back( vpr.part_index() );
         }
-        if( vp.mount().y == target.y ) {
-            y_parts.push_back( vp.part_index() );
+        if( vp_other.mount.y == target.y ) {
+            y_parts.push_back( vpr.part_index() );
         }
     }
 
@@ -4381,7 +4377,7 @@ bool vehicle::sufficient_wheel_config() const
         return false;
     } else if( wheelcache.size() == 1 ) {
         //Has to be a stable wheel, and one wheel can only support a 1-3 tile vehicle
-        if( !part_info( wheelcache.front() ).has_flag( "STABLE" ) ||
+        if( !part( wheelcache[0] ).info().has_flag( "STABLE" ) ||
             all_parts_at_location( part_location_structure ).size() > 3 ) {
             return false;
         }
@@ -5924,7 +5920,7 @@ void vehicle::refresh( const bool remove_fakes )
     struct sort_veh_part_vector {
         vehicle *veh;
         inline bool operator()( const int p1, const int p2 ) const {
-            return veh->part_info( p1 ).list_order < veh->part_info( p2 ).list_order;
+            return veh->part( p1 ).info().list_order < veh->part( p2 ).info().list_order;
         }
     } svpv = { this };
 
@@ -7074,15 +7070,16 @@ int vehicle::break_off( map &here, int p, int dmg )
 
 bool vehicle::explode_fuel( int p, const damage_type_id &type )
 {
-    const itype_id &ft = part_info( p ).fuel_type;
+    vehicle_part &vp = part( p );
+    const itype_id &ft = vp.info().fuel_type;
     item fuel = item( ft );
     if( !fuel.has_explosion_data() ) {
         return false;
     }
     const fuel_explosion_data &data = fuel.get_explosion_data();
 
-    if( parts[ p ].is_broken() ) {
-        leak_fuel( parts[ p ] );
+    if( vp.is_broken() ) {
+        leak_fuel( vp );
     }
 
     int explosion_chance = type == damage_heat ? data.explosion_chance_hot :
@@ -7090,12 +7087,10 @@ bool vehicle::explode_fuel( int p, const damage_type_id &type )
     if( one_in( explosion_chance ) ) {
         get_event_bus().send<event_type::fuel_tank_explodes>( name );
         const int pow = 120 * ( 1 - std::exp( data.explosion_factor / -5000 *
-                                              ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
-        //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
-
-        explosion_handler::explosion( nullptr, global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
-        mod_hp( parts[p], -parts[ p ].hp() );
-        parts[p].ammo_unset();
+                                              ( vp.ammo_remaining() * data.fuel_size_factor ) ) );
+        explosion_handler::explosion( nullptr, global_part_pos3( vp ), pow, 0.7, data.fiery_explosion );
+        mod_hp( vp, -vp.hp() );
+        vp.ammo_unset();
     }
 
     return true;

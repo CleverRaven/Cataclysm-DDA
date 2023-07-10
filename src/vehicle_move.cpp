@@ -2162,12 +2162,13 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             }
             move_resist = std::max( 100, pet_resist );
         }
-        if( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) == -1 ) {
+        const int belt_idx = veh.part_with_feature( ps, VPFLAG_SEATBELT, true );
+        if( belt_idx == -1 ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
             throw_from_seat = d_vel * rng( 80, 120 ) > move_resist;
         } else {
             // Reduce potential damage based on quality of seatbelt
-            dmg -= veh.part_info( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) ).bonus;
+            dmg -= veh.part( belt_idx ).info().bonus;
         }
 
         // Damage passengers if d_vel is too high

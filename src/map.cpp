@@ -739,7 +739,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             // Shock damage, if the target part is a rotor treat as an aimed hit.
             // don't try to deal damage to invalid part (probably removed or destroyed)
             if( part_num != -1 ) {
-                if( veh.part_info( part_num ).rotor_diameter() > 0 ) {
+                if( veh.part( part_num ).info().rotor_diameter() > 0 ) {
                     veh.damage( *this, part_num, coll_dmg, damage_bash, true );
                 } else {
                     impulse += coll_dmg;
@@ -903,18 +903,30 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     const veh_collision &c = collisions[0];
     const bool vertical = veh.sm_pos.z != veh2.sm_pos.z;
 
+    if( c.part < 0 || c.part >= static_cast<int>( veh.part_count() ) ) {
+        debugmsg( "invalid c.part %d", c.part );
+        return 0.0f;
+    }
+
+    if( c.target_part < 0 || c.target_part >= static_cast<int>( veh2.part_count() ) ) {
+        debugmsg( "invalid c.target_part %d", c.target_part );
+        return 0.0f;
+    }
+    vehicle_part &vp1 = veh.part( c.part );
+    vehicle_part &vp2 = veh2.part( c.target_part );
+
     // Check whether avatar sees the collision, and log a message if so
     const avatar &you = get_avatar();
-    const tripoint part1_pos = veh.global_part_pos3( c.part );
-    const tripoint part2_pos = veh2.global_part_pos3( c.target_part );
+    const tripoint part1_pos = veh.global_part_pos3( vp1 );
+    const tripoint part2_pos = veh2.global_part_pos3( vp2 );
     if( you.sees( part1_pos ) || you.sees( part2_pos ) ) {
         //~ %1$s: first vehicle name (without "the")
         //~ %2$s: first part name
         //~ %3$s: second vehicle display name (with "the")
         //~ %4$s: second part name
         add_msg( m_bad, _( "The %1$s's %2$s collides with %3$s's %4$s." ),
-                 veh.name,  veh.part_info( c.part ).name(),
-                 veh2.disp_name(), veh2.part_info( c.target_part ).name() );
+                 veh.name,  vp1.info().name(),
+                 veh2.disp_name(), vp2.info().name() );
     }
 
     // Used to calculate the epicenter of the collision.
