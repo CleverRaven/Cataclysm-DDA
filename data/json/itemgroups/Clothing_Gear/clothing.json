@@ -841,7 +841,7 @@
           { "item": "technician_coveralls_h", "prob": 25 }
         ],
         "prob": 25
-      }
+      },
       [ "hat_hard", 50 ],
       {
         "distribution": [ { "item": "apron_plastic", "prob": 30 }, { "item": "apron_leather", "prob": 10 } ],
