@@ -3505,8 +3505,6 @@
       },
       {
         "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
         "cable_length": 3,
         "charge_rate": "110 W"
       }
@@ -3546,8 +3544,6 @@
       },
       {
         "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
         "cable_length": 3,
         "charge_rate": "110 W"
       }

@@ -1434,7 +1434,7 @@ class item : public visitable
             /// The maximum length of the cable. Set during initialization.
             int max_length = 2;
             /// The cable's power capacity in watts, affects battery charge rate. Set during initialization.
-            int wattage = 0;
+            int charge_rate = 0;
             /// (this) out of 1.0 chance to successfully add 1 charge every charge interval.
             float efficiency = 0.0f;
             /// The turn interval between charges. Set during initialization.
@@ -1454,11 +1454,9 @@ class item : public visitable
             void deserialize( const JsonObject &data );
         };
         /**
-         * @brief Sets max_length, wattage, and efficiency of a link, taking cable extensions into account.
+         * @brief Sets max_length and efficiency of a link, taking cable extensions into account.
          * @brief max_length is set to the sum of all cable lengths.
-         * @brief wattage is set to the smallest wattage of any cable.
          * @brief efficiency is set to the product of all efficiencies multiplied together.
-         * @brief charge_interval is set to how many turns it takes for wattage to add up to 1 kW - the unit batteries use. 0 means batteries won't be charged.
          */
         void set_link_traits();
 
@@ -1487,8 +1485,8 @@ class item : public visitable
 
         /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
-        * @brief A positive link.wattage will charge the item at the expense of the vehicle,
-        * while a negative link.wattage will charge the vehicle at the expense of the item.
+        * @brief A positive link.charge_rate will charge the item at the expense of the vehicle,
+        * while a negative link.charge_rate will charge the vehicle at the expense of the item.
         *
         * @param linked_veh The vehicle the item is connected to.
         * @param turns_elapsed The number of turns the link has spent outside the reality bubble. Default 1.

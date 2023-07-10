@@ -2869,7 +2869,7 @@ void item::link_data::serialize( JsonOut &jsout ) const
     jsout.member( "link_length", length );
     jsout.member( "link_max_length", max_length );
     jsout.member( "link_last_processed", last_processed );
-    jsout.member( "link_charge_rate", wattage );
+    jsout.member( "link_charge_rate", charge_rate );
     jsout.member( "link_charge_interval", charge_interval );
     jsout.member( "link_charge_efficiency", efficiency );
     jsout.end_object();
@@ -2886,7 +2886,7 @@ void item::link_data::deserialize( const JsonObject &data )
     data.read( "link_length", length );
     data.read( "link_max_length", max_length );
     data.read( "link_last_processed", last_processed );
-    data.read( "link_charge_rate", wattage );
+    data.read( "link_charge_rate", charge_rate );
     data.read( "link_charge_efficiency", efficiency );
     data.read( "link_charge_interval", charge_interval );
 }

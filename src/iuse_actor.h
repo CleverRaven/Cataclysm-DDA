@@ -1035,12 +1035,12 @@ class link_up_actor : public iuse_actor
         /** Maximum length of the cable. At -1, will use the item type's max_charges. */
         int cable_length = -1;
         /** Charge rate in watts */
-        units::power wattage = 0_W;
+        units::power charge_rate = 0_W;
         /** (this) out of 1.0 chance to successfully add 1 charge every charge interval */
         float efficiency = 0.85f;
         /** (Optional) The move cost to attach the cable. */
         int move_cost = 5;
-        /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
+        /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Manage cables". */
         translation menu_text;
 
         std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };

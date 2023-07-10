@@ -1289,7 +1289,7 @@
         "cost_scaling": 0.1,
         "move_cost": 500
       },
-      { "type": "link_up", "cable_length": 7, "wattage": "3000 W" }
+      { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -1360,7 +1360,7 @@
         "cost_scaling": 0.1,
         "move_cost": 1000
       },
-      { "type": "link_up", "cable_length": 7, "wattage": "1500 W" }
+      { "type": "link_up", "cable_length": 7, "charge_rate": "1500 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -1433,7 +1433,7 @@
         "cost_scaling": 0.1,
         "move_cost": 500
       },
-      { "type": "link_up", "cable_length": 7, "wattage": "3000 W" }
+      { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [

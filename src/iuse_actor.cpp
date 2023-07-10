@@ -4285,7 +4285,7 @@ std::unique_ptr<iuse_actor> link_up_actor::clone() const
 void link_up_actor::load( const JsonObject &jo )
 {
     jo.read( "cable_length", cable_length );
-    jo.read( "wattage", wattage );
+    jo.read( "charge_rate", charge_rate );
     jo.read( "efficiency", efficiency );
     jo.read( "move_cost", move_cost );
     jo.read( "menu_text", menu_text );
@@ -4337,10 +4337,10 @@ void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
                                    cable_length != -1 ? cable_length : dummy.type->maximum_charges() );
     dump.emplace_back( "TOOL", length_all_info, length_solo_info );
 
-    if( wattage != 0_W ) {
+    if( charge_rate != 0_W ) {
         //~ Power in Watts. %+4.1f is a 4 digit number with 1 decimal point (ex: 4737.3 W)
         dump.emplace_back( "TOOL", _( "<bold>Wattage</bold>: " ), string_format( _( "%+4.1f W" ),
-                           units::to_milliwatt( wattage ) / 1000.f ) );
+                           units::to_milliwatt( charge_rate ) / 1000.f ) );
     }
 
     if( !can_extend.empty() ) {

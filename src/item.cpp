@@ -13134,9 +13134,9 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
-    if( link->wattage == 0 || turns_elapsed < 1 ||
+    if( link->charge_rate == 0 || turns_elapsed < 1 ||
         link->charge_interval < 1 || link->efficiency < 0.001f ) {
-        return link->wattage;
+        return link->charge_rate;
     }
 
     if( !is_battery() ) {
@@ -13146,7 +13146,7 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
         }
     }
 
-    const bool power_in = link->wattage > 0;
+    const bool power_in = link->charge_rate > 0;
     if( power_in ? ammo_remaining() >= ammo_capacity( ammo_battery ) :
         ammo_remaining() <= 0 ) {
         return 0;
@@ -13158,7 +13158,7 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 
     if( short_time_passed &&
         !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) ) {
-        return link->wattage;
+        return link->charge_rate;
     }
 
     // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
@@ -13185,7 +13185,7 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
             }
         }
     }
-    return link->wattage;
+    return link->charge_rate;
 }
 
 bool item::reset_link( Character *p, const bool loose_message, const tripoint cable_position )

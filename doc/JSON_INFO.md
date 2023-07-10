@@ -4019,15 +4019,14 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type": "link_up", // Connect item to a vehicle or appliance, such as plugging a chargeable device into a power source.
     "cable_length": 4 // Maximum length of the cable ( Optional, defaults to the item type's maximum charges ).
                       // If extended by other cables, will use the sum of all cables' lengths.
-    "wattage": "60 W" // Maximum energy transfer rate of the cable in watts. ( Optional, defaults to "0 W" )
-                      // A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
-                      // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
-                      // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid.
-                      // If extended by other cables, will use the smallest wattage of any individual cable.
+    "charge_rate": "60 W" // The charge rate of the plugged-in device's batteries in watts. ( Optional, defaults to "0 W" )
+                          // A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
+                          // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
+                          // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid.
     "efficiency": 0.85f // (this) out of 1.0 chance to successfully add 1 charge every charge interval ( Optional, defaults to 0.85f, AKA 85% efficiency ).
-                       // A value less than 0.001 means the cable won't transfer any electricity at all.
-                       // If extended by other cables, will use the product of all cable's efficiencies multiplied together.
-    "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect" ).
+                        // A value less than 0.001 means the cable won't transfer any electricity at all.
+                        // If extended by other cables, will use the product of all cable's efficiencies multiplied together.
+    "menu_text": // Text displayed in the activation screen ( Optional, defaults to Plug in / Manage cables" ).
     "move_cost": // Move cost of attaching the cable ( Optional, defaults to 5 ).
     "targets": [ // Array of link_states that are valid connection points of the cable ( Optional, defaults to only allowing disconnection ).
         "no_link",         // Must be included to allow letting the player manually disconnect the cable.
