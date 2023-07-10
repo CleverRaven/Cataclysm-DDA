@@ -3799,14 +3799,43 @@ void game::draw_async_anim_curses()
         const nc_color nccol = anim.second.second;
 
         mvwprintz( w_terrain, p.xy(), nccol, ncstr );
-        //shared_ptr_fast<game::draw_callback_t> hit_cb = make_shared_fast<game::draw_callback_t>( [&]() { mvwprintz( w_terrain, p.xy(), nccol, ncstr ); } );
-        //g->add_draw_callback( hit_cb );
     }
 }
 
 void game::void_async_anim_curses()
 {
     async_anim_layer_curses.clear();
+}
+
+void game::init_draw_blink_curses( const tripoint &p, const std::string &ncstr,
+                                   const nc_color &nccol )
+{
+    std::pair <std::string, nc_color> anim( ncstr, nccol );
+    blink_layer_curses[p] = anim;
+}
+
+void game::draw_blink_curses()
+{
+    // game::draw_blink_curses can be called multiple times, storing each animation to be played in blink_layer_curses
+    // Iterate through every animation in async_anim_layer
+    for( const auto &anim : blink_layer_curses ) {
+        const tripoint p = anim.first - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(),
+                           -u.posz() );
+        const std::string ncstr = anim.second.first;
+        const nc_color nccol = anim.second.second;
+
+        mvwprintz( w_terrain, p.xy(), nccol, ncstr );
+    }
+}
+
+void game::void_blink_curses()
+{
+    blink_layer_curses.clear();
+}
+
+bool game::has_blink_curses()
+{
+    return !blink_layer_curses.empty();
 }
 
 void game::draw( ui_adaptor &ui )
@@ -3821,6 +3850,7 @@ void game::draw( ui_adaptor &ui )
     m.update_visibility_cache( ter_view_p.z );
 
     werase( w_terrain );
+    void_blink_curses();
     draw_ter();
     for( auto it = draw_callbacks.begin(); it != draw_callbacks.end(); ) {
         shared_ptr_fast<draw_callback_t> cb = it->lock();
@@ -3832,6 +3862,10 @@ void game::draw( ui_adaptor &ui )
         }
     }
     draw_async_anim_curses();
+    // Only draw blinking symbols when in active phase
+    if( blink_active_phase ) {
+        draw_blink_curses();
+    }
     wnoutrefresh( w_terrain );
 
     draw_panels( true );
@@ -3938,8 +3972,13 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
             // Monster is below
             // TODO: Make this show something more informative than just green 'v'
             // TODO: Allow looking at this mon with look command
-            // TODO: Redraw this after weather etc. animations
-            mvwputch( w_terrain, point( mx, my ), c_green_cyan, 'v' );
+            init_draw_blink_curses( tripoint( critter.pos().xy(), center.z ), "v", c_green_cyan );
+        }
+        if( critter.posz() == center.z + 1 &&
+            ( debug_mode || u.sees( critter ) ) &&
+            m.valid_move( critter.pos(), critter.pos() + tripoint_below, false, true ) ) {
+            // Monster is above
+            init_draw_blink_curses( tripoint( critter.pos().xy(), center.z ), "^", c_green_cyan );
         }
         return;
     }
