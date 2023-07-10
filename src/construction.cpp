@@ -1302,7 +1302,7 @@ bool construct::check_ladder_up( const tripoint_bub_ms &p )
 
 bool construct::check_ladder_down( const tripoint_bub_ms &p )
 {
-    return check_empty_down_OK( p ) && check_support_singular( p + tripoint_below ) &&
+    return check_empty( p + tripoint_below ) && check_down_OK( p ) && check_support_singular( p + tripoint_below ) &&
            check_nofloor( p );
 }
 
@@ -1705,37 +1705,37 @@ void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::done_ladder_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().furn_set( top, furn_id( "f_ladder_long_down" ) );
+    get_map().ter_set( top, ter_id( "t_ladder_long_down" ) );
 }
 
 void construct::done_ladder_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().furn_set( top, furn_id( "f_ladder_long_up" ) );
+    get_map().ter_set( top, ter_id( "t_ladder_long_up" ) );
 }
 
 void construct::done_ladder_aluminum_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().furn_set( top, furn_id( "f_ladder_aluminum_long_down" ) );
+    get_map().ter_set( top, ter_id( "t_ladder_aluminum_long_down" ) );
 }
 
 void construct::done_ladder_aluminum_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().furn_set( top, furn_id( "f_ladder_aluminum_long_up" ) );
+    get_map().ter_set( top, ter_id( "t_ladder_aluminum_long_up" ) );
 }
 
 void construct::done_ladder_aluminum_tele_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().furn_set( top, furn_id( "f_ladder_aluminum_tele_down" ) );
+    get_map().ter_set( top, ter_id( "t_ladder_aluminum_tele_down" ) );
 }
 
 void construct::done_ladder_aluminum_tele_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().furn_set( top, furn_id( "f_ladder_aluminum_tele_up" ) );
+    get_map().ter_set( top, ter_id( "t_ladder_aluminum_tele_up" ) );
 }
 
 void construct::done_window_curtains( const tripoint_bub_ms &, Character &who )
