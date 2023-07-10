@@ -33,6 +33,15 @@ Added enable and disable mutation EOCs
 3D vision for isometric tilesets
 Unhardcode dragging, grab fixes
 Make vehicle doors lockable and pickable
+Refillable lighters use kerosene instead of gasoline + touched up kerosene spawns
+Make horses milkable
+Field immunity at effect level
+Implement export&import of the protagonist and follower NPCs
+Added allergen flags for cheese, dried vegetables, and bread
+Electric Blanket Power Cords
+Spell casting now triggers an event
+Always debug spawn undamaged cars both unlocked and faultless
+Expand grain farming and adjust seeds
 
 
 ## Content:
@@ -61,6 +70,18 @@ Gastropod Foot Limb: Mutant limbs can be added in json
 Added a small office building fortified by bandits
 New location: speedway
 You can now choose a new leader for your faction without dying
+Made Slingshots more Tacticool
+Adds some new nightmares
+adds multiple boatloads of new phone case variants, based, mostly, around different horror movies.
+Fixes Bastion Fort terrain and adds variance
+Adds new map items and reviews existing ones
+Allow the player to ask Rubik about Zomborgs.
+Adds the Central African Republic flag to the game
+New fish
+Adds new skateboard vehicle
+add a tablet equivalent to heartburn medicine
+Practice throwing with golf ball
+adds caco3 resource and a way to craft antacids
 
 
 ## Interface:
@@ -75,6 +96,8 @@ Show NPC location when selecting NPC to chat with, guard, or follow
 Display why vehicle parts cannot be installed
 Open multiple containers in Advanced Inventory Manager
 Adds the 'Mark as dangerous' keybinding to the overmap
+Make 'Undamaged' the default menu option when debug spawning vehicles
+Added more nested categories
 
 
 ## Mods:
@@ -104,6 +127,15 @@ Bombastic Perks adds Playstyle Perks
 [Magiclysm] Ways to boost your caster level
 Disable the Bionic Professions mod by default
 Add the Mind Over Matter mod to the CDDA repository
+Replace the +10% carry weight current bonus with an expandable 'Lifting Field' 
+Makes spiderlings tamable
+Mind Over Matter documentation updates
+Wielding a matrix crystal enhances your powers
+Adds in tamable mollusks for the Tamable Wildlife mod
+Change psionic drain to a vitamin, add ways for the player to reduce it
+Implement jmath, include it in calculations
+This adds in the other mollusk group of slugs to be tamable on larvae and small form.
+Move arithmetic to math, standardize and update awakening EoCs
 
 
 ## Balance:
@@ -125,6 +157,17 @@ player can drag heavier vehicles
 difficulty to repair depends on what the thing is made of instead of its crafting difficulty
 Hound afterimages also copy their host nicknames
 The player is substantially less effective with guns at low skill values
+Update blackpowder recipe following charcoal change
+regular masochism doesn't give you flavortext of liking surgery
+nomad gear is denim based instead of lycra based
+salted meat lasts longer
+Tone down assassin spawn frequency
+Firearm repair kits used too much energy compared to its own components.
+Adjust collapsible solar arrays
+lycra is less protective
+subdermal carbon cbm gives no bash protection
+BMI has a less all consuming impact on how healthy you are
+Update claw bar volume to be consistent with crowbar
 
 
 ## Bugfixes:
@@ -173,6 +216,29 @@ Don't allow to scan books that are owned by other characters
 Fix NPC putting items in open air when fetching items during an activity when 3D FOV is on
 Trees and other FLAMMABLE_ASH terrain leaves behind ash when burned down
 Do not report monsters breaking free of unknown grabbers if the player cannot see them
+Hub 01 won't buy back some of their newer stuff
+Fixes https://github.com/CleverRaven/Cataclysm-DDA/issues/66599
+Makes dry duffel bags watertight
+Cleaning BP fouling removes the hidden rust counter
+Fixing XL survivor boots to be the same as other survivor boots
+Reduce airdrop frequency
+Allows certain docks to be placed on non-flowing shallow and deep water.
+Fix the epilogue for the New England Church Community
+Add MAN_MADE flag to dinosaur exhibit
+fix reported bugs in 66637, related to the new smartphone case variants and a changed id, and takes the time to ice the typos recorded in #66620
+Fixed the issue of not properly handling pre existing items in the backpack after installing it on the pet.
+flat armor penetration is spread across all armor layers instead of applying its full value to each
+armor bionics conflict with new mutations and protect against stab damage
+30 gal drum crafts in the correct time
+you can't drink soapy water anymore
+Fix tow cables being unable to connect different vehicles
+Tile rendering fixes
+Add Digitigrade Feet to Extra Mut Scen, fix selecting burrowing
+Fixes typo in the description of the CAR flag
+change dark wyrm's blood type to foul acidic blood
+gold rings don't conflict with metal gauntlets
+Updates the mutation so that players can't see over objects while running on all-fours
+Smashing now incorporates any MELEE_DAMAGE and STRENGTH enchantments
 
 
 ## Performance:
@@ -192,6 +258,7 @@ Add units::temperature_delta
 Upgrade clang-tidy used in CI to LLVM 16
 Allow C++ standard includes in clang-tidy tests
 Refactor timer items to be a bit more time based
+Support for material replacement in items
 
 
 ## Build:
