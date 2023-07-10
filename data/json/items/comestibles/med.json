@@ -1573,7 +1573,7 @@
     "comestible_type": "MED",
     "name": { "str": "antacid tablet" },
     "description": "A common stomach soother in flavored tablet form.  Makes you less likely to vomit.",
-    "weight": "1 g",
+    "weight": "2 g",
     "looks_like": "melatonin_tablet",
     "volume": "250 ml",
     "price": 500,
@@ -1588,7 +1588,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take an antacid tablet.",
-      "effects": [ { "id": "tummy_tablet", "duration": 6400 } ]
+      "effects": [ { "id": "tummy_tablet", "duration": 6400 } ],
+      "vitamins": [ [ "calcium", 25 ] ]
     }
   },
   {

@@ -51,7 +51,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
     "bleed_rate": 60,
-    "harvest": "arachnid_acid",
+    "harvest": "underground_acid",
     "dissect": "dissect_troglobite_sample_small",
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",

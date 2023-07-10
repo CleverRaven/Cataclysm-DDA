@@ -309,6 +309,22 @@ std::function<void( dialogue &, double )> skill_ass( char scope,
     };
 }
 
+std::function<double( dialogue & )> spell_exp_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), sid = params[0]]( dialogue const & d ) {
+        return d.actor( beta )->get_spell_exp( spell_id( sid.str( d ) ) );
+    };
+}
+
+std::function<void( dialogue &, double )> spell_exp_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), sid = params[0]]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_spell_exp( spell_id( sid.str( d ) ), val );
+    };
+}
+
 std::function<double( dialogue & )> test_diag( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {

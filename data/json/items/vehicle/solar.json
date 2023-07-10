@@ -22,6 +22,7 @@
     "id": "folding_solar_panel",
     "name": { "str": "collapsible solar array" },
     "description": "An electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a common, inexpensive type made with polycrystalline silicon cells.",
+    "weight": "14500 g",
     "price": 120000,
     "price_postapoc": 1500
   },

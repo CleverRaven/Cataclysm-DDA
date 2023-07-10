@@ -1204,6 +1204,7 @@ furn_id f_null, f_clear,
         f_tourist_table,
         f_camp_chair,
         f_sign,
+        f_stook_empty, f_stook_full,
         f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
         f_console, f_console_broken;
 
@@ -1219,6 +1220,8 @@ void set_furn_ids()
     f_barricade_road = furn_id( "f_barricade_road" );
     f_sandbag_half = furn_id( "f_sandbag_half" );
     f_sandbag_wall = furn_id( "f_sandbag_wall" );
+    f_stook_empty = furn_id( "f_stook_empty" );
+    f_stook_full = furn_id( "f_stook_full" );
     f_bulletin = furn_id( "f_bulletin" );
     f_indoor_plant = furn_id( "f_indoor_plant" );
     f_bed = furn_id( "f_bed" );
