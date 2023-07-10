@@ -896,6 +896,18 @@ bool game::start_game()
     overmap_buffer.reveal( u.global_omt_location().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
+    const int city_size = get_option<int>( "CITY_SIZE" );
+    if( get_scenario()->get_reveal_locale() && city_size > 0 ) {
+        city_reference nearest_city = overmap_buffer.closest_city( m.get_abs_sub() );
+        const tripoint_abs_omt city_center_omt = project_to<coords::omt>( nearest_city.abs_sm_pos );
+        // Very necessary little hack: We look for roads around our start, and path from the closest. Because the most common start(evac shelter) cannot be pathed through...
+        const tripoint_abs_omt nearest_road = overmap_buffer.find_closest( omtstart, "road", 3, false );
+        // Reveal route to closest city and a 3 tile radius around the route
+        overmap_buffer.reveal_route( nearest_road, city_center_omt, 3 );
+        // Reveal destination city (scaling with city size setting)
+        overmap_buffer.reveal( city_center_omt, city_size );
+    }
+
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
