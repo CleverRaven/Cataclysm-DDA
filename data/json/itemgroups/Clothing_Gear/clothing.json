@@ -740,12 +740,13 @@
       { "group": "clothing_work_mask", "prob": 40 },
       { "item": "ear_plugs", "prob": 15 },
       { "item": "tool_belt", "prob": 25 },
+      { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ] },
       {
         "distribution": [
-          { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ], "prob": 80 },
-          { "item": "technician_coveralls", "prob": 15 },
-          { "item": "technician_coveralls_h", "prob": 5 }
-        ]
+          { "item": "technician_coveralls", "prob": 75 },
+          { "item": "technician_coveralls_h", "prob": 25 }
+        ],
+        "prob": 25
       }
     ]
   },
@@ -833,13 +834,14 @@
         ]
       },
       { "distribution": [ { "item": "socks" }, { "item": "socks_ankle" } ] },
+      { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ] },
       {
         "distribution": [
-          { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ], "prob": 60 },
-          { "item": "technician_coveralls", "prob": 30 },
-          { "item": "technician_coveralls_h", "prob": 10 }
-        ]
-      },
+          { "item": "technician_coveralls", "prob": 75 },
+          { "item": "technician_coveralls_h", "prob": 25 }
+        ],
+        "prob": 25
+      }
       [ "hat_hard", 50 ],
       {
         "distribution": [ { "item": "apron_plastic", "prob": 30 }, { "item": "apron_leather", "prob": 10 } ],
