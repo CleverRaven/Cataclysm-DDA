@@ -223,12 +223,12 @@
       ],
       "items": {
         "L": [
-          { "item": "condiments", "chance": 80, "repeat": [ 2, 4 ] },
-          { "item": "groce_ingredient", "chance": 80, "repeat": [ 2, 4 ] },
-          { "item": "groce_bread", "chance": 80, "repeat": [ 2, 4 ] },
-          { "item": "pantry_liquids", "chance": 80, "repeat": [ 2, 4 ] },
-          { "item": "dry_goods", "chance": 80, "repeat": [ 2, 4 ] },
-          { "item": "preserved_food", "chance": 80, "repeat": [ 2, 4 ] }
+          { "item": "condiments", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "groce_ingredient", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "groce_bread", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "pantry_liquids", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "dry_goods", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "preserved_food", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "o": [
           { "item": "homebooks", "chance": 80, "repeat": [ 1, 2 ] },
