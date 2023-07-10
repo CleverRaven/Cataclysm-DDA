@@ -247,7 +247,7 @@ bool give_items_to( monster &z )
     item &storage = *z.storage_item;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     units::volume max_volume = storage.get_total_capacity() - z.get_carried_volume();
-
+    units::length max_length = storage.max_containable_length();
     avatar &player_character = get_avatar();
     drop_locations items = game_menus::inv::multidrop( player_character );
     drop_locations to_move;
@@ -255,11 +255,15 @@ bool give_items_to( monster &z )
         const item &it = *itq.first;
         units::volume item_volume = it.volume() * itq.second;
         units::mass item_weight = it.weight() * itq.second;
+        units::length item_length = it.length();
         if( max_weight < item_weight ) {
             add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
             continue;
         } else if( max_volume < item_volume ) {
             add_msg( _( "The %1$s is too big to fit in the %2$s." ), it.tname(), storage.tname() );
+            continue;
+        } else if( max_length < item_length ) {
+            add_msg( _( "The %1$s is too long to fit in the %2$s." ), it.tname(), storage.tname() );
             continue;
         } else {
             max_weight -= item_weight;
