@@ -679,7 +679,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         } else if( player_character.sees( *this ) ) {
             if( miss_recovery.id != tec_none ) {
-                add_msg( miss_recovery.npc_message.translated(), t.disp_name() );
+                add_msg_if_npc( miss_recovery.npc_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( _( "%s misses and stumbles with the momentum." ), get_name() );
             } else if( stumble_pen >= 10 ) {
