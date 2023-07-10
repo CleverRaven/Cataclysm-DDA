@@ -135,6 +135,16 @@ static const matype_id style_none( "style_none" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
+static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
+static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
+static const trait_id trait_DEBUG_MANA( "DEBUG_MANA" );
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
+static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
 static const trait_id trait_NONE( "NONE" );
 
 #if defined(TILES)
@@ -235,6 +245,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::IMPORT_FOLLOWER: return "IMPORT_FOLLOWER";
         case debug_menu::debug_menu_index::EXPORT_FOLLOWER: return "EXPORT_FOLLOWER";
         case debug_menu::debug_menu_index::EXPORT_SELF: return "EXPORT_SELF";
+		case debug_menu::debug_menu_index::QUICK_SETUP: return "QUICK_SETUP";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -590,6 +601,15 @@ static int export_uilist()
     return uilist( _( "Export…" ), uilist_initializer );
 }
 
+static int quick_setup_uilist()
+{
+    const std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::QUICK_SETUP, true, 'Q', _( "Quick setup…" ) ) },
+    };
+
+    return uilist( _( "Quick setup…" ), uilist_initializer );
+}
+
 /**
  * Create the debug menu UI list.
  * @param display_all_entries: `true` if all entries should be displayed, `false` is some entries should be hidden (for ex. when the debug menu is called from the main menu).
@@ -610,6 +630,7 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
             { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
             { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
+            { uilist_entry( 8, true, 'q', _( "Quick setup…" ) ) },
         };
 
         // insert debug-only menu right after "Info".
@@ -649,6 +670,9 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
                 break;
             case 7:
                 action = vehicle_uilist();
+                break;
+            case 8:
+                action = quick_setup_uilist();
                 break;
 
             default:
@@ -3518,6 +3542,40 @@ void debug()
             cata_path export_name = prepare_export_dir_and_find_unused_name( get_avatar().name );
             get_avatar().export_as_npc( export_name );
             popup( _( "Written: %s" ), export_name.get_unrelative_path().string() );
+            break;
+        }
+
+        case debug_menu_index::QUICK_SETUP: {
+            std::vector<trait_id> setup_traits;
+            setup_traits.emplace_back( trait_DEBUG_BIONICS );
+            setup_traits.emplace_back( trait_DEBUG_BIONIC_POWERGEN );
+            setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
+            setup_traits.emplace_back( trait_DEBUG_CLOAK );
+            setup_traits.emplace_back( trait_DEBUG_HS );
+            setup_traits.emplace_back( trait_DEBUG_LS );
+            setup_traits.emplace_back( trait_DEBUG_MANA );
+            setup_traits.emplace_back( trait_DEBUG_NODMG );
+            setup_traits.emplace_back( trait_DEBUG_NOTEMP );
+            setup_traits.emplace_back( trait_DEBUG_SPEED );
+            Character &u = get_avatar();
+            u.clear_bionics();
+            u.clear_effects();
+            u.clear_morale();
+            u.clear_mutations();
+            u.clear_vitamins();
+            u.set_all_parts_hp_to_max();
+            u.set_fatigue( 0 );
+            u.set_hunger( 0 );
+            u.set_mutations( setup_traits );
+            u.set_pain( 0 );
+            // Ideally, delete all held and worn items? (Then add debug backpack as worn item?)
+            // u.remove_items_with();
+            u.set_rad( 0 );
+            // This would require a lot more declarations or a bunch more code, so no skill levels being set (for now)
+            // u.set_skill_level(skill_archery, 10);
+            u.set_sleep_deprivation( 0 );
+            u.set_stored_kcal( u.get_healthy_kcal() );
+            u.set_thirst( 0 );
             break;
         }
 
