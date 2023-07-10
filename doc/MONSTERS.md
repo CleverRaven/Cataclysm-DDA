@@ -482,7 +482,7 @@ Will stop fleeing if at max hp, and regen anger and morale.
 ## "flags"
 (array of strings, optional)
 
-Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list.
+Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list. These are IDs that point to a `"monster_flag"` object, which usually can be found in `data/json/monsters/monster_flags.json`.
 
 ## "fear_triggers", "anger_triggers", "placate_triggers"
 (array of strings, optional)
