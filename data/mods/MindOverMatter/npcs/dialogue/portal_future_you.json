@@ -4,14 +4,14 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Danger Sense] *Determine if the voice is a threat*",
+        "text": "[Premonition] *Determine if the voice is a threat*",
         "topic": "TALK_PORTAL_STORM_DANGER_SENSE_FAIL",
-        "condition": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense')", "<=", "7" ] }
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", "<=", "7" ] }
       },
       {
-        "text": "[Danger Sense 8+] *Determine if the voice is a threat*",
+        "text": "[Premonition 8+] *Determine if the voice is a threat*",
         "topic": "TALK_PORTAL_STORM_DANGER_SENSE_SUCCEED",
-        "condition": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense')", ">", "7" ] }
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">", "7" ] }
       }
     ]
   },
@@ -57,7 +57,7 @@
       {
         "text": "[Clarity 3+] *Is the voice lying?*",
         "topic": "TALK_PORTAL_STORM_CLARITY",
-        "condition": { "math": [ "(u_val('spell_level', 'spell: clair_clear_sight')", ">=", "3" ] }
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_clear_sight')", ">=", "3" ] }
       }
     ]
   },
@@ -75,9 +75,9 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Gateway 8+] Thanks, but here I can leave without your help.  Be seeing you. (This will end your game.  Do not choose this option if you wish to continue playing.)",
+        "text": "[Gateway 8+] Thanks, but here I can leave without your help.  Be seeing you. (End your story)",
         "topic": "TALK_PORTAL_STORM_TELEPORT_OUT",
-        "condition": { "math": [ "(u_val('spell_level', 'spell: teleport_gateway')", ">=", "8" ] },
+        "condition": { "math": [ "u_val('spell_level', 'spell: teleport_gateway')", ">=", "8" ] },
         "effect": { "give_achievement": "teleported_offworld" }
       }
     ]
