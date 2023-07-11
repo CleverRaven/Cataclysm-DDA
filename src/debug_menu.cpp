@@ -584,7 +584,7 @@ static int export_uilist()
         { uilist_entry( debug_menu_index::EXPORT_FOLLOWER, true, 'f', _( "Export follower" ) ) },
     };
 
-    return uilist( _( "Expot…" ), uilist_initializer );
+    return uilist( _( "Export…" ), uilist_initializer );
 }
 
 /**

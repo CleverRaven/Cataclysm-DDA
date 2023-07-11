@@ -3173,7 +3173,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "riot helmet" },
-    "description": "A helmet with a plastic shield that covers your entire face.  Activate to raise the face shield.",
+    "description": "A riot helmet with a plastic face shield that covers your entire face.  Activate to raise the face shield.",
     "use_action": { "type": "transform", "target": "helmet_riot_raised", "menu_text": "Raise visor", "msg": "You raise your visor." },
     "weight": "1450 g",
     "volume": "2250 ml",

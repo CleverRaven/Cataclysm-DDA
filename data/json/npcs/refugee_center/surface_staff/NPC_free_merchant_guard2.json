@@ -18,7 +18,7 @@
       { "text": "I am actually new.", "topic": "TALK_EVAC_GUARD2_NEW" },
       { "text": "Are there any rules I should follow while inside?", "topic": "TALK_EVAC_GUARD2_RULES" },
       { "text": "So who is everyone around here?", "topic": "TALK_EVAC_GUARD2_WHO" },
-      { "text": "Lets trade!", "topic": "TALK_EVAC_GUARD2_TRADE" },
+      { "text": "Let's trade!", "topic": "TALK_EVAC_GUARD2_TRADE" },
       { "text": "Is there anything I can do to help?", "topic": "TALK_MISSION_LIST" },
       { "text": "Thanks!  I will be on my way.", "topic": "TALK_DONE" }
     ]
