@@ -123,6 +123,163 @@
     "id": "mon_shoggoth",
     "copy-from": "mon_shoggoth",
     "type": "MONSTER",
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ]
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ],
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_fleshy_shambler",
+    "copy-from": "mon_fleshy_shambler",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_jabberwock",
+    "copy-from": "mon_jabberwock",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_flesh_golem",
+    "copy-from": "mon_flesh_golem",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_amigara_horror",
+    "copy-from": "mon_amigara_horror",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_breather",
+    "copy-from": "mon_breather",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_shrapnel_swarm",
+    "copy-from": "mon_shrapnel_swarm",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_structural_spur",
+    "copy-from": "mon_structural_spur",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_dog_thing",
+    "copy-from": "mon_dog_thing",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+    {
+    "id": "mon_flaming_eye",
+    "copy-from": "mon_flaming_eye",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_flying_polyp",
+    "copy-from": "mon_flying_polyp",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_headless_dog_thing",
+    "copy-from": "mon_headless_dog_thing",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_hound_tindalos",
+    "copy-from": "mon_hound_tindalos",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_hound_tindalos_afterimage",
+    "copy-from": "mon_hound_tindalos_afterimage",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_hunting_horror",
+    "copy-from": "mon_hunting_horror",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_shadow",
+    "copy-from": "mon_shadow",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_shadow_snake",
+    "copy-from": "mon_shadow_snake",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_thing",
+    "copy-from": "mon_thing",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_yugg",
+    "copy-from": "mon_yugg",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_vortex",
+    "copy-from": "mon_vortex",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_archunk_weak",
+    "copy-from": "mon_archunk_weak",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_hanging_roper",
+    "copy-from": "mon_hanging_roper",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_carrion_grub",
+    "copy-from": "mon_carrion_grub",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_nether_spearfisher",
+    "copy-from": "mon_nether_spearfisher",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_nether_leech",
+    "copy-from": "mon_nether_leech",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_nether_fish",
+    "copy-from": "mon_nether_fish",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_teke_mouse",
+    "copy-from": "mon_teke_mouse",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
   }
 ]
