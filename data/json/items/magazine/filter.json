@@ -87,7 +87,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "watertight": true,
+        "watertight": false,
         "rigid": true,
         "ammo_restriction": { "rebreather_o2_regenerator": 360 }
       }
