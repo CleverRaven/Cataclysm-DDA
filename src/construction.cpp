@@ -1760,8 +1760,8 @@ void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who 
 {
     std::unordered_map<ter_id, itype_id> terrain_item = {
         { t_ladder_wooden_straight_down, itype_ladder_wooden_straight },
-        { t_ladder_aluminum_down, itype_ladder_aluminum },
-        { t_ladder_fiberglass_down, itype_ladder_fiberglass },
+        { t_ladder_aluminum_down, itype_ladder_aluminum_extended },
+        { t_ladder_fiberglass_down, itype_ladder_fiberglass_extended },
         { t_ladder_aluminum_tele_down, itype_ladder_aluminum_tele_extended }
     };
     map &here = get_map();
@@ -1777,8 +1777,8 @@ void construct::done_remove_ladder_down( const tripoint_bub_ms &p, Character &wh
 {
     std::unordered_map<ter_id, itype_id> terrain_item = {
         { t_ladder_wooden_straight_down, itype_ladder_wooden_straight },
-        { t_ladder_aluminum_down, itype_ladder_aluminum },
-        { t_ladder_fiberglass_down, itype_ladder_fiberglass },
+        { t_ladder_aluminum_down, itype_ladder_aluminum_extended },
+        { t_ladder_fiberglass_down, itype_ladder_fiberglass_extended },
         { t_ladder_aluminum_tele_down, itype_ladder_aluminum_tele_extended }
     };
     map &here = get_map();
