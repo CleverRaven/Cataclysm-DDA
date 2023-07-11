@@ -1062,8 +1062,14 @@ class vehicle
          * on the temporary mapgen map), and when called during normal game play (when items
          * go on the main map g->m).
          */
-        bool remove_part( int p, RemovePartHandler &handler );
-        bool remove_part( int p );
+
+        // Mark a part to be removed from the vehicle.
+        // @returns true if the vehicle's 0,0 point shifted.
+        bool remove_part( vehicle_part &vp );
+        // Mark a part to be removed from the vehicle.
+        // @returns true if the vehicle's 0,0 point shifted.
+        bool remove_part( vehicle_part &vp, RemovePartHandler &handler );
+
         void part_removal_cleanup();
         // inner look for part_removal_cleanup.  returns true if a part is removed
         // also called by remove_fake_parts

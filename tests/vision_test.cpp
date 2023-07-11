@@ -908,7 +908,7 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
     auto const fiddle_parts = [&]() {
         if( fiddle > 0 ) {
             std::vector<vehicle_part *> const horns = v->get_parts_at( v->global_pos3(), "HORN", {} );
-            v->remove_part( v->index_of_part( horns.front(), true ) );
+            v->remove_part( *horns.front() );
         }
         if( fiddle > 1 ) {
             REQUIRE( v->install_part( point_zero, vpart_inboard_mirror ) != -1 );

@@ -3274,7 +3274,7 @@ void veh_interact::complete_vehicle( Character &you )
                     return;
                 }
             }
-            const vehicle_part &vp = veh.part( vp_index );
+            vehicle_part &vp = veh.part( vp_index );
             const vpart_info &vpi = vp.info();
             const bool appliance_removal = static_cast<char>( you.activity.index ) == 'O';
             const bool wall_wire_removal = appliance_removal && vpi.id == vpart_ap_wall_wiring;
@@ -3306,7 +3306,7 @@ void veh_interact::complete_vehicle( Character &you )
 
             // Power cables must remove parts from the target vehicle, too.
             if( vpi.has_flag( "POWER_TRANSFER" ) ) {
-                veh.remove_remote_part( vp_index );
+                veh.remove_remote_part( vp );
             }
 
             if( broken ) {
@@ -3353,7 +3353,7 @@ void veh_interact::complete_vehicle( Character &you )
                 here.destroy_vehicle( &veh );
             } else {
                 const tripoint part_pos = veh.global_part_pos3( vp );
-                veh.remove_part( vp_index );
+                veh.remove_part( vp );
                 // part_removal_cleanup calls refresh, so parts_at_relative is valid
                 veh.part_removal_cleanup();
                 if( veh.parts_at_relative( vp.mount, true ).empty() ) {
