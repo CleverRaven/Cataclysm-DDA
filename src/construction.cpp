@@ -143,11 +143,11 @@ static bool check_support_below( const tripoint_bub_ms
 static bool check_support_singular( const tripoint_bub_ms & ); // at least one orthogonal support
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
 static bool check_empty_stable( const tripoint_bub_ms
-                                 & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
+                                & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
 static bool check_nofloor( const tripoint_bub_ms & ); // tile has a flag NO_FLOOR
 static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a flag NO_FLOOR
 static bool check_deconstruct( const tripoint_bub_ms
-                                 & ); // either terrain or furniture must be deconstructible
+                               & ); // either terrain or furniture must be deconstructible
 static bool check_empty_up_OK( const tripoint_bub_ms & ); // tile is empty and below OVERMAP_HEIGHT
 static bool check_empty_down_OK( const tripoint_bub_ms
                                  & ); // tile is empty and above OVERMAP_HEIGHT
@@ -1331,7 +1331,7 @@ bool construct::check_ladder_present( const tripoint_bub_ms &p )
         t_ladder_aluminum_extending_down, t_ladder_aluminum_extending_up,
         t_ladder_fiberglass_extending_down, t_ladder_fiberglass_extending_up,
         t_ladder_aluminum_telescoping_down, t_ladder_aluminum_telescoping_up
-        };
+    };
     return ladder_terrains.count( ter_present ) == 1;
 }
 
