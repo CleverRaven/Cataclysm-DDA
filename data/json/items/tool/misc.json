@@ -701,7 +701,6 @@
     "volume": "424 L",
     "longest_side": "518 cm",
     "use_action": { "target": "ladder_aluminum", "msg": "You collapse the ladder.", "type": "transform", "menu_text": "Collapse" },
-    "to_hit": -3,
     "melee_damage": { "bash": 17 }
   },
   {
@@ -731,7 +730,6 @@
     "volume": "424 L",
     "longest_side": "518 cm",
     "use_action": { "target": "ladder_fiberglass", "msg": "You collapse the ladder.", "type": "transform", "menu_text": "Collapse" },
-    "to_hit": -3,
     "melee_damage": { "bash": 17 }
   },
   {
@@ -749,19 +747,18 @@
     "material": [ "aluminum", "rubber" ],
     "symbol": "H",
     "color": "light_gray",
-    "use_action": { "target": "ladder_telescopic_extended", "msg": "You extend the ladder.", "type": "transform", "menu_text": "Extend" },
+    "use_action": { "target": "ladder_aluminum_tele_extended", "msg": "You extend the ladder.", "type": "transform", "menu_text": "Extend" },
     "melee_damage": { "bash": 11 }
   },
   {
     "id": "ladder_aluminum_tele_extended",
     "type": "TOOL",
-    "copy-from": "ladder_aluminum_telescoping",
+    "copy-from": "ladder_aluminum_tele",
     "name": { "str": "telescopic ladder (extended)", "str_pl": "telescopic ladders (extended)" },
     "description": "A twenty foot long telescopic aluminum ladder that's been fully extended.  Activate to collapse.",
     "volume": "424 L",
     "longest_side": "518 cm",
-    "to_hit": -3,
-    "use_action": { "target": "ladder_telescopic", "msg": "You collapse the ladder.", "type": "transform", "menu_text": "Collapse" },
+    "use_action": { "target": "ladder_aluminum_tele", "msg": "You collapse the ladder.", "type": "transform", "menu_text": "Collapse" },
     "melee_damage": { "bash": 7 }
   },
   {

@@ -1361,7 +1361,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "ladder_aluminum_telescoping_extended", 1 ] ] ],
+    "components": [ [ [ "ladder_aluminum_tele_extended", 1 ] ] ],
     "pre_note": "Must be supported on at least one side.",
     "pre_special": "check_ladder_up",
     "post_terrain": "t_ladder_aluminum_tele_up",
