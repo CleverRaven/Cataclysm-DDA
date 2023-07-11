@@ -1018,7 +1018,7 @@ static void draw_speed_tab( ui_adaptor &ui, const catacurses::window &w_speed,
         if( highlight_line ) {
             ui.set_cursor( w_speed, pos );
         }
-        const speedlist_entry entry = speedlist[i];
+        const speedlist_entry &entry = speedlist[i];
 
         // +speed is good, -movecost is good
         const nc_color col = entry.is_speed == ( entry.val > 0 ) ? c_light_green : c_red;
