@@ -830,8 +830,9 @@ ter_id t_null,
        t_improvised_shelter,
        // Staircases etc.
        t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
-       t_ladder_long_up, t_ladder_long_down,
-       t_ladder_aluminum_long_up, t_ladder_aluminum_long_down,
+       t_ladder_wooden_straight_up, t_ladder_wooden_straight_down,
+       t_ladder_aluminum_up, t_ladder_aluminum_down,
+       t_ladder_fiberglass_up, t_ladder_fiberglass_down,
        t_ladder_aluminum_tele_up, t_ladder_aluminum_tele_down,
        t_slope_up, t_rope_up,
        t_manhole_cover,
@@ -1096,10 +1097,12 @@ void set_ter_ids()
     t_manhole = ter_id( "t_manhole" );
     t_ladder_up = ter_id( "t_ladder_up" );
     t_ladder_down = ter_id( "t_ladder_down" );
-    t_ladder_long_up = ter_id( "t_ladder_long_up" );
-    t_ladder_long_down = ter_id( "t_ladder_long_down" );
-    t_ladder_aluminum_long_up = ter_id( "t_ladder_aluminum_long_up" );
-    t_ladder_aluminum_long_down = ter_id( "t_ladder_aluminum_long_down" );
+    t_ladder_wooden_straight_up = ter_id( "t_ladder_wooden_straight_up" );
+    t_ladder_wooden_straight_down = ter_id( "t_ladder_wooden_straight_down" );
+    t_ladder_aluminum_up = ter_id( "t_ladder_aluminum_up" );
+    t_ladder_aluminum_down = ter_id( "t_ladder_aluminum_down" );
+    t_ladder_fiberglass_up = ter_id( "t_ladder_fiberglass_up" );
+    t_ladder_fiberglass_down = ter_id( "t_ladder_fiberglass_down" );
     t_ladder_aluminum_tele_up = ter_id( "t_ladder_aluminum_tele_up" );
     t_ladder_aluminum_tele_down = ter_id( "t_ladder_aluminum_tele_down" );
     t_slope_down = ter_id( "t_slope_down" );
