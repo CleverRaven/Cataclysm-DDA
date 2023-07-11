@@ -157,7 +157,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     here.dirty_vehicle_list.insert( &veh );
     here.clear_vehicle_point_from_cache( &veh, part_pos );
     here.add_vehicle_to_cache( &veh );
-    here.set_memory_seen_cache_dirty( part_pos );
+    here.memory_cache_dec_set_dirty( part_pos, true );
     player_character.memorize_clear_decoration( here.getabs( part_pos ), "vp_" + vp.info().id.str() );
 }
 
@@ -7084,7 +7084,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
     if( is_autodriving ) {
         stop_autodriving();
     }
-    here.set_memory_seen_cache_dirty( vppos );
+    here.memory_cache_dec_set_dirty( vppos, true );
     if( vp.is_broken() ) {
         return break_off( here, vp, dmg );
     }

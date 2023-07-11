@@ -349,23 +349,16 @@ class map
         void set_pathfinding_cache_dirty( int zlev );
         /*@}*/
 
-        void set_memory_seen_cache_dirty( const tripoint &p );
         void invalidate_map_cache( int zlev );
 
-        bool check_seen_cache( const tripoint &p ) const {
-            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
-                get_cache( p.z ).map_memory_seen_cache;
-            return !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ];
-        }
-        bool check_and_set_seen_cache( const tripoint &p ) const {
-            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
-                get_cache( p.z ).map_memory_seen_cache;
-            if( !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ] ) {
-                memory_seen_cache.set( p.x + p.y * MAPSIZE_Y );
-                return true;
-            }
-            return false;
-        }
+        // @returns true if map memory decoration should be re/memorized
+        bool memory_cache_dec_is_dirty( const tripoint &p ) const;
+        // @returns true if map memory terrain should be re/memorized
+        bool memory_cache_ter_is_dirty( const tripoint &p ) const;
+        // sets whether map memory decoration should be re/memorized
+        void memory_cache_dec_set_dirty( const tripoint &p, bool value ) const;
+        // sets whether map memory terrain should be re/memorized
+        void memory_cache_ter_set_dirty( const tripoint &p, bool value ) const;
 
         /**
          * A pre-filter for bresenham LOS.

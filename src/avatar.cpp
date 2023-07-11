@@ -675,14 +675,14 @@ void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
                     if( erase ) {
                         memorize_clear_decoration( m.getabs( target ), /* prefix = */ "vp_" );
                     }
-                    m.set_memory_seen_cache_dirty( target );
+                    m.memory_cache_dec_set_dirty( target, true );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
                 memorize_clear_decoration( m.getabs( pos() + gpoint ) );
             }
-            m.set_memory_seen_cache_dirty( pos() + gpoint );
+            m.memory_cache_dec_set_dirty( pos() + gpoint, true );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.

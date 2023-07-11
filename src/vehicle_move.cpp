@@ -676,7 +676,7 @@ void vehicle::stop( bool update_cache )
     }
     map &here = get_map();
     for( const tripoint &p : get_points() ) {
-        here.set_memory_seen_cache_dirty( p );
+        here.memory_cache_dec_set_dirty( p, true );
     }
 }
 

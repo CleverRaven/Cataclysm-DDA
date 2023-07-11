@@ -1811,7 +1811,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
             }
             if( !var->invisible[0] ) {
-                here.check_and_set_seen_cache( p.com.pos );
+                here.memory_cache_ter_set_dirty( p.com.pos, false );
             }
         }
     }
@@ -1851,13 +1851,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             //calling draw to memorize (and only memorize) everything.
             //bypass cache check in case we learn something new about the terrain's connections
             draw_terrain( p, lighting, height_3d, invisible, true );
-            if( here.check_seen_cache( p ) ) {
+            if( here.memory_cache_dec_is_dirty( p ) ) {
                 draw_furniture( p, lighting, height_3d, invisible, true );
                 draw_trap( p, lighting, height_3d, invisible, true );
                 draw_part_con( p, lighting, height_3d, invisible, true );
                 draw_vpart_no_roof( p, lighting, height_3d, invisible, true );
                 draw_vpart_roof( p, lighting, height_3d, invisible, true );
-                here.check_and_set_seen_cache( p );
+                here.memory_cache_dec_set_dirty( p, false );
             }
         }
     }
@@ -3186,12 +3186,12 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         if( connect_group.any() ) {
             get_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             // re-memorize previously seen terrain in case new connections have been seen
-            here.set_memory_seen_cache_dirty( p );
+            here.memory_cache_ter_set_dirty( p, true );
         } else {
             get_terrain_orientation( p, rotation, subtile, {}, invisible, rotate_group );
             // do something to get other terrain orientation values
         }
-        if( here.check_seen_cache( p ) ) {
+        if( here.memory_cache_ter_is_dirty( p ) ) {
             get_avatar().memorize_terrain( here.getabs( p ), tname, subtile, rotation );
         }
         // draw the actual terrain if there's no override
@@ -3280,7 +3280,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         const std::string &fname = f.id().str();
         if( !( you.get_grab_type() == object_type::FURNITURE
                && p == you.pos() + you.grab_point )
-            && here.check_seen_cache( p ) ) {
+            && here.memory_cache_dec_is_dirty( p ) ) {
             you.memorize_decoration( here.getabs( p ), fname, subtile, rotation );
         }
         // draw the actual furniture if there's no override
@@ -3373,7 +3373,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         int rotation = 0;
         get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation, 0 );
         const std::string trname = tr.loadid.id().str();
-        if( here.check_seen_cache( p ) ) {
+        if( here.memory_cache_dec_is_dirty( p ) ) {
             you.memorize_decoration( here.getabs( p ), trname, subtile, rotation );
         }
         // draw the actual trap if there's no override
@@ -3437,7 +3437,7 @@ bool cata_tiles::draw_part_con( const tripoint &p, const lit_level ll, int &heig
     if( here.partial_con_at( tripoint_bub_ms( p ) ) != nullptr && !invisible[0] ) {
         avatar &you = get_avatar();
         std::string const &trname = tr_unfinished_construction.str();;
-        if( here.check_seen_cache( p ) ) {
+        if( here.memory_cache_dec_is_dirty( p ) ) {
             you.memorize_decoration( here.getabs( p ), trname, 0, 0 );
         }
         return memorize_only
@@ -3825,7 +3825,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             if( !veh.forward_velocity() && !veh.player_in_control( you )
                 && !( you.get_grab_type() == object_type::VEHICLE
                       && veh.get_points().count( you.pos() + you.grab_point ) )
-                && here.check_seen_cache( p ) ) {
+                && here.memory_cache_dec_is_dirty( p ) ) {
                 you.memorize_decoration( here.getabs( p ), vd.get_tileset_id(), subtile, rotation );
             }
             if( !overridden ) {
