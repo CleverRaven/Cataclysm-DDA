@@ -2018,7 +2018,6 @@ void load_construction( const JsonObject &jo )
             { "check_ladder_down", construct::check_ladder_down },
             { "check_remove_ladder_up", construct::check_remove_ladder_up },
             { "check_remove_ladder_down", construct::check_remove_ladder_down },
-            { "check_ladder_present", construct::check_ladder_present },
             { "check_ramp_low", construct::check_ramp_low },
             { "check_ramp_high", construct::check_ramp_high },
             { "check_no_wiring", construct::check_no_wiring }
