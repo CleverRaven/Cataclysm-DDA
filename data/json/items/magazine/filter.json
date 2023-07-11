@@ -82,7 +82,7 @@
     "material": [ "rubber", "steel" ],
     "volume": "2000 ml",
     "weight": "1000 g",
-    "ammo_type": "rebreather_filter",
+    "ammo_type": "rebreather_o2_regenerator",
     "flags": [ "NO_SALVAGE", "NO_RELOAD", "REBREATHER_CART" ],
     "pocket_data": [
       {
