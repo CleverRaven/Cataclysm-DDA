@@ -179,10 +179,6 @@ static void done_mine_upstair( const tripoint_bub_ms &, Character & );
 static void done_wood_stairs( const tripoint_bub_ms &, Character & );
 static void done_ladder_up( const tripoint_bub_ms &, Character & );
 static void done_ladder_down( const tripoint_bub_ms &, Character & );
-static void done_ladder_aluminum_up( const tripoint_bub_ms &, Character & );
-static void done_ladder_aluminum_down( const tripoint_bub_ms &, Character & );
-static void done_ladder_aluminum_tele_up( const tripoint_bub_ms &, Character & );
-static void done_ladder_aluminum_tele_down( const tripoint_bub_ms &, Character & );
 static void done_remove_ladder_up( const tripoint_bub_ms &, Character & );
 static void done_remove_ladder_down( const tripoint_bub_ms &, Character & );
 static void done_window_curtains( const tripoint_bub_ms &, Character & );
@@ -1732,38 +1728,30 @@ void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 
 void construct::done_ladder_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
+    map &here = get_map();
+    std::unordered_map<ter_id, ter_id> ladder_type = {
+      { t_ladder_long_down, t_ladder_long_up },
+      { t_ladder_aluminum_long_down, t_ladder_aluminum_long_up },
+      { t_ladder_aluminum_tele_down, t_ladder_aluminum_tele_up }
+    };
+    ter_id ladder_here = here.ter( p );
+    ter_id ladder_to_place = ladder_type.at( ladder_here );
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, t_ladder_long_down );
+    here.ter_set( top, ladder_to_place );
 }
 
 void construct::done_ladder_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
+    map &here = get_map();
+    std::unordered_map<ter_id, ter_id> ladder_type = {
+      { t_ladder_long_down, t_ladder_long_up },
+      { t_ladder_aluminum_long_down, t_ladder_aluminum_long_up },
+      { t_ladder_aluminum_tele_down, t_ladder_aluminum_tele_up }
+    };
+    ter_id ladder_here = here.ter( p );
+    ter_id ladder_to_place = ladder_type.at( ladder_here );
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().ter_set( top, t_ladder_long_up );
-}
-
-void construct::done_ladder_aluminum_up( const tripoint_bub_ms &p, Character &/*who*/ )
-{
-    const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, t_ladder_aluminum_long_down );
-}
-
-void construct::done_ladder_aluminum_down( const tripoint_bub_ms &p, Character &/*who*/ )
-{
-    const tripoint_bub_ms top = p + tripoint_below;
-    get_map().ter_set( top, t_ladder_aluminum_long_up );
-}
-
-void construct::done_ladder_aluminum_tele_up( const tripoint_bub_ms &p, Character &/*who*/ )
-{
-    const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, t_ladder_aluminum_tele_down );
-}
-
-void construct::done_ladder_aluminum_tele_down( const tripoint_bub_ms &p, Character &/*who*/ )
-{
-    const tripoint_bub_ms top = p + tripoint_below;
-    get_map().ter_set( top, t_ladder_aluminum_tele_up );
+    get_map().ter_set( top, ladder_to_place );
 }
 
 void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who )
@@ -2059,10 +2047,6 @@ void load_construction( const JsonObject &jo )
             { "done_wood_stairs", construct::done_wood_stairs },
             { "done_ladder_up", construct::done_ladder_up },
             { "done_ladder_down", construct::done_ladder_down },
-            { "done_ladder_aluminum_up", construct::done_ladder_aluminum_up },
-            { "done_ladder_aluminum_down", construct::done_ladder_aluminum_down },
-            { "done_ladder_aluminum_tele_up", construct::done_ladder_aluminum_tele_up },
-            { "done_ladder_aluminum_tele_down", construct::done_ladder_aluminum_tele_down },
             { "done_remove_ladder_up", construct::done_remove_ladder_up },
             { "done_remove_ladder_down", construct::done_remove_ladder_down },
             { "done_window_curtains", construct::done_window_curtains },
