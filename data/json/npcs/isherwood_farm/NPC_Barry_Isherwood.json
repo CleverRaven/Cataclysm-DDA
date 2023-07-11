@@ -48,7 +48,7 @@
     },
     "responses": [
       {
-        "text": "I've come to take you home, lets go.",
+        "text": "I've come to take you home, let's go.",
         "condition": { "not": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_MISSION_OFFER",
         "effect": "follow"

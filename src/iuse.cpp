@@ -314,6 +314,11 @@ static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
+static const mon_flag_str_id mon_flag_DOGFOOD( "DOGFOOD" );
+static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
+static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_blob( "mon_blob" );
@@ -1929,7 +1934,7 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, bool, const tripo
         monster &critter = *mon_ptr;
         critter.moves -= to_moves<int>( 2_seconds );
         bool blind = false;
-        if( one_in( 2 ) && critter.has_flag( MF_SEES ) ) {
+        if( one_in( 2 ) && critter.has_flag( mon_flag_SEES ) ) {
             blind = true;
             critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
         }
@@ -2305,12 +2310,12 @@ std::optional<int> iuse::mace( Character *p, item *it, bool, const tripoint & )
         monster &critter = *mon_ptr;
         critter.moves -= to_moves<int>( 2_seconds );
         bool blind = false;
-        if( one_in( 2 ) && critter.has_flag( MF_SEES ) ) {
+        if( one_in( 2 ) && critter.has_flag( mon_flag_SEES ) ) {
             blind = true;
             critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
         }
         // even if it's not blinded getting maced hurts a lot and stuns it
-        if( !critter.has_flag( MF_NO_BREATHE ) ) {
+        if( !critter.has_flag( mon_flag_NO_BREATHE ) ) {
             critter.moves -= to_moves<int>( 3_seconds );
             p->add_msg_if_player( _( "The %s recoils in pain!" ), critter.name() );
         }
@@ -4620,7 +4625,7 @@ std::optional<int> iuse::dog_whistle( Character *p, item *, bool, const tripoint
     }
 
     for( monster &critter : g->all_monsters() ) {
-        if( critter.friendly != 0 && critter.has_flag( MF_DOGFOOD ) ) {
+        if( critter.friendly != 0 && critter.has_flag( mon_flag_DOGFOOD ) ) {
             bool u_see = get_player_view().sees( critter );
             if( critter.has_effect( effect_docile ) ) {
                 if( u_see ) {
@@ -5689,7 +5694,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, cons
             p->moves -= to_moves<int>( 1_seconds );
             int f = 0; //flag to check if you have robotic allies
             for( monster &critter : g->all_monsters() ) {
-                if( critter.friendly != 0 && critter.has_flag( MF_ELECTRONIC ) ) {
+                if( critter.friendly != 0 && critter.has_flag( mon_flag_ELECTRONIC ) ) {
                     p->add_msg_if_player( _( "A following %s goes into combat mode." ),
                                           critter.name() );
                     critter.remove_effect( effect_docile );
@@ -6928,7 +6933,7 @@ std::optional<int> iuse::camera( Character *p, item *it, bool t, const tripoint 
                     }
                     std::vector<std::string> blinded_names;
                     for( monster * const &monster_p : monster_vec ) {
-                        if( dist < 4 && one_in( dist + 2 ) && monster_p->has_flag( MF_SEES ) ) {
+                        if( dist < 4 && one_in( dist + 2 ) && monster_p->has_flag( mon_flag_SEES ) ) {
                             monster_p->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                             blinded_names.push_back( monster_p->name() );
                         }

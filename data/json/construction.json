@@ -8136,6 +8136,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_stooking_spot",
+    "group": "make_stooking_spot",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "0 m",
+    "pre_note": "Mark a spot to stack cut grain for drying outdoors.  Once placed, put unrotten undried grain stalks on the stooking spot and examine it to get started.",
+    "pre_special": "check_empty",
+    "post_flags": [ "keep_items" ],
+    "dark_craftable": true,
+    "post_terrain": "f_stook_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_brick_oven_prep",
     "group": "build_brick_oven",
     "category": "CONSTRUCT",

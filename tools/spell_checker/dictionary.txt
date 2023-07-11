@@ -246,6 +246,7 @@ baselines
 basiliscus
 bassline
 basswood
+barleycorn
 batching
 batlike
 batrachian
@@ -2650,6 +2651,8 @@ smokable
 smokegun
 smokin
 smoothbore
+snakelet
+snakelets
 snapback
 snappier
 snick
@@ -2773,6 +2776,8 @@ stoneskin
 stopcock
 stoppered
 stoppeth
+stook
+stooking
 storable
 stormcaller
 stormshaper
@@ -2907,6 +2912,7 @@ thorned
 thornothurian
 thosun
 threateningly
+threshed
 throated
 throating
 throwable
@@ -3041,6 +3047,7 @@ undersides
 underslung
 underwelming
 undescribed
+undried
 undulates
 uneasing
 unfathomably
@@ -3080,10 +3087,12 @@ unnervingly
 unobtainium
 unornamented
 unpadded
+unpopped
 unpowered
 unpressurised
 unreinforced
 unrifled
+unrotten
 unrushed
 unsaved
 unseasoned
@@ -3205,6 +3214,7 @@ wetworks
 whap
 whaps
 whatlike
+wheatberries
 whiled
 whiplike
 whirr
@@ -3322,6 +3332,7 @@ zombullfrog
 zoonotic
 zpzzzzpzz
 zubon
+zucchinis
 zuniceratops
 zuul
 zweitimber

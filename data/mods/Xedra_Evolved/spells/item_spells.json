@@ -19,7 +19,7 @@
     "id": "mace_pipe_magic_throw_stamina",
     "type": "SPELL",
     "name": "Throw The Hammer Stamina",
-    "description": "Decrease some of your stamina",
+    "description": "Decreases some of your stamina",
     "//": "Let's just hope no one will find you can use it infinitely, even when your stamina is dead",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT" ],
