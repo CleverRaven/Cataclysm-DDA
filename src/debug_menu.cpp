@@ -2408,25 +2408,7 @@ static void debug_menu_game_state()
     avatar &player_character = get_avatar();
     map &here = get_map();
     tripoint_abs_sm abs_sub = here.get_abs_sub();
-    std::string mfus;
-    std::vector<std::pair<m_flag, int>> sorted;
-    sorted.reserve( m_flag::MF_MAX );
-    for( int f = 0; f < m_flag::MF_MAX; f++ ) {
-        sorted.emplace_back( static_cast<m_flag>( f ),
-                             MonsterGenerator::generator().m_flag_usage_stats[f] );
-    }
-    std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
-        return a.second != b.second ? a.second > b.second : a.first < b.first;
-    } );
     popup( player_character.total_daily_calories_string() );
-    for( auto &m_flag_stat : sorted ) {
-        mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
-                               m_flag_stat.second );
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-    std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
-               MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
-    popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
     std::string s = _( "Location %d:%d in %d:%d, %s\n" );
     s += _( "Current turn: %d.\n" );
@@ -2519,12 +2501,12 @@ static void debug_menu_spawn_vehicle()
             tripoint dest = player_character.pos();
             uilist veh_cond_menu;
             veh_cond_menu.text = _( "Vehicle condition" );
-            veh_cond_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
+            veh_cond_menu.addentry( 3, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
             veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
             veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
             veh_cond_menu.query();
 
-            if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
+            if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 4 ) {
                 // TODO: Allow picking this when add_vehicle has 3d argument
                 vehicle *veh = here.add_vehicle(
                                    selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );

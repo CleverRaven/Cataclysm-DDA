@@ -27,6 +27,7 @@
   * [Spawn npcs with "place_npcs"](#spawn-npcs-with-place_npcs)
   * [Set variables with "place_variables"](#set-variables-with-place_variables)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
+  * [Set the owner of items in a given area with "faction_owner"](#apply-faction-ownership)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
     * [Place NPCs with "npcs"](#place-npcs-with-npcs)
@@ -654,6 +655,21 @@ Example:
 | custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
 The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it is placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with a 1 second countdown to have locations explode as the avatar approaches, creating uniquely ruined terrain.
+
+## Set the owner of items in a given area with "faction_owner"
+**optional** Define an area where mapgen-spawned items will have faction ownership applied
+
+Example:
+```json
+"faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
+```
+
+| Field  | Description
+| ---    | ---
+| id     | (required) ID of the faction to apply ownership to.
+| x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
+
+This is an array, so multiple entries can be defined.
 
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.

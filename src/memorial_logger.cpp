@@ -58,6 +58,8 @@ static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_jetinjector( "jetinjector" );
 
+static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
+
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -527,7 +529,7 @@ void memorial_logger::notify( const cata::event &e )
                 const mtype &corpse_type = e.get<mtype_id>( "corpse_type" ).obj();
                 std::string corpse_name = e.get<cata_variant_type::string>( "corpse_name" );
                 if( corpse_name.empty() ) {
-                    if( corpse_type.has_flag( MF_HUMAN ) ) {
+                    if( corpse_type.has_flag( mon_flag_HUMAN ) ) {
                         add( pgettext( "memorial_male",
                                        "You buried an unknown victim of the Cataclysm." ),
                              pgettext( "memorial_female",
@@ -1106,6 +1108,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_wakes_up:
         case event_type::character_wears_item:
         case event_type::character_wields_item:
+        case event_type::character_casts_spell:
         case event_type::cuts_tree:
         case event_type::opens_spellbook:
         case event_type::reads_book:

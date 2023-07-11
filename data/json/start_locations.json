@@ -258,7 +258,7 @@
     "type": "start_location",
     "id": "sloc_restaurant",
     "name": "Restaurant",
-    "terrain": [ "s_restaurant", "s_restaurant_foodplace", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ]
+    "terrain": [ "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ]
   },
   {
     "type": "start_location",

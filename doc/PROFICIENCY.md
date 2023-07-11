@@ -131,6 +131,7 @@ Within these are the standard list of JSON objects having "type": "proficiency".
 | `default_weakpoint_penalty` | Optional  | Float  | Flat penalty to the attacker's skill if they lack the skill.                         |
 | `time_to_learn`             | Optional  | time_duration, as a string | The (optimal) time required to learn this proficiency.           |
 | `required_proficiencies`    | Optional  | Array of strings | The proficiencies that must be obtained before this one can.  You cannot gain experience in a proficiency without the necessary prerequisites. |
+| `ignore_focus`              | Optional  | Bool   | Proficiency exp gain will be as if focus is `100` regardless of actual focus.        |
 | `bonuses`                   | Optional  | Object, with an array of object as values | This member is used to apply bonuses to certain activities given the player has a particular proficiency. The bonuses applied must be hardcoded to the activity in question. (see below) |
 
 ### time multiplier and skill penalty

@@ -239,6 +239,7 @@ Use the `Home` key to return to the top.
   - [`professions`](#professions)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement-1)
+  - [`reveal_locale`](#reveal_locale)
   - [`eocs`](#eocs)
   - [`missions`](#missions-1)
   - [`custom_initial_date`](#custom_initial_date)
@@ -505,6 +506,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `monster_attacks.json`        | monster attacks
 | `monster_drops.json`          | monster item drops on death
 | `monster_factions.json`       | monster factions
+| `monster_flags.json`          | monster flags and their descriptions
 | `monstergroups.json`          | monster spawn groups
 | `monstergroups_egg.json`      | monster spawn groups from eggs
 | `monsters.json`               | monster descriptions, mostly zombies
@@ -3566,6 +3568,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "max_item_length": "0 mm",        // Maximum length of items that can fit in this pocket, by their longest_side.  Default is the diagonal opening length assuming volume is a cube (cube_root(vol)*square_root(2))
     "spoil_multiplier": 1.0,          // How putting an item in this pocket affects spoilage.  Less than 1.0 and the item will be preserved longer; 0.0 will preserve indefinitely.
     "weight_multiplier": 1.0,         // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplier.
+    "volume_multiplier": 1.0,         // The items in this pocket have less volume inside than outside.  Can be used for containers that'd help in organizing specific contents, such as cardboard rolls for duct tape.
     "moves": 100,                     // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
     "rigid": false,                   // Default false. If true, this pocket's size is fixed, and does not expand when filled.  A glass jar would be rigid, while a plastic bag is not.
     "forbidden": true,                // Default false. If true, this pocket cannot be used by players. 
@@ -5179,6 +5182,12 @@ Add a map special to the starting location, see JSON_FLAGS for the possible spec
 (optional, an achievement ID)
 
 The achievement you need to do to access this scenario
+
+## `reveal_locale`
+
+(optional, boolean)
+
+Defaults true. If a road can be found within 3 OMTs of the starting position, reveals a path to the nearest city and that city's center.
 
 ## `eocs`
 (optional, array of strings)
