@@ -70,6 +70,7 @@
       "sloc_apartment_complex_roof",
       "sloc_hospital",
       "sloc_school",
+      "sloc_school_rooftop",
       "sloc_hotel_rooftop",
       "sloc_office_tower_rooftop",
       "sloc_office_tower_2_rooftop",
@@ -1207,6 +1208,7 @@
       "sloc_apartments_rooftop",
       "sloc_apartments_rooftop2",
       "sloc_hotel_rooftop",
+      "sloc_school_rooftop",
       "sloc_office_tower_rooftop",
       "sloc_apartment_complex_roof",
       "sloc_convention_center_rooftop"

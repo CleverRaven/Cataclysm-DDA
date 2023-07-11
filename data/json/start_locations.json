@@ -481,6 +481,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_school_rooftop",
+    "name": "School Rooftop",
+    "terrain": [ "school_4_6", "school_4_5", "school_4_4", "school_4_9", "school_4_8", "school_4_7" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_mine_finale",
     "name": "Bottom of a mine",
     "terrain": [ "mine_finale" ]
