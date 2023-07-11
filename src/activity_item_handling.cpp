@@ -206,8 +206,8 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     if( items.empty() ) {
         return;
     }
-
-    const tripoint where = veh.global_part_pos3( part );
+    vehicle_part &vp = veh.part( part );
+    const tripoint where = veh.global_part_pos3( vp );
     map &here = get_map();
     const std::string ter_name = here.name( where );
     int fallen_count = 0;
@@ -224,7 +224,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             it.charges = 0;
         }
 
-        if( veh.add_item( part, it ) ) {
+        if( veh.add_item( vp, it ) ) {
             into_vehicle_count += it.count();
         } else {
             if( it.count_by_charges() ) {
@@ -239,7 +239,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         it.handle_pickup_ownership( c );
     }
 
-    const std::string part_name = veh.part_info( part ).name();
+    const std::string part_name = vp.info().name();
 
     if( same_type( items ) ) {
         const item &it = items.front();
@@ -2736,12 +2736,15 @@ static requirement_check_result generic_multi_activity_check_requirement(
                 you.activity_vehicle_part_index = 1;
                 return requirement_check_result::SKIP_LOCATION;
             }
-            const vpart_info &vpinfo = veh->part_info( you.activity_vehicle_part_index );
             requirement_data reqs;
-            if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
-                reqs = vpinfo.removal_requirements();
-            } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
-                reqs = vpinfo.repair_requirements();
+            if( you.activity_vehicle_part_index >= 0 &&
+                you.activity_vehicle_part_index < static_cast<int>( veh->part_count() ) ) {
+                const vpart_info &vpi = veh->part( you.activity_vehicle_part_index ).info();
+                if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
+                    reqs = vpi.removal_requirements();
+                } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
+                    reqs = vpi.repair_requirements();
+                }
             }
             const std::string ran_str = random_string( 10 );
             const requirement_id req_id( ran_str );
