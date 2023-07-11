@@ -1758,7 +1758,7 @@ void construct::done_ladder_down( const tripoint_bub_ms &p, Character &/*who*/ )
     ter_id ladder_here = here.ter( p );
     ter_id ladder_to_place = ladder_type.at( ladder_here );
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().ter_set( top, ladder_to_place );
+    here.ter_set( top, ladder_to_place );
 }
 
 void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who )
@@ -1773,7 +1773,7 @@ void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who 
     const tripoint_bub_ms top = p + tripoint_above;
     ter_id ladder_here = here.ter( top );
     itype_id item_to_drop = terrain_item.at( ladder_here );
-    get_map().ter_set( top, t_open_air );
+    here.ter_set( top, t_open_air );
     tripoint avatar_pos = who.pos();
     here.spawn_item( avatar_pos, item_to_drop );
 }
@@ -1781,16 +1781,16 @@ void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who 
 void construct::done_remove_ladder_down( const tripoint_bub_ms &p, Character &who )
 {
     std::unordered_map<ter_id, itype_id> terrain_item = {
-        { t_ladder_wooden_straight_down, itype_ladder_wooden_straight },
-        { t_ladder_aluminum_extending_down, itype_ladder_aluminum_extended },
-        { t_ladder_fiberglass_extending_down, itype_ladder_fiberglass_extended },
-        { t_ladder_aluminum_telescoping_down, itype_ladder_aluminum_tele_extended }
+        { t_ladder_wooden_straight_up, itype_ladder_wooden_straight },
+        { t_ladder_aluminum_extending_up, itype_ladder_aluminum_extended },
+        { t_ladder_fiberglass_extending_up, itype_ladder_fiberglass_extended },
+        { t_ladder_aluminum_telescoping_up, itype_ladder_aluminum_tele_extended }
     };
     map &here = get_map();
     const tripoint_bub_ms top = p + tripoint_below;
     ter_id ladder_here = here.ter( top );
     itype_id item_to_drop = terrain_item.at( ladder_here );
-    get_map().ter_set( top, t_floor );
+    here.ter_set( top, t_floor );
     tripoint avatar_pos = who.pos();
     here.spawn_item( avatar_pos, item_to_drop );
 }
