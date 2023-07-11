@@ -19,7 +19,7 @@
     "id": "TALK_CIVILIAN_FIGHTER",
     "dynamic_line": [
       "I'm gonna kill all these <swear> things!",
-      "$They let out a bellowing warcry and wave their stick.",
+      "&They let out a bellowing warcry and wave their stick.",
       "I'M INVINCIBLE!"
     ],
     "responses": [
@@ -39,7 +39,7 @@
     "dynamic_line": [
       "Stand aside citizen, I'll handle this!",
       "Don't worry, I'm with the police<punc>",
-      "$The officer scans the area, looking for trouble. They have a dangerous glint in their eyes."
+      "&The officer scans the area, looking for trouble. They have a dangerous glint in their eyes."
     ],
     "responses": [ { "text": "[Back away]", "topic": "TALK_DONE" } ]
   }
