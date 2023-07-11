@@ -1363,7 +1363,7 @@
     "time": "1 m",
     "pre_note": "Must be adjacent to up ladder.",
     "pre_special": "check_remove_ladder_up",
-	"//": "This sucks please someone add a furniture tag that supports standing on it",
+    "//": "This sucks please someone add a furniture tag that supports standing on it",
     "post_terrain": "t_floor",
     "post_special": "done_remove_ladder_up"
   },
