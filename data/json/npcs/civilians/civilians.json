@@ -30,10 +30,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CIVILIAN_FIGHTER_EVAC",
-    "dynamic_line": [
-      "Like hell I will!",
-      "Fuck that, I'm not going out like a coward!"
-    ],
+    "dynamic_line": [ "Like hell I will!", "Fuck that, I'm not going out like a coward!" ],
     "responses": [ { "text": "[Leave them to their futile fight]", "topic": "TALK_DONE" } ]
   },
   {
@@ -44,8 +41,6 @@
       "Don't worry, I'm with the police<punc>",
       "$The officer scans the area, looking for trouble. They have a dangerous glint in their eyes."
     ],
-    "responses": [
-      { "text": "[Back away]", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "[Back away]", "topic": "TALK_DONE" } ]
   }
 ]
