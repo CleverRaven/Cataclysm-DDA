@@ -176,6 +176,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
+    "size": "100 L",
     "type": "vehicle_part"
   },
   {
