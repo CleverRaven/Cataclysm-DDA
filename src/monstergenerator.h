@@ -33,7 +33,7 @@ struct species_type {
     bool was_loaded = false;
     translation description;
     translation footsteps;
-    enum_bitset<m_flag> flags;
+    std::set<mon_flag_str_id> flags;
     enum_bitset<mon_trigger> anger;
     enum_bitset<mon_trigger> fear;
     enum_bitset<mon_trigger> placate;
@@ -78,7 +78,6 @@ class MonsterGenerator
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
-        std::array<int, m_flag::MF_MAX> m_flag_usage_stats;
 
     private:
         MonsterGenerator();

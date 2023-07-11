@@ -1116,7 +1116,8 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     globvars.set_global_value( "npctalk_var_test_var", "It's global" );
 
     d.add_topic( "TALK_TEST_TAGS" );
-    gen_response_lines( d, 7 );
+    d.set_value( "npctalk_var_test_var", "It's context" );
+    gen_response_lines( d, 8 );
     CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
            "Avatar tag is set to It's avatar." );
     CHECK( d.responses[1].create_option_line( d, input_event() ).text ==
@@ -1131,6 +1132,8 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
            "Trait name is Ink glands." );
     CHECK( d.responses[6].create_option_line( d, input_event() ).text ==
            "Trait description is A mutation to test enchantments." );
+    CHECK( d.responses[7].create_option_line( d, input_event() ).text ==
+           "Context tag is set to It's context." );
     globvars.clear_global_values();
 }
 
@@ -1213,7 +1216,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
     get_weather().clear_temp_cache();
-    player_character.setpos( tripoint( 18, 19, 20 ) );
+    player_character.setpos( tripoint( -1, -2, -3 ) );
     player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
@@ -1274,9 +1277,9 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 20 ].text == "Windpower is 15." );
     CHECK( d.responses[ 21 ].text == "Humidity is 16." );
     CHECK( d.responses[ 22 ].text == "Pressure is 17." );
-    CHECK( d.responses[ 23 ].text == "Pos_x is 18." );
-    CHECK( d.responses[ 24 ].text == "Pos_y is 19." );
-    CHECK( d.responses[ 25 ].text == "Pos_z is 20. This should be cause for alarm." );
+    CHECK( d.responses[ 23 ].text == "Pos_x is -1." );
+    CHECK( d.responses[ 24 ].text == "Pos_y is -2." );
+    CHECK( d.responses[ 25 ].text == "Pos_z is -3." );
     CHECK( d.responses[ 26 ].text == "Pain level is 21." );
     CHECK( d.responses[ 27 ].text == "Bionic power is 22." );
     CHECK( d.responses[ 28 ].text == "Bionic power max is 44." );
@@ -1503,17 +1506,17 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets pos_x to 14."
     effects = d.responses[ 13 ].success;
     effects.apply( d );
-    CHECK( player_character.posx() == 14 );
+    CHECK( player_character.posx() == -1 );
 
     // "Sets pos_y to 15."
     effects = d.responses[ 14 ].success;
     effects.apply( d );
-    CHECK( player_character.posy() == 15 );
+    CHECK( player_character.posy() == -2 );
 
     // "Sets pos_z to 16."
     effects = d.responses[ 15 ].success;
     effects.apply( d );
-    CHECK( player_character.posz() == 16 );
+    CHECK( player_character.posz() == -3 );
 
     // "Sets pain to 17."
     effects = d.responses[ 16 ].success;

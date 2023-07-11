@@ -28,7 +28,7 @@ class JsonOut;
 class character_id;
 class npc;
 class time_duration;
-
+class zone_data;
 enum class farm_ops : int;
 class item;
 class mission_data;
@@ -129,6 +129,17 @@ struct expansion_salt_water_pipe {
     std::vector<expansion_salt_water_pipe_segment> segments;
 };
 
+class basecamp_map
+{
+        friend basecamp;
+    private:
+        std::unique_ptr<map> map_;
+    public:
+        basecamp_map() = default;
+        basecamp_map( const basecamp_map & );
+        basecamp_map &operator=( const basecamp_map & );
+};
+
 class basecamp
 {
     public:
@@ -137,7 +148,6 @@ class basecamp
         basecamp( const std::string &name_, const tripoint &bb_pos_,
                   const std::vector<point> &directions_,
                   const std::map<point, expansion_data> &expansions_ );
-
         inline bool is_valid() const {
             return !name.empty() && omt_pos != tripoint_abs_omt();
         }
@@ -277,8 +287,9 @@ class basecamp
         std::string craft_description( const recipe_id &itm );
 
         // main mission description collection
-        void get_available_missions( mission_data &mission_key );
+        void get_available_missions( mission_data &mission_key, map &here );
         void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
+        void choose_new_leader();
         // available companion list manipulation
         void reset_camp_workers();
         comp_list get_mission_workers( const mission_id &miss_id, bool contains = false );
@@ -390,13 +401,28 @@ class basecamp
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
         void load_data( const std::string &data );
-
-        static constexpr int inv_range = 20;
+        inline const std::vector<const zone_data * > &get_storage_zone() const {
+            return storage_zones;
+        }
+        // dumping spot in absolute co-ords
+        inline void set_storage_zone( const std::vector<const zone_data *> &zones ) {
+            storage_zones = zones;
+        }
+        inline const std::unordered_set<tripoint_abs_ms> &get_storage_tiles() const {
+            return src_set;
+        }
+        // dumping spot in absolute co-ords
+        inline void set_storage_tiles( const std::unordered_set<tripoint_abs_ms> &tiles ) {
+            src_set = tiles;
+        }
+        void form_storage_zones( map &here, const tripoint_abs_ms &abspos );
+        map &get_camp_map();
+        void unload_camp_map();
     private:
         friend class basecamp_action_components;
 
         // lazy re-evaluation of available camp resources
-        void reset_camp_resources();
+        void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );
         // omt pos
         tripoint_abs_omt omt_pos;
@@ -405,8 +431,10 @@ class basecamp
         tripoint bb_pos;
         std::map<point, expansion_data> expansions;
         comp_list camp_workers; // NOLINT(cata-serialize)
+        basecamp_map camp_map; // NOLINT(cata-serialize)
         tripoint_abs_ms dumping_spot;
-
+        std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
+        std::unordered_set<tripoint_abs_ms> src_set; // NOLINT(cata-serialize)
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
         std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
@@ -431,7 +459,6 @@ class basecamp_action_components
         basecamp &base_;
         std::vector<comp_selection<item_comp>> item_selections_;
         std::vector<comp_selection<tool_comp>> tool_selections_;
-        std::unique_ptr<tinymap> map_; // Used for by-radio crafting
 };
 
 #endif // CATA_SRC_BASECAMP_H

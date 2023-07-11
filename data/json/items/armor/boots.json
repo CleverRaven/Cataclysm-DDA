@@ -115,7 +115,6 @@
     "copy-from": "boots",
     "symbol": "[",
     "looks_like": "boots",
-    "repairs_like": "boots_survivor",
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
@@ -152,7 +151,6 @@
   },
   {
     "id": "boots_bunker",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of turnout boots", "str_pl": "pairs of turnout boots" },
@@ -287,7 +285,6 @@
   },
   {
     "id": "boots_combat",
-    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of combat boots", "str_pl": "pairs of combat boots" },
@@ -348,7 +345,6 @@
     "price_postapoc": 7000,
     "warmth": 10,
     "material": [ "steel", "nomex" ],
-    "repairs_like": "boots_survivor",
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
@@ -366,7 +362,6 @@
     "price": 2500,
     "to_hit": -1,
     "material": [ "plastic", "steel" ],
-    "repairs_like": "boots",
     "symbol": "[",
     "color": "brown",
     "warmth": 10,
@@ -451,8 +446,74 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "boots_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of faux fur boots", "str_pl": "pairs of faux fur boots" },
+    "description": "Boots lined with fur for warmth.",
+    "weight": "1890 g",
+    "volume": "4500 ml",
+    "price": 14000,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "brown",
+    "warmth": 40,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": 20,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "xl_boots_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL faux fur boots", "str_pl": "pairs of XL faux fur boots" },
+    "copy-from": "boots_faux_fur",
+    "proportional": { "weight": 1.15, "volume": 1.15 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_boots_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "boots_faux_fur",
+    "looks_like": "boots_fur",
+    "name": { "str": "pair of XS faux fur boots", "str_pl": "pairs of XS faux fur boots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "boots_hiking",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of hiking boots", "str_pl": "pairs of hiking boots" },
     "description": "Tough yet light leather boots, intended for outdoor activity.",
@@ -605,7 +666,6 @@
   },
   {
     "id": "boots_rubber",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of rubber boots", "str_pl": "pairs of rubber boots" },
     "description": "A pair of rubber boots, often used while cleaning with caustic materials.",
@@ -764,7 +824,6 @@
   },
   {
     "id": "boots_steel",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of steeltoed boots", "str_pl": "pairs of steeltoed boots" },
@@ -811,7 +870,6 @@
   },
   {
     "id": "sneakers_steel",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of steeltoed sneakers", "str_pl": "pairs of steeltoed sneakers" },
@@ -978,7 +1036,6 @@
   },
   {
     "id": "cleats",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of cleats", "str_pl": "pairs of cleats" },
     "description": "Sport shoes with hard undersides and studs on the bottom designed to dig into grass.",
@@ -1028,7 +1085,6 @@
   },
   {
     "id": "golf_shoes",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of golf shoes", "str_pl": "pairs of golf shoes" },
     "description": "Snug sport shoes with hard ridges on the bottom.",
@@ -1119,7 +1175,6 @@
   },
   {
     "id": "clownshoes",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of clown shoes", "str_pl": "pairs of clown shoes" },
     "description": "Gigantic shoes fit for a clown.  Incredibly difficult to walk in.",
@@ -1180,7 +1235,6 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
-    "repairs_like": "boots",
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 1.5,
@@ -1214,7 +1268,6 @@
   },
   {
     "id": "dress_shoes",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of dress shoes", "str_pl": "pairs of dress shoes" },
     "description": "Fancy patent leather shoes.  Not designed for running.",
@@ -1268,7 +1321,6 @@
     "to_hit": -2,
     "symbol": "[",
     "looks_like": "sneakers",
-    "repairs_like": "boots",
     "color": "blue",
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
@@ -1301,7 +1353,6 @@
     "material": [ "rubber", "leather" ],
     "symbol": "[",
     "looks_like": "flip_flops",
-    "repairs_like": "flip_flops",
     "color": "brown",
     "material_thickness": 1,
     "environmental_protection": 1,
@@ -1355,6 +1406,24 @@
     "looks_like": "socks_wool",
     "color": "brown",
     "warmth": 20,
+    "material_thickness": 1.5,
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "id": "footrags_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of faux fur foot wraps", "str_pl": "pairs of faux fur foot wraps" },
+    "description": "Faux fur patches tied around your feet.  Not much of an improvement over being barefoot, but still better than nothing.",
+    "weight": "135 g",
+    "volume": "500 ml",
+    "price": 700,
+    "price_postapoc": 50,
+    "material": [ "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "socks_wool",
+    "color": "brown",
+    "warmth": 18,
     "material_thickness": 1.5,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
@@ -1433,7 +1502,6 @@
   },
   {
     "id": "heels",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of heels", "str_pl": "pairs of heels" },
     "description": "A pair of high heels.  Difficult to even walk in.",
@@ -1467,23 +1535,56 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "heels_stiletto",
+        "name": { "str": "pair of stiletto heels", "str_pl": "pairs of stiletto heels" },
+        "description": "A traditional pair of tall, high-heeled shoes with a tapered, slender heel, which makes strutting fashionable, walking a challenge, and running an impossibility.  These days, they’d probably be more useful to stab a zombie’s eyes out than as footwear.",
+        "weight": 10
+      },
+      {
+        "id": "heels_block",
+        "name": { "str": "pair of block heels", "str_pl": "pairs of block heels" },
+        "description": "These are a pair of chunky, broad-based shoes with a sturdy block-like heel, and while they don’t do you any favors in the mobility department, they’re at least more comfortable to trudge about in than their peers and won't likely cause irreversible damage to your feet.",
+        "weight": 10
+      },
+      {
+        "id": "heels_wedge",
+        "name": { "str": "pair of wedges", "str_pl": "pairs of wedges" },
+        "description": "A pair of tall, high-heeled, open-toed shoes with thick wedges running the length of the shoe, serving as its heels.",
+        "weight": 10
+      },
+      {
+        "id": "heels_platform",
+        "name": { "str": "pair of platform heels", "str_pl": "pairs of platform heels" },
+        "description": "A pair of heavy, thick-soled high-heeled shoes with a ridiculously tall heel supported by an ankle strap and chunky soles.  A great choice for when you've given up on basic biomechanical function and decided that you're more than willing to risk long-term damage to your feet for the sake of a ridiculous fashion statement in the ruins of America.",
+        "weight": 10
+      },
+      {
+        "id": "heels_flag",
+        "name": { "str": "pair of liberty’s heels", "str_pl": "pairs of liberty’s heels" },
+        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear’s heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe’s heels.  Each of the statues’ dresses is inscribed with the legend, \"America Gives You Wings!\"",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "knee_high_boots",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of knee-high boots", "str_pl": "pairs of knee-high boots" },
     "description": "Very long leather boots that cover the lower legs, they are cumbersome to wear.",
     "weight": "1520 g",
     "volume": "3750 ml",
+    "longest_side": "33 cm",
     "price": 8000,
     "price_postapoc": 1250,
     "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
-    "color": "dark_gray",
+    "color": "black",
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 2,
@@ -1521,11 +1622,31 @@
         "encumbrance": 15
       }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_knee_high_boots",
+        "name": { "str": "pair of knee-high boots", "str_pl": "pairs of knee-high boots" },
+        "description": "Very long leather boots that cover the lower legs, they are cumbersome to wear.",
+        "weight": 10
+      },
+      {
+        "id": "jackboots",
+        "name": { "str": "pair of jackboots", "str_pl": "pairs of jackboots" },
+        "description": "A pair of sturdy, over-the-knee, laceless boots fitted with a rubberized sole: these imposing combat boots provide good traction despite their encumbering nature.  Most commonly associated with totalitarian regimes due to their use by Nazi soldiers, this style of boot is warm, protective, and produces a deeply satisfying sound while marching.",
+        "weight": 10
+      },
+      {
+        "id": "chelsea_boots",
+        "name": { "str": "pair of chelsea boots", "str_pl": "pairs of chelsea boots" },
+        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that’s designed to stretch away to facilitate simple dawning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
+        "weight": 10
+      }
+    ]
   },
   {
     "id": "motor_police_boots",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of motorcycle police boots", "str_pl": "pairs of motorcycle police boots" },
     "description": "Custom-made knee-high leather boots issued to motor officers.  Warm, durable and quite tough.",
@@ -1589,7 +1710,6 @@
     "to_hit": -2,
     "symbol": "[",
     "looks_like": "flip_flops",
-    "repairs_like": "bastsandals",
     "color": "brown",
     "material_thickness": 1.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
@@ -1620,7 +1740,6 @@
   },
   {
     "id": "lowtops",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of lowtop tennis shoes", "str_pl": "pairs of lowtop tennis shoes" },
     "description": "Lightweight shoes made of cloth and rubber.",
@@ -1699,7 +1818,6 @@
   },
   {
     "id": "motorbike_boots",
-    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of motorcycle boots", "str_pl": "pairs of motorcycle boots" },
@@ -1750,7 +1868,6 @@
   },
   {
     "id": "roller_blades",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rollerblades", "str_pl": "pairs of rollerblades" },
     "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, take hits, or dodge effectively.",
@@ -1800,7 +1917,6 @@
   },
   {
     "id": "rollerskates",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rollerskates", "str_pl": "pairs of rollerskates" },
     "description": "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to take hits or to move on rough terrain.",
@@ -1890,7 +2006,6 @@
   },
   {
     "id": "shoes_bowling",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of bowling shoes", "str_pl": "pairs of bowling shoes" },
     "description": "A pair of flat-soled shoes designed to give you a grip on slippery surfaces.",
@@ -1938,7 +2053,6 @@
   },
   {
     "id": "slippers",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of slippers", "str_pl": "pairs of slippers" },
     "description": "Soft shoes that keep your feet warm.  Not suitable for running.",
@@ -1986,7 +2100,6 @@
   },
   {
     "id": "sneakers",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of sneakers", "str_pl": "pairs of sneakers" },
     "description": "Guaranteed to make you run faster and jump higher!",
@@ -2112,7 +2225,6 @@
   },
   {
     "id": "thigh_high_boots",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of thigh-high boots", "str_pl": "pairs of thigh-high boots" },
     "description": "Very long leather boots that reach past the knees, they are cumbersome to wear.",
@@ -2172,7 +2284,6 @@
   },
   {
     "id": "roller_shoes_off",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of heelys (off)", "str_pl": "pairs of heelys (off)" },
     "description": "A pair of sneakers with integrated wheels.  Currently the wheels are retracted, making these essentially normal lace-up athletic shoes.",
@@ -2745,7 +2856,6 @@
   },
   {
     "id": "socks_bowling",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of disposable bowling socks", "str_pl": "pairs of disposable bowling socks" },
     "description": "Cheap socks designed to be worn once and then thrown away.  They keep your feet clean, but are too thin to give any protection.",
@@ -2871,7 +2981,6 @@
   },
   {
     "id": "tabi_gi",
-    "repairs_like": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of gi tabi", "str_pl": "pairs of gi tabi" },
     "description": "A pair of white tabi, as used by martial arts practitioners.",

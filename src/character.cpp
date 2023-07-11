@@ -355,6 +355,11 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
+static const mon_flag_str_id mon_flag_COMBAT_MOUNT( "COMBAT_MOUNT" );
+static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
+static const mon_flag_str_id mon_flag_MECH_RECON_VISION( "MECH_RECON_VISION" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const morale_type morale_nightmare( "morale_nightmare" );
 
 static const move_mode_id move_mode_prone( "prone" );
@@ -466,6 +471,9 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
+static const trait_id trait_THRESH_BEAST( "THRESH_BEAST" );
+static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
+static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
@@ -549,11 +557,11 @@ Character::Character() :
     name.clear();
     custom_profession.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, true, false, true };
 
     move_mode = move_mode_walk;
     next_expected_position = std::nullopt;
-    crafting_cache.time = calendar::before_time_starts;
+    invalidate_crafting_inventory();
 
     set_power_level( 0_kJ );
     cash = 0;
@@ -587,6 +595,7 @@ Character::Character() :
     if( !!g && json_flag::is_ready() ) {
         recalc_sight_limits();
         calc_encumbrance();
+        worn.recalc_ablative_blocking(this);
     }
 }
 // *INDENT-ON*
@@ -611,8 +620,10 @@ character_id Character::getID() const
     return this->id;
 }
 
-void Character::swap_character( Character &other, Character &tmp )
+void Character::swap_character( Character &other )
 {
+    npc tmp_npc;
+    Character &tmp = tmp_npc;
     tmp = std::move( other );
     other = std::move( *this );
     *this = std::move( tmp );
@@ -1057,10 +1068,14 @@ double Character::aim_per_move( const item &gun, double recoil,
 
     aim_speed *= get_modifier( character_modifier_aim_speed_mod );
 
+    // finally multiply everything by a harsh function that is eliminated by 7.5 gunskill
+    aim_speed /= std::max( 1.0, 2.5 - 0.2 * get_skill_level( gun_skill ) );
     // Use a milder attenuation function to replace the previous logarithmic attenuation function when recoil is closed to 0.
     aim_speed *= std::max( recoil / MAX_RECOIL, 1 - logarithmic_range( 0, MAX_RECOIL, recoil ) );
 
-    double base_aim_speed_cap = 20 +  1.0 * get_skill_level( gun_skill );
+    // add 4 max aim speed per skill up to 5 skill, then 1 per skill for skill 5-10
+    double base_aim_speed_cap = 5.0 +  1.0 * get_skill_level( gun_skill ) + std::max( 10.0,
+                                3.0 * get_skill_level( gun_skill ) );
 
     // This upper limit usually only affects the first half of the aiming process
     // Pistols have a much higher aiming speed limit
@@ -1103,7 +1118,7 @@ void Character::consume_dodge_attempts()
     }
 }
 
-ret_val<void> Character::can_try_doge() const
+ret_val<void> Character::can_try_doge( bool ignore_dodges_left ) const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
@@ -1120,7 +1135,7 @@ ret_val<void> Character::can_try_doge() const
                                             _( "<npcname>'s stamina is too low to attempt to dodge." ) );;
     }
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( get_dodges_left() <= 0 ) {
+    if( get_dodges_left() <= 0 && !ignore_dodges_left ) {
         add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
         return ret_val<void>::make_failure();
     }
@@ -1210,7 +1225,7 @@ int Character::overmap_sight_range( float light_level ) const
     // When adding checks here, also call game::update_overmap_seen at the place they first become true
     const bool has_optic = has_item_with_flag( flag_ZOOM ) ||
                            has_flag( json_flag_ENHANCED_VISION ) ||
-                           ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ||
+                           ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
                            get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
 
     if( has_optic ) {
@@ -1375,7 +1390,7 @@ int Character::swim_speed() const
 
 bool Character::is_on_ground() const
 {
-    return ( get_working_leg_count() < 2 && !weapon.has_flag( flag_CRUTCHES ) ) ||
+    return ( !enough_working_legs() && !weapon.has_flag( flag_CRUTCHES ) ) ||
            has_effect( effect_downed ) || is_prone();
 }
 
@@ -1464,12 +1479,14 @@ player_activity Character::get_destination_activity() const
 
 void Character::mount_creature( monster &z )
 {
+    avatar &player_avatar = get_avatar();
     tripoint pnt = z.pos();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
         add_msg_debug( debugmode::DF_CHARACTER, "mount_creature(): monster not found in critter_tracker" );
         return;
     }
+
     add_effect( effect_riding, 1_turns, true );
     z.add_effect( effect_ridden, 1_turns, true );
     if( z.has_effect( effect_tied ) ) {
@@ -1486,14 +1503,21 @@ void Character::mount_creature( monster &z )
     }
     mounted_creature = mons;
     mons->mounted_player = this;
-    if( is_avatar() ) {
-        avatar &player_character = get_avatar();
-        if( player_character.is_hauling() ) {
-            player_character.stop_hauling();
+    if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
+        add_msg( m_warning, _( "You let go of the grabbed object." ) );
+        player_avatar.grab( object_type::NONE );
+    }
+    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
+    if( z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
+        if( !z.type->mech_weapon.is_empty() ) {
+            item mechwep = item( z.type->mech_weapon );
+            set_wielded_item( mechwep );
         }
-        if( player_character.get_grab_type() != object_type::NONE ) {
-            add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            player_character.grab( object_type::NONE );
+        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
+    }
+    if( is_avatar() ) {
+        if( player_avatar.is_hauling() ) {
+            player_avatar.stop_hauling();
         }
         g->place_player( pnt );
     } else {
@@ -1501,17 +1525,9 @@ void Character::mount_creature( monster &z )
         guy.setpos( pnt );
     }
     z.facing = facing;
-    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( !z.type->mech_weapon.is_empty() ) {
-            item mechwep = item( z.type->mech_weapon );
-            set_wielded_item( mechwep );
-        }
-        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
-    }
     // some rideable mechs have night-vision
     recalc_sight_limits();
-    if( is_avatar() && z.has_flag( MF_MECH_RECON_VISION ) ) {
+    if( is_avatar() && z.has_flag( mon_flag_MECH_RECON_VISION ) ) {
         // mech night-vision counts as optics for overmap sight range.
         g->update_overmap_seen();
     }
@@ -1520,7 +1536,7 @@ void Character::mount_creature( monster &z )
 
 bool Character::check_mount_will_move( const tripoint &dest_loc )
 {
-    if( !is_mounted() || mounted_creature->has_flag( MF_COMBAT_MOUNT ) ) {
+    if( !is_mounted() || mounted_creature->has_flag( mon_flag_COMBAT_MOUNT ) ) {
         return true;
     }
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
@@ -1556,7 +1572,7 @@ bool Character::check_mount_is_spooked()
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
         const creature_size mount_size = mounted_creature->get_size();
         const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
-        const bool combat_mount = mounted_creature->has_flag( MF_COMBAT_MOUNT );
+        const bool combat_mount = mounted_creature->has_flag( mon_flag_COMBAT_MOUNT );
         for( const monster &critter : g->all_monsters() ) {
             if( critter.is_hallucination() ) {
                 continue;
@@ -1612,7 +1628,7 @@ void Character::forced_dismount()
     bool mech = false;
     if( mounted_creature ) {
         auto *mon = mounted_creature.get();
-        if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
+        if( mon->has_flag( mon_flag_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
             mech = true;
             remove_item( weapon );
         }
@@ -1724,7 +1740,7 @@ void Character::dismount()
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
-        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
+        if( critter->has_flag( mon_flag_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
             weapon.typeId() == critter->type->mech_weapon ) {
             remove_item( weapon );
         }
@@ -1791,7 +1807,8 @@ void Character::on_try_dodge()
 void Character::on_dodge( Creature *source, float difficulty )
 {
     // Make sure we're not practicing dodge in situation where we can't dodge
-    if( !can_try_doge().success() ) {
+    // We can ignore dodges_left because it was already checked in get_dodge()
+    if( !can_try_doge( true ).success() ) {
         return;
     }
 
@@ -1943,26 +1960,35 @@ int Character::get_working_arm_count() const
 }
 
 // working is defined here as not broken
-int Character::get_working_leg_count() const
+bool Character::enough_working_legs() const
 {
     int limb_count = 0;
-    if( has_limb( body_part_leg_l ) && !is_limb_broken( body_part_leg_l ) ) {
-        limb_count++;
-    }
-    if( has_limb( body_part_leg_r ) && !is_limb_broken( body_part_leg_r ) ) {
-        limb_count++;
-    }
-    return limb_count;
-}
-
-bool Character::has_limb( const bodypart_id &limb ) const
-{
+    int working_limb_count = 0;
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( part == limb ) {
-            return true;
+        if( part->primary_limb_type() == body_part_type::type::leg ) {
+            limb_count++;
+            if( !is_limb_broken( part ) ) {
+                working_limb_count++;
+            }
         }
     }
-    return false;
+
+    return working_limb_count == limb_count;
+}
+
+// working is defined here as not broken
+int Character::get_working_leg_count() const
+{
+    int working_limb_count = 0;
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        if( part->primary_limb_type() == body_part_type::type::leg ) {
+            if( !is_limb_broken( part ) ) {
+                working_limb_count++;
+            }
+        }
+    }
+
+    return working_limb_count;
 }
 
 // this is the source of truth on if a limb is broken so all code to determine
@@ -1974,7 +2000,7 @@ bool Character::is_limb_broken( const bodypart_id &limb ) const
 
 bool Character::can_run() const
 {
-    return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+    return get_stamina() > 0 && !has_effect( effect_winded ) && enough_working_legs();
 }
 
 move_mode_id Character::current_movement_mode() const
@@ -2000,6 +2026,20 @@ bool Character::is_walking() const
 bool Character::is_crouching() const
 {
     return move_mode->type() == move_mode_type::CROUCHING;
+}
+
+bool Character::is_runallfours() const
+{
+    bool allfour = false;
+    if( move_mode->type() == move_mode_type::RUNNING && !is_armed() ) {
+        if( has_trait( trait_PAWS ) && ( has_trait( trait_THRESH_LUPINE ) ||
+                                         has_trait( trait_THRESH_FELINE )
+                                         || has_trait( trait_THRESH_BEAST ) ) ) {
+            allfour = true;
+        }
+    }
+
+    return allfour;
 }
 
 bool Character::is_prone() const
@@ -2037,7 +2077,7 @@ int Character::footstep_sound() const
                 default:
                     break;
             }
-            if( mons->has_flag( MF_LOUDMOVES ) ) {
+            if( mons->has_flag( mon_flag_LOUDMOVES ) ) {
                 volume += 6;
             }
         } else {
@@ -2088,7 +2128,7 @@ steed_type Character::get_steed_type() const
 {
     steed_type steed;
     if( is_mounted() ) {
-        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             steed = steed_type::MECH;
         } else {
             steed = steed_type::ANIMAL;
@@ -2366,7 +2406,7 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( NV_GOGGLES );
     }
     if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( itype_rm13_armor_on ) ||
-        ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
+        ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
     if( has_active_mutation( trait_ELFA_FNV ) ) {
@@ -2397,7 +2437,7 @@ void Character::recalc_sight_limits()
     // Not exactly a sight limit thing, but related enough
     if( has_flag( json_flag_INFRARED ) ||
         worn_with_flag( flag_IR_EFFECT ) || ( is_mounted() &&
-                mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
+                mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( IR_VISION );
     }
 
@@ -2852,7 +2892,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) c
     int mech_lift = 0;
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
@@ -3078,6 +3118,8 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
     int order;
     std::string overlay_id;
+    std::string variant;
+
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
@@ -3085,16 +3127,24 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     }
 
     // then get mutations
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( !mut.second.show_sprite ) {
-            continue;
+    const std::vector<trait_id> &all_mutations = get_mutations();
+    for( const trait_id &mut : all_mutations ) {
+        // get the data if it exists
+        const auto mut_data = my_mutations.find( mut );
+        if( mut_data == my_mutations.end() ) {
+            // this entry is from an enchantment and doesn't have any character dependent info
+            overlay_id = mut.str();
+
+        } else {
+            if( !mut_data->second.show_sprite ) {
+                continue;
+            }
+            overlay_id = ( mut_data->second.powered ? "active_" : "" ) + mut.str();
+            if( mut_data->second.variant != nullptr ) {
+                variant = mut_data->second.variant->id;
+            }
         }
-        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        std::string variant;
-        if( mut.second.variant != nullptr ) {
-            variant = mut.second.variant->id;
-        }
         mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, variant } );
     }
 
@@ -3902,8 +3952,24 @@ int Character::ranged_per_mod() const
 
 int Character::get_lifestyle() const
 {
-    return lifestyle;
+    // gets your health_tally variable + the factor of your bmi on your healthiness.
+
+    // being over or underweight makes your "effective healthiness" lower.
+    // for example, you have a lifestyle of 0 and a bmi_fat of 15 (border between obese and very obese)
+    // 0 - 25 - 0 = -25. So your "effective lifestyle" is -25 (feel a little cruddy)
+    // ex2 you have a lifestyle of 50 and a bmi_fat of 15 because you get exercise and eat well
+    // 50 - 25 - 0 = 25. So your "effective lifestyle" is 25 (feel decent despite being obese)
+    // ex3 you have a lifestyle of -50 and a bmi_fat of 15 because you eat candy and don't exercise
+    // -50 - 25 - 0 = -75. So your "effective lifestyle" is -75 (you'd feel crappy normally but because of your weight you feel worse)
+
+    const float bmi = get_bmi_fat();
+    int over_factor = std::round( std::max( 0.0f,
+                                            5 * ( bmi - character_weight_category::obese ) ) );
+    int under_factor = std::round( std::max( 0.0f,
+                                   50 * ( character_weight_category::normal - bmi ) ) );
+    return std::max( lifestyle - ( over_factor + under_factor ), -200 );
 }
+
 int Character::get_daily_health() const
 {
     return daily_health;
@@ -4496,8 +4562,8 @@ void Character::update_health()
 {
     // Limit daily_health to [-200, 200].
     // This also sets approximate bounds for the character's health.
-    if( get_daily_health() > get_max_healthy() ) {
-        set_daily_health( get_max_healthy() );
+    if( get_daily_health() > 200 ) {
+        set_daily_health( 200 );
     } else if( get_daily_health() < -200 ) {
         set_daily_health( -200 );
     }
@@ -5413,14 +5479,8 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
-bool Character::is_immune_field( const field_type_id &fid ) const
+bool Character::check_immunity_data( const field_immunity_data &ft ) const
 {
-    // Obviously this makes us invincible
-    if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
-        return true;
-    }
-    // Check to see if we are immune
-    const field_type &ft = fid.obj();
     for( const json_character_flag &flag : ft.immunity_data_flags ) {
         if( has_flag( flag ) ) {
             return true;
@@ -5471,6 +5531,23 @@ bool Character::is_immune_field( const field_type_id &fid ) const
         }
     }
 
+    return false;
+}
+
+bool Character::is_immune_field( const field_type_id &fid ) const
+{
+    // Obviously this makes us invincible
+    if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
+        return true;
+    }
+
+    // Check to see if we are immune
+    const field_type &ft = fid.obj();
+
+    if( check_immunity_data( ft.immunity_data ) ) {
+        return true;
+    }
+
     if( ft.has_elec ) {
         return is_elec_immune();
     }
@@ -5502,7 +5579,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     // FIXME: Hardcoded damage types
     if( eff == effect_downed ) {
-        return has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+        return is_knockdown_immune();
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_heat );
     } else if( eff == effect_deaf ) {
@@ -5541,6 +5618,16 @@ bool Character::is_rad_immune() const
 {
     bool has_helmet = false;
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( flag_RAD_PROOF );
+}
+
+bool Character::is_knockdown_immune() const
+{
+    // hard code for old tentacle mutation
+    bool knockdown_immune = has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+
+    // if we have 1.0 or greater knockdown resist
+    knockdown_immune |= calculate_by_enchantment( 0.0, enchant_vals::mod::KNOCKDOWN_RESIST ) >= 1;
+    return knockdown_immune;
 }
 
 int Character::throw_range( const item &it ) const
@@ -5676,7 +5763,12 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
     const double motion_vision_range = calculate_by_enchantment( 0.0,
                                        enchant_vals::mod::MOTION_VISION_RANGE );
+    const double sight_range_nether = calculate_by_enchantment( 0.0,
+                                      enchant_vals::mod::SIGHT_RANGE_NETHER );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
         return true;
     }
     if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
@@ -6253,6 +6345,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
     }
 
+    time_duration final_time = 1_hours; //just in case this somehow winds up undefined
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
@@ -6308,8 +6401,22 @@ void Character::mend_item( item_location &&obj, bool interactive )
             } else if( fix.mod_damage < 0 ) {
                 descr += string_format( _( "<color_red>Applies</color> %d damage.\n" ), -fix.mod_damage );
             }
+
+            final_time = fix.time;
+            // if an item has a time saver flag multiply total time by that flag's time factor
+            for( const auto &[flag_id, mult] : fix.time_save_flags ) {
+                if( obj->has_flag( flag_id ) ) {
+                    final_time *= mult;
+                }
+            }
+            // if you have a time saver prof multiply total time by that prof's time factor
+            for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
+                if( has_proficiency( proficiency_id ) ) {
+                    final_time *= mult;
+                }
+            }
             descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
-                                    to_string_approx( fix.time ) );
+                                    to_string_approx( final_time ) );
             if( fix.skills.empty() ) {
                 descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
@@ -6356,7 +6463,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( fix.time ) );
+        assign_activity( ACT_MEND_ITEM, to_moves<int>( final_time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( fix.id_ );
         activity.targets.push_back( std::move( obj ) );
@@ -7384,7 +7491,7 @@ ret_val<void> Character::can_wield( const item &it ) const
     monster *mount = mounted_creature.get();
     if( it.is_two_handed( *this ) && ( !has_two_arms_lifting() ||
                                        worn_with_flag( flag_RESTRICT_HANDS ) ) &&
-        !( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
+        !( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
            mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
         if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
             return ret_val<void>::make_failure(
@@ -7397,7 +7504,7 @@ ret_val<void> Character::can_wield( const item &it ) const
                                                 it.tname() );
         }
     }
-    if( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
+    if( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
         mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
         return ret_val<void>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
@@ -7617,9 +7724,15 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-    if( worn_with_flag( flag_REQUIRES_BALANCE ) && !is_on_ground() ) {
+
+
+    map &here = get_map();
+    const optional_vpart_position veh_part = here.veh_at( pos() );
+    bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
+
+    if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
         int rolls = 4;
-        if( worn_with_flag( flag_ROLLER_ONE ) ) {
+        if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
             rolls += 2;
         }
         if( has_trait( trait_PROF_SKATER ) ) {
@@ -7639,6 +7752,9 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
                 }
             } else {
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
+            }
+            if( in_skater_vehicle ) {
+                g->fling_creature( this, rng_float( 0_degrees, 360_degrees ), 10 );
             }
             // This kind of downing is not subject to immunity.
             add_effect( effect_downed, 2_turns, false, 0, true );
@@ -8775,7 +8891,7 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
 units::energy Character::available_ups() const
 {
     units::energy available_charges = 0_kJ;
-    if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+    if( is_mounted() && mounted_creature.get()->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         auto *mons = mounted_creature.get();
         available_charges += units::from_kilojoule( mons->battery_item->ammo_remaining() );
     }
@@ -8795,7 +8911,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     const units::energy wanted_qty = qty;
 
     // UPS from mounted mech
-    if( qty != 0_kJ && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+    if( qty != 0_kJ && is_mounted() && mounted_creature.get()->has_flag( mon_flag_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
         qty -= mons->use_mech_power( qty );
@@ -8812,7 +8928,12 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
+                        i->type->tool->fuel_efficiency );
+            } else {
+                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+            }
         }
     }
 
@@ -11135,6 +11256,12 @@ bool Character::is_hallucination() const
 }
 
 bool Character::is_electrical() const
+{
+    // for now this is false. In the future should have rules
+    return false;
+}
+
+bool Character::is_nether() const
 {
     // for now this is false. In the future should have rules
     return false;

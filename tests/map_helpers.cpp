@@ -1,5 +1,7 @@
 #include "map_helpers.h"
 
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <list>
 #include <map>
@@ -146,10 +148,10 @@ void clear_map_and_put_player_underground()
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,
                              const bool death_drops )
 {
-    monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
-    added->death_drops = death_drops;
-    cata_assert( added );
-    return *added;
+    monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );
+    REQUIRE( test_monster_ptr );
+    test_monster_ptr->death_drops = death_drops;
+    return *test_monster_ptr;
 }
 
 // Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
@@ -174,11 +176,12 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
     constexpr int z_surface = 0;
     constexpr int z_bottom = -2;
 
-    clear_map( z_bottom, z_surface );
+    clear_map( z_bottom - 1, z_surface + 1 );
 
     map &here = get_map();
-    for( const tripoint &p : here.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, z_bottom ) ) ) {
+    const tripoint p1( 0, 0, z_bottom - 1 );
+    const tripoint p2( MAPSIZE * SEEX, MAPSIZE * SEEY, z_surface + 1 );
+    for( const tripoint &p : here.points_in_rectangle( p1, p2 ) ) {
 
         if( p.z == z_surface ) {
             here.ter_set( p, surface );
@@ -186,6 +189,10 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
             here.ter_set( p, mid );
         } else if( p.z == z_bottom ) {
             here.ter_set( p, bottom );
+        } else if( p.z < z_bottom ) {
+            here.ter_set( p, t_rock );
+        } else if( p.z > z_surface ) {
+            here.ter_set( p, t_open_air );
         }
     }
 

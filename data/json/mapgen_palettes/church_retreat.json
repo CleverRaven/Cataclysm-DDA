@@ -23,23 +23,8 @@
       "*": "t_region_shrub",
       "o": "t_dirtmound",
       "G": "t_grave",
-      "#": "t_open_air",
-      "q": "t_railing",
-      "%": "t_open_air_rooved",
-      "z": "t_shingle_flat_roof",
-      "Z": "t_glass_roof",
-      "(": "t_gutter_west",
-      ")": "t_gutter_east",
-      "=": "t_gutter_north",
-      "-": "t_gutter_south",
       "<": "t_wood_stairs_up",
-      ">": "t_wood_stairs_down",
-      "W": "t_shingle_flat_roof",
-      "w": "t_shingle_flat_roof",
-      "j": "t_shingle_flat_roof",
-      "t": "t_gutter_downspout",
-      ":": "t_gutter_drop",
-      "'": "t_concrete"
+      "t": "t_gutter_downspout"
     },
     "furniture": {
       "X": "f_console_broken",
@@ -74,10 +59,6 @@
       "!": "f_shower",
       "f": "f_filing_cabinet",
       "Y": "f_rack_coat",
-      "x": [ [ "f_cardboard_box", 3 ], [ "f_crate_o", 1 ] ],
-      "W": "f_chimney",
-      "w": "f_air_conditioner",
-      "j": "f_cellphone_booster",
       "p": "f_home_furnace",
       "0": "f_locker",
       "l": "f_locker",
@@ -130,16 +111,6 @@
         { "item": "SUS_pantry", "chance": 20 },
         { "item": "snacks", "chance": 75, "repeat": [ 4, 8 ] },
         { "item": "SUS_coffee_cupboard", "chance": 25 }
-      ],
-      "x": [
-        { "item": "preserved_food", "chance": 85, "repeat": [ 6, 8 ] },
-        { "item": "foodintincan", "chance": 75, "repeat": [ 6, 8 ] },
-        { "item": "dry_goods", "chance": 55, "repeat": [ 3, 6 ] },
-        { "item": "big_canned_food", "chance": 33, "repeat": [ 3, 6 ] },
-        { "item": "irradiated_food", "chance": 25, "repeat": [ 1, 5 ] },
-        { "item": "MRE", "chance": 10, "repeat": [ 1, 5 ] },
-        { "item": "pantry_liquids", "chance": 5, "repeat": [ 1, 3 ] },
-        { "item": "wines_worthy", "chance": 5, "repeat": [ 1, 3 ] }
       ],
       "M": [
         { "item": "SUS_bathroom_medicine", "chance": 100 },

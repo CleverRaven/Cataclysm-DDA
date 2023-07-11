@@ -1123,6 +1123,16 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
             }
         }
     }
+    if( !no_rigid.empty() ) {
+        std::vector<sub_bodypart_id> no_rigid_vec( no_rigid.begin(), no_rigid.end() );
+        std::set<translation, localized_comparator> to_print = body_part_type::consolidate( no_rigid_vec );
+        std::string bps = enumerate_as_string( to_print.begin(),
+        to_print.end(), []( const translation & t ) {
+            return t.translated();
+        } );
+        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can't put hard armor on: %s</bold>:" ),
+                           bps ) );
+    }
 }
 
 void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
@@ -1186,7 +1196,8 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             const std::vector<damage_info_order> &all_ablate = damage_info_order::get_all(
                         damage_info_order::info_type::ABLATE );
             for( const damage_info_order &dio : all_ablate ) {
-                std::string label = string_format( idx == 0 ? _( "<bold>Protection</bold>: %s: " ) : "%s: ",
+                std::string label = string_format( idx == 0 ? _( "<bold>Protection</bold>: %s: " ) :
+                                                   pgettext( "protection info", " %s: " ),
                                                    uppercase_first_letter( dio.dmg_type->name.translated() ) );
                 iteminfo::flags flgs = idx == all_ablate.size() - 1 ?
                                        iteminfo::is_decimal : iteminfo::no_newline | iteminfo::is_decimal;
@@ -1424,6 +1435,20 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_NO_SPACE, _( "ablative pocket already contains a plate" ) );
         }
+    }
+
+    if( data->ablative ) {
+        if( it.is_rigid() ) {
+            for( const sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
+                if( it.is_bp_rigid( sbp ) && std::count( no_rigid.begin(), no_rigid.end(), sbp ) != 0 ) {
+                    return ret_val<item_pocket::contain_code>::make_failure(
+                               contain_code::ERR_NO_SPACE,
+                               _( "ablative pocket is being worn with hard armor can't support hard plate" ) );
+                }
+            }
+        }
+
+        return ret_val<item_pocket::contain_code>::make_success();
     }
 
     if( data->holster && !contents.empty() ) {
@@ -2243,6 +2268,11 @@ void item_pocket::delete_preset( const std::vector<item_pocket::favorite_setting
     save_presets();
 }
 
+void item_pocket::set_no_rigid( const std::set<sub_bodypart_id> &is_no_rigid )
+{
+    no_rigid = is_no_rigid;
+}
+
 void item_pocket::load_presets()
 {
     std::ifstream fin;
@@ -2513,6 +2543,16 @@ void item_pocket::favorite_settings::set_unloadable( bool flag )
 void item_pocket::favorite_settings::set_preset_name( const std::string &s )
 {
     preset_name = s;
+}
+
+void item_pocket::favorite_settings::set_was_edited()
+{
+    player_edited = true;
+}
+
+bool item_pocket::favorite_settings::was_edited() const
+{
+    return player_edited;
 }
 
 const std::optional<std::string> &item_pocket::favorite_settings::get_preset_name() const

@@ -66,6 +66,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_down_bed",
+    "name": "Build Down Bed/Bunk bed"
+  },
+  {
+    "type": "construction_group",
     "id": "build_bookcase",
     "name": "Build Bookcase"
   },
@@ -113,6 +118,11 @@
     "type": "construction_group",
     "id": "build_charcoal_kiln",
     "name": "Build Charcoal Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chest",
+    "name": "Build Wooden Chest"
   },
   {
     "type": "construction_group",
@@ -248,6 +258,16 @@
     "type": "construction_group",
     "id": "build_earthbag_wall",
     "name": "Build Earthbag Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_showjump_end",
+    "name": "Build Show Jump End"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_showjump",
+    "name": "Place Show Jump"
   },
   {
     "type": "construction_group",
@@ -1041,6 +1061,11 @@
   },
   {
     "type": "construction_group",
+    "id": "make_stooking_spot",
+    "name": "Make stooking spot"
+  },
+  {
+    "type": "construction_group",
     "id": "make_gravel_floor",
     "name": "Make Gravel Floor"
   },
@@ -1246,6 +1271,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_catalytic_cracking_reactor",
+    "name": "Place Catalytic Cracking Reactor"
+  },
+  {
+    "type": "construction_group",
     "id": "place_hydraulic_press",
     "name": "Place Hydraulic Press"
   },
@@ -1263,6 +1293,11 @@
     "type": "construction_group",
     "id": "place_heater_small",
     "name": "Place Small Heater"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_wall_light",
+    "name": "Place Wall Light"
   },
   {
     "type": "construction_group",
@@ -1353,6 +1388,11 @@
     "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_standing_directed_floodlight",
+    "name": "Place Standing Directed Floodlight"
   },
   {
     "type": "construction_group",
@@ -1681,6 +1721,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_active_backup_generator",
+    "name": "Place backup generator"
+  },
+  {
+    "type": "construction_group",
     "id": "build_rope_hoist",
     "name": "Hang Simple Rope Hoist"
   },
@@ -1693,6 +1738,11 @@
     "type": "construction_group",
     "id": "build_chain_hoist",
     "name": "Build Chain & Tackle Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "clear_rubble",
+    "name": "Clear rubble"
   },
   {
     "type": "construction_group",

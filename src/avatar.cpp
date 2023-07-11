@@ -160,24 +160,11 @@ avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
 
-static void swap_npc( npc &one, npc &two, npc &tmp )
-{
-    tmp = std::move( one );
-    one = std::move( two );
-    two = std::move( tmp );
-}
-
 void avatar::control_npc( npc &np, const bool debug )
 {
     if( !np.is_player_ally() ) {
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
         return;
-    }
-    if( !shadow_npc ) {
-        shadow_npc = std::make_unique<npc>();
-        shadow_npc->op_of_u.trust = 10;
-        shadow_npc->op_of_u.value = 10;
-        shadow_npc->set_attitude( NPCATT_FOLLOW );
     }
     character_id new_character = np.getID();
     const std::function<void( npc & )> update_npc = [new_character]( npc & guy ) {
@@ -185,13 +172,12 @@ void avatar::control_npc( npc &np, const bool debug )
     };
     overmap_buffer.foreach_npc( update_npc );
     mission().update_world_missions_character( get_avatar().getID(), new_character );
-    npc tmp;
     // move avatar character data into shadow npc
-    swap_character( *shadow_npc, tmp );
+    swap_character( get_shadow_npc() );
     // swap target npc with shadow npc
-    swap_npc( *shadow_npc, np, tmp );
+    std::swap( get_shadow_npc(), np );
     // move shadow npc character data into avatar
-    swap_character( *shadow_npc, tmp );
+    swap_character( get_shadow_npc() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
     // the previous avatar character is now a follower
@@ -274,30 +260,34 @@ void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
     player_map_memory->prepare_region( p1, p2 );
 }
 
-const memorized_terrain_tile &avatar::get_memorized_tile( const tripoint &pos ) const
+const memorized_tile &avatar::get_memorized_tile( const tripoint &p ) const
 {
-    return player_map_memory->get_tile( pos );
+    if( should_show_map_memory() ) {
+        return player_map_memory->get_tile( p );
+    }
+    return mm_submap::default_tile;
 }
 
-void avatar::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation )
+void avatar::memorize_terrain( const tripoint &p, const std::string_view id,
+                               int subtile, int rotation )
 {
-    player_map_memory->memorize_tile( pos, ter, subtile, rotation );
+    player_map_memory->set_tile_terrain( p, id, subtile, rotation );
 }
 
-void avatar::memorize_symbol( const tripoint &pos, const int symbol )
+void avatar::memorize_decoration( const tripoint &p, const std::string_view id,
+                                  int subtile, int rotation )
 {
-    player_map_memory->memorize_symbol( pos, symbol );
+    player_map_memory->set_tile_decoration( p, id, subtile, rotation );
 }
 
-int avatar::get_memorized_symbol( const tripoint &p ) const
+void avatar::memorize_symbol( const tripoint &p, char32_t symbol )
 {
-    return player_map_memory->get_symbol( p );
+    player_map_memory->set_tile_symbol( p, symbol );
 }
 
-void avatar::clear_memorized_tile( const tripoint &pos )
+void avatar::memorize_clear_decoration( const tripoint &p, std::string_view prefix )
 {
-    player_map_memory->clear_memorized_tile( pos );
+    player_map_memory->clear_tile_decoration( p, prefix );
 }
 
 std::vector<mission *> avatar::get_active_missions() const
@@ -674,38 +664,36 @@ bool avatar::read( item_location &book, item_location ereader )
     return true;
 }
 
-void avatar::grab( object_type grab_type, const tripoint &grab_point )
+void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
 {
     const auto update_memory =
     [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
-            const optional_vpart_position vp = m.veh_at( pos() + gpoint );
-            if( vp ) {
-                const vehicle &veh = vp->vehicle();
-                for( const tripoint &target : veh.get_points() ) {
+            if( const optional_vpart_position ovp = m.veh_at( pos() + gpoint ) ) {
+                for( const tripoint &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        clear_memorized_tile( m.getabs( target ) );
+                        memorize_clear_decoration( m.getabs( target ), /* prefix = */ "vp_" );
                     }
                     m.set_memory_seen_cache_dirty( target );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                clear_memorized_tile( m.getabs( pos() + gpoint ) );
+                memorize_clear_decoration( m.getabs( pos() + gpoint ) );
             }
             m.set_memory_seen_cache_dirty( pos() + gpoint );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.
-    update_memory( this->grab_type, this->grab_point, false );
+    update_memory( grab_type, grab_point, /* erase = */ false );
+
+    grab_type = grab_type_new;
+    grab_point = grab_point_new;
+
     // Clear the map memory for the area covered by the vehicle/furniture/etc to
     // eliminate ghost vehicles/furnitures/etc.
-    // FIXME: change map memory to memorize all memorizable objects and only erase vehicle part memory.
-    update_memory( grab_type, grab_point, true );
-
-    this->grab_type = grab_type;
-    this->grab_point = grab_point;
+    update_memory( grab_type, grab_point, /* erase = */ true );
 
     path_settings->avoid_rough_terrain = grab_type != object_type::NONE;
 }
@@ -795,6 +783,13 @@ void avatar::identify( const item &item )
     if( num_total_recipes < reading->recipes.size() ) {
         add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
     }
+}
+
+void avatar::clear_nutrition()
+{
+    calorie_diary.clear();
+    calorie_diary.emplace_front();
+    consumption_history.clear();
 }
 
 void avatar::clear_identified()
@@ -2071,6 +2066,24 @@ bool avatar::query_yn( const std::string &mes ) const
 void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
+}
+
+npc &avatar::get_shadow_npc()
+{
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    return *shadow_npc;
+}
+
+void avatar::export_as_npc( const cata_path &path )
+{
+    swap_character( get_shadow_npc() );
+    get_shadow_npc().export_to( path );
+    swap_character( get_shadow_npc() );
 }
 
 void monster_visible_info::remove_npc( npc *n )

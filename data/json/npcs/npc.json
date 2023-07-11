@@ -34,6 +34,17 @@
   },
   {
     "type": "npc",
+    "id": "deserter",
+    "//": "Generic hostile military deserter.",
+    "name_suffix": "Deserter",
+    "class": "NC_SOLDIER",
+    "attitude": 10,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
     "id": "marloss_voice",
     "//": "Generic Marloss Priest who leads pilgrim bands.",
     "name_suffix": "Marloss Voice",

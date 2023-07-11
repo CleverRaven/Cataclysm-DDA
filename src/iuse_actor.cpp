@@ -132,6 +132,8 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
+static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
+
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
@@ -183,7 +185,7 @@ void iuse_transform::load( const JsonObject &obj )
     }
     obj.read( "target_ammo", ammo_type );
 
-    obj.read( "countdown", countdown );
+    obj.read( "target_timer", target_timer );
 
     if( !ammo_type.is_empty() && !container.is_empty() ) {
         obj.throw_error_at( "target_ammo", "Transform actor specified both ammo type and container type" );
@@ -351,8 +353,11 @@ void iuse_transform::do_transform( Character &p, item &it ) const
             it.seal();
         }
     }
-    obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
-    obj->active = active || obj->item_counter || obj->has_temperature();
+
+    if( target_timer > 0_seconds ) {
+        obj->countdown_point = calendar::turn + target_timer;
+    }
+    obj->active = active || obj->has_temperature() || target_timer > 0_seconds;
     if( p.is_worn( *obj ) ) {
         if( !obj->is_armor() ) {
             item_location il = item_location( p, obj );
@@ -428,8 +433,9 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
-    if( countdown > 0 ) {
-        dump.emplace_back( "TOOL", _( "Countdown: " ), countdown );
+
+    if( target_timer > 0_seconds ) {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( target_timer ) );
     }
 
     const auto *explosion_use = dummy.get_use( "explosion" );
@@ -491,64 +497,37 @@ void unpack_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        _( "This item could be unpacked to receive something." ) );
 }
 
-std::unique_ptr<iuse_actor> countdown_actor::clone() const
+std::unique_ptr<iuse_actor> message_iuse::clone() const
 {
-    return std::make_unique<countdown_actor>( *this );
+    return std::make_unique<message_iuse>( *this );
 }
 
-void countdown_actor::load( const JsonObject &obj )
+void message_iuse::load( const JsonObject &obj )
 {
     obj.read( "name", name );
-    obj.read( "interval", interval );
     obj.read( "message", message );
 }
 
-std::optional<int> countdown_actor::use( Character &p, item &it, bool t,
-        const tripoint &pos ) const
+std::optional<int> message_iuse::use( Character &p, item &it, bool t,
+                                      const tripoint &pos ) const
 {
     if( t ) {
         return std::nullopt;
     }
 
-    if( it.active ) {
-        return std::nullopt;
-    }
-
     if( p.sees( pos ) && !message.empty() ) {
-        p.add_msg_if_player( m_neutral, message.translated(), it.tname() );
+        p.add_msg_if_player( m_info, message.translated(), it.tname() );
     }
 
-    it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
-    it.active = true;
     return 0;
 }
 
-ret_val<void> countdown_actor::can_use( const Character &, const item &it, bool,
-                                        const tripoint & ) const
-{
-    if( it.active ) {
-        return ret_val<void>::make_failure( _( "It's already been triggered." ) );
-    }
-
-    return ret_val<void>::make_success();
-}
-
-std::string countdown_actor::get_name() const
+std::string message_iuse::get_name() const
 {
     if( !name.empty() ) {
         return name.translated();
     }
     return iuse_actor::get_name();
-}
-
-void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
-{
-    dump.emplace_back( "TOOL", _( "Countdown: " ),
-                       interval > 0 ? interval : it.type->countdown_interval );
-    const iuse_actor *countdown_actor = it.type->countdown_action.get_actor_ptr();
-    if( countdown_actor != nullptr ) {
-        countdown_actor->info( it, dump );
-    }
 }
 
 std::unique_ptr<iuse_actor> explosion_iuse::clone() const
@@ -912,7 +891,7 @@ std::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const 
     p.moves -= moves;
 
     newmon.ammo = newmon.type->starting_ammo;
-    if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
+    if( !newmon.has_flag( mon_flag_INTERIOR_AMMO ) ) {
         for( std::pair<const itype_id, int> &amdef : newmon.ammo ) {
             item ammo_item( amdef.first, calendar::turn_zero );
             const int available = p.charges_of( amdef.first );
@@ -1372,8 +1351,7 @@ std::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
     }
 
     // skill gains are handled by the activity, but stored here in the index field
-    const int potential_skill_gain =
-        moves_modifier + moves_cost_fast / 100.0 + 2;
+    const int potential_skill_gain = moves_modifier * ( std::min( 10.0, moves_cost_fast / 100.0 ) + 2 );
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
     p.activity.targets.emplace_back( p, &it );
@@ -2781,94 +2759,47 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
 }
 
 // Find the difficulty of the recipe for the item type.
-// If the recipe is not known by the player, +1 to difficulty
-// If player doesn't meet the requirements of the recipe, +1 to difficulty
-// Returns -1 if no recipe is found
-static std::pair<int, bool> find_repair_difficulty( const Character &pl, const itype &it,
-        bool training )
+// Base difficulty is the repair difficulty of the hardest thing to repair it is made of.
+// if the training variable is true, then we're just repairing the easiest part of the thing.
+// so instead take the easiest thing to repair it is made of.
+static std::pair<int, bool> find_repair_difficulty( const itype &it )
 {
-    int min = -1;
-    const int def_diff = 5;
-    const itype_id iid = it.get_id();
-    bool found = false;
+    int difficulty = -1;
     bool difficulty_defined = false;
 
-    if( !it.recipes.empty() ) {
-        for( const recipe_id &rid : it.recipes ) {
-            const recipe &r = recipe_id( rid ).obj();
-            if( !r ) {
-                continue;
+    if( !it.materials.empty() ) {
+        for( const auto &mats : it.materials ) {
+            if( mats.first->repair_difficulty() && difficulty < mats.first->repair_difficulty() ) {
+                difficulty = mats.first->repair_difficulty();
+                difficulty_defined = true;
             }
-            // If this is the first time we found a recipe
-            if( !found ) {
-                min = def_diff;
-                found = true;
-            }
-
-            int cur_difficulty = r.difficulty;
-
-            // Recipes with difficulty 0 are not present. Difficulty is considered undefined.
-            difficulty_defined = cur_difficulty != 0 || difficulty_defined;
-
-            if( !training && !pl.knows_recipe( &r ) ) {
-                cur_difficulty++;
-            }
-
-            if( !training && !pl.has_recipe_requirements( r ) ) {
-                cur_difficulty++;
-            }
-            min = std::min( cur_difficulty, min );
         }
     }
 
-    recipe uncraft_recipe = recipe_dictionary::get_uncraft( iid );
-    if( uncraft_recipe ) {
-        found = true;
-        int uncraft_difficulty = uncraft_recipe.difficulty;
-        if( difficulty_defined ) {
-            // Both craft recipe and uncraft recipe are defined, dividing by the sum
-            if( uncraft_difficulty > 0 ) {
-                min = std::max( 1, min + uncraft_difficulty ) / 2;
-            }
-        } else {
-            difficulty_defined = uncraft_difficulty != 0;
-            min = def_diff;
-        }
-    }
-
-    //Couldn't find recipe, try to find from obsolete recipes
-    if( !found ) {
-        auto obsoletes = recipe_dict.find_obsoletes( iid );
-        if( !obsoletes.empty() ) {
-            min = def_diff;
-        }
-    }
-    return { min, difficulty_defined };
+    return { difficulty, difficulty_defined };
 }
 
-// Returns the level of the lowest level recipe that results in item of `fix`'s type
+// Returns the level of the most difficult material to repair in the item
 // Or if it has a repairs_like, the lowest level recipe that results in that.
-// If the recipe doesn't exist, difficulty is 10
-int repair_item_actor::repair_recipe_difficulty( const Character &pl,
-        const item &fix, bool training ) const
+// If none exist the difficulty is 10
+int repair_item_actor::repair_recipe_difficulty( const item &fix ) const
 {
     std::pair<int, bool> ret;
-    ret = find_repair_difficulty( pl, *fix.type, training );
+    ret = find_repair_difficulty( *fix.type );
     int diff = ret.first;
     bool defined = ret.second;
 
-    // See if there's a repairs_like that has a recipe
+    // See if there's a repairs_like that has a defined difficulty
     if( !defined && !fix.type->repairs_like.is_empty() ) {
-        ret = find_repair_difficulty( pl, fix.type->repairs_like.obj(), training );
+        ret = find_repair_difficulty( fix.type->repairs_like.obj() );
         if( ret.second ) {
             diff = ret.first;
-        } else {
-            diff = std::min( std::max( 0, diff ), ret.first );
+            defined = true;
         }
     }
 
-    // If we still don't find a recipe, difficulty is 10
-    if( diff == -1 ) {
+    // If we still don't find a difficulty, difficulty is 10
+    if( !defined ) {
         diff = 10;
     }
 
@@ -2941,7 +2872,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     /** @EFFECT_TAILOR randomly improves clothing repair efforts */
     /** @EFFECT_MECHANICS randomly improves metal repair efforts */
     const float skill = pl.get_skill_level( used_skill );
-    const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
+    const int material_difficulty = repair_recipe_difficulty( fix );
     int action_difficulty = 0;
     switch( action_type ) {
         case RT_NOTHING: /* fallthrough */
@@ -2957,7 +2888,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
             break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
-            action_difficulty = recipe_difficulty;
+            action_difficulty = material_difficulty;
             break;
         default:
             // 5 is obsoleted reinforcing, remove after 0.H
@@ -2965,16 +2896,24 @@ std::pair<float, float> repair_item_actor::repair_chance(
             break;
     }
 
-    const int difficulty = recipe_difficulty + action_difficulty;
-    // Sample numbers:
-    // Item   | Damage | Skill | Dex | Success | Failure
-    // Hoodie |    2   |   3   |  10 |   6%    |   0%
-    // Hazmat |    1   |   10  |  10 |   8%    |   0%
-    // Hazmat |    1   |   5   |  20 |   0%    |   2%
-    // t-shirt|    4   |   1   |  5  |   2%    |   3%
-    // Duster |    2   |   5   |  5  |   10%   |   0%
-    // Duster |    2   |   2   |  10 |   4%    |   1%
-    // Duster | Refit  |   2   |  10 |   0%    |   N/A
+    const int difficulty = material_difficulty + action_difficulty;
+    // Sample numbers - cotton and wool have diff 1, plastic diff 3 and kevlar diff 4:
+    // This assumes that training is false, and under almost all circumstances that should be the case
+    // Item     | Damage | Skill | Dex | Success | Failure
+    // Hoodie   |   1    |   0   |  8  |  4.0%   |  1.4%
+    // Hoodie   | Refit  |   0   |  8  |  2.0%   |  2.4%
+    // Hoodie   | Refit  |   2   |  8  |  6.0%   |  0.4%
+    // Hoodie   | Refit  |   2   |  12 |  6.0%   |  0.0%
+    // Hoodie   | Refit  |   4   |  8  |  10.0%  |  0.0%
+    // Socks    |   3    |   0   |  8  |  2.0%   |  2.4%
+    // Boots    |   1    |   0   |  8  |  0.0%   |  3.4%
+    // Raincoat | Refit  |   2   |  8  |  2.0%   |  2.4%
+    // Raincoat | Refit  |   2   |  12 |  2.0%   |  1.6%
+    // Ski mask | Refit  |   2   |  8  |  4.0%   |  1.4%
+    // Raincoat | Refit  |   2   |  8  |  4.0%   |  1.4%
+    // Turnout  | Refit  |   2   |  8  |  0.0%   |  4.4%
+    // Turnout  | Refit  |   4   |  8  |  2.0%   |  2.4%
+
     float success_chance = ( 10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f ) / 100.0f;
     /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
     float damage_chance = ( difficulty - skill - ( tool_quality + pl.dex_cur ) / 5.0f ) / 100.0f;
@@ -3078,7 +3017,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         action = default_action( *fix, current_skill_level );
     }
     const auto chance = repair_chance( pl, *fix, action );
-    int practice_amount = repair_recipe_difficulty( pl, *fix, true ) / 2 + 1;
+    int practice_amount = repair_recipe_difficulty( *fix ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
@@ -4745,8 +4684,8 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
 
             const itype_id item_id = it.typeId();
             bool vpid_found = false;
-            for( const auto &e : vpart_info::all() ) {
-                if( e.second.base_item == item_id ) {
+            for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+                if( vpi.base_item == item_id ) {
                     vpid_found = true;
                     break;
                 }
@@ -4850,34 +4789,52 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             };
 
             const itype_id item_id = it.typeId();
-            bool vpid_found = false;
-            for( const auto &e : vpart_info::all() ) {
-                if( e.second.base_item == item_id ) {
-                    vpid_found = true;
+            vpart_id vpid = vpart_id::NULL_ID();
+            for( const vpart_info &e : vehicles::parts::get_all() ) {
+                if( e.base_item == item_id ) {
+                    vpid = e.id;
                     break;
                 }
             }
 
-            if( !vpid_found ) {
-                debugmsg( "item %s is not base item of any vehicle part!  Using hd_tow_cable", item_id.c_str() );
+            if( vpid.is_null() ) {
+                debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
+                return std::nullopt;
             }
-            const vpart_id vpid( vpid_found ? item_id.str() : "hd_tow_cable" );
 
-            point vcoords = cable->link->t_mount;
-            vehicle_part prev_part( vpid, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
+            const point vcoords1 = cable->link->t_mount;
+            const point vcoords2 = t_vp->mount();
+
+            const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
+            if( !can_mount1.success() ) {
+                //~ %1$s - tow cable name, %2$s - the reason why it failed
+                p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+                                     it.type_name(), can_mount1.str() );
+                return std::nullopt;
+            }
+
+            const ret_val<void> can_mount2 = target_veh->can_mount( vcoords2, *vpid );
+            if( !can_mount2.success() ) {
+                //~ %1$s - tow cable name, %2$s - the reason why it failed
+                p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+                                     it.type_name(), can_mount2.str() );
+                return std::nullopt;
+            }
+
+            vehicle_part prev_part( vpid, item( it ) );
             prev_part.target.first = here.getabs( pnt );
             prev_part.target.second = target_veh->global_square_location().raw();
-            prev_veh->install_part( vcoords, std::move( prev_part ) );
+            prev_veh->install_part( vcoords1, std::move( prev_part ) );
 
-            vcoords = t_vp->mount();
-            vehicle_part target_part( vpid, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
+            vehicle_part target_part( vpid, item( it ) );
             target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( cable->link->t_mount ) );
             target_part.target.second = prev_veh->global_square_location().raw();
-            target_veh->install_part( vcoords, std::move( target_part ) );
+            target_veh->install_part( vcoords2, std::move( target_part ) );
 
             if( p.has_item( it ) ) {
-                p.add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
-                                     prev_veh->name, target_veh->name );
+                //~ %1$s - tow cable name, %2$s - first vehicle name, %3$s - second vehicle name
+                p.add_msg_if_player( m_good, _( "You attach %1$s to %2$s and %3$s." ),
+                                     it.type_name(), prev_veh->disp_name(), target_veh->disp_name() );
             }
             if( choice == 10 ) {
                 target_veh->tow_data.set_towing( target_veh, prev_veh );

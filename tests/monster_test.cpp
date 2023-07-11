@@ -32,6 +32,9 @@ class item;
 
 using move_statistics = statistics<int>;
 
+static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
 
 static int moves_to_destination( const std::string &monster_type,
@@ -354,8 +357,8 @@ TEST_CASE( "monster_extend_flags", "[monster]" )
     // This test verifies that "extend" works on monster flags by checking both
     // those take effect
     const mtype &m = *mon_dog_zombie_brute;
-    CHECK( m.has_flag( MF_SEES ) );
-    CHECK( m.has_flag( MF_PUSH_VEH ) );
+    CHECK( m.has_flag( mon_flag_SEES ) );
+    CHECK( m.has_flag( mon_flag_PUSH_VEH ) );
 }
 
 TEST_CASE( "monster_broken_verify", "[monster]" )

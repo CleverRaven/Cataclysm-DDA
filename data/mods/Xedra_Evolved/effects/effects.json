@@ -429,7 +429,7 @@
     "type": "effect_type",
     "name": [ "Dream Gorging" ],
     "desc": [
-      "You ate a whole dreamdross ingot.  It is too much for your body, but temporarily you have a +6 to your strength and better regeneration."
+      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>recover from traumas</color> faster"
     ],
     "apply_message": "A huge warm wave moves from your stomach through your body.",
     "remove_message": "The warm feeling fades away.",
@@ -452,7 +452,7 @@
     "type": "effect_type",
     "id": "spell_stamina_eff",
     "name": [ "Circulatory" ],
-    "desc": [ "You can't get out of breath." ],
+    "desc": [ "You can't run out of <color_green>breath</color>." ],
     "apply_message": "You feel a deep energy in your muscles, exuberant and coiled.",
     "remove_message": "The energy in your body fades away.",
     "rating": "good",
@@ -467,7 +467,7 @@
     "id": "effect_dodge",
     "type": "effect_type",
     "name": [ "Dodge" ],
-    "desc": [ "Shun their attacks." ],
+    "desc": [ "<color_green>Shun</color> their attacks." ],
     "apply_message": "Your reaction speed is increased.",
     "remove_message": "Your reaction speed turns back to normal.",
     "rating": "good",
@@ -483,7 +483,7 @@
     "id": "effect_endurance",
     "type": "effect_type",
     "name": [ "Endurance" ],
-    "desc": [ "Take the blows.  Don’t let the world kill you.  Your skin can stop a few attacks." ],
+    "desc": [ "Take the blows.  <color_red>Don’t let the world kill you</color>.  Your skin can stop a few attacks." ],
     "apply_message": "Your sense of touch is blunted for a bit, but your skin feels more dense.",
     "remove_message": "The sturdy feeling is gone.",
     "rating": "good",
@@ -495,7 +495,12 @@
           { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
           { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
           { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } }
+          { "value": "ARMOR_BULLET", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_ACID", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_BIO", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_COLD", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_ELEC", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } },
+          { "value": "ARMOR_HEAT", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance')" ] } }
         ]
       }
     ]
@@ -505,7 +510,7 @@
     "type": "effect_type",
     "name": [ "Physical Instrument" ],
     "desc": [
-      "Your body is a tool of destruction.  Use it effectively.  Your attacks are faster and deadlier, and your dodge abilities is better"
+      "Your body is a tool of destruction.  <color_red>Use it effectively</color>.  Your attacks are faster and deadlier, and your dodging ability is better."
     ],
     "apply_message": "You can feel a bubbling energy in your muscles.",
     "remove_message": "The feelings in your muscles subside.",
@@ -529,7 +534,7 @@
     "type": "effect_type",
     "id": "spell_speed_eff",
     "name": [ "Rush" ],
-    "desc": [ "A burst of speed." ],
+    "desc": [ "A burst of <color_green>speed</color>." ],
     "apply_message": "You feel your legs are much longer now.",
     "remove_message": "Your body shrinks back into its normal space.",
     "rating": "good",
@@ -571,7 +576,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Nothing can slow you down, and your pain sensations are dull.",
+    "description": "<color_green>Nothing can slow you down</color>, and your <color_red>pain</color> sensations are dull.",
     "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
     "flags": [ "STEADY" ]
   },
@@ -589,12 +594,100 @@
   {
     "type": "effect_type",
     "id": "terrible_strength",
-    "name": [ "terrible strength" ],
+    "name": [ "Terrible Strength" ],
     "desc": [ "You have a terrible strength!" ],
     "apply_message": "You feel strong!",
     "remove_message": "Your strength deflates.",
     "rating": "good",
     "removes_effects": [ "wicked_quick_hands" ],
     "base_mods": { "str_mod": [ 4 ] }
+  },
+  {
+    "id": "bleed_karma",
+    "type": "effect_type",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Just to make karma arms drop a proper liquid when damaged",
+    "show_intensity": false,
+    "show_in_info": false,
+    "enchantments": [ { "emitter": "emit_blood_karma" } ]
+  },
+  {
+    "type": "mutation",
+    "id": "karma_arms",
+    "name": { "str": "Karma" },
+    "points": 1,
+    "visibility": 10,
+    "description": "Ethereal hands appear behind you back, making you looks like an ancient god.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "karma_arm_up_r" },
+          { "gain": "karma_arm_up_l" },
+          { "gain": "karma_arm_lw_r" },
+          { "gain": "karma_arm_lw_l" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "spell_karma_arms_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "Ethereal, transparent arms grow from your shoulders, and <color_cyan>glow</color>.",
+    "remove_message": "The cyan arms grow dim, and finally disappear.",
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "karma_arms" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "stalker_eyes",
+    "name": { "str": "Stalker's Vision" },
+    "points": 1,
+    "visibility": 1,
+    "description": "Your own eyes transform into the orbits of an unknown creature.  You see much better, both in the light and in the dark.",
+    "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "stalker_eyes_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "Your vision gets dark for a moment, and in a second, a whole new world is revealed under your eyes.",
+    "remove_message": "A great new world under your eyes disappears.",
+    "blocks_effects": [ "glare" ],
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "stalker_eyes" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "devil_tail",
+    "name": { "str": "Devil's Tail" },
+    "points": 1,
+    "visibility": 6,
+    "description": "Not actually devil's, this long tail with triangle point in the end can stretch for a lot, and could easily kill someone nearby.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "devil_tail_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "You feel like your spine stretched enormously.",
+    "remove_message": "Your devil tail disappear in the air.",
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "devil_tail" ] } ]
   }
 ]

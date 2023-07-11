@@ -301,7 +301,7 @@ float Character::crafting_speed_multiplier( const item &craft,
     }
     if( bench_multi <= 0.1f || ( bench_multi <= 0.33f && total_multi <= 0.2f ) ) {
         add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
-                                     " use a workbench or a lifting tool" ), craft.tname() );
+                                     " use a workbench or a lifting tool." ), craft.tname() );
         return 0.0f;
     }
     if( morale_multi <= 0.2f || ( morale_multi <= 0.33f && total_multi <= 0.2f ) ) {
@@ -574,7 +574,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     if( src_pos == tripoint_zero ) {
         inv_pos = pos();
     }
-    if( moves == crafting_cache.moves
+    if( crafting_cache.valid
+        && moves == crafting_cache.moves
         && radius == crafting_cache.radius
         && calendar::turn == crafting_cache.time
         && inv_pos == crafting_cache.position ) {
@@ -615,6 +616,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
     }
 
+    crafting_cache.valid = true;
     crafting_cache.moves = moves;
     crafting_cache.time = calendar::turn;
     crafting_cache.position = inv_pos;
@@ -624,7 +626,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
 
 void Character::invalidate_crafting_inventory()
 {
-    crafting_cache.time = calendar::before_time_starts;
+    crafting_cache.valid = false;
+    crafting_cache.crafting_inventory->clear();
 }
 
 void Character::make_craft( const recipe_id &id_to_make, int batch_size,
@@ -1920,10 +1923,24 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     if( has_trait( trait_DEBUG_HS ) ) {
         return ret;
     }
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    m.reachable_flood_steps( reachable_pts, origin, radius, 1, 100 );
+    return consume_items( m, is, batch, filter, reachable_pts, select_ind );
+}
+
+std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+        const std::function<bool( const item & )> &filter, const std::vector<tripoint> &reachable_pts,
+        bool select_ind )
+{
+    std::list<item> ret;
+
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return ret;
+    }
 
     item_comp selected_comp = is.comp;
 
-    const tripoint &loc = origin;
     const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
     // Count given to use_amount/use_charges, changed by those functions!
     int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
@@ -1931,10 +1948,10 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & usage_from::map ) {
         if( by_charges ) {
-            std::list<item> tmp = m.use_charges( loc, radius, selected_comp.type, real_count, filter );
+            std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, filter,
+            std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, filter,
                                                 select_ind );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
@@ -2252,6 +2269,29 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
             use_charges( tool.comp.type, quantity, radius );
+        }
+    }
+
+    // else, usage_from::none (or usage_from::cancel), so we don't use up any tools;
+}
+
+void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                               const std::vector<tripoint> &reachable_pts, basecamp *bcp )
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return;
+    }
+    const itype *tmp = item::find_type( tool.comp.type );
+    int quantity = tool.comp.count * batch * tmp->charge_factor();
+
+    if( tool.use_from == usage_from::player || tool.use_from == usage_from::both ) {
+        use_charges( tool.comp.type, quantity );
+    }
+    if( tool.use_from == usage_from::map || tool.use_from == usage_from::both ) {
+        m.use_charges( reachable_pts, tool.comp.type, quantity, return_true<item>, bcp );
+        // Map::use_charges() does not handle UPS charges.
+        if( quantity > 0 ) {
+            m.consume_ups( reachable_pts, units::from_kilojoule( quantity ) );
         }
     }
 

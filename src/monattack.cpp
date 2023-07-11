@@ -56,6 +56,8 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
+#include "mattack_actors.h"
+#include "mattack_common.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
@@ -140,7 +142,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_under_operation( "under_operation" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
@@ -169,8 +170,6 @@ static const itype_id itype_mininuke_act( "mininuke_act" );
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
 
-static const matec_id tec_none( "tec_none" );
-
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_flesh( "flesh" );
@@ -184,6 +183,13 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 static const material_id material_water( "water" );
+
+static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
+static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
+static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
@@ -1059,36 +1065,45 @@ bool mattack::resurrect( monster *z )
     bool found_eligible_corpse = false;
     int lowest_raise_score = INT_MAX;
     map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( z->pos(), range ) ) {
-        if( !g->is_empty( p ) || here.get_field_intensity( p, fd_fire ) > 1 ||
-            !here.sees( z->pos(), p, -1 ) ) {
+    // Cache map stats.
+    std::unordered_map<tripoint, bool> sees_and_is_empty_cache;
+    auto sees_and_is_empty = [&sees_and_is_empty_cache, &z, &here]( const tripoint & T ) {
+        auto iter = sees_and_is_empty_cache.find( T );
+        if( iter != sees_and_is_empty_cache.end() ) {
+            return iter->second;
+        }
+        sees_and_is_empty_cache[T] = here.sees( z->pos(), T, -1 ) && g->is_empty( T );
+        return sees_and_is_empty_cache[T];
+    };
+    for( item_location &location : here.get_active_items_in_radius( z->pos(), range,
+            special_item_type::corpse ) ) {
+        const tripoint &p = location.position();
+        item &i = *location;
+        const mtype *mt = i.get_mtype();
+        if( !( i.can_revive() && i.active && mt->has_flag( mon_flag_REVIVES ) &&
+               mt->in_species( species_ZOMBIE ) && !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
+            continue;
+        }
+        if( here.get_field_intensity( p, fd_fire ) > 1 || !sees_and_is_empty( p ) ) {
             continue;
         }
 
-        for( item &i : here.i_at( p ) ) {
-            const mtype *mt = i.get_mtype();
-            if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
-                   mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
-                continue;
+        found_eligible_corpse = true;
+        if( raising_level == 0 ) {
+            // Since we have a target, start charging to raise it.
+            if( sees_necromancer ) {
+                add_msg( m_info, _( "The %s throws its arms wide." ), z->name() );
             }
-
-            found_eligible_corpse = true;
-            if( raising_level == 0 ) {
-                // Since we have a target, start charging to raise it.
-                if( sees_necromancer ) {
-                    add_msg( m_info, _( "The %s throws its arms wide." ), z->name() );
-                }
-                while( z->moves >= 0 ) {
-                    z->add_effect( effect_raising, 1_minutes );
-                    z->moves -= 100;
-                }
-                return false;
+            while( z->moves >= 0 ) {
+                z->add_effect( effect_raising, 1_minutes );
+                z->moves -= 100;
             }
-            int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
-            lowest_raise_score = std::min( lowest_raise_score, raise_score );
-            if( raise_score <= raising_level ) {
-                corpses.emplace_back( p, &i );
-            }
+            return false;
+        }
+        int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
+        lowest_raise_score = std::min( lowest_raise_score, raise_score );
+        if( raise_score <= raising_level ) {
+            corpses.emplace_back( p, &i );
         }
     }
 
@@ -1109,7 +1124,7 @@ bool mattack::resurrect( monster *z )
         // Check to see if there are any nearby living zombies to see if we should get angry
         const bool allies = g->get_creature_if( [&]( const Creature & critter ) {
             const monster *const zed = dynamic_cast<const monster *>( &critter );
-            return zed && zed != z && zed->type->has_flag( MF_REVIVES ) &&
+            return zed && zed != z && zed->type->has_flag( mon_flag_REVIVES ) &&
                    zed->type->in_species( species_ZOMBIE ) &&
                    z->attitude_to( *zed ) == Creature::Attitude::FRIENDLY  &&
                    within_target_range( z, zed, 10 );
@@ -1175,7 +1190,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return;
     }
-    if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+    if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         z->use_mech_power( 5_kJ );
     }
     z->set_dest( target->get_location() );
@@ -1195,7 +1210,7 @@ bool mattack::smash( monster *z )
     }
 
     //Don't try to smash immobile targets
-    if( target->has_flag( MF_IMMOBILE ) ) {
+    if( target->has_flag( mon_flag_IMMOBILE ) ) {
         return false;
     }
 
@@ -1711,7 +1726,8 @@ bool mattack::triffid_heartbeat( monster *z )
 
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false );
+    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false,
+            false );
     if( rl_dist( z->pos(), player_character.pos() ) > 5 &&
         !here.route( player_character.pos(), z->pos(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
@@ -2352,7 +2368,7 @@ bool mattack::disappear( monster *z )
 bool mattack::depart( monster *z )
 {
     map &here = get_map();
-    if( z->has_flag( MF_FLIES ) && here.is_outside( z->pos() ) ) {
+    if( z->has_flag( mon_flag_FLIES ) && here.is_outside( z->pos() ) ) {
         add_msg_if_player_sees( *z, m_info, _( "The %s turns to a steady climb before departing." ),
                                 z->name() );
     } else {
@@ -2714,303 +2730,6 @@ bool mattack::tentacle( monster *z )
     return true;
 }
 
-bool mattack::ranged_pull( monster *z )
-{
-    Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 ||
-        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target ) ||
-        z->has_effect( effect_grabbing ) ) {
-        return false;
-    }
-
-    Character *foe = dynamic_cast< Character * >( target );
-    map &here = get_map();
-    std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
-    bool seen = get_player_view().sees( *z );
-
-    for( tripoint &i : line ) {
-        // Player can't be pulled though bars, furniture, cars or creatures
-        // TODO: Add bashing? Currently a window is enough to prevent grabbing
-        if( !g->is_empty( i ) && i != z->pos() && i != target->pos() ) {
-            return false;
-        }
-    }
-
-    z->moves -= 150;
-
-    const optional_vpart_position veh_part = here.veh_at( target->pos() );
-    if( foe && foe->in_vehicle && veh_part ) {
-        const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
-        if( vp_seatbelt ) {
-            z->moves -= 200;
-            const std::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
-            target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
-                                           _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
-                                           z->disp_name( false, true ), vp_seatbelt->part().name( false ) );
-            target->add_msg_player_or_npc( m_bad, _( "You're crushed against the %s!" ),
-                                           _( "<npcname> is crushed against the %s!" ),
-                                           vp_seat->part().name( false ) );
-            target->apply_damage( z, bodypart_id( "torso" ), rng( 1, 2 ) );
-            // Damage the thing dragging us as well, since their arms are being strained to pull us
-            z->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
-            return true;
-
-        }
-    }
-
-    if( target->dodge_check( z ) ) {
-        z->moves -= 200;
-        game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
-        target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you, but you dodge!" ),
-                                       _( "The %s's arms fly out at <npcname>, but they dodge!" ),
-                                       z->name() );
-
-        target->on_dodge( z, z->type->melee_skill * 2 );
-        return true;
-    }
-
-    if( target->has_grab_break_tec() ) {
-        Character *pl = dynamic_cast<Character *>( target );
-        ///\EFFECT_STR increases chance to avoid being grabbed
-        ///\EFFECT_DEX increases chance to avoid being grabbed
-        int defender_check = rng( 0, std::max( pl->get_dex(), pl->get_str() ) );
-        int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
-        const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
-
-        if( pl->get_effect_int( effect_stunned ) ) {
-            defender_check = defender_check - 2;
-        }
-
-        if( pl->get_effect_int( effect_downed ) ) {
-            defender_check = defender_check - 2;
-        }
-
-        if( defender_check > attacker_check ) {
-            game_message_type msg_type = foe && foe->is_avatar() ? m_warning : m_info;
-            target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you…" ),
-                                           _( "The %s's arms fly out at <npcname>…" ),
-                                           z->name() );
-            target->add_msg_player_or_npc( m_info, grab_break.avatar_message.translated(),
-                                           grab_break.npc_message.translated(), z->name() );
-            return true;
-        }
-
-    }
-
-    // Limit the range in case some weird math thing would cause the target to fly past us
-    int range = std::min( ( z->type->melee_sides * z->type->melee_dice ) / 10,
-                          rl_dist( z->pos(), target->pos() ) + 1 );
-    tripoint pt = target->pos();
-    while( range > 0 ) {
-        // Recalculate the ray each step
-        // We can't depend on either the target position being constant (obviously),
-        // but neither on z pos staying constant, because we may want to shift the map mid-pull
-        const units::angle dir = coord_to_angle( target->pos(), z->pos() );
-        tileray tdir( dir );
-        tdir.advance();
-        pt.x = target->posx() + tdir.dx();
-        pt.y = target->posy() + tdir.dy();
-        if( !g->is_empty( pt ) ) { //Cancel the grab if the space is occupied by something
-            break;
-        }
-
-        if( foe != nullptr ) {
-            if( foe->in_vehicle ) {
-                here.unboard_vehicle( foe->pos() );
-            }
-
-            if( target->is_avatar() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
-                                         pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
-                g->update_map( pt.x, pt.y );
-            }
-        }
-
-        target->setpos( pt );
-        range--;
-        if( target->is_avatar() && seen ) {
-            g->invalidate_main_ui_adaptor();
-            inp_mngr.pump_events();
-            ui_manager::redraw_invalidated();
-            refresh_display();
-            // If we're in a vehicle after being dragged, board us onto it
-            // This prevents us from being run over by our own vehicle if we're dragged out of it
-            if( !foe->in_vehicle && here.veh_at( pt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-                here.board_vehicle( pt, foe );
-            }
-        }
-    }
-    // The monster might drag a target that's not on it's z level
-    // So if they leave them on open air, make them fall
-    here.creature_on_trap( *target );
-    if( seen ) {
-        if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
-            add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
-                     target->disp_name() );
-        } else {
-            add_msg( _( "The %1$s reaches out and pulls %2$s!" ), z->name(),
-                     target->disp_name() );
-        }
-    }
-
-    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
-    //Duration needs to be at least 2, or grab will immediately be removed
-    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false, prev_effect + 4 );
-    z->add_effect( effect_grabbing, 2_turns, true );
-    return true;
-}
-
-bool mattack::grab( monster *z )
-{
-    if( !z->can_act() ) {
-        return false;
-    }
-    Creature *target = z->attack_target();
-    if( target == nullptr || !z->is_adjacent( target, false ) ) {
-        return false;
-    }
-
-    // Do not attempt to grab while z is already grabbing. Do something else
-    if( z->has_effect( effect_grabbing ) ) {
-        return false;
-    }
-
-    z->moves -= 80;
-
-    const game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-    if( target->dodge_check( z ) ) {
-        target->add_msg_player_or_npc( msg_type, _( "The %s gropes at you, but you dodge!" ),
-                                       _( "The %s gropes at <npcname>, but they dodge!" ),
-                                       z->name() );
-
-        target->on_dodge( z, z->type->melee_skill * 2 );
-        return true;
-    }
-
-    Character *pl = dynamic_cast<Character *>( target );
-    if( pl == nullptr ) {
-        return true;
-    }
-
-    ///\EFFECT_DEX increases chance to avoid being grabbed
-    int defender_check = rng( 0, std::max( pl->get_dex(), pl->get_str() ) );
-    int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
-    const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
-
-    if( pl->has_grab_break_tec() ) {
-        defender_check = defender_check + 2;
-    }
-
-    if( pl->get_effect_int( effect_stunned ) ) {
-        defender_check = defender_check - 2;
-    }
-
-    if( pl->get_effect_int( effect_downed ) ) {
-        defender_check = defender_check - 2;
-    }
-
-    if( grab_break.id != tec_none && defender_check > attacker_check ) {
-        if( target->has_effect( effect_grabbed ) ) {
-            target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
-                                       z->name() );
-        } else {
-            target->add_msg_player_or_npc( m_info, grab_break.avatar_message.translated(),
-                                           grab_break.npc_message.translated(), z->name() );
-        }
-        return true;
-    }
-
-    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
-    z->add_effect( effect_grabbing, 2_turns, true );
-    target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
-                        prev_effect + z->get_grab_strength() );
-
-    add_msg_if_player_sees( *z, m_bad, _( "The %1$s grabs %2$s!" ), z->name(), target->disp_name() );
-
-    return true;
-}
-
-bool mattack::grab_drag( monster *z )
-{
-    if( !z || !z->can_act() ) {
-        return false;
-    }
-    Creature *target = z->attack_target();
-    Character *foe = dynamic_cast<Character *>( target );
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
-        return false;
-    }
-
-    if( target->has_effect( effect_under_operation ) ) {
-        target->add_msg_player_or_npc( m_good,
-                                       _( "The %s tries to drag you, but you're securely fastened in the Autodoc." ),
-                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the Autodoc." ), z->name() );
-        return false;
-    }
-
-    const optional_vpart_position veh_part = get_map().veh_at( target->pos() );
-    if( foe && foe->in_vehicle && veh_part ) {
-        const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
-        if( vp_seatbelt ) {
-            const std::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
-            target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
-                                           _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
-                                           z->disp_name( false, true ), vp_seatbelt->part().name( false ) );
-            target->add_msg_player_or_npc( m_bad, _( "You're crushed against the %s!" ),
-                                           _( "<npcname> is crushed against the %s!" ),
-                                           vp_seat->part().name( false ) );
-            target->apply_damage( z, bodypart_id( "torso" ), rng( 1, 2 ) );
-            z->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
-            return false;
-        }
-    }
-
-    // First, grab the target
-    grab( z );
-
-    if( !target->has_effect( effect_grabbed ) ) { //Can't drag if isn't grabbed, otherwise try and move
-        return false;
-    }
-    map &here = get_map();
-    const tripoint target_square = z->pos() - ( target->pos() - z->pos() );
-    if( z->can_move_to( target_square ) &&
-        target->stability_roll() < dice( z->type->melee_sides, z->type->melee_dice ) ) {
-        monster *zz = dynamic_cast<monster *>( target );
-        tripoint zpt = z->pos();
-        z->move_to( target_square );
-        if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
-            return false;
-        }
-        if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
-                                     zpt.y < HALF_MAPSIZE_Y ||
-                                     zpt.x >= HALF_MAPSIZE_X + SEEX || zpt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
-            g->update_map( zpt.x, zpt.y );
-        }
-        if( foe != nullptr ) {
-            if( foe->in_vehicle ) {
-                here.unboard_vehicle( foe->pos() );
-            }
-            foe->setpos( zpt );
-            if( !foe->in_vehicle && here.veh_at( zpt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-                here.board_vehicle( zpt, foe );
-            }
-        } else {
-            zz->setpos( zpt );
-        }
-        target->add_msg_player_or_npc( m_bad, _( "You are dragged behind the %s!" ),
-                                       _( "<npcname> gets dragged behind the %s!" ), z->name() );
-    } else {
-        target->add_msg_player_or_npc( m_good, _( "You resist the %s as it tries to drag you!" ),
-                                       _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
-    }
-
-    const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
-    z->add_effect( effect_grabbing, 2_turns, true );
-    target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
-
-    // cooldown was not reset prior to refactor here
-    return true;
-}
-
 bool mattack::gene_sting( monster *z )
 {
     const float range = 7.0f;
@@ -3304,7 +3023,7 @@ bool mattack::nurse_operate( monster *z )
                 }
             }
         } else {
-            grab( z );
+            z->type->special_attacks.at( "grab" )->call( *z );
             // Check if we successfully grabbed the target
             if( target->has_effect( effect_grabbed ) ) {
                 z->dragged_foe_id = target->getID();
@@ -4822,25 +4541,25 @@ bool mattack::darkman( monster *z )
     // What do we say?
     switch( rng( 1, 7 ) ) {
         case 1:
-            add_msg( _( "\"Stop it please\"" ) );
+            add_msg( _( "\"Stop it please.\"" ) );
             break;
         case 2:
-            add_msg( _( "\"Let us help you\"" ) );
+            add_msg( _( "\"Let us help you.\"" ) );
             break;
         case 3:
-            add_msg( _( "\"We wish you no harm\"" ) );
+            add_msg( _( "\"We wish you no harm.\"" ) );
             break;
         case 4:
-            add_msg( _( "\"Do not fear\"" ) );
+            add_msg( _( "\"Do not fear.\"" ) );
             break;
         case 5:
-            add_msg( _( "\"We can help you\"" ) );
+            add_msg( _( "\"We can help you.\"" ) );
             break;
         case 6:
-            add_msg( _( "\"We are friendly\"" ) );
+            add_msg( _( "\"We are friendly.\"" ) );
             break;
         case 7:
-            add_msg( _( "\"Please dont\"" ) );
+            add_msg( _( "\"Please don't.\"" ) );
             break;
     }
     player_character.add_effect( effect_darkness, 1_turns, true );
@@ -5171,7 +4890,7 @@ bool mattack::leech_spawner( monster *z )
     const bool u_see = get_player_view().sees( *z );
     std::list<monster *> allies;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.in_species( species_LEECH_PLANT ) && !candidate.has_flag( MF_IMMOBILE ) ) {
+        if( candidate.in_species( species_LEECH_PLANT ) && !candidate.has_flag( mon_flag_IMMOBILE ) ) {
             allies.push_back( &candidate );
         }
     }
@@ -5200,10 +4919,10 @@ bool mattack::leech_spawner( monster *z )
 
 bool mattack::mon_leech_evolution( monster *z )
 {
-    const bool is_queen = z->has_flag( MF_QUEEN );
+    const bool is_queen = z->has_flag( mon_flag_QUEEN );
     std::list<monster *> queens;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.in_species( species_LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
+        if( candidate.in_species( species_LEECH_PLANT ) && candidate.has_flag( mon_flag_QUEEN ) &&
             rl_dist( z->pos(), candidate.pos() ) < 35 ) {
             queens.push_back( &candidate );
         }
@@ -5229,6 +4948,7 @@ bool mattack::tindalos_teleport( monster *z )
                                         1 ) ) {
             z->moves -= 140;
             afterimage->make_ally( *z );
+            afterimage->nickname = z->nickname;
             add_msg_if_player_sees( *z, m_warning,
                                     _( "The hound's movements chaotically rewind as a living afterimage splits from it!" ) );
         }
@@ -5293,7 +5013,7 @@ bool mattack::flesh_tendril( monster *z )
 
     if( ( distance_to_target == 2 || distance_to_target == 3 ) && one_in( 4 ) ) {
         //it pulls you towards itself and then knocks you away
-        bool pulled = ranged_pull( z );
+        bool pulled = z->type->special_attacks.at( "ranged_pull" )->call( *z );
         if( pulled && one_in( 4 ) ) {
             sounds::sound( z->pos(), 60, sounds::sound_t::alarm, _( "a deafening roar!" ), false, "shout",
                            "roar" );
@@ -5306,7 +5026,7 @@ bool mattack::flesh_tendril( monster *z )
             g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                                z->type->melee_sides * z->type->melee_dice * 3 );
         } else {
-            grab( z );
+            z->type->special_attacks.at( "grab" )->call( *z );
         }
     }
 

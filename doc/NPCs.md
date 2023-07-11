@@ -1,4 +1,6 @@
-# Contents
+# NPCs
+
+## Contents
 
 - [Creating new NPCs](#creating-new-npcs)
   - [NPC Class definition](#npc-class-definition)
@@ -243,6 +245,7 @@ Case use example:
 For further information on snippets, see [New Contributor Guide: Dialogue](https://github.com/CleverRaven/Cataclysm-DDA/wiki/New-Contributor-Guide-Dialogue)
 
 ### Custom Entries
+
 Field | Default messages/snippets | Used for...
 ---|---|---
 `<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags.json
@@ -336,6 +339,7 @@ Field | Used for...
 `<topic_item_your_total_price>` | TODO Add
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
+`<context_val:VAR>` | The context variable VAR
 `<global_val:VAR>` | The global variable VAR
 `<item_name:ID>` | The name of the item with ID
 `<item_description:ID>` | The description of the item with ID
@@ -814,6 +818,8 @@ Effect | Description
 `u_add_trait, npc_add_trait: `string or [variable object](#variable-object) | Your character or the NPC will gain the trait.
 `u_lose_effect, npc_lose_effect: `string or [variable object](#variable-object) | Your character or the NPC will lose the effect if they have it.
 `u_lose_trait, npc_lose_trait: `string or [variable object](#variable-object) | Your character or the NPC will lose the trait.
+`u_activate_trait, npc_activate_trait: `string or [variable object](#variable-object) | Your character or the NPC will activate the trait.
+`u_deactivate_trait, npc_deactivate_trait: `string or [variable object](#variable-object) | Your character or the NPC will deactivate the trait.
 `u_learn_martial_art, npc_learn_martial_art: `string or [variable object](#variable-object) | Your character or the NPC will learn the martial art style.
 `u_forget_martial_art, npc_forget_martial_art: `string or [variable object](#variable-object) | Your character or the NPC will forget the martial art style.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true` or `possible_values: string_array` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored. If `possible_values` is used one of the values given at random will be used.
@@ -903,6 +909,7 @@ Effect | Description
 `u_set_guard_pos,npc_set_guard_pos` : [variable object](#variable-object), (*optional* `unique_id`: bool) | Set the NPC's guard pos to the contents of `_set_guard_pos`.  If the NPC has the `RETURN_TO_START_POS` trait then when they are idle they will attempt to move to this position.  If `unique_id`(defaults to false) is true then the NPC's `unique_id` will be added as a prefix to the variables name.  For example a guard with `unique_id` = `GUARD1` would check the variable `GUARD1_First` in the following json statement:  `{ "u_set_guard_pos": { "global_val": "_First" }, "unique_id": true }`
 
 #### Map Updates
+
 Effect | Description
 ---|---
 `mapgen_update: `string or [variable object](#variable-object)<br/>`mapgen_update:` *array of string or [variable objects](#variable-object)*, (optional `assign_mission_target` parameters), (optional `target_var: `[variable object](#variable-object)), (*optional* `time_in_future: `duration or [variable object](#variable-object)), (*optional* `key: `string or [variable object](#variable-object)) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update` (or for each `mapgen_update` entry). If `time_in_future` is set the update will happen that far in the future, in this case however the target location will be determined now and not changed even if its variables update.  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`. If `target_var` is set this effect will be centered on a location saved to a variable with its name instead.
@@ -919,19 +926,21 @@ Effect | Description
 `u_set_field, npc_set_field: `string or [variable object](#variable-object),(*optional* `intensity: `int or [variable object](#variable-object)), (*optional* `age: `int or [variable object](#variable-object)), (*optional* `radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`), (*optional* `hit_player : hit_player_bool`), (*optional* `target_var: `[variable object](#variable-object)) | Add a field centered on you or the npc of type `_set_field`, of intensity `intensity`( defaults to 1,) of radius `radius`(defaults to 10000000) and age `age` (defaults 1). It will only happen outdoors if `outdoor_only` is true, it defaults to false. `indoor_only` is the opposite. It will hit the player as if they entered it if `hit_player` is true, it defaults to true. If `target_var` is set this effect will be centered on a location saved to a variable with its name.
 
 #### General
-Effect | Description
----|---
-`sound_effect: `string or [variable object](#variable-object), (*optional* `sound_effect_variant: `string or [variable object](#variable-object)), (*optional* `outdoor_event: outdoor_event`), (*optional* `volume: `int or [variable object](#variable-object))  | Will play a sound effect of id `sound_effect` and variant `sound_effect_variant`. If `volume` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
-`open_dialogue`, (*optional* `topic: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`). | Opens up a dialog between the participants. This should only be used in effect_on_conditions. If the dialog is opened, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run. If `topic` is supplied than a conversation with an empty talker starting with the topic `topic` will be opened.
-`take_control`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | If the npc is a character then take control of them and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
-`give_achievement` string or [variable object](#variable-object), Marks the given achievement as complete.
+
+| Effect | Description                                                                                                                                                                                                                                                        |
+| ---- | ---- |
+| `sound_effect: `string or [variable object](#variable-object), (*optional* `sound_effect_variant: `string or [variable object](#variable-object)), (*optional* `outdoor_event: outdoor_event`), (*optional* `volume: `int or [variable object](#variable-object)) | Will play a sound effect of id `sound_effect` and variant `sound_effect_variant`. If `volume` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground. |
+| `open_dialogue`, (*optional* `topic: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`). | Opens up a dialog between the participants. This should only be used in effect_on_conditions. If the dialog is opened, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run. If `topic` is supplied than a conversation with an empty talker starting with the topic `topic` will be opened.
+| `take_control`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | If the npc is a character then take control of them and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+| `give_achievement` string or [variable object](#variable-object), | Marks the given achievement as complete.
 `take_control_menu` | Opens up a menu to choose a follower to take control of.
 `assign_mission: `string or [variable object](#variable-object) | Will assign mission to the player.
 `remove_active_mission: `string or [variable object](#variable-object) | Will remove mission from the player's active mission list without failing it.
 `finish_mission: `string or [variable object](#variable-object), (*optional* `success: success_bool` ), (*optional* `step: step_int`)  | Will complete mission to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
 `offer_mission: `string or [variable object](#variable-object) or array of them | Adds mission_type_id(s) to the npc's missions that they offer.  Assumes if there is no beta talker that the alpha is an NPC.
 `run_eocs :` effect_on_condition_array or single effect_condition_object | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
-`run_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs | Runs the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition.
+`run_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs `beta_loc` a variable containing a location | Runs the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition. If `beta_loc` is provided then the creature at the given location will become the beta talker for the EOC to run.
+`run_eoc_select :` array of strings or [variable objects](#variable-object), `variables :` Object with variable names and values as pairs, `names: ` string or variables, `keys: ` single character strings, `title: ` string, `hide_failing`: bool | Opens a menu with title `title` that lets you select one of the EOCs whos ids are in the array provided, they each get a matched `names`, `description`, and `keys` value if provided, selected EOC runs with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or variable containing the ID of an effect on condition. If `hide_failing` is true EOCs whos condition fail will be hiden instead of shown and unselectable.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: `duration or [variable object](#variable-object) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
 `queue_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs, `time_in_future: `duration or [variable object](#variable-object) | Queues the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition.  EOC will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
 `u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `message: ` string or [variable object](#variable-object) ) | Type must be either `bionic`, `mutation`, `spell` or `recipe`.  If the u or npc does not have all of the listed bionics, mutations, spells, or recipes they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.  If `message` is provided and a result is given then the `message` will be displayed as a message with the first instance of `%s` in it replaced with the name of the result selected.  
@@ -939,7 +948,17 @@ Effect | Description
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
 `weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
 
+#### Detailed Info
+New EOC effects that are documented should be in the format below.
+
+| Effect                 | Options            | Description   |
+| ---------------------- | ------- | --- |
+| `u_attack, npc_attack` | `u_attack`: string or [variable object](#variable-object) The technique ID to use, if you don't want a specific tech provide "tec_none" </br> `allow_special: ` bool, **default true**, whether or not a special attack should be selected. </br> `allow_unarmed: ` bool **default true** if unarmed techs should be considered </br> `forced_movecost: ` double or [variable object](#variable-object) **default -1.0** the attack will take a fixed amount of moves, any negative value will be ignored (giving the moves standard cost) | the selected talker attacks the other talker with a melee attack. |
+| `run_eoc_until`        | `run_eoc_until`: EOC or inline EOC The eoc to run multiple times </br> `condition` string or [variable object](#variable-object) The name of the condition from the current context to evaluate to see if execution should continue </br> `iteration` double or [variable object](#variable-object) The number of iterations this loop is allowed to go for before throwing an error, **default 100**  | The provided EOC is run until the condition given is false. |
+
+
 #### Deprecated
+
 Effect | Description
 ---|---
 `deny_follow`<br/>`deny_lead`<br/>`deny_train`<br/>`deny_personal_info` | Sets the appropriate effect on the NPC for a few hours.<br/>These are *deprecated* in favor of the more flexible `npc_add_effect` described above.
@@ -974,6 +993,7 @@ example json:
 ```
 "condition": { "u_has_strength": { "name" :"variable_name", "type":"test", "context":"documentation", "default":5 } }
 ```
+
 Condition | Type | Description
 --- | --- | ---
 `"u_male"`<br/>`"npc_male"` | simple string | `true` if the player character or NPC is male.
@@ -1010,7 +1030,9 @@ Condition | Type | Description
 `"u_has_wielded_with_flag"`<br/>`"npc_has_wielded_with_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC is wielding something with the `u_has_wielded_with_flag` or `npc_has_wielded_with_flag` flag.
 `"u_can_see"`<br/>`"npc_can_see"` | simple string | `true` if the player character or NPC is not blind and is either not sleeping or has the see_sleep trait.
 `"u_is_deaf"`<br/>`"npc_is_deaf"` | simple string | `true` if the player character or NPC can't hear.
+`"u_is_alive"`<br/>`"npc_is_alive"` | simple string | `true` if the entity is alive.
 `"u_is_on_terrain"`<br/>`"npc_is_on_terrain"` | string or [variable object](#variable-object) | `true` if the player character or NPC is on terrain named `"u_is_on_terrain"` or `"npc_is_on_terrain"`.
+`"u_is_on_terrain_with_flag"`<br/>`"npc_is_on_terrain_with_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC is on terrain with flag named `"u_is_on_terrain_with_flag"` or `"npc_is_on_terrain_with_flag"`.
 `"u_is_in_field"`<br/>`"npc_is_in_field"` | string or [variable object](#variable-object) | `true` if the player character or NPC is in a field of type `"u_is_in_field"` or `"npc_is_in_field"`..
 `"u_query"`<br/>`"npc_query", default : bool` | string or [variable object](#variable-object) | if the player character or NPC is the avatar will popup a yes/no query with the provided message and users response is used as the return value.  If called for a non avatar will return `default`.<br/><br/>Example:<pre>"condition": { "u_query": "Should we test?", "default": true },</pre>
 
@@ -1230,7 +1252,7 @@ Condition | Type | Description
 ## Utility Structures
 
 ### Variable Object
-`variable_object`: This is either an object, an `arithmetic`/`math` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+`variable_object`: This is either an object, an `arithmetic`/`math` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, `var_val` or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, `var_val` tries to resolve a variable stored in a `context_val` (more explanation bellow), if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
 
 Example:
 ```json
@@ -1245,6 +1267,21 @@ Example:
 ]
 ```
 
+#### var_val
+var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
+
+| Name | Type | Value |
+| --- | --- | --- |
+| ref | context_val | key1 |
+| ref2 | context_val | u_key2 |
+| key1 | global_val | SOME TEXT |
+| key2 | u_val | SOME OTHER TEXT |
+
+If you access "ref" as a context val it will have the value of "key1", if you access it as a var_val it will have a value of "SOME TEXT". 
+If you access "ref2" as a context val it will have the value of "u_key2", if you access it as a var_val it will have a value of "SOME OTHER TEXT". 
+
+The values for var_val use the same syntax for scope that math [variables](#variables) do.
+
 ### Mutators
 `mutators`: take in an ammount of data and provide you with a relevant string. This can be used to get information about items, monsters, etc. from the id, or other data. Mutators can be used anywhere that a string [variable object](#variable-object) can be used. Mutators take the form:
 ```json
@@ -1252,10 +1289,15 @@ Example:
 ```
 
 #### List Of Mutators
+
 Mutator Name | Required Keys | Description
 --- | --- | ---
 `"mon_faction"` | `mtype_id`: String or [variable object](#variable-object). | Returns the faction of the monster with mtype_id.
 `"game_option"` | `option`: String or [variable object](#variable-object). | Returns the value of the option as a string, for numerical options you should instead use the math function.
+`"ma_technique_name"` | `matec_id`: String or [variable object](#variable-object). | Returns the name of the martial arts tech with ID `matec_id` 
+`"ma_technique_description"` | `matec_id`: String or [variable object](#variable-object). | Returns the description of the martial arts tech with ID `matec_id` 
+`"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). </br> `crit`: bool </br> `dodge_counter`: bool </br> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
+`"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
 
 
 ### Compare Numbers and Arithmetics
@@ -1313,6 +1355,7 @@ Example | Description
 `"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
 `"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
 `"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
+`"u_val": "charge_count"` | Number of charges of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
 `"u_val": "exp"` | Total experience earned.
 `"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply againt the current intensity.
 `"u_val": "addiction_turns", "addiction": "caffeine"` | Current duration left (in turns) for the given addiction.
@@ -1333,9 +1376,10 @@ Example | Description
 `"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
 `"u_val": "size"` | Size category from 1 (tiny) to 5 (huge). Read-only.
 `"u_val": "grab_strength"` | Grab strength as defined in the monster definition. Read-only, returns false on characters.
-`"u_val": "monsters_nearby"` | Number of monsters nearby. Optional params: `target_var` is a variable_object of a location variable to center the effect on, `id` is a variable_object, if its provided only monsters with this id will be counted, `radius` a variable_object of how far around the center to count from.
+`"u_val": "field_strength"` | Strength of a field on the tile the player or NPC is standing on. `field` must be specified. read only.
 `"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
 `"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
+`"u_val": "spell_level_adjustment"` | Temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is reccomended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value. When an NPC consider what spell to cast they will be considered the primary talker, so their values are manipulated with `u_val` the same way the player's values are. Optional params: `school` makes it only apply to a given school. `spell` makes it only apply to a given spell.
 `"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for exaple, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percen done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.<br/><br/>Example:<pre>"condition": { "compare_num": [<br/>  { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] },<br/>  ">", { "const": 5 }<br/>] }</pre>
 `"hour"` | Hours since midnight.
@@ -1391,7 +1435,7 @@ If `operator` is `==`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
 `lhs` and `rhs` are evaluated independently and the result of `operator` is passed on to the parent object.
 
 #### Variables
-Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, `n_myvar` is scoped on the beta talker, and `_var` is a context variable.
+Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, `n_myvar` is scoped on the beta talker, and `_var` is a context variable, `v_var` is a [var_val](#var_val).
 
 Examples:
 ```JSON
@@ -1429,6 +1473,19 @@ Common math functions are supported:
 
 Function composition is also supported, for example `sin( rng(0, max( 0.5, u_sin_var ) ) )`
 
+#### Ternary and inline boolean operators
+Inline comparison operators evaluate as 1 for true and 0 for false.
+
+Ternary operators take the form `condition ? true_value : false_value`. They are right-associative so a chained ternary like `a ? b : c ? d :e` is parsed as `a ? b : (c ? d : e)`.
+
+Examples:
+```JSON
+    "//0": "returns 5 if u_blorg is greater than 4, otherwise 0",
+    { "math": [ "( u_blorg > 4 ) * 5" ] },
+    "//1": "returns rng( 0.5, 5 ) if u_blorg is greater than 5, otherwise rand(100)"
+    { "math": [ "u_blorg > 5 ? rng( 0.5, 5 ) : rand(100)" ] },
+```
+
 #### Dialogue functions
 Dialogue functions return or manipulate game values. They are scoped just like [variables](#variables).
 
@@ -1443,10 +1500,12 @@ _function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariabl
 | armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/> Variables are damagetype ID, bodypart ID.<br/> Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`|  
 | attack_speed()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted attack speed with their current weapon.<br/> Example:<br/>`"condition": { "math": [ "u_attack_speed()", ">=", "10"] }`| 
 | game_option(`s`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/> Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
+| monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3)", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/> Variables are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
 | pain()     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
 | skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`<br/>`"condition": { "math": [ "u_skill(someskill)", ">=", "5"] }`|
-| weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
+| spell_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set spell xp<br/> Example:<br/>`"condition": { "math": [ "u_spell_exp('SPELL_ID')", ">=", "5"] }`|
+| weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/>`precipitation` (in mm / h) either 0.5 (very_light ), 1.5 (light), or 3 (heavy). Read only.<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
 
 ##### u_val shim
 There is a `val()` shim available that can cover the missing arithmetic functions from `u_val` and `npc_val`:

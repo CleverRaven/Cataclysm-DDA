@@ -31,6 +31,7 @@
 #include "dispersion.h"
 #include "effect.h"
 #include "enums.h"
+#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
@@ -131,6 +132,8 @@ static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
+
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
@@ -1507,6 +1510,11 @@ void npc::evaluate_best_weapon( const Creature *target )
         }
         return VisitResponse::NEXT;
     } );
+    if( magic->spells().empty() ) {
+        magic->clear_opens_spellbook_data();
+        get_event_bus().send<event_type::opens_spellbook>( getID() );
+        magic->evaluate_opens_spellbook_data();
+    }
     for( const spell_id &sp : magic->spells() ) {
         compare( std::make_shared<npc_attack_spell>( sp ) );
     }
@@ -2233,7 +2241,7 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
         }
     }
 
-    auto new_path = get_map().route( pos(), p, get_pathfinding_settings( no_bashing ),
+    std::vector<tripoint> new_path = get_map().route( pos(), p, get_pathfinding_settings( no_bashing ),
                                      get_path_avoid() );
     if( new_path.empty() ) {
         if( !ai_cache.sound_alerts.empty() ) {
@@ -2430,7 +2438,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                                                 diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
             moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
-            if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+            if( mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
                 mounted_creature->use_mech_power( 1_kJ );
             }
         } else {
@@ -2443,6 +2451,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             moves -= 100;
         } else { // hallucinations teleport through doors
             moves -= 100;
+            moved = true;
+        }
+    } else if( doors::can_unlock_door( here, *this, pt ) ) {
+        if( !is_hallucination() ) {
+            doors::unlock_door( here, *this, pt );
+        } else {
+            mod_moves( -100 );
             moved = true;
         }
     } else if( get_dex() > 1 && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ) {
@@ -2508,6 +2523,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         // Close doors behind self (if you can)
         if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() ) {
             doors::close_door( here, *this, old_pos );
+        }
+        // Lock doors as well
+        if( ( rules.has_flag( ally_rule::lock_doors ) && is_player_ally() ) && !is_hallucination() ) {
+            doors::lock_door( here, *this, old_pos );
         }
 
         if( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {

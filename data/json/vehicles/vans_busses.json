@@ -1319,7 +1319,7 @@
       { "x": -2, "y": 1, "parts": [ "frame#cross", "roof", "trunk_floor", "aisle_lights" ] },
       { "x": -2, "y": 2, "parts": [ "frame#cross", "roof", "trunk_floor", "aisle_lights" ] },
       { "x": -2, "y": 3, "parts": [ "frame#vertical_right", "hddoor#full_right", "door_motor" ] },
-      { "x": -2, "y": 3, "parts": [ "roof", "v_curtain" ] },
+      { "x": -2, "y": 3, "parts": [ "roof" ] },
       { "x": -3, "y": -1, "parts": [ "frame#vertical_left" ] },
       { "x": -3, "y": -1, "parts": [ "reinforced_windshield#full_vertical_left", "roof", "v_curtain" ] },
       { "x": -3, "y": -1, "parts": [ "door_motor" ] },

@@ -208,12 +208,13 @@ bool map::build_vision_transparency_cache( const int zlev )
     bool dirty = false;
 
     bool is_crouching = player_character.is_crouching();
+    bool is_runallfours = player_character.is_runallfours();
     bool is_prone = player_character.is_prone();
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
             vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-        } else if( ( is_crouching || is_prone ) && coverage( loc ) >= 30 ) {
+        } else if( ( is_crouching || is_prone || is_runallfours ) && coverage( loc ) >= 30 ) {
             // If we're crouching or prone behind an obstacle, we can't see past it.
             vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
             dirty = true;
@@ -547,8 +548,18 @@ void map::generate_lightmap( const int zlev )
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                if( vp.has_flag( VPFLAG_WALL_MOUNTED ) ) {
+                    tileray tdir( v->face.dir() + pt->direction );
+                    tdir.advance();
+                    tripoint offset = src;
+                    offset.x = src.x + tdir.dx();
+                    offset.y = src.y + tdir.dy();
+                    add_light_source( offset, M_SQRT2 ); // Add a little surrounding light
+                    apply_light_arc( offset, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                } else {
+                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
+                    apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                }
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );
@@ -770,6 +781,11 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     } else {
         return lit_level::BLANK;
     }
+}
+
+bool tinymap::pl_sees( const tripoint &, int ) const
+{
+    return false;
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range ) const
@@ -1078,13 +1094,15 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         }
     }
 
-    for( int mirror : mirrors ) {
-        bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
+    for( const int mirror : mirrors ) {
+        const vehicle_part &vp_mirror = veh->part( mirror );
+        const vpart_info &vpi_mirror = vp_mirror.info();
+        const bool is_camera = vpi_mirror.has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
             continue; // Player not at camera control, so cameras don't work
         }
 
-        const tripoint mirror_pos = veh->global_part_pos3( mirror );
+        const tripoint mirror_pos = veh->global_part_pos3( vp_mirror );
 
         // Determine how far the light has already traveled so mirrors
         // don't cheat the light distance falloff.
@@ -1093,8 +1111,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         if( !is_camera ) {
             offsetDistance = penalty + rl_dist( origin, mirror_pos );
         } else {
-            offsetDistance = 60 - veh->part_info( mirror ).bonus *
-                             veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
+            offsetDistance = 60 - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
             mocache = &camera_cache;
             ( *mocache )[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }

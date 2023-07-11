@@ -65,7 +65,7 @@ TEST_CASE( "get_quality", "[tool][quality]" )
 
 // Tools that run on battery power (or are otherwise "charged") may have "charged_qualities"
 // that are only available when the item is charged with at least "charges_per_use" charges.
-TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
+TEST_CASE( "battery-powered_tool_qualities", "[tool][battery][quality]" )
 {
     item drill( "test_cordless_drill" );
     item battery( "medium_battery_cell" );

@@ -41,12 +41,9 @@ static const item_group_id Item_spawn_data_field( "field" );
 static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
 static const item_group_id Item_spawn_data_road( "road" );
 static const item_group_id Item_spawn_data_sewer( "sewer" );
-static const item_group_id Item_spawn_data_wreckage( "wreckage" );
 
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
-static const oter_str_id oter_crater( "crater" );
-static const oter_str_id oter_crater_core( "crater_core" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_forest_trail_end_east( "forest_trail_end_east" );
 static const oter_str_id oter_forest_trail_end_west( "forest_trail_end_west" );
@@ -127,7 +124,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 {
     static const std::map<std::string, building_gen_pointer> pointers = { {
             { "null",             &mapgen_null },
-            { "crater",           &mapgen_crater },
             { "field",            &mapgen_field },
             { "forest",           &mapgen_forest },
             { "forest_trail_straight",    &mapgen_forest_trail_straight },
@@ -212,30 +208,6 @@ void mapgen_null( mapgendata &dat )
             dat.m.set_radiation( point( i, j ), 0 );
         }
     }
-}
-
-void mapgen_crater( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] != oter_crater && dat.t_nesw[i] != oter_crater_core ) {
-            dat.set_dir( i, 6 );
-        }
-    }
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( rng( 0, dat.w_fac ) <= i && rng( 0, dat.e_fac ) <= SEEX * 2 - 1 - i &&
-                rng( 0, dat.n_fac ) <= j && rng( 0, dat.s_fac ) <= SEEX * 2 - 1 - j ) {
-                m->ter_set( point( i, j ), t_dirt );
-                m->make_rubble( tripoint( i,  j, m->get_abs_sub().z() ), f_rubble_rock, true );
-            } else {
-                m->ter_set( point( i, j ), dat.groundcover() );
-            }
-        }
-    }
-    m->place_items( Item_spawn_data_wreckage, 83, point_zero,
-                    point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
 }
 
 // TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);

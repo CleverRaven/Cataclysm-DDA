@@ -10,11 +10,6 @@
 #include <string>
 #include <vector>
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 struct input_event;
 struct point;
 struct tripoint;

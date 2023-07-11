@@ -1,0 +1,354 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmg_2_1_construction",
+    "description": "Let's start building the first garage wall section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmg_2_1_construction",
+    "blueprint_name": "build the first garage section",
+    "blueprint_parameter_names": {
+      "fbmg_2_construction_palette": {
+        "fbmg_2_concrete_palette": "Concrete walls and roof",
+        "fbmg_2_log_palette": "Log walls and wooden roof",
+        "fbmg_2_metal_palette": "Metal walls and roof",
+        "fbmg_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmg_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmg_2_rock_palette": "Rock walls and wooden roof",
+        "fbmg_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmg_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmg_2" } ],
+    "blueprint_provides": [ { "id": "fbmg_2_1" } ],
+    "blueprint_excludes": [ { "id": "fbmg_2_1" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmg_2_2_construction",
+    "description": "Let's build a second garage wall section to block the wind from the other direction, making a garage wide enough to handle two normal vehicles or one super sized one.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmg_2_2_construction",
+    "blueprint_name": "build the second garage section",
+    "blueprint_parameter_names": {
+      "fbmg_2_construction_palette": {
+        "fbmg_2_concrete_palette": "Concrete walls and roof",
+        "fbmg_2_log_palette": "Log walls and wooden roof",
+        "fbmg_2_metal_palette": "Metal walls and roof",
+        "fbmg_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmg_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmg_2_rock_palette": "Rock walls and wooden roof",
+        "fbmg_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmg_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmg_2_1" } ],
+    "blueprint_provides": [ { "id": "fbmg_2_2" } ],
+    "blueprint_excludes": [ { "id": "fbmg_2_2" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmg_2_wall_construction",
+    "description": "Let's build a wall to block the wind from blowing straight through the garage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmg_2_wall_construction",
+    "blueprint_name": "build an inner wall",
+    "blueprint_parameter_names": {
+      "fbmg_2_construction_palette": {
+        "fbmg_2_concrete_palette": "Concrete walls and roof",
+        "fbmg_2_log_palette": "Log walls and wooden roof",
+        "fbmg_2_metal_palette": "Metal walls and roof",
+        "fbmg_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmg_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmg_2_rock_palette": "Rock walls and wooden roof",
+        "fbmg_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmg_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmg_2_3" } ],
+    "blueprint_provides": [ { "id": "fbmg_2_wall" } ],
+    "blueprint_excludes": [ { "id": "fbmg_2_wall" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmg_2_4_construction",
+    "description": "Now that we're able to work on short vehicles, let's extend the garage to allow for long ones.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmg_2_4_construction",
+    "blueprint_name": "extend the first wall",
+    "blueprint_parameter_names": {
+      "fbmg_2_construction_palette": {
+        "fbmg_2_concrete_palette": "Concrete walls and roof",
+        "fbmg_2_log_palette": "Log walls and wooden roof",
+        "fbmg_2_metal_palette": "Metal walls and roof",
+        "fbmg_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmg_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmg_2_rock_palette": "Rock walls and wooden roof",
+        "fbmg_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmg_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmg_2_3" } ],
+    "blueprint_provides": [ { "id": "fbmg_2_4" } ],
+    "blueprint_excludes": [ { "id": "fbmg_2_4" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmg_2_5_construction",
+    "description": "Let's extend the second wall to match the first one.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmg_2_5_construction",
+    "blueprint_name": "extend the second wall",
+    "blueprint_parameter_names": {
+      "fbmg_2_construction_palette": {
+        "fbmg_2_concrete_palette": "Concrete walls and roof",
+        "fbmg_2_log_palette": "Log walls and wooden roof",
+        "fbmg_2_metal_palette": "Metal walls and roof",
+        "fbmg_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmg_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmg_2_rock_palette": "Rock walls and wooden roof",
+        "fbmg_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmg_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmg_2_4" } ],
+    "blueprint_provides": [ { "id": "fbmg_2_5" } ],
+    "blueprint_excludes": [ { "id": "fbmg_2_5" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmg_2_7_construction",
+    "description": "Now that we're able to work on long vehicles, let's extend the garage to allow for really long ones, or multiple vehicles.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmg_2_7_construction",
+    "blueprint_name": "extend the first wall",
+    "blueprint_parameter_names": {
+      "fbmg_2_construction_palette": {
+        "fbmg_2_concrete_palette": "Concrete walls and roof",
+        "fbmg_2_log_palette": "Log walls and wooden roof",
+        "fbmg_2_metal_palette": "Metal walls and roof",
+        "fbmg_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmg_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmg_2_rock_palette": "Rock walls and wooden roof",
+        "fbmg_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmg_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmg_2_6" } ],
+    "blueprint_provides": [ { "id": "fbmg_2_7" } ],
+    "blueprint_excludes": [ { "id": "fbmg_2_7" }, { "id": "fbmg_2_gate_2" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmg_2_8_construction",
+    "description": "Let's extend the second wall to match the first one.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmg_2_8_construction",
+    "blueprint_name": "extend the second wall",
+    "blueprint_parameter_names": {
+      "fbmg_2_construction_palette": {
+        "fbmg_2_concrete_palette": "Concrete walls and roof",
+        "fbmg_2_log_palette": "Log walls and wooden roof",
+        "fbmg_2_metal_palette": "Metal walls and roof",
+        "fbmg_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmg_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmg_2_rock_palette": "Rock walls and wooden roof",
+        "fbmg_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmg_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmg_2_7" } ],
+    "blueprint_provides": [ { "id": "fbmg_2_8" } ],
+    "blueprint_excludes": [ { "id": "fbmg_2_8" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmg_2_10_construction",
+    "description": "Let's extent the garage to hangar size, allowing us to work on monster vehicles or a large number of normal ones.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmg_2_10_construction",
+    "blueprint_name": "extend the first wall",
+    "blueprint_parameter_names": {
+      "fbmg_2_construction_palette": {
+        "fbmg_2_concrete_palette": "Concrete walls and roof",
+        "fbmg_2_log_palette": "Log walls and wooden roof",
+        "fbmg_2_metal_palette": "Metal walls and roof",
+        "fbmg_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmg_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmg_2_rock_palette": "Rock walls and wooden roof",
+        "fbmg_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmg_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmg_2_9" } ],
+    "blueprint_provides": [ { "id": "fbmg_2_10" } ],
+    "blueprint_excludes": [ { "id": "fbmg_2_10" }, { "id": "fbmg_2_gate_3" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmg_2_11_construction",
+    "description": "Let's extend the second wall to match the first one.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmg_2_11_construction",
+    "blueprint_name": "extend the second wall",
+    "blueprint_parameter_names": {
+      "fbmg_2_construction_palette": {
+        "fbmg_2_concrete_palette": "Concrete walls and roof",
+        "fbmg_2_log_palette": "Log walls and wooden roof",
+        "fbmg_2_metal_palette": "Metal walls and roof",
+        "fbmg_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmg_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmg_2_rock_palette": "Rock walls and wooden roof",
+        "fbmg_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmg_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmg_2_10" } ],
+    "blueprint_provides": [ { "id": "fbmg_2_11" } ],
+    "blueprint_excludes": [ { "id": "fbmg_2_11" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  }
+]
