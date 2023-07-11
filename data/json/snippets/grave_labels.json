@@ -2,6 +2,7 @@
   {
     "type": "snippet",
     "category": "grave_label",
+    "//": "these labels are meant for graves made during or after the initial cataclysm, riots, or portal storm craziness and are not meant for pre-apocalypse grave sites.",
     "text": [
       "Here lies our beloved friend",
       "Here lies my best friend",
@@ -31,7 +32,13 @@
       "I held you your whole life",
       "So small, so sweet, so soon",
       "Ours for a little while",
-      "You died for us, we'll live for you"
+      "You died for us, we'll live for you",
+      "Sorry, you had it coming",
+      "<nothing is written here>",
+      "Didn't have to end like this",
+      "Should've left your corpse where it lay, but I'm afraid it'd rise again and I'd have to put you down again",
+      "I wish you could've seen reason",
+      "A lesser man would've let you turn"
     ]
   }
 ]

@@ -899,7 +899,7 @@
     "type": "TOOL",
     "copy-from": "lc_scimitar",
     "name": { "str": "medium steel scimitar" },
-    "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
+    "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with medium carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1223 g",
     "price": 93000,
     "price_postapoc": 3500,
