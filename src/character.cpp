@@ -355,6 +355,11 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
+static const mon_flag_str_id mon_flag_COMBAT_MOUNT( "COMBAT_MOUNT" );
+static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
+static const mon_flag_str_id mon_flag_MECH_RECON_VISION( "MECH_RECON_VISION" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const morale_type morale_nightmare( "morale_nightmare" );
 
 static const move_mode_id move_mode_prone( "prone" );
@@ -466,6 +471,9 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
+static const trait_id trait_THRESH_BEAST( "THRESH_BEAST" );
+static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
+static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
@@ -612,8 +620,10 @@ character_id Character::getID() const
     return this->id;
 }
 
-void Character::swap_character( Character &other, Character &tmp )
+void Character::swap_character( Character &other )
 {
+    npc tmp_npc;
+    Character &tmp = tmp_npc;
     tmp = std::move( other );
     other = std::move( *this );
     *this = std::move( tmp );
@@ -1215,7 +1225,7 @@ int Character::overmap_sight_range( float light_level ) const
     // When adding checks here, also call game::update_overmap_seen at the place they first become true
     const bool has_optic = has_item_with_flag( flag_ZOOM ) ||
                            has_flag( json_flag_ENHANCED_VISION ) ||
-                           ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ||
+                           ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
                            get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
 
     if( has_optic ) {
@@ -1498,7 +1508,7 @@ void Character::mount_creature( monster &z )
         player_avatar.grab( object_type::NONE );
     }
     add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+    if( z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
         if( !z.type->mech_weapon.is_empty() ) {
             item mechwep = item( z.type->mech_weapon );
             set_wielded_item( mechwep );
@@ -1517,7 +1527,7 @@ void Character::mount_creature( monster &z )
     z.facing = facing;
     // some rideable mechs have night-vision
     recalc_sight_limits();
-    if( is_avatar() && z.has_flag( MF_MECH_RECON_VISION ) ) {
+    if( is_avatar() && z.has_flag( mon_flag_MECH_RECON_VISION ) ) {
         // mech night-vision counts as optics for overmap sight range.
         g->update_overmap_seen();
     }
@@ -1526,7 +1536,7 @@ void Character::mount_creature( monster &z )
 
 bool Character::check_mount_will_move( const tripoint &dest_loc )
 {
-    if( !is_mounted() || mounted_creature->has_flag( MF_COMBAT_MOUNT ) ) {
+    if( !is_mounted() || mounted_creature->has_flag( mon_flag_COMBAT_MOUNT ) ) {
         return true;
     }
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
@@ -1562,7 +1572,7 @@ bool Character::check_mount_is_spooked()
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
         const creature_size mount_size = mounted_creature->get_size();
         const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
-        const bool combat_mount = mounted_creature->has_flag( MF_COMBAT_MOUNT );
+        const bool combat_mount = mounted_creature->has_flag( mon_flag_COMBAT_MOUNT );
         for( const monster &critter : g->all_monsters() ) {
             if( critter.is_hallucination() ) {
                 continue;
@@ -1618,7 +1628,7 @@ void Character::forced_dismount()
     bool mech = false;
     if( mounted_creature ) {
         auto *mon = mounted_creature.get();
-        if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
+        if( mon->has_flag( mon_flag_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
             mech = true;
             remove_item( weapon );
         }
@@ -1730,7 +1740,7 @@ void Character::dismount()
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
-        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
+        if( critter->has_flag( mon_flag_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
             weapon.typeId() == critter->type->mech_weapon ) {
             remove_item( weapon );
         }
@@ -2018,6 +2028,20 @@ bool Character::is_crouching() const
     return move_mode->type() == move_mode_type::CROUCHING;
 }
 
+bool Character::is_runallfours() const
+{
+    bool allfour = false;
+    if( move_mode->type() == move_mode_type::RUNNING && !is_armed() ) {
+        if( has_trait( trait_PAWS ) && ( has_trait( trait_THRESH_LUPINE ) ||
+                                         has_trait( trait_THRESH_FELINE )
+                                         || has_trait( trait_THRESH_BEAST ) ) ) {
+            allfour = true;
+        }
+    }
+
+    return allfour;
+}
+
 bool Character::is_prone() const
 {
     return move_mode->type() == move_mode_type::PRONE;
@@ -2053,7 +2077,7 @@ int Character::footstep_sound() const
                 default:
                     break;
             }
-            if( mons->has_flag( MF_LOUDMOVES ) ) {
+            if( mons->has_flag( mon_flag_LOUDMOVES ) ) {
                 volume += 6;
             }
         } else {
@@ -2104,7 +2128,7 @@ steed_type Character::get_steed_type() const
 {
     steed_type steed;
     if( is_mounted() ) {
-        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             steed = steed_type::MECH;
         } else {
             steed = steed_type::ANIMAL;
@@ -2382,7 +2406,7 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( NV_GOGGLES );
     }
     if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( itype_rm13_armor_on ) ||
-        ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
+        ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
     if( has_active_mutation( trait_ELFA_FNV ) ) {
@@ -2413,7 +2437,7 @@ void Character::recalc_sight_limits()
     // Not exactly a sight limit thing, but related enough
     if( has_flag( json_flag_INFRARED ) ||
         worn_with_flag( flag_IR_EFFECT ) || ( is_mounted() &&
-                mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
+                mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( IR_VISION );
     }
 
@@ -2868,7 +2892,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) c
     int mech_lift = 0;
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
@@ -3928,8 +3952,24 @@ int Character::ranged_per_mod() const
 
 int Character::get_lifestyle() const
 {
-    return lifestyle;
+    // gets your health_tally variable + the factor of your bmi on your healthiness.
+
+    // being over or underweight makes your "effective healthiness" lower.
+    // for example, you have a lifestyle of 0 and a bmi_fat of 15 (border between obese and very obese)
+    // 0 - 25 - 0 = -25. So your "effective lifestyle" is -25 (feel a little cruddy)
+    // ex2 you have a lifestyle of 50 and a bmi_fat of 15 because you get exercise and eat well
+    // 50 - 25 - 0 = 25. So your "effective lifestyle" is 25 (feel decent despite being obese)
+    // ex3 you have a lifestyle of -50 and a bmi_fat of 15 because you eat candy and don't exercise
+    // -50 - 25 - 0 = -75. So your "effective lifestyle" is -75 (you'd feel crappy normally but because of your weight you feel worse)
+
+    const float bmi = get_bmi_fat();
+    int over_factor = std::round( std::max( 0.0f,
+                                            5 * ( bmi - character_weight_category::obese ) ) );
+    int under_factor = std::round( std::max( 0.0f,
+                                   50 * ( character_weight_category::normal - bmi ) ) );
+    return std::max( lifestyle - ( over_factor + under_factor ), -200 );
 }
+
 int Character::get_daily_health() const
 {
     return daily_health;
@@ -4522,8 +4562,8 @@ void Character::update_health()
 {
     // Limit daily_health to [-200, 200].
     // This also sets approximate bounds for the character's health.
-    if( get_daily_health() > get_max_healthy() ) {
-        set_daily_health( get_max_healthy() );
+    if( get_daily_health() > 200 ) {
+        set_daily_health( 200 );
     } else if( get_daily_health() < -200 ) {
         set_daily_health( -200 );
     }
@@ -5439,14 +5479,8 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
-bool Character::is_immune_field( const field_type_id &fid ) const
+bool Character::check_immunity_data( const field_immunity_data &ft ) const
 {
-    // Obviously this makes us invincible
-    if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
-        return true;
-    }
-    // Check to see if we are immune
-    const field_type &ft = fid.obj();
     for( const json_character_flag &flag : ft.immunity_data_flags ) {
         if( has_flag( flag ) ) {
             return true;
@@ -5495,6 +5529,23 @@ bool Character::is_immune_field( const field_type_id &fid ) const
                 return true;
             }
         }
+    }
+
+    return false;
+}
+
+bool Character::is_immune_field( const field_type_id &fid ) const
+{
+    // Obviously this makes us invincible
+    if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
+        return true;
+    }
+
+    // Check to see if we are immune
+    const field_type &ft = fid.obj();
+
+    if( check_immunity_data( ft.immunity_data ) ) {
+        return true;
     }
 
     if( ft.has_elec ) {
@@ -7440,7 +7491,7 @@ ret_val<void> Character::can_wield( const item &it ) const
     monster *mount = mounted_creature.get();
     if( it.is_two_handed( *this ) && ( !has_two_arms_lifting() ||
                                        worn_with_flag( flag_RESTRICT_HANDS ) ) &&
-        !( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
+        !( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
            mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
         if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
             return ret_val<void>::make_failure(
@@ -7453,7 +7504,7 @@ ret_val<void> Character::can_wield( const item &it ) const
                                                 it.tname() );
         }
     }
-    if( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
+    if( is_mounted() && mount->has_flag( mon_flag_RIDEABLE_MECH ) &&
         mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
         return ret_val<void>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
@@ -7673,9 +7724,15 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-    if( worn_with_flag( flag_REQUIRES_BALANCE ) && !is_on_ground() ) {
+
+
+    map &here = get_map();
+    const optional_vpart_position veh_part = here.veh_at( pos() );
+    bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
+
+    if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
         int rolls = 4;
-        if( worn_with_flag( flag_ROLLER_ONE ) ) {
+        if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
             rolls += 2;
         }
         if( has_trait( trait_PROF_SKATER ) ) {
@@ -7695,6 +7752,9 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
                 }
             } else {
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
+            }
+            if( in_skater_vehicle ) {
+                g->fling_creature( this, rng_float( 0_degrees, 360_degrees ), 10 );
             }
             // This kind of downing is not subject to immunity.
             add_effect( effect_downed, 2_turns, false, 0, true );
@@ -8831,7 +8891,7 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
 units::energy Character::available_ups() const
 {
     units::energy available_charges = 0_kJ;
-    if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+    if( is_mounted() && mounted_creature.get()->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         auto *mons = mounted_creature.get();
         available_charges += units::from_kilojoule( mons->battery_item->ammo_remaining() );
     }
@@ -8851,7 +8911,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     const units::energy wanted_qty = qty;
 
     // UPS from mounted mech
-    if( qty != 0_kJ && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+    if( qty != 0_kJ && is_mounted() && mounted_creature.get()->has_flag( mon_flag_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
         qty -= mons->use_mech_power( qty );

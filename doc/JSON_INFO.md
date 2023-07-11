@@ -239,6 +239,7 @@ Use the `Home` key to return to the top.
   - [`professions`](#professions)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement-1)
+  - [`reveal_locale`](#reveal_locale)
   - [`eocs`](#eocs)
   - [`missions`](#missions-1)
   - [`custom_initial_date`](#custom_initial_date)
@@ -505,6 +506,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `monster_attacks.json`        | monster attacks
 | `monster_drops.json`          | monster item drops on death
 | `monster_factions.json`       | monster factions
+| `monster_flags.json`          | monster flags and their descriptions
 | `monstergroups.json`          | monster spawn groups
 | `monstergroups_egg.json`      | monster spawn groups from eggs
 | `monsters.json`               | monster descriptions, mostly zombies
@@ -3566,6 +3568,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "max_item_length": "0 mm",        // Maximum length of items that can fit in this pocket, by their longest_side.  Default is the diagonal opening length assuming volume is a cube (cube_root(vol)*square_root(2))
     "spoil_multiplier": 1.0,          // How putting an item in this pocket affects spoilage.  Less than 1.0 and the item will be preserved longer; 0.0 will preserve indefinitely.
     "weight_multiplier": 1.0,         // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplier.
+    "volume_multiplier": 1.0,         // The items in this pocket have less volume inside than outside.  Can be used for containers that'd help in organizing specific contents, such as cardboard rolls for duct tape.
     "moves": 100,                     // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
     "rigid": false,                   // Default false. If true, this pocket's size is fixed, and does not expand when filled.  A glass jar would be rigid, while a plastic bag is not.
     "forbidden": true,                // Default false. If true, this pocket cannot be used by players. 
@@ -5180,6 +5183,12 @@ Add a map special to the starting location, see JSON_FLAGS for the possible spec
 
 The achievement you need to do to access this scenario
 
+## `reveal_locale`
+
+(optional, boolean)
+
+Defaults true. If a road can be found within 3 OMTs of the starting position, reveals a path to the nearest city and that city's center.
+
 ## `eocs`
 (optional, array of strings)
 
@@ -5535,17 +5544,13 @@ Fields can exist on top of terrain/furniture, and support different intensity le
             "message": "You're debilitated!", // Message to print when the effect is applied to the player
             "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
             "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
+            "immunity_data": {...} // See Immunity Data below
           }
         ]
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
-    "immunity_data": {  // Array containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
-      { "flags": [ "WEBWALK" ] },  // Immune if the character has any of the defined character flags (see Character flags)
-      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] }, // Immune if ALL bodyparts of the defined types have the defined amount of env protection
-      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ], // Immune if ALL parts of the defined types wear an item with the defined flag
-      "immunity_flags_worn_any": [ [ "sensor": "BLIND" ], [ "hand": "PADDED" ] ], Immune if ANY part of the defined type wears an item with the corresponding flag -- in this example either a blindfold OR padded gloves confer immunity
-      },
+    "immunity_data": {...} // See Immunity Data below
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
@@ -5585,6 +5590,18 @@ Fields can exist on top of terrain/furniture, and support different intensity le
       ]
     }
   }
+```
+
+## Immunity data
+Immunity data can be provided at the field level or at the effect level based on intensity and body part. At the field level it applies immunity to all effects.
+
+```JSON
+"immunity_data": {  // Object containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
+      "flags": [ "WEBWALK" ],  // Immune if the character has any of the defined character flags (see Character flags)
+      "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ], // Immune if ALL bodyparts of the defined types have the defined amount of env protection
+      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ], // Immune if ALL parts of the defined types wear an item with the defined flag
+      "immunity_flags_worn_any": [ [ "sensor", "BLIND" ], [ "hand", "PADDED" ] ], // Immune if ANY part of the defined type wears an item with the corresponding flag -- in this example either a blindfold OR padded gloves confer immunity
+},
 ```
 
 # Option sliders

@@ -14,7 +14,7 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 2,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "max_damage": 1,
     "energy_source": "STAMINA",
@@ -43,16 +43,16 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 1,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 3500,
     "final_energy_cost": 2000,
     "energy_increment": -75,
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: vita_health_power') * 2100) + 18000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: vita_health_power') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: vita_health_power') * 2700) + 145000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: vita_health_power') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "base_casting_time": 100,
     "final_casting_time": 25,
@@ -75,7 +75,7 @@
     "shape": "blast",
     "damage_type": "pure",
     "difficulty": 3,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_dot": 1,
     "max_dot": 2,
     "dot_increment": 0.1,
@@ -84,10 +84,10 @@
     "final_energy_cost": 500,
     "energy_increment": -65,
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: vita_hurt_touch') * 100) + 400) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: vita_hurt_touch') * 100) + 400) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: vita_hurt_touch') * 100) + 3000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: vita_hurt_touch') * 100) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": 1,
     "base_casting_time": 85,
@@ -109,7 +109,7 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 5,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 4500,
     "final_energy_cost": 1250,
@@ -137,12 +137,12 @@
     ],
     "shape": "blast",
     "difficulty": 4,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: vita_sleeping_trance') * 2) + 40) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: vita_sleeping_trance') * 2) + 40) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: vita_sleeping_trance') * 2) + 150) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: vita_sleeping_trance') * 2) + 150) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 1000,
@@ -181,12 +181,12 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 6,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: vita_healing_trance') * -1.5) - 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: vita_healing_trance') * -1.5) - 6) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: vita_healing_trance') * -2) - 12) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: vita_healing_trance') * -2) - 12) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
@@ -208,7 +208,7 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 7,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 5000,
     "final_energy_cost": 2500,

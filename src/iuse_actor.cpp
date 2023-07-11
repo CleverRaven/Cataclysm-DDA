@@ -132,6 +132,8 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
+static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
+
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
@@ -889,7 +891,7 @@ std::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const 
     p.moves -= moves;
 
     newmon.ammo = newmon.type->starting_ammo;
-    if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
+    if( !newmon.has_flag( mon_flag_INTERIOR_AMMO ) ) {
         for( std::pair<const itype_id, int> &amdef : newmon.ammo ) {
             item ammo_item( amdef.first, calendar::turn_zero );
             const int available = p.charges_of( amdef.first );
@@ -4803,7 +4805,7 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             const point vcoords1 = cable->link->t_mount;
             const point vcoords2 = t_vp->mount();
 
-            const ret_val<void> can_mount1 = target_veh->can_mount( vcoords1, *vpid );
+            const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
             if( !can_mount1.success() ) {
                 //~ %1$s - tow cable name, %2$s - the reason why it failed
                 p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
@@ -4811,10 +4813,10 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
                 return std::nullopt;
             }
 
-            const ret_val<void> can_mount2 = prev_veh->can_mount( vcoords2, *vpid );
+            const ret_val<void> can_mount2 = target_veh->can_mount( vcoords2, *vpid );
             if( !can_mount2.success() ) {
                 //~ %1$s - tow cable name, %2$s - the reason why it failed
-                p.add_msg_if_player( m_bad, _( "You can't attach the %s: %s" ),
+                p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
                                      it.type_name(), can_mount2.str() );
                 return std::nullopt;
             }

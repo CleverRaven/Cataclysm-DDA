@@ -1061,6 +1061,11 @@
   },
   {
     "type": "construction_group",
+    "id": "make_stooking_spot",
+    "name": "Make stooking spot"
+  },
+  {
+    "type": "construction_group",
     "id": "make_gravel_floor",
     "name": "Make Gravel Floor"
   },

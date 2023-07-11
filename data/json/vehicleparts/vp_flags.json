@@ -644,5 +644,18 @@
   {
     "id": "WIRING",
     "type": "json_flag"
+  },
+  {
+    "id": "SEAT_REQUIRES_BALANCE",
+    "type": "json_flag"
+  },
+  {
+    "id": "WHEEL_MOUNT_SKATEBOARD",
+    "type": "json_flag"
+  },
+  {
+    "id": "NEEDS_WHEEL_MOUNT_SKATEBOARD",
+    "type": "json_flag",
+    "requires_flag": "WHEEL_MOUNT_SKATEBOARD"
   }
 ]

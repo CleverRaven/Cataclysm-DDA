@@ -67,7 +67,7 @@
   {
     "id": "TALK_GODCO_chef_idle_chat",
     "type": "talk_topic",
-    "dynamic_line": [ "Okay, shoot.", "Sure, what's up?", "Alright, lets chat." ],
+    "dynamic_line": [ "Okay, shoot.", "Sure, what's up?", "Alright, let's chat." ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_GODCO_chef_past" },
       { "text": "How are you holding up?", "topic": "TALK_GODCO_chef_mood" },
@@ -103,7 +103,7 @@
     "type": "talk_topic",
     "dynamic_line": [ "Katherine's probably in the bunks right now, and Jeremiah's next door.  Feel free to say hello sometime." ],
     "responses": [
-      { "text": "Lets talk about something else.", "topic": "TALK_GODCO_chef" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_chef" },
       { "text": "I'll do that.", "topic": "TALK_DONE" }
     ]
   },
