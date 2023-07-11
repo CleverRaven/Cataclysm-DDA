@@ -547,7 +547,7 @@
     ],
     "warmth": 15,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "technician_coveralls_h",
@@ -645,7 +645,7 @@
     ],
     "warmth": 30,
     "material_thickness": 1.0,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "subsuit_xl",
