@@ -1733,6 +1733,7 @@ struct mutable_overmap_placement_rule_remainder {
 
     std::vector<tripoint_rel_omt> positions( om_direction::type rot ) const {
         std::vector<tripoint_rel_omt> result;
+        result.reserve( parent->pieces.size() );
         for( const mutable_overmap_placement_rule_piece &piece : parent->pieces ) {
             result.push_back( rotate( piece.pos, rot ) );
         }
@@ -1930,7 +1931,7 @@ class joins_tracker
             consistency_check();
             for( iterator it : unresolved.all_at( pos ) ) {
                 postponed.add( *it );
-                bool erased = erase_unresolved( it->where );
+                [[maybe_unused]] const bool erased = erase_unresolved( it->where );
                 cata_assert( erased );
             }
             consistency_check();
@@ -2028,13 +2029,13 @@ class joins_tracker
             iterator add( const join &j ) {
                 joins.push_front( j );
                 auto it = joins.begin();
-                auto insert_result = position_index.emplace( j.where, it );
-                cata_assert( insert_result.second );
+                [[maybe_unused]] const bool inserted = position_index.emplace( j.where, it ).second;
+                cata_assert( inserted );
                 return it;
             }
 
             void erase( const iterator it ) {
-                size_t erased = position_index.erase( it->where );
+                [[maybe_unused]] const size_t erased = position_index.erase( it->where );
                 cata_assert( erased );
                 joins.erase( it );
             }
@@ -2051,8 +2052,8 @@ class joins_tracker
             if( unresolved_priority_index.size() <= priority ) {
                 unresolved_priority_index.resize( priority + 1 );
             }
-            auto insert_result_2 = unresolved_priority_index[priority].insert( it );
-            cata_assert( insert_result_2.second );
+            [[maybe_unused]] const bool inserted = unresolved_priority_index[priority].insert( it ).second;
+            cata_assert( inserted );
         }
 
         bool erase_unresolved( const om_pos_dir &p ) {
@@ -2063,7 +2064,7 @@ class joins_tracker
             iterator it = pos_it->second;
             unsigned priority = it->join->priority;
             cata_assert( priority < unresolved_priority_index.size() );
-            size_t erased = unresolved_priority_index[priority].erase( it );
+            [[maybe_unused]] const size_t erased = unresolved_priority_index[priority].erase( it );
             cata_assert( erased );
             unresolved.erase( it );
             return true;
@@ -2265,6 +2266,7 @@ struct mutable_overmap_phase {
 
     mutable_overmap_phase_remainder realise() const {
         std::vector<mutable_overmap_placement_rule_remainder> realised_rules;
+        realised_rules.reserve( rules.size() );
         for( const mutable_overmap_placement_rule &rule : rules ) {
             realised_rules.push_back( rule.realise() );
         }
@@ -3992,6 +3994,19 @@ void overmap::move_hordes()
                 continue;
             }
 
+            // Only monsters in the open (fields, forests, roads) are eligible to wander
+            const oter_id &om_here = ter( project_to<coords::omt>( p ) );
+            if( !is_ot_match( "field", om_here, ot_match_type::contains ) ) {
+                if( !is_ot_match( "road", om_here, ot_match_type::contains ) ) {
+                    if( !is_ot_match( "forest", om_here, ot_match_type::prefix ) ) {
+                        if( !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
+                            monster_map_it++;
+                            continue;
+                        }
+                    }
+                }
+            }
+
             // Scan for compatible hordes in this area, selecting the largest.
             mongroup *add_to_group = nullptr;
             auto group_bucket = zg.equal_range( p );
@@ -4050,13 +4065,18 @@ void overmap::move_nemesis()
         std::tie( omp, local_sm ) = project_remain<coords::om>( mg.abs_pos );
 
         // Decrease movement chance according to the terrain we're currently on.
+        // Hordes will tend toward roads / open fields and path around specials.
         const oter_id &walked_into = ter( project_to<coords::omt>( local_sm ) );
-        int movement_chance = 1;
-        if( walked_into == oter_forest || walked_into == oter_forest_water ) {
+        int movement_chance = 25;
+        if( is_ot_match( "road", walked_into, ot_match_type::contains ) ) {
+            movement_chance = 1;
+        } else if( is_ot_match( "field", walked_into, ot_match_type::contains ) ) {
             movement_chance = 3;
-        } else if( walked_into == oter_forest_thick ) {
+        } else if( is_ot_match( "forest", walked_into, ot_match_type::prefix ) ||
+                   is_ot_match( "swamp", walked_into, ot_match_type::prefix ) ||
+                   is_ot_match( "bridge", walked_into, ot_match_type::prefix ) ) {
             movement_chance = 6;
-        } else if( walked_into == oter_river_center ) {
+        } else if( is_ot_match( "river", walked_into, ot_match_type::prefix ) ) {
             movement_chance = 10;
         }
 
@@ -4773,6 +4793,10 @@ void overmap::place_swamps()
 void overmap::place_roads( const overmap *north, const overmap *east, const overmap *south,
                            const overmap *west )
 {
+    int op_city_size = get_option<int>( "CITY_SIZE" );
+    if( op_city_size <= 0 ) {
+        return;
+    }
     std::vector<tripoint_om_omt> &roads_out = connections_out[overmap_connection_local_road];
 
     // At least 3 exit points, to guarantee road continuity across overmaps

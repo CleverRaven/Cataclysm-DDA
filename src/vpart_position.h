@@ -113,7 +113,7 @@ class vpart_position
 };
 
 /**
- * Simple wrapper to forward functions that may return a @ref cata::optional
+ * Simple wrapper to forward functions that may return a @ref std::optional
  * to @ref vpart_position. They generally return an empty `optional`, or
  * forward to the same function in `vpart_position`.
  */

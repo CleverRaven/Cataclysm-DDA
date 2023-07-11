@@ -166,11 +166,15 @@ static void load_json_dir( const std::string &dirname )
 
 int main( int, char ** )
 {
-    setlocale( LC_ALL, "" );
+    char *result = setlocale( LC_ALL, "" );
+    if( !result ) {
+        std::cerr << "Failed to set locale\n";
+        return 1;
+    }
     try {
         load_json_dir( "data/json" );
     } catch( const std::exception &err ) {
-        printf( "Error: %s\n", err.what() );
+        std::cerr << "Error: " << err.what() << "\n";
         return 1;
     }
     return 0;

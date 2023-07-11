@@ -14,11 +14,6 @@
 class Character;
 struct tripoint;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class avatar;
 class item;
 class repair_item_actor;
@@ -116,6 +111,8 @@ item_location disassemble( Character &you );
 item_location gun_to_modify( Character &you, const item &gunmod );
 /** Book reading menu. */
 item_location read( Character &you );
+/** E-Book reading menu. */
+item_location ereader_to_use( Character &you );
 /** eBook reading menu. */
 item_location ebookread( Character &you, item_location &ereader );
 /** Menu for stealing stuff. */

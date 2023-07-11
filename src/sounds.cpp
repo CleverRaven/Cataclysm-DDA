@@ -325,10 +325,10 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
     }
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
-    recent_sounds.emplace_back( std::make_pair( p, monster_sound_event{ vol, is_provocative( category ) } ) );
-    sounds_since_last_turn.emplace_back( std::make_pair( p,
+    recent_sounds.emplace_back( p, monster_sound_event{ vol, is_provocative( category ) } );
+    sounds_since_last_turn.emplace_back( p,
                                          sound_event { vol, category, description, ambient,
-                                                 false, id, variant, seas_str } ) );
+                                                 false, id, variant, seas_str } );
 }
 
 void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
@@ -342,8 +342,8 @@ void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
 {
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
-    sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
-                                         sound_t::movement, footstep, false, true, "", "", seas_str} ) );
+    sounds_since_last_turn.emplace_back( p, sound_event { volume,
+                                         sound_t::movement, footstep, false, true, "", "", seas_str} );
 }
 
 template <typename C>
@@ -883,7 +883,7 @@ void sfx::do_vehicle_engine_sfx()
         if( !veh->is_engine_on( vp ) ) {
             continue;
         }
-        std::string variant = vp.info().get_id().str();
+        std::string variant = vp.info().id.str();
         if( sfx::has_variant_sound( "engine_working_internal", variant, seas_str, indoors, night ) ) {
             // has special sound variant for this vpart id
         } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
@@ -1027,7 +1027,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
         if( !veh->is_engine_on( vp ) ) {
             continue;
         }
-        std::string variant = vp.info().get_id().str();
+        std::string variant = vp.info().id.str();
         if( sfx::has_variant_sound( "engine_working_external", variant, seas_str, indoors, night ) ) {
             // has special sound variant for this vpart id
         } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
@@ -1798,7 +1798,7 @@ void sfx::do_footstep()
             return;
         }
         if( veh_displayed_part ) {
-            const std::string &part_id = veh_displayed_part->part().info().get_id().str();
+            const std::string &part_id = veh_displayed_part->part().info().id.str();
             if( has_variant_sound( "plmove", part_id, seas_str, indoors, night ) ) {
                 play_plmove_sound_variant( part_id, seas_str, indoors, night );
             } else if( veh_displayed_part->has_feature( VPFLAG_AISLE ) ) {

@@ -354,7 +354,7 @@ static void print_test_strings( const vproto_id &type )
     ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", 5, false, false, true ) );
     ss << " ] }," << std::endl;
     printf( "%s", ss.str().c_str() );
-    fflush( stdout );
+    static_cast<void>( fflush( stdout ) );
 }
 
 static void test_vehicle(

@@ -32,7 +32,7 @@ const std::unordered_set<std::string> simple_string_conds = { {
 };
 const std::unordered_set<std::string> complex_conds = { {
         "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait",
-        "u_has_flag", "npc_has_flag", "npc_has_class", "u_has_mission", "u_monsters_in_direction", "u_safe_mode_trigger",
+        "u_has_flag", "npc_has_flag", "u_has_species", "npc_has_species", "u_bodytype", "npc_bodytype", "npc_has_class", "u_has_mission", "u_monsters_in_direction", "u_safe_mode_trigger",
         "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
         "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
         "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item", "u_has_move_mode", "npc_has_move_mode",
@@ -46,10 +46,10 @@ const std::unordered_set<std::string> complex_conds = { {
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var", "expects_vars",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "mod_is_loaded", "one_in_chance", "x_in_y_chance",
-        "u_is_height", "npc_is_height",
+        "u_is_height", "npc_is_height", "math",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
-        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int",
+        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", "u_is_in_field", "npc_is_in_field", "compare_int",
         "compare_string", "roll_contested", "compare_num", "u_has_martial_art", "npc_has_martial_art", "get_condition", "get_game_option"
     }
 };
@@ -104,6 +104,8 @@ struct conditional_t {
         void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_species( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_bodytype( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_expects_vars( const JsonObject &jo, const std::string &member );
         void set_compare_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -123,6 +125,8 @@ struct conditional_t {
         void set_has_part_temp( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
         void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_is_on_terrain_with_flag( const JsonObject &jo, const std::string &member,
+                                          bool is_npc = false );
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_one_in_chance( const JsonObject &jo, const std::string &member );
         void set_query( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -187,6 +191,7 @@ struct conditional_t {
         void set_u_has_camp();
         void set_has_pickup_list( bool is_npc );
         void set_has_reason();
+        void set_is_alive( bool is_npc = false );
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_has_skill( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_roll_contested( const JsonObject &jo, std::string_view member );

@@ -49,6 +49,11 @@ static const item_group_id Item_spawn_data_defense_caravan_melee( "defense_carav
 static const item_group_id Item_spawn_data_defense_caravan_ranged( "defense_caravan_ranged" );
 static const item_group_id Item_spawn_data_defense_caravan_tools( "defense_caravan_tools" );
 
+static const mon_flag_str_id mon_flag_BASHES( "BASHES" );
+static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
+
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
 static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
@@ -58,7 +63,7 @@ static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
-static const overmap_special_id overmap_special_Mansion_Wild( "Mansion_Wild" );
+static const overmap_special_id overmap_special_Mansion_Road_1( "Mansion_Road_1" );
 static const overmap_special_id overmap_special_bar( "bar" );
 static const overmap_special_id overmap_special_hospital( "hospital" );
 static const overmap_special_id
@@ -227,10 +232,10 @@ void defense_game::init_mtypes()
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
         t->difficulty += static_cast<int>( t->difficulty / 5 );
-        t->set_flag( MF_BASHES );
-        t->set_flag( MF_SMELLS );
-        t->set_flag( MF_HEARS );
-        t->set_flag( MF_SEES );
+        t->set_flag( mon_flag_BASHES );
+        t->set_flag( mon_flag_SMELLS );
+        t->set_flag( mon_flag_HEARS );
+        t->set_flag( mon_flag_SEES );
     }
 }
 
@@ -280,7 +285,7 @@ void defense_game::init_map()
             break;
 
         case DEFLOC_MANSION:
-            defloc_special = overmap_special_Mansion_Wild;
+            defloc_special = overmap_special_Mansion_Road_1;
             break;
     }
     starting_om.place_special_forced( defloc_special, defloc_pos, om_direction::type::north );

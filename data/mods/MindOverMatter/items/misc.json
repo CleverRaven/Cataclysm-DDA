@@ -1,0 +1,22 @@
+[
+  {
+    "id": "cards_zener",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "deck of Zener cards", "str_pl": "decks of Zener cards" },
+    "description": "A deck of Zener cards, used pre-Catalcysm to test for psychic ability.",
+    "weight": "23 g",
+    "volume": "29 ml",
+    "price": 1314,
+    "price_postapoc": 2,
+    "material": [ "cardboard" ],
+    "symbol": ",",
+    "color": "magenta",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Pick a card.  Any card.",
+      "effect_on_conditions": [ "EOC_ZENER_DECK" ]
+    }
+  }
+]

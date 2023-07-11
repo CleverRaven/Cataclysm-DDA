@@ -201,6 +201,8 @@ static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
@@ -2588,6 +2590,10 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         you->practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
     }
 
+    for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
+        you->practice_proficiency( proficiency_id, fix.time );
+    }
+
     add_msg( m_good, fix.success_msg.translated(), target.tname( 1, false ),
              start_durability, target.durability_indicator( true ) );
 }
@@ -3508,7 +3514,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
     const float computer_skill = you->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;
     float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
-    if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+    if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         success = randomized_skill - rng( 1, 11 );
     }
     // rideable mechs are not hostile, they have no AI, they do not resist control as much.
@@ -3516,7 +3522,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
         you->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
                                 z->name() );
         z->friendly = -1;
-        if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             z->add_effect( effect_pet, 1_turns, true );
         }
     } else if( success >= -2 ) {
@@ -3737,6 +3743,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     you->consume_charges( it, it.type->charges_to_use() );
                 }
             }
+            get_event_bus().send<event_type::spellcasting_finish>( you->getID(), sp,
+                    spell_being_cast.spell_class() );
         }
     }
 }
