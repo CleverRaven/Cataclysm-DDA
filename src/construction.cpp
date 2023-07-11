@@ -1310,7 +1310,8 @@ bool construct::check_ladder_up( const tripoint_bub_ms &p )
 
 bool construct::check_ladder_down( const tripoint_bub_ms &p )
 {
-    return check_empty( p + tripoint_below ) && check_down_OK( p ) && check_support_singular( p + tripoint_below ) &&
+    return check_empty( p + tripoint_below ) && check_down_OK( p ) &&
+           check_support_singular( p + tripoint_below ) &&
            check_nofloor( p );
 }
 
@@ -1328,7 +1329,9 @@ bool construct::check_ladder_present( const tripoint_bub_ms &p )
 {
     map &here = get_map();
     ter_id ter_present = here.ter( p );
-    return ter_present == t_ladder_long_down || ter_present == t_ladder_long_up || ter_present == t_ladder_aluminum_long_down || ter_present == t_ladder_aluminum_long_up || ter_present == t_ladder_aluminum_tele_down || ter_present == t_ladder_aluminum_tele_up;
+    return ter_present == t_ladder_long_down || ter_present == t_ladder_long_up ||
+           ter_present == t_ladder_aluminum_long_down || ter_present == t_ladder_aluminum_long_up ||
+           ter_present == t_ladder_aluminum_tele_down || ter_present == t_ladder_aluminum_tele_up;
 }
 
 bool construct::check_ramp_high( const tripoint_bub_ms &p )
@@ -1766,9 +1769,9 @@ void construct::done_ladder_aluminum_tele_down( const tripoint_bub_ms &p, Charac
 void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who )
 {
     std::unordered_map<ter_id, itype_id> terrain_item = {
-      { t_ladder_long_down, itype_ladder },
-      { t_ladder_aluminum_long_down, itype_ladder_aluminum },
-      { t_ladder_aluminum_tele_down, itype_ladder_telescopic_extended }
+        { t_ladder_long_down, itype_ladder },
+        { t_ladder_aluminum_long_down, itype_ladder_aluminum },
+        { t_ladder_aluminum_tele_down, itype_ladder_telescopic_extended }
     };
     map &here = get_map();
     const tripoint_bub_ms top = p + tripoint_above;
@@ -1782,9 +1785,9 @@ void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who 
 void construct::done_remove_ladder_down( const tripoint_bub_ms &p, Character &who )
 {
     std::unordered_map<ter_id, itype_id> terrain_item = {
-      { t_ladder_long_up, itype_ladder },
-      { t_ladder_aluminum_long_up, itype_ladder_aluminum },
-      { t_ladder_aluminum_tele_up, itype_ladder_telescopic_extended }
+        { t_ladder_long_up, itype_ladder },
+        { t_ladder_aluminum_long_up, itype_ladder_aluminum },
+        { t_ladder_aluminum_tele_up, itype_ladder_telescopic_extended }
     };
     map &here = get_map();
     const tripoint_bub_ms top = p + tripoint_below;
