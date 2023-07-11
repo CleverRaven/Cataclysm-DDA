@@ -309,6 +309,7 @@ birdhouses
 birdlike
 birdshot
 bitchin
+bitmap
 bitts
 bituminous
 bivalve
