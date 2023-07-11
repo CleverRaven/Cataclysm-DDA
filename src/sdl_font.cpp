@@ -313,6 +313,11 @@ CachedTTFFont::CachedTTFFont(
         throw std::runtime_error( TTF_GetError() );
     }
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
+#if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
+    if( fontblending == font_blending_mode::lcd ) {
+        TTF_SetFontHinting( font.get(), TTF_HINTING_LIGHT );
+    }
+#endif
 }
 
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
