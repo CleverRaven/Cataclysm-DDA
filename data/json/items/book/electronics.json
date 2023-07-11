@@ -140,7 +140,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Augmentative Tech Review", "str_pl": "issues of Augmentative Tech Review" },
-    "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on bionic systems, though they tend to use too much jargon.",
+    "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on prosthetics, though they tend to use too much jargon.",
     "weight": "1909 g",
     "volume": "500 ml",
     "price": 3000,
