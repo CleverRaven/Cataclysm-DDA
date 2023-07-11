@@ -25,6 +25,17 @@ text to show correctly.
 SDL\_ttf 2.19.1 is required for sub-pixel font rendering on LCD for better text
 display, but older versions are still supported. (2.0.15 worked when I last tested.)
 
+## Unifont modification
+
+A modified version of GNU unifont (data/font/unifont.ttf) is used to reduce the
+color bias when rendering the font using LCD blending. To reapply the modification
+when updating to a newer version, open it with FontForge, click `Element` -
+`Bitmap strikes available`, set `Pixel Sizes` to 16, click `Ok`, then click `File`
+- `Generate fonts`, select `TrueType` and `In TTF/OTF`in the dropdown lists,
+unselect `Validate Before Saving`, and click `Generate`. Note that according to
+the unifont license, this modified version should be licensed under its original
+license.
+
 ## Compatibility with screen readers
 
 There are people who use screen readers to play Cataclysm DDA. In order for screen
