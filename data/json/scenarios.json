@@ -406,6 +406,7 @@
     "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "SPIRITUAL" ],
     "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
     "requirement": "achievement_witnessed_portal_storm",
+    "reveal_locale": false,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -459,6 +460,7 @@
       "ELECTRORECEPTORS"
     ],
     "requirement": "achievement_reach_lab_finale",
+    "reveal_locale": false,
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -627,6 +629,7 @@
       "cop"
     ],
     "requirement": "achievement_reach_island_prison",
+    "reveal_locale": false,
     "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
@@ -639,6 +642,7 @@
     "start_name": "Mi-Go Camp",
     "professions": [ "captive", "rescuer" ],
     "requirement": "achievement_reach_mi-Go_encampment",
+    "reveal_locale": false,
     "flags": [ "LONE_START", "CHALLENGE" ],
     "custom_initial_date": { "season": "winter" }
   },
@@ -917,6 +921,7 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "eoc": [ "scenario_strong_portal_storm" ],
     "requirement": "achievement_reach_lab_finale",
+    "reveal_locale": false,
     "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
   },
   {
@@ -1007,6 +1012,7 @@
       "combat-engineer"
     ],
     "requirement": "achievement_reach_aircraft_carrier",
+    "reveal_locale": false,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -1234,7 +1240,8 @@
     "points": 1,
     "description": "During your escape you got lost and ended up at the wrong location.  Get your bearings and make a plan.  You'll need it.",
     "start_name": "Middle of Nowhere",
-    "allowed_locs": [ "sloc_middle_of_nowhere" ]
+    "allowed_locs": [ "sloc_middle_of_nowhere" ],
+    "reveal_locale": false
   },
   {
     "type": "scenario",
@@ -1243,6 +1250,7 @@
     "points": 1,
     "description": "When the riots came to your home, you ran underground and hid.  Now days later you are lost and hear movement echoing in the dark.",
     "start_name": "Underground",
-    "allowed_locs": [ "sloc_sewer" ]
+    "allowed_locs": [ "sloc_sewer" ],
+    "reveal_locale": false
   }
 ]

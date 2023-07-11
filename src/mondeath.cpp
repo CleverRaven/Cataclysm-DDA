@@ -53,6 +53,10 @@ static const efftype_id effect_no_ammo( "no_ammo" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
 
+static const mon_flag_str_id mon_flag_DROPS_AMMO( "DROPS_AMMO" );
+static const mon_flag_str_id mon_flag_NOGIB( "NOGIB" );
+static const mon_flag_str_id mon_flag_SILENT_DISAPPEAR( "SILENT_DISAPPEAR" );
+
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 item_location mdeath::normal( monster &z )
@@ -133,7 +137,7 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
 
 item_location mdeath::splatter( monster &z )
 {
-    const bool gibbable = !z.type->has_flag( MF_NOGIB );
+    const bool gibbable = !z.type->has_flag( mon_flag_NOGIB );
 
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
@@ -204,7 +208,7 @@ item_location mdeath::splatter( monster &z )
 
 void mdeath::disappear( monster &z )
 {
-    if( !z.type->has_flag( MF_SILENT_DISAPPEAR ) ) {
+    if( !z.type->has_flag( mon_flag_SILENT_DISAPPEAR ) ) {
         add_msg_if_player_sees( z.pos(), m_good, _( "The %s disappears." ), z.name() );
     }
 }
@@ -230,7 +234,7 @@ void mdeath::broken( monster &z )
     map &here = get_map();
     here.add_item_or_charges( z.pos(), broken_mon );
 
-    if( z.type->has_flag( MF_DROPS_AMMO ) ) {
+    if( z.type->has_flag( mon_flag_DROPS_AMMO ) ) {
         for( const std::pair<const itype_id, int> &ammo_entry : z.ammo ) {
             if( ammo_entry.second > 0 ) {
                 bool spawned = false;

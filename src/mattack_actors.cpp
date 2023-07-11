@@ -62,6 +62,10 @@ static const efftype_id effect_zombie_virus( "zombie_virus" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const mon_flag_str_id mon_flag_DEADLY_VIRUS( "DEADLY_VIRUS" );
+static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
+static const mon_flag_str_id mon_flag_VAMP_VIRUS( "VAMP_VIRUS" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
 
@@ -705,7 +709,7 @@ bool melee_actor::call( monster &z ) const
     add_msg_debug( debugmode::DF_MATTACK, "Accuracy %d, hitspread %d, dodgeable %s", acc, hitspread,
                    dodgeable ? "true" : "false" );
 
-    if( z.has_flag( MF_HIT_AND_RUN ) ) {
+    if( z.has_flag( mon_flag_HIT_AND_RUN ) ) {
         z.add_effect( effect_run, 4_turns );
     }
 
@@ -976,9 +980,9 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 
     // Flag only set for zombies in the deadly_bites mod
     if( x_in_y( infection_chance, 20 ) ) {
-        if( z.has_flag( MF_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
+        if( z.has_flag( mon_flag_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
             target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
-        } else if( z.has_flag( MF_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
+        } else if( z.has_flag( mon_flag_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
             target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
         }
     }

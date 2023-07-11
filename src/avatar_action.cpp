@@ -72,6 +72,9 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
 
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
@@ -368,7 +371,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             }
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
-        } else if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
+        } else if( critter.has_flag( mon_flag_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
                    critter.has_effect( effect_ridden ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name() );
             return false;
@@ -958,7 +961,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
     if( you.is_mounted() ) {
         monster *mons = get_player_character().mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
                          mons->get_name() );

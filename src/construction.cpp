@@ -90,6 +90,8 @@ static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 
+static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
+
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
@@ -1302,7 +1304,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
     for( const item &it : its ) {
         if( it.is_corpse() ) {
             if( it.get_corpse_name().empty() ) {
-                if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
+                if( it.get_mtype()->has_flag( mon_flag_HUMAN ) ) {
                     if( player_character.has_trait( trait_SPIRITUAL ) ) {
                         player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,

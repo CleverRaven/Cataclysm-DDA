@@ -78,6 +78,7 @@
 static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
+static const mon_flag_str_id mon_flag_ALWAYS_VISIBLE( "ALWAYS_VISIBLE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -1644,7 +1645,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     const Creature *critter = creatures.creature_at( pos, true );
                     if( has_draw_override( pos ) || has_memory_at( pos ) ||
                         ( critter &&
-                          ( critter->has_flag( MF_ALWAYS_VISIBLE )
+                          ( critter->has_flag( mon_flag_ALWAYS_VISIBLE )
                             || you.sees_with_infrared( *critter )
                             || you.sees_with_specials( *critter ) ) ) ) {
                         invisible[0] = true;
@@ -3943,7 +3944,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     Creature::Attitude attitude;
     Character &you = get_player_character();
     const Creature *pcritter = get_creature_tracker().creature_at( p, true );
-    const bool always_visible = pcritter && pcritter->has_flag( MF_ALWAYS_VISIBLE );
+    const bool always_visible = pcritter && pcritter->has_flag( mon_flag_ALWAYS_VISIBLE );
     const auto override = monster_override.find( p );
     if( override != monster_override.end() ) {
         const mtype_id id = std::get<0>( override->second );
