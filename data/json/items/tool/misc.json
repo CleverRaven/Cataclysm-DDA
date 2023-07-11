@@ -747,7 +747,12 @@
     "material": [ "aluminum", "rubber" ],
     "symbol": "H",
     "color": "light_gray",
-    "use_action": { "target": "ladder_aluminum_tele_extended", "msg": "You extend the ladder.", "type": "transform", "menu_text": "Extend" },
+    "use_action": {
+      "target": "ladder_aluminum_tele_extended",
+      "msg": "You extend the ladder.",
+      "type": "transform",
+      "menu_text": "Extend"
+    },
     "melee_damage": { "bash": 11 }
   },
   {
