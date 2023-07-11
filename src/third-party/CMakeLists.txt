@@ -16,7 +16,7 @@ file(GLOB FLATBUFFERS_SOURCES ${THIRD_PARTY_SOURCE_DIR}/flatbuffers/*.cpp)
 add_library(
         flatbuffers
         STATIC
-        ${FLATBUFFER_HEADERS}
+        ${FLATBUFFERS_HEADERS}
         ${FLATBUFFERS_SOURCES})
 
 target_include_directories(
