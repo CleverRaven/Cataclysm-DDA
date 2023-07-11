@@ -1377,7 +1377,7 @@
     "pre_note": "Must be adjacent to up ladder.",
     "pre_special": "check_remove_ladder_down",
     "post_terrain": "t_open_air",
-    "post_special": "done_ladder_down"
+    "post_special": "done_remove_ladder_down"
   },
   {
     "type": "construction",

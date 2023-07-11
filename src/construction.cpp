@@ -89,6 +89,9 @@ static const itype_id itype_nail( "nail" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
+static const itype_id itype_ladder( "ladder" );
+static const itype_id itype_ladder_aluminum( "ladder_aluminum" );
+static const itype_id itype_ladder_telescopic_extended( "ladder_telescopic_extended" );
 
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -1762,24 +1765,15 @@ void construct::done_ladder_aluminum_tele_down( const tripoint_bub_ms &p, Charac
 
 void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who )
 {
+    std::unordered_map<ter_id, itype_id> terrain_item = {
+      { t_ladder_long_down, itype_ladder },
+      { t_ladder_aluminum_long_down, itype_ladder_aluminum },
+      { t_ladder_aluminum_tele_down, itype_ladder_telescopic_extended }
+    };
     map &here = get_map();
-    itype_id item_to_drop;
     const tripoint_bub_ms top = p + tripoint_above;
-    enum ladder_down { t_ladder_long_down, t_ladder_aluminum_long_down, t_ladder_aluminum_tele_down };
-    ladder_down ladder_here = here.ter( top );
-    switch( ladder_here ) {
-        case t_ladder_long_down:
-        item_to_drop = item_id( "ladder_long" );
-        break;
-        case t_ladder_aluminum_long_down:
-        item_to_drop = item_id( "ladder_aluminum_long" );
-        break;
-        case t_ladder_aluminum_tele_down:
-        item_to_drop = item_id( "ladder_aluminum_tele" );
-        break;
-        default:
-        item_to_drop = item_id( "ladder_long" );
-    }
+    ter_id ladder_here = here.ter( top );
+    itype_id item_to_drop = terrain_item.at( ladder_here );
     get_map().ter_set( top, t_open_air );
     tripoint avatar_pos = who.pos();
     here.spawn_item( avatar_pos, item_to_drop );
@@ -1787,24 +1781,15 @@ void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who 
 
 void construct::done_remove_ladder_down( const tripoint_bub_ms &p, Character &who )
 {
+    std::unordered_map<ter_id, itype_id> terrain_item = {
+      { t_ladder_long_up, itype_ladder },
+      { t_ladder_aluminum_long_up, itype_ladder_aluminum },
+      { t_ladder_aluminum_tele_up, itype_ladder_telescopic_extended }
+    };
     map &here = get_map();
-    itype_id item_to_drop;
     const tripoint_bub_ms top = p + tripoint_below;
-    enum ladder_up { t_ladder_long_up, t_ladder_aluminum_long_up, t_ladder_aluminum_tele_up };
-    ladder_up ladder_here = here.ter( top );
-    switch( ladder_here ) {
-        case t_ladder_long_up:
-        item_to_drop = item_id( "ladder_long" );
-        break;
-        case t_ladder_aluminum_long_up:
-        item_to_drop = item_id( "ladder_aluminum_long" );
-        break;
-        case t_ladder_aluminum_tele_up:
-        item_to_drop = item_id( "ladder_aluminum_tele" );
-        break;
-        default:
-        item_to_drop = item_id( "ladder_long" );
-    }
+    ter_id ladder_here = here.ter( top );
+    itype_id item_to_drop = terrain_item.at( ladder_here );
     get_map().ter_set( top, t_floor );
     tripoint avatar_pos = who.pos();
     here.spawn_item( avatar_pos, item_to_drop );
