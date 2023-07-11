@@ -1730,9 +1730,9 @@ void construct::done_ladder_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     map &here = get_map();
     std::unordered_map<ter_id, ter_id> ladder_type = {
-      { t_ladder_long_down, t_ladder_long_up },
-      { t_ladder_aluminum_long_down, t_ladder_aluminum_long_up },
-      { t_ladder_aluminum_tele_down, t_ladder_aluminum_tele_up }
+        { t_ladder_long_down, t_ladder_long_up },
+        { t_ladder_aluminum_long_down, t_ladder_aluminum_long_up },
+        { t_ladder_aluminum_tele_down, t_ladder_aluminum_tele_up }
     };
     ter_id ladder_here = here.ter( p );
     ter_id ladder_to_place = ladder_type.at( ladder_here );
@@ -1744,9 +1744,9 @@ void construct::done_ladder_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     map &here = get_map();
     std::unordered_map<ter_id, ter_id> ladder_type = {
-      { t_ladder_long_down, t_ladder_long_up },
-      { t_ladder_aluminum_long_down, t_ladder_aluminum_long_up },
-      { t_ladder_aluminum_tele_down, t_ladder_aluminum_tele_up }
+        { t_ladder_long_down, t_ladder_long_up },
+        { t_ladder_aluminum_long_down, t_ladder_aluminum_long_up },
+        { t_ladder_aluminum_tele_down, t_ladder_aluminum_tele_up }
     };
     ter_id ladder_here = here.ter( p );
     ter_id ladder_to_place = ladder_type.at( ladder_here );
