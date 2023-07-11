@@ -1324,8 +1324,8 @@ bool construct::check_remove_ladder_down( const tripoint_bub_ms &p )
 bool construct::check_ladder_present( const tripoint_bub_ms &p )
 {
     map &here = get_map();
-	ter_id ter_present = here.ter( p );
-    return ter_present == ter_id( "t_ladder_long_down" ) || ter_present == ter_id( "t_ladder_long_up" ) || ter_present == ter_id( "t_ladder_aluminum_long_down" ) || ter_present == ter_id( "t_ladder_aluminum_long_up" ) || ter_present == ter_id( "t_ladder_aluminum_tele_down" ) || ter_present == ter_id( "t_ladder_aluminum_tele_up" );
+    ter_id ter_present = here.ter( p );
+    return ter_present == t_ladder_long_down || ter_present == t_ladder_long_up || ter_present == t_ladder_aluminum_long_down || ter_present == t_ladder_aluminum_long_up || ter_present == t_ladder_aluminum_tele_down || ter_present == t_ladder_aluminum_tele_up;
 }
 
 bool construct::check_ramp_high( const tripoint_bub_ms &p )
@@ -1727,37 +1727,37 @@ void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::done_ladder_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_ladder_long_down" ) );
+    get_map().ter_set( top, t_ladder_long_down );
 }
 
 void construct::done_ladder_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().ter_set( top, ter_id( "t_ladder_long_up" ) );
+    get_map().ter_set( top, t_ladder_long_up );
 }
 
 void construct::done_ladder_aluminum_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_ladder_aluminum_long_down" ) );
+    get_map().ter_set( top, t_ladder_aluminum_long_down );
 }
 
 void construct::done_ladder_aluminum_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().ter_set( top, ter_id( "t_ladder_aluminum_long_up" ) );
+    get_map().ter_set( top, t_ladder_aluminum_long_up );
 }
 
 void construct::done_ladder_aluminum_tele_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_ladder_aluminum_tele_down" ) );
+    get_map().ter_set( top, t_ladder_aluminum_tele_down );
 }
 
 void construct::done_ladder_aluminum_tele_down( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_below;
-    get_map().ter_set( top, ter_id( "t_ladder_aluminum_tele_up" ) );
+    get_map().ter_set( top, t_ladder_aluminum_tele_up );
 }
 
 void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who )
@@ -1765,17 +1765,22 @@ void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who 
     map &here = get_map();
     itype_id item_to_drop;
     const tripoint_bub_ms top = p + tripoint_above;
-    switch( here.ter( top ) ) {
-        case ter_id( "t_ladder_aluminum_tele_down" ):
-        item_to_drop = item_id( "ladder_aluminum_tele" );
+    enum ladder_down { t_ladder_long_down, t_ladder_aluminum_long_down, t_ladder_aluminum_tele_down };
+    ladder_down ladder_here = here.ter( top );
+    switch( ladder_here ) {
+        case t_ladder_long_down:
+        item_to_drop = item_id( "ladder_long" );
         break;
-        case: ter_id( "t_ladder_aluminum_long_down" ):
+        case t_ladder_aluminum_long_down:
         item_to_drop = item_id( "ladder_aluminum_long" );
+        break;
+        case t_ladder_aluminum_tele_down:
+        item_to_drop = item_id( "ladder_aluminum_tele" );
         break;
         default:
         item_to_drop = item_id( "ladder_long" );
     }
-    get_map().ter_set( top, ter_id( "t_open_air" ) );
+    get_map().ter_set( top, t_open_air );
     tripoint avatar_pos = who.pos();
     here.spawn_item( avatar_pos, item_to_drop );
 }
@@ -1783,19 +1788,24 @@ void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who 
 void construct::done_remove_ladder_down( const tripoint_bub_ms &p, Character &who )
 {
     map &here = get_map();
-    item_id item_to_drop;
+    itype_id item_to_drop;
     const tripoint_bub_ms top = p + tripoint_below;
-    switch( here.ter( top ) ) {
-        case ter_id( "t_ladder_aluminum_tele_up" ):
-        item_to_drop = item_id( "ladder_aluminum_tele" );
+    enum ladder_up { t_ladder_long_up, t_ladder_aluminum_long_up, t_ladder_aluminum_tele_up };
+    ladder_up ladder_here = here.ter( top );
+    switch( ladder_here ) {
+        case t_ladder_long_up:
+        item_to_drop = item_id( "ladder_long" );
         break;
-        case: ter_id( "t_ladder_aluminum_long_up" ):
+        case t_ladder_aluminum_long_up:
         item_to_drop = item_id( "ladder_aluminum_long" );
+        break;
+        case t_ladder_aluminum_tele_up:
+        item_to_drop = item_id( "ladder_aluminum_tele" );
         break;
         default:
         item_to_drop = item_id( "ladder_long" );
     }
-    get_map().ter_set( top, ter_id( "t_floor" ) );
+    get_map().ter_set( top, t_floor );
     tripoint avatar_pos = who.pos();
     here.spawn_item( avatar_pos, item_to_drop );
 }

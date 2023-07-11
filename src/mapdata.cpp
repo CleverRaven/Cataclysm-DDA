@@ -257,7 +257,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_TRANSPARENT_FLOOR: return "TRANSPARENT_FLOOR";
         case ter_furn_flag::TFLAG_TOILET_WATER: return "TOILET_WATER";
         case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
-		case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
+        case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -1093,6 +1093,12 @@ void set_ter_ids()
     t_manhole = ter_id( "t_manhole" );
     t_ladder_up = ter_id( "t_ladder_up" );
     t_ladder_down = ter_id( "t_ladder_down" );
+    t_ladder_long_up = ter_id( "t_ladder_long_up" );
+    t_ladder_long_down = ter_id( "t_ladder_long_down" );
+    t_ladder_aluminum_long_up = ter_id( "t_ladder_aluminum_long_up" );
+    t_ladder_aluminum_long_down = ter_id( "t_ladder_aluminum_long_down" );
+    t_ladder_aluminum_tele_up = ter_id( "t_ladder_aluminum_tele_up" );
+    t_ladder_aluminum_tele_down = ter_id( "t_ladder_aluminum_tele_down" );
     t_slope_down = ter_id( "t_slope_down" );
     t_slope_up = ter_id( "t_slope_up" );
     t_rope_up = ter_id( "t_rope_up" );
