@@ -6327,7 +6327,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         fault_id fault;
         std::reference_wrapper<const fault_fix> fix;
         bool doable;
-		time_duration time_to_fix = 1_hours;
+        time_duration time_to_fix = 1_hours;
     };
 
     std::vector<mending_option> mending_options;
