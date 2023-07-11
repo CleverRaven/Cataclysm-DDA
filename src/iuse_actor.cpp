@@ -4389,8 +4389,10 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
 
     uilist link_menu;
     if( !is_cable_item || !it.link || it.link->has_no_links() ) {
-        // This cable item or device doesn't have any connections yet.
-        link_menu.text = string_format( _( "Attaching the %s:" ), cable_name );
+        // This is either a device or a cable item without any connections.
+        link_menu.text = string_format( _( "What to do with the %s?%s" ),
+                                        cable_name, it.link && it.link->t_veh_safe ?
+                                        string_format( _( "\nAttached to: %s" ), it.link->t_veh_safe->name ) : "" );
         if( targets.count( link_state::vehicle_port ) > 0 ) {
             link_menu.addentry( 0, has_loose_end, -1, _( "Attach to vehicle controls or appliance" ) );
         }
@@ -4435,8 +4437,9 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
 
     } else if( it.link->has_state( link_state::vehicle_tow ) ) {
         // Cables that started a tow can finish one or detach; nothing else.
+        link_menu.text = string_format( _( "What to do with the %s?%s" ), cable_name, it.link->t_veh_safe ?
+                                        string_format( _( "\nAttached to: %s" ), it.link->t_veh_safe->name ) : "" );
 
-        link_menu.text = string_format( _( "Attaching the %s:" ), cable_name );
         link_menu.addentry( 10, has_loose_end && it.link->t_state == link_state::vehicle_tow, -1,
                             _( "Attach loose end to towing vehicle" ) );
         link_menu.addentry( 11, has_loose_end && it.link->s_state == link_state::vehicle_tow, -1,
@@ -4452,7 +4455,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
 
     } else {
         // This is a cable item with one connection already:
-        link_menu.text = string_format( _( "Attaching the %s's loose end:" ), cable_name );
+        link_menu.text = string_format( _( "What to do with the %s?%s" ), cable_name, it.link->t_veh_safe ?
+                                        string_format( _( "\nAttached to: %s" ), it.link->t_veh_safe->name ) : "" );
 
         // TODO: Allow plugging UPSes and Solar Packs into more than just bionics.
         // There is already code to support setting up a link, but none for actual functionality.
