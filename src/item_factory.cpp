@@ -1546,8 +1546,8 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        std::optional<int> use( Character &p, item &it, bool a, const tripoint &pos ) const override {
-            return cpp_function( &p, &it, a, pos );
+        std::optional<int> use( Character *p, item &it, bool a, const tripoint &pos ) const override {
+            return cpp_function( p, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
             return std::make_unique<iuse_function_wrapper>( *this );
