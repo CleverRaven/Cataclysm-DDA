@@ -149,8 +149,6 @@ static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a 
 static bool check_deconstruct( const tripoint_bub_ms
                                & ); // either terrain or furniture must be deconstructible
 static bool check_empty_up_OK( const tripoint_bub_ms & ); // tile is empty and below OVERMAP_HEIGHT
-static bool check_empty_down_OK( const tripoint_bub_ms
-                                 & ); // tile is empty and above OVERMAP_HEIGHT
 static bool check_up_OK( const tripoint_bub_ms & ); // tile is below OVERMAP_HEIGHT
 static bool check_down_OK( const tripoint_bub_ms & ); // tile is above OVERMAP_DEPTH
 static bool check_no_trap( const tripoint_bub_ms & );
@@ -1278,11 +1276,6 @@ bool construct::check_empty_up_OK( const tripoint_bub_ms &p )
     return check_empty( p ) && check_up_OK( p );
 }
 
-bool construct::check_empty_down_OK( const tripoint_bub_ms &p )
-{
-    return check_empty( p ) && check_down_OK( p );
-}
-
 bool construct::check_up_OK( const tripoint_bub_ms & )
 {
     // You're not going above +OVERMAP_HEIGHT.
@@ -2025,7 +2018,6 @@ void load_construction( const JsonObject &jo )
             { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
             { "check_empty_up_OK", construct::check_empty_up_OK },
-            { "check_empty_down_OK", construct::check_empty_down_OK },
             { "check_up_OK", construct::check_up_OK },
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
