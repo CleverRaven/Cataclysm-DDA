@@ -3061,6 +3061,19 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_siganotosaurus",
+    "name": { "str_sp": "skeletal giganotosaurus" },
+    "copy-from": "mon_sallosaurus",
+    "description": "Monstrous columns of dense bone lifting sharp, curved teeth dripping with black goo.",
+    "speed": 90,
+    "attack_cost": 90,
+    "hp": 350,
+    "melee_dice": 5,
+    "melee_dice_sides": 8,
+    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_skiats",
     "name": { "str_sp": "skeletal siats" },
     "copy-from": "mon_sacrocanthosaurus",
