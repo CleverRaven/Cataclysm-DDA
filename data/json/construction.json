@@ -1356,6 +1356,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_ladder_up",
+    "group": "place_ladder_up",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "pre_note": "Must be adjacent to up ladder.",
+    "pre_special": "check_remove_ladder_up",
+	"//": "This sucks please someone add a furniture tag that supports standing on it",
+    "post_terrain": "t_floor",
+    "post_special": "done_remove_ladder_up"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_ladder_down",
+    "group": "place_ladder_down",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "pre_note": "Must be adjacent to up ladder.",
+    "pre_special": "check_ladder_down",
+    "post_terrain": "t_open_air",
+    "post_special": "done_ladder_down"
+  },
+  {
+    "type": "construction",
     "id": "constr_metal_gangway",
     "group": "build_metal_gangway",
     "//": "Makes a metal gangway between two adjacent points, typically roofs.",

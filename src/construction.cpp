@@ -152,6 +152,9 @@ static bool check_down_OK( const tripoint_bub_ms & ); // tile is above OVERMAP_D
 static bool check_no_trap( const tripoint_bub_ms & );
 static bool check_ladder_up( const tripoint_bub_ms & );
 static bool check_ladder_down( const tripoint_bub_ms & );
+static bool check_remove_ladder_up( const tripoint_bub_ms & );
+static bool check_remove_ladder_down( const tripoint_bub_ms & );
+static bool check_ladder_present( const tripoint_bub_ms & );
 static bool check_ramp_low( const tripoint_bub_ms & );
 static bool check_ramp_high( const tripoint_bub_ms & );
 static bool check_no_wiring( const tripoint_bub_ms & );
@@ -177,6 +180,8 @@ static void done_ladder_aluminum_up( const tripoint_bub_ms &, Character & );
 static void done_ladder_aluminum_down( const tripoint_bub_ms &, Character & );
 static void done_ladder_aluminum_tele_up( const tripoint_bub_ms &, Character & );
 static void done_ladder_aluminum_tele_down( const tripoint_bub_ms &, Character & );
+static void done_remove_ladder_up( const tripoint_bub_ms &, Character & );
+static void done_remove_ladder_down( const tripoint_bub_ms &, Character & );
 static void done_window_curtains( const tripoint_bub_ms &, Character & );
 static void done_extract_maybe_revert_to_dirt( const tripoint_bub_ms &, Character & );
 static void done_mark_firewood( const tripoint_bub_ms &, Character & );
@@ -1306,6 +1311,23 @@ bool construct::check_ladder_down( const tripoint_bub_ms &p )
            check_nofloor( p );
 }
 
+bool construct::check_remove_ladder_up( const tripoint_bub_ms &p )
+{
+    return check_ladder_present( p ) && check_ladder_present( p + tripoint_above );
+}
+
+bool construct::check_remove_ladder_down( const tripoint_bub_ms &p )
+{
+    return check_ladder_present( p ) && check_ladder_present( p + tripoint_below );
+}
+
+bool construct::check_ladder_present( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+	ter_id ter_present = here.ter( p );
+    return ter_present == ter_id( "t_ladder_long_down" ) || ter_present == ter_id( "t_ladder_long_up" ) || ter_present == ter_id( "t_ladder_aluminum_long_down" ) || ter_present == ter_id( "t_ladder_aluminum_long_up" ) || ter_present == ter_id( "t_ladder_aluminum_tele_down" ) || ter_present == ter_id( "t_ladder_aluminum_tele_up" )
+}
+
 bool construct::check_ramp_high( const tripoint_bub_ms &p )
 {
     if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
@@ -1738,6 +1760,46 @@ void construct::done_ladder_aluminum_tele_down( const tripoint_bub_ms &p, Charac
     get_map().ter_set( top, ter_id( "t_ladder_aluminum_tele_up" ) );
 }
 
+void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who )
+{
+    map &here = get_map();
+    item_id item_to_drop;
+    const tripoint_bub_ms top = p + tripoint_above;
+    switch( here.ter( top ) ) {
+        case ter_id( "t_ladder_aluminum_tele_down" ):
+        item_to_drop = item_id( "ladder_aluminum_tele" );
+        break;
+        case: ter_id( "t_ladder_aluminum_long_down" ):
+        item_to_drop = item_id( "ladder_aluminum_long" );
+        break;
+        default:
+        item_to_drop = item_id( "ladder_long" );
+    }
+    get_map().ter_set( top, ter_id( "t_open_air" ) );
+    tripoint avatar_pos = who.pos();
+    here.spawn_item( avatar_pos, item_to_drop );
+}
+
+void construct::done_remove_ladder_down( const tripoint_bub_ms &p, Character &who )
+{
+    map &here = get_map();
+    item_id item_to_drop;
+    const tripoint_bub_ms top = p + tripoint_below;
+    switch( here.ter( top ) ) {
+        case ter_id( "t_ladder_aluminum_tele_up" ):
+        item_to_drop = item_id( "ladder_aluminum_tele" );
+        break;
+        case: ter_id( "t_ladder_aluminum_long_up" ):
+        item_to_drop = item_id( "ladder_aluminum_long" );
+        break;
+        default:
+        item_to_drop = item_id( "ladder_long" );
+    }
+    get_map().ter_set( top, ter_id( "t_floor" ) );
+    tripoint avatar_pos = who.pos();
+    here.spawn_item( avatar_pos, item_to_drop );
+}
+
 void construct::done_window_curtains( const tripoint_bub_ms &, Character &who )
 {
     map &here = get_map();
@@ -1974,6 +2036,9 @@ void load_construction( const JsonObject &jo )
             { "check_no_trap", construct::check_no_trap },
             { "check_ladder_up", construct::check_ladder_up },
             { "check_ladder_down", construct::check_ladder_down },
+            { "check_remove_ladder_up", construct::check_remove_ladder_up },
+            { "check_remove_ladder_down", construct::check_remove_ladder_down },
+            { "check_ladder_present", construct::check_ladder_present },
             { "check_ramp_low", construct::check_ramp_low },
             { "check_ramp_high", construct::check_ramp_high },
             { "check_no_wiring", construct::check_no_wiring }
@@ -2000,6 +2065,8 @@ void load_construction( const JsonObject &jo )
             { "done_ladder_aluminum_down", construct::done_ladder_aluminum_down },
             { "done_ladder_aluminum_tele_up", construct::done_ladder_aluminum_tele_up },
             { "done_ladder_aluminum_tele_down", construct::done_ladder_aluminum_tele_down },
+            { "done_remove_ladder_up", construct::done_remove_ladder_up },
+            { "done_remove_ladder_down", construct::done_remove_ladder_down },
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
             { "done_mark_firewood", construct::done_mark_firewood },
