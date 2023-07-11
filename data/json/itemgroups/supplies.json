@@ -396,6 +396,7 @@
       { "item": "chem_formaldehyde", "prob": 10, "charges-min": 1 },
       { "item": "chem_acetone", "prob": 10, "charges-min": 1 },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
+      { "item": "chem_caco3", "prob": 10, "charges-min": 100 },
       { "item": "mercury", "prob": 10, "charges-min": 100 },
       { "item": "chem_sodium", "prob": 10, "charges-min": 100 },
       { "item": "chem_potassium", "prob": 10, "charges-min": 100 },

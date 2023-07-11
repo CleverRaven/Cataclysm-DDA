@@ -737,8 +737,8 @@ class vpart_display
  *   call `map::veh_at()`, and check vehicle type (`veh_null`
  *   means there's no vehicle there).
  * - Vehicle consists of parts (represented by vector). Parts have some
- *   constant info: see veh_type.h, `vpart_info` structure and
- *   vpart_list array -- that is accessible through `part_info()` method.
+ *   constant info: see veh_type.h, `vpart_info` structure that is accessible
+ *   through `vehicle_part::info()` method.
  *   The second part is variable info, see `vehicle_part` structure.
  * - Parts are mounted at some point relative to vehicle position (or starting part)
  *   (`0, 0` in mount coordinates). There can be more than one part at
@@ -1008,9 +1008,6 @@ class vehicle
 
         // Engine backfire, making a loud noise
         void backfire( const vehicle_part &vp ) const;
-
-        // get vpart type info for part number (part at given vector index)
-        const vpart_info &part_info( int index, bool include_removed = false ) const;
 
         /**
          * @param dp The coordinate to mount at (in vehicle mount point coords)
@@ -1287,10 +1284,6 @@ class vehicle
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag ) const;
-
-        // returns true if given flag is present for given part index
-        bool part_flag( int p, const std::string &f ) const;
-        bool part_flag( int p, vpart_bitflags f ) const;
 
         // Translate mount coordinates "p" using current pivot direction and anchor and return tile coordinates
         point coord_translate( const point &p ) const;

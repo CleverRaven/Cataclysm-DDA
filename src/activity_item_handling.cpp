@@ -95,6 +95,7 @@ static const addiction_id addiction_alcohol( "alcohol" );
 
 static const efftype_id effect_incorporeal( "incorporeal" );
 
+static const flag_id json_flag_CUT_HARVEST( "CUT_HARVEST" );
 static const flag_id json_flag_MOP( "MOP" );
 static const flag_id json_flag_NO_AUTO_CONSUME( "NO_AUTO_CONSUME" );
 
@@ -108,6 +109,7 @@ static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
+static const quality_id qual_GRASS_CUT( "GRASS_CUT" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
@@ -204,8 +206,8 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     if( items.empty() ) {
         return;
     }
-
-    const tripoint where = veh.global_part_pos3( part );
+    vehicle_part &vp = veh.part( part );
+    const tripoint where = veh.global_part_pos3( vp );
     map &here = get_map();
     const std::string ter_name = here.name( where );
     int fallen_count = 0;
@@ -222,7 +224,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             it.charges = 0;
         }
 
-        if( veh.add_item( part, it ) ) {
+        if( veh.add_item( vp, it ) ) {
             into_vehicle_count += it.count();
         } else {
             if( it.count_by_charges() ) {
@@ -237,7 +239,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         it.handle_pickup_ownership( c );
     }
 
-    const std::string part_name = veh.part_info( part ).name();
+    const std::string part_name = vp.info().name();
 
     if( same_type( items ) ) {
         const item &it = items.front();
@@ -1278,8 +1280,21 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         zones = mgr.get_zones( zone_type_FARM_PLOT, here.getglobal( src_loc ), _fac_id( you ) );
         for( const zone_data &zone : zones ) {
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
-                // simple work, pulling up plants, nothing else required.
-                return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
+                map_stack items = here.i_at( src_loc );
+                const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                    return it.is_seed();
+                } );
+                if( seed->has_flag( json_flag_CUT_HARVEST ) ) {
+                    // The plant in this location needs a grass cutting tool.
+                    if( you.has_quality( quality_id( qual_GRASS_CUT ), 1 ) ) {
+                        return activity_reason_info::ok( do_activity_reason::NEEDS_CUT_HARVESTING );
+                    } else {
+                        return activity_reason_info::fail( do_activity_reason::NEEDS_CUT_HARVESTING );
+                    }
+                } else {
+                    // We can harvest this plant without any tools.
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
+                }
             } else if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
                 if( you.has_quality( qual_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great
@@ -2673,6 +2688,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
         }
         return requirement_check_result::SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
+               reason == do_activity_reason::NEEDS_CUT_HARVESTING ||
                reason == do_activity_reason::NEEDS_PLANTING ||
                reason == do_activity_reason::NEEDS_TILLING ||
                reason == do_activity_reason::NEEDS_CHOPPING ||
@@ -2720,12 +2736,15 @@ static requirement_check_result generic_multi_activity_check_requirement(
                 you.activity_vehicle_part_index = 1;
                 return requirement_check_result::SKIP_LOCATION;
             }
-            const vpart_info &vpinfo = veh->part_info( you.activity_vehicle_part_index );
             requirement_data reqs;
-            if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
-                reqs = vpinfo.removal_requirements();
-            } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
-                reqs = vpinfo.repair_requirements();
+            if( you.activity_vehicle_part_index >= 0 &&
+                you.activity_vehicle_part_index < static_cast<int>( veh->part_count() ) ) {
+                const vpart_info &vpi = veh->part( you.activity_vehicle_part_index ).info();
+                if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
+                    reqs = vpi.removal_requirements();
+                } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
+                    reqs = vpi.repair_requirements();
+                }
             }
             const std::string ran_str = random_string( 10 );
             const requirement_id req_id( ran_str );
@@ -2736,6 +2755,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
         } else if( reason == do_activity_reason::NEEDS_TILLING ||
                    reason == do_activity_reason::NEEDS_PLANTING ||
                    reason == do_activity_reason::NEEDS_CHOPPING ||
+                   reason == do_activity_reason::NEEDS_CUT_HARVESTING ||
                    reason == do_activity_reason::NEEDS_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
@@ -2752,6 +2772,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                 requirement_comp_vector.push_back( std::vector<item_comp> { item_comp( itype_id( dynamic_cast<const plot_options &>
                                                    ( zone->get_options() ).get_seed() ), 1 )
                                                                           } );
+            } else if( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) {
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_GRASS_CUT, 1, 1 ) } );
             } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
                        reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
                 quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_BUTCHER, 1, 1 ) } );
@@ -2777,6 +2799,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
         bool tool_pickup = reason == do_activity_reason::NEEDS_TILLING ||
                            reason == do_activity_reason::NEEDS_PLANTING ||
                            reason == do_activity_reason::NEEDS_CHOPPING ||
+                           reason == do_activity_reason::NEEDS_CUT_HARVESTING ||
                            reason == do_activity_reason::NEEDS_BUTCHERING ||
                            reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
                            reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
@@ -2853,7 +2876,8 @@ static bool generic_multi_activity_do(
     map &here = get_map();
     // something needs to be done, now we are there.
     // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
-    if( reason == do_activity_reason::NEEDS_HARVESTING &&
+    if( ( ( reason == do_activity_reason::NEEDS_HARVESTING ) ||
+          ( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) ) &&
         here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         // TODO: fix point types
         iexamine::harvest_plant( you, src_loc.raw(), true );

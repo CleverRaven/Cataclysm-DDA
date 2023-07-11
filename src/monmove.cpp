@@ -77,38 +77,76 @@ static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const material_id material_iflesh( "iflesh" );
 
+static const mon_flag_str_id mon_flag_ACIDPROOF( "ACIDPROOF" );
+static const mon_flag_str_id mon_flag_ACIDTRAIL( "ACIDTRAIL" );
+static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
+static const mon_flag_str_id mon_flag_ATTACKMON( "ATTACKMON" );
+static const mon_flag_str_id mon_flag_CAN_OPEN_DOORS( "CAN_OPEN_DOORS" );
+static const mon_flag_str_id mon_flag_DRIPS_GASOLINE( "DRIPS_GASOLINE" );
+static const mon_flag_str_id mon_flag_DRIPS_NAPALM( "DRIPS_NAPALM" );
+static const mon_flag_str_id mon_flag_ELECTRIC( "ELECTRIC" );
+static const mon_flag_str_id mon_flag_FIREPROOF( "FIREPROOF" );
+static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
+static const mon_flag_str_id mon_flag_GROUP_MORALE( "GROUP_MORALE" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_INSECTICIDEPROOF( "INSECTICIDEPROOF" );
+static const mon_flag_str_id mon_flag_KEENNOSE( "KEENNOSE" );
+static const mon_flag_str_id mon_flag_KEEP_DISTANCE( "KEEP_DISTANCE" );
+static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
+static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
+static const mon_flag_str_id mon_flag_PACIFIST( "PACIFIST" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
+static const mon_flag_str_id mon_flag_PET_WONT_FOLLOW( "PET_WONT_FOLLOW" );
+static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
+static const mon_flag_str_id mon_flag_PUSH_MON( "PUSH_MON" );
+static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
+static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+static const mon_flag_str_id mon_flag_SHORTACIDTRAIL( "SHORTACIDTRAIL" );
+static const mon_flag_str_id mon_flag_SLUDGETRAIL( "SLUDGETRAIL" );
+static const mon_flag_str_id mon_flag_SMALLSLUDGETRAIL( "SMALLSLUDGETRAIL" );
+static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
+static const mon_flag_str_id mon_flag_STUMBLES( "STUMBLES" );
+static const mon_flag_str_id mon_flag_SUNDEATH( "SUNDEATH" );
+static const mon_flag_str_id mon_flag_SWARMS( "SWARMS" );
+static const mon_flag_str_id mon_flag_WEBWALK( "WEBWALK" );
+
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
     if( fid == fd_fungal_haze ) {
-        return has_flag( MF_NO_BREATHE ) || type->in_species( species_FUNGUS );
+        return has_flag( mon_flag_NO_BREATHE ) || type->in_species( species_FUNGUS );
     }
     if( fid == fd_fungicidal_gas ) {
         return !type->in_species( species_FUNGUS );
     }
     if( fid == fd_insecticidal_gas ) {
-        return !made_of( material_iflesh ) || has_flag( MF_INSECTICIDEPROOF );
+        return !made_of( material_iflesh ) || has_flag( mon_flag_INSECTICIDEPROOF );
     }
     if( fid == fd_web ) {
-        return has_flag( MF_WEBWALK );
+        return has_flag( mon_flag_WEBWALK );
     }
     if( fid == fd_sludge || fid == fd_sap ) {
         return flies();
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
-        return has_flag( MF_NO_BREATHE );
+        return has_flag( mon_flag_NO_BREATHE );
     }
     if( ft.has_acid ) {
-        return has_flag( MF_ACIDPROOF ) || flies();
+        return has_flag( mon_flag_ACIDPROOF ) || flies();
     }
     if( ft.has_fire ) {
-        return has_flag( MF_FIREPROOF );
+        return has_flag( mon_flag_FIREPROOF );
     }
     if( ft.has_elec ) {
-        return has_flag( MF_ELECTRIC );
+        return has_flag( mon_flag_ELECTRIC );
     }
     if( ft.immune_mtypes.count( type->id ) > 0 ) {
         return true;
@@ -144,7 +182,7 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( has_flag( MF_AQUATIC ) && (
+    if( has_flag( mon_flag_AQUATIC ) && (
             !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
             // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
             ( here.veh_at( p ) && !here.veh_at( pos() ) )
@@ -152,7 +190,7 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( p ) ) {
+    if( has_flag( mon_flag_SUNDEATH ) && g->is_in_sunlight( p ) ) {
         return false;
     }
 
@@ -163,10 +201,10 @@ bool monster::will_move_to( const tripoint &p ) const
 
     // Various avoiding behaviors.
 
-    bool avoid_fire = has_flag( MF_AVOID_FIRE );
-    bool avoid_fall = has_flag( MF_AVOID_FALL );
-    bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
-    bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
+    bool avoid_fire = has_flag( mon_flag_PATH_AVOID_FIRE );
+    bool avoid_fall = has_flag( mon_flag_PATH_AVOID_FALL );
+    bool avoid_simple = has_flag( mon_flag_PATH_AVOID_DANGER_1 );
+    bool avoid_complex = has_flag( mon_flag_PATH_AVOID_DANGER_2 );
     /*
      * Because some avoidance behaviors are supersets of others,
      * we can cascade through the implications. Complex implies simple,
@@ -224,7 +262,7 @@ bool monster::will_move_to( const tripoint &p ) const
             }
             // Don't step on any traps (if we can see)
             const trap &target_trap = here.tr_at( p );
-            if( has_flag( MF_SEES ) && !target_trap.is_benign() && here.has_floor( p ) ) {
+            if( has_flag( mon_flag_SEES ) && !target_trap.is_benign() && here.has_floor( p ) ) {
                 return false;
             }
         }
@@ -345,13 +383,13 @@ monster_plan::monster_plan( const monster &mon ) :
     fears_hostile_near( mon.type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0 ),
     fears_hostile_seen( mon.type->has_fear_trigger( mon_trigger::HOSTILE_SEEN ) ? rng( 0, 2 ) : 0 )
 {
-    smart_planning = mon.has_flag( MF_PRIORITIZE_TARGETS );
+    smart_planning = mon.has_flag( mon_flag_PRIORITIZE_TARGETS );
     max_sight_range = std::max( mon.type->vision_day, mon.type->vision_night );
     dist = !smart_planning ? max_sight_range : 8.6f;
     fleeing = false;
     docile = mon.friendly != 0 && mon.has_effect( effect_docile );
-    swarms = mon.has_flag( MF_SWARMS );
-    group_morale = mon.has_flag( MF_GROUP_MORALE ) && mon.morale < mon.type->morale;
+    swarms = mon.has_flag( mon_flag_SWARMS );
+    group_morale = mon.has_flag( mon_flag_GROUP_MORALE ) && mon.morale < mon.type->morale;
 }
 
 void monster::anger_hostile_seen( const monster_plan &mon_plan )
@@ -730,7 +768,7 @@ void monster::plan()
         friendly--;
     } else if( friendly < 0 && sees( player_character ) &&
                // Simpleminded animals are too dumb to follow the player.
-               !has_flag( MF_PET_WONT_FOLLOW ) ) {
+               !has_flag( mon_flag_PET_WONT_FOLLOW ) ) {
         if( rl_dist( get_location(), player_character.get_location() ) > 2 ) {
             set_dest( player_character.get_location() );
         } else {
@@ -890,7 +928,7 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) {
+    if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) {
         moves = 0;
         return;
     }
@@ -935,7 +973,7 @@ void monster::move()
 
     if( ( current_attitude == MATT_IGNORE && patrol_route.empty() ) ||
         ( ( current_attitude == MATT_FOLLOW ||
-            ( has_flag( MF_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
+            ( has_flag( mon_flag_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
           && rl_dist( get_location(), get_dest() ) <= type->tracking_distance ) ) {
         moves = 0;
         stumble();
@@ -984,7 +1022,7 @@ void monster::move()
             }
         }
     }
-    if( !moved && has_flag( MF_SMELLS ) ) {
+    if( !moved && has_flag( mon_flag_SMELLS ) ) {
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
         //  solid, square of terrain).  Fall back to smell if we have it.
         unset_dest();
@@ -1021,8 +1059,8 @@ void monster::move()
     }
 
     tripoint_abs_ms next_step;
-    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS ) && !is_hallucination();
-    const bool staggers = has_flag( MF_STUMBLES );
+    const bool can_open_doors = has_flag( mon_flag_CAN_OPEN_DOORS ) && !is_hallucination();
+    const bool staggers = has_flag( mon_flag_STUMBLES );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
@@ -1098,12 +1136,12 @@ void monster::move()
                     break;
                 }
                 if( att == Attitude::FRIENDLY && ( target->is_avatar() || target->is_npc() ||
-                                                   target->has_flag( MF_QUEEN ) ) ) {
+                                                   target->has_flag( mon_flag_QUEEN ) ) ) {
                     // Friendly firing the player or an NPC is illegal for gameplay reasons.
                     // Monsters should instinctively avoid attacking queens that regenerate their own population.
                     continue;
                 }
-                if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                if( !has_flag( mon_flag_ATTACKMON ) && !has_flag( mon_flag_PUSH_MON ) ) {
                     // Bail out if there's a non-hostile monster in the way and we're not pushy.
                     continue;
                 }
@@ -1325,7 +1363,7 @@ void monster::footsteps( const tripoint &p )
         default:
             break;
     }
-    if( has_flag( MF_LOUDMOVES ) ) {
+    if( has_flag( mon_flag_LOUDMOVES ) ) {
         volume += 6;
     }
     if( volume == 0 ) {
@@ -1355,7 +1393,7 @@ tripoint monster::scent_move()
 
     int bestsmell = 10; // Squares with smell 0 are not eligible targets.
     int smell_threshold = 200; // Squares at or above this level are ineligible.
-    if( has_flag( MF_KEENNOSE ) ) {
+    if( has_flag( mon_flag_KEENNOSE ) ) {
         bestsmell = 1;
         smell_threshold = 400;
     }
@@ -1582,7 +1620,7 @@ bool monster::bash_at( const tripoint &p )
 int monster::bash_estimate() const
 {
     int estimate = bash_skill();
-    if( has_flag( MF_GROUP_BASH ) ) {
+    if( has_flag( mon_flag_GROUP_BASH ) ) {
         // Right now just give them a boost so they try to bash a lot of stuff.
         // TODO: base it on number of nearby friendlies.
         estimate *= 2;
@@ -1597,7 +1635,7 @@ int monster::bash_skill() const
 
 int monster::group_bash_skill( const tripoint &target )
 {
-    if( !has_flag( MF_GROUP_BASH ) ) {
+    if( !has_flag( mon_flag_GROUP_BASH ) ) {
         return bash_skill();
     }
     int bashskill = 0;
@@ -1621,7 +1659,7 @@ int monster::group_bash_skill( const tripoint &target )
                 break;
             }
             monster &helpermon = *mon;
-            if( !helpermon.has_flag( MF_GROUP_BASH ) || helpermon.is_hallucination() ) {
+            if( !helpermon.has_flag( mon_flag_GROUP_BASH ) || helpermon.is_hallucination() ) {
                 connected = false;
                 break;
             }
@@ -1640,7 +1678,7 @@ int monster::group_bash_skill( const tripoint &target )
 
 bool monster::attack_at( const tripoint &p )
 {
-    if( has_flag( MF_PACIFIST ) ) {
+    if( has_flag( mon_flag_PACIFIST ) ) {
         return false;
     }
 
@@ -1672,8 +1710,8 @@ bool monster::attack_at( const tripoint &p )
         }
 
         Creature::Attitude attitude = attitude_to( mon );
-        // MF_ATTACKMON == hulk behavior, whack everything in your way
-        if( attitude == Attitude::HOSTILE || has_flag( MF_ATTACKMON ) ) {
+        // mon_flag_ATTACKMON == hulk behavior, whack everything in your way
+        if( attitude == Attitude::HOSTILE || has_flag( mon_flag_ATTACKMON ) ) {
             return melee_attack( mon );
         }
 
@@ -1786,7 +1824,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     bool will_be_water =
         on_ground && (
             // AQUATIC monsters always "swim under" the vehicles, while other swimming monsters are forced to surface
-            has_flag( MF_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) )
+            has_flag( mon_flag_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) )
         ) && here.is_divable( destination );
 
     //Birds and other flying creatures flying over the deep water terrain
@@ -1801,14 +1839,15 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                                 //~ Message when a monster emerges from water
                                 //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
                                 pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ),
-                                name(), swims() || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ), here.tername( pos() ) );
+                                name(), swims() ||
+                                has_flag( mon_flag_AQUATIC ) ? _( "leaps" ) : _( "emerges" ), here.tername( pos() ) );
     } else if( !was_water && will_be_water ) {
         add_msg_if_player_sees( *this, m_warning, pgettext( "monster movement",
                                 //~ Message when a monster enters water
                                 //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
                                 "A %1$s %2$s into the %3$s!" ),
                                 name(), swims() ||
-                                has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ), here.tername( destination ) );
+                                has_flag( mon_flag_AQUATIC ) ? _( "dives" ) : _( "sinks" ), here.tername( destination ) );
     }
 
     optional_vpart_position vp_orig = here.veh_at( pos() );
@@ -1891,18 +1930,18 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     // Acid trail monsters leave... a trail of acid
-    if( has_flag( MF_ACIDTRAIL ) ) {
+    if( has_flag( mon_flag_ACIDTRAIL ) ) {
         here.add_field( pos(), fd_acid, 3 );
     }
 
     // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
-    if( has_flag( MF_SHORTACIDTRAIL ) ) {
+    if( has_flag( mon_flag_SHORTACIDTRAIL ) ) {
         if( one_in( 5 ) ) {
             here.add_field( pos(), fd_acid, 3 );
         }
     }
 
-    if( has_flag( MF_SLUDGETRAIL ) ) {
+    if( has_flag( mon_flag_SLUDGETRAIL ) ) {
         for( const tripoint &sludge_p : here.points_in_radius( pos(), 1 ) ) {
             const int fstr = 3 - ( std::abs( sludge_p.x - posx() ) + std::abs( sludge_p.y - posy() ) );
             if( fstr >= 2 ) {
@@ -1911,7 +1950,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    if( has_flag( MF_SMALLSLUDGETRAIL ) ) {
+    if( has_flag( mon_flag_SMALLSLUDGETRAIL ) ) {
         if( one_in( 2 ) ) {
             here.add_field( pos(), fd_sludge, 1 );
         }
@@ -1919,19 +1958,19 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     // Don't leave any kind of liquids on water tiles
     if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) {
-        if( has_flag( MF_DRIPS_NAPALM ) ) {
+        if( has_flag( mon_flag_DRIPS_NAPALM ) ) {
             if( one_in( 10 ) ) {
                 // if it has more napalm, drop some and reduce ammo in tank
                 if( ammo[itype_pressurized_tank] > 0 ) {
                     here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
                     ammo[itype_pressurized_tank] -= 50;
                 } else {
-                    // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                    // TODO: remove mon_flag_DRIPS_NAPALM flag since no more napalm in tank
                     // Not possible for now since flag check is done on type, not individual monster
                 }
             }
         }
-        if( has_flag( MF_DRIPS_GASOLINE ) ) {
+        if( has_flag( mon_flag_DRIPS_GASOLINE ) ) {
             if( one_in( 5 ) ) {
                 // TODO: use same idea that limits napalm dripping
                 here.add_item_or_charges( pos(), item( "gasoline" ) );
@@ -1948,7 +1987,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         return false;
     }
 
-    if( !has_flag( MF_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) ) {
+    if( !has_flag( mon_flag_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) ) {
         return false;
     }
 
@@ -2043,7 +2082,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             if( critter_recur->is_hallucination() ) {
                 critter_recur->die( nullptr );
             }
-        } else if( !critter->has_flag( MF_IMMOBILE ) ) {
+        } else if( !critter->has_flag( mon_flag_IMMOBILE ) ) {
             critter->setpos( dest );
             move_to( p );
             moves -= movecost_attacker;
@@ -2091,7 +2130,8 @@ void monster::stumble()
     map &here = get_map();
     std::vector<tripoint> valid_stumbles;
     valid_stumbles.reserve( 11 );
-    const bool avoid_water = has_flag( MF_NO_BREATHE ) && !swims() && !has_flag( MF_AQUATIC );
+    const bool avoid_water = has_flag( mon_flag_NO_BREATHE ) && !swims() &&
+                             !has_flag( mon_flag_AQUATIC );
     for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
@@ -2177,7 +2217,7 @@ void monster::knock_back_to( const tripoint &to )
     // If we're still in the function at this point, we're actually moving a tile!
     // die_if_drowning will kill the monster if necessary, but if the deep water
     // tile is on a vehicle, we should check for swimmers out of water
-    if( !die_if_drowning( to ) && has_flag( MF_AQUATIC ) ) {
+    if( !die_if_drowning( to ) && has_flag( mon_flag_AQUATIC ) ) {
         die( nullptr );
         if( u_see ) {
             add_msg( _( "The %s flops around and dies!" ), name() );
@@ -2214,11 +2254,12 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    if( digs() || has_flag( MF_AQUATIC ) ) {
+    if( digs() || has_flag( mon_flag_AQUATIC ) ) {
         return false;
     }
 
-    if( ( has_flag( MF_IMMOBILE ) || has_flag( MF_RIDEABLE_MECH ) ) && ( pos().xy() != p ) ) {
+    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) &&
+        ( pos().xy() != p ) ) {
         return false;
     }
 
@@ -2227,7 +2268,7 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    if( has_flag( MF_SMELLS ) && get_scent().get( pos() ) > 0 &&
+    if( has_flag( mon_flag_SMELLS ) && get_scent().get( pos() ) > 0 &&
         get_scent().get( { p, posz() } ) > get_scent().get( pos() ) ) {
         return true;
     }
@@ -2274,7 +2315,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                              const tripoint &nearby_destination )
 {
     map &here = get_map();
-    if( this->has_flag( MF_PUSH_VEH ) && !is_hallucination() ) {
+    if( this->has_flag( mon_flag_PUSH_VEH ) && !is_hallucination() ) {
         optional_vpart_position vp = here.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();

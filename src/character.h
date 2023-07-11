@@ -907,6 +907,7 @@ class Character : public Creature, public visitable
         bool is_running() const;
         bool is_walking() const;
         bool is_crouching() const;
+        bool is_runallfours() const;
         bool is_prone() const;
 
         int footstep_sound() const;
@@ -3450,9 +3451,7 @@ class Character : public Creature, public visitable
         Character();
         Character( Character && ) noexcept( map_is_noexcept );
         Character &operator=( Character && ) noexcept( list_is_noexcept );
-        // Swaps the data of this Character and "other" using "tmp" for temporary storage.
-        // Leaves "tmp" in an undefined state.
-        void swap_character( Character &other, Character &tmp );
+        void swap_character( Character &other );
     public:
         struct trait_data {
             /** Whether the mutation is activated. */

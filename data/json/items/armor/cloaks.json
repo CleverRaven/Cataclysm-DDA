@@ -460,7 +460,7 @@
       {
         "id": "central_african_flag",
         "name": { "str": "Central African flag" },
-        "description": "A flag with vertical stripes of blue, white, green and yellow coloration and one horizontal red stripe down the middle with a star in the upper left corner.",
+        "description": "A flag with horizontal stripes of blue, white, green and yellow coloration and one vertical red stripe down the middle with a star in the upper left corner.",
         "weight": 10,
         "append": true
       },

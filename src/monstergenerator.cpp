@@ -40,7 +40,21 @@
 
 static const material_id material_flesh( "flesh" );
 
+static const mon_flag_str_id mon_flag_BASHES( "BASHES" );
+static const mon_flag_str_id mon_flag_BORES( "BORES" );
+static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
+static const mon_flag_str_id mon_flag_DESTROYS( "DESTROYS" );
+static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
+static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
+static const mon_flag_str_id mon_flag_NOT_HALLUCINATION( "NOT_HALLUCINATION" );
+static const mon_flag_str_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
+
 static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
+
+namespace
+{
+generic_factory<mon_flag> mon_flags( "monster flags" );
+} // namespace
 
 namespace behavior
 {
@@ -91,130 +105,6 @@ std::string enum_to_string<mdeath_type>( mdeath_type data )
     cata_fatal( "Invalid mdeath_type" );
 }
 
-template<>
-std::string enum_to_string<m_flag>( m_flag data )
-{
-    // see mtype.h for commentary
-    switch( data ) {
-        // *INDENT-OFF*
-        case MF_SEES: return "SEES";
-        case MF_HEARS: return "HEARS";
-        case MF_GOODHEARING: return "GOODHEARING";
-        case MF_SMELLS: return "SMELLS";
-        case MF_KEENNOSE: return "KEENNOSE";
-        case MF_STUMBLES: return "STUMBLES";
-        case MF_WARM: return "WARM";
-        case MF_NEMESIS: return "NEMESIS";
-        case MF_NOHEAD: return "NOHEAD";
-        case MF_HARDTOSHOOT: return "HARDTOSHOOT";
-        case MF_GRABS: return "GRABS";
-        case MF_BASHES: return "BASHES";
-        case MF_GROUP_BASH: return "GROUP_BASH";
-        case MF_DESTROYS: return "DESTROYS";
-        case MF_BORES: return "BORES";
-        case MF_POISON: return "POISON";
-        case MF_VENOM: return "VENOM";
-        case MF_BADVENOM: return "BADVENOM";
-        case MF_PARALYZE: return "PARALYZEVENOM";
-        case MF_WEBWALK: return "WEBWALK";
-        case MF_DIGS: return "DIGS";
-        case MF_CAN_DIG: return "CAN_DIG";
-        case MF_CAN_OPEN_DOORS: return "CAN_OPEN_DOORS";
-        case MF_FLIES: return "FLIES";
-        case MF_AQUATIC: return "AQUATIC";
-        case MF_SWIMS: return "SWIMS";
-        case MF_FISHABLE: return "FISHABLE";
-        case MF_ATTACKMON: return "ATTACKMON";
-        case MF_ANIMAL: return "ANIMAL";
-        case MF_PLASTIC: return "PLASTIC";
-        case MF_SUNDEATH: return "SUNDEATH";
-        case MF_ELECTRIC: return "ELECTRIC";
-        case MF_ACIDPROOF: return "ACIDPROOF";
-        case MF_ACIDTRAIL: return "ACIDTRAIL";
-        case MF_SHORTACIDTRAIL: return "SHORTACIDTRAIL";
-        case MF_FIREPROOF: return "FIREPROOF";
-        case MF_IRONWROUGHT: return "IRONWROUGHT";
-        case MF_SLUDGEPROOF: return "SLUDGEPROOF";
-        case MF_SLUDGETRAIL: return "SLUDGETRAIL";
-        case MF_SMALLSLUDGETRAIL: return "SMALLSLUDGETRAIL";
-        case MF_COLDPROOF: return "COLDPROOF";
-        case MF_COMBAT_MOUNT: return "COMBAT_MOUNT";
-        case MF_FIREY: return "FIREY";
-        case MF_QUEEN: return "QUEEN";
-        case MF_ELECTRONIC: return "ELECTRONIC";
-        case MF_CONSOLE_DESPAWN: return "CONSOLE_DESPAWN";
-        case MF_IMMOBILE: return "IMMOBILE";
-        case MF_ID_CARD_DESPAWN: return "ID_CARD_DESPAWN";
-        case MF_RIDEABLE_MECH: return "RIDEABLE_MECH";
-        case MF_MILITARY_MECH: return "MILITARY_MECH";
-        case MF_MECH_RECON_VISION: return "MECH_RECON_VISION";
-        case MF_MECH_DEFENSIVE: return "MECH_DEFENSIVE";
-        case MF_HIT_AND_RUN: return "HIT_AND_RUN";
-        case MF_PAY_BOT: return "PAY_BOT";
-        case MF_HUMAN: return "HUMAN";
-        case MF_NO_BREATHE: return "NO_BREATHE";
-        case MF_FLAMMABLE: return "FLAMMABLE";
-        case MF_REVIVES: return "REVIVES";
-        case MF_VERMIN: return "VERMIN";
-        case MF_NOGIB: return "NOGIB";
-        case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
-        case MF_ACID_BLOOD: return "ACID_BLOOD";
-        case MF_BILE_BLOOD: return "BILE_BLOOD";
-        case MF_FILTHY: return "FILTHY";
-        case MF_SWARMS: return "SWARMS";
-        case MF_CLIMBS: return "CLIMBS";
-        case MF_GROUP_MORALE: return "GROUP_MORALE";
-        case MF_INTERIOR_AMMO: return "INTERIOR_AMMO";
-        case MF_NIGHT_INVISIBILITY: return "NIGHT_INVISIBILITY";
-        case MF_REVIVES_HEALTHY: return "REVIVES_HEALTHY";
-        case MF_NO_NECRO: return "NO_NECRO";
-        case MF_PACIFIST: return "PACIFIST";
-        case MF_KEEP_DISTANCE: return "KEEP_DISTANCE";
-        case MF_PUSH_MON: return "PUSH_MON";
-        case MF_PUSH_VEH: return "PUSH_VEH";
-        case MF_AVOID_DANGER_1: return "PATH_AVOID_DANGER_1";
-        case MF_AVOID_DANGER_2: return "PATH_AVOID_DANGER_2";
-        case MF_AVOID_FALL: return "PATH_AVOID_FALL";
-        case MF_AVOID_FIRE: return "PATH_AVOID_FIRE";
-        case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";
-        case MF_NOT_HALLU: return "NOT_HALLUCINATION";
-        case MF_CANPLAY: return "CANPLAY";
-        case MF_CAN_BE_CULLED: return "CAN_BE_CULLED";
-        case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
-        case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
-        case MF_DOGFOOD: return "DOGFOOD";
-        case MF_MILKABLE: return "MILKABLE";
-        case MF_SHEARABLE: return "SHEARABLE";
-        case MF_NO_BREED: return "NO_BREED";
-        case MF_NO_FUNG_DMG: return "NO_FUNG_DMG";
-        case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
-        case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";
-        case MF_DRIPS_GASOLINE: return "DRIPS_GASOLINE";
-        case MF_ELECTRIC_FIELD: return "ELECTRIC_FIELD";
-        case MF_STUN_IMMUNE: return "STUN_IMMUNE";
-        case MF_LOUDMOVES: return "LOUDMOVES";
-        case MF_DROPS_AMMO: return "DROPS_AMMO";
-        case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
-        case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
-        case MF_CAMOUFLAGE: return "CAMOUFLAGE";
-        case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
-        case MF_ATTACK_UPPER: return "ATTACK_UPPER";
-        case MF_ATTACK_LOWER: return "ATTACK_LOWER";
-        case MF_DEADLY_VIRUS: return "DEADLY_VIRUS";
-        case MF_VAMP_VIRUS: return "VAMP_VIRUS";
-        case MF_ALWAYS_VISIBLE: return "ALWAYS_VISIBLE";
-        case MF_ALWAYS_SEES_YOU: return "ALWAYS_SEES_YOU";
-        case MF_ALL_SEEING: return "ALL_SEEING";
-        case MF_SILENT_DISAPPEAR: return "SILENT_DISAPPEAR";
-        case MF_NEVER_WANDER: return "NEVER_WANDER";
-        case MF_CONVERSATION: return "CONVERSATION";
-        // *INDENT-ON*
-        case m_flag::MF_MAX:
-            break;
-    }
-    cata_fatal( "Invalid m_flag" );
-}
-
 } // namespace io
 
 /** @relates string_id */
@@ -243,6 +133,54 @@ template<>
 bool string_id<species_type>::is_valid() const
 {
     return MonsterGenerator::generator().mon_species->is_valid( *this );
+}
+
+/** @relates int_id */
+template<>
+bool int_id<mon_flag>::is_valid() const
+{
+    return mon_flags.is_valid( *this );
+}
+
+/** @relates int_id */
+template<>
+const mon_flag &int_id<mon_flag>::obj() const
+{
+    return mon_flags.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+const string_id<mon_flag> &int_id<mon_flag>::id() const
+{
+    return mon_flags.convert( *this );
+}
+
+/** @relates int_id */
+template<>
+int_id<mon_flag> string_id<mon_flag>::id() const
+{
+    return mon_flags.convert( *this, int_id<mon_flag>( 0 ) );
+}
+
+/** @relates int_id */
+template<>
+int_id<mon_flag>::int_id( const string_id<mon_flag> &id ) : _id( id.id() )
+{
+}
+
+/** @relates string_id */
+template<>
+const mon_flag &string_id<mon_flag>::obj() const
+{
+    return mon_flags.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<mon_flag>::is_valid() const
+{
+    return mon_flags.is_valid( *this );
 }
 
 std::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
@@ -288,11 +226,11 @@ static int calc_bash_skill( const mtype &t )
     // IOW, the critter's max bashing damage
     int ret = t.melee_dice * t.melee_sides;
     // This is for stuff that goes through solid rock: minerbots, dark wyrms, etc
-    if( t.has_flag( MF_BORES ) ) {
+    if( t.has_flag( mon_flag_BORES ) ) {
         ret *= 15;
-    } else if( t.has_flag( MF_DESTROYS ) ) {
+    } else if( t.has_flag( mon_flag_DESTROYS ) ) {
         ret *= 2.5;
-    } else if( !t.has_flag( MF_BASHES ) ) {
+    } else if( !t.has_flag( mon_flag_BASHES ) ) {
         ret = 0;
     }
 
@@ -338,7 +276,7 @@ void monster_adjustment::apply( mtype &mon ) const
         }
     }
     if( !flag.empty() ) {
-        mon.set_flag( io::string_to_enum<m_flag>( flag ), flag_val );
+        mon.set_flag( mon_flag_id( flag ), flag_val );
     }
     if( !special.empty() ) {
         if( special == "nightvision" ) {
@@ -394,6 +332,11 @@ void MonsterGenerator::finalize_mtypes()
             debugmsg( "Monster type '%s' has invalid default_faction: '%s'. "
                       "Add this faction to json as MONSTER_FACTION type.",
                       mon.id.str(), mon.default_faction.str() );
+        }
+
+        mon.flags.clear();
+        for( const mon_flag_str_id &mf : mon.pre_flags_ ) {
+            mon.flags.emplace( mf );
         }
 
         apply_species_attributes( mon );
@@ -490,7 +433,7 @@ void MonsterGenerator::finalize_mtypes()
     }
 
     for( const mtype &mon : mon_templates->get_all() ) {
-        if( !mon.has_flag( MF_NOT_HALLU ) ) {
+        if( !mon.has_flag( mon_flag_NOT_HALLUCINATION ) ) {
             hallucination_monsters.push_back( mon.id );
         }
     }
@@ -504,7 +447,10 @@ void MonsterGenerator::apply_species_attributes( mtype &mon )
         }
         const species_type &mspec = spec.obj();
 
-        mon.flags |= mspec.flags;
+        for( const mon_flag_str_id &f : mspec.flags ) {
+            mon.flags.emplace( f );
+            mon.pre_flags_.emplace( f );
+        }
         mon.anger |= mspec.anger;
         mon.fear |= mspec.fear;
         mon.placate |= mspec.placate;
@@ -521,7 +467,7 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
         mon.path_settings.bash_strength = mon.bash_skill;
     }
 
-    if( mon.has_flag( MF_CLIMBS ) ) {
+    if( mon.has_flag( mon_flag_CLIMBS ) ) {
         mon.path_settings.climb_cost = 3;
     }
 }
@@ -1157,8 +1103,50 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "burn_into", burn_into, string_id_reader<::mtype> {},
               mtype_id::NULL_ID() );
 
-    const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
-    optional( jo, was_loaded, "flags", flags, flag_reader );
+    if( jo.has_member( "flags" ) ) {
+        pre_flags_.clear();
+        if( jo.has_string( "flags" ) ) {
+            pre_flags_.emplace( jo.get_string( "flags" ) );
+        } else {
+            for( JsonValue jval : jo.get_array( "flags" ) ) {
+                pre_flags_.emplace( jval.get_string() );
+            }
+        }
+    } else {
+        if( jo.has_member( "extend" ) ) {
+            JsonObject exjo = jo.get_object( "extend" );
+            exjo.allow_omitted_members();
+            if( exjo.has_member( "flags" ) ) {
+                if( exjo.has_string( "flags" ) ) {
+                    pre_flags_.emplace( exjo.get_string( "flags" ) );
+                } else {
+                    for( JsonValue jval : exjo.get_array( "flags" ) ) {
+                        pre_flags_.emplace( jval.get_string() );
+                    }
+                }
+            }
+        }
+        if( jo.has_member( "delete" ) ) {
+            JsonObject deljo = jo.get_object( "delete" );
+            deljo.allow_omitted_members();
+            if( deljo.has_member( "flags" ) ) {
+                if( deljo.has_string( "flags" ) ) {
+                    auto iter = pre_flags_.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
+                    if( iter != pre_flags_.end() ) {
+                        pre_flags_.erase( iter );
+                    }
+                } else {
+                    for( JsonValue jval : deljo.get_array( "flags" ) ) {
+                        auto iter = pre_flags_.find( mon_flag_str_id( jval.get_string() ) );
+                        if( iter != pre_flags_.end() ) {
+                            pre_flags_.erase( iter );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // Can't calculate yet - we want all flags first
     optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
 
@@ -1189,8 +1177,50 @@ void species_type::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
-    const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
-    optional( jo, was_loaded, "flags", flags, flag_reader );
+
+    if( jo.has_member( "flags" ) ) {
+        flags.clear();
+        if( jo.has_string( "flags" ) ) {
+            flags.emplace( jo.get_string( "flags" ) );
+        } else {
+            for( JsonValue jval : jo.get_array( "flags" ) ) {
+                flags.emplace( jval.get_string() );
+            }
+        }
+    } else {
+        if( jo.has_member( "extend" ) ) {
+            JsonObject exjo = jo.get_object( "extend" );
+            exjo.allow_omitted_members();
+            if( exjo.has_member( "flags" ) ) {
+                if( exjo.has_string( "flags" ) ) {
+                    flags.emplace( exjo.get_string( "flags" ) );
+                } else {
+                    for( JsonValue jval : exjo.get_array( "flags" ) ) {
+                        flags.emplace( jval.get_string() );
+                    }
+                }
+            }
+        }
+        if( jo.has_member( "delete" ) ) {
+            JsonObject deljo = jo.get_object( "delete" );
+            deljo.allow_omitted_members();
+            if( deljo.has_member( "flags" ) ) {
+                if( deljo.has_string( "flags" ) ) {
+                    auto iter = flags.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
+                    if( iter != flags.end() ) {
+                        flags.erase( iter );
+                    }
+                } else {
+                    for( JsonValue jval : deljo.get_array( "flags" ) ) {
+                        auto iter = flags.find( mon_flag_str_id( jval.get_string() ) );
+                        if( iter != flags.end() ) {
+                            flags.erase( iter );
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     const auto trigger_reader = enum_flags_reader<mon_trigger> { "monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
@@ -1200,9 +1230,29 @@ void species_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "bleeds", bleeds, string_id_reader<::field_type> {}, fd_null );
 }
 
+void mon_flag::load_mon_flags( const JsonObject &jo, const std::string &src )
+{
+    mon_flags.load( jo, src );
+}
+
+void mon_flag::load( const JsonObject &jo, std::string_view )
+{
+    mandatory( jo, was_loaded, "id", id );
+}
+
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
 {
     return mon_templates->get_all();
+}
+
+const std::vector<mon_flag> &mon_flag::get_all()
+{
+    return mon_flags.get_all();
+}
+
+void mon_flag::reset()
+{
+    mon_flags.reset();
 }
 
 mtype_id MonsterGenerator::get_valid_hallucination() const
@@ -1447,18 +1497,18 @@ void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::stri
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const mtype &mon : mon_templates->get_all() ) {
-        if( mon.harvest.is_null() && !mon.has_flag( MF_ELECTRONIC ) && !mon.id.is_null() ) {
+        if( mon.harvest.is_null() && !mon.has_flag( mon_flag_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
-        if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.empty() ) {
+        if( mon.has_flag( mon_flag_MILKABLE ) && mon.starting_ammo.empty() ) {
             debugmsg( "monster %s is flagged milkable, but has no starting ammo", mon.id.c_str() );
         }
-        if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
+        if( mon.has_flag( mon_flag_MILKABLE ) && !mon.starting_ammo.empty() &&
             !item( mon.starting_ammo.begin()->first ).made_of( phase_id::LIQUID ) ) {
             debugmsg( "monster %s is flagged milkable, but starting ammo %s is not a liquid type",
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }
-        if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
+        if( mon.has_flag( mon_flag_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
             debugmsg( "monster %s is flagged milkable, but has multiple starting_ammo defined",
                       mon.id.c_str() );
         }
@@ -1523,7 +1573,7 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has invalid dissection harvest_entry: %s", mon.id.c_str(),
                       mon.dissect.c_str() );
         }
-        if( mon.has_flag( MF_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
+        if( mon.has_flag( mon_flag_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
             debugmsg( "monster %s has WATER_CAMOUFLAGE but cannot submerge", mon.id.c_str() );
         }
         for( const scenttype_id &s_id : mon.scents_tracked ) {

@@ -127,6 +127,10 @@ static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_tempered_steel( "tempered_steel" );
 
+static const mon_flag_str_id mon_flag_HARDTOSHOOT( "HARDTOSHOOT" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
 static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
@@ -539,7 +543,7 @@ double Creature::ranged_target_size() const
             stance_factor = 0.25;
         }
     }
-    if( has_flag( MF_HARDTOSHOOT ) ) {
+    if( has_flag( mon_flag_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case creature_size::tiny:
             case creature_size::small:
@@ -791,7 +795,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
     bool is_mech_weapon = false;
     if( is_mounted() &&
-        mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+        mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
     }
 
@@ -1334,12 +1338,12 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const double missed_by = dealt_attack.missed_by;
 
     if( critter && dealt_attack.hit_critter != nullptr && missed_by <= 0.1 &&
-        !critter->has_flag( MF_IMMOBILE ) ) {
+        !critter->has_flag( mon_flag_IMMOBILE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
     } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
-               !critter->has_flag( MF_IMMOBILE ) ) {
+               !critter->has_flag( mon_flag_IMMOBILE ) ) {
         practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2

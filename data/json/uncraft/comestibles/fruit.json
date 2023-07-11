@@ -5,7 +5,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "watermelon_wedge", 16 ] ] ]
+    "components": [ [ [ "watermelon_wedge", 16 ] ], [ [ "seed_watermelon", 5 ] ] ]
   },
   {
     "result": "melon",
@@ -13,7 +13,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "melon_chunks", 3 ] ] ]
+    "components": [ [ [ "melon_chunks", 4 ] ], [ [ "seed_melon", 3 ] ] ]
   },
   {
     "result": "pineapple",
@@ -35,18 +35,115 @@
     "result": "irradiated_watermelon",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "copy-from": "watermelon"
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "watermelon_wedge", 16 ] ] ]
   },
   {
     "result": "irradiated_melon",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "copy-from": "melon"
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "melon_chunks", 4 ] ] ]
   },
   {
     "result": "irradiated_pineapple",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "pineapple"
+  },
+  {
+    "result": "rose_hips",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_rose", 1 ] ] ]
+  },
+  {
+    "result": "grapes",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_grapes", 1 ] ] ]
+  },
+  {
+    "result": "mayapple",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_mayapple", 1 ] ] ]
+  },
+  {
+    "result": "mulberries",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_mulberries", 1 ] ] ]
+  },
+  {
+    "result": "raspberries",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_raspberries", 1 ] ] ]
+  },
+  {
+    "result": "cranberries",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_cranberries", 1 ] ] ]
+  },
+  {
+    "result": "blueberries",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_blueberries", 1 ] ] ]
+  },
+  {
+    "result": "elderberries",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_elderberries", 1 ] ] ]
+  },
+  {
+    "result": "strawberries",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_strawberries", 1 ] ] ]
+  },
+  {
+    "result": "blackberries",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_blackberries", 1 ] ] ]
+  },
+  {
+    "result": "huckleberries",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_huckleberries", 1 ] ] ]
+  },
+  {
+    "result": "wintergreen_berry",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_wintergreen", 1 ] ] ]
+  },
+  {
+    "result": "m_stellatum_berries",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "seed_maianthemum_stellatum", 1 ] ] ]
   }
 ]

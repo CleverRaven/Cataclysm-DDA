@@ -84,14 +84,16 @@ mission *mission::reserve_new( const mission_type_id &type, const character_id &
     return &miss;
 }
 
-mission *mission::find( int id )
+mission *mission::find( int id, bool ok_missing )
 {
     const auto iter = world_missions.find( id );
     if( iter != world_missions.end() ) {
         return &iter->second;
     }
-    dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
-    debugmsg( "requested mission with uid %d does not exist", id );
+    if( !ok_missing ) {
+        dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
+        debugmsg( "requested mission with uid %d does not exist", id );
+    }
     return nullptr;
 }
 
@@ -128,11 +130,11 @@ void mission::process_all()
     }
 }
 
-std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec )
+std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec, bool ok_missing )
 {
     std::vector<mission *> result;
     for( const int &id : vec ) {
-        mission *miss = find( id );
+        mission *miss = find( id, ok_missing );
         if( miss != nullptr ) {
             result.push_back( miss );
         }
