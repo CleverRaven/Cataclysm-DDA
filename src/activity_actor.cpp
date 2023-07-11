@@ -5544,7 +5544,7 @@ static bool check_stealing( Character &who, item &it )
     return true;
 }
 
-bool avatar_action::check_stealing(Character &who, item &weapon)
+bool avatar_action::check_stealing( Character &who, item &weapon )
 {
     return ::check_stealing( who, weapon );
 }

@@ -9856,8 +9856,7 @@ void game::wield( item_location loc )
     int worn_index = INT_MIN;
 
     // Need to account for case where we're trying to wield a weapon that belongs to someone else
-    if ( !avatar_action::check_stealing(u, *loc.get_item()) )
-    {
+    if( !avatar_action::check_stealing( u, *loc.get_item() ) ) {
         return;
     }
 
