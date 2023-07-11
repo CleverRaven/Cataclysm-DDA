@@ -664,19 +664,18 @@ void vehicle::turn( units::angle deg )
     turn_dir = round_to_multiple_of( turn_dir, vehicles::steer_increment );
 }
 
-void vehicle::stop( bool update_cache )
+void vehicle::stop()
 {
     velocity = 0;
     skidding = false;
     move = face;
     last_turn = 0_degrees;
     of_turn_carry = 0;
-    if( !update_cache ) {
-        return;
-    }
     map &here = get_map();
     for( const tripoint &p : get_points() ) {
-        here.memory_cache_dec_set_dirty( p, true );
+        if( here.inbounds( p ) ) {
+            here.memory_cache_dec_set_dirty( p, true );
+        }
     }
 }
 
@@ -1756,7 +1755,7 @@ vehicle *vehicle::act_on_map()
     if( !here.inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
-        stop( false );
+        stop();
         of_turn = 0;
         is_falling = false;
         return this;

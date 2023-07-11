@@ -359,6 +359,8 @@ class map
         void memory_cache_dec_set_dirty( const tripoint &p, bool value ) const;
         // sets whether map memory terrain should be re/memorized
         void memory_cache_ter_set_dirty( const tripoint &p, bool value ) const;
+        // clears map memory for points occupied by vehicle and marks "dirty" for re-memorizing
+        void memory_clear_vehicle_points( const vehicle &veh ) const;
 
         /**
          * A pre-filter for bresenham LOS.

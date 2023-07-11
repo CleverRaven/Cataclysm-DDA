@@ -306,6 +306,18 @@ void map::memory_cache_ter_set_dirty( const tripoint &p, bool value ) const
     get_cache( p.z ).map_memory_cache_ter[p.x + p.y * MAPSIZE_Y] = !value;
 }
 
+void map::memory_clear_vehicle_points( const vehicle &veh ) const
+{
+    avatar &player_character = get_avatar();
+    for( const tripoint &p : veh.get_points() ) {
+        if( !inbounds( p ) ) {
+            continue;
+        }
+        memory_cache_dec_set_dirty( p, true );
+        player_character.memorize_clear_decoration( getglobal( p ), "vp_" );
+    }
+}
+
 void map::invalidate_map_cache( const int zlev )
 {
     if( inbounds_z( zlev ) ) {
@@ -1430,6 +1442,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
                        << dp.x << ", " << dp.y << ", " << dp.z << ")";
         return true;
     }
+
+    memory_clear_vehicle_points( veh );
 
     Character &player_character = get_player_character();
     // Need old coordinates to check for remote control

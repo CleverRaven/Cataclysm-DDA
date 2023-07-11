@@ -1809,7 +1809,7 @@ class vehicle
         bool decrement_summon_timer();
 
         // reduces velocity to 0
-        void stop( bool update_cache = true );
+        void stop();
 
         void refresh_insides();
 
