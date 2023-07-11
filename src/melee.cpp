@@ -2641,7 +2641,7 @@ void player_hit_message( Character *attacker, const std::string &message,
         //Player won't see exact numbers of damage dealt by NPC unless player has DEBUG_NIGHTVISION trait
         if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
-            msg = string_format( _( "%s. Critical!" ), message );
+            msg = string_format( _( "%s.  Critical!" ), message );
         } else if( technique && !wp_hit.empty() ) {
             //~ %1$s: "someone hits something", %2$d: damage dealt, %3$s: the weakpoint hit
             msg = string_format( _( "%1$s for %2$d damage, and hit it in %3$s.  Critical!" ), message, dam,
