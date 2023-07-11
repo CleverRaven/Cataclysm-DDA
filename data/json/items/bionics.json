@@ -1071,7 +1071,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Titanium Skeletal Bracing CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing the user to carry more weight.",
+    "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing the user to carry more weight.  The reinforcement also provides 2 bashing armor to the torso, legs and arms.",
     "price": 50000,
     "price_postapoc": 1500,
     "weight": "3000 g",
