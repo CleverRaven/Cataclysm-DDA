@@ -171,7 +171,7 @@
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "30 m",
+        "time": "50 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
