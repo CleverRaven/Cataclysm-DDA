@@ -749,7 +749,7 @@
           { "item": "technician_coveralls", "prob": 15 },
           { "item": "technician_coveralls_h", "prob": 5 }
         ]
-      },
+      }
     ]
   },
   {
