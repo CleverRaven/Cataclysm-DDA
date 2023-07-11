@@ -694,6 +694,7 @@
   },
   {
     "id": "ladder_aluminum_extended",
+    "type": "TOOL",
     "copy-from": "ladder_aluminum",
     "name": { "str": "aluminum ladder (extended)", "str_pl": "aluminum ladders (extended)" },
     "description": "A twenty foot long extending aluminum ladder that's been fully extended.  Activate to collapse.",
@@ -723,6 +724,7 @@
   },
   {
     "id": "ladder_fiberglass_extended",
+    "type": "TOOL",
     "copy-from": "ladder_fiberglass",
     "name": { "str": "fiberglass ladder (extended)", "str_pl": "fiberglass ladders (extended)" },
     "description": "A twenty foot long extending fiberglass ladder that's been fully extended.  Activate to collapse.",
@@ -752,6 +754,7 @@
   },
   {
     "id": "ladder_aluminum_tele_extended",
+    "type": "TOOL",
     "copy-from": "ladder_aluminum_telescoping",
     "name": { "str": "telescopic ladder (extended)", "str_pl": "telescopic ladders (extended)" },
     "description": "A twenty foot long telescopic aluminum ladder that's been fully extended.  Activate to collapse.",
