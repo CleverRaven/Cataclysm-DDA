@@ -1166,13 +1166,8 @@
   },
   {
     "type": "construction_group",
-    "id": "place_ladder_up",
-    "name": "Place Upwards Ladder"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_ladder_down",
-    "name": "Place Downwards Ladder"
+    "id": "place_remove_ladders",
+    "name": "Place/Remove Ladders"
   },
   {
     "type": "construction_group",
