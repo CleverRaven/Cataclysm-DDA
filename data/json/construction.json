@@ -1304,7 +1304,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_ladder_aluminum_up",
+    "id": "constr_ladder_aluminum_extending_up",
     "group": "place_remove_ladders",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -1317,7 +1317,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_ladder_aluminum_down",
+    "id": "constr_ladder_aluminum_extending_down",
     "group": "place_remove_ladders",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -1330,7 +1330,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_ladder_fiberglass_up",
+    "id": "constr_ladder_fiberglass_extending_up",
     "group": "place_remove_ladders",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -1343,7 +1343,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_ladder_fiberglass_down",
+    "id": "constr_ladder_fiberglass_extending_down",
     "group": "place_remove_ladders",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -1356,7 +1356,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_ladder_aluminum_tele_up",
+    "id": "constr_ladder_aluminum_telescoping_up",
     "group": "place_remove_ladders",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -1369,7 +1369,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_ladder_aluminum_tele_down",
+    "id": "constr_ladder_aluminum_telescoping_down",
     "group": "place_remove_ladders",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
