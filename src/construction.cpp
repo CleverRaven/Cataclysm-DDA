@@ -1735,10 +1735,10 @@ void construct::done_ladder_up( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     map &here = get_map();
     std::unordered_map<ter_id, ter_id> ladder_type = {
-        { t_ladder_wooden_straight_down, t_ladder_wooden_straight_up },
-        { t_ladder_aluminum_extending_down, t_ladder_aluminum_extending_up },
-        { t_ladder_fiberglass_extending_down, t_ladder_fiberglass_extending_up },
-        { t_ladder_aluminum_telescoping_down, t_ladder_aluminum_telescoping_up }
+        { t_ladder_wooden_straight_up, t_ladder_wooden_straight_down },
+        { t_ladder_aluminum_extending_up, t_ladder_aluminum_extending_down },
+        { t_ladder_fiberglass_extending_up, t_ladder_fiberglass_extending_down },
+        { t_ladder_aluminum_telescoping_up, t_ladder_aluminum_telescoping_down }
     };
     ter_id ladder_here = here.ter( p );
     ter_id ladder_to_place = ladder_type.at( ladder_here );

@@ -250,7 +250,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
     "looks_like": "t_ladder_down",
-    "bash": { "str_min": 1, "str_max": 5, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air" }
+    "bash": { "str_min": 1, "str_max": 5, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air_rooved" }
   },
   {
     "type": "terrain",
@@ -281,7 +281,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
     "looks_like": "t_ladder_down",
-    "bash": { "str_min": 1, "str_max": 5, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air" }
+    "bash": { "str_min": 1, "str_max": 5, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air_rooved" }
   },
   {
     "type": "terrain",
@@ -312,7 +312,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
     "looks_like": "t_ladder_down",
-    "bash": { "str_min": 1, "str_max": 5, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air" }
+    "bash": { "str_min": 1, "str_max": 5, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air_rooved" }
   },
   {
     "type": "terrain",
@@ -343,7 +343,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
     "looks_like": "t_ladder_down",
-    "bash": { "str_min": 1, "str_max": 5, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air" }
+    "bash": { "str_min": 1, "str_max": 5, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air_rooved" }
   },
   {
     "type": "terrain",
