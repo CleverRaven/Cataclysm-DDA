@@ -742,10 +742,7 @@
       { "item": "tool_belt", "prob": 25 },
       {
         "distribution": [
-          {
-            "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ],
-            "prob": 80
-          },
+          { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ], "prob": 80 },
           { "item": "technician_coveralls", "prob": 15 },
           { "item": "technician_coveralls_h", "prob": 5 }
         ]
