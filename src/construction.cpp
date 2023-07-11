@@ -144,7 +144,6 @@ static bool check_support_singular( const tripoint_bub_ms & ); // at least one o
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
 static bool check_empty_stable( const tripoint_bub_ms
                                 & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
-static bool check_nofloor( const tripoint_bub_ms & ); // tile has a flag NO_FLOOR
 static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a flag NO_FLOOR
 static bool check_deconstruct( const tripoint_bub_ms
                                & ); // either terrain or furniture must be deconstructible
@@ -1251,11 +1250,6 @@ bool construct::check_empty_stable( const tripoint_bub_ms &p )
     return check_empty( p ) && check_stable( p );
 }
 
-bool construct::check_nofloor( const tripoint_bub_ms &p )
-{
-    return get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p );
-}
-
 bool construct::check_nofloor_above( const tripoint_bub_ms &p )
 {
     return get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p + tripoint_above );
@@ -1302,7 +1296,7 @@ bool construct::check_ladder_down( const tripoint_bub_ms &p )
 {
     return check_empty( p + tripoint_below ) && check_down_OK( p ) &&
            check_support_singular( p + tripoint_below ) &&
-           check_nofloor( p );
+           check_nofloor_above( p + tripoint_below );
 }
 
 bool construct::check_remove_ladder_up( const tripoint_bub_ms &p )
@@ -2014,7 +2008,6 @@ void load_construction( const JsonObject &jo )
             { "check_support_below", construct::check_support_below },
             { "check_stable", construct::check_stable },
             { "check_empty_stable", construct::check_empty_stable },
-            { "check_nofloor", construct::check_nofloor },
             { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
             { "check_empty_up_OK", construct::check_empty_up_OK },
