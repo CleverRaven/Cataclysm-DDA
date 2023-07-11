@@ -95,7 +95,7 @@
       {
         "text": "Well, today's your lucky day, my metal friend.  I already know the place quite well.",
         "condition": { "u_has_var": "u_discovered_robofac_intercom", "type": "dialogue", "context": "intercom", "value": "yes" },
-        "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
+        "topic": "TALK_EXODII_MERCHANT_mission_1_met_hub"
       },
       {
         "text": "What exactly do you want me to do?  Scout out this bunker and contact the people in it?",
