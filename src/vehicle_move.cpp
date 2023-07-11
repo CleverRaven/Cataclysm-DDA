@@ -1201,10 +1201,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     return ret;
 }
 
-void vehicle::handle_trap( const tripoint &p, int part )
+void vehicle::handle_trap( const tripoint &p, vehicle_part &vp_wheel )
 {
-    int pwh = part_with_feature( part, VPFLAG_WHEEL, true );
-    if( pwh < 0 ) {
+    if( !vp_wheel.info().has_flag( VPFLAG_WHEEL ) ) {
+        debugmsg( "vehicle::handle_trap called on non-WHEEL part" );
         return;
     }
     map &here = get_map();
@@ -1214,7 +1214,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         // If the trap doesn't exist, we can't interact with it, so just return
         return;
     }
-    vehicle_handle_trap_data veh_data = tr.vehicle_data;
+    const vehicle_handle_trap_data &veh_data = tr.vehicle_data;
 
     if( veh_data.is_falling ) {
         return;
@@ -1226,9 +1226,9 @@ void vehicle::handle_trap( const tripoint &p, int part )
     if( seen ) {
         if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
-            add_msg( m_bad, _( "The %1$s's %2$s runs over %3$s." ), name, parts[ part ].name(), tr.name() );
+            add_msg( m_bad, _( "The %1$s's %2$s runs over %3$s." ), name, vp_wheel.name(), tr.name() );
         } else {
-            add_msg( m_bad, _( "The %1$s's %2$s runs over something." ), name, parts[ part ].name() );
+            add_msg( m_bad, _( "The %1$s's %2$s runs over something." ), name, vp_wheel.name() );
         }
     }
 
@@ -1242,7 +1242,6 @@ void vehicle::handle_trap( const tripoint &p, int part )
             explosion_handler::explosion( source, p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
         } else {
             // Hit the wheel directly since it ran right over the trap.
-            vehicle_part &vp_wheel = parts[part];
             damage_direct( here, vp_wheel, veh_data.damage );
         }
         bool still_has_trap = true;

@@ -1721,7 +1721,7 @@ class vehicle
                                       bool just_detect, bool bash_floor );
 
         // Process the trap beneath
-        void handle_trap( const tripoint &p, int part );
+        void handle_trap( const tripoint &p, vehicle_part &vp_wheel );
         void activate_magical_follow();
         void activate_animal_follow();
         /**
