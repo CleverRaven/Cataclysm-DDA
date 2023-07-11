@@ -331,10 +331,10 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         // of individual RGB channels, so we need to generate the texture using
         // white foreground and black background, and the font color need to be
         // applied separately.
-        sglyph.reset( TTF_RenderUTF8_LCD( font.get(), ch.c_str(), { 255, 255, 255, 255 }, { 0, 0, 0, 255 } ) );
+        sglyph.reset( TTF_RenderUTF8_LCD( font.get(), ch.c_str(), { 255, 255, 255, 0 }, { 0, 0, 0, 0 } ) );
         if( !sglyph ) {
             // Some fonts such as bitmap fonts do not support LCD mode, fall back to blended
-            sglyph.reset( TTF_RenderUTF8_Blended( font.get(), ch.c_str(), { 255, 255, 255, 255 } ) );
+            sglyph.reset( TTF_RenderUTF8_Blended( font.get(), ch.c_str(), { 255, 255, 255, 0 } ) );
         }
     } else {
 #endif
