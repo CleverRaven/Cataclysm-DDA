@@ -189,7 +189,10 @@
       {
         "text": "I paid a visit to the bunker.",
         "condition": { "and": [ { "u_has_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" } ] },
-        "effect": { "u_lose_var": "u_scouted_bunker", "type": "mission", "context": "completed" },
+        "effect": [
+          { "u_lose_var": "u_scouted_bunker", "type": "mission", "context": "completed" },
+          { "arithmetic": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ] }
+        ],
         "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
       },
       {
