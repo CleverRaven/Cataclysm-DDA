@@ -254,7 +254,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_ladder_aluminum_up",
+    "id": "t_ladder_aluminum_extending_up",
     "name": "extended aluminum ladder",
     "description": "A ladder leading up.",
     "symbol": "H",
@@ -273,7 +273,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_ladder_aluminum_down",
+    "id": "t_ladder_aluminum_extending_down",
     "name": "extended aluminum ladder",
     "description": "A ladder leading down.",
     "symbol": "H",
@@ -285,7 +285,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_ladder_fiberglass_up",
+    "id": "t_ladder_fiberglass_extending_up",
     "name": "extended fiberglass ladder",
     "description": "A ladder leading up.",
     "symbol": "H",
@@ -304,7 +304,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_ladder_fiberglass_down",
+    "id": "t_ladder_fiberglass_extending_down",
     "name": "extended fiberglass ladder",
     "description": "A ladder leading down.",
     "symbol": "H",
@@ -316,7 +316,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_ladder_aluminum_tele_up",
+    "id": "t_ladder_aluminum_telescoping_up",
     "name": "telescopic aluminum ladder",
     "description": "A ladder leading up.",
     "symbol": "H",
@@ -335,7 +335,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_ladder_aluminum_tele_down",
+    "id": "t_ladder_aluminum_telescoping_down",
     "name": "telescopic aluminum ladder",
     "description": "A ladder leading down.",
     "symbol": "H",

@@ -1312,7 +1312,7 @@
     "components": [ [ [ "ladder_aluminum_extended", 1 ] ] ],
     "pre_note": "Must be supported on at least one side.",
     "pre_special": "check_ladder_up",
-    "post_terrain": "t_ladder_aluminum_up",
+    "post_terrain": "t_ladder_aluminum_extending_up",
     "post_special": "done_ladder_up"
   },
   {
@@ -1325,7 +1325,7 @@
     "components": [ [ [ "ladder_aluminum_extended", 1 ] ] ],
     "pre_note": "Must be supported on at least one side.",
     "pre_special": "check_ladder_down",
-    "post_terrain": "t_ladder_aluminum_down",
+    "post_terrain": "t_ladder_aluminum_extending_down",
     "post_special": "done_ladder_down"
   },
   {
@@ -1338,7 +1338,7 @@
     "components": [ [ [ "ladder_fiberglass_extended", 1 ] ] ],
     "pre_note": "Must be supported on at least one side.",
     "pre_special": "check_ladder_up",
-    "post_terrain": "t_ladder_fiberglass_up",
+    "post_terrain": "t_ladder_fiberglass_extending_up",
     "post_special": "done_ladder_up"
   },
   {
@@ -1351,7 +1351,7 @@
     "components": [ [ [ "ladder_fiberglass_extended", 1 ] ] ],
     "pre_note": "Must be supported on at least one side.",
     "pre_special": "check_ladder_down",
-    "post_terrain": "t_ladder_fiberglass_down",
+    "post_terrain": "t_ladder_fiberglass_extending_down",
     "post_special": "done_ladder_down"
   },
   {
@@ -1364,7 +1364,7 @@
     "components": [ [ [ "ladder_aluminum_tele_extended", 1 ] ] ],
     "pre_note": "Must be supported on at least one side.",
     "pre_special": "check_ladder_up",
-    "post_terrain": "t_ladder_aluminum_tele_up",
+    "post_terrain": "t_ladder_aluminum_telescoping_up",
     "post_special": "done_ladder_up"
   },
   {
@@ -1377,7 +1377,7 @@
     "components": [ [ [ "ladder_aluminum_tele_extended", 1 ] ] ],
     "pre_note": "Must be supported on at least one side.",
     "pre_special": "check_ladder_down",
-    "post_terrain": "t_ladder_aluminum_tele_down",
+    "post_terrain": "t_ladder_aluminum_telescoping_down",
     "post_special": "done_ladder_down"
   },
   {

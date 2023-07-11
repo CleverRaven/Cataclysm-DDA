@@ -143,11 +143,11 @@ static bool check_support_below( const tripoint_bub_ms
 static bool check_support_singular( const tripoint_bub_ms & ); // at least one orthogonal support
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
 static bool check_empty_stable( const tripoint_bub_ms
-                                & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
+                                 & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
 static bool check_nofloor( const tripoint_bub_ms & ); // tile has a flag NO_FLOOR
 static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a flag NO_FLOOR
 static bool check_deconstruct( const tripoint_bub_ms
-                               & ); // either terrain or furniture must be deconstructible
+                                 & ); // either terrain or furniture must be deconstructible
 static bool check_empty_up_OK( const tripoint_bub_ms & ); // tile is empty and below OVERMAP_HEIGHT
 static bool check_empty_down_OK( const tripoint_bub_ms
                                  & ); // tile is empty and above OVERMAP_HEIGHT
@@ -1326,7 +1326,12 @@ bool construct::check_ladder_present( const tripoint_bub_ms &p )
 {
     map &here = get_map();
     ter_id ter_present = here.ter( p );
-    std::unordered_set<ter_id> ladder_terrains = { t_ladder_wooden_straight_down, t_ladder_wooden_straight_up, t_ladder_aluminum_down, t_ladder_aluminum_up, t_ladder_fiberglass_down, t_ladder_fiberglass_up, t_ladder_aluminum_tele_down, t_ladder_aluminum_tele_up };
+    std::unordered_set<ter_id> ladder_terrains = {
+        t_ladder_wooden_straight_down, t_ladder_wooden_straight_up,
+        t_ladder_aluminum_extending_down, t_ladder_aluminum_extending_up,
+        t_ladder_fiberglass_extending_down, t_ladder_fiberglass_extending_up,
+        t_ladder_aluminum_telescoping_down, t_ladder_aluminum_telescoping_up
+        };
     return ladder_terrains.count( ter_present ) == 1;
 }
 
@@ -1731,9 +1736,9 @@ void construct::done_ladder_up( const tripoint_bub_ms &p, Character &/*who*/ )
     map &here = get_map();
     std::unordered_map<ter_id, ter_id> ladder_type = {
         { t_ladder_wooden_straight_down, t_ladder_wooden_straight_up },
-        { t_ladder_aluminum_down, t_ladder_aluminum_up },
-        { t_ladder_fiberglass_down, t_ladder_fiberglass_up },
-        { t_ladder_aluminum_tele_down, t_ladder_aluminum_tele_up }
+        { t_ladder_aluminum_extending_down, t_ladder_aluminum_extending_up },
+        { t_ladder_fiberglass_extending_down, t_ladder_fiberglass_extending_up },
+        { t_ladder_aluminum_telescoping_down, t_ladder_aluminum_telescoping_up }
     };
     ter_id ladder_here = here.ter( p );
     ter_id ladder_to_place = ladder_type.at( ladder_here );
@@ -1746,9 +1751,9 @@ void construct::done_ladder_down( const tripoint_bub_ms &p, Character &/*who*/ )
     map &here = get_map();
     std::unordered_map<ter_id, ter_id> ladder_type = {
         { t_ladder_wooden_straight_down, t_ladder_wooden_straight_up },
-        { t_ladder_aluminum_down, t_ladder_aluminum_up },
-        { t_ladder_fiberglass_down, t_ladder_fiberglass_up },
-        { t_ladder_aluminum_tele_down, t_ladder_aluminum_tele_up }
+        { t_ladder_aluminum_extending_down, t_ladder_aluminum_extending_up },
+        { t_ladder_fiberglass_extending_down, t_ladder_fiberglass_extending_up },
+        { t_ladder_aluminum_telescoping_down, t_ladder_aluminum_telescoping_up }
     };
     ter_id ladder_here = here.ter( p );
     ter_id ladder_to_place = ladder_type.at( ladder_here );
@@ -1760,9 +1765,9 @@ void construct::done_remove_ladder_up( const tripoint_bub_ms &p, Character &who 
 {
     std::unordered_map<ter_id, itype_id> terrain_item = {
         { t_ladder_wooden_straight_down, itype_ladder_wooden_straight },
-        { t_ladder_aluminum_down, itype_ladder_aluminum_extended },
-        { t_ladder_fiberglass_down, itype_ladder_fiberglass_extended },
-        { t_ladder_aluminum_tele_down, itype_ladder_aluminum_tele_extended }
+        { t_ladder_aluminum_extending_down, itype_ladder_aluminum_extended },
+        { t_ladder_fiberglass_extending_down, itype_ladder_fiberglass_extended },
+        { t_ladder_aluminum_telescoping_down, itype_ladder_aluminum_tele_extended }
     };
     map &here = get_map();
     const tripoint_bub_ms top = p + tripoint_above;
@@ -1777,9 +1782,9 @@ void construct::done_remove_ladder_down( const tripoint_bub_ms &p, Character &wh
 {
     std::unordered_map<ter_id, itype_id> terrain_item = {
         { t_ladder_wooden_straight_down, itype_ladder_wooden_straight },
-        { t_ladder_aluminum_down, itype_ladder_aluminum_extended },
-        { t_ladder_fiberglass_down, itype_ladder_fiberglass_extended },
-        { t_ladder_aluminum_tele_down, itype_ladder_aluminum_tele_extended }
+        { t_ladder_aluminum_extending_down, itype_ladder_aluminum_extended },
+        { t_ladder_fiberglass_extending_down, itype_ladder_fiberglass_extended },
+        { t_ladder_aluminum_telescoping_down, itype_ladder_aluminum_tele_extended }
     };
     map &here = get_map();
     const tripoint_bub_ms top = p + tripoint_below;

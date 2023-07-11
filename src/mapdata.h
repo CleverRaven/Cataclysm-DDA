@@ -780,9 +780,9 @@ extern ter_id t_null,
        // Staircases etc.
        t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
        t_ladder_wooden_straight_up, t_ladder_wooden_straight_down,
-       t_ladder_aluminum_up, t_ladder_aluminum_down,
-       t_ladder_fiberglass_up, t_ladder_fiberglass_down,
-       t_ladder_aluminum_tele_up, t_ladder_aluminum_tele_down,
+       t_ladder_aluminum_extending_up, t_ladder_aluminum_extending_down,
+       t_ladder_fiberglass_extending_up, t_ladder_fiberglass_extending_down,
+       t_ladder_aluminum_telescoping_up, t_ladder_aluminum_telescoping_down,
        t_slope_up, t_rope_up,
        t_manhole_cover,
        // Special
