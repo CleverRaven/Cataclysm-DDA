@@ -5271,7 +5271,7 @@ void vehicle::do_engine_damage( vehicle_part &vp, int strain )
     if( is_engine_on( vp ) && !is_perpetual_type( vp ) && engine_fuel_left( vp ) &&
         rng( 1, 100 ) < strain ) {
         const int dmg = rng( 0, strain * 4 );
-        damage_direct( get_map(), index_of_part( &vp ), dmg );
+        damage_direct( get_map(), vp, dmg );
         if( one_in( 2 ) ) {
             add_msg( _( "Your engine emits a high pitched whine." ) );
         } else {
@@ -6805,15 +6805,18 @@ int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool
         }
     }
 
+    vehicle_part &vp_target = part( target_part );
+    const vpart_info &vpi_target = vp_target.info();
+
     const int armor_part = part_with_feature( vp_initial.mount, "ARMOR", true );
     if( armor_part < 0 ) { // Not covered by armor -- damage part
-        return damage_direct( here, target_part, dmg, type );
+        return damage_direct( here, vp_target, dmg, type );
     }
-    const vehicle_part &vp_target = part( target_part );
-    const vpart_info &vpi_target = vp_target.info();
-    const vehicle_part &vp_armor = part( armor_part );
+
+    vehicle_part &vp_armor = part( armor_part );
+    const vpart_info &vpi_armor = vp_armor.info();
     // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-    const int protection = type->no_resist ? 0 : vp_armor.info().damage_reduction.at( type );
+    const int protection = type->no_resist ? 0 : vpi_armor.damage_reduction.at( type );
     // Parts on roof aren't protected
     const bool overhead = vpi_target.has_flag( "ROOF" ) || vpi_target.location == "on_roof";
     // Calling damage_direct may remove the damaged part completely, therefore the
@@ -6821,11 +6824,11 @@ int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool
     // Damaging the part with the higher index first is safe, as removing a part
     // only changes indices after the removed part.
     if( armor_part < target_part ) {
-        damage_direct( here, target_part, overhead ? dmg : dmg - protection, type );
-        return damage_direct( here, armor_part, dmg, type );
+        damage_direct( here, vp_target, overhead ? dmg : dmg - protection, type );
+        return damage_direct( here, vp_armor, dmg, type );
     } else {
-        const int damage_dealt = damage_direct( here, armor_part, dmg, type );
-        damage_direct( here, target_part, overhead ? dmg : dmg - protection, type );
+        const int damage_dealt = damage_direct( here, vp_armor, dmg, type );
+        damage_direct( here, vp_target, overhead ? dmg : dmg - protection, type );
         return damage_dealt;
     }
 }
@@ -6841,7 +6844,7 @@ void vehicle::damage_all( int dmg1, int dmg2, const damage_type_id &type, const 
     }
 
     for( const vpart_reference &vpr : get_all_parts() ) {
-        const vehicle_part &vp = vpr.part();
+        vehicle_part &vp = vpr.part();
         const vpart_info &vpi = vp.info();
         const int distance = 1 + square_dist( vp.mount, impact );
         if( distance > 1 ) {
@@ -6853,7 +6856,7 @@ void vehicle::damage_all( int dmg1, int dmg2, const damage_type_id &type, const 
                     net_dmg = std::max( 0, net_dmg - vp_shock_absorber.info().bonus );
                 }
             }
-            damage_direct( get_map(), vpr.part_index(), net_dmg, type );
+            damage_direct( get_map(), vp, net_dmg, type );
         }
     }
 }
@@ -6924,9 +6927,8 @@ bool vehicle::shift_if_needed( map &here )
     return false;
 }
 
-int vehicle::break_off( map &here, int p, int dmg )
+int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
 {
-    vehicle_part &vp = parts[p];
     const vpart_info &vpi = vp.info();
     /* Already-destroyed part - chance it could be torn off into pieces.
      * Chance increases with damage, and decreases with part max durability
@@ -6958,14 +6960,11 @@ int vehicle::break_off( map &here, int p, int dmg )
         // For structural parts, remove other parts first
         std::vector<int> parts_in_square = parts_at_relative( vp.mount, true );
         for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
-            // Ignore the frame being destroyed
-            if( parts_in_square[index] == p ) {
-                continue;
-            }
             vehicle_part &vp_here = parts[parts_in_square[index]];
             const vpart_info &vpi_here = vp_here.info();
-
-            if( vpi_here.has_flag( "TOW_CABLE" ) ) {
+            if( &vp_here == &vp ) {
+                continue; // Ignore the frame being destroyed
+            } else if( vpi_here.has_flag( "TOW_CABLE" ) ) {
                 // Tow cables - remove it in one piece, remove remote part, and remove towing data
                 add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp_here.name() );
                 invalidate_towing( true );
@@ -6991,7 +6990,7 @@ int vehicle::break_off( map &here, int p, int dmg )
         add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, vp.name() );
         scatter_parts( vp );
         remove_part( vp, *handler_ptr );
-        find_and_split_vehicles( here, { p } );
+        find_and_split_vehicles( here, { index_of_part( &vp, /* include_removed = */ true ) } );
     } else {
         if( vpi.has_flag( "TOW_CABLE" ) ) {
             // Tow cables - remove it in one piece, remove remote part, and remove towing data
@@ -7033,7 +7032,7 @@ int vehicle::break_off( map &here, int p, int dmg )
                     if( vpi_here.has_flag( "TOW_CABLE" ) ) {
                         invalidate_towing( true );
                     } else {
-                        if( vpi.has_flag( "POWER_TRANSFER" ) ) {
+                        if( vpi_here.has_flag( "POWER_TRANSFER" ) ) {
                             remove_remote_part( vp_here );
                         }
                         here.add_item_or_charges( pos, vp_here.properties_to_item() );
@@ -7047,9 +7046,8 @@ int vehicle::break_off( map &here, int p, int dmg )
     return dmg;
 }
 
-bool vehicle::explode_fuel( int p, const damage_type_id &type )
+bool vehicle::explode_fuel( vehicle_part &vp, const damage_type_id &type )
 {
-    vehicle_part &vp = part( p );
     const itype_id &ft = vp.info().fuel_type;
     item fuel = item( ft );
     if( !fuel.has_explosion_data() ) {
@@ -7075,13 +7073,11 @@ bool vehicle::explode_fuel( int p, const damage_type_id &type )
     return true;
 }
 
-int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &type )
+int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_type_id &type )
 {
-    // Make sure p is within range and hasn't been removed already
-    if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
-        return dmg;
+    if( vp.removed ) {
+        return dmg; // part is already dead
     }
-    vehicle_part &vp = parts[p];
     const vpart_info &vpi = vp.info();
     const tripoint vppos = global_part_pos3( vp );
     // If auto-driving and damage happens, bail out
@@ -7090,13 +7086,13 @@ int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &typ
     }
     here.set_memory_seen_cache_dirty( vppos );
     if( vp.is_broken() ) {
-        return break_off( here, p, dmg );
+        return break_off( here, vp, dmg );
     }
 
     int tsh = std::min( 20, vpi.durability / 10 );
     if( dmg < tsh && type != damage_pure ) {
         if( type == damage_heat && vp.is_fuel_store() ) {
-            explode_fuel( p, type );
+            explode_fuel( vp, type );
         }
 
         return dmg;
@@ -7131,9 +7127,10 @@ int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &typ
     }
 
     if( vp.is_fuel_store() ) {
-        explode_fuel( p, type );
+        explode_fuel( vp, type );
     } else if( vp.is_broken() && vpi.has_flag( "UNMOUNT_ON_DAMAGE" ) ) {
-        monster *mon = get_monster( p );
+        const int vp_idx = index_of_part( &vp, /* include_removed = */ true );
+        monster *mon = get_monster( vp_idx );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );
         }

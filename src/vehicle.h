@@ -805,13 +805,13 @@ class vehicle
                            const vehicle_part &excluded ) const;
 
         // direct damage to part (armor protection and internals are not counted)
-        // returns damage bypassed
-        int damage_direct( map &here, int p, int dmg,
+        // @returns damage still left to apply
+        int damage_direct( map &here, vehicle_part &vp, int dmg,
                            const damage_type_id &type = damage_type_id( "pure" ) );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
-        int break_off( map &here, int p, int dmg );
+        int break_off( map &here, vehicle_part &vp, int dmg );
         // Returns if it did actually explode
-        bool explode_fuel( int p, const damage_type_id &type );
+        bool explode_fuel( vehicle_part &vp, const damage_type_id &type );
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
