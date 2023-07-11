@@ -73,7 +73,6 @@
     "reload": 0,
     "clip_size": 1,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
