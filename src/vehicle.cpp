@@ -6610,7 +6610,8 @@ void vehicle::remove_remote_part( const vehicle_part &vp_local ) const
     }
 }
 
-void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_ms *dst )
+void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_ms *dst,
+                                const tripoint drop_offset )
 {
     map &here = get_map();
     // remove_part rebuilds the loose_parts vector, so iterate over a copy to preserve
@@ -6625,7 +6626,7 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
         }
         if( vpi_loose.has_flag( "POWER_TRANSFER" ) ) {
             int distance = rl_dist( here.getabs( bub_part_pos( vp_loose ) ), vp_loose.target.second );
-            int max_dist = vp_loose.get_base().type->maximum_charges();
+            int max_dist = vp_loose.get_base().link_length( true );
             if( src ) {
                 vehicle *veh = find_vehicle( vp_loose.target.second );
                 if( veh != nullptr ) {
@@ -6639,7 +6640,7 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
                         }
                     }
                 }
-                if( ( max_dist - distance ) > 0 ) {
+                if( distance <= max_dist ) {
                     // power line still has some slack to it, so keep it attached for now
                     continue;
                 }
@@ -6654,7 +6655,7 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
         }
         const item drop = vp_loose.properties_to_item();
         if( !magic && !drop.has_flag( flag_AUTO_DELETE_CABLE ) ) {
-            here.add_item_or_charges( global_part_pos3( vp_loose ), drop );
+            here.add_item_or_charges( global_part_pos3( vp_loose ) + drop_offset, drop );
         }
 
         remove_part( vp_loose );
