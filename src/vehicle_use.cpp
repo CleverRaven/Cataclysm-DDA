@@ -454,8 +454,8 @@ void vehicle::smash_security_system()
         debugmsg( "No security system found on vehicle." );
         return; // both must be valid parts
     }
-    const vehicle_part &vp_controls = part( idx_controls );
-    const vehicle_part &vp_security = part( idx_security );
+    vehicle_part &vp_controls = part( idx_controls );
+    vehicle_part &vp_security = part( idx_security );
     ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
     const float skill = player_character.get_skill_level( skill_mechanics );
     const int percent_controls = 70 / ( 1 + skill );
@@ -463,7 +463,7 @@ void vehicle::smash_security_system()
     const int rand = rng( 1, 100 );
 
     if( percent_controls > rand ) {
-        damage_direct( here, idx_controls, vp_controls.info().durability / 4 );
+        damage_direct( here, vp_controls, vp_controls.info().durability / 4 );
 
         if( vp_controls.removed || vp_controls.is_broken() ) {
             player_character.controlling_vehicle = false;
@@ -474,7 +474,7 @@ void vehicle::smash_security_system()
         }
     }
     if( percent_alarm > rand ) {
-        damage_direct( here, idx_security, vp_security.info().durability / 5 );
+        damage_direct( here, vp_security, vp_security.info().durability / 5 );
         // chance to disable alarm immediately, or disable on destruction
         if( percent_alarm / 4 > rand || vp_security.is_broken() ) {
             is_alarm_on = false;

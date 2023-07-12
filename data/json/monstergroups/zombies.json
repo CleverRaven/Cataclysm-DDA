@@ -202,7 +202,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_VANILLA_ONLY_HUMANS",
-    "//": "only human zombies, used in the refugee center and as upgrades for civilians",
+    "//": "only human zombies, used in the refugee center",
     "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },

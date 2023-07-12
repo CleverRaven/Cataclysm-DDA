@@ -9854,6 +9854,12 @@ void game::wield( item_location loc )
     tripoint pos = loc.position();
     const int obtain_cost = loc.obtain_cost( u );
     int worn_index = INT_MIN;
+
+    // Need to account for case where we're trying to wield a weapon that belongs to someone else
+    if( !avatar_action::check_stealing( u, *loc.get_item() ) ) {
+        return;
+    }
+
     if( u.is_worn( *loc.get_item() ) ) {
         auto ret = u.can_takeoff( *loc.get_item() );
         if( !ret.success() ) {

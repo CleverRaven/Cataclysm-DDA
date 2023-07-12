@@ -202,8 +202,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     for( int p : wheel_indices ) {
         if( one_in( 2 ) ) {
-            tripoint wheel_p = grabbed_vehicle->global_part_pos3( grabbed_part );
-            grabbed_vehicle->handle_trap( wheel_p, p );
+            vehicle_part &vp_wheel = grabbed_vehicle->part( p );
+            tripoint wheel_p = grabbed_vehicle->global_part_pos3( vp_wheel );
+            grabbed_vehicle->handle_trap( wheel_p, vp_wheel );
         }
     }
 
