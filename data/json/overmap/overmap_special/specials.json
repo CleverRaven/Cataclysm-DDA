@@ -8348,8 +8348,7 @@
     "type": "overmap_special",
     "id": "roundabout_city",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roundabout_4way", "locations": [ "road_only" ] } ],
-    "occurrences": [ 0, 0 ],
-	"//": "0 occurances until nested neighbour can check for flags to check for SIDEWALK without listing every map with SIDEWALK multiple times",
+    "occurrences": [ 3, 6 ],
     "connections": [
       { "point": [ -1, 0, 0 ], "terrain": "road", "existing": true },
       { "point": [ 1, 0, 0 ], "terrain": "road", "existing": true },
@@ -8365,8 +8364,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "roundabout_3way_north", "locations": [ "road_only" ] },
       { "point": [ 0, 1, 0 ], "overmap": "roundabout_edge_north", "locations": [ "land" ] }
     ],
-    "occurrences": [ 0, 0 ],
-	"//": "0 occurances until nested neighbour can check for flags to check for SIDEWALK without listing every map with SIDEWALK multiple times",
+    "occurrences": [ 3, 6 ],
     "connections": [
       { "point": [ -1, 0, 0 ], "terrain": "road", "existing": true },
       { "point": [ 1, 0, 0 ], "terrain": "road", "existing": true },

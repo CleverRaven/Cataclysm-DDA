@@ -87,37 +87,37 @@
           "else_chunks": [ "4x4_roundabout_sidewalk_ne" ],
           "x": 20,
           "y": 0,
-          "neighbors": { "north_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "north_east": [ "SIDEWALK" ] }
         },
         {
           "else_chunks": [ "4x4_roundabout_sidewalk_se" ],
           "x": 20,
           "y": 20,
-          "neighbors": { "south_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "south_east": [ "SIDEWALK" ] }
         },
         {
           "else_chunks": [ "4x4_roundabout_sidewalk_sw" ],
           "x": 0,
           "y": 20,
-          "neighbors": { "south_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "south_west": [ "SIDEWALK" ] }
         },
         {
           "else_chunks": [ "4x4_roundabout_sidewalk_nw" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "north_west": [ "SIDEWALK" ] }
         },
         {
           "else_chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
           "x": 0,
           "y": 24,
-          "neighbors": { "east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "east": [ "SIDEWALK" ] }
         },
         {
           "else_chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
           "x": 0,
           "y": 24,
-          "neighbors": { "west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "west": [ "SIDEWALK" ] }
         }
       ]
     }
@@ -162,35 +162,35 @@
           "else_chunks": [ "4x4_roundabout_sidewalk_ne" ],
           "x": 20,
           "y": 0,
-          "neighbors": { "north_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "north_east": [ "SIDEWALK" ] }
         },
         {
           "else_chunks": [ "4x4_roundabout_sidewalk_se" ],
           "x": 20,
           "y": 20,
-          "neighbors": { "south_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "south_east": [ "SIDEWALK" ] }
         },
         {
           "else_chunks": [ "4x4_roundabout_sidewalk_sw" ],
           "x": 0,
           "y": 20,
-          "neighbors": { "south_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "south_west": [ "SIDEWALK" ] }
         },
         {
           "else_chunks": [ "4x4_roundabout_sidewalk_nw" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ] }
+          "flags": { "north_west": [ "SIDEWALK" ] }
         },
         {
           "else_chunks": [ "24x24_roundabout_traffic_lights", "null" ],
           "x": 0,
           "y": 0,
-          "neighbors": {
-            "north_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
-            "south_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
-            "south_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
-            "north_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ]
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
           }
         },
         {
@@ -203,11 +203,11 @@
           ],
           "x": 8,
           "y": 8,
-          "neighbors": {
-            "north_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
-            "south_east": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
-            "south_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ],
-            "north_west": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "road" ]
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
           }
         }
       ]
