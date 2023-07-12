@@ -98,7 +98,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+            { not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
             { "u_has_var": "cleanup_promises", "type": "mission", "context": "Boris_mission_1", "value": 2 }
           ]
         },
@@ -109,7 +109,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+            { not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
             { "u_has_var": "cleanup_promises", "type": "mission", "context": "Boris_mission_1", "value": 3 }
           ]
         },
@@ -120,7 +120,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+            { not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
             { "u_has_var": "cleanup_promises", "type": "mission", "context": "Boris_mission_1", "value": 4 }
           ]
         },
