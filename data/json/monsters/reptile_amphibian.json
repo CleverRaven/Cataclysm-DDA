@@ -338,7 +338,7 @@
     "id": "mon_rattlesnake_mega",
     "type": "MONSTER",
     "name": { "str": "deathrattle serpent" },
-    "description": "A primal fear strikes when the club-like tail of this massively warped snake shifts, an assortment of bones rattling softly.  Multiple sets of hollow fangs have erupted in its maw, which itself is flanked by skinless ropes of powerful muscle.  Its scales constantly shed off and regrow on your eyes.",
+    "description": "A primal fear strikes when the club-like tail of this massively warped snake shifts, an assortment of bones rattling softly.  Multiple sets of hollow fangs have erupted in its maw, which itself is flanked by skinless ropes of powerful muscle.  Its scales constantly shed off and regrow with unnatural speed.",
     "default_faction": "mutant",
     "bodytype": "snake",
     "categories": [ "WILDLIFE" ],
