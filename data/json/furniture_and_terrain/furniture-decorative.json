@@ -82,6 +82,60 @@
   },
   {
     "type": "furniture",
+    "id": "f_hook",
+    "name": "hook",
+    "description": "A hook to hang something from.",
+    "symbol": "8",
+    "color": "light_gray",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "NOCOLLIDE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "crack.",
+      "items": [ { "item": "chain", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_windchime_wooden",
+    "name": "windchime",
+    "description": "A wooden windchime hung from a hook.",
+    "symbol": "8",
+    "color": "brown",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "NOCOLLIDE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "crack.",
+      "items": [ { "item": "chain", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_windchime",
+    "name": "windchime",
+    "description": "A metal windchime hung from a hook.",
+    "symbol": "8",
+    "color": "light_gray",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "NOCOLLIDE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "crack.",
+      "items": [ { "item": "chain", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_shackle",
     "name": "manacles",
     "description": "A pair of metal shackles with heavy chains mounted to a wall or floor.",

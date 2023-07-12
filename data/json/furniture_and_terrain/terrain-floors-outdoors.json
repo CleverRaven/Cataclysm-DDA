@@ -476,6 +476,50 @@
   },
   {
     "type": "terrain",
+    "id": "t_floor_patio_tiles",
+    "name": "patio tiles",
+    "looks_like": "t_conc",
+    "description": "High-quality stone tiles laid to form a patio.",
+    "symbol": ".",
+    "color": "light_gray",
+    "connect_groups": "BRICKFLOOR",
+    "connects_to": "BRICKFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "items": [
+        { "item": "rock", "charges": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_deck_boards",
+    "name": "deck boards",
+    "looks_like": "t_floor",
+    "description": "High-quality pine boards laid to form a deck.",
+    "symbol": ".",
+    "color": "light_gray",
+    "connect_groups": "WOODFLOOR",
+    "connects_to": "WOODFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 20,
+      "str_max": 50,
+      "items": [
+        { "item": "splinter", "count": [ 10, 40 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_linoleum_white_no_roof",
     "name": "linoleum tile",
     "looks_like": "t_linoleum_white",

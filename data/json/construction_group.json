@@ -1726,6 +1726,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_hook",
+    "name": "Build a hook onto the side of a wall"
+  },
+  {
+    "type": "construction_group",
     "id": "build_rope_hoist",
     "name": "Hang Simple Rope Hoist"
   },
@@ -1778,6 +1783,21 @@
     "type": "construction_group",
     "id": "place_hd_compressor_unit",
     "name": "Place High Pressure Compressor Unit"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_windchime",
+    "name": "Place a windchime on a hook"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_hanging_basket",
+    "name": "Place a hanging basket on a hook"
+  },
+  {
+    "type": "construction_group",
+    "id": "lay_decking",
+    "name": "Lay decking"
   },
   {
     "type": "construction_group",

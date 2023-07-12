@@ -299,6 +299,142 @@
   },
   {
     "type": "furniture",
+    "id": "f_hanging_basket",
+    "name": "hanging basket",
+    "description": "A hanging basket full of soil.  Can be used for planting crops.",
+    "symbol": "^",
+    "color": "green",
+    "move_cost_mod": 1,
+    "required_str": 10,
+    "looks_like": "t_dirtmound",
+    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "hanging_basket" }
+      ],
+      "furn_set": "f_hook"
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "furn_set": "f_hook",
+      "items": [
+        { "item": "wire", "count": [ 4, 10 ] },
+        { "item": "pebble", "charges": [ 5, 10 ] },
+        { "item": "material_soil", "count": [ 0, 1 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_hanging_basket_seed" },
+    "examine_action": "dirtmound"
+  },
+  {
+    "type": "furniture",
+    "id": "f_hanging_basket_harvest",
+    "name": "hanging basket with harvestable plant",
+    "description": "AA hanging basket full of soil.  This one has a fully grown plant, and will need closer examination to harvest.",
+    "symbol": "#",
+    "color": "light_green",
+    "looks_like": "f_plant_harvest",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "examine_action": "harvest_plant_ex",
+    "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 8,
+      "furn_set": "f_hanging_basket",
+      "items": [
+        { "item": "withered", "count": [ 2, 8 ] },
+        { "item": "leaves", "count": [ 4, 16 ] },
+        { "item": "twig", "count": [ 1, 5 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_hanging_basket", "base": "f_hanging_basket" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hanging_basket_mature",
+    "name": "hanging basket with mature plant",
+    "description": "A hanging basket full of soil.  This one has a matured plant that should be ready for harvest before long.",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "f_plant_mature",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 8,
+      "furn_set": "f_hanging_basket",
+      "items": [
+        { "item": "withered", "count": [ 2, 8 ] },
+        { "item": "leaves", "count": [ 4, 16 ] },
+        { "item": "twig", "count": [ 1, 5 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_hanging_basket_harvest", "base": "f_hanging_basket" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hanging_basket_seed",
+    "name": "hanging basket with seed",
+    "description": "A hanging basket full of soil.  This one contains a planted seed, and will need attention to grow fully.",
+    "symbol": "^",
+    "color": "brown",
+    "looks_like": "f_plant_seed",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 4,
+      "furn_set": "f_hanging_basket",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
+    },
+    "plant_data": { "transform": "f_hanging_basket_seedling", "base": "f_hanging_basket" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hanging_basket_seedling",
+    "name": "hanging basket with seedling",
+    "description": "A hanging basket full of soil.  This one has a seed that has just begun to sprout its first roots.",
+    "symbol": "^",
+    "color": "green",
+    "looks_like": "f_plant_seedling",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
+    "examine_action": "aggie_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 6,
+      "furn_set": "f_hanging_basket",
+      "items": [
+        { "item": "withered", "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 2, 6 ] },
+        { "item": "twig", "count": [ 0, 1 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_hanging_basket_mature", "base": "f_hanging_basket" }
+  },
+  {
+    "type": "furniture",
     "id": "f_stook_full",
     "name": "grain stook",
     "description": "Sheaves of cut grain have been stood upright in a self-supporting A-frame to dry, keeping the seeds off the ground and out of reach of vermin.",

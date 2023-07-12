@@ -5894,7 +5894,54 @@
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
+    "pre_special": "check_empty",
     "post_terrain": "f_planter"
+  },
+  {
+    "type": "construction",
+    "id": "constr_hook",
+    "group": "build_hook",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ], [ { "id": "DRILL", "level": 3 } ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "nail", 2 ] ] ],
+    "//": "Change to check_support_singular when #66785 is merged",
+    "pre_special": "check_empty",
+    "post_terrain": "f_hook"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_windchime_wooden",
+    "group": "place_windchime",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "windchime_wooden", 1 ] ] ],
+    "pre_terrain": "f_hook",
+    "post_terrain": "f_windchime_wooden"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_windchime",
+    "group": "place_windchime",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "windchime", 1 ] ] ],
+    "pre_terrain": "f_hook",
+    "post_terrain": "f_windchime"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_hanging_basket",
+    "group": "place_hanging_basket",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "hanging_basket", 1 ] ] ],
+    "pre_terrain": "f_hook",
+    "post_terrain": "f_hanging_basket"
   },
   {
     "type": "construction",
@@ -6491,6 +6538,18 @@
     ],
     "pre_terrain": "t_junk_palisade",
     "post_terrain": "t_junk_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_floor_deck_boards",
+    "group": "lay_decking",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DRILL", "level": 3 } ] ],
+    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
+    "pre_terrain": "t_dirt",
+    "post_terrain": "t_floor_deck_boards"
   },
   {
     "type": "construction",

@@ -205,5 +205,53 @@
     "weight": "12 kg",
     "material": [ "wood", "glass" ],
     "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "windchime_wooden",
+    "name": { "str": "windchime" },
+    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.",
+    "symbol": "#",
+    "color": "brown",
+    "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
+    "price": 3000,
+    "price_postapoc": 250,
+    "longest_side": "95 cm",
+    "volume": "30 L",
+    "weight": "12 kg",
+    "material": [ "wood", "glass" ],
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "windchime",
+    "name": { "str": "windchime" },
+    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.",
+    "symbol": "#",
+    "color": "brown",
+    "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
+    "price": 3000,
+    "price_postapoc": 250,
+    "longest_side": "95 cm",
+    "volume": "30 L",
+    "weight": "12 kg",
+    "material": [ "wood", "glass" ],
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "hanging_basket",
+    "name": { "str": "hanging basket" },
+    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.",
+    "symbol": "#",
+    "color": "brown",
+    "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
+    "price": 3000,
+    "price_postapoc": 250,
+    "longest_side": "95 cm",
+    "volume": "30 L",
+    "weight": "12 kg",
+    "material": [ "wood", "glass" ],
+    "to_hit": -3
   }
 ]
