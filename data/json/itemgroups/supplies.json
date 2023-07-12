@@ -335,6 +335,7 @@
       [ "insecticide", 5 ],
       { "item": "charcoal", "prob": 5, "charges": [ 200, 400 ] },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      { "group": "tools_ladders", "prob": 5 },
       [ "solar_cell", 5 ],
       [ "fertilizer_commercial", 30 ],
       [ "chem_sulphuric_acid", 30 ],

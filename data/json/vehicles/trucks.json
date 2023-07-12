@@ -80,7 +80,8 @@
       { "x": 0, "y": 0, "chance": 2, "items": [ "beer", "beer", "beer", "beer", "beer", "beer" ] },
       { "x": -2, "y": 0, "chance": 90, "item_groups": [ "car_kit" ] },
       { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_wide_wheel" ] },
-      { "x": -2, "y": 0, "chance": 2, "item_groups": [ "hardware" ] }
+      { "x": -2, "y": 0, "chance": 2, "item_groups": [ "hardware" ] },
+      { "x": -7, "y": 2, "chance": 5, "item_groups": [ "tools_ladders" ] }
     ]
   },
   {
