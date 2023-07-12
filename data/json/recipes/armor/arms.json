@@ -1961,9 +1961,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "12 h",
-    "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "difficulty": 4,
+    "time": "5 h",
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "textbook_weparabic", 4 ] ],
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -1986,7 +1986,7 @@
     "copy-from": "lc_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "14 h",
+    "time": "5 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -2003,7 +2003,7 @@
     "copy-from": "lc_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "12 h",
+    "time": "5 h",
     "using": [
       [ "tailoring_canvas_patchwork", 1 ],
       [ "blacksmithing_standard", 16 ],
@@ -2022,8 +2022,8 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "12 h",
-    "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "time": "6 h",
+    "book_learn": [ [ "textbook_armwest", 5 ], [ "textbook_weparabic", 5 ] ],
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -2046,7 +2046,7 @@
     "copy-from": "mc_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "14 h",
+    "time": "6 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -2063,7 +2063,7 @@
     "copy-from": "mc_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "12 h",
+    "time": "6 h",
     "using": [
       [ "tailoring_canvas_patchwork", 1 ],
       [ "blacksmithing_standard", 16 ],
@@ -2082,8 +2082,8 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "12 h",
-    "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "time": "6 h",
+    "book_learn": [ [ "textbook_armwest", 5 ], [ "textbook_weparabic", 5 ] ],
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -2106,7 +2106,7 @@
     "copy-from": "hc_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "14 h",
+    "time": "6 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -2123,7 +2123,7 @@
     "copy-from": "hc_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "12 h",
+    "time": "6 h",
     "using": [
       [ "tailoring_canvas_patchwork", 1 ],
       [ "blacksmithing_standard", 16 ],
@@ -2142,8 +2142,8 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "20 h",
-    "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "time": "18 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -2168,7 +2168,7 @@
     "copy-from": "ch_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "22 h",
+    "time": "18 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -2186,7 +2186,7 @@
     "copy-from": "ch_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "20 h",
+    "time": "18 h",
     "using": [
       [ "tailoring_canvas_patchwork", 1 ],
       [ "blacksmithing_standard", 16 ],
@@ -2206,8 +2206,8 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "1d 4h",
-    "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "time": "1d 2h",
+    "book_learn": [ [ "textbook_armwest", 7 ], [ "textbook_weparabic", 7 ] ],
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -2231,7 +2231,7 @@
     "copy-from": "qt_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "1d 8h",
+    "time": "1d 2h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 16 ],
@@ -2248,7 +2248,7 @@
     "copy-from": "qt_vambrace_brigandine",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "1d 4h",
+    "time": "1d 2h",
     "using": [
       [ "tailoring_canvas_patchwork", 1 ],
       [ "blacksmithing_standard", 16 ],
