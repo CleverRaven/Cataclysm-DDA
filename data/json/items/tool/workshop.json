@@ -168,7 +168,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 1, "charge_rate": "300 W" },
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "300 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -195,7 +195,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 1, "charge_rate": "600 W" },
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "600 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -583,7 +583,7 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 1, "charge_rate": "1500 W" } ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -970,7 +970,7 @@
     "charges_per_use": 1,
     "power_draw": "800 W",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 1, "charge_rate": "800 W" } ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "800 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1633,7 +1633,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 1, "charge_rate": "1500 W" } ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
