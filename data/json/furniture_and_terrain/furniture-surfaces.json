@@ -339,6 +339,27 @@
   },
   {
     "type": "furniture",
+    "id": "f_table_umbrella",
+    "copy-from": "f_table",
+    "name": "table w/ umbrella hole",
+    "description": "A standard wooden table with a hole for an umbrella.  You could sit down at it to eat like a civilized person."
+  },
+  {
+    "type": "furniture",
+    "id": "f_table_plastic_umbrella",
+    "copy-from": "f_table_plastic",
+    "name": "plastic table w/ umbrella hole",
+    "description": "A standard plastic table with a hole for an umbrella.  You could sit down at it to eat like a civilized person."
+  },
+  {
+    "type": "furniture",
+    "id": "f_table_rattan_umbrella",
+    "copy-from": "f_table_rattan",
+    "name": "rattan table w/ umbrella hole",
+    "description": "A rattan table with a glass top and a hole for an umbrella.  You could sit down at it to eat like a civilized person."
+  },
+  {
+    "type": "furniture",
     "id": "f_coffee_table",
     "name": "coffee table",
     "description": "A low table usually found in living rooms, it makes an ideal surface for playing games, showing off some tasteful books, or presumably for putting coffee cups on.  No one cares if you use a coaster anymore.",
