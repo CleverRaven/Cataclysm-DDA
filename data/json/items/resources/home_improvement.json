@@ -200,5 +200,21 @@
     "weight": "25 g",
     "volume": "1000 ml",
     "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "cane_webbing",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "screen_mesh",
+    "name": { "str_sp": "cane webbing" },
+    "category": "spare_parts",
+    "description": "A roll of fine cane mesh for decorating furniture.",
+    "price": 1200,
+    "price_postapoc": 50,
+    "material": [ "wood" ],
+    "weight": "25 g",
+    "volume": "1000 ml",
+    "to_hit": -3
   }
 ]

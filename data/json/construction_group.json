@@ -1751,6 +1751,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_bench",
+    "name": "Place a bench"
+  },
+  {
+    "type": "construction_group",
     "id": "place_stool",
     "name": "Place a stool"
   },

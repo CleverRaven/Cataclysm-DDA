@@ -557,7 +557,7 @@
     "volume": "10619 ml",
     "price": "40 USD",
     "price_postapoc": 40,
-    "material": [ [ "wood", 95 ], [ "steel", 5 ] ],
+    "material": [ { "type": "wood", "portion": 95 }, { "type": "steel", "portion": 5 } ],
     "symbol": "o",
     "color": "black"
   },

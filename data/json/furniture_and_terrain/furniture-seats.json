@@ -31,6 +31,36 @@
   },
   {
     "type": "furniture",
+    "id": "f_bench_plastic",
+    "name": "plastic bench",
+    "symbol": "#",
+    "description": "A simple bench with plastic slats.  While uncomfortably flat and just as cold as the ground, it could serve as a bed if needed.",
+    "color": "white",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "nuts_bolts", "charges": 12 }, { "item": "steel_chunk", "count": 8 } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 1, 6 ] },
+        { "item": "scrap", "charges": [ 10, 25 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_armchair",
     "name": "armchair",
     "symbol": "H",

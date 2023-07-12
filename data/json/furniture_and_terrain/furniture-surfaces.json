@@ -321,7 +321,7 @@
     "name": "rattan table",
     "description": "A rattan table with a glass top.  You could sit down at it to eat like a civilized person.",
     "symbol": "#",
-    "color": "white",
+    "color": "brown",
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 5,
@@ -342,21 +342,27 @@
     "id": "f_table_umbrella",
     "copy-from": "f_table",
     "name": "table w/ umbrella hole",
-    "description": "A standard wooden table with a hole for an umbrella.  You could sit down at it to eat like a civilized person."
+    "description": "A standard wooden table with a hole for an umbrella.  You could sit down at it to eat like a civilized person.",
+    "symbol": "#",
+    "color": "red"
   },
   {
     "type": "furniture",
     "id": "f_table_plastic_umbrella",
     "copy-from": "f_table_plastic",
     "name": "plastic table w/ umbrella hole",
-    "description": "A standard plastic table with a hole for an umbrella.  You could sit down at it to eat like a civilized person."
+    "description": "A standard plastic table with a hole for an umbrella.  You could sit down at it to eat like a civilized person.",
+    "symbol": "#",
+    "color": "white"
   },
   {
     "type": "furniture",
     "id": "f_table_rattan_umbrella",
     "copy-from": "f_table_rattan",
     "name": "rattan table w/ umbrella hole",
-    "description": "A rattan table with a glass top and a hole for an umbrella.  You could sit down at it to eat like a civilized person."
+    "description": "A rattan table with a glass top and a hole for an umbrella.  You could sit down at it to eat like a civilized person.",
+    "symbol": "#",
+    "color": "brown"
   },
   {
     "type": "furniture",

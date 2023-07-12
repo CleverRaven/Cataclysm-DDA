@@ -2415,14 +2415,14 @@
   },
   {
     "type": "construction",
-    "id": "constr_place_sofa_plastic",
-    "group": "place_sofa",
+    "id": "constr_place_bench_plastic",
+    "group": "place_bench",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 s",
-    "components": [ [ [ "sofa_plastic", 1 ] ] ],
+    "components": [ [ [ "bench_plastic", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_sofa_plastic",
+    "post_terrain": "f_bench_plastic",
     "activity_level": "LIGHT_EXERCISE"
   },
   {
@@ -3063,7 +3063,7 @@
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
     "components": [ [ [ "paint_white", 3 ] ] ],
-    "pre_terrain": "t_lawn",
+    "pre_terrain": "t_grass_lawn",
     "post_terrain": "t_grass_white"
   },
   {
