@@ -2241,7 +2241,7 @@ void options_manager::add_options_graphics()
     [&]( const std::string & page_id ) {
         add( "FONT_BLENDING_MODE", page_id, to_translation( "Font blending mode" ),
              to_translation( "Set TTF font blending mode.  Requires restart.  'Blended' looks better than 'Solid'.  "
-                             "For LCD display, 'LCD' uses sub-pixel rendering to further improve resolution, "
+                             "For LCD display, 'LCD' uses sub-pixel rendering to further improve resolution at the cost of rendering speed, "
         "but it is not supported by bitmap fonts and some renderers (in which case it falls back to 'Blended')." ), {
             { "solid", to_translation( "Solid" ) },
             { "blended", to_translation( "Blended" ) },

@@ -315,6 +315,8 @@ CachedTTFFont::CachedTTFFont(
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 #if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
     if( fontblending == font_blending_mode::lcd ) {
+        // TTF_HINTING_LIGHT had the best quality in my tests. Other hinting modes
+        // either had color bias, was blurry, or rendered characters in weird positions.
         TTF_SetFontHinting( font.get(), TTF_HINTING_LIGHT );
     }
 #endif
@@ -395,13 +397,13 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
                                 unsigned char color, const float opacity )
 {
     const unsigned char fg = color & 0xf;
-    const key_t key { ch,
+    key_t key { ch,
 #if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
-                      // Only save one texture for all colors and apply the color separately
-                      // below. See comments in CachedTTFFont::create_glyph for more detail.
-                      fontblending == font_blending_mode::lcd ? static_cast<unsigned char>( 0 ) :
+                // Only save one texture for all colors and apply the color separately
+                // below. See comments in CachedTTFFont::create_glyph for more detail.
+                fontblending == font_blending_mode::lcd ? static_cast<unsigned char>( 0 ) :
 #endif
-                      fg };
+                fg };
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
