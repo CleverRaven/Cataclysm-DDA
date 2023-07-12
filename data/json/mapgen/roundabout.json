@@ -84,37 +84,37 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "else_chunks": [ "4x4_roundabout_sidewalk_ne" ],
+          "chunks": [ "4x4_roundabout_sidewalk_ne" ],
           "x": 20,
           "y": 0,
           "flags": { "north_east": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "4x4_roundabout_sidewalk_se" ],
+          "chunks": [ "4x4_roundabout_sidewalk_se" ],
           "x": 20,
           "y": 20,
           "flags": { "south_east": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "4x4_roundabout_sidewalk_sw" ],
+          "chunks": [ "4x4_roundabout_sidewalk_sw" ],
           "x": 0,
           "y": 20,
           "flags": { "south_west": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "chunks": [ "4x4_roundabout_sidewalk_nw" ],
           "x": 0,
           "y": 0,
           "flags": { "north_west": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
+          "chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
           "x": 0,
           "y": 24,
           "flags": { "east": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
+          "chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
           "x": 0,
           "y": 24,
           "flags": { "west": [ "SIDEWALK" ] }
@@ -159,31 +159,31 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "else_chunks": [ "4x4_roundabout_sidewalk_ne" ],
+          "chunks": [ "4x4_roundabout_sidewalk_ne" ],
           "x": 20,
           "y": 0,
           "flags": { "north_east": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "4x4_roundabout_sidewalk_se" ],
+          "chunks": [ "4x4_roundabout_sidewalk_se" ],
           "x": 20,
           "y": 20,
           "flags": { "south_east": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "4x4_roundabout_sidewalk_sw" ],
+          "chunks": [ "4x4_roundabout_sidewalk_sw" ],
           "x": 0,
           "y": 20,
           "flags": { "south_west": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "chunks": [ "4x4_roundabout_sidewalk_nw" ],
           "x": 0,
           "y": 0,
           "flags": { "north_west": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "24x24_roundabout_traffic_lights", "null" ],
+          "chunks": [ "24x24_roundabout_traffic_lights", "null" ],
           "x": 0,
           "y": 0,
           "flags": {
@@ -194,7 +194,7 @@
           }
         },
         {
-          "else_chunks": [
+          "chunks": [
             "8x8_roundabout_center_basic",
             "8x8_roundabout_center_fountain",
             "8x8_roundabout_center_statue",
