@@ -4534,7 +4534,7 @@ std::optional<int> link_up_actor::link_up( Character *p, item &it ) const
             return 0;
         } else {
             p->add_msg_if_player( m_info, string_format( is_cable_item ? _( "You detach the %s." ) :
-                                 _( "You gather the %s's cable up with it." ), it.type_name() ) );
+                                  _( "You gather the %s's cable up with it." ), it.type_name() ) );
         }
         return 0;
     }
@@ -4712,9 +4712,11 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         }
 
         if( it.link->has_no_links() ) {
-            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(), t_vp_ref->part().name( false ) );
+            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(),
+                                  t_vp_ref->part().name( false ) );
         } else if( it.link->has_state( link_state::bio_cable ) ) {
-            p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), t_vp_ref->part().name( false ) );
+            p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ),
+                                  t_vp_ref->part().name( false ) );
             it.link->s_state = link_state::bio_cable;
         } else {
             debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
@@ -4776,14 +4778,14 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         if( !can_mount1.success() ) {
             //~ %1$s - cable name, %2$s - the reason why it failed
             p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                it.type_name(), can_mount1.str() );
+                                  it.type_name(), can_mount1.str() );
             return std::nullopt;
         }
         const ret_val<void> can_mount2 = target_veh->can_mount( vcoords2, *vpid );
         if( !can_mount2.success() ) {
             //~ %1$s - cable name, %2$s - the reason why it failed
             p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                it.type_name(), can_mount2.str() );
+                                  it.type_name(), can_mount2.str() );
             return std::nullopt;
         }
 
@@ -4798,9 +4800,9 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         target_veh->install_part( vcoords2, std::move( target_part ) );
 
         if( p->has_item( it ) ) {
-            //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - cable name, 
+            //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - cable name,
             p->add_msg_if_player( m_good, _( "You connect %1$s and %2$s with the %3$s." ),
-                prev_veh->disp_name(), target_veh->disp_name(), it.type_name() );
+                                  prev_veh->disp_name(), target_veh->disp_name(), it.type_name() );
         }
         p->moves -= move_cost;
         return 1; // Let the cable be destroyed.
@@ -4902,14 +4904,14 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         if( !can_mount1.success() ) {
             //~ %1$s - tow cable name, %2$s - the reason why it failed
             p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                 it.type_name(), can_mount1.str() );
+                                  it.type_name(), can_mount1.str() );
             return std::nullopt;
         }
         const ret_val<void> can_mount2 = target_veh->can_mount( vcoords2, *vpid );
         if( !can_mount2.success() ) {
             //~ %1$s - tow cable name, %2$s - the reason why it failed
             p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                 it.type_name(), can_mount2.str() );
+                                  it.type_name(), can_mount2.str() );
             return std::nullopt;
         }
 
@@ -4924,9 +4926,9 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         target_veh->install_part( vcoords2, std::move( target_part ) );
 
         if( p->has_item( it ) ) {
-            //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - tow cable name, 
+            //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - tow cable name,
             p->add_msg_if_player( m_good, _( "You connect the %1$s and %2$s with the %3$s." ),
-                                 prev_veh->disp_name(), target_veh->disp_name(), it.type_name() );
+                                  prev_veh->disp_name(), target_veh->disp_name(), it.type_name() );
         }
         if( to_towing ) {
             target_veh->tow_data.set_towing( target_veh, prev_veh );
@@ -5002,7 +5004,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
     extended->process( get_map(), p, p->pos() );
 
     p->add_msg_if_player( is_cable_item ? _( "You extend the %1$s with the %2$s." ) :
-                         _( "You extend the %1$s's cable with the %2$s." ), extended->type_name(), extension->type_name() );
+                          _( "You extend the %1$s's cable with the %2$s." ), extended->type_name(), extension->type_name() );
     p->i_rem( extension );
     p->moves -= move_cost;
     return 0;
@@ -5036,7 +5038,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
         }
     }
     p->add_msg_if_player( _( "You disconnect the %1$s from the %2$s." ),
-                         cable_main_copy.type_name(), it.type_name() );
+                          cable_main_copy.type_name(), it.type_name() );
 
     it.get_contents().clear_pockets_if( []( item_pocket const & pocket ) {
         return pocket.is_type( item_pocket::pocket_type::CABLE );
