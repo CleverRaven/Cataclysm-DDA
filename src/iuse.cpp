@@ -3735,7 +3735,7 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, bool, const tripoi
         if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
             player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
             player.rem_morale( MORALE_PYROMANIA_NOFIRE );
-            player.add_msg( m_good, _( "Fire…  Good…" ) );
+            add_msg( m_good, _( "Fire…  Good…" ) );
         }
         return 1;
     }
