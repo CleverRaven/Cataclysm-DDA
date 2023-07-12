@@ -4373,11 +4373,6 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
         return std::nullopt;
     }
 
-    return link_up( p, it );
-}
-
-std::optional<int> link_up_actor::link_up( Character *p, item &it ) const
-{
     const bool is_cable_item = it.has_flag( flag_CABLE_SPOOL );
     const std::string cable_name = is_cable_item ? it.type_name() :
                                    string_format( _( "%s's cable" ), it.type_name() );
