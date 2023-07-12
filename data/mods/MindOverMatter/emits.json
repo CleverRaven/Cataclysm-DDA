@@ -12,5 +12,12 @@
     "field": "fd_pyrokinetic_heat",
     "intensity": 3,
     "qty": 20
+  },
+  {
+    "id": "emit_cold_nether_water",
+    "type": "emit",
+    "field": "fd_cold_air2",
+    "intensity": 3,
+    "qty": 5
   }
 ]
