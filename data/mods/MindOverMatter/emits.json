@@ -18,6 +18,7 @@
     "type": "emit",
     "field": "fd_cold_air2",
     "intensity": 3,
-    "qty": 5
+    "qty": 10,
+    "chance": 20
   }
 ]
