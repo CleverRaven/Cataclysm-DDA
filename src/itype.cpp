@@ -182,9 +182,9 @@ int itype::tick( Character *p, item &it, const tripoint &pos ) const
 {
     int charges_to_use = 0;
     if( !tick_action.empty() ) {
-		for( const auto &method : tick_action ) {
-			charges_to_use += method.second.call( p, it, true, pos ).value_or( 0 );
-		}
+        for( const auto &method : tick_action ) {
+            charges_to_use += method.second.call( p, it, true, pos ).value_or( 0 );
+        }
     } else {
         // Old styled tick processing. Remove once all items are migrated to tick_action.
         for( const auto &method : use_methods ) {
