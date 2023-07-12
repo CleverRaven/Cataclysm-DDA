@@ -6,6 +6,7 @@
     "magic_color": "yellow",
     "name": "telepathic",
     "skill": "metaphysics",
+    "derived_from": [ "bash", 0.85 ],
     "immune_flags": { "character": [ "TELEKIN_SHIELD" ], "monster": [ "TELEKIN_IMMUNE" ] }
   },
   {
