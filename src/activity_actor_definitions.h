@@ -1697,6 +1697,32 @@ class wield_activity_actor : public activity_actor
         contents_change_handler handler;
 };
 
+class invoke_item_activity_actor : public activity_actor
+{
+    public:
+        invoke_item_activity_actor( item_location item, std::string method ) :
+            item( std::move( item ) ),
+            method( std::move( method ) ) {};
+        activity_id get_type() const override {
+            return activity_id( "ACT_INVOKE_ITEM" );
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<invoke_item_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+
+    private:
+        item_location item;
+        std::string method;
+};
+
 class pickup_menu_activity_actor : public activity_actor
 {
     public:

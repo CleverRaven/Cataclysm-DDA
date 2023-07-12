@@ -117,6 +117,7 @@ static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
+static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
@@ -5674,6 +5675,40 @@ std::unique_ptr<activity_actor> wear_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void invoke_item_activity_actor::do_turn( player_activity &, Character &who )
+{
+    if( method.empty() ) {
+        who.cancel_activity();
+        who.invoke_item( item.get_item() );
+        return;
+    }
+    std::string it_method = method;
+    who.cancel_activity();
+    who.invoke_item( item.get_item(), it_method );
+}
+
+void invoke_item_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "item", item );
+    jsout.member( "method", method );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> invoke_item_activity_actor::deserialize( JsonValue &jsin )
+{
+    invoke_item_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "item", actor.item );
+    data.read( "method", actor.method );
+
+    return actor.clone();
+}
+
 void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
 {
     std::optional<tripoint> p( where );
@@ -7191,6 +7226,7 @@ deserialize_functions = {
     { ACT_HARVEST, &harvest_activity_actor::deserialize},
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
+    { ACT_INVOKE_ITEM, &invoke_item_activity_actor::deserialize },
     { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
     { ACT_LONGSALVAGE, &longsalvage_activity_actor::deserialize },
     { ACT_MEDITATE, &meditate_activity_actor::deserialize },

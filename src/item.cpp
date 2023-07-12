@@ -13204,6 +13204,10 @@ bool item::reset_link( Character *p, const bool loose_message, const tripoint ca
     if( !link ) {
         return has_flag( flag_AUTO_DELETE_CABLE );
     }
+    // Cables that need reeling should be reset with a reel_cable_activity_actor instead.
+    if( link->has_state( link_state::needs_reeling ) ) {
+        return false;
+    }
 
     const bool is_cable_item = has_flag( flag_CABLE_SPOOL );
 

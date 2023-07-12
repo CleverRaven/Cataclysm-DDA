@@ -4380,10 +4380,10 @@ std::optional<int> link_up_actor::link_up( Character *p, item &it ) const
                                    ( it.link->length - respool_threshold ) * respool_time_per_square;
     const bool past_respool_threshold = it.link_length() > respool_threshold;
     const bool unspooled = it.link && it.link->has_state( link_state::needs_reeling );
+    const bool has_loose_end = !unspooled && is_cable_item ? !it.link || it.link->has_state( link_state::no_link ) :
+                               !it.link || it.link->has_no_links();
 
     uilist link_menu;
-    const bool has_loose_end = is_cable_item ? !it.link || it.link->has_state( link_state::no_link ) :
-                               !it.link || it.link->has_no_links();
     if( !is_cable_item || !it.link || it.link->has_no_links() ) {
         // This cable item or device doesn't have any connections yet.
         link_menu.text = string_format( _( "Attaching the %s:" ), cable_name );
@@ -4414,14 +4414,18 @@ std::optional<int> link_up_actor::link_up( Character *p, item &it ) const
             }
         }
         if( !is_cable_item || !can_extend.empty() ) {
-            const bool has_extensions = !it.all_items_top( item_pocket::pocket_type::CABLE ).empty();
+            const bool has_extensions = !unspooled && !it.all_items_top( item_pocket::pocket_type::CABLE ).empty();
             link_menu.addentry( 30, has_loose_end, -1,
                                 is_cable_item ? _( "Extend another cable" ) : _( "Extend with another cable" ) );
             link_menu.addentry( 31, has_extensions, -1, _( "Remove cable extensions" ) );
         }
         if( targets.count( link_state::no_link ) > 0 ) {
-            link_menu.addentry( 999, !!it.link && !it.link->has_no_links(), -1, unspooled ? _( "Re-spool" ) :
-                                past_respool_threshold ? _( "Detach and re-spool" ) : _( "Detach" ) );
+            if( unspooled ) {
+                link_menu.addentry( 998, true, -1, _( "Re-spool" ) );
+            } else {
+                link_menu.addentry( 999, !!it.link && !it.link->has_no_links(), -1,
+                                    past_respool_threshold ? _( "Detach and re-spool" ) : _( "Detach" ) );
+            }
         }
 
     } else if( it.link->has_state( link_state::vehicle_tow ) ) {
@@ -4433,8 +4437,12 @@ std::optional<int> link_up_actor::link_up( Character *p, item &it ) const
         link_menu.addentry( 11, has_loose_end && it.link->s_state == link_state::vehicle_tow, -1,
                             _( "Attach loose end to towed vehicle" ) );
         if( targets.count( link_state::no_link ) > 0 ) {
-            link_menu.addentry( 999, true, -1, unspooled ? _( "Re-spool" ) :
-                                past_respool_threshold ? _( "Detach and re-spool" ) : _( "Detach" ) );
+            if( unspooled ) {
+                link_menu.addentry( 998, true, -1, _( "Re-spool" ) );
+            } else {
+                link_menu.addentry( 999, true, -1,
+                                    past_respool_threshold ? _( "Detach and re-spool" ) : _( "Detach" ) );
+            }
         }
 
     } else {
@@ -4470,13 +4478,17 @@ std::optional<int> link_up_actor::link_up( Character *p, item &it ) const
             }
         }
         if( !can_extend.empty() ) {
-            const bool has_extensions = !it.all_items_top( item_pocket::pocket_type::CABLE ).empty();
+            const bool has_extensions = !unspooled && !it.all_items_top( item_pocket::pocket_type::CABLE ).empty();
             link_menu.addentry( 30, has_loose_end, -1, _( "Extend another cable" ) );
             link_menu.addentry( 31, has_extensions, -1, _( "Remove cable extensions" ) );
         }
         if( targets.count( link_state::no_link ) > 0 ) {
-            link_menu.addentry( 999, true, -1, unspooled ? _( "Re-spool" ) :
-                                past_respool_threshold ? _( "Detach and re-spool" ) : _( "Detach" ) );
+            if( unspooled ) {
+                link_menu.addentry( 998, true, -1, _( "Re-spool" ) );
+            } else {
+                link_menu.addentry( 999, true, -1,
+                                    past_respool_threshold ? _( "Detach and re-spool" ) : _( "Detach" ) );
+            }
         }
     }
 
@@ -4490,14 +4502,23 @@ std::optional<int> link_up_actor::link_up( Character *p, item &it ) const
 
     if( choice < 0 ) {
         // Cancelled selection.
-        p->add_msg_if_player( _( "Never mind." ) );
         return std::nullopt;
 
-    } else if( choice == 999 ) {
+    } else if( choice >= 998 ) {
         // Selection: Unconnect & respool.
-        it.reset_link( p );
         if( unspooled ) {
-            // Cables that are too long need to be manually rewound before reuse.
+            if( choice == 998 ) {
+                // If the "Re-spool" option was selected, re-open the menu after the cable is reeled.
+                p->assign_activity( invoke_item_activity_actor( item_location{*p, &it}, "link_up" ) );
+                p->activity.auto_resume = true;
+            }
+            p->assign_activity( player_activity( reel_cable_activity_actor( respool_time_total, item_location{*p, &it} ) ) );
+            return 0;
+        }
+
+        it.reset_link( p );
+        // Cables that are too long need to be manually rewound before reuse.
+        if( it.link_length() == -1 ) {
             p->assign_activity( player_activity( reel_cable_activity_actor( respool_time_total, item_location{*p, &it} ) ) );
             return 0;
         } else {

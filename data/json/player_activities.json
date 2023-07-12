@@ -903,6 +903,16 @@
     "no_resume": true
   },
   {
+    "id": "ACT_INVOKE_ITEM",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "using item",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
