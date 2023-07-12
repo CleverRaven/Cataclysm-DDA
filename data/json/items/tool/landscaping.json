@@ -195,7 +195,7 @@
     "weight": "1000 g",
     "volume": "167148 ml",
     "longest_side": "1 meter",
-    "qualities": [ [ "GRASS_CUT", 1 ], [ "GRASS_CUT_FINE", 2 ] ],
+    "qualities": [ [ "GRASS_CUT_FINE", 1 ] ],
     "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "clumsy" },
     "melee_damage": { "bash": 6 }
   },
@@ -253,7 +253,7 @@
       "type": "transform",
       "menu_text": "Turn off"
     },
-    "qualities": [ [ "GRASS_CUT", 1 ], [ "GRASS_CUT_FINE", 3 ] ],
+    "qualities": [ [ "GRASS_CUT_FINE", 2 ] ],
     "revert_to": "lawnmower_electric"
   },
   {
@@ -310,7 +310,7 @@
       "menu_text": "Turn off"
     },
     "turns_per_charge": 4,
-    "qualities": [ [ "GRASS_CUT", 1 ], [ "GRASS_CUT_FINE", 3 ] ],
+    "qualities": [ [ "GRASS_CUT_FINE", 2 ] ],
     "revert_to": "lawnmower_electric"
   },
   {
