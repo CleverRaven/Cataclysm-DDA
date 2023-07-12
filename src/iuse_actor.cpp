@@ -4752,34 +4752,52 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         }
 
             const itype_id item_id = it.typeId();
-            bool vpid_found = false;
-            for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-                if( vpi.base_item == item_id ) {
-                    vpid_found = true;
+        vpart_id vpid = vpart_id::NULL_ID();
+        for( const vpart_info &e : vehicles::parts::get_all() ) {
+            if( e.base_item == item_id ) {
+                vpid = e.id;
                     break;
                 }
             }
 
-        if( !vpid_found ) {
-            debugmsg( "item %s is not base item of any vehicle part!  Using jumper_cable as a fallback",
-                      item_id.c_str() );
+        if( vpid.is_null() ) {
+            debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
+            return std::nullopt;
         }
-        const vpart_id vpid( vpid_found ? item_id.str() : "jumper_cable" );
 
-        point vcoords = it.link->t_mount;
-        vehicle_part source_part( vpid, vpid_found ? item( it ) : item( "jumper_cable" ) );
-        source_part.target.first = here.getabs( pnt );
-        source_part.target.second = target_veh->global_square_location().raw();
-        prev_veh->install_part( vcoords, std::move( source_part ) );
+        const point vcoords1 = it.link->t_mount;
+        const point vcoords2 = t_vp->mount();
 
-        vcoords = t_vp->mount();
-        vehicle_part target_part( vpid, vpid_found ? item( it ) : item( "jumper_cable" ) );
-        target_part.target.first = prev_target.first;
-        target_part.target.second = prev_target.second;
-        target_veh->install_part( vcoords, std::move( target_part ) );
+        const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
+        if( !can_mount1.success() ) {
+            //~ %1$s - cable name, %2$s - the reason why it failed
+            p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+                it.type_name(), can_mount1.str() );
+            return std::nullopt;
+        }
+        const ret_val<void> can_mount2 = target_veh->can_mount( vcoords2, *vpid );
+        if( !can_mount2.success() ) {
+            //~ %1$s - cable name, %2$s - the reason why it failed
+            p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+                it.type_name(), can_mount2.str() );
+            return std::nullopt;
+        }
 
-        p->add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
-                              prev_veh->name, target_veh->name );
+        vehicle_part prev_part( vpid, item( it ) );
+        prev_part.target.first = here.getabs( pnt );
+        prev_part.target.second = target_veh->global_square_location().raw();
+        prev_veh->install_part( vcoords1, std::move( prev_part ) );
+
+        vehicle_part target_part( vpid, item( it ) );
+        target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( it.link->t_mount ) );
+        target_part.target.second = prev_veh->global_square_location().raw();
+        target_veh->install_part( vcoords2, std::move( target_part ) );
+
+        if( p->has_item( it ) ) {
+            //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - cable name, 
+            p->add_msg_if_player( m_good, _( "You connect %1$s and %2$s with the %3$s." ),
+                prev_veh->disp_name(), target_veh->disp_name(), it.type_name() );
+        }
         p->moves -= move_cost;
         return 1; // Let the cable be destroyed.
     }
@@ -4883,7 +4901,6 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
                                       it.type_name(), can_mount1.str() );
                 return std::nullopt;
             }
-
             const ret_val<void> can_mount2 = target_veh->can_mount( vcoords2, *vpid );
             if( !can_mount2.success() ) {
                 //~ %1$s - tow cable name, %2$s - the reason why it failed
@@ -4903,9 +4920,9 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
             target_veh->install_part( vcoords2, std::move( target_part ) );
 
             if( p->has_item( it ) ) {
-                //~ %1$s - tow cable name, %2$s - first vehicle name, %3$s - second vehicle name
-                p->add_msg_if_player( m_good, _( "You attach %1$s to %2$s and %3$s." ),
-                                      it.type_name(), prev_veh->disp_name(), target_veh->disp_name() );
+                //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - tow cable name, 
+                p->add_msg_if_player( m_good, _( "You connect the %1$s and %2$s with the %3$s." ),
+                                      prev_veh->disp_name(), target_veh->disp_name(), it.type_name() );
             }
             if( to_towing ) {
                 target_veh->tow_data.set_towing( target_veh, prev_veh );
