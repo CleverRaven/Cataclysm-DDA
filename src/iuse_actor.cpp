@@ -4293,7 +4293,7 @@ void link_up_actor::load( const JsonObject &jo )
     jo.read( "can_extend", can_extend );
 }
 
-void link_up_actor::info( const item &, std::vector<iteminfo> &dump ) const
+void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     std::vector<std::string> targets_strings;
     bool appliance = false;
@@ -4334,7 +4334,8 @@ void link_up_actor::info( const item &, std::vector<iteminfo> &dump ) const
         std::string cable_type_list = enumerate_as_string( cable_types, enumeration_conjunction::or_ );
         dump.emplace_back( "TOOL", string_format( _( "<bold>Can extend</bold>: %s" ), cable_type_list ) );
     }
-    dump.emplace_back( "TOOL", _( "<bold>Cable length</bold>: " ), cable_length );
+    dump.emplace_back( "TOOL", _( "<bold>Cable length</bold>: " ),
+                       cable_length != -1 ? cable_length : it.max_link_length() );
     if( wattage != 0_W ) {
         std::string wattage_display = string_format( _( "%+4.1f W" ),
                                       units::to_milliwatt( wattage ) / 1000.f );

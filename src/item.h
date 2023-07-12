@@ -1463,12 +1463,17 @@ class item : public visitable
         void set_link_traits();
 
         /**
-         * @param max If true, return the item's maximum cable length, including extensions, rather than its current length. Will not require active link_data, either.
-         * @return `-2` If the item has no attachments, or if `max` is true, if the item has no link_up action.
-         * @return `-1` If the item has link_data but needs reeling.
-         * @return Otherwise, return the link's current length, or if `max` is true, return the item's maximum possible link length.
+         * @return The link's current length.
+         * @return `-1` if the item has link_data but needs reeling.
+         * @return `-2` if the item has no active link.
          */
-        int link_length( bool max = false ) const;
+        int link_length() const;
+
+        /**
+         * @return The item's maximum possible link length, including extensions. Item doesn't need an active link.
+         * @return `-1` if the item doesn't have a link_up action.
+         */
+        int max_link_length() const;
 
         /**
          * Brings a cable item back to its initial state.

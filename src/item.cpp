@@ -6866,7 +6866,7 @@ std::string item::display_name( unsigned int quantity ) const
                                        link->max_length - link->length, link->max_length, extensions ), cable_color ) );
             }
         } else if( !extensions.empty() ) {
-            cable = string_format( _( " (-/%1$d cable%2$s)" ), link_length( true ), extensions );
+            cable = string_format( _( " (-/%1$d cable%2$s)" ), max_link_length(), extensions );
         }
     }
 
@@ -12929,15 +12929,16 @@ void item::set_link_traits()
     }
 }
 
-int item::link_length( bool max ) const
+int item::link_length() const
 {
-    if( !max ) {
-        return !link || link->has_no_links() ? -2 :
-               link->has_state( link_state::needs_reeling ) ? -1 : link->length;
-    }
+    return !link ||
+           link->has_no_links() ? -2 : link->has_state( link_state::needs_reeling ) ? -1 : link->length;
+}
 
+int item::max_link_length() const
+{
     if( link ) {
-        return link->max_length;
+        return link->max_length != -1 ? link->max_length : type->maximum_charges();
     }
     if( !type->can_use( "link_up" ) ) {
         return -2;

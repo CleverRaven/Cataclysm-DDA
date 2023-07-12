@@ -6600,7 +6600,7 @@ void vehicle::shed_loose_parts( const bool can_shed_cables, const tripoint_bub_m
                 continue;
             }
             int distance = rl_dist( here.getabs( bub_part_pos( vp_loose ) ), vp_loose.target.second );
-            int max_dist = vp_loose.get_base().link_length( true );
+            int max_dist = vp_loose.get_base().max_link_length();
             if( src ) {
                 vehicle *veh = here.find_vehicle( tripoint_abs_ms( vp_loose.target.second ) );
                 if( veh != nullptr ) {
