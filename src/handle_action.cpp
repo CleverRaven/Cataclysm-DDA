@@ -1514,7 +1514,7 @@ static void read()
     if( loc ) {
         if( loc->type->can_use( "learn_spell" ) ) {
             item spell_book = *loc.get_item();
-            spell_book.get_use( "learn_spell" )->call( player_character, spell_book,
+            spell_book.get_use( "learn_spell" )->call( &player_character, spell_book,
                     spell_book.active, player_character.pos() );
         } else {
             loc = loc.obtain( player_character );
