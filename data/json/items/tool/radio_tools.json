@@ -100,7 +100,10 @@
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
-    "use_action": [ "RADIO_OFF" ],
+    "use_action": [
+      "RADIO_OFF",
+      { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "5 W" }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -119,7 +122,10 @@
     "description": "A portable radio that is turned on and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
     "power_draw": "500 mW",
     "revert_to": "radio",
-    "use_action": [ "RADIO_ON" ],
+    "use_action": [
+      "RADIO_ON",
+      { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "5 W" }
+    ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -137,6 +143,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "flags": [ "TWO_WAY_RADIO", "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "5 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
