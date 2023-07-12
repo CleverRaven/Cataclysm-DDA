@@ -181,6 +181,9 @@ static const matec_id RAPID( "RAPID" );
 
 static const material_id material_wool( "wool" );
 
+static const mon_flag_str_id mon_flag_POISON( "POISON" );
+static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
+
 static const morale_type morale_null( "morale_null" );
 
 static const mtype_id debug_mon( "debug_mon" );
@@ -585,7 +588,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
 
-    if( result.corpse->has_flag( MF_REVIVES ) ) {
+    if( result.corpse->has_flag( mon_flag_REVIVES ) ) {
         if( one_in( 20 ) ) {
             result.set_flag( flag_REVIVE_SPECIAL );
         }
@@ -659,7 +662,7 @@ item &item::activate()
 
 bool item::activate_thrown( const tripoint &pos )
 {
-    return type->invoke( get_avatar(), *this, pos ).value_or( 0 );
+    return type->invoke( nullptr, *this, pos ).value_or( 0 );
 }
 
 units::energy item::mod_energy( const units::energy &qty )
@@ -8322,7 +8325,7 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    return is_corpse() && ( corpse->has_flag( MF_REVIVES ) || has_var( "zombie_form" ) ) &&
+    return is_corpse() && ( corpse->has_flag( mon_flag_REVIVES ) || has_var( "zombie_form" ) ) &&
            damage() < max_damage() &&
            !( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ||
               has_flag( flag_QUARTERED ) ||
@@ -12877,7 +12880,7 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
         if( type->revert_to ) {
             convert( *type->revert_to );
         } else {
-            type->invoke( carrier != nullptr ? *carrier : get_avatar(), *this, pos, "transform" );
+            type->invoke( carrier, *this, pos, "transform" );
         }
 
     }
@@ -13229,17 +13232,15 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         return false;
     }
 
-    avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
     if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_W ) &&
         ammo_remaining( carrier, true ) == 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
-
         // invoking the object can convert the item to another type
         const bool had_revert_to = type->revert_to.has_value();
-        type->invoke( carrier != nullptr ? *carrier : player_character, *this, pos );
+        type->invoke( carrier, *this, pos );
         if( carrier ) {
             carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
         }
@@ -13267,7 +13268,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         ammo_consume( energy, pos, carrier );
     }
 
-    type->tick( carrier != nullptr ? *carrier : player_character, *this, pos );
+    type->tick( carrier, *this, pos );
     return false;
 }
 
@@ -13377,7 +13378,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         if( calendar::turn >= countdown_point ) {
             active = false;
             if( type->countdown_action ) {
-                type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
+                type->countdown_action.call( carrier, *this, false, pos );
             }
             countdown_point = calendar::turn_max;
             if( type->revert_to ) {
@@ -13525,7 +13526,7 @@ bool item::is_dangerous() const
 
 bool item::is_tainted() const
 {
-    return corpse && corpse->has_flag( MF_POISON );
+    return corpse && corpse->has_flag( mon_flag_POISON );
 }
 
 bool item::is_soft() const
@@ -13937,7 +13938,7 @@ bool item::on_drop( const tripoint &pos, map &m )
     avatar &player_character = get_avatar();
     player_character.flag_encumbrance();
     player_character.invalidate_weight_carried_cache();
-    return type->drop_action && type->drop_action.call( player_character, *this, false, pos );
+    return type->drop_action && type->drop_action.call( &player_character, *this, false, pos );
 }
 
 time_duration item::age() const

@@ -54,7 +54,7 @@ class time_duration;
 struct point;
 struct tripoint;
 
-enum m_flag : int;
+struct mon_flag;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct projectile;
@@ -728,7 +728,7 @@ class Creature : public viewer
         virtual field_type_id bloodType() const = 0;
         virtual field_type_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
-        virtual bool has_flag( const m_flag ) const {
+        virtual bool has_flag( const mon_flag_id & ) const {
             return false;
         }
         virtual bool uncanny_dodge() {

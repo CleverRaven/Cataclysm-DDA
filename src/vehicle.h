@@ -737,8 +737,8 @@ class vpart_display
  *   call `map::veh_at()`, and check vehicle type (`veh_null`
  *   means there's no vehicle there).
  * - Vehicle consists of parts (represented by vector). Parts have some
- *   constant info: see veh_type.h, `vpart_info` structure and
- *   vpart_list array -- that is accessible through `part_info()` method.
+ *   constant info: see veh_type.h, `vpart_info` structure that is accessible
+ *   through `vehicle_part::info()` method.
  *   The second part is variable info, see `vehicle_part` structure.
  * - Parts are mounted at some point relative to vehicle position (or starting part)
  *   (`0, 0` in mount coordinates). There can be more than one part at
@@ -805,13 +805,13 @@ class vehicle
                            const vehicle_part &excluded ) const;
 
         // direct damage to part (armor protection and internals are not counted)
-        // returns damage bypassed
-        int damage_direct( map &here, int p, int dmg,
+        // @returns damage still left to apply
+        int damage_direct( map &here, vehicle_part &vp, int dmg,
                            const damage_type_id &type = damage_type_id( "pure" ) );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
-        int break_off( map &here, int p, int dmg );
+        int break_off( map &here, vehicle_part &vp, int dmg );
         // Returns if it did actually explode
-        bool explode_fuel( int p, const damage_type_id &type );
+        bool explode_fuel( vehicle_part &vp, const damage_type_id &type );
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
@@ -1009,9 +1009,6 @@ class vehicle
         // Engine backfire, making a loud noise
         void backfire( const vehicle_part &vp ) const;
 
-        // get vpart type info for part number (part at given vector index)
-        const vpart_info &part_info( int index, bool include_removed = false ) const;
-
         /**
          * @param dp The coordinate to mount at (in vehicle mount point coords)
          * @param vpi The part type to check
@@ -1019,9 +1016,8 @@ class vehicle
          */
         ret_val<void> can_mount( const point &dp, const vpart_info &vpi ) const;
 
-        // check if certain part can be unmounted
-        bool can_unmount( int p ) const;
-        bool can_unmount( int p, std::string &reason ) const;
+        // @returns true if part \p vp_to_remove can be uninstalled
+        ret_val<void> can_unmount( const vehicle_part &vp_to_remove ) const;
 
         // install a part of type \p type at mount \p dp
         // @return installed part index or -1 if can_mount(...) failed
@@ -1066,8 +1062,14 @@ class vehicle
          * on the temporary mapgen map), and when called during normal game play (when items
          * go on the main map g->m).
          */
-        bool remove_part( int p, RemovePartHandler &handler );
-        bool remove_part( int p );
+
+        // Mark a part to be removed from the vehicle.
+        // @returns true if the vehicle's 0,0 point shifted.
+        bool remove_part( vehicle_part &vp );
+        // Mark a part to be removed from the vehicle.
+        // @returns true if the vehicle's 0,0 point shifted.
+        bool remove_part( vehicle_part &vp, RemovePartHandler &handler );
+
         void part_removal_cleanup();
         // inner look for part_removal_cleanup.  returns true if a part is removed
         // also called by remove_fake_parts
@@ -1103,7 +1105,7 @@ class vehicle
          * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
          * a vehicle part on both sides.
          */
-        void remove_remote_part( int part_num );
+        void remove_remote_part( const vehicle_part &vp_local ) const;
         /**
          * Yields a range containing all parts (including broken ones) that can be
          * iterated over.
@@ -1287,10 +1289,6 @@ class vehicle
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag ) const;
-
-        // returns true if given flag is present for given part index
-        bool part_flag( int p, const std::string &f ) const;
-        bool part_flag( int p, vpart_bitflags f ) const;
 
         // Translate mount coordinates "p" using current pivot direction and anchor and return tile coordinates
         point coord_translate( const point &p ) const;
@@ -1723,7 +1721,7 @@ class vehicle
                                       bool just_detect, bool bash_floor );
 
         // Process the trap beneath
-        void handle_trap( const tripoint &p, int part );
+        void handle_trap( const tripoint &p, vehicle_part &vp_wheel );
         void activate_magical_follow();
         void activate_animal_follow();
         /**

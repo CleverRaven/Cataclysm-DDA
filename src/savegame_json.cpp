@@ -2707,6 +2707,8 @@ void monster::load( const JsonObject &data )
 
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
+
+    data.read( "grabbed_limbs", grabbed_limbs );
 }
 
 /*
@@ -2781,6 +2783,9 @@ void monster::store( JsonOut &json ) const
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
     json.member( "mounted_player_id", mounted_player_id );
+
+    // store grabbed limbs
+    json.member( "grabbed_limbs", grabbed_limbs );
 }
 
 void mon_special_attack::serialize( JsonOut &json ) const

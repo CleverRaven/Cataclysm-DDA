@@ -76,6 +76,9 @@ static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 
+static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
+static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
+
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
 static const mtype_id mon_blob_large( "mon_blob_large" );
@@ -1405,8 +1408,8 @@ void spell_effect::revive( const spell &sp, Creature &caster, const tripoint &ta
         for( item &corpse : here.i_at( aoe ) ) {
             const mtype *mt = corpse.get_mtype();
             if( !( corpse.is_corpse() && corpse.can_revive() && corpse.active &&
-                   mt->has_flag( MF_REVIVES ) && mt->in_species( spec ) &&
-                   !mt->has_flag( MF_NO_NECRO ) ) ) {
+                   mt->has_flag( mon_flag_REVIVES ) && mt->in_species( spec ) &&
+                   !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
                 continue;
             }
             if( g->revive_corpse( aoe, corpse ) ) {

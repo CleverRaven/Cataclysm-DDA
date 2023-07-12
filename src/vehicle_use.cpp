@@ -97,6 +97,9 @@ static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 static const itype_id itype_welding_kit( "welding_kit" );
 
+static const mon_flag_str_id mon_flag_PET_HARNESSABLE( "PET_HARNESSABLE" );
+static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
+
 static const quality_id qual_SCREW( "SCREW" );
 
 static const skill_id skill_mechanics( "mechanics" );
@@ -141,7 +144,8 @@ void vehicle::control_doors()
             if( motorized_idx == -1 ) {
                 continue;
             }
-            if( !require_flag.empty() && !part_flag( motorized_idx, require_flag ) ) {
+            vehicle_part &vp = part( motorized_idx );
+            if( !require_flag.empty() && !vp.info().has_flag( require_flag ) ) {
                 continue;
             }
             if( new_open || can_close( motorized_idx, get_player_character() ) ) {
@@ -157,7 +161,8 @@ void vehicle::control_doors()
             if( motorized_idx == -1 ) {
                 continue;
             }
-            if( !require_flag.empty() && !part_flag( motorized_idx, require_flag ) ) {
+            vehicle_part &vp = part( motorized_idx );
+            if( !require_flag.empty() && !vp.info().has_flag( require_flag ) ) {
                 continue;
             }
             lock_or_unlock( motorized_idx, new_lock );
@@ -449,8 +454,8 @@ void vehicle::smash_security_system()
         debugmsg( "No security system found on vehicle." );
         return; // both must be valid parts
     }
-    const vehicle_part &vp_controls = part( idx_controls );
-    const vehicle_part &vp_security = part( idx_security );
+    vehicle_part &vp_controls = part( idx_controls );
+    vehicle_part &vp_security = part( idx_security );
     ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
     const float skill = player_character.get_skill_level( skill_mechanics );
     const int percent_controls = 70 / ( 1 + skill );
@@ -458,7 +463,7 @@ void vehicle::smash_security_system()
     const int rand = rng( 1, 100 );
 
     if( percent_controls > rand ) {
-        damage_direct( here, idx_controls, vp_controls.info().durability / 4 );
+        damage_direct( here, vp_controls, vp_controls.info().durability / 4 );
 
         if( vp_controls.removed || vp_controls.is_broken() ) {
             player_character.controlling_vehicle = false;
@@ -469,7 +474,7 @@ void vehicle::smash_security_system()
         }
     }
     if( percent_alarm > rand ) {
-        damage_direct( here, idx_security, vp_security.info().durability / 5 );
+        damage_direct( here, vp_security, vp_security.info().durability / 5 );
         // chance to disable alarm immediately, or disable on destruction
         if( percent_alarm / 4 > rand || vp_security.is_broken() ) {
             is_alarm_on = false;
@@ -554,7 +559,7 @@ void vehicle::plug_in( const tripoint &pos )
     item cord = init_cord( pos );
 
     if( cord.get_use( "link_up" ) ) {
-        cord.type->get_use( "link_up" )->call( get_player_character(), cord, false, pos );
+        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, false, pos );
     }
 }
 
@@ -1203,9 +1208,9 @@ void vehicle::alarm()
  */
 void vehicle::open( int part_index )
 {
-    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
-        debugmsg( "Attempted to open non-openable part %d (%s) on a %s!", part_index,
-                  parts[ part_index ].name(), name );
+    vehicle_part &vp = part( part_index );
+    if( !vp.info().has_flag( VPFLAG_OPENABLE ) ) {
+        debugmsg( "Attempted to open non-openable part %d (%s) on a %s!", part_index, vp.name(), name );
     } else {
         open_or_close( part_index, true );
     }
@@ -1218,9 +1223,9 @@ void vehicle::open( int part_index )
  */
 void vehicle::close( int part_index )
 {
-    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
-        debugmsg( "Attempted to close non-closeable part %d (%s) on a %s!", part_index,
-                  parts[ part_index ].name(), name );
+    vehicle_part &vp = part( part_index );
+    if( !vp.info().has_flag( VPFLAG_OPENABLE ) ) {
+        debugmsg( "Attempted to close non-closeable part %d (%s) on a %s!", part_index, vp.name(), name );
     } else {
         open_or_close( part_index, false );
     }
@@ -1233,9 +1238,9 @@ void vehicle::close( int part_index )
  */
 void vehicle::unlock( int part_index )
 {
-    if( !part_info( part_index ).has_flag( "LOCKABLE_DOOR" ) ) {
-        debugmsg( "Attempted to unlock non-lockable part %d (%s) on a %s!", part_index,
-                  parts[part_index].name(), name );
+    vehicle_part &vp = part( part_index );
+    if( !vp.info().has_flag( "LOCKABLE_DOOR" ) ) {
+        debugmsg( "Attempted to unlock non-lockable part %d (%s) on a %s!", part_index, vp.name(), name );
     } else {
         lock_or_unlock( part_index, false );
     }
@@ -1248,12 +1253,11 @@ void vehicle::unlock( int part_index )
  */
 void vehicle::lock( int part_index )
 {
-    if( !part_info( part_index ).has_flag( "LOCKABLE_DOOR" ) ) {
-        debugmsg( "Attempted to lock non-lockable part %d (%s) on a %s!", part_index,
-                  parts[part_index].name(), name );
-    } else if( parts[part_index].open ) {
-        debugmsg( "Attempted to lock open part %d (%s) on a %s!", part_index, parts[part_index].name(),
-                  name );
+    vehicle_part &vp = part( part_index );
+    if( !vp.info().has_flag( "LOCKABLE_DOOR" ) ) {
+        debugmsg( "Attempted to lock non-lockable part %d (%s) on a %s!", part_index, vp.name(), name );
+    } else if( vp.open ) {
+        debugmsg( "Attempted to lock open part %d (%s) on a %s!", part_index, vp.name(), name );
     } else {
         lock_or_unlock( part_index, true );
     }
@@ -1298,9 +1302,9 @@ bool vehicle::can_close( int part_index, Character &who )
 
 void vehicle::open_all_at( int p )
 {
-    std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
-    for( int &elem : parts_here ) {
-        if( part_flag( elem, VPFLAG_OPENABLE ) ) {
+    for( const int elem : parts_at_relative( parts[p].mount, true, true ) ) {
+        const vehicle_part &vp = parts[elem];
+        if( vp.info().has_flag( VPFLAG_OPENABLE ) ) {
             // Note that this will open multi-square and non-multipart parts in the tile. This
             // means that adjacent open multi-square openables can still have closed stuff
             // on same tile after this function returns
@@ -1574,7 +1578,7 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
         return;
     }
     item base = item( parts[part].get_base() );
-    base.type->invoke( get_avatar(), base, pos );
+    base.type->invoke( &get_avatar(), base, pos );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vp_flag::animal_flag );
     } else {
@@ -1586,7 +1590,11 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
 
 void vehicle::use_harness( int part, const tripoint &pos )
 {
-    if( parts[part].is_unavailable() || parts[part].removed ) {
+    const vehicle_part &vp = parts[part];
+    const vpart_info &vpi = vp.info();
+
+    if( vp.is_unavailable() || vp.removed ) {
+        debugmsg( "use_harness called on invalid part" );
         return;
     }
     if( !g->is_empty( pos ) ) {
@@ -1600,8 +1608,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
             return false;
         }
         monster &f = *mon_ptr;
-        return f.friendly != 0 && ( f.has_flag( MF_PET_MOUNTABLE ) ||
-                                    f.has_flag( MF_PET_HARNESSABLE ) );
+        return f.friendly != 0 && ( f.has_flag( mon_flag_PET_MOUNTABLE ) ||
+                                    f.has_flag( mon_flag_PET_HARNESSABLE ) );
     };
 
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -1622,10 +1630,10 @@ void vehicle::use_harness( int part, const tripoint &pos )
     if( m.friendly == 0 ) {
         add_msg( m_info, _( "This creature is not friendly!" ) );
         return;
-    } else if( !m.has_flag( MF_PET_MOUNTABLE ) && !m.has_flag( MF_PET_HARNESSABLE ) ) {
+    } else if( !m.has_flag( mon_flag_PET_MOUNTABLE ) && !m.has_flag( mon_flag_PET_HARNESSABLE ) ) {
         add_msg( m_info, _( "This creature cannot be harnessed." ) );
         return;
-    } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, "HARNESS_any" ) ) {
+    } else if( !vpi.has_flag( Harness_Bodytype ) && !vpi.has_flag( "HARNESS_any" ) ) {
         add_msg( m_info, _( "The harness is not adapted for this creature morphology." ) );
         return;
     }
