@@ -523,6 +523,33 @@ std::string message_iuse::get_name() const
     return iuse_actor::get_name();
 }
 
+std::unique_ptr<iuse_actor> sound_iuse::clone() const
+{
+    return std::make_unique<sound_iuse>( *this );
+}
+
+void sound_iuse::load( const JsonObject &obj )
+{
+    obj.read( "name", name );
+    obj.read( "sound_message", sound_message );
+    obj.read( "sound_volume", sound_volume );
+}
+
+std::optional<int> sound_iuse::use( Character *p, item &it, bool,
+                                    const tripoint &pos ) const
+{
+    sounds::sound( pos, sound_volume, sounds::sound_t::alarm, sound_message.translated(), true );
+    return 0;
+}
+
+std::string sound_iuse::get_name() const
+{
+    if( !name.empty() ) {
+        return name.translated();
+    }
+    return iuse_actor::get_name();
+}
+
 std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 {
     return std::make_unique<explosion_iuse>( *this );
@@ -577,9 +604,6 @@ void explosion_iuse::load( const JsonObject &obj )
     }
     obj.read( "emp_blast_radius", emp_blast_radius );
     obj.read( "scrambler_blast_radius", scrambler_blast_radius );
-    obj.read( "sound_volume", sound_volume );
-    obj.read( "sound_msg", sound_msg );
-    obj.read( "no_deactivate_msg", no_deactivate_msg );
 }
 
 std::optional<int> explosion_iuse::use( Character *p, item &it, bool, const tripoint &pos ) const

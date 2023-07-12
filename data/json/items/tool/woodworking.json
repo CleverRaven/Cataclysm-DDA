@@ -112,7 +112,7 @@
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -100 ] ],
     "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "CHAINSAW_ON"],
+    "tick_action": [ "CHAINSAW_ON" ],
     "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK" ],
     "melee_damage": { "bash": 4, "cut": 35 }
   },

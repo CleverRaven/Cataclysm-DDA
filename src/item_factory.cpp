@@ -1814,6 +1814,7 @@ void Item_factory::init()
     add_actor( std::make_unique<iuse_transform>() );
     add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<message_iuse>() );
+    add_actor( std::make_unique<sound_iuse>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
@@ -4252,7 +4253,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
-	set_use_methods_from_json( jo, "tick_action", def.tick_action, def.ammo_scale );
+    set_use_methods_from_json( jo, "tick_action", def.tick_action, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
     assign( jo, "revert_to", def.revert_to, strict );

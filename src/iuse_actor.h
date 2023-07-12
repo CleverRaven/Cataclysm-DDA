@@ -159,6 +159,26 @@ class message_iuse : public iuse_actor
         std::string get_name() const override;
 };
 
+class sound_iuse : public iuse_actor
+{
+    public:
+        explicit sound_iuse( const std::string &type = "sound" ) : iuse_actor( type ) {}
+
+        /** if specified overrides default action name */
+        translation name;
+
+        /** message if player hears activation with %s replaced by item name */
+        translation sound_message;
+
+        int sound_volume;
+
+        ~sound_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        std::string get_name() const override;
+};
+
 /**
  * This is a @ref iuse_actor for active items that explode when
  * their charges reaches 0.
@@ -187,12 +207,6 @@ class explosion_iuse : public iuse_actor
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
         int scrambler_blast_radius = -1;
-        /** Volume of sound each turn, -1 means no sound at all */
-        int sound_volume = -1;
-        translation sound_msg;
-        /** Message shown when the player tries to deactivate the item,
-         * which is not allowed. */
-        translation no_deactivate_msg;
 
         explicit explosion_iuse( const std::string &type = "explosion" ) : iuse_actor( type ) {}
 
