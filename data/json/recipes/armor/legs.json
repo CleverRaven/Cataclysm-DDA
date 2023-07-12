@@ -2495,7 +2495,7 @@
     ]
   },
   {
-    "result": "lc_greaves_brigandine",
+    "result": "xl_lc_greaves_brigandine",
     "type": "recipe",
     "copy-from": "lc_greaves_brigandine",
     "category": "CC_*",

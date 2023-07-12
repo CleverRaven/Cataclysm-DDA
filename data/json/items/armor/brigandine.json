@@ -1861,7 +1861,7 @@
     "id": "mc_greaves_brigandine",
     "type": "ARMOR",
     "name": { "str": "pair of medium steel splint greaves", "str_pl": "pairs of medium steel splint greaves" },
-    "copy-from": "lc_shinguard_brigandine",
+    "copy-from": "lc_greaves_brigandine",
     "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of medium steel.  Can be comfortably worn over chainmail for extra protection.",
     "material": [ "mc_steel", "canvas" ],
     "armor": [

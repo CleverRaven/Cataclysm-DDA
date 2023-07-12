@@ -5386,7 +5386,7 @@
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
+    "subcategory": "CSC_ARMOR_LEGS",
     "name": "splint mail greaves",
     "description": "Recipes related to forging various sizes of splint mail greaves.",
     "skill_used": "fabrication",
