@@ -582,27 +582,8 @@ void explosion_iuse::load( const JsonObject &obj )
     obj.read( "no_deactivate_msg", no_deactivate_msg );
 }
 
-std::optional<int> explosion_iuse::use( Character *p, item &it, bool t, const tripoint &pos ) const
+std::optional<int> explosion_iuse::use( Character *p, item &it, bool, const tripoint &pos ) const
 {
-    if( t ) {
-        if( sound_volume >= 0 ) {
-            sounds::sound( pos, sound_volume, sounds::sound_t::alarm,
-                           sound_msg.empty() ? _( "Tick." ) : sound_msg.translated(), true, "misc", "bomb_ticking" );
-        }
-        return 0;
-    }
-    if( it.charges > 0 ) {
-        if( p->has_item( it ) ) {
-            if( no_deactivate_msg.empty() ) {
-                p->add_msg_if_player( m_warning,
-                                      _( "You've already set the %s's timer you might want to get away from it." ), it.tname() );
-            } else {
-                p->add_msg_if_player( m_info, no_deactivate_msg.translated(), it.tname() );
-            }
-        }
-        return std::nullopt;
-    }
-
     if( explosion.power >= 0.0f ) {
         explosion_handler::explosion( p, pos, explosion );
     }
