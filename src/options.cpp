@@ -2253,7 +2253,7 @@ void options_manager::add_options_graphics()
                 : to_translation(
                     "Set TTF font blending mode.  Requires restart.  'Blended' may look better than 'Solid'.  "
                     "For LCD display, 'LCD' can further improve resolution at the cost of rendering speed, "
-                    "but it is not supported by the compilation or runtime SDL2 ttf version and falls back to 'Blended'."
+                    "but it is not supported by the compilation or runtime SDL2 TTF version and falls back to 'Blended'."
                 );
         add( "FONT_BLENDING_MODE", page_id, to_translation( "Font blending mode" ),
         font_blending_mode_desc, {
