@@ -5534,11 +5534,19 @@ static bool check_stealing( Character &who, item &it )
             Pickup::query_thief();
         }
         if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+                who.set_value( "THIEF_MODE", "THIEF_ASK" );
+            }
             return false;
         }
     }
 
     return true;
+}
+
+bool avatar_action::check_stealing( Character &who, item &weapon )
+{
+    return ::check_stealing( who, weapon );
 }
 
 void wield_activity_actor::do_turn( player_activity &, Character &who )

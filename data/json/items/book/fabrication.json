@@ -297,6 +297,27 @@
     "fun": -1
   },
   {
+    "id": "textbook_weparabic",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Tools of Warfare in the Arabic World", "str_pl": "copies of Tools of Warfare in the Arabic World" },
+    "description": "This exhaustive book details various forms of medieval period Middle Eastern and South Asian weapons and armor.  It is incredibly detailed with diagrams and pictures, but quite dry.",
+    "weight": "654 g",
+    "volume": "1250 ml",
+    "price": 6400,
+    "price_postapoc": 2750,
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 5,
+    "max_level": 10,
+    "proficiencies": [ { "proficiency": "prof_redsmithing", "time_factor": 0.15, "fail_factor": 0.3, "include_prereqs": false } ],
+    "intelligence": 9,
+    "time": "55 m",
+    "fun": -1
+  },
+  {
     "id": "textbook_armwest",
     "type": "BOOK",
     "category": "manuals",
@@ -373,7 +394,7 @@
     "skill": "fabrication",
     "required_level": 5,
     "max_level": 10,
-    "proficiencies": [ { "proficiency": "prof_bladesmith", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false } ],
+    "proficiencies": [ { "proficiency": "prof_bladesmith", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": true } ],
     "intelligence": 9,
     "time": "55 m",
     "fun": -1

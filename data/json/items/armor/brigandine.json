@@ -27,6 +27,18 @@
         "coverage": 95,
         "encumbrance": 12
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -80,6 +92,18 @@
         "coverage": 80,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -137,6 +161,18 @@
         "coverage": 85,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -206,6 +242,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -246,6 +294,18 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 12
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -289,6 +349,18 @@
         "coverage": 80,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -341,6 +413,18 @@
         "coverage": 85,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -399,6 +483,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -439,6 +535,18 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 12
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -529,6 +637,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -586,6 +706,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -626,6 +758,18 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 12
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -722,6 +866,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -779,6 +935,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -819,6 +987,18 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 12
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -909,6 +1089,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -962,6 +1154,18 @@
         "coverage": 80,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },

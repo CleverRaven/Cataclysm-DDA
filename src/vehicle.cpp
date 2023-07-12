@@ -875,11 +875,13 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
             if( p == other_p ) {
                 continue;
             }
-            const vpart_info &p_info = parts[p].info();
-            const vpart_info &other_p_info = parts[other_p].info();
+            vehicle_part &vp1 = parts[p];
+            vehicle_part &vp2 = parts[other_p];
+            const vpart_info &vpi1 = vp1.info();
+            const vpart_info &vpi2 = vp2.info();
 
-            if( p_info.id == other_p_info.id ||
-                ( !p_info.location.empty() && p_info.location == other_p_info.location ) ) {
+            if( vpi1.id == vpi2.id ||
+                ( !vpi1.location.empty() && vpi1.location == vpi2.location ) ) {
                 // Deferred creation of the handler to here so it is only created when actually needed.
                 if( !handler_ptr ) {
                     // This is a heuristic: we just assume the default handler is good enough when called
@@ -892,9 +894,9 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
                     }
                 }
                 if( part.is_fake ) {
-                    remove_part( p, *handler_ptr );
+                    remove_part( vp1, *handler_ptr );
                 } else {
-                    remove_part( other_p, *handler_ptr );
+                    remove_part( vp2, *handler_ptr );
                 }
             }
         }
@@ -1246,65 +1248,50 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
     return ret_val<void>::make_success();
 }
 
-bool vehicle::can_unmount( const int p ) const
+ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove ) const
 {
-    std::string no_reason;
-    return can_unmount( p, no_reason );
-}
-
-bool vehicle::can_unmount( const int p, std::string &reason ) const
-{
-    if( p < 0 || p > static_cast<int>( parts.size() ) ) {
-        return false;
-    }
-
-    const vehicle_part &vp_to_remove = parts[p];
+    const vpart_info &vpi_to_remove = vp_to_remove.info();
     const std::vector<int> parts_here = parts_at_relative( vp_to_remove.mount, false );
 
     // make sure there are no parts which require flags from this part
     for( const int elem : parts_here ) {
         const vehicle_part &vp_here = parts[elem];
         for( const std::string &flag : vp_here.info().get_flags() ) {
-            if( vp_to_remove.info().has_flag( json_flag::get( flag ).requires_flag() ) ) {
-                reason = string_format( _( "Remove the attached %s first." ), vp_here.name() );
-                return false;
+            if( vpi_to_remove.has_flag( json_flag::get( flag ).requires_flag() ) ) {
+                return ret_val<void>::make_failure( _( "Remove the attached %s first." ), vp_here.name() );
             }
         }
     }
 
     if( vp_to_remove.has_flag( vp_flag::animal_flag ) ) {
-        reason = _( "Remove carried animal first." );
-        return false;
+        return ret_val<void>::make_failure( _( "Remove carried animal first." ) );
     }
 
     if( vp_to_remove.has_flag( vp_flag::carrying_flag ) ||
         vp_to_remove.has_flag( vp_flag::carried_flag ) ) {
-        reason = _( "Unracking is required before removing this part." );
-        return false;
+        return ret_val<void>::make_failure( _( "Unracking is required before removing this part." ) );
     }
 
-    if( vp_to_remove.info().has_flag( "DOOR_LOCKING" ) && next_part_to_unlock( p ) >= 0 ) {
-        reason = _( "Unlock this part first." );
-        return false;
+    const int p = index_of_part( &vp_to_remove );
+    if( vpi_to_remove.has_flag( "DOOR_LOCKING" ) && next_part_to_unlock( p ) >= 0 ) {
+        return ret_val<void>::make_failure( _( "Unlock this part first." ) );
     }
 
-    if( vp_to_remove.info().location != part_location_structure ) {
-        return true; // non-structure parts don't have extra requirements
+    if( vpi_to_remove.location != part_location_structure ) {
+        return ret_val<void>::make_success(); // non-structure parts don't have extra requirements
     }
 
     // structure parts can only be removed when no non-structure parts are on tile
     for( const int elem : parts_here ) {
         const vehicle_part &vp_here = parts[elem];
         if( vp_here.info().location != part_location_structure ) {
-            reason = _( "Remove all other attached parts first." );
-            return false;
+            return ret_val<void>::make_failure( _( "Remove all other attached parts first." ) );
         }
     }
 
     // reaching here means only structure parts left on this tile
-
     if( parts_here.size() > 1 ) {
-        return true; // wrecks can have more than one structure part, so it's valid for removal
+        return ret_val<void>::make_success(); // wrecks can have more than one structure part, so it's valid for removal
     }
 
     // find all the vehicle's tiles adjacent to the one we're removing
@@ -1318,14 +1305,14 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     }
 
     if( adjacent_parts.empty() ) {
-        return true; // this is the only vehicle tile left, valid to remove
+        return ret_val<void>::make_success(); // this is the only vehicle tile left, valid to remove
     }
 
     if( adjacent_parts.size() == 1 ) {
         // removing this will create invalid vehicle with only a PROTRUSION part (wing mirror, forklift etc)
         if( adjacent_parts[0].info().has_flag( "PROTRUSION" ) ) {
-            reason = _( "Remove other parts before removing last structure part." );
-            return false;
+            return ret_val<void>::make_failure(
+                       _( "Remove other parts before removing last structure part." ) );
         }
     }
 
@@ -1337,14 +1324,13 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         for( size_t i = 0; i < adjacent_parts.size(); i++ ) {
             for( size_t j = i + 1; j < adjacent_parts.size(); j++ ) {
                 if( !is_connected( adjacent_parts[i], adjacent_parts[j], vp_to_remove ) ) {
-                    reason = _( "Removing this part would split the vehicle." );
-                    return false;
+                    return ret_val<void>::make_failure( _( "Removing this part would split the vehicle." ) );
                 }
             }
         }
     }
 
-    return true; // Anything not explicitly denied is permitted
+    return ret_val<void>::make_success(); // Anything not explicitly denied is permitted
 }
 
 /**
@@ -1796,28 +1782,19 @@ bool vehicle::merge_vehicle_parts( vehicle *veh )
     return true;
 }
 
-/**
- * Mark a part as removed from the vehicle.
- * @return bool true if the vehicle's 0,0 point shifted.
- */
-bool vehicle::remove_part( const int p )
+bool vehicle::remove_part( vehicle_part &vp )
 {
     DefaultRemovePartHandler handler;
-    return remove_part( p, handler );
+    return remove_part( vp, handler );
 }
 
-bool vehicle::remove_part( const int p, RemovePartHandler &handler )
+bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
 {
     // NOTE: Don't access g or g->m or anything from it directly here.
     // Forward all access to the handler.
     // There are currently two implementations of it:
     // - one for normal game play (vehicle is on the main map g->m),
     // - one for mapgen (vehicle is on a temporary map used only during mapgen).
-    if( p >= static_cast<int>( parts.size() ) ) {
-        debugmsg( "Tried to remove part %d but only %d parts!", p, parts.size() );
-        return false;
-    }
-    vehicle_part &vp = parts[p];
     const vpart_info &vpi = vp.info();
     if( vp.removed ) {
         /* This happens only when we had to remove part, because it was depending on
@@ -1853,9 +1830,9 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         if( magic || ( dep < 0 ) || !vpi.has_flag( parent_flag ) ) {
             return false;
         }
-        const vehicle_part &vp_dep = parts[dep];
+        vehicle_part &vp_dep = parts[dep];
         handler.add_item_or_charges( part_loc, vp_dep.properties_to_item(), false );
-        remove_part( dep, handler );
+        remove_part( vp_dep, handler );
         return true;
     };
 
@@ -1917,7 +1894,8 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         parts[vp.fake_part_at].removed = true;
     }
 
-    handler.removed( *this, p );
+    const int vp_idx = index_of_part( &vp, /* include_removed = */ true );
+    handler.removed( *this, vp_idx );
 
     const point &vp_mount = vp.mount;
     const auto iter = labels.find( label( vp_mount ) );
@@ -1925,7 +1903,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         labels.erase( iter );
     }
 
-    for( item &i : get_items( p ) ) {
+    for( item &i : get_items( vp_idx ) ) {
         // Note: this can spawn items on the other side of the wall!
         // TODO: fix this ^^
         if( !magic ) {
@@ -5293,7 +5271,7 @@ void vehicle::do_engine_damage( vehicle_part &vp, int strain )
     if( is_engine_on( vp ) && !is_perpetual_type( vp ) && engine_fuel_left( vp ) &&
         rng( 1, 100 ) < strain ) {
         const int dmg = rng( 0, strain * 4 );
-        damage_direct( get_map(), index_of_part( &vp ), dmg );
+        damage_direct( get_map(), vp, dmg );
         if( one_in( 2 ) ) {
             add_msg( _( "Your engine emits a high pitched whine." ) );
         } else {
@@ -6559,7 +6537,7 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
             } else {
                 get_map().add_item_or_charges( global_part_pos3( vp ), drop );
             }
-            remove_part( tow_cable_idx );
+            remove_part( vp );
         }
         if( other_veh ) {
             other_veh->invalidate_towing();
@@ -6568,7 +6546,8 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
     } else {
         const int tow_cable_idx = get_tow_part();
         if( tow_cable_idx > -1 ) {
-            remove_part( tow_cable_idx );
+            vehicle_part &vp = parts[tow_cable_idx];
+            remove_part( vp );
         }
         tow_data.clear_towing();
     }
@@ -6639,17 +6618,16 @@ bool vehicle::no_towing_slack() const
 
 }
 
-void vehicle::remove_remote_part( int part_num )
+void vehicle::remove_remote_part( const vehicle_part &vp_local ) const
 {
-    vehicle *veh = find_vehicle( parts[part_num].target.second );
+    vehicle *veh = find_vehicle( vp_local.target.second );
     // If the target vehicle is still there, ask it to remove its part
     if( veh != nullptr ) {
-        const tripoint local_abs = get_map().getabs( global_part_pos3( part_num ) );
-        for( size_t j = 0; j < veh->loose_parts.size(); j++ ) {
-            const int remote_partnum = veh->loose_parts[j];
-            const vehicle_part &vp_remote = veh->parts[remote_partnum];
+        const tripoint local_abs = get_map().getabs( global_part_pos3( vp_local ) );
+        for( const int remote_partnum : veh->loose_parts ) {
+            vehicle_part &vp_remote = veh->parts[remote_partnum];
             if( vp_remote.info().has_flag( "POWER_TRANSFER" ) && vp_remote.target.first == local_abs ) {
-                veh->remove_part( remote_partnum );
+                veh->remove_part( vp_remote );
                 return;
             }
         }
@@ -6664,11 +6642,12 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
     std::vector<int> lp = loose_parts;
     for( const int elem : lp ) {
         vehicle_part &vp_loose = part( elem );
+        const vpart_info &vpi_loose = vp_loose.info();
         if( std::find( loose_parts.begin(), loose_parts.end(), elem ) == loose_parts.end() ) {
             // part was removed elsewhere
             continue;
         }
-        if( vp_loose.info().has_flag( "POWER_TRANSFER" ) ) {
+        if( vpi_loose.has_flag( "POWER_TRANSFER" ) ) {
             int distance = rl_dist( here.getabs( bub_part_pos( vp_loose ) ), vp_loose.target.second );
             int max_dist = vp_loose.get_base().type->maximum_charges();
             if( src && ( max_dist - distance ) > 0 ) {
@@ -6689,9 +6668,9 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
             }
             add_msg_if_player_sees( global_part_pos3( vp_loose ), m_warning,
                                     _( "The %s's power connection was detached!" ), name );
-            remove_remote_part( elem );
+            remove_remote_part( vp_loose );
         }
-        if( vp_loose.info().has_flag( "TOW_CABLE" ) ) {
+        if( vpi_loose.has_flag( "TOW_CABLE" ) ) {
             invalidate_towing( true );
             continue;
         }
@@ -6700,7 +6679,7 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
             here.add_item_or_charges( global_part_pos3( vp_loose ), drop );
         }
 
-        remove_part( elem );
+        remove_part( vp_loose );
     }
 }
 
@@ -6826,15 +6805,18 @@ int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool
         }
     }
 
+    vehicle_part &vp_target = part( target_part );
+    const vpart_info &vpi_target = vp_target.info();
+
     const int armor_part = part_with_feature( vp_initial.mount, "ARMOR", true );
     if( armor_part < 0 ) { // Not covered by armor -- damage part
-        return damage_direct( here, target_part, dmg, type );
+        return damage_direct( here, vp_target, dmg, type );
     }
-    const vehicle_part &vp_target = part( target_part );
-    const vpart_info &vpi_target = vp_target.info();
-    const vehicle_part &vp_armor = part( armor_part );
+
+    vehicle_part &vp_armor = part( armor_part );
+    const vpart_info &vpi_armor = vp_armor.info();
     // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-    const int protection = type->no_resist ? 0 : vp_armor.info().damage_reduction.at( type );
+    const int protection = type->no_resist ? 0 : vpi_armor.damage_reduction.at( type );
     // Parts on roof aren't protected
     const bool overhead = vpi_target.has_flag( "ROOF" ) || vpi_target.location == "on_roof";
     // Calling damage_direct may remove the damaged part completely, therefore the
@@ -6842,11 +6824,11 @@ int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool
     // Damaging the part with the higher index first is safe, as removing a part
     // only changes indices after the removed part.
     if( armor_part < target_part ) {
-        damage_direct( here, target_part, overhead ? dmg : dmg - protection, type );
-        return damage_direct( here, armor_part, dmg, type );
+        damage_direct( here, vp_target, overhead ? dmg : dmg - protection, type );
+        return damage_direct( here, vp_armor, dmg, type );
     } else {
-        const int damage_dealt = damage_direct( here, armor_part, dmg, type );
-        damage_direct( here, target_part, overhead ? dmg : dmg - protection, type );
+        const int damage_dealt = damage_direct( here, vp_armor, dmg, type );
+        damage_direct( here, vp_target, overhead ? dmg : dmg - protection, type );
         return damage_dealt;
     }
 }
@@ -6862,7 +6844,7 @@ void vehicle::damage_all( int dmg1, int dmg2, const damage_type_id &type, const 
     }
 
     for( const vpart_reference &vpr : get_all_parts() ) {
-        const vehicle_part &vp = vpr.part();
+        vehicle_part &vp = vpr.part();
         const vpart_info &vpi = vp.info();
         const int distance = 1 + square_dist( vp.mount, impact );
         if( distance > 1 ) {
@@ -6874,7 +6856,7 @@ void vehicle::damage_all( int dmg1, int dmg2, const damage_type_id &type, const 
                     net_dmg = std::max( 0, net_dmg - vp_shock_absorber.info().bonus );
                 }
             }
-            damage_direct( get_map(), vpr.part_index(), net_dmg, type );
+            damage_direct( get_map(), vp, net_dmg, type );
         }
     }
 }
@@ -6945,9 +6927,8 @@ bool vehicle::shift_if_needed( map &here )
     return false;
 }
 
-int vehicle::break_off( map &here, int p, int dmg )
+int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
 {
-    const vehicle_part &vp = parts[p];
     const vpart_info &vpi = vp.info();
     /* Already-destroyed part - chance it could be torn off into pieces.
      * Chance increases with damage, and decreases with part max durability
@@ -6979,14 +6960,11 @@ int vehicle::break_off( map &here, int p, int dmg )
         // For structural parts, remove other parts first
         std::vector<int> parts_in_square = parts_at_relative( vp.mount, true );
         for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
-            // Ignore the frame being destroyed
-            if( parts_in_square[index] == p ) {
-                continue;
-            }
             vehicle_part &vp_here = parts[parts_in_square[index]];
             const vpart_info &vpi_here = vp_here.info();
-
-            if( vpi_here.has_flag( "TOW_CABLE" ) ) {
+            if( &vp_here == &vp ) {
+                continue; // Ignore the frame being destroyed
+            } else if( vpi_here.has_flag( "TOW_CABLE" ) ) {
                 // Tow cables - remove it in one piece, remove remote part, and remove towing data
                 add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp_here.name() );
                 invalidate_towing( true );
@@ -6994,7 +6972,7 @@ int vehicle::break_off( map &here, int p, int dmg )
                 // Electrical cables - remove it in one piece and remove remote part
                 add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp_here.name() );
                 here.add_item_or_charges( pos, vp_here.properties_to_item() );
-                remove_remote_part( parts_in_square[ index ] );
+                remove_remote_part( vp_here );
             } else if( vp_here.is_broken() ) {
                 // Tearing off a broken part - break it up
                 add_msg_if_player_sees( pos, m_bad, _( "The %s's %s breaks into pieces!" ), name, vp_here.name() );
@@ -7006,13 +6984,13 @@ int vehicle::break_off( map &here, int p, int dmg )
                     here.add_item_or_charges( pos, vp_here.properties_to_item() );
                 }
             }
-            remove_part( parts_in_square[index], *handler_ptr );
+            remove_part( vp_here, *handler_ptr );
         }
         // After clearing the frame, remove it.
         add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, vp.name() );
         scatter_parts( vp );
-        remove_part( p, *handler_ptr );
-        find_and_split_vehicles( here, { p } );
+        remove_part( vp, *handler_ptr );
+        find_and_split_vehicles( here, { index_of_part( &vp, /* include_removed = */ true ) } );
     } else {
         if( vpi.has_flag( "TOW_CABLE" ) ) {
             // Tow cables - remove it in one piece, remove remote part, and remove towing data
@@ -7022,14 +7000,14 @@ int vehicle::break_off( map &here, int p, int dmg )
             // Electrical cables - remove it in one piece and remove remote part
             add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp.name() );
             here.add_item_or_charges( pos, vp.properties_to_item() );
-            remove_remote_part( p );
+            remove_remote_part( vp );
         } else {
             //Just break it off
             add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, vp.name() );
             scatter_parts( vp );
         }
         const point position = vp.mount;
-        remove_part( p, *handler_ptr );
+        remove_part( vp, *handler_ptr );
 
         // remove parts for which required flags are not present anymore
         if( !vpi.get_flags().empty() ) {
@@ -7054,11 +7032,11 @@ int vehicle::break_off( map &here, int p, int dmg )
                     if( vpi_here.has_flag( "TOW_CABLE" ) ) {
                         invalidate_towing( true );
                     } else {
-                        if( vpi.has_flag( "POWER_TRANSFER" ) ) {
-                            remove_remote_part( part );
+                        if( vpi_here.has_flag( "POWER_TRANSFER" ) ) {
+                            remove_remote_part( vp_here );
                         }
                         here.add_item_or_charges( pos, vp_here.properties_to_item() );
-                        remove_part( part, *handler_ptr );
+                        remove_part( vp_here, *handler_ptr );
                     }
                 }
             }
@@ -7068,9 +7046,8 @@ int vehicle::break_off( map &here, int p, int dmg )
     return dmg;
 }
 
-bool vehicle::explode_fuel( int p, const damage_type_id &type )
+bool vehicle::explode_fuel( vehicle_part &vp, const damage_type_id &type )
 {
-    vehicle_part &vp = part( p );
     const itype_id &ft = vp.info().fuel_type;
     item fuel = item( ft );
     if( !fuel.has_explosion_data() ) {
@@ -7096,13 +7073,11 @@ bool vehicle::explode_fuel( int p, const damage_type_id &type )
     return true;
 }
 
-int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &type )
+int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_type_id &type )
 {
-    // Make sure p is within range and hasn't been removed already
-    if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
-        return dmg;
+    if( vp.removed ) {
+        return dmg; // part is already dead
     }
-    vehicle_part &vp = parts[p];
     const vpart_info &vpi = vp.info();
     const tripoint vppos = global_part_pos3( vp );
     // If auto-driving and damage happens, bail out
@@ -7111,13 +7086,13 @@ int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &typ
     }
     here.set_memory_seen_cache_dirty( vppos );
     if( vp.is_broken() ) {
-        return break_off( here, p, dmg );
+        return break_off( here, vp, dmg );
     }
 
     int tsh = std::min( 20, vpi.durability / 10 );
     if( dmg < tsh && type != damage_pure ) {
         if( type == damage_heat && vp.is_fuel_store() ) {
-            explode_fuel( p, type );
+            explode_fuel( vp, type );
         }
 
         return dmg;
@@ -7152,9 +7127,10 @@ int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &typ
     }
 
     if( vp.is_fuel_store() ) {
-        explode_fuel( p, type );
+        explode_fuel( vp, type );
     } else if( vp.is_broken() && vpi.has_flag( "UNMOUNT_ON_DAMAGE" ) ) {
-        monster *mon = get_monster( p );
+        const int vp_idx = index_of_part( &vp, /* include_removed = */ true );
+        monster *mon = get_monster( vp_idx );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );
         }
@@ -7164,7 +7140,7 @@ int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &typ
             item part_as_item = vp.properties_to_item();
             add_msg_if_player_sees( vppos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp.name() );
             if( vpi.has_flag( "POWER_TRANSFER" ) ) {
-                remove_remote_part( p );
+                remove_remote_part( vp );
                 part_as_item.set_damage( 0 );
             } else {
                 part_as_item.set_damage( vpi.base_item.obj().damage_max() - 1 );
@@ -7174,9 +7150,9 @@ int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &typ
             }
             if( !g || &get_map() != &here ) {
                 MapgenRemovePartHandler handler( here );
-                remove_part( p, handler );
+                remove_part( vp, handler );
             } else {
-                remove_part( p );
+                remove_part( vp );
             }
         }
     }
