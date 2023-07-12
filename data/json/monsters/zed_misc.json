@@ -176,7 +176,8 @@
     "special_attacks": [
       { "type": "leap", "cooldown": 8, "move_cost": 0, "max_range": 8, "min_consider_range": 2 },
       { "id": "ranged_pull", "range": 4 },
-      [ "GRAB_DRAG", 3 ],
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
       [ "SHRIEK_ALERT", 20 ],
       [ "SHRIEK_STUN", 5 ]
     ],
