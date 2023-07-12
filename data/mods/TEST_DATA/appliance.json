@@ -56,7 +56,7 @@
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": { "type": "link_up", "targets": [ "no_link", "vehicle_port", "vehicle_battery" ] },
-    "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE" ],
+    "flags": [ "CABLE_SPOOL", "NO_DROP" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -120,7 +120,7 @@
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": { "type": "link_up", "targets": [ "no_link", "vehicle_port", "vehicle_battery" ] },
-    "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE", "SINGLE_USE" ],
+    "flags": [ "CABLE_SPOOL", "NO_DROP", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }
   },
   {

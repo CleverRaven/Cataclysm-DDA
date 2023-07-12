@@ -13124,7 +13124,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         if( power_draw != 0 ) {
             t_veh->linked_item_epower_this_turn += units::from_milliwatt( power_draw );
         }
-    } else if( has_flag( flag_AUTO_DELETE_CABLE ) ) {
+    } else if( has_flag( flag_NO_DROP ) ) {
         debugmsg( "%s shouldn't exist outside of an item or vehicle part.", tname() );
         return true;
     }
@@ -13191,7 +13191,7 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 bool item::reset_link( Character *p, const bool loose_message, const tripoint cable_position )
 {
     if( !link ) {
-        return has_flag( flag_AUTO_DELETE_CABLE );
+        return has_flag( flag_NO_DROP );
     }
     // Cables that need reeling should be reset with a reel_cable_activity_actor instead.
     if( link->has_state( link_state::needs_reeling ) ) {
@@ -13226,7 +13226,7 @@ bool item::reset_link( Character *p, const bool loose_message, const tripoint ca
     }
 
     link.reset();
-    return has_flag( flag_AUTO_DELETE_CABLE );
+    return has_flag( flag_NO_DROP );
 }
 
 bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,

@@ -6624,7 +6624,7 @@ void vehicle::shed_loose_parts( const bool can_shed_cables, const tripoint_bub_m
             remove_remote_part( vp_loose );
         }
         const item drop = vp_loose.properties_to_item();
-        if( !magic && !drop.has_flag( flag_AUTO_DELETE_CABLE ) ) {
+        if( !magic ) {
             here.add_item_or_charges( global_part_pos3( vp_loose ) + drop_offset, drop );
         }
 
@@ -7094,7 +7094,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
             } else {
                 part_as_item.set_damage( vpi.base_item.obj().damage_max() - 1 );
             }
-            if( !magic && !part_as_item.has_flag( flag_AUTO_DELETE_CABLE ) ) {
+            if( !magic ) {
                 here.add_item_or_charges( vppos, part_as_item );
             }
             if( !g || &get_map() != &here ) {

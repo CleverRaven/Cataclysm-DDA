@@ -17,7 +17,7 @@
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": { "type": "link_up", "menu_text": "Plug in / Manage connections", "targets": [ "vehicle_port" ] },
-    "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE", "SINGLE_USE" ],
+    "flags": [ "CABLE_SPOOL", "NO_DROP", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }
   },
   {

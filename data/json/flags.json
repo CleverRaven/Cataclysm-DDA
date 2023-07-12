@@ -1242,10 +1242,6 @@
     "type": "json_flag"
   },
   {
-    "id": "AUTO_DELETE_CABLE",
-    "type": "json_flag"
-  },
-  {
     "id": "CAMERA_PRO",
     "type": "json_flag"
   },
