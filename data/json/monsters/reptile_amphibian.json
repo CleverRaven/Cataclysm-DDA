@@ -363,7 +363,7 @@
     "vision_night": 35,
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_lizard_sample_large",
-    "//grab": "Pretty small, considering the description, but multiple teeth sound grabby - outdated, now it's a proper big nasty rope",
+    "//grab": "Big jaw full of long fangs - about as grabby as you can get without multiple appendages, consider a coiling attack on next update",
     "//grab2": "You brought this upon yourself, serpentdom is proud",
     "grab_strength": 70,
     "special_attacks": [
