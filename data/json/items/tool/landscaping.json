@@ -369,7 +369,7 @@
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
     "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": "TRIMMER_ON",
+    "tick_action": [ "TRIMMER_ON" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 4, "cut": 40 }

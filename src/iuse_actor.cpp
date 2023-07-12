@@ -501,10 +501,10 @@ void message_iuse::load( const JsonObject &obj )
     obj.read( "message", message );
 }
 
-std::optional<int> message_iuse::use( Character *p, item &it, bool t,
+std::optional<int> message_iuse::use( Character *p, item &it, bool,
                                       const tripoint &pos ) const
 {
-    if( t || !p ) {
+    if( !p ) {
         return std::nullopt;
     }
 

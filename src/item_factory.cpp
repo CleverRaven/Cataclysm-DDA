@@ -4252,6 +4252,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
+	set_use_methods_from_json( jo, "tick_action", def.tick_action, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
     assign( jo, "revert_to", def.revert_to, strict );
@@ -4264,17 +4265,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         use_function fun = usage_from_object( tmp ).second;
         if( fun ) {
             def.countdown_action = fun;
-        }
-    }
-
-    if( jo.has_string( "tick_action" ) ) {
-        def.tick_action = usage_from_string( jo.get_string( "tick_action" ) );
-
-    } else if( jo.has_object( "tick_action" ) ) {
-        JsonObject tmp = jo.get_object( "tick_action" );
-        use_function fun = usage_from_object( tmp ).second;
-        if( fun ) {
-            def.tick_action = fun;
         }
     }
 

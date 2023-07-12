@@ -3625,7 +3625,7 @@
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": "COMBATSAW_ON",
+    "tick_action": [ "COMBATSAW_ON" ],
     "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ],
     "melee_damage": { "bash": 8, "cut": 50 }
   },
@@ -3671,7 +3671,7 @@
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": "E_COMBATSAW_ON",
+    "tick_action": ["E_COMBATSAW_ON" ],
     "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ],
     "melee_damage": { "bash": 8, "cut": 50 }
   },

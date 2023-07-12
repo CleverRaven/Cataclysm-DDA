@@ -1139,8 +1139,8 @@ struct itype {
         /** Action to take when countdown expires */
         use_function countdown_action;
 
-        /** Action to take when item is processed */
-        use_function tick_action;
+        /** Actions to take when item is processed */
+        std::map<std::string, use_function> tick_action;
 
         /**
         * @name Non-negative properties
