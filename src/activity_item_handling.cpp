@@ -1045,15 +1045,14 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             std::vector<vehicle_part *> parts =
                 veh->get_parts_at( src_loc.raw(), "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ) {
-                const vpart_info &vpinfo = part_elem->info();
-                int vpindex = veh->index_of_part( part_elem, true );
+                const int vpindex = veh->index_of_part( part_elem, true );
                 // if part is not on this vehicle, or if its attached to another part that needs to be removed first.
-                if( vpindex == -1 || !veh->can_unmount( vpindex ) ) {
+                if( vpindex < 0 || !veh->can_unmount( *part_elem ).success() ) {
                     continue;
                 }
+                const vpart_info &vpinfo = part_elem->info();
                 // If removing this part would make the vehicle non-flyable, avoid it
-                if( veh->would_removal_prevent_flyable( *part_elem,
-                                                        player_character ) ) {
+                if( veh->would_removal_prevent_flyable( *part_elem, player_character ) ) {
                     return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
                 }
                 // this is the same part that somebody else wants to work on, or already is.
