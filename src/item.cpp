@@ -13268,12 +13268,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         ammo_consume( energy, pos, carrier );
     }
 
-    if( type->tick_action ) {
-        type->tick_action.call( carrier, *this, true, pos );
-    } else {
-        // Old styled tick processing. Remove once all items are migrated to tick_action.
-        type->tick( carrier, *this, pos );
-    }
+    type->tick( carrier, *this, pos );
     return false;
 }
 
