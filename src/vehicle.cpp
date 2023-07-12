@@ -5683,7 +5683,7 @@ void vehicle::gain_moves()
     const bool pl_control = player_in_control( get_player_character() );
     if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {
-            shed_loose_parts();
+            shed_loose_parts( false );
         }
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
@@ -6581,8 +6581,8 @@ void vehicle::remove_remote_part( const vehicle_part &vp_local ) const
     }
 }
 
-void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_ms *dst,
-                                const tripoint drop_offset )
+void vehicle::shed_loose_parts( const bool can_shed_cables, const tripoint_bub_ms *src,
+                                const tripoint_bub_ms *dst, const tripoint drop_offset )
 {
     map &here = get_map();
     // remove_part rebuilds the loose_parts vector, so iterate over a copy to preserve
@@ -6596,6 +6596,9 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
             continue;
         }
         if( vpi_loose.has_flag( "POWER_TRANSFER" ) ) {
+            if( !can_shed_cables ) {
+                continue;
+            }
             int distance = rl_dist( here.getabs( bub_part_pos( vp_loose ) ), vp_loose.target.second );
             int max_dist = vp_loose.get_base().link_length( true );
             if( src ) {
