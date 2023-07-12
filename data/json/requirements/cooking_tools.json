@@ -26,6 +26,7 @@
         [ "propane_cooker", 2 ],
         [ "acetylene_cooker", 1 ],
         [ "popcan_stove", 3 ],
+        [ "charcoal_cooker_disposable_lit", -1 ],
         [ "fire", -1 ]
       ]
     ]

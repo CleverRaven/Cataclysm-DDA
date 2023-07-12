@@ -227,6 +227,53 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "id": "charcoal_cooker_disposable",
+    "type": "TOOL",
+    "name": { "str": "disposable barbecue" },
+    "description": "A small metal tray for cooking food while camping.",
+    "//": "Based off https://www.amazon.com/Improved-Disposable-Size-Charcoal-Camping-Tailgate/dp/B087YHNJ2M/ , lasts 45 mins according to review",
+    "weight": "600 g",
+    "volume": "1950 ml",
+    "longest_side": "31 cm",
+    "price": "12 USD",
+    "price_postapoc": 5,
+    "to_hit": -1,
+    "material": [ "aluminum" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 200 } } ],
+    "use_action": {
+      "target": "charcoal_cooker_disposable_lit",
+      "msg": "You light the disposable barbecue.",
+      "menu_text": "Light",
+      "active": true,
+      "need_fire": 1,
+      "need_charges": 1,
+      "need_charges_msg": "The disposable barbecue is unusable.",
+      "type": "transform"
+    },
+    "flags": [ "NO_RELOAD", "WATER_BREAK" ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "charcoal_cooker_disposable_lit",
+    "type": "TOOL",
+    "copy-from": "charcoal_cooker_disposable",
+    "name": { "str": "disposable barbecue (lit)", "str_pl": "disposable barbecues (lit)" },
+    "description": "A small metal tray for cooking food while camping.  Can be used for cooking food until it runs out of fuel.",
+    "turns_per_charge": 13,
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "charcoal_cooker_disposable",
+        "msg": "The disposable barbecue is extinguished.",
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ]
+  },
+  {
     "id": "clay_pot",
     "type": "GENERIC",
     "category": "tools",
