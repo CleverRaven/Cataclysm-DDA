@@ -4325,6 +4325,24 @@ void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "TOOL",
                            string_format( _( "<bold>Can be plugged into</bold>: %s." ), targets_string ) );
     }
+
+    const bool no_extensions = it.cables().empty();
+    item dummy( it );
+    dummy.link = cata::make_value<item::link_data>();
+    dummy.set_link_traits();
+
+    std::string length_all_info = string_format( _( "<bold>Cable length</bold>: %d" ),
+                                  dummy.max_link_length() );
+    std::string length_solo_info = no_extensions ? "" : string_format( _( " (%d without extensions)" ),
+                                   cable_length != -1 ? cable_length : dummy.type->maximum_charges() );
+    dump.emplace_back( "TOOL", length_all_info, length_solo_info );
+
+    if( wattage != 0_W ) {
+        //~ Power in Watts. %+4.1f is a 4 digit number with 1 decimal point (ex: 4737.3 W)
+        dump.emplace_back( "TOOL", _( "<bold>Wattage</bold>: " ), string_format( _( "%+4.1f W" ),
+                           units::to_milliwatt( wattage ) / 1000.f ) );
+    }
+
     if( !can_extend.empty() ) {
         std::vector<std::string> cable_types;
         for( const std::string &cable_type : can_extend ) {
@@ -4333,17 +4351,6 @@ void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
         }
         std::string cable_type_list = enumerate_as_string( cable_types, enumeration_conjunction::or_ );
         dump.emplace_back( "TOOL", string_format( _( "<bold>Can extend</bold>: %s" ), cable_type_list ) );
-    }
-    dump.emplace_back( "TOOL", _( "<bold>Cable length</bold>: " ),
-                       cable_length != -1 ? cable_length : it.max_link_length() );
-    if( wattage != 0_W ) {
-        std::string wattage_display = string_format( _( "%+4.1f W" ),
-                                      units::to_milliwatt( wattage ) / 1000.f );
-        if( wattage > 0_W ) {
-            dump.emplace_back( "TOOL", _( "<bold>Charge rate</bold>: " ), wattage_display );
-        } else {
-            dump.emplace_back( "TOOL", _( "<bold>Discharge rate</bold>: " ), wattage_display );
-        }
     }
 }
 
@@ -4752,14 +4759,14 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
             }
         }
 
-            const itype_id item_id = it.typeId();
+        const itype_id item_id = it.typeId();
         vpart_id vpid = vpart_id::NULL_ID();
         for( const vpart_info &e : vehicles::parts::get_all() ) {
             if( e.base_item == item_id ) {
                 vpid = e.id;
-                    break;
-                }
+                break;
             }
+        }
 
         if( vpid.is_null() ) {
             debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
@@ -4772,14 +4779,14 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
         if( !can_mount1.success() ) {
             //~ %1$s - cable name, %2$s - the reason why it failed
-            p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+            p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
                 it.type_name(), can_mount1.str() );
             return std::nullopt;
         }
         const ret_val<void> can_mount2 = target_veh->can_mount( vcoords2, *vpid );
         if( !can_mount2.success() ) {
             //~ %1$s - cable name, %2$s - the reason why it failed
-            p.add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+            p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
                 it.type_name(), can_mount2.str() );
             return std::nullopt;
         }
@@ -4878,58 +4885,58 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
             return std::nullopt;
         };
 
-            const itype_id item_id = it.typeId();
-            vpart_id vpid = vpart_id::NULL_ID();
-            for( const vpart_info &e : vehicles::parts::get_all() ) {
-                if( e.base_item == item_id ) {
-                    vpid = e.id;
-                    break;
-                }
+        const itype_id item_id = it.typeId();
+        vpart_id vpid = vpart_id::NULL_ID();
+        for( const vpart_info &e : vehicles::parts::get_all() ) {
+            if( e.base_item == item_id ) {
+                vpid = e.id;
+                break;
             }
+        }
 
-            if( vpid.is_null() ) {
-                debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
-                return std::nullopt;
-            }
+        if( vpid.is_null() ) {
+            debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
+            return std::nullopt;
+        }
 
-            const point vcoords1 = it.link->t_mount;
-            const point vcoords2 = t_vp->mount();
+        const point vcoords1 = it.link->t_mount;
+        const point vcoords2 = t_vp->mount();
 
-            const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
-            if( !can_mount1.success() ) {
-                //~ %1$s - tow cable name, %2$s - the reason why it failed
-                p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                      it.type_name(), can_mount1.str() );
-                return std::nullopt;
-            }
-            const ret_val<void> can_mount2 = target_veh->can_mount( vcoords2, *vpid );
-            if( !can_mount2.success() ) {
-                //~ %1$s - tow cable name, %2$s - the reason why it failed
-                p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
-                                      it.type_name(), can_mount2.str() );
-                return std::nullopt;
-            }
+        const ret_val<void> can_mount1 = prev_veh->can_mount( vcoords1, *vpid );
+        if( !can_mount1.success() ) {
+            //~ %1$s - tow cable name, %2$s - the reason why it failed
+            p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+                                 it.type_name(), can_mount1.str() );
+            return std::nullopt;
+        }
+        const ret_val<void> can_mount2 = target_veh->can_mount( vcoords2, *vpid );
+        if( !can_mount2.success() ) {
+            //~ %1$s - tow cable name, %2$s - the reason why it failed
+            p->add_msg_if_player( m_bad, _( "You can't attach the %1$s: %2$s" ),
+                                 it.type_name(), can_mount2.str() );
+            return std::nullopt;
+        }
 
-            vehicle_part prev_part( vpid, item( it ) );
-            prev_part.target.first = here.getabs( pnt );
-            prev_part.target.second = target_veh->global_square_location().raw();
-            prev_veh->install_part( vcoords1, std::move( prev_part ) );
+        vehicle_part prev_part( vpid, item( it ) );
+        prev_part.target.first = here.getabs( pnt );
+        prev_part.target.second = target_veh->global_square_location().raw();
+        prev_veh->install_part( vcoords1, std::move( prev_part ) );
 
-            vehicle_part target_part( vpid, item( it ) );
-            target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( it.link->t_mount ) );
-            target_part.target.second = prev_veh->global_square_location().raw();
-            target_veh->install_part( vcoords2, std::move( target_part ) );
+        vehicle_part target_part( vpid, item( it ) );
+        target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( it.link->t_mount ) );
+        target_part.target.second = prev_veh->global_square_location().raw();
+        target_veh->install_part( vcoords2, std::move( target_part ) );
 
-            if( p->has_item( it ) ) {
-                //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - tow cable name, 
-                p->add_msg_if_player( m_good, _( "You connect the %1$s and %2$s with the %3$s." ),
-                                      prev_veh->disp_name(), target_veh->disp_name(), it.type_name() );
-            }
-            if( to_towing ) {
-                target_veh->tow_data.set_towing( target_veh, prev_veh );
-            } else {
-                prev_veh->tow_data.set_towing( prev_veh, target_veh );
-            }
+        if( p->has_item( it ) ) {
+            //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - tow cable name, 
+            p->add_msg_if_player( m_good, _( "You connect the %1$s and %2$s with the %3$s." ),
+                                 prev_veh->disp_name(), target_veh->disp_name(), it.type_name() );
+        }
+        if( to_towing ) {
+            target_veh->tow_data.set_towing( target_veh, prev_veh );
+        } else {
+            prev_veh->tow_data.set_towing( prev_veh, target_veh );
+        }
         p->moves -= move_cost;
         return 1; // Let the cable be destroyed.
     }
