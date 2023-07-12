@@ -33,7 +33,7 @@
     "id": "prof_psionic_warping",
     "category": "prof_psionic",
     "name": { "str": "Dimensional Metaphysics" },
-    "description": "You are familiar with how psionic power flows between dimensions and can manipulate that flow to some extent.",
+    "description": "You are familiar with how psionic power flows between dimensions and can manipulate that flow.",
     "can_learn": true,
     "default_time_multiplier": 1.6,
     "default_skill_penalty": 0.2,

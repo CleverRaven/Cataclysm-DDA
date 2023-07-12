@@ -5,7 +5,7 @@
     "name": { "str": "Psionic Drain" },
     "valid_targets": [ "self" ],
     "description": "Applies Drained to you.",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
     "message": "",
     "effect": "effect_on_condition",
     "effect_str": "EOC_CAUSE_PSIONIC_DRAIN",
@@ -14,7 +14,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CAUSE_PSIONIC_DRAIN",
-    "condition": { "u_has_trait": "DRAIN_RESIST" },
+    "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
       { "u_message": "You feel a sudden fatigue as your powers are unleashed.", "type": "bad" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }

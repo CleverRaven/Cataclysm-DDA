@@ -41,5 +41,29 @@
     "healthy": -4,
     "flags": [ "SINGLE_USE" ],
     "use_action": [ "PURIFY_SMART" ]
+  },
+  {
+    "id": "psi_noetic_resilience_treatment",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "noetic resilience treatment" },
+    "description": "A clear liquid, designed to alleviate some of the deleterious effects of excessive psionic channeling.",
+    "weight": "20 g",
+    "volume": "10ml",
+    "price": 1200000,
+    "price_postapoc": 3000,
+    "material": [ "nether_crystal", "alien_liquid" ],
+    "phase": "liquid",
+    "container": "flask_glass",
+    "symbol": "!",
+    "color": "white",
+    "vitamins": [  ],
+    "healthy": -4,
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Inject the concoction.",
+      "effect_on_conditions": [ "EOC_DRAIN_RESIST_POTION" ]
+    }
   }
 ]

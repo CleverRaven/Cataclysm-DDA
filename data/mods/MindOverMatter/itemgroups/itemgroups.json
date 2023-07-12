@@ -4,13 +4,13 @@
     "subtype": "distribution",
     "id": "dist_matrix_crystals",
     "items": [
-      [ "matrix_crystal_biokinesis", 5 ],
-      [ "matrix_crystal_clairsentience", 5 ],
-      [ "matrix_crystal_pyrokinesis", 5 ],
-      [ "matrix_crystal_telekinesis", 5 ],
-      [ "matrix_crystal_telepathy", 5 ],
-      [ "matrix_crystal_teleportation", 5 ],
-      [ "matrix_crystal_vitakinesis", 5 ],
+      [ "matrix_crystal_biokinesis", 10 ],
+      [ "matrix_crystal_clairsentience", 10 ],
+      [ "matrix_crystal_pyrokinesis", 10 ],
+      [ "matrix_crystal_telekinesis", 10 ],
+      [ "matrix_crystal_telepathy", 10 ],
+      [ "matrix_crystal_teleportation", 10 ],
+      [ "matrix_crystal_vitakinesis", 10 ],
       [ "matrix_crystal_coruscating", 1 ]
     ]
   },
@@ -98,6 +98,7 @@
     "id": "psionic_recipes_advanced",
     "items": [
       [ "phavian_report_psionic_drain", 15 ],
+      [ "schematics_noetic_resilience", 5 ],
       [ "schematics_instability_remover", 5 ],
       [ "schematics_psionic_purifier", 1 ]
     ]
@@ -124,7 +125,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_medicine",
-    "items": [ [ "schematics_instability_remover", 5 ], [ "schematics_psionic_purifier", 1 ] ]
+    "items": [ [ "schematics_instability_remover", 5 ], [ "schematics_noetic_resilience", 3 ], [ "schematics_psionic_purifier", 1 ] ]
   },
   {
     "type": "item_group",
@@ -187,14 +188,10 @@
       { "item": "manual_meditation_int", "prob": 12 },
       { "item": "manual_psionics_advan", "prob": 4 },
       { "item": "phavian_report_psionic_drain", "prob": 3 },
-      { "item": "schematics_matrix_crystal_ground", "prob": 7 },
-      { "item": "schematics_reactant_liquid_base", "prob": 7 },
-      { "item": "schematics_matrix_channeling", "prob": 4 },
-      { "item": "schematics_everglow_lamp", "prob": 5 },
-      { "item": "schematics_matrix_aligning", "prob": 2 },
-      { "item": "schematics_instability_remover", "prob": 2 },
-      { "item": "schematics_anchoring_crown", "prob": 2 },
-      { "item": "schematics_psionic_purifier", "prob": 2 },
+      { "group": "psionic_recipes_beginner", "prob": 5 },
+      { "group": "psionic_recipes_tools", "prob": 5 },
+      { "group": "psionic_recipes_medicine", "prob": 2 },
+      { "group": "psionic_recipes_advanced", "prob": 1 },
       { "group": "dist_matrix_crystals", "prob": 1 }
     ]
   },
