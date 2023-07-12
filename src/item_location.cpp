@@ -516,9 +516,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
         void remove_item() override {
             on_contents_changed();
-            item &base = cur.veh.part( cur.part ).base;
+            vehicle_part &vp = cur.veh.part( cur.part );
+            item &base = vp.base;
             if( &base == target() ) {
-                cur.veh.remove_part( cur.part ); // vehicle_part::base
+                cur.veh.remove_part( vp ); // vehicle_part::base
             } else {
                 cur.remove_item( *target() ); // item within CARGO
             }

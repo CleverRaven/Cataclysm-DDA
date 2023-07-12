@@ -484,6 +484,7 @@
       { "item": "textbook_fireman", "prob": 10 },
       { "item": "textbook_armschina", "prob": 3 },
       { "item": "textbook_weapwest", "prob": 3 },
+      { "item": "textbook_weparabic", "prob": 3 },
       { "item": "textbook_weapeast", "prob": 3 },
       { "item": "textbook_armwest", "prob": 3 },
       { "item": "textbook_armeast", "prob": 3 },
@@ -583,6 +584,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "textbook_weapwest", "prob": 15 },
+      { "item": "textbook_weparabic", "prob": 15 },
       { "item": "textbook_weapeast", "prob": 15 },
       { "item": "textbook_armwest", "prob": 15 },
       { "item": "textbook_armeast", "prob": 15 },

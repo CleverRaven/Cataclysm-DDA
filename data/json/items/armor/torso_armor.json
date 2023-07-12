@@ -93,7 +93,7 @@
     "longest_side": "60 cm",
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "ABLATIVE_CHAINMAIL_TORSO" ],
     "armor": [
       {
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
@@ -147,7 +147,7 @@
     "longest_side": "60 cm",
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER", "NO_REPAIR" ],
+    "flags": [ "VARSIZE", "OUTER", "NO_REPAIR", "ABLATIVE_CHAINMAIL_TORSO" ],
     "armor": [
       {
         "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -212,7 +212,7 @@
     "longest_side": "60 cm",
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER", "NO_REPAIR" ],
+    "flags": [ "VARSIZE", "OUTER", "NO_REPAIR", "ABLATIVE_CHAINMAIL_TORSO" ],
     "armor": [
       {
         "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -2476,5 +2476,246 @@
     "name": { "str": "XS leather armor cuirass", "str_pl": "XS leather armor cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
+  },
+  {
+    "id": "lc_mirror_armor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "low carbon steel mirror armor", "str_pl": "sets of low carbon steel mirror armor" },
+    "description": "Mirror armor is either round or square plates connected by fasteners to cover all four sides of the vital areas of the torso, mirror plate was usually worn on top of other armor like chainmail or brigandines.  This set is crude square plates made of low carbon steel.",
+    "weight": "1000 g",
+    "volume": "2 L",
+    "price": 20000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "lc_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "chestguard_hard",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "EXTRA_PLATING" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 60,
+        "cover_vitals": 50,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 10, "thickness": 0.5 },
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_mirror_armor",
+    "type": "ARMOR",
+    "name": { "str": "XL low carbon steel mirror armor", "str_pl": "sets of XL low carbon steel mirror armor" },
+    "copy-from": "cuirass_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_lc_mirror_armor",
+    "type": "ARMOR",
+    "copy-from": "lc_mirror_armor",
+    "looks_like": "lc_mirror_armor",
+    "name": { "str": "XS low carbon steel mirror armor", "str_pl": "sets of XS low carbon steel mirror armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_mirror_armor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "medium carbon steel mirror armor", "str_pl": "sets of medium carbon steel mirror armor" },
+    "description": "Mirror armor is either round or square plates connected by fasteners to cover all four sides of the vital areas of the torso, mirror plate was usually worn on top of other armor like chainmail or brigandines.  This set is well-formed but plain rectangular plates made of medium carbon steel.",
+    "weight": "1200 g",
+    "volume": "2 L",
+    "price": 20000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "mc_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "chestguard_hard",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "EXTRA_PLATING" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 60,
+        "cover_vitals": 50,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 10, "thickness": 0.5 },
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_mirror_armor",
+    "type": "ARMOR",
+    "name": { "str": "XL medium carbon steel mirror armor", "str_pl": "sets of XL medium carbon steel mirror armor" },
+    "copy-from": "mc_mirror_armor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_mc_mirror_armor",
+    "type": "ARMOR",
+    "copy-from": "mc_mirror_armor",
+    "looks_like": "mc_mirror_armor",
+    "name": { "str": "XS medium carbon steel mirror armor", "str_pl": "sets of XS medium carbon steel mirror armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_mirror_armor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "high carbon steel mirror armor", "str_pl": "sets of high carbon steel mirror armor" },
+    "description": "Mirror armor is either round or square plates connected by fasteners to cover all four sides of the vital areas of the torso, mirror plate was usually worn on top of other armor like chainmail or brigandines.  This set is made of well formed and lightly decorated high carbon steel rectangular plates.",
+    "weight": "1000 g",
+    "volume": "2 L",
+    "price": 20000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "hc_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "chestguard_hard",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "EXTRA_PLATING" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 60,
+        "cover_vitals": 50,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 10, "thickness": 0.5 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_mirror_armor",
+    "type": "ARMOR",
+    "name": { "str": "XL high carbon steel mirror armor", "str_pl": "sets of XL high carbon steel mirror armor" },
+    "copy-from": "hc_mirror_armor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_hc_mirror_armor",
+    "type": "ARMOR",
+    "copy-from": "hc_mirror_armor",
+    "looks_like": "hc_mirror_armor",
+    "name": { "str": "XS high carbon steel mirror armor", "str_pl": "sets of XS high carbon steel mirror armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_mirror_armor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "case hardened steel mirror armor", "str_pl": "sets of case hardened steel mirror armor" },
+    "description": "Mirror armor is either round or square plates connected by fasteners to cover all four sides of the vital areas of the torso, mirror plate was usually worn on top of other armor like chainmail or brigandines.  This set is created with rectangular plates on the sides, and circular plates on the front, all made of fine case hardened steel.",
+    "weight": "1000 g",
+    "volume": "2 L",
+    "price": 20000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "ch_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "chestguard_hard",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "EXTRA_PLATING" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 60,
+        "cover_vitals": 50,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 10, "thickness": 0.5 },
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_mirror_armor",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened steel mirror armor", "str_pl": "sets of XL case hardened steel mirror armor" },
+    "copy-from": "ch_mirror_armor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_ch_mirror_armor",
+    "type": "ARMOR",
+    "copy-from": "ch_mirror_armor",
+    "looks_like": "ch_mirror_armor",
+    "name": { "str": "XS case hardened steel mirror armor", "str_pl": "sets of XS case hardened steel mirror armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_mirror_armor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
+    "description": "Mirror armor is either round or square plates connected by fasteners to cover all four sides of the vital areas of the torso, mirror plate was usually worn on top of other armor like chainmail or brigandines.  This set is made of intricate alternating circular and rectangular tempered steel plated, detailed on the outsides and polished to a mirrored sheen in the center.",
+    "weight": "1000 g",
+    "volume": "2 L",
+    "price": 20000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "qt_steel", "leather" ],
+    "use_action": [ "CHANGE_EYES", "CHANGE_SKIN" ],
+    "symbol": "[",
+    "looks_like": "chestguard_hard",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ABLATIVE_CHAINMAIL_TORSO", "EXTRA_PLATING" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 60,
+        "cover_vitals": 50,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 10, "thickness": 0.5 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_mirror_armor",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel mirror armor", "str_pl": "sets of XL tempered steel mirror armor" },
+    "copy-from": "qt_mirror_armor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_qt_mirror_armor",
+    "type": "ARMOR",
+    "copy-from": "qt_mirror_armor",
+    "looks_like": "qt_mirror_armor",
+    "name": { "str": "XS tempered steel mirror armor", "str_pl": "XS cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]

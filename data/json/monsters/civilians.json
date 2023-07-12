@@ -105,8 +105,12 @@
     "name": "GROUP_CIVILIANS_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "group": "GROUP_VANILLA_ONLY_HUMANS", "weight": 8, "cost_multiplier": 0 },
-      { "group": "GROUP_FERAL", "weight": 2, "cost_multiplier": 0 }
+      { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fat", "weight": 266, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_tough", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_crawler", "weight": 66, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 },
+      { "group": "GROUP_FERAL", "weight": 180, "cost_multiplier": 0 }
     ]
   },
   {

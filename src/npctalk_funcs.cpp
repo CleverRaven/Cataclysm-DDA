@@ -1248,3 +1248,8 @@ void talk_function::clear_overrides( npc &p )
 {
     p.rules.clear_overrides();
 }
+
+void talk_function::pick_style( npc &p )
+{
+    p.martial_arts_data->pick_style( p );
+}

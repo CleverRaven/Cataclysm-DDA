@@ -898,7 +898,7 @@
     "category": "armor",
     "name": { "str_sp": "kabuto" },
     "//": "Leaving this at $500 as it's either antique/priceless or player-made/Bartered, leastwise on the initial search.",
-    "description": "A medieval Japanese helmet with a scowling facemask that provides excellent protection to the entire head and face.",
+    "description": "A medieval Japanese helmet with a scowling face mask that provides excellent protection to the entire head and face.",
     "weight": "1625 g",
     "volume": "3500 ml",
     "price": 50000,
@@ -947,7 +947,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_kabuto",
     "name": { "str": "XL kabuto" },
-    "description": "A medieval Japanese helmet with a scowling facemask, fit for an Oni.",
+    "description": "A medieval Japanese helmet with a scowling face mask, fit for an Oni.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -957,7 +957,7 @@
     "copy-from": "helmet_kabuto",
     "looks_like": "helmet_kabuto",
     "name": { "str": "XS kabuto" },
-    "description": "A medieval Japanese helmet with a scowling facemask that provides excellent protection to the entire head and face.",
+    "description": "A medieval Japanese helmet with a scowling face mask that provides excellent protection to the entire head and face.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "STURDY", "UNDERSIZE" ]
   },

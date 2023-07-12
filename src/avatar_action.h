@@ -82,6 +82,9 @@ void unload( avatar &you );
 // Use item; also tries E,R,W  'a'
 void use_item( avatar &you, item_location &loc, std::string const &method = {} );
 void use_item( avatar &you );
+
+/** Check if avatar is stealing a weapon. */
+bool check_stealing( Character &who, item &weapon );
 } // namespace avatar_action
 
 #endif // CATA_SRC_AVATAR_ACTION_H

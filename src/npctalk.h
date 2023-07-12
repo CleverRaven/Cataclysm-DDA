@@ -109,6 +109,7 @@ void set_npc_pickup( npc &p );
 void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
+void pick_style( npc &p );
 void do_disassembly( npc &p );
 } // namespace talk_function
 
