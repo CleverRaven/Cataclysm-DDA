@@ -102,14 +102,14 @@ item vehicle_part::properties_to_item() const
                 iuse_found = true;
                 tmp.link->max_length = actor_ptr->cable_length;
                 tmp.link->charge_efficiency = actor_ptr->charge_efficiency;
-                tmp.link->charge_rate = actor_ptr->charge_rate.value();
-                tmp.link->charge_interval = actor_ptr->charge_rate == 0_W ? -1 :
-                                            std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( actor_ptr->charge_rate.value() ) +
+                tmp.link->wattage = actor_ptr->wattage.value();
+                tmp.link->charge_interval = actor_ptr->wattage == 0_W ? -1 :
+                                            std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( actor_ptr->wattage.value() ) +
                                                       0.5 ) ) );
             }
         }
         if( !iuse_found ) {
-            debugmsg( "Could not find link_up iuse data for %s!  Using default values.", tmp.tname() );
+            debugmsg( "Could not find link_up iuse data for %s!  Using fallback values.", tmp.tname() );
             tmp.link->max_length = tmp.type->maximum_charges();
         }
 

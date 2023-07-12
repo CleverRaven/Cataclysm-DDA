@@ -4017,13 +4017,14 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "link_up", // Connect item to a vehicle or appliance, such as plugging a chargeable device into a power source.
-    "cable_type": "generic_device_cable" // The item type of the cable created with this action ( Optional, defaults to "generic_device_cable" ).
-    "cable_length": 5 // Maximum length of the cable ( Optional, defaults to 2 ).
-    "charge_rate": "60 W" // Charge rate in watts. A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
-                          // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
-                          // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid ( Optional, defaults to "0 W" ).
+    "cable_length": 4 // Maximum length of the cable ( Optional, defaults to the item type's maximum charges ).
+    "wattage": "60 W" // Maximum energy transfer rate of the cable in watts. ( Optional, defaults to "0 W" )
+                      // A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
+                      // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
+                      // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid.
     "efficiency": 7 // one_in(this) chance to fail adding 1 charge every charge interval ( Optional, defaults to 7, which is around 85% efficiency ).
     "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect" ).
+    "move_cost": // Move cost of attaching the cable ( Optional, defaults to 5 ).
     "targets": [ // Array of link_states that are valid connection points of the cable ( Optional, defaults to only allowing disconnection ).
         "no_link",         // Must be included to allow letting the player manually disconnect the cable.
         "vehicle_port",    // Can connect to a vehicle's cable ports / electrical controls or an appliance.

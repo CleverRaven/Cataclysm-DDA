@@ -156,13 +156,7 @@
         "need_charges": 1,
         "need_charges_msg": "The lantern has no batteries."
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "20 W"
-      }
+      { "type": "link_up", "cable_length": 2, "wattage": "20 W" }
     ],
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -184,13 +178,7 @@
     "revert_to": "electric_lantern",
     "use_action": [
       { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "20 W"
-      }
+      { "type": "link_up", "cable_length": 2, "wattage": "20 W" }
     ],
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },

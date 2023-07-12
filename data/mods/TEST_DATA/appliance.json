@@ -55,12 +55,7 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": {
-      "type": "link_up",
-      "is_cable_item": true,
-      "cable_length": 3,
-      "targets": [ "no_link", "vehicle_port", "vehicle_battery" ]
-    },
+    "use_action": { "type": "link_up", "targets": [ "no_link", "vehicle_port", "vehicle_battery" ] },
     "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE" ],
     "melee_damage": { "bash": 2 }
   },
@@ -88,12 +83,7 @@
     "copy-from": "jumper_cable",
     "max_charges": 10,
     "initial_charges": 10,
-    "use_action": {
-      "type": "link_up",
-      "is_cable_item": true,
-      "cable_length": 10,
-      "targets": [ "no_link", "vehicle_port", "vehicle_battery" ]
-    }
+    "use_action": { "type": "link_up", "targets": [ "no_link", "vehicle_port", "vehicle_battery" ] }
   },
   {
     "type": "vehicle_part",
@@ -129,12 +119,7 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": {
-      "type": "link_up",
-      "is_cable_item": true,
-      "cable_length": 3,
-      "targets": [ "no_link", "vehicle_port", "vehicle_battery" ]
-    },
+    "use_action": { "type": "link_up", "targets": [ "no_link", "vehicle_port", "vehicle_battery" ] },
     "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }
   },

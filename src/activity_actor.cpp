@@ -5051,17 +5051,10 @@ void reel_cable_activity_actor::start( player_activity &act, Character & )
 
 void reel_cable_activity_actor::finish( player_activity &act, Character &who )
 {
-    cable->active = false;
-    cable->charges = cable->link->max_length;
     cable->link.reset();
-    if( parent_item ) {
-        parent_item->contents_linked = false;
-        who.add_msg_if_player( m_info, string_format( _( "You gather the cable up with the %s." ),
-                               parent_item->label( 1 ) ) );
-    } else {
-        who.add_msg_if_player( m_info, string_format( _( "You reel in the %s and wind it up." ),
-                               cable->label( 1 ) ) );
-    }
+    who.add_msg_if_player( m_info,
+                           string_format( cable->has_flag( flag_CABLE_SPOOL ) ? _( "You reel in the %s and wind it up." ) :
+                                          _( "You reel in the %s and wind it up." ), cable->label( 1 ) ) );
     if( cable->has_flag( flag_AUTO_DELETE_CABLE ) ) {
         cable.remove_item();
     }
@@ -5073,17 +5066,15 @@ void reel_cable_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "moves_total", moves_total );
     jsout.member( "cable", cable );
-    jsout.member( "parent_item", parent_item );
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValue &jsin )
 {
-    reel_cable_activity_actor actor( 0, {}, {} );
+    reel_cable_activity_actor actor( 0, {} );
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
     data.read( "cable", actor.cable );
-    data.read( "parent_item", actor.parent_item );
 
     return actor.clone();
 }

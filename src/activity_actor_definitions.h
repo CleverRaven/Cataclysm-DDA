@@ -1480,11 +1480,9 @@ class reel_cable_activity_actor : public activity_actor
     private:
         int moves_total;
         item_location cable;
-        item_location parent_item;
     public:
-        reel_cable_activity_actor( int moves_total, const item_location &cable,
-                                   const item_location &parent_item ) :
-            moves_total( moves_total ), cable( cable ), parent_item( parent_item ) {}
+        reel_cable_activity_actor( int moves_total, const item_location &cable ) :
+            moves_total( moves_total ), cable( cable ) {}
         activity_id get_type() const override {
             return activity_id( "ACT_REEL_CABLE" );
         }
@@ -1493,7 +1491,7 @@ class reel_cable_activity_actor : public activity_actor
                                        const Character &/*who*/ ) const override {
             const reel_cable_activity_actor &actor = static_cast<const reel_cable_activity_actor &>
                     ( other );
-            return actor.cable == cable && actor.parent_item == parent_item;
+            return actor.cable == cable;
         }
 
         void start( player_activity &act, Character & ) override;

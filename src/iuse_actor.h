@@ -1032,20 +1032,22 @@ class modify_gunmods_actor : public iuse_actor
 class link_up_actor : public iuse_actor
 {
     public:
-        /** True if the link_up action is called by the cable item itself, rather than by a device. */
-        bool is_cable_item = false;
-        /** The type of cable created with this action */
-        itype_id type = itype_id( "generic_device_cable" );
         /** Maximum length of the cable. At -1, will use the item type's max_charges. */
         int cable_length = -1;
         /** Charge rate in watts */
-        units::power charge_rate = 0_W;
+        units::power wattage = 0_W;
         /** one_in(this) chance to fail adding 1 charge */
         int charge_efficiency = 7;
+        /** (Optional) The move cost to attach the cable. */
+        int move_cost = 5;
         /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
         translation menu_text;
 
         std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
+
+        std::optional<int> link_up( Character *p, item &it ) const;
+        std::optional<int> link_to_veh_app( Character *p, item &it, const bool to_ports ) const;
+        std::optional<int> link_tow_cable( Character *p, item &it, const bool to_towing ) const;
 
         link_up_actor() : iuse_actor( "link_up" ) {}
 

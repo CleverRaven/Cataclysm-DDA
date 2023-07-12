@@ -6504,7 +6504,7 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
                     drop.link->t_mount = other_veh->part( other_tow_cable_idx ).mount;
                 }
             } else {
-                drop.reset_cable();
+                drop.reset_link();
             }
 
             if( remover != nullptr ) {

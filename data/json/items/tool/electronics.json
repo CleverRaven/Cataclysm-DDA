@@ -165,7 +165,7 @@
         "need_charges": 1,
         "need_charges_msg": "The tablet batteries are dead."
       },
-      { "type": "link_up", "cable_length": 4, "charge_rate": "10 W" }
+      { "type": "link_up", "cable_length": 4, "wattage": "10 W" }
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
@@ -203,7 +203,7 @@
         "msg": "You power down the screen.",
         "target": "eink_tablet_pc"
       },
-      { "type": "link_up", "cable_length": 4, "charge_rate": "10 W" }
+      { "type": "link_up", "cable_length": 4, "wattage": "10 W" }
     ],
     "//": "LIGHT_10 is the bare minimum for reading without penalties",
     "flags": [ "LIGHT_10", "TRADER_AVOID", "WATCH", "WATER_BREAK", "ELECTRONIC" ]
@@ -364,7 +364,7 @@
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
       },
-      { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
+      { "type": "link_up", "cable_length": 5, "wattage": "140 W" }
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
@@ -410,7 +410,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
+      { "type": "link_up", "cable_length": 5, "wattage": "140 W" }
     ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
@@ -428,7 +428,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "use_action": [ "MP3", { "type": "link_up", "cable_length": 4, "charge_rate": "5 W" } ],
+    "use_action": [ "MP3", { "type": "link_up", "cable_length": 4, "wattage": "5 W" } ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "pocket_data": [
@@ -448,7 +448,7 @@
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
     "power_draw": "1 W",
     "revert_to": "mp3",
-    "use_action": [ "MP3_ON", { "type": "link_up", "cable_length": 4, "charge_rate": "5 W" } ],
+    "use_action": [ "MP3_ON", { "type": "link_up", "cable_length": 4, "wattage": "5 W" } ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -550,7 +550,7 @@
         "type": "link_up",
         "//": "Based on the Nintendo Switch's power adapter",
         "cable_length": 4,
-        "charge_rate": "39 W"
+        "wattage": "39 W"
       }
     ],
     "pocket_data": [
@@ -602,7 +602,7 @@
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
       },
-      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+      { "type": "link_up", "cable_length": 3, "wattage": "20 W" }
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC" ],
     "pocket_data": [
@@ -630,7 +630,7 @@
       "EINKTABLETPC",
       "EBOOKSAVE",
       "EBOOKREAD",
-      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+      { "type": "link_up", "cable_length": 3, "wattage": "20 W" }
     ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
@@ -660,7 +660,7 @@
         "menu_text": "Turn off flashlight",
         "type": "transform"
       },
-      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+      { "type": "link_up", "cable_length": 3, "wattage": "20 W" }
     ],
     "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
   },
