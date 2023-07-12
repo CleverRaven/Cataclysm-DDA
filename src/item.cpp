@@ -13031,41 +13031,25 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         link->s_bub_pos = pos;
         check_length = true;
     }
-
-    // If the vehicle pointer is lost...
+    // Re-establish vehicle pointer if it got lost or if this item just got loaded.
     if( !link->t_veh_safe ) {
-        if( last_t_abs_pos_is_oob ) {
-            // ... and the last recorded target point is out of bounds, just check the length if needed and exit early.
-            if( check_length ) {
-                // We can't get the exact connection point without the vehicle loaded, so fudge some forgiveness by adding the mount dimensions.
-                // Better to err on the side of keeping things connected.
-                link->length = rl_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
-                               link->t_mount.abs().x + link->t_mount.abs().y;
-                if( is_cable_too_long() ) {
-                    return reset_link( carrier );
-                }
-            }
-            return false;
-        } else {
-            // ... and the last recorded target point is in-bounds, try to recreate the vehicle pointer, disconnecting if it fails.
-            const optional_vpart_position vp = here.veh_at( link->t_abs_pos );
-            if( !vp ) {
-                return reset_link( carrier, true, pos );
-            }
-            auto vp_displayed = vp.part_displayed();
-            if( vp_displayed && vp_displayed->part().has_flag( vp_flag::carried_flag ) ) {
-                // Connected vehicle was racked, so disconnect.
-                return reset_link( carrier, true, pos );
-            }
-            link->t_veh_safe = vp.value().vehicle().get_safe_reference();
+        vehicle *found_veh = here.find_vehicle( link->t_abs_pos );
+        //return false;
+        if( !found_veh ) {
+            return reset_link( carrier, true, pos );
         }
+        if( debug_mode ) {
+            add_msg_debug( debugmode::DF_IUSE, "Re-established link of %s to %s.", type_name(),
+                           found_veh->disp_name() );
+        }
+        link->t_veh_safe = found_veh->get_safe_reference();
     }
 
     // Regular pointers are faster, so make one now that we know the reference is valid.
     vehicle *t_veh = link->t_veh_safe.get();
 
-    // We should skip processing if the last saved target point is out of bounds, but if the linked vehicle is moving fast enough,
-    // we should always process it to avoid erroneously skipping devices riding inside of it.
+    // We should skip processing if the last saved target point is out of bounds, since vehicles give innacurate absolute coordinates when out of bounds.
+    // However, if the linked vehicle is moving fast enough, we should always do processing to avoid erroneously skipping linked items riding inside of it.
     if( last_t_abs_pos_is_oob && t_veh->velocity < HALF_MAPSIZE_X * 400 ) {
         if( check_length ) {
             link->length = rl_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
