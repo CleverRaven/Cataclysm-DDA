@@ -3627,6 +3627,7 @@ static void init_term_size_and_scaling_factor()
 
 static font_blending_mode font_blending_mode_from_string( const std::string &str )
 {
+    //NOLINTNEXTLINE(bugprone-branch-clone): it's clearer this way
     if( str == "lcd" ) {
 #if LCD_BLENDING_SUPPORTED_BY_SDL_TTF
         if( get_lcd_blending_availability( renderer ) == lcd_blending_availability::available ) {
