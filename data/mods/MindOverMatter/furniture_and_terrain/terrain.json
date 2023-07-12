@@ -29,5 +29,31 @@
         { "item": "matrix_crystal_drained_dust", "count": [ 3, 6 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nether_water_sh",
+    "name": "black water",
+    "description": "An expanse of some sort of black liquid.  Its surface is perfectly smooth and undisturbed by ripples or wind.  You have no idea how deep it is.",
+    "symbol": "~",
+    "looks_like": "t_nether_glass_floor",
+    "color": "black",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE" ],
+    "connect_groups": "NETHERWATER",
+    "connects_to": "NETHERWATER"
+  },
+  {
+    "type": "terrain",
+    "id": "t_nether_water_dp",
+    "name": "black water",
+    "description": "An expanse of some sort of black liquid.  Its surface is perfectly smooth and undisturbed by ripples or wind.  You have no idea how deep it is.",
+    "symbol": "~",
+    "looks_like": "t_nether_glass_floor",
+    "color": "black",
+    "move_cost": 10,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
+    "connect_groups": "NETHERWATER",
+    "connects_to": "NETHERWATER"
   }
 ]
