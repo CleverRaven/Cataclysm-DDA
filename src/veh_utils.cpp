@@ -92,7 +92,6 @@ vehicle_part *most_repairable_part( vehicle &veh, Character &who )
 
 bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
 {
-    int part_index = veh.index_of_part( &pt );
     const vpart_info &vp = pt.info();
 
     const requirement_data reqs = pt.is_broken()
@@ -141,7 +140,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
         const units::angle direction = pt.direction;
         const std::string variant = pt.variant;
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
-        veh.remove_part( part_index );
+        veh.remove_part( pt );
         const int partnum = veh.install_part( mount, vpid, std::move( base ) );
         if( partnum >= 0 ) {
             vehicle_part &vp = veh.part( partnum );

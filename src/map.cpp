@@ -849,22 +849,24 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         const float weight_to_damage_factor = 0.05f; // Nobody likes a magic number.
         const float vehicle_mass_kg = to_kilogram( veh.total_mass() );
 
-        for( const int &w : wheel_indices ) {
-            const tripoint wheel_p = veh.global_part_pos3( w );
+        for( const int vp_wheel_idx : wheel_indices ) {
+            vehicle_part &vp_wheel = veh.part( vp_wheel_idx );
+            const vpart_info &vpi_wheel = vp_wheel.info();
+            const tripoint wheel_p = veh.global_part_pos3( vp_wheel );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
                 sounds::sound( wheel_p, 4,  sounds::sound_t::movement, _( "splash!" ), false,
                                "environment", "splash" );
             }
 
-            veh.handle_trap( wheel_p, w );
-            if( !has_flag( ter_furn_flag::TFLAG_SEALED, wheel_p ) ) {
-                const float wheel_area =  veh.part( w ).wheel_area();
+            veh.handle_trap( wheel_p, vp_wheel );
+            // dont use vp_wheel or vp_wheel_idx below this - handle_trap might've removed it from parts
 
+            if( !has_flag( ter_furn_flag::TFLAG_SEALED, wheel_p ) ) {
                 // Damage is calculated based on the weight of the vehicle,
                 // The area of it's wheels, and the area of the wheel running over the items.
                 // This number is multiplied by weight_to_damage_factor to get reasonable results, damage-wise.
-                const int wheel_damage = static_cast<int>( ( ( wheel_area / vehicle_grounded_wheel_area ) *
-                                         vehicle_mass_kg ) * weight_to_damage_factor );
+                const int wheel_damage = vpi_wheel.wheel_area() / vehicle_grounded_wheel_area *
+                                         vehicle_mass_kg * weight_to_damage_factor;
 
                 //~ %1$s: vehicle name
                 smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
