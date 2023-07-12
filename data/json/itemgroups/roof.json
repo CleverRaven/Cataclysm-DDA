@@ -79,7 +79,7 @@
       [ "frisbee", 30 ],
       [ "disc_golf", 30 ],
       [ "lawn_dart", 30 ],
-      [ "golf_ball", 20 ],      
+      [ "golf_ball", 20 ],
       { "group": "tools_ladders", "prob": 1 },
       { "group": "alcohol_bottled_canned", "prob": 343 }
     ]
