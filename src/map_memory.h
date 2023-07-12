@@ -112,6 +112,9 @@ class map_memory
     public:
         map_memory();
 
+        // @returns true if map memory has been loaded
+        bool is_valid() const;
+
         /** Load memorized submaps around given global map square pos. */
         void load( const tripoint_abs_ms &pos );
 

@@ -237,6 +237,11 @@ void avatar::toggle_map_memory()
     show_map_memory = !show_map_memory;
 }
 
+bool avatar::is_map_memory_valid() const
+{
+    return player_map_memory->is_valid();
+}
+
 bool avatar::should_show_map_memory() const
 {
     if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {

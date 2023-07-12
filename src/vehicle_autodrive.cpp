@@ -659,7 +659,13 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         if( !driver.sees( pt ) ) {
             if( !driver.is_avatar() ) {
                 return false;
-            } else if( driver.as_avatar()->get_memorized_tile( pt_abs ) == mm_submap::default_tile ) {
+            }
+            const avatar &avatar = *driver.as_avatar();
+            if( !avatar.is_map_memory_valid() ) {
+                debugmsg( "autodrive querying uninitialized map memory at %s", pt_abs.to_string() );
+                return false;
+            }
+            if( avatar.get_memorized_tile( pt_abs ) == mm_submap::default_tile ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
                 if( !( data.air_ok && here.ter( pt ) == t_open_air ) ) {

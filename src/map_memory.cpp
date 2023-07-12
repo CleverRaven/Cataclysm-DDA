@@ -394,7 +394,7 @@ const mm_submap &map_memory::get_submap( const tripoint_abs_sm &sm_pos ) const
 
 mm_submap &map_memory::get_submap( const tripoint_abs_sm &sm_pos )
 {
-    if( cache_pos == invalid_cache_pos ) {
+    if( !is_valid() ) {
         return invalid_mz_submap;
     }
     const point_rel_sm idx = ( sm_pos - cache_pos ).xy();
@@ -404,6 +404,11 @@ mm_submap &map_memory::get_submap( const tripoint_abs_sm &sm_pos )
     } else {
         return null_mz_submap;
     }
+}
+
+bool map_memory::is_valid() const
+{
+    return cache_pos != invalid_cache_pos;
 }
 
 void map_memory::load( const tripoint_abs_ms &pos )

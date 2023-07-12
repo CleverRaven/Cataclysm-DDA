@@ -140,6 +140,8 @@ class avatar : public Character
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
+        //! @copydoc map_memory::is_valid() const
+        bool is_map_memory_valid() const;
         bool should_show_map_memory() const;
         void prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 );
         const memorized_tile &get_memorized_tile( const tripoint_abs_ms &p ) const;
