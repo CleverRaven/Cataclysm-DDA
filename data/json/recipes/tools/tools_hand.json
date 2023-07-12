@@ -147,7 +147,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "using": [ [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
@@ -173,7 +174,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
@@ -197,7 +199,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "using": [ [ "blacksmithing_standard", 7 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
@@ -222,7 +225,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
@@ -1537,7 +1541,8 @@
       [ "textbook_weapwest", 4 ],
       [ "textbook_armeast", 4 ],
       [ "textbook_armwest", 4 ],
-      [ "manual_mechanics", 3 ]
+      [ "manual_mechanics", 3 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_knapping" },
@@ -1576,7 +1581,8 @@
       [ "textbook_weapeast", 3 ],
       [ "textbook_weapwest", 3 ],
       [ "textbook_armeast", 3 ],
-      [ "textbook_armwest", 3 ]
+      [ "textbook_armwest", 3 ],
+      [ "textbook_weparabic", 3 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },

@@ -52,7 +52,39 @@
     "name": "staffs",
     "description": "Recipes related to constructing different types of staffs.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "shock_staff", "q_staff", "bo_from long stick", "bo_from quarterstaff", "i_staff", "i_staff_with sheet metal" ],
+    "nested_category_data": [
+      "shock_staff",
+      "q_staff",
+      "bo_from long stick",
+      "bo_from quarterstaff",
+      "i_staff",
+      "i_staff_with sheet metal",
+      "nested_steelshod"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_steelshod",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "Steelshod Quarterstaves",
+    "description": "Recipes related to constructing different qualities of steelshod quarterstaves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_steel_staff", "mc_steel_staff", "hc_steel_staff", "ch_steel_staff", "qt_steel_staff" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_graded_steel_maces",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "graded steel maces",
+    "description": "Recipes related to constructing different qualities of steel maces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_mace", "mc_mace", "hc_mace", "ch_mace", "qt_mace" ],
     "difficulty": 1
   },
   {
@@ -72,7 +104,8 @@
       "mace_pipe",
       "mace_pipe_large",
       "mace_simple",
-      "morningstar"
+      "morningstar",
+      "nested_graded_steel_maces"
     ],
     "difficulty": 1
   },
@@ -4514,10 +4547,70 @@
     "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "scimitars",
-    "description": "Recipes for making scimitars.",
+    "name": "shamshirs",
+    "description": "Recipes for making shamshirs.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_scimitar", "mc_scimitar", "hc_scimitar", "ch_scimitar", "qt_scimitar" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_talwar",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "talwars",
+    "description": "Recipes for making talwars.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_talwar", "mc_talwar", "hc_talwar", "ch_talwar", "qt_talwar" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_kilij",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "kilij'",
+    "description": "Recipes for making kilijs'.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_kilij", "mc_kilij", "hc_kilij", "ch_kilij", "qt_kilij" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_rambo",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "name": "survival knives",
+    "description": "Recipes for making survival knives'.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_knife_rambo", "mc_knife_rambo", "hc_knife_rambo", "ch_knife_rambo", "qt_knife_rambo" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_trench",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "name": "trench knives",
+    "description": "Recipes for making trench knives'.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_knife_trench", "mc_knife_trench", "hc_knife_trench", "ch_knife_trench", "qt_knife_trench" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_kukri",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "kukris",
+    "description": "Recipes for making kukris'.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ],
     "difficulty": 7
   },
   {
@@ -4542,6 +4635,18 @@
     "description": "Recipes for making zweihänders.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_battleaxe",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "battle axes",
+    "description": "Recipes for making battle axes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe" ],
     "difficulty": 7
   },
   {
@@ -6091,6 +6196,162 @@
       "nested_hc_helmet_turban",
       "nested_qt_helmet_turban",
       "nested_ch_helmet_turban"
+    ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_lc_steel_facemask",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "low steel face masks",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_steel_facemask", "xl_lc_steel_facemask", "xs_lc_steel_facemask" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_steel_facemask",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel face masks",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_steel_facemask", "xl_mc_steel_facemask", "xs_mc_steel_facemask" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_steel_facemask",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel face masks",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_steel_facemask", "xl_hc_steel_facemask", "xs_hc_steel_facemask" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_qt_steel_facemask",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel face masks",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_steel_facemask", "xl_qt_steel_facemask", "xs_qt_steel_facemask" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_steel_facemask",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel face masks",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_steel_facemask", "xl_ch_steel_facemask", "xs_ch_steel_facemask" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_steel_facemask",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "steel steel facemasks",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_steel_facemask",
+      "nested_mc_steel_facemask",
+      "nested_hc_steel_facemask",
+      "nested_qt_steel_facemask",
+      "nested_ch_steel_facemask"
+    ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_lc_mirror_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "low steel mirror armor",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_mirror_armor", "xl_lc_mirror_armor", "xs_lc_mirror_armor" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_mirror_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel mirror armor",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_mirror_armor", "xl_mc_mirror_armor", "xs_mc_mirror_armor" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_mirror_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel mirror armor",
+    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_mirror_armor", "xl_hc_mirror_armor", "xs_hc_mirror_armor" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_qt_mirror_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel mirror armor",
+    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_mirror_armor", "xl_qt_mirror_armor", "xs_qt_mirror_armor" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_mirror_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel mirror armor",
+    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_mirror_armor", "xl_ch_mirror_armor", "xs_ch_mirror_armor" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_mirror_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "steel mirror armor",
+    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_mirror_armor",
+      "nested_mc_mirror_armor",
+      "nested_hc_mirror_armor",
+      "nested_qt_mirror_armor",
+      "nested_ch_mirror_armor"
     ],
     "difficulty": 7
   },

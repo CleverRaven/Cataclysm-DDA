@@ -111,6 +111,7 @@
       { "item": "chainmail_hands", "prob": 3 },
       { "item": "legguard_metal", "prob": 1 },
       { "item": "textbook_weapwest", "prob": 5 },
+      { "item": "textbook_weparabic", "prob": 5 },
       { "item": "textbook_weapeast", "prob": 5 },
       { "item": "textbook_armwest", "prob": 5 },
       { "item": "textbook_armeast", "prob": 5 },

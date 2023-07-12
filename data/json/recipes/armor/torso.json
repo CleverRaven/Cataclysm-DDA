@@ -4288,5 +4288,212 @@
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+  },
+  {
+    "result": "lc_mirror_armor",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "10h",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_lc_mirror_armor",
+    "type": "recipe",
+    "copy-from": "lc_mirror_armor",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 3 ], [ "lc_steel_standard", 2 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_lc_mirror_armor",
+    "type": "recipe",
+    "copy-from": "lc_mirror_armor",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "mc_mirror_armor",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "7 h 12 m",
+    "book_learn": [ [ "textbook_weparabic", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_mc_mirror_armor",
+    "type": "recipe",
+    "copy-from": "mc_mirror_armor",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 3 ], [ "mc_steel_standard", 2 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_mc_mirror_armor",
+    "type": "recipe",
+    "copy-from": "mc_mirror_armor",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "hc_mirror_armor",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "7 h 12 m",
+    "book_learn": [ [ "textbook_weparabic", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_hc_mirror_armor",
+    "type": "recipe",
+    "copy-from": "hc_mirror_armor",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 3 ], [ "hc_steel_standard", 2 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_hc_mirror_armor",
+    "type": "recipe",
+    "copy-from": "hc_mirror_armor",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "qt_mirror_armor",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "11 h 12 m",
+    "book_learn": [ [ "textbook_weparabic", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "polisher", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_quenching" }
+    ]
+  },
+  {
+    "result": "xs_qt_mirror_armor",
+    "type": "recipe",
+    "copy-from": "qt_mirror_armor",
+    "time": "11 h 12 m",
+    "using": [ [ "blacksmithing_standard", 3 ], [ "mc_steel_standard", 2 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_qt_mirror_armor",
+    "type": "recipe",
+    "copy-from": "qt_mirror_armor",
+    "time": "12 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "ch_mirror_armor",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "10 h 12 m",
+    "book_learn": [ [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ]
+  },
+  {
+    "result": "xs_ch_mirror_armor",
+    "type": "recipe",
+    "copy-from": "ch_mirror_armor",
+    "time": "10 h 12 m",
+    "using": [ [ "blacksmithing_standard", 3 ], [ "mc_steel_standard", 2 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_ch_mirror_armor",
+    "type": "recipe",
+    "copy-from": "ch_mirror_armor",
+    "time": "11 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   }
 ]
