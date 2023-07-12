@@ -174,7 +174,7 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-      "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   },
   {
