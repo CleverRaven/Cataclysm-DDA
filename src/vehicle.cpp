@@ -158,7 +158,8 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     here.clear_vehicle_point_from_cache( &veh, part_pos );
     here.add_vehicle_to_cache( &veh );
     here.memory_cache_dec_set_dirty( part_pos, true );
-    player_character.memorize_clear_decoration( here.getabs( part_pos ), "vp_" + vp.info().id.str() );
+    player_character.memorize_clear_decoration(
+        here.getglobal( part_pos ), "vp_" + vp.info().id.str() );
 }
 
 // Vehicle stack methods.

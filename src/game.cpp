@@ -5807,7 +5807,7 @@ void game::control_vehicle()
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
         for( const tripoint &target : veh->get_points() ) {
-            u.memorize_clear_decoration( m.getabs( target ), "vp_" );
+            u.memorize_clear_decoration( m.getglobal( target ), "vp_" );
             m.memory_cache_dec_set_dirty( target, true );
         }
         veh->is_following = false;

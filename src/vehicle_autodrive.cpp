@@ -650,7 +650,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         return &ovp->vehicle() == &driven_veh;
     }
 
-    const tripoint_abs_ms pt_abs( here.getabs( pt ) );
+    const tripoint_abs_ms pt_abs = here.getglobal( pt );
     const tripoint_abs_omt pt_omt = project_to<coords::omt>( pt_abs );
     // only check visibility for the current OMT, we'll check other OMTs when
     // we reach them
@@ -659,7 +659,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         if( !driver.sees( pt ) ) {
             if( !driver.is_avatar() ) {
                 return false;
-            } else if( driver.as_avatar()->get_memorized_tile( pt_abs.raw() ) == mm_submap::default_tile ) {
+            } else if( driver.as_avatar()->get_memorized_tile( pt_abs ) == mm_submap::default_tile ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
                 if( !( data.air_ok && here.ter( pt ) == t_open_air ) ) {
