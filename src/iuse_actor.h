@@ -1037,17 +1037,20 @@ class link_up_actor : public iuse_actor
         /** Charge rate in watts */
         units::power wattage = 0_W;
         /** one_in(this) chance to fail adding 1 charge */
-        int charge_efficiency = 7;
+        int efficiency = 7;
         /** (Optional) The move cost to attach the cable. */
         int move_cost = 5;
         /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
         translation menu_text;
 
         std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
+        std::set<std::string> can_extend = {};
 
         std::optional<int> link_up( Character *p, item &it ) const;
         std::optional<int> link_to_veh_app( Character *p, item &it, const bool to_ports ) const;
         std::optional<int> link_tow_cable( Character *p, item &it, const bool to_towing ) const;
+        std::optional<int> link_extend_cable( Character *p, item &it ) const;
+        std::optional<int> remove_extensions( Character *p, item &it ) const;
 
         link_up_actor() : iuse_actor( "link_up" ) {}
 

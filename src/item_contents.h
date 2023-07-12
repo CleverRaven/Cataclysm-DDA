@@ -132,8 +132,8 @@ class item_contents
         std::vector<item *> ebooks();
         std::vector<const item *> ebooks() const;
 
-        std::vector<item *> cables( bool active_only = false );
-        std::vector<const item *> cables( bool active_only = false ) const;
+        std::vector<item *> cables();
+        std::vector<const item *> cables() const;
 
         void update_modified_pockets( const std::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );

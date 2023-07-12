@@ -10349,7 +10349,7 @@ int item::ammo_remaining( const Character *carrier, bool cable_links ) const
     }
 
     // Cable connections
-    if( cable_links && link ) {
+    if( cable_links && link_length() > -1 ) {
         if( link->t_veh_safe ) {
             ret += link->t_veh_safe->connected_battery_power_level().first;
         } else {
@@ -10883,6 +10883,11 @@ std::vector<const item *> item::softwares() const
 std::vector<const item *> item::ebooks() const
 {
     return contents.ebooks();
+}
+
+std::vector<const item *> item::cables() const
+{
+    return contents.cables();
 }
 
 item *item::gunmod_find( const itype_id &mod )
@@ -12881,11 +12886,63 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     return false;
 }
 
+void item::set_link_traits()
+{
+    if( !link || !type->can_use( "link_up" ) ) {
+        return;
+    }
+
+    const link_up_actor *it_actor = static_cast<const link_up_actor *>
+                                    ( get_use( "link_up" )->get_actor_ptr() );
+    link->max_length = it_actor->cable_length == -1 ? type->maximum_charges() : it_actor->cable_length;
+    link->efficiency = it_actor->efficiency;
+    // Reset s_bub_pos to force the item to check the length during process_link.
+    link->s_bub_pos = tripoint_min;
+
+    for( const item *cable : cables() ) {
+        if( !cable->type->can_use( "link_up" ) ) {
+            continue;
+        }
+        const link_up_actor *actor = static_cast<const link_up_actor *>
+                                     ( cable->get_use( "link_up" )->get_actor_ptr() );
+        link->max_length += actor->cable_length == -1 ? cable->type->maximum_charges() :
+                            actor->cable_length;
+        link->efficiency *= actor->efficiency == 0 ? 0 : 1.0 - 1.0 / actor->efficiency;
+    }
+}
+
+int item::link_length( bool max ) const
+{
+    if( !max ) {
+        return !link || link->has_no_links() ? -2 :
+               link->has_state( link_state::needs_reeling ) ? -1 : link->length;
+    }
+
+    if( link ) {
+        return link->max_length;
+    }
+    if( !type->can_use( "link_up" ) ) {
+        return -2;
+    }
+
+    const link_up_actor *actor = static_cast<const link_up_actor *>
+                                 ( get_use( "link_up" )->get_actor_ptr() );
+    int total_length = actor->cable_length != -1 ? actor->cable_length : type->maximum_charges();
+
+    for( const item *cable : cables() ) {
+        if( !cable->has_flag( flag_CABLE_SPOOL ) ) {
+            continue;
+        }
+        total_length += cable->type->maximum_charges();
+    }
+
+    return total_length;
+}
+
 bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 {
-    // Failsafe for loose, unwound cables that are somehow still active.
-    if( link->s_state == link_state::needs_reeling || link->has_no_links() ) {
-        return reset_link( carrier );
+    if( link_length() < 0 ) {
+        return false;
     }
 
     const bool is_cable_item = has_flag( flag_CABLE_SPOOL );
@@ -12993,8 +13050,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     // we should always process it to avoid erroneously skipping devices riding inside of it.
     if( last_t_abs_pos_is_oob && t_veh->velocity < HALF_MAPSIZE_X * 400 ) {
         if( check_length ) {
-            link->length = rl_dist( here.getabs( pos ),
-                                    link->t_abs_pos.raw() ) + link->t_mount.abs().x + link->t_mount.abs().y;
+            link->length = rl_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
+                           link->t_mount.abs().x + link->t_mount.abs().y;
             if( is_cable_too_long() ) {
                 return reset_link( carrier );
             }
@@ -13099,17 +13156,17 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 
     // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
     int transfer_total = short_time_passed ? 1 :
-                         ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
+                         ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->efficiency );
 
     if( power_in ) {
         const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
         // Around 85% efficient by default; a few of the discharges don't actually recharge
-        if( battery_deficit == 0 && !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+        if( battery_deficit == 0 && !( short_time_passed && one_in( link->efficiency ) ) ) {
             ammo_set( itype_battery, ammo_remaining() + transfer_total );
         }
     } else {
         // Around 85% efficient by default; a few of the discharges don't actually charge
-        if( !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+        if( !( short_time_passed && one_in( link->efficiency ) ) ) {
             const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
             if( battery_surplus == 0 ) {
                 ammo_set( itype_battery, ammo_remaining() - transfer_total );
@@ -13126,14 +13183,11 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 
 bool item::reset_link( Character *p, const bool loose_message, const tripoint cable_position )
 {
-    const bool is_cable_item = has_flag( flag_CABLE_SPOOL );
-    if( is_cable_item ) {
-        active = false;
-    }
     if( !link ) {
-        debugmsg( "%s lost its link data!", tname() );
         return has_flag( flag_AUTO_DELETE_CABLE );
     }
+
+    const bool is_cable_item = has_flag( flag_CABLE_SPOOL );
 
     if( loose_message ) {
         if( p != nullptr ) {
@@ -13147,11 +13201,17 @@ bool item::reset_link( Character *p, const bool loose_message, const tripoint ca
         }
     }
 
-    const int respool_threshold = 5;
+    const int respool_threshold = 6;
     if( link->length > respool_threshold ) {
         // Cables that are too long need to be manually rewound before reuse.
         link->s_state = link_state::needs_reeling;
         return false;
+    }
+
+    if( loose_message && p ) {
+        p->add_msg_if_player( m_info, string_format( is_cable_item ?
+                              _( "You reel in the %s and wind it up." ) :
+                              _( "You reel in the %s's cable and wind it up." ), tname() ) );
     }
 
     link.reset();

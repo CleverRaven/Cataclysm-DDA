@@ -1433,12 +1433,12 @@ class item : public visitable
             int length = 0;
             /// The maximum length of the cable. Set during initialization.
             int max_length = 2;
-            /// The cable's charge rate in watts. Set during initialization.
+            /// The cable's power capacity in watts, affects battery charge rate. Set during initialization.
             int wattage = 0;
-            /// The turn interval between charges. Set during initialization.
-            int charge_interval = -1;
             /// one_in(this) chance to fail adding 1 charge. Set during initialization.
-            int charge_efficiency = 7;
+            int efficiency = 7;
+            /// The turn interval between charges. Set during initialization.
+            int charge_interval = 0;
 
             bool has_state( link_state state ) const {
                 return s_state == state || t_state == state;
@@ -1453,6 +1453,23 @@ class item : public visitable
             void serialize( JsonOut &jsout ) const;
             void deserialize( const JsonObject &data );
         };
+        /**
+         * @brief Sets max_length, wattage, and efficiency of a link, taking cable extensions into account.
+         * @brief max_length is set to the sum of all cable lengths.
+         * @brief wattage is set to the smallest wattage of any cable.
+         * @brief efficiency is set to the product of all efficiencies multiplied together.
+         * @brief charge_interval is set to how many turns it takes for wattage to add up to 1 kW - the unit batteries use. 0 means batteries won't be charged.
+         */
+        void set_link_traits();
+
+        /**
+         * @param max If true, return the item's maximum cable length, including extensions, rather than its current length. Will not require active link_data, either.
+         * @return `-2` If the item has no attachments, or if `max` is true, if the item has no link_up action.
+         * @return `-1` If the item has link_data but needs reeling.
+         * @return Otherwise, return the link's current length, or if `max` is true, return the item's maximum possible link length.
+         */
+        int link_length( bool max = false ) const;
+
         /**
          * Brings a cable item back to its initial state.
          * @param p Set to character that's holding the linked item, nullptr if none.
@@ -2454,6 +2471,8 @@ class item : public visitable
         std::vector<const item *> softwares() const;
 
         std::vector<const item *> ebooks() const;
+
+        std::vector<const item *> cables() const;
 
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );

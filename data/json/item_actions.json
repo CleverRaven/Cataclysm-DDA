@@ -983,7 +983,7 @@
   {
     "type": "item_action",
     "id": "link_up",
-    "name": { "str": "Plug in / Unplug" }
+    "name": { "str": "Plug in / Manage cables" }
   },
   {
     "type": "item_action",

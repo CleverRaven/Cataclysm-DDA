@@ -5054,7 +5054,7 @@ void reel_cable_activity_actor::finish( player_activity &act, Character &who )
     cable->link.reset();
     who.add_msg_if_player( m_info,
                            string_format( cable->has_flag( flag_CABLE_SPOOL ) ? _( "You reel in the %s and wind it up." ) :
-                                          _( "You reel in the %s and wind it up." ), cable->label( 1 ) ) );
+                                          _( "You reel in the %s's cable and wind it up." ), cable->type_name() ) );
     if( cable->has_flag( flag_AUTO_DELETE_CABLE ) ) {
         cable.remove_item();
     }

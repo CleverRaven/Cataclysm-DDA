@@ -94,27 +94,8 @@ item vehicle_part::properties_to_item() const
         }
 
         bool iuse_found = false;
-        const use_function *iuse = tmp.type->get_use( "link_up" );
-        if( iuse != nullptr ) {
-            const link_up_actor *actor_ptr =
-                static_cast<const link_up_actor *>( iuse->get_actor_ptr() );
-            if( actor_ptr != nullptr ) {
-                iuse_found = true;
-                tmp.link->max_length = actor_ptr->cable_length;
-                tmp.link->charge_efficiency = actor_ptr->charge_efficiency;
-                tmp.link->wattage = actor_ptr->wattage.value();
-                tmp.link->charge_interval = actor_ptr->wattage == 0_W ? -1 :
-                                            std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( actor_ptr->wattage.value() ) +
-                                                      0.5 ) ) );
-            }
-        }
-        if( !iuse_found ) {
-            debugmsg( "Could not find link_up iuse data for %s!  Using fallback values.", tmp.tname() );
-            tmp.link->max_length = tmp.type->maximum_charges();
-        }
-
+        tmp.set_link_traits();
         tmp.link->last_processed = calendar::turn;
-        tmp.active = true;
     }
 
     // quantize damage and degradation to the middle of each damage_level so that items will stack nicely

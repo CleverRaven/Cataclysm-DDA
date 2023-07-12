@@ -16,7 +16,7 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": { "type": "link_up", "targets": [ "vehicle_port" ] },
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Manage connections", "targets": [ "vehicle_port" ] },
     "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }
   },
@@ -38,8 +38,9 @@
     "initial_charges": 4,
     "use_action": {
       "type": "link_up",
-      "menu_text": "Attach / Detach",
-      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_battery" ]
+      "menu_text": "Attach / Manage connections",
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_battery" ],
+      "can_extend": [ "jumper_cable", "jumper_cable_heavy" ]
     },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 },
@@ -54,11 +55,6 @@
     "weight": "750 g",
     "max_charges": 20,
     "initial_charges": 20,
-    "use_action": {
-      "type": "link_up",
-      "menu_text": "Attach / Detach",
-      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_battery" ]
-    },
     "copy-from": "jumper_cable"
   },
   {
@@ -77,7 +73,12 @@
     "price_postapoc": 100,
     "max_charges": 10,
     "initial_charges": 10,
-    "use_action": { "type": "link_up", "targets": [ "no_link", "vehicle_port" ] },
+    "use_action": {
+      "type": "link_up",
+      "menu_text": "Plug in / Manage connections",
+      "targets": [ "no_link", "vehicle_port" ],
+      "can_extend": [ "ELECTRICAL_DEVICES", "extension_cable", "long_extension_cable" ]
+    },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }
   },
@@ -91,7 +92,6 @@
     "weight": "2500 g",
     "max_charges": 30,
     "initial_charges": 30,
-    "use_action": { "type": "link_up", "targets": [ "no_link", "vehicle_port" ] },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
@@ -110,7 +110,7 @@
     "price_postapoc": 500,
     "max_charges": 6,
     "initial_charges": 6,
-    "use_action": { "type": "link_up", "menu_text": "Attach / Detach", "targets": [ "no_link", "vehicle_tow" ] },
+    "use_action": { "type": "link_up", "menu_text": "Attach / Manage connections", "targets": [ "no_link", "vehicle_tow" ] },
     "qualities": [ [ "ROPE", 2 ] ],
     "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 6 }
@@ -127,9 +127,10 @@
     "initial_charges": 100,
     "use_action": {
       "type": "link_up",
-      "menu_text": "Attach / Detach",
+      "menu_text": "Attach / Manage connections",
       "efficiency": 1000,
-      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_port", "vehicle_battery", "vehicle_tow" ]
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_port", "vehicle_battery", "vehicle_tow" ],
+      "can_extend": [ "ELECTRICAL_DEVICES" ]
     }
   }
 ]

@@ -549,7 +549,6 @@ item vehicle::init_cord( const tripoint &pos )
     cord.link->t_state = link_state::vehicle_port;
     cord.link->t_veh_safe = get_safe_reference();
     cord.link->t_abs_pos = get_map().getglobal( pos );
-    cord.active = true;
 
     return cord;
 }
