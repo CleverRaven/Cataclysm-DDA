@@ -111,11 +111,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_chair",
-    "name": "Place a wooden chair"
-  },
-  {
-    "type": "construction_group",
     "id": "build_charcoal_kiln",
     "name": "Build Charcoal Kiln"
   },
@@ -368,11 +363,6 @@
     "type": "construction_group",
     "id": "build_log_sod_roof",
     "name": "Build Log & Sod Roof"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_log_stool",
-    "name": "Place a log stool"
   },
   {
     "type": "construction_group",
@@ -788,11 +778,6 @@
     "type": "construction_group",
     "id": "build_stone_wall",
     "name": "Build Stone Wall"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_stool",
-    "name": "Place a wooden stool"
   },
   {
     "type": "construction_group",
@@ -1766,23 +1751,18 @@
   },
   {
     "type": "construction_group",
-    "id": "place_barstool",
-    "name": "Place a barstool"
+    "id": "place_stool",
+    "name": "Place a stool"
   },
   {
     "type": "construction_group",
-    "id": "place_chair_plywood",
+    "id": "place_chair",
     "name": "Place a chair"
   },
   {
     "type": "construction_group",
-    "id": "place_chair_wood_black",
-    "name": "Place a black wooden chair"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_chair_wood_white",
-    "name": "Place a white wooden chair"
+    "id": "place_sofa",
+    "name": "Place a sofa"
   },
   {
     "type": "construction_group",
