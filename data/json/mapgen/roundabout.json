@@ -14,7 +14,7 @@
     "furniture": { "!": "f_traffic_light", "*": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ], "@": "f_statue" },
     "signs": {
       "?": {
-        "signage": "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered by the people of <city>."
+        "signage": "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered."
       }
     }
   },
