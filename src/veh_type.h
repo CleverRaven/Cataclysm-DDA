@@ -107,6 +107,7 @@ enum vpart_bitflags : int {
     VPFLAG_TURRET_CONTROLS,
     VPFLAG_ROOF,
     VPFLAG_CABLE_PORTS,
+    VPFLAG_BATTERY,
 
     NUM_VPFLAGS
 };

@@ -4673,19 +4673,8 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         }
         if( to_ports ) {
             return ovp.avail_part_with_feature( "CABLE_PORTS" ) || ovp.avail_part_with_feature( "APPLIANCE" );
-        } else {
-            if( ovp.avail_part_with_feature( "APPLIANCE" ) ) {
-                return true;
-            }
-            const vehicle &veh = ovp->vehicle();
-            for( const int p : veh.parts_at_relative( ovp->mount(), /* use_cache = */ false ) ) {
-                const vehicle_part &vp_here = veh.part( p );
-                if( vp_here.is_battery() && !vp_here.is_broken() ) {
-                    return true;
-                }
-            }
         }
-        return false;
+        return ovp.avail_part_with_feature( "BATTERY" ) || ovp.avail_part_with_feature( "APPLIANCE" );
     };
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Attach the cable where?" ),
                                          "", can_link, false, false );
@@ -4715,16 +4704,23 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         !it.link->has_state( link_state::vehicle_battery ) ) {
         // Starting a new connection to a vehicle or connecting a cable CBM to a vehicle.
 
+        std::optional<vpart_reference> t_vp_ref( t_vp.avail_part_with_feature( "APPLIANCE" ) );
+        if( to_ports ) {
+            t_vp_ref = t_vp.avail_part_with_feature( "CABLE_PORTS" );
+        } else {
+            t_vp_ref = t_vp.avail_part_with_feature( "BATTERY" );
+        }
+
         if( it.link->has_no_links() ) {
-            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(),
-                                  t_vp->vehicle().name );
+            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(), t_vp_ref->part().name( false ) );
         } else if( it.link->has_state( link_state::bio_cable ) ) {
-            p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), t_vp->vehicle().name );
+            p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), t_vp_ref->part().name( false ) );
             it.link->s_state = link_state::bio_cable;
         } else {
             debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
             return std::nullopt;
         }
+
         it.link->t_state = to_ports ? link_state::vehicle_port : link_state::vehicle_battery;
         it.link->t_abs_pos = here.getglobal( t_vp->vehicle().global_pos3() );
         it.link->t_mount = t_vp->mount();
