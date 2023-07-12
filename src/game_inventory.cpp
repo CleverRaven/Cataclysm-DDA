@@ -1671,7 +1671,7 @@ static bool valid_unload_container( const item_location &container )
     }
 
     // Item must be able to be unloaded
-    if( container->has_flag(flag_NO_UNLOAD) ) {
+    if( container->has_flag( flag_NO_UNLOAD ) ) {
         return false;
     }
 
