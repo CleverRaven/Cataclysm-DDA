@@ -174,7 +174,7 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
+      "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   },
   {
@@ -201,7 +201,7 @@
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mammal_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "VENOM", "HARDTOSHOOT", "KEENNOSE", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "VENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake",
@@ -240,7 +240,7 @@
     "baby_flags": [ "SUMMER" ],
     "//babies": "On average, a female rattlesnake gives birth to at least eight babies, up to around fifteen.  Most baby rattlesnakes are born in the early summer, but sometimes in late summer and early autumn.",
     "upgrades": { "half_life": 34, "into": "mon_rattlesnake_big" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake_big",
@@ -287,7 +287,7 @@
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake_big" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mammal_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake_giant",
@@ -331,7 +331,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
@@ -382,7 +382,7 @@
     "//babies": "Rattlesnake’s gestation period is around 90 days, but it varies depending on the breed.  The timber rattlesnake has a gestation period of up to five months.",
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
   {
