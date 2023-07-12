@@ -124,7 +124,8 @@
     "copy-from": "mon_shoggoth",
     "type": "MONSTER",
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ],
-    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+    "extend": { "flags": [ "TEEP_IMMUNE" ] },
+    "armor": { "bash": 10, "cut": 30, "bullet": 24, "electric": 4,  "psi_telekinetic_damage": 20 }
   },
   {
     "id": "mon_fleshy_shambler",
@@ -174,17 +175,19 @@
     "type": "MONSTER",
     "extend": { "flags": [ "TEEP_IMMUNE" ] }
   },
-    {
+  {
     "id": "mon_flaming_eye",
     "copy-from": "mon_flaming_eye",
     "type": "MONSTER",
     "extend": { "flags": [ "TEEP_IMMUNE" ] }
+    "armor": { "bash": 4, "psi_telekinetic_damage": 20 }
   },
   {
     "id": "mon_flying_polyp",
     "copy-from": "mon_flying_polyp",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+    "extend": { "flags": [ "TEEP_IMMUNE" ] },
+    "armor": { "bash": 8, "electric": 3, "psi_telekinetic_damage": 15 }
   },
   {
     "id": "mon_headless_dog_thing",
@@ -196,13 +199,15 @@
     "id": "mon_hound_tindalos",
     "copy-from": "mon_hound_tindalos",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ] }
+    "extend": { "flags": [ "TEEP_IMMUNE" ] },
+     "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 40 }
   },
   {
     "id": "mon_hound_tindalos_afterimage",
     "copy-from": "mon_hound_tindalos_afterimage",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ] }
+    "extend": { "flags": [ "TEEP_IMMUNE" ] },
+     "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 40 }
   },
   {
     "id": "mon_hunting_horror",
@@ -280,6 +285,6 @@
     "id": "mon_teke_mouse",
     "copy-from": "mon_teke_mouse",
     "type": "MONSTER",
-    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+    "armor": { "bash": 15, "cut": 3, "bullet": 26, "psi_telekinetic_damage": 25 }
   }
 ]
