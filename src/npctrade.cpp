@@ -42,8 +42,7 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, ta
 
         npc const *npc = nullptr;
         std::function<bool( item_location const &, int )> f_wants;
-        const Character *receiver_char = receiver->get_character();
-        bool giver_is_npc = receiver_char && receiver_char->is_avatar();
+        bool giver_is_npc = receiver->is_avatar();
         if( giver_is_npc ) {
             f_wants = [giver]( item_location const & it, int price ) {
                 return giver->wants_to_sell( it, price ).success();
@@ -166,7 +165,7 @@ int npc_trading::bionic_install_price( talker *installer, talker *patient,
                                        item_location const &bionic )
 {
     return bionic->price( true ) * 2 +
-           ( bionic->is_owned_by( *patient->get_character() )
+           ( bionic->is_owned_by( patient->get_faction()->id )
              ? 0
              : npc_trading::trading_price( patient, installer, { bionic, 1 } ) );
 }
