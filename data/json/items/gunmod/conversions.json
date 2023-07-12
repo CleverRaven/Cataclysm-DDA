@@ -6,7 +6,8 @@
     "name": { "str": "extended .223 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 20-inch barrel chambered for .223 Remington ammunition, commonly installed on full-length M16 rifles.",
     "longest_side": "584 mm",
-    "integral_longest_side": "508 mm"
+    "integral_longest_side": "508 mm",
+    "barrel_length": "508 mm"
   },
   {
     "id": "retool_ar15_223rem",
@@ -19,6 +20,7 @@
     "integral_volume": "1550 ml",
     "integral_weight": "2268 g",
     "integral_longest_side": "41 cm",
+    "barrel_length": "406 mm",
     "price": 25999,
     "price_postapoc": 1000,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -58,7 +60,8 @@
     "name": { "str": "mid-length .223 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 14.5-inch barrel chambered for .223 Remington ammunition, commonly installed on standard-issue M4 carbines.",
     "longest_side": "445 mm",
-    "integral_longest_side": "368 mm"
+    "integral_longest_side": "368 mm",
+    "barrel_length": "368 mm"
   },
   {
     "id": "retool_ar15_223rem_short",
@@ -69,7 +72,8 @@
     "weight": "1360 g",
     "longest_side": "337 mm",
     "integral_weight": "1360 g",
-    "integral_longest_side": "261 mm",
+    "integral_longest_side": "262 mm",
+    "barrel_length": "262 mm",
     "price": 26999
   },
   {
@@ -83,6 +87,7 @@
     "integral_volume": "1550 ml",
     "integral_weight": "2608 g",
     "integral_longest_side": "41 cm",
+    "barrel_length": "406 mm",
     "price": 25999,
     "price_postapoc": 1000,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -124,7 +129,8 @@
     "weight": "1814 g",
     "longest_side": "342 mm",
     "integral_weight": "1814 g",
-    "integral_longest_side": "266 mm"
+    "integral_longest_side": "267 mm",
+    "barrel_length": "267 mm"
   },
   {
     "id": "retool_ar15_300blk_short",
@@ -135,7 +141,8 @@
     "weight": "1590 g",
     "longest_side": "240 mm",
     "integral_weight": "1590 g",
-    "integral_longest_side": "190 mm"
+    "integral_longest_side": "191 mm",
+    "barrel_length": "191 mm"
   },
   {
     "id": "retool_ar15_50beowulf",
@@ -148,6 +155,7 @@
     "integral_volume": "1550 ml",
     "integral_weight": "1474 g",
     "integral_longest_side": "457 mm",
+    "barrel_length": "457 mm",
     "price": 10199,
     "price_postapoc": 1000,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -191,6 +199,7 @@
     "longest_side": "480 mm",
     "integral_weight": "1361 g",
     "integral_longest_side": "41 cm",
+    "barrel_length": "406 mm",
     "price": 12299
   },
   {
@@ -202,7 +211,8 @@
     "weight": "454 g",
     "longest_side": "240 mm",
     "integral_weight": "454 g",
-    "integral_longest_side": "190 mm",
+    "integral_longest_side": "191 mm",
+    "barrel_length": "191 mm",
     "price": 10999
   },
   {
@@ -216,6 +226,7 @@
     "integral_volume": "1550 ml",
     "integral_weight": "2722 g",
     "integral_longest_side": "457 mm",
+    "barrel_length": "457 mm",
     "price": 27999,
     "price_postapoc": 1000,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -258,7 +269,8 @@
     "weight": "794 g",
     "longest_side": "342 mm",
     "integral_weight": "794 g",
-    "integral_longest_side": "266 mm",
+    "integral_longest_side": "267 mm",
+    "barrel_length": "267 mm",
     "price": 14299
   },
   {
@@ -270,7 +282,8 @@
     "weight": "680 g",
     "longest_side": "240 mm",
     "integral_weight": "680 g",
-    "integral_longest_side": "190 mm",
+    "integral_longest_side": "191 mm",
+    "barrel_length": "191 mm",
     "price": 10699
   },
   {
@@ -284,6 +297,7 @@
     "integral_volume": "1550 ml",
     "integral_weight": "2268 g",
     "integral_longest_side": "41 cm",
+    "barrel_length": "406 mm",
     "price": 36999,
     "price_postapoc": 1000,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -324,9 +338,10 @@
     "weight": "1000 g",
     "volume": "500 ml",
     "longest_side": "508 mm",
-    "integral_volume": "0 ml",
+    "integral_volume": "300 ml",
     "integral_weight": "1000 g",
     "integral_longest_side": "304 mm",
+    "barrel_length": "508 mm",
     "price": 78000,
     "price_postapoc": 1000,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -350,9 +365,12 @@
     "name": { "str": "MDRX .223 standard-assembly", "str_pl": "MDRX .223 standard-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .223-caliber munitions, the assembly requires STANAG magazines for feeding.",
     "weight": "840 g",
+    "volume": "420 ml",
     "longest_side": "406 mm",
+    "integral_volume": "252 ml",
     "integral_weight": "840 g",
     "integral_longest_side": "203 mm",
+    "barrel_length": "406 mm",
     "price": 73000
   },
   {
@@ -362,21 +380,25 @@
     "name": { "str": "MDRX .223 MICRON assembly", "str_pl": "MDRX .223 MICRON assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .223-caliber munitions and requiring STANAG magazines for feeding, the assembly renders the MDRX into a compact CQB carbine, with an 11.5-inch barrel recessed into the weapon’s bullpup layout.",
     "weight": "680 g",
+    "volume": "340 ml",
     "longest_side": "292 mm",
+    "integral_volume": "204 ml",
     "integral_weight": "680 g",
-    "integral_longest_side": "89 mm"
+    "integral_longest_side": "89 mm",
+    "barrel_length": "292 mm"
   },
   {
     "id": "retool_mdrx_300blk",
     "type": "GUNMOD",
     "name": { "str": "MDRX .300BLK standard-assembly", "str_pl": "MDRX .300BLK standard-assemblies" },
-    "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .300 AAC Blackout munitions and requiring STANAG magazines for feeding, the assembly makes the most from the weapon’s bullpup design with a 20-inch configuration, coaxing increased terminal performance from fired rounds.",
+    "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .300 AAC Blackout munitions, the assembly requires STANAG magazines for feeding.",
     "weight": "840 g",
-    "volume": "500 ml",
-    "longest_side": "508 mm",
-    "integral_volume": "0 ml",
+    "volume": "420 ml",
+    "longest_side": "406 mm",
+    "integral_volume": "252 ml",
     "integral_weight": "840 g",
-    "integral_longest_side": "304 mm",
+    "integral_longest_side": "203 mm",
+    "barrel_length": "406 mm",
     "price": 86000,
     "price_postapoc": 1000,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -402,9 +424,10 @@
     "weight": "1000 g",
     "volume": "500 ml",
     "longest_side": "508 mm",
-    "integral_volume": "0 ml",
+    "integral_volume": "300 ml",
     "integral_weight": "1000 g",
     "integral_longest_side": "304 mm",
+    "barrel_length": "508 mm",
     "price": 98000,
     "price_postapoc": 1000,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -414,7 +437,6 @@
     "mod_targets": [ "mdrx", "mdrx_223", "mdrx_223short", "mdrx_300", "mdrx_308", "mdrx_308medium" ],
     "install_time": "5 m",
     "ammo_modifier": [ "308" ],
-    "magazine_adaptor": [ [ "308", [ "ar10mag_20rd", "ar10_makeshiftmag" ] ] ],
     "//": "Stats taken from the ported barrel to provide a compensated effect.",
     "dispersion_modifier": 15,
     "handling_modifier": 4,
@@ -424,14 +446,17 @@
   },
   {
     "id": "retool_mdrx_308win_medium",
-    "copy-from": "retool_mdrx_223rem",
+    "copy-from": "retool_mdrx_308win",
     "type": "GUNMOD",
     "name": { "str": "MDRX .308 standard-assembly", "str_pl": "MDRX .308 standard-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach, 16-inch barrel installable within the chassis of a Desert Tec MDRX rifle.  Chambered for long-range .308 Winchester munitions and requiring AR-10 magazines for feeding, the assembly essentially retools the weapon into a designated marksman’s rifle.",
     "weight": "840 g",
+    "volume": "420 ml",
     "longest_side": "406 mm",
+    "integral_volume": "252 ml",
     "integral_weight": "840 g",
     "integral_longest_side": "203 mm",
+    "barrel_length": "406 mm",
     "price": 96000
   },
   {
@@ -445,6 +470,7 @@
     "integral_volume": "500 ml",
     "integral_weight": "1000 g",
     "integral_longest_side": "686 mm",
+    "barrel_length": "686 mm",
     "price": 82500,
     "price_postapoc": 1000,
     "material": [ "steel" ],
@@ -468,6 +494,7 @@
     "integral_volume": "500 ml",
     "integral_weight": "1000 g",
     "integral_longest_side": "610 mm",
+    "barrel_length": "610 mm",
     "price": 82500,
     "price_postapoc": 1000,
     "material": [ "steel" ],
@@ -491,6 +518,7 @@
     "integral_volume": "500 ml",
     "integral_weight": "1000 g",
     "integral_longest_side": "610 mm",
+    "barrel_length": "610 mm",
     "price": 82500,
     "price_postapoc": 1000,
     "material": [ "steel" ],
@@ -515,6 +543,7 @@
     "integral_volume": "500 ml",
     "integral_weight": "1000 g",
     "integral_longest_side": "406 mm",
+    "barrel_length": "406 mm",
     "//": "Couldn’t find any information regarding weight and prices, so the numbers used here are broad guesses and are likely incorrect.",
     "price": 25000,
     "price_postapoc": 1000,
@@ -539,6 +568,7 @@
     "integral_volume": "500 ml",
     "integral_weight": "1000 g",
     "integral_longest_side": "406 mm",
+    "barrel_length": "406 mm",
     "//": "Couldn’t find any information regarding weight and prices, so the numbers used here are broad guesses and are likely incorrect.",
     "price": 25000,
     "price_postapoc": 1000,

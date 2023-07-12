@@ -8,7 +8,7 @@
         "names": [ "name_1", "name_2", "name_3", "should_fail" ],
         "keys": [ "a", "b", "c", "d" ],
         "descriptions": [ "option 1", "option 2", "option 3", "should not be available" ],
-        "variables": { "val": "8" }
+        "variables": [ { "val": "8" } ]
       }
     ]
   },
@@ -42,7 +42,7 @@
         "names": [ "name_1", "name_2", "name_3", "should_fail" ],
         "keys": [ "a", "b", "c", "d" ],
         "descriptions": [ "option 1", "option 2", "option 3", "should not be available" ],
-        "variables": { "val": "8" },
+        "variables": [ { "val": "8" } ],
         "hide_failing": true
       }
     ]

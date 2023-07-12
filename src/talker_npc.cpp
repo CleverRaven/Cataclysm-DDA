@@ -502,7 +502,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( p.chatbin.snip_consume_med );
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( p, to_eat, p.pos() ).value_or( 0 );
+            amount_used = to_eat.type->invoke( &p, to_eat, p.pos() ).value_or( 0 );
             if( amount_used <= 0 ) {
                 reason = _( p.chatbin.snip_consume_nocharge );
                 return REFUSED;

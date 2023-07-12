@@ -105,6 +105,8 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
+static const mon_flag_str_id mon_flag_CONVERSATION( "CONVERSATION" );
+
 static const skill_id skill_firstaid( "firstaid" );
 
 static const skill_id skill_speech( "speech" );
@@ -664,7 +666,8 @@ void game::chat()
 
     const std::vector<Creature *> available = get_creatures_if( [&]( const Creature & guy ) {
         // TODO: Get rid of the z-level check when z-level vision gets "better"
-        return ( guy.is_npc() || ( guy.is_monster() && guy.as_monster()->has_flag( MF_CONVERSATION ) &&
+        return ( guy.is_npc() || ( guy.is_monster() &&
+                                   guy.as_monster()->has_flag( mon_flag_CONVERSATION ) &&
                                    !guy.as_monster()->type->chat_topics.empty() ) ) && u.posz() == guy.posz() && u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
@@ -1798,6 +1801,13 @@ int topic_category( const talk_topic &the_topic )
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type )
 {
+    dialogue d( get_talker_for( u ), get_talker_for( me ) );
+    parse_tags( phrase, u, me, d, item_type );
+}
+
+void parse_tags( std::string &phrase, const Character &u, const Character &me, const dialogue &d,
+                 const itype_id &item_type )
+{
     phrase = SNIPPET.expand( remove_color_tags( phrase ) );
 
     size_t fa;
@@ -1893,6 +1903,12 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             var.pop_back();
             global_variables &globvars = get_globals();
             phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
+        } else if( tag.find( "<context_val:" ) != std::string::npos ) {
+            //adding a context variable to the string requires dialogue to exist
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            phrase.replace( fa, l, d.get_value( "npctalk_var_" + var ) );
         } else if( tag.find( "<item_name:" ) != std::string::npos ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2092,10 +2108,10 @@ talk_data talk_response::create_option_line( dialogue &d, const input_event &hot
                                trial.name(), trial.calc_chance( d ), text );
     }
     if( d.actor( true )->get_npc() ) {
-        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(),
+        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(), d,
                     success.next_topic.item_type );
     } else {
-        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( false )->get_character(),
+        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( false )->get_character(), d,
                     success.next_topic.item_type );
     }
 
@@ -2178,10 +2194,10 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     // Parse any tags in challenge
     if( actor( true )->get_npc() ) {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
+        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(), *this,
                     topic.item_type );
     } else {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(),
+        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(), *this,
                     topic.item_type );
     }
     challenge = uppercase_first_letter( challenge );
@@ -3613,7 +3629,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         if( !beta ) {
             beta = &get_player_character();
         }
-        parse_tags( translated_message, *alpha, *beta );
+        parse_tags( translated_message, *alpha, *beta, d );
         if( sound ) {
             bool display = false;
             map &here = get_map();
@@ -3876,6 +3892,28 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string_
     };
 }
 
+void talk_effect_fun_t::set_attack( const JsonObject &jo, const std::string &member,
+                                    bool is_npc )
+{
+    str_or_var force_technique = get_str_or_var( jo.get_member( member ), member, true );
+    bool allow_special = jo.get_bool( "allow_special", true );
+    bool allow_unarmed = jo.get_bool( "allow_unarmed", true );;
+    dbl_or_var forced_movecost = get_dbl_or_var( jo, "forced_movecost", false, -1.0 );
+
+    function = [is_npc, allow_special, force_technique, allow_unarmed,
+            forced_movecost]( dialogue & d ) {
+        // if beta is attacking then target is the alpha
+        talker *target = d.actor( !is_npc );
+        talker *attacker = d.actor( is_npc );
+        Creature *c = target->get_creature();
+
+        if( c ) {
+            matec_id m( force_technique.evaluate( d ) );
+            attacker->attack_target( *c, allow_special, m, allow_unarmed, forced_movecost.evaluate( d ) );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_die( bool is_npc )
 {
     function = [is_npc]( dialogue const & d ) {
@@ -4095,11 +4133,43 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
     };
 }
 
-void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::string_view member )
+void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::string_view member )
+{
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
+
+    str_or_var condition = get_str_or_var( jo.get_member( "condition" ), "condition" );
+
+    dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration_count", false, 100 );
+
+
+    function = [eoc, condition, iteration_count]( dialogue & d ) {
+        auto itt = d.get_conditionals().find( condition.evaluate( d ) );
+        if( itt == d.get_conditionals().end() ) {
+            debugmsg( string_format( "No condition with the name %s", condition.evaluate( d ) ) );
+            return;
+        }
+
+        int max_iteration = iteration_count.evaluate( d );
+
+        int curr_iteration = 0;
+
+        while( itt->second( d ) ) {
+            curr_iteration++;
+            if( curr_iteration > max_iteration ) {
+                debugmsg( string_format( "EOC loop ran for more instances than the max allowed: %d. Exiting loop.",
+                                         max_iteration ) );
+                break;
+            }
+            eoc->activate( d );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::string &member )
 {
     std::vector<str_or_var> eocs;
     for( const JsonValue &jv : jo.get_array( member ) ) {
-        eocs.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+        eocs.push_back( get_str_or_var( jv, member, true ) );
     }
 
     if( eocs.empty() ) {
@@ -4109,14 +4179,14 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
     std::vector<str_or_var> eoc_names;
     if( jo.has_array( "names" ) ) {
         for( const JsonValue &jv : jo.get_array( "names" ) ) {
-            eoc_names.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+            eoc_names.push_back( get_str_or_var( jv, "names", true ) );
         }
     }
 
     std::vector<str_or_var> eoc_descriptions;
     if( jo.has_array( "descriptions" ) ) {
         for( const JsonValue &jv : jo.get_array( "descriptions" ) ) {
-            eoc_descriptions.push_back( get_str_or_var( jv, jv.get_string(), true ) );
+            eoc_descriptions.push_back( get_str_or_var( jv, "descriptions", true ) );
         }
     }
 
@@ -4144,13 +4214,23 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
         jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
     }
 
-    std::unordered_map<std::string, str_or_var> context;
-    if( jo.has_object( "variables" ) ) {
-        const JsonObject &variables = jo.get_object( "variables" );
-        for( const JsonMember &jv : variables ) {
-            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
-                                                  true );
+    std::vector<std::unordered_map<std::string, str_or_var>> context;
+    if( jo.has_array( "variables" ) ) {
+        for( const JsonValue &member : jo.get_array( "variables" ) ) {
+            const JsonObject &variables = member.get_object();
+            std::unordered_map<std::string, str_or_var> temp_context;
+            for( const JsonMember &jv : variables ) {
+                temp_context["npctalk_var_" + jv.name()] =
+                    get_str_or_var( variables.get_member( jv.name() ), jv.name(), true );
+            }
+            context.emplace_back( temp_context );
         }
+    }
+
+    if( !context.empty() && context.size() != 1 && context.size() != eocs.size() ) {
+        jo.throw_error(
+            string_format( "Invalid input for run_eoc_selector, size of vars needs to be 0 (no vars), 1 (all have the same vars), or the same size as the eocs (each has their own vars). Current size is: %d",
+                           context.size() ) );
     }
 
     bool hide_failing = false;
@@ -4198,10 +4278,7 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
                                                ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
             }
         }
-        dialogue newDialog( d );
-        for( const auto &val : context ) {
-            newDialog.set_value( val.first, val.second.evaluate( d ) );
-        }
+
         if( eoc_list.entries.empty() ) {
             // if we have no entries should exit with error
             debugmsg( "No options for EOC_LIST" );
@@ -4209,6 +4286,18 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
         }
 
         eoc_list.query();
+
+        // add context variables
+        dialogue newDialog( d );
+        int contextIndex = 0;
+        if( context.size() > 1 ) {
+            contextIndex = eoc_list.ret;
+        }
+        if( !context.empty() ) {
+            for( const auto &val : context[contextIndex] ) {
+                newDialog.set_value( val.first, val.second.evaluate( d ) );
+            }
+        }
 
         effect_on_condition_id( eocs[eoc_list.ret].evaluate( d ) )->activate( newDialog );
     };
@@ -4227,11 +4316,25 @@ void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::strin
         }
     }
 
-    function = [eoc, context]( dialogue const & d ) {
+    std::optional<var_info> target_var;
+
+    if( jo.has_object( "beta_loc" ) ) {
+        target_var = read_var_info( jo.get_object( "beta_loc" ) );
+    }
+
+    function = [eoc, context, target_var]( dialogue const & d ) {
         dialogue newDialog( d );
+
+        tripoint_abs_ms target_location = get_tripoint_from_var( target_var, d );
+        Creature *c = get_creature_tracker().creature_at( target_location );
+        if( c ) {
+            newDialog = dialogue( d.actor( false )->clone(), get_talker_for( c ), d.get_conditionals(),
+                                  d.get_context() );
+        }
         for( const auto &val : context ) {
             newDialog.set_value( val.first, val.second.evaluate( d ) );
         }
+
         eoc->activate( newDialog );
     };
 }
@@ -5170,6 +5273,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
         } else if( jo.has_array( "run_eocs" ) || jo.has_member( "run_eocs" ) ) {
             subeffect_fun.set_run_eocs( jo, "run_eocs" );
+        } else if( jo.has_member( "run_eoc_until" ) ) {
+            subeffect_fun.set_run_eoc_until( jo, "run_eoc_until" );
         } else if( jo.has_member( "run_eoc_with" ) ) {
             subeffect_fun.set_run_eoc_with( jo, "run_eoc_with" );
         } else if( jo.has_member( "run_eoc_selector" ) ) {
@@ -5226,6 +5331,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
                 targeted = jo.get_bool( "targeted" );
             }
             subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true, targeted );
+        } else if( jo.has_member( "u_attack" ) ) {
+            subeffect_fun.set_attack( jo, "u_attack", false );
+        } else if( jo.has_member( "npc_attack" ) ) {
+            subeffect_fun.set_attack( jo, "npc_attack", is_npc );
         } else if( jo.has_array( "arithmetic" ) ) {
             subeffect_fun.set_arithmetic( jo, "arithmetic", false );
         } else if( jo.has_array( "math" ) ) {
@@ -5348,6 +5457,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
+            WRAP( pick_style ),
             WRAP( do_disassembly ),
             WRAP( nothing )
 #undef WRAP

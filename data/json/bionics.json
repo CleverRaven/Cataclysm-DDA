@@ -59,10 +59,10 @@
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "protec": [
-      [ "arm_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "arm_r", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "hand_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
+      [ "arm_l", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "arm_r", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "hand_l", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ]
     ],
     "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
@@ -153,7 +153,15 @@
       "FAT",
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2"
+      "MUCUS_SECRETION2",
+      "SKIN_SMOOTH",
+      "SKIN_RASHY",
+      "CHITIN_MOLTED",
+      "CHITIN2_MOLTED",
+      "CHITIN3_MOLTED",
+      "CRUSTACEAN_CARAPACE_MOLTED",
+      "SPARSE_SCALES",
+      "SKIN_PEELING"
     ]
   },
   {
@@ -172,7 +180,10 @@
     "name": { "str": "Head Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
-    "protec": [ [ "head", { "bash": 3, "cut": 3, "bullet": 3 } ], [ "mouth", { "bash": 3, "cut": 3, "bullet": 3 } ] ],
+    "protec": [
+      [ "head", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "mouth", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ]
+    ],
     "encumbrance": [ [ "head", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
@@ -277,7 +288,15 @@
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "WIDE_MOUTH"
+      "WIDE_MOUTH",
+      "SKIN_SMOOTH",
+      "SKIN_RASHY",
+      "CHITIN_MOLTED",
+      "CHITIN2_MOLTED",
+      "CHITIN3_MOLTED",
+      "CRUSTACEAN_CARAPACE_MOLTED",
+      "SPARSE_SCALES",
+      "SKIN_PEELING"
     ]
   },
   {
@@ -287,10 +306,10 @@
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "protec": [
-      [ "leg_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "leg_r", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "foot_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "foot_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
+      [ "leg_l", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "leg_r", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "foot_l", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "foot_r", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ]
     ],
     "encumbrance": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
@@ -376,7 +395,15 @@
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2"
+      "MUCUS_SECRETION2",
+      "SKIN_SMOOTH",
+      "SKIN_RASHY",
+      "CHITIN_MOLTED",
+      "CHITIN2_MOLTED",
+      "CHITIN3_MOLTED",
+      "CRUSTACEAN_CARAPACE_MOLTED",
+      "SPARSE_SCALES",
+      "SKIN_PEELING"
     ]
   },
   {
@@ -385,7 +412,7 @@
     "name": { "str": "Torso Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3 } ] ],
+    "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ] ],
     "encumbrance": [ [ "torso", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
@@ -461,7 +488,15 @@
       "SLIME_SPRAY",
       "INSECT_RESERVOIR",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2"
+      "MUCUS_SECRETION2",
+      "SKIN_SMOOTH",
+      "SKIN_RASHY",
+      "CHITIN_MOLTED",
+      "CHITIN2_MOLTED",
+      "CHITIN3_MOLTED",
+      "CRUSTACEAN_CARAPACE_MOLTED",
+      "SPARSE_SCALES",
+      "SKIN_PEELING"
     ]
   },
   {
@@ -502,7 +537,7 @@
     "id": "bio_blindfold",
     "type": "bionic",
     "name": { "str": "Optical Dampers" },
-    "description": "The lenses surgically installed over your eyes can be tinted to block out incoming light.",
+    "description": "A pair of lenses surgically installed over your eyes that can be tinted to block out incoming light.",
     "included": true,
     "flags": [ "BIONIC_TOGGLED" ],
     "active_flags": [ "BLIND" ]
@@ -538,7 +573,7 @@
     "id": "bio_carbon",
     "type": "bionic",
     "name": { "str": "Subdermal Carbon Filament" },
-    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has little impact on blunt trauma but will protect you against deep cuts.",
+    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has no impact on blunt trauma but will protect you against deep cuts.",
     "occupied_bodyparts": [
       [ "torso", 6 ],
       [ "head", 2 ],
@@ -554,17 +589,17 @@
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "protec": [
-      [ "torso", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "head", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "mouth", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "arm_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "arm_r", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "leg_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "leg_r", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "foot_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "foot_r", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "hand_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "hand_r", { "bash": 2, "cut": 4, "bullet": 4 } ]
+      [ "torso", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "head", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "mouth", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "arm_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "arm_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "leg_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "leg_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "foot_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "foot_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "hand_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "hand_r", { "cut": 4, "bullet": 4, "stab": 4 } ]
     ]
   },
   {

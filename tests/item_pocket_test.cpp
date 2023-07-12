@@ -24,11 +24,13 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "mapgen_helpers.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "weather.h"
 
 static const ammotype ammo_test_9mm( "test_9mm" );
 
@@ -53,6 +55,8 @@ static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_socks( "test_socks" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
+
+static const nested_mapgen_id nested_mapgen_auto_wl_test( "auto_wl_test" );
 
 static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
 
@@ -2728,5 +2732,78 @@ TEST_CASE( "pocket_leak" )
             bkit_has_water |= it->typeId() == water.typeId();
         }
         CHECK( bkit_has_water == top_watertight );
+    }
+}
+
+namespace
+{
+void check_whitelist( item const &it, bool should, itype_id const &id )
+{
+    REQUIRE( it.get_all_contained_pockets().size() == 1 );
+    if( should ) {
+        REQUIRE( !it.get_all_contained_pockets().front()->settings.get_item_whitelist().empty() );
+        CHECK( *it.get_all_contained_pockets().front()->settings.get_item_whitelist().begin() ==
+               id );
+    } else {
+        REQUIRE( it.empty_container() );
+        CHECK( it.get_all_contained_pockets().front()->settings.get_item_whitelist().empty() );
+    }
+}
+} // namespace
+
+TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
+{
+    clear_avatar();
+    clear_map();
+    tripoint_abs_omt const this_omt =
+        project_to<coords::omt>( get_avatar().get_location() );
+    tripoint const this_bub = get_map().getlocal( project_to<coords::ms>( this_omt ) );
+    manual_nested_mapgen( this_omt, nested_mapgen_auto_wl_test );
+    REQUIRE( !get_map().i_at( this_bub + tripoint_zero ).empty() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint_east ).empty() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint_south ).empty() );
+    item_location spawned_in_def_container( map_cursor{ this_bub + tripoint_zero },
+                                            &get_map().i_at( this_bub + tripoint_zero ).only_item() );
+    item_location spawned_w_modifier( map_cursor{ this_bub + tripoint_east },
+                                      &get_map().i_at( this_bub + tripoint_east ).only_item() );
+    item_location spawned_w_custom_container( map_cursor{ this_bub + tripoint_south },
+            &get_map().i_at( this_bub + tripoint_south ).only_item() );
+    check_whitelist( *spawned_in_def_container, true,
+                     spawned_in_def_container->get_contents().first_item().typeId() );
+    check_whitelist( *spawned_w_modifier, true,
+                     spawned_w_modifier->get_contents().first_item().typeId() );
+    check_whitelist( *spawned_w_custom_container, true,
+                     spawned_w_custom_container->get_contents().first_item().typeId() );
+
+    bool const edited = GENERATE( false, true );
+    CAPTURE( edited );
+    if( edited ) {
+        spawned_in_def_container->get_all_contained_pockets().front()->settings.set_was_edited();
+        spawned_w_modifier->get_all_contained_pockets().front()->settings.set_was_edited();
+        spawned_w_custom_container->get_all_contained_pockets().front()->settings.set_was_edited();
+    }
+
+    SECTION( "container emptied by avatar" ) {
+        avatar &u = get_avatar();
+        itype_id const id = spawned_in_def_container->get_contents().first_item().typeId();
+        unload_activity_actor::unload( u, spawned_in_def_container );
+        REQUIRE( spawned_in_def_container->empty_container() );
+        check_whitelist( *spawned_in_def_container, edited, id );
+    }
+
+    SECTION( "container emptied by processing" ) {
+        itype_id const id = spawned_w_modifier->get_contents().first_item().typeId();
+        get_map().i_clear( spawned_w_custom_container.position() );
+        get_map().i_clear( spawned_in_def_container.position() );
+        restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
+                    get_weather().forced_temperature );
+        get_weather().forced_temperature = units::from_celsius( 21 );
+        spawned_w_modifier->only_item().set_relative_rot( 10 );
+        REQUIRE( spawned_w_modifier->only_item().has_rotten_away() );
+        spawned_w_modifier->only_item().set_last_temp_check( calendar::turn_zero );
+        calendar::turn += 15_minutes;
+        get_map().process_items();
+        REQUIRE( spawned_w_modifier->empty_container() );
+        check_whitelist( *spawned_w_modifier, edited, id );
     }
 }

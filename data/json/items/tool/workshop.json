@@ -242,7 +242,7 @@
     "name": { "str": "claw bar" },
     "description": "A small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "350 g",
-    "volume": "375 ml",
+    "volume": "64 ml",
     "longest_side": "25 cm",
     "price": 1000,
     "price_postapoc": 250,
@@ -253,7 +253,7 @@
     "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 10, "cut": 1 }
+    "melee_damage": { "bash": 9, "cut": 1 }
   },
   {
     "id": "con_mix",
@@ -576,7 +576,7 @@
     "id": "large_repairkit",
     "type": "TOOL",
     "name": { "str": "gunsmith repair kit" },
-    "description": "A complete tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 25 charges of battery power per use.",
+    "description": "A complete tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 1 charge of battery power per use.",
     "weight": "9860 g",
     "volume": "2500 ml",
     "longest_side": "36 cm",
@@ -587,7 +587,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "charges_per_use": 25,
+    "charges_per_use": 1,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
@@ -725,7 +725,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 7 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 1, "stab": 4 }
   },
@@ -1058,7 +1058,7 @@
     "id": "small_repairkit",
     "type": "TOOL",
     "name": { "str": "firearm repair kit" },
-    "description": "A portable tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 100 charges of battery power per use.",
+    "description": "A portable tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires one charge of battery power per use.",
     "weight": "2420 g",
     "volume": "1500 ml",
     "longest_side": "32 cm",
@@ -1069,7 +1069,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "charges_per_use": 100,
+    "charges_per_use": 1,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
@@ -1243,6 +1243,13 @@
         "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 7,
+        "charge_rate": "3000 W"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -1313,6 +1320,13 @@
         "tool_quality": 5,
         "cost_scaling": 0.1,
         "move_cost": 1000
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 7,
+        "charge_rate": "1500 W"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -1385,6 +1399,13 @@
         "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 7,
+        "charge_rate": "3000 W"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],

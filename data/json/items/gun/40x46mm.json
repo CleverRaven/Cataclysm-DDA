@@ -19,6 +19,7 @@
     "blackpowder_tolerance": 60,
     "clip_size": 1,
     "reload": 350,
+    "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "sights", 1 ],
@@ -52,6 +53,7 @@
     "blackpowder_tolerance": 60,
     "clip_size": 1,
     "reload": 150,
+    "flags": [ "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
     "melee_damage": { "bash": 6 }
   },
@@ -85,6 +87,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "flags": [ "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
     "melee_damage": { "bash": 12 }
   },

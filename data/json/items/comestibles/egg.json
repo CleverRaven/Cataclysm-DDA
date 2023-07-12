@@ -161,9 +161,7 @@
     "volume": "250 ml",
     "stack_size": 4,
     "fun": -12,
-    "flags": [ "RAW" ],
-    "rot_spawn": "GROUP_EGG_SNAKE",
-    "rot_spawn_chance": 60
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -551,6 +549,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_whitefish_round",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WHITEFISH_ROUND"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_lbass",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
@@ -649,6 +654,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_bullhead_yellow",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BULLHEAD_YELLOW"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_channel_catfish",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
@@ -674,6 +686,13 @@
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_PICKEREL"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pickerel_american",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PICKEREL_AMERICAN"
   },
   {
     "type": "COMESTIBLE",
@@ -705,10 +724,47 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_goldfish",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_GOLDFISH"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_bowfin",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_BOWFIN"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_gar_longnose",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "use_action": [ "POISON" ],
+    "//": "Gar eggs are poisonous - this is not an oversight. This is also why these are omitted from the cooking requirement group.",
+    "rot_spawn": "GROUP_EGG_GAR_LONGNOSE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_burbot",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BURBOT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_sturgeon_lake",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_STURGEON_LAKE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_sturgeon_shortnose",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_STURGEON_SHORTNOSE"
   },
   {
     "type": "COMESTIBLE",

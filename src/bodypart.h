@@ -241,9 +241,6 @@ struct body_part_type {
         // Effects to trigger on getting hit
         std::vector<bp_onhit_effect> effects_on_hit;
 
-        // Monster effect added to mobs grabbing this limb (for dedicated removal)
-        efftype_id grabbing_effect;
-
         // Those are stored untranslated
         translation name;
         translation name_multiple;

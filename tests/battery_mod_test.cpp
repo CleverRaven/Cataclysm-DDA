@@ -182,9 +182,9 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
                     CHECK( use != nullptr );
                     const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
 
-                    Character &dummy = get_avatar();
+                    Character *dummy = &get_avatar();
                     clear_avatar();
-                    actor->use( dummy, flashlight, false, dummy.pos() );
+                    actor->use( dummy, flashlight, false, dummy->pos() );
 
                     // Regression tests for #42764 / #42854
                     THEN( "mod remains installed" ) {

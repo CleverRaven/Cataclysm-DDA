@@ -105,6 +105,7 @@
 
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
@@ -206,6 +207,7 @@ static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_DRILL( "DRILL" );
+static const quality_id qual_GRASS_CUT( "GRASS_CUT" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -1798,8 +1800,25 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
     map &here = get_map();
     item &best_prying = you.best_item_with_quality( qual_PRY );
     item &best_lockpick = you.best_item_with_quality( qual_LOCKPICK );
+    optional_vpart_position veh = here.veh_at( examp );
+    int locked_part = -1;
+
+    // Check if the locked thing is a lockable door part.
+    if( veh ) {
+        std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
+                    examp, "LOCKABLE_DOOR", part_status_flag::available );
+        if( !parts_at_target.empty() ) {
+            locked_part = veh->vehicle().next_part_to_unlock(
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
+        }
+    }
+
+    const std::string target_name = here.has_furn( examp ) ? here.furnname( examp ) :
+                                    locked_part >= 0 ? veh->vehicle().part( locked_part ).name() :
+                                    here.tername( examp );
     const bool has_prying = !best_prying.is_null();
-    const bool can_pick = here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) &&
+    const bool can_pick = ( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ||
+                            locked_part >= 0 ) &&
                           ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
     enum act {
         pick = 0,
@@ -1818,7 +1837,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         } else {
             uilist amenu;
             amenu.text = string_format( _( "What to do with the %s?" ),
-                                        here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                                        target_name );
             amenu.addentry( 0, true, 'l', _( "Pick the lock" ) );
             amenu.addentry( 1, true, 'p', _( "Pry open" ) );
             amenu.query();
@@ -1833,13 +1852,12 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
 
     if( action == act::none ) {
         add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                 target_name );
         return;
     } else if( action == act::pry ) {
         //~ %1$s: terrain/furniture name, %2$s: prying tool name
         you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                               here.has_furn( examp ) ? here.furnname( examp ) :
-                               here.tername( examp ), best_prying.tname() );
+                               target_name, best_prying.tname() );
         iuse::crowbar( &you, &best_prying, false, examp );
     } else if( action == act::pick ) {
         locked_object_pickable( you, examp );
@@ -1852,6 +1870,20 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
 void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 {
     map &here = get_map();
+    const optional_vpart_position veh = here.veh_at( examp );
+    int locked_part = -1;
+
+    if( veh ) {
+        const std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
+                    examp, "LOCKABLE_DOOR", part_status_flag::available );
+        if( !parts_at_target.empty() ) {
+            locked_part = veh->vehicle().next_part_to_unlock(
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
+        }
+    }
+
+    const std::string target_name = here.has_furn( examp ) ? here.furnname( examp ) :
+                                    locked_part >= 0 ? veh->vehicle().part( locked_part ).name() : here.tername( examp );
 
     if( you.has_bionic( bio_lockpick ) ) {
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
@@ -1875,7 +1907,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 
     if( picklocks.empty() ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+                 target_name );
         return;
     }
 
@@ -1892,15 +1924,15 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 
     for( item *it : picklocks ) {
         if( !query_yn( _( "Pick the lock of %1$s using your %2$s?" ),
-                       here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
+                       target_name, it->tname() ) ) {
             return;
         }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         you.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
-                               here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
+                               target_name, it->tname() );
         const ret_val<void> can_use = iuse_fn->can_call( you, *it, false, examp );
         if( can_use.success() ) {
-            iuse_fn->call( you, *it, false, examp );
+            iuse_fn->call( &you, *it, false, examp );
             return;
         } else {
             you.add_msg_if_player( m_bad, can_use.str() );
@@ -2631,23 +2663,31 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
             add_msg( m_info, _( "The seed blossoms into a flower-looking fungus." ) );
         }
     } else { // Generic seed, use the seed item data
-        const itype &type = *seed->type;
-        here.i_clear( examp );
+        const inventory &crafting_inv = you.crafting_inventory();
+        if( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
+            you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
+            return;
+        } else {
+            const itype &type = *seed->type;
+            player_activity act( ACT_HARVEST, to_moves<int>( 60_seconds ) );
+            you.assign_activity( act );
+            here.i_clear( examp );
 
-        int skillLevel = round( you.get_skill_level( skill_survival ) );
-        ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-        int plant_count = rng( skillLevel / 2, skillLevel );
-        plant_count *= here.furn( examp )->plant->harvest_multiplier;
-        plant_count = std::min( std::max( plant_count, 1 ), 12 );
-        const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
-        for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
-            if( from_activity ) {
-                i.set_var( "activity_var", you.name );
+            int skillLevel = round( you.get_skill_level( skill_survival ) );
+            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+            int plant_count = rng( skillLevel / 2, skillLevel );
+            plant_count *= here.furn( examp )->plant->harvest_multiplier;
+            plant_count = std::min( std::max( plant_count, 1 ), 12 );
+            int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
+            for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
+                if( from_activity ) {
+                    i.set_var( "activity_var", you.name );
+                }
+                here.add_item_or_charges( you.pos(), i );
             }
-            here.add_item_or_charges( you.pos(), i );
+            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
+            you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
         }
-        here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
-        you.moves -= to_moves<int>( 10_seconds );
     }
 }
 
@@ -3068,6 +3108,97 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
 }
 //arc furnace end
 
+
+void iexamine::stook_empty( Character &, const tripoint &examp )
+{
+    map &here = get_map();
+    furn_id cur_stook_type = here.furn( examp );
+    furn_id next_stook_type = f_null;
+    if( cur_stook_type == f_stook_empty ) {
+        next_stook_type = f_stook_full;
+    } else {
+        debugmsg( "Examined furniture has action stook_empty, but is of type %s",
+                  here.furn( examp ).id().c_str() );
+        return;
+    }
+
+    bool grain_present = false;
+    map_stack items = here.i_at( examp );
+    for( const item &i : items ) {
+        if( i.has_flag( flag_FRESH_GRAIN ) && !i.rotten() ) {
+            grain_present = true;
+        } else {
+            add_msg( m_bad, _( "This pile contains %s, which can't be dried here!" ), i.tname( 1,
+                     false ) );
+            return;
+        }
+    }
+
+    if( !grain_present ) {
+        add_msg( _( "Place some fresh grain here and try again." ) );
+        return;
+    } else if( !here.is_outside( examp ) ) {
+        add_msg( _( "The stook will need to be set up outside to dry." ) );
+        return;
+    } else {
+        add_msg( _( "This pile contains grain that is ready to be left out for drying." ) );
+        if( !query_yn( _( "Stand the grain up to dry?" ) ) ) {
+            return;
+        }
+    }
+
+    here.furn_set( examp, next_stook_type );
+    add_msg( _( "You set up the stook and leave it to dry." ) );
+}
+
+void iexamine::stook_full( Character &, const tripoint &examp )
+{
+    map &here = get_map();
+    furn_id cur_stook_type = here.furn( examp );
+    furn_id next_stook_type = f_null;
+    if( cur_stook_type == f_stook_full ) {
+        next_stook_type = f_null;
+    } else {
+        debugmsg( "Examined furniture has action stook_full, but is of type %s",
+                  here.furn( examp ).id().c_str() );
+        return;
+    }
+    map_stack items = here.i_at( examp );
+    if( items.empty() ) {
+        debugmsg( _( "Examined furniture is stook_full but doesn't contain any grain." ) );
+        here.furn_set( examp, next_stook_type );
+        return;
+    }
+    add_msg( _( "There's a grain stook there." ) );
+    const item &clock = *items.begin();
+    const time_duration drying_time = 336_hours;
+    const time_duration time_left = drying_time - clock.age();
+
+    if( time_left > 0_turns ) {
+        add_msg( _( "The stook will finish drying in %s." ), to_string( time_left ) );
+        return;
+    }
+    for( item &it : items ) {
+        if( it.has_flag( flag_SMOKABLE ) && it.get_comestible() ) {
+            item result( it.get_comestible()->smoking_result, it.birthday(), it.charges );
+            recipe rec;
+            result.inherit_flags( it, rec );
+            if( !result.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+                // If the item has "cooks_like" it will be replaced by that item as a component.
+                if( !it.get_comestible()->cooks_like.is_empty() ) {
+                    // Set charges to 1 for stacking purposes.
+                    it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
+                }
+                result.components.add( it );
+                result.recipe_charges = it.charges;
+            }
+            add_msg( _( "You take down the stook as the drying process is now finished." ) );
+            it = result;
+        }
+    }
+    here.furn_set( examp, next_stook_type );
+}
+
 void iexamine::autoclave_empty( Character &you, const tripoint &examp )
 {
     map &here = get_map();
@@ -3273,7 +3404,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
                 you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
                 const ret_val<void> can_use = actor->can_use( you, *it, false, examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( you, *it, false, examp ).value_or( 0 );
+                    const int charges = actor->use( &you, *it, false, examp ).value_or( 0 );
                     you.use_charges( it->typeId(), charges );
                     return;
                 } else {
@@ -6602,6 +6733,8 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "locked_object_pickable", &iexamine::locked_object_pickable },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
+            { "stook_empty", &iexamine::stook_empty },
+            { "stook_full", &iexamine::stook_full },
             { "arcfurnace_empty", &iexamine::arcfurnace_empty },
             { "arcfurnace_full", &iexamine::arcfurnace_full },
             { "autoclave_empty", &iexamine::autoclave_empty },

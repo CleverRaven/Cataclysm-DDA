@@ -392,14 +392,15 @@
     "type": "overmap_terrain",
     "id": "crater",
     "name": "crater",
-    "sym": "O",
+    "sym": "o",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "crater_core",
+    "id": [ "crater_core_large", "crater_core_small" ],
+    "sym": "O",
     "copy-from": "crater"
   },
   {
@@ -850,6 +851,13 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "generic_bastion_fort",
+    "name": "bastion fort",
+    "sym": "F",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "fort_1a",
       "fort_2a",
@@ -862,7 +870,15 @@
       "fort_1c",
       "fort_2c",
       "fort_3c",
-      "fort_4c",
+      "fort_4c"
+    ],
+    "copy-from": "generic_bastion_fort",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "fort_1a_1",
       "fort_2a_1",
       "fort_3a_1",
@@ -876,10 +892,8 @@
       "fort_3c_1",
       "fort_4c_1"
     ],
-    "name": "bastion fort",
-    "sym": "F",
-    "color": "red",
-    "see_cost": 5
+    "copy-from": "generic_bastion_fort",
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",

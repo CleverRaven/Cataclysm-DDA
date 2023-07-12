@@ -65,7 +65,8 @@
       { "item": "textbook_weapeast", "prob": 5 },
       { "item": "textbook_armwest", "prob": 5 },
       { "item": "textbook_armeast", "prob": 5 },
-      { "item": "textbook_armschina", "prob": 5 }
+      { "item": "textbook_armschina", "prob": 5 },
+      { "item": "textbook_weparabic", "prob": 5 }
     ]
   },
   {

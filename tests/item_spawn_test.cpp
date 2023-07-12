@@ -54,7 +54,7 @@ TEST_CASE( "correct_amounts_of_an_item_spawn_inside_a_container", "[item_spawn]"
                         case spawn_type::vehicle: {
                             clear_map();
                             map &here = get_map();
-                            here.add_vehicle( cs_data.vehicle, point_zero, 0_degrees, -1, 0 );
+                            here.add_vehicle( cs_data.vehicle, tripoint( 0, 0, here.get_abs_sub().z() ), 0_degrees, -1, 0 );
                             REQUIRE( here.get_vehicles().size() == 1 );
                             vehicle *veh = here.get_vehicles()[0].v;
                             int part = veh->avail_part_with_feature( point_zero, "CARGO" );

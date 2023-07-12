@@ -17,7 +17,6 @@
     "hit_size": 30,
     "hit_difficulty": 1.2,
     "side": "both",
-    "grabbing_effect": "grabbing_gastropod_foot",
     "stylish_bonus": 3,
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,

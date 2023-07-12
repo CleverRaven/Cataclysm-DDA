@@ -693,5 +693,243 @@
     "description": "A customized hardened steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "lc_steel_facemask",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of low carbon steel.",
+    "weight": "2000 g",
+    "volume": "300 ml",
+    "price": 5012,
+    "price_postapoc": 1300,
+    "to_hit": -1,
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "warmth": 3,
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "HELMET_AVENTAIL", "CANT_WEAR" ],
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 7,
+        "coverage": 100
+      },
+      {
+        "covers": [ "mouth" ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 7,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "name": { "str": "XL mild steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of low carbon steel.  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_lc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "name": { "str": "XS mild steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of low carbon steel.  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "material": [ "mc_steel" ],
+    "name": { "str": "medium steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of medium carbon steel, and at least has some ornamentation, but not much.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 7,
+        "coverage": 100
+      },
+      {
+        "covers": [ "mouth" ],
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 7,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "mc_steel_facemask",
+    "name": { "str": "XL medium steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of medium carbon steel, and at least has some ornamentation, but not much.  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "mc_steel_facemask",
+    "name": { "str": "XS medium steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of medium carbon steel, and at least has some ornamentation, but not much.  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "material": [ "hc_steel" ],
+    "name": { "str": "high steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of high carbon steel, and you've got it with a fancy mustache and everything.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 7,
+        "coverage": 100
+      },
+      {
+        "covers": [ "mouth" ],
+        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 7,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "hc_steel_facemask",
+    "name": { "str": "XL high steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of high carbon steel, and you've got it with a fancy mustache and everything.  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "hc_steel_facemask",
+    "name": { "str": "XS high steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of high carbon steel, and you've got it with a fancy mustache and everything.  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "material": [ "qt_steel", "gold" ],
+    "name": { "str": "tempered steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of tempered steel with gold inlays and a setting for a gemstone.  This isn't just surviving the apocalypse, this is about living truly apocalypse fancy.",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "gold", "covered_by_mat": 25, "thickness": 0.1 }
+        ],
+        "encumbrance": 7,
+        "coverage": 100
+      },
+      {
+        "covers": [ "mouth" ],
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "gold", "covered_by_mat": 25, "thickness": 0.1 }
+        ],
+        "encumbrance": 7,
+        "coverage": 100
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": false,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "500 mg",
+        "moves": 250,
+        "description": "Socket for a gemstone.",
+        "flag_restriction": [ "GEMSTONE" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "qt_steel_facemask",
+    "name": { "str": "XL tempered steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of tempered steel with gold inlays and a setting for a gemstone.  This isn't just surviving the apocalypse, this is about living truly apocalypse fancy.  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "qt_steel_facemask",
+    "name": { "str": "XS tempered steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of tempered steel with gold inlays and a setting for a gemstone.  This isn't just surviving the apocalypse, this is about living truly apocalypse fancy.  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "material": [ "ch_steel", "gold" ],
+    "name": { "str": "hardened steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of case hardened steel with fancy gold inlays, who says armor can't be stylish!",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "gold", "covered_by_mat": 25, "thickness": 0.1 }
+        ],
+        "encumbrance": 7,
+        "coverage": 100
+      },
+      {
+        "covers": [ "mouth" ],
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "gold", "covered_by_mat": 25, "thickness": 0.1 }
+        ],
+        "encumbrance": 7,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "ch_steel_facemask",
+    "name": { "str": "XL hardened steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of case hardened steel with fancy gold inlays, who says armor can't be stylish!  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "ch_steel_facemask",
+    "name": { "str": "XS hardened steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of case hardened steel with fancy gold inlays, who says armor can't be stylish!  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]

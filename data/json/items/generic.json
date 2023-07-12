@@ -1627,7 +1627,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TINDER" ],
+    "flags": [ "TINDER", "PAPER_SHAPED" ],
     "volume": "6 ml",
     "longest_side": "297 mm",
     "ammo_type": "paper"
@@ -2114,15 +2114,27 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "fan",
     "symbol": ",",
-    "color": "light_gray",
     "name": { "str": "desk fan" },
     "description": "A small fan, used to propel air around a room.",
+    "color": "light_gray",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
+    "flags": [ "WATER_BREAK" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 4,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "charged_qualities": [ [ "BLOW_AIR", 1 ] ],
     "weight": "2857 g",
     "volume": "1 L"
   },
@@ -2720,6 +2732,7 @@
     "id": "diamond",
     "symbol": "*",
     "color": "white",
+    "flags": [ "GEMSTONE" ],
     "name": { "str": "diamond" },
     "description": "A sparkling diamond.",
     "price": 1000000,
@@ -2734,6 +2747,7 @@
     "id": "garnet",
     "symbol": "*",
     "color": "red",
+    "flags": [ "GEMSTONE" ],
     "name": { "str": "garnet" },
     "description": "A sparkling garnet.",
     "price": 800000,
@@ -2747,6 +2761,7 @@
     "type": "GENERIC",
     "id": "amethyst",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "blue",
     "name": { "str": "amethyst" },
     "description": "A sparkling amethyst."
@@ -2755,6 +2770,7 @@
     "type": "GENERIC",
     "id": "aquamarine",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "cyan",
     "name": { "str": "aquamarine" },
     "description": "A sparkling aquamarine."
@@ -2763,6 +2779,7 @@
     "type": "GENERIC",
     "id": "emerald",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "green",
     "name": { "str": "emerald" },
     "description": "A sparkling emerald."
@@ -2771,6 +2788,7 @@
     "type": "GENERIC",
     "id": "alexandrite",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "green",
     "name": { "str": "alexandrite" },
     "description": "A sparkling alexandrite."
@@ -2779,6 +2797,7 @@
     "type": "GENERIC",
     "id": "malachite",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "green",
     "name": { "str": "malachite" },
     "description": "A sparkling malachite."
@@ -2787,6 +2806,7 @@
     "type": "GENERIC",
     "id": "pearl",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "white",
     "name": { "str": "pearl" },
     "description": "A lustrous pearl."
@@ -2795,6 +2815,7 @@
     "type": "GENERIC",
     "id": "ruby",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "red",
     "name": { "str": "ruby", "str_pl": "rubies" },
     "description": "A sparkling ruby."
@@ -2803,6 +2824,7 @@
     "type": "GENERIC",
     "id": "peridot",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "green",
     "name": { "str": "peridot" },
     "description": "A sparkling peridot."
@@ -2811,6 +2833,7 @@
     "type": "GENERIC",
     "id": "sapphire",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "blue",
     "name": { "str": "sapphire" },
     "description": "A sparkling sapphire."
@@ -2819,6 +2842,7 @@
     "type": "GENERIC",
     "id": "opal",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "white",
     "name": { "str": "opal" },
     "description": "A lustrous opal."
@@ -2827,6 +2851,7 @@
     "type": "GENERIC",
     "id": "tourmaline",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "light_red",
     "name": { "str": "tourmaline" },
     "description": "A sparkling tourmaline."
@@ -2835,6 +2860,7 @@
     "type": "GENERIC",
     "id": "citrine",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "yellow",
     "name": { "str": "citrine" },
     "description": "A sparkling citrine."
@@ -2843,6 +2869,7 @@
     "type": "GENERIC",
     "id": "blue_topaz",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "light_blue",
     "name": { "str": "topaz", "str_pl": "topazes" },
     "description": "A sparkling blue topaz."
@@ -2851,21 +2878,24 @@
     "type": "GENERIC",
     "id": "onyx",
     "copy-from": "garnet",
+    "flags": [ "GEMSTONE" ],
     "color": "dark_gray",
     "name": { "str": "onyx", "str_pl": "onyxes" },
     "description": "A beautiful black onyx."
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "straw_pile",
-    "symbol": ",",
-    "color": "light_gray",
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },
     "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "calories": 15,
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
-    "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID", "TINDER" ],
-    "weight": "20 g",
+    "material": [ "veggy" ],
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER" ],
+    "weight": "34 g",
     "volume": "250 ml",
     "to_hit": -2
   },
