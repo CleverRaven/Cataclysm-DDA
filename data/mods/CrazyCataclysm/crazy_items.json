@@ -125,8 +125,7 @@
       "target_id": "firekatana_on",
       "moves": 10,
       "noise": 10,
-      "success_message": "The Sun rises.",
-      "lacks_fuel_message": "Time stands still."
+      "success_message": "The Sun rises."
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
     "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ],
@@ -185,8 +184,7 @@
       "target_id": "zweifire_on",
       "moves": 10,
       "noise": 10,
-      "success_message": "Die Klinge deines Schwertes brennt!",
-      "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr."
+      "success_message": "Die Klinge deines Schwertes brennt!"
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],

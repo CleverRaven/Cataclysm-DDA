@@ -1830,7 +1830,7 @@ bool read_activity_actor::player_readma( avatar &you )
 
     if( one_in( difficulty ) ) {
         // learn martial art
-        mart_iter->second.call( you, *book, false, you.pos() );
+        mart_iter->second.call( &you, *book, false, you.pos() );
         return true;
     } else if( continuous ) {
         switch( rng( 1, 5 ) ) {
@@ -5534,11 +5534,19 @@ static bool check_stealing( Character &who, item &it )
             Pickup::query_thief();
         }
         if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+                who.set_value( "THIEF_MODE", "THIEF_ASK" );
+            }
             return false;
         }
     }
 
     return true;
+}
+
+bool avatar_action::check_stealing( Character &who, item &weapon )
+{
+    return ::check_stealing( who, weapon );
 }
 
 void wield_activity_actor::do_turn( player_activity &, Character &who )

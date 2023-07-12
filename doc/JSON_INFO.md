@@ -259,6 +259,7 @@ Use the `Home` key to return to the top.
 - [Obsoletion and migration](#obsoletion-and-migration)
   - [Charge and temperature removal](#charge-and-temperature-removal)
 - [Field types](#field-types)
+  - [Immunity data](#immunity-data)
 - [Option sliders](#option-sliders)
   - [Option sliders - Fields](#option-sliders---fields)
   - [Option sliders - Levels](#option-sliders---levels)
