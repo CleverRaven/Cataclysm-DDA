@@ -50,6 +50,8 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const event_statistic_id event_statistic_last_words( "last_words" );
 
+static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
+
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 #if defined(__ANDROID__)
@@ -255,7 +257,7 @@ void monmove()
 
         m.creature_in_field( critter );
         if( calendar::once_every( 1_days ) ) {
-            if( critter.has_flag( MF_MILKABLE ) ) {
+            if( critter.has_flag( mon_flag_MILKABLE ) ) {
                 critter.refill_udders();
             }
             critter.try_biosignature();

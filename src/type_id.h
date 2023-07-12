@@ -145,6 +145,10 @@ using mission_type_id = string_id<mission_type>;
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;
 
+struct mon_flag;
+using mon_flag_id = int_id<mon_flag>;
+using mon_flag_str_id = string_id<mon_flag>;
+
 class monfaction;
 using mfaction_id = int_id<monfaction>;
 using mfaction_str_id = string_id<monfaction>;

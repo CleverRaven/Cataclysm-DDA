@@ -261,7 +261,7 @@
   {
     "type": "TOOL",
     "id": "matrix_crystal_coruscating",
-    "name": { "str_sp": "strange crystal" },
+    "name": { "str_sp": "strange crystal, coruscating" },
     "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, multicolored lights churn and swirl within its depths.",
     "copy-from": "matrix_crystal_biokinesis",
     "color": "brown",

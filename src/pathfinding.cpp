@@ -351,7 +351,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
                             newg += 2 * hp / bash + 8 + 4;
                         } else if( part >= 0 ) {
-                            if( !doors || !veh->part_flag( part, VPFLAG_OPENABLE ) ) {
+                            const vehicle_part &vp = veh->part( part );
+                            if( !doors || !vp.info().has_flag( VPFLAG_OPENABLE ) ) {
                                 // Won't be openable, don't try from other sides
                                 layer.state[index] = ASL_CLOSED;
                             }

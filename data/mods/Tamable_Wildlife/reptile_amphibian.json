@@ -33,6 +33,63 @@
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
+    "id": "mon_rattlesnake_s",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_s",
+    "name": { "str": "rattlesnake snakelet" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s slithers around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_big_s",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_big_s",
+    "name": { "str": "mutant rattlesnake snakelet" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s slithers around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake",
+    "name": { "str": "rattlesnake" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s slithers around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_big",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_big",
+    "name": { "str": "mutant rattlesnake" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_rattlesnake_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_giant",
+    "name": { "str": "giant rattlesnake" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_rattlesnake_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_rattlesnake_mega",
+    "name": { "str": "deathrattle serpent" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
     "id": "mon_toad",
     "type": "MONSTER",
     "copy-from": "mon_toad",

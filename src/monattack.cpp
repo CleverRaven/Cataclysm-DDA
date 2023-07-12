@@ -183,6 +183,13 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 
+static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
+static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
+static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -1034,8 +1041,8 @@ bool mattack::resurrect( monster *z )
         const tripoint &p = location.position();
         item &i = *location;
         const mtype *mt = i.get_mtype();
-        if( !( i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
-               mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
+        if( !( i.can_revive() && i.active && mt->has_flag( mon_flag_REVIVES ) &&
+               mt->in_species( species_ZOMBIE ) && !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
             continue;
         }
         if( here.get_field_intensity( p, fd_fire ) > 1 || !sees_and_is_empty( p ) ) {
@@ -1078,7 +1085,7 @@ bool mattack::resurrect( monster *z )
         // Check to see if there are any nearby living zombies to see if we should get angry
         const bool allies = g->get_creature_if( [&]( const Creature & critter ) {
             const monster *const zed = dynamic_cast<const monster *>( &critter );
-            return zed && zed != z && zed->type->has_flag( MF_REVIVES ) &&
+            return zed && zed != z && zed->type->has_flag( mon_flag_REVIVES ) &&
                    zed->type->in_species( species_ZOMBIE ) &&
                    z->attitude_to( *zed ) == Creature::Attitude::FRIENDLY  &&
                    within_target_range( z, zed, 10 );
@@ -1144,7 +1151,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return;
     }
-    if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+    if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         z->use_mech_power( 5_kJ );
     }
     z->set_dest( target->get_location() );
@@ -1164,7 +1171,7 @@ bool mattack::smash( monster *z )
     }
 
     //Don't try to smash immobile targets
-    if( target->has_flag( MF_IMMOBILE ) ) {
+    if( target->has_flag( mon_flag_IMMOBILE ) ) {
         return false;
     }
 
@@ -2322,7 +2329,7 @@ bool mattack::disappear( monster *z )
 bool mattack::depart( monster *z )
 {
     map &here = get_map();
-    if( z->has_flag( MF_FLIES ) && here.is_outside( z->pos() ) ) {
+    if( z->has_flag( mon_flag_FLIES ) && here.is_outside( z->pos() ) ) {
         add_msg_if_player_sees( *z, m_info, _( "The %s turns to a steady climb before departing." ),
                                 z->name() );
     } else {
@@ -4844,7 +4851,7 @@ bool mattack::leech_spawner( monster *z )
     const bool u_see = get_player_view().sees( *z );
     std::list<monster *> allies;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.in_species( species_LEECH_PLANT ) && !candidate.has_flag( MF_IMMOBILE ) ) {
+        if( candidate.in_species( species_LEECH_PLANT ) && !candidate.has_flag( mon_flag_IMMOBILE ) ) {
             allies.push_back( &candidate );
         }
     }
@@ -4873,10 +4880,10 @@ bool mattack::leech_spawner( monster *z )
 
 bool mattack::mon_leech_evolution( monster *z )
 {
-    const bool is_queen = z->has_flag( MF_QUEEN );
+    const bool is_queen = z->has_flag( mon_flag_QUEEN );
     std::list<monster *> queens;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.in_species( species_LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
+        if( candidate.in_species( species_LEECH_PLANT ) && candidate.has_flag( mon_flag_QUEEN ) &&
             rl_dist( z->pos(), candidate.pos() ) < 35 ) {
             queens.push_back( &candidate );
         }

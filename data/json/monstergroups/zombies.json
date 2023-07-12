@@ -202,7 +202,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_VANILLA_ONLY_HUMANS",
-    "//": "only human zombies, used in the refugee center and as upgrades for civilians",
+    "//": "only human zombies, used in the refugee center",
     "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
@@ -602,6 +602,14 @@
       { "monster": "mon_feral_fancy_rapier", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 20, "cost_multiplier": 2 },
       { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBULL_FROG_UPGRADE",
+    "monsters": [
+      { "monster": "mon_frog_dad", "weight": 75, "cost_multiplier": 3 },
+      { "monster": "mon_frog_mother", "weight": 25, "cost_multiplier": 1 }
     ]
   },
   {
