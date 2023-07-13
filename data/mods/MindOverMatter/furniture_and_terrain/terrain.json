@@ -57,5 +57,18 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
     "connect_groups": "NETHERWATER",
     "connects_to": "NETHERWATER"
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_small_alien",
+    "name": "alien tree",
+    "looks_like": "t_tree_dead",
+    "description": "A short tree, or something that's shaped like one.  It has long, needle-like leaves that twitch rhythmically and its dark reddish-purple bark has an almost scale-like pattern.",
+    "symbol": "7",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "bash": { "str_min": 40, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_grass_alien" }
   }
 ]
