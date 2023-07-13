@@ -569,9 +569,10 @@ void vehicles::parts::finalize()
 
         int difficulty = primary_req + mechanics_req + electronics_req * 2;
         //time_duration install_time = std::max(5_minutes, std::min(10_minutes * difficulty * (item->weight / 2000_gram), 60_minutes));
-        double modifier = std::sqrt(item->weight) / 2000_gram;
-        time_duration install_time = 10_minutes * difficulty * modifier;
-        time_duration removal_time = 10_minutes * difficulty / 2;
+        //double modifier = std::sqrt(item->weight) / 2000_gram;
+        time_duration install_time = 10_minutes * difficulty * std::sqrt(to_milligram(item->weight));
+        //time_duration install_time = 10_minutes * difficulty;
+        time_duration removal_time = install_time / 2;
 
         new_part.install_moves = install_time;
         new_part.removal_moves = removal_time;

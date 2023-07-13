@@ -705,7 +705,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
-    bool stop = false;
+    /*bool stop = false;
     creature_tracker &creatures = get_creature_tracker();
     for( const point &pt_elem : points_to_check ) {
         point elem = here.getlocal( pt_elem );
@@ -754,7 +754,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         }
         stop_autodriving();
         return;
-    }
+    }*/
     int turn_x = get_turn_from_angle( angle, vehpos, target );
     int accel_y = 0;
     // best to cruise around at a safe velocity or 40mph, whichever is lowest
