@@ -161,7 +161,7 @@
   },
   {
     "result": "software_math",
-    "id_suffix": "_inventor",
+    "id_suffix": "inventor",
     "container": "usb_drive",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -177,7 +177,7 @@
   },
   {
     "result": "software_electronics_reference",
-    "id_suffix": "_inventor",
+    "id_suffix": "inventor",
     "container": "usb_drive",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
