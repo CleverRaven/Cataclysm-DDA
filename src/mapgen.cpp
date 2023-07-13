@@ -3442,48 +3442,55 @@ class jmapgen_nested : public jmapgen_piece
         class neighbor_oter_check
         {
             private:
-                std::unordered_map<direction, cata::flat_set<oter_type_str_id>> neighbors;
+                std::unordered_map<direction, cata::flat_set<std::pair<std::string, ot_match_type>>> neighbors; // Matches the direction to check with the information to check
             public:
                 explicit neighbor_oter_check( const JsonObject &jsi ) {
-                    for( direction dir : all_enum_values<direction>() ) {
-                        cata::flat_set<oter_type_str_id> dir_neighbours =
-                            jsi.get_tags<oter_type_str_id, cata::flat_set<oter_type_str_id>>(
-                                io::enum_to_string( dir ) );
+                    for( direction dir : all_enum_values<direction>() ) { // Iterate through all 10 directions
+                        
+                        std::string location = io::enum_to_string( dir ); // Read direction
+                        cata::flat_set<std::pair<std::string, ot_match_type>> dir_neighbours; // That directions contents
+                        // Prevents needing to move all existing single checks to be part of an array, new single objects have to be in arrays though bc one unnecessary if is ugly enough
+                        if ( !jsi.has_string( location ) ) {
+                            for ( const JsonValue entry : jsi.get_array( location ) ) { // For every array element
+                                std::pair<std::string, ot_match_type> dir_neighbour; // Singular string om_match_type element
+                                    if ( entry.test_string() ) {
+                                        dir_neighbour.first = entry.get_string();
+                                        dir_neighbour.second = ot_match_type::contains; // Default ot_match_type to contains
+                                    }
+                                    else {
+                                        JsonObject jo = entry.get_object();
+                                        dir_neighbour.first = jo.get_string( "om_terrain" );
+                                        dir_neighbour.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                            ot_match_type::contains );
+                                    }
+                                dir_neighbours.insert( dir_neighbour ); // Add it to the set
+                            }
+                        }
+                        else {
+                            std::pair<std::string, ot_match_type> dir_neighbour;
+                            dir_neighbour.first = jsi.get_string( location );
+                            dir_neighbour.second = ot_match_type::contains;
+                            dir_neighbours.insert( dir_neighbour );
+                        }
                         if( !dir_neighbours.empty() ) {
-                            neighbors[dir] = std::move( dir_neighbours );
+                            neighbors[dir] = std::move( dir_neighbours ); // If the set isn't empty add it to the map
                         }
                     }
                 }
 
-                void check( const std::string_view/*oter_name*/, const mapgen_parameters & ) const {
-                    // The check is ot_match_type::contains, so actually these
-                    // don't need to be valid ids, although they were until
-                    // recently.  TODO: permit the JSON to specify which match
-                    // type is intended and check where applicable.
-
-                    //for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
-                    //     neighbors ) {
-                    //    for( const oter_type_str_id &id : p.second ) {
-                    //        if( !id.is_valid() ) {
-                    //            debugmsg( "Invalid oter_str_id '%s' in %s", id.str(), oter_name );
-                    //        }
-                    //    }
-                    //}
-                }
-
                 bool test( const mapgendata &dat ) const {
-                    for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
-                         neighbors ) {
+                    for( const std::pair<const direction, cata::flat_set<std::pair<std::string, ot_match_type>>> &p : // Iterate through the map
+                        neighbors) {
                         const direction dir = p.first;
-                        const cata::flat_set<oter_type_str_id> &allowed_neighbors = p.second;
+                        const cata::flat_set<std::pair<std::string, ot_match_type>> &allowed_neighbors = p.second;
 
                         cata_assert( !allowed_neighbors.empty() );
 
                         bool this_direction_matches = false;
-                        for( const oter_type_str_id &allowed_neighbor : allowed_neighbors ) {
+                        for( const std::pair<std::string, ot_match_type> &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |=
-                                is_ot_match( allowed_neighbor.str(), dat.neighbor_at( dir ).id(),
-                                             ot_match_type::contains );
+                                is_ot_match( allowed_neighbor.first, dat.neighbor_at( dir ).id(),
+                                             allowed_neighbor.second );
                         }
                         if( !this_direction_matches ) {
                             return false;
@@ -3660,7 +3667,6 @@ class jmapgen_nested : public jmapgen_piece
             for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
                 p.obj.check( oter_name, parameters );
             }
-            neighbor_oters.check( oter_name, parameters );
             neighbor_joins.check( oter_name, parameters );
 
             // Check whether any of the nests can attempt to place stuff out of
