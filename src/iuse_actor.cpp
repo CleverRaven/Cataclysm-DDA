@@ -535,7 +535,7 @@ void sound_iuse::load( const JsonObject &obj )
     obj.read( "sound_volume", sound_volume );
 }
 
-std::optional<int> sound_iuse::use( Character *p, item &it, bool,
+std::optional<int> sound_iuse::use( Character, item, bool,
                                     const tripoint &pos ) const
 {
     sounds::sound( pos, sound_volume, sounds::sound_t::alarm, sound_message.translated(), true );
@@ -606,7 +606,7 @@ void explosion_iuse::load( const JsonObject &obj )
     obj.read( "scrambler_blast_radius", scrambler_blast_radius );
 }
 
-std::optional<int> explosion_iuse::use( Character *p, item &it, bool, const tripoint &pos ) const
+std::optional<int> explosion_iuse::use( Character *p, item, bool, const tripoint &pos ) const
 {
     if( explosion.power >= 0.0f ) {
         explosion_handler::explosion( p, pos, explosion );
