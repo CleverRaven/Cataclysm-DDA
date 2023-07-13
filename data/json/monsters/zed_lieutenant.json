@@ -19,8 +19,8 @@
     "symbol": "L",
     "color": "red_white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "aggression": 10,
-    "morale": 100,
+    "aggression": 100,
+    "morale": 300,
     "melee_skill": 10,
     "//00": "Unfortunately, we do need some melee damage so that it can bash through terrain and the like.",
     "melee_dice": 2,
@@ -38,8 +38,18 @@
     "//5": "TODO: Special attacks: EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN, illuminates_u, makes VERY loud noises(attracts wandering hordes)",
     "special_attacks": [
       [ "UPGRADE", 20 ],
-      { "type": "spell", "spell_data": { "id": "illuminates_u", "min_level": 20 }, "monster_message": "The shadows recede, leaving you with nowhere to hide!", "cooldown": 10 },
-      { "type": "spell", "spell_data": { "id": "DEBUG_LIFE_DRAIN", "min_level": 1 }, "monster_message": "TODO I choose you, EOC life drain!", "cooldown": 20 }
+      {
+        "type": "spell",
+        "spell_data": { "id": "illuminates_u", "min_level": 20 },
+        "monster_message": "The shadows recede, leaving you with nowhere to hide!",
+        "cooldown": 10
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "DEBUG_LIFE_DRAIN", "min_level": 1 },
+        "monster_message": "TODO I choose you, EOC life drain!",
+        "cooldown": 20
+      }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "//2": "Death EOC?",
@@ -222,11 +232,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
-    "//": "TODO: Check every once in a while but not instantly, make sure he's not an every-night sort of thing. Should be about 1 in 5 nights, and can be instantly dismissed by simply getting to safety(EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW)",
-    "recurrence": 1,
+    "recurrence": [ "4 hours", "4 hours" ],
     "//1": "Night time, shadow is active, you are outdoors, and you are not likely to be near shelter.",
     "condition": {
       "and": [
+        { "one_in_chance": 6 },
         { "not": "is_day" },
         { "math": [ "u_Lieutenants_active", ">", "0" ] },
         { "math": [ "u_Shadow_Lurking", ">", "0" ] },
@@ -247,7 +257,12 @@
     "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
     "recurrence": 5,
     "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. TODO: is_day evaluates true before sundeath kicks in?",
-    "condition": { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
+    "condition": {
+      "and": [
+        { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
+        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] }
+      ]
+    },
     "//2": "TODO: Despawn shadow, adjust var for later to bring him back",
     "effect": [
       { "u_adjust_var": "Shadow_Lurking", "adjustment": 1 },
