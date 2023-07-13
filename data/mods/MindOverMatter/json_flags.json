@@ -46,7 +46,7 @@
   },
   {
     "id": "TEEP_IMMUNE",
-    "type": "monster_flag",  
+    "type": "monster_flag",
     "//": "Immune to telepathic damage"
   }
 ]
