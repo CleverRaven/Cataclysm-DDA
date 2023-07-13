@@ -4383,7 +4383,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
     const int respool_time_total = !it.link || it.link->length < respool_threshold ? 0 :
                                    ( it.link->length - respool_threshold ) * respool_time_per_square;
     const bool past_respool_threshold = it.link_length() > respool_threshold;
-    const bool unspooled = it.link && it.link->has_state( link_state::needs_reeling );
+    const bool unspooled = it.link_length() == -1;
     const bool has_loose_end = !unspooled && is_cable_item ? !it.link ||
                                it.link->has_state( link_state::no_link ) :
                                !it.link || it.link->has_no_links();
@@ -4517,15 +4517,10 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
 
     } else if( choice >= 998 ) {
         // Selection: Unconnect & respool.
-        if( unspooled ) {
-            if( choice == 998 ) {
-                // If the "Re-spool" option was selected, re-open the menu after the cable is reeled.
-                p->assign_activity( invoke_item_activity_actor( item_location{*p, &it}, "link_up" ) );
-                p->activity.auto_resume = true;
-            }
-            p->assign_activity( player_activity( reel_cable_activity_actor( respool_time_total, item_location{*p, &it} ) ) );
-            return 0;
-        }
+
+        // Reopen the menu after respooling.
+        p->assign_activity( invoke_item_activity_actor( item_location{*p, &it}, "link_up" ) );
+        p->activity.auto_resume = true;
 
         it.reset_link( p );
         // Cables that are too long need to be manually rewound before reuse.

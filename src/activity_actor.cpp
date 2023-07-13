@@ -5682,9 +5682,8 @@ void invoke_item_activity_actor::do_turn( player_activity &, Character &who )
         who.invoke_item( item.get_item() );
         return;
     }
-    std::string it_method = method;
     who.cancel_activity();
-    who.invoke_item( item.get_item(), it_method );
+    who.invoke_item( item.get_item(), method );
 }
 
 void invoke_item_activity_actor::serialize( JsonOut &jsout ) const
