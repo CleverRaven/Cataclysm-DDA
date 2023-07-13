@@ -117,7 +117,7 @@ struct vpslot_engine {
     int muscle_power_factor = 0;
     float damaged_power_factor = 0.0f;
     int noise_factor = 0;
-    int m2c = 1;
+    int m2c = 100;
     std::vector<std::string> exclusions;
     std::vector<itype_id> fuel_opts;
 };
@@ -277,18 +277,6 @@ class vpart_info
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
         time_duration repair_time( const Character &you ) const;
 
-        /**
-         * @name Engine specific functions
-         *
-         */
-        std::vector<std::string> engine_excludes() const;
-        int engine_m2c() const;
-        float engine_backfire_threshold() const;
-        int engine_backfire_freq() const;
-        int engine_muscle_power_factor() const;
-        float engine_damaged_power_factor() const;
-        int engine_noise_factor() const;
-        std::vector<itype_id> engine_fuel_opts() const;
         /** @name rotor specific functions
         */
         int rotor_diameter() const;

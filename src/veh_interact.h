@@ -255,9 +255,6 @@ class veh_interact
         bool can_remove_part( int idx, const Character &you );
         //do install support, writes requirements to ui
         bool update_part_requirements();
-        //true if trying to install foot crank with electric engines for example
-        //writes failure to ui
-        bool is_drive_conflict();
 
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.

@@ -233,7 +233,7 @@ itype_id vehicle_part::fuel_current() const
 bool vehicle_part::fuel_set( const itype_id &fuel )
 {
     if( is_engine() ) {
-        for( const itype_id &avail : info().engine_fuel_opts() ) {
+        for( const itype_id &avail : info().engine_info->fuel_opts ) {
             if( fuel == avail ) {
                 ammo_pref = fuel;
                 return true;

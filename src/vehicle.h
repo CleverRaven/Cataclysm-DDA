@@ -1974,9 +1974,8 @@ class vehicle
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type_not( const itype_id &ft, bool enabled ) const;
-        //returns true if there's another engine with the same exclusion list; conflict_type holds
-        //the exclusion
-        bool has_engine_conflict( const vpart_info *possible_conflict, std::string &conflict_type ) const;
+        // @returns engine conflict string if another engine has same exclusion list or std::nullopt
+        std::optional<std::string> has_engine_conflict( const vpart_info &possible_conflict ) const;
         //returns true if the engine doesn't consume fuel
         bool is_perpetual_type( const vehicle_part &vp ) const;
         //if necessary, damage this engine

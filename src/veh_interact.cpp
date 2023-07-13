@@ -762,19 +762,6 @@ task_reason veh_interact::cant_do( char mode )
     return task_reason::CAN_DO;
 }
 
-bool veh_interact::is_drive_conflict()
-{
-    std::string conflict_type;
-    bool has_conflict = veh->has_engine_conflict( sel_vpart_info, conflict_type );
-
-    if( has_conflict ) {
-        //~ %1$s is fuel_type
-        msg = string_format( _( "Only one %1$s powered engine can be installed." ),
-                             conflict_type );
-    }
-    return has_conflict;
-}
-
 bool veh_interact::can_self_jack()
 {
     int lvl = jack_quality( *veh );
@@ -800,7 +787,9 @@ bool veh_interact::update_part_requirements()
         return false;
     }
 
-    if( is_drive_conflict() ) {
+    if( const std::optional<std::string> conflict = veh->has_engine_conflict( *sel_vpart_info ) ) {
+        //~ %1$s is fuel_type
+        msg = string_format( _( "Only one %1$s powered engine can be installed." ), conflict.value() );
         return false;
     }
     if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {

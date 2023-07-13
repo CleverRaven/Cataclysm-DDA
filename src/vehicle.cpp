@@ -935,30 +935,26 @@ bool vehicle::has_engine_type_not( const itype_id &ft, const bool enabled ) cons
     return false;
 }
 
-bool vehicle::has_engine_conflict( const vpart_info *possible_conflict,
-                                   std::string &conflict_type ) const
+std::optional<std::string> vehicle::has_engine_conflict( const vpart_info &possible_conflict ) const
 {
-    std::vector<std::string> new_excludes = possible_conflict->engine_excludes();
-    // skip expensive string comparisons if there are no exclusions
-    if( new_excludes.empty() ) {
-        return false;
+    if( !possible_conflict.engine_info ) {
+        return std::nullopt; // not an engine
     }
-
-    bool has_conflict = false;
-
+    const std::vector<std::string> &new_excludes = possible_conflict.engine_info->exclusions;
+    if( new_excludes.empty() ) {
+        return std::nullopt;
+    }
     for( const int p : engines ) {
         const vehicle_part &vp = parts[p];
-        std::vector<std::string> install_excludes = vp.info().engine_excludes();
+        std::vector<std::string> install_excludes = vp.info().engine_info->exclusions;
         std::vector<std::string> conflicts;
         std::set_intersection( new_excludes.begin(), new_excludes.end(), install_excludes.begin(),
                                install_excludes.end(), back_inserter( conflicts ) );
         if( !conflicts.empty() ) {
-            has_conflict = true;
-            conflict_type = conflicts.front();
-            break;
+            return conflicts.front();
         }
     }
-    return has_conflict;
+    return std::nullopt;
 }
 
 bool vehicle::is_engine_type( const vehicle_part &vp, const itype_id  &ft ) const
@@ -1057,7 +1053,7 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
                 const float muscle_multiplier = muscle_user->str_cur - 8;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
-                const float engine_multiplier = vpi.engine_muscle_power_factor();
+                const float engine_multiplier = vpi.engine_info->muscle_power_factor;
                 pwr += units::from_watt( muscle_multiplier * weary_multiplier * engine_multiplier );
             }
         } else if( vpi.fuel_type == fuel_type_wind ) {
@@ -1080,9 +1076,11 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
     // Damaged engines give less power, but some engines handle it better
     // dpf is 0 for engines that scale power linearly with damage and
     // provides a floor otherwise
-    const float dpf = vpi.engine_damaged_power_factor();
-    const double effective_percent = dpf + ( ( 1 - dpf ) * vp.health_percent() );
-    return pwr * effective_percent;
+    if( vpi.has_flag( VPFLAG_ENGINE ) ) {
+        const float dpf = vpi.engine_info->damaged_power_factor;
+        pwr *= dpf + ( ( 1.0f - dpf ) * vp.health_percent() );
+    }
+    return pwr;
 }
 
 // alternators, solar panels, reactors, and accessories all have epower.
@@ -1206,9 +1204,8 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
         }
     }
 
-    std::string engine_conflict;
-    if( has_engine_conflict( &vpi, engine_conflict ) ) {
-        return ret_val<void>::make_failure( _( "Engine conflict: %s." ), engine_conflict );
+    if( const std::optional<std::string> conflict = has_engine_conflict( vpi ) ) {
+        return ret_val<void>::make_failure( _( "Engine conflict: %s." ), conflict.value() );
     }
 
     // Check all the flags of the part to see if they require other flags
@@ -3467,7 +3464,7 @@ units::power vehicle::total_power( const bool fueled, const bool safe ) const
     for( const int p : engines ) {
         const vehicle_part &vp = parts[p];
         if( is_engine_on( vp ) && ( !fueled || engine_fuel_left( vp ) ) ) {
-            int m2c = safe ? vp.info().engine_m2c() : 100;
+            int m2c = safe ? vp.info().engine_info->m2c : 100;
             if( vp.has_fault_flag( "REDUCE_ENG_POWER" ) ) {
                 m2c *= 0.6;
             }
@@ -3811,7 +3808,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             // idle stress = 1.0 resulting in nominal working engine noise = engine_noise_factor()
             // and preventing noise = 0
             cur_stress = std::max( cur_stress, 1.0 );
-            double part_noise = cur_stress * vp.info().engine_noise_factor();
+            double part_noise = cur_stress * vp.info().engine_info->noise_factor;
 
             if( is_engine_type_combustion( vp ) ) {
                 combustion = true;
@@ -3819,7 +3816,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 if( vp.has_fault_flag( "ENG_BACKFIRE" ) ) {
                     health = 0.0;
                 }
-                if( health < vp.info().engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
+                if( health < vp.info().engine_info->backfire_threshold && one_in( 50 + 150 * health ) ) {
                     backfire( vp );
                 }
                 double j = cur_stress * to_turns<int>( time ) * muffle * 1000;

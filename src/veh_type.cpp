@@ -1063,50 +1063,6 @@ time_duration vpart_info::repair_time( const Character &you ) const
     return scale_time( repair_skills, repair_moves, you );
 }
 
-/**
- * @name Engine specific functions
- *
- */
-float vpart_info::engine_backfire_threshold() const
-{
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_threshold : false;
-}
-
-int vpart_info::engine_backfire_freq() const
-{
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_freq : false;
-}
-
-int vpart_info::engine_muscle_power_factor() const
-{
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->muscle_power_factor : false;
-}
-
-float vpart_info::engine_damaged_power_factor() const
-{
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->damaged_power_factor : false;
-}
-
-int vpart_info::engine_noise_factor() const
-{
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->noise_factor : false;
-}
-
-int vpart_info::engine_m2c() const
-{
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
-}
-
-std::vector<std::string> vpart_info::engine_excludes() const
-{
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->exclusions : std::vector<std::string>();
-}
-
-std::vector<itype_id> vpart_info::engine_fuel_opts() const
-{
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
-}
-
 bool vpart_info::has_category( const std::string &category ) const
 {
     return this->categories.find( category ) != this->categories.end();
