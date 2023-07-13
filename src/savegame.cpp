@@ -2,6 +2,7 @@
 
 #include <clocale>
 #include <algorithm>
+#include <fstream>
 #include <map>
 #include <sstream>
 #include <string>
@@ -15,6 +16,7 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "cata_io.h"
+#include "cata_path.h"
 #include "city.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
@@ -1608,4 +1610,81 @@ void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )
     for( const JsonValue &special : ja ) {
         placed_unique_specials.emplace( special.get_string() );
     }
+}
+
+void npc::import_and_clean( const cata_path &path )
+{
+    std::ifstream fin( path.get_unrelative_path(), std::ios::binary );
+    size_t json_offset = chkversion( fin );
+    JsonValue jsin = json_loader::from_path_at_offset( path, json_offset );
+    import_and_clean( jsin.get_object() );
+}
+
+void npc::import_and_clean( const JsonObject &data )
+{
+    deserialize( data );
+
+    npc defaults;  // to avoid hardcoding defaults here
+
+    // avoid duplicate id
+    setID( g->assign_npc_id(), /* force */ true );
+
+    // timestamps are irrelevant if importing into a different world
+    last_updated = defaults.last_updated;
+    lifespan_end = defaults.lifespan_end;
+    effects->clear();
+    consumption_history = defaults.consumption_history;
+    last_sleep_check = defaults.last_sleep_check;
+    queued_effect_on_conditions = defaults.queued_effect_on_conditions;
+
+    // space coordinates are irrelevant if importing into a different world
+    set_location( defaults.get_location() );
+    omt_path = defaults.omt_path;
+    known_traps.clear();
+    camps = defaults.camps;
+    last_player_seen_pos = defaults.last_player_seen_pos;
+    guard_pos = defaults.guard_pos;
+    pulp_location = defaults.pulp_location;
+    chair_pos = defaults.chair_pos;
+    wander_pos = defaults.wander_pos;
+    goal = defaults.goal;
+    assigned_camp = defaults.assigned_camp;
+    job = defaults.job;
+
+    // mission related
+    mission = defaults.mission;
+    previous_mission = defaults.previous_mission;
+    reset_companion_mission();
+    companion_mission_role_id = defaults.companion_mission_role_id;
+    companion_mission_points = defaults.companion_mission_points;
+    companion_mission_time = defaults.companion_mission_time;
+    companion_mission_time_ret = defaults.companion_mission_time_ret;
+    companion_mission_inv.clear();
+    chatbin.missions.clear();
+    chatbin.missions_assigned.clear();
+    chatbin.mission_selected = nullptr;
+
+    // activity related
+    activity = defaults.activity;
+    backlog = defaults.backlog;
+    clear_destination();
+    stashed_outbounds_activity = defaults.stashed_outbounds_activity;
+    stashed_outbounds_backlog = defaults.stashed_outbounds_backlog;
+    activity_vehicle_part_index = defaults.activity_vehicle_part_index;
+    current_activity_id = defaults.current_activity_id;
+
+    // miscellaneous
+    in_vehicle = defaults.in_vehicle;
+    warning_record = defaults.warning_record;
+    complaints = defaults.complaints;
+    unique_id = defaults.unique_id;
+}
+
+void npc::export_to( const cata_path &path ) const
+{
+    write_to_file( path, [&]( std::ostream & fout ) {
+        fout << "# version " << savegame_version << std::endl;
+        JsonOut jsout( fout );
+        serialize( jsout );
+    } );
 }

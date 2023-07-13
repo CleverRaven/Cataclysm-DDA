@@ -29,6 +29,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
@@ -1665,7 +1666,6 @@ void talk_function::field_harvest( npc &p, const std::string &place )
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.is_seed();
             } );
-
             if( seed != items.end() ) {
                 const islot_seed &seed_data = *seed->type->seed;
                 const item item_seed = item( seed->type, calendar::turn );

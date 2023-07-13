@@ -335,6 +335,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_skeleton",
+    "name": { "str": "Skin and bones" },
+    "points": 0,
+    "description": "People always used to tell you that you should eat more.  It seems you needed their reminders because you can see your bones at this point.  You have skeletal armor.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "skeleton_plate" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_olde_guns",
     "name": { "str": "Olde Reliables" },
     "points": 0,

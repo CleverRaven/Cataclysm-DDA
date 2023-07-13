@@ -508,7 +508,7 @@
     "volume": "3000 ml",
     "price": 24000,
     "price_postapoc": 2500,
-    "material": [ "nylon", "leather" ],
+    "material": [ "denim", "leather" ],
     "symbol": "[",
     "looks_like": "legrig",
     "color": "brown",

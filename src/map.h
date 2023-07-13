@@ -1729,6 +1729,7 @@ class map
         // @param init_veh_status   value of -1 spawns lightly damaged vehicle
         //                          value of 0 spawns fully intact vehicle
         //                          value of 1 spawns with destroyed seats / controls / tanks / tires / engines
+        //                          value of 2 spawns fully intact vehicle with no faults or security
         //                          can be overriden by VEHICLE_STATUS_AT_SPAWN EXTERNAL_OPTION
         // @param merge_wrecks      if true and vehicle overlaps another then both turn into wrecks
         //                          if false and vehicle will overlap aborts and returns nullptr

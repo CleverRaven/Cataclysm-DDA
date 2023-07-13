@@ -346,6 +346,24 @@
     "name": { "str_sp": "fry" }
   },
   {
+    "id": "mon_fish_whitefish_round",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "round whitefish" },
+    "looks_like": "mon_fish_whitefish",
+    "description": "A round whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
+    "volume": "850 ml",
+    "weight": "355 g",
+    "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_whitefish_round",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_whitefish_round" },
+    "name": { "str_sp": "fry" }
+  },
+  {
     "id": "mon_fish_lbass",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
@@ -591,6 +609,24 @@
     "name": { "str_sp": "fry" }
   },
   {
+    "id": "mon_fish_bullhead_yellow",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str": "yellow bullhead" },
+    "looks_like": "mon_fish_bullhead",
+    "description": "A yellow bullhead, a type of catfish.  Delicious when battered and fried, though smaller than its brown cousin.",
+    "volume": "250 ml",
+    "weight": "454 g",
+    "reproduction": { "baby_egg": "egg_bullhead_yellow", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_bullhead_yellow",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_bullhead_yellow" },
+    "name": { "str_sp": "fry" }
+  },
+  {
     "id": "mon_fish_channel_catfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
@@ -658,6 +694,23 @@
     "type": "MONSTER",
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_pickerel" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_pickerel_american",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str": "American pickerel" },
+    "description": "An American pickerel.  It looks like a pike, but unlike its chain pickerel cousin, this one is way smaller.",
+    "volume": "170 ml",
+    "weight": "200 g",
+    "reproduction": { "baby_egg": "egg_pickerel_american", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_pickerel_american",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_pickerel_american" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -732,6 +785,24 @@
     "name": { "str_sp": "fry" }
   },
   {
+    "id": "mon_fish_goldfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "goldfish" },
+    "looks_like": "mon_fish_carp",
+    "description": "Yes, this is that common pet fish.  Though, given its size and the fact that it's still alive, you can take a wild guess that this one is feral.",
+    "volume": "570 ml",
+    "weight": "300 g",
+    "reproduction": { "baby_egg": "egg_goldfish", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_goldfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_goldfish" },
+    "name": { "str_sp": "fry" }
+  },
+  {
     "id": "mon_fish_bowfin",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
@@ -746,6 +817,76 @@
     "type": "MONSTER",
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_bowfin" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_gar_longnose",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "longnose gar" },
+    "looks_like": "mon_fish_pike",
+    "description": "A large ancient type of fish with a mean jaw and poisonous eggs.",
+    "volume": "4820 ml",
+    "weight": "920 g",
+    "reproduction": { "baby_egg": "egg_gar_longnose", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_gar_longnose",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_gar_longnose" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_burbot",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str": "burbot" },
+    "description": "A relatively large fish that looks like a cross between a catfish and an eel, and is the only freshwater fish from the order that cods hail from.",
+    "volume": "1400 ml",
+    "weight": "620 g",
+    "reproduction": { "baby_egg": "egg_burbot", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_burbot",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_burbot" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_sturgeon_lake",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "lake sturgeon" },
+    "description": "A very large armored bottom-feeder, the lake sturgeon is one of the largest unmutated fish one can find in the freshwater regions of New England.",
+    "volume": "20220 ml",
+    "weight": "14500 g",
+    "reproduction": { "baby_egg": "egg_sturgeon_lake", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_sturgeon_lake",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_sturgeon_lake" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_sturgeon_shortnose",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "shortnose sturgeon" },
+    "looks_like": "mon_fish_sturgeon_lake",
+    "description": "While the shortnose sturgeon is still large, it is nothing compared to its cousin - the lake sturgeon.  What really sets it apart, however, is its signature shorter snout.",
+    "volume": "2720 ml",
+    "weight": "980 g",
+    "reproduction": { "baby_egg": "egg_sturgeon_shortnose", "baby_count": 2, "baby_timer": 17 }
+  },
+  {
+    "id": "mon_fry_sturgeon_shortnose",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_sturgeon_shortnose" },
     "name": { "str_sp": "fry" }
   },
   {

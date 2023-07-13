@@ -193,6 +193,10 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
+static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
+static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
@@ -1826,7 +1830,7 @@ bool read_activity_actor::player_readma( avatar &you )
 
     if( one_in( difficulty ) ) {
         // learn martial art
-        mart_iter->second.call( you, *book, false, you.pos() );
+        mart_iter->second.call( &you, *book, false, you.pos() );
         return true;
     } else if( continuous ) {
         switch( rng( 1, 5 ) ) {
@@ -4034,7 +4038,7 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
         }
     } else {
         get_map().add_item_or_charges( target, critter.to_item() );
-        if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
+        if( !critter.has_flag( mon_flag_INTERIOR_AMMO ) ) {
             for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
                     get_map().spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
@@ -4055,8 +4059,8 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
     }
 
     return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
-             !monster.has_flag( MF_RIDEABLE_MECH ) &&
-             !( monster.has_flag( MF_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
+             !monster.has_flag( mon_flag_RIDEABLE_MECH ) &&
+             !( monster.has_flag( mon_flag_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
            ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
 }
 
@@ -5530,11 +5534,19 @@ static bool check_stealing( Character &who, item &it )
             Pickup::query_thief();
         }
         if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+                who.set_value( "THIEF_MODE", "THIEF_ASK" );
+            }
             return false;
         }
     }
 
     return true;
+}
+
+bool avatar_action::check_stealing( Character &who, item &weapon )
+{
+    return ::check_stealing( who, weapon );
 }
 
 void wield_activity_actor::do_turn( player_activity &, Character &who )

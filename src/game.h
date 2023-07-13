@@ -258,6 +258,17 @@ class game
                 async_anim_layer_curses; // NOLINT(cata-serialize)
 
     public:
+        void init_draw_blink_curses( const tripoint &p, const std::string &ncstr,
+                                     const nc_color &nccol );
+        void draw_blink_curses();
+        void void_blink_curses();
+        bool has_blink_curses();
+        bool blink_active_phase = true; // NOLINT(cata-serialize)
+    protected:
+        std::map<tripoint, std::pair <std::string, nc_color>>
+                blink_layer_curses; // NOLINT(cata-serialize)
+
+    public:
         // when force_redraw is true, redraw all panel instead of just animated panels
         // mostly used after UI updates
         void draw_panels( bool force_draw = false );

@@ -50,6 +50,7 @@ An NPC faction looks like this:
         "kill on sight": true
       }
     },
+	"epilogues": [ { "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" } ],
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },
 ```
@@ -66,12 +67,14 @@ Field                 | Meaning
 `"size"`              | integer, an approximate count of the members of the faction.  Has no effect in play currently.
 `"power"`             | integer, an approximation of the faction's power.  Has no effect in play currently.
 `"food_supply"`       | integer, the number of calories available to the faction.  Has no effect in play currently.
-`"wealth"`            | integer, number of post-apocalyptic currency in cents that that faction has to purchase stuff.
+`"wealth"`            | integer, number of post-apocalyptic currency in cents that that faction has to purchase stuff. Serves as an upper limit on the amount of items restocked by a NPC of this faction with a defined shopkeeper_item_group (see NPCs.md)
 `"currency"`          | string, the item `"id"` of the faction's preferred currency.  Faction shopkeeps will trade faction current at 100% value, for both selling and buying.
 `"price_rules"`       | array, allows defining `premium`, `markup`, `price` and/or `fixed_adj` for an `item`/`category`/`group`.<br/><br/>`premium` is a price multiplier that applies to both sides.<br/> `markup` is only used when an NPC is selling to the avatar and defaults to `1`.<br/>`price` replaces the item's `price_postapoc`.<br/>`fixed_adj` is used instead of adjustment based on social skill and intelligence stat and can be used to define secondary currencies.<br/><br/>Lower entries override higher ones. For conditionals, the avatar is used as alpha and the evaluating npc as beta
 `"relations"`         | dictionary, a description of how the faction sees other factions.  See below
 `"mon_faction"`       | string, optional.  The monster faction `"name"` of the monster faction that this faction counts as.  Defaults to "human" if unspecified.
 `"lone_wolf_faction"` | bool, optional. This is a proto/micro faction template that is used to generate 1-person factions for dynamically spawned NPCs, defaults to "false" if unspecified.
+`"description"`       | string, optional. The player's description of this faction as seen in the faction menu.
+`"epilogues"`         | array of objects, optional. Requires these objects: `power_min` - minimal faction power for epilogue to appear, `power_max` - maximum faction power for epilogue to appear, `id` - id of text snippet containing text of epilogue.
 
 ## Scale of faction values
 Interacting with factions has certain effects on how the faction sees the player. These are reflected in values like `likes_u`, `respects_u` and `trusts_u`. Here's a (non-comprehensive) list to provide some context on how much these values are worth:

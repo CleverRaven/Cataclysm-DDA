@@ -2162,23 +2162,26 @@
   {
     "result": "ceramic_bowl",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "ceramic_cup",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "ceramic_plate",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "char_purifier",

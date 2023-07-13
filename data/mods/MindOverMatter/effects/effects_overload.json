@@ -1,22 +1,44 @@
 [
   {
     "type": "effect_type",
-    "id": "effect_psionic_drain",
-    "name": [ "Drained" ],
-    "desc": [ "Your use of psionic powers has taken its toll.  You may want to rest and recover." ],
+    "id": "effect_disease_psionic_drain",
+    "name": [
+      "Drained",
+      "Drained",
+      "Drained",
+      "Enervated",
+      "Enervated",
+      "Enervated",
+      "Debilitated",
+      "Debilitated",
+      "Enfeebled",
+      "Enfeebled",
+      "Hollowed Out",
+      "Hollowed Out"
+    ],
+    "desc": [
+      "You're a little short of breath and your muscles ache.  Your use of psionic powers has taken its toll.",
+      "You're a little short of breath and your muscles ache.  Your use of psionic powers has taken its toll.",
+      "You're a little short of breath and your muscles ache.  Your use of psionic powers has taken its toll.",
+      "You feel an unnatural tiredness that penetrates to your core.  All that psionic channeling is gravely affecting you.",
+      "You feel an unnatural tiredness that penetrates to your core.  All that psionic channeling is gravely affecting you.",
+      "You feel an unnatural tiredness that penetrates to your core.  All that psionic channeling is gravely affecting you.",
+      "You're having a hard time standing and keeping your eyes open.  Your powers have taken the greater part of your energy.",
+      "You're having a hard time standing and keeping your eyes open.  Your powers have taken the greater part of your energy.",
+      "You can barely stand and your stomach gnaws with hunger.  Use of your powers has nearly drained you dry.",
+      "You can barely stand and your stomach gnaws with hunger.  Use of your powers has nearly drained you dry.",
+      "Simply moving takes almost all of your effort and you have to fight to stay awake.  You've very nearly drained your life away.",
+      "Simply moving takes almost all of your effort and you have to fight to stay awake.  You've very nearly drained your life away."
+    ],
     "rating": "bad",
     "apply_message": "You feel a little tired.  All that psionic channeling is starting to wear you down.",
-    "int_add_val": 1,
-    "max_intensity": 100,
-    "dur_add_perc": 110,
-    "int_decay_step": -1,
-    "int_decay_tick": 14400,
-    "int_decay_remove": true,
-    "max_duration": "4000 hours",
+    "remove_message": "You take a deep breath as the last of the unnatural tiredness of psionic channeling leaves you.",
+    "max_intensity": 12,
     "base_mods": {
+      "str_mod": [ -1 ],
       "stamina_amount": [ -500 ],
       "stamina_min": [ -5 ],
-      "stamina_chance": [ 15 ],
+      "stamina_chance": [ 30 ],
       "stamina_tick": [ 30 ],
       "hunger_min": [ 1 ],
       "hunger_chance": [ 100 ],
@@ -26,19 +48,39 @@
       "fatigue_tick": [ 500 ]
     },
     "scaling_mods": {
-      "str_mod": [ -0.12 ],
-      "dex_mod": [ -0.12 ],
-      "per_mod": [ -0.08 ],
-      "stamina_amount": [ -100 ],
-      "stamina_min": [ -0.1 ],
-      "stamina_tick": [ -0.11 ],
-      "hunger_min": [ 0.08 ],
-      "hunger_chance": [ -2.5 ],
-      "hunger_tick": [ -3.5 ],
-      "fatigue_min": [ 0.05 ],
-      "fatigue_chance": [ -1.5 ],
-      "fatigue_tick": [ -1 ]
-    }
+      "str_mod": [ -0.8 ],
+      "dex_mod": [ -0.8 ],
+      "per_mod": [ -0.6 ],
+      "int_mod": [ -0.3 ],
+      "stamina_amount": [ -300 ],
+      "stamina_min": [ -1 ],
+      "stamina_tick": [ -1 ],
+      "hunger_min": [ 0.6 ],
+      "hunger_chance": [ -4 ],
+      "hunger_tick": [ -30 ],
+      "fatigue_min": [ 0.5 ],
+      "fatigue_chance": [ -15 ],
+      "fatigue_tick": [ -15 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 1.0, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.025 },
+      { "limb_score": "manip", "modifier": 0.95, "resist_modifier": 1.0, "scaling": -0.04, "resist_scaling": -0.02 },
+      {
+        "limb_score": "balance",
+        "modifier": 0.95,
+        "resist_modifier": 1.0,
+        "scaling": -0.03,
+        "resist_scaling": -0.015
+      },
+      {
+        "limb_score": "breathing",
+        "modifier": 0.95,
+        "resist_modifier": 1.0,
+        "scaling": -0.035,
+        "resist_scaling": -0.017
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",

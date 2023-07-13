@@ -113,7 +113,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_canteen_pantry_furniture",
-    "description": "Lets furnish the pantry and build 2 root cellars.",
+    "description": "Let's furnish the pantry and build 2 root cellars.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

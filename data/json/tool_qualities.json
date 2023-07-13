@@ -474,5 +474,14 @@
     "id": "MEASURE_L_PRECISE",
     "name": { "str": "precise length measuring" },
     "//": "For calipers"
+  },
+  {
+    "id": "BLOW_AIR",
+    "name": { "str": "air blowing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "BLOW_HOT_AIR",
+    "name": { "str": "hot air blowing" }
   }
 ]

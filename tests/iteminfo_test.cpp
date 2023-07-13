@@ -1230,7 +1230,7 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
 
 TEST_CASE( "armor_stats", "[armor][protection]" )
 {
-    expected_armor_values( item( itype_zentai ), 0.2f, 0.2f, 0.16f, 0.2f );
+    expected_armor_values( item( itype_zentai ), 0.1f, 0.1f, 0.08f, 0.1f );
     expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f );
     expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
 }

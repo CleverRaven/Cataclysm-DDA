@@ -106,6 +106,8 @@ decl_diag_eval pain_eval;
 decl_diag_ass pain_ass;
 decl_diag_eval skill_eval;
 decl_diag_ass skill_ass;
+decl_diag_eval spell_exp_eval;
+decl_diag_ass spell_exp_ass;
 decl_diag_eval test_diag;
 decl_diag_eval u_val;
 decl_diag_ass u_val_ass;
@@ -121,6 +123,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval } },
     { "skill", { "un", 1, skill_eval } },
+    { "spell_exp", { "un", 1, spell_exp_eval}},
     { "val", { "un", -1, u_val } },
     { "weather", { "g", 1, weather_eval } },
 };
@@ -128,6 +131,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
 inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "pain", { "un", 0, pain_ass } },
     { "skill", { "un", 1, skill_ass } },
+    { "spell_exp", { "un", 1, spell_exp_ass}},
     { "val", { "un", -1, u_val_ass } },
     { "weather", { "g", 1, weather_ass } },
 };

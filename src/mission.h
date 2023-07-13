@@ -411,7 +411,7 @@ class mission
          * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
          * id exists.
          */
-        static mission *find( int id );
+        static mission *find( int id, bool ok_missing = false );
         /**
          * Remove all active missions, used to cleanup on exit and before reloading a new game.
          */
@@ -434,7 +434,7 @@ class mission
         static void serialize_all( JsonOut &json );
         static void unserialize_all( const JsonArray &ja );
         /** Converts a vector mission ids to a vector of mission pointers. Invalid ids are skipped! */
-        static std::vector<mission *> to_ptr_vector( const std::vector<int> &vec );
+        static std::vector<mission *> to_ptr_vector( const std::vector<int> &vec, bool ok_missing = false );
         static std::vector<int> to_uid_vector( const std::vector<mission *> &vec );
 
         // For save/load

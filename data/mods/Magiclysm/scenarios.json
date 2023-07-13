@@ -45,7 +45,8 @@
       "novice_technomancer",
       "novice_stormshaper",
       "academy_wizard"
-    ]
+    ],
+    "reveal_locale": false
   },
   {
     "type": "scenario",
@@ -67,7 +68,8 @@
       "wild_druid",
       "archer_druid",
       "magic_grim_reaper"
-    ]
+    ],
+    "reveal_locale": false
   },
   {
     "copy-from": "alcatraz",

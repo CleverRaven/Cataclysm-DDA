@@ -306,6 +306,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_wooden_fermenting_vat",
+    "name": "Build Wooden Fermenting Vat"
+  },
+  {
+    "type": "construction_group",
     "id": "build_fire_ring",
     "name": "Build Fire Ring"
   },
@@ -1058,6 +1063,11 @@
     "type": "construction_group",
     "id": "make_crafting_spot",
     "name": "Make crafting spot"
+  },
+  {
+    "type": "construction_group",
+    "id": "make_stooking_spot",
+    "name": "Make stooking spot"
   },
   {
     "type": "construction_group",
