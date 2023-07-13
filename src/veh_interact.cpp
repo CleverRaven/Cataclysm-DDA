@@ -137,7 +137,7 @@ player_activity veh_interact::serialize_activity()
     }
 
     avatar &player_character = get_avatar();
-    int time = 1000;
+    time_duration time = 0_seconds;
     switch( sel_cmd ) {
         case 'i':
             time = vp->install_time( player_character );
@@ -158,9 +158,9 @@ player_activity veh_interact::serialize_activity()
             break;
     }
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
-        time = 1;
+        time = 1_seconds;
     }
-    player_activity res( ACT_VEHICLE, time, static_cast<int>( sel_cmd ) );
+    player_activity res( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( sel_cmd ) );
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
@@ -344,14 +344,14 @@ void veh_interact::allocate_windows()
 }
 
 bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
-                                const std::map<skill_id, int> &skills, int moves ) const
+                                const std::map<skill_id, int> &skills, time_duration time ) const
 {
     Character &player_character = get_player_character();
     const inventory &inv = player_character.crafting_inventory();
     bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
 
     msg += _( "<color_white>Time required:</color>\n" );
-    msg += "> " + to_string_approx( time_duration::from_moves( moves ) ) + "\n";
+    msg += "> " + to_string_approx( time ) + "\n";
 
     msg += _( "<color_white>Skills required:</color>\n" );
     for( const auto &e : skills ) {

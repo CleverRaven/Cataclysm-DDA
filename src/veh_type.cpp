@@ -1054,19 +1054,19 @@ static time_duration scale_time( const std::map<skill_id, int> &sk, time_duratio
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
 }
 
-int vpart_info::install_time( const Character &you ) const
+time_duration vpart_info::install_time( const Character &you ) const
 {
-    return to_moves<int>( scale_time( install_skills, install_moves, you ) );
+    return scale_time( install_skills, install_moves, you );
 }
 
-int vpart_info::removal_time( const Character &you ) const
+time_duration vpart_info::removal_time( const Character &you ) const
 {
-    return to_moves<int>( scale_time( removal_skills, removal_moves, you ) );
+    return scale_time( removal_skills, removal_moves, you );
 }
 
-int vpart_info::repair_time( const Character &you ) const
+time_duration vpart_info::repair_time( const Character &you ) const
 {
-    return to_moves<int>( scale_time( repair_skills, repair_moves, you ) );
+    return scale_time( repair_skills, repair_moves, you );
 }
 
 /**

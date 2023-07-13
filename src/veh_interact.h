@@ -133,7 +133,7 @@ class veh_interact
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
-                          const std::map<skill_id, int> &skills, int moves ) const;
+                          const std::map<skill_id, int> &skills, time_duration time ) const;
 
         int part_at( const point &d );
         void move_cursor( const point &d, int dstart_at = 0 );

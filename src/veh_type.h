@@ -260,13 +260,13 @@ class vpart_info
         requirement_data install_requirements() const;
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const Character &you ) const;
+        time_duration install_time( const Character &you ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const Character &you ) const;
+        time_duration removal_time( const Character &you ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
@@ -275,7 +275,7 @@ class vpart_info
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const Character &you ) const;
+        time_duration repair_time( const Character &you ) const;
 
         /**
          * @name Engine specific functions
@@ -336,9 +336,9 @@ class vpart_info
         // tools required to unfold this part
         std::vector<itype_id> unfolding_tools;
         // time required to fold this part
-        time_duration folding_time = time_duration::from_seconds( 10 );
+        time_duration folding_time = 10_seconds;
         // time required to unfold this part
-        time_duration unfolding_time = time_duration::from_seconds( 10 );
+        time_duration unfolding_time = 10_seconds;
 
         std::optional<vpslot_engine> engine_info;
         std::optional<vpslot_wheel> wheel_info;

@@ -546,7 +546,7 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     if( !veh ) {
         return false;
     }
-    int time_to_take = 0;
+    time_duration time_to_take = 0_seconds;
     if( vpindex >= veh->part_count() ) {
         // if parts got removed during our work, we can't just carry on removing, we want to repair parts!
         // so just bail out, as we don't know if the next shifted part is suitable for repair.
@@ -567,7 +567,7 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     } else if( type == 'o' ) {
         time_to_take = vpi.removal_time( you );
     }
-    you.assign_activity( ACT_VEHICLE, time_to_take, static_cast<int>( type ) );
+    you.assign_activity( ACT_VEHICLE, to_moves<int>( time_to_take ), static_cast<int>( type ) );
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
