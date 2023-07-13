@@ -1443,8 +1443,8 @@ class item : public visitable
             bool has_state( link_state state ) const {
                 return s_state == state || t_state == state;
             }
-            bool has_states( link_state i_state_, link_state t_state_ ) const {
-                return s_state == i_state_ && t_state == t_state_;
+            bool has_states( link_state s_state_, link_state t_state_ ) const {
+                return s_state == s_state_ && t_state == t_state_;
             }
             bool has_no_links() const {
                 return s_state == link_state::no_link && t_state == link_state::no_link;

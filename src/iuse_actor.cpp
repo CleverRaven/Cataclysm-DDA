@@ -4455,7 +4455,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
         }
 
     } else {
-        // This is a cable item with one connection already:
+        // This is a cable item with at least one connection already:
         link_menu.text = string_format( _( "What to do with the %s?%s" ), cable_name, it.link->t_veh_safe ?
                                         string_format( _( "\nAttached to: %s" ), it.link->t_veh_safe->name ) : "" );
 
@@ -4581,7 +4581,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
         item_location loc;
         avatar *you = p->as_avatar();
         const std::string choose_ups = _( "Choose UPS:" );
-        const std::string dont_have_ups = _( "You don't have any UPS." );
+        const std::string dont_have_ups = _( "You need an active UPS." );
         auto ups_filter = [&]( const item & itm ) {
             return itm.has_flag( flag_IS_UPS );
         };
