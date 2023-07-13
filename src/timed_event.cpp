@@ -46,7 +46,6 @@ static const mtype_id mon_copbot( "mon_copbot" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_dsa_alien_dispatch( "mon_dsa_alien_dispatch" );
-static const mtype_id mon_eyebot( "mon_eyebot" );
 static const mtype_id mon_riotbot( "mon_riotbot" );
 static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
@@ -340,11 +339,6 @@ void timed_event::per_turn()
                     // We're safely indoors!
                     return;
                 }
-                g->place_critter_at( mon_eyebot, tripoint( place, player_character.posz() ) );
-                if( player_character.sees( tripoint( place, player_character.posz() ) ) ) {
-                    add_msg( m_warning, _( "An eyebot swoops down nearby!" ) );
-                }
-                // One eyebot per trigger is enough, really
                 when = calendar::turn;
             }
         }
