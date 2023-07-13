@@ -2,7 +2,7 @@
   {
     "id": "mon_lieutenant_shadow",
     "type": "MONSTER",
-    "name": { "str": "A shadow?" },
+    "name": { "str_sp": "A shadow?" },
     "description": "Something is there!  Against all reason, this shadow lurks at the corners of your vision.  You close your eyes, but still, it is there.  No matter how far you run, it is there.  In pitchest black, it is there.  Now you will know why you fear the night.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -12,7 +12,7 @@
     "weight": "100 kg",
     "phase": "GAS",
     "hp": 250,
-    "//6": "TODO: Slowed and weakened by artificial light, maybe of sufficient brightness? (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it. Might need to make it afraid of vehicles or something... Speed 200 is mostly to prevent your average minmaxer with 12+ per and 110+ speed from walking right at it and clubbing it to death the moment it spawns.",
+    "//6": "TODO: Slowed and weakened by light, maybe of sufficient brightness? (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it. Might need to make it afraid of vehicles or something... Speed 200 is mostly to prevent your average minmaxer with 12+ per and 110+ speed from walking right at it and clubbing it to death the moment it spawns.",
     "speed": 200,
     "attack_cost": 200,
     "material": [ "bone" ],
@@ -32,7 +32,7 @@
     "vision_day": 50,
     "vision_night": 50,
     "melee_training_cap": 0,
-    "//1": "Try to stay this far away from the player with your regular moves, EOCs will help",
+    "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 10,
     "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
     "//5": "TODO: Special attacks: EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN, illuminates_u, makes VERY loud noises(attracts wandering hordes)",
@@ -154,7 +154,8 @@
           "t_underbrush_harvested_spring",
           "t_underbrush_harvested_summer",
           "t_underbrush_harvested_autumn",
-          "t_underbrush_harvested_winter"
+          "t_underbrush_harvested_winter",
+          "t_tree_young"
         ]
       }
     ]
@@ -168,7 +169,7 @@
   {
     "name": "GROUP_AMALGAMATIONS_SPAWNED",
     "type": "monstergroup",
-    "//": "TODO: Borrow more of Venera's fun little twisted creations to explain why biomass = instant monsters",
+    "//": "TODO: Borrow more of Venera's fun little twisted creations to explain why biomass = instant abberations.",
     "monsters": [ { "monster": "mon_amalgamation_swarmer", "weight": 3, "pack_size": [ 4, 6 ] } ]
   },
   {
@@ -211,6 +212,28 @@
     "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. TODO: is_day evaluates true before sundeath kicks in?",
     "condition": { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
     "//2": "TODO: Despawn shadow, adjust var for later to bring him back",
-    "effect": [ { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 } ]
+    "effect": [
+      { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
+      { "u_message": "The wind laughs through the night", "type": "bad" },
+      { "u_message": "...but it grows more distant for now.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_SHADOWS_YOU",
+    "recurrence": 5,
+    "//1": "Shadow is somehow more than 30 tiles away",
+    "condition": { "math": [ { "distance": [ "u",{ "global_val": "Shadow_Lieutenant" } ] }, ">=", "30" ] },
+    "//2": "TODO: Move shadow to nearby you (teleport)",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "Catchup_Teleport" },
+        "target_min_radius": 10,
+        "target_max_radius": 15,
+        "min_radius": 10,
+        "max_radius": 15
+      },
+    ]
+    "deactivate_condition": { "math": [ "u_Lieutenants_active", "<", "1" ] }
   }
 ]
