@@ -909,5 +909,12 @@
         "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music" ]
       }
     ]
+  },
+  {
+    "id": "schematics_eyebot",
+    "type": "BOOK",
+    "name": { "str_sp": "eyebot schematics" },
+    "description": "Assembly plans, design specs, and technical drawings for the eyebot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
   }
 ]
