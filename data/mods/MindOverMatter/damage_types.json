@@ -4,9 +4,9 @@
     "type": "damage_type",
     "physical": false,
     "magic_color": "yellow",
-    "name": "telepathic",
+    "name": "telekinetic",
     "skill": "metaphysics",
-    "derived_from": [ "bash", 0.85 ],
+    "derived_from": [ "bash", 0.9 ],
     "immune_flags": { "character": [ "TELEKIN_SHIELD" ], "monster": [ "TELEKIN_IMMUNE" ] }
   },
   {

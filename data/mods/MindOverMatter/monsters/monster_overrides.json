@@ -125,7 +125,7 @@
     "type": "MONSTER",
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ],
     "extend": { "flags": [ "TEEP_IMMUNE" ] },
-    "armor": { "bash": 10, "cut": 30, "bullet": 24, "electric": 4,  "psi_telekinetic_damage": 20 }
+    "armor": { "bash": 10, "cut": 30, "bullet": 24, "electric": 4, "psi_telekinetic_damage": 20 }
   },
   {
     "id": "mon_fleshy_shambler",
@@ -179,7 +179,7 @@
     "id": "mon_flaming_eye",
     "copy-from": "mon_flaming_eye",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+    "extend": { "flags": [ "TEEP_IMMUNE" ] },
     "armor": { "bash": 4, "psi_telekinetic_damage": 20 }
   },
   {
@@ -200,14 +200,14 @@
     "copy-from": "mon_hound_tindalos",
     "type": "MONSTER",
     "extend": { "flags": [ "TEEP_IMMUNE" ] },
-     "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 40 }
+    "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 50 }
   },
   {
     "id": "mon_hound_tindalos_afterimage",
     "copy-from": "mon_hound_tindalos_afterimage",
     "type": "MONSTER",
     "extend": { "flags": [ "TEEP_IMMUNE" ] },
-     "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 40 }
+    "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 50 }
   },
   {
     "id": "mon_hunting_horror",
