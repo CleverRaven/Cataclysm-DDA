@@ -516,16 +516,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_eyebot",
-      "friendly_msg": "The eyebot hums and takes to the sky.",
-      "hostile_msg": "The eyebot beeps disapprovingly and focuses its camera on your face.  Say cheese!",
-      "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
-      "difficulty": 1,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    },
     "flags": [ "SINGLE_USE" ],
     "melee_damage": { "bash": 8 }
   },

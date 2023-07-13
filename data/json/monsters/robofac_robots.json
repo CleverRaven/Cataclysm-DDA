@@ -35,10 +35,22 @@
   {
     "id": "mon_robofac_camspy",
     "type": "MONSTER",
-    "copy-from": "mon_eyebot",
     "name": { "str": "Hub 01 camspy", "str_pl": "Hub 01 camspies" },
     "description": "A white and brown quadcopter drone mounting what looks to be a camera dome and a large antenna array.  It calmly hovers a comfortable distance above the ground, surveilling its surroundings with cold indifference.",
     "default_faction": "robofac_spy",
+    "species": [ "ROBOT" ],
+    "diff": 2,
+    "volume": "30 L",
+    "weight": "40750 g",
+    "hp": 20,
+    "speed": 120,
+    "material": [ "steel" ],
+    "symbol": "e",
+    "color": "light_gray",
+    "morale": 100,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 3,
+    "revert_to_itype": "bot_eyebot",
     "tracking_distance": 10,
     "aggression": -99,
     "special_attacks": [ [ "DEPART", 34560 ] ],
@@ -60,6 +72,7 @@
       "STUN_IMMUNE",
       "PACIFIST",
       "KEEP_DISTANCE"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 8 }
   }
 ]

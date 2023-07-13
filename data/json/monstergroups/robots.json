@@ -35,11 +35,6 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT_EYEBOT",
-    "monsters": [ { "monster": "mon_eyebot", "cost_multiplier": 0 } ]
-  },
-  {
-    "type": "monstergroup",
     "name": "GROUP_ROBOT_SECUBOT",
     "monsters": [ { "monster": "mon_secubot", "cost_multiplier": 0, "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": 30 } ] } } ]
   },

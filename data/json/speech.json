@@ -1981,37 +1981,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Stop where you are!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You are under arrest!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Criminal activity detected!\"",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Criminal activity registered!\"",
-    "volume": 15
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Violation of law detected!\"",
-    "volume": 15
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Suspect on the move!\"",
     "volume": 15
   },
@@ -2023,7 +2005,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You are being detained!\"",
     "volume": 15
   },
@@ -2043,12 +2025,6 @@
     "type": "speech",
     "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Requesting supervisor!\"",
-    "volume": 15
-  },
-  {
-    "type": "speech",
-    "speaker": "mon_eyebot",
-    "sound": "\"Requesting human officer!\"",
     "volume": 15
   },
   {
