@@ -3529,10 +3529,6 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                void check( const std::string_view/*oter_name*/, const mapgen_parameters & ) const {
-                    // TODO: check flag ids are valid
-                }
-
                 bool test( const mapgendata &dat ) const {
                     for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
                          neighbors ) {
@@ -3647,7 +3643,6 @@ class jmapgen_nested : public jmapgen_piece
             }
             neighbor_oters.check( oter_name, parameters );
             neighbor_joins.check( oter_name, parameters );
-            neighbor_flags.check( oter_name, parameters );
 
             // Check whether any of the nests can attempt to place stuff out of
             // bounds
