@@ -343,11 +343,11 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         assign( jo, "contact_area", wheel_info->contact_area, strict );
         assign( jo, "wheel_offroad_rating", wheel_info->offroad_rating, strict );
         if( const std::optional<JsonValue> jo_termod = jo.get_member_opt( "wheel_terrain_modifiers" ) ) {
-            wheel_info->terrain_mod.clear();
+            wheel_info->terrain_modifiers.clear();
             for( const JsonMember jo_mod : static_cast<JsonObject>( *jo_termod ) ) {
                 const JsonArray jo_mod_values = jo_mod.get_array();
                 veh_ter_mod mod { jo_mod.name(), jo_mod_values.get_int( 0 ), jo_mod_values.get_int( 1 ) };
-                wheel_info->terrain_mod.emplace_back( std::move( mod ) );
+                wheel_info->terrain_modifiers.emplace_back( std::move( mod ) );
             }
         }
     }
@@ -1110,32 +1110,6 @@ std::vector<itype_id> vpart_info::engine_fuel_opts() const
 bool vpart_info::has_category( const std::string &category ) const
 {
     return this->categories.find( category ) != this->categories.end();
-}
-
-/**
- * @name Wheel specific functions
- *
- */
-float vpart_info::wheel_rolling_resistance() const
-{
-    // caster wheels return 29, so if a part rolls worse than a caster wheel...
-    return has_flag( VPFLAG_WHEEL ) ? wheel_info->rolling_resistance : 50;
-}
-
-int vpart_info::wheel_area() const
-{
-    return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
-}
-
-const std::vector<veh_ter_mod> &vpart_info::wheel_terrain_modifiers() const
-{
-    static const std::vector<veh_ter_mod> null_map;
-    return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
-}
-
-float vpart_info::wheel_offroad_rating() const
-{
-    return has_flag( VPFLAG_WHEEL ) ? wheel_info->offroad_rating : 0.0f;
 }
 
 int vpart_info::rotor_diameter() const

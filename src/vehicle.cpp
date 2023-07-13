@@ -3870,8 +3870,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
 int vehicle::wheel_area() const
 {
     int total_area = 0;
-    for( const int &wheel_index : wheelcache ) {
-        total_area += parts[ wheel_index ].wheel_area();
+    for( const int wheel_index : wheelcache ) {
+        total_area += parts[wheel_index].info().wheel_info->contact_area;
     }
 
     return total_area;
@@ -3885,7 +3885,7 @@ float vehicle::average_offroad_rating() const
     float total_rating = 0.0f;
     for( const int wheel_index : wheelcache ) {
         const vehicle_part &vp = part( wheel_index );
-        total_rating += vp.info().wheel_offroad_rating();
+        total_rating += vp.info().wheel_info->offroad_rating;
     }
     return total_rating / wheelcache.size();
 }
@@ -4083,7 +4083,7 @@ double vehicle::coeff_rolling_drag() const
     } else {
         // should really sum each wheel's c_rolling_resistance * its share of vehicle mass
         for( int wheel : wheelcache ) {
-            wheel_factor += parts[ wheel ].info().wheel_rolling_resistance();
+            wheel_factor += parts[wheel].info().wheel_info->rolling_resistance;
         }
         // mildly increasing rolling resistance for vehicles with more than 4 wheels and mildly
         // decrease it for vehicles with less
@@ -6295,7 +6295,7 @@ void vehicle::refresh_pivot() const
         const vehicle_part &wheel = parts[p];
 
         // TODO: load on tire?
-        int contact_area = wheel.wheel_area();
+        const int contact_area = wheel.info().wheel_info->contact_area;
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
         if( wheel.is_broken() ) {

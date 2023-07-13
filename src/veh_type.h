@@ -131,7 +131,7 @@ struct veh_ter_mod {
 struct vpslot_wheel {
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<veh_ter_mod> terrain_mod;
+    std::vector<veh_ter_mod> terrain_modifiers;
     float offroad_rating = 0.5f;
 };
 
@@ -289,14 +289,6 @@ class vpart_info
         float engine_damaged_power_factor() const;
         int engine_noise_factor() const;
         std::vector<itype_id> engine_fuel_opts() const;
-        /**
-         * @name Wheel specific functions
-         *
-         */
-        float wheel_rolling_resistance() const;
-        int wheel_area() const;
-        const std::vector<veh_ter_mod> &wheel_terrain_modifiers() const;
-        float wheel_offroad_rating() const;
         /** @name rotor specific functions
         */
         int rotor_diameter() const;

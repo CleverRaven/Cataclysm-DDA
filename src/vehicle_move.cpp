@@ -2070,6 +2070,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     float traction_wheel_area = 0.0f;
     for( const int wheel_idx : veh.wheelcache ) {
         const vehicle_part &vp = veh.part( wheel_idx );
+        const vpart_info &vpi = vp.info();
         const tripoint pp = veh.global_part_pos3( vp );
         const ter_t &tr = ter( pp ).obj();
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
@@ -2083,11 +2084,11 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
         }
 
         if( ignore_movement_modifiers ) {
-            traction_wheel_area += vp.wheel_area();
+            traction_wheel_area += vpi.wheel_info->contact_area;
             continue; // Ignore the movement modifier if caller specifies a bool
         }
 
-        for( const veh_ter_mod &mod : vp.info().wheel_terrain_modifiers() ) {
+        for( const veh_ter_mod &mod : vpi.wheel_info->terrain_modifiers ) {
             const bool ter_has_flag = tr.has_flag( mod.terrain_flag );
             if( ter_has_flag && mod.move_override ) {
                 move_mod = mod.move_override;
@@ -2103,7 +2104,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
             continue;
         }
 
-        traction_wheel_area += 2.0 * vp.wheel_area() / move_mod;
+        traction_wheel_area += 2.0 * vpi.wheel_info->contact_area / move_mod;
     }
 
     return traction_wheel_area;
