@@ -225,7 +225,7 @@
   {
     "type": "effect_type",
     "id": "effect_noetic_resilience",
-    "name": [ "Noetic Resilient Treatment" ],
+    "name": [ "Noetic Resilience" ],
     "desc": [ "You injected the formula and are now fortified against the unnatural fatigue caused by psionic channeling." ],
     "apply_message": "",
     "remove_message": "The concoction's effects fade and you feel weak.",
