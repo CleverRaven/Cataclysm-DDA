@@ -976,9 +976,9 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         } ) ) );
     }
 
-    if( get_toolkit_info() && !get_toolkit_info()->allowed_types.empty() ) {
+    if( toolkit_info && !toolkit_info->allowed_types.empty() ) {
         append_desc( string_format( "\n%s<color_cyan>%s</color>", _( "Allows connecting: " ),
-        enumerate_as_string( get_toolkit_info()->allowed_types, []( const itype_id & it ) {
+        enumerate_as_string( toolkit_info->allowed_types, []( const itype_id & it ) {
             return it->nname( 1 );
         } ) ) );
     }
@@ -1144,16 +1144,6 @@ int vpart_info::rotor_diameter() const
         return rotor_info->rotor_diameter;
     }
     return 0;
-}
-
-const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
-{
-    return workbench_info;
-}
-
-const std::optional<vpslot_toolkit> &vpart_info::get_toolkit_info() const
-{
-    return toolkit_info;
 }
 
 std::set<std::pair<itype_id, int>> vpart_info::get_pseudo_tools() const

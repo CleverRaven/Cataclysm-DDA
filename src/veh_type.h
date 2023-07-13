@@ -300,11 +300,13 @@ class vpart_info
         /** @name rotor specific functions
         */
         int rotor_diameter() const;
-        /**
-         * Getter for optional workbench info
-         */
-        const std::optional<vpslot_workbench> &get_workbench_info() const;
-        const std::optional<vpslot_toolkit> &get_toolkit_info() const;
+
+        std::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_toolkit> toolkit_info;
+        std::optional<vpslot_engine> engine_info;
+        std::optional<vpslot_wheel> wheel_info;
+        std::optional<vpslot_rotor> rotor_info;
+        std::optional<vpslot_terrain_transform> transform_terrain_info;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 
@@ -339,12 +341,6 @@ class vpart_info
         time_duration folding_time = 10_seconds;
         // time required to unfold this part
         time_duration unfolding_time = 10_seconds;
-
-        std::optional<vpslot_engine> engine_info;
-        std::optional<vpslot_wheel> wheel_info;
-        std::optional<vpslot_rotor> rotor_info;
-        std::optional<vpslot_workbench> workbench_info;
-        std::optional<vpslot_toolkit> toolkit_info;
 
         /** Name from vehicle part definition which if set overrides the base item name */
         translation name_;
@@ -384,9 +380,6 @@ class vpart_info
         /** Color of part for different states */
         nc_color color = c_light_gray;
         nc_color color_broken = c_light_gray;
-
-        /* Contains data for terrain transformer parts */
-        std::optional<vpslot_terrain_transform> transform_terrain_info;
 
         /** Fuel type of engine or tank */
         itype_id fuel_type = itype_id::NULL_ID();

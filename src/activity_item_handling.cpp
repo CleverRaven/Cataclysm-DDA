@@ -701,7 +701,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
                 }
             } else if( const std::optional<vpart_reference> vp = here.veh_at(
                            adj ).part_with_feature( "WORKBENCH", true ) ) {
-                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().workbench_info ) {
                     if( wb_info->multiplier > best_bench_multi_a ) {
                         best_bench_multi_a = wb_info->multiplier;
                     }
@@ -720,7 +720,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
                 }
             } else if( const std::optional<vpart_reference> vp = here.veh_at(
                            adj ).part_with_feature( "WORKBENCH", true ) ) {
-                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().workbench_info ) {
                     if( wb_info->multiplier > best_bench_multi_b ) {
                         best_bench_multi_b = wb_info->multiplier;
                     }

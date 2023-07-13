@@ -2248,7 +2248,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     }
 
     const std::optional<vpart_reference> vp_toolstation = vp.avail_part_with_feature( "VEH_TOOLS" );
-    if( vp_toolstation && vp_toolstation->info().get_toolkit_info() ) {
+    if( vp_toolstation && vp_toolstation->info().toolkit_info ) {
         const size_t vp_idx = vp_toolstation->part_index();
         const std::string vp_name = vp_toolstation->part().name( /* with_prefix = */ false );
 
@@ -2257,7 +2257,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this, vp_idx, vp_name] {
             Character &you = get_player_character();
             vehicle_part &vp = part( vp_idx );
-            std::set<itype_id> allowed_types = vp.info().get_toolkit_info()->allowed_types;
+            std::set<itype_id> allowed_types = vp.info().toolkit_info->allowed_types;
             for( const std::pair<const item, input_event> &pair : prepare_tools( vp ) )
             {
                 allowed_types.erase( pair.first.typeId() ); // one tool of each kind max
