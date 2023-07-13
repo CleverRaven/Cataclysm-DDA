@@ -35,15 +35,26 @@
     "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 10,
     "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
-    "//5": "TODO: Special attacks: add condition for illuminates_u to prevent recast if the effect is already applied",
     "special_attacks": [
       [ "UPGRADE", 20 ],
       {
-        "type": "spell",
+        "type": "melee",
         "id": "illuminates_u",
-        "spell_data": { "id": "illuminates_u", "min_level": 20 },
         "condition": { "not": { "npc_has_effect": "Shadow_Reveal" } },
-        "monster_message": "The shadows recede, leaving you with nowhere to hide!",
+        "range": 30,
+        "dodgeable": false,
+        "blockable": false,
+        "effects_require_dmg": false,
+        "effects": [
+          {
+            "id": "Shadow_Reveal",
+            "duration": 60,
+            "chance": 100,
+            "//": "TODO: This still produces a generic bite message."
+            "message": "The shadows recede, leaving you with nowhere to hide!"
+          }
+        ],
+        "damage_max_instance": [ { "damage_type": "pure", "amount": 0.0 } ],
         "cooldown": 10
       },
       {
@@ -92,25 +103,6 @@
     ],
     "//3": "Explicitly immune to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
     "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 500, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }
-  },
-  {
-    "id": "illuminates_u",
-    "type": "SPELL",
-    "name": { "str": "Shadow Reveal" },
-    "description": "All will serve.",
-    "flags": [ "NO_EXPLOSION_SFX", "NO_PROJECTILE" ],
-    "valid_targets": [ "ground", "hostile" ],
-    "shape": "blast",
-    "min_accuracy": 20,
-    "max_accuracy": 20,
-    "min_range": 30,
-    "max_range": 30,
-    "max_level": 20,
-    "effect": "attack",
-    "//": "TODO: Still broken?? Simply won't apply the effect. Ever.",
-    "effect_str": "Shadow_Reveal",
-    "min_duration": 60,
-    "max_duration": 60
   },
   {
     "id": "LTNT_LIFE_DRAIN",
