@@ -98,8 +98,8 @@
     "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
-    "flags": [ "NONCONDUCTIVE" ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
+    "flags": [ "NONCONDUCTIVE", "SINGLE_USE" ],
+    "use_action": { "type": "place_trap", "allow_under_player": true, "trap": "tr_mattress", "moves": 100, "practice": 0, "done_message": "You lay the mattress flat on the ground." }
   },
   {
     "id": "down_mattress",

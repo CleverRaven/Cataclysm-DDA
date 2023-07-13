@@ -72,6 +72,22 @@
     "benign": true,
     "funnel_radius": 200
   },
+    {
+    "type": "trap",
+    "id": "tr_mattress",
+    "name": "mattress",
+    "color": "white",
+    "symbol": "0",
+    "looks_like": "mattress",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "action": "none",
+    "drops": [ "mattress" ],
+    "benign": true
+  },
   {
     "type": "trap",
     "id": "tr_rollmat",
