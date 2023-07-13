@@ -151,7 +151,7 @@ struct vpslot_toolkit {
     std::set<itype_id> allowed_types;
 };
 
-struct transform_terrain_data {
+struct vpslot_terrain_transform {
     std::set<std::string> pre_flags;
     std::string post_terrain;
     std::string post_furniture;
@@ -386,7 +386,7 @@ class vpart_info
         nc_color color_broken = c_light_gray;
 
         /* Contains data for terrain transformer parts */
-        transform_terrain_data transform_terrain;
+        std::optional<vpslot_terrain_transform> transform_terrain_info;
 
         /** Fuel type of engine or tank */
         itype_id fuel_type = itype_id::NULL_ID();

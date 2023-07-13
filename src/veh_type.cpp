@@ -274,26 +274,6 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    if( jo.has_member( "transform_terrain" ) ) {
-        JsonObject jttd = jo.get_object( "transform_terrain" );
-        for( const std::string pre_flag : jttd.get_array( "pre_flags" ) ) {
-            transform_terrain.pre_flags.emplace( pre_flag );
-        }
-        transform_terrain.post_terrain = jttd.get_string( "post_terrain", "t_null" );
-        transform_terrain.post_furniture = jttd.get_string( "post_furniture", "f_null" );
-        transform_terrain.post_field = jttd.get_string( "post_field", "fd_null" );
-        transform_terrain.post_field_intensity = jttd.get_int( "post_field_intensity", 0 );
-        if( jttd.has_int( "post_field_age" ) ) {
-            transform_terrain.post_field_age = time_duration::from_turns(
-                                                   jttd.get_int( "post_field_age" ) );
-        } else if( jttd.has_string( "post_field_age" ) ) {
-            transform_terrain.post_field_age = read_from_json_string<time_duration>
-                                               ( jttd.get_member( "post_field_age" ), time_duration::units );
-        } else {
-            transform_terrain.post_field_age = 0_turns;
-        }
-    }
-
     if( jo.has_member( "requirements" ) ) {
         JsonObject reqs = jo.get_object( "requirements" );
 
@@ -395,6 +375,20 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             toolkit_info.emplace();
         }
         assign( jo, "allowed_tools", toolkit_info->allowed_types, strict );
+    }
+
+    if( has_flag( "TRANSFORM_TERRAIN" ) || has_flag( "CRASH_TERRAIN_AROUND" ) ) {
+        if( !transform_terrain_info ) {
+            transform_terrain_info.emplace();
+        }
+        JsonObject jttd = jo.get_object( "transform_terrain" );
+        vpslot_terrain_transform &vtt = *transform_terrain_info;
+        optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
+        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain, "t_null" );
+        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture, "f_null" );
+        optional( jttd, was_loaded, "post_field", vtt.post_field, "fd_null" );
+        optional( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity, 0 );
+        optional( jttd, was_loaded, "post_field_age", vtt.post_field_age, 0_seconds );
     }
 }
 
