@@ -341,7 +341,7 @@ class mapgen_basic_container
         bool generate( mapgendata &dat, const int hardcoded_weight ) {
             for( const std::shared_ptr<mapgen_function> &ptr : mapgens_to_recalc_ ) {
                 dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
-                weights_.add_or_replace( ptr, ptr->weight_function->eval( d ) );
+                weights_.add_or_replace( ptr, ptr->weight * ptr->weight_function->eval( d ) );
             }
 
             if( hardcoded_weight > 0 &&
