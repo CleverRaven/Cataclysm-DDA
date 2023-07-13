@@ -4035,7 +4035,13 @@ The contents of use_action fields can either be a string indicating a built-in f
         "vehicle_tow",     // Can be used as a tow cable between two vehicles.
         "bio_cable",       // Can connect to a cable system bionic.
         "ups",             // Can link to a UPS.
-        "solarpack",       // Can link to a worn solar pack.
+        "solarpack"        // Can link to a worn solar pack.
+    ],
+    "can_extend": [ // Array of cable items that can be extended by this one ( Optional, defaults to none ).
+        "extension_cable",
+        "long_extension_cable",
+        "ELECTRICAL_DEVICES" // "ELECTRICAL_DEVICES" is a special keyword that lets this cable extend all electrical devices that have link_up actions.
+    ]
 },
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
