@@ -3,7 +3,7 @@
     "id": "mon_lieutenant_shadow",
     "type": "MONSTER",
     "name": { "str": "A shadow?" },
-    "description": "Something is here!  Against all reason, this shadow lurks at the corners of your vision.  You close your eyes, but still, it is there.  No matter how far you run, it is there.  In pitchest black, it is there.  Now you will know why you fear the night.",
+    "description": "Something is there!  Against all reason, this shadow lurks at the corners of your vision.  You close your eyes, but still, it is there.  No matter how far you run, it is there.  In pitchest black, it is there.  Now you will know why you fear the night.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -12,6 +12,7 @@
     "weight": "100 kg",
     "phase": "GAS",
     "hp": 250,
+    "//6": "TODO: Slowed and weakened by artificial light, maybe of sufficient brightness? (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it. Might need to make it afraid of vehicles or something... Speed 200 is mostly to prevent your average minmaxer with 12+ per and 110+ speed from walking right at it and clubbing it to death the moment it spawns.",
     "speed": 200,
     "attack_cost": 200,
     "material": [ "bone" ],
@@ -24,7 +25,7 @@
     "//00": "Unfortunately, we do need some melee damage so that it can bash through terrain and the like.",
     "melee_dice": 2,
     "melee_dice_sides": 2,
-    "//0": "Blob bullshit laughs at concepts like armor",
+    "//0": "Blob bullshit laughs at concepts like armor. This is basically just here as anti-cheese. It should rarely if ever directly attack you.",
     "melee_damage": [ { "damage_type": "pure", "amount": 1, "armor_penetration": 999 } ],
     "dodge": 10,
     "bleed_rate": 0,
@@ -34,6 +35,7 @@
     "//1": "Try to stay this far away from the player with your regular moves, EOCs will help",
     "tracking_distance": 10,
     "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
+    "//5": "TODO: Special attacks: EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN, illuminates_u, makes VERY loud noises(attracts wandering hordes)",
     "special_attacks": [ [ "UPGRADE", 10 ] ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "//2": "Death EOC?",
@@ -77,85 +79,138 @@
     "//2": "false_effect that drains player's life instead?",
     "condition": { "u_is_on_terrain_with_flag": "PLOWABLE" },
     "//3": "Find some valid terrain nearby, turn it and all greenery nearby it into very very dead terrain. Spawn amalgamations (and cocoons and stuff?) for the dead terrain.",
+    "//4": "TODO: Set location var based on grass OR forest floor. In forests, grass almost never works!",
     "effect": [
-      { "u_location_variable": { "global_val": "drain_terrain" },
+      {
+        "u_location_variable": { "global_val": "drain_terrain" },
         "terrain": "t_grass",
         "target_min_radius": 5,
         "target_max_radius": 10,
         "min_radius": 5,
-        "max_radius": 10 },
-		{  "math": [ "ltnt_transform_radius", "=", "5" ] },
-      { "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 5 },
+        "max_radius": 10
+      },
+      { "math": [ "ltnt_transform_radius", "=", "5" ] },
+      {
+        "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 5 },
         "ter_furn_transform": "ltnt_grass_drain",
         "target_var": { "global_val": "drain_terrain" }
       },
-      { "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 5 },
+      {
+        "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 5 },
         "ter_furn_transform": "ltnt_tree_drain",
         "target_var": { "global_val": "drain_terrain" }
       },
-      { "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
+      {
+        "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
         "group": true,
         "real_count": 6,
+        "lifespan": [ "30 seconds", "60 seconds" ],
         "target_var": { "global_val": "drain_terrain" }
       },
-	  { "u_message": "The air hisses!", "type": "warning" }
+      { "u_message": "The air hisses!", "type": "warning" }
     ]
   },
   {
     "type": "ter_furn_transform",
     "id": "ltnt_grass_drain",
-	"//": "Yes this is a giant list of terrain.",
-    "terrain": [ { "result": [ "t_dirt" ], "valid_terrain": [ "t_grass", "t_grass_alien", "t_grass_dead", "t_bamboo_long", "t_grass_long", "t_bamboo_tall", "t_grass_tall", "t_bamboo", "t_bamboo_harvested", "t_shrub", "t_shrub_rose", "t_shrub_lilac", "t_shrub_grape", "t_shrub_peanut", "t_shrub_blueberry", "t_shrub_hydrangea", "t_shrub_raspberry", "t_shrub_strawberry", "t_shrub_blackberry", "t_shrub_huckleberry", "t_shrub_rose_harvested", "t_shrub_grape_harvested", "t_shrub_lilac_harvested", "t_shrub_peanut_harvested", "t_shrub_raspberry_harvested", "t_shrub_blueberry_harvested", "t_shrub_hydrangea_harvested", "t_shrub_blackberry_harvested", "t_shrub_strawberry_harvested", "t_shrub_huckleberry_harvested", "t_forestfloor", "t_moss", "t_underbrush", "t_underbrush_harvested_spring", "t_underbrush_harvested_summer", "t_underbrush_harvested_autumn", "t_underbrush_harvested_winter" ] } ]
+    "//": "Yes this is a giant list of terrain.",
+    "terrain": [
+      {
+        "result": [ "t_dirt" ],
+        "valid_terrain": [
+          "t_grass",
+          "t_grass_alien",
+          "t_grass_dead",
+          "t_bamboo_long",
+          "t_grass_long",
+          "t_bamboo_tall",
+          "t_grass_tall",
+          "t_bamboo",
+          "t_bamboo_harvested",
+          "t_shrub",
+          "t_shrub_rose",
+          "t_shrub_lilac",
+          "t_shrub_grape",
+          "t_shrub_peanut",
+          "t_shrub_blueberry",
+          "t_shrub_hydrangea",
+          "t_shrub_raspberry",
+          "t_shrub_strawberry",
+          "t_shrub_blackberry",
+          "t_shrub_huckleberry",
+          "t_shrub_rose_harvested",
+          "t_shrub_grape_harvested",
+          "t_shrub_lilac_harvested",
+          "t_shrub_peanut_harvested",
+          "t_shrub_raspberry_harvested",
+          "t_shrub_blueberry_harvested",
+          "t_shrub_hydrangea_harvested",
+          "t_shrub_blackberry_harvested",
+          "t_shrub_strawberry_harvested",
+          "t_shrub_huckleberry_harvested",
+          "t_forestfloor",
+          "t_moss",
+          "t_underbrush",
+          "t_underbrush_harvested_spring",
+          "t_underbrush_harvested_summer",
+          "t_underbrush_harvested_autumn",
+          "t_underbrush_harvested_winter"
+        ]
+      }
+    ]
   },
   {
     "type": "ter_furn_transform",
     "id": "ltnt_tree_drain",
-	"//": "TODO: Add all the tree types! All of them! Including the harvested ones! ;_;",
+    "//": "TODO: Add all the tree types! All of them! Including the harvested ones! ;_;",
     "terrain": [ { "result": [ "t_tree_very_dead" ], "valid_terrain": [ "t_tree" ] } ]
   },
   {
     "name": "GROUP_AMALGAMATIONS_SPAWNED",
     "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_amalgamation_swarmer", "weight": 3, "pack_size": [ 4, 6 ] }
-    ]
+    "//": "TODO: Borrow more of Venera's fun little twisted creations to explain why biomass = instant monsters",
+    "monsters": [ { "monster": "mon_amalgamation_swarmer", "weight": 3, "pack_size": [ 4, 6 ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
     "recurrence": 1,
-    "//1": "6 months into the cataclysm AND # of zombie kills?",
-    "condition": { "days_since_cataclysm": 180 },
-    "//2": "Integer value instead of bool, so more can be added later and use compare for conditions",
-    "effect": [
-      { "u_add_var": "Lieutenants_active", "value": "1" }
-    ]
+    "//1": "TODO: 6 months into the cataclysm AND # of zombie kills?",
+    "condition": { "and": [ { "days_since_cataclysm": 180 }, { "math": [ "u_Lieutenants_active", "<", "1" ] } ] },
+    "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
+    "effect": [ { "u_add_var": "Lieutenants_active", "value": "1" }, { "u_add_var": "Shadow_Lurking", "value": "1" } ],
+    "deactivate_condition": { "math": [ "u_Lieutenants_active", ">=", "1" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
-    "//": "TODO: Check every once in a while but not instantly",
+    "//": "TODO: Check every once in a while but not instantly, make sure he's not an every-night sort of thing. Should be about 1 in 5 nights, and can be instantly dismissed by simply getting to safety(EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW)",
     "recurrence": 1,
-    "//1": "Night time and shadow is active",
-    "condition": { "and": [ { "npc_allies": 3 },
-    { "u_compare_var": "Lieutenants_active",
-              "op": ">",
-              "value": 0 } ] },
-    "//2": "Integer value instead of bool, so more can be added later and use compare for conditions",
+    "//1": "Night time, shadow is active, you are outdoors, and you are not likely to be near shelter.",
+    "condition": {
+      "and": [
+        { "not": "is_day" },
+        { "math": [ "u_Lieutenants_active", ">", "0" ] },
+        { "math": [ "u_Shadow_Lurking", ">", "0" ] },
+        "u_is_outside",
+        {
+          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
+        }
+      ]
+    },
     "effect": [
-      { "u_add_var": "Lieutenants_active", "value": "1" }
+      { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
+      { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 15, "max_radius": 20 },
+      { "u_message": "You shiver as the night closes in...", "type": "bad", "popup": true }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
     "recurrence": 5,
-    "//1": "Lots of friends nearby, or in base camp, or in certain safe faction OMTs(?)",
-    "condition": { "or": [ { "npc_allies": 3 },
-    { "u_near_om_location": "basecamp", "range": 2 } ] },
-    "//2": "Despawn shadow, set var for later to bring him back",
-    "effect": [
-      { "u_add_var": "Shadow_Lurking", "value": "1" }
-    ]
+    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. TODO: is_day evaluates true before sundeath kicks in?",
+    "condition": { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
+    "//2": "TODO: Despawn shadow, adjust var for later to bring him back",
+    "effect": [ { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 } ]
   }
 ]
