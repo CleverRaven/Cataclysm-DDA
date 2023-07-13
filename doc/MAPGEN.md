@@ -1136,6 +1136,7 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 | x and y            | (required, int) the cardinal position in which the chunk will be placed.
 | neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
+| flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1151,14 +1152,14 @@ Example:
   "place_nested": [
     { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
     { "chunks": [ "gate_north" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
-    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
+    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "flags": { "north_west": [ "LAB", "WILDERNESS" ] } }
   ],
 ```
 The code excerpt above will place chunks as follows:
 * `"concrete_wall_ew"` if the north neighbor is either a field or solid rock
 * `"gate_north"` if the join `"interior_to_exterior"` was used to the north
   during mutable overmap placement.
-* `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
+* `"concrete_wall_ns"`if the north west neighboring overmap terrain has neither the "LAB" nor "WILDERNESS" flags.
 
 
 ### Place monster corpse from a monster group with "place_corpses"

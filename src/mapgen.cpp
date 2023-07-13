@@ -3501,11 +3501,11 @@ class jmapgen_nested : public jmapgen_piece
 
                         cata_assert( !allowed_joins.empty() );
 
-                        bool this_direction_matches = false;
+                        bool this_direction_has_join = false;
                         for( const std::string &allowed_join : allowed_joins ) {
-                            this_direction_matches |= dat.has_join( dir, allowed_join );
+                            this_direction_has_join |= dat.has_join( dir, allowed_join );
                         }
-                        if( !this_direction_matches ) {
+                        if( !this_direction_has_join ) {
                             return false;
                         }
                     }
@@ -3530,23 +3530,23 @@ class jmapgen_nested : public jmapgen_piece
                 }
 
                 void check( const std::string_view/*oter_name*/, const mapgen_parameters & ) const {
-
+                    // TODO: check flag ids are valid
                 }
 
                 bool test( const mapgendata &dat ) const {
                     for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
                          neighbors ) {
                         const direction dir = p.first;
-                        const cata::flat_set<oter_flags> &allowed_neighbors = p.second;
+                        const cata::flat_set<oter_flags> &allowed_flags = p.second;
 
-                        cata_assert( !allowed_neighbors.empty() );
+                        cata_assert( !allowed_flags.empty() );
 
-                        bool has_flag = false;
-                        for( const oter_flags &allowed_neighbor : allowed_neighbors ) {
-                            has_flag |=
-                                dat.neighbor_at( dir )->has_flag( allowed_neighbor );
+                        bool this_direction_has_flag = false;
+                        for( const oter_flags &allowed_flag : allowed_flags ) {
+                            this_direction_has_flag |=
+                                dat.neighbor_at( dir )->has_flag( allowed_flag );
                         }
-                        if( !has_flag ) {
+                        if( !this_direction_has_flag ) {
                             return false;
                         }
                     }
