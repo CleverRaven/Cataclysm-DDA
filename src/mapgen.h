@@ -38,8 +38,10 @@ class mapgen_function
 {
     public:
         int weight;
+        jmath_func_id weight_function;
     protected:
-        explicit mapgen_function( const int w ) : weight( w ) { }
+        explicit mapgen_function( const jmath_func_id w_func, const int w ) : weight( w ),
+            weight_function( w_func ) { }
     public:
         virtual ~mapgen_function() = default;
         virtual void setup() { } // throws
@@ -61,7 +63,8 @@ class mapgen_function_builtin : public virtual mapgen_function
 {
     public:
         building_gen_pointer fptr;
-        explicit mapgen_function_builtin( building_gen_pointer ptr, int w = 1000 ) : mapgen_function( w ),
+        explicit mapgen_function_builtin( building_gen_pointer ptr,
+                                          jmath_func_id w_func, int w = 1000 ) : mapgen_function( w_func, w ),
             fptr( ptr ) {
         }
         void generate( mapgendata &mgd ) override;
@@ -481,7 +484,8 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         bool expects_predecessor() const override;
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
-        mapgen_function_json( const JsonObject &jsobj, int w, const std::string &context,
+        mapgen_function_json( const JsonObject &jsobj, jmath_func_id weight_func, int w,
+                              const std::string &context,
                               const point &grid_offset, const point &grid_total );
         ~mapgen_function_json() override = default;
 
