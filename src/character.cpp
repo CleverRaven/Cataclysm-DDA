@@ -6327,6 +6327,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         fault_id fault;
         std::reference_wrapper<const fault_fix> fix;
         bool doable;
+        time_duration time_to_fix = 1_hours;
     };
 
     std::vector<mending_option> mending_options;
@@ -6345,7 +6346,6 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
     }
 
-    time_duration final_time = 1_hours; //just in case this somehow winds up undefined
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
@@ -6377,7 +6377,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
 
         constexpr int fold_width = 80;
 
-        for( const mending_option &opt : mending_options ) {
+        for( mending_option &opt : mending_options ) {
             const fault_fix &fix = opt.fix;
             const nc_color col = opt.doable ? c_white : c_light_gray;
 
@@ -6402,21 +6402,21 @@ void Character::mend_item( item_location &&obj, bool interactive )
                 descr += string_format( _( "<color_red>Applies</color> %d damage.\n" ), -fix.mod_damage );
             }
 
-            final_time = fix.time;
+            opt.time_to_fix = fix.time;
             // if an item has a time saver flag multiply total time by that flag's time factor
             for( const auto &[flag_id, mult] : fix.time_save_flags ) {
                 if( obj->has_flag( flag_id ) ) {
-                    final_time *= mult;
+                    opt.time_to_fix *= mult;
                 }
             }
             // if you have a time saver prof multiply total time by that prof's time factor
             for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
                 if( has_proficiency( proficiency_id ) ) {
-                    final_time *= mult;
+                    opt.time_to_fix *= mult;
                 }
             }
             descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
-                                    to_string_approx( final_time ) );
+                                    to_string_approx( opt.time_to_fix ) );
             if( fix.skills.empty() ) {
                 descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
@@ -6463,7 +6463,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( final_time ) );
+        assign_activity( ACT_MEND_ITEM, to_moves<int>( opt.time_to_fix ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( fix.id_ );
         activity.targets.push_back( std::move( obj ) );
