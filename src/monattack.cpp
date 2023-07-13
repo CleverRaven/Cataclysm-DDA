@@ -5303,7 +5303,7 @@ bool mattack::kamikaze( monster *z )
 {
     if( z->ammo.empty() ) {
         // We somehow lost our ammo! Toggle this special off so we stop processing
-        add_msg_debug( debugmode::DF_MATTACK, "Missing ammo in kamikaze special for %s.", z->name() );
+        debugmsg( "Missing ammo in kamikaze special for %s.", z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5323,15 +5323,15 @@ bool mattack::kamikaze( monster *z )
         const use_function *usage = bomb_type->get_use( "transform" );
         if( usage == nullptr ) {
             // Invalid item usage, Toggle this special off so we stop processing
-            add_msg_debug( debugmode::DF_MATTACK, "Invalid bomb transform use in kamikaze special for %s.",
-                           z->name() );
+            debugmsg( "Invalid bomb transform use in kamikaze special for %s.",
+                      z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
         const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
         if( actor == nullptr ) {
             // Invalid bomb item, Toggle this special off so we stop processing
-            add_msg_debug( debugmode::DF_MATTACK, "Invalid bomb type in kamikaze special for %s.", z->name() );
+            debugmsg( "Invalid bomb type in kamikaze special for %s.", z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
@@ -5355,18 +5355,20 @@ bool mattack::kamikaze( monster *z )
 
     const use_function *use = act_bomb_type->get_use( "explosion" );
     if( use == nullptr ) {
+        // The explosion may be in countdown_action instead
+    }
+    if( use == nullptr ) {
         // Invalid active bomb item usage, Toggle this special off so we stop processing
-        add_msg_debug( debugmode::DF_MATTACK,
-                       "Invalid active bomb explosion use in kamikaze special for %s.",
-                       z->name() );
+        debugmsg( "Invalid active bomb explosion use in kamikaze special for %s.",
+                  z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
     const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
-        add_msg_debug( debugmode::DF_MATTACK, "Invalid active bomb type in kamikaze special for %s.",
-                       z->name() );
+        debugmsg( "Invalid active bomb type in kamikaze special for %s.",
+                  z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
