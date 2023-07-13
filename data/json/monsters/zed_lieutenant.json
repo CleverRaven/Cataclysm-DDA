@@ -73,7 +73,6 @@
       "ALWAYS_SEES_YOU",
       "NIGHT_INVISIBILITY",
       "CAMOUFLAGE",
-      "ALWAYS_SEES_YOU",
       "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG",
       "FILTHY",
@@ -87,10 +86,10 @@
   {
     "id": "illuminates_u",
     "type": "SPELL",
-    "name": { "str": "DEBUGDEBUG" },
-    "description": "Light em up!",
+    "name": { "str": "Shadow Reveal" },
+    "description": "All will serve.",
     "flags": [ "NO_EXPLOSION_SFX", "NO_PROJECTILE" ],
-    "valid_targets": [ "hostile" ],
+    "valid_targets": [ "ground", "hostile" ],
     "shape": "blast",
     "min_accuracy": 20,
     "max_accuracy": 20,
@@ -107,7 +106,7 @@
     "id": "LTNT_LIFE_DRAIN",
     "type": "SPELL",
     "name": { "str": "DEBUG_LIFE_DRAIN" },
-    "description": "DEBUG!",
+    "description": "When even the grass rises against you, what hope do you have?",
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "hostile" ],
     "shape": "blast",
@@ -115,6 +114,8 @@
     "max_accuracy": 20,
     "min_range": 30,
     "max_range": 30,
+    "//": "14 moves worth of casting time. It tends to stick 10 tiles away from you, so this means you can get some attacks in if you chase it.",
+    "base_casting_time": 2800,
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN"
@@ -214,8 +215,11 @@
   {
     "name": "GROUP_AMALGAMATIONS_SPAWNED",
     "type": "monstergroup",
-    "//": "TODO: Borrow more of Venera's fun little twisted creations to explain why biomass = instant abberations.",
-    "monsters": [ { "monster": "mon_amalgamation_swarmer", "weight": 3 } ]
+    "monsters": [
+      { "monster": "mon_amalgamation_swarmer", "weight": 10 },
+      { "monster": "mon_amalgamation_corroder", "weight": 4 },
+      { "monster": "mon_amalgamation_soldier", "weight": 1 }
+    ]
   },
   {
     "type": "effect_on_condition",
