@@ -61,12 +61,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "rigid": true, "ammo_restriction": { "butane": 400 } } ],
     "material": [ "aluminum" ],
     "flags": [ "NO_RELOAD", "GAS_TANK" ],
-    "explosion": {
-      "power": 4503,
-      "distance_factor": 0.1,
-      "fire": true,
-      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.025, "recovery": 0 }
-    },
     "explode_in_fire": true
   },
   {
