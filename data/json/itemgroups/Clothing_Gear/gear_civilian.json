@@ -307,6 +307,7 @@
       { "item": "soldering_iron", "prob": 70, "charges": [ 0, 50 ] },
       [ "solder_wire", 70 ],
       [ "textbook_weapwest", 2 ],
+      [ "textbook_weparabic", 5 ],
       [ "textbook_weapeast", 2 ],
       [ "textbook_armwest", 2 ],
       [ "textbook_armeast", 2 ],

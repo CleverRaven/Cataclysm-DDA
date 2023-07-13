@@ -1116,6 +1116,7 @@
     "type": "bionic",
     "name": { "str": "Cerebral Booster" },
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
+    "cant_remove_reason": "The bionic is now critical to the continued functionality of the user's brain.",
     "occupied_bodyparts": [ [ "head", 6 ] ],
     "stat_bonus": [ [ "INT", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
@@ -1207,6 +1208,7 @@
     "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you forget skills you've learned slower.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
+    "cant_remove_reason": "Removing this CBM would cause severe amnesia and neurological issues.",
     "active_flags": [ "CBQ_LEARN_BONUS" ],
     "act_cost": "2 J",
     "react_cost": "2 J",

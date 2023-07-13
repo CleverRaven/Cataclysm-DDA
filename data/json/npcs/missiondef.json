@@ -973,5 +973,22 @@
       { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
       { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_IMMEDIATE",
+    "eoc_type": "EVENT",
+    "required_event": "broken_bone",
+    "//1": "Only run EOC if character is currently on succession cooldown!",
+    "condition": { "u_compare_time_since_var": "time_of_last_succession", "type": "timer", "op": "<", "time": "90 d" },
+    "//2": "Remove the mission tracking that you can't change char, push the timer back 90 days so changing is immediately available.",
+    "effect": [
+      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
+      {
+        "u_message": "You've been badly wounded.  It might be better to rest for a while and let someone else scavenge. (Changing characters is now available at any camp board.)",
+        "type": "mixed"
+      },
+      { "u_adjust_var": "time_of_last_succession", "type": "timer", "adjustment": -7776000 }
+    ]
   }
 ]
