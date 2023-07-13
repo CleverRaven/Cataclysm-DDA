@@ -4,39 +4,39 @@
     "method": "json",
     "om_terrain": [
       [
-        "lab_surface_brick_block5A0",
-        "lab_surface_brick_block5B0",
-        "lab_surface_brick_block5C0",
-        "lab_surface_brick_block5D0",
-        "lab_surface_brick_block5E0"
+        "psi_phavian_lab_block5A0",
+        "psi_phavian_lab_block5B0",
+        "psi_phavian_lab_block5C0",
+        "psi_phavian_lab_block5D0",
+        "psi_phavian_lab_block5E0"
       ],
       [
-        "lab_surface_brick_block5A1",
-        "lab_surface_brick_block5B1",
-        "lab_surface_brick_block5C1",
-        "lab_surface_brick_block5D1",
-        "lab_surface_brick_block5E1"
+        "psi_phavian_lab_block5A1",
+        "psi_phavian_lab_block5B1",
+        "psi_phavian_lab_block5C1",
+        "psi_phavian_lab_block5D1",
+        "psi_phavian_lab_block5E1"
       ],
       [
-        "lab_surface_brick_block5A2",
-        "lab_surface_brick_block5B2",
-        "lab_surface_brick_block5C2",
-        "lab_surface_brick_block5D2",
-        "lab_surface_brick_block5E2"
+        "psi_phavian_lab_block5A2",
+        "psi_phavian_lab_block5B2",
+        "psi_phavian_lab_block5C2",
+        "psi_phavian_lab_block5D2",
+        "psi_phavian_lab_block5E2"
       ],
       [
-        "lab_surface_brick_block5A3",
-        "lab_surface_brick_block5B3",
-        "lab_surface_brick_block5C3",
-        "lab_surface_brick_block5D3",
-        "lab_surface_brick_block5E3"
+        "psi_phavian_lab_block5A3",
+        "psi_phavian_lab_block5B3",
+        "psi_phavian_lab_block5C3",
+        "psi_phavian_lab_block5D3",
+        "psi_phavian_lab_block5E3"
       ],
       [
-        "lab_surface_brick_block5A4",
-        "lab_surface_brick_block5B4",
-        "lab_surface_brick_block5C4",
-        "lab_surface_brick_block5D4",
-        "lab_surface_brick_block5E4"
+        "psi_phavian_lab_block5A4",
+        "psi_phavian_lab_block5B4",
+        "psi_phavian_lab_block5C4",
+        "psi_phavian_lab_block5D4",
+        "psi_phavian_lab_block5E4"
       ]
     ],
     "object": {

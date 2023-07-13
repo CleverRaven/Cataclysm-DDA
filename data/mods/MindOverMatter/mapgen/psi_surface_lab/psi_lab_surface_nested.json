@@ -3,7 +3,7 @@
     "//": "4x4 fancy office upstairs on West side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_W4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_W4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -28,7 +28,7 @@
     "//": "4x4 fancy office upstairs on West side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_W4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_W4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -55,7 +55,7 @@
     "//": "4x4 fancy office upstairs on West side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_W4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_W4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -82,7 +82,7 @@
     "//": "4x4 fancy office upstairs on East side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_E4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_E4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -107,7 +107,7 @@
     "//": "4x4 fancy office upstairs on East side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_E4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_E4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -134,7 +134,7 @@
     "//": "4x4 fancy office upstairs on East side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_E4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_E4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -161,7 +161,7 @@
     "//": "4x4 upstairs office with south wall door on west side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SWdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -188,7 +188,7 @@
     "//": "4x4 upstairs office with south wall door on west side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SWdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -215,7 +215,7 @@
     "//": "4x4 upstairs office with south wall door on west side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SWdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -242,7 +242,7 @@
     "//": "4x4 upstairs office with south wall door on west side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SWdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -269,7 +269,7 @@
     "//": "4x4 upstairs office with south wall door on west side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SWdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -296,7 +296,7 @@
     "//": "4x4 upstairs office with south wall door on east side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SEdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -323,7 +323,7 @@
     "//": "4x4 upstairs office with south wall door on East side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SEdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -350,7 +350,7 @@
     "//": "4x4 upstairs office with south wall door on East side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SEdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -377,7 +377,7 @@
     "//": "4x4 upstairs office with south wall door on East side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SEdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -404,7 +404,7 @@
     "//": "4x4 upstairs office with south wall door on East side",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "nested_mapgen_id": "psi_phavian_lab_office_SEdoor4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -431,7 +431,7 @@
     "//": "5x5 offices",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_office_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -461,7 +461,7 @@
     "//": "5x5 offices",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_office_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -501,7 +501,7 @@
     "//": "5x5 single office",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_office_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -531,7 +531,7 @@
     "//": "5x5 single office",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_office_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -569,7 +569,7 @@
     "//": "5x5 three-seat office",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_office_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_office_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -606,7 +606,7 @@
     "//": "5x5 meeting room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_meeting_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_meeting_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -626,7 +626,7 @@
     "//": "5x5 three-seat office",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_meeting_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_meeting_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -646,7 +646,7 @@
     "//": "5x5 three-seat office",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_meeting_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_meeting_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -665,7 +665,7 @@
     "//": "5x5 three-seat office",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_meeting_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_meeting_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -684,7 +684,7 @@
     "//": "5x5 lab front room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_front_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -711,7 +711,7 @@
     "//": "5x5 lab front room catalytic fluid cracking workspace",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_front_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -739,7 +739,7 @@
     "//": "5x5 lab front room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_front_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -766,7 +766,7 @@
     "//": "5x5 lab front room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_front_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -793,7 +793,7 @@
     "//": "5x5 lab front room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_front_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -821,7 +821,7 @@
     "//": "5x5 lab back room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_back_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -849,7 +849,7 @@
     "//": "5x5 lab back room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_back_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -877,7 +877,7 @@
     "//": "5x5 lab back room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_back_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -905,7 +905,7 @@
     "//": "5x5 lab back room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_back_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -929,7 +929,7 @@
     "//": "5x5 lab back room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "nested_mapgen_id": "psi_phavian_lab_2partworkspace_back_5x5",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -957,7 +957,7 @@
     "//": "8x8 lobby cafe",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_cafe_8x8",
+    "nested_mapgen_id": "psi_phavian_lab_cafe_8x8",
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -985,7 +985,7 @@
     "//": "8x8 lobby comfy seating area",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_cafe_8x8",
+    "nested_mapgen_id": "psi_phavian_lab_cafe_8x8",
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -1008,7 +1008,7 @@
     "//": "8x8 lobby comfy seating area",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_cafe_8x8",
+    "nested_mapgen_id": "psi_phavian_lab_cafe_8x8",
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -1031,7 +1031,7 @@
     "//": "8x8 lobby juice bar",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_cafe_8x8",
+    "nested_mapgen_id": "psi_phavian_lab_cafe_8x8",
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -1058,7 +1058,7 @@
     "//": "11x11 round meeting room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_room_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_room_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1080,10 +1080,63 @@
     }
   },
   {
+    "//": "11x11 round meeting room filled with the black seas of infinity",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 400,
+    "nested_mapgen_id": "psi_phavian_lab_room_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "   ccccc   ",
+        "  ctttttc  ",
+        " cttxtxttc ",
+        " ctx   xtc ",
+        " ctt   ttc ",
+        " ctx   xtc ",
+        " cttxtxttc ",
+        "  ctttttc  ",
+        "   ccccc   ",
+        "           "
+      ],
+      "terrain": { "c": "t_nether_water_sh", "t": "t_nether_water_sh", "x": "t_nether_water_sh", " ": "t_nether_water_sh" },
+      "items": { "c": { "item": "office", "chance": 8 }, "t": { "item": "electronics", "chance": 15 } },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "11x11 room where everything has been eaten by nether water",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 250,
+    "nested_mapgen_id": "psi_phavian_lab_room_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           "
+      ],
+      "terrain": { " ": "t_nether_water_sh" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
     "//": "11x11 small lecture room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_room_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_room_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1109,7 +1162,7 @@
     "//": "11x11 computer lab",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_room_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_room_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1133,7 +1186,7 @@
     "//": "11x11 presentation room",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_room_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_room_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1303,7 +1356,7 @@
     "//2": "analytical lab with GC/HPLC/MS and NMR",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Wdoor_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1339,7 +1392,7 @@
     "//2": "biolab with decon shower",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Wdoor_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1377,7 +1430,7 @@
     "//2": "biolab with imaging equipment",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Wdoor_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1418,7 +1471,7 @@
     "//2": "lab with small sub-rooms",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Wdoor_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1455,7 +1508,7 @@
     "//2": "micriobio lab with EM and shakers",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Edoor_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1491,7 +1544,7 @@
     "//2": "lab with small sub-rooms",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Wdoor_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1528,7 +1581,7 @@
     "//2": "lab with small sub-rooms",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Edoor_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1565,7 +1618,7 @@
     "//2": "big analytical lab with most tools",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Edoor_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1601,7 +1654,7 @@
     "//2": "some sort of engineering lab with lots of computers and stuff",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Edoor_11x11",
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
@@ -1636,7 +1689,7 @@
     "//": "12x12 lobby centerpiece",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_centerpiece_12x12",
+    "nested_mapgen_id": "psi_phavian_lab_centerpiece_12x12",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
@@ -1671,7 +1724,7 @@
     "//": "12x12 lobby centerpiece",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_centerpiece_12x12",
+    "nested_mapgen_id": "psi_phavian_lab_centerpiece_12x12",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
@@ -1705,7 +1758,7 @@
     "//": "12x12 lobby centerpiece",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_centerpiece_12x12",
+    "nested_mapgen_id": "psi_phavian_lab_centerpiece_12x12",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
@@ -1732,7 +1785,7 @@
     "//": "12x12 lobby centerpiece",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "lab_surface_centerpiece_12x12",
+    "nested_mapgen_id": "psi_phavian_lab_centerpiece_12x12",
     "object": {
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
