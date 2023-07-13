@@ -3512,7 +3512,6 @@ class jmapgen_nested : public jmapgen_piece
                     return true;
                 }
         };
-        
         class neighbor_flag_check
         {
             private:
