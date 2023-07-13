@@ -12,13 +12,13 @@
   },
   {
     "type": "snippet",
-    "category": "<zombie_harvest_boomer_general>",
+    "category": "<zombie_harvest_screamer_general>",
     "text": [
-      "Dissecting this creature feels more like attempting to piece a ruptured birthday balloon back up than cutting into a corpse",
-      "You have to carefully let residual subpockets of gas gently depressurize after cutting a small hole into them",
-      "You spot the remains of several half-formed creatures in the cavernous cavities of the zombie, making you dout these truly are gas pockets and think of them more like wombs with specific atmospheric conditions",
-      "You have to wait a few minutes after your initial cut for the corpse to deflate enough to study",
-      "Small spurts of black liquid accompany the pressurized jets of gas caused by your cuts into its insides"
+      "The lungs of this creature are cavernous, seemingly having been repurposed from their respiratory function to house an impressive volume of air",
+      "Its massive diaphragm seems to have been the only correctly sustained muscle of this starved corpse",
+      "A careless move dislodges some remaining hair causing the throat of the undead monster to emit one more choked scream",
+      "The slack jaws and starved body of this creature make you think that it would have struggled to seriously harm anything on its own",
+      "Its distended lungs seem to be partially lined with a black and sticky mucus membrane"
     ]
   },
   {
@@ -28,7 +28,7 @@
       "Removing its bone plates proves more harduous than you would have thought, requiring you to almost put your entire weight on your tool to pry them off",
       "Black liquid bubbles in the places where you managed to remove its skeletal growths",
       "This one's armor falls off surprisingly easily, almost as if whatever puppets it wishes for it to lose the extra weight",
-      "The layout and segmentation of its bony carapace disturbingly ressembles what a blacksmith would identify as classic plate armor",
+      "The layout and segmentation of its bony carapace disturbingly resembles what a blacksmith would identify as classic plate armor",
       "These plates are almost impossible to remove until you realize they are linked to the internal skeleton with calcified pillars you must break before removing its armor"
     ]
   },
