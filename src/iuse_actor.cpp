@@ -4456,8 +4456,35 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
 
     } else {
         // This is a cable item with at least one connection already:
-        link_menu.text = string_format( _( "What to do with the %s?%s" ), cable_name, it.link->t_veh_safe ?
-                                        string_format( _( "\nAttached to: %s" ), it.link->t_veh_safe->name ) : "" );
+        std::string state_desc_lhs;
+        std::string state_desc_rhs;
+        if( it.link->has_state( link_state::no_link ) ) {
+            state_desc_lhs = _( "\nAttached to " );
+            if( it.link->t_veh_safe ) {
+                state_desc_rhs = it.link->t_veh_safe->name;
+            } else if( it.link->has_state( link_state::bio_cable ) ) {
+                state_desc_rhs = _( "Cable Charger System" );
+            } else if( it.link->has_state( link_state::ups ) ) {
+                state_desc_rhs = _( "Unified Power Supply" );
+            } else if( it.link->has_state( link_state::solarpack ) ) {
+                state_desc_rhs = _( "solar backpack" );
+            }
+        } else {
+            if( it.link->s_state ==  link_state::bio_cable ) {
+                state_desc_lhs = _( "\nConnecting Cable Charger System to " );
+            } else if( it.link->s_state == link_state::ups ) {
+                state_desc_lhs = _( "\nConnecting UPS to " );
+            } else if( it.link->s_state == link_state::solarpack ) {
+                state_desc_lhs = _( "\nConnecting solar backpack to " );
+            }
+            if( it.link->t_veh_safe ) {
+                state_desc_rhs = it.link->t_veh_safe->name;
+            } else if( it.link->t_state == link_state::bio_cable ) {
+                state_desc_rhs = _( "Cable Charger System" );
+            }
+        }
+        link_menu.text = string_format( _( "What to do with the %s?%s%s" ), cable_name,
+                                        state_desc_lhs, state_desc_rhs );
 
         // TODO: Allow plugging UPSes and Solar Packs into more than just bionics.
         // There is already code to support setting up a link, but none for actual functionality.
@@ -4572,6 +4599,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
             it.link->s_state = link_state::bio_cable;
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
         }
+        it.set_link_traits();
+        it.link->last_processed = calendar::turn;
         p->moves -= move_cost;
         it.process( here, p, p->pos() );
         return 0;
@@ -4609,6 +4638,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
         }
         it.link->s_state = link_state::ups;
         loc->set_var( "cable", "plugged_in" );
+        it.set_link_traits();
+        it.link->last_processed = calendar::turn;
         p->moves -= move_cost;
         it.process( here, p, p->pos() );
         return 0;
@@ -4646,6 +4677,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
         }
         it.link->s_state = link_state::solarpack;
         loc->set_var( "cable", "plugged_in" );
+        it.set_link_traits();
+        it.link->last_processed = calendar::turn;
         p->moves -= move_cost;
         it.process( here, p, p->pos() );
         return 0;
@@ -4862,6 +4895,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         it.link->t_abs_pos = here.getglobal( t_vp->vehicle().global_pos3() );
         it.link->t_mount = t_vp->mount();
         it.link->max_length = cable_length != -1 ? cable_length : it.type->maximum_charges();
+        it.set_link_traits();
         it.link->last_processed = calendar::turn;
         p->moves -= move_cost;
         it.process( here, p, p->pos() );
