@@ -36,7 +36,11 @@
     "tracking_distance": 10,
     "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
     "//5": "TODO: Special attacks: EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN, illuminates_u, makes VERY loud noises(attracts wandering hordes)",
-    "special_attacks": [ [ "UPGRADE", 10 ] ],
+    "special_attacks": [
+      [ "UPGRADE", 20 ],
+      { "type": "spell", "spell_data": { "id": "illuminates_u", "min_level": 20 }, "cooldown": 10 },
+      { "type": "spell", "spell_data": { "id": "DEBUG_LIFE_DRAIN", "min_level": 20 }, "cooldown": 10 }
+    ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "//2": "Death EOC?",
     "death_function": { "message": "Fear leaves you as the night is still.", "corpse_type": "NO_CORPSE" },
@@ -72,10 +76,49 @@
     "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 500 }
   },
   {
+    "id": "illuminates_u",
+    "type": "SPELL",
+    "name": { "str": "DEBUGDEBUG" },
+    "description": "Light em up!",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "shape": "blast",
+    "min_accuracy": 20,
+    "max_accuracy": 20,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "min_range": 30,
+    "max_range": 30,
+    "max_level": 20,
+    "effect": "attack",
+    "//": "Right now seems to be broken? Simply won't apply the effect. Ever.",
+    "effect_str": "Shadow_Reveal",
+    "min_duration": 60,
+    "max_duration": 60
+  },
+  {
+    "id": "DEBUG_LIFE_DRAIN",
+    "type": "SPELL",
+    "name": { "str": "DEBUG_LIFE_DRAIN" },
+    "description": "DEBUG!",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "shape": "blast",
+    "min_accuracy": 20,
+    "max_accuracy": 20,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "min_range": 30,
+    "max_range": 30,
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN"
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN",
     "eoc_type": "ACTIVATION",
-    "//1": "On dirt or dirt-like terrain, aka is the PC outdoors?",
+    "//1": "On dirt or dirt-like terrain, aka is the PC outdoors and on a tile where this will work (likely to be near other ones)?",
     "//2": "false_effect that drains player's life instead?",
     "condition": { "u_is_on_terrain_with_flag": "PLOWABLE" },
     "//3": "Find some valid terrain nearby, turn it and all greenery nearby it into very very dead terrain. Spawn amalgamations (and cocoons and stuff?) for the dead terrain.",
@@ -213,7 +256,7 @@
     "condition": { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
     "//2": "TODO: Despawn shadow, adjust var for later to bring him back",
     "effect": [
-      { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
+      { "u_adjust_var": "Shadow_Lurking", "adjustment": 1 },
       { "u_message": "The wind laughs through the night", "type": "bad" },
       { "u_message": "...but it grows more distant for now.", "type": "good" }
     ]
@@ -232,8 +275,8 @@
         "target_max_radius": 15,
         "min_radius": 10,
         "max_radius": 15
-      },
-    ]
+      }
+    ],
     "deactivate_condition": { "math": [ "u_Lieutenants_active", "<", "1" ] }
   }
 ]

@@ -4073,6 +4073,17 @@
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ]
   },
   {
+    "id": "Shadow_Reveal",
+    "type": "effect_type",
+    "max_duration": "60 s",
+    "name": [ "Revealed" ],
+    "desc": [ "The shadows no longer hide you!" ],
+    "rating": "bad",
+    "show_intensity": false,
+    "//": "Blah blah test blah blah",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
     "type": "effect_type",
     "id": "molting",
     "name": [ "Molting" ],
