@@ -1,0 +1,161 @@
+[
+  {
+    "id": "mon_lieutenant_shadow",
+    "type": "MONSTER",
+    "name": { "str": "A shadow?" },
+    "description": "Something is here!  Against all reason, this shadow lurks at the corners of your vision.  You close your eyes, but still, it is there.  No matter how far you run, it is there.  In pitchest black, it is there.  Now you will know why you fear the night.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 500,
+    "volume": "100 L",
+    "weight": "100 kg",
+    "phase": "GAS",
+    "hp": 250,
+    "speed": 200,
+    "attack_cost": 200,
+    "material": [ "bone" ],
+    "symbol": "L",
+    "color": "red_white",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "aggression": 10,
+    "morale": 100,
+    "melee_skill": 10,
+    "//00": "Unfortunately, we do need some melee damage so that it can bash through terrain and the like.",
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "//0": "Blob bullshit laughs at concepts like armor",
+    "melee_damage": [ { "damage_type": "pure", "amount": 1, "armor_penetration": 999 } ],
+    "dodge": 10,
+    "bleed_rate": 0,
+    "vision_day": 50,
+    "vision_night": 50,
+    "melee_training_cap": 0,
+    "//1": "Try to stay this far away from the player with your regular moves, EOCs will help",
+    "tracking_distance": 10,
+    "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
+    "special_attacks": [ [ "UPGRADE", 10 ] ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "//2": "Death EOC?",
+    "death_function": { "message": "Fear leaves you as the night is still.", "corpse_type": "NO_CORPSE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "NO_BREATHE",
+      "HARDTOSHOOT",
+      "CAN_OPEN_DOORS",
+      "SUNDEATH",
+      "CLIMBS",
+      "BORES",
+      "DESTROYS",
+      "FLIES",
+      "FIREPROOF",
+      "ALL_SEEING",
+      "ALWAYS_SEES_YOU",
+      "NIGHT_INVISIBILITY",
+      "CAMOUFLAGE",
+      "ALWAYS_SEES_YOU",
+      "PRIORITIZE_TARGETS",
+      "NO_FUNG_DMG",
+      "FILTHY",
+      "STUN_IMMUNE",
+      "KEEP_DISTANCE",
+      "PATH_AVOID_DANGER_2"
+    ],
+    "//3": "Explicitly immune to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
+    "//4": "TODO: Add some other resists for those wacky magiclysm players and their spells?",
+    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 500 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN",
+    "eoc_type": "ACTIVATION",
+    "//1": "On dirt or dirt-like terrain, aka is the PC outdoors?",
+    "//2": "false_effect that drains player's life instead?",
+    "condition": { "u_is_on_terrain_with_flag": "PLOWABLE" },
+    "//3": "Find some valid terrain nearby, turn it and all greenery nearby it into very very dead terrain. Spawn amalgamations (and cocoons and stuff?) for the dead terrain.",
+    "effect": [
+      { "u_location_variable": { "global_val": "drain_terrain" },
+        "terrain": "t_grass",
+        "target_min_radius": 5,
+        "target_max_radius": 10,
+        "min_radius": 5,
+        "max_radius": 10 },
+		{  "math": [ "ltnt_transform_radius", "=", "5" ] },
+      { "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 5 },
+        "ter_furn_transform": "ltnt_grass_drain",
+        "target_var": { "global_val": "drain_terrain" }
+      },
+      { "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 5 },
+        "ter_furn_transform": "ltnt_tree_drain",
+        "target_var": { "global_val": "drain_terrain" }
+      },
+      { "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
+        "group": true,
+        "real_count": 6,
+        "target_var": { "global_val": "drain_terrain" }
+      },
+	  { "u_message": "The air hisses!", "type": "warning" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ltnt_grass_drain",
+	"//": "Yes this is a giant list of terrain.",
+    "terrain": [ { "result": [ "t_dirt" ], "valid_terrain": [ "t_grass", "t_grass_alien", "t_grass_dead", "t_bamboo_long", "t_grass_long", "t_bamboo_tall", "t_grass_tall", "t_bamboo", "t_bamboo_harvested", "t_shrub", "t_shrub_rose", "t_shrub_lilac", "t_shrub_grape", "t_shrub_peanut", "t_shrub_blueberry", "t_shrub_hydrangea", "t_shrub_raspberry", "t_shrub_strawberry", "t_shrub_blackberry", "t_shrub_huckleberry", "t_shrub_rose_harvested", "t_shrub_grape_harvested", "t_shrub_lilac_harvested", "t_shrub_peanut_harvested", "t_shrub_raspberry_harvested", "t_shrub_blueberry_harvested", "t_shrub_hydrangea_harvested", "t_shrub_blackberry_harvested", "t_shrub_strawberry_harvested", "t_shrub_huckleberry_harvested", "t_forestfloor", "t_moss", "t_underbrush", "t_underbrush_harvested_spring", "t_underbrush_harvested_summer", "t_underbrush_harvested_autumn", "t_underbrush_harvested_winter" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ltnt_tree_drain",
+	"//": "TODO: Add all the tree types! All of them! Including the harvested ones! ;_;",
+    "terrain": [ { "result": [ "t_tree_very_dead" ], "valid_terrain": [ "t_tree" ] } ]
+  },
+  {
+    "name": "GROUP_AMALGAMATIONS_SPAWNED",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_amalgamation_swarmer", "weight": 3, "pack_size": [ 4, 6 ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
+    "recurrence": 1,
+    "//1": "6 months into the cataclysm AND # of zombie kills?",
+    "condition": { "days_since_cataclysm": 180 },
+    "//2": "Integer value instead of bool, so more can be added later and use compare for conditions",
+    "effect": [
+      { "u_add_var": "Lieutenants_active", "value": "1" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "//": "TODO: Check every once in a while but not instantly",
+    "recurrence": 1,
+    "//1": "Night time and shadow is active",
+    "condition": { "and": [ { "npc_allies": 3 },
+    { "u_compare_var": "Lieutenants_active",
+              "op": ">",
+              "value": 0 } ] },
+    "//2": "Integer value instead of bool, so more can be added later and use compare for conditions",
+    "effect": [
+      { "u_add_var": "Lieutenants_active", "value": "1" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
+    "recurrence": 5,
+    "//1": "Lots of friends nearby, or in base camp, or in certain safe faction OMTs(?)",
+    "condition": { "or": [ { "npc_allies": 3 },
+    { "u_near_om_location": "basecamp", "range": 2 } ] },
+    "//2": "Despawn shadow, set var for later to bring him back",
+    "effect": [
+      { "u_add_var": "Shadow_Lurking", "value": "1" }
+    ]
+  }
+]
