@@ -49,7 +49,6 @@
     "speed": 120,
     "material": [ "steel" ],
     "symbol": "e",
-    "color": "light_gray",
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 3,
