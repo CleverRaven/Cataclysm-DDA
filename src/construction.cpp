@@ -85,14 +85,14 @@ static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bone_human( "bone_human" );
+static const itype_id itype_ladder_aluminum_extended( "ladder_aluminum_extended" );
+static const itype_id itype_ladder_aluminum_tele_extended( "ladder_aluminum_tele_extended" );
+static const itype_id itype_ladder_fiberglass_extended( "ladder_fiberglass_extended" );
+static const itype_id itype_ladder_wooden_straight( "ladder_wooden_straight" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
-static const itype_id itype_ladder_wooden_straight( "ladder_wooden_straight" );
-static const itype_id itype_ladder_aluminum_extended( "ladder_aluminum_extended" );
-static const itype_id itype_ladder_fiberglass_extended( "ladder_fiberglass_extended" );
-static const itype_id itype_ladder_aluminum_tele_extended( "ladder_aluminum_tele_extended" );
 
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
