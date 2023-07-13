@@ -1851,6 +1851,7 @@
         "   =H=    &"
       ],
       "furniture": { "H": "f_shower" },
+      "place_item": [ { "item": "matrix_crystal_biokinesis", "x": 10, "y": 0, "chance": 30 } ],
       "items": {
         "b": [
           { "item": "tools_science", "chance": 15, "repeat": [ 1, 2 ] },
@@ -1923,6 +1924,49 @@
         "S     e#Ull",
         "CC&    =   "
       ],
+      "items": {
+        "b": [
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "distribution_matrix_dust", "chance": 15, "repeat": [ 1, 3 ] }
+        ],
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors right side bottom, black glass and crystal",
+    "//2": "microbio lab with EM and shakers",
+    "weight": 500,
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "psi_phavian_lab_workspace_Edoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bbi|hhh|ffC",
+        "Fs |   |   ",
+        "b  |A=A|=::",
+        "Fs         ",
+        "b   Eb   ob",
+        "b  sbbs  sb",
+        "b  sbbs  sb",
+        "a   So  &bb",
+        "S      ####",
+        "S     e#Ull",
+        "CC&    =   "
+      ],
+      "terrain": {
+        "_": [ [ "t_nether_glass_floor", 10 ], [ "t_nether_crystal_structure", 1 ], [ "t_null", 2 ] ],
+        "s": [ [ "t_nether_glass_floor", 2 ], [ "t_null", 1 ] ],
+        "b": [ [ "t_nether_glass_floor", 2 ], [ "t_null", 1 ] ],
+        "U": [ [ "t_nether_glass_floor", 1 ], [ "t_null", 2 ] ],
+        "l": [ [ "t_nether_glass_floor", 1 ], [ "t_null", 2 ] ]
+      },
       "items": {
         "b": [
           { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
@@ -2103,7 +2147,7 @@
         "bbb& CSC&  "
       ],
       "terrain": {
-        "_": "t_nether_glass_floor",
+        "_": [ [ "t_nether_glass_floor", 5 ], [ "t_nether_crystal_structure", 1 ] ],
         "X": "t_nether_glass_floor",
         "E": "t_nether_glass_floor",
         "ȼ": "t_nether_glass_floor",
