@@ -15,7 +15,7 @@
     "//6": "TODO: Slowed and weakened by light, maybe of sufficient brightness? (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it. Might need to make it afraid of vehicles or something... Speed 200 is mostly to prevent your average minmaxer with 12+ per and 110+ speed from walking right at it and clubbing it to death the moment it spawns.",
     "speed": 200,
     "attack_cost": 200,
-    "material": [ "bone" ],
+    "regenerates": 5,
     "symbol": "L",
     "color": "red_white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
@@ -35,7 +35,7 @@
     "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 10,
     "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
-    "//5": "TODO: Special attacks: EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN, illuminates_u, makes VERY loud noises(attracts wandering hordes)",
+    "//5": "TODO: Special attacks: illuminates_u (not working), makes VERY loud noises(attracts wandering hordes)",
     "special_attacks": [
       [ "UPGRADE", 20 ],
       {
@@ -46,8 +46,8 @@
       },
       {
         "type": "spell",
-        "spell_data": { "id": "DEBUG_LIFE_DRAIN", "min_level": 1 },
-        "monster_message": "TODO I choose you, EOC life drain!",
+        "spell_data": { "id": "LTNT_LIFE_DRAIN", "min_level": 1 },
+        "monster_message": "The ground blackens before you.",
         "cooldown": 20
       }
     ],
@@ -82,8 +82,7 @@
       "PATH_AVOID_DANGER_2"
     ],
     "//3": "Explicitly immune to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
-    "//4": "TODO: Add some other resists for those wacky magiclysm players and their spells?",
-    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 500 }
+    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 500, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }
   },
   {
     "id": "illuminates_u",
@@ -105,7 +104,7 @@
     "max_duration": 60
   },
   {
-    "id": "DEBUG_LIFE_DRAIN",
+    "id": "LTNT_LIFE_DRAIN",
     "type": "SPELL",
     "name": { "str": "DEBUG_LIFE_DRAIN" },
     "description": "DEBUG!",
@@ -124,7 +123,6 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN",
     "eoc_type": "ACTIVATION",
-    "//2": "false_effect that drains player's life instead?",
     "//3": "Find some valid terrain nearby, turn it and all greenery nearby it into very very dead terrain. Spawn amalgamations (and cocoons and stuff?) for the dead terrain.",
     "//4": "TODO: Set location var based on grass OR forest floor. In forests, grass almost never works!",
     "effect": [
@@ -136,14 +134,14 @@
         "min_radius": 5,
         "max_radius": 10
       },
-      { "math": [ "ltnt_transform_radius", "=", "5" ] },
+      { "math": [ "ltnt_transform_radius", "=", "10" ] },
       {
-        "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 5 },
+        "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 10 },
         "ter_furn_transform": "ltnt_grass_drain",
         "target_var": { "global_val": "drain_terrain" }
       },
       {
-        "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 5 },
+        "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 10 },
         "ter_furn_transform": "ltnt_tree_drain",
         "target_var": { "global_val": "drain_terrain" }
       },
@@ -217,7 +215,7 @@
     "name": "GROUP_AMALGAMATIONS_SPAWNED",
     "type": "monstergroup",
     "//": "TODO: Borrow more of Venera's fun little twisted creations to explain why biomass = instant abberations.",
-    "monsters": [ { "monster": "mon_amalgamation_swarmer", "weight": 3, "pack_size": [ 4, 6 ] } ]
+    "monsters": [ { "monster": "mon_amalgamation_swarmer", "weight": 3 } ]
   },
   {
     "type": "effect_on_condition",
@@ -234,6 +232,7 @@
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
     "recurrence": [ "4 hours", "4 hours" ],
     "//1": "Night time, shadow is active, you are outdoors, and you are not likely to be near shelter.",
+    "//2": "Forcibly wake the player somehow? Just in case they are sleeping outside.",
     "condition": {
       "and": [
         { "one_in_chance": 6 },
@@ -248,7 +247,7 @@
     },
     "effect": [
       { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
-      { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 15, "max_radius": 20 },
+      { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       { "u_message": "You shiver as the night closes in...", "type": "bad", "popup": true }
     ]
   },
@@ -269,23 +268,5 @@
       { "u_message": "The wind laughs through the night", "type": "bad" },
       { "u_message": "...but it grows more distant for now.", "type": "good" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LIEUTENANT_SHADOW_SHADOWS_YOU",
-    "recurrence": 5,
-    "//1": "Shadow is somehow more than 30 tiles away",
-    "condition": { "math": [ { "distance": [ "u",{ "global_val": "Shadow_Lieutenant" } ] }, ">=", "30" ] },
-    "//2": "TODO: Move shadow to nearby you (teleport)",
-    "effect": [
-      {
-        "u_location_variable": { "global_val": "Catchup_Teleport" },
-        "target_min_radius": 10,
-        "target_max_radius": 15,
-        "min_radius": 10,
-        "max_radius": 15
-      }
-    ],
-    "deactivate_condition": { "math": [ "u_Lieutenants_active", "<", "1" ] }
   }
 ]
