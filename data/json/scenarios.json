@@ -67,11 +67,15 @@
       "sloc_mall_food_court",
       "sloc_apartments_rooftop",
       "sloc_apartments_rooftop2",
+      "sloc_apartment_complex_roof",
       "sloc_hospital",
       "sloc_school",
+      "sloc_school_rooftop",
       "sloc_hotel_rooftop",
       "sloc_office_tower_rooftop",
-      "sloc_cathedral_rooftop"
+      "sloc_office_tower_2_rooftop",
+      "sloc_cathedral_rooftop",
+      "sloc_convention_center_rooftop"
     ],
     "start_name": "In Large Building",
     "flags": [ "CITY_START", "LONE_START" ]
@@ -1206,7 +1210,15 @@
     "description": "From up here, you watched it all fall apart.  The sky cracked and indescribable alien shapes writhed in the clouds.  The horizon has returned to normal, but you still see shadows moving in the corner of your eye and feel them calling you.",
     "forced_traits": [ "SCHIZOPHRENIC" ],
     "start_name": "Up Above",
-    "allowed_locs": [ "sloc_apartments_rooftop", "sloc_apartments_rooftop2", "sloc_hotel_rooftop", "sloc_office_tower_rooftop" ],
+    "allowed_locs": [
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hotel_rooftop",
+      "sloc_school_rooftop",
+      "sloc_office_tower_rooftop",
+      "sloc_apartment_complex_roof",
+      "sloc_convention_center_rooftop"
+    ],
     "eoc": [ "scenario_strong_portal_storm_base" ],
     "requirement": "achievement_reach_mid_z_level",
     "flags": [ "LONE_START", "CITY_START", "CHALLENGE" ]
