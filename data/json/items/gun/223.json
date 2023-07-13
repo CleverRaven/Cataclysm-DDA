@@ -370,6 +370,7 @@
   },
   {
     "id": "scar_l",
+    "copy-from": "rifle_semi",
     "type": "GUN",
     "name": { "str": "FN SCAR-L" },
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
@@ -381,7 +382,7 @@
     "price": 540000,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "skill": "rifle",
+    "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
