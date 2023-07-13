@@ -489,16 +489,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_copbot",
-      "friendly_msg": "The police bot rolls into action, ready to pursue criminals.",
-      "hostile_msg": "A siren howls and lights flash as the police bot prepares to arrest you!",
-      "//": "Wheeled and must be easy-to-use for police deployment",
-      "difficulty": 3,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    },
     "flags": [ "SINGLE_USE" ],
     "melee_damage": { "bash": 8 }
   },
