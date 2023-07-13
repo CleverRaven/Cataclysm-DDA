@@ -114,7 +114,10 @@ if [ -n "${MXE_TARGET}" ]; then
   fi
   set -e
   sudo tar -xzf SDL2_ttf-devel-2.20.2-mingw.tar.gz -C ${MXE_DIR}/usr/${MXE_TARGET} --strip-components=2 SDL2_ttf-2.20.2/x86_64-w64-mingw32
-  sudo /opt/mxe/usr/bin/x86_64-w64-mingw32.static.gcc12-strip --strip-debug /opt/mxe/usr/x86_64-w64-mingw32.static.gcc12/bin/SDL2_ttf.dll
+  # Reduce file size
+  sudo /opt/mxe/usr/bin/x86_64-w64-mingw32.static.gcc12-strip --strip-debug /opt/mxe/usr/x86_64-w64-mingw32.static.gcc12/lib/libSDL2_ttf.a
+  # Rename conflicting zlib symbols
+  sudo /opt/mxe/usr/bin/x86_64-w64-mingw32.static.gcc12-objcopy --redefine-syms=./build-scripts/SDL2_ttf-devel-2.20.2-mingw.redefine-syms /opt/mxe/usr/x86_64-w64-mingw32.static.gcc12/lib/libSDL2_ttf.a
 
   set +e
   retry=0

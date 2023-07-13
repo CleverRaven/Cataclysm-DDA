@@ -190,7 +190,10 @@ jobs:
           curl -L -o SDL2_ttf-devel-2.20.2-mingw.tar.gz https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.20.2/SDL2_ttf-devel-2.20.2-mingw.tar.gz
           shasum -a 256 -c ./build-scripts/SDL2_ttf-devel-2.20.2-mingw.tar.gz.sha256
           sudo tar -xzf SDL2-devel-2.20.2-mingw.tar.gz -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12 --strip-components=2 SDL2_ttf-2.20.2/${{ matrix.mxe }}-w64-mingw32
-          sudo /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc12-strip --strip-debug /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12/bin/SDL2_ttf.dll
+          # Reduce file size
+          sudo /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc12-strip --strip-debug /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12/lib/libSDL2_ttf.a
+          # Rename conflicting zlib symbols
+          sudo /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc12-objcopy --redefine-syms=./build-scripts/SDL2_ttf-devel-2.20.2-mingw.redefine-syms /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12/lib/libSDL2_ttf.a
 
           curl -L -o libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz
           shasum -a 256 -c ./build-scripts/libbacktrace-${{ matrix.mxe }}-w64-mingw32-sha256
