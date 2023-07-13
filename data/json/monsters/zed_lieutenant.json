@@ -40,12 +40,14 @@
       [ "UPGRADE", 20 ],
       {
         "type": "spell",
+        "id": "illuminates_u",
         "spell_data": { "id": "illuminates_u", "min_level": 20 },
         "monster_message": "The shadows recede, leaving you with nowhere to hide!",
         "cooldown": 10
       },
       {
         "type": "spell",
+        "id": "LTNT_LIFE_DRAIN",
         "spell_data": { "id": "LTNT_LIFE_DRAIN", "min_level": 1 },
         "monster_message": "The ground blackens before you.",
         "cooldown": 20
@@ -105,7 +107,7 @@
   {
     "id": "LTNT_LIFE_DRAIN",
     "type": "SPELL",
-    "name": { "str": "DEBUG_LIFE_DRAIN" },
+    "name": { "str": "Life Drain" },
     "description": "When even the grass rises against you, what hope do you have?",
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "hostile" ],
@@ -124,7 +126,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN",
     "eoc_type": "ACTIVATION",
-    "//3": "Find some valid terrain nearby, turn it and all greenery nearby it into very very dead terrain. Spawn amalgamations (and cocoons and stuff?) for the dead terrain.",
+    "//3": "Find some valid terrain nearby, turn it and all greenery nearby it into very very dead terrain. Spawn amalgamations for the dead terrain.",
     "//4": "TODO: Set location var based on grass OR forest floor. In forests, grass almost never works!",
     "effect": [
       {
