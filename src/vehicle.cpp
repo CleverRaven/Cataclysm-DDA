@@ -4129,7 +4129,7 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
 {
     int rotor_area_in_feet = 0;
     for( const int rotor : rotors ) {
-        double rotor_diameter_in_feet = parts[ rotor ].info().rotor_diameter() * 3.28084;
+        double rotor_diameter_in_feet = parts[rotor].info().rotor_info->rotor_diameter * 3.28084;
         rotor_area_in_feet += ( M_PI / 4 ) * std::pow( rotor_diameter_in_feet, 2 );
     }
     // take off 15 % due to the imaginary tail rotor power.
@@ -6784,7 +6784,7 @@ int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool
         }
     }
 
-    int target_part = vp_initial.info().rotor_diameter() ? p : random_entry( parts_here );
+    int target_part = vp_initial.info().has_flag( VPFLAG_ROTOR ) ? p : random_entry( parts_here );
 
     // Parts integrated inside a door or board are protected by boards and closed doors
     if( part( target_part ).info().has_flag( "BOARD_INTERNAL" ) ) {

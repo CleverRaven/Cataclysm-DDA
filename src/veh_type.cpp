@@ -1068,14 +1068,6 @@ bool vpart_info::has_category( const std::string &category ) const
     return this->categories.find( category ) != this->categories.end();
 }
 
-int vpart_info::rotor_diameter() const
-{
-    if( has_flag( VPFLAG_ROTOR ) ) {
-        return rotor_info->rotor_diameter;
-    }
-    return 0;
-}
-
 std::set<std::pair<itype_id, int>> vpart_info::get_pseudo_tools() const
 {
     return pseudo_tools;

@@ -741,7 +741,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             // Shock damage, if the target part is a rotor treat as an aimed hit.
             // don't try to deal damage to invalid part (probably removed or destroyed)
             if( part_num != -1 ) {
-                if( veh.part( part_num ).info().rotor_diameter() > 0 ) {
+                if( veh.part( part_num ).info().has_flag( VPFLAG_ROTOR ) ) {
                     veh.damage( *this, part_num, coll_dmg, damage_bash, true );
                 } else {
                     impulse += coll_dmg;

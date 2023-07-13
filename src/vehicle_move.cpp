@@ -732,7 +732,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         }
 
         const vpart_info &info = vp.info();
-        if( !vp.is_fake && info.location != part_location_structure && info.rotor_diameter() == 0 ) {
+        if( !vp.is_fake && info.location != part_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
             continue;
         }
         empty = false;
@@ -740,8 +740,8 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + vp.precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
-        if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
-            size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
+        if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
+            size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
             for( const tripoint &rotor_point : here.points_in_radius( dsp, radius ) ) {
                 veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
                 if( rotor_coll.type != veh_coll_nothing ) {
@@ -859,7 +859,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Typical rotor tip speed in MPH * 100.
     int rotor_velocity = 45600;
     // Non-vehicle collisions can't happen when the vehicle is not moving
-    int &coll_velocity = ( parts[part].info().rotor_diameter() == 0 ) ?
+    int &coll_velocity = ( parts[part].info().has_flag( VPFLAG_ROTOR ) == 0 ) ?
                          ( vert_coll ? vertical_velocity : velocity ) :
                          rotor_velocity;
     if( !just_detect && coll_velocity == 0 ) {
@@ -950,7 +950,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
     // Rotors only use rotor mass in calculation.
-    const float mass = vpi.rotor_diameter() > 0
+    const float mass = vpi.has_flag( VPFLAG_ROTOR )
                        ? to_kilogram( vp.base.weight() )
                        : to_kilogram( total_mass() );
 

@@ -277,10 +277,6 @@ class vpart_info
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
         time_duration repair_time( const Character &you ) const;
 
-        /** @name rotor specific functions
-        */
-        int rotor_diameter() const;
-
         std::optional<vpslot_workbench> workbench_info;
         std::optional<vpslot_toolkit> toolkit_info;
         std::optional<vpslot_engine> engine_info;
