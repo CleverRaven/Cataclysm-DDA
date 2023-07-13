@@ -35,13 +35,14 @@
     "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 10,
     "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
-    "//5": "TODO: Special attacks: illuminates_u (not working), makes VERY loud noises(attracts wandering hordes)",
+    "//5": "TODO: Special attacks: add condition for illuminates_u to prevent recast if the effect is already applied",
     "special_attacks": [
       [ "UPGRADE", 20 ],
       {
         "type": "spell",
         "id": "illuminates_u",
         "spell_data": { "id": "illuminates_u", "min_level": 20 },
+        "condition": { "not": { "npc_has_effect": "Shadow_Reveal" } },
         "monster_message": "The shadows recede, leaving you with nowhere to hide!",
         "cooldown": 10
       },
@@ -51,6 +52,13 @@
         "spell_data": { "id": "LTNT_LIFE_DRAIN", "min_level": 1 },
         "monster_message": "The ground blackens before you.",
         "cooldown": 20
+      },
+      {
+        "type": "spell",
+        "id": "LTNT_attract_nearby",
+        "spell_data": { "id": "LTNT_attract_nearby", "min_level": 1 },
+        "monster_message": "Your senses are overwhelmed!",
+        "cooldown": 30
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
@@ -99,7 +107,7 @@
     "max_range": 30,
     "max_level": 20,
     "effect": "attack",
-    "//": "Right now seems to be broken? Simply won't apply the effect. Ever.",
+    "//": "TODO: Still broken?? Simply won't apply the effect. Ever.",
     "effect_str": "Shadow_Reveal",
     "min_duration": 60,
     "max_duration": 60
@@ -121,6 +129,23 @@
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN"
+  },
+  {
+    "id": "LTNT_attract_nearby",
+    "type": "SPELL",
+    "name": { "str": "Visual sundering" },
+    "description": "The facta shadow can make such an awful, loud sound makes your head want to split in two.",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "shape": "blast",
+    "min_accuracy": 20,
+    "max_accuracy": 20,
+    "min_range": 30,
+    "max_range": 30,
+    "max_level": 1,
+    "min_damage": 120,
+    "max_damage": 120,
+    "effect": "noise"
   },
   {
     "type": "effect_on_condition",
