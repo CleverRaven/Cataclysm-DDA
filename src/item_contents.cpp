@@ -1784,7 +1784,10 @@ std::vector<const item *> item_contents::cables() const
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CABLE ) ) {
             for( const item *it : pocket.all_items_top() ) {
-                cables.emplace_back( it );
+                // TODO: remove flag check after 0.H
+                if( it->has_flag( flag_id( "CABLE_SPOOL" ) ) ) {
+                    cables.emplace_back( it );
+                }
             }
         }
     }
