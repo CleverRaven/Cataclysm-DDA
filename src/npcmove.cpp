@@ -1761,7 +1761,7 @@ void outfit::activate_combat_items( npc &guy )
                 continue;
             }
             if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
-                transform->use( guy, candidate, false, tripoint_zero );
+                transform->use( &guy, candidate, false, tripoint_zero );
                 guy.add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
             }
         }
@@ -1781,7 +1781,7 @@ void outfit::deactivate_combat_items( npc &guy )
             const iuse_transform *transform = dynamic_cast<const iuse_transform *>
                                               ( candidate.type->get_use( "transform" )->get_actor_ptr() );
             if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
-                transform->use( guy, candidate, false, tripoint_zero );
+                transform->use( &guy, candidate, false, tripoint_zero );
                 guy.add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
             }
         }
@@ -3564,7 +3564,7 @@ void npc::activate_item( item &it )
 {
     const int oldmoves = moves;
     if( it.is_tool() || it.is_food() ) {
-        it.type->invoke( *this, it, pos() );
+        it.type->invoke( this, it, pos() );
     }
 
     if( moves == oldmoves ) {
@@ -3603,7 +3603,7 @@ void npc::heal_player( Character &patient )
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" ).value_or( 0 );
+        int charges_used = used.type->invoke( this, used, patient.pos(), "heal" ).value_or( 0 );
         consume_charges( used, charges_used );
     } else {
         pretend_heal( patient, used );
@@ -3645,7 +3645,7 @@ void npc::heal_self()
             }
         }
         if( treatment != nullptr ) {
-            treatment->get_use( iusage )->call( *this, *treatment, treatment->active, pos() );
+            treatment->get_use( iusage )->call( this, *treatment, treatment->active, pos() );
             treatment->ammo_consume( treatment->ammo_required(), pos(), this );
             return;
         }
@@ -3665,7 +3665,7 @@ void npc::heal_self()
     add_msg_if_player_sees( *this, _( "%1$s starts applying a %2$s." ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( *this, used, pos(), "heal" ).value_or( 0 );
+    int charges_used = used.type->invoke( this, used, pos(), "heal" ).value_or( 0 );
     if( used.is_medication() && charges_used > 0 ) {
         consume_charges( used, charges_used );
     }
