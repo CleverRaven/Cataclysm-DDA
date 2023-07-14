@@ -1067,7 +1067,7 @@ static std::string list_nested( const recipe *rec, const recipe_subset &availabl
         for( const recipe_id &r : rec->nested_category_data ) {
             description += list_nested( &r.obj(), available_recipes, indent + 2 );
         }
-    } else if( available_recipes.contains( rec ) ){
+    } else if( available_recipes.contains( rec ) ) {
         description += colorize( std::string( indent,
                                               ' ' ) + rec->result_name() + "\n", avail.color() );
     }
