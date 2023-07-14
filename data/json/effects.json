@@ -4080,7 +4080,7 @@
     "desc": [ "The shadows no longer hide you!" ],
     "rating": "bad",
     "show_intensity": false,
-    "//": "Blah blah test blah blah",
+    "show_in_info": true,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
   },
   {

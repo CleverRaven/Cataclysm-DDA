@@ -40,27 +40,23 @@
       {
         "type": "melee",
         "id": "illuminates_u",
-        "condition": { "not": { "npc_has_effect": "Shadow_Reveal" } },
+        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
+        "condition": { "and": [ { "not": { "npc_has_effect": "Shadow_Reveal" } }, { "or": [ "npc_male", "npc_female" ] } ] },
         "range": 30,
         "dodgeable": false,
         "blockable": false,
         "effects_require_dmg": false,
-        "effects": [
-          {
-            "id": "Shadow_Reveal",
-            "duration": 60,
-            "chance": 100,
-            "//": "TODO: This still produces a generic bite message.",
-            "message": "The shadows recede, leaving you with nowhere to hide!"
-          }
-        ],
+        "effects": [ { "id": "Shadow_Reveal", "duration": 60, "chance": 100 } ],
         "damage_max_instance": [ { "damage_type": "pure", "amount": 0.0 } ],
+        "no_dmg_msg_u": "The shadows recede, leaving you with nowhere to hide!",
+        "no_dmg_msg_npc": "The shadows recede from <npcname>, and now they stand out like a floodlight!",
         "cooldown": 10
       },
       {
         "type": "spell",
         "id": "LTNT_LIFE_DRAIN",
-        "condition": { "npc_is_on_terrain_with_flag": "PLOWABLE" },
+        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
+        "condition": { "and": [ { "npc_is_on_terrain_with_flag": "PLOWABLE" }, { "or": [ "npc_male", "npc_female" ] } ] },
         "spell_data": { "id": "LTNT_LIFE_DRAIN", "min_level": 1 },
         "monster_message": "The ground blackens before you.",
         "cooldown": 20
@@ -68,14 +64,15 @@
       {
         "type": "spell",
         "id": "LTNT_attract_nearby",
+        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
+        "condition": { "or": [ "npc_male", "npc_female" ] },
         "spell_data": { "id": "LTNT_attract_nearby", "min_level": 1 },
         "monster_message": "Your senses are overwhelmed!",
         "cooldown": 30
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "//2": "Death EOC?",
-    "death_function": { "message": "Fear leaves you as the night is still.", "corpse_type": "NO_CORPSE" },
+    "death_function": { "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -169,7 +166,7 @@
         "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
         "group": true,
         "real_count": 6,
-        "lifespan": [ "30 seconds", "60 seconds" ],
+        "lifespan": [ "20 seconds", "45 seconds" ],
         "target_var": { "global_val": "drain_terrain" }
       },
       { "u_message": "The air hisses!", "type": "warning" }
@@ -230,7 +227,6 @@
   {
     "type": "ter_furn_transform",
     "id": "ltnt_tree_drain",
-    "//": "TODO: Add all the tree types! All of them! Including the harvested ones! ;_;",
     "terrain": [
       {
         "result": [ "t_tree_very_dead" ],
@@ -352,7 +348,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
     "recurrence": 5,
-    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. TODO: is_day evaluates true before sundeath kicks in?",
+    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. (Sundeath is only a problem after up to 90 minutes after sunrise)",
     "condition": {
       "and": [
         { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
