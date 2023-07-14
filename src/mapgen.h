@@ -16,6 +16,7 @@
 #include "coordinates.h"
 #include "jmapgen_flags.h"
 #include "json.h"
+#include "math_parser_jmath.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "regional_settings.h"
@@ -64,7 +65,7 @@ class mapgen_function_builtin : public virtual mapgen_function
     public:
         building_gen_pointer fptr;
         explicit mapgen_function_builtin( building_gen_pointer ptr,
-                                          jmath_func_id w_func, int w = 1000 ) : mapgen_function( w_func, w ),
+                                          const jmath_func_id w_func, int w = 1000 ) : mapgen_function( w_func, w ),
             fptr( ptr ) {
         }
         void generate( mapgendata &mgd ) override;

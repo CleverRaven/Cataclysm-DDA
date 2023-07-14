@@ -480,7 +480,7 @@ class mapgen_factory
             return mapgens_[key].add( ptr );
         }
         /// @see mapgen_basic_container::generate
-        bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) const {
+        bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) {
             const auto iter = mapgens_.find( key );
             if( iter == mapgens_.end() ) {
                 return false;
@@ -7847,7 +7847,8 @@ mapgen_parameters get_map_special_params( const std::string &mapgen_id )
 int register_mapgen_function( const std::string &key )
 {
     if( const building_gen_pointer ptr = get_mapgen_cfunction( key ) ) {
-        return oter_mapgen.add( key, std::make_shared<mapgen_function_builtin>( ptr ) );
+        return oter_mapgen.add( key, std::make_shared<mapgen_function_builtin>( ptr,
+                                jmath_func_id() ) );
     }
     return -1;
 }
