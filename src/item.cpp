@@ -1733,6 +1733,20 @@ std::string item::get_var( const std::string &name ) const
     return get_var( name, "" );
 }
 
+void item::set_var( const std::string &name, time_point value )
+{
+    item_vars[name] = value.to_string();
+}
+
+time_point item::get_var( const std::string &name, time_point default_value ) const
+{
+    const auto it = item_vars.find( name );
+    if( it == item_vars.end() ) {
+        return default_value;
+    }
+    return time_point::from_string( it->second );
+}
+
 bool item::has_var( const std::string &name ) const
 {
     return item_vars.count( name ) > 0;

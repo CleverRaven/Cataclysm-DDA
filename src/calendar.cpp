@@ -18,6 +18,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "units.h"
 #include "units_utility.h"
 
@@ -928,4 +929,19 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
 time_point::time_point()
 {
     turn_ = 0;
+}
+
+std::string time_point::to_string() const
+{
+    return string_format( "%d", turn_ );
+}
+
+time_point time_point::from_string( const std::string &str )
+{
+    ret_val<int> res = try_parse_integer<int>( str, false );
+    if( res.success() ) {
+        return time_point( res.value() );
+    }
+    debugmsg( "Error converting string(%s) into time_point!", str );
+    return calendar::turn;
 }

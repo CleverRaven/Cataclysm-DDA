@@ -1838,6 +1838,8 @@ class item : public visitable
         std::string get_var( const std::string &name, const std::string &default_value ) const;
         /** Get the variable, if it does not exists, returns an empty string. */
         std::string get_var( const std::string &name ) const;
+        void set_var( const std::string &name, time_point value );
+        time_point get_var( const std::string &name, time_point default_value ) const;
         /** Whether the variable is defined at all. */
         bool has_var( const std::string &name ) const;
         /** Erase the value of the given variable. */

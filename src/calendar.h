@@ -476,6 +476,9 @@ class time_point
         void serialize( JsonOut &jsout ) const;
         void deserialize( int );
 
+        std::string to_string() const;
+        static time_point from_string( const std::string &str );
+
         // TODO: try to get rid of this
         template<typename T>
         friend constexpr T to_turn( const time_point &point ) {
