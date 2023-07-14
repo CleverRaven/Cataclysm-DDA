@@ -111,9 +111,9 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
       _parties{ &trader, &you }, _title( std::move( title ) )
 
 {
-    map &here = get_map();
     _panes[_you]->add_character_items( you );
     _panes[_you]->add_nearby_items( 1 );
+    map &here = get_map();
     for( const wrapped_vehicle &wv : here.get_vehicles() ) {
         if( wv.v->is_owned_by( you ) ) {
             for( const tripoint pos : wv.v->get_points() ) {

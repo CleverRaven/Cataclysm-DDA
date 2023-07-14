@@ -965,9 +965,7 @@ class vehicle
             theft_time = std::nullopt;
             old_owner = faction_id::NULL_ID();
         }
-        void set_owner( const faction_id &new_owner ) {
-            owner = new_owner;
-        }
+        void set_owner( const faction_id &new_owner );
         void set_owner( const Character &c );
         faction_id get_owner() const {
             return owner;

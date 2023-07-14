@@ -4396,13 +4396,29 @@ std::string vehicle::get_owner_name() const
     return _( g->faction_manager_ptr->get( owner )->name );
 }
 
+void vehicle::set_owner( const faction_id &new_owner )
+{
+    if( !new_owner.is_valid() ) {
+        debugmsg( "vehicle::set_owner() faction %s is invalid", new_owner.str() );
+        return;
+    }
+    owner = new_owner;
+    if( !has_old_owner() ) {
+        for( const vpart_reference &vpr : get_any_parts( VPFLAG_CARGO ) ) {
+            for( item &it : vpr.part().items ) {
+                it.set_owner( new_owner );
+            }
+        }
+    }
+}
+
 void vehicle::set_owner( const Character &c )
 {
     if( !c.get_faction() ) {
         debugmsg( "vehicle::set_owner() player %s has no valid faction", c.disp_name() );
         return;
     }
-    owner = c.get_faction()->id;
+    set_owner( c.get_faction()->id );
 }
 
 bool vehicle::handle_potential_theft( Character const &you, bool check_only, bool prompt )
@@ -4424,8 +4440,8 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
             // if there is a marker for having been stolen, but 15 minutes have passed, then
             // officially transfer ownership
             ( theft_time && calendar::turn - *theft_time > 15_minutes ) ) {
-            set_owner( you.get_faction()->id );
             remove_old_owner();
+            set_owner( you.get_faction()->id );
         }
         // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
         // Ownership transfer checking is handled above, and warnings handled below.
