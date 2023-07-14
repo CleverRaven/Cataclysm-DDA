@@ -19,6 +19,7 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "type_id.h"
+#include "vehicle.h"
 
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
@@ -110,8 +111,18 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
       _parties{ &trader, &you }, _title( std::move( title ) )
 
 {
+    map &here = get_map();
     _panes[_you]->add_character_items( you );
     _panes[_you]->add_nearby_items( 1 );
+    for( const wrapped_vehicle &wv : here.get_vehicles() ) {
+        if( wv.v->is_owned_by( you ) ) {
+            for( const tripoint pos : wv.v->get_points() ) {
+                if( here.inbounds( pos ) && square_dist( you.pos(), pos ) > 1 ) {
+                    _panes[_you]->add_vehicle_items( pos );
+                }
+            }
+        }
+    }
     _panes[_trader]->add_character_items( trader );
     if( trader.is_shopkeeper() ) {
         _panes[_trader]->categorize_map_items( true );
