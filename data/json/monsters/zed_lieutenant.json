@@ -142,7 +142,7 @@
     "id": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN",
     "eoc_type": "ACTIVATION",
     "//3": "Find some valid terrain nearby, turn it and all greenery nearby it into very very dead terrain. Spawn amalgamations for the dead terrain.",
-    "//4": "TODO: Set location var based on grass OR forest floor. In forests, grass almost never works!",
+    "//4": "TODO long-term: Set location var based on grass OR forest floor. In forests, grass almost never works! Needs eoc infrastructure to support arrays",
     "effect": [
       {
         "npc_location_variable": { "global_val": "drain_terrain" },
@@ -315,7 +315,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
     "recurrence": 1,
-    "//1": "TODO: 6 months into the cataclysm AND # of zombie kills?",
+    "//1": "TODO long-term: 6 months into the cataclysm AND # of zombie kills? (Let's see how this shakes out first)",
     "condition": { "and": [ { "days_since_cataclysm": 180 }, { "math": [ "u_Lieutenants_active", "<", "1" ] } ] },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
     "effect": [ { "u_add_var": "Lieutenants_active", "value": "1" }, { "u_add_var": "Shadow_Lurking", "value": "1" } ],

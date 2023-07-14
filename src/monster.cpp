@@ -3105,7 +3105,7 @@ void monster::process_effects()
 
     // If this critter weakens in light, apply the appropriate effect
     if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos() ) >= 30.0f ) {
-        add_msg_if_player_sees( *this, m_good, _( "The shadow fades in the light!" ), name() );
+        add_msg_if_player_sees( *this, m_good, _( "The shadow withers in the light!" ), name() );
         add_effect( effect_photophobia, 5_turns, true );
     }
 

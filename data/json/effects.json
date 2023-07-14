@@ -4088,11 +4088,12 @@
     "type": "effect_type",
     "max_duration": "5 s",
     "name": [ "photophobia" ],
-    "desc": [ "It burns! Thankfully, this can't ever happen to you. This is a bug if you have it." ],
+    "base_mods": { "speed_mod": [ -100 ] },
+    "desc": [ "It burns!  Thankfully, this can't ever happen to you.  This is a bug if you have it." ],
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
-    "//": "These enchantment names are very counterintuitive. Please test wisely before changing the values.",
+    "//": "Enchantments don't actually work for monsters! If you find that shadow is suddenly very killable, they probably got hooked up!",
     "enchantments": [
       {
         "condition": "ALWAYS",

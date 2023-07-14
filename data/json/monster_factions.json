@@ -47,7 +47,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "zombie",
-    "friendly": [ "slime" ],
+    "friendly": [ "slime", "attack_player_only" ],
     "neutral": [ "cult", "small_animal", "fish", "aquatic_predator", "passive_machine", "nether_player_hate" ]
   },
   {
