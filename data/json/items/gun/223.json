@@ -967,7 +967,6 @@
         "weight": 1
       }
     ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "ammo": [ "223" ],
