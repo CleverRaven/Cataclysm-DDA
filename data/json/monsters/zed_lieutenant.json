@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "A shadow?" },
     "description": "Something is there!  Against all reason, this shadow lurks at the corners of your vision.  You close your eyes, but still, it is there.  No matter how far you run, it is there.  In pitchest black, it is there.  Now you will know why you fear the night.",
-    "default_faction": "zombie",
+    "default_faction": "attack_player_only",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 500,
@@ -50,7 +50,7 @@
             "id": "Shadow_Reveal",
             "duration": 60,
             "chance": 100,
-            "//": "TODO: This still produces a generic bite message."
+            "//": "TODO: This still produces a generic bite message.",
             "message": "The shadows recede, leaving you with nowhere to hide!"
           }
         ],
@@ -94,7 +94,6 @@
       "ALWAYS_SEES_YOU",
       "NIGHT_INVISIBILITY",
       "CAMOUFLAGE",
-      "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG",
       "FILTHY",
       "STUN_IMMUNE",
