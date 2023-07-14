@@ -16,7 +16,6 @@
 #include "coordinates.h"
 #include "jmapgen_flags.h"
 #include "json.h"
-#include "math_parser_jmath.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "regional_settings.h"
