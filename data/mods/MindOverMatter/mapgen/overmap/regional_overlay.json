@@ -7,7 +7,35 @@
       "forest_water": { "chance": 20, "extras": { "mx_alien_grass": 25 } },
       "forest_thick": { "chance": 30, "extras": { "mx_alien_grass": 25 } },
       "forest": { "chance": 20, "extras": { "mx_alien_grass": 15 } },
-      "field": { "chance": 6, "extras": { "mx_alien_grass": 15 } }
+      "field": { "chance": 6, "extras": { "mx_alien_grass": 15 } },
+      "phavian_lab_lot": {
+        "chance": 4,
+        "extras": {
+          "mx_helicopter": 15,
+          "mx_military": 65,
+          "mx_portal": 200,
+          "mx_crater": 180,
+          "mx_portal_in": 30,
+          "mx_point_burned_ground": 100,
+          "mx_alien_grass": 150,
+          "mx_casings": 30,
+          "mx_exocrash_1": 1,
+          "mx_exocrash_2": 1
+        }
+      },
+      "phavian_lab_interior": {
+        "chance": 3,
+        "extras": {
+          "mx_jabberwock": 1,
+          "mx_military": 10,
+          "mx_portal": 100,
+          "mx_crater": 300,
+          "mx_alien_grass": 150,
+          "mx_portal_in": 40,
+          "mx_point_burned_ground": 75,
+          "mx_casings": 30
+        }
+      }
     }
   }
 ]

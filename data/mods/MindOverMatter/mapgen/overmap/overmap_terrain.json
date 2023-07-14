@@ -72,7 +72,7 @@
     "looks_like": "lab_surface_parking_blockE2",
     "color": "dark_gray",
     "spawns": { "group": "GROUP_LAB_RESEARCH", "population": [ 5, 20 ], "chance": 50 },
-    "extras": "research_facility_lot",
+    "extras": "phavian_lab_lot",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -98,7 +98,7 @@
     "color": "light_gray",
     "looks_like": "lab_surface_brick_blockA2",
     "spawns": { "group": "GROUP_LAB_RESEARCH", "population": [ 10, 25 ], "chance": 60 },
-    "extras": "research_facility_interior",
+    "extras": "phavian_lab_interior",
     "see_cost": 5,
     "mondensity": 2
   },
@@ -110,7 +110,7 @@
     "color": "white",
     "looks_like": "lab_surface_brick_blockC3",
     "spawns": { "group": "GROUP_LAB_RESEARCH", "population": [ 8, 25 ], "chance": 50 },
-    "extras": "research_facility_interior",
+    "extras": "phavian_lab_interior",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "RISK_HIGH" ]
