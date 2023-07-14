@@ -5092,7 +5092,7 @@ item &map::add_item( const tripoint &p, item new_item )
 
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
-    if( new_item.has_temperature() && !new_item.is_corpse() || new_item.link ) {
+    if( new_item.link || ( new_item.has_temperature() && !new_item.is_corpse() ) ) {
         new_item.process( *this, nullptr, p );
     }
 

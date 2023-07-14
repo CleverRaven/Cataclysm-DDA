@@ -1046,8 +1046,8 @@ class link_up_actor : public iuse_actor
         std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
         std::set<std::string> can_extend = {};
 
-        std::optional<int> link_to_veh_app( Character *p, item &it, const bool to_ports ) const;
-        std::optional<int> link_tow_cable( Character *p, item &it, const bool to_towing ) const;
+        std::optional<int> link_to_veh_app( Character *p, item &it, bool to_ports ) const;
+        std::optional<int> link_tow_cable( Character *p, item &it, bool to_towing ) const;
         std::optional<int> link_extend_cable( Character *p, item &it ) const;
         std::optional<int> remove_extensions( Character *p, item &it ) const;
 

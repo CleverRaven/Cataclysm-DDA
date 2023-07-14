@@ -129,9 +129,9 @@ static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
-static const itype_id itype_power_cord( "power_cord" );
 
 static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
 
@@ -4346,6 +4346,7 @@ void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 
     if( !can_extend.empty() ) {
         std::vector<std::string> cable_types;
+        cable_types.reserve( can_extend.size() );
         for( const std::string &cable_type : can_extend ) {
             cable_types.emplace_back( cable_type == "ELECTRICAL_DEVICES" ? "electrical device cables" :
                                       itype_id( cable_type )->nname( 1 ) );
@@ -5003,7 +5004,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
     } else {
         const auto filter = [&it]( const item & inv ) {
             if( !inv.has_flag( flag_CABLE_SPOOL ) || !inv.type->can_use( "link_up" ) ||
-                inv.link && ( it.link || inv.link->has_state( link_state::needs_reeling ) ) ) {
+                ( inv.link && ( it.link || inv.link->has_state( link_state::needs_reeling ) ) ) ) {
                 return false;
             }
             const link_up_actor *actor = static_cast<const link_up_actor *>
@@ -5054,17 +5055,17 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
         return !cable->has_flag( flag_CABLE_SPOOL ) || !cable->type->can_use( "link_up" );
     } );
 
-    if( all_cables.size() < 1 ) {
+    if( all_cables.empty() ) {
         // Delete any non-cables that somehow got into the pocket.
         it.get_contents().clear_pockets_if( []( item_pocket const & pocket ) {
             return pocket.is_type( item_pocket::pocket_type::CABLE );
         } );
         return 0;
     }
+
     item cable_main_copy( *all_cables.back() );
     all_cables.pop_back();
-
-    if( all_cables.size() > 0 ) {
+    if( !all_cables.empty() ) {
         for( item *cable : all_cables ) {
             item cable_copy( *cable );
             cable_copy.get_contents().clear_items();
