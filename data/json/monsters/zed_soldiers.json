@@ -288,7 +288,7 @@
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 4,
-    "harvest": "zombie_kevlar",
+    "harvest": "zombie_kevlar_hulk",
     "special_attacks": [
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
       { "id": "longswipe" },

@@ -1580,6 +1580,22 @@
     "id": "zombie_kevlar",
     "//": "zombies with Kevlar infused into their skin",
     "type": "harvest",
+    "message": "<zombie_humanoid_kevlar_harvest>",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04, "flags": [ "FILTHY" ] },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 }
+    ]
+  },
+  {
+    "id": "zombie_kevlar_hulk",
+    "//": "hulks with Kevlar infused into their skin",
+    "type": "harvest",
+    "message": "<zombie_hulk+kevlar_harvest>",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
