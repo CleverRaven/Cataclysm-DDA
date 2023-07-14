@@ -60,13 +60,23 @@
     "autonote": true
   },
   {
-    "id": "nether_pond",
+    "id": "mx_nether_pond",
     "type": "map_extra",
     "name": { "str": "pool of dark water" },
     "description": "A pool of some unearthly liquid.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "nether_pond" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nether_pond" },
     "sym": "O",
-    "color": "black",
+    "color": "dark_gray",
+    "autonote": true
+  },
+  {
+    "id": "mx_glass_and_crystal",
+    "type": "map_extra",
+    "name": { "str": "crystal cluster" },
+    "description": "A patch of crystals and black stone.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_glass_and_crystal" },
+    "sym": "C",
+    "color": "dark_gray",
     "autonote": true
   }
 ]

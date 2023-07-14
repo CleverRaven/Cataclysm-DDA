@@ -31,7 +31,7 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_nested": [ { "chunks": [ "grass_location_1" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ]
+      "place_nested": [ { "chunks": [ "grass_location_1" ], "x": [ 2, 13 ], "y": [ 2, 13 ] } ]
     }
   },
   {
@@ -41,17 +41,18 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rows": [
+        "  GGGGG  ",
+        " GGGGGGG ",
         "GGGGGGGGG",
         "GGGGGGGGG",
         "GGGGGGGGG",
         "GGGGGGGGG",
         "GGGGGGGGG",
-        "GGGGGGGGG",
-        "GGGGGGGGG",
-        "GGGGGGGGG",
-        "GGGGGGGGG"
+        " GGGGGGG ",
+        "  GGGGG  "
       ],
-      "terrain": { "G": [ [ "t_grass_alien", 25 ], [ "t_null", 75 ] ] }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_grass_alien", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -86,7 +87,7 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_nested": [ { "chunks": [ "grass_location_2" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ]
+      "place_nested": [ { "chunks": [ "grass_location_2" ], "x": [ 2, 10 ], "y": [ 2, 10 ] } ]
     }
   },
   {
@@ -96,20 +97,21 @@
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
+        "    GGGG    ",
+        "   GGGGGG   ",
+        "  GGGGGGGG  ",
+        " GGGGGGGGGG ",
         "GGGGGGGGGGGG",
         "GGGGGGGGGGGG",
         "GGGGGGGGGGGG",
         "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG"
+        " GGGGGGGGGG ",
+        "  GGGGGGGG  ",
+        "   GGGGGG   ",
+        "    GGGG    "
       ],
-      "terrain": { "G": [ [ "t_grass_alien_2", 33 ], [ "t_tree_small_alien_1", 15 ], [ "t_null", 35 ] ] }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -144,7 +146,7 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_nested": [ { "chunks": [ "grass_location_3" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ]
+      "place_nested": [ { "chunks": [ "grass_location_3" ], "x": [ 2, 13 ], "y": [ 2, 13 ] } ]
     }
   },
   {
@@ -154,17 +156,18 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rows": [
+        "  GGGGG  ",
+        " GGGGGGG ",
         "GGGGGGGGG",
         "GGGGGGGGG",
         "GGGGGGGGG",
         "GGGGGGGGG",
         "GGGGGGGGG",
-        "GGGGGGGGG",
-        "GGGGGGGGG",
-        "GGGGGGGGG",
-        "GGGGGGGGG"
+        " GGGGGGG ",
+        "  GGGGG  "
       ],
-      "terrain": { "G": [ [ "t_grass_alien_3", 25 ], [ "t_moss_alien_1", 25 ], [ "t_null", 75 ] ] }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_grass_alien_3", 1 ], [ "t_moss_alien_1", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -199,7 +202,7 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_nested": [ { "chunks": [ "grass_location_4" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ]
+      "place_nested": [ { "chunks": [ "grass_location_4" ], "x": [ 2, 12 ], "y": [ 2, 12 ] } ]
     }
   },
   {
@@ -209,18 +212,19 @@
     "object": {
       "mapgensize": [ 10, 10 ],
       "rows": [
+        "   GGGG   ",
+        "  GGGGGG  ",
+        " GGGGGGGG ",
         "GGGGGGGGGG",
         "GGGGGGGGGG",
         "GGGGGGGGGG",
         "GGGGGGGGGG",
-        "GGGGGGGGGG",
-        "GGGGGGGGGG",
-        "GGGGGGGGGG",
-        "GGGGGGGGGG",
-        "GGGGGGGGGG",
-        "GGGGGGGGGG"
+        " GGGGGGGG ",
+        "  GGGGGG  ",
+        "   GGGG   "
       ],
-      "terrain": { "G": [ [ "t_tree_small_alien_2", 25 ], [ "t_moss_alien_2", 25 ], [ "t_null", 75 ] ] }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_tree_small_alien_2", 1 ], [ "t_moss_alien_2", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -255,7 +259,7 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_nested": [ { "chunks": [ "grass_location_5" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ]
+      "place_nested": [ { "chunks": [ "grass_location_5" ], "x": [ 2, 10 ], "y": [ 2, 10 ] } ]
     }
   },
   {
@@ -265,20 +269,21 @@
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
+        "    GGGG    ",
+        "   GGGGGG   ",
+        "  GGGGGGGG  ",
+        " GGGGGGGGGG ",
         "GGGGGGGGGGGG",
         "GGGGGGGGGGGG",
         "GGGGGGGGGGGG",
         "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG",
-        "GGGGGGGGGGGG"
+        " GGGGGGGGGG ",
+        "  GGGGGGGG  ",
+        "   GGGGGG   ",
+        "    GGGG    "
       ],
-      "terrain": { "G": [ [ "t_tree_small_alien_3", 30 ], [ "t_vines_alien_1", 35 ], [ "t_null", 50 ] ] }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_tree_small_alien_3", 1 ], [ "t_vines_alien_1", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -300,7 +305,7 @@
         "GGGGGGGGGGGGGDGGDDDDDDDD",
         "GGGGGGGGGGGGDDDGDDDDDDDD",
         "GGGGGGGDDGGDDDGGDDDDDDDD",
-        "GGGGGGGDDDDDDDDDDDDDDDD",
+        "GGGGGGGDDDDDDDDDDDDDDDDD",
         ".GGGGGGGGGDDDDDDDDDDDDD.",
         ".GGGGGGGDDDDDDDDDDDDDDD.",
         ".GGGDGDGDDDDDDDDDDDDDD..",
@@ -312,10 +317,11 @@
         ".......DDDDDDDDDDDD.....",
         "..........DDDDDD........"
       ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
-        "G": [ [ "t_grass_alien_2", 33 ], [ "t_tree_small_alien_1", 15 ], [ "t_null", 35 ] ],
-        "D": [ [ "t_tree_small_alien_3", 30 ], [ "t_vines_alien_1", 35 ], [ "t_null", 50 ] ]
+        "G": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_region_groundcover", 1 ] ],
+        "D": [ [ "t_tree_small_alien_3", 3 ], [ "t_vines_alien_1", 3 ], [ "t_region_groundcover", 2 ] ],
+        ".": "t_null"
       }
     }
   }

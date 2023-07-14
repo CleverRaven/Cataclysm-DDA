@@ -32,6 +32,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_nether_stone",
+    "name": "black stone",
+    "description": "A perfectly smooth patch of black stone, like carved and polished obsidian.",
+    "looks_like": "t_nether_glass_floor",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_nether_water_sh",
     "name": "black water",
     "description": "An expanse of some sort of black liquid.  The air nearby is chill, and its surface is perfectly smooth and undisturbed by ripples or wind.  You have no idea how deep it is.",
@@ -41,8 +52,8 @@
     "move_cost": 6,
     "emissions": [ "emit_cold_nether_water" ],
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "MURKY" ],
-    "connect_groups": "NETHERWATER",
-    "connects_to": "NETHERWATER"
+    "connect_groups": "WATER",
+    "connects_to": "WATER"
   },
   {
     "type": "terrain",
@@ -55,8 +66,8 @@
     "move_cost": 10,
     "emissions": [ "emit_cold_deep_nether_water" ],
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "MURKY" ],
-    "connect_groups": "NETHERWATER",
-    "connects_to": "NETHERWATER"
+    "connect_groups": "WATER",
+    "connects_to": "WATER"
   },
   {
     "type": "terrain",
@@ -96,7 +107,7 @@
     "type": "terrain",
     "id": "t_vines_alien_1",
     "name": "alien vines",
-    "description": "An area of something that almost looks like vines, or perhaps tree roots.  A thick ropy cluster of white tendrils streaked with red, twining aroun each other and branching off in all directions before meeting up in new clusters.  Sometimes, one of the vines twitches.",
+    "description": "An area of something that almost looks like vines, or perhaps tree roots.  A thick ropy cluster of white tendrils streaked with red, twining around each other and branching off in all directions before meeting up in new clusters.  Sometimes, one of the vines twitches.",
     "symbol": ".",
     "color": "white",
     "move_cost": 4,

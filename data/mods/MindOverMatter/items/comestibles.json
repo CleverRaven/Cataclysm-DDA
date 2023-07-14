@@ -177,8 +177,8 @@
   {
     "type": "COMESTIBLE",
     "id": "alien_tree_1_fruit",
-    "name": { "str": "apple" },
-    "description": "A bluish-green ovoid globule, firm to the touch but looking more like gelatin than something you plucked from a tree.  It has a strong, acrid odor.",
+    "name": { "str": "alien fruit" },
+    "description": "A bluish-green ovoid globule, firm to the touch but looking more like gelatin than something you plucked from a tree.  It has a strong acrid odor.",
     "weight": "220 g",
     "volume": "232 ml",
     "color": "magenta",

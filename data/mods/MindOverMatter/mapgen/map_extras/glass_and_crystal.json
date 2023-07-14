@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "mx_nether_pond",
+    "update_mapgen_id": "mx_glass_and_crystal",
     "object": {
       "rows": [
         "                        ",
@@ -31,37 +31,26 @@
         "                        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_nested": [ { "chunks": [ "nether_pond_chunk" ], "x": [ 2, 11 ], "y": [ 2, 11 ] } ]
+      "place_nested": [ { "chunks": [ "glass_and_crystal_chunk" ], "x": [ 2, 15 ], "y": [ 2, 15 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "nether_pond_chunk",
+    "nested_mapgen_id": "glass_and_crystal_chunk",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [ 7, 7 ],
       "rows": [
-        "     SS     ",
-        "    SSSS    ",
-        "   SSssSS   ",
-        "  SSsddsSS  ",
-        " SSsdDDdsSS ",
-        "SSsdDDDDdsSS",
-        "SSsdDDDDdsSS",
-        " SSsdDDdsSS ",
-        "  SSsddsSS  ",
-        "   SSssSS   ",
-        "    SSSS    ",
-        "     SS     "
+        "  GGG  ",
+        " GGGGG ",
+        "GGGGGGG",
+        "GGGGGGG",
+        "GGGGGGG",
+        " GGGGG ",
+        "  GGG  "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "D": "t_nether_water_dp",
-        "d": [ [ "t_nether_water_dp", 1 ], [ "t_nether_water_sh", 1 ] ],
-        "s": [ [ "t_nether_water_dp", 1 ], [ "t_nether_water_sh", 4 ] ],
-        "S": [ [ "t_nether_water_sh", 1 ], [ "t_region_groundcover", 1 ] ],
-        " ": "t_null"
-      }
+      "terrain": { "G": [ [ "t_nether_stone", 2 ], [ "t_nether_crystal_structure", 1 ], [ "t_region_groundcover", 2 ] ], " ": "t_null" }
     }
   }
 ]
