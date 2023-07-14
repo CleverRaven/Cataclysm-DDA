@@ -12,7 +12,7 @@
     "weight": "100 kg",
     "phase": "GAS",
     "hp": 250,
-    "//6": "TODO: Slowed and weakened by light, maybe of sufficient brightness? (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it. Might need to make it afraid of vehicles or something... Speed 200 is mostly to prevent your average minmaxer with 12+ per and 110+ speed from walking right at it and clubbing it to death the moment it spawns.",
+    "//6": "Slowed and weakened by light of sufficient brightness. (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it.",
     "speed": 200,
     "attack_cost": 200,
     "regenerates": 5,
@@ -96,6 +96,7 @@
       "FILTHY",
       "STUN_IMMUNE",
       "KEEP_DISTANCE",
+      "PHOTOPHOBIC",
       "PATH_AVOID_DANGER_2"
     ],
     "//3": "Explicitly immune to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
