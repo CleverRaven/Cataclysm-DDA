@@ -123,7 +123,7 @@
     "id": "LTNT_attract_nearby",
     "type": "SPELL",
     "name": { "str": "Visual sundering" },
-    "description": "The facta shadow can make such an awful, loud sound makes your head want to split in two.",
+    "description": "The fact a shadow can make such an awful, loud sound makes your head want to split in two.",
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "hostile" ],
     "shape": "blast",
@@ -345,9 +345,29 @@
     ]
   },
   {
+    "type": "SPELL",
+    "//": "This is a hack because npc_die is not working(?!) for EOC_KILL_SHADOW",
+    "id": "BEGONE_SHADOW",
+    "name": { "str": "BEGONE_SHADOW" },
+    "description": "BEGONE_SHADOW.",
+    "valid_targets": [ "ground", "self" ],
+    "base_casting_time": 0,
+    "min_damage": 1000,
+    "max_damage": 3000,
+    "shape": "blast",
+    "effect": "banishment"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_KILL_SHADOW",
+    "eoc_type": "ACTIVATION",
+    "//": "This is a hack because npc_die is not working(?!) for EOC_KILL_SHADOW",
+    "effect": [ { "npc_cast_spell": { "id": "BEGONE_SHADOW" } } ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW",
-    "recurrence": 5,
+    "recurrence": 1,
     "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. (Sundeath is only a problem after up to 90 minutes after sunrise)",
     "condition": {
       "and": [
@@ -355,10 +375,17 @@
         { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] }
       ]
     },
-    "//2": "TODO: Despawn shadow, adjust var for later to bring him back",
+    "//2": "Despawn shadow, adjust var for later to bring him back",
     "effect": [
       { "u_adjust_var": "Shadow_Lurking", "adjustment": 1 },
       { "u_message": "The wind laughs through the night", "type": "bad" },
+      {
+        "u_location_variable": { "context_val": "Shadow_monster" },
+        "monster": "mon_lieutenant_shadow",
+        "target_min_radius": 0,
+        "target_max_radius": 60
+      },
+      { "run_eoc_with": "EOC_KILL_SHADOW", "beta_loc": { "context_val": "Shadow_monster" } },
       { "u_message": "...but it grows more distant for now.", "type": "good" }
     ]
   }
