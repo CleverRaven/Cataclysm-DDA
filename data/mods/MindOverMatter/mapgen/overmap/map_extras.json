@@ -50,6 +50,16 @@
     "autonote": true
   },
   {
+    "id": "mx_alien_grove",
+    "type": "map_extra",
+    "name": { "str": "alien grove" },
+    "description": "A large cluster of alien flora.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_alien_grove" },
+    "sym": "F",
+    "color": "magenta",
+    "autonote": true
+  },
+  {
     "id": "nether_pond",
     "type": "map_extra",
     "name": { "str": "pool of dark water" },

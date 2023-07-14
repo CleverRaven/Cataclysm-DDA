@@ -278,7 +278,45 @@
         "GGGGGGGGGGGG",
         "GGGGGGGGGGGG"
       ],
-      "terrain": { "G": [ [ "t_tree_small_alien_3", 30 ], [ "t_vines_alien_1", 25 ], [ "t_null", 50 ] ] }
+      "terrain": { "G": [ [ "t_tree_small_alien_3", 30 ], [ "t_vines_alien_1", 35 ], [ "t_null", 50 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_alien_grove",
+    "object": {
+      "rows": [
+        ".............GGGGG......",
+        "......GGGGGGGGGGGGGG....",
+        "....GGGGGGGGGGGGGGGGGG..",
+        "...GGGGGGGGGGGGGGGGGGGG.",
+        "...GGGGGGGGGGGGGGGGDDGG.",
+        "..GGGGGGGGGGGGGDGGGGDDD.",
+        ".GGGGGGGGGGGGGGDDGGDDD..",
+        ".GGGGGGGGGGGGGGGGDDDGDD.",
+        ".GGGGGGGGGGGGGGGDGGDDDD.",
+        ".GGGGGGGGGGGGGGDDGDDDDD.",
+        "GGGGGGGGGGGGGDGGDDDDDDDD",
+        "GGGGGGGGGGGGDDDGDDDDDDDD",
+        "GGGGGGGDDGGDDDGGDDDDDDDD",
+        "GGGGGGGDDDDDDDDDDDDDDDD",
+        ".GGGGGGGGGDDDDDDDDDDDDD.",
+        ".GGGGGGGDDDDDDDDDDDDDDD.",
+        ".GGGDGDGDDDDDDDDDDDDDD..",
+        ".GGDGDDDGDDDDDDDDDDDDD..",
+        "..GGDDDGGDDDDDDDDDDDDD..",
+        "..GGGDDDDDDDDDDDDDDDDD..",
+        "...DDDDDDDDDDDDDDDDDD...",
+        ".....DDDDDDDDDDDDDDD....",
+        ".......DDDDDDDDDDDD.....",
+        "..........DDDDDD........"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "G": [ [ "t_grass_alien_2", 33 ], [ "t_tree_small_alien_1", 15 ], [ "t_null", 35 ] ],
+        "D": [ [ "t_tree_small_alien_3", 30 ], [ "t_vines_alien_1", 35 ], [ "t_null", 50 ] ]
+      }
     }
   }
 ]

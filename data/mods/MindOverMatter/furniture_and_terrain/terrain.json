@@ -73,7 +73,7 @@
     "type": "terrain",
     "id": "t_grass_alien_3",
     "name": "alien grass",
-    "description": "An area of something that almost looks like grass.  The blades are less than an inch high and a blue so dark it's almost black.  When you look closer, many blades seemed to be fused together at the top.",
+    "description": "An area of something that almost looks like grass.  The blades are less than an inch high and a blue so dark it's almost black.  When you look closer, many blades seemed to be fused together at the top, forming small clusters.",
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 2,
@@ -84,6 +84,7 @@
     "type": "terrain",
     "id": "t_grass_alien_4",
     "name": "alien grass",
+    "looks_like": "t_grass_long",
     "description": "An area of something that almost looks like grass.  It's the familiar green of terrestrial grass, but each blade has a large bulb on the end that bobs and moves in the breeze.",
     "symbol": ".",
     "color": "green",
@@ -121,7 +122,7 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 1,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAMMABLE", "FLAT", "PLOWABLE", "SHARP", "PAINFUL" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAMMABLE", "FLAT", "PLOWABLE", "PAINFUL" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
