@@ -9649,7 +9649,7 @@ void Character::place_corpse()
     body.set_item_temperature( units::from_celsius( 37 ) );
     map &here = get_map();
     for( item *itm : tmp ) {
-        here.add_item_or_charges( pos(), *itm );
+        body.force_insert_item( *itm, item_pocket::pocket_type::CONTAINER );
     }
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
@@ -9689,7 +9689,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, get_name() );
     for( item *itm : tmp ) {
-        bay.add_item_or_charges( fin, *itm );
+        body.force_insert_item( *itm, item_pocket::pocket_type::CONTAINER );
     }
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
