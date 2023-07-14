@@ -110,7 +110,7 @@
     "category": "<zombie_bone_harvest>",
     "text": [
       "<zombie_harvest_general>",
-      "<zombie_harvest_shadow_general>",
+      "<zombie_harvest_bone_general>",
       "<zombie_harvest_general>  <zombie_harvest_general_deeper>",
       "<zombie_harvest_bone_general>  <zombie_harvest_general_deeper>"
     ]
