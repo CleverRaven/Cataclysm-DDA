@@ -4822,11 +4822,13 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         prev_part.target.first = here.getabs( pnt );
         prev_part.target.second = target_veh->global_square_location().raw();
         prev_veh->install_part( vcoords1, std::move( prev_part ) );
+        prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
 
         vehicle_part target_part( vpid, item( it ) );
         target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( it.link->t_mount ) );
         target_part.target.second = prev_veh->global_square_location().raw();
         target_veh->install_part( vcoords2, std::move( target_part ) );
+        target_veh->precalc_mounts( 1, target_veh->pivot_rotation[1], target_veh->pivot_anchor[1] );
 
         if( p->has_item( it ) ) {
             //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - cable name,
@@ -4953,11 +4955,13 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         prev_part.target.first = here.getabs( pnt );
         prev_part.target.second = target_veh->global_square_location().raw();
         prev_veh->install_part( vcoords1, std::move( prev_part ) );
+        prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
 
         vehicle_part target_part( vpid, item( it ) );
         target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( it.link->t_mount ) );
         target_part.target.second = prev_veh->global_square_location().raw();
         target_veh->install_part( vcoords2, std::move( target_part ) );
+        target_veh->precalc_mounts( 1, target_veh->pivot_rotation[1], target_veh->pivot_anchor[1] );
 
         if( p->has_item( it ) ) {
             //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - tow cable name,

@@ -549,6 +549,7 @@ item vehicle::init_cord( const tripoint &pos )
     cord.link->t_state = link_state::vehicle_port;
     cord.link->t_veh_safe = get_safe_reference();
     cord.link->t_abs_pos = get_map().getglobal( pos );
+    cord.set_link_traits();
 
     return cord;
 }
@@ -587,12 +588,14 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     source_part.target.first = target_global;
     source_part.target.second = target_veh->global_square_location().raw();
     source_veh->install_part( vcoords, std::move( source_part ) );
+    source_veh->precalc_mounts( 1, source_veh->pivot_rotation[1], source_veh->pivot_anchor[1] );
 
     vcoords = target_vp->mount();
     vehicle_part target_part( vpid, item( cord ) );
     target_part.target.first = cord.link->t_abs_pos.raw();
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, std::move( target_part ) );
+    target_veh->precalc_mounts( 1, target_veh->pivot_rotation[1], target_veh->pivot_anchor[1] );
 }
 
 double vehicle::engine_cold_factor( const vehicle_part &vp ) const
