@@ -85,5 +85,77 @@
       "The overall anatomy of this enormous monstrosity leaves you only to wonder how it possibly could achieve the range of motion you witnessed while it was still standing",
       "You cut into its abdomen, and discover its utter lack of internal organs, the expected cavity replaced by nothing but more flesh and muscle"
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_generic_harvest>",
+    "text": [
+      "<zombie_amalgamation_outer>.",
+      "<zombie_amalgamation_inner>.",
+      "<zombie_amalgamation_outer>.  <zombie_amalgamation_inner>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_screamer_harvest>",
+    "text": [
+      "<zombie_harvest_general>.",
+      "<zombie_harvest_screamer_general>",
+      "<zombie_harvest_general>.  <zombie_harvest_general_deeper>.",
+      "<zombie_harvest_screamer_general>.  <zombie_harvest_general_deeper>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_bone_harvest>",
+    "text": [
+      "<zombie_harvest_general>.",
+      "<zombie_harvest_shadow_general>",
+      "<zombie_harvest_general>.  <zombie_harvest_general_deeper>.",
+      "<zombie_harvest_bone_general>.  <zombie_harvest_general_deeper>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_acid_harvest>",
+    "text": [
+      "<zombie_harvest_general>.",
+      "<zombie_harvest_acid_general>",
+      "<zombie_harvest_general>.  <zombie_harvest_general_deeper>.",
+      "<zombie_harvest_acid_general>.  <zombie_harvest_general_deeper>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_shadow_harvest>",
+    "text": [
+      "<zombie_harvest_general>.",
+      "<zombie_harvest_shadow_general>",
+      "<zombie_harvest_general>.  <zombie_harvest_general_deeper>.",
+      "<zombie_harvest_shadow_general>.  <zombie_harvest_general_deeper>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_hulk_harvest>",
+    "text": [
+      "<zombie_harvest_general>.",
+      "<zombie_harvest_hulk_general>.",
+      "<zombie_harvest_general>.  <zombie_harvest_general_deeper>.",
+      "<zombie_harvest_hulk_general>.  <zombie_harvest_general_deeper>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_hulk+bone_harvest>",
+    "text": [
+      "<zombie_harvest_general>.",
+      "<zombie_harvest_hulk_general>.",
+      "<zombie_harvest_bone_general>.",
+      "<zombie_harvest_general>.  <zombie_harvest_general_deeper>.",
+      "<zombie_harvest_hulk_general>.  <zombie_harvest_general_deeper>.",
+      "<zombie_harvest_bone_general>.  <zombie_harvest_general_deeper>.",
+      "<zombie_harvest_hulk_general>.  <zombie_harvest_bone_general>."
+    ]
   }
 ]
