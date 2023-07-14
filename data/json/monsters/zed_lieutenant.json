@@ -114,8 +114,8 @@
     "max_accuracy": 20,
     "min_range": 30,
     "max_range": 30,
-    "//": "14 moves worth of casting time. It tends to stick 10 tiles away from you, so this means you can get some attacks in if you chase it.",
-    "base_casting_time": 2800,
+    "//": "14 moves worth of casting time. It tends to stick 10 tiles away from you, so this means you can get some attacks in if you chase it. Currently toggled off, because it's too easy to run this thing down if it pauses while you move right at it.",
+    "//base_casting_time": "2800",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN"
@@ -316,7 +316,7 @@
     "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
     "recurrence": 1,
     "//1": "TODO long-term: 6 months into the cataclysm AND # of zombie kills? (Let's see how this shakes out first)",
-    "condition": { "and": [ { "days_since_cataclysm": 180 }, { "math": [ "u_Lieutenants_active", "<", "1" ] } ] },
+    "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "u_Lieutenants_active", "<", "1" ] } ] },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
     "effect": [ { "u_add_var": "Lieutenants_active", "value": "1" }, { "u_add_var": "Shadow_Lurking", "value": "1" } ],
     "deactivate_condition": { "math": [ "u_Lieutenants_active", ">=", "1" ] }
