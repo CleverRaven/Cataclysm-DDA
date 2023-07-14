@@ -69,7 +69,7 @@
     "type": "TOOL",
     "copy-from": "hacksaw",
     "name": { "str": "dreamforged hacksaw" },
-    "description": "A sturdy saw, useful for cutting through metal objects. Forged from dreamdross, which makes it much lighter.",
+    "description": "A sturdy saw, useful for cutting through metal objects.  Forged from dreamdross, which makes it much lighter.",
     "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.25 } },
     "price": 0,
     "price_postapoc": 0,
