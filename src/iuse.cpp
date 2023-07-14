@@ -30,6 +30,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_management.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "colony.h"
@@ -4189,6 +4190,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
             if( gas_abs_factor > 0 ) {
                 it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_abs_factor );
             }
+            p->try_autoreload( *it, char_autoreload::params() );
         }
         if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
             it->ammo_consume( 1, pos, p );

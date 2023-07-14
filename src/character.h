@@ -104,6 +104,11 @@ struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
 
+namespace char_autoreload
+{
+struct params;
+} // namespace char_autoreload
+
 enum npc_attitude : int;
 enum action_id : int;
 enum class steed_type : int;
@@ -2740,6 +2745,16 @@ class Character : public Creature, public visitable
         std::list<item> use_charges( const itype_id &what, int qty, int radius,
                                      const std::function<bool( const item & )> &filter = return_true<item>,
                                      bool in_tools = false );
+
+        /**
+         * Try to automatically reload the given item. Meant for use with items that automatically
+         * use charges in the background. Items running low print a message, items just about to run
+         * out are reloaded, and all others are ignored.
+         * @param it Reference to item potentially needing reload
+         * @param info Special considerations needed for this item
+         */
+        bool try_autoreload( item &it, const char_autoreload::params &info );
+
 
         item find_firestarter_with_charges( int quantity ) const;
         bool has_fire( int quantity ) const;
