@@ -576,16 +576,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_riotbot",
-      "friendly_msg": "The riot control bot rolls into action.",
-      "hostile_msg": "The riot control bot gasses you and approaches with a pair of handcuffs!",
-      "//": "Pretty easy but you want to be careful with the gas",
-      "difficulty": 4,
-      "moves": 150,
-      "skills": [ "electronics", "computer" ]
-    },
     "flags": [ "SINGLE_USE" ],
     "melee_damage": { "bash": 8 }
   },

@@ -45,7 +45,6 @@ static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_dsa_alien_dispatch( "mon_dsa_alien_dispatch" );
-static const mtype_id mon_riotbot( "mon_riotbot" );
 static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
