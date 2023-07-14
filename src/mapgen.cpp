@@ -369,7 +369,7 @@ class mapgen_basic_container
                 }
                 weights_.add( ptr, weight );
 
-                if( !ptr->weight_function.is_null() ) {
+                if( !ptr->weight_function.is_empty() ) {
                     mapgens_to_recalc_.push_back( ptr );
                 }
 
