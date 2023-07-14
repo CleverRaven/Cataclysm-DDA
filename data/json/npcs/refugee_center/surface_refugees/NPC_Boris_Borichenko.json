@@ -482,33 +482,39 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_MakeDoWith2",
     "dynamic_line": "Hmm, well it is not ideal but I appreciate you trying and being willing to help.  I will have to do my best despite the bad memories.  Thank you, my friend.",
-    "responses": [ { "text": "OK, I'll talk to you when I have some free time.", "topic": "TALK_DONE" } ],
-    "effect": [
-      { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "240 minutes" },
-      { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-    ]
+    "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
+    "speaker_effect": {
+      "effect": [
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
+        { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "240 minutes" },
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+      ]
+    }
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_MakeDoWith3",
     "dynamic_line": "Thank you for trying, my friend.  With you and me that will be five, I will do my best to be strong and assist in the cleanup.",
-    "responses": [ { "text": "OK, I'll talk to you when I have some free time.", "topic": "TALK_DONE" } ],
-    "effect": [
-      { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 },
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "180 minutes" },
-      { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-    ]
+    "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
+    "speaker_effect": {
+      "effect": [
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 },
+        { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "180 minutes" },
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+      ]
+    }
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_MakeDoWith4",
-    "dynamic_line": "That is quite alright, four should be enough though I appreciate your offer.  I suppose I will have to do my best even if it is painful, but four people will make it much easier.  My thanks, friend.",
+    "dynamic_line": "That is quite alright, four should be enough though I appreciate your offer.  I will have to do my best even if it is painful, but four people will make it much easier.  My thanks, friend.",
     "responses": [ { "text": "Good to hear.  I'm sure everyone will appreciate that place being cleaned up.", "topic": "TALK_DONE" } ],
-    "effect": [
-      { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
-      { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-    ]
+    "speaker_effect": {
+      "effect": [
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+      ]
+    }
   },
   {
     "id": "MISSION_REFUGEE_Boris_CLEANUP",
