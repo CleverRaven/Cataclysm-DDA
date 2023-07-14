@@ -39,7 +39,7 @@
       [ "UPGRADE", 20 ],
       {
         "type": "melee",
-        "id": "illuminates_u",
+        "id": "LTNT_ILLUMINATE_YOU",
         "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
         "condition": { "and": [ { "not": { "npc_has_effect": "Shadow_Reveal" } }, { "or": [ "npc_male", "npc_female" ] } ] },
         "range": 30,
@@ -380,13 +380,42 @@
       { "u_adjust_var": "Shadow_Lurking", "adjustment": 1 },
       { "u_message": "The wind laughs through the night", "type": "bad" },
       {
-        "u_location_variable": { "context_val": "Shadow_monster" },
+        "u_location_variable": { "global_val": "Shadow_monster" },
         "monster": "mon_lieutenant_shadow",
         "target_min_radius": 0,
         "target_max_radius": 60
       },
-      { "run_eoc_with": "EOC_KILL_SHADOW", "beta_loc": { "context_val": "Shadow_monster" } },
+      { "run_eoc_with": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
       { "u_message": "...but it grows more distant for now.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_CHECK_POS",
+    "recurrence": 1,
+    "condition": { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "Shadow_monster" },
+        "monster": "mon_lieutenant_shadow",
+        "target_min_radius": 0,
+        "target_max_radius": 60
+      },
+      { "run_eoc_with": "EOC_LIEUTENANT_SHADOW_CATCHUP", "beta_loc": { "global_val": "Shadow_monster" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_CATCHUP",
+    "eoc_type": "ACTIVATION",
+    "condition": { "compare_num": [ { "distance": [ "u", { "global_val": "Shadow_monster" } ] }, ">=", { "const": 30 } ] },
+    "effect": [
+      { "u_location_variable": { "global_val": "Shadow_Catchup_Pos" }, "min_radius": 3, "max_radius": 10 },
+      {
+        "npc_teleport": { "global_val": "Shadow_Catchup_Pos" },
+        "success_message": "You can't outrun your own shadow!",
+        "force": true
+      }
     ]
   }
 ]
