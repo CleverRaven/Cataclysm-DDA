@@ -69,10 +69,25 @@
     "category": "<zombie_harvest_shadow_general>",
     "text": [
       "This corpse seems completely ordinary now, and dissection brings you no further to asserting what gave the creature its peculiar properties.",
+      "The black camouflage evaporates off the body where you put your tool through, completely odorless.",
       "The lingering shadows surrounding it make your work quite a lot harder as they seem to deliberately grow more opaque around your tool as if they wished to hide the monster's secrets.",
       "You spot a few pores still weakly sputtering thin puffs of black smoke, investigating them further reveals glands full of fuming black liquid linked to the pores with long tubes.",
       "You make one incision and the resulting cloud of black smoke forces you to take a short break as it becomes impossible to see anything.",
       "Despite it not being very evident from the outside, it seems the entire digestive tract of the abomination was bloated with its obscuring smoke."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_harvest_kevlar_general>",
+    "text": [
+      "The inner tissues are a mosaic of somewhat normal flesh and flesh interlaced with fibers of the armor.",
+      "Separating what is flesh and what is synthetic is difficult, as some parts appear to be between the two.",
+      "Fibers of kevlar-like material spread through the body like a cobweb, originating from a tiny entry wound in the abdomen.",
+      "You cut off some scraps of the uniform that were still adhered to the body, finding tendrils of flesh anchored into them.",
+      "Apon closer examination, some of the kevlar isn't kevlar - its off color and composition suggest its the creature's flesh reformed to imitate it.",
+      "Some strands of the bulletproof material snake deep into the body like roots of an invading organism.",
+      "Strong fibers run alongside the muscles in a way that you want to compare to marbling.",
+      "Under the skin, crushing against the ribcage, you find a thick growth of flesh and kevlar formed from a mutated diaphragm."
     ]
   },
   {
