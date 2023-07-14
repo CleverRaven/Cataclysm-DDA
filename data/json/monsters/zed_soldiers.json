@@ -65,7 +65,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 30,
     "vision_night": 35,
-    "harvest": "zombie",
+    "harvest": "zombie_shadow",
     "grab_strength": 20,
     "special_attacks": [
       { "id": "grab" },
