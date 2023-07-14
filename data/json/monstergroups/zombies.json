@@ -455,14 +455,14 @@
     "name": "GROUP_SCHOOL",
     "//": "School monster spawns.",
     "monsters": [
-      { "monster": "mon_null", "weight": 1 },
+      { "monster": "mon_null", "weight": 10 },
       { "monster": "mon_civilian_stationary", "weight": 20, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_zombiefighter", "weight": 10, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_panic", "weight": 50, "cost_multiplier": 0, "ends": "5 days" },
-      { "monster": "mon_zombie_child", "weight": 4 },
-      { "monster": "mon_zombie_fat", "weight": 1 },
-      { "monster": "mon_zombie_tough", "weight": 1 },
-      { "monster": "mon_zombie", "weight": 3 }
+      { "monster": "mon_zombie_child", "weight": 50 },
+      { "monster": "mon_zombie_fat", "weight": 10 },
+      { "monster": "mon_zombie_tough", "weight": 10 },
+      { "monster": "mon_zombie", "weight": 30 }
     ]
   },
   {
