@@ -1462,7 +1462,8 @@
   {
     "id": "zombie_leather_acid",
     "//": "any zombie animal with hide and acid blood.",
-    "type": "<zombie_acid_harvest>",
+    "type": "harvest",
+    "message": "<zombie_acid_harvest>",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
