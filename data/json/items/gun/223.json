@@ -967,8 +967,7 @@
         "weight": 1
       }
     ],
-    "//2": "13.7 inch barrel yields roughly this much damage loss",
-    "ranged_damage": { "damage_type": "bullet", "amount": -3 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "ammo": [ "223" ],
