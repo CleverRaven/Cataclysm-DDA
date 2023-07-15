@@ -244,7 +244,6 @@
       [ "Your heartbeat slows into a somewhat normal rhythm but your skin is still on fire.", "good" ],
       [ "The pain in your chest subsides but your heart is still beating in a concerning fashion.", "good" ]
     ],
-    "rating": "mixed",
     "max_intensity": 4,
     "blood_analysis_description": "Patient has dangerous levels of multiple chemicals in their blood.  Sedation and restraint suggested.",
     "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "stim_amount": [ 1 ], "stim_tick": [ 500 ], "stim_max_val": [ 50 ] },
@@ -256,15 +255,15 @@
       "pain_amount": [ 10 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 2 ],
-      "pain_tick": [ 6000 ],
-      "stim_max_val": [ 100 ]
+      "pain_tick": [ 600 ],
+      "stim_max_val": [ 400 ]
     }
   },
   {
     "type": "effect_type",
     "id": "cheval_withdrawal",
     "rating": "bad",
-    "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
+    "blood_analysis_description": "Patient has multiple byproducts in blood stream suggesting extended drug binge.",
     "base_mods": { "speed_mod": [ -15 ], "str_mod": [ -1 ], "stim_amount": [ -1 ], "stim_tick": [ 500 ], "stim_max_val": [ -50 ] }
   },
   {
