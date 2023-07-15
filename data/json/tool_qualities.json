@@ -476,6 +476,7 @@
     "//": "For calipers"
   },
   {
+    "type": "tool_quality",
     "id": "BLOW_AIR",
     "name": { "str": "air blowing" }
   },
