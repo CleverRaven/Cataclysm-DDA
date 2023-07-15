@@ -14,9 +14,9 @@
     "description": "A thin forcefield surrounds your body, continually draining power.  Everything loses velocity when penetrating this field, which results in reduced amount of dealt damage at the cost of your bionic energy.  Bullets and stabbing attacks will lose more velocity than cutting attacks and those in turn more than bashing attacks.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 J",
-    "react_cost": "10 J",
-    "trigger_cost": "25kJ",
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
+    "trigger_cost": "10 kJ",
     "time": "1 s"
   },
   {
