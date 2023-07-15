@@ -72,7 +72,8 @@
       { "item": "eclipse_glasses", "prob": 1 },
       { "group": "writing_utensils", "prob": 20 },
       { "group": "softdrugs", "prob": 20 },
-      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false }
+      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false },
+      { "item": "laptop_xedra", "prob": 3 }
     ]
   },
   {
@@ -131,7 +132,8 @@
       [ "camera_control", 2 ],
       [ "eclipse_glasses", 1 ],
       { "group": "writing_utensils", "prob": 20 },
-      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false }
+      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false },
+      { "item": "laptop_xedra", "prob": 3 }
     ]
   },
   {
@@ -184,7 +186,6 @@
       [ "sleeveless_trenchcoat_fur", 10 ],
       [ "sleeveless_duster_fur", 10 ],
       [ "sleeveless_trenchcoat_faux_fur", 10 ],
-      [ "coat_fur_sf", 50 ],
       [ "coat_faux_fur", 30 ],
       [ "coat_fur", 30 ],
       [ "gloves_fur", 30 ],

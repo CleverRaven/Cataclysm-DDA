@@ -340,7 +340,7 @@
   {
     "id": "directions_artisans",
     "type": "mission_definition",
-    "name": { "str": "Check out bullet bank" },
+    "name": { "str": "Check out that bullet bank" },
     "description": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,

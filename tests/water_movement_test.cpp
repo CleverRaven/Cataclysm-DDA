@@ -31,9 +31,9 @@ static void setup_test_lake()
 
 TEST_CASE( "avatar_diving", "[diving]" )
 {
+    clear_avatar();
     setup_test_lake();
 
-    clear_avatar();
     Character &dummy = get_player_character();
     map &here = get_map();
     constexpr tripoint test_origin( 60, 60, 0 );

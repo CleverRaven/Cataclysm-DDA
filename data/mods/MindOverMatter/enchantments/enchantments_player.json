@@ -1,0 +1,116 @@
+[
+  {
+    "type": "enchantment",
+    "id": "enchant_clair_potion",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+    "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "clair_potion_clairvoyance" } ] } ] }
+  },
+  {
+    "id": "clair_potion_clairvoyance",
+    "type": "SPELL",
+    "name": "[Ψ]Gray Potion Clairvoyance",
+    "description": "The clairvoyance effect from the elixir.  If you have it it's a bug.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": 1,
+    "min_aoe": 20,
+    "max_aoe": 20,
+    "field_id": "fd_clairvoyant",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_pyrokin_cloak",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "emitter": "emit_pyrokin_cloak",
+    "values": [
+      {
+        "value": "CLIMATE_CONTROL_CHILL",
+        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+      },
+      {
+        "value": "CLIMATE_CONTROL_HEAT",
+        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+      },
+      {
+        "value": "ARMOR_HEAT",
+        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+      },
+      {
+        "value": "ARMOR_COLD",
+        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_pyrokinetic_aura",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_you_effect": [ { "id": "pyro_aura_attack", "hit_self": false } ],
+    "hit_me_effect": [ { "id": "pyro_aura_attacked", "hit_self": false } ],
+    "emitter": "emit_pyrokin_fever",
+    "values": [ { "value": "LUMINATION", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 40 } ]
+  },
+  {
+    "id": "pyro_aura_attack",
+    "type": "SPELL",
+    "name": "Pyrokinetic aura stabbing",
+    "description": "Do fire damage to a monster that you attack.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "IGNITE_FLAMMABLE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "heat",
+    "min_damage": 5,
+    "max_damage": 15,
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
+    "id": "pyro_aura_attacked",
+    "type": "SPELL",
+    "name": "Pyrokinetic aura thorns",
+    "description": "Do fire damage to a monster that attacked you.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "IGNITE_FLAMMABLE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "heat",
+    "min_damage": 5,
+    "max_damage": 30,
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_pyrokin_potion",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "ARMOR_HEAT", "add": -50 } ],
+    "hit_me_effect": [ { "id": "pyro_aura_attacked", "hit_self": false } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_teleport_potion",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_you_effect": [
+      {
+        "id": "teleport_slow_monster",
+        "hit_self": false,
+        "min_level": 1,
+        "message": "The air around your enemy warps slightly."
+      }
+    ]
+  }
+]

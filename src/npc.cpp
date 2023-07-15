@@ -34,6 +34,7 @@
 #include "faction.h"
 #include "flag.h"
 #include "game.h"
+#include "gates.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
@@ -119,6 +120,8 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
+
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
 static const overmap_location_str_id overmap_location_source_of_anything( "source_of_anything" );
@@ -242,7 +245,7 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false, true );
+    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true );
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
@@ -2640,7 +2643,7 @@ void npc::npc_dismount()
         return;
     }
     remove_effect( effect_riding );
-    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
+    if( mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) &&
         !mounted_creature->type->mech_weapon.is_empty() ) {
         get_wielded_item().remove_item();
     }
@@ -3454,6 +3457,13 @@ std::set<tripoint> npc::get_path_avoid() const
     if( rules.has_flag( ally_rule::avoid_doors ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
             if( here.open_door( *this, p, true, true ) ) {
+                ret.insert( p );
+            }
+        }
+    }
+    if( rules.has_flag( ally_rule::avoid_locks ) ) {
+        for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
+            if( doors::can_unlock_door( here, *this, p ) ) {
                 ret.insert( p );
             }
         }

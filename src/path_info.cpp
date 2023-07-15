@@ -68,7 +68,7 @@ static const char *getenv_or_abort( const char *name )
     return result;
 }
 
-void PATH_INFO::init_base_path( std::string path )
+void PATH_INFO::init_base_path( const std::string &path )
 {
     base_path_value = as_norm_dir( path );
     base_path_path_value = cata_path{ cata_path::root_path::base, fs::path{} };

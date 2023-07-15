@@ -32,7 +32,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "700nx": 2 } } ],
     "melee_damage": { "bash": 12 }
   }

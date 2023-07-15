@@ -538,7 +538,7 @@
     "harvest": "demihuman",
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_wp_demihuman" ],
-    "special_attacks": [ { "id": "ranged_pull", "cooldown": 10 }, [ "GRAB_DRAG", 3 ] ],
+    "special_attacks": [ { "id": "ranged_pull", "cooldown": 10 }, { "id": "grab_drag" }, { "id": "drag_followup" } ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
   },
@@ -573,7 +573,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "special_attacks": [
-      [ "GRAB_DRAG", 10 ],
+      { "id": "grab_drag" },
+      { "id": "drag_followup" },
       {
         "type": "leap",
         "cooldown": 8,

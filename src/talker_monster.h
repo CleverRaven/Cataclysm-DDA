@@ -99,6 +99,7 @@ class talker_monster: public talker_cloner<talker_monster, talker_monster_const>
         void set_anger( int ) override;
         void set_morale( int ) override;
         void set_friendly( int ) override;
+        bool get_is_alive() const override;
         void die() override;
     protected:
         talker_monster() = default;

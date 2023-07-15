@@ -38,7 +38,7 @@
   {
     "id": "dish_towel",
     "type": "TOOL",
-    "category": "spare_parts",
+    "category": "other",
     "name": { "str": "dish towel" },
     "description": "A dish towel, useful for cleaning hard surfaces.",
     "weight": "65600 mg",
@@ -213,9 +213,9 @@
     "type": "TOOL",
     "name": { "str": "sponge" },
     "description": "A cleaning aid made of soft, porous material.  Typically used for cleaning hard objects.",
-    "weight": "40 g",
-    "volume": "150 ml",
-    "price": 0,
+    "weight": "17 g",
+    "volume": "156 ml",
+    "price": 66,
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": "s",
@@ -225,13 +225,13 @@
     "snippet_category": [
       { "id": "spng1", "text": "A round smiley-face sponge." },
       { "id": "spng2", "text": "A rectangular sponge with a green abrasive back." },
-      { "id": "spng3", "text": "A natural sea sponge.  It looks kind of lumpy." },
       { "id": "spng4", "text": "A dolphin-shaped sponge.  It looks at home in the water." },
       { "id": "spng5", "text": "A rectangular sponge." },
       { "id": "spng6", "text": "A sponge cake-shaped sponge, the abrasive pad looks like frosting." },
       { "id": "spng7", "text": "A sponge in the shape of a beloved character from a children's cartoon." },
       { "id": "spng8", "text": "A cat-shaped sponge." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/Amazon-Brand-Solimo-Non-Scratch-Sponges/dp/B08RFC3VH7/ref=sr_1_7?crid=1JSW6KQKVQKBK&keywords=sponge&qid=1688239591&sprefix=250ml%2Bwine%2Bglass%2Caps%2C726&sr=8-7&th=1"
   },
   {
     "id": "survivor_hairtrimmer",

@@ -88,6 +88,14 @@ static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
 
+static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
+static const mon_flag_str_id mon_flag_FIREPROOF( "FIREPROOF" );
+static const mon_flag_str_id mon_flag_FIREY( "FIREY" );
+static const mon_flag_str_id mon_flag_INSECTICIDEPROOF( "INSECTICIDEPROOF" );
+static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+static const mon_flag_str_id mon_flag_SLUDGEPROOF( "SLUDGEPROOF" );
+
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -1046,10 +1054,17 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
                 if( p.z > 0 ) {
-                    // We're in the air
+                    // We're in the air. Need to invalidate the furniture otherwise it'll cause problems
+                    here.furn_set( p, f_null );
                     here.ter_set( p, t_open_air );
+                } else if( p.z < -1 ) {
+                    // We're deep underground, in bedrock. Whatever terrain was here is burned to the ground, leaving only the carved out rock (including ceiling)
+                    here.ter_set( p, t_rock_floor );
                 } else {
+                    // Need to invalidate the furniture otherwise it'll cause problems when supporting terrain collapses
+                    here.furn_set( p, f_null );
                     here.ter_set( p, t_dirt );
                 }
             }
@@ -1771,7 +1786,8 @@ void map::creature_in_field( Creature &critter )
             }
 
             const effect field_fx = fe.get_effect();
-            if( critter.is_immune_field( cur_field_id ) || critter.is_immune_effect( field_fx.get_id() ) ) {
+            if( critter.is_immune_field( cur_field_id ) || critter.is_immune_effect( field_fx.get_id() ) ||
+                critter.check_immunity_data( fe.immunity_data ) ) {
                 continue;
             }
             bool effect_added = false;
@@ -1828,14 +1844,14 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_sludge ) {
             if( !z.digs() && !z.flies() &&
-                !z.has_flag( MF_SLUDGEPROOF ) ) {
+                !z.has_flag( mon_flag_SLUDGEPROOF ) ) {
                 z.moves -= cur.get_field_intensity() * 300;
                 cur.set_field_intensity( 0 );
             }
         }
         if( cur_field_type == fd_fire ) {
             // TODO: MATERIALS Use fire resistance
-            if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
+            if( z.has_flag( mon_flag_FIREPROOF ) || z.has_flag( mon_flag_FIREY ) ) {
                 return;
             }
             // TODO: Replace the section below with proper json values
@@ -1877,7 +1893,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_smoke ) {
-            if( !z.has_flag( MF_NO_BREATHE ) ) {
+            if( !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
                     z.moves -= rng( 10, 20 );
                 }
@@ -1889,7 +1905,7 @@ void map::monster_in_field( monster &z )
 
         }
         if( cur_field_type == fd_tear_gas ) {
-            if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( MF_NO_BREATHE ) ) {
+            if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
                     z.add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
                 } else if( cur.get_field_intensity() == 2 ) {
@@ -1897,34 +1913,34 @@ void map::monster_in_field( monster &z )
                 } else {
                     z.add_effect( effect_stunned, rng( 1_turns, 5_turns ) );
                 }
-                if( z.has_flag( MF_SEES ) ) {
+                if( z.has_flag( mon_flag_SEES ) ) {
                     z.add_effect( effect_blind, cur.get_field_intensity() * 8_turns );
                 }
             }
 
         }
         if( cur_field_type == fd_relax_gas ) {
-            if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( MF_NO_BREATHE ) ) {
+            if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 z.add_effect( effect_stunned, rng( cur.get_field_intensity() * 4_turns,
                                                    cur.get_field_intensity() * 8_turns ) );
             }
         }
         if( cur_field_type == fd_dazzling ) {
-            if( z.has_flag( MF_SEES ) && !z.has_flag( MF_ELECTRONIC ) ) {
+            if( z.has_flag( mon_flag_SEES ) && !z.has_flag( mon_flag_ELECTRONIC ) ) {
                 z.add_effect( effect_blind, cur.get_field_intensity() * 12_turns );
                 z.add_effect( effect_stunned, cur.get_field_intensity() * rng( 5_turns, 12_turns ) );
             }
 
         }
         if( cur_field_type == fd_toxic_gas ) {
-            if( !z.has_flag( MF_NO_BREATHE ) ) {
+            if( !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 dam += cur.get_field_intensity();
                 z.moves -= cur.get_field_intensity();
             }
 
         }
         if( cur_field_type == fd_nuke_gas ) {
-            if( !z.has_flag( MF_NO_BREATHE ) ) {
+            if( !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
                     z.moves -= rng( 60, 120 );
                     dam += rng( 30, 50 );
@@ -1944,7 +1960,7 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_flame_burst ) {
             // TODO: MATERIALS Use fire resistance
-            if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
+            if( z.has_flag( mon_flag_FIREPROOF ) || z.has_flag( mon_flag_FIREY ) ) {
                 return;
             }
             if( z.made_of_any( Creature::cmat_flesh ) ) {
@@ -1976,7 +1992,7 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_incendiary ) {
             // TODO: MATERIALS Use fire resistance
-            if( z.has_flag( MF_FIREPROOF ) || z.has_flag( MF_FIREY ) ) {
+            if( z.has_flag( mon_flag_FIREPROOF ) || z.has_flag( mon_flag_FIREY ) ) {
                 return;
             }
             if( z.made_of_any( Creature::cmat_flesh ) ) {
@@ -2010,7 +2026,7 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_fungal_haze ) {
             if( !z.type->in_species( species_FUNGUS ) &&
-                !z.type->has_flag( MF_NO_BREATHE ) &&
+                !z.type->has_flag( mon_flag_NO_BREATHE ) &&
                 !z.make_fungus() ) {
                 // Don't insta-kill jabberwocks, that's silly
                 const int intensity = cur.get_field_intensity();
@@ -2026,7 +2042,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
-            if( z.made_of( material_iflesh ) && !z.has_flag( MF_INSECTICIDEPROOF ) ) {
+            if( z.made_of( material_iflesh ) && !z.has_flag( mon_flag_INSECTICIDEPROOF ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );

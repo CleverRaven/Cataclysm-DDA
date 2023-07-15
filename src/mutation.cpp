@@ -632,20 +632,27 @@ bool Character::has_active_mutation( const trait_id &b ) const
 time_duration Character::get_cost_timer( const trait_id &mut ) const
 {
     const auto iter = my_mutations.find( mut );
+    const std::vector<trait_id> &all_mut = get_mutations();
+    const auto all_iter = std::find( all_mut.begin(), all_mut.end(), mut );
     if( iter != my_mutations.end() ) {
         return iter->second.charge;
-    } else {
+    } else if( all_iter == all_mut.end() ) {
+        // dont have the mutation personally and can't find it in enchantments (this shouldn't happen)
         debugmsg( "Tried to get cost timer of %s but doesn't have this mutation.", mut.c_str() );
     }
+    // if we have the mutation from an item or something non character skip the warning and just process every turn
     return 0_turns;
 }
 
 void Character::set_cost_timer( const trait_id &mut, time_duration set )
 {
     const auto iter = my_mutations.find( mut );
+    const std::vector<trait_id> &all_mut = get_mutations();
+    const auto all_iter = std::find( all_mut.begin(), all_mut.end(), mut );
     if( iter != my_mutations.end() ) {
         iter->second.charge = set;
-    } else {
+    } else if( all_iter == all_mut.end() ) {
+        // don't have the mutation and don't have it from an item
         debugmsg( "Tried to set cost timer of %s but doesn't have this mutation.", mut.c_str() );
     }
 }

@@ -67,11 +67,15 @@
       "sloc_mall_food_court",
       "sloc_apartments_rooftop",
       "sloc_apartments_rooftop2",
+      "sloc_apartment_complex_roof",
       "sloc_hospital",
       "sloc_school",
+      "sloc_school_rooftop",
       "sloc_hotel_rooftop",
       "sloc_office_tower_rooftop",
-      "sloc_cathedral_rooftop"
+      "sloc_office_tower_2_rooftop",
+      "sloc_cathedral_rooftop",
+      "sloc_convention_center_rooftop"
     ],
     "start_name": "In Large Building",
     "flags": [ "CITY_START", "LONE_START" ]
@@ -406,6 +410,7 @@
     "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "SPIRITUAL" ],
     "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
     "requirement": "achievement_witnessed_portal_storm",
+    "reveal_locale": false,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -459,6 +464,7 @@
       "ELECTRORECEPTORS"
     ],
     "requirement": "achievement_reach_lab_finale",
+    "reveal_locale": false,
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -627,6 +633,7 @@
       "cop"
     ],
     "requirement": "achievement_reach_island_prison",
+    "reveal_locale": false,
     "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
@@ -639,6 +646,7 @@
     "start_name": "Mi-Go Camp",
     "professions": [ "captive", "rescuer" ],
     "requirement": "achievement_reach_mi-Go_encampment",
+    "reveal_locale": false,
     "flags": [ "LONE_START", "CHALLENGE" ],
     "custom_initial_date": { "season": "winter" }
   },
@@ -917,6 +925,7 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "eoc": [ "scenario_strong_portal_storm" ],
     "requirement": "achievement_reach_lab_finale",
+    "reveal_locale": false,
     "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
   },
   {
@@ -1007,6 +1016,7 @@
       "combat-engineer"
     ],
     "requirement": "achievement_reach_aircraft_carrier",
+    "reveal_locale": false,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -1200,7 +1210,15 @@
     "description": "From up here, you watched it all fall apart.  The sky cracked and indescribable alien shapes writhed in the clouds.  The horizon has returned to normal, but you still see shadows moving in the corner of your eye and feel them calling you.",
     "forced_traits": [ "SCHIZOPHRENIC" ],
     "start_name": "Up Above",
-    "allowed_locs": [ "sloc_apartments_rooftop", "sloc_apartments_rooftop2", "sloc_hotel_rooftop", "sloc_office_tower_rooftop" ],
+    "allowed_locs": [
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hotel_rooftop",
+      "sloc_school_rooftop",
+      "sloc_office_tower_rooftop",
+      "sloc_apartment_complex_roof",
+      "sloc_convention_center_rooftop"
+    ],
     "eoc": [ "scenario_strong_portal_storm_base" ],
     "requirement": "achievement_reach_mid_z_level",
     "flags": [ "LONE_START", "CITY_START", "CHALLENGE" ]
@@ -1234,7 +1252,8 @@
     "points": 1,
     "description": "During your escape you got lost and ended up at the wrong location.  Get your bearings and make a plan.  You'll need it.",
     "start_name": "Middle of Nowhere",
-    "allowed_locs": [ "sloc_middle_of_nowhere" ]
+    "allowed_locs": [ "sloc_middle_of_nowhere" ],
+    "reveal_locale": false
   },
   {
     "type": "scenario",
@@ -1243,6 +1262,7 @@
     "points": 1,
     "description": "When the riots came to your home, you ran underground and hid.  Now days later you are lost and hear movement echoing in the dark.",
     "start_name": "Underground",
-    "allowed_locs": [ "sloc_sewer" ]
+    "allowed_locs": [ "sloc_sewer" ],
+    "reveal_locale": false
   }
 ]

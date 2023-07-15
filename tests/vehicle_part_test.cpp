@@ -69,14 +69,12 @@ TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicl
 {
     // this checks all seats and beds either BELTABLE or NONBELTABLE but not both
 
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-
-        if( !vp.has_flag( "BED" ) && !vp.has_flag( "SEAT" ) ) {
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( !vpi.has_flag( "BED" ) && !vpi.has_flag( "SEAT" ) ) {
             continue;
         }
-        CAPTURE( vp.get_id().c_str() );
-        CHECK( ( vp.has_flag( "BELTABLE" ) ^ vp.has_flag( "NONBELTABLE" ) ) );
+        CAPTURE( vpi.id.str() );
+        CHECK( ( vpi.has_flag( "BELTABLE" ) ^ vpi.has_flag( "NONBELTABLE" ) ) );
     }
 }
 
@@ -84,14 +82,12 @@ TEST_CASE( "vehicle_parts_boardable_openable_parts_have_door_flag", "[vehicle][v
 {
     // this checks all BOARDABLE and OPENABLE parts have DOOR flag
 
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-
-        if( !vp.has_flag( "BOARDABLE" ) || !vp.has_flag( "OPENABLE" ) ) {
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( !vpi.has_flag( "BOARDABLE" ) || !vpi.has_flag( "OPENABLE" ) ) {
             continue;
         }
-        CAPTURE( vp.get_id().c_str() );
-        CHECK( vp.has_flag( "DOOR" ) );
+        CAPTURE( vpi.id.str() );
+        CHECK( vpi.has_flag( "DOOR" ) );
     }
 }
 
@@ -104,18 +100,17 @@ TEST_CASE( "vehicle_parts_have_at_least_one_category", "[vehicle][vehicle_parts]
         all_cat_ids.insert( cat.get_id() );
     }
 
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        CAPTURE( vp.get_id().c_str() );
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        CAPTURE( vpi.id.str() );
 
         bool part_has_category = false;
         for( const vpart_category &cat : categories ) {
-            if( vp.has_category( cat.get_id() ) ) {
+            if( vpi.has_category( cat.get_id() ) ) {
                 part_has_category = true;
                 break;
             }
         }
-        for( const std::string &cat : vp.get_categories() ) {
+        for( const std::string &cat : vpi.get_categories() ) {
             const bool no_unknown_categories = all_cat_ids.find( cat ) == all_cat_ids.cend();
             CHECK_FALSE( no_unknown_categories );
         }

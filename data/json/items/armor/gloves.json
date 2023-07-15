@@ -636,6 +636,41 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "gloves_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of faux fur gloves", "str_pl": "pairs of faux fur gloves" },
+    "description": "A pair of warm faux fur gloves.",
+    "weight": "410 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "brown",
+    "warmth": 55,
+    "material_thickness": 3,
+    "armor": [ { "encumbrance": 30, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "xl_gloves_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL faux fur gloves", "str_pl": "pairs of XL faux fur gloves" },
+    "copy-from": "gloves_faux_fur",
+    "proportional": { "weight": 1.6, "volume": 1.6 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gloves_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "gloves_faux_fur",
+    "looks_like": "gloves_fur",
+    "name": { "str": "pair of XS faux fur gloves", "str_pl": "pairs of XS fur gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "glove_jackson",
     "type": "ARMOR",
     "name": { "str": "white glove" },

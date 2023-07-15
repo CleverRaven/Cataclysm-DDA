@@ -247,7 +247,13 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         void set_part_hp_cur( const bodypart_id &id, int set ) const override;
+        bool get_is_alive() const override;
         void die() override;
+        void attack_target( Creature &t, bool allow_special, const matec_id &force_technique,
+                            bool allow_unarmed, int forced_movecost ) override;
+        matec_id get_random_technique( Creature &t, bool crit, bool dodge_counter, bool block_counter,
+                                       const std::vector<matec_id> &blacklist = {} )
+        const override;
         void learn_martial_art( const matype_id &id ) const override;
         void forget_martial_art( const matype_id &id ) const override;
     protected:

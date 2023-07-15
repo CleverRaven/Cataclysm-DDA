@@ -107,6 +107,7 @@
         "O   "
       ],
       "palettes": [ "house_w_nest_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ],
       "items": {
         "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
@@ -129,6 +130,7 @@
         " 66 "
       ],
       "palettes": [ "house_w_nest_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ],
       "items": {
         "O": {
           "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
@@ -152,6 +154,7 @@
         " Ih "
       ],
       "palettes": [ "house_w_nest_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ],
       "items": {
         "O": {
           "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
@@ -175,6 +178,7 @@
         " bH "
       ],
       "palettes": [ "house_w_nest_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ],
       "items": {
         "O": {
           "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }

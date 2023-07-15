@@ -15,7 +15,7 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "BLADED_FARMING", "POLEARMS", "SPEARS" ],
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 2000,
     "price_postapoc": 500,
     "melee_damage": { "bash": 5, "stab": 18 }
@@ -125,7 +125,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 16, "cut": 40 }
   },
   {
@@ -758,7 +758,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 17, "cut": 42 }
   },
   {

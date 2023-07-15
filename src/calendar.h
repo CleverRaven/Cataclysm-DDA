@@ -19,12 +19,6 @@ class time_duration;
 class time_point;
 template<typename T> struct enum_traits;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 /** Real world seasons */
 enum season_type {
     SPRING = 0,

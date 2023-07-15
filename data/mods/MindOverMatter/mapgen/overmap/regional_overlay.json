@@ -1,0 +1,13 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "city": { "shops": { "office_cubical_phavian": 325 } },
+    "map_extras": {
+      "forest_water": { "chance": 20, "extras": { "mx_alien_grass": 25 } },
+      "forest_thick": { "chance": 30, "extras": { "mx_alien_grass": 25 } },
+      "forest": { "chance": 20, "extras": { "mx_alien_grass": 15 } },
+      "field": { "chance": 6, "extras": { "mx_alien_grass": 15 } }
+    }
+  }
+]

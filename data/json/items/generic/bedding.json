@@ -77,11 +77,11 @@
     "type": "ARMOR",
     "name": { "str": "blanket" },
     "description": "Hiding under here will not protect you from the monsters.",
-    "weight": "1123 g",
-    "volume": "15 L",
-    "price": 5500,
+    "weight": "848 g",
+    "volume": "15500 ml",
+    "price": "15 USD",
     "price_postapoc": 50,
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "towel",
@@ -96,7 +96,8 @@
         "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/Utopia-Bedding-Summer-Blanket-Breathable/dp/B091DZVHX7/ref=sr_1_6?crid=11FB1U0I1340M&keywords=blanket%2Bcotton&qid=1688242264&sprefix=blanket%2Bcotton%2Caps%2C280&sr=8-6&th=1 with the assumed material thickness of 0.8cm"
   },
   {
     "id": "down_blanket",

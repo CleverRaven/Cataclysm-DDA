@@ -127,7 +127,7 @@
     "material": [ "dreamstuff" ],
     "warmth": 0,
     "material_thickness": 5,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "PADDED", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
     "armor": [
       {
         "encumbrance": 5,

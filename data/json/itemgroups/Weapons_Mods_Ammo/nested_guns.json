@@ -482,6 +482,19 @@
     ]
   },
   {
+    "id": "nested_hpt3895",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "hpt3895", "charges-min": 0, "charges-max": 10 },
+      { "item": "hpt3895mag_10rd" },
+      { "item": "hpt3895mag_10rd", "prob": 50 },
+      { "group": "on_hand_380" }
+    ]
+  },
+  {
     "id": "nested_hptjcp",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

@@ -5,7 +5,7 @@
     "name": { "str": "frog mother" },
     "description": "A large, bulbous creature with an extremely large mouth and small, stubby legs with no feet.  Drenched in an oily greenish-black substance, its flesh seems to rapidly decompose and reconstitute itself, and it is covered in large, white pustules that seem ready to pop.",
     "default_faction": "zombie",
-    "species": [ "ZOMBIE", "AMPHIBIAN" ],
+    "species": [ "ZOMBIE" ],
     "volume": "240 L",
     "weight": "300 kg",
     "hp": 400,
@@ -28,7 +28,8 @@
     "special_attacks": [
       { "type": "leap", "cooldown": 12, "move_cost": 0, "max_range": 4, "min_consider_range": 2 },
       { "id": "ranged_pull", "range": 4 },
-      [ "GRAB_DRAG", 3 ],
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
       {
         "type": "spell",
         "spell_data": { "id": "frog_mother_summon" },
@@ -64,7 +65,7 @@
     "name": { "str": "tadpole constrictor" },
     "description": "The only resemblance this creature bears to a tadpole is its slick black-green skin and slender body.  Its three appendages, resembling long tentacles or pseudopods, propel it across the ground at maddening speed.  It has no outward sensory organs or a mouth, and steam rises from its skin as if it is burning away its own lifeforce to catch you.",
     "default_faction": "zombie",
-    "species": [ "ZOMBIE", "AMPHIBIAN" ],
+    "species": [ "ZOMBIE" ],
     "volume": "10 L",
     "weight": "18 kg",
     "hp": 20,
@@ -99,7 +100,7 @@
     "name": { "str": "zombullfrog" },
     "description": "The wound covered skin of this large bullfrog appears to be peeling in places, revealing a black goop beneath the surface.  Its vacant stare passes by anything that isn't food, and it will leap to devour anything it can.",
     "default_faction": "zombie",
-    "species": [ "ZOMBIE", "AMPHIBIAN" ],
+    "species": [ "ZOMBIE" ],
     "volume": "120 L",
     "weight": "150 kg",
     "hp": 160,
@@ -122,7 +123,8 @@
     "special_attacks": [
       { "type": "leap", "cooldown": 12, "move_cost": 0, "max_range": 4, "min_consider_range": 2 },
       { "id": "ranged_pull", "range": 4 },
-      [ "GRAB_DRAG", 3 ]
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" }
     ],
     "regen_morale": true,
     "flags": [
@@ -140,8 +142,62 @@
       "PUSH_MON",
       "RANGED_ATTACKER"
     ],
-    "upgrades": { "half_life": 34, "into": "mon_frog_mother" },
+    "upgrades": { "half_life": 34, "into_group": "GROUP_ZOMBULL_FROG_UPGRADE" },
     "armor": { "bash": 8, "cut": 2, "bullet": 1, "electric": 2 }
+  },
+  {
+    "id": "mon_frog_dad",
+    "type": "MONSTER",
+    "name": { "str": "colossal zombullfrog" },
+    "description": "This gigantic zombified frog lets out an ear splitting unholy wail as it slowly takes notice of you.  Its lethargic movements is offset by the gargantuan stout leaping legs",
+    "default_faction": "zombie",
+    "species": [ "ZOMBIE" ],
+    "volume": "200 L",
+    "weight": "180 kg",
+    "hp": 500,
+    "speed": 60,
+    "attack_cost": 60,
+    "material": [ "flesh" ],
+    "symbol": "F",
+    "color": "light_green",
+    "aggression": 100,
+    "morale": 100,
+    "grab_strength": 50,
+    "melee_skill": 8,
+    "melee_dice": 6,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "dodge": 1,
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "bleed_rate": 0,
+    "vision_day": 30,
+    "vision_night": 7,
+    "harvest": "zombie",
+    "special_attacks": [
+      { "type": "leap", "cooldown": 8, "move_cost": 0, "max_range": 8, "min_consider_range": 2 },
+      { "id": "ranged_pull", "range": 4 },
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
+      [ "SHRIEK_ALERT", 20 ],
+      [ "SHRIEK_STUN", 5 ]
+    ],
+    "regen_morale": true,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "STUMBLES",
+      "GRABS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "RANGED_ATTACKER"
+    ],
+    "armor": { "bash": 15, "cut": 7, "bullet": 5, "electric": 2 }
   },
   {
     "id": "mon_zombie_biter",
@@ -400,7 +456,8 @@
       { "id": "ranged_pull", "cooldown": 20 },
       { "id": "bite_humanoid" },
       { "id": "scratch_humanoid" },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "grab_drag", "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 } },
+      { "id": "drag_followup", "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 } }
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
@@ -516,7 +573,8 @@
       { "id": "bite_humanoid", "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ] },
       { "id": "impale", "condition": { "not": { "u_has_flag": "GRAB_FILTER" } } },
       { "id": "scratch_humanoid", "damage_max_instance": [ { "damage_type": "cut", "amount": 15 } ] },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -726,7 +784,12 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
     "grab_strength": 100,
-    "special_attacks": [ { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 3 ], { "id": "bite_humanoid", "cooldown": 5 } ],
+    "special_attacks": [
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
+      { "id": "bite_humanoid", "cooldown": 5 }
+    ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -929,7 +992,7 @@
           { "damage_type": "bash", "amount": 16, "armor_multiplier": 0.3 }
         ]
       },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "drag_followup" }
     ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -1097,7 +1160,7 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "path_settings": { "max_dist": 4 },
+    "path_settings": { "max_dist": 4, "allow_climb_stairs": false },
     "grab_strength": 20,
     "special_attacks": [
       { "id": "grab" },
@@ -1492,7 +1555,8 @@
       { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "scratch_humanoid", "cooldown": 15 },
       { "id": "ranged_pull", "cooldown": 20 },
-      [ "GRAB_DRAG", 10 ]
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
     ],
     "flags": [
       "SEES",

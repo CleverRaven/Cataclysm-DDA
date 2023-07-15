@@ -489,7 +489,8 @@
       { "group": "nested_converted_ar15", "prob": 6 },
       { "group": "nested_converted_mdrx", "prob": 1 },
       { "group": "nested_converted_cz600", "prob": 1 },
-      { "group": "nested_rdb_223", "prob": 1 }
+      { "group": "nested_rdb_223", "prob": 1 },
+      { "group": "nested_hpt3895", "prob": 1 }
     ]
   },
   {
@@ -517,6 +518,7 @@
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_1022", "prob": 7, "charges-min": 0, "charges-max": 10 },
       { "item": "ruger_mini", "prob": 1, "charges-min": 0, "charges-max": 5 },
+      { "item": "hpt3895", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "sks", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 2, "charges-min": 0, "charges-max": 3 },
       { "item": "vz58ts", "prob": 1, "charges-min": 0, "charges-max": 30 },
@@ -543,6 +545,7 @@
       { "item": "ar10", "prob": 35, "charges-min": 0, "charges-max": 0 },
       { "item": "modular_ar15", "prob": 45, "charges-min": 0, "charges-max": 0 },
       { "item": "cx4", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "hpt3895", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "ksub2000", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "remington700_270", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_m77", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -634,6 +637,7 @@
       },
       { "item": "iwi_tavor_x95_300blk", "prob": 15 },
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "hk_usc45", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "marlin_9a", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44", "variant": "mosin44", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin91_30", "variant": "mosin91_30", "prob": 10, "charges-min": 0, "charges-max": 0 },

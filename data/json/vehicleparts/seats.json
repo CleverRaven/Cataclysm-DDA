@@ -75,7 +75,7 @@
     "id": "reclining_seat",
     "copy-from": "seat",
     "comfort": 3,
-    "description": "A place to sit, and the backrest reclines to make it an uncomfortable bed.",
+    "description": "A place to sit, with an adjustable backrest.",
     "durability": 100,
     "floor_bedding_warmth": 350,
     "name": { "str": "reclining seat" },

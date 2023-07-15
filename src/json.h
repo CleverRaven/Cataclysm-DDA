@@ -43,12 +43,6 @@ class TextJsonObject;
 class TextJsonValue;
 class item;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 // Traits class to distinguish sequences which are string like from others
 template< class, class = void >
 struct is_string_like : std::false_type { };

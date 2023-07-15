@@ -78,6 +78,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
+    dummy.mutation_category_level.clear();
     dummy.clear_bionics();
 
     // Clear stomach and then eat a nutritious meal to normalize stomach

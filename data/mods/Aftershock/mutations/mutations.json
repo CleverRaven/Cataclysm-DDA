@@ -486,8 +486,15 @@
   },
   {
     "type": "mutation",
+    "id": "HIRSUTE",
+    "copy-from": "HIRSUTE",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
     "id": "LIGHTFUR",
     "copy-from": "LIGHTFUR",
+    "prereqs": [ "HIRSUTE" ],
     "extend": { "category": [ "MASTODON" ] }
   },
   {
@@ -569,8 +576,8 @@
     "changes_to": [ "TUSKS_POINTED" ],
     "category": [ "MASTODON" ],
     "attacks": {
-      "attack_text_u": "You gore %s with your tusks",
-      "attack_text_npc": "%1$s gores %2$s with their tusks",
+      "attack_text_u": "You gore %s with your tusks!",
+      "attack_text_npc": "%1$s gores %2$s with their tusks!",
       "chance": 20,
       "base_damage": [ { "damage_type": "stab", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
     }
@@ -591,8 +598,8 @@
     "category": [ "MASTODON" ],
     "threshreq": [ "THRESH_MASTODON" ],
     "attacks": {
-      "attack_text_u": "You stab %s with your pointed tusks",
-      "attack_text_npc": "%1$s stabs %2$s with their pointed tusks",
+      "attack_text_u": "You stab %s with your pointed tusks!",
+      "attack_text_npc": "%1$s stabs %2$s with their pointed tusks!",
       "chance": 22,
       "base_damage": { "damage_type": "stab", "amount": 24 }
     }
@@ -684,12 +691,6 @@
     "type": "mutation",
     "id": "MET_RAT",
     "copy-from": "MET_RAT",
-    "extend": { "category": [ "MASTODON" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "SKIN_ROUGH",
-    "copy-from": "SKIN_ROUGH",
     "extend": { "category": [ "MASTODON" ] }
   },
   {

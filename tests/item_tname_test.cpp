@@ -548,6 +548,21 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
             backpack_hiking.put_in( rock2, item_pocket::pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
         }
+        SECTION( "container has whitelist" ) {
+            std::string const wlmark = "⁺";
+            REQUIRE( backpack_hiking.get_all_contained_pockets().size() >= 2 );
+            backpack_hiking.get_all_contained_pockets().front()->settings.whitelist_item(
+                itype_rock );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack" +
+                   colorize( wlmark, c_dark_gray ) + " " + nesting_sym + " " + rock_nested_tname );
+            backpack_hiking.get_all_contained_pockets()[1]->settings.set_was_edited();
+            // different pocket was edited
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack" +
+                   colorize( wlmark, c_dark_gray ) + " " + nesting_sym + " " + rock_nested_tname );
+            backpack_hiking.get_all_contained_pockets()[0]->settings.set_was_edited();
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack" +
+                   colorize( wlmark, c_light_gray ) + " " + nesting_sym + " " + rock_nested_tname );
+        }
     }
 
     std::string const purse_color = get_tag_from_color( purse.color_in_inventory() );

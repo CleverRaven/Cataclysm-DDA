@@ -23,7 +23,13 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_Accipitermg", 20 ], [ "afs_gibrifle", 40 ], [ "afs_25mm_goa", 5 ], [ "afs_drotik_shotpistol", 5 ] ]
+    "items": [
+      [ "afs_Accipitermg", 20 ],
+      [ "afs_gibrifle", 40 ],
+      [ "afs_shotgun", 15 ],
+      [ "afs_25mm_goa", 5 ],
+      [ "afs_drotik_shotpistol", 5 ]
+    ]
   },
   {
     "id": "afs_any_ballistic_h_gun",
@@ -107,5 +113,11 @@
     "ammo": 100,
     "magazine": 100,
     "items": [ [ "afs_25mm_shot", 40 ], [ "afs_25mm_apfsds", 5 ], [ "afs_25mm_frag", 10 ] ]
+  },
+  {
+    "id": "afs_shotgun_gunmod",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "afs_magnetic_choke", 10 ] ]
   }
 ]

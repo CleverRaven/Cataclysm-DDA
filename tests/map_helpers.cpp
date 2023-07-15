@@ -176,11 +176,12 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
     constexpr int z_surface = 0;
     constexpr int z_bottom = -2;
 
-    clear_map( z_bottom, z_surface );
+    clear_map( z_bottom - 1, z_surface + 1 );
 
     map &here = get_map();
-    for( const tripoint &p : here.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, z_bottom ) ) ) {
+    const tripoint p1( 0, 0, z_bottom - 1 );
+    const tripoint p2( MAPSIZE * SEEX, MAPSIZE * SEEY, z_surface + 1 );
+    for( const tripoint &p : here.points_in_rectangle( p1, p2 ) ) {
 
         if( p.z == z_surface ) {
             here.ter_set( p, surface );
@@ -188,6 +189,10 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
             here.ter_set( p, mid );
         } else if( p.z == z_bottom ) {
             here.ter_set( p, bottom );
+        } else if( p.z < z_bottom ) {
+            here.ter_set( p, t_rock );
+        } else if( p.z > z_surface ) {
+            here.ter_set( p, t_open_air );
         }
     }
 

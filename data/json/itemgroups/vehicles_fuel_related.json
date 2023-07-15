@@ -105,7 +105,7 @@
           { "collection": [ { "item": "jerrycan" }, { "item": "funnel" } ] },
           { "collection": [ { "item": "jerrycan_big" }, { "item": "funnel" } ] }
         ],
-        "prob": 40
+        "prob": 30
       },
       {
         "distribution": [ { "item": "sm_extinguisher", "charges": 10 }, { "item": "extinguisher", "charges": 100 } ],
@@ -113,11 +113,11 @@
       },
       {
         "distribution": [ { "group": "used_1st_aid", "prob": 70 }, { "group": "full_1st_aid", "prob": 30 } ],
-        "prob": 70
+        "prob": 20
       },
       {
         "distribution": [ { "group": "used_survival_kit", "prob": 70 }, { "group": "full_survival_kit", "prob": 30 } ],
-        "prob": 40
+        "prob": 30
       },
       [ "plastic_sheet", 12 ],
       [ "hd_tow_cable", 5 ],

@@ -109,7 +109,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "stock mount",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "slingshot", "crossbow", "launcher" ],
     "install_time": "20 m",
     "min_skills": [ [ "gun", 5 ] ],
     "add_mod": [ [ "stock", 1 ] ],

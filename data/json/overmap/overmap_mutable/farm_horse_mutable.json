@@ -150,7 +150,7 @@
       "pasture": { "overmap": "pasture_north" },
       "field_fill": { "overmap": "special_field" },
       "field_reserved": { "overmap": "field" },
-      "trail_intersect": { "overmap": "trail_intersection_north", "locations": [ "forest_trail" ] },
+      "trail_intersect": { "overmap": "forest_trail_intersection_north", "locations": [ "forest_trail" ] },
       "trail_ns": { "overmap": "forest_trail_ns" },
       "trail_ew": { "overmap": "forest_trail_ew" },
       "trail_ne": { "overmap": "forest_trail_ne" },

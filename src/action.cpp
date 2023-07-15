@@ -617,11 +617,15 @@ std::optional<input_event> hotkey_for_action( const action_id action,
 
 bool can_butcher_at( const tripoint &p )
 {
+    map_stack items = get_map().i_at( p );
+    // Early exit when there's definitely nothing to butcher
+    if( items.empty() ) {
+        return false;
+    }
     Character &player_character = get_player_character();
     // TODO: unify this with game::butcher
     const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
     const int factorD = player_character.max_quality( qual_CUT_FINE, PICKUP_RANGE );
-    map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
@@ -695,16 +699,15 @@ bool can_examine_at( const tripoint &p, bool with_pickup )
 
 static bool can_pickup_at( const tripoint &p )
 {
-    bool veh_has_items = false;
     map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( p );
-    if( vp ) {
-        const int cargo_part = vp->vehicle().part_with_feature( vp->mount(), "CARGO", false );
-        veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
+    if( const std::optional<vpart_reference> ovp = here.veh_at( p ).cargo() ) {
+        if( !ovp->items().empty() ) {
+            return true;
+        }
     }
-
-    return ( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) &&
-             !here.only_liquid_in_liquidcont( p ) ) || veh_has_items;
+    return !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
+           !here.only_liquid_in_liquidcont( p ) &&
+           here.has_items( p );
 }
 
 bool can_interact_at( action_id action, const tripoint &p )

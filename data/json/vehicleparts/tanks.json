@@ -147,7 +147,6 @@
     "type": "vehicle_part",
     "name": { "str": "heated tank (60L)" },
     "item": "heattank",
-    "location": "fuel_source",
     "copy-from": "fridgetank",
     "description": "A 60L heated tank.  When turned on, it will prevent the contents from freezing.",
     "epower": "-60 W",
@@ -184,7 +183,6 @@
     "type": "vehicle_part",
     "name": { "str": "roof-mounted external tank (100L)" },
     "looks_like": "afs_roof_external_tank",
-    "item": "30gal_drum",
     "location": "on_roof",
     "extend": { "flags": [ "ON_ROOF" ] }
   },
@@ -442,7 +440,6 @@
     "copy-from": "external_tank_small_aluminum",
     "type": "vehicle_part",
     "name": { "str": "roof-mounted external aluminum tank (100L)" },
-    "item": "30gal_drum_aluminum",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },

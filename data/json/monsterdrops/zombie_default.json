@@ -265,8 +265,15 @@
       { "group": "default_zombie_items_pockets", "prob": 20 },
       {
         "distribution": [
-          { "group": "guns_pistol_common_everyday_carry", "damage": [ 1, 4 ], "prob": 1 },
-          { "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry" } ], "prob": 10 }
+          { "item": "teargas_sprayer", "prob": 10, "charges-min": 0, "charges-max": 8 },
+          {
+            "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry", "damage": [ 0, 2 ] } ],
+            "prob": 8
+          },
+          {
+            "collection": [ { "item": "holster" }, { "item": "tazer", "damage": [ 0, 2 ], "charges-min": 0, "charges-max": 100 } ],
+            "prob": 5
+          }
         ],
         "prob": 2
       }

@@ -10,7 +10,7 @@
     "price": 685,
     "price_postapoc": 900,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "powder" ],
+    "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
     "count": 20,
@@ -28,6 +28,7 @@
     "copy-from": "338lapua_hpbt",
     "type": "AMMO",
     "name": { "str_sp": ".338 Lapua AP485" },
+    "material": [ "steel", "brass", "lead", "powder" ],
     "description": ".338 Lapua ammunition, loaded with a 248-grain armor-piercing bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a highly penetrative full-metal jacketed bullet, which comes at the cost of negligible expansion once the round thunders into, and likely straight through the target.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 20 } }
   },
@@ -36,6 +37,7 @@
     "copy-from": "338lapua_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".338 Lapua API526" },
+    "material": [ "steel", "brass", "lead", "powder" ],
     "description": ".338 Lapua ammunition, loaded with a 256-grain armor-piercing incendiary bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a tungsten carbide penetrator as well as an extra dose of nastiness in the form of an incendiary loading, which serves to highlight the point of impact and possibly set flammable materials alight.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 20 } },
     "extend": { "effects": [ "INCENDIARY" ] }

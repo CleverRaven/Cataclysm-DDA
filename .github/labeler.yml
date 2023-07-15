@@ -257,6 +257,9 @@
 "Mods: Xedra Evolved":
   - data/mods/Xedra_Evolved/**/*
 
+"Mods: Mind Over Matter":
+  - data/mods/MindOverMatter/**/*
+
 "Mods":
   - any: [ 'data/mods/**' ]
     all: [ '!data/mods/TEST_DATA/**' ]

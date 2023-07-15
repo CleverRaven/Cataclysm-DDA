@@ -106,7 +106,8 @@
       { "item": "caravaggio_self_portrait", "prob": 50 },
       { "item": "artifact_shifter", "prob": 40 },
       { "item": "artifact_constructed_hammer", "prob": 50 },
-      { "item": "dreamer_coin_artifact", "prob": 50 }
+      { "item": "dreamer_coin_artifact", "prob": 50 },
+      { "item": "artifact_stalker_eyes", "prob": 50 }
     ]
   },
   {
@@ -118,7 +119,8 @@
       { "item": "artifact_sapient_light", "prob": 50 },
       { "item": "artifact_bubble", "prob": 50 },
       { "item": "artifact_ophanim", "prob": 50 },
-      { "item": "artifact_winch", "prob": 50 }
+      { "item": "artifact_winch", "prob": 50 },
+      { "item": "artifact_devil_tail", "prob": 50 }
     ]
   },
   {

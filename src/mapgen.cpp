@@ -55,6 +55,7 @@
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"
+#include "math_parser_jmath.h"
 #include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -111,7 +112,6 @@ static const itype_id itype_jp8( "jp8" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 static const mongroup_id GROUP_LAB( "GROUP_LAB" );
 static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
 static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
@@ -316,6 +316,8 @@ class mapgen_basic_container
 {
     private:
         std::vector<std::shared_ptr<mapgen_function>> mapgens_;
+        //mapgens that need to be recalculated with a function when spawned
+        std::vector<std::shared_ptr<mapgen_function>> mapgens_to_recalc_;
         weighted_int_list<std::shared_ptr<mapgen_function>> weights_;
 
     public:
@@ -336,7 +338,12 @@ class mapgen_basic_container
          * @p hardcoded_weight Weight for an additional entry. If that entry is chosen,
          * false is returned. If unsure, just use 0 for it.
          */
-        bool generate( mapgendata &dat, const int hardcoded_weight ) const {
+        bool generate( mapgendata &dat, const int hardcoded_weight ) {
+            for( const std::shared_ptr<mapgen_function> &ptr : mapgens_to_recalc_ ) {
+                dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+                weights_.add_or_replace( ptr, ptr->weight * ptr->weight_function->eval( d ) );
+            }
+
             if( hardcoded_weight > 0 &&
                 rng( 1, weights_.get_weight() + hardcoded_weight ) > weights_.get_weight() ) {
                 return false;
@@ -356,11 +363,16 @@ class mapgen_basic_container
          */
         void setup() {
             for( const std::shared_ptr<mapgen_function> &ptr : mapgens_ ) {
-                const int weight = ptr->weight;
+                int weight = ptr->weight;
                 if( weight < 1 ) {
                     continue; // rejected!
                 }
                 weights_.add( ptr, weight );
+
+                if( !ptr->weight_function.is_empty() ) {
+                    mapgens_to_recalc_.push_back( ptr );
+                }
+
                 ptr->setup();
             }
             // Not needed anymore, pointers are now stored in weights_ (or not used at all)
@@ -468,7 +480,7 @@ class mapgen_factory
             return mapgens_[key].add( ptr );
         }
         /// @see mapgen_basic_container::generate
-        bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) const {
+        bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) {
             const auto iter = mapgens_.find( key );
             if( iter == mapgens_.end() ) {
                 return false;
@@ -613,15 +625,19 @@ std::shared_ptr<mapgen_function>
 load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset,
                       const point &total )
 {
-    int mgweight = jio.get_int( "weight", 1000 );
-    if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
+    jmath_func_id weight_func;
+    int weight;
+    optional( jio, false, "weight_func", weight_func );
+    optional( jio, false, "weight", weight, 1000 );
+
+    if( jio.get_bool( "disabled", false ) ) {
         jio.allow_omitted_members();
         return nullptr; // nothing
     }
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "builtin" ) {
         if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
-            return std::make_shared<mapgen_function_builtin>( ptr, mgweight );
+            return std::make_shared<mapgen_function_builtin>( ptr, weight_func, weight );
         } else {
             jio.throw_error_at( "name", "function does not exist" );
         }
@@ -632,7 +648,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
         JsonObject jo = jio.get_object( "object" );
         jo.allow_omitted_members();
         return std::make_shared<mapgen_function_json>(
-                   jo, mgweight, "mapgen " + id_base, offset, total );
+                   jo, weight_func, weight, "mapgen " + id_base, offset, total );
     } else {
         jio.throw_error_at( "method", R"(invalid value: must be "builtin" or "json")" );
     }
@@ -813,9 +829,9 @@ mapgen_function_json_base::mapgen_function_json_base(
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
-mapgen_function_json::mapgen_function_json( const JsonObject &jsobj, const int w,
-        const std::string &context, const point &grid_offset, const point &grid_total )
-    : mapgen_function( w )
+mapgen_function_json::mapgen_function_json( const JsonObject &jsobj, jmath_func_id weight_func,
+        const int w, const std::string &context, const point &grid_offset, const point &grid_total )
+    : mapgen_function( weight_func, w )
     , mapgen_function_json_base( jsobj, context )
     , fill_ter( t_null )
     , rotation( 0 )
@@ -2421,7 +2437,7 @@ class jmapgen_monster : public jmapgen_piece
                     { x.get(), y.get(), dat.m.get_abs_sub().z() },
                     friendly, -1, mission_id, name, data );
                 }
-            } else {
+            } else if( ids.is_valid() ) {
                 mtype_id chosen_type = ids.pick()->get( dat );
                 if( !chosen_type.is_null() ) {
                     dat.m.add_spawn( chosen_type, spawn_count * pack_size.get(),
@@ -2495,8 +2511,11 @@ class jmapgen_vehicle : public jmapgen_piece
                 return;
             }
             tripoint const dst( x.get(), y.get(), dat.m.get_abs_sub().z() );
-            dat.m.add_vehicle( chosen_id, dst.xy(), random_entry( rotation ),
-                               fuel, status, true, faction );
+            vehicle *veh = dat.m.add_vehicle( chosen_id->pick(), dst, random_entry( rotation ),
+                                              fuel, status );
+            if( veh && !faction.empty() ) {
+                veh->set_owner( faction_id( faction ) );
+            }
             if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
                 dat.m.queue_main_cleanup();
             }
@@ -5748,53 +5767,6 @@ void map::draw_lab( mapgendata &dat )
                     }
                     break;
                 }
-                // radioactive accident.
-                case 6: {
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z() );
-                    if( has_flag_ter( ter_furn_flag::TFLAG_WALL, center.xy() ) ) {
-                        // just skip it, we don't want to risk embedding radiation out of sight.
-                        break;
-                    }
-                    draw_rough_circle( [this]( const point & p ) {
-                        set_radiation( p, 10 );
-                    }, center.xy(), rng( 7, 12 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 20 );
-                    }, center.xy(), rng( 5, 8 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 30 );
-                    }, center.xy(), rng( 2, 4 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 50 );
-                    }, center.xy(), 1 );
-                    draw_circle( [this]( const point & p ) {
-                        if( has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p ) ||
-                            has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p ) ||
-                            has_flag_ter( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
-                            return; // spare stairs and consoles.
-                        }
-                        make_rubble( {p, abs_sub.z() } );
-                        ter_set( p, t_thconc_floor );
-                    }, center.xy(), 1 );
-
-                    place_spawns( GROUP_HAZMATBOT, 1, center.xy() + point_west,
-                                  center.xy() + point_west, 1, true );
-                    place_spawns( GROUP_HAZMATBOT, 2, center.xy() + point_west,
-                                  center.xy() + point_west, 1, true );
-
-                    // damaged mininuke/plut thrown past edge of rubble so the player can see it.
-                    point marker( center.xy() + point( -2 + 4 * rng( 0, 1 ), rng( -2, 2 ) ) );
-                    if( one_in( 4 ) ) {
-                        spawn_item( marker,
-                                    "mininuke", 1, 1, calendar::turn_zero, rng( 2, 4 ) );
-                    } else {
-                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
-                        newliquid.charges = 1;
-                        add_item_or_charges( tripoint( marker, get_abs_sub().z() ),
-                                             newliquid );
-                    }
-                    break;
-                }
                 // portal with fungal invasion
                 case 7: {
                     for( int i = 0; i < EAST_EDGE; i++ ) {
@@ -5965,10 +5937,6 @@ void map::draw_lab( mapgendata &dat )
                             spawn_item( point( SEEX - 1, SEEY ), "recipe_atomic_battery" );
                             spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         } else if( loot_variant < 89 ) {
-                            spawn_item( point( SEEX - 1, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX - 1, SEEY ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX, SEEY ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX, SEEY ), "recipe_atomic_battery" );
                             spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         }  else { // loot_variant between 90 and 96.
@@ -6619,31 +6587,8 @@ void map::add_spawn(
     place_on_submap->spawns.push_back( tmp );
 }
 
-vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction,
-                           bool may_spawn_locked )
-{
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction,
-                        may_spawn_locked );
-}
-
-vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction, bool may_spawn_locked )
-{
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction,
-                        may_spawn_locked );
-}
-
-vehicle *map::add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction, bool may_spawn_locked )
-{
-    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks,
-                        faction, may_spawn_locked );
-}
-
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction,
-                           bool may_spawn_locked )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
@@ -6655,13 +6600,11 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         return nullptr;
     }
 
-    auto veh = std::make_unique<vehicle>( *this, type, veh_fuel, veh_status, may_spawn_locked );
+    std::unique_ptr<vehicle> veh = std::make_unique<vehicle>( type );
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
-    if( !faction.empty() ) {
-        veh->set_owner( faction_id( faction ) );
-    }
+    veh->init_state( *this, veh_fuel, veh_status );
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
@@ -6809,10 +6752,11 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
                     std::set<int> parts_to_check;
                     for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
+                        vehicle_part &vp = veh_to_add->part( parts_in_square[index] );
                         if( handler_ptr ) {
-                            veh_to_add->remove_part( parts_in_square[index], *handler_ptr );
+                            veh_to_add->remove_part( vp, *handler_ptr );
                         } else {
-                            veh_to_add->remove_part( parts_in_square[index] );
+                            veh_to_add->remove_part( vp );
                         }
                         parts_to_check.insert( parts_in_square[index] );
                     }
@@ -7903,7 +7847,8 @@ mapgen_parameters get_map_special_params( const std::string &mapgen_id )
 int register_mapgen_function( const std::string &key )
 {
     if( const building_gen_pointer ptr = get_mapgen_cfunction( key ) ) {
-        return oter_mapgen.add( key, std::make_shared<mapgen_function_builtin>( ptr ) );
+        return oter_mapgen.add( key, std::make_shared<mapgen_function_builtin>( ptr,
+                                jmath_func_id() ) );
     }
     return -1;
 }

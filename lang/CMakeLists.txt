@@ -33,7 +33,7 @@ foreach (LANG ${LANGUAGES})
     add_custom_command(
             OUTPUT ${_MO}
             COMMAND ${CMAKE_COMMAND} -E
-                make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}
+                make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
             COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -f ${_PO} -o ${_MO}
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
             DEPENDS ${_PO}

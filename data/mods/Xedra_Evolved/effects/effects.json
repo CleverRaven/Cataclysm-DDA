@@ -483,7 +483,7 @@
     "id": "effect_endurance",
     "type": "effect_type",
     "name": [ "Endurance" ],
-    "desc": [ "Take the blows.  <color_red>Don’t let the world kill you<color>.  Your skin can stop a few attacks." ],
+    "desc": [ "Take the blows.  <color_red>Don’t let the world kill you</color>.  Your skin can stop a few attacks." ],
     "apply_message": "Your sense of touch is blunted for a bit, but your skin feels more dense.",
     "remove_message": "The sturdy feeling is gone.",
     "rating": "good",
@@ -510,7 +510,7 @@
     "type": "effect_type",
     "name": [ "Physical Instrument" ],
     "desc": [
-      "Your body is a tool of destruction.  <color_red>Use it effectively<color>.  Your attacks are faster and deadlier, and your dodging ability is better."
+      "Your body is a tool of destruction.  <color_red>Use it effectively</color>.  Your attacks are faster and deadlier, and your dodging ability is better."
     ],
     "apply_message": "You can feel a bubbling energy in your muscles.",
     "remove_message": "The feelings in your muscles subside.",
@@ -534,7 +534,7 @@
     "type": "effect_type",
     "id": "spell_speed_eff",
     "name": [ "Rush" ],
-    "desc": [ "A burst of <color_green>speed<color>." ],
+    "desc": [ "A burst of <color_green>speed</color>." ],
     "apply_message": "You feel your legs are much longer now.",
     "remove_message": "Your body shrinks back into its normal space.",
     "rating": "good",
@@ -576,7 +576,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "<color_green>Nothing can slow you down<color>, and your <color_red>pain<color> sensations are dull.",
+    "description": "<color_green>Nothing can slow you down</color>, and your <color_red>pain</color> sensations are dull.",
     "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
     "flags": [ "STEADY" ]
   },
@@ -617,6 +617,7 @@
     "id": "karma_arms",
     "name": { "str": "Karma" },
     "points": 1,
+    "visibility": 10,
     "description": "Ethereal hands appear behind you back, making you looks like an ancient god.",
     "valid": false,
     "starting_trait": false,
@@ -638,9 +639,55 @@
     "id": "spell_karma_arms_eff",
     "name": [ "" ],
     "desc": [ "" ],
-    "apply_message": "Ethereal, transparent arms grow from your shoulders, and <color_cyan>glow<color>.",
+    "apply_message": "Ethereal, transparent arms grow from your shoulders, and <color_cyan>glow</color>.",
     "remove_message": "The cyan arms grow dim, and finally disappear.",
     "rating": "good",
     "enchantments": [ { "mutations": [ "karma_arms" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "stalker_eyes",
+    "name": { "str": "Stalker's Vision" },
+    "points": 1,
+    "visibility": 1,
+    "description": "Your own eyes transform into the orbits of an unknown creature.  You see much better, both in the light and in the dark.",
+    "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "stalker_eyes_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "Your vision gets dark for a moment, and in a second, a whole new world is revealed under your eyes.",
+    "remove_message": "A great new world under your eyes disappears.",
+    "blocks_effects": [ "glare" ],
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "stalker_eyes" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "devil_tail",
+    "name": { "str": "Devil's Tail" },
+    "points": 1,
+    "visibility": 6,
+    "description": "Not actually devil's, this long tail with triangle point in the end can stretch for a lot, and could easily kill someone nearby.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "devil_tail_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "You feel like your spine stretched enormously.",
+    "remove_message": "Your devil tail disappear in the air.",
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "devil_tail" ] } ]
   }
 ]

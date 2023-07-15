@@ -34,7 +34,7 @@ class character_martial_arts
         void selected_style_check();
         bool keep_hands_free = false;
         /** Creates the UI and handles player input for picking martial arts styles */
-        bool pick_style( const avatar &you );
+        bool pick_style( const Character &you );
 
         bool knows_selected_style() const;
         bool selected_strictly_melee() const;

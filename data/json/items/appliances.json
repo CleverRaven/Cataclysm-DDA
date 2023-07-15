@@ -233,6 +233,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "wall_light",
+    "name": { "str": "disconnected wall light" },
+    "description": "A wall light that provides illumination when plugged into a grid.",
+    "weight": "500 g",
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "volume": "400 ml",
+    "longest_side": "20 cm",
+    "price": 9000,
+    "price_postapoc": 500,
+    "symbol": "L",
+    "color": "white",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
     "id": "standing_lamp",
     "name": { "str": "disconnected standing lamp" },
     "description": "A tall standing lamp that provides illumination when plugged into a power outlet.",
@@ -349,6 +365,36 @@
     "color": "green_white",
     "flags": [ "NO_SALVAGE" ],
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "active_backup_generator",
+    "name": { "str_sp": "backup generator" },
+    "looks_like": "f_active_backup_generator",
+    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.  It just needs to be plugged in, fueled up, and then turned on.",
+    "weight": "200 kg",
+    "to_hit": -10,
+    "material": [ "steel" ],
+    "volume": "200 L",
+    "longest_side": "80 cm",
+    "price": "350 USD",
+    "price_postapoc": "25 USD",
+    "//1": "Steel jerrycan (jerrycan_big) values. Must have this pocket, otherwise will not have any fuel capacity as an appliance.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "20 L",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "25 kg"
+      }
+    ],
+    "symbol": "O",
+    "color": "green_white",
+    "//2": "Prevent loading items into the generator while it's not in appliance form.",
+    "flags": [ "NO_RELOAD" ]
   },
   {
     "type": "GENERIC",

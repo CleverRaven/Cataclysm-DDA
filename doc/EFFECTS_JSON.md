@@ -1,4 +1,4 @@
-# Effect data
+# Effects
 
 ## How to give effects in-game?
 ### Comestibles

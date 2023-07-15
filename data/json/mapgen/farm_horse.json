@@ -1414,7 +1414,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "trail_intersection",
+    "om_terrain": "forest_trail_intersection",
     "weight": 250,
     "object": {
       "predecessor_mapgen": "forest",
@@ -1447,10 +1447,16 @@
       "palettes": [ "farm_lots" ],
       "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
       "place_nested": [
-        { "chunks": [ "14x14_trail_intersection_north" ], "x": 5, "y": 0, "neighbors": { "north": "trail" } },
-        { "chunks": [ "14x14_trail_intersection_east" ], "x": 10, "y": 5, "neighbors": { "east": "trail" } },
-        { "chunks": [ "14x14_trail_intersection_south" ], "x": 5, "y": 10, "neighbors": { "south": "trail" } },
-        { "chunks": [ "14x14_trail_intersection_west" ], "x": 0, "y": 5, "neighbors": { "west": "trail" } },
+        { "chunks": [ "14x14_forest_trail_intersection_north" ], "x": 5, "y": 0, "neighbors": { "north": "trail" } },
+        { "chunks": [ "14x14_forest_trail_intersection_east" ], "x": 10, "y": 5, "neighbors": { "east": "trail" } },
+        { "chunks": [ "14x14_forest_trail_intersection_south" ], "x": 5, "y": 10, "neighbors": { "south": "trail" } },
+        { "chunks": [ "14x14_forest_trail_intersection_west" ], "x": 0, "y": 5, "neighbors": { "west": "trail" } },
+        {
+          "chunks": [ "11x11_forest_trail_intersection_south_fire_lookout" ],
+          "x": 0,
+          "y": 13,
+          "neighbors": { "south": "ws_fire_lookout_tower_base" }
+        },
         { "chunks": [ [ "null", 25 ], [ "3x3_horseposts", 75 ] ], "x": 7, "y": 7 },
         {
           "chunks": [ [ "null", 25 ], [ "3x3_firering", 25 ], [ "3x3_trunks", 50 ] ],

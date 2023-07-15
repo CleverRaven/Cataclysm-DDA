@@ -1,4 +1,4 @@
-# Martial arts and techniques JSON file contents
+# Martial arts and Techniques
 
 ### Martial arts
 

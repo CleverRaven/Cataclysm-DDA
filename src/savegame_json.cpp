@@ -280,6 +280,7 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.member( "collapsed", collapsed );
     json.member( "disabled", disabled );
     json.member( "unload", unload );
+    json.member( "player_edited", player_edited );
     json.end_object();
 }
 
@@ -302,6 +303,11 @@ void item_pocket::favorite_settings::deserialize( const JsonObject &data )
     }
     if( data.has_member( "unload" ) ) {
         data.read( "unload", unload );
+    }
+    if( data.has_member( "player_edited" ) ) {
+        data.read( "player_edited", player_edited );
+    } else {
+        player_edited = true;
     }
 }
 
@@ -760,8 +766,6 @@ void Character::load( const JsonObject &data )
     data.read( "moncams", moncams );
 
     data.read( "magic", magic );
-
-    data.read( "underwater", underwater );
 
     data.read( "traits", my_traits );
     // If a trait has been migrated, we'll need to add it.
@@ -2045,15 +2049,15 @@ void dialogue_chatbin::deserialize( const JsonObject &data )
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
-    missions = mission::to_ptr_vector( tmpmissions );
+    missions = mission::to_ptr_vector( tmpmissions, /* ok_missing */ true );
     std::vector<int> tmpmissions_assigned;
     data.read( "missions_assigned", tmpmissions_assigned );
-    missions_assigned = mission::to_ptr_vector( tmpmissions_assigned );
+    missions_assigned = mission::to_ptr_vector( tmpmissions_assigned, /* ok_missing */ true );
 
     int tmpmission_selected = 0;
     mission_selected = nullptr;
     if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
-        mission_selected = mission::find( tmpmission_selected );
+        mission_selected = mission::find( tmpmission_selected, /* ok_missing */ true );
     }
 }
 
@@ -2703,6 +2707,8 @@ void monster::load( const JsonObject &data )
 
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
+
+    data.read( "grabbed_limbs", grabbed_limbs );
 }
 
 /*
@@ -2777,6 +2783,9 @@ void monster::store( JsonOut &json ) const
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
     json.member( "mounted_player_id", mounted_player_id );
+
+    // store grabbed limbs
+    json.member( "grabbed_limbs", grabbed_limbs );
 }
 
 void mon_special_attack::serialize( JsonOut &json ) const
@@ -3351,6 +3360,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "target_second_y", target.second.y );
     data.read( "target_second_z", target.second.z );
     data.read( "ammo_pref", ammo_pref );
+    data.read( "locked", locked );
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
@@ -3362,7 +3372,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 void vehicle_part::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "id", info_->get_id().str() );
+    json.member( "id", info_->id.str() );
     if( !variant.empty() ) {
         json.member( "variant", variant );
     }
@@ -3402,6 +3412,7 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "target_second_z", target.second.z );
     }
     json.member( "ammo_pref", ammo_pref );
+    json.member( "locked", locked );
     json.end_object();
 }
 
@@ -3569,6 +3580,7 @@ void vehicle::deserialize( const JsonObject &data )
 void vehicle::deserialize_parts( const JsonArray &data )
 {
     parts.clear();
+    parts.reserve( data.size() );
     for( const JsonValue jv : data ) {
         try {
             vehicle_part part;
@@ -5156,10 +5168,10 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
     } else if( member_name == "vehicles" ) {
         JsonArray vehicles_json = jv;
         for( JsonValue vehicle_json : vehicles_json ) {
-            std::unique_ptr<vehicle> tmp = std::make_unique<vehicle>();
             try {
-                tmp->deserialize( vehicle_json );
-                vehicles.push_back( std::move( tmp ) );
+                std::unique_ptr<vehicle> veh = std::make_unique<vehicle>( vproto_id() );
+                veh->deserialize( vehicle_json );
+                vehicles.emplace_back( std::move( veh ) );
             } catch( const JsonError &err ) {
                 debugmsg( err.what() );
             }

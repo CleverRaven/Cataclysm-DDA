@@ -77,12 +77,17 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
+static const flag_id json_flag_ALLERGEN_BREAD( "ALLERGEN_BREAD" );
+static const flag_id json_flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
+static const flag_id json_flag_ALLERGEN_DRIED_VEGETABLE( "ALLERGEN_DRIED_VEGETABLE" );
 static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 static const flag_id json_flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
 static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
+static const flag_id json_flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
 static const flag_id json_flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 static const flag_id json_flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 static const flag_id json_flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
+static const flag_id json_flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
 
 static const item_category_id item_category_chems( "chems" );
 
@@ -144,14 +149,16 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
-static const std::array<flag_id, 4> carnivore_blacklist {{
+static const std::array<flag_id, 6> carnivore_blacklist {{
         json_flag_ALLERGEN_VEGGY, json_flag_ALLERGEN_FRUIT,
-        json_flag_ALLERGEN_WHEAT, json_flag_ALLERGEN_NUT
+        json_flag_ALLERGEN_WHEAT, json_flag_ALLERGEN_NUT,
+        json_flag_ALLERGEN_BREAD, json_flag_ALLERGEN_DRIED_VEGETABLE
     }};
 
 static const std::array<flag_id, 2> herbivore_blacklist {{
@@ -729,6 +736,10 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             ( food.has_flag( flag_BIRD ) && !has_trait( trait_THRESH_BIRD ) ) ) {
             return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );
         }
+        if( !food.has_flag( flag_CATTLE ) && !food.has_flag( flag_FELINE ) &&
+            !food.has_flag( flag_LUPINE ) && !food.has_flag( flag_BIRD ) ) {
+            return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
+        }
     }
 
     if( food.is_craft() ) {
@@ -824,6 +835,16 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         // Like non-cannibal, but more strict!
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "The thought of eating that makes you feel sick." ) );
+    }
+    const std::array<flag_id, 6> vegan_blacklist {{
+            json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG,
+            json_flag_ALLERGEN_MILK, json_flag_ANIMAL_PRODUCT,
+            json_flag_ALLERGEN_CHEESE, flag_URSINE_HONEY
+        }};
+    if( has_trait( trait_VEGAN ) &&
+        food.has_any_flag( vegan_blacklist ) ) {
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                _( "You're still not going to eat animal products." ) );
     }
 
     for( const trait_id &mut : get_mutations() ) {
@@ -954,7 +975,7 @@ static bool eat( item &food, Character &you, bool force )
     int charges_used = 0;
     if( food.type->has_use() ) {
         if( !food.type->can_use( "PETFOOD" ) ) {
-            charges_used = food.type->invoke( you, food, you.pos() ).value_or( 0 );
+            charges_used = food.type->invoke( &you, food, you.pos() ).value_or( 0 );
             if( charges_used <= 0 ) {
                 return false;
             }
@@ -1714,7 +1735,7 @@ static bool consume_med( item &target, Character &you )
 
     int amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( you, target, you.pos() ).value_or( 0 );
+        amount_used = target.type->invoke( &you, target, you.pos() ).value_or( 0 );
         if( amount_used <= 0 ) {
             return false;
         }

@@ -118,12 +118,12 @@
         "          Raaa,R        ",
         "                        ",
         "                        ",
-        "         222222222223   ",
-        "         |..........5   ",
-        "         |..........3   ",
-        "         -----|.&...3   ",
-        "          R   |.....3   ",
-        "              ------3   ",
+        "         ------------   ",
+        "         -..........5   ",
+        "         -..........-   ",
+        "         ------.&...-   ",
+        "          R   -.....-   ",
+        "              -------   ",
         "                        ",
         "                        ",
         "                        ",
@@ -133,7 +133,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down", "&": "t_flat_roof" }
     }
   },
   {

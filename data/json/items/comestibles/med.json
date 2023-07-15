@@ -1568,6 +1568,31 @@
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
+    "id": "tums",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "antacid tablet" },
+    "description": "A common stomach soother in flavored tablet form.  Makes you less likely to vomit.",
+    "weight": "2 g",
+    "looks_like": "melatonin_tablet",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "charges": 20,
+    "fun": 1,
+    "stack_size": 25,
+    "symbol": "!",
+    "color": "white",
+    "container": "bottle_plastic_small",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN", "NPC_SAFE" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take an antacid tablet.",
+      "effects": [ { "id": "tummy_tablet", "duration": 6400 } ],
+      "vitamins": [ [ "calcium", 25 ] ]
+    }
+  },
+  {
     "id": "panacea",
     "type": "COMESTIBLE",
     "comestible_type": "MED",

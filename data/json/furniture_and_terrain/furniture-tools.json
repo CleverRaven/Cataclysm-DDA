@@ -1036,7 +1036,7 @@
   {
     "type": "furniture",
     "id": "f_catalytic_cracking_reactor",
-    "name": "catalytic cracking reactor",
+    "name": "disconnected catalytic cracking reactor",
     "looks_like": "f_machinery_light",
     "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  You can take this down and plug it into your own power grid to use it.",
     "symbol": "Y",
@@ -1044,6 +1044,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": 16,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "catalytic_cracking_reactor" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 40,
@@ -1250,6 +1251,60 @@
         { "item": "sheet_metal_small", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fvat_wood_empty",
+    "name": "wooden fermenting vat",
+    "looks_like": "f_fvat_empty",
+    "description": "A sealable 50-liter wooden vat for fermenting vinegar and various alcoholic brews.",
+    "symbol": "O",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "fvat_empty",
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 14 }, { "item": "cordage_6", "count": [ 150, 180 ] }, { "item": "splinter", "count": 2 } ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "cordage_6", "count": [ 80, 120 ] },
+        { "item": "splinter", "count": 2 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fvat_wood_full",
+    "name": "filled wooden fermenting vat",
+    "looks_like": "f_fvat_wood_empty",
+    "description": "A sealable 50-liter wooden vat for fermenting vinegar and various alcoholic brews.",
+    "symbol": "O",
+    "color": "brown_cyan",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "fvat_full",
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 14 }, { "item": "cordage_6", "count": [ 150, 180 ] }, { "item": "splinter", "count": 2 } ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "cordage_6", "count": [ 80, 120 ] },
+        { "item": "splinter", "count": 2 }
       ]
     }
   },

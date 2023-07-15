@@ -101,6 +101,25 @@
     "components": [ [ [ "sheet_metal", 1 ], [ "steel_standard", 1, "LIST" ] ], [ [ "clockworks", 2 ], [ "lock", 1 ] ] ]
   },
   {
+    "result": "door_lock",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "traps", 2 ],
+    "difficulty": 4,
+    "time": "25 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [
+      [ [ "steel_standard", 1, "LIST" ] ],
+      [ [ "clockworks", 2 ] ],
+      [ [ "clockworks", 2 ], [ "lock", 1 ] ],
+      [ [ "wire", 1 ] ]
+    ]
+  },
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "livestock_carrier",

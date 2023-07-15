@@ -170,6 +170,11 @@ void talker_monster::set_friendly( int new_val )
     me_mon->friendly = new_val;
 }
 
+bool talker_monster::get_is_alive() const
+{
+    return !me_mon->is_dead();
+}
+
 void talker_monster::die()
 {
     me_mon->die( nullptr );

@@ -69,6 +69,13 @@
     "upgrades": { "age_grow": 30, "into": "mon_acrocanthosaurus_juvenile" }
   },
   {
+    "id": "mon_giganotosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_allosaurus_hatchling",
+    "default_faction": "giganotosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_giganotosaurus_juvenile" }
+  },
+  {
     "id": "mon_siats_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_allosaurus_hatchling",

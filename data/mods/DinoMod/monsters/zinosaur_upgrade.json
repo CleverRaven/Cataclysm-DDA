@@ -134,6 +134,28 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_ziganotosaurus_brute",
+    "name": { "str": "Giganotosaurus Avenger" },
+    "copy-from": "mon_ziganotosaurus",
+    "description": "The shambling corpse of a huge predatory bipedal dinosaur with a strong chin.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_ziats_brute",
     "name": { "str": "Siats Stonehenge" },
     "copy-from": "mon_ziats",
@@ -1860,6 +1882,24 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_ziganotosaurus_shady",
+    "name": { "str": "shady giganotosaurus zombie" },
+    "copy-from": "mon_zallosaurus_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with big, sharp teeth.",
+    "upgrades": { "half_life": 15, "into": "mon_ziganotosaurus_nightstalker" },
+    "speed": 90,
+    "attack_cost": 90,
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "hp": 400,
+    "special_attacks": [ { "id": "bite_grab" }, { "id": "teeth_zino_mid", "cooldown": 10 }, [ "LUNGE", 20 ] ],
+    "burn_into": "mon_ziganotosaurus_scorched",
+    "fungalize_into": "mon_ziganotosaurus_fungus",
+    "armor": { "cut": 4, "bullet": 2, "bash": 4 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_ziats_shady",
     "name": { "str": "shady siats zombie" },
     "copy-from": "mon_zallosaurus_shady",
@@ -1868,7 +1908,12 @@
     "speed": 60,
     "attack_cost": 60,
     "hp": 365,
-    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 }, { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [
+      { "id": "bio_op_takedown", "cooldown": 20 },
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
+    ],
     "burn_into": "mon_ziats_scorched",
     "fungalize_into": "mon_ziats_fungus",
     "categories": [ "DINOSAUR" ]
@@ -2473,6 +2518,28 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_ziganotosaurus_nightstalker",
+    "name": { "str_sp": "giganotosaurus nightstalker" },
+    "copy-from": "mon_ziganotosaurus_shady",
+    "looks_like": "mon_ziganotosaurus_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with big, sharp teeth.",
+    "diff": 2,
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "upgrades": {  },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_ziats_nightstalker",
     "name": { "str_sp": "siats nightstalker" },
     "copy-from": "mon_ziats_shady",
@@ -2999,6 +3066,19 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_siganotosaurus",
+    "name": { "str_sp": "skeletal giganotosaurus" },
+    "copy-from": "mon_sallosaurus",
+    "description": "Monstrous columns of dense bone lifting sharp, curved teeth dripping with black goo.",
+    "speed": 90,
+    "attack_cost": 90,
+    "hp": 350,
+    "melee_dice": 5,
+    "melee_dice_sides": 8,
+    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_skiats",
     "name": { "str_sp": "skeletal siats" },
     "copy-from": "mon_sacrocanthosaurus",
@@ -3007,7 +3087,12 @@
     "melee_dice": 3,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 }, { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [
+      { "id": "bio_op_takedown", "cooldown": 20 },
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
+    ],
     "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
   },
   {
