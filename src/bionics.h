@@ -172,9 +172,8 @@ struct bionic_data {
      * Also prevents that bionic from being removed while this bionic is installed.
      */
     bionic_id required_bionic;
-    /**
 
-    /**Requirement to bionic installation*/
+    /**Requirement to bionic installation - this is a crafting requirement such as soldering_standard or surface_heat*/
     requirement_id installation_requirement;
 
     cata::flat_set<json_character_flag> flags;
