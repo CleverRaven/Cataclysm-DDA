@@ -13,7 +13,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Hug the imperfect doll.",
-      "effect_on_conditions": ["EOC_unvitrified_return"]
+      "effect_on_conditions": ["EOC_queue_unvitrified_return"]
       },
     "flags": [ "SLEEP_AID", "NO_SALVAGE","INTEGRATED","ZERO_WEIGHT" ]
     },
