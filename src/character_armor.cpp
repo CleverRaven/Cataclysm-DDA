@@ -186,36 +186,22 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         // The bio_ads CBM absorbs damage before hitting armor
         if( has_active_bionic( bio_ads ) ) {
-            if( elem.amount > 0 && get_power_level() > 24_kJ ) {
-                // ADS requires 25 kJ to trigger
-                // Assuming it absorbs damage at 10% efficiency, it can absorb at most 2500 J of energy
-                // Taking muzzle energy of 5.56mm ammo as a reference, 1936 J is equal to 44 damage
-                // Having this in mind, let's make 2500 J equal to 50 damage, which will be the maximum damage ADS can absorb
-                // while good for setting a sane max limit it means low damage attacks become too cheap to block.
-                // therefore, make the bionic linear so that worst case is 25 kj to reduce 50 damage
-                // costs energy equal to the 500xdamage, before it is reduced, regardless of how much it is reduced
-                // a 50 damage attack would incur the whole 25kJ. A 12 damage attack would cost 1440j
-                const int max_absorption = 40;
-                units::energy power_cost = units::from_joule( std::max( -25000.0f,
-                                           elem.amount * -500 ) );
-                float ads_factor = 0.0f;
-
-                // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
-                // Otherwise, divide the damage by X times, depending on damage type
-                // FIXME: Harcoded damage types
-                if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
-                    ads_factor = std::min( max_absorption, elem.amount ) * 0.25f;
-                } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
-                    ads_factor = std::min( max_absorption, elem.amount ) * 0.5f;
-                } else if( elem.type == STATIC( damage_type_id( "stab" ) ) ||
-                           elem.type == STATIC( damage_type_id( "bullet" ) ) ) {
-                    ads_factor = std::min( max_absorption, elem.amount ) * 0.75f;
-                }
-                if( ads_factor > 0.0f ) {
-                    elem.amount = elem.amount - ads_factor;
-                    mod_power_level( power_cost );
+            if( elem.amount > 0 && get_power_level() > bio_ads->power_trigger ) {
+                if( elem.type == damage_type::BASH ) {
+                    elem.amount -= rng( 1, 4 );
+                    mod_power_level( -bio_ads->power_trigger );
                     add_msg_if_player( m_good,
-                                       _( "The defensive forcefield surrounding your body ripples as it reduces velocity of incoming attack." ) );
+                                       _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
+                } else if( elem.type == damage_type::CUT ) {
+                    elem.amount -= rng( 2, 8 );
+                    mod_power_level( -bio_ads->power_trigger );
+                    add_msg_if_player( m_good,
+                                       _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
+                } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
+                    elem.amount -= rng( 4, 16 );
+                    mod_power_level( -bio_ads->power_trigger );
+                    add_msg_if_player( m_good,
+                                       _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
                 }
             }
             if( elem.amount < 0 ) {
