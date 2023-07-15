@@ -48,11 +48,11 @@ template <typename W, typename T> struct weighted_list {
         }
 
         void remove( const T &obj ) {
-            auto const itr_end = std::remove_if( objects.begin(),
+            auto itr_end = std::remove_if( objects.begin(),
             objects.end(), [&obj]( typename decltype( objects )::value_type const & itr ) {
                 return itr.obj == obj;
             } );
-            for( auto removed = itr_end; removed != objects.end(); ++removed ) {
+            for( decltype( itr_end ) removed = itr_end; removed != objects.end(); ++removed ) {
                 total_weight -= removed->weight;
             }
             objects.erase( itr_end, objects.end() );
