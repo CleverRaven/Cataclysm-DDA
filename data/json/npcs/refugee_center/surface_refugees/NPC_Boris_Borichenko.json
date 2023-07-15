@@ -94,7 +94,7 @@
         "topic": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1"
       },
       {
-        "text": "Boris, I'm sorry, but I could only find two people willing to help.  Can I pitch in myself?  [Spend 3 hours helping]",
+        "text": "Boris, I'm sorry, but I could only find two people willing to help.  Can I pitch in myself?  [Spend 5 hours helping]",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
@@ -486,7 +486,7 @@
     "speaker_effect": {
       "effect": [
         { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
-        { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "240 minutes" },
+        { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "300 minutes" },
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
       ]
     }
@@ -499,7 +499,7 @@
     "speaker_effect": {
       "effect": [
         { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 },
-        { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "180 minutes" },
+        { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "240 minutes" },
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
       ]
     }
@@ -507,7 +507,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_MakeDoWith4",
-    "dynamic_line": "That is quite alright, four should be enough though I appreciate your offer.  I will have to do my best even if it is painful, but four people will make it much easier.  My thanks, friend.",
+    "dynamic_line": "That is quite alright, four should be enough though I appreciate your offer.  Four people will make the job much easier and I will do my best even if it is painful.  My thanks, friend.",
     "responses": [ { "text": "Good to hear.  I'm sure everyone will appreciate that place being cleaned up.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [
