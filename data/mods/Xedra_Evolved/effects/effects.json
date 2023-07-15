@@ -246,16 +246,18 @@
     ],
     "max_intensity": 4,
     "blood_analysis_description": "Patient has dangerous levels of multiple chemicals in their blood.  Sedation and restraint suggested.",
-    "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "stim_amount": [ 1 ], "stim_tick": [ 500 ], "stim_max_val": [ 50 ] },
+    "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "stim_amount": [ 1 ], "stim_tick": [ 500 ], "stim_max_val": [ 50 ], "hurt_chance": [ 1 ],
+      "hurt_tick": [ 15000 ], "pain_amount": [ 0 ], "pain_chance": [ 2 ], "pain_tick": [ 400 ], "hurt_amount": [ 1 ] },
     "scaling_mods": {
       "perspiration_amount": [ 6 ],
       "perspiration_min": [ 1 ],
       "perspiration_chance": [ 2 ],
-      "perspiration_tick": [ 1500 ],
+      "perspiration_tick": [ 150 ],
       "pain_amount": [ 10 ],
       "pain_min": [ 1 ],
-      "pain_chance": [ 2 ],
-      "pain_tick": [ 600 ],
+      "hurt_amount": [ 1 ],
+      "pain_tick": [ -100 ],
+      "hurt_tick": [ -4925 ],
       "stim_max_val": [ 400 ]
     }
   },
