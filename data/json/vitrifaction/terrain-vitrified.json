@@ -2,7 +2,7 @@
   {
     "type": "terrain",
     "id": "t_quietfarm_north_ground",
-        "name": "concrete",
+    "name": "concrete",
     "description": "A newer segment of poured concrete with surface finishes for aesthetics and resistance to freeze-thaw cycles.",
     "symbol": ".",
     "color": "light_gray",
@@ -18,11 +18,11 @@
       "str_min_supported": 100,
       "items": [ { "item": "rock", "count": [ 2, 15 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
     }
-  },  
+  },
   {
     "type": "terrain",
     "id": "t_quietfarm_north_fence",
-        "name": "chickenwire fence",
+    "name": "chickenwire fence",
     "description": "A tall, rather flimsy fence made of planks and woven wire, suitable for containing small livestock like chickens.",
     "symbol": "LINE_OXOX",
     "color": "brown",
@@ -44,11 +44,11 @@
       "ter_set": "t_chickenwire_fence_post",
       "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
     }
-  }, 
+  },
   {
     "type": "terrain",
     "id": "t_quietfarm_west_fence",
-        "name": "chickenwire fence",
+    "name": "chickenwire fence",
     "description": "A tall, rather flimsy fence made of planks and woven wire, suitable for containing small livestock like chickens.",
     "symbol": "LINE_OXOX",
     "color": "brown",
@@ -70,11 +70,11 @@
       "ter_set": "t_chickenwire_fence_post",
       "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
     }
-  }, 
+  },
   {
     "type": "terrain",
     "id": "t_quietfarm_east_fence",
-        "name": "chickenwire fence",
+    "name": "chickenwire fence",
     "description": "A tall, rather flimsy fence made of planks and woven wire, suitable for containing small livestock like chickens.",
     "symbol": "LINE_OXOX",
     "color": "brown",
@@ -96,11 +96,11 @@
       "ter_set": "t_chickenwire_fence_post",
       "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
     }
-  }, 
+  },
   {
     "type": "terrain",
     "id": "t_quietfarm_south_fence",
-        "name": "chickenwire fence",
+    "name": "chickenwire fence",
     "description": "A tall, rather flimsy fence made of planks and woven wire, suitable for containing small livestock like chickens.",
     "symbol": "LINE_OXOX",
     "color": "brown",
@@ -122,7 +122,7 @@
       "ter_set": "t_chickenwire_fence_post",
       "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
     }
-  }, 
+  },
   {
     "type": "terrain",
     "id": "t_vitrified_dirt",
@@ -151,9 +151,8 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD","SUPPORTS_ROOF" ]
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ]
   },
-  
   {
     "type": "terrain",
     "id": "t_vitrified_tile",
@@ -164,7 +163,6 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ]
   },
-  
   {
     "type": "terrain",
     "id": "t_vitrified_wall",
@@ -185,7 +183,6 @@
     "move_cost": 0,
     "flags": [ "NOITEM", "WALL" ]
   },
-  
   {
     "type": "terrain",
     "id": "t_vitrified_door",
@@ -197,12 +194,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_vitrified_roof",
-    "flags": [
-      "NOITEM",
-      "REDUCE_SCENT",
-      "CONNECT_WITH_WALL",
-      "SUPPORTS_ROOF"
-    ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_WITH_WALL", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 5,
       "str_max": 13,
@@ -211,7 +203,7 @@
       "sound": "crunch!",
       "sound_fail": "tink!",
       "ter_set": "t_vitrified_window_frame",
-    "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "shoot": { "chance_to_hit": 20, "reduce_damage": [ 10, 25 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 70 ] }
   },
@@ -280,7 +272,7 @@
     },
     "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
   },
-    {
+  {
     "type": "terrain",
     "id": "t_vitrified_sand",
     "name": "black glass dust",
@@ -304,13 +296,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [
-      "NOITEM",
-      "CONNECT_WITH_WALL",
-      "BLOCK_WIND",
-      "WINDOW",
-      "SUPPORTS_ROOF"
-    ],
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -319,9 +305,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_vitrified_window_frame",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
   },
@@ -367,15 +351,7 @@
     "looks_like": "t_fence",
     "move_cost": 0,
     "examine_action": "chainfence",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "CLIMBABLE",
-      "AUTO_WALL_SYMBOL",
-      "SHARP"
-    ],
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "SHARP" ],
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "bash": {
@@ -396,7 +372,7 @@
     "color": "dark_gray",
     "looks_like": "t_fence_post",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE","SHARP" ],
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHARP" ],
     "bash": {
       "str_min": 8,
       "str_max": 20,
@@ -416,7 +392,7 @@
     "color": "light_gray",
     "move_cost": 6,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE","SHARP" ]
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHARP" ]
   },
   {
     "type": "terrain",
@@ -434,9 +410,7 @@
       "sound": "a tremendous shattering!",
       "sound_fail": "clonk!",
       "ter_set": "t_vitrified_sand",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -468,7 +442,7 @@
     "looks_like": "t_water_pool",
     "color": "black",
     "move_cost": 7,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHARP"],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHARP" ],
     "connect_groups": "POOLWATER",
     "connects_to": "POOLWATER"
   },
@@ -479,20 +453,18 @@
     "looks_like": "t_tree",
     "description": "A flourishing tree, its branches heavy with apples. Every black leaf is razor-edged; every heavy fruit turns to dust at the touch.",
     "symbol": "7",
-    "color": [ "dark_gray"],
+    "color": [ "dark_gray" ],
     "//": "barren in winter, fruits in autumn",
     "move_cost": 0,
     "coverage": 80,
-    "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "glass shattering!",
       "sound_fail": "whack!",
       "ter_set": "t_vitrified_dirt",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -505,7 +477,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 80,
-    "flags": ["NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 70,
       "str_max": 140,
@@ -515,7 +487,6 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
-
   {
     "type": "terrain",
     "id": "t_vitrified_bush",
@@ -533,12 +504,9 @@
       "sound": "crunch.",
       "sound_fail": "clink.",
       "ter_set": "t_vitrified_dirt",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
-  
   {
     "type": "terrain",
     "id": "t_vitrified_stairs_down",
@@ -576,11 +544,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_wood_stairs_up_broken",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ]  }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
-  },  
+  },
   {
     "type": "terrain",
     "id": "t_vitrified_downspout",
@@ -598,7 +564,7 @@
       "sound": "crunch!",
       "sound_fail": "plink.",
       "ter_set": "t_vitrified_dirt",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ]  } ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -631,6 +597,7 @@
       "sound": "crunch!",
       "sound_fail": "plink.",
       "ter_set": "t_vitrified_roof",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ]  }  ]
-    }}
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
+    }
+  }
 ]

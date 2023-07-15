@@ -1,5 +1,5 @@
 [
-    {
+  {
     "id": "imperfect_doll_complete",
     "type": "GENERIC",
     "name": { "str": "imperfect doll" },
@@ -13,13 +13,11 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Hug the imperfect doll.",
-      "effect_on_conditions": ["EOC_queue_unvitrified_return"]
-      },
-    "flags": [ "SLEEP_AID", "NO_SALVAGE","INTEGRATED","ZERO_WEIGHT" ]
+      "effect_on_conditions": [ "EOC_queue_unvitrified_return" ]
     },
-    
-    
-    {
+    "flags": [ "SLEEP_AID", "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "imperfect_doll_legs",
     "type": "GENERIC",
     "name": { "str": "floppy cotton legs" },
@@ -30,10 +28,9 @@
     "price_postapoc": 0,
     "symbol": "i",
     "color": "dark_gray",
-    "flags": ["NO_SALVAGE","INTEGRATED","ZERO_WEIGHT" ]
-    },
-    
-    {
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "imperfect_doll_arms",
     "type": "GENERIC",
     "name": { "str": "threadbare cotton arms" },
@@ -44,10 +41,9 @@
     "price_postapoc": 0,
     "symbol": "i",
     "color": "cyan",
-    "flags": ["NO_SALVAGE","INTEGRATED","ZERO_WEIGHT" ]
-    },
-    
-    {
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "imperfect_doll_features",
     "type": "GENERIC",
     "name": { "str": "buttons and thread" },
@@ -58,10 +54,9 @@
     "price_postapoc": 0,
     "symbol": "i",
     "color": "dark_gray",
-    "flags": ["NO_SALVAGE","INTEGRATED","ZERO_WEIGHT" ]
-    },
-    
-    {
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "glass_book",
     "type": "GENERIC",
     "name": { "str": "battered glass storybook" },
@@ -74,10 +69,9 @@
     "price_postapoc": 0,
     "symbol": "i",
     "color": "dark_gray",
-    "flags": ["NO_SALVAGE" ]
-    },
-    
-    {
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "glass_apple",
     "type": "GENERIC",
     "name": { "str": "withered glass apple" },
@@ -90,10 +84,9 @@
     "price_postapoc": 0,
     "symbol": "i",
     "color": "dark_gray",
-    "flags": ["NO_SALVAGE" ]
-    },
-    
-    {
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "glass_boat",
     "type": "GENERIC",
     "name": { "str": "broken glass boat" },
@@ -106,10 +99,9 @@
     "price_postapoc": 0,
     "symbol": "i",
     "color": "dark_gray",
-    "flags": ["NO_SALVAGE" ]
-    },
-    
-   {
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "black_glass_shard",
     "symbol": ",",
@@ -124,4 +116,4 @@
     "to_hit": -1,
     "melee_damage": { "cut": 6 }
   }
-  ]
+]

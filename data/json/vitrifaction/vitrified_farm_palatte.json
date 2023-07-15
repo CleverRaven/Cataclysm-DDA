@@ -1,10 +1,21 @@
 [
-    {
+  {
     "type": "palette",
     "id": "vitrified_house_palatte",
     "furniture": {
       "A": "f_vitrified_chair",
-      "B": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
+      "B": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
       "D": "f_vitrified_chair",
       "F": "f_vitrified_bench",
       "G": "f_vitrified_mailbox",
@@ -22,24 +33,57 @@
       "U": "f_vitrified_rack",
       "W": "f_vitrified_washer",
       "X": "f_vitrified_birdbath",
-      "Y": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
+      "Y": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
       "Z": "f_vitrified_dryer",
-      "a":  "f_vitrified_floor_lamp" ,
+      "a": "f_vitrified_floor_lamp",
       "d": "f_vitrified_shower",
       "g": "f_vitrified_water_heater",
       "h": "f_vitrified_fireplace",
-      "i":  "f_vitrified_oven",
+      "i": "f_vitrified_oven",
       "j": "f_vitrified_sink",
       "n": "f_vitrified_sink",
       "k": "f_vitrified_fireplace",
       "l": "f_vitrified_fridge",
       "m": "f_vitrified_fridge",
       "p": "f_vitrified_flower",
-      "r": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
+      "r": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
       "t": "f_vitrified_toilet",
       "v": "f_vitrified_box",
       "w": "f_vitrified_rack",
-      "y": [ "f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
+      "y": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
       "z": "f_vitrified_rack"
     },
     "terrain": {
@@ -75,9 +119,7 @@
       "w": "t_vitrified_tile",
       "$": [ [ "t_tree_apple_vitrified", 2 ], [ "t_vitrified_tree", 2 ], "t_vitrified_tree" ]
     }
-    
-  },  
-  
+  },
   {
     "type": "palette",
     "id": "vitrified_garden_palette",
@@ -116,12 +158,34 @@
       "c": "f_vitrified_bench",
       "d": "f_vitrified_table",
       "e": "f_vitrified_bookcase",
-      "f": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
+      "f": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
       "g": [ "f_vitrified_flower", "f_vitrified_flower" ],
-      "h": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
+      "h": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
       "i": "f_vitrified_firering",
       "j": "f_vitrified_fireplace",
-      "k":  "f_vitrified_flower" ,
+      "k": "f_vitrified_flower",
       "l": "f_vitrified_birdbath",
       "p": "f_vitrified_flower"
     },
@@ -140,11 +204,7 @@
   {
     "type": "palette",
     "id": "orchard_vitrified_palette",
-    "terrain": {
-      " ": "t_vitrified_grass",
-      "*": "t_vitrified_dirt",
-      "7": ["t_tree_apple_vitrified"]
-    }
+    "terrain": { " ": "t_vitrified_grass", "*": "t_vitrified_dirt", "7": [ "t_tree_apple_vitrified" ] }
   },
   {
     "type": "palette",
@@ -175,11 +235,44 @@
       "V": "f_vitrified_bookcase",
       "W": "f_vitrified_washer",
       "X": "f_vitrified_birdbath",
-      "Y": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
+      "Y": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
       "Z": "f_vitrified_dryer",
       "a": "f_vitrified_floor_lamp",
-      "b": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
-      "c": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
+      "b": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
+      "c": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
       "e": "f_vitrified_table",
       "g": "f_vitrified_water_heater",
       "h": "f_vitrified_fireplace",
@@ -197,9 +290,31 @@
       "v": "f_vitrified_box",
       "w": "f_vitrified_rack",
       "x": "f_vitrified_bookcase",
-      "y": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"],
+      "y": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ],
       "z": "f_vitrified_box",
-      "?": ["f_glassedbody_1","f_glassedbody_2","f_glassedbody_3","f_glassedbody_4","f_glassedbody_5","f_glassedbody_6","f_glassedbody_7","f_glassedbody_8","f_glassedbody_9","f_glassedbody_10"]
+      "?": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ]
     },
     "terrain": {
       " ": "t_vitrified_floor",
@@ -222,8 +337,6 @@
       "c": "t_vitrified_floor",
       "Y": "t_vitrified_floor",
       "?": "t_vitrified_floor"
-      
     }
-
   }
 ]

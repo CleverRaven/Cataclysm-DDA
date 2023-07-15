@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "unvitrified_farm_0",
@@ -61,14 +61,7 @@
         "t": "t_linoleum_white",
         "Y": "t_quietfarm_north_ground"
       },
-      "furniture": {
-        "c": "f_cupboard",
-        "5": "f_sink",
-        "6": "f_cupboard",
-        "7": "f_cupboard",
-        "8": "f_counter",
-        "Y": "f_null"
-      },
+      "furniture": { "c": "f_cupboard", "5": "f_sink", "6": "f_cupboard", "7": "f_cupboard", "8": "f_counter", "Y": "f_null" },
       "items": {
         "5": { "item": "SUS_kitchen_sink", "chance": 100 },
         "6": { "item": "SUS_pantry", "chance": 60 },
@@ -81,26 +74,10 @@
         ]
       },
       "nested": {
-        "{": {
-          "chunks": [
-             "livingroom_5x5_W_1" 
-          ]
-        },
-        "}": {
-          "chunks": [
-            "diningroom_6x6_N_S_1B"
-          ]
-        },
-        "[": {
-          "chunks": [
-            "firepit_5x5_1"
-          ]
-        },
-        "]": {
-          "chunks": [
-             "greenhouse_6x6_herbal"
-          ]
-        }
+        "{": { "chunks": [ "livingroom_5x5_W_1" ] },
+        "}": { "chunks": [ "diningroom_6x6_N_S_1B" ] },
+        "[": { "chunks": [ "firepit_5x5_1" ] },
+        "]": { "chunks": [ "greenhouse_6x6_herbal" ] }
       }
     }
   },
@@ -137,30 +114,15 @@
         "------------------------"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": {
-        "_": "t_floor",
-        "#": "t_wall_b",
-        "H": "t_floor",
-        "s": "t_screened_porch_wall",
-        "R": "t_floor",
-        "u": "t_door_glass_c"
-      },
+      "terrain": { "_": "t_floor", "#": "t_wall_b", "H": "t_floor", "s": "t_screened_porch_wall", "R": "t_floor", "u": "t_door_glass_c" },
       "furniture": { "8": "f_counter" },
       "items": {
         "8": [ { "item": "shower", "chance": 10 }, { "item": "cleaning", "chance": 3 }, { "item": "softdrugs", "chance": 5 } ]
       },
       "nested": {
-        "{": {
-          "chunks": [
-             "bedroom_4x4_adult_2_S"
-          ]
-        },
-        "}": {
-          "chunks": [
-             "home_office_4x4_N"
-          ]
-        },
-        "[": { "chunks": [ "bedroom_5x4_adult_unvitrified"] }
+        "{": { "chunks": [ "bedroom_4x4_adult_2_S" ] },
+        "}": { "chunks": [ "home_office_4x4_N" ] },
+        "[": { "chunks": [ "bedroom_5x4_adult_unvitrified" ] }
       }
     }
   },
@@ -241,17 +203,13 @@
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
-
-{
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "unvitrified_orchard" ],
     "weight": 100,
     "object": {
-        "set": [
-        { 
-            "point": "variable", "id": "unvitrified_orchard_center", "x": 12, "y": 12 }
-            ],
+      "set": [ { "point": "variable", "id": "unvitrified_orchard_center", "x": 12, "y": 12 } ],
       "fill_ter": "t_dirt",
       "rows": [
         "111111111111111111111111",
@@ -285,10 +243,9 @@
         "2": "t_quietfarm_east_fence",
         "3": "t_quietfarm_south_fence",
         "4": "t_quietfarm_west_fence"
-        }
+      }
     }
   },
-
   {
     "type": "mapgen",
     "method": "json",

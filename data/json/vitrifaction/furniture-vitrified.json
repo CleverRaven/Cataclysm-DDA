@@ -16,9 +16,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },
-        {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_2",
     "name": "black glass figure",
@@ -35,9 +35,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },  
-      {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_3",
     "name": "black glass figure",
@@ -54,9 +54,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },  
-      {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_4",
     "name": "black glass figure",
@@ -73,9 +73,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },  
-      {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_5",
     "name": "black glass figure",
@@ -92,9 +92,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },  
-      {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_6",
     "name": "black glass figure",
@@ -111,9 +111,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },  
-      {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_7",
     "name": "black glass figure",
@@ -130,9 +130,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },  
-      {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_8",
     "name": "black glass figure",
@@ -149,9 +149,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },  
-      {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_9",
     "name": "black glass figure",
@@ -168,9 +168,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },  
-      {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_10",
     "name": "black glass figure",
@@ -187,9 +187,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },  
-      {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_glassedbody_11",
     "name": "black glass figure",
@@ -206,10 +206,9 @@
       "sound": "crunch!",
       "sound_fail": "tink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-      }
-      },
-  
-   {
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_vitrified_bed",
     "name": "black glass bed",
@@ -221,21 +220,16 @@
     "comfort": 0,
     "floor_bedding_warmth": 0,
     "required_str": -1,
-    "deconstruct": { "items": [ 
-    { 
-    "item": "black_glass_shard","count": [ 10, 20 ] }
-    ]},
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 10, 20 ] } ] },
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "crunch!",
       "sound_fail": "clink.",
-      "items": [
-        { 
-        "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
-    }},
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
+    }
+  },
   {
     "type": "furniture",
     "id": "f_vitrified_bathtub",
@@ -255,10 +249,7 @@
       "str_max": 50,
       "sound": "glass shattering!",
       "sound_fail": "clink!",
-      "items": [
-        { 
-        "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -272,9 +263,7 @@
     "coverage": 70,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "max_volume": "2000 L",
     "bash": {
       "str_min": 12,
@@ -295,9 +284,7 @@
     "coverage": 90,
     "required_str": 10,
     "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "max_volume": "2000 L",
     "bash": {
       "str_min": 12,
@@ -307,7 +294,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
-    {
+  {
     "type": "furniture",
     "id": "f_vitrified_armchair",
     "name": "black glass armchair",
@@ -325,12 +312,10 @@
       "str_max": 40,
       "sound": "crunch!",
       "sound_fail": "clink.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
-    {
+  {
     "type": "furniture",
     "id": "f_vitrified_chair",
     "name": "black glass chair",
@@ -349,12 +334,10 @@
       "str_max": 12,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
-    {
+  {
     "type": "furniture",
     "id": "f_vitrified_desk",
     "name": "black glass desk",
@@ -365,24 +348,20 @@
     "coverage": 45,
     "required_str": 5,
     "crafting_pseudo_item": "medium_surface_pseudo",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF","SHARP","PAINFUL" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "SHARP", "PAINFUL" ],
     "rotates_to": "INDOORFLOOR",
-    "deconstruct": {
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "crunch!",
       "sound_fail": "clink.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 0.7, "mass": 2000, "volume": "75L" }
   },
-    {
+  {
     "type": "furniture",
     "id": "f_vitrified_locker",
     "name": "black glass locker",
@@ -394,23 +373,17 @@
     "required_str": 9,
     "flags": [ "BLOCKSDOOR" ],
     "rotates_to": "INDOORFLOOR",
-    "deconstruct": {
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "max_volume": "500 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "glass crunching!",
       "sound_fail": "clink.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
-    {
+  {
     "type": "furniture",
     "id": "f_vitrified_oven",
     "name": "black glass oven",
@@ -422,20 +395,14 @@
     "coverage": 60,
     "required_str": 10,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "max_volume": "120 L",
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "glass crunching!",
       "sound_fail": "clink.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -448,18 +415,14 @@
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] }]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "max_volume": "10 L",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -480,9 +443,7 @@
       "str_max": 30,
       "sound": "glass crunching!",
       "sound_fail": "clink.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -504,9 +465,7 @@
       "str_max": 30,
       "sound": "glass crunching!",
       "sound_fail": "clink.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -519,7 +478,7 @@
     "move_cost_mod": 2,
     "coverage": 30,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "MOUNTABLE"],
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -542,17 +501,13 @@
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "rotates_to": "INDOORFLOOR",
-    "deconstruct": {
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "glass crunching!",
       "sound_fail": "clink.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 2000, "volume": "75L" }
@@ -568,9 +523,7 @@
     "coverage": 30,
     "required_str": 4,
     "flags": [ "TRANSPARENT", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "max_volume": "30 L",
     "bash": {
       "str_min": 6,
@@ -580,7 +533,6 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
-
   {
     "type": "furniture",
     "id": "f_vitrified_planter",
@@ -591,17 +543,15 @@
     "move_cost_mod": 1,
     "required_str": 10,
     "looks_like": "t_dirtmound",
-    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE", "SHARP","PAINFUL" ],
+    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE", "SHARP", "PAINFUL" ],
     "bash": {
       "str_min": 6,
       "str_max": 14,
       "sound": "crunch.",
       "sound_fail": "plink!",
-      "items": [
-        { 
-        "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
-    }},
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
+    }
+  },
   {
     "type": "furniture",
     "id": "f_vitrified_flower",
@@ -615,7 +565,7 @@
     "flags": [ "TRANSPARENT", "TINY", "NOCOLLIDE", "FLOWER", "SHARP", "PAINFUL" ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "tinkle.", "sound_fail": "plink." }
   },
-{
+  {
     "type": "furniture",
     "id": "f_vitrified_bench",
     "name": "black glass bench",
@@ -628,17 +578,13 @@
     "floor_bedding_warmth": -1500,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "CAN_SIT" ],
-    "deconstruct": {
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "bash": {
       "str_min": 10,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -651,15 +597,13 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 12,
-    "flags": ["BLOCKSDOOR", "FLAT_SURF"],
+    "flags": [ "BLOCKSDOOR", "FLAT_SURF" ],
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -674,22 +618,16 @@
     "required_str": 12,
     "max_volume": "37500 ml",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
-    "deconstruct": {
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
-{
+  {
     "type": "furniture",
     "id": "f_vitrified_bookcase",
     "name": "black glass bookcase",
@@ -729,7 +667,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] }]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
@@ -744,18 +682,14 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 5,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF","PLACE_ITEM" ],
-    "deconstruct": {
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    },
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "clink.",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ]}
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
@@ -775,7 +709,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "clunk.",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] }]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -796,9 +730,7 @@
       "sound_fail": "clunk.",
       "sound_vol": 16,
       "sound_fail_vol": 12,
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -812,18 +744,16 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "NOITEM"],
+    "flags": [ "NOITEM" ],
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
-{
+  {
     "type": "furniture",
     "id": "f_vitrified_fireplace",
     "name": "black glass fireplace",
@@ -833,15 +763,16 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "TRANSPARENT","SHARP","PAINFUL" ],
+    "flags": [ "TRANSPARENT", "SHARP", "PAINFUL" ],
     "examine_action": "fireplace",
     "bash": {
       "str_min": 30,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "clunk.",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] }]
-  }},
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
+    }
+  },
   {
     "id": "f_vitrified_firering",
     "type": "furniture",
@@ -856,10 +787,9 @@
       "str_max": 105,
       "sound": "crash!",
       "sound_fail": "clink.",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ]
-    }],
-    "flags": [ "TRANSPARENT","SHARP","PAINFUL" ]
-  }
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ],
+      "flags": [ "TRANSPARENT", "SHARP", "PAINFUL" ]
+    }
   },
   {
     "type": "furniture",
@@ -871,15 +801,13 @@
     "color": "light_gray",
     "move_cost_mod": 2,
     "required_str": 1,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM"],
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "bonk!",
-      "items": [
-        { "item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -893,13 +821,13 @@
     "coverage": 90,
     "required_str": 3,
     "max_volume": "324 L",
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "HIDE_PLACE", "NO_SIGHT", "CONTAINER", "SHARP","PAINFUL" ],
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "HIDE_PLACE", "NO_SIGHT", "CONTAINER", "SHARP", "PAINFUL" ],
     "bash": {
       "str_min": 2,
       "str_max": 15,
       "sound": "crunch!",
       "sound_fail": "clink.",
-      "items": [ {"item": "black_glass_shard", "count": [ 40, 80 ] } ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -919,9 +847,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        {"item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   },
   {
@@ -942,10 +868,7 @@
       "str_max": 50,
       "sound": "crunch!",
       "sound_fail": "clang!",
-      "items": [
-        {"item": "black_glass_shard", "count": [ 40, 80 ] }
-      ]
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
   }
-
-  ]
+]
