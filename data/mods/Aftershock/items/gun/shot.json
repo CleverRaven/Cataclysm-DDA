@@ -72,15 +72,7 @@
     "dispersion": 350,
     "durability": 8,
     "clip_size": 8,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

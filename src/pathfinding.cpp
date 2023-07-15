@@ -331,10 +331,10 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         int dummy = -1;
                         const bool is_outside_veh = veh_at_internal( cur, dummy ) != veh;
 
-                        if( doors && veh->next_part_to_open( part, is_outside_veh ) ) {
+                        if( doors && veh->next_part_to_open( part, is_outside_veh ) != -1 ) {
                             // Handle car doors, but don't try to path through curtains
                             newg += 10; // One turn to open, 4 to move there
-                        } else if( locks && veh->next_part_to_unlock( part, is_outside_veh ) ) {
+                        } else if( locks && veh->next_part_to_unlock( part, is_outside_veh ) != -1 ) {
                             newg += 12; // 2 turns to open, 4 to move there
                         } else if( part >= 0 && bash > 0 ) {
                             // Car obstacle that isn't a door

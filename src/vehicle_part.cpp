@@ -135,8 +135,8 @@ std::string vehicle_part::name( bool with_prefix ) const
     if( base.engine_displacement() ) {
         res += string_format( _( "%gL " ), base.engine_displacement() / 100.0 );
     }
-    if( wheel_diameter() ) {
-        res += string_format( _( "%d\" " ), wheel_diameter() );
+    if( base.is_wheel() ) {
+        res += string_format( _( "%d\" " ), base.type->wheel->diameter );
     }
     res += info().name();
     if( base.has_var( "contained_name" ) ) {
@@ -233,7 +233,7 @@ itype_id vehicle_part::fuel_current() const
 bool vehicle_part::fuel_set( const itype_id &fuel )
 {
     if( is_engine() ) {
-        for( const itype_id &avail : info().engine_fuel_opts() ) {
+        for( const itype_id &avail : info().engine_info->fuel_opts ) {
             if( fuel == avail ) {
                 ammo_pref = fuel;
                 return true;
@@ -502,23 +502,6 @@ bool vehicle_part::fault_set( const fault_id &f )
     }
     base.faults.insert( f );
     return true;
-}
-
-int vehicle_part::wheel_area() const
-{
-    return info().wheel_area();
-}
-
-/** Get wheel diameter (inches) or return 0 if part is not wheel */
-int vehicle_part::wheel_diameter() const
-{
-    return base.is_wheel() ? base.type->wheel->diameter : 0;
-}
-
-/** Get wheel width (inches) or return 0 if part is not wheel */
-int vehicle_part::wheel_width() const
-{
-    return base.is_wheel() ? base.type->wheel->width : 0;
 }
 
 npc *vehicle_part::crew() const

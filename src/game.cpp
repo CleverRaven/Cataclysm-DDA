@@ -975,12 +975,8 @@ bool game::start_game()
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = v.v->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
+                    for( const int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
+                        vpart_reference( *v.v, sp ).items().clear();
                     }
 
                     auto mons = critter_tracker->find( u.get_location() );
@@ -9890,9 +9886,9 @@ void game::wield( item_location loc )
                 m.add_item( pos, to_wield );
                 break;
             case item_location::type::vehicle: {
-                const std::optional<vpart_reference> vp = m.veh_at( pos ).part_with_feature( "CARGO", false );
+                const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !vp || !vp->vehicle().add_item( vp->part_index(), to_wield ) ) {
+                if( !ovp || !ovp->vehicle().add_item( ovp->part(), to_wield ) ) {
                     m.add_item( pos, to_wield );
                 }
                 break;

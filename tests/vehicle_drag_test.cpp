@@ -59,7 +59,7 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
     // Remove all items from cargo to normalize weight.
     // turn everything on
     for( const vpart_reference &vp : veh_ptr->get_all_parts() ) {
-        veh_ptr->get_items( vp.part_index() ).clear();
+        veh_ptr->get_items( vp.part() ).clear();
         vp.part().enabled = true;
     }
     // close the doors

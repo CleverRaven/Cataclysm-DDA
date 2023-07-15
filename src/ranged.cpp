@@ -2021,11 +2021,9 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    const optional_vpart_position vp = here.veh_at( pos );
-    std::vector<vehicle_part *> cargo;
-    if( vp && weap.has_flag( flag_VEHICLE ) ) {
-        cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
-    }
+    const std::optional<vpart_reference> ovp_cargo = weap.has_flag( flag_VEHICLE )
+            ? here.veh_at( pos ).cargo()
+            : std::nullopt;
 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( !!ammo->ammo->casing ) {
@@ -2041,10 +2039,10 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
                 brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
-            } else if( cargo.empty() ) {
-                here.add_item_or_charges( eject, casing );
+            } else if( ovp_cargo ) {
+                ovp_cargo->vehicle().add_item( ovp_cargo->part(), casing );
             } else {
-                vp->vehicle().add_item( *cargo.front(), casing );
+                here.add_item_or_charges( eject, casing );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -2058,10 +2056,10 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( !( brass_catcher &&
                brass_catcher->put_in( linkage, item_pocket::pocket_type::CONTAINER ).success() ) ) {
-            if( cargo.empty() ) {
-                here.add_item_or_charges( eject, linkage );
+            if( ovp_cargo ) {
+                ovp_cargo->items().insert( linkage );
             } else {
-                vp->vehicle().add_item( *cargo.front(), linkage );
+                here.add_item_or_charges( eject, linkage );
             }
         }
     }
