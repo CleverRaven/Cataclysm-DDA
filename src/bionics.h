@@ -167,6 +167,13 @@ struct bionic_data {
      */
     std::set<bionic_id> available_upgrades;
 
+    /**
+     * Id of another bionic which this bionic needs to have installed to be installed.
+     * Also prevents that bionic from being removed while this bionic is installed.
+     */
+    bionic_id required_bionic;
+    /**
+
     /**Requirement to bionic installation*/
     requirement_id installation_requirement;
 
