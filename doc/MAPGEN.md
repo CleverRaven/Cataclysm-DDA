@@ -245,9 +245,21 @@ in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
 is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
 
-Values: number - *0 disables*
+Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 
 Default: 1000
+
+Examples:
+```json
+    "//": "disable this variant"
+    "weight": 0,
+    "//2": "constant weight"
+    "weight": 500,
+    "//3": "evaluated dynamically from global variable"
+    "weight": { "global_val": "my_weight" },
+    "//4": "evaluated dynamically from math expression"
+    "weight": { "math": [ "my_weight * u_val('time_since_cataclysm: days')" ] }
+```
 
 
 ## How "overmap_terrain" variables affect mapgen
