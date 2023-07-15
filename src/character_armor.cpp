@@ -187,17 +187,17 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         // The bio_ads CBM absorbs damage before hitting armor
         if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && get_power_level() > bio_ads->power_trigger ) {
-                if( elem.type == damage_type::BASH ) {
+                if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
                     elem.amount -= rng( 1, 4 );
                     mod_power_level( -bio_ads->power_trigger );
                     add_msg_if_player( m_good,
                                        _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
-                } else if( elem.type == damage_type::CUT ) {
+                } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
                     elem.amount -= rng( 2, 8 );
                     mod_power_level( -bio_ads->power_trigger );
                     add_msg_if_player( m_good,
                                        _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
-                } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
+                } else if( elem.type == STATIC( damage_type_id( "stab" ) ) || STATIC( damage_type_id( "bullet" ) ) {
                     elem.amount -= rng( 4, 16 );
                     mod_power_level( -bio_ads->power_trigger );
                     add_msg_if_player( m_good,
