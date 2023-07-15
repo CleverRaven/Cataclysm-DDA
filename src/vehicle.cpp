@@ -162,25 +162,32 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 }
 
 // Vehicle stack methods.
+vehicle_stack::vehicle_stack( vehicle &veh, vehicle_part &vp ) :
+    item_stack( &vp.items ), veh( veh ), vp( vp ) {}
+
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
 {
-    return myorigin->remove_item( part_num, it );
+    return veh.remove_item( vp, it );
 }
 
 void vehicle_stack::insert( const item &newitem )
 {
-    myorigin->add_item( part_num, newitem );
+    veh.add_item( vp, newitem );
+}
+
+int vehicle_stack::count_limit() const
+{
+    return MAX_ITEM_IN_VEHICLE_STORAGE;
 }
 
 units::volume vehicle_stack::max_volume() const
 {
-    const vehicle_part &vp = myorigin->part( part_num );
     const vpart_info &vpi = vp.info();
-    if( vpi.has_flag( VPFLAG_CARGO ) && !vp.is_broken() ) {
-        // Set max volume for vehicle cargo to prevent integer overflow
-        return std::min( vpi.size, 10000_liter );
+    if( !vpi.has_flag( VPFLAG_CARGO ) || vp.is_broken() ) {
+        return 0_ml;
     }
-    return 0_ml;
+    // Set max volume for vehicle cargo to prevent integer overflow
+    return std::min( vpi.size, 10000_liter );
 }
 
 // Vehicle class methods.
@@ -1903,7 +1910,7 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
         labels.erase( iter );
     }
 
-    for( item &i : get_items( vp_idx ) ) {
+    for( item &i : get_items( vp ) ) {
         // Note: this can spawn items on the other side of the wall!
         // TODO: fix this ^^
         if( !magic ) {
@@ -1927,22 +1934,20 @@ bool vehicle::do_remove_part_actual()
     map &here = get_map();
     for( std::vector<vehicle_part>::iterator it = parts.end(); it != parts.begin(); /*noop*/ ) {
         --it;
-        if( it->removed || it->is_fake ) {
+        vehicle_part &vp = *it;
+        if( vp.removed || vp.is_fake ) {
             // We are first stripping out removed parts and marking
             // their corresponding real parts as "not fake" so they are regenerated,
             // and then removing any parts that have been marked as removed.
             // This is assured by iterating from the end to the beginning as
             // fake parts are always at the end of the parts vector.
-            if( it->is_fake ) {
-                parts[it->fake_part_to].has_fake = false;
+            if( vp.is_fake ) {
+                parts[vp.fake_part_to].has_fake = false;
             } else {
-                vehicle_stack items = get_items( std::distance( parts.begin(), it ) );
-                while( !items.empty() ) {
-                    items.erase( items.begin() );
-                }
+                get_items( vp ).clear();
             }
-            if( it->is_real_or_active_fake() ) {
-                const tripoint pt = global_part_pos3( *it );
+            if( vp.is_real_or_active_fake() ) {
+                const tripoint pt = global_part_pos3( vp );
                 here.clear_vehicle_point_from_cache( this, pt );
             }
             it = parts.erase( it );
@@ -2457,6 +2462,11 @@ std::map<item, input_event> vpart_position::get_tools() const
     return res;
 }
 
+std::optional<vpart_reference> vpart_position::cargo() const
+{
+    return part_with_feature( VPFLAG_CARGO, true );
+}
+
 std::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
         const bool unbroken ) const
 {
@@ -2500,6 +2510,11 @@ std::optional<vpart_reference> optional_vpart_position::part_with_feature( const
         const bool unbroken ) const
 {
     return has_value() ? value().part_with_feature( f, unbroken ) : std::nullopt;
+}
+
+std::optional<vpart_reference> optional_vpart_position::cargo() const
+{
+    return has_value() ? value().cargo() : std::nullopt;
 }
 
 std::optional<vpart_reference> optional_vpart_position::avail_part_with_feature(
@@ -5468,22 +5483,6 @@ void vehicle::disable_smart_controller_if_needed()
     }
 }
 
-// total volume of all the things
-units::volume vehicle::stored_volume( const int part ) const
-{
-    return get_items( part ).stored_volume();
-}
-
-units::volume vehicle::max_volume( const int part ) const
-{
-    return get_items( part ).max_volume();
-}
-
-units::volume vehicle::free_volume( const int part ) const
-{
-    return get_items( part ).free_volume();
-}
-
 void vehicle::make_active( item_location &loc )
 {
     item &target = *loc;
@@ -5496,52 +5495,37 @@ void vehicle::make_active( item_location &loc )
     active_items.add( target, cargo_part->mount );
 }
 
-int vehicle::add_charges( int part, const item &itm )
+int vehicle::add_charges( vehicle_part &vp, const item &itm )
 {
     if( !itm.count_by_charges() ) {
         debugmsg( "Add charges was called for an item not counted by charges!" );
         return 0;
     }
-    const int ret = get_items( part ).amount_can_fit( itm );
+    const int ret = get_items( vp ).amount_can_fit( itm );
     if( ret == 0 ) {
         return 0;
     }
 
     item itm_copy = itm;
     itm_copy.charges = ret;
-    return add_item( part, itm_copy ) ? ret : 0;
+    return add_item( vp, itm_copy ) ? ret : 0;
 }
 
-std::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &pt, const item &obj )
+std::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &vp, const item &itm )
 {
-    int idx = index_of_part( &pt );
-    if( idx < 0 ) {
-        debugmsg( "Tried to add item to invalid part" );
-        return std::nullopt;
-    }
-    return add_item( idx, obj );
-}
-
-std::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item &itm )
-{
-    if( part < 0 || part >= static_cast<int>( parts.size() ) ) {
-        debugmsg( "int part (%d) is out of range", part );
-        return std::nullopt;
-    }
     // const int max_weight = ?! // TODO: weight limit, calculation per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
-    vehicle_part &p = parts[ part ];
-    if( p.is_broken() ) {
+    if( vp.is_broken() ) {
         return std::nullopt;
     }
 
-    if( p.base.is_gun() ) {
-        if( !itm.is_ammo() || !p.base.ammo_types().count( itm.ammo_type() ) ) {
+    if( vp.base.is_gun() ) {
+        if( !itm.is_ammo() || !vp.base.ammo_types().count( itm.ammo_type() ) ) {
             return std::nullopt;
         }
     }
     bool charge = itm.count_by_charges();
-    vehicle_stack istack = get_items( part );
+    vehicle_stack istack = get_items( vp );
     const int to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
         return std::nullopt; // @add_charges should be used in the latter case
@@ -5563,46 +5547,42 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item &
     if( itm_copy.is_bucket_nonempty() ) {
         // this is a vehicle, so there is only one pocket.
         // so if it will spill, spill all of it
-        itm_copy.spill_contents( global_part_pos3( part ) );
+        itm_copy.spill_contents( global_part_pos3( vp ) );
     }
 
-    const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
-    active_items.add( *new_pos, p.mount );
+    const vehicle_stack::iterator new_pos = vp.items.insert( itm_copy );
+    active_items.add( *new_pos, vp.mount );
 
     invalidate_mass();
     return std::optional<vehicle_stack::iterator>( new_pos );
 }
 
-bool vehicle::remove_item( int part, item *it )
+bool vehicle::remove_item( vehicle_part &vp, item *it )
 {
-    const cata::colony<item> &veh_items = parts[part].items;
+    const cata::colony<item> &veh_items = vp.items;
     const cata::colony<item>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
     if( iter == veh_items.end() ) {
         return false;
     }
-    remove_item( part, iter );
+    remove_item( vp, iter );
     return true;
 }
 
-vehicle_stack::iterator vehicle::remove_item( int part, const vehicle_stack::const_iterator &it )
+vehicle_stack::iterator vehicle::remove_item( vehicle_part &vp,
+        const vehicle_stack::const_iterator &it )
 {
-    cata::colony<item> &veh_items = parts[part].items;
-
     invalidate_mass();
-    return veh_items.erase( it );
+    return vp.items.erase( it );
 }
 
-vehicle_stack vehicle::get_items( const int part )
+vehicle_stack vehicle::get_items( vehicle_part &vp )
 {
-    const tripoint pos = global_part_pos3( part );
-    return vehicle_stack( &parts[part].items, pos.xy(), this, part );
+    return vehicle_stack( *this, vp );
 }
 
-vehicle_stack vehicle::get_items( const int part ) const
+vehicle_stack vehicle::get_items( const vehicle_part &vp ) const
 {
-    // HACK: callers could modify items through this
-    // TODO: a const version of vehicle_stack is needed
-    return const_cast<vehicle *>( this )->get_items( part );
+    return const_cast<vehicle &>( *this ).get_items( const_cast<vehicle_part &>( vp ) );
 }
 
 std::vector<item> &vehicle::get_tools( vehicle_part &vp )
@@ -5657,7 +5637,8 @@ void vehicle::place_spawn_items()
         if( part < 0 ) {
             debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
         } else {
-            bool broken = parts[ part ].is_broken();
+            vehicle_part &vp = parts[part];
+            const bool broken = vp.is_broken();
 
             std::vector<item> created;
             const int spawn_count = roll_remainder( spawn.chance * std::max( spawn_rate, 1.0f ) / 100.0f );
@@ -5715,7 +5696,7 @@ void vehicle::place_spawn_items()
                     e.set_owner( get_owner() );
                 }
 
-                add_item( part, e );
+                add_item( vp, e );
             }
         }
     }
@@ -5846,8 +5827,9 @@ void vehicle::refresh_active_item_cache()
 {
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
-        auto it = vp.part().items.begin();
-        auto end = vp.part().items.end();
+        vehicle_stack vs = vp.items();
+        auto it = vs.begin();
+        auto end = vs.end();
         for( ; it != end; ++it ) {
             active_items.add( *it, vp.mount() );
         }
@@ -7363,10 +7345,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const itype_id veh_tool_type = type.obj().phase > phase_id::SOLID
                                    ? itype_water_faucet
                                    : type;
-    const std::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
-    const std::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
-    if( tool_vp ) { // handle vehicle tools
+    if( const std::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type ) ) {
         const itype_id &tool_fuel_type = type->tool_slot_first_ammo();
         // use the tool's ammo charges
         const itype_id &fuel_type = tool_fuel_type.is_null() ? type : tool_fuel_type;
@@ -7383,9 +7363,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
         }
     }
 
-    if( cargo_vp ) {
-        vehicle_stack veh_stack = get_items( cargo_vp->part_index() );
-        std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter, in_tools );
+    if( const std::optional<vpart_reference> cargo_vp = vp.cargo() ) {
+        std::list<item> tmp = cargo_vp->items().use_charges( type, quantity, vp.pos(), filter, in_tools );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
             return ret;
@@ -7404,6 +7383,11 @@ vehicle_part &vpart_reference::part() const
 const vpart_info &vpart_reference::info() const
 {
     return part().info();
+}
+
+vehicle_stack vpart_reference::items() const
+{
+    return vehicle().get_items( part() );
 }
 
 Character *vpart_reference::get_passenger() const
@@ -7617,7 +7601,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         units::mass m_part = 0_gram;
         units::mass m_part_items = 0_gram;
         m_part += vp.part().base.weight();
-        for( const item &j : get_items( i ) ) {
+        for( const item &j : get_items( vp.part() ) ) {
             m_part_items += j.weight();
         }
         for( const item &j : get_tools( vp.part() ) ) {

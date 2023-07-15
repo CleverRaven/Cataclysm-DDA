@@ -1042,7 +1042,6 @@ void vehicle::operate_reaper()
 {
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
-        const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = vp.pos();
         const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
@@ -1070,10 +1069,10 @@ void vehicle::operate_reaper()
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                        "reaper" );
-        if( vp.has_feature( "CARGO" ) ) {
+        if( vp.info().has_flag( VPFLAG_CARGO ) ) {
             for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
                 if( ( iter->volume() <= max_pickup_volume ) &&
-                    add_item( reaper_id, *iter ) ) {
+                    add_item( vp.part(), *iter ) ) {
                     iter = items.erase( iter );
                 } else {
                     ++iter;
@@ -1089,7 +1088,7 @@ void vehicle::operate_planter()
     for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
         const size_t planter_id = vp.part_index();
         const tripoint loc = vp.pos();
-        vehicle_stack v = get_items( planter_id );
+        vehicle_stack v = get_items( vp.part() );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
@@ -1169,7 +1168,7 @@ void vehicle::operate_scoop()
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
-            if( add_item( scoop, *that_item_there ) ) {
+            if( add_item( vp.part(), *that_item_there ) ) {
                 here.i_rem( position, that_item_there );
             } else {
                 break;
@@ -1383,7 +1382,8 @@ void vehicle::lock_or_unlock( const int part_index, const bool locking )
 
 void vehicle::use_autoclave( int p )
 {
-    vehicle_stack items = get_items( p );
+    vehicle_part &vp = parts[p];
+    vehicle_stack items = get_items( vp );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( json_flag_FILTHY );
     } );
@@ -1396,8 +1396,8 @@ void vehicle::use_autoclave( int p )
         return i.is_bionic();
     } );
 
-    if( parts[p].enabled ) {
-        parts[p].enabled = false;
+    if( vp.enabled ) {
+        vp.enabled = false;
         add_msg( m_bad,
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
@@ -1413,7 +1413,7 @@ void vehicle::use_autoclave( int p )
     } else if( unpacked_items ) {
         add_msg( m_bad, _( "You should put your CBMs in autoclave pouches to keep them sterile." ) );
     } else {
-        parts[p].enabled = true;
+        vp.enabled = true;
         for( item &n : items ) {
             n.set_age( 0_turns );
         }
@@ -1424,13 +1424,13 @@ void vehicle::use_autoclave( int p )
             drain( itype_water_clean, 8 );
         }
 
-        add_msg( m_good,
-                 _( "You turn the autoclave on and it starts its cycle." ) );
+        add_msg( m_good, _( "You turn the autoclave on and it starts its cycle." ) );
     }
 }
 
 void vehicle::use_washing_machine( int p )
 {
+    vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
     // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
@@ -1438,7 +1438,7 @@ void vehicle::use_washing_machine( int p )
         return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
     } );
 
-    vehicle_stack items = get_items( p );
+    vehicle_stack items = get_items( vp );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( json_flag_FILTHY );
     } );
@@ -1447,25 +1447,22 @@ void vehicle::use_washing_machine( int p )
         return i.is_bionic();
     } );
 
-    if( parts[p].enabled ) {
-        parts[p].enabled = false;
+    if( vp.enabled ) {
+        vp.enabled = false;
         add_msg( m_bad,
                  _( "You turn the washing machine off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
-        add_msg( m_bad,
-                 _( "The washing machine is empty; there's no point in starting it." ) );
+        add_msg( m_bad, _( "The washing machine is empty; there's no point in starting it." ) );
     } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
         add_msg( m_bad,
-                 _( "You need 24 charges of water in the tanks of the %s to fill the washing machine." ),
-                 name );
+                 _( "You need 24 charges of water in the tanks of the %s to fill the washing machine." ), name );
     } else if( detergents.empty() ) {
         add_msg( m_bad, _( "You need 5 charges of a detergent for the washing machine." ) );
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
     } else if( cbms ) {
-        add_msg( m_bad,
-                 _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
+        add_msg( m_bad, _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
     } else {
         uilist detergent_selector;
         detergent_selector.text = _( "Use what detergent?" );
@@ -1495,7 +1492,7 @@ void vehicle::use_washing_machine( int p )
             return;
         }
 
-        parts[p].enabled = true;
+        vp.enabled = true;
         for( item &n : items ) {
             n.set_age( 0_turns );
         }
@@ -1517,9 +1514,10 @@ void vehicle::use_washing_machine( int p )
 
 void vehicle::use_dishwasher( int p )
 {
+    vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
     bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
-    vehicle_stack items = get_items( p );
+    vehicle_stack items = get_items( vp );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( json_flag_FILTHY );
     } );
@@ -1534,13 +1532,12 @@ void vehicle::use_dishwasher( int p )
         }
     }
 
-    if( parts[p].enabled ) {
-        parts[p].enabled = false;
+    if( vp.enabled ) {
+        vp.enabled = false;
         add_msg( m_bad,
                  _( "You turn the dishwasher off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
-        add_msg( m_bad,
-                 _( "The dishwasher is empty, there's no point in starting it." ) );
+        add_msg( m_bad, _( "The dishwasher is empty, there's no point in starting it." ) );
     } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in the tanks of the %s to fill the dishwasher." ),
                  name );
@@ -1552,7 +1549,7 @@ void vehicle::use_dishwasher( int p )
     } else if( soft_items ) {
         add_msg( m_bad, buffer );
     } else {
-        parts[p].enabled = true;
+        vp.enabled = true;
         for( item &n : items ) {
             n.set_age( 0_turns );
         }
@@ -1711,12 +1708,8 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
 
 void vpart_position::form_inventory( inventory &inv ) const
 {
-    const std::optional<vpart_reference> vp_faucet = part_with_tool( itype_water_faucet );
-    const std::optional<vpart_reference> vp_cargo = part_with_feature( "CARGO", true );
-
-    if( vp_cargo ) {
-        const vehicle_stack items = vehicle().get_items( vp_cargo->part_index() );
-        for( const item &it : items ) {
+    if( const std::optional<vpart_reference> vp_cargo = part_with_feature( VPFLAG_CARGO, true ) ) {
+        for( const item &it : vp_cargo->items() ) {
             if( it.empty_container() && it.is_watertight_container() ) {
                 const int count = it.count_by_charges() ? it.charges : 1;
                 inv.update_liq_container_count( it.typeId(), count );
@@ -1726,6 +1719,7 @@ void vpart_position::form_inventory( inventory &inv ) const
     }
 
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
+    const std::optional<vpart_reference> vp_faucet = part_with_tool( itype_water_faucet );
     if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet ) != nullptr ) {
         for( const item *it : vehicle().fuel_items_left() ) {
             if( it->made_of( phase_id::LIQUID ) ) {
@@ -2111,11 +2105,11 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this, dw_idx] { use_dishwasher( dw_idx ); } );
     }
 
-    const std::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
+    const std::optional<vpart_reference> vp_cargo = vp.cargo();
     // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
     if( with_pickup && (
             get_map().has_items( vp.pos() ) ||
-            ( vp_cargo && !get_items( vp_cargo->part_index() ).empty() ) ) ) {
+            ( vp_cargo && !vp_cargo->items().empty() ) ) ) {
         menu.add( _( "Get items" ) )
         .hotkey( "GET_ITEMS" )
         .skip_locked_check()

@@ -169,17 +169,13 @@ struct vpart_edge_info {
 class vehicle_stack : public item_stack
 {
     private:
-        point location;
-        vehicle *myorigin;
-        int part_num;
+        vehicle &veh;
+        vehicle_part &vp;
     public:
-        vehicle_stack( cata::colony<item> *newstack, point newloc, vehicle *neworigin, int part ) :
-            item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
-        iterator erase( const_iterator it ) override;
+        vehicle_stack( vehicle &veh, vehicle_part &vp );
+        item_stack::iterator erase( item_stack::const_iterator it ) override;
         void insert( const item &newitem ) override;
-        int count_limit() const override {
-            return MAX_ITEM_IN_VEHICLE_STORAGE;
-        }
+        int count_limit() const override;
         units::volume max_volume() const override;
 };
 
@@ -253,6 +249,7 @@ struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
         friend class vehicle_cursor;
+        friend class vehicle_stack;
         friend item_location;
         friend class turret_data;
 
@@ -1741,11 +1738,6 @@ class vehicle
          */
         void pldrive( Character &driver, const point &p, int z = 0 );
 
-        // stub for per-vpart limit
-        units::volume max_volume( int part ) const;
-        units::volume free_volume( int part ) const;
-        units::volume stored_volume( int part ) const;
-
         /**
         * Flags item \p tool with PSEUDO, if it has MOD pocket then a `pseudo_magazine_mod` is
         * installed and a `pseudo_magazine` is inserted into the magazine well pocket with however
@@ -1774,27 +1766,26 @@ class vehicle
         void make_active( item_location &loc );
         /**
          * Try to add an item to part's cargo.
-         *
-         * @returns std::nullopt if it can't be put here (not a cargo part, adding this would violate
-         * the volume limit or item count limit, not all charges can fit, etc.)
-         * Otherwise, returns an iterator to the added item in the vehicle stack
+         * @return iterator to added item or std::nullopt if it can't be put here (not a cargo part, adding
+         * this would violate the volume limit or item count limit, not all charges can fit, etc.)
          */
-        std::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
-        /** Like the above */
-        std::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
+        std::optional<vehicle_stack::iterator> add_item( vehicle_part &vp, const item &itm );
         /**
          * Add an item counted by charges to the part's cargo.
          *
          * @returns The number of charges added.
          */
-        int add_charges( int part, const item &itm );
+        int add_charges( vehicle_part &vp, const item &itm );
 
         // remove item from part's cargo
-        bool remove_item( int part, item *it );
-        vehicle_stack::iterator remove_item( int part, const vehicle_stack::const_iterator &it );
+        bool remove_item( vehicle_part &vp, item *it );
+        vehicle_stack::iterator remove_item( vehicle_part &vp, const vehicle_stack::const_iterator &it );
 
-        vehicle_stack get_items( int part ) const;
-        vehicle_stack get_items( int part );
+        // HACK: callers could modify items through this
+        // TODO: a const version of vehicle_stack is needed
+        vehicle_stack get_items( const vehicle_part &vp ) const;
+        vehicle_stack get_items( vehicle_part &vp );
+
         std::vector<item> &get_tools( vehicle_part &vp );
         const std::vector<item> &get_tools( const vehicle_part &vp ) const;
 

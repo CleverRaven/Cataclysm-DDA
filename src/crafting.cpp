@@ -518,9 +518,8 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
             }
         }
 
-        if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
-                true ) ) {
-            for( const item &it : vp->vehicle().get_items( vp->part_index() ) ) {
+        if( const std::optional<vpart_reference> vp = here.veh_at( loc ).cargo() ) {
+            for( const item &it : vp->items() ) {
                 std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
                 conts.insert( conts.begin(), eligible.begin(), eligible.end() );
             }
@@ -714,18 +713,16 @@ static item_location set_item_map( const tripoint &loc, item &newit )
 static item_location set_item_map_or_vehicle( const Character &p, const tripoint &loc, item &newit )
 {
     map &here = get_map();
-    if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
-            false ) ) {
-
-        if( const std::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
-                newit ) ) {
+    if( const std::optional<vpart_reference> vp = here.veh_at( loc ).cargo() ) {
+        vehicle &veh = vp->vehicle();
+        if( const std::optional<vehicle_stack::iterator> it = veh.add_item( vp->part(), newit ) ) {
             p.add_msg_player_or_npc(
                 //~ %1$s: name of item being placed, %2$s: vehicle part name
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 ( *it )->tname(), vp->part().name() );
 
-            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **it );
+            return item_location( vehicle_cursor( veh, vp->part_index() ), & **it );
         }
 
         // Couldn't add the in progress craft to the target part, so drop it to the map.

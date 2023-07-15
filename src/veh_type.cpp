@@ -1518,7 +1518,7 @@ void vehicles::finalize_prototypes()
                 }
             }
 
-            if( pt.part.obj().has_flag( "CARGO" ) ) {
+            if( pt.part.obj().has_flag( VPFLAG_CARGO ) ) {
                 cargo_spots.insert( pt.pos );
             }
         }
