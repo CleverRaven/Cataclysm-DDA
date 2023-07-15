@@ -308,7 +308,7 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
             float coverage = ablative_armor.get_coverage( bp, ctype );
 
             // if the attack hits this plate
-            if( roll < coverage ) {
+            if( roll <= coverage ) {
                 damage_unit pre_mitigation = du;
 
                 // mitigate the actual damage instance

@@ -88,19 +88,17 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     REQUIRE( veh_ptr != nullptr );
 
     const tripoint pos = vehicle_origin + tripoint_west;
-    auto cargo_parts = veh_ptr->get_parts_at( pos, "CARGO", part_status_flag::any );
-    REQUIRE( !cargo_parts.empty( ) );
-    vehicle_part *cargo_part = cargo_parts.front();
-    REQUIRE( cargo_part != nullptr );
+    const std::optional<vpart_reference> ovp_cargo = get_map().veh_at( pos ).cargo();
+    REQUIRE( ovp_cargo );
     //Must not be broken yet
-    REQUIRE( !cargo_part->is_broken() );
+    REQUIRE( !ovp_cargo->part().is_broken() );
     //For some reason (0 - cargo_part->hp()) is just not enough to destroy a part
-    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ) ) );
+    REQUIRE( veh_ptr->mod_hp( ovp_cargo->part(), -( 1 + ovp_cargo->part().hp() ) ) );
     //Now it must be broken
-    REQUIRE( cargo_part->is_broken() );
+    REQUIRE( ovp_cargo->part().is_broken() );
     //Now part is really broken, adding an item should fail
     const item itm2 = item( "jeans" );
-    REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
+    REQUIRE( !veh_ptr->add_item( ovp_cargo->part(), itm2 ) );
 }
 
 TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )

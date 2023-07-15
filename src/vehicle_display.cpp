@@ -121,7 +121,7 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
 
     // if cargo has items color is inverted
     const int cargo_part = part_with_feature( dp, VPFLAG_CARGO, true );
-    if( cargo_part >= 0 && !get_items( cargo_part ).empty() ) {
+    if( cargo_part >= 0 && !get_items( part( cargo_part ) ).empty() ) {
         ret.has_cargo = true;
         ret.color = invert_color( ret.color );
     }
@@ -180,10 +180,11 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         }
 
         if( vpi.has_flag( VPFLAG_CARGO ) ) {
+            const vehicle_stack vs = get_items( vp );
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _( " (vol: %s/%s %s)" ),
-                                       format_volume( stored_volume( pl[i] ) ),
-                                       format_volume( max_volume( pl[i] ) ),
+                                       format_volume( vs.stored_volume() ),
+                                       format_volume( vs.max_volume() ),
                                        volume_units_abbr() );
         }
 

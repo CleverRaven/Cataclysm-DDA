@@ -5276,11 +5276,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            const std::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
-            const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
-            if( carg ) {
-                const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
-                for( const item &items_it : items ) {
+            if( const std::optional<vpart_reference> cargo = vp.cargo() ) {
+                for( const item &items_it : cargo->items() ) {
                     if( items_it.has_flag( flag_SLEEP_AID ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
@@ -5309,7 +5306,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     }
                 }
             }
-            if( board ) {
+            if( const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true ) ) {
                 comfort += board->info().comfort;
             } else {
                 comfort -= here.move_cost( p );
@@ -8588,18 +8585,15 @@ void Character::migrate_items_to_storage( bool disintegrate )
 std::string Character::is_snuggling() const
 {
     map &here = get_map();
-    auto begin = here.i_at( pos() ).begin();
-    auto end = here.i_at( pos() ).end();
+    map_stack items_here = here.i_at( pos() );
+    item_stack::const_iterator begin = items_here.begin();
+    item_stack::const_iterator end = items_here.end();
 
     if( in_vehicle ) {
-        if( const std::optional<vpart_reference> vp = here.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
-                false ) ) {
-            vehicle *const veh = &vp->vehicle();
-            const int cargo = vp->part_index();
-            if( !veh->get_items( cargo ).empty() ) {
-                begin = veh->get_items( cargo ).begin();
-                end = veh->get_items( cargo ).end();
-            }
+        if( const std::optional<vpart_reference> ovp = here.veh_at( pos() ).cargo() ) {
+            const vehicle_stack vs = ovp->items();
+            begin = vs.begin();
+            end = vs.end();
         }
     }
     const item *floor_armor = nullptr;
@@ -8748,18 +8742,13 @@ int Character::floor_item_warmth( const tripoint &pos )
 
     map &here = get_map();
 
-    if( !!here.veh_at( pos ) ) {
-        if( const std::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( VPFLAG_CARGO,
-                false ) ) {
-            vehicle *const veh = &vp->vehicle();
-            const int cargo = vp->part_index();
-            vehicle_stack vehicle_items = veh->get_items( cargo );
-            warm( vehicle_items );
+    if( const optional_vpart_position veh_here = here.veh_at( pos ) ) {
+        if( const std::optional<vpart_reference> ovp = veh_here.cargo() ) {
+            warm( ovp->items() );
         }
-        return item_warmth;
+    } else {
+        warm( here.i_at( pos ) );
     }
-    map_stack floor_items = here.i_at( pos );
-    warm( floor_items );
     return item_warmth;
 }
 
@@ -9649,7 +9638,7 @@ void Character::place_corpse()
     body.set_item_temperature( units::from_celsius( 37 ) );
     map &here = get_map();
     for( item *itm : tmp ) {
-        here.add_item_or_charges( pos(), *itm );
+        body.force_insert_item( *itm, item_pocket::pocket_type::CONTAINER );
     }
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
@@ -9689,7 +9678,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, get_name() );
     for( item *itm : tmp ) {
-        bay.add_item_or_charges( fin, *itm );
+        body.force_insert_item( *itm, item_pocket::pocket_type::CONTAINER );
     }
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
