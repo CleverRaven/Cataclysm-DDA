@@ -541,7 +541,7 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     if( !veh ) {
         return false;
     }
-    int time_to_take = 0;
+    time_duration time_to_take = 0_seconds;
     if( vpindex >= veh->part_count() ) {
         // if parts got removed during our work, we can't just carry on removing, we want to repair parts!
         // so just bail out, as we don't know if the next shifted part is suitable for repair.
@@ -562,7 +562,7 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     } else if( type == 'o' ) {
         time_to_take = vpi.removal_time( you );
     }
-    you.assign_activity( ACT_VEHICLE, time_to_take, static_cast<int>( type ) );
+    you.assign_activity( ACT_VEHICLE, to_moves<int>( time_to_take ), static_cast<int>( type ) );
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
@@ -696,7 +696,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
                 }
             } else if( const std::optional<vpart_reference> vp = here.veh_at(
                            adj ).part_with_feature( "WORKBENCH", true ) ) {
-                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().workbench_info ) {
                     if( wb_info->multiplier > best_bench_multi_a ) {
                         best_bench_multi_a = wb_info->multiplier;
                     }
@@ -715,7 +715,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
                 }
             } else if( const std::optional<vpart_reference> vp = here.veh_at(
                            adj ).part_with_feature( "WORKBENCH", true ) ) {
-                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().workbench_info ) {
                     if( wb_info->multiplier > best_bench_multi_b ) {
                         best_bench_multi_b = wb_info->multiplier;
                     }
