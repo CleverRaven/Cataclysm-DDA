@@ -216,21 +216,7 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
 
 bool advanced_inv_area::canputitems( const item_location &container ) const
 {
-    bool canputitems = false;
-    switch( id ) {
-        case AIM_CONTAINER: {
-            if( container ) {
-                if( container.get_item()->is_container() ) {
-                    canputitems = true;
-                }
-            }
-            break;
-        }
-        default:
-            canputitems = canputitemsloc;
-            break;
-    }
-    return canputitems;
+    return id != AIM_CONTAINER ? canputitemsloc : container && container.get_item()->is_container();
 }
 
 static tripoint aim_vector( aim_location id )
