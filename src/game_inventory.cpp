@@ -2576,6 +2576,7 @@ class change_sprite_inventory_preset: public inventory_selector_preset
 
 item_location game_menus::inv::change_sprite( Character &you )
 {
-    return inv_internal( you, change_sprite_inventory_preset( you ), _( "Change appearance of your armor:" ), -1,
+    return inv_internal( you, change_sprite_inventory_preset( you ),
+                         _( "Change appearance of your armor:" ), -1,
                          _( "You have nothing to wear." ) );
 }
