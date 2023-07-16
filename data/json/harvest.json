@@ -1398,7 +1398,7 @@
     "id": "zombie_leather",
     "//": "any zombie that might drop leather. mostly animals.",
     "type": "harvest",
-    "message": "<zombie_generic_harvest>",
+    "message": "<zombie_animal_generic_harvest>",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
@@ -1412,7 +1412,7 @@
     "id": "zombie_fur",
     "//": "any zombie that might drop fur. mostly animals.",
     "type": "harvest",
-    "message": "<zombie_generic_harvest>",
+    "message": "<zombie_animal_generic_harvest>",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
