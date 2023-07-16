@@ -4,33 +4,27 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Premonition] *Determine if <npcname> is a threat*",
+        "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EVAC_GUARD3_danger_sense",
         "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "2" ] }
-      }
-    ]
-  },
-  {
-    "id": [ "TALK_EVAC_GUARD3_danger_sense" ],
-    "type": "talk_topic",
-    "dynamic_line": "&You barely open up your senses before you're met with an overpowering sense of menace.  <npcname> isn't planning to kill you at this exact second but that could change at any moment.",
-    "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD3" } ]
-  },
-  {
-    "id": [ "TALK_EVAC_GUARD3" ],
-    "type": "talk_topic",
-    "responses": [
+      },
       {
-        "text": "[Telepathy] *Read <npcname>'s mind*",
+        "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_EVAC_GUARD3_scan",
         "condition": { "u_has_trait": "TELEPATH" }
       },
       {
         "text": "It's you.",
         "topic": "TALK_EVAC_GUARD3_direct_accusation",
-        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center", "value": "yes" }
+        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" }
       }
     ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_danger_sense" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You barely open up your senses before you're met with an overpowering sense of menace.  <npc_name> isn't planning to kill you at this exact second but that could change at any moment.",
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD3" } ]
   },
   {
     "id": "TALK_EVAC_GUARD3_scan",
@@ -43,9 +37,9 @@
     "responses": [
       { "text": "…", "topic": "TALK_EVAC_GUARD3" },
       {
-        "text": "[Telepathy 10+] *Go deeper*.",
+        "text": "[Telepathy 8+] *Go deeper*.",
         "topic": "TALK_EVAC_GUARD3_deep_scan",
-        "condition": { "math": [ "u_val('spell_level', 'school: TELEPATH')", ">=", "10" ] }
+        "condition": { "math": [ "u_val('spell_level', 'school: TELEPATH')", ">=", "8" ] }
       }
     ]
   },
@@ -55,7 +49,7 @@
     "dynamic_line": "&It's only a moment, but that's enough.  You are looking from behind a tree onto a road where a crude roadblock has been set up.  There's a refugee bus, one of the same ones parked outside the refugee center, stopped at the roadblock, and as the driver gets out to look at the roadblock, there's a loud crack and two spots of red appear on his chest and leg.  As he begins to fall and the people in the bus start screaming, the raiders emerge from the trees, already running with guns raised.",
     "responses": [
       {
-        "text": "*Withdraw from <npcname>'s mind*.",
+        "text": "*Withdraw from <npc_name>'s mind*.",
         "effect": { "u_add_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" },
         "topic": "TALK_EVAC_GUARD3_post_scan"
       }
@@ -64,13 +58,13 @@
   {
     "id": [ "TALK_EVAC_GUARD3_post_scan" ],
     "type": "talk_topic",
-    "dynamic_line": "&Only a few moments have passed.  <npcname> hasn't noticed anything amiss.",
+    "dynamic_line": "&Only a few moments have passed.  <npc_name> hasn't noticed anything amiss.",
     "responses": [
       { "text": "…", "topic": "TALK_EVAC_GUARD3" },
       {
         "text": "It's you.",
         "topic": "TALK_EVAC_GUARD3_direct_accusation",
-        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center", "value": "yes" }
+        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" }
       }
     ]
   },
@@ -80,7 +74,7 @@
     "dynamic_line": "What the hell are you talking about?",
     "responses": [
       {
-        "text": "He was only a child, <npcname>, and you killed him.  Do you remember the blood on his Superman shirt?",
+        "text": "He was only a child, <npc_name>, and you killed him.  Do you remember the blood on his Superman shirt?",
         "topic": "TALK_EVAC_GUARD3_witch",
         "opinion": { "fear": 4 }
       }
@@ -89,7 +83,7 @@
   {
     "id": [ "TALK_EVAC_GUARD3_witch" ],
     "type": "talk_topic",
-    "dynamic_line": "I didn't tell you my na-\" <npcname>'s face goes white. \"What the fuck!  You some kind of freak?",
+    "dynamic_line": "I didn't tell you my na-\" <npc_name>'s face goes white. \"What the fuck!  You some kind of freak?",
     "responses": [
       {
         "text": "It's over.  Give up.",
@@ -103,9 +97,9 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Telekinesis Check] *Try to rip <npcname>'s weapon out of <mypronoun> hands*",
+        "text": "[Telekinesis Check] *Try to rip <npc_name>'s weapon away*",
         "condition": { "u_has_trait": "TELEKINETIC" },
-        "switch": true,
+        "switch": false,
         "trial": {
           "type": "CONDITION",
           "condition": {
@@ -116,23 +110,22 @@
         },
         "success": { "topic": "TALK_DONE", "effect": "drop_weapon" },
         "failure": { "topic": "TALK_DONE" }
-      }
-    ]
-  },
-  {
-    "id": [ "TALK_EVAC_GUARD3_DEAD" ],
-    "type": "talk_topic",
-    "responses": [
+      },
       {
-        "text": "[Sensory Deprivation Check] *Shut off <npcname>'s senses*.",
+        "text": "[Sensory Deprivation Check] *Shut off <npc_name>'s senses*.",
         "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')", ">=", "1" ] },
-        "switch": true,
+        "switch": false,
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')" ] },
-            "difficulty": { "math": [ "n_val('perception')" ] },
-            "die_size": 10
+            "and": [
+              {
+                "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')" ] },
+                "difficulty": { "math": [ "n_val('perception')" ] },
+                "die_size": 10
+              },
+              { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
+            ]
           }
         },
         "success": {
@@ -141,25 +134,24 @@
         },
         "failure": {
           "topic": "TALK_DONE",
-          "effect": [ "hostile", { "u_message": "You failed to affect <npcname>'s senses!", "type": "bad" } ]
+          "effect": [ "hostile", { "u_message": "You failed to affect <npc_name>'s senses!", "type": "bad" } ]
         }
-      }
-    ]
-  },
-  {
-    "id": [ "TALK_EVAC_GUARD3_DEAD" ],
-    "type": "talk_topic",
-    "responses": [
+      },
       {
-        "text": "[Synaptic Overload Check] *Attack <npcname>'s mind*.",
-        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "1" ] },
-        "switch": true,
+        "text": "[Synaptic Overload Check] *Attack <npc_name>'s mind*.",
+        "condition": { "and": [ { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "1" ] } ] },
+        "switch": false,
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')" ] },
-            "difficulty": { "math": [ "n_val('intelligence')" ] },
-            "die_size": 10
+            "and": [
+              {
+                "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')" ] },
+                "difficulty": { "math": [ "n_val('intelligence')" ] },
+                "die_size": 10
+              },
+              { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
+            ]
           }
         },
         "success": {
@@ -167,7 +159,7 @@
           "effect": [
             "hostile",
             {
-              "npc_set_hp": { "math": [ "(80 - (6 * (u_val('spell_level', 'spell: telepathic_blast')))" ] },
+              "npc_set_hp": { "math": [ "(80 - (6 * (u_val('spell_level', 'spell: telepathic_blast'))))" ] },
               "target_part": "head"
             },
             { "npc_add_effect": "stunned", "duration": "2 s" }
@@ -175,19 +167,45 @@
         },
         "failure": {
           "topic": "TALK_DONE",
-          "effect": [ "hostile", { "u_message": "<npcname> repelled your attack on <mypronoun> mind!", "type": "bad" } ]
+          "effect": [ "hostile", { "u_message": "<npc_name> repelled your attack on their mind!", "type": "bad" } ]
         }
-      }
-    ]
-  },
-  {
-    "id": [ "TALK_EVAC_GUARD3_DEAD" ],
-    "type": "talk_topic",
-    "responses": [
+      },
       {
-        "text": "[Oubliette Check] *Banish <npcname> to another dimension*.",
+        "text": "[Transposition Check] *Teleport away <npc_name>'s weapon*.",
+        "condition": { "math": [ "u_val('spell_level', 'spell: teleport_transpose')", ">=", "1" ] },
+        "switch": false,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: teleport_transpose')" ] },
+            "difficulty": 10,
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            { "npc_consume_item": "spear_knife_proper", "popup": false },
+            { "npc_consume_item": "spear_pipe", "popup": false },
+            { "npc_consume_item": "spear_homemade_halfpike", "popup": false },
+            { "npc_consume_item": "makeshift_glaive", "popup": false },
+            { "npc_consume_item": "spear_knife_proper", "popup": false },
+            { "npc_consume_item": "spear_knife_proper", "popup": false },
+            { "npc_consume_item": "spear_knife_proper", "popup": false },
+            { "npc_consume_item": "spear_knife_proper", "popup": false },
+            { "npc_consume_item": "spear_knife_proper", "popup": false },
+            { "npc_consume_item": "spear_knife_proper", "popup": false }
+          ]
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "u_message": "You failed to teleport <npc_name>'s weapon!", "type": "bad" } ]
+        }
+      },
+      {
+        "text": "[Oubliette Check] *Banish <npc_name> to another dimension*.",
         "condition": { "math": [ "u_val('spell_level', 'spell: teleport_banish')", ">=", "1" ] },
-        "switch": true,
+        "switch": false,
         "trial": {
           "type": "CONDITION",
           "condition": { "roll_contested": { "math": [ "u_val('spell_level', 'spell: teleport_banish')" ] }, "difficulty": 15, "die_size": 10 }
@@ -196,7 +214,7 @@
           "topic": "TALK_DONE",
           "effect": [ { "mapgen_update": "remove_refugee_center_traitor_because_banished", "om_terrain": "evac_center_19" } ]
         },
-        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "You failed to teleport <npcname>!", "type": "bad" } ] }
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "You failed to teleport <npc_name>!", "type": "bad" } ] }
       }
     ]
   },
@@ -204,6 +222,6 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "remove_refugee_center_traitor_because_banished",
-    "object": { "remove_npcs": [ { "class": "NC_FREE_MERCH_GUARD", "x": 0, "y": 0 } ] }
+    "object": { "remove_npcs": [ { "unique_id": "evac_guard3", "x": 12, "y": 12 } ] }
   }
 ]
