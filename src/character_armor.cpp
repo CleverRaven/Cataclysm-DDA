@@ -194,7 +194,8 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
                     elem.amount -= rng( 2, 8 );
                     absorbed = true;
-                } else if( elem.type == STATIC( damage_type_id( "stab" ) ) || STATIC( damage_type_id( "bullet" ) ) ) {
+                } else if( elem.type == STATIC( damage_type_id( "stab" ) ) ||
+                           STATIC( damage_type_id( "bullet" ) ) ) {
                     elem.amount -= rng( 4, 16 );
                     absorbed = true;
                 }
