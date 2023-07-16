@@ -2736,7 +2736,7 @@ void Character::conduct_blood_analysis()
             continue;
         }
         effect_descriptions.emplace_back( elem.first->get_blood_analysis_description() );
-        colors.emplace_back( elem.first->get_rating() == e_good ? c_green : c_red );
+        colors.emplace_back( elem.first->get_rating() == m_good ? c_green : c_red );
     }
 
     const int win_w = 46;
