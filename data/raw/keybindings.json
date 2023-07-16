@@ -590,13 +590,6 @@
   },
   {
     "type": "keybinding",
-    "id": "CHANGE_SPRITE",
-    "category": "SORT_ARMOR",
-    "name": "Change sprite of armor.",
-    "bindings": [ { "input_method": "keyboard_any", "key": "C" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "ASSIGN_INVLETS",
     "category": "SORT_ARMOR",
     "name": "Assign invlets to armor",
@@ -4257,6 +4250,13 @@
     "category": "PLAYER_INFO",
     "id": "morale",
     "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_ARMOR_SPRITE",
+    "category": "PLAYER_INFO",
+    "name": "Change sprite of armor.",
+    "bindings": [ { "input_method": "keyboard_any", "key": "W" } ]
   },
   {
     "type": "keybinding",

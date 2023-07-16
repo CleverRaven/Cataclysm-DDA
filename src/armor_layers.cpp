@@ -670,7 +670,6 @@ void outfit::sort_armor( Character &guy )
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
     ctxt.register_action( "TOGGLE_CLOTH" );
-    ctxt.register_action( "CHANGE_SPRITE" );
     ctxt.register_action( "ASSIGN_INVLETS" );
     ctxt.register_action( "SORT_ARMOR" );
     ctxt.register_action( "EQUIP_ARMOR" );
@@ -737,7 +736,6 @@ void outfit::sort_armor( Character &guy )
                             "Press [<color_yellow>%s</color>] to change keybindings." ),
                          ctxt.get_desc( "TOGGLE_CLOTH" ),
                          ctxt.get_desc( "CHANGE_SIDE" ),
-                         ctxt.get_desc( "CHANGE_SPRITE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
@@ -1034,36 +1032,6 @@ void outfit::sort_armor( Character &guy )
                     tmp_worn[leftListIndex]->unset_flag( json_flag_HIDDEN );
                 }
             }
-        } else if( action == "CHANGE_SPRITE" && leftListIndex < leftListSize ) {
-            uilist menu;
-            menu.title = _( "Change sprite" );
-            menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Select sprite from items" ) );
-            menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Restore default sprite" ) );
-            menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-            menu.query();
-            if( menu.ret == 0 ) {
-                item_location loc;
-                avatar *you = player_character.as_avatar();
-                auto armor_filter = [&]( const item & i ) {
-                    return i.is_armor();
-                };
-                if( you != nullptr ) {
-                    loc = game_menus::inv::titled_filter_menu( armor_filter,
-                            *you,
-                            _( "Select appearance of this armor:" ),
-                            -1,
-                            _( "You have nothing to wear." ) );
-                }
-                if( loc && loc.get_item() ) {
-                    const item *i = loc.get_item();
-                    const std::string variant = i->has_itype_variant() ? i->itype_variant().id : "";
-                    tmp_worn[leftListIndex]->set_var( "sprite_override", i->typeId().str() );
-                    tmp_worn[leftListIndex]->set_var( "sprite_override_variant", variant );
-                }
-            } else if( menu.ret == 1 ) {
-                tmp_worn[leftListIndex]->erase_var( "sprite_override" );
-                tmp_worn[leftListIndex]->erase_var( "sprite_override_variant" );
-            }
         } else if( action == "SORT_ARMOR" ) {
             mid_pane.offset = 0;
             // Copy to a vector because stable_sort requires random-access
@@ -1216,8 +1184,6 @@ void outfit::sort_armor( Character &guy )
                                ctxt.get_desc( "CHANGE_SIDE" ) ),
                 string_format( _( "[<color_yellow>%s</color>] to toggle item visibility on character sprite.\n" ),
                                ctxt.get_desc( "TOGGLE_CLOTH" ) ),
-                string_format( _( "[<color_yellow>%s</color>] to change sprite of item.\n" ),
-                               ctxt.get_desc( "CHANGE_SPRITE" ) ),
                 string_format( _( "[<color_yellow>%s</color>] to sort worn items into natural layer order.\n" ),
                                ctxt.get_desc( "SORT_ARMOR" ) ),
                 string_format( _( "[<color_yellow>%s</color>] to equip a new item.\n" ),
