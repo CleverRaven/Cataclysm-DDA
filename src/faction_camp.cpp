@@ -1516,7 +1516,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
 void basecamp::choose_new_leader()
 {
     // This is ugly, but dialogue vars are stored as strings, even if they hold data for times.
-    time_point last_succession_time = time_point::from_turn( std::stoi(
+    time_point last_succession_time = time_point::from_turn( std::stof(
                                           get_player_character().get_value( var_timer_time_of_last_succession ) ) );
     time_duration succession_cooldown = time_duration::from_turns( std::stof(
                                             get_globals().get_global_value(
