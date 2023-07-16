@@ -1216,6 +1216,8 @@ void outfit::sort_armor( Character &guy )
                                ctxt.get_desc( "CHANGE_SIDE" ) ),
                 string_format( _( "[<color_yellow>%s</color>] to toggle item visibility on character sprite.\n" ),
                                ctxt.get_desc( "TOGGLE_CLOTH" ) ),
+                string_format( _( "[<color_yellow>%s</color>] to change sprite of item.\n" ),
+                               ctxt.get_desc( "CHANGE_SPRITE" ) ),
                 string_format( _( "[<color_yellow>%s</color>] to sort worn items into natural layer order.\n" ),
                                ctxt.get_desc( "SORT_ARMOR" ) ),
                 string_format( _( "[<color_yellow>%s</color>] to equip a new item.\n" ),
