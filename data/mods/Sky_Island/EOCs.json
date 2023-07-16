@@ -17,7 +17,7 @@
     "id": "EOC_warp_statue",
     "//": "This EOC is triggered when activating the statue.  It grabs a random location of a certain type (here a field), saves it to a global variable, and then triggers the actual teleport-out EOC, which is separate so multiple different things can trigger it and potentially target different locations.",
     "condition": {
-      "u_query": "Begin searching for a spot to teleport to? This may take a moment while we scan the world.  Your game may appear to freeze for up to a few minutes, especially for your first expedition.",
+      "u_query": "Begin searching for a spot to teleport to?  This may take a moment while we scan the world.  Your game may appear to freeze for up to a few minutes, especially for your first expedition.",
       "default": false
     },
     "effect": [ { "run_eocs": [ "EOC_Random_Loc_Warp", "EOC_difficultysafeguard", "EOC_initiate_randomport" ] } ]
@@ -167,7 +167,7 @@
       { "u_add_effect": "incorporeal", "duration": 500 },
       { "run_eocs": [ "EOC_death_heal" ] },
       {
-        "u_message": "You died at home? What's the matter with you? Stop this.  You are restored.  The powers that be have made you temporarily incorporeal, in case you were stuck in a deadly loop.",
+        "u_message": "You died at home?  What's the matter with you?  Stop this.  You are restored.  The powers that be have made you temporarily incorporeal, in case you were stuck in a deadly loop.",
         "popup": true
       }
     ],
@@ -304,7 +304,7 @@
     "id": "EOC_difficultycheck0",
     "//": "Want to play normal?",
     "condition": {
-      "u_query": "In Normal Difficulty, pulses occur every 45 minutes.  This means on every expedition, you will have 6 hours to explore, fight, loot, and find the exit before warp sickness sets in, and 8 hours total before disintegration begins.\nThis is the intended way to play.  Getting to the exit is not a cakewalk, but you should have time to explore while earthside.\n\nDo you wish to play Normal Difficulty? Choosing no will provide other options.",
+      "u_query": "In Normal Difficulty, pulses occur every 45 minutes.  This means on every expedition, you will have 6 hours to explore, fight, loot, and find the exit before warp sickness sets in, and 8 hours total before disintegration begins.\nThis is the intended way to play.  Getting to the exit is not a cakewalk, but you should have time to explore while earthside.\n\nDo you wish to play Normal Difficulty?  Choosing no will provide other options.",
       "default": true
     },
     "effect": [
@@ -321,7 +321,7 @@
     "id": "EOC_difficultycheck1",
     "//": "Want to play casual?",
     "condition": {
-      "u_query": "In Casual difficulty, time limits are more relaxed.\nWarp pulses occur every 90 minutes.  This means warp sickness sets in after 12 hours of being earthside, and disintegration at 18 hours.  You will have more time for activities and reaching the extract should generally not be a problem.\n\nDo you wish to play in Casual Difficulty? Choosing no will provide other options.",
+      "u_query": "In Casual difficulty, time limits are more relaxed.\nWarp pulses occur every 90 minutes.  This means warp sickness sets in after 12 hours of being earthside, and disintegration at 18 hours.  You will have more time for activities and reaching the extract should generally not be a problem.\n\nDo you wish to play in Casual Difficulty?  Choosing no will provide other options.",
       "default": false
     },
     "effect": [
@@ -338,7 +338,7 @@
     "id": "EOC_difficultycheck2",
     "//": "Want to play hard?",
     "condition": {
-      "u_query": "In Hard difficulty, time limits are strict.\nWarp pulses occur every 30 minutes.  This means warp sickness sets in after only 4 hours of being earthside, and disintegration at 6 hours.  You will have much less time to spare and must make getting to the exit your immediate priority.\n\nDo you wish to play in Hard Difficulty? Choosing no will provide other options.",
+      "u_query": "In Hard difficulty, time limits are strict.\nWarp pulses occur every 30 minutes.  This means warp sickness sets in after only 4 hours of being earthside, and disintegration at 6 hours.  You will have much less time to spare and must make getting to the exit your immediate priority.\n\nDo you wish to play in Hard Difficulty?  Choosing no will provide other options.",
       "default": false
     },
     "effect": [
@@ -355,7 +355,7 @@
     "id": "EOC_difficultycheck3",
     "//": "Want to play impossible?",
     "condition": {
-      "u_query": "In Impossible difficulty, time limits are extremely tight.\nWarp pulses occur every 15 minutes.  This means warp sickness sets in after only 2 hours of being earthside, and disintegration at 3 hours.  Reaching the extract alive will take all the time you can spare, and warp sickness will be common.  You will not be given mercy!\n\nDo you wish to play in Impossible Difficulty? Choosing no will restart this menu.",
+      "u_query": "In Impossible difficulty, time limits are extremely tight.\nWarp pulses occur every 15 minutes.  This means warp sickness sets in after only 2 hours of being earthside, and disintegration at 3 hours.  Reaching the extract alive will take all the time you can spare, and warp sickness will be common.  You will not be given mercy!\n\nDo you wish to play in Impossible Difficulty?  Choosing no will restart this menu.",
       "default": false
     },
     "effect": [
