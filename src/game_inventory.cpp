@@ -2551,7 +2551,7 @@ class change_sprite_inventory_preset: public inventory_selector_preset
     public:
         change_sprite_inventory_preset( Character &pl ) :
             you( pl ) {
-            append_cell( [ this ]( const item_location & loc ) -> std::string {
+            append_cell( []( const item_location & loc ) -> std::string {
                 if( loc->has_var( "sprite_override" ) ) {
                     const itype_id sprite_override( std::string( loc->get_var( "sprite_override" ) ) );
                     const std::string variant = loc->get_var( "sprite_override" );
