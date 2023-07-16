@@ -905,6 +905,15 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_robofac_camspy",
+      "friendly_msg": "The camspy hums and takes to the sky.",
+      "hostile_msg": "The camspy hums and appears to reconnect to whoever was piloting it before.",
+      "difficulty": 3,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
     "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
     "melee_damage": { "bash": 8 }
   }
