@@ -28,7 +28,7 @@ static const efftype_id effect_high( "high" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_slimed( "slimed" );
-static const efftype_id effect_smoke( "smoke" );
+static const efftype_id effect_smoke( "smoke_lungs" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teargas( "teargas" );

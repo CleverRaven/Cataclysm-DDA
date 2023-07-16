@@ -210,7 +210,7 @@ static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slimed( "slimed" );
-static const efftype_id effect_smoke( "smoke" );
+static const efftype_id effect_smoke( "smoke_lungs" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stimpack( "stimpack" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
