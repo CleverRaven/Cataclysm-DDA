@@ -46,7 +46,8 @@
     "type": "overmap_terrain",
     "id": "roundabout_edge",
     "copy-from": "special_field",
-    "delete": { "flags": [ "NO_ROTATE" ] }
+    "delete": { "flags": [ "NO_ROTATE" ] },
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR" ] }
   },
   {
     "type": "overmap_terrain",

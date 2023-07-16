@@ -8346,7 +8346,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "roundabout_city",
+    "id": "roundabout_4way",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roundabout_4way", "locations": [ "road_only" ] } ],
     "occurrences": [ 3, 6 ],
     "connections": [
@@ -8359,7 +8359,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "roundabout",
+    "id": "roundabout_3way",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "roundabout_3way_north", "locations": [ "road_only" ] },
       { "point": [ 0, 1, 0 ], "overmap": "roundabout_edge_north", "locations": [ "land" ] }
