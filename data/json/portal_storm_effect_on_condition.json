@@ -35,9 +35,9 @@
           "id": "EOC_FIRST_PORTAL_STORM",
           "condition": {
             "or": [
-              { "math": [ "portal_storm_distant_distance", "<=", "200" ] },
-              { "math": [ "portal_storm_close_distance", "<=", "100" ] },
-              { "math": [ "portal_storm_distance", "<=", "50" ] }
+              { "math": [ "portal_storm_distant_distance", "<", "200" ] },
+              { "math": [ "portal_storm_close_distance", "<", "100" ] },
+              { "math": [ "portal_storm_distance", "<", "50" ] }
             ]
           },
           "effect": [
