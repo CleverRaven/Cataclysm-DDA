@@ -25,6 +25,7 @@ struct advanced_inv_pane_save_state {
 
         bool in_vehicle = false;
         item_location container;
+        int container_base_loc;
 
         void serialize( JsonOut &json, const std::string &prefix ) const {
             json.member( prefix + "sort_idx", sort_idx );
@@ -33,6 +34,7 @@ struct advanced_inv_pane_save_state {
             json.member( prefix + "selected_idx", selected_idx );
             json.member( prefix + "in_vehicle", in_vehicle );
             json.member( prefix + "container", container );
+            json.member( prefix + "container_base_loc", container_base_loc );
         }
 
         void deserialize( const JsonObject &jo, const std::string &prefix ) {
@@ -42,6 +44,7 @@ struct advanced_inv_pane_save_state {
             jo.read( prefix + "selected_idx", selected_idx );
             jo.read( prefix + "in_vehicle", in_vehicle );
             jo.read( prefix + "container", container );
+            jo.read( prefix + "container_base_loc", container_base_loc );
         }
 };
 

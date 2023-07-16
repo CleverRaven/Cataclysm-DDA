@@ -147,10 +147,11 @@ advanced_inventory::advanced_inventory()
         { AIM_NORTHWEST, point( 30, 1 ), tripoint_north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW",        AIM_NORTH},
         { AIM_NORTH,     point( 33, 1 ), tripoint_north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N",         AIM_NORTHEAST},
         { AIM_NORTHEAST, point( 36, 1 ), tripoint_north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE",        AIM_EAST},
-        { AIM_DRAGGED,   point( 25, 1 ), tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
-        { AIM_ALL,       point( 22, 3 ), tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
-        { AIM_CONTAINER, point( 22, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
-        { AIM_WORN,      point( 25, 3 ), tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
+        { AIM_DRAGGED,   point( 22, 3 ), tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
+        { AIM_ALL,       point( 25, 3 ), tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
+        { AIM_CONTAINER, point( 25, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
+        { AIM_PARENT,    point( 22, 1 ), tripoint_zero,       _( "" ),                   _( "" ),    "X", "ITEMS_PARENT",    AIM_PARENT},
+        { AIM_WORN,      point( 22, 2 ), tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
     }
 } )
 {
@@ -645,23 +646,14 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int ofs = wwidth - 25 - 2 - 14;
     int min_x = wwidth;
     int container_loc = -1;
-    if( pane.container ) {
-        tripoint_rel_ms container_rel_pos = pane.container.pos_bub() - get_avatar().pos_bub();
-        switch( pane.container.where_recursive() ) {
-            case item_location::type::character:
-                container_loc = pane.container.has_parent() ? 0 : 13;
-                break;
-            case item_location::type::map:
-            case item_location::type::vehicle:
-                container_loc = container_rel_pos.y() * -3 + 5 + container_rel_pos.x();
-                break;
-            default:
-                break;
-        }
-    }
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
-        const char *bracket = squares[data_location].can_store_in_vehicle() ? "<>" : "[]";
+        bool can_put_items = squares[data_location].canputitems( pane.get_cur_item_ptr() != nullptr ?
+                             pane.get_cur_item_ptr()->items.front() : item_location::nowhere );
+        const char *bracket = pane.container_base_loc == data_location ||
+                              data_location == AIM_CONTAINER ? "><" :
+                              squares[data_location].can_store_in_vehicle() ||
+                              data_location == AIM_PARENT ? "<>" : "[]";
         bool in_vehicle = pane.in_vehicle() && squares[data_location].id == area && sel == area &&
                           area != AIM_ALL;
         bool all_brackets = area == AIM_ALL && ( data_location >= AIM_SOUTHWEST &&
@@ -670,14 +662,17 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         nc_color kcolor = c_red;
         // Highlight location [#] if it can recieve items,
         // or highlight container [C] if container mode is active.
-        if( squares[data_location].canputitems( pane.get_cur_item_ptr() != nullptr ?
-                                                pane.get_cur_item_ptr()->items.front() : item_location::nowhere ) ||
-            ( area == AIM_CONTAINER && data_location == AIM_CONTAINER ) ) {
-
+        if( can_put_items ) {
             bcolor = in_vehicle ? c_light_blue :
+                     pane.container_base_loc == data_location ? c_yellow :
+                     data_location == AIM_CONTAINER ? c_dark_gray :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
-            kcolor = area == data_location ? c_white : sel == data_location ||
-                     container_loc == data_location ? c_light_gray : c_dark_gray;
+            kcolor = data_location == AIM_CONTAINER ? c_dark_gray :
+                     area == data_location ? c_white :
+                     sel == data_location || pane.container_base_loc == data_location ? c_light_gray : c_dark_gray;
+        } else if( data_location == AIM_PARENT && pane.container ) {
+            bcolor = c_light_gray;
+            kcolor = c_white;
         }
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
         const point p( squares[i].hscreen + point( ofs, 0 ) );
@@ -759,6 +754,17 @@ void advanced_inventory::recalc_pane( side p )
 
     // Sort all items
     std::stable_sort( pane.items.begin(), pane.items.end(), advanced_inv_sorter( pane.sortby ) );
+
+    // Attempt to move to the target item if there is one.
+    if( pane.target_item_after_recalc ) {
+        for( size_t i = 0; i < pane.items.size(); i++ ) {
+            if( pane.items[i].items.front() == pane.target_item_after_recalc ) {
+                pane.index = i;
+                pane.target_item_after_recalc = item_location::nowhere;
+                break;
+            }
+        }
+    }
 }
 
 void advanced_inventory::redraw_pane( side p )
@@ -789,7 +795,8 @@ void advanced_inventory::redraw_pane( side p )
     const advanced_inv_area &sq = same_as_dragged ? squares[AIM_DRAGGED] : square;
     bool car = square.can_store_in_vehicle() && panes[p].in_vehicle() && sq.id != AIM_DRAGGED;
     std::string name = utf8_truncate( car ? sq.veh->name : sq.name, width );
-    std::string desc = utf8_truncate( sq.desc[car], width );
+    std::string desc = utf8_truncate( pane.container ? pane.container->tname( 1, false ) :
+                                      sq.desc[car], width );
     // starts at offset 2, plus space between the header and the text
     width -= 2 + 1;
     trim_and_print( w, point( 2, 1 ), width, active ? c_green  : c_light_gray, name );
@@ -1134,6 +1141,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "ITEMS_AROUND" );
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
     ctxt.register_action( "ITEMS_CONTAINER" );
+    ctxt.register_action( "ITEMS_PARENT" );
 
     ctxt.register_action( "ITEMS_DEFAULT" );
     ctxt.register_action( "SAVE_DEFAULT" );
@@ -1168,10 +1176,16 @@ void advanced_inventory::change_square( const aim_location changeSquare,
 {
     // Determine behavior if current pane is used.  AIM_CONTAINER should never swap to allow for multi-containers
     if( ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) &&
-        changeSquare != AIM_CONTAINER ) {
+        changeSquare != AIM_CONTAINER && changeSquare != AIM_PARENT ) {
         if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
             spane.get_area() != changeSquare ) {
             // only deal with spane, as you can't _directly_ change dpane
+            if( spane.get_area() == AIM_CONTAINER ) {
+                spane.container = item_location::nowhere;
+                spane.container_base_loc = NUM_AIM_LOCATIONS;
+                // Update dpane to show items removed from the spane.
+                dpane.recalc = true;
+            }
             if( dpane.get_area() == changeSquare ) {
                 spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
                 spane.recalc = true;
@@ -1184,21 +1198,49 @@ void advanced_inventory::change_square( const aim_location changeSquare,
         } else {
             swap_panes();
         }
-        // we need to check the original area if we can place items in vehicle storage
+    } else if( changeSquare == AIM_PARENT ) {
+        if( !spane.container ) {
+            return;
+        }
+        spane.target_item_after_recalc = spane.container;
+        if( spane.container.has_parent() ) {
+            if( spane.container_base_loc == AIM_INVENTORY && !spane.container.parent_item().has_parent() ) {
+                // If we're here from the inventory, skip past individual worn items straight to the full inventory view.
+                change_square( AIM_INVENTORY, dpane, spane );
+            } else {
+                spane.container = spane.container.parent_item();
+                spane.set_area( squares[AIM_CONTAINER], false );
+            }
+        } else {
+            change_square( spane.container_base_loc, dpane, spane );
+        }
+        spane.recalc = true;
+        spane.index = 0;
+        dpane.recalc = true;
     } else if( squares[changeSquare].canputitems(
                    changeSquare == AIM_CONTAINER && spane.get_cur_item_ptr() != nullptr ?
                    spane.get_cur_item_ptr()->items.front() : item_location::nowhere ) ) {
-
-        bool in_vehicle_cargo = false;
         if( changeSquare == AIM_CONTAINER ) {
-            panes[src].container = spane.get_cur_item_ptr()->items.front();
+            // Set the pane's container to the selected item.
+            spane.container = spane.get_cur_item_ptr()->items.front();
+            if( spane.get_area() != AIM_CONTAINER ) {
+                spane.container_base_loc = spane.get_area();
+            }
+            // Update dpane to hide items added to the spane.
             dpane.recalc = true;
-            // Reset pane's container to null if switching away from it
-        } else if( spane.get_area() == AIM_CONTAINER ) {
-            panes[src].container = item_location::nowhere;
-            dpane.recalc = true;
+        } else {
+            // Reset the pane's container whenever we're switching to something else.
+            spane.container = item_location::nowhere;
+            if( spane.get_area() == AIM_CONTAINER ) {
+                spane.container_base_loc = NUM_AIM_LOCATIONS;
+                // Update dpane to show items removed from the spane.
+                dpane.recalc = true;
+            }
+        }
+        // Check the original area if we can place items in vehicle storage.
+        bool in_vehicle_cargo = false;
+        if( squares[changeSquare].can_store_in_vehicle() && spane.get_area() != changeSquare ) {
             // auto select vehicle if items exist at said square, or both are empty
-        } else if( squares[changeSquare].can_store_in_vehicle() && spane.get_area() != changeSquare ) {
             if( changeSquare == AIM_DRAGGED ) {
                 in_vehicle_cargo = true;
             } else {
@@ -1219,7 +1261,8 @@ void advanced_inventory::change_square( const aim_location changeSquare,
             dpane.recalc = true;
         }
     } else {
-        popup( _( "You can't put items there!" ) );
+        popup( changeSquare != AIM_CONTAINER ? _( "You can't put items there!" ) :
+               _( "That isn't a container!" ) );
     }
 }
 

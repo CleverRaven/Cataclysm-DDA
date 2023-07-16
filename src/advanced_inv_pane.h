@@ -75,10 +75,15 @@ class advanced_inventory_pane
          * Whether to recalculate the content of this pane.
          */
         bool recalc = false;
+        item_location target_item_after_recalc;
         /**
-        *The active container item in container view.
+        * The active container item in container view.
         */
         item_location container;
+        /**
+        * The original location from which container view was entered.
+        */
+        aim_location container_base_loc = NUM_AIM_LOCATIONS;
 
         void add_items_from_area( advanced_inv_area &square, bool vehicle_override = false );
         /**
