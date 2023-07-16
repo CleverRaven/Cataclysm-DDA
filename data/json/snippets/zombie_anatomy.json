@@ -382,12 +382,33 @@
   },
   {
     "type": "snippet",
+    "category": "<zombie_bone_dog_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_bone_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_acid_dog_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_acid_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<zombie_electric_harvest>",
     "text": [
       "<zombie_humanoid_harvest_general>",
-      "<zombie_harvest_hulk_general>",
+      "<zombie_harvest_electric_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_harvest_electric_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
