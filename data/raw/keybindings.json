@@ -586,7 +586,7 @@
     "id": "TOGGLE_CLOTH",
     "category": "SORT_ARMOR",
     "name": "Toggle armor visibility on character sprite",
-    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1531,7 +1531,7 @@
     "id": "CHOOSE_CITY",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Choose character starting city",
-    "bindings": [ { "input_method": "keyboard_any", "key": "C" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "C" }, { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3376,7 +3376,7 @@
     "id": "CHANGE_FACTION",
     "category": "ZONES_MANAGER",
     "name": "Change shown faction",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3603,7 +3603,7 @@
     "id": "MARK_WITH_COUNT",
     "category": "INVENTORY",
     "name": "Select a specific amount of highlighted item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "!" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "!" }, { "input_method": "keyboard_code", "key": "1", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -4277,7 +4277,7 @@
     "category": "WISH_ITEM",
     "id": "SNIPPET",
     "name": "Choose snippet",
-    "bindings": [ { "input_method": "keyboard_any", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
