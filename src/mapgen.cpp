@@ -3518,11 +3518,47 @@ class jmapgen_nested : public jmapgen_piece
 
                         cata_assert( !allowed_joins.empty() );
 
-                        bool this_direction_matches = false;
+                        bool this_direction_has_join = false;
                         for( const std::string &allowed_join : allowed_joins ) {
-                            this_direction_matches |= dat.has_join( dir, allowed_join );
+                            this_direction_has_join |= dat.has_join( dir, allowed_join );
                         }
-                        if( !this_direction_matches ) {
+                        if( !this_direction_has_join ) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+        };
+        class neighbor_flag_check
+        {
+            private:
+                std::unordered_map<direction, cata::flat_set<oter_flags>> neighbors;
+            public:
+                explicit neighbor_flag_check( const JsonObject &jsi ) {
+                    for( direction dir : all_enum_values<direction>() ) {
+                        cata::flat_set<oter_flags> dir_neighbours;
+                        std::string location = io::enum_to_string( dir );
+                        optional( jsi, false, location, dir_neighbours );
+                        if( !dir_neighbours.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbours );
+                        }
+                    }
+                }
+
+                bool test( const mapgendata &dat ) const {
+                    for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
+                         neighbors ) {
+                        const direction dir = p.first;
+                        const cata::flat_set<oter_flags> &allowed_flags = p.second;
+
+                        cata_assert( !allowed_flags.empty() );
+
+                        bool this_direction_has_flag = false;
+                        for( const oter_flags &allowed_flag : allowed_flags ) {
+                            this_direction_has_flag |=
+                                dat.neighbor_at( dir )->has_flag( allowed_flag );
+                        }
+                        if( !this_direction_has_flag ) {
                             return false;
                         }
                     }
@@ -3535,9 +3571,11 @@ class jmapgen_nested : public jmapgen_piece
         weighted_int_list<mapgen_value<nested_mapgen_id>> else_entries;
         neighbor_oter_check neighbor_oters;
         neighbor_join_check neighbor_joins;
+        neighbor_flag_check neighbor_flags;
         jmapgen_nested( const JsonObject &jsi, const std::string_view/*context*/ )
             : neighbor_oters( jsi.get_object( "neighbors" ) )
-            , neighbor_joins( jsi.get_object( "joins" ) ) {
+            , neighbor_joins( jsi.get_object( "joins" ) )
+            , neighbor_flags( jsi.get_object( "flags" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
@@ -3577,7 +3615,7 @@ class jmapgen_nested : public jmapgen_piece
         }
         const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
-            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) ) {
+            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) ) {
                 return entries;
             } else {
                 return else_entries;
