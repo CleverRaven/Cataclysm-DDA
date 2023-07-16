@@ -90,7 +90,7 @@
     "id": "glass_boat",
     "type": "GENERIC",
     "name": { "str": "broken glass boat" },
-    "description": "A black glass model of an old sailing ship, with a gaping hole smashed in the side of the hull. It's certainly no longer suited for long voyages.",
+    "description": "A black glass model of an old sailing ship, with a gaping hole smashed in the side of the hull.  It's certainly no longer suited for long voyages.",
     "category": "other",
     "material": [ "glass" ],
     "weight": "350 g",
