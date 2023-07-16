@@ -271,7 +271,7 @@
   },
   {
     "type": "snippet",
-    "category": "<zombie_hulk+bone_harvest>",
+    "category": "<zombie_bone_hulk_harvest>",
     "text": [
       "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_hulk_general>",
@@ -294,7 +294,7 @@
   },
   {
     "type": "snippet",
-    "category": "<zombie_hulk+kevlar_harvest>",
+    "category": "<zombie_kevlar_hulk_harvest>",
     "text": [
       "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_hulk_general>",
