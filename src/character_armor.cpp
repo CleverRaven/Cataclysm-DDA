@@ -188,17 +188,17 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && get_power_level() > bio_ads->power_trigger ) {
                 if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
-                    mod_power_level( std::min( units::from_kilojoule( elem.amount ), -bio_ads->power_trigger ) );
+                    mod_power_level( elem.amount, -bio_ads->power_trigger ) );
                     elem.amount -= rng( 1, 2 );
                     add_msg_if_player( m_good,
                                        _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
                 } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
-                    mod_power_level( std::min( units::from_kilojoule( elem.amount ), -bio_ads->power_trigger ) );
+                    mod_power_level( std::min( elem.amount, -bio_ads->power_trigger ) );
                     elem.amount -= rng( 2, 6 );
                     add_msg_if_player( m_good,
                                        _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
                 } else if( elem.type == STATIC( damage_type_id( "stab" ) ) || STATIC( damage_type_id( "bullet" ) ) {
-                    mod_power_level( std::min( units::from_kilojoule( elem.amount ), -bio_ads->power_trigger ) );
+                    mod_power_level( std::min( elem.amount, -bio_ads->power_trigger ) );
                     elem.amount -= rng( 4, 12 );
                     add_msg_if_player( m_good,
                                        _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
