@@ -733,8 +733,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     const auto &comest = food.get_comestible();
 
     if( food.has_flag( flag_INEDIBLE ) ) {
-    bool has_compatible_mutation = 
-        ( food.has_flag( flag_CATTLE ) && has_trait( trait_THRESH_CATTLE ) ) ||
+        bool has_compatible_mutation =
+            ( food.has_flag( flag_CATTLE ) && has_trait( trait_THRESH_CATTLE ) ) ||
             ( food.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ||
             ( food.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
             ( food.has_flag( flag_RABBIT ) && has_trait( trait_THRESH_RABBIT ) ) ||
