@@ -958,7 +958,7 @@
     "type": "effect_on_condition",
     "id": "EOC_FACTION_SUCCESSION_CHANGE_INIT",
     "eoc_type": "EVENT",
-    "required_event": "game_begin",
+    "required_event": "game_start",
     "effect": [
       { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
       { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
