@@ -330,7 +330,7 @@
     "difficulty": 7,
     "time": "3 h",
     "batch_time_factors": [ 80, 20 ],
-    "book_learn": [ [ "recipe_animal", 6 ] ],
+    "book_learn": [ [ "", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_organic_chemistry" },
@@ -366,7 +366,7 @@
     "difficulty": 7,
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
-    "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
+    "book_learn": [ [ "recipe_serum", 6 ], [ "", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_organic_chemistry" },
@@ -1397,10 +1397,10 @@
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "chemistry",
     "skills_required": [ "survival", 3 ],
-    "difficulty": 6,
+    "difficulty": 5,
     "time": "30 m",
     "batch_time_factors": [ 20, 5 ],
-    "book_learn": [ [ "recipe_animal", 6 ] ],
+    "book_learn": [ [ "recipe_animal", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_organic_chemistry" },
