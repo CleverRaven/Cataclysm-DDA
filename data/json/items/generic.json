@@ -1381,7 +1381,7 @@
     "weight": "31520 g",
     "volume": "15 L",
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR", NO_SALVAGE ],
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
