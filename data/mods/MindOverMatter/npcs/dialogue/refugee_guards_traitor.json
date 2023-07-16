@@ -103,22 +103,84 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Telekinesis 6+] *Rip <npcname>'s weapon out of <mypronoun>'s hands*",
-        "condition": { "math": [ "u_val('spell_level', 'school: TELEKINETIC')", ">=", "6" ] },
-        "topic": "TALK_DONE",
-        "effect": "drop_weapon"
+        "text": "[Telekinesis Check] *Try to rip <npcname>'s weapon out of <mypronoun> hands*",
+        "condition": { "u_has_trait": "TELEKINETIC" },
+        "switch": true,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEKINETIC')" ] },
+            "difficulty": { "math": [ "n_val('strength')" ] },
+            "die_size": 5
+          }
+        },
+        "success": { "topic": "TALK_DONE", "effect": "drop_weapon" },
+        "failure": { "topic": "TALK_DONE" }
       }
     ]
   },
   {
-    "id": "TALK_EVAC_GUARD3_DEAD",
+    "id": [ "TALK_EVAC_GUARD3_DEAD" ],
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Synaptic Overload 8+] *Shut off <npcname>'s brain*",
-        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "8" ] },
-        "topic": "TALK_DONE",
-        "effect": "npc_die"
+        "text": "[Sensory Deprivation Check] *Shut off <npcname>'s senses*.",
+        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')", ">=", "1" ] },
+        "switch": true,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')" ] },
+            "difficulty": { "math": [ "n_val('perception')" ] },
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            "hostile",
+            { "npc_add_effect": "psi_blind", "duration": "30 s" },
+            { "npc_add_effect": "psi_deaf", "duration": "30 s" }
+          ]
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "u_message": "You failed to affect <npcname>'s senses!", "type": "bad" } ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_DEAD" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Synaptic Overload Check] *Attack <npcname>'s mind*.",
+        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "1" ] },
+        "switch": true,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')" ] },
+            "difficulty": { "math": [ "n_val('intelligence')" ] },
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            "hostile",
+            {
+              "npc_set_hp": { "math": [ "(80 - (6 * (u_val('spell_level', 'spell: telepathic_blast')))" ] },
+              "target_part": "head"
+            },
+            { "npc_add_effect": "stunned", "duration": "1 s" }
+          ]
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "u_message": "<npcname> repelled your attack on <mypronoun> mind!", "type": "bad" } ]
+        }
       }
     ]
   },
@@ -128,7 +190,7 @@
     "responses": [
       {
         "text": "[Mind Control 6+] *Take over <npcname>'s mind*",
-        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_mind_control')", ">=", "8" ] },
+        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_mind_control')", ">=", "6" ] },
         "topic": "TALK_DONE",
         "effect": [
           "follow_only",
