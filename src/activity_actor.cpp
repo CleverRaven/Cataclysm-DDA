@@ -2546,7 +2546,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
         here.furn_set( target, furn_f_gunsafe_mj );
-    } else if( lock_roll > ( 1.5 * pick_roll ) ) {
+    } else if( lock_roll > ( 1.5 * pick_roll ) && !who.has_proficiency( proficiency_prof_lockpicking )  ) {
         if( it->inc_damage() ) {
             who.add_msg_if_player( m_bad,
                                    _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
