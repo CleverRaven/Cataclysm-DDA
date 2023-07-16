@@ -865,9 +865,9 @@
   },
   {
     "type": "keybinding",
-    "id": "ADD_MOD",
+    "id": "MOVE_MOD_DOWN",
     "category": "MODMANAGER_DIALOG",
-    "name": "Move selected mod up",
+    "name": "Move selected mod down",
     "bindings": [
       { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
@@ -876,9 +876,9 @@
   },
   {
     "type": "keybinding",
-    "id": "REMOVE_MOD",
+    "id": "MOVE_MOD_UP",
     "category": "MODMANAGER_DIALOG",
-    "name": "Move selected mod down",
+    "name": "Move selected mod up",
     "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
