@@ -13,7 +13,7 @@
   {
     "id": [ "TALK_PORTAL_TRAVELER_telepathy" ],
     "type": "talk_topic",
-    "dynamic_line": ">>Jasz vata aralas mat!  On de farah shatan!  Mazeh jast ond!<<",
+    "dynamic_line": "«Jasz vata aralas mat!  On de farah shatan!  Mazeh jast ond!»",
     "responses": [ { "text": "Well, that didn't help either.", "topic": "TALK_DONE" } ]
   }
 ]

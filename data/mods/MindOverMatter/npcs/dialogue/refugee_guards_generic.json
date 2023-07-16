@@ -1,0 +1,80 @@
+[
+  {
+    "id": [ "TALK_GUARD" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Premonition] *Determine if <npcname> is a threat*",
+        "topic": "TALK_GUARD_GENERIC_REFUGEE_danger_sense",
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "2" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_GUARD_GENERIC_REFUGEE_danger_sense" ],
+    "type": "talk_topic",
+    "dynamic_line": "&A quick check reveals nothing out of the ordinary.  To <npcname>, you're just another face in the crowd.",
+    "responses": [ { "text": "…", "topic": "TALK_GUARD" } ]
+  },
+  {
+    "id": [ "TALK_GUARD" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telepathy] *Read <npcname>'s mind*",
+        "topic": "TALK_GUARD_GENERIC_REFUGEE_scan",
+        "condition": { "u_has_trait": "TELEPATH" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_GUARD_GENERIC_REFUGEE_scan" ],
+    "type": "talk_topic",
+    "dynamic_line": [ "<telepathy_generic_guard>" ],
+    "responses": [ { "text": "…", "topic": "TALK_GUARD" } ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD2" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Premonition] *Determine if <npcname> is a threat*",
+        "topic": "TALK_EVAC_GUARD2_danger_sense",
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "2" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD2_danger_sense" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You open your senses, alert for danger, but don't sense anything.  <npcname> is sincere in <mypronoun> friendliness, or least isn't hiding a dagger behind <mypronoun> back.",
+    "responses": [ { "text": "…", "topic": "TALK_GUARD" } ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD2" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telepathy] *Read <npcname>'s mind*",
+        "topic": "TALK_EVAC_GUARD2_scan",
+        "condition": { "u_has_trait": "TELEPATH" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD2_scan" ],
+    "type": "talk_topic",
+    "dynamic_line": [
+      "«Not bad playing tour guide.  Better than having to fight.»",
+      {
+        "is_day": [ "«Another day after <the_cataclysm>.  One foot in front of the other.»" ],
+        "no": [
+          "«So tired.  That's what I get for drawing the night shift.»",
+          "«At least in here I can see them coming.  If I were out there…»"
+        ]
+      },
+      { "u_male": [ "«As long as this one doesn't hit on me.»" ] }
+    ],
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD2" } ]
+  }
+]

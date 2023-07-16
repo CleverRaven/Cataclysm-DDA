@@ -1,0 +1,146 @@
+[
+  {
+    "id": [ "TALK_EVAC_GUARD3" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Premonition] *Determine if <npcname> is a threat*",
+        "topic": "TALK_EVAC_GUARD3_danger_sense",
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "2" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_danger_sense" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You barely open up your senses before you're met with an overpowering sense of menace.  <npcname> isn't planning to kill you at this exact second but that could change at any moment.",
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD3" } ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telepathy] *Read <npcname>'s mind*",
+        "topic": "TALK_EVAC_GUARD3_scan",
+        "condition": { "u_has_trait": "TELEPATH" }
+      },
+      {
+        "text": "It's you.",
+        "topic": "TALK_EVAC_GUARD3_direct_accusation",
+        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_scan",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "«Just what I need.  Come on, leave me alone.»",
+      "«How am I supposed to…ugh, just go away.»",
+      "«Who does this asshole think he is?»"
+    ],
+    "responses": [
+      { "text": "…", "topic": "TALK_EVAC_GUARD3" },
+      {
+        "text": "[Telepathy 10+] *Go deeper*.",
+        "topic": "TALK_EVAC_GUARD3_deep_scan",
+        "condition": { "math": [ "u_val('spell_level', 'school: TELEPATH')", ">=", "10" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_deep_scan" ],
+    "type": "talk_topic",
+    "dynamic_line": "&It's only a moment, but that's enough.  You are looking from behind a tree onto a road where a crude roadblock has been set up.  There's a refugee bus, one of the same ones parked outside the refugee center, stopped at the roadblock, and as the driver gets out to look at the roadblock, there's a loud crack and two spots of red appear on his chest and leg.  As he begins to fall and the people in the bus start screaming, the raiders emerge from the trees, already running with guns raised.",
+    "responses": [
+      {
+        "text": "*Withdraw from <npcname>'s mind*.",
+        "effect": { "u_add_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" },
+        "topic": "TALK_EVAC_GUARD3_post_scan"
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_post_scan" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Only a few moments have passed.  <npcname> hasn't noticed anything amiss.",
+    "responses": [
+      { "text": "…", "topic": "TALK_EVAC_GUARD3" },
+      {
+        "text": "It's you.",
+        "topic": "TALK_EVAC_GUARD3_direct_accusation",
+        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_direct_accusation" ],
+    "type": "talk_topic",
+    "dynamic_line": "What the hell are you talking about?",
+    "responses": [
+      {
+        "text": "He was only a child, <npcname>, and you killed him.  Do you remember the blood on his Superman shirt?",
+        "topic": "TALK_EVAC_GUARD3_witch",
+        "opinion": { "fear": 4 }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_witch" ],
+    "type": "talk_topic",
+    "dynamic_line": "I didn't tell you my na-\" <npcname>'s face goes white. \"What the fuck!  You some kind of freak?",
+    "responses": [
+      {
+        "text": "It's over.  Give up.",
+        "topic": "TALK_EVAC_GUARD3_DEAD",
+        "effect": { "npc_change_faction": "hells_raiders" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_DEAD",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telekinesis 6+] *Rip <npcname>'s weapon out of <mypronoun>'s hands*",
+        "condition": { "math": [ "u_val('spell_level', 'school: TELEKINETIC')", ">=", "6" ] },
+        "topic": "TALK_DONE",
+        "effect": "drop_weapon"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_DEAD",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Synaptic Overload 8+] *Shut off <npcname>'s brain*",
+        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "8" ] },
+        "topic": "TALK_DONE",
+        "effect": "npc_die"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_DEAD",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Mind Control 6+] *Take over <npcname>'s mind*",
+        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_mind_control')", ">=", "8" ] },
+        "topic": "TALK_DONE",
+        "effect": [
+          "follow_only",
+          { "npc_change_faction": "old_guard" },
+          {
+            "u_add_var": "mind_controlled_evac_guard_3",
+            "type": "dialogue",
+            "context": "refugee_center_traitor",
+            "value": "yes"
+          }
+        ]
+      }
+    ]
+  }
+]
