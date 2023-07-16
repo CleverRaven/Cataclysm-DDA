@@ -459,7 +459,7 @@
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
-            "immunity_data": { "body_part_env_resistance": [ [ "eyes", 3 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 3 ] ] },
             "immune_inside_vehicle": true
           },
           {
@@ -485,7 +485,7 @@
             "intensity": 2,
             "min_duration": "7 seconds",
             "max_duration": "7 seconds",
-            "immunity_data": { "body_part_env_resistance": [ [ "eyes", 5 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 5 ] ] },
             "immune_inside_vehicle": true
           },
           {
@@ -511,7 +511,7 @@
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "15 seconds",
-            "immunity_data": { "body_part_env_resistance": [ [ "eyes", 7 ] ] },
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 7 ] ] },
             "immune_inside_vehicle": true
           },
           {
