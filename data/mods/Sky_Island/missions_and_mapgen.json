@@ -603,7 +603,14 @@
       "update_mapgen": {
         "place_monster": [
           { "group": "GROUP_SI_ZOMEASY", "x": [ 1, 22 ], "y": [ 1, 22 ], "name": "Marked", "target": true, "repeat": [ 0, 4 ] },
-          { "group": "GROUP_SI_ZOMMID", "x": [ 1, 22 ], "y": [ 1, 22 ], "name": "Marked", "target": true, "repeat": [ 0, 2 ] },
+          {
+            "group": "GROUP_SI_ZOMMID",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "name": "Marked",
+            "target": true,
+            "repeat": [ 0, 2 ]
+          },
           {
             "group": "GROUP_SI_ZOMHARD",
             "x": [ 1, 22 ],
@@ -648,7 +655,14 @@
       "update_mapgen": {
         "place_monster": [
           { "group": "GROUP_SI_ZOMMID", "x": [ 1, 22 ], "y": [ 1, 22 ], "name": "Marked", "target": true, "repeat": [ 0, 2 ] },
-          { "group": "GROUP_SI_ZOMHARD", "x": [ 1, 22 ], "y": [ 1, 22 ], "name": "Marked", "target": true, "repeat": [ 0, 1 ] },
+          {
+            "group": "GROUP_SI_ZOMHARD",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "name": "Marked",
+            "target": true,
+            "repeat": [ 0, 1 ]
+          },
           {
             "group": "GROUP_SI_ZOMELITE",
             "x": [ 1, 22 ],
@@ -763,7 +777,14 @@
       "update_mapgen": {
         "place_monster": [
           { "group": "GROUP_SI_ZOMBOSS", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked" },
-          { "group": "GROUP_SI_ZOMELITE", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked", "repeat": [ 2, 5 ] }
+          {
+            "group": "GROUP_SI_ZOMELITE",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "target": true,
+            "name": "Marked",
+            "repeat": [ 2, 5 ]
+          }
         ]
       }
     },
@@ -800,7 +821,14 @@
       "update_mapgen": {
         "place_monster": [
           { "group": "GROUP_SI_ZOMBOSS", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked" },
-          { "group": "GROUP_SI_ZOMEASY", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked", "repeat": [ 10, 22 ] }
+          {
+            "group": "GROUP_SI_ZOMEASY",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "target": true,
+            "name": "Marked",
+            "repeat": [ 10, 22 ]
+          }
         ]
       }
     },

@@ -4,46 +4,41 @@
     "id": "f_exitportal",
     "name": "Warp Obelisk",
     "description": "A strange statue that will whisk you away to the dangerous world beyond.",
-	"//": "On examine, activates the EOC chain which lets you teleport away. I made it light and easy to push around so you could reorganize your base easily.",
+    "//": "On examine, activates the EOC chain which lets you teleport away. I made it light and easy to push around so you could reorganize your base easily.",
     "symbol": "S",
     "color": "dark_gray",
-	"looks_like": "f_statue",
+    "looks_like": "f_statue",
     "move_cost_mod": -1,
     "coverage": 0,
     "required_str": 1,
     "crafting_pseudo_item": "fakeitem_statue",
     "flags": [ "NOCOLLIDE", "NO_PICKUP_ON_EXAMINE", "TRANSPARENT" ],
-	"examine_action": {
-      "type": "effect_on_condition",
-      "effect_on_conditions": ["EOC_warp_statue"]
-    }
-  },{
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_warp_statue" ] }
+  },
+  {
     "type": "furniture",
     "id": "f_returnportal",
     "name": "Return Obelisk",
     "description": "A strange statue that will take you back home.",
-	"//": "On examine, activates the EOC which brings you straight home regardless of warp recharge cooldown.",
+    "//": "On examine, activates the EOC which brings you straight home regardless of warp recharge cooldown.",
     "symbol": "S",
     "color": "dark_gray",
-	"looks_like": "f_statue",
+    "looks_like": "f_statue",
     "move_cost_mod": -1,
     "coverage": 0,
     "required_str": -1,
     "flags": [ "NOCOLLIDE", "NO_PICKUP_ON_EXAMINE", "TRANSPARENT" ],
-	"examine_action": {
-      "type": "effect_on_condition",
-      "effect_on_conditions": ["EOC_statue_return"]
-    }
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_statue_return" ] }
   },
   {
     "type": "terrain",
     "id": "t_fake_air",
     "name": "open air",
     "description": "This is the edge of the island. A metaphysical border stops you from going over the edge yourself, but anything you drop here will be gone forever.",
-	"//": "Literally just added this to prevent people from pushing the warp obelisk off the edge.",
+    "//": "Literally just added this to prevent people from pushing the warp obelisk off the edge.",
     "symbol": " ",
     "color": "i_cyan",
-	"looks_like": "t_open_air",
+    "looks_like": "t_open_air",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "DESTROY_ITEM", "NO_SHOOT", "BLOCK_WIND", "TRANSPARENT_FLOOR" ]
   },
@@ -95,7 +90,7 @@
     "description": "Purple-blue shimmers sparkle around the leaves of this small sapling. New growth seems to spring up in seconds, as if in a timelapse, and yet there never seem to be too many branches. It's always in equilibrium. Its strange nature allows you to shift it around like furniture. You can harvest sticks, logs, and other materials from it using the construction menu.",
     "symbol": "7",
     "color": "brown",
-    "move_cost_mod": -1,	
+    "move_cost_mod": -1,
     "flags": [ "NOITEM", "BLOCK_WIND", "TRANSPARENT" ],
     "coverage": 80,
     "required_str": 4,
@@ -109,7 +104,7 @@
     "description": "Purple-blue shimmers sparkle around the leaves of this small sapling. New growth seems to spring up in seconds, as if in a timelapse, and yet there never seem to be too many branches. It's always in equilibrium. Its strange nature allows you to shift it around like furniture. You could probably use this in some recipes.",
     "symbol": "7",
     "color": "brown",
-    "move_cost_mod": -1,	
+    "move_cost_mod": -1,
     "flags": [ "NOITEM", "BLOCK_WIND", "TRANSPARENT" ],
     "coverage": 80,
     "required_str": 4,
@@ -123,7 +118,7 @@
     "description": "Purple-blue shimmers sparkle around the leaves of this small sapling. New growth seems to spring up in seconds, as if in a timelapse, and yet there never seem to be too many branches. It's always in equilibrium. Its strange nature allows you to shift it around like furniture. You could probably use this in some recipes.",
     "symbol": "7",
     "color": "brown",
-    "move_cost_mod": -1,	
+    "move_cost_mod": -1,
     "flags": [ "NOITEM", "BLOCK_WIND", "TRANSPARENT" ],
     "coverage": 80,
     "required_str": 4,
