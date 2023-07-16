@@ -40,7 +40,7 @@
       },
       { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Never mind, let's talk about other things you can do", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Nothing.  Lets' get back to work.", "topic": "TALK_DONE" }
+      { "text": "Nothing.  Let's get back to work.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -50,7 +50,7 @@
     "responses": [
       { "text": "Interesting.  Let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Well, until we go there, let's talk about camps more.", "topic": "TALK_NONE" },
-      { "text": "Well, then.  Lets' get back to work.", "topic": "TALK_DONE" }
+      { "text": "Well, then.  Let's get back to work.", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -193,6 +193,10 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
+static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
+static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
@@ -1826,7 +1830,7 @@ bool read_activity_actor::player_readma( avatar &you )
 
     if( one_in( difficulty ) ) {
         // learn martial art
-        mart_iter->second.call( you, *book, false, you.pos() );
+        mart_iter->second.call( &you, *book, false, you.pos() );
         return true;
     } else if( continuous ) {
         switch( rng( 1, 5 ) ) {
@@ -4034,7 +4038,7 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
         }
     } else {
         get_map().add_item_or_charges( target, critter.to_item() );
-        if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
+        if( !critter.has_flag( mon_flag_INTERIOR_AMMO ) ) {
             for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
                     get_map().spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
@@ -4055,8 +4059,8 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
     }
 
     return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
-             !monster.has_flag( MF_RIDEABLE_MECH ) &&
-             !( monster.has_flag( MF_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
+             !monster.has_flag( mon_flag_RIDEABLE_MECH ) &&
+             !( monster.has_flag( mon_flag_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
            ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
 }
 
@@ -5530,11 +5534,19 @@ static bool check_stealing( Character &who, item &it )
             Pickup::query_thief();
         }
         if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+                who.set_value( "THIEF_MODE", "THIEF_ASK" );
+            }
             return false;
         }
     }
 
     return true;
+}
+
+bool avatar_action::check_stealing( Character &who, item &weapon )
+{
+    return ::check_stealing( who, weapon );
 }
 
 void wield_activity_actor::do_turn( player_activity &, Character &who )
@@ -6497,7 +6509,8 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
         // Remove from map or vehicle.
         if( src_veh ) {
-            src_veh->remove_item( src_part, &it );
+            vehicle_part &vp_src = src_veh->part( src_part );
+            src_veh->remove_item( vp_src, &it );
         } else {
             here.i_rem( src, &it );
         }
@@ -6506,7 +6519,8 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     // If we didn't pick up a whole stack, put the remainder back where it came from.
     if( leftovers.charges > 0 ) {
         if( src_veh ) {
-            if( !src_veh->add_item( src_part, leftovers ) ) {
+            vehicle_part &vp_src = src_veh->part( src_part );
+            if( !src_veh->add_item( vp_src, leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
@@ -6604,10 +6618,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             }
 
             //nothing to sort?
-            const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                    false );
-            if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
-                && here.i_at( src_loc ).empty() ) {
+            const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo();
+            if( ( !ovp || ovp->items().empty() ) && here.i_at( src_loc ).empty() ) {
                 continue;
             }
 
@@ -6676,11 +6688,10 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         // TODO: use one for loop
-        if( const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                false ) ) {
-            src_veh = &vp->vehicle();
-            src_part = vp->part_index();
-            for( item &it : src_veh->get_items( src_part ) ) {
+        if( const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo() ) {
+            src_veh = &ovp->vehicle();
+            src_part = ovp->part_index();
+            for( item &it : ovp->items() ) {
                 items.emplace_back( &it, true );
             }
         } else {
@@ -6749,7 +6760,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                                 if( it->first->type->magazine->linkage ) {
                                     item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
                                     if( this_veh != nullptr ) {
-                                        this_veh->add_item( this_part, link );
+                                        vehicle_part &vp_this = this_veh->part( this_part );
+                                        this_veh->add_item( vp_this, link );
                                     } else {
                                         here.add_item_or_charges( src_loc, link );
                                     }
@@ -6760,7 +6772,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
                             if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
                                 if( this_veh != nullptr ) {
-                                    this_veh->remove_item( this_part, it->first );
+                                    vehicle_part &vp_this = this_veh->part( this_part );
+                                    this_veh->remove_item( vp_this, it->first );
                                 } else {
                                     here.i_rem( src_loc, it->first );
                                 }
@@ -6867,8 +6880,8 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 
     // Drop cargo to ground
     // TODO: make cargo shuffling add time to activity
-    for( const vpart_reference &vp : veh.get_any_parts( "CARGO" ) ) {
-        vehicle_stack cargo = veh.get_items( vp.part_index() );
+    for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
+        vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
             here.add_item_or_charges( veh.pos_bub(), elem );
         }

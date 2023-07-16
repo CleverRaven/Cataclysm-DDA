@@ -40,7 +40,7 @@
       "palettes": [ "microlab" ],
       "items": { "d": { "item": "cop_armory", "chance": 5 }, "l": { "item": "decontamination_room", "chance": 70 } },
       "terrain": { "-": "t_wall_metal", "`": "t_hole", "#": "t_rock", "G": "t_card_science", "g": "t_bridge", "A": "t_bridge" },
-      "furniture": { "A": "f_compact_ASRG_containment" }
+      "furniture": { "A": "f_nuclear_fuel_cell" }
     }
   },
   {
@@ -80,7 +80,7 @@
       ],
       "palettes": [ "microlab" ],
       "terrain": { "-": "t_wall_metal", "#": "t_rock", "g": "t_bridge", "A": "t_bridge", "w": "t_water_pool" },
-      "furniture": { "A": "f_compact_ASRG_containment" }
+      "furniture": { "A": "f_nuclear_fuel_cell" }
     }
   }
 ]

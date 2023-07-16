@@ -62,6 +62,10 @@ static const efftype_id effect_zombie_virus( "zombie_virus" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const mon_flag_str_id mon_flag_DEADLY_VIRUS( "DEADLY_VIRUS" );
+static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
+static const mon_flag_str_id mon_flag_VAMP_VIRUS( "VAMP_VIRUS" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
 
@@ -567,9 +571,9 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 
     if( grab_data.grab_effect != effect_null ) {
         if( foe ) {
-            z.add_effect( bp_id->grabbing_effect, 1_days, true, 1 );
-            add_msg_debug( debugmode::DF_MATTACK, "Added grabbing filter effect %s",
-                           bp_id->grabbing_effect.c_str() );
+            z.add_grab( bp_id.id() );
+            add_msg_debug( debugmode::DF_MATTACK, "Added grabbing on %s",
+                           bp_id->name );
             // Add grabbed - permanent, removal handled in try_remove_grab on move/wait
             target->add_effect( grab_data.grab_effect, 1_days, bp_id, true, eff_grab_strength );
         } else {
@@ -705,7 +709,7 @@ bool melee_actor::call( monster &z ) const
     add_msg_debug( debugmode::DF_MATTACK, "Accuracy %d, hitspread %d, dodgeable %s", acc, hitspread,
                    dodgeable ? "true" : "false" );
 
-    if( z.has_flag( MF_HIT_AND_RUN ) ) {
+    if( z.has_flag( mon_flag_HIT_AND_RUN ) ) {
         z.add_effect( effect_run, 4_turns );
     }
 
@@ -751,7 +755,7 @@ bool melee_actor::call( monster &z ) const
                     monster *mon = creatures.creature_at<monster>( loc );
                     if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon->attack_target() == target ) {
                         if( target->is_monster() || ( !target->is_monster() &&
-                                                      mon->has_effect( eff.get_bp()->grabbing_effect ) ) ) {
+                                                      mon->is_grabbing( eff.get_bp().id() ) ) ) {
                             grabber = mon;
                             break;
                         }
@@ -976,9 +980,9 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 
     // Flag only set for zombies in the deadly_bites mod
     if( x_in_y( infection_chance, 20 ) ) {
-        if( z.has_flag( MF_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
+        if( z.has_flag( mon_flag_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
             target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
-        } else if( z.has_flag( MF_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
+        } else if( z.has_flag( mon_flag_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
             target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
         }
     }

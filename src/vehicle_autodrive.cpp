@@ -604,7 +604,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     }
     for( int part_num : driven_veh.rotors ) {
         const vehicle_part &part = driven_veh.part( part_num );
-        const int diameter = part.info().rotor_diameter();
+        const int diameter = part.info().rotor_info->rotor_diameter;
         const int radius = ( diameter + 1 ) / 2;
         if( radius > 0 ) {
             tripoint pos;

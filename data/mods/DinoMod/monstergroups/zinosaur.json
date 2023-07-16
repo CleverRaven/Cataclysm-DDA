@@ -211,6 +211,15 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ziganotosaurus_UPGRADE",
+    "monsters": [
+      { "monster": "mon_siganotosaurus", "weight": 400 },
+      { "monster": "mon_ziganotosaurus_shady", "weight": 300 },
+      { "monster": "mon_ziganotosaurus_brute", "weight": 300 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ziats_UPGRADE",
     "monsters": [
       { "monster": "mon_skiats", "weight": 400 },

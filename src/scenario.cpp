@@ -100,6 +100,8 @@ void scenario::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "requirement", _requirement );
 
+    optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
+
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
     if( !was_loaded ) {
@@ -494,6 +496,11 @@ std::optional<achievement_id> scenario::get_requirement() const
 bool scenario::custom_start_date() const
 {
     return _custom_start_date;
+}
+
+bool scenario::get_reveal_locale() const
+{
+    return reveal_locale;
 }
 
 void scenario::rerandomize() const
