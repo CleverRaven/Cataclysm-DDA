@@ -1792,7 +1792,8 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
             continue;
         }
         if( worn_item.has_var( "sprite_override" ) ) {
-            overlay_ids.emplace_back( "worn_" + worn_item.get_var( "sprite_override" ), worn_item.get_var( "sprite_override_variant", "" ) );
+            overlay_ids.emplace_back( "worn_" + worn_item.get_var( "sprite_override" ),
+                                      worn_item.get_var( "sprite_override_variant", "" ) );
         } else {
             const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
             overlay_ids.emplace_back( "worn_" + worn_item.typeId().str(), variant );
