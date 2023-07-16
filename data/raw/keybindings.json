@@ -2044,7 +2044,7 @@
     "id": "SHOW_HIDE_CONTENTS_ALL",
     "category": "INVENTORY",
     "name": "Show/hide all contents",
-    "bindings": [ { "input_method": "keyboard_char", "key": "E" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3589,7 +3589,10 @@
     "id": "PREV_COLUMN",
     "category": "INVENTORY",
     "name": "Previous column",
-    "bindings": [ { "input_method": "keyboard_char", "key": "BACKTAB" } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "BACKTAB" },
+      { "input_method": "keyboard_code", "key": "TAB", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -3708,7 +3711,7 @@
     "id": "EXAMINE_CONTENTS",
     "category": "ADVANCED_INVENTORY",
     "name": "Examine items in container",
-    "bindings": [ { "input_method": "keyboard_char", "key": "o" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
   },
   {
     "type": "keybinding",
@@ -4221,14 +4224,14 @@
     "id": "SCROLL_MISSION_INFO_UP",
     "category": "FACTIONS",
     "name": "Scroll camp mission info up",
-    "bindings": [ { "input_method": "keyboard_char", "key": "[" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "[" } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_MISSION_INFO_DOWN",
     "category": "FACTIONS",
     "name": "Scroll camp mission info down",
-    "bindings": [ { "input_method": "keyboard_char", "key": "]" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
   {
     "type": "keybinding",
