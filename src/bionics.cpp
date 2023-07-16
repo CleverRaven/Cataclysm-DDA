@@ -2349,8 +2349,7 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
         return ret_val<void>::make_failure( _( "No base version installed." ) );
     } else if( bid->required_bionic &&
                !has_bionic( bid->required_bionic ) ) {
-        return ret_val<void>::make_failure( _( "CBM requires prior installation of %s.",
-                                               bid->required_bionic.obj().name ) );
+        return ret_val<void>::make_failure( _( "CBM requires prior installation of %s." ), bid->required_bionic.obj().name );
     } else if( std::any_of( bid->available_upgrades.begin(),
                             bid->available_upgrades.end(),
     [this]( const bionic_id & b ) {
