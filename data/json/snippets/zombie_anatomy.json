@@ -206,7 +206,18 @@
   },
   {
     "type": "snippet",
-    "category": "<zombie_harvest_mushroom_general>",
+    "category": "<zombie_humanoid_harvest_mushroom_general>",
+    "text": [
+      "Despite the carcass lying still, you still notice churning while investigating its entrails, as if whatever was originally animating this corpse is wrestling with the mycelium fibers to retake control.",
+      "Under the stomach you notice a wrinkled fruit that you can't help but think somewhat appetizing despite where you found it.",
+      "The skin feels absolutely turgid, oozing water mixed in with traces of a black liquid where you make your incisions.",
+      "Fungal stalks still sway gently despite the lack of movement of the formerly shambling corpse.",
+      "The putrefied blood that leaks from your incisions is visibly saturated with spores."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_harvest_mushroom_general>",
     "text": [
       "Despite the carcass lying still, you still notice churning while investigating its entrails, as if whatever was originally animating this corpse is wrestling with the mycelium fibers to retake control.",
       "Under the stomach you notice a wrinkled fruit that you can't help but think somewhat appetizing despite where you found it.",
