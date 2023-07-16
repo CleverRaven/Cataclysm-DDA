@@ -392,14 +392,7 @@
         }
       ]
     },
-    "armor": [
-      {
-        "coverage": 10,
-        "encumbrance": 1,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown" ]
-      }
-    ]
+    "armor": [ { "coverage": 10, "encumbrance": 1, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "vision_halo_on",
