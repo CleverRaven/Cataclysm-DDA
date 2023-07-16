@@ -1798,7 +1798,6 @@
       [ "Your eyes tear and stings heavily.", "bad" ],
       [ "Your eyes burn out of smoke, and you hardly see anything.", "bad" ]
     ],
-    "rating": "bad",
     "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
     "max_duration": "3 m",
     "max_intensity": 4,
@@ -1828,7 +1827,6 @@
       [ "Dense cloud of smoke enter your lungs.", "bad" ],
       [ "You inhale an overwhelming amount of smoke.", "bad" ]
     ],
-    "rating": "bad",
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,
     "max_duration": "3 m",
