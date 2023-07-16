@@ -967,64 +967,61 @@
   },
   {
     "id": "lc_kukri",
+    "copy-from": "mc_kukri",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "low carbon steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of low carbon steel, and barely has a proper handle.  You'd probably find a better version in a store somewhere.",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
+    "material": [ "lc_steel", "wood" ],
+    "relative": { "melee_damage": { "cut": -1 } }
+  },
+  {
+    "id": "mc_kukri",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "medium carbon steel kukri" },
+    "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of medium carbon, and is about what you'd expect to see in a hunting shop.",
     "weight": "450 g",
     "volume": "750 ml",
     "longest_side": "50 cm",
     "price": 8000,
     "price_postapoc": 1250,
-    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
-    "material": [ "lc_steel", "wood" ],
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
+    "material": [ "mc_steel", "wood" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 3, "cut": 23 }
-  },
-  {
-    "id": "mc_kukri",
-    "copy-from": "lc_kukri",
-    "type": "TOOL",
-    "name": { "str": "medium carbon steel kukri" },
-    "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of medium carbon, and is about what you'd expect to see in a hunting shop.",
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
-    "material": [ "mc_steel", "wood" ],
-    "relative": { "melee_damage": { "cut": 1 } }
+    "melee_damage": { "bash": 3, "cut": 24 }
   },
   {
     "id": "hc_kukri",
-    "copy-from": "lc_kukri",
+    "copy-from": "mc_kukri",
     "type": "TOOL",
     "name": { "str": "high carbon steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of high carbon steel and is a well-made piece.",
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "hc_steel", "wood" ],
-    "relative": { "melee_damage": { "cut": 2 } }
+    "relative": { "melee_damage": { "cut": 1 } }
   },
   {
     "id": "ch_kukri",
-    "copy-from": "lc_kukri",
+    "copy-from": "mc_kukri",
     "type": "TOOL",
     "name": { "str": "case hardened steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of case hardened steel and is a fine tool and weapon.",
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "ch_steel", "wood" ],
-    "relative": { "melee_damage": { "cut": 3 } }
+    "relative": { "melee_damage": { "cut": 2 } }
   },
   {
     "id": "qt_kukri",
-    "copy-from": "lc_kukri",
+    "copy-from": "mc_kukri",
     "type": "TOOL",
     "name": { "str": "tempered steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of tempered steel and truly a weapon worthy of a post apocalyptic gurkha.",
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "qt_steel", "wood" ],
-    "relative": { "melee_damage": { "cut": 4 } }
+    "relative": { "melee_damage": { "cut": 3 } }
   },
   {
     "id": "jian",
