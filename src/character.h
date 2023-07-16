@@ -907,6 +907,7 @@ class Character : public Creature, public visitable
         bool is_running() const;
         bool is_walking() const;
         bool is_crouching() const;
+        bool is_runallfours() const;
         bool is_prone() const;
 
         int footstep_sound() const;
@@ -2323,6 +2324,8 @@ class Character : public Creature, public visitable
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
 
+        // checks if your character is immune to an effect or field based on field_immunity_data
+        bool check_immunity_data( const field_immunity_data &ft ) const override;
         bool is_immune_field( const field_type_id &fid ) const override;
         /** Returns true is the player is protected from electric shocks */
         bool is_elec_immune() const override;
@@ -3448,9 +3451,7 @@ class Character : public Creature, public visitable
         Character();
         Character( Character && ) noexcept( map_is_noexcept );
         Character &operator=( Character && ) noexcept( list_is_noexcept );
-        // Swaps the data of this Character and "other" using "tmp" for temporary storage.
-        // Leaves "tmp" in an undefined state.
-        void swap_character( Character &other, Character &tmp );
+        void swap_character( Character &other );
     public:
         struct trait_data {
             /** Whether the mutation is activated. */

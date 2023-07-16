@@ -6,21 +6,47 @@
     "description": "A cowl with protection for the eyes from rain and sun, designed for long travels.  The design includes some clever shaping that allows it to offer a lot of coverage without interfering too much with vision and breathing.",
     "weight": "470 g",
     "volume": "2500 ml",
-    "price": 25000,
     "price_postapoc": 250,
     "to_hit": -3,
-    "material": [ "cotton", "leather" ],
+    "material": [ "denim", "leather", "plastic" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "white",
     "armor": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 95, "encumbrance": 5 }
+      {
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_nape", "head_ear_l", "head_ear_r", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [ { "type": "denim", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "denim", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
     ],
-    "warmth": 35,
+    "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "PADDED" ]
   },
   {
     "id": "xl_helmet_nomad",

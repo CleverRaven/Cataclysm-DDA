@@ -124,7 +124,14 @@
       [ [ "cottage_cheese", 1 ] ],
       [ [ "sweet_fruit", 1, "LIST" ] ],
       [ [ "onion", 1 ] ],
-      [ [ "bell_pepper", 1 ], [ "tomato", 1 ], [ "cucumber", 1 ] ]
+      [
+        [ "bell_pepper", 1 ],
+        [ "bell_pepper_cut", 1 ],
+        [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
+        [ "cucumber", 1 ],
+        [ "cucumber_cut", 1 ]
+      ]
     ]
   },
   {

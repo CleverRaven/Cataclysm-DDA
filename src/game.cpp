@@ -276,6 +276,13 @@ static const material_id material_glass( "glass" );
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
 
+static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
+static const mon_flag_str_id mon_flag_CONVERSATION( "CONVERSATION" );
+static const mon_flag_str_id mon_flag_FISHABLE( "FISHABLE" );
+static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
+static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
@@ -889,6 +896,18 @@ bool game::start_game()
     overmap_buffer.reveal( u.global_omt_location().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
+    const int city_size = get_option<int>( "CITY_SIZE" );
+    if( get_scenario()->get_reveal_locale() && city_size > 0 ) {
+        city_reference nearest_city = overmap_buffer.closest_city( m.get_abs_sub() );
+        const tripoint_abs_omt city_center_omt = project_to<coords::omt>( nearest_city.abs_sm_pos );
+        // Very necessary little hack: We look for roads around our start, and path from the closest. Because the most common start(evac shelter) cannot be pathed through...
+        const tripoint_abs_omt nearest_road = overmap_buffer.find_closest( omtstart, "road", 3, false );
+        // Reveal route to closest city and a 3 tile radius around the route
+        overmap_buffer.reveal_route( nearest_road, city_center_omt, 3 );
+        // Reveal destination city (scaling with city size setting)
+        overmap_buffer.reveal( city_center_omt, city_size );
+    }
+
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
@@ -956,12 +975,8 @@ bool game::start_game()
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = v.v->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
+                    for( const int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
+                        vpart_reference( *v.v, sp ).items().clear();
                     }
 
                     auto mons = critter_tracker->find( u.get_location() );
@@ -3799,14 +3814,43 @@ void game::draw_async_anim_curses()
         const nc_color nccol = anim.second.second;
 
         mvwprintz( w_terrain, p.xy(), nccol, ncstr );
-        //shared_ptr_fast<game::draw_callback_t> hit_cb = make_shared_fast<game::draw_callback_t>( [&]() { mvwprintz( w_terrain, p.xy(), nccol, ncstr ); } );
-        //g->add_draw_callback( hit_cb );
     }
 }
 
 void game::void_async_anim_curses()
 {
     async_anim_layer_curses.clear();
+}
+
+void game::init_draw_blink_curses( const tripoint &p, const std::string &ncstr,
+                                   const nc_color &nccol )
+{
+    std::pair <std::string, nc_color> anim( ncstr, nccol );
+    blink_layer_curses[p] = anim;
+}
+
+void game::draw_blink_curses()
+{
+    // game::draw_blink_curses can be called multiple times, storing each animation to be played in blink_layer_curses
+    // Iterate through every animation in async_anim_layer
+    for( const auto &anim : blink_layer_curses ) {
+        const tripoint p = anim.first - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(),
+                           -u.posz() );
+        const std::string ncstr = anim.second.first;
+        const nc_color nccol = anim.second.second;
+
+        mvwprintz( w_terrain, p.xy(), nccol, ncstr );
+    }
+}
+
+void game::void_blink_curses()
+{
+    blink_layer_curses.clear();
+}
+
+bool game::has_blink_curses()
+{
+    return !blink_layer_curses.empty();
 }
 
 void game::draw( ui_adaptor &ui )
@@ -3821,6 +3865,7 @@ void game::draw( ui_adaptor &ui )
     m.update_visibility_cache( ter_view_p.z );
 
     werase( w_terrain );
+    void_blink_curses();
     draw_ter();
     for( auto it = draw_callbacks.begin(); it != draw_callbacks.end(); ) {
         shared_ptr_fast<draw_callback_t> cb = it->lock();
@@ -3832,6 +3877,10 @@ void game::draw( ui_adaptor &ui )
         }
     }
     draw_async_anim_curses();
+    // Only draw blinking symbols when in active phase
+    if( blink_active_phase ) {
+        draw_blink_curses();
+    }
     wnoutrefresh( w_terrain );
 
     draw_panels( true );
@@ -3938,8 +3987,13 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
             // Monster is below
             // TODO: Make this show something more informative than just green 'v'
             // TODO: Allow looking at this mon with look command
-            // TODO: Redraw this after weather etc. animations
-            mvwputch( w_terrain, point( mx, my ), c_green_cyan, 'v' );
+            init_draw_blink_curses( tripoint( critter.pos().xy(), center.z ), "v", c_green_cyan );
+        }
+        if( critter.posz() == center.z + 1 &&
+            ( debug_mode || u.sees( critter ) ) &&
+            m.valid_move( critter.pos(), critter.pos() + tripoint_below, false, true ) ) {
+            // Monster is above
+            init_draw_blink_curses( tripoint( critter.pos().xy(), center.z ), "^", c_green_cyan );
         }
         return;
     }
@@ -4415,7 +4469,7 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
     std::vector<monster *> unique_fish;
     for( monster &critter : all_monsters() ) {
         // If it is fishable...
-        if( critter.has_flag( MF_FISHABLE ) ) {
+        if( critter.has_flag( mon_flag_FISHABLE ) ) {
             const tripoint critter_pos = critter.pos();
             // ...and it is in a fishable location.
             if( fishable_locations.find( critter_pos ) != fishable_locations.end() ) {
@@ -4763,7 +4817,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     add_msg( _( "The %s drowns!" ), targ->name() );
                 }
             }
-            if( !m.has_flag( ter_furn_flag::TFLAG_LIQUID, targ->pos() ) && targ->has_flag( MF_AQUATIC ) &&
+            if( !m.has_flag( ter_furn_flag::TFLAG_LIQUID, targ->pos() ) && targ->has_flag( mon_flag_AQUATIC ) &&
                 !targ->is_dead() ) {
                 targ->die( nullptr );
                 if( u.sees( *targ ) ) {
@@ -6021,11 +6075,11 @@ void game::examine( const tripoint &examp, bool with_pickup )
                 if( monexamine::pet_menu( *mon ) ) {
                     return;
                 }
-            } else if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
+            } else if( mon->has_flag( mon_flag_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
                 if( monexamine::mech_hack( *mon ) ) {
                     return;
                 }
-            } else if( mon->has_flag( MF_PAY_BOT ) ) {
+            } else if( mon->has_flag( mon_flag_PAY_BOT ) ) {
                 if( monexamine::pay_bot( *mon ) ) {
                     return;
                 }
@@ -6033,7 +6087,7 @@ void game::examine( const tripoint &examp, bool with_pickup )
                 if( monexamine::mfriend_menu( *mon ) ) {
                     return;
                 }
-            } else if( mon->has_flag( MF_CONVERSATION ) && !mon->type->chat_topics.empty() ) {
+            } else if( mon->has_flag( mon_flag_CONVERSATION ) && !mon->type->chat_topics.empty() ) {
                 get_avatar().talk_to( get_talker_for( mon ) );
             }
         } else {
@@ -6049,7 +6103,7 @@ void game::examine( const tripoint &examp, bool with_pickup )
 
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
-        if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( !u.is_mounted() || u.mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !vp->vehicle().is_appliance() ) {
                 vp->vehicle().interact_with( examp, with_pickup );
             } else {
@@ -9796,6 +9850,12 @@ void game::wield( item_location loc )
     tripoint pos = loc.position();
     const int obtain_cost = loc.obtain_cost( u );
     int worn_index = INT_MIN;
+
+    // Need to account for case where we're trying to wield a weapon that belongs to someone else
+    if( !avatar_action::check_stealing( u, *loc.get_item() ) ) {
+        return;
+    }
+
     if( u.is_worn( *loc.get_item() ) ) {
         auto ret = u.can_takeoff( *loc.get_item() );
         if( !ret.success() ) {
@@ -9826,9 +9886,9 @@ void game::wield( item_location loc )
                 m.add_item( pos, to_wield );
                 break;
             case item_location::type::vehicle: {
-                const std::optional<vpart_reference> vp = m.veh_at( pos ).part_with_feature( "CARGO", false );
+                const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !vp || !vp->vehicle().add_item( vp->part_index(), to_wield ) ) {
+                if( !ovp || !ovp->vehicle().add_item( ovp->part(), to_wield ) ) {
                     m.add_item( pos, to_wield );
                 }
                 break;
@@ -10096,6 +10156,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
                     danger_dest = false;
                 } else if( fe.immune_outside_vehicle && !veh_dest_inside ) {
                     danger_dest = false;
+                } else if( u.is_immune_effect( fe.id ) || u.check_immunity_data( fe.immunity_data ) ) {
+                    danger_dest = false;
                 }
             }
             if( has_field_here && !danger_here ) {
@@ -10105,6 +10167,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
                 } else if( fe.immune_inside_vehicle && veh_here_inside ) {
                     danger_here = false;
                 } else if( fe.immune_outside_vehicle && !veh_here_inside ) {
+                    danger_here = false;
+                } else if( u.is_immune_effect( fe.id ) || u.check_immunity_data( fe.immunity_data ) ) {
                     danger_here = false;
                 }
             }
@@ -10189,7 +10253,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( u.is_mounted() ) {
         monster *mons = u.mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
                          mons->get_name() );
@@ -10245,7 +10309,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
 
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
-        if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
+        if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) &&
             vp_there->vehicle().handle_potential_theft( u ) ) {
             tripoint diff = dest_loc - u.pos();
             if( diff.x < 0 ) {
@@ -10317,7 +10381,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const int previous_moves = u.moves;
     if( u.is_mounted() ) {
         auto *crit = u.mounted_creature.get();
-        if( !crit->has_flag( MF_RIDEABLE_MECH ) &&
+        if( !crit->has_flag( mon_flag_RIDEABLE_MECH ) &&
             ( m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, dest_loc ) ||
               m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_BARRICADABLE_DOOR, dest_loc ) ||
               m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, dest_loc ) ||
@@ -10357,7 +10421,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                                 dest_loc ); //fungal furniture has no slowing effect on Mycus characters
     const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
                             mcost_from > 2 ) ) ||
-                          mcost_to > 4 || mcost_from > 4 ) &&
+                          mcost_to > 4 || mcost_from > 4 ) ||
                         ( !u.has_trait( trait_M_IMMUNE ) && fungus );
     if( slowed && !u.is_mounted() ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
@@ -10717,7 +10781,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
                         ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
 
                         if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
-                            if( !maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
+                            if( !maybe_corpse.get_mtype()->has_flag( mon_flag_REVIVES ) ) {
                                 continue;
                             }
                         }
@@ -11597,7 +11661,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 {
     if( u.is_mounted() ) {
         monster *mons = u.mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
                          mons->get_name() );
@@ -11840,7 +11904,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     if( u.is_mounted() ) {
         monster *crit = u.mounted_creature.get();
-        if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( crit->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             crit->use_mech_power( u.current_movement_mode()->mech_power_use() + 1_kJ );
         }
     } else {

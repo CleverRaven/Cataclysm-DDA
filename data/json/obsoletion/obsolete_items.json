@@ -882,5 +882,32 @@
     "copy-from": "AID_abstract",
     "name": { "str_sp": "Throwing Assist CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Throwing Assist CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
+  },
+  {
+    "id": "waterproof_smart_phone_case_migration",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "smart_phone",
+    "//": "This item only exists to keep the old bejewelled smartphone case variant from breaking the game, as its ID was changed by 66462. This serves as a fallback migration item.",
+    "name": { "str": "golden smartphone case" },
+    "description": "A shiny, expensive-looking golden coloured waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
+    "weight": "50 g",
+    "volume": "125 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "230 g",
+        "moves": 100,
+        "watertight": true,
+        "rigid": true,
+        "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music" ]
+      }
+    ]
   }
 ]

@@ -105,6 +105,8 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
+static const mon_flag_str_id mon_flag_CONVERSATION( "CONVERSATION" );
+
 static const skill_id skill_firstaid( "firstaid" );
 
 static const skill_id skill_speech( "speech" );
@@ -664,7 +666,8 @@ void game::chat()
 
     const std::vector<Creature *> available = get_creatures_if( [&]( const Creature & guy ) {
         // TODO: Get rid of the z-level check when z-level vision gets "better"
-        return ( guy.is_npc() || ( guy.is_monster() && guy.as_monster()->has_flag( MF_CONVERSATION ) &&
+        return ( guy.is_npc() || ( guy.is_monster() &&
+                                   guy.as_monster()->has_flag( mon_flag_CONVERSATION ) &&
                                    !guy.as_monster()->type->chat_topics.empty() ) ) && u.posz() == guy.posz() && u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
@@ -5454,6 +5457,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
+            WRAP( pick_style ),
             WRAP( do_disassembly ),
             WRAP( nothing )
 #undef WRAP

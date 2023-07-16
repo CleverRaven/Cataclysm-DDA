@@ -5,14 +5,24 @@
     "name": { "str": "Psionic Drain" },
     "valid_targets": [ "self" ],
     "description": "Applies Drained to you.",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "message": "",
-    "max_level": 1,
-    "effect": "attack",
-    "effect_str": "effect_psionic_drain",
-    "shape": "blast",
-    "min_duration": 5000000,
-    "max_duration": 40000000
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CAUSE_PSIONIC_DRAIN",
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CAUSE_PSIONIC_DRAIN",
+    "condition": { "u_has_trait": "DRAIN_RESIST" },
+    "effect": [
+      { "u_message": "You feel a sudden fatigue as your powers are unleashed.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "You feel a sudden fatigue as your powers are unleashed.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,5 )" ] }
+    ]
   },
   {
     "id": "psionic_drained_difficulty_one",
@@ -46,7 +56,7 @@
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
-      { "id": "psionic_drained_spell", "hit_self": true }
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true }
     ]
   },
   {
@@ -76,7 +86,7 @@
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
-      { "id": "psionic_drained_spell", "hit_self": true }
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true }
     ]
   },
   {
@@ -103,7 +113,7 @@
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
-      { "id": "psionic_drained_spell", "hit_self": true }
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true }
     ]
   },
   {
@@ -127,7 +137,7 @@
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
-      { "id": "psionic_drained_spell", "hit_self": true }
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true }
     ]
   },
   {
@@ -149,7 +159,7 @@
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
-      { "id": "psionic_drained_spell", "hit_self": true }
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true }
     ]
   },
   {
@@ -169,7 +179,7 @@
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
       { "id": "death_fakespell" },
-      { "id": "psionic_drained_spell", "hit_self": true }
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true }
     ]
   },
   {
@@ -184,7 +194,11 @@
     "effect": "noise",
     "min_damage": 1,
     "max_damage": 1,
-    "extra_effects": [ { "id": "death_fakespell" }, { "id": "death_fakespell" }, { "id": "psionic_drained_spell", "hit_self": true } ]
+    "extra_effects": [
+      { "id": "death_fakespell" },
+      { "id": "death_fakespell" },
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true }
+    ]
   },
   {
     "id": "psionic_drained_difficulty_eight",
@@ -198,7 +212,7 @@
     "effect": "noise",
     "min_damage": 1,
     "max_damage": 1,
-    "extra_effects": [ { "id": "death_fakespell" }, { "id": "psionic_drained_spell", "hit_self": true } ]
+    "extra_effects": [ { "id": "death_fakespell" }, { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true } ]
   },
   {
     "id": "psionic_drained_difficulty_nine",
@@ -214,9 +228,9 @@
     "max_damage": 1,
     "extra_effects": [
       { "id": "death_fakespell" },
-      { "id": "psionic_drained_spell", "hit_self": true },
-      { "id": "psionic_drained_spell", "hit_self": true },
-      { "id": "psionic_drained_spell", "hit_self": true }
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true },
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true },
+      { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true }
     ]
   },
   {
@@ -231,6 +245,6 @@
     "effect": "noise",
     "min_damage": 1,
     "max_damage": 1,
-    "extra_effects": [ { "id": "psionic_drained_spell", "hit_self": true } ]
+    "extra_effects": [ { "id": "psionic_drained_spell", "max_level": 0, "hit_self": true } ]
   }
 ]

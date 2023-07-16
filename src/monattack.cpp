@@ -161,11 +161,7 @@ static const itype_id itype_bot_grenade_hack( "bot_grenade_hack" );
 static const itype_id itype_bot_manhack( "bot_manhack" );
 static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
-static const itype_id itype_c4( "c4" );
-static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
-static const itype_id itype_mininuke( "mininuke" );
-static const itype_id itype_mininuke_act( "mininuke_act" );
 
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
@@ -182,6 +178,13 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
+
+static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
+static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
+static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
@@ -1019,36 +1022,45 @@ bool mattack::resurrect( monster *z )
     bool found_eligible_corpse = false;
     int lowest_raise_score = INT_MAX;
     map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( z->pos(), range ) ) {
-        if( !g->is_empty( p ) || here.get_field_intensity( p, fd_fire ) > 1 ||
-            !here.sees( z->pos(), p, -1 ) ) {
+    // Cache map stats.
+    std::unordered_map<tripoint, bool> sees_and_is_empty_cache;
+    auto sees_and_is_empty = [&sees_and_is_empty_cache, &z, &here]( const tripoint & T ) {
+        auto iter = sees_and_is_empty_cache.find( T );
+        if( iter != sees_and_is_empty_cache.end() ) {
+            return iter->second;
+        }
+        sees_and_is_empty_cache[T] = here.sees( z->pos(), T, -1 ) && g->is_empty( T );
+        return sees_and_is_empty_cache[T];
+    };
+    for( item_location &location : here.get_active_items_in_radius( z->pos(), range,
+            special_item_type::corpse ) ) {
+        const tripoint &p = location.position();
+        item &i = *location;
+        const mtype *mt = i.get_mtype();
+        if( !( i.can_revive() && i.active && mt->has_flag( mon_flag_REVIVES ) &&
+               mt->in_species( species_ZOMBIE ) && !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
+            continue;
+        }
+        if( here.get_field_intensity( p, fd_fire ) > 1 || !sees_and_is_empty( p ) ) {
             continue;
         }
 
-        for( item &i : here.i_at( p ) ) {
-            const mtype *mt = i.get_mtype();
-            if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
-                   mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
-                continue;
+        found_eligible_corpse = true;
+        if( raising_level == 0 ) {
+            // Since we have a target, start charging to raise it.
+            if( sees_necromancer ) {
+                add_msg( m_info, _( "The %s throws its arms wide." ), z->name() );
             }
-
-            found_eligible_corpse = true;
-            if( raising_level == 0 ) {
-                // Since we have a target, start charging to raise it.
-                if( sees_necromancer ) {
-                    add_msg( m_info, _( "The %s throws its arms wide." ), z->name() );
-                }
-                while( z->moves >= 0 ) {
-                    z->add_effect( effect_raising, 1_minutes );
-                    z->moves -= 100;
-                }
-                return false;
+            while( z->moves >= 0 ) {
+                z->add_effect( effect_raising, 1_minutes );
+                z->moves -= 100;
             }
-            int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
-            lowest_raise_score = std::min( lowest_raise_score, raise_score );
-            if( raise_score <= raising_level ) {
-                corpses.emplace_back( p, &i );
-            }
+            return false;
+        }
+        int raise_score = ( i.damage_level() + 1 ) * mt->hp + i.burnt;
+        lowest_raise_score = std::min( lowest_raise_score, raise_score );
+        if( raise_score <= raising_level ) {
+            corpses.emplace_back( p, &i );
         }
     }
 
@@ -1069,7 +1081,7 @@ bool mattack::resurrect( monster *z )
         // Check to see if there are any nearby living zombies to see if we should get angry
         const bool allies = g->get_creature_if( [&]( const Creature & critter ) {
             const monster *const zed = dynamic_cast<const monster *>( &critter );
-            return zed && zed != z && zed->type->has_flag( MF_REVIVES ) &&
+            return zed && zed != z && zed->type->has_flag( mon_flag_REVIVES ) &&
                    zed->type->in_species( species_ZOMBIE ) &&
                    z->attitude_to( *zed ) == Creature::Attitude::FRIENDLY  &&
                    within_target_range( z, zed, 10 );
@@ -1135,7 +1147,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return;
     }
-    if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+    if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         z->use_mech_power( 5_kJ );
     }
     z->set_dest( target->get_location() );
@@ -1155,7 +1167,7 @@ bool mattack::smash( monster *z )
     }
 
     //Don't try to smash immobile targets
-    if( target->has_flag( MF_IMMOBILE ) ) {
+    if( target->has_flag( mon_flag_IMMOBILE ) ) {
         return false;
     }
 
@@ -2313,7 +2325,7 @@ bool mattack::disappear( monster *z )
 bool mattack::depart( monster *z )
 {
     map &here = get_map();
-    if( z->has_flag( MF_FLIES ) && here.is_outside( z->pos() ) ) {
+    if( z->has_flag( mon_flag_FLIES ) && here.is_outside( z->pos() ) ) {
         add_msg_if_player_sees( *z, m_info, _( "The %s turns to a steady climb before departing." ),
                                 z->name() );
     } else {
@@ -4835,7 +4847,7 @@ bool mattack::leech_spawner( monster *z )
     const bool u_see = get_player_view().sees( *z );
     std::list<monster *> allies;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.in_species( species_LEECH_PLANT ) && !candidate.has_flag( MF_IMMOBILE ) ) {
+        if( candidate.in_species( species_LEECH_PLANT ) && !candidate.has_flag( mon_flag_IMMOBILE ) ) {
             allies.push_back( &candidate );
         }
     }
@@ -4864,10 +4876,10 @@ bool mattack::leech_spawner( monster *z )
 
 bool mattack::mon_leech_evolution( monster *z )
 {
-    const bool is_queen = z->has_flag( MF_QUEEN );
+    const bool is_queen = z->has_flag( mon_flag_QUEEN );
     std::list<monster *> queens;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.in_species( species_LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
+        if( candidate.in_species( species_LEECH_PLANT ) && candidate.has_flag( mon_flag_QUEEN ) &&
             rl_dist( z->pos(), candidate.pos() ) < 35 ) {
             queens.push_back( &candidate );
         }
@@ -5287,49 +5299,49 @@ bool mattack::kamikaze( monster *z )
 {
     if( z->ammo.empty() ) {
         // We somehow lost our ammo! Toggle this special off so we stop processing
-        add_msg_debug( debugmode::DF_MATTACK, "Missing ammo in kamikaze special for %s.", z->name() );
+        debugmsg( "Missing ammo in kamikaze special for %s.", z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
 
-    // Get the bomb type and it's data
+    // To work the kamikaze monster has to be configured as such:
+    // It carries one bomb item (bomb_type)
+    // The bomb item has "use_action": "transform" that turns the bomb on
+    // The transform action "target_timer" is used as delay
+    // The bomb item turns into active bomb (act_bomb_type)
+    // The active bomb has "countdown_action": "explosion"
+    // This explosion is triggered at the end of the kamikaze attack
+
+    // The bomb item
     const itype *bomb_type = item::find_type( z->ammo.begin()->first );
     const itype *act_bomb_type;
-    int charges;
-    // Hardcoded data for charge variant items
-    if( z->ammo.begin()->first == itype_mininuke ) {
-        act_bomb_type = item::find_type( itype_mininuke_act );
-        charges = 20;
-    } else if( z->ammo.begin()->first == itype_c4 ) {
-        act_bomb_type = item::find_type( itype_c4armed );
-        charges = 10;
-    } else {
-        const use_function *usage = bomb_type->get_use( "transform" );
-        if( usage == nullptr ) {
-            // Invalid item usage, Toggle this special off so we stop processing
-            add_msg_debug( debugmode::DF_MATTACK, "Invalid bomb transform use in kamikaze special for %s.",
-                           z->name() );
-            z->disable_special( "KAMIKAZE" );
-            return true;
-        }
-        const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
-        if( actor == nullptr ) {
-            // Invalid bomb item, Toggle this special off so we stop processing
-            add_msg_debug( debugmode::DF_MATTACK, "Invalid bomb type in kamikaze special for %s.", z->name() );
-            z->disable_special( "KAMIKAZE" );
-            return true;
-        }
-        act_bomb_type = item::find_type( actor->target );
-        charges = actor->ammo_qty;
+
+    const use_function *usage = bomb_type->get_use( "transform" );
+    if( usage == nullptr ) {
+        // Invalid item usage, Toggle this special off so we stop processing
+        debugmsg( "Invalid bomb transform use in kamikaze special for %s.",
+                  z->name() );
+        z->disable_special( "KAMIKAZE" );
+        return true;
     }
+    const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
+    if( actor == nullptr ) {
+        // Invalid bomb item, Toggle this special off so we stop processing
+        debugmsg( "Invalid bomb type in kamikaze special for %s.", z->name() );
+        z->disable_special( "KAMIKAZE" );
+        return true;
+    }
+    act_bomb_type = item::find_type( actor->target );
+    int delay = to_seconds<int>( actor->target_timer );
 
     // HACK: HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if( z->has_effect( effect_countdown ) ) {
         if( z->get_effect( effect_countdown ).get_duration() == 1_turns ) {
             z->die( nullptr );
             // Timer is out, detonate
-            item i_explodes( act_bomb_type, calendar::turn, 0 );
+            item i_explodes( act_bomb_type, calendar::turn );
             i_explodes.active = true;
+            i_explodes.countdown_point = calendar::turn_zero;
             i_explodes.process( get_map(), nullptr, z->pos() );
             return false;
         }
@@ -5337,20 +5349,21 @@ bool mattack::kamikaze( monster *z )
     }
     // END HORRIBLE HACK
 
-    const use_function *use = act_bomb_type->get_use( "explosion" );
+    // lets assume this is explosion actor without checking
+    const use_function *use = &act_bomb_type->countdown_action;
+
     if( use == nullptr ) {
         // Invalid active bomb item usage, Toggle this special off so we stop processing
-        add_msg_debug( debugmode::DF_MATTACK,
-                       "Invalid active bomb explosion use in kamikaze special for %s.",
-                       z->name() );
+        debugmsg( "Invalid active bomb explosion use in kamikaze special for %s.",
+                  z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
     const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
-        add_msg_debug( debugmode::DF_MATTACK, "Invalid active bomb type in kamikaze special for %s.",
-                       z->name() );
+        debugmsg( "Invalid active bomb type in kamikaze special for %s.",
+                  z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5396,21 +5409,21 @@ bool mattack::kamikaze( monster *z )
     // .65 factor was determined experimentally to be about the factor required for players to be able to *just barely*
     // outrun the explosion if they drop everything and run.
     float factor = static_cast<float>( z->get_speed() ) / static_cast<float>( target->get_speed() * 2 );
-    int range = std::max( 1, static_cast<int>( .65 * ( radius + 1 + factor * charges ) ) );
+    int range = std::max( 1, static_cast<int>( .65 * ( radius + 1 + factor * delay ) ) );
 
     // Check if we are in range to begin the countdown
     if( !within_target_range( z, target, range ) ) {
         return false;
     }
 
-    // HACK: HORRIBLE HACK ALERT! Currently uses the amount of ammo as a pseudo-timer.
+    // HACK: HORRIBLE HACK ALERT! Currently uses the target_timer as a pseudo-timer.
     // Once we have proper monster inventory item processing replace the following
     // line with the code below.
-    z->add_effect( effect_countdown, 1_turns * charges + 1_turns );
+    z->add_effect( effect_countdown, 1_turns * delay + 1_turns );
     /* Replacement code here for once we have working monster inventories
 
     item i_explodes(act_bomb_type->id, 0);
-    i_explodes.charges = charges;
+    i_explodes.countdown_point = delay;
     z->add_item(i_explodes);
     z->disable_special("KAMIKAZE");
     */

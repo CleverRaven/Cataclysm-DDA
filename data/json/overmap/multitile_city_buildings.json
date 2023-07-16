@@ -3797,7 +3797,7 @@
     "id": "s_restaurant_foodplace",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_foodplace_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_foodplace_roof_north" },
       { "point": [ 0, 0, 2 ], "overmap": "s_restaurant_foodplace_upper_roof_north" }
     ]

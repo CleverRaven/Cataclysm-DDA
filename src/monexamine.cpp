@@ -60,6 +60,13 @@ static const flag_id json_flag_TIE_UP( "TIE_UP" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
 
+static const mon_flag_str_id mon_flag_CANPLAY( "CANPLAY" );
+static const mon_flag_str_id mon_flag_CAN_BE_CULLED( "CAN_BE_CULLED" );
+static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
+static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
+static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_SHEAR( "SHEAR" );
 
@@ -186,6 +193,13 @@ void attach_bag_to( monster &z )
         add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
         return;
     }
+    if( !it.is_container_empty() ) {
+        for( item *top_item : it.all_items_top() ) {
+            item &i = *top_item;
+            z.add_item( i );
+            it.remove_item( i );
+        }
+    }
     z.storage_item = cata::make_value<item>( it );
     add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     player_character.i_rem( &it );
@@ -240,7 +254,7 @@ bool give_items_to( monster &z )
     item &storage = *z.storage_item;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     units::volume max_volume = storage.get_total_capacity() - z.get_carried_volume();
-
+    units::length max_length = storage.max_containable_length();
     avatar &player_character = get_avatar();
     drop_locations items = game_menus::inv::multidrop( player_character );
     drop_locations to_move;
@@ -248,11 +262,15 @@ bool give_items_to( monster &z )
         const item &it = *itq.first;
         units::volume item_volume = it.volume() * itq.second;
         units::mass item_weight = it.weight() * itq.second;
+        units::length item_length = it.length();
         if( max_weight < item_weight ) {
             add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
             continue;
         } else if( max_volume < item_volume ) {
             add_msg( _( "The %1$s is too big to fit in the %2$s." ), it.tname(), storage.tname() );
+            continue;
+        } else if( max_length < item_length ) {
+            add_msg( _( "The %1$s is too long to fit in the %2$s." ), it.tname(), storage.tname() );
             continue;
         } else {
             max_weight -= item_weight;
@@ -553,7 +571,7 @@ bool Character::can_mount( const monster &critter ) const
     if( route.empty() ) {
         return false;
     }
-    return ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
+    return ( critter.has_flag( mon_flag_PET_MOUNTABLE ) && critter.friendly == -1 &&
              !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
            ( ( critter.has_effect( effect_monster_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
              get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
@@ -617,7 +635,7 @@ bool monexamine::pet_menu( monster &z )
         if( !z.inv.empty() ) {
             amenu.addentry( drop_all, true, 'd', _( "Remove all items from bag" ) );
         }
-    } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
+    } else if( !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
         amenu.addentry( attach_bag, true, 'b', _( "Attach bag to %s" ), pet_name );
     }
     if( z.has_effect( effect_harnessed ) ) {
@@ -625,7 +643,7 @@ bool monexamine::pet_menu( monster &z )
     }
     if( z.has_effect( effect_monster_armor ) ) {
         amenu.addentry( mon_armor_remove, true, 'a', _( "Remove armor from %s" ), pet_name );
-    } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
+    } else if( !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
         amenu.addentry( mon_armor_add, true, 'a', _( "Equip %s with armor" ), pet_name );
     }
     if( z.has_effect( effect_tied ) ) {
@@ -635,7 +653,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( tie, true, 't', _( "Tie" ) );
         amenu.addentry( unleash, true, 'L', _( "Remove leash from %s" ), pet_name );
     }
-    if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
+    if( !z.has_effect( effect_leashed ) && !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
         std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
             return itm.has_flag( json_flag_TIE_UP );
         } );
@@ -647,13 +665,13 @@ bool monexamine::pet_menu( monster &z )
         }
     }
 
-    if( z.has_flag( MF_CANPLAY ) ) {
+    if( z.has_flag( mon_flag_CANPLAY ) ) {
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
-    if( z.has_flag( MF_CAN_BE_CULLED ) ) {
+    if( z.has_flag( mon_flag_CAN_BE_CULLED ) ) {
         amenu.addentry( cull_pet, true, 'y', _( "Cull %s" ), pet_name );
     }
-    if( z.has_flag( MF_MILKABLE ) ) {
+    if( z.has_flag( mon_flag_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
     }
     if( z.shearable() ) {
@@ -674,7 +692,7 @@ bool monexamine::pet_menu( monster &z )
             }
         }
     }
-    if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_monster_saddled ) &&
+    if( z.has_flag( mon_flag_PET_MOUNTABLE ) && !z.has_effect( effect_monster_saddled ) &&
         player_character.has_item_with_flag( json_flag_TACK ) ) {
         if( player_character.get_skill_level( skill_survival ) >= 1 ) {
             amenu.addentry( attach_saddle, true, 'h', _( "Tack up %s" ), pet_name );
@@ -682,19 +700,19 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( attach_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
         }
     }
-    if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_monster_saddled ) ) {
+    if( z.has_flag( mon_flag_PET_MOUNTABLE ) && z.has_effect( effect_monster_saddled ) ) {
         amenu.addentry( remove_saddle, true, 'h', _( "Remove tack from %s" ), pet_name );
     }
-    if( z.has_flag( MF_PAY_BOT ) ) {
+    if( z.has_flag( mon_flag_PAY_BOT ) ) {
         amenu.addentry( pay, true, 'f', _( "Manage your friendship with %s" ), pet_name );
     }
     if( !z.type->chat_topics.empty() ) {
         amenu.addentry( talk_to, true, 'c', _( "Talk to %s" ), pet_name );
     }
-    if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( z.has_flag( MF_PET_MOUNTABLE ) && player_character.can_mount( z ) ) {
+    if( !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
+        if( z.has_flag( mon_flag_PET_MOUNTABLE ) && player_character.can_mount( z ) ) {
             amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
-        } else if( !z.has_flag( MF_PET_MOUNTABLE ) ) {
+        } else if( !z.has_flag( mon_flag_PET_MOUNTABLE ) ) {
             amenu.addentry( mount, false, 'r', _( "%s cannot be mounted" ), pet_name );
         } else if( z.get_size() <= player_character.get_size() ) {
             amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );

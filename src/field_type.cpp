@@ -243,6 +243,9 @@ void field_type::load( const JsonObject &jo, const std::string_view )
                 optional( joe, was_loaded, "message_npc", fe.message_npc );
                 const auto game_message_type_reader = enum_flags_reader<game_message_type> { "game message types" };
                 optional( joe, was_loaded, "message_type", fe.env_message_type, game_message_type_reader );
+                JsonObject jid = joe.get_object( "immunity_data" );
+                field_types::load_immunity( jid, fe.immunity_data );
+
                 intensity_level.field_effects.emplace_back( fe );
             }
         } else {
@@ -271,22 +274,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     }
 
     JsonObject jid = jo.get_object( "immunity_data" );
-    for( const std::string id : jid.get_array( "flags" ) ) {
-        immunity_data_flags.emplace_back( id );
-    }
-    for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
-        immunity_data_body_part_env_resistance.emplace_back( io::string_to_enum<body_part_type::type>
-                ( jao.get_string( 0 ) ), jao.get_int( 1 ) );
-    }
-    for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
-        immunity_data_part_item_flags.emplace_back( io::string_to_enum<body_part_type::type>
-                ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
-    }
-
-    for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
-        immunity_data_part_item_flags_any.emplace_back( io::string_to_enum<body_part_type::type>
-                ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
-    }
+    field_types::load_immunity( jid, immunity_data );
 
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
@@ -389,6 +377,28 @@ void field_types::check_consistency()
 void field_types::reset()
 {
     get_all_field_types().reset();
+}
+
+void field_types::load_immunity( const JsonObject &jid, field_immunity_data &fd )
+{
+    for( const std::string id : jid.get_array( "flags" ) ) {
+        fd.immunity_data_flags.emplace_back( id );
+    }
+    for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
+        fd.immunity_data_body_part_env_resistance.emplace_back(
+            io::string_to_enum<body_part_type::type>
+            ( jao.get_string( 0 ) ), jao.get_int( 1 ) );
+    }
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
+        fd.immunity_data_part_item_flags.emplace_back( io::string_to_enum<body_part_type::type>
+                ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
+    }
+
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
+        fd.immunity_data_part_item_flags_any.emplace_back(
+            io::string_to_enum<body_part_type::type>
+            ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
+    }
 }
 
 const std::vector<field_type> &field_types::get_all()

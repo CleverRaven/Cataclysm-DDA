@@ -15,9 +15,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_MATRIX_AWAKENING_2",
-    "condition": {
-      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
-    },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - awakening_reducer" ] }, "y": 100 } },
     "effect": [ { "run_eocs": "EOC_BIOKIN_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_BIOKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -38,10 +36,11 @@
       },
       { "u_add_trait": "BIOKINETIC" },
       { "u_add_trait": "BIOKIN_NEEDS" },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
+      { "queue_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_biokin_physical", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "awakening_reducer" }, "+=", { "const": 2 } ] }
+      { "math": [ "awakening_countup", "+=", "1" ] },
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ]
   },
   {
@@ -54,7 +53,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+      { "queue_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -73,9 +72,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_MATRIX_AWAKENING_2",
-    "condition": {
-      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
-    },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - awakening_reducer" ] }, "y": 100 } },
     "effect": [ { "run_eocs": "EOC_CLAIR_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_CLAIR_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -96,10 +93,11 @@
       },
       { "u_add_trait": "CLAIRSENTIENT" },
       { "u_add_trait": "CLAIR_SENSES" },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
+      { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_clair_clear_sight", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "awakening_reducer" }, "+=", { "const": 2 } ] }
+      { "math": [ "awakening_countup", "+=", "1" ] },
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ]
   },
   {
@@ -112,7 +110,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+      { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -131,9 +129,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_MATRIX_AWAKENING_2",
-    "condition": {
-      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
-    },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - awakening_reducer" ] }, "y": 100 } },
     "effect": [ { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -155,11 +151,12 @@
       { "u_add_trait": "PYROKINETIC" },
       { "u_add_trait": "PYROGLOW_WEAK" },
       { "u_add_trait": "PYROGLOW_STRONG" },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
+      { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_pyrokinetic_cloak", "duration": "5 minutes" },
       { "u_add_effect": "effect_pyrokinetic_aura", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "awakening_reducer" }, "+=", { "const": 2 } ] }
+      { "math": [ "awakening_countup", "+=", "1" ] },
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ]
   },
   {
@@ -172,7 +169,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+      { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -191,9 +188,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_MATRIX_AWAKENING_2",
-    "condition": {
-      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
-    },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - awakening_reducer" ] }, "y": 100 } },
     "effect": [ { "run_eocs": "EOC_TELEKIN_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_TELEKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -214,10 +209,11 @@
       },
       { "u_add_trait": "TELEKINETIC" },
       { "u_add_trait": "TELEKINETIC_LIFTER_1" },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
+      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_telekinetic_armor", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "awakening_reducer" }, "+=", { "const": 2 } ] }
+      { "math": [ "awakening_countup", "+=", "1" ] },
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ]
   },
   {
@@ -230,7 +226,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -249,9 +245,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEEP_MATRIX_AWAKENING_2",
-    "condition": {
-      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
-    },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - awakening_reducer" ] }, "y": 100 } },
     "effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -272,10 +266,11 @@
       },
       { "u_add_trait": "TELEPATH" },
       { "u_add_trait": "TELEPATHIC_SUGGESTION" },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
+      { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_telepathic_learning_bonus", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "awakening_reducer" }, "+=", { "const": 2 } ] }
+      { "math": [ "awakening_countup", "+=", "1" ] },
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ]
   },
   {
@@ -288,7 +283,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+      { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -307,9 +302,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_MATRIX_AWAKENING_2",
-    "condition": {
-      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
-    },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - awakening_reducer" ] }, "y": 100 } },
     "effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -330,12 +323,13 @@
       },
       { "u_add_trait": "TELEPORTER" },
       { "u_add_trait": "TELEPORTER_PROTECT" },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
+      { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       {
         "u_cast_spell": { "id": "teleport_blink_monster", "message": "Reality suddenly warps around you and you are somewhere else!" }
       },
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "awakening_reducer" }, "+=", { "const": 2 } ] }
+      { "math": [ "awakening_countup", "+=", "1" ] },
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ]
   },
   {
@@ -348,7 +342,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+      { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -367,9 +361,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MATRIX_AWAKENING_2",
-    "condition": {
-      "x_in_y_chance": { "x": { "arithmetic": [ { "const": 27 }, "-", { "global_val": "var", "var_name": "awakening_reducer" } ] }, "y": 30 }
-    },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - awakening_reducer" ] }, "y": 100 } },
     "effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -390,10 +382,11 @@
       },
       { "u_add_trait": "VITAKINETIC" },
       { "u_add_trait": "VITAKINETIC_HEALTH" },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true },
+      { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_vita_health", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "awakening_reducer" }, "+=", { "const": 2 } ] }
+      { "math": [ "awakening_countup", "+=", "1" ] },
+      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
     ]
   },
   {
@@ -406,7 +399,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+      { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -424,16 +417,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CORUSCATING_MATRIX",
-    "effect": {
-      "weighted_list_eocs": [
-        [ "EOC_BIOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_CLAIR_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_PYROKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_TELEKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_TEEP_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_TELEPORT_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_VITAKIN_MATRIX_AWAKENING_3", { "const": 1 } ]
-      ]
-    }
+    "effect": [
+      { "queue_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_BIOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_CLAIR_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_PYROKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_TELEKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_TEEP_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_TELEPORT_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_VITAKIN_MATRIX_AWAKENING_3", { "const": 1 } ]
+        ]
+      }
+    ]
   }
 ]

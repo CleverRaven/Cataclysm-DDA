@@ -808,8 +808,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_discover_zomborg",
+    "condition": { "math": [ "u_monsters_nearby('mon_zomborg')", ">=", "1" ] },
+    "effect": [ { "u_add_var": "seen_zomborg", "type": "dialogue", "context": "exodii", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BANDIT_ASSASSIN",
-    "recurrence": [ "7 days", "14 days" ],
+    "recurrence": [ "60 days", "100 days" ],
     "condition": {
       "and": [
         { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -40 } ] },
@@ -828,7 +834,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BANDIT_ASSASSIN_2",
-    "recurrence": [ "7 days", "14 days" ],
+    "recurrence": [ "60 days", "100 days" ],
     "condition": {
       "and": [
         { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -60 } ] },
@@ -847,7 +853,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BANDIT_ASSASSIN_3",
-    "recurrence": [ "7 days", "14 days" ],
+    "recurrence": [ "60 days", "100 days" ],
     "condition": {
       "and": [
         { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -90 } ] },
@@ -869,7 +875,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_OLD_GUARD_ASSASSIN",
-    "recurrence": [ "7 days", "14 days" ],
+    "recurrence": [ "60 days", "100 days" ],
     "condition": {
       "and": [
         { "compare_int": [ { "faction_like": "old_guard" }, "<", { "const": -45 } ] },

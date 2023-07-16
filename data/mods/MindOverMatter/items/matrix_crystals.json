@@ -11,7 +11,7 @@
     "longest_side": "21 mm",
     "material": [ "nether_crystal" ],
     "looks_like": "art_crystal",
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "MATRIX_CRYSTAL_BIOKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "The pink glow calls to you.",
@@ -51,6 +51,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing gray light in its depths.  Holding it, you feel more perceptive.",
     "color": "dark_gray",
+    "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "The gray glow calls to you.",
@@ -80,6 +81,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel hot.",
     "color": "red",
+    "flags": [ "MATRIX_CRYSTAL_PYROKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "The red glow calls to you.",
@@ -109,6 +111,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing yellow light in its depths.  Holding it, you feel lighter.",
     "color": "yellow",
+    "flags": [ "MATRIX_CRYSTAL_TELEKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "The yellow glow calls to you.",
@@ -138,6 +141,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing white light in its depths.  Holding it, you feel pensive.",
     "color": "white",
+    "flags": [ "MATRIX_CRYSTAL_TELEPATHY" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "The white glow calls to you.",
@@ -167,6 +171,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing blue light in its depths.  Holding it, you feel more mobile.",
     "color": "blue",
+    "flags": [ "MATRIX_CRYSTAL_TELEPORTATION" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "The blue glow calls to you.",
@@ -196,6 +201,7 @@
     "copy-from": "matrix_crystal_biokinesis",
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing green light in its depths.  Holding it, you feel healthier.",
     "color": "green",
+    "flags": [ "MATRIX_CRYSTAL_VITAKINESIS" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "The green glow calls to you.",
@@ -255,10 +261,11 @@
   {
     "type": "TOOL",
     "id": "matrix_crystal_coruscating",
-    "name": { "str_sp": "strange crystal" },
-    "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, multicolored lights churl and swirl within its depths.",
+    "name": { "str_sp": "strange crystal, coruscating" },
+    "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, multicolored lights churn and swirl within its depths.",
     "copy-from": "matrix_crystal_biokinesis",
     "color": "brown",
+    "flags": [ "MATRIX_CRYSTAL_CORUSCATING" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "The coruscating light calls to you.",

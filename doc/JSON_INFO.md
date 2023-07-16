@@ -159,6 +159,8 @@ Use the `Home` key to return to the top.
     - [Furniture](#furniture)
       - [`type`](#type-1)
       - [`move_cost_mod`](#move_cost_mod)
+      - [`keg_capacity`](#keg_capacity)
+      - [`deployed_item`](#deployed_item)
       - [`lockpick_result`](#lockpick_result)
       - [`lockpick_message`](#lockpick_message)
       - [`light_emitted`](#light_emitted)
@@ -184,6 +186,9 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch-1)
       - [`prying`](#prying-1)
       - [`transforms_into`](#transforms_into)
+      - [`allowed_template_ids`](#allowed_template_ids)
+      - [`curtain_transform`](#curtain_transform)
+      - [`shoot`](#shoot)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
     - [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
@@ -200,6 +205,7 @@ Use the `Home` key to return to the top.
       - [`bonus_fire_warmth_feet`](#bonus_fire_warmth_feet)
       - [`looks_like`](#looks_like)
       - [`color` or `bgcolor`](#color-or-bgcolor)
+      - [`coverage`](#coverage)
       - [`max_volume`](#max_volume)
       - [`examine_action`](#examine_action)
       - [`close` and `open`](#close-and-open)
@@ -239,6 +245,7 @@ Use the `Home` key to return to the top.
   - [`professions`](#professions)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement-1)
+  - [`reveal_locale`](#reveal_locale)
   - [`eocs`](#eocs)
   - [`missions`](#missions-1)
   - [`custom_initial_date`](#custom_initial_date)
@@ -258,6 +265,7 @@ Use the `Home` key to return to the top.
 - [Obsoletion and migration](#obsoletion-and-migration)
   - [Charge and temperature removal](#charge-and-temperature-removal)
 - [Field types](#field-types)
+  - [Immunity data](#immunity-data)
 - [Option sliders](#option-sliders)
   - [Option sliders - Fields](#option-sliders---fields)
   - [Option sliders - Levels](#option-sliders---levels)
@@ -505,6 +513,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `monster_attacks.json`        | monster attacks
 | `monster_drops.json`          | monster item drops on death
 | `monster_factions.json`       | monster factions
+| `monster_flags.json`          | monster flags and their descriptions
 | `monstergroups.json`          | monster spawn groups
 | `monstergroups_egg.json`      | monster spawn groups from eggs
 | `monsters.json`               | monster descriptions, mostly zombies
@@ -3566,6 +3575,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "max_item_length": "0 mm",        // Maximum length of items that can fit in this pocket, by their longest_side.  Default is the diagonal opening length assuming volume is a cube (cube_root(vol)*square_root(2))
     "spoil_multiplier": 1.0,          // How putting an item in this pocket affects spoilage.  Less than 1.0 and the item will be preserved longer; 0.0 will preserve indefinitely.
     "weight_multiplier": 1.0,         // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplier.
+    "volume_multiplier": 1.0,         // The items in this pocket have less volume inside than outside.  Can be used for containers that'd help in organizing specific contents, such as cardboard rolls for duct tape.
     "moves": 100,                     // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
     "rigid": false,                   // Default false. If true, this pocket's size is fixed, and does not expand when filled.  A glass jar would be rigid, while a plastic bag is not.
     "forbidden": true,                // Default false. If true, this pocket cannot be used by players. 
@@ -4433,6 +4443,8 @@ Examples from the actual definitions:
     "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
+    "keg_capacity": 240,
+    "deployed_item": "plastic_sheet",
     "light_emitted": 5,
     "required_str": 18,
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
@@ -4494,6 +4506,14 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 #### `move_cost_mod`
 
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
+
+#### `keg_capacity`
+
+Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
+
+#### `deployed_item`
+
+Item id string used to create furniture. Allows player to interact with the furniture to 'take it down' (transform it to item form).
 
 #### `lockpick_result`
 
@@ -4645,7 +4665,12 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "deconstruct": "TODO",
     "harvestable": "blueberries",
     "transforms_into": "t_tree_harvested",
-    "harvest_season": "WINTER",
+    "allowed_template_ids": [ "standard_template_construct", "debug_template", "afs_10mm_smart_template" ],
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true },
+    "harvest_by_season": [
+      { "seasons": [ "spring", "autumn" ], "id": "burdock_harv" },
+      { "seasons": [ "summer" ], "id": "burdock_summer_harv" }
+    ],
     "roof": "t_roof",
     "examine_action": "pit",
     "boltcut": {
@@ -4810,7 +4835,42 @@ oxytorch: {
 (Optional) Used for various transformation of the terrain. If defined, it must be a valid terrain id. Used for example:
 
 - When harvesting fruits (to change into the harvested form of the terrain).
-- In combination with the `HARVESTED` flag and `harvest_season` to change the harvested terrain back into a terrain with fruits.
+- In combination with the `HARVESTED` flag and `harvest_by_season` to change the harvested terrain back into a terrain with fruits.
+
+#### `allowed_template_ids`
+
+(Optional) Array used for specifying templates that a nanofabricator can create
+
+#### `curtain_transform`
+
+(Optional) Terrain id
+
+Transform into this terrain when an `examine_action` of curtains is used and the `Tear down the curtains` option is selected.
+
+#### `shoot`
+
+(Optional) Array of objects
+
+Defines how this terrain will interact with ranged projectiles. Has the following objects: 
+
+```
+    // Base chance to hit the object at all (defaults to 100%)
+    int chance_to_hit = 0;
+    // Minimum damage reduction to apply to shot when hit
+    int reduce_dmg_min = 0;
+    // Maximum damage reduction to apply to shot when hit
+    int reduce_dmg_max = 0;
+    // Minimum damage reduction to apply to laser shots when hit
+    int reduce_dmg_min_laser = 0;
+    // Maximum damage reduction to apply to laser shots when hit
+    int reduce_dmg_max_laser = 0;
+    // Damage required to have a chance to destroy
+    int destroy_dmg_min = 0;
+    // Damage required to guarantee destruction
+    int destroy_dmg_max = 0;
+    // Are lasers incapable of destroying the object (defaults to false)
+    bool no_laser_destroy = false;
+```
 
 #### `harvest_by_season`
 
@@ -4927,6 +4987,10 @@ id of a similar item that this item looks like. The tileset loader will try to l
 Color of the object as it appears in the game. "color" defines the foreground color (no background color), "bgcolor" defines a solid background color. As with the "symbol" value, this can be an array with 4 entries, each entry being the color during the different seasons.
 
 > **NOTE**: You must use ONLY ONE of "color" or "bgcolor"
+
+#### `coverage`
+
+The coverage percentage of a furniture piece of terrain. <30 won't cover from sight. (Does not interact with projectiles, gunfire, or other attacks. Only line of sight.)
 
 #### `max_volume`
 
@@ -5179,6 +5243,12 @@ Add a map special to the starting location, see JSON_FLAGS for the possible spec
 (optional, an achievement ID)
 
 The achievement you need to do to access this scenario
+
+## `reveal_locale`
+
+(optional, boolean)
+
+Defaults true. If a road can be found within 3 OMTs of the starting position, reveals a path to the nearest city and that city's center.
 
 ## `eocs`
 (optional, array of strings)
@@ -5535,17 +5605,13 @@ Fields can exist on top of terrain/furniture, and support different intensity le
             "message": "You're debilitated!", // Message to print when the effect is applied to the player
             "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
             "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
+            "immunity_data": {...} // See Immunity Data below
           }
         ]
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
-    "immunity_data": {  // Array containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
-      { "flags": [ "WEBWALK" ] },  // Immune if the character has any of the defined character flags (see Character flags)
-      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] }, // Immune if ALL bodyparts of the defined types have the defined amount of env protection
-      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ], // Immune if ALL parts of the defined types wear an item with the defined flag
-      "immunity_flags_worn_any": [ [ "sensor": "BLIND" ], [ "hand": "PADDED" ] ], Immune if ANY part of the defined type wears an item with the corresponding flag -- in this example either a blindfold OR padded gloves confer immunity
-      },
+    "immunity_data": {...} // See Immunity Data below
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
@@ -5585,6 +5651,18 @@ Fields can exist on top of terrain/furniture, and support different intensity le
       ]
     }
   }
+```
+
+## Immunity data
+Immunity data can be provided at the field level or at the effect level based on intensity and body part. At the field level it applies immunity to all effects.
+
+```JSON
+"immunity_data": {  // Object containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
+      "flags": [ "WEBWALK" ],  // Immune if the character has any of the defined character flags (see Character flags)
+      "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ], // Immune if ALL bodyparts of the defined types have the defined amount of env protection
+      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ], // Immune if ALL parts of the defined types wear an item with the defined flag
+      "immunity_flags_worn_any": [ [ "sensor", "BLIND" ], [ "hand", "PADDED" ] ], // Immune if ANY part of the defined type wears an item with the corresponding flag -- in this example either a blindfold OR padded gloves confer immunity
+},
 ```
 
 # Option sliders

@@ -897,7 +897,7 @@
     "id": "xl_legguard_bronze",
     "type": "ARMOR",
     "copy-from": "legguard_bronze",
-    "name": { "str": "XL bronze greaves", "str_pl": "pairs of XL bronze greaves" },
+    "name": { "str": "pair of XL bronze greaves", "str_pl": "pairs of XL bronze greaves" },
     "description": "A pair of gigantic bronze leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -906,7 +906,7 @@
     "id": "xs_legguard_bronze",
     "type": "ARMOR",
     "copy-from": "legguard_bronze",
-    "name": { "str": "XS bronze greaves", "str_pl": "pairs of XS bronze greaves" },
+    "name": { "str": "pair of XS bronze greaves", "str_pl": "pairs of XS bronze greaves" },
     "description": "A pair of tiny bronze leg guards with a simple leather lining.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

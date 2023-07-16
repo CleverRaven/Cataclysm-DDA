@@ -14,15 +14,15 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 1,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: telepathic_concentration') * 15000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: telepathic_concentration') * 15000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: telepathic_concentration') * 15000) + 720000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: telepathic_concentration') * 15000) + 720000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "energy_source": "STAMINA",
@@ -67,12 +67,12 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 2,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telepathic_shield') * 1500) + 6000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_shield') * 1500) + 6000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telepathic_shield') * 1500) + 36000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_shield') * 1500) + 36000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
@@ -98,16 +98,12 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 3,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: telepathic_morale') * 15000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_morale') * 15000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: telepathic_morale') * 15000) + 720000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_morale') * 15000) + 720000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 4000,
@@ -140,15 +136,15 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 4,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: telepathic_invisibility') * 200) + 800) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: telepathic_invisibility') * 200) + 800) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: telepathic_invisibility') * 200) + 3000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: telepathic_invisibility') * 200) + 3000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "energy_source": "STAMINA",
@@ -171,7 +167,7 @@
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 5,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "stunned",
     "extra_effects": [
@@ -180,13 +176,13 @@
     ],
     "shape": "blast",
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 400) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 400) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 2000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 2000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -209,7 +205,7 @@
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "PERCENTAGE_DAMAGE" ],
     "difficulty": 6,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
@@ -218,7 +214,7 @@
     "max_damage": 120,
     "damage_increment": 1,
     "min_range": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telepathic_blast') * 2) + 3) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -240,28 +236,28 @@
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 7,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "charm_monster",
     "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telepathic_mind_control') * 4) + 30) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 4) + 30) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telepathic_mind_control') * 6) + 120) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 6) + 120) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: telepathic_mind_control') * 400) + 1200) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: telepathic_mind_control') * 400) + 1200) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: telepathic_mind_control') * 400) + 5200) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: telepathic_mind_control') * 400) + 5200) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "min_range": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telepathic_mind_control') * 1) + 4) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 1) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 70,
     "energy_source": "STAMINA",

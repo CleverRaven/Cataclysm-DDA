@@ -160,6 +160,7 @@ arthouse
 arthropod
 arthropodology
 artificer
+artisanals
 asexuality
 askin
 aspirants
@@ -194,6 +195,7 @@ autoinjector
 autoloading
 autologous
 automagnum
+automates
 autonomously
 autosaves
 autoselect
@@ -244,6 +246,7 @@ baselines
 basiliscus
 bassline
 basswood
+barleycorn
 batching
 batlike
 batrachian
@@ -394,9 +397,12 @@ builtin
 bulette
 bulkiness
 bullhead
+bullheads
 bullpup
 bumbles
 burbles
+burbot
+burbots
 burdocks
 burette
 burnback
@@ -526,6 +532,7 @@ civilizational
 clairly
 clambers
 clanged
+clanker
 clanky
 clarifier
 clashin
@@ -547,6 +554,7 @@ coati
 coatings
 coatis
 cockatrice
+cods
 coeculus
 coelophysis
 coffeetable
@@ -798,6 +806,7 @@ dooting
 doots
 downspout
 doz
+drabs
 draconic
 dragonail
 dragonails
@@ -875,6 +884,7 @@ eles
 elete
 elongates
 elopements
+elsewheres
 elytra
 embrasure
 emode
@@ -967,6 +977,7 @@ eyestalks
 f
 fabricators
 facemask
+facemasks
 faceplates
 faceted
 faders
@@ -1151,6 +1162,7 @@ garishly
 garlander
 garou
 garried
+gars
 gasbomb
 gasgun
 gasmask
@@ -1173,6 +1185,7 @@ gesticulates
 getups
 ghast
 gibbous
+giganotosaurus
 github
 gladius
 glaive
@@ -1240,6 +1253,7 @@ gunshop
 gunsmithing
 gunsmoke
 gushingly
+gurkha
 gutskin
 guvnah
 gymnocladus
@@ -1514,6 +1528,8 @@ kickin
 kickstand
 killbasa
 killin
+kilij
+kilijs
 kilns
 kilroy
 kilted
@@ -1644,6 +1660,7 @@ longarm
 longear
 longhair
 longhouse
+longnose
 longsword
 longswords
 lootables
@@ -1667,6 +1684,7 @@ lx
 lyflode
 lyin
 m
+machiner
 macronutrient
 macrophenotypic
 macuahuitl
@@ -1690,6 +1708,8 @@ manhack
 manhacks
 manoomin
 manuc
+manufactorize
+manufactory
 manwich
 mapgen
 mapper
@@ -2557,6 +2577,8 @@ shadowboxing
 shadowcat
 shahada
 shambler
+shamshir
+shamshirs
 shantak
 shantytowns
 shapechangers
@@ -2574,6 +2596,7 @@ shogi
 shootable
 shortfalls
 shorthair
+shortnose
 shotcestus
 shotgunner
 shotshell
@@ -2629,6 +2652,8 @@ smokable
 smokegun
 smokin
 smoothbore
+snakelet
+snakelets
 snapback
 snappier
 snick
@@ -2728,6 +2753,7 @@ staunchable
 staunching
 std
 steadfastness
+steelshod
 steeltoed
 steeping
 steerable
@@ -2743,11 +2769,16 @@ stirfry
 stirge
 stockrooms
 stom
+stompers
+stompy
+stompy-clanker
 stonelike
 stoneskin
 stopcock
 stoppered
 stoppeth
+stook
+stooking
 storable
 stormcaller
 stormshaper
@@ -2763,6 +2794,7 @@ stubbier
 stungun
 sturdily
 sturdiness
+sturgeons
 stylette
 styracosaurus
 subcompact
@@ -2826,6 +2858,8 @@ tadfish
 taegeuk
 taitsu
 takedowns
+talwar
+talwars
 tamable
 tambaqui
 tamina
@@ -2879,6 +2913,7 @@ thorned
 thornothurian
 thosun
 threateningly
+threshed
 throated
 throating
 throwable
@@ -3013,6 +3048,7 @@ undersides
 underslung
 underwelming
 undescribed
+undried
 undulates
 uneasing
 unfathomably
@@ -3047,14 +3083,17 @@ unmark
 unmarred
 unmount
 unmounted
+unmutated
 unnervingly
 unobtainium
 unornamented
 unpadded
+unpopped
 unpowered
 unpressurised
 unreinforced
 unrifled
+unrotten
 unrushed
 unsaved
 unseasoned
@@ -3176,6 +3215,7 @@ wetworks
 whap
 whaps
 whatlike
+wheatberries
 whiled
 whiplike
 whirr
@@ -3252,6 +3292,7 @@ yateveo
 yd
 yelemi
 yellowjacket
+yelman
 yme
 ynn
 yoroi
@@ -3284,6 +3325,7 @@ zombeaver
 zombeavers
 zombiespawn
 zombiethustra
+zombification
 zombified
 zomborg
 zombull
@@ -3291,6 +3333,7 @@ zombullfrog
 zoonotic
 zpzzzzpzz
 zubon
+zucchinis
 zuniceratops
 zuul
 zweitimber

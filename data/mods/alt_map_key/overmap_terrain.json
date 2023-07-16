@@ -645,7 +645,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_restaurant_foodplace", "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ],
+    "id": [ "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ],
     "copy-from": "s_restaurant",
     "name": "restaurant",
     "sym": "r",

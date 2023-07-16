@@ -411,7 +411,7 @@ TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage]" 
 
     SECTION( "Attacking an NPC with no resistance to test_fire" ) {
         check_damage_from_test_fire( std::vector<std::string> { "test_zentai" },
-                                     body_part_torso, 0, false, 13.75f );
+                                     body_part_torso, 0, false, 14.84f );
     }
 
     SECTION( "Attacking an NPC that is resistant to test_fire" ) {
@@ -421,6 +421,6 @@ TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage]" 
 
     SECTION( "Attacking an NPC that is immune to test_fire" ) {
         check_damage_from_test_fire( std::vector<std::string> { "test_zentai_immune_test_fire" },
-                                     body_part_torso, 0, true, 5.7f );
+                                     body_part_torso, 0, true, 6.87f );
     }
 }

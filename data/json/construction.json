@@ -2519,6 +2519,23 @@
   },
   {
     "type": "construction",
+    "id": "constr_fvat_wood_empty",
+    "group": "build_wooden_fermenting_vat",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ], [ "cooking", 3 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 14 ] ],
+      [ [ "stick_long", 6 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "cordage_6", 180 ] ],
+      [ [ "splinter", 2 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_fvat_wood_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_wood_keg",
     "group": "build_wooden_keg",
     "category": "FURN",
@@ -5587,7 +5604,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_dock",
+    "id": "constr_dock_moving",
     "group": "build_river_dock_shallow_bridge",
     "//": "Set up dock",
     "category": "CONSTRUCT",
@@ -5600,7 +5617,20 @@
   },
   {
     "type": "construction",
-    "id": "constr_dock_deep_pile",
+    "id": "constr_dock",
+    "group": "build_river_dock_shallow_bridge",
+    "//": "Set up dock",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "40 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
+    "pre_terrain": "t_water_sh",
+    "post_terrain": "t_dock"
+  },
+  {
+    "type": "construction",
+    "id": "constr_dock_deep_pile_moving",
     "group": "build_deep_river_dock",
     "//": "Step 1: securing a pile down on the riverbed; not easy work without machinery",
     "category": "CONSTRUCT",
@@ -5609,6 +5639,19 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "wood_beam", 1 ] ], [ [ "spike", 4 ] ] ],
     "pre_terrain": "t_water_moving_dp",
+    "post_terrain": "t_dock_deep_pile"
+  },
+  {
+    "type": "construction",
+    "id": "constr_dock_deep_pile",
+    "group": "build_deep_river_dock",
+    "//": "Step 1: securing a pile down on the lakebed; not easy work without machinery",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "720 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "wood_beam", 1 ] ], [ [ "spike", 4 ] ] ],
+    "pre_terrain": "t_water_dp",
     "post_terrain": "t_dock_deep_pile"
   },
   {
@@ -8107,6 +8150,19 @@
     "components": [ [ [ "rock_large", 22 ] ] ],
     "pre_terrain": "t_dirt",
     "post_terrain": "t_rockyobstacle"
+  },
+  {
+    "type": "construction",
+    "id": "constr_stooking_spot",
+    "group": "make_stooking_spot",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "0 m",
+    "pre_note": "Mark a spot to stack cut grain for drying outdoors.  Once placed, put unrotten undried grain stalks on the stooking spot and examine it to get started.",
+    "pre_special": "check_empty",
+    "post_flags": [ "keep_items" ],
+    "dark_craftable": true,
+    "post_terrain": "f_stook_empty"
   },
   {
     "type": "construction",
