@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include <activity_handlers.h>
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -1008,7 +1009,7 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 {
     Character &player_character = get_player_character();
     item weap = player_character.remove_weapon();
-    get_map().add_item_or_charges( player_character.pos(), weap );
+    drop_on_map( player_character, item_drop_reason::deliberate, {weap}, player_character.pos_bub() );
 }
 
 void talk_function::lead_to_safety( npc &p )
@@ -1247,4 +1248,9 @@ void talk_function::npc_thankful( npc &p )
 void talk_function::clear_overrides( npc &p )
 {
     p.rules.clear_overrides();
+}
+
+void talk_function::pick_style( npc &p )
+{
+    p.martial_arts_data->pick_style( p );
 }

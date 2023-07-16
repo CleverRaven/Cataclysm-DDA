@@ -584,7 +584,7 @@ static int export_uilist()
         { uilist_entry( debug_menu_index::EXPORT_FOLLOWER, true, 'f', _( "Export follower" ) ) },
     };
 
-    return uilist( _( "Expot…" ), uilist_initializer );
+    return uilist( _( "Export…" ), uilist_initializer );
 }
 
 /**
@@ -2408,25 +2408,7 @@ static void debug_menu_game_state()
     avatar &player_character = get_avatar();
     map &here = get_map();
     tripoint_abs_sm abs_sub = here.get_abs_sub();
-    std::string mfus;
-    std::vector<std::pair<m_flag, int>> sorted;
-    sorted.reserve( m_flag::MF_MAX );
-    for( int f = 0; f < m_flag::MF_MAX; f++ ) {
-        sorted.emplace_back( static_cast<m_flag>( f ),
-                             MonsterGenerator::generator().m_flag_usage_stats[f] );
-    }
-    std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
-        return a.second != b.second ? a.second > b.second : a.first < b.first;
-    } );
     popup( player_character.total_daily_calories_string() );
-    for( auto &m_flag_stat : sorted ) {
-        mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
-                               m_flag_stat.second );
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-    std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
-               MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
-    popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
     std::string s = _( "Location %d:%d in %d:%d, %s\n" );
     s += _( "Current turn: %d.\n" );

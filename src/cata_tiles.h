@@ -549,6 +549,8 @@ class cata_tiles
                               const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
                                     const std::array<bool, 5> &invisible, bool memorize_only );
+        bool draw_critter_above( const tripoint &p, lit_level ll, int &height_3d,
+                                 const std::array<bool, 5> &invisible );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
                              const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,

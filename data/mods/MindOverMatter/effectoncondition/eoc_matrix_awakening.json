@@ -417,16 +417,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CORUSCATING_MATRIX",
-    "effect": {
-      "weighted_list_eocs": [
-        [ "EOC_BIOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_CLAIR_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_PYROKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_TELEKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_TEEP_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_TELEPORT_MATRIX_AWAKENING_3", { "const": 1 } ],
-        [ "EOC_VITAKIN_MATRIX_AWAKENING_3", { "const": 1 } ]
-      ]
-    }
+    "effect": [
+      { "queue_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_BIOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_CLAIR_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_PYROKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_TELEKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_TEEP_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_TELEPORT_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_VITAKIN_MATRIX_AWAKENING_3", { "const": 1 } ]
+        ]
+      }
+    ]
   }
 ]

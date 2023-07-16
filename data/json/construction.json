@@ -2519,6 +2519,23 @@
   },
   {
     "type": "construction",
+    "id": "constr_fvat_wood_empty",
+    "group": "build_wooden_fermenting_vat",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ], [ "cooking", 3 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 14 ] ],
+      [ [ "stick_long", 6 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "cordage_6", 180 ] ],
+      [ [ "splinter", 2 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_fvat_wood_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_wood_keg",
     "group": "build_wooden_keg",
     "category": "FURN",
