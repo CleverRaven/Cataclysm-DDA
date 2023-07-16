@@ -27,7 +27,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "roundabout_3way" ], [ "roundabout_edge" ] ],
+    "om_terrain": [ [ "roundabout_3way" ] ],
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -54,7 +54,110 @@
         " ______________________ ",
         "  ____________________  ",
         "   __________________   ",
-        "    ________________    ",
+        "    ________________    "
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_ne" ],
+          "x": 20,
+          "y": 0,
+          "flags": { "north_east": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_ne" ],
+          "x": 20,
+          "y": 0,
+          "flags": { "north": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_ne" ],
+          "x": 20,
+          "y": 0,
+          "flags": { "east": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_se" ],
+          "x": 20,
+          "y": 20,
+          "flags": { "south_east": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_se" ],
+          "x": 20,
+          "y": 20,
+          "flags": { "south": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_se" ],
+          "x": 20,
+          "y": 20,
+          "flags": { "east": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_sw" ],
+          "x": 0,
+          "y": 20,
+          "flags": { "south_west": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_sw" ],
+          "x": 0,
+          "y": 20,
+          "flags": { "south": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_sw" ],
+          "x": 0,
+          "y": 20,
+          "flags": { "west": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "north_west": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "north": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "west": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [
+            "8x8_roundabout_center_basic",
+            "8x8_roundabout_center_fountain",
+            "8x8_roundabout_center_statue",
+            "8x8_roundabout_center_flowers",
+            "8x8_roundabout_center_shrubs"
+          ],
+          "x": 8,
+          "y": 8,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "roundabout_edge" ] ],
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
         "     ______________     ",
         "         ______         ",
         "                        ",
@@ -84,39 +187,15 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "chunks": [ "4x4_roundabout_sidewalk_ne" ],
-          "x": 20,
-          "y": 0,
-          "flags": { "north_east": [ "SIDEWALK" ] }
-        },
-        {
-          "chunks": [ "4x4_roundabout_sidewalk_se" ],
-          "x": 20,
-          "y": 20,
-          "flags": { "south_east": [ "SIDEWALK" ] }
-        },
-        {
-          "chunks": [ "4x4_roundabout_sidewalk_sw" ],
-          "x": 0,
-          "y": 20,
-          "flags": { "south_west": [ "SIDEWALK" ] }
-        },
-        {
-          "chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "chunks": [ "24x24_roundabout_sidewalk_edge_left_n" ],
           "x": 0,
           "y": 0,
-          "flags": { "north_west": [ "SIDEWALK" ] }
-        },
-        {
-          "chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
-          "x": 0,
-          "y": 24,
           "flags": { "east": [ "SIDEWALK" ] }
         },
         {
-          "chunks": [ "24x24_roundabout_sidewalk_edge_n" ],
+          "chunks": [ "24x24_roundabout_sidewalk_edge_right_n" ],
           "x": 0,
-          "y": 24,
+          "y": 0,
           "flags": { "west": [ "SIDEWALK" ] }
         }
       ]
@@ -127,7 +206,6 @@
     "method": "json",
     "om_terrain": [ "roundabout_4way" ],
     "object": {
-      "rotation": [ 0, 3 ],
       "predecessor_mapgen": "field",
       "rows": [
         "    _________yyyyyyy    ",
@@ -165,10 +243,34 @@
           "flags": { "north_east": [ "SIDEWALK" ] }
         },
         {
+          "chunks": [ "4x4_roundabout_sidewalk_ne" ],
+          "x": 20,
+          "y": 0,
+          "flags": { "north": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_ne" ],
+          "x": 20,
+          "y": 0,
+          "flags": { "east": [ "SIDEWALK" ] }
+        },
+        {
           "chunks": [ "4x4_roundabout_sidewalk_se" ],
           "x": 20,
           "y": 20,
           "flags": { "south_east": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_se" ],
+          "x": 20,
+          "y": 20,
+          "flags": { "south": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_se" ],
+          "x": 20,
+          "y": 20,
+          "flags": { "east": [ "SIDEWALK" ] }
         },
         {
           "chunks": [ "4x4_roundabout_sidewalk_sw" ],
@@ -177,10 +279,34 @@
           "flags": { "south_west": [ "SIDEWALK" ] }
         },
         {
+          "chunks": [ "4x4_roundabout_sidewalk_sw" ],
+          "x": 0,
+          "y": 20,
+          "flags": { "south": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_sw" ],
+          "x": 0,
+          "y": 20,
+          "flags": { "west": [ "SIDEWALK" ] }
+        },
+        {
           "chunks": [ "4x4_roundabout_sidewalk_nw" ],
           "x": 0,
           "y": 0,
           "flags": { "north_west": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "north": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_roundabout_sidewalk_nw" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "west": [ "SIDEWALK" ] }
         },
         {
           "chunks": [ "24x24_roundabout_traffic_lights", "null" ],
@@ -384,17 +510,54 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_roundabout_sidewalk_edge_n",
+    "nested_mapgen_id": "24x24_roundabout_sidewalk_edge_left_n",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        " ....              .... ",
-        "  .......      .......  ",
-        "   ..................   ",
-        "    ................    ",
-        "     ..............     ",
-        "         ......         ",
+        " ....                   ",
+        "  .......               ",
+        "   .........            ",
+        "    ........            ",
+        "     .......            ",
+        "         ...            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_roundabout_sidewalk_edge_right_n",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                   .... ",
+        "               .......  ",
+        "            .........   ",
+        "            ........    ",
+        "            .......     ",
+        "            ...         ",
         "                        ",
         "                        ",
         "                        ",
