@@ -896,7 +896,7 @@
     "looks_like": "broken_robofac_camspy",
     "type": "TOOL",
     "name": { "str": "inactive camspy", "str_pl": "inactive camspies" },
-    "description": "An inactive campsy.  Using this item involves turning it on and launching it.  If reprogrammed and rewired successfully, the camspy will then keep watch for intruders.",
+    "description": "An inactive camspy.  Using this item involves turning it on and launching it.  If reprogrammed and rewired successfully, the camspy will then keep watch for intruders.",
     "weight": "40750 g",
     "volume": "30 L",
     "price": 10000,
