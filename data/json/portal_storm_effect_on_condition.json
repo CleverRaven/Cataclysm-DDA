@@ -26,7 +26,28 @@
     "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
     "recurrence": [ { "global_val": "ps_min_woc", "default": "5 days" }, { "global_val": "ps_max_woc", "default": "18 days" } ],
     "global": true,
-    "effect": { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" }
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_CAUSE_EARLY_PORTAL_STORM"
+        },
+        {
+          "id": "EOC_FIRST_PORTAL_STORM",
+          "condition": {
+            "or": [
+              { "math": [ "portal_storm_distant_distance", "<=", "200" ] },
+              { "math": [ "portal_storm_close_distance", "<=", "100" ] },
+              { "math": [ "portal_storm_distance", "<=", "50" ] }
+            ]
+          },
+          "effect": [
+            { "math": [ "portal_storm_distant_distance", "=", "200" ] },
+            { "math": [ "portal_storm_close_distance", "=", "100" ] },
+            { "math": [ "portal_storm_distance", "=", "50" ] }
+          ]
+        }
+      ]
+    } 
   },
   {
     "type": "effect_on_condition",
