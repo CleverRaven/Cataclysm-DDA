@@ -1410,9 +1410,9 @@
     "using": [ [ "serum_production_standard", 20 ] ],
     "components": [
       [ [ "feline_sample", 1 ], [ "lupine_sample", 1 ], [ "ursine_sample", 1 ] ],
-      [ [ "feline_sample", 1 ], [ "lupine_sample", 1 ], [ "ursine_sample", 1 ] ],
-      [ [ "feline_sample", 1 ], [ "lupine_sample", 1 ], [ "ursine_sample", 1 ] ],
-      [ [ "feline_sample", 1 ], [ "lupine_sample", 1 ], [ "ursine_sample", 1 ] ]
+      [ [ "feline_sample", 1 ] ],
+      [ [ "lupine_sample", 1 ] ],
+      [ [ "ursine_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },
