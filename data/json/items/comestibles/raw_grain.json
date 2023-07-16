@@ -338,7 +338,18 @@
     "milling": { "into": "flour_wheat_free", "conversion_rate": 3.75 },
     "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
+    "flags": [
+      "EDIBLE_FROZEN",
+      "RAW",
+      "INEDIBLE",
+      "CATTLE",
+      "NUTRIENT_OVERRIDE",
+      "PLANTABLE_SEED",
+      "CUT_HARVEST",
+      "BIRD",
+      "RAT",
+      "MOUSE"
+    ],
     "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" }
   },
   {
