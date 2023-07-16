@@ -2278,5 +2278,17 @@
     "id": "USE_POWER_WHEN_HIT",
     "type": "json_flag",
     "info": "This armor <info>expends energy when hit</info>."
+  },
+  {
+    "id": "RAT",
+    "type": "json_flag"
+  },
+  {
+    "id": "MOUSE",
+    "type": "json_flag"
+  },
+  {
+    "id": "RABBIT",
+    "type": "json_flag"
   }
 ]
