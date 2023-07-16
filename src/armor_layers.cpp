@@ -1049,10 +1049,10 @@ void outfit::sort_armor( Character &guy )
                 };
                 if( you != nullptr ) {
                     loc = game_menus::inv::titled_filter_menu( armor_filter,
-                                                               *you,
-                                                               _( "Select appearance of this armor:" ),
-                                                               -1,
-                                                               _( "You have nothing to wear." ) );
+                            *you,
+                            _( "Select appearance of this armor:" ),
+                            -1,
+                            _( "You have nothing to wear." ) );
                 }
                 if( loc && loc.get_item() ) {
                     const item *i = loc.get_item();
