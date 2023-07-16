@@ -162,7 +162,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER" ],
+    "flags": [ "STURDY", "OUTER", "BELTED" ],
     "ammo": "battery",
     "use_action": {
       "target": "inventor_leg_weight_on",
@@ -314,7 +314,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID" ]
+    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED" ]
   },
   {
     "id": "aura_force_on",
