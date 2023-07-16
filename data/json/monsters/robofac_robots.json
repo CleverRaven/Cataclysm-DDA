@@ -50,7 +50,7 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 3,
-    "revert_to_itype": "bot_eyebot",
+    "revert_to_itype": "bot_robofac_camspy",
     "tracking_distance": 10,
     "aggression": -99,
     "special_attacks": [ [ "DEPART", 34560 ] ],
