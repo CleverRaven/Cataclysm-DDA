@@ -108,7 +108,7 @@
     "color": "black",
     "name": { "str": "black glass shard" },
     "category": "other",
-    "description": "A shard of black glass that is almost impossible to touch without cutting yourself. It doesn't reflect anything, but sometimes you think you catch a glimpse of something in it anyway.",
+    "description": "A shard of black glass that is almost impossible to touch without cutting yourself.  It doesn't reflect anything, but sometimes you think you catch a glimpse of something in it anyway.",
     "material": [ "glass" ],
     "weight": "75 g",
     "volume": "30 ml",
