@@ -145,6 +145,9 @@ static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_TABLEMANNERS( "TABLEMANNERS" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_CATTLE( "THRESH_CATTLE" );
+static const trait_id trait_THRESH_RABBIT( "THRESH_RABBIT" );
+static const trait_id trait_THRESH_RAT( "THRESH_RAT" );
+static const trait_id trait_THRESH_MOUSE( "THRESH_MOUSE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
@@ -730,10 +733,15 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     const auto &comest = food.get_comestible();
 
     if( food.has_flag( flag_INEDIBLE ) ) {
-        if( ( food.has_flag( flag_CATTLE ) && !has_trait( trait_THRESH_CATTLE ) ) ||
-            ( food.has_flag( flag_FELINE ) && !has_trait( trait_THRESH_FELINE ) ) ||
-            ( food.has_flag( flag_LUPINE ) && !has_trait( trait_THRESH_LUPINE ) ) ||
-            ( food.has_flag( flag_BIRD ) && !has_trait( trait_THRESH_BIRD ) ) ) {
+    bool has_compatible_mutation = 
+        ( food.has_flag( flag_CATTLE ) && has_trait( trait_THRESH_CATTLE ) ) ||
+            ( food.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ||
+            ( food.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
+            ( food.has_flag( flag_RABBIT ) && has_trait( trait_THRESH_RABBIT ) ) ||
+            ( food.has_flag( flag_MOUSE ) && has_trait( trait_THRESH_MOUSE ) ) ||
+            ( food.has_flag( flag_RAT ) && has_trait( trait_THRESH_RAT ) ) ||
+            ( food.has_flag( flag_BIRD ) && has_trait( trait_THRESH_BIRD ) );
+        if( !has_compatible_mutation ) {
             return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );
         }
         if( !food.has_flag( flag_CATTLE ) && !food.has_flag( flag_FELINE ) &&
