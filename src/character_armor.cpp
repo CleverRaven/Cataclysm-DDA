@@ -199,7 +199,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                     absorbed = true;
                 }
                 if( absorbed ) {
-                    mod_power_level( -bio_ads->power_trigger );
+                mod_power_level( -bio_ads->power_trigger );
                     add_msg_if_player( m_good,
                                        _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
                 }
