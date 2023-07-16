@@ -10,9 +10,14 @@
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEPATH')" ] },
-            "difficulty": { "math": [ "n_val('intelligence')" ] },
-            "die_size": 5
+            "and": [
+              {
+                "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEPATH')" ] },
+                "difficulty": { "math": [ "n_val('intelligence')" ] },
+                "die_size": 5
+              },
+              { "math": [ "telepathically_stole_recently", "<=", "15" ] }
+            ]
           }
         },
         "success": { "topic": "TALK_TELEPATHY_ALLOW_KEEP_ITEM" },
@@ -25,11 +30,18 @@
     "type": "talk_topic",
     "dynamic_line": [
       "Oh, I…I don't know what I was thinking. I…sorry.",
-      "It is?  Oh, it…it is.  That's right.",
+      "It is?  Oh, it…it is.  Right.  Right.",
       "I…I thought that…never mind.",
-      "But you…no, I…I just…"
+      "But you…no, I thought…I just…",
+      "What?  But that's…we've had…how did you…"
     ],
-    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE", "effect": "remove_stolen_status" } ]
+    "responses": [
+      {
+        "text": "That's right.",
+        "topic": "TALK_DONE",
+        "effect": [ "remove_stolen_status", { "math": [ "telepathically_stole_recently", "+=", "rand(5)" ] } ]
+      }
+    ]
   },
   {
     "id": [ "TALK_MUG", "TALK_STRANGER_AGGRESSIVE" ],
@@ -136,8 +148,8 @@
           "topic": "TALK_DONE",
           "effect": [
             "hostile",
-            { "npc_add_effect": "psi_blind", "duration": "30 s" },
-            { "npc_add_effect": "psi_deaf", "duration": "30 s" }
+            { "npc_add_effect": "blind", "duration": "20 s" },
+            { "npc_add_effect": "deaf", "duration": "20 s", "intensity": 3 }
           ]
         },
         "failure": {
@@ -171,7 +183,7 @@
               "npc_set_hp": { "math": [ "(80 - (6 * (u_val('spell_level', 'spell: telepathic_blast')))" ] },
               "target_part": "head"
             },
-            { "npc_add_effect": "stunned", "duration": "1 s" }
+            { "npc_add_effect": "stunned", "duration": "2 s" }
           ]
         },
         "failure": {

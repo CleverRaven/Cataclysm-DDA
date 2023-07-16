@@ -137,11 +137,7 @@
         },
         "success": {
           "topic": "TALK_DONE",
-          "effect": [
-            "hostile",
-            { "npc_add_effect": "psi_blind", "duration": "30 s" },
-            { "npc_add_effect": "psi_deaf", "duration": "30 s" }
-          ]
+          "effect": [ "hostile", { "npc_add_effect": "blind", "duration": "30 s" }, { "npc_add_effect": "deaf", "duration": "30 s" } ]
         },
         "failure": {
           "topic": "TALK_DONE",
@@ -174,7 +170,7 @@
               "npc_set_hp": { "math": [ "(80 - (6 * (u_val('spell_level', 'spell: telepathic_blast')))" ] },
               "target_part": "head"
             },
-            { "npc_add_effect": "stunned", "duration": "1 s" }
+            { "npc_add_effect": "stunned", "duration": "2 s" }
           ]
         },
         "failure": {
@@ -185,24 +181,29 @@
     ]
   },
   {
-    "id": "TALK_EVAC_GUARD3_DEAD",
+    "id": [ "TALK_EVAC_GUARD3_DEAD" ],
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Mind Control 6+] *Take over <npcname>'s mind*",
-        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_mind_control')", ">=", "6" ] },
-        "topic": "TALK_DONE",
-        "effect": [
-          "follow_only",
-          { "npc_change_faction": "old_guard" },
-          {
-            "u_add_var": "mind_controlled_evac_guard_3",
-            "type": "dialogue",
-            "context": "refugee_center_traitor",
-            "value": "yes"
-          }
-        ]
+        "text": "[Oubliette Check] *Banish <npcname> to another dimension*.",
+        "condition": { "math": [ "u_val('spell_level', 'spell: teleport_banish')", ">=", "1" ] },
+        "switch": true,
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "roll_contested": { "math": [ "u_val('spell_level', 'spell: teleport_banish')" ] }, "difficulty": 15, "die_size": 10 }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [ { "mapgen_update": "remove_refugee_center_traitor_because_banished", "om_terrain": "evac_center_19" } ]
+        },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "You failed to teleport <npcname>!", "type": "bad" } ] }
       }
     ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "remove_refugee_center_traitor_because_banished",
+    "object": { "remove_npcs": [ { "class": "NC_FREE_MERCH_GUARD", "x": 0, "y": 0 } ] }
   }
 ]
