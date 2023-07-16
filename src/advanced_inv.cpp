@@ -150,7 +150,6 @@ advanced_inventory::advanced_inventory()
         { AIM_DRAGGED,   point( 25, 1 ), tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
         { AIM_ALL,       point( 22, 3 ), tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
         { AIM_CONTAINER, point( 22, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
-        { AIM_CONTAINER2,point( 22, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER2},
         { AIM_WORN,      point( 25, 3 ), tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
     }
 } )
@@ -287,16 +286,16 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
     Character &player_character = get_player_character();
     //print inventory's current and total weight + volumeS
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ||
-        ( ( pane.get_area() == AIM_CONTAINER || pane.get_area() == AIM_CONTAINER2 ) && pane.container ) ) {
+        ( pane.get_area() == AIM_CONTAINER && pane.container ) ) {
 
         double weight_carried;
         double weight_capacity;
         units::volume volume_carried;
         units::volume volume_capacity;
-        if( pane.get_area() == AIM_CONTAINER || pane.get_area() == AIM_CONTAINER2 ) {
-            weight_carried = convert_weight( squares[pane.get_area()].weight );
+        if( pane.get_area() == AIM_CONTAINER ) {
+            weight_carried = convert_weight( pane.container->get_total_contained_weight() );
             weight_capacity = convert_weight( pane.container->get_total_weight_capacity() );
-            volume_carried = squares[pane.get_area()].volume;
+            volume_carried = pane.container->get_total_contained_volume();
             volume_capacity = pane.container->get_total_capacity();
         } else {
             weight_carried = convert_weight( player_character.weight_carried() );
@@ -330,7 +329,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         } else {
             units::volume maxvolume = 0_ml;
             advanced_inv_area &s = squares[pane.get_area()];
-            if( ( pane.get_area() == AIM_CONTAINER || pane.get_area() == AIM_CONTAINER2 ) && pane.container ) {
+            if( pane.get_area() == AIM_CONTAINER && pane.container ) {
                 maxvolume = pane.container->get_total_capacity();
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
@@ -673,8 +672,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         // or highlight container [C] if container mode is active.
         if( squares[data_location].canputitems( pane.get_cur_item_ptr() != nullptr ?
                                                 pane.get_cur_item_ptr()->items.front() : item_location::nowhere ) ||
-            ( area == AIM_CONTAINER && data_location == AIM_CONTAINER ) || ( area == AIM_CONTAINER2 &&
-                    data_location == AIM_CONTAINER2 ) ) {
+            ( area == AIM_CONTAINER && data_location == AIM_CONTAINER ) ) {
 
             bcolor = in_vehicle ? c_light_blue :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
@@ -897,8 +895,7 @@ bool advanced_inventory::move_all_items()
     Character &player_character = get_player_character();
 
     // Check some preconditions to quickly leave the function.
-    if( ( spane.get_area() == AIM_CONTAINER || spane.get_area() == AIM_CONTAINER2 ) &&
-        dpane.get_area() == AIM_INVENTORY ) {
+    if( spane.get_area() == AIM_CONTAINER && dpane.get_area() == AIM_INVENTORY ) {
         if( spane.container.held_by( player_character ) ) {
             // TODO: Implement this, distributing the contents to other inventory pockets.
             popup( _( "You already have everything in that container." ) );
@@ -988,7 +985,7 @@ bool advanced_inventory::move_all_items()
     // Keep a list of favorites separated, only drop non-fav first if they exist.
     std::vector<drop_or_stash_item_info> pane_favs;
     bool filter_buckets = dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ||
-                          dpane.get_area() == AIM_CONTAINER || dpane.get_area() == AIM_CONTAINER2 || dpane.in_vehicle();
+                          dpane.get_area() == AIM_CONTAINER || dpane.in_vehicle();
 
     std::string skipped_items_message = fill_lists_with_pane_items( player_character, spane, pane_items,
                                         pane_favs, filter_buckets );
@@ -1013,7 +1010,7 @@ bool advanced_inventory::move_all_items()
         add_msg( m_info, skipped_items_message );
     }
 
-    if( dpane.get_area() == AIM_CONTAINER || dpane.get_area() == AIM_CONTAINER2 ) {
+    if( dpane.get_area() == AIM_CONTAINER ) {
         if( dpane.container ) {
             drop_locations items_to_insert;
 
@@ -1168,23 +1165,12 @@ void advanced_inventory::redraw_sidebar()
     refresh_minimap();
 }
 
-void advanced_inventory::change_square( aim_location changeSquare,
+void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    // Opening a container, decide which AIM_CONTAINER to use
-    if( changeSquare == AIM_CONTAINER ) {
-        if( ( panes[left].get_area() == AIM_CONTAINER || panes[left].get_area() == AIM_CONTAINER2 ) &&
-            ( panes[right].get_area() == AIM_CONTAINER || panes[right].get_area() == AIM_CONTAINER2 ) ) {
-            // When both panes show containers and a third is opened, replace the current container
-            changeSquare = spane.get_area();
-        } else if( panes[left].get_area() == AIM_CONTAINER || panes[right].get_area() == AIM_CONTAINER ) {
-            // AIM_CONTAINER already used so opening a second container will use AIM_CONTAINER2
-            changeSquare = AIM_CONTAINER2;
-        }
-    }
     // Determine behavior if current pane is used.  AIM_CONTAINER should never swap to allow for multi-containers
     if( ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) &&
-        ( changeSquare != AIM_CONTAINER && changeSquare != AIM_CONTAINER2 ) ) {
+        changeSquare != AIM_CONTAINER ) {
         if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
             spane.get_area() != changeSquare ) {
             // only deal with spane, as you can't _directly_ change dpane
@@ -1202,16 +1188,15 @@ void advanced_inventory::change_square( aim_location changeSquare,
         }
         // we need to check the original area if we can place items in vehicle storage
     } else if( squares[changeSquare].canputitems(
-                   ( changeSquare == AIM_CONTAINER || changeSquare == AIM_CONTAINER2 ) &&
-                   spane.get_cur_item_ptr() != nullptr ?
+                   changeSquare == AIM_CONTAINER && spane.get_cur_item_ptr() != nullptr ?
                    spane.get_cur_item_ptr()->items.front() : item_location::nowhere ) ) {
 
         bool in_vehicle_cargo = false;
-        if( changeSquare == AIM_CONTAINER || changeSquare == AIM_CONTAINER2 ) {
+        if( changeSquare == AIM_CONTAINER ) {
             panes[src].container = spane.get_cur_item_ptr()->items.front();
             dpane.recalc = true;
             // Reset pane's container to null if switching away from it
-        } else if( spane.get_area() == AIM_CONTAINER || spane.get_area() == AIM_CONTAINER2 ) {
+        } else if( spane.get_area() == AIM_CONTAINER ) {
             panes[src].container = item_location::nowhere;
             dpane.recalc = true;
             // auto select vehicle if items exist at said square, or both are empty
@@ -1251,7 +1236,7 @@ void advanced_inventory::start_activity(
 
     Character &player_character = get_player_character();
 
-    if( destarea != AIM_CONTAINER && destarea != AIM_CONTAINER2 ) {
+    if( destarea != AIM_CONTAINER ) {
         // Find target items and quantities thereof for the new activity
         std::vector<item_location> target_items;
         std::vector<int> quantities;
@@ -1342,7 +1327,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // AIM_ALL should disable same area check and handle it with proper filtering instead.
     // This is a workaround around the lack of vehicle location info in
     // either aim_location or advanced_inv_listitem.
-    if( squares[srcarea].is_same( squares[destarea] ) &&
+    if( spane.container ? spane.container == dpane.container :
+        squares[srcarea].is_same( squares[destarea] ) &&
         spane.get_area() != AIM_ALL &&
         spane.in_vehicle() == dpane.in_vehicle() ) {
         popup( _( "Source area is the same as destination (%s)." ), squares[destarea].name );
@@ -1367,7 +1353,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // but are potentially at a different place).
     recalc = true;
     cata_assert( amount_to_move > 0 );
-    if( ( srcarea == AIM_CONTAINER || srcarea == AIM_CONTAINER2 ) && destarea == AIM_INVENTORY &&
+    if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
         spane.container.held_by( player_character ) ) {
         popup( _( "The %s is already in your inventory." ), sitem->items.front()->tname() );
 
@@ -1395,7 +1381,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         } else {
             // important if item is worn
             if( player_character.can_drop( *sitem->items.front() ).success() ) {
-                if( destarea == AIM_CONTAINER || destarea == AIM_CONTAINER2 ) {
+                if( destarea == AIM_CONTAINER ) {
                     do_return_entry();
                     start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
                 } else {
@@ -1933,8 +1919,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Map and vehicles have a maximal item count, check that. Inventory does not have this.
     if( destarea != AIM_INVENTORY &&
         destarea != AIM_WORN &&
-        destarea != AIM_CONTAINER &&
-        destarea != AIM_CONTAINER2 ) {
+        destarea != AIM_CONTAINER ) {
         const int cntmax = p.max_size - p.get_item_count();
         // For items counted by charges, adding it adds 0 items if something there stacks with it.
         const bool adds0 = by_charges && std::any_of( panes[dest].items.begin(), panes[dest].items.end(),

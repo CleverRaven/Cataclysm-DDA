@@ -216,7 +216,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         }
 
         u.worn.add_AIM_items_from_area( u, square, *this );
-    } else if( square.id == AIM_CONTAINER || square.id == AIM_CONTAINER2 ) {
+    } else if( square.id == AIM_CONTAINER ) {
         square.volume = 0_ml;
         square.weight = 0_gram;
         if( container ) {

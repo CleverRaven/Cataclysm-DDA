@@ -24,7 +24,6 @@ enum aim_location : char {
     AIM_DRAGGED,
     AIM_ALL,
     AIM_CONTAINER,
-    AIM_CONTAINER2,
     AIM_WORN,
     NUM_AIM_LOCATIONS,
     // only useful for AIM_ALL
