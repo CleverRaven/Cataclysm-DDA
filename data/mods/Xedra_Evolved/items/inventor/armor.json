@@ -394,7 +394,6 @@
     },
     "armor": [
       {
-        "encumbrance_modifiers": [ "NONE" ],
         "coverage": 10,
         "encumbrance": 1,
         "covers": [ "head" ],
