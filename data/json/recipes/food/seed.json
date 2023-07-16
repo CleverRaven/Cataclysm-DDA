@@ -403,13 +403,28 @@
     "result": "seed_beans",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "dry_beans", 6 ] ] ]
+    "components": [ [ [ "dry_beans", 6 ] ] ],
+    "charges": 6
   },
   {
     "result": "dry_beans",
+    "id_suffix": "seed_designation",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_beans", 6 ] ] ]
+  },
+  {
+    "result": "soybean_seed",
+    "type": "recipe",
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "dry_soybean", 1 ] ] ]
+  },
+  {
+    "result": "dry_soybean",
+    "id_suffix": "seed_designation",
+    "type": "recipe",
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "soybean_seed", 1 ] ] ]
   },
   {
     "result": "seed_lentils",
