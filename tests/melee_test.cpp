@@ -355,31 +355,27 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
 
 static void check_eocs_from_test_fire( const std::string &mon_id )
 {
-    int total_dmg = 0;
     int eoc_total_dmg = 0;
-    while( total_dmg == 0 ) {
-        clear_creatures();
-        standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-        monster &mon = spawn_test_monster( mon_id, dude.pos() + tripoint_east );
-        REQUIRE( mon.pos() == dude.pos() + tripoint_east );
-        REQUIRE( mon.get_hp() == mon.get_hp_max() );
-        REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
-        REQUIRE( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
-        dude.set_wielded_item( item( "test_fire_sword" ) );
-        dude.melee_attack( mon, false );
-        if( mon.get_hp() < mon.get_hp_max() ) {
-            total_dmg += mon.get_hp_max() - mon.get_hp();
-            if( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
-                REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
-            }
-
-            eoc_total_dmg += std::round( std::stod(
-                                             dude.get_value( "npctalk_var_test_damage_taken" ) ) );
-            REQUIRE( !dude.get_value( "npctalk_var_test_bp" ).empty() );
-        }
+    clear_creatures();
+    standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
+    monster &mon = spawn_test_monster( mon_id, dude.pos() + tripoint_east );
+    REQUIRE( mon.pos() == dude.pos() + tripoint_east );
+    REQUIRE( mon.get_hp() == mon.get_hp_max() );
+    REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+    REQUIRE( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+    item firesword( "test_fire_sword" );
+    dude.set_wielded_item( firesword );
+    while( !dude.melee_attack( mon, false ) ) {}
+    if( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
+        REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
     }
+
+    eoc_total_dmg = std::round( std::stod(
+                                    dude.get_value( "npctalk_var_test_damage_taken" ) ) );
+    REQUIRE( !dude.get_value( "npctalk_var_test_bp" ).empty() );
+
     Messages::clear_messages();
-    CHECK( eoc_total_dmg == total_dmg );
+    CHECK( eoc_total_dmg == firesword.damage_melee( damage_type_id( "test_fire" ) ) );
 }
 
 static void check_damage_from_test_fire( const std::vector<std::string> &armor_items,
