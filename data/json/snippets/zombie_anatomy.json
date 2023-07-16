@@ -414,12 +414,22 @@
   },
   {
     "type": "snippet",
-    "category": "<zombie_electric_harvest>",
+    "category": "<zombie_humanoid_electric_harvest>",
     "text": [
       "<zombie_humanoid_harvest_general>",
       "<zombie_harvest_electric_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_harvest_electric_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_animal_electric_harvest>",
+    "text": [
+      "<zombie_animal_harvest_general>",
+      "<zombie_harvest_electric_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_electric_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
