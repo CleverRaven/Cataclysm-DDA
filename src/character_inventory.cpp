@@ -75,7 +75,12 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
             if( pocket && handle_drop && pocket->will_spill() ) {
                 // the pocket's contents (with a larger depth value) are not
                 // inside `sorted_containers` and can be safely disposed of.
-                pocket->handle_liquid_or_spill( *this, /*avoid=*/&*loc );
+                if( loc.where_recursive() == item_location::type::character ) {
+                    pocket->handle_liquid_or_spill( *this, /*avoid=*/&*loc );
+                } else {
+                    add_msg_if_player( m_info, _( "The %s spills its contents!" ), loc->tname() );
+                    pocket->spill_contents( loc.pos_bub().raw() );
+                }
                 // drop the container instead if canceled.
                 if( !pocket->empty() ) {
                     // drop later since we still need to access the container item

@@ -4184,10 +4184,9 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             int charges = std::min( holstered_item.second, holster.max_charges_by_parent_recursive( it ) );
 
             if( charges > 0 && holster->can_contain_partial_directly( it ) ) {
-                int result = holster->fill_with( it, charges,
-                                                 /*unseal_pockets=*/true,
-                                                 /*allow_sealed=*/true,
-                                                 /*ignore_settings*/true );
+                const bool into_bottom = holstered_item.first.parent_item() &&
+                                         holster == holstered_item.first.parent_item().parent_item();
+                int result = holster->fill_with( it, charges, true, true, true, into_bottom );
                 success = result > 0;
 
                 if( success ) {
