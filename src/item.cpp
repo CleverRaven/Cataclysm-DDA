@@ -5088,13 +5088,6 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
     insert_separation_line( info );
 
-    if( bid->required_bionic ) {
-        info.emplace_back( "CBM", _( "<bold>This CBM requires another CBM to also be installed</bold>: " ), _( %s ),
-                           iteminfo::no_newline,
-                           bid->required_bionic->name ) );
-    }
-    insert_separation_line( info );
-
     const bionic_id bid = type->bionic->id;
     const std::vector<material_id> &fuels = bid->fuel_opts;
     if( !fuels.empty() ) {
@@ -5117,6 +5110,11 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            static_cast<double>( units::to_millijoule( bid->capacity ) ) );
     }
 
+    insert_separation_line( info );
+
+    if( bid->required_bionic ) {
+        info.emplace_back( "CBM", _( "This CBM requires another CBM to also be installed: %s", bid->required_bionic->name ) );
+    }
     insert_separation_line( info );
 
     // TODO refactor these almost identical blocks
