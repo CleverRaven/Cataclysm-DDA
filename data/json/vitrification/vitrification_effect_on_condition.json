@@ -281,7 +281,7 @@
       { "u_remove_item_with": "black_glass_shard" },
       { "alter_timed_events": "vitrified_farm_escape_key" },
       {
-        "u_message": "You suck in a deep, ragged draught of air that burns in your chest. Have you been holding your breath? You must have been. All you can hear for a moment is your heart hammering in your ears. It takes a while to settle down.",
+        "u_message": "You suck in a deep, ragged draught of air that burns in your chest.  Have you been holding your breath?  You must have been.  All you can hear for a moment is your heart hammering in your ears.  It takes a while to settle down.",
         "type": "good",
         "popup": true
       }
