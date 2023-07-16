@@ -366,6 +366,9 @@ class Item_factory
         void extend_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void delete_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void set_properties_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void set_techniques_from_json( const JsonObject &jo, const std::string &member, itype &def );
+        void extend_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void delete_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
 
         // declared here to have friendship status with itype
         static void npc_implied_flags( itype &item_template );
