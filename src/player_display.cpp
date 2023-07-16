@@ -1187,10 +1187,10 @@ static void change_armor_sprite( avatar &you )
         return i.is_armor() && you.is_worn( i );
     };
     target_loc = game_menus::inv::titled_filter_menu( is_worn_filter,
-                                                    you,
-                                                    _( "Change appearance of your armor:" ),
-                                                    -1,
-                                                    _( "You're not wearing anything." ) );
+                 you,
+                 _( "Change appearance of your armor:" ),
+                 -1,
+                 _( "You're not wearing anything." ) );
     if( target_loc && target_loc.get_item() ) {
         item *target_item = target_loc.get_item();
 
@@ -1209,10 +1209,10 @@ static void change_armor_sprite( avatar &you )
             };
             if( you != nullptr ) {
                 sprite_loc = game_menus::inv::titled_filter_menu( armor_filter,
-                                                                  *you,
-                                                                  _( "Select appearance of this armor:" ),
-                                                                  -1,
-                                                                  _( "You have nothing to wear." ) );
+                             *you,
+                             _( "Select appearance of this armor:" ),
+                             -1,
+                             _( "You have nothing to wear." ) );
             }
             if( sprite_loc && sprite_loc.get_item() ) {
                 const item *sprite_item = sprite_loc.get_item();

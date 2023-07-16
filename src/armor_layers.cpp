@@ -731,7 +731,6 @@ void outfit::sort_armor( Character &guy )
         right_print( w_sort_cat, 0, 0, c_white, string_format(
                          _( "[<color_yellow>%s</color>] Hide sprite.  "
                             "[<color_yellow>%s</color>] Change side.  "
-                            "[<color_yellow>%s</color>] Change sprite.  "
                             "Press [<color_yellow>%s</color>] for help.  "
                             "Press [<color_yellow>%s</color>] to change keybindings." ),
                          ctxt.get_desc( "TOGGLE_CLOTH" ),
