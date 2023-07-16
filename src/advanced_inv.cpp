@@ -749,9 +749,7 @@ void advanced_inventory::recalc_pane( side p )
     if( there.container ) {
         std::vector<advanced_inv_listitem>::iterator outer_iter = pane.items.begin();
         while( outer_iter != pane.items.end() ) {
-            if( *outer_iter->items.begin() == there.container ||
-                there.container.eventually_contains( *outer_iter->items.begin() ) ) {
-
+            if( *outer_iter->items.begin() == there.container ) {
                 outer_iter = pane.items.erase( outer_iter );
             } else {
                 outer_iter++;
@@ -1271,10 +1269,6 @@ void advanced_inventory::start_activity(
     } else {
         if( !panes[dest].container.get_item() ) {
             debugmsg( "Active container is null, failed to insert!" );
-            return;
-        }
-        if( panes[dest].container.eventually_contains( sitem->items.front() ) ) {
-            debugmsg( _( "The %s is already inside that container!" ), sitem->items.front()->tname() );
             return;
         }
         if( panes[dest].container->will_spill_if_unsealed()
