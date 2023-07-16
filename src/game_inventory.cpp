@@ -2555,7 +2555,7 @@ class change_sprite_inventory_preset: public inventory_selector_preset
                 if( loc->has_var( "sprite_override" ) ) {
                     const itype_id sprite_override( std::string( loc->get_var( "sprite_override" ) ) );
                     const std::string variant = loc->get_var( "sprite_override" );
-                    if( !item::type_is_defined( sprite_override ) ){
+                    if( !item::type_is_defined( sprite_override ) ) {
                         return _( "Unknown" );
                     }
                     item tmp( sprite_override );
