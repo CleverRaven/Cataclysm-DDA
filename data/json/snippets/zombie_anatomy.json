@@ -273,36 +273,36 @@
     "type": "snippet",
     "category": "<zombie_hulk+bone_harvest>",
     "text": [
-      "<zombie_humanoid_harvest_general>.",
-      "<zombie_harvest_hulk_general>.",
-      "<zombie_humanoid_harvest_bone_general>.",
-      "<zombie_humanoid_harvest_general>.  <zombie_humanoid_harvest_general_deeper>.",
-      "<zombie_harvest_hulk_general>.  <zombie_humanoid_harvest_general_deeper>.",
-      "<zombie_humanoid_harvest_bone_general>.  <zombie_humanoid_harvest_general_deeper>.",
-      "<zombie_harvest_hulk_general>.  <zombie_humanoid_harvest_bone_general>."
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_hulk_general>",
+      "<zombie_humanoid_harvest_bone_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>.",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_bone_general>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_kevlar_harvest>",
     "text": [
-      "<zombie_humanoid_harvest_general>.",
-      "<zombie_harvest_kevlar_general>.",
-      "<zombie_humanoid_harvest_general>.  <zombie_harvest_kevlar_general>.",
-      "<zombie_humanoid_harvest_general_deeper>. <zombie_harvest_kevlar_general>"
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_kevlar_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_harvest_kevlar_general>",
+      "<zombie_humanoid_harvest_general_deeper> <zombie_harvest_kevlar_general>"
     ]
   },
   {
     "type": "snippet",
     "category": "zombie_hulk+kevlar_harvest",
     "text": [
-      "<zombie_humanoid_harvest_general>.",
-      "<zombie_harvest_hulk_general>.",
-      "<zombie_harvest_kevlar_general>.",
-      "<zombie_humanoid_harvest_general>.  <zombie_humanoid_harvest_general_deeper>.",
-      "<zombie_harvest_hulk_general>.  <zombie_humanoid_harvest_general_deeper>.",
-      "<zombie_harvest_kevlar_general>.  <zombie_humanoid_harvest_general_deeper>.",
-      "<zombie_harvest_hulk_general>.  <zombie_harvest_kevlar_general>."
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_hulk_general>",
+      "<zombie_harvest_kevlar_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_kevlar_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_hulk_general>  <zombie_harvest_kevlar_general>"
     ]
   }
 ]
