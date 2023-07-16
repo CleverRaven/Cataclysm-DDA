@@ -283,7 +283,7 @@
     "milling": { "into": "flour", "conversion_rate": 15 },
     "charges": 4,
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
-    "petfood": [ "CATTLEFOOD", "BIRDFOOD"  ],
+    "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" }
   },
