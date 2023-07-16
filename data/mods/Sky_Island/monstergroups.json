@@ -2,7 +2,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SI_ZOMEASY",
-    "//": "A simple mix of common low level zombies. Threat level keeps below around 7.",
+    "//": "A simple mix of common low level zombies.  Threat level keeps below around 7.",
     "monsters": [
       { "monster": "mon_zombie", "weight": 2000 },
       { "monster": "mon_zombie_fat", "weight": 200 },
@@ -39,7 +39,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SI_ZOMMID",
-    "//": "A simple mix of evolved zombies. Threat level to mid/low teens. A few exceptions made for special effects like acid or speed, like dogs.",
+    "//": "A simple mix of evolved zombies.  Threat level to mid/low teens.  A few exceptions made for special effects like acid or speed, like dogs.",
     "monsters": [
       { "monster": "mon_zombie_tough", "weight": 1000 },
       { "monster": "mon_zombie_horse_white", "weight": 5 },
@@ -83,7 +83,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SI_ZOMHARD",
-    "//": "A mix of powerful zombies. Threat level high teens up to mid 20s. Exceptions made for especially tough monsters.",
+    "//": "A mix of powerful zombies.  Threat level high teens up to mid 20s.  Exceptions made for especially tough monsters.",
     "monsters": [
       { "monster": "mon_zombie_brute", "weight": 1000 },
       { "monster": "mon_zombie_kevlar_1", "weight": 100 },
@@ -117,7 +117,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SI_ZOMELITE",
-    "//": "A blend of truly elite zombies. Threat level up to the ceiling.",
+    "//": "A blend of truly elite zombies.  Threat level up to the ceiling.",
     "monsters": [
       { "monster": "mon_zombie_soldier_blackops_1", "weight": 100 },
       { "monster": "mon_zombie_soldier_acid_1", "weight": 100 },
@@ -150,7 +150,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SI_ZOMBOSS",
-    "//": "Boss tier encounters. Extreme danger level.",
+    "//": "Boss tier encounters.  Extreme danger level.",
     "monsters": [
       { "monster": "mon_zombie_hulk", "weight": 100 },
       { "monster": "mon_skeleton_hulk", "weight": 75 },
@@ -165,7 +165,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SI_ZOMBOSSMULT",
-    "//": "Boss tier encounters for enemies that show up in bunches. Extreme danger level.",
+    "//": "Boss tier encounters for enemies that show up in bunches.  Extreme danger level.",
     "monsters": [
       { "monster": "mon_zombie_hulk", "weight": 10 },
       { "monster": "mon_zombie_bio_op2", "weight": 50 },

@@ -239,7 +239,7 @@
     "name": "materialize random artifact",
     "id": "recipe_craft_random_artifact",
     "activity_level": "NO_EXERCISE",
-    "description": "Utilizing the unstable, reality-changing nature of the warp shards, you could combine several to create a powerful semi-magical item. This is a skill you have no way of practicing and a field of science no one's ever really touched, so exactly what you'd get from it is anyone's guess.",
+    "description": "Utilizing the unstable, reality-changing nature of the warp shards, you could combine several to create a powerful semi-magical item.  This is a skill you have no way of practicing and a field of science no one's ever really touched, so exactly what you'd get from it is anyone's guess.",
     "result_eocs": [
       {
         "id": "EOC_spawn_random_artifact_fromrecipe",

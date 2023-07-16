@@ -5,7 +5,7 @@
     "comestible_type": "FOOD",
     "consumption_effect_on_conditions": [ "EOC_healall" ],
     "name": { "str": "quickheal pill" },
-    "description": "This pseudomagical pill will heal all your damaged parts, but only if swallowed while on your sanctuary island. No reason to bring this into the field.",
+    "description": "This pseudomagical pill will heal all your damaged parts, but only if swallowed while on your sanctuary island.  No reason to bring this into the field.",
     "weight": "15 g",
     "volume": "5 ml",
     "looks_like": "panacea",
