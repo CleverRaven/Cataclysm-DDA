@@ -375,7 +375,7 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
     REQUIRE( !dude.get_value( "npctalk_var_test_bp" ).empty() );
 
     Messages::clear_messages();
-    CHECK( eoc_total_dmg == firesword.damage_melee( damage_type_id( "test_fire" ) ) );
+    CHECK( eoc_total_dmg == firesword.damage_melee( damage_test_fire ) );
 }
 
 static void check_damage_from_test_fire( const std::vector<std::string> &armor_items,
