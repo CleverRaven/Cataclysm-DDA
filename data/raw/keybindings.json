@@ -363,9 +363,9 @@
     "category": "AUTO_PICKUP",
     "name": "Move rule up",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -490,9 +490,9 @@
     "category": "SAFEMODE",
     "name": "Move rule up",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -782,9 +782,9 @@
     "category": "SOKOBAN",
     "name": "Next level",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -869,9 +869,9 @@
     "category": "MODMANAGER_DIALOG",
     "name": "Move selected mod up",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -3073,9 +3073,9 @@
     "category": "LIST_ITEMS",
     "name": "Increase priority",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -3293,9 +3293,9 @@
     "category": "ZONES_MANAGER",
     "name": "Move zone up",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -3555,7 +3555,11 @@
     "id": "INCREASE_COUNT",
     "category": "INVENTORY",
     "name": "Increase selected amount for the highlighted item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "+" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3569,7 +3573,7 @@
     "id": "DECREASE_COUNT",
     "category": "INVENTORY",
     "name": "Decrease selected amount for the highlighted item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
