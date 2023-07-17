@@ -4592,7 +4592,7 @@ void Item_factory::set_properties_from_json( const JsonObject &jo, const std::st
     }
 }
 
-void Item_factory::set_techniques_from_json( const JsonObject &jo, const std::string &member,
+void Item_factory::set_techniques_from_json( const JsonObject &jo, const std::string_view &member,
         itype &def )
 {
     if( jo.has_array( member ) ) {
