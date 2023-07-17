@@ -34,11 +34,11 @@
           { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] } },
           {
             "value": "THIRST",
-            "add": { "multiply": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
+            "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
           },
           {
             "value": "METABOLISM",
-            "add": { "multiply": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
+            "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
           }
         ]
       }
