@@ -83,7 +83,7 @@
   {
     "id": [ "TALK_EVAC_GUARD3_witch" ],
     "type": "talk_topic",
-    "dynamic_line": "I didn't tell you my na-\" <npc_name>'s face goes white. \"What the fuck!  You some kind of freak?",
+    "dynamic_line": "I didn't tell you my na-\"  <npc_name>'s face goes white.  \"What the fuck!  You some kind of freak?",
     "responses": [
       {
         "text": "It's over.  Give up.",
