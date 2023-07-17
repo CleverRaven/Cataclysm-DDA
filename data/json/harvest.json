@@ -1555,7 +1555,7 @@
     "id": "zombie_humanoid_electric",
     "//": "zapper humanoid zombie",
     "type": "harvest",
-    "message": "<zombie_electric_harvest>",
+    "message": "<zombie_humanoid_electric_harvest>",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
@@ -1568,7 +1568,7 @@
     "id": "zombie_animal_electric",
     "//": "zapper animal zombie",
     "type": "harvest",
-    "message": "<zombie_electric_harvest>",
+    "message": "<zombie_animal_electric_harvest>",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
