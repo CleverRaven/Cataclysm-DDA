@@ -224,6 +224,8 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_fake_common_cold( "fake_common_cold" );
+static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -975,12 +977,8 @@ bool game::start_game()
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = v.v->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
+                    for( const int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
+                        vpart_reference( *v.v, sp ).items().clear();
                     }
 
                     auto mons = critter_tracker->find( u.get_location() );
@@ -9890,9 +9888,9 @@ void game::wield( item_location loc )
                 m.add_item( pos, to_wield );
                 break;
             case item_location::type::vehicle: {
-                const std::optional<vpart_reference> vp = m.veh_at( pos ).part_with_feature( "CARGO", false );
+                const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !vp || !vp->vehicle().add_item( vp->part_index(), to_wield ) ) {
+                if( !ovp || !ovp->vehicle().add_item( ovp->part(), to_wield ) ) {
                     m.add_item( pos, to_wield );
                 }
                 break;
@@ -12495,6 +12493,16 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
     tmp->randomize();
+
+    if( one_in( 100 ) ) {
+        // Same chances and duration of flu vs. cold as for the player.
+        if( one_in( 6 ) ) {
+            tmp->add_effect( effect_fake_flu, rng( 3_days, 10_days ) );
+        } else {
+            tmp->add_effect( effect_fake_common_cold, rng( 1_days, 14_days ) );
+        }
+    }
+
     std::string new_fac_id = "solo_";
     new_fac_id += tmp->name;
     // create a new "lone wolf" faction for this one NPC

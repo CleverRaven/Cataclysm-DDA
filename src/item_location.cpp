@@ -470,12 +470,12 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            vpart_position part_pos( cur.veh, cur.part );
+            const vpart_position part_pos( cur.veh, cur.part );
             std::string res;
-            if( auto label = part_pos.get_label() ) {
+            if( const std::optional<std::string> label = part_pos.get_label() ) {
                 res = colorize( *label, c_light_blue ) + " ";
             }
-            if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
+            if( const std::optional<vpart_reference> cargo_part = part_pos.cargo() ) {
                 res += cargo_part->part().name();
             } else {
                 debugmsg( "item in vehicle part without cargo storage" );
@@ -535,7 +535,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            return cur.veh.free_volume( cur.part );
+            return vpart_reference( cur.veh, cur.part ).items().free_volume();
         }
 
         units::mass weight_capacity() const override {

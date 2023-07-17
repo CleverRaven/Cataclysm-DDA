@@ -4057,8 +4057,12 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
 }
 
 bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &height_3d,
-                                     const std::array<bool, 5> & )
+                                     const std::array<bool, 5> &invisible )
 {
+    if( invisible[0] ) {
+        return false;
+    }
+
     tripoint scan_p( p.xy(), p.z + 1 );
     map &here = get_map();
     Character &you = get_player_character();

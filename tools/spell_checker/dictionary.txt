@@ -2721,6 +2721,7 @@ spitter
 splashproof
 splicer
 splinting
+splintmail
 splorch
 splosh
 spoilage

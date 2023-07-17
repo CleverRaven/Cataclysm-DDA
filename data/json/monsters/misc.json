@@ -177,7 +177,7 @@
         ]
       }
     ],
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ],
     "armor": { "bullet": 100 }
   },
