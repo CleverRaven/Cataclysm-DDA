@@ -1,0 +1,66 @@
+name: Cataclysm Android build
+
+on:
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '!tools/format/**'
+    - 'utilities/**'
+  pull_request:
+    branches:
+    - master
+    paths-ignore:
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '!tools/format/**'
+    - 'utilities/**'
+
+# We only care about the latest revision of a PR, so cancel previous instances.
+concurrency:
+  group: android-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  # vcpkg with object_creator deps totals ~500MB at this compression level
+  ZSTD_CLEVEL: 17
+
+jobs:
+  build_catatclysm:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up JDK 11 (android)
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'adopt'   
+    - name: Setup Build and Dependencies (android)
+      run: |
+        sudo apt-get update
+        sudo apt-get install gettext          
+    - name: Build CDDA (android)
+      working-directory: ./android
+      run: | 
+        echo "${{ secrets.KEYSTORE }}" > release.keystore.asc   
+        gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore 
+        echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
+        gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch keystore.properties.asc > keystore.properties
+        export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
+        chmod +x gradlew
+        ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false build -i -s
