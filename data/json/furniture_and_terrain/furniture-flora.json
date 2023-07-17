@@ -497,7 +497,7 @@
     "required_str": -1,
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE", "FLAT" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,

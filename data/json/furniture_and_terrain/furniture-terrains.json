@@ -1162,7 +1162,8 @@
       "UNSTABLE",
       "CLIMBABLE",
       "AUTO_WALL_SYMBOL",
-      "BURROWABLE"
+      "BURROWABLE",
+      "FLAT"
     ],
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
