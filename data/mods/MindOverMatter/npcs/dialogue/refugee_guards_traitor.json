@@ -224,7 +224,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED",
-    "effect": [ { "mapgen_update": "remove_refugee_center_traitor_because_banished" } ]
+    "effect": [ { "mapgen_update": "remove_refugee_center_traitor_because_banished", "om_terrain": "evac_center_19" } ]
   },
   {
     "type": "mapgen",
