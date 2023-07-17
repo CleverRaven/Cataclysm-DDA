@@ -358,12 +358,10 @@ TEST_CASE( "npc-board-player-vehicle" )
     npc *companion = get_creature_tracker().creature_at<npc>( npc_pos );
     REQUIRE( companion != nullptr );
 
-    
     debug_mode = true;
     debugmode::enabled_filters.clear();
     debugmode::enabled_filters.emplace_back( debugmode::DF_NPC );
     REQUIRE( debugmode::enabled_filters.size() == 1 );
-    
 
     // Give the NPC 20 moves to board the vehicle
     for( int i = 0; i < 20; ++i ) {
