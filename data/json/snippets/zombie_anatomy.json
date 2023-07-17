@@ -507,7 +507,7 @@
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_harvest_humanoid_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_hulk_general>  <zombie_harvest_kevlar_general>"
+      "<zombie_harvest_hulk_general>  <zombie_harvest_pupating_general>"
     ]
   }
 ]
