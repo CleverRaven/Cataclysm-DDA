@@ -36,8 +36,7 @@ Make vehicle doors lockable and pickable
 Implement export&import of the protagonist and follower NPCs
 Expand grain farming and adjust seeds
 Creatures above cast shadows onto tiles below
-More tools can be connected to grid directly
-Apply different messages at different intensity levels
+Apply different messages at different effect intensity levels
 Player character now can get sick with common cold or flu only after contacts with NPCs or ferals
 
 
@@ -69,14 +68,6 @@ New location: speedway
 You can now choose a new leader for your faction without dying
 Adds new skateboard vehicle
 Most scenarios now provide vision of the nearest city on start
-Graves may have ruder writing on them
-Added new zombullfrog evolution and removed their fear of fire and pain
-Adds a new arabic armaments book that has some new and old stuff. moving multiple other things to graded steel.
-Add an all-wooden fermenting vat
-More large building and  up above start locations
-Added the MOLLE Hand Grenade Pouch to the Military Base warehouse
-Zombie Dissection/Butchering Snippets
-Added Splintmail Greaves and Vambraces
 
 
 ## Interface:
@@ -122,11 +113,6 @@ Bombastic Perks adds Playstyle Perks
 Disable the Bionic Professions mod by default
 Add the Mind Over Matter mod to the CDDA repository
 [Tamable Wildlife] More tamable creatures
-Add Zener cards
-Tamable Wildlife: tamable rattlesnakes
-Resubmission of #47984 with fixes and a roof
-[DinoMod] giganotosaurus
-Add noetic resilience treatment, fix https://github.com/CleverRaven/Cataclysm-DDA/issues/66804
 
 
 ## Balance:
@@ -150,12 +136,9 @@ Hound afterimages also copy their host nicknames
 The player is substantially less effective with guns at low skill values
 Lycra is less protective
 BMI has a less all consuming impact on how healthy you are
-you can't uninstall bio_int_enhancer or bio_memory
 Being badly wounded will always allow you to swap characters in camp while you heal
-microlab reactor has nuclear fuel cells instead of asrgs
-certain previously non dodgeable attacks can be dodged
-intelligence provides a multiplier to current focus rather than adding to its value
-titanium skeletal bracing provides bash armor
+Certain previously non dodgeable attacks can be dodged
+Intelligence provides a multiplier to current focus rather than adding to its value
 
 
 ## Bugfixes:
@@ -209,19 +192,9 @@ Fix the epilogue for the New England Church Community
 Flat armor penetration is spread across all armor layers instead of applying its full value to each
 Fix tow cables being unable to connect different vehicles
 Smashing now incorporates any MELEE_DAMAGE and STRENGTH enchantments
-Fix coruscating matrix crystal not draining on use
 'w'ield menu will now correctly trigger a steal warning when wielding an item that does not belong to player
-Add missing dialogue to tell Rubik about the Hub.
-Prevents civilians from evolving into zombie children
-Adds the aluminum bat to beginner bash practice
-fix issue where fault fixes use the wrong time to fix
-Give the FN SCAR its attachment points back
+Add missing dialogue to tell Rubik about the Hub
 Allow crafting tools to use linked electricity
-Fix pathfinding around vehicles
-Fix molotov
-Fix grenade manhacks
-Fix z-level shadows drawn on unseen tiles
-sig 553 doesn't have a flat damage modifier
 
 
 ## Performance:
