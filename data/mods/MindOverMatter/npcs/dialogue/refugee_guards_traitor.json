@@ -212,16 +212,24 @@
         },
         "success": {
           "topic": "TALK_DONE",
-          "effect": [ { "mapgen_update": "remove_refugee_center_traitor_because_banished", "om_terrain": "evac_center_19" } ]
+          "effect": [
+            { "npc_add_effect": "stunned", "duration": "2 s" },
+            { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "1 seconds" }
+          ]
         },
         "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "You failed to teleport <npc_name>!", "type": "bad" } ] }
       }
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED",
+    "effect": [ { "mapgen_update": "remove_refugee_center_traitor_because_banished" } ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "remove_refugee_center_traitor_because_banished",
-    "object": { "remove_npcs": [ { "unique_id": "evac_guard3", "x": 12, "y": 12 } ] }
+    "object": { "remove_npcs": [ { "class": "NC_FREE_MERCH_GUARD", "x": [ 0, 23 ], "y": [ 0, 23 ], "unique_id": "evac_guard3" } ] }
   }
 ]
