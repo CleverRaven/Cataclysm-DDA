@@ -930,7 +930,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "innawood",
     "result": "stick",
     "result_mult": 2,
     "skill_used": "survival",
