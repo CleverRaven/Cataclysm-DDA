@@ -468,8 +468,8 @@
     "symbol": "o",
     "color": "green",
     "looks_like": "t_shrub",
-    "move_cost_mod": 3,
-    "coverage": 50,
+    "move_cost_mod": 2,
+    "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
     "bash": {
@@ -478,9 +478,9 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "items": [
-        { "item": "stick_long", "count": [ 2, 3 ] },
-        { "item": "splinter", "count": [ 5, 10 ] },
-        { "item": "leaves", "count": [ 5, 8 ] }
+        { "item": "stick_long", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 3, 7 ] },
+        { "item": "leaves", "count": [ 3, 6 ] }
       ]
     }
   },
@@ -497,7 +497,7 @@
     "required_str": -1,
     "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,
