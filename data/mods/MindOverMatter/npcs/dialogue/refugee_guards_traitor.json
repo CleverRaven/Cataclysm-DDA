@@ -108,8 +108,31 @@
             "die_size": 5
           }
         },
-        "success": { "topic": "TALK_DONE", "effect": "drop_weapon" },
-        "failure": { "topic": "TALK_DONE" }
+        "success": { "topic": "TALK_EVAC_GUARD3_WEAPON_TELEKIN_DISAMED", "effect": "drop_weapon", "opinion": { "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile" ] }
+      },
+      {
+        "text": "[Brilliant Flash Check] *blind <npc_name>*",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')", ">=", "1" ] },
+            { "not": { "npc_has_worn_with_flag": "FLASH_PROTECTION" } }
+          ]
+        },
+        "switch": true,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')" ] },
+            "difficulty": { "math": [ "n_val('perception')" ] },
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "npc_add_effect": "blind", "duration": "10 s" }, { "npc_add_effect": "stunned", "duration": "2 s" } ]
+        },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "Your telepathy attempt failed!", "type": "bad" } ] }
       },
       {
         "text": "[Sensory Deprivation Check] *Shut off <npc_name>'s senses*.",
@@ -130,7 +153,7 @@
         },
         "success": {
           "topic": "TALK_DONE",
-          "effect": [ "hostile", { "npc_add_effect": "blind", "duration": "30 s" }, { "npc_add_effect": "deaf", "duration": "30 s" } ]
+          "effect": [ "hostile", { "npc_add_effect": "blind", "duration": "10 s" }, { "npc_add_effect": "deaf", "duration": "10 s" } ]
         },
         "failure": {
           "topic": "TALK_DONE",
@@ -183,19 +206,20 @@
           }
         },
         "success": {
-          "topic": "TALK_DONE",
+          "topic": "TALK_EVAC_GUARD3_WEAPON_TELEPORT_DISAMED",
           "effect": [
-            { "npc_consume_item": "spear_knife_proper", "popup": false },
-            { "npc_consume_item": "spear_pipe", "popup": false },
-            { "npc_consume_item": "spear_homemade_halfpike", "popup": false },
-            { "npc_consume_item": "makeshift_glaive", "popup": false },
-            { "npc_consume_item": "spear_knife_proper", "popup": false },
-            { "npc_consume_item": "spear_knife_proper", "popup": false },
-            { "npc_consume_item": "spear_knife_proper", "popup": false },
-            { "npc_consume_item": "spear_knife_proper", "popup": false },
-            { "npc_consume_item": "spear_knife_proper", "popup": false },
-            { "npc_consume_item": "spear_knife_proper", "popup": false }
-          ]
+            { "npc_remove_item_with": "spear_knife_proper" },
+            { "npc_remove_item_with": "spear_pipe" },
+            { "npc_remove_item_with": "spear_homemade_halfpike" },
+            { "npc_remove_item_with": "makeshift_glaive" },
+            { "npc_remove_item_with": "modular_m4_carbine" },
+            { "npc_remove_item_with": "aksemi" },
+            { "npc_remove_item_with": "ar15_50short" },
+            { "npc_remove_item_with": "ar15_223short" },
+            { "npc_remove_item_with": "mp40" },
+            { "npc_remove_item_with": "modular_m16a4" }
+          ],
+          "opinion": { "fear": 5 }
         },
         "failure": {
           "topic": "TALK_DONE",
@@ -214,10 +238,76 @@
           "topic": "TALK_DONE",
           "effect": [
             { "npc_add_effect": "stunned", "duration": "2 s" },
-            { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "1 seconds" }
+            { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "0 seconds" },
+            { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 },
+            {
+              "u_message": "<npc_name> seems ready to attack you but suddenly freezes in place.  For a moment, caught between worlds, they stare straight ahead.  As the cold and the darkness of a teleport begin to overtake them and the air around them wavers like summer heat, they open their mouth to scream.\n\nAnd then, they are gone.",
+              "popup": true
+            }
           ]
         },
         "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "You failed to teleport <npc_name>!", "type": "bad" } ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_WEAPON_TELEPORT_DISAMED",
+    "type": "talk_topic",
+    "dynamic_line": "*stares at you with eyes wide as their weapon vanishes into thin air.  Their mouth works silently but no sounds come out.",
+    "responses": [
+      {
+        "text": "Get out of here or you'll be next.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 8, "mod": [ [ "FEAR", 6 ] ] },
+        "success": { "topic": "TALK_EVAC_GUARD3_SUCCESS_TELEPORT_LEAVE", "effect": [ "flee", { "npc_change_faction": "old_guard" } ] },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_WEAPON_TELEKIN_DISAMED",
+    "type": "talk_topic",
+    "dynamic_line": "*starts as the weapon is ripped out of their hands and falls to the floor.  \"Holy shit!  What the fuck?!\"",
+    "responses": [
+      {
+        "text": "Leave or I'll do the same to you.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10, "mod": [ [ "FEAR", 5 ] ] },
+        "success": { "topic": "TALK_EVAC_GUARD3_SUCCESS_TELEKIN_LEAVE", "effect": [ "flee", { "npc_change_faction": "old_guard" } ] },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_SUCCESS_TELEKIN_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, alright, I'm leaving.  Holy shit.",
+    "responses": [
+      {
+        "text": "Good.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
+          { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 }
+        ]
+      },
+      {
+        "text": "I changed my mind.  You're better off in the ground.",
+        "topic": "TALK_DONE",
+        "effect": [ "hostile", { "npc_change_faction": "hells_raiders" } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_SUCCESS_TELEPORT_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "*immediately backs away.  They never turn their back on you, but in a few moments they go out the door and are gone.",
+    "responses": [
+      {
+        "text": "…",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
+          { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 }
+        ]
       }
     ]
   },
@@ -230,6 +320,6 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "remove_refugee_center_traitor_because_banished",
-    "object": { "remove_npcs": [ { "class": "NC_FREE_MERCH_GUARD", "x": [ 0, 23 ], "y": [ 0, 23 ], "unique_id": "evac_guard3" } ] }
+    "object": { "remove_npcs": [ { "class": "evac_guard3", "x": 0, "y": 0 } ] }
   }
 ]

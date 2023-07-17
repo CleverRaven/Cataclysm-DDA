@@ -789,6 +789,7 @@ The `effect` field of `speaker_effect` or a `response` can be any of the followi
 | `assign_mission`  | Assigns a previously selected mission to your character.        |
 | `mission_success` | Resolves the current mission successfully.                      |
 | `mission_failure` | Resolves the current mission as a failure.                      |
+| `finish_mission`  | Resolves a specific mission defined by ID                       |
 | `clear_mission`   | Clears the mission from the your character's assigned missions. |
 | `mission_reward`  | Gives the player the mission's reward.                          |
 

@@ -1,10 +1,10 @@
 [
   {
-    "id": [ "TALK_EXODII_MERCHANT_Talk" ],
+    "id": [ "TALK_EXODII_MERCHANT_New", "TALK_EXODII_MERCHANT_Talk" ],
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Premonition] *Determine if <npcname> is a threat*",
+        "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EXODII_MERCHANT_danger_sense",
         "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "2" ] }
       }
@@ -18,6 +18,7 @@
   },
   {
     "id": [
+      "TALK_EXODII_MERCHANT_New",
       "TALK_EXODII_MERCHANT_Talk",
       "TALK_EXODII_MERCHANT_Exodus",
       "TALK_EXODII_MERCHANT_Exodus2",
@@ -27,7 +28,7 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Telepathy] *Read <npcname>'s mind*",
+        "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_EXODII_MERCHANT_scan",
         "condition": { "u_has_trait": "TELEPATH" }
       }
@@ -38,7 +39,7 @@
     "type": "talk_topic",
     "dynamic_line": "&You weren't expecting to be able to understand Rubik's thoughts.  Whatever language it is he speaks, this \"Anglic\", the resemblance to English is clearly a fortunate coincidence.  But you are surprised that your telepathic scan doesn't pick up anything at all.  Just a faint static hum, rising and falling in an irregular pattern.",
     "responses": [
-      { "text": "*Withdraw from <npcname>'s mind*.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "*Withdraw from <npc_name>'s mind*.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       {
         "text": "[Telepathy 10+] *Go deeper*.",
         "topic": "TALK_EXODII_MERCHANT_deep_scan",
