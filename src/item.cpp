@@ -10356,7 +10356,7 @@ int item::shots_remaining( const Character *carrier ) const
     return ret;
 }
 
-int item::ammo_remaining( const Character *carrier, bool cable_links ) const
+int item::ammo_remaining( const Character *carrier, const bool include_linked ) const
 {
     int ret = 0;
 
@@ -10367,7 +10367,7 @@ int item::ammo_remaining( const Character *carrier, bool cable_links ) const
     }
 
     // Cable connections
-    if( cable_links && link_length() >= 0 && link->efficiency >= 0.001f ) {
+    if( include_linked && link_length() >= 0 && link->efficiency >= 0.001f ) {
         if( link->t_veh_safe ) {
             ret += link->t_veh_safe->connected_battery_power_level().first;
         } else {
@@ -10416,9 +10416,9 @@ int item::ammo_remaining( const Character *carrier, bool cable_links ) const
     return ret;
 }
 
-int item::ammo_remaining( bool cable_links ) const
+int item::ammo_remaining( const bool include_linked ) const
 {
-    return ammo_remaining( nullptr, cable_links );
+    return ammo_remaining( nullptr, include_linked );
 }
 
 units::energy item::energy_remaining( const Character *carrier ) const
@@ -10472,10 +10472,12 @@ int item::remaining_ammo_capacity() const
     }
 }
 
-int item::ammo_capacity( const ammotype &ammo ) const
+int item::ammo_capacity( const ammotype &ammo, bool include_linked ) const
 {
     const item *mag = magazine_current();
-    if( mag ) {
+    if( include_linked && link ) {
+        return link->t_veh_safe ? link->t_veh_safe->connected_battery_power_level().second : 0;
+    } else if( mag ) {
         return mag->ammo_capacity( ammo );
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
         return units::to_kilojoule( get_player_character().get_max_power_level() );

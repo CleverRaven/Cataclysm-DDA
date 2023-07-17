@@ -2325,15 +2325,17 @@ class item : public visitable
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
          * @param carrier is used for UPS and bionic power for tools
-         * @param cable_links Add cable-linked vehicles' ammo to the ammo count
+         * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const Character *carrier = nullptr, bool cable_links = false ) const;
-        int ammo_remaining( bool cable_links ) const;
+        int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
+        int ammo_remaining( bool include_linked ) const;
 
         /**
          * ammo capacity for a specific ammo
+         * @param ammo The ammo type to get the capacity for
+         * @param include_linked If linked up, return linked electricity grid's capacity
          */
-        int ammo_capacity( const ammotype &ammo ) const;
+        int ammo_capacity( const ammotype &ammo, bool include_linked = false ) const;
 
         /**
          * how much more ammo can fit into this item
