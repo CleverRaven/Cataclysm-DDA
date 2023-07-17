@@ -44,8 +44,8 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_seat( "seat" );
 
-static const vproto_id vehicle_prototype_test_van( "test_van" );
 static const vproto_id vehicle_prototype_none( "none" );
+static const vproto_id vehicle_prototype_test_van( "test_van" );
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
