@@ -358,17 +358,17 @@ TEST_CASE( "npc-board-player-vehicle" )
     npc *companion = get_creature_tracker().creature_at<npc>( npc_pos );
     REQUIRE( companion != nullptr );
 
-    /* Uncomment for some extra info when test fails
+    
     debug_mode = true;
     debugmode::enabled_filters.clear();
     debugmode::enabled_filters.emplace_back( debugmode::DF_NPC );
     REQUIRE( debugmode::enabled_filters.size() == 1 );
-    */
+    
 
     // Give the NPC 20 moves to board the vehicle
     for( int i = 0; i < 20; ++i ) {
         companion->moves = 100;
-        /* Uncommment for extra debug info
+        
             tripoint npc_pos = companion->pos();
             optional_vpart_position vp = here.veh_at( npc_pos );
             vehicle *veh = veh_pointer_or_null( vp );
@@ -378,7 +378,7 @@ TEST_CASE( "npc-board-player-vehicle" )
                      here.furnname( npc_pos ),
                      vp ? remove_color_tags( vp->part_displayed()->part().name() ) : "",
                      veh ? veh->name : " " );
-        */
+        
         companion->move();
     }
 
