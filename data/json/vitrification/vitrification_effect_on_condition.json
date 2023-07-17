@@ -119,7 +119,7 @@
         {
           "id": "EOC_vitrifiaction_entry_message",
           "effect": {
-            "u_message": "You arrive at the farmhouse, after what feels like an eternity. It's not quite what you were expecting, but it's very peaceful.",
+            "u_message": "You arrive at the farmhouse, after what feels like an eternity.  It's not quite what you were expecting, but it's very peaceful.",
             "type": "good",
             "popup": true
           }
