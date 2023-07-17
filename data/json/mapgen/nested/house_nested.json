@@ -130,6 +130,7 @@
         " 66 "
       ],
       "palettes": [ "house_w_nest_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ],
       "items": {
         "O": {
           "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
@@ -153,6 +154,7 @@
         " Ih "
       ],
       "palettes": [ "house_w_nest_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ],
       "items": {
         "O": {
           "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }
@@ -176,6 +178,7 @@
         " bH "
       ],
       "palettes": [ "house_w_nest_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ],
       "items": {
         "O": {
           "item": { "subtype": "distribution", "entries": [ { "group": "SUS_dresser_mens" }, { "group": "SUS_dresser_womens" } ] }

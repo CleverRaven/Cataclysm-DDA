@@ -518,7 +518,7 @@ VisitResponse vehicle_cursor::visit_items(
     const vehicle_part &vp = veh.part( part );
     const int idx = veh.part_with_feature( vp.mount, "CARGO", true );
     if( idx >= 0 ) {
-        for( item &e : veh.get_items( idx ) ) {
+        for( item &e : veh.get_items( veh.part( idx ) ) ) {
             if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
@@ -807,7 +807,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );
                 } else {
-                    qty = sum_no_wrap( qty, e->ammo_remaining() );
+                    qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
                 }
                 if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                     found_tool_with_UPS = true;
@@ -815,7 +815,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                     found_bionic_tool = true;
                 }
             } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
-                qty = sum_no_wrap( qty, e->ammo_remaining() );
+                qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
             }
         }
         if( qty >= limit ) {

@@ -21,15 +21,7 @@
     "durability": 7,
     "default_mods": [ "retool_ar15_223rem" ],
     "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
@@ -321,15 +313,7 @@
     "min_cycle_recoil": 1350,
     "default_mods": [ "retool_ar15_223rem" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
@@ -370,6 +354,7 @@
   },
   {
     "id": "scar_l",
+    "copy-from": "rifle_semi",
     "type": "GUN",
     "name": { "str": "FN SCAR-L" },
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
@@ -381,7 +366,7 @@
     "price": 540000,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "skill": "rifle",
+    "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
@@ -390,6 +375,20 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "high_end_folding_stock" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 2 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "stock accessory", 2 ],
+      [ "stock", 1 ]
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -559,15 +558,7 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "retool_ar15_223rem_medium" ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
@@ -639,15 +630,7 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "pistol_grip", "retool_ar15_223rem_short", "suppressor", "adjustable_stock" ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
@@ -719,15 +702,7 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
@@ -992,8 +967,6 @@
         "weight": 1
       }
     ],
-    "//2": "13.7 inch barrel yields roughly this much damage loss",
-    "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "ammo": [ "223" ],
@@ -1202,7 +1175,6 @@
     "default_mods": [ "retool_mdrx_223rem_medium" ],
     "min_cycle_recoil": 1250,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -1276,7 +1248,6 @@
     "durability": 8,
     "default_mods": [ "folding_stock", "muzzle_brake" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -1349,7 +1320,6 @@
     "built_in_mods": [ "adjustable_stock" ],
     "default_mods": [ "retool_cz600_223rem" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

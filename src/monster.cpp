@@ -89,6 +89,8 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_fake_common_cold( "fake_common_cold" );
+static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -3025,6 +3027,25 @@ void monster::process_one_effect( effect &it, bool is_new )
         if( id == effect_bleed ) {
             // monsters are simplified so they just take damage from bleeding
             apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
+        }
+    } else if( id == effect_fake_common_cold ) {
+        if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) && one_in( 2 ) ) {
+            sounds::sound( pos(), 4, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc", "cough" );
+        }
+
+        avatar &you = get_avatar(); // No NPCs for now.
+        if( rl_dist( it.get_source().resolve_creature()->pos(), you.pos() ) <= 1 ) {
+            you.get_sick( false );
+        }
+    } else if( id == effect_fake_flu ) {
+        // Need to define the two separately because it's theoretically (and realistically) possible to have both flu and cold at once, both for players and monsters.
+        if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) && one_in( 2 ) ) {
+            sounds::sound( pos(), 4, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc", "cough" );
+        }
+
+        avatar &you = get_avatar(); // No NPCs for now.
+        if( rl_dist( it.get_source().resolve_creature()->pos(), you.pos() ) <= 1 ) {
+            you.get_sick( true );
         }
     }
 }
