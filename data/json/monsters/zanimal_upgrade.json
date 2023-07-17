@@ -72,7 +72,7 @@
     "type": "MONSTER",
     "name": { "str": "hulking horror" },
     "copy-from": "mon_dog_zombie_brute",
-    "harvest": "zombie dog",
+    "harvest": "zombie_dog",
     "description": "What may once have been a dog is now a grotesquely swollen monstrosity, standing on four limbs as wide as trash cans and showing massive, jagged teeth.",
     "diff": 5,
     "volume": "440 L",
