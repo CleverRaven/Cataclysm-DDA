@@ -901,6 +901,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_trellis_archway",
+    "name": "Build Trellis Archway"
+  },
+  {
+    "type": "construction_group",
     "id": "carpet_floor_green",
     "name": "Carpet Floor Green"
   },
@@ -938,6 +943,21 @@
     "type": "construction_group",
     "id": "cut_grass",
     "name": "Cut Grass"
+  },
+  {
+    "type": "construction_group",
+    "id": "cut_hedge",
+    "name": "Cut/Remove Hedge"
+  },
+  {
+    "type": "construction_group",
+    "id": "cut_hedge_archway",
+    "name": "Cut An Archway Into A Tall Hedge"
+  },
+  {
+    "type": "construction_group",
+    "id": "cut_hedge_sculpted",
+    "name": "Sculpt A Short Hedge"
   },
   {
     "type": "construction_group",
