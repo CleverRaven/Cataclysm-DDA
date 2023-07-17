@@ -261,5 +261,19 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ], [ "knife_butter", 2 ] ] ]
+  },
+  {
+	"type": "recipe",
+	"activity_level": "LIGHT_EXERCISE",
+	"id_suffix": "innawood",
+	"result": "stick",
+	"result_mult": 2,
+	"skill_used": "survival",
+	"category": "CC_OTHER",
+	"subcategory": "CSC_OTHER_MATERIALS",
+	"time": "3 m",
+	"autolearn": true,
+	"qualities": [ { "id": "CUT", "level": 1 } ],
+	"components": [ [ [ "stick_long", 1 ] ] ]
   }
 ]
