@@ -4249,7 +4249,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( jo.has_member( "techniques" ) ) {
         def.techniques.clear();
         set_techniques_from_json( jo, "techniques", def );
-        } else {
+    } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
