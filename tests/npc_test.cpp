@@ -44,7 +44,7 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_seat( "seat" );
 
-static const vproto_id vehicle_prototype_ambulance( "ambulance" );
+static const vproto_id vehicle_prototype_test_van( "test_van" );
 static const vproto_id vehicle_prototype_none( "none" );
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
@@ -329,8 +329,8 @@ TEST_CASE( "npc-board-player-vehicle" )
     // Place the NPC outside the door and down one
     tripoint npc_pos = player_pos + point( -2, -1 );
 
-    // Place an ambulance at the player's position, rotated correctly, 100% fuel, perfect condition
-    vehicle *veh = here.add_vehicle( vehicle_prototype_ambulance, player_pos, -90_degrees, 100, 2 );
+    // Place a cube van at the player's position, rotated correctly, 100% fuel, perfect condition
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, player_pos, -90_degrees, 100, 2 );
     // And make sure the game knows the player is in it so the NPC can follow
     here.board_vehicle( player_pos, &pc );
     REQUIRE( veh != nullptr );
