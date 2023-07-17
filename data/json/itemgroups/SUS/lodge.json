@@ -8,7 +8,7 @@
       { "item": "compbow", "prob": 40 },
       { "item": "compbow_high", "prob": 20 },
       { "item": "compbow_low", "prob": 30 },
-	  { "item": "compcrossbow", "prob": 25 },
+      { "item": "compcrossbow", "prob": 25 },
       { "item": "recurbow", "prob": 25 },
       { "item": "takedown_recurbow", "prob": 3 },
       { "item": "quiver_takedown_bow", "prob": 1 },
