@@ -2342,6 +2342,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_drill_saw_umbrella_hole_table",
+    "group": "drill_umbrella_hole",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "//": "Am I forgetting a better way to do this?",
+    "qualities": [ [ { "id": "DRILL", "level": 1 }, { "id": "SAW_W", "level": 1 } ] ],
+    "pre_terrain": "f_table",
+    "post_terrain": "f_table_umbrella",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_drill_umbrella_hole_table_plastic",
     "group": "drill_umbrella_hole",
     "category": "FURN",
@@ -2359,7 +2372,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "2 m",
-    "qualities": [ [ { "id": "DRILL", "level": 3 }, { "id": "CUT_GLASS", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DRILL", "level": 3 } ], [ { "id": "CUT_GLASS", "level": 1 } ] ],
     "pre_terrain": "f_table_rattan",
     "post_terrain": "f_table_rattan_umbrella",
     "activity_level": "LIGHT_EXERCISE"
@@ -6668,8 +6681,9 @@
     "time": "20 m",
     "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DRILL", "level": 3 } ] ],
     "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
-    "pre_terrain": "t_dirt",
-    "post_terrain": "t_floor_deck_boards"
+    "pre_special": "check_empty",
+    "post_terrain": "t_floor_deck_boards",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",

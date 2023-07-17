@@ -304,7 +304,7 @@
     "coverage": 50,
     "required_str": 5,
     "crafting_pseudo_item": "medium_surface_pseudo",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -326,7 +326,7 @@
     "coverage": 50,
     "required_str": 5,
     "crafting_pseudo_item": "medium_surface_pseudo",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -343,6 +343,7 @@
     "copy-from": "f_table",
     "name": "table w/ umbrella hole",
     "description": "A standard wooden table with a hole for an umbrella.  You could sit down at it to eat like a civilized person.",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "symbol": "#",
     "color": "red"
   },
@@ -352,6 +353,7 @@
     "copy-from": "f_table_plastic",
     "name": "plastic table w/ umbrella hole",
     "description": "A standard plastic table with a hole for an umbrella.  You could sit down at it to eat like a civilized person.",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "symbol": "#",
     "color": "white"
   },
@@ -361,6 +363,7 @@
     "copy-from": "f_table_rattan",
     "name": "rattan table w/ umbrella hole",
     "description": "A rattan table with a glass top and a hole for an umbrella.  You could sit down at it to eat like a civilized person.",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "symbol": "#",
     "color": "brown"
   },

@@ -308,12 +308,7 @@
     "required_str": 10,
     "looks_like": "t_dirtmound",
     "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [
-        { "item": "hanging_basket" }
-      ],
-      "furn_set": "f_hook"
-    },
+    "deconstruct": { "items": [ { "item": "hanging_basket" } ], "furn_set": "f_hook" },
     "bash": {
       "str_min": 6,
       "str_max": 14,
