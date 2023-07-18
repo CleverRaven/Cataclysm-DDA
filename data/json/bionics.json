@@ -1583,6 +1583,16 @@
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] } ]
   },
   {
+    "id": "bio_taser",
+    "type": "bionic",
+    "name": { "str": "Super Stun Gun" },
+    "description": "You have a powerful stun gun built into your hand.  Activate to zap an adjacent enemy.",
+    "occupied_bodyparts": [ [ "hand_r", 3 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "act_cost": "10 kJ",
+    "spell_on_activation": { "id": "bio_taser_spell" }
+  },
+  {
     "id": "bio_teleport",
     "type": "bionic",
     "name": { "str": "Teleportation Unit" },
