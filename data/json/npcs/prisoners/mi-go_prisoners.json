@@ -43,7 +43,7 @@
       "How are you here?  Are you one of them, somehow?  What's going on?"
     ],
     "responses": [
-      { 
+      {
         "text": "Come with me, if you want to live.",
         "topic": "TALK_DONE",
         "effect": "follow",
