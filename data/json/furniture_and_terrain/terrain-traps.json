@@ -39,6 +39,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_pit_lined",
+    "name": "lined pit",
+    "description": "A pit that has been lined.  Ready to be filled with water to form a pond.",
+    "symbol": "0",
+    "color": "black",
+    "//": "50cm deep, twice as deep as shallow pit going by volume of soil",
+    "move_cost": 9,
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_pit_corpsed",
     "name": "corpse filled pit",
     "description": "A giant trench full of corpses, maybe even a mass graveyard.  The bodies could be dug out, but nothing in here looks remotely usable.",

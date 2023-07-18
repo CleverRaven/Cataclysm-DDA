@@ -981,6 +981,11 @@
   },
   {
     "type": "construction_group",
+    "id": "line_fill_pond",
+    "name": "Line/Fill A Pit To Make a Pond"
+  },
+  {
+    "type": "construction_group",
     "id": "dig_a_water_channel",
     "name": "Dig a Water Channel"
   },

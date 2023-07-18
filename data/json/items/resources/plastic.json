@@ -140,6 +140,24 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "pond_liner",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "pond liner" },
+    "description": "A large sheet of thick but flexible plastic, the sort that would have been used for sealing a pond.",
+    "weight": "851 g",
+    "volume": "31 ml",
+    "longest_side": "15 cm",
+    "//": "Based off a third of https://www.amazon.com/UWIOFF-Streams-Fountains-Waterfall-10-Foot/dp/B0886572JW/ Roughly 2.1 square meters of 20 mil (0.5 mm) thick LDPE plastic.",
+    "price": "8 USD",
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "qualities": [ [ "SURFACE", 3 ] ],
+    "symbol": ")",
+    "color": "black",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "polycarbonate_sheet",
     "type": "AMMO",
     "ammo_type": "NULL",
