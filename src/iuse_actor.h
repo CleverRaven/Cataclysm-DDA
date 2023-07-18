@@ -166,8 +166,8 @@ class sound_iuse : public iuse_actor
 
         /** if specified overrides default action name */
         translation name;
-
         /** message if player hears activation with %s replaced by item name */
+
         translation sound_message;
 
         int sound_volume;
@@ -596,6 +596,18 @@ class manualnoise_actor : public iuse_actor
         explicit manualnoise_actor( const std::string &type = "manualnoise" ) : iuse_actor( type ) {}
 
         ~manualnoise_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+class play_instrument_iuse : public iuse_actor
+{
+    public:
+        explicit play_instrument_iuse( const std::string &type = "play_instrument" ) : iuse_actor( type ) {}
+
+        ~play_instrument_iuse() override = default;
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;

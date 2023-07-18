@@ -1970,6 +1970,38 @@ ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it, bo
     return ret_val<void>::make_success();
 }
 
+void play_instrument_iuse::load( const JsonObject &obj )
+{
+}
+
+std::unique_ptr<iuse_actor> play_instrument_iuse::clone() const
+{
+    return std::make_unique<play_instrument_iuse>( *this );
+}
+
+std::optional<int> play_instrument_iuse::use( Character *p, item &it, bool, const tripoint & ) const
+{
+    if( it.active ) {
+		it.active = false;
+        p->add_msg_player_or_npc( _( "You stop playing your %s." ),
+                                  _( "<npcname> stops playing their %s." ),
+                                  it.display_name() );
+    } else {
+        p->add_msg_player_or_npc( m_good,
+                                  _( "You start playing your %s." ),
+                                  _( "<npcname> starts playing their %s." ),
+                                  it.display_name() );
+		it.active = true;
+    }
+    return std::nullopt;
+}
+
+ret_val<void> play_instrument_iuse::can_use( const Character &p, const item &it, bool,
+        const tripoint & ) const
+{
+    return ret_val<void>::make_success();
+}
+
 std::unique_ptr<iuse_actor> musical_instrument_actor::clone() const
 {
     return std::make_unique<musical_instrument_actor>( *this );
@@ -1989,9 +2021,14 @@ void musical_instrument_actor::load( const JsonObject &obj )
     obj.read( "npc_descriptions", npc_descriptions );
 }
 
-std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t,
+std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool,
         const tripoint & ) const
 {
+    if( !p ) {
+        it.active = false;
+        return std::nullopt;
+    }
+
     if( !p->is_npc() && music::is_active_music_id( music::music_id::instrument ) ) {
         music::deactivate_music_id( music::music_id::instrument );
         // Because musical instrument creates musical sound too
@@ -2026,14 +2063,6 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
         return std::nullopt;
     }
 
-    if( !t && it.active ) {
-        p->add_msg_player_or_npc( _( "You stop playing your %s." ),
-                                  _( "<npcname> stops playing their %s." ),
-                                  it.display_name() );
-        it.active = false;
-        return std::nullopt;
-    }
-
     // Check for worn or wielded - no "floating"/bionic instruments for now
     // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
     const int inv_pos = p->get_item_position( &it );
@@ -2059,14 +2088,6 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
     // We can play the music now
     if( !p->is_npc() ) {
         music::activate_music_id( music::music_id::instrument );
-    }
-
-    if( !it.active ) {
-        p->add_msg_player_or_npc( m_good,
-                                  _( "You start playing your %s." ),
-                                  _( "<npcname> starts playing their %s." ),
-                                  it.display_name() );
-        it.active = true;
     }
 
     if( p->get_effect_int( effect_playing_instrument ) <= speed_penalty ) {

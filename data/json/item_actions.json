@@ -1092,5 +1092,16 @@
     "type": "item_action",
     "id": "VOLTMETER",
     "name": { "str": "Test for voltage" }
+  },
+  {
+    "type": "item_action",
+    "id": "play_instrument",
+    "name": { "str": "Play instrument" }
+  },
+  {
+    "type": "item_action",
+    "id": "sound",
+    "name": { "str": "Make sound" }
   }
+]
 ]

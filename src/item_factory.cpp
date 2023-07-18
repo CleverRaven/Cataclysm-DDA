@@ -1815,6 +1815,7 @@ void Item_factory::init()
     add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<message_iuse>() );
     add_actor( std::make_unique<sound_iuse>() );
+    add_actor( std::make_unique<play_instrument_iuse>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
