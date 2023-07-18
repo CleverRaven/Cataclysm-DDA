@@ -19,7 +19,9 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
-#ifndef _WIN32
+#if defined(_MSC_VER)
+#include <io.h>
+#else
 #include <unistd.h>
 #endif
 
@@ -34,6 +36,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
+#include "json.h"
 #include "loading_ui.h"
 #include "map.h"
 #include "messages.h"
@@ -291,6 +294,19 @@ CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
+#if defined(_MSC_VER)
+    bool supports_color = _isatty( _fileno( stdout ) );
+#else
+    bool supports_color = isatty( STDOUT_FILENO );
+#endif
+    // formatter stdout in github actions is redirected but still able to handle ANSI colors
+    supports_color |= std::getenv( "CI" ) != nullptr;
+
+    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+    json_error_output_colors = supports_color
+                               ? json_error_output_colors_t::ansi_escapes
+                               : json_error_output_colors_t::no_colors;
+
     reset_floating_point_mode();
     on_out_of_scope json_member_reporting_guard{ [] {
             // Disable reporting unvisited members if stack unwinding leaves main early.

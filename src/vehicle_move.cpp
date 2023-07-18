@@ -664,19 +664,18 @@ void vehicle::turn( units::angle deg )
     turn_dir = round_to_multiple_of( turn_dir, vehicles::steer_increment );
 }
 
-void vehicle::stop( bool update_cache )
+void vehicle::stop()
 {
     velocity = 0;
     skidding = false;
     move = face;
     last_turn = 0_degrees;
     of_turn_carry = 0;
-    if( !update_cache ) {
-        return;
-    }
     map &here = get_map();
     for( const tripoint &p : get_points() ) {
-        here.set_memory_seen_cache_dirty( p );
+        if( here.inbounds( p ) ) {
+            here.memory_cache_dec_set_dirty( p, true );
+        }
     }
 }
 
@@ -732,7 +731,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         }
 
         const vpart_info &info = vp.info();
-        if( !vp.is_fake && info.location != part_location_structure && info.rotor_diameter() == 0 ) {
+        if( !vp.is_fake && info.location != part_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
             continue;
         }
         empty = false;
@@ -740,8 +739,8 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + vp.precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
-        if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
-            size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
+        if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
+            size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
             for( const tripoint &rotor_point : here.points_in_radius( dsp, radius ) ) {
                 veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
                 if( rotor_coll.type != veh_coll_nothing ) {
@@ -859,7 +858,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Typical rotor tip speed in MPH * 100.
     int rotor_velocity = 45600;
     // Non-vehicle collisions can't happen when the vehicle is not moving
-    int &coll_velocity = ( parts[part].info().rotor_diameter() == 0 ) ?
+    int &coll_velocity = ( parts[part].info().has_flag( VPFLAG_ROTOR ) == 0 ) ?
                          ( vert_coll ? vertical_velocity : velocity ) :
                          rotor_velocity;
     if( !just_detect && coll_velocity == 0 ) {
@@ -950,7 +949,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
     // Rotors only use rotor mass in calculation.
-    const float mass = vpi.rotor_diameter() > 0
+    const float mass = vpi.has_flag( VPFLAG_ROTOR )
                        ? to_kilogram( vp.base.weight() )
                        : to_kilogram( total_mass() );
 
@@ -1756,7 +1755,7 @@ vehicle *vehicle::act_on_map()
     if( !here.inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
-        stop( false );
+        stop();
         of_turn = 0;
         is_falling = false;
         return this;
@@ -2070,6 +2069,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     float traction_wheel_area = 0.0f;
     for( const int wheel_idx : veh.wheelcache ) {
         const vehicle_part &vp = veh.part( wheel_idx );
+        const vpart_info &vpi = vp.info();
         const tripoint pp = veh.global_part_pos3( vp );
         const ter_t &tr = ter( pp ).obj();
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
@@ -2083,11 +2083,11 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
         }
 
         if( ignore_movement_modifiers ) {
-            traction_wheel_area += vp.wheel_area();
+            traction_wheel_area += vpi.wheel_info->contact_area;
             continue; // Ignore the movement modifier if caller specifies a bool
         }
 
-        for( const veh_ter_mod &mod : vp.info().wheel_terrain_modifiers() ) {
+        for( const veh_ter_mod &mod : vpi.wheel_info->terrain_modifiers ) {
             const bool ter_has_flag = tr.has_flag( mod.terrain_flag );
             if( ter_has_flag && mod.move_override ) {
                 move_mod = mod.move_override;
@@ -2103,7 +2103,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
             continue;
         }
 
-        traction_wheel_area += 2.0 * vp.wheel_area() / move_mod;
+        traction_wheel_area += 2.0 * vpi.wheel_info->contact_area / move_mod;
     }
 
     return traction_wheel_area;

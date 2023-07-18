@@ -61,12 +61,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "rigid": true, "ammo_restriction": { "butane": 400 } } ],
     "material": [ "aluminum" ],
     "flags": [ "NO_RELOAD", "GAS_TANK" ],
-    "explosion": {
-      "power": 4503,
-      "distance_factor": 0.1,
-      "fire": true,
-      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.025, "recovery": 0 }
-    },
     "explode_in_fire": true
   },
   {
@@ -369,15 +363,24 @@
     "color": "brown",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "use_action": {
-      "target": "large_space_heater_on",
-      "msg": "You turn on the heater.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The heater needs more charge.",
-      "menu_text": "Turn on",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "target": "large_space_heater_on",
+        "msg": "You turn on the heater.",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The heater needs more charge.",
+        "menu_text": "Turn on",
+        "type": "transform"
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "1 kW"
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -398,13 +401,22 @@
     "emits": [ "emit_hot_air2_blast" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "large_space_heater",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "large_space_heater",
-      "msg": "You turn off the heater.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    }
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "large_space_heater",
+        "msg": "You turn off the heater.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "1 kW"
+      }
+    ]
   },
   {
     "id": "lifestraw",
@@ -569,15 +581,24 @@
     "color": "brown",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "use_action": {
-      "target": "small_space_heater_on",
-      "msg": "You turn on the heater.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The heater needs more charge.",
-      "menu_text": "Turn on",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "target": "small_space_heater_on",
+        "msg": "You turn on the heater.",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The heater needs more charge.",
+        "menu_text": "Turn on",
+        "type": "transform"
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "500 W"
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -598,13 +619,22 @@
     "emits": [ "emit_hot_air2_stream" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "small_space_heater",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "small_space_heater",
-      "msg": "You turn off the heater.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    }
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "small_space_heater",
+        "msg": "You turn off the heater.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "500 W"
+      }
+    ]
   },
   {
     "id": "spray_can",
@@ -700,6 +730,28 @@
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP" ],
     "use_action": [ "MACE" ]
+  },
+  {
+    "id": "c4_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "C-4 payload" },
+    "description": "This is a dummy item used by c4 hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": { "target": "c4armed", "target_timer": "10 seconds", "type": "transform" },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "mininuke_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "mininuke payload" },
+    "description": "This is a dummy item used by mininuke hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": { "target": "mininuke_act", "target_timer": "20 seconds", "type": "transform" },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
   },
   {
     "id": "tear_gas_payload",

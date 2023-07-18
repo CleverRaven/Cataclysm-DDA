@@ -245,9 +245,21 @@ in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
 is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
 
-Values: number - *0 disables*
+Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 
 Default: 1000
+
+Examples:
+```json
+    "//": "disable this variant"
+    "weight": 0,
+    "//2": "constant weight"
+    "weight": 500,
+    "//3": "evaluated dynamically from global variable"
+    "weight": { "global_val": "my_weight" },
+    "//4": "evaluated dynamically from math expression"
+    "weight": { "math": [ "my_weight * u_val('time_since_cataclysm: days')" ] }
+```
 
 
 ## How "overmap_terrain" variables affect mapgen
@@ -1134,8 +1146,9 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 | ---                | ---
 | chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.
 | x and y            | (required, int) the cardinal position in which the chunk will be placed.
-| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
+| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.  See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
+| flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1150,15 +1163,16 @@ Example:
 ```json
   "place_nested": [
     { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
+    { "chunks": [ "gate_south" ], "x": 0, "y": 0, "neighbors": { "north": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }, "mansion" ] } },
     { "chunks": [ "gate_north" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
-    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
+    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } }
   ],
 ```
 The code excerpt above will place chunks as follows:
-* `"concrete_wall_ew"` if the north neighbor is either a field or solid rock
-* `"gate_north"` if the join `"interior_to_exterior"` was used to the north
-  during mutable overmap placement.
-* `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
+* `"concrete_wall_ew"` if the north neighbor's om terrain contains `"field"` or `"empty_rock"`.
+* `"gate_south"` if the north neighbor has the prefix `"fort"` or contains `"mansion"`, so for example "fort_1a_north" and "mansion_t2u" would match but "house_fortified" wouldn't.
+* `"gate_north"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
+* `"concrete_wall_ns"`if the north west neighboring overmap terrain has neither the "RIVER", "LAKE" nor "LAKE_SHORE" flags.
 
 
 ### Place monster corpse from a monster group with "place_corpses"
