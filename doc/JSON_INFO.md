@@ -1090,6 +1090,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `social_modifiers`			     | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
 | `dispersion_mod`             | (_optional_) Modifier to change firearm dispersion.
 | `activated_on_install`       | (_optional_) Auto-activates this bionic when installed.
+| `required_bionic`       | (_optional_) Bionic which is required to install this bionic, and which cannot be uninstalled if this bionic is installed
 
 ```JSON
 {
@@ -1123,7 +1124,19 @@ mod = min( max, ( limb_score / denominator ) - subtract );
       [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
     ],
     "flags": [ "BIONIC_NPC_USABLE" ]
-}
+},
+  {
+    "id": "bio_hydraulics",
+    "type": "bionic",
+    "name": { "str": "Hydraulic Muscles" },
+    "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
+    "occupied_bodyparts": [ [ "torso", 10 ], [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "act_cost": "10 kJ",
+    "react_cost": "10 kJ",
+    "time": "1 s",
+    "required_bionic": "bio_weight"
+  }
 ```
 
 Bionics effects are defined in the code and new effects cannot be created through JSON alone.
