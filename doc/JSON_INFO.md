@@ -4192,7 +4192,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action": {
     "type": "sound",         // Makes sound
     "name": "Turn on"        // Optional name for the action. Default "Activate".
-    "sound_message": "Bzzzz.", // Optional message shown to player if they are able to hear the sound.
+    "sound_message": "Bzzzz.", // Optional message shown to player if they are able to hear the sound. %s is replaced by item name.
     "sound_volume": 5        // Loudness of the noise.
 }
 "use_action": {
