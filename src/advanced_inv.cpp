@@ -272,12 +272,18 @@ void advanced_inventory::init()
     }
 }
 
-void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool active )
+void advanced_inventory::print_items( side p, bool active )
 {
+    advanced_inventory_pane &pane = panes[p];
     const auto &items = pane.items;
     const catacurses::window &window = pane.window;
     const int index = pane.index;
     bool compact = TERMX <= 100;
+    pane.other_cont = -1;
+    item *other_container;
+    if( panes[-p + 1].container ) {
+        other_container = panes[-p + 1].container.get_item();
+    }
 
     int columns = getmaxx( window );
     std::string spaces( columns - 4, ' ' );
@@ -418,13 +424,22 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         nc_color print_color;
 
         if( selected ) {
-            thiscolor = inCategoryMode && pane.sortby == SORTBY_CATEGORY ? c_white_red : hilite( c_white );
+            if( other_container && &it == other_container ) {
+                pane.other_cont = item_line;
+                thiscolor = c_white_yellow;
+            } else {
+                thiscolor = inCategoryMode && pane.sortby == SORTBY_CATEGORY ? c_white_red : hilite( c_white );
+            }
             thiscolordark = hilite( thiscolordark );
             if( compact ) {
                 mvwprintz( window, point( 1, 6 + item_line ), thiscolor, "  %s", spaces );
             } else {
                 mvwprintz( window, point( 1, 6 + item_line ), thiscolor, ">>%s", spaces );
             }
+        } else if( other_container && &it == other_container ) {
+            pane.other_cont = item_line;
+            thiscolor = i_brown;
+            mvwprintz( window, point( 1, 6 + item_line ), thiscolor, spaces );
         }
 
         std::string item_name;
@@ -664,7 +679,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         // or highlight container [C] if container mode is active.
         if( can_put_items ) {
             bcolor = in_vehicle ? c_light_blue :
-                     pane.container_base_loc == data_location ? c_yellow :
+                     pane.container_base_loc == data_location ? c_brown :
                      data_location == AIM_CONTAINER ? c_dark_gray :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
             kcolor = data_location == AIM_CONTAINER ? c_dark_gray :
@@ -740,18 +755,6 @@ void advanced_inventory::recalc_pane( side p )
         pane.add_items_from_area( squares[pane.get_area()] );
     }
 
-    // Prevent same container item appearing in this pane when other pane is the container view.
-    if( there.container ) {
-        std::vector<advanced_inv_listitem>::iterator outer_iter = pane.items.begin();
-        while( outer_iter != pane.items.end() ) {
-            if( *outer_iter->items.begin() == there.container ) {
-                outer_iter = pane.items.erase( outer_iter );
-            } else {
-                outer_iter++;
-            }
-        }
-    }
-
     // Sort all items
     std::stable_sort( pane.items.begin(), pane.items.end(), advanced_inv_sorter( pane.sortby ) );
 
@@ -782,7 +785,7 @@ void advanced_inventory::redraw_pane( side p )
     catacurses::window w = pane.window;
 
     werase( w );
-    print_items( pane, active );
+    print_items( p, active );
 
     advanced_inv_listitem *itm = pane.get_cur_item_ptr();
     int width = print_header( pane, itm != nullptr ? itm->area : pane.get_area() );
@@ -850,16 +853,18 @@ void advanced_inventory::redraw_pane( side p )
         mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
                    fsuffix );
     }
-    wnoutrefresh( w );
 }
 
-std::string advanced_inventory::fill_lists_with_pane_items( Character &player_character,
-        advanced_inventory_pane &spane, std::vector<drop_or_stash_item_info> &item_list,
+std::string advanced_inventory::fill_lists_with_pane_items( side &p, Character &player_character,
+        std::vector<drop_or_stash_item_info> &item_list,
         std::vector<drop_or_stash_item_info> &fav_list, bool filter_buckets = false )
 {
     std::string skipped_items_message;
     int buckets = 0;
-    for( const advanced_inv_listitem &listit : spane.items ) {
+    for( const advanced_inv_listitem &listit : panes[p].items ) {
+        if( listit.items.front() == panes[-p + 1].container ) {
+            continue;
+        }
         for( const item_location &it : listit.items ) {
             if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
                 it->made_of_from_type( phase_id::GAS ) ) {
@@ -981,8 +986,8 @@ bool advanced_inventory::move_all_items()
     bool filter_buckets = dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ||
                           dpane.get_area() == AIM_CONTAINER || dpane.in_vehicle();
 
-    std::string skipped_items_message = fill_lists_with_pane_items( player_character, spane, pane_items,
-                                        pane_favs, filter_buckets );
+    std::string skipped_items_message = fill_lists_with_pane_items( src, player_character,
+                                        pane_items, pane_favs, filter_buckets );
 
     // Move all the favorite items only if there are no other items
     if( pane_items.empty() ) {
@@ -1600,6 +1605,15 @@ void advanced_inventory::display()
 
             redraw_pane( advanced_inventory::side::left );
             redraw_pane( advanced_inventory::side::right );
+            if( panes[0].other_cont > -1 && panes[0].other_cont < linesPerPage ) {
+                mvwprintz( panes[0].window, point( w_width / 2 - 1, panes[0].other_cont + 6 ), i_brown, " " );
+                mvwprintz( panes[1].window, point( 0, panes[0].other_cont + 6 ), c_brown, "▶" );
+            } else if( panes[1].other_cont > -1 && panes[1].other_cont < linesPerPage ) {
+                mvwprintz( panes[0].window, point( w_width / 2 - 1, panes[1].other_cont + 6 ), c_brown, "◀" );
+                mvwprintz( panes[1].window, point( 0, panes[1].other_cont + 6 ), i_brown, " " );
+            }
+            wnoutrefresh( panes[src].window );
+            wnoutrefresh( panes[dest].window );
             redraw_sidebar();
 
             if( filter_edit && spopup ) {
