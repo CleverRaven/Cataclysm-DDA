@@ -169,6 +169,7 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const bionic_id bio_soporific( "bio_soporific" );
+static const bionic_id bio_synlungs( "bio_synlungs" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_voice( "bio_voice" );
@@ -658,13 +659,13 @@ void Character::set_wielded_item( const item &to_wield )
 
 int Character::get_oxygen_max() const
 {
-    return 30 + 2 * str_cur;
+    return 30 + has_bionic( bio_synlungs ) ? 70 : 2 * str_cur;
 }
 
 bool Character::can_recover_oxygen() const
 {
     return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
-           !has_effect_with_flag( json_flag_GRAB );
+           !has_effect_with_flag( json_flag_GRAB ) && !( has_bionic( bio_synlungs ) && !has_active_bionic( bio_synlungs ) );
 }
 
 void Character::randomize_heartrate()
@@ -6699,6 +6700,11 @@ int Character::get_cardiofit() const
         // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
         return 2 * get_cardio_acc_base();
     }
+
+    if( has_bionic( bio_synlungs ) ) {
+        // If you have the synthetic lungs bionic your cardioacc is forced to a specific value
+        return 4 * get_cardio_acc_base();
+    }    
 
     const int cardio_base = get_cardio_acc();
 
