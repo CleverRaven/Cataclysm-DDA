@@ -158,9 +158,10 @@ std::optional<ter_furn_data<T>> ter_furn_transform::find_transform( const
 }
 
 template<class T, class K>
-std::optional<std::pair<T, std::pair<std::optional<translation>, bool>>> ter_furn_transform::next( const
-        std::map<K, ter_furn_data<T>> &list,
-        const K &key ) const
+std::optional<std::pair<T, std::pair<std::optional<translation>, bool>>> ter_furn_transform::next(
+    const
+    std::map<K, ter_furn_data<T>> &list,
+    const K &key ) const
 {
     const std::optional<ter_furn_data<T>> result = find_transform( list, key );
     if( result.has_value() ) {
