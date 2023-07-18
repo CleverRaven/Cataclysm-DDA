@@ -1404,7 +1404,8 @@ void suffer::from_radiation( Character &you )
 void suffer::from_bad_bionics( Character &you )
 {
     // Negative bionics effects
-    if( you.has_bionic( bio_synlungs ) && !you.has_active_bionic( bio_synlungs ) && !you.has_effect( effect_narcosis ) ) {
+    if( you.has_bionic( bio_synlungs ) && !you.has_active_bionic( bio_synlungs ) &&
+        !you.has_effect( effect_narcosis ) ) {
         if( you.get_power_level() >= bio_synlungs->power_trigger ) {
             you.activate_bionic( bio_synlungs );
         } else {
