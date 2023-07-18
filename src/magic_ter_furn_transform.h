@@ -68,9 +68,10 @@ class ter_furn_transform
                                      const K &key ) const;
 
         template <class T, class K>
-        std::optional<std::pair<T, std::pair<std::optional<translation>, bool>>> next( const std::map<K, ter_furn_data<T>>
-                &list,
-                const K &key ) const;
+        std::optional<std::pair<T, std::pair<std::optional<translation>, bool>>> next(
+            const std::map<K, ter_furn_data<T>>
+            &list,
+            const K &key ) const;
 
     public:
 
