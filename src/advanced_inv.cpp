@@ -957,7 +957,8 @@ bool advanced_inventory::move_all_items()
         return false;
     }
 
-    if( spane.get_area() == dpane.get_area() && spane.in_vehicle() == dpane.in_vehicle() ) {
+    if( spane.get_area() == dpane.get_area() && spane.in_vehicle() == dpane.in_vehicle() &&
+        spane.container == dpane.container ) {
         return false;
     }
 
