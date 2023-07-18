@@ -1407,7 +1407,7 @@ void suffer::from_bad_bionics( Character &you )
     if( you.has_bionic( bio_synlungs ) && !you.has_active_bionic( bio_synlungs ) &&
         !you.has_effect( effect_narcosis ) ) {
         if( you.get_power_level() >= bio_synlungs->power_trigger ) {
-			std::optional<bionic *> bio_opt = you.find_bionic_by_type( bio_synlungs );
+            std::optional<bionic *> bio_opt = you.find_bionic_by_type( bio_synlungs );
             you.activate_bionic( **bio_opt );
         } else {
 			you.mod_stamina( -2000 );
