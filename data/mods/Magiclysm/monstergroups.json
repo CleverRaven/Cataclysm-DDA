@@ -43,9 +43,7 @@
     "name": "GROUP_FERAL",
     "//": "default ferals",
     "default": "mon_feral_human_crowbar",
-    "monsters": [
-      { "monster": "mon_feral_human_magician", "weight": 2, "cost_multiplier": 2 }
-    ]
+    "monsters": [ { "monster": "mon_feral_human_magician", "weight": 2, "cost_multiplier": 2 } ]
   },
   {
     "type": "monstergroup",

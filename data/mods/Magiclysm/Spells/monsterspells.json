@@ -236,10 +236,6 @@
     "min_damage": 1,
     "max_damage": 1,
     "message": "",
-    "extra_effects": [
-      { "id": "blinding_flash" },
-      { "id": "ethereal_grasp" },
-      { "id": "point_flare" }
-    ]
+    "extra_effects": [ { "id": "blinding_flash" }, { "id": "ethereal_grasp" }, { "id": "point_flare" } ]
   }
 ]
