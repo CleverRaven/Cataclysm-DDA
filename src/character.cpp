@@ -6654,24 +6654,26 @@ void Character::update_stamina( int turns )
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         effective_regen_rate * get_modifier( character_modifier_stamina_recovery_breathing_mod ) );
-    stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
-                       stamina_recovery );
-    // TODO: recovering stamina causes hunger/thirst/fatigue.
-    // TODO: Tiredness slowing recovery
+    // only apply stim-related and mutant stamina boosts if you don't have bionic lungs
+    if( !has_bionic( bio_synlungs ) ) {
+        stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
+                           stamina_recovery );
+        // TODO: recovering stamina causes hunger/thirst/fatigue.
+        // TODO: Tiredness slowing recovery
 
-    // stim recovers stamina (or impairs recovery)
-    if( current_stim > 0 ) {
-        // TODO: Make stamina recovery with stims cost health
-        stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
-    } else if( current_stim < 0 ) {
-        // Affect it less near 0 and more near full
-        // Negative stim kill at -200
-        // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
-        // effectivly countering stamina gain of default 20,
-        // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
-        stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+        // stim recovers stamina (or impairs recovery)
+        if( current_stim > 0 ) {
+            // TODO: Make stamina recovery with stims cost health
+            stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
+        } else if( current_stim < 0 ) {
+            // Affect it less near 0 and more near full
+            // Negative stim kill at -200
+            // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
+            // effectivly countering stamina gain of default 20,
+            // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
+            stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+        }
     }
-
     const int max_stam = get_stamina_max();
     if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
