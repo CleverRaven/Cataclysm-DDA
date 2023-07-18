@@ -178,7 +178,8 @@ ter_furn_transform::next_ter(
     return next( ter_transform, ter );
 }
 
-std::optional<std::pair<ter_str_id, std::pair<std::optional<translation>, bool>>> ter_furn_transform::next_ter(
+std::optional<std::pair<ter_str_id, std::pair<std::optional<translation>, bool>>>
+ter_furn_transform::next_ter(
     const std::string &flag ) const
 {
     return next( ter_flag_transform, flag );
