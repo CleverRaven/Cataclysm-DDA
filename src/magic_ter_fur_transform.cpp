@@ -171,7 +171,8 @@ std::optional<std::pair<T, std::pair<std::optional<translation>, bool>>> ter_fur
     return std::nullopt;
 }
 
-std::optional<std::pair<ter_str_id, std::pair<std::optional<translation>, bool>>> ter_furn_transform::next_ter(
+std::optional<std::pair<ter_str_id, std::pair<std::optional<translation>, bool>>>
+ter_furn_transform::next_ter(
     const ter_str_id &ter ) const
 {
     return next( ter_transform, ter );
