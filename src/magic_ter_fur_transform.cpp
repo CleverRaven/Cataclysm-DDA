@@ -224,8 +224,9 @@ void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) co
 {
     avatar &you = get_avatar();
     const ter_id ter_at_loc = m.ter( location );
-    std::optional<std::pair<ter_str_id, std::pair<std::optional<translation>, bool>>> ter_potential = next_ter(
-                ter_at_loc->id );
+    std::optional<std::pair<ter_str_id, std::pair<std::optional<translation>, bool>>> ter_potential =
+        next_ter(
+            ter_at_loc->id );
     const furn_id furn_at_loc = m.furn( location );
     std::optional<std::pair<furn_str_id, std::pair<std::optional<translation>, bool>>> furn_potential =
         next_furn(
