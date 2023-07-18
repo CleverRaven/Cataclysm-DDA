@@ -213,7 +213,8 @@ ter_furn_transform::next_trap(
     return next( trap_transform, trap );
 }
 
-std::optional<std::pair<trap_str_id, std::pair<std::optional<translation>, bool>>> ter_furn_transform::next_trap(
+std::optional<std::pair<trap_str_id, std::pair<std::optional<translation>, bool>>>
+ter_furn_transform::next_trap(
     const std::string &flag ) const
 {
     return next( trap_flag_transform, flag );
