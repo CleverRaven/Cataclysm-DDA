@@ -1753,6 +1753,7 @@ void Item_factory::init()
     add_iuse( "RADIO_MOD", &iuse::radio_mod );
     add_iuse( "RADIO_OFF", &iuse::radio_off );
     add_iuse( "RADIO_ON", &iuse::radio_on );
+    add_iuse( "RADIO_TICK", &iuse::radio_tick );
     add_iuse( "BINDER_ADD_RECIPE", &iuse::binder_add_recipe );
     add_iuse( "BINDER_MANAGE_RECIPE", &iuse::binder_manage_recipe );
     add_iuse( "REMOTEVEH", &iuse::remoteveh );

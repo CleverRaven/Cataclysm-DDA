@@ -2562,123 +2562,104 @@ static int radio_static_chance( const radio_tower_reference &tref )
                  ( max_strength - RADIO_MIN_STRENGTH ) );
 }
 
-std::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::radio_tick( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( t ) {
-        // Normal use
-        std::string message = _( "Radio: Kssssssssssssh." );
-        const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
-        add_msg_debug( debugmode::DF_RADIO, "Set freq: %d", it->frequency );
-        if( tref ) {
-            point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
-            add_msg_debug( debugmode::DF_RADIO, "found broadcast (str %d) at (%d %d)",
-                           tref.signal_strength, dbgpos.x(), dbgpos.y() );
-            const radio_tower *selected_tower = tref.tower;
-            if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
-                message = selected_tower->message;
-            } else if( selected_tower->type == radio_type::WEATHER_RADIO ) {
-                message = weather_forecast( tref.abs_sm_pos );
-            }
-
-            const city *c = overmap_buffer.closest_city( tripoint_abs_sm( tref.abs_sm_pos, 0 ) ).city;
-            //~ radio noise
-            const std::string cityname = c == nullptr ? _( "ksssh" ) : c->name;
-
-            replace_city_tag( message, cityname );
-            int static_chance = radio_static_chance( tref );
-            add_msg_debug( debugmode::DF_RADIO, "Message: '%s' at %d%% noise", message, static_chance );
-            message = obscure_message( message, [&static_chance]()->int {
-                if( x_in_y( static_chance, 100 ) )
-                {
-                    // Gradually replace random characters with noise as distance increases
-                    if( one_in( 3 ) && static_chance - rng( 0, 25 ) < 50 ) {
-                        // Replace with random character
-                        return 0;
-                    }
-                    // Replace with '#'
-                    return '#';
-                }
-                // Leave unchanged
-                return -1;
-            } );
-
-            std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
-            int index = to_turn<int>( calendar::turn ) % segments.size();
-            message = string_format( _( "radio: %s" ), segments[index] );
-        }
-        sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
-        if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
-            if( one_in( 10 ) ) {
-                sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
-            } else if( one_in( 10 ) ) {
-                sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio, 300, -1,
-                                                 0 );
-            }
-        }
-    } else { // Activated
-        int ch = 1;
-        if( it->ammo_sufficient( p ) ) {
-            ch = uilist( _( "Radio:" ), {
-                _( "Scan" ), _( "Turn off" )
-            } );
+    std::string message = _( "Radio: Kssssssssssssh." );
+    const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
+    add_msg_debug( debugmode::DF_RADIO, "Set freq: %d", it->frequency );
+    if( tref ) {
+        point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
+        add_msg_debug( debugmode::DF_RADIO, "found broadcast (str %d) at (%d %d)",
+                       tref.signal_strength, dbgpos.x(), dbgpos.y() );
+        const radio_tower *selected_tower = tref.tower;
+        if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
+            message = selected_tower->message;
+        } else if( selected_tower->type == radio_type::WEATHER_RADIO ) {
+            message = weather_forecast( tref.abs_sm_pos );
         }
 
-        const auto tower_desc = []( const int noise ) {
-            if( noise == 0 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_0" )->translated();
-            } else if( noise <= 20 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_20" )->translated();
-            } else if( noise <= 40 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_40" )->translated();
-            } else if( noise <= 60 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_60" )->translated();
-            } else if( noise <= 80 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_80" )->translated();
-            }
-            return SNIPPET.random_from_category( "radio_station_desc_noise_max" )->translated();
-        };
+        const city *c = overmap_buffer.closest_city( tripoint_abs_sm( tref.abs_sm_pos, 0 ) ).city;
+        //~ radio noise
+        const std::string cityname = c == nullptr ? _( "ksssh" ) : c->name;
 
-        switch( ch ) {
-            case 0: {
-                std::vector<radio_tower_reference> options = overmap_buffer.find_all_radio_stations();
-                if( options.empty() ) {
-                    popup( SNIPPET.random_from_category( "radio_scan_no_stations" )->translated() );
+        replace_city_tag( message, cityname );
+        int static_chance = radio_static_chance( tref );
+        add_msg_debug( debugmode::DF_RADIO, "Message: '%s' at %d%% noise", message, static_chance );
+        message = obscure_message( message, [&static_chance]()->int {
+            if( x_in_y( static_chance, 100 ) )
+            {
+                // Gradually replace random characters with noise as distance increases
+                if( one_in( 3 ) && static_chance - rng( 0, 25 ) < 50 ) {
+                    // Replace with random character
+                    return 0;
                 }
-                uilist scanlist;
-                scanlist.title = _( "Select a station" );
-                scanlist.desc_enabled = true;
-                add_msg_debug( debugmode::DF_RADIO, "Radio scan:" );
-                for( size_t i = 0; i < options.size(); ++i ) {
-                    std::string selected_text;
-                    const radio_tower_reference &tref = options[i];
-                    if( it->frequency == tref.tower->frequency ) {
-                        selected_text = pgettext( "radio station", " (selected)" );
-                    }
-                    //~ Selected radio station, %d is a number in sequence (1,2,3...),
-                    //~ %s is ' (selected)' if this is the radio station playing, else nothing
-                    const std::string station_name = string_format( _( "Station %d%s" ), i + 1, selected_text );
-                    const int noise_chance = radio_static_chance( tref );
-                    scanlist.addentry_desc( i, true, MENU_AUTOASSIGN, station_name, tower_desc( noise_chance ) );
-                    const point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
-                    add_msg_debug( debugmode::DF_RADIO, "  %d: %d at (%d %d) str [%d/%d]", i + 1, tref.tower->frequency,
-                                   dbgpos.x(), dbgpos.y(), tref.signal_strength, tref.tower->strength );
-                }
-                scanlist.query();
-                const int sel = scanlist.ret;
-                if( sel >= 0 && static_cast<size_t>( sel ) < options.size() ) {
-                    it->frequency = options[sel].tower->frequency;
-                    break;
-                }
+                // Replace with '#'
+                return '#';
             }
-            break;
-            case 1:
-                p->add_msg_if_player( _( "The radio dies." ) );
-                it->convert( itype_radio ).active = false;
-                sfx::fade_audio_channel( sfx::channel::radio, 300 );
-                break;
-            default:
-                break;
+            // Leave unchanged
+            return -1;
+        } );
+
+        std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
+        int index = to_turn<int>( calendar::turn ) % segments.size();
+        message = string_format( _( "radio: %s" ), segments[index] );
+    }
+    sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
+    if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
+        if( one_in( 10 ) ) {
+            sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
+        } else if( one_in( 10 ) ) {
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio, 300, -1,
+                                             0 );
         }
+    }
+}
+
+std::optional<int> iuse::radio_on( Character *p, item *it, bool, const tripoint &pos )
+{
+
+    const auto tower_desc = []( const int noise ) {
+        if( noise == 0 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_0" )->translated();
+        } else if( noise <= 20 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_20" )->translated();
+        } else if( noise <= 40 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_40" )->translated();
+        } else if( noise <= 60 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_60" )->translated();
+        } else if( noise <= 80 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_80" )->translated();
+        }
+        return SNIPPET.random_from_category( "radio_station_desc_noise_max" )->translated();
+    };
+
+    std::vector<radio_tower_reference> options = overmap_buffer.find_all_radio_stations();
+    if( options.empty() ) {
+        popup( SNIPPET.random_from_category( "radio_scan_no_stations" )->translated() );
+    }
+    uilist scanlist;
+    scanlist.title = _( "Select a station" );
+    scanlist.desc_enabled = true;
+    add_msg_debug( debugmode::DF_RADIO, "Radio scan:" );
+    for( size_t i = 0; i < options.size(); ++i ) {
+        std::string selected_text;
+        const radio_tower_reference &tref = options[i];
+        if( it->frequency == tref.tower->frequency ) {
+            selected_text = pgettext( "radio station", " (selected)" );
+        }
+        //~ Selected radio station, %d is a number in sequence (1,2,3...),
+        //~ %s is ' (selected)' if this is the radio station playing, else nothing
+        const std::string station_name = string_format( _( "Station %d%s" ), i + 1, selected_text );
+        const int noise_chance = radio_static_chance( tref );
+        scanlist.addentry_desc( i, true, MENU_AUTOASSIGN, station_name, tower_desc( noise_chance ) );
+        const point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
+        add_msg_debug( debugmode::DF_RADIO, "  %d: %d at (%d %d) str [%d/%d]", i + 1, tref.tower->frequency,
+                       dbgpos.x(), dbgpos.y(), tref.signal_strength, tref.tower->strength );
+    }
+    scanlist.query();
+    const int sel = scanlist.ret;
+    if( sel >= 0 && static_cast<size_t>( sel ) < options.size() ) {
+        it->frequency = options[sel].tower->frequency;
     }
     return 1;
 }

@@ -801,7 +801,7 @@
   {
     "type": "item_action",
     "id": "RADIO_ON",
-    "name": { "str": "Turn off" }
+    "name": { "str": "scan" }
   },
   {
     "type": "item_action",

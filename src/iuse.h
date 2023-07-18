@@ -172,6 +172,7 @@ std::optional<int> radglove( Character *, item *, bool, const tripoint & );
 std::optional<int> radio_mod( Character *, item *, bool, const tripoint & );
 std::optional<int> radio_off( Character *, item *, bool, const tripoint & );
 std::optional<int> radio_on( Character *, item *, bool, const tripoint & );
+std::optional<int> radio_tick( Character *, item *, bool, const tripoint & );
 std::optional<int> remove_all_mods( Character *, item *, bool, const tripoint & );
 std::optional<int> rm13armor_off( Character *, item *, bool, const tripoint & );
 std::optional<int> rm13armor_on( Character *, item *, bool, const tripoint & );

@@ -1982,7 +1982,7 @@ std::unique_ptr<iuse_actor> play_instrument_iuse::clone() const
 std::optional<int> play_instrument_iuse::use( Character *p, item &it, bool, const tripoint & ) const
 {
     if( it.active ) {
-		it.active = false;
+        it.active = false;
         p->add_msg_player_or_npc( _( "You stop playing your %s." ),
                                   _( "<npcname> stops playing their %s." ),
                                   it.display_name() );
@@ -1991,7 +1991,7 @@ std::optional<int> play_instrument_iuse::use( Character *p, item &it, bool, cons
                                   _( "You start playing your %s." ),
                                   _( "<npcname> starts playing their %s." ),
                                   it.display_name() );
-		it.active = true;
+        it.active = true;
     }
     return std::nullopt;
 }
