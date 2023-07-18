@@ -292,6 +292,7 @@ biomancy
 biomaterials
 biomatter
 biome
+biomes
 biomonitor
 bioparts
 bioprinted
@@ -1363,6 +1364,7 @@ hyperaggressive
 hyperboloid
 hyperboloids
 hyperdimensional
+hyperfocus
 hypergeometric
 hypermedia
 hypervelocity
@@ -1438,6 +1440,7 @@ inulin
 inverts
 invlets
 ios
+irising
 ironshod
 irradiance
 irremovable
