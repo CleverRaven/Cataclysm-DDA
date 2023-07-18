@@ -100,6 +100,7 @@ enum class debug_menu_index : int {
     IMPORT_FOLLOWER,
     EXPORT_FOLLOWER,
     EXPORT_SELF,
+    QUICK_SETUP,
     last
 };
 
