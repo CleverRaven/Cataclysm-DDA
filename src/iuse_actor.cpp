@@ -1952,12 +1952,12 @@ std::unique_ptr<iuse_actor> manualnoise_actor::clone() const
 
 std::optional<int> manualnoise_actor::use( Character *p, item &it, bool, const tripoint & ) const
 {
-        p->moves -= moves;
-        if( noise > 0 ) {
-            sounds::sound( p->pos(), noise, sounds::sound_t::activity,
-                           noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
-        }
-        p->add_msg_if_player( "%s", use_message );
+    p->moves -= moves;
+    if( noise > 0 ) {
+        sounds::sound( p->pos(), noise, sounds::sound_t::activity,
+                       noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
+    }
+    p->add_msg_if_player( "%s", use_message );
     return 1;
 }
 
