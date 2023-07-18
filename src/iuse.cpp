@@ -210,7 +210,7 @@ static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slimed( "slimed" );
-static const efftype_id effect_smoke( "smoke" );
+static const efftype_id effect_smoke_lungs( "smoke_lungs" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stimpack( "stimpack" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
@@ -1038,7 +1038,7 @@ std::optional<int> iuse::inhaler( Character *p, item *, bool, const tripoint & )
         }
     }
     p->add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
-    p->remove_effect( effect_smoke );
+    p->remove_effect( effect_smoke_lungs );
     return 1;
 }
 
@@ -1049,8 +1049,8 @@ std::optional<int> iuse::oxygen_bottle( Character *p, item *it, bool, const trip
                               it->tname() ),
                               string_format( _( "<npcname> breathes from the %s." ),
                                       it->tname() ) );
-    if( p->has_effect( effect_smoke ) ) {
-        p->remove_effect( effect_smoke );
+    if( p->has_effect( effect_smoke_lungs ) ) {
+        p->remove_effect( effect_smoke_lungs );
     } else if( p->has_effect( effect_teargas ) ) {
         p->remove_effect( effect_teargas );
     } else if( p->has_effect( effect_asthma ) ) {

@@ -3449,6 +3449,29 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
     }
 }
 
+static void fvat_set_empty( const tripoint &pos )
+{
+    map &here = get_map();
+    furn_id furn = here.furn( pos );
+    if( furn == f_fvat_wood_empty || furn == f_fvat_wood_full ) {
+        here.furn_set( pos, f_fvat_wood_empty );
+    } else {
+        here.furn_set( pos, f_fvat_empty );
+    }
+}
+
+static void fvat_set_full( const tripoint &pos )
+{
+    map &here = get_map();
+    furn_id furn = here.furn( pos );
+    if( furn == f_fvat_wood_empty || furn == f_fvat_wood_full ) {
+        here.furn_set( pos, f_fvat_wood_full );
+    } else {
+        here.furn_set( pos, f_fvat_full );
+    }
+}
+
+
 void iexamine::fvat_empty( Character &you, const tripoint &examp )
 {
     itype_id brew_type;
@@ -3566,7 +3589,7 @@ void iexamine::fvat_empty( Character &you, const tripoint &examp )
     }
     if( vat_full || ferment ) {
         here.i_at( examp ).only_item().set_age( 0_turns );
-        here.furn_set( examp, f_fvat_full );
+        fvat_set_full( examp );
         if( vat_full ) {
             add_msg( _( "The vat is full, so you close the lid and start the fermenting cycle." ) );
         } else {
@@ -3581,7 +3604,7 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
     map_stack items_here = here.i_at( examp );
     if( items_here.empty() ) {
         debugmsg( "fvat_full was empty!" );
-        here.furn_set( examp, f_fvat_empty );
+        fvat_set_empty( examp );
         return;
     }
 
@@ -3594,7 +3617,7 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
     }
 
     if( items_here.empty() ) {
-        here.furn_set( examp, f_fvat_empty );
+        fvat_set_empty( examp );
         return;
     }
 
@@ -3643,7 +3666,7 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
 
     const std::string booze_name = brew_i.tname();
     if( liquid_handler::handle_liquid_from_ground( items_here.begin(), examp ) ) {
-        here.furn_set( examp, f_fvat_empty );
+        fvat_set_empty( examp );
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
     }
 }
@@ -6513,9 +6536,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
     if( part ) {
         name = part->part().name();
-        vehicle_stack items_at_part = part->vehicle().get_items( part->part_index() );
-
-        for( item &it : items_at_part ) {
+        for( item &it : part->items() ) {
             if( it.is_craft() ) {
                 crafts.emplace_back( vehicle_cursor( part->vehicle(), part->part_index() ), &it );
             }

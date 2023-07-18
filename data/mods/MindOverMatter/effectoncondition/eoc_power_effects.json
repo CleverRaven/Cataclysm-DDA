@@ -54,5 +54,21 @@
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_VITAKINESIS" } ] },
     "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: VITAKINETIC')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_RESIST_POTION_COMEDOWN_PENALTY",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_noetic_resilience_comedown" },
+    "effect": [
+      { "math": [ "u_val('spell_level_adjustment', 'school: BIOKINETIC')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: PYROKINETIC')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TELEKINETIC')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPATH')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPORTER')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: VITAKINETIC')", "=", "-3" ] }
+    ]
   }
 ]
