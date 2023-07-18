@@ -1889,15 +1889,9 @@ ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it,
 void fireweapon_on_actor::load( const JsonObject &obj )
 {
     obj.read( "noise_message", noise_message );
-    obj.get_member( "voluntary_extinguish_message" ).read( voluntary_extinguish_message );
     obj.get_member( "charges_extinguish_message" ).read( charges_extinguish_message );
     obj.get_member( "water_extinguish_message" ).read( water_extinguish_message );
-    noise                           = obj.get_int( "noise", 0 );
     noise_chance                    = obj.get_int( "noise_chance", 1 );
-    auto_extinguish_chance          = obj.get_int( "auto_extinguish_chance", 0 );
-    if( auto_extinguish_chance > 0 ) {
-        obj.get_member( "auto_extinguish_message" ).read( auto_extinguish_message );
-    }
 }
 
 std::unique_ptr<iuse_actor> fireweapon_on_actor::clone() const
@@ -1905,31 +1899,36 @@ std::unique_ptr<iuse_actor> fireweapon_on_actor::clone() const
     return std::make_unique<fireweapon_on_actor>( *this );
 }
 
-std::optional<int> fireweapon_on_actor::use( Character *p, item &it, bool t,
-        const tripoint & ) const
+std::optional<int> fireweapon_on_actor::use( Character *p, item &it, bool,
+        const tripoint &pos ) const
 {
     bool extinguish = true;
+    translation deactivation_msg;
     if( !it.ammo_sufficient( p ) ) {
-        p->add_msg_if_player( m_bad, "%s", charges_extinguish_message );
-    } else if( p->is_underwater() ) {
-        p->add_msg_if_player( m_bad, "%s", water_extinguish_message );
-    } else if( auto_extinguish_chance > 0 && one_in( auto_extinguish_chance ) ) {
-        p->add_msg_if_player( m_bad, "%s", auto_extinguish_message );
-    } else if( !t ) {
-        p->add_msg_if_player( "%s", voluntary_extinguish_message );
+        deactivation_msg = charges_extinguish_message;
+    } else if( p && p->is_underwater() ) {
+        deactivation_msg = water_extinguish_message;
     } else {
         extinguish = false;
     }
 
+    if( !p ) {
+        map &here = get_map();
+        if( here.is_water_shallow_current( pos ) || here.is_divable( pos ) ) {
+            // Item is on ground on water
+            extinguish = true;
+        }
+    }
+
     if( extinguish ) {
         it.deactivate( p, false );
-
-    } else if( one_in( noise_chance ) ) {
-        if( noise > 0 ) {
-            sounds::sound( p->pos(), noise, sounds::sound_t::combat, noise_message );
-        } else {
-            p->add_msg_if_player( "%s", noise_message );
+        if( p ) {
+            p->add_msg_if_player( m_bad, "%s", deactivation_msg );
         }
+        return 0;
+
+    } else if( p && one_in( noise_chance ) ) {
+        p->add_msg_if_player( "%s", noise_message );
     }
 
     return 1;

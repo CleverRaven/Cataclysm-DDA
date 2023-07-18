@@ -567,13 +567,10 @@ class fireweapon_on_actor : public iuse_actor
 {
     public:
         translation noise_message = to_translation( "hsss" ); // If noise is 0, message content instead
-        translation voluntary_extinguish_message;
         translation charges_extinguish_message;
         translation water_extinguish_message;
         translation auto_extinguish_message;
-        int noise = 0; // If 0, it produces a message instead of noise
         int noise_chance = 1; // one_in(this variable)
-        int auto_extinguish_chance = 0; // one_in(this) per turn to fail
 
         explicit fireweapon_on_actor( const std::string &type = "fireweapon_on" ) : iuse_actor( type ) {}
 
