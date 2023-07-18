@@ -993,7 +993,7 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
             // Even if we miss here, low roll means weapon is pushed away or something like that
             if( inter->has_effect( effect_pet ) || ( inter->is_npc() &&
                     inter->as_npc()->is_friendly( get_player_character() ) ) ) {
-                if( query_yn( _( "Your attack will cause accidental injury, continue?" ) ) ) {
+                if( query_yn( _( "Your attack may cause accidental injury, continue?" ) ) ) {
                     critter = inter;
                     break;
                 } else {
