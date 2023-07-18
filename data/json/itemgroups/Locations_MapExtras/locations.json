@@ -2600,9 +2600,17 @@
   {
     "id": "mil_base_corpse_soldier",
     "type": "item_group",
-    "//": "Soldier corpse with clothes, without gear.",
+    "//": "Nested to damage corpse.",
     "subtype": "collection",
-    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] }, { "item": "corpse_generic_human" } ]
+    "entries": [ { "group": "mil_base_corpse_corpse_soldier", "damage": [ 2, 4 ] } ]
+  },
+  {
+    "id": "mil_base_corpse_corpse_soldier",
+    "type": "item_group",
+    "//": "Nested to damage all gear.",
+    "subtype": "collection",
+    "container-item": "corpse_generic_human",
+    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] } ]
   },
   {
     "id": "mil_base_clothes_corpse_soldier",
