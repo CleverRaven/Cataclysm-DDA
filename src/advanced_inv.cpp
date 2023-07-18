@@ -1200,6 +1200,10 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                 // If we're here from the inventory, skip past individual worn items straight to the full inventory view.
                 change_square( AIM_INVENTORY, dpane, spane );
             } else {
+                if( spane.container.parent_item() == dpane.container ) {
+                    swap_panes();
+                    return;
+                }
                 spane.container = spane.container.parent_item();
                 spane.set_area( squares[AIM_CONTAINER], false );
             }
@@ -1213,8 +1217,13 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                    changeSquare == AIM_CONTAINER && spane.get_cur_item_ptr() != nullptr ?
                    spane.get_cur_item_ptr()->items.front() : item_location::nowhere ) ) {
         if( changeSquare == AIM_CONTAINER ) {
+            item_location &target_container = spane.get_cur_item_ptr()->items.front();
+            if( target_container == dpane.container ) {
+                swap_panes();
+                return;
+            }
             // Set the pane's container to the selected item.
-            spane.container = spane.get_cur_item_ptr()->items.front();
+            spane.container = target_container;
             if( spane.get_area() != AIM_CONTAINER ) {
                 spane.container_base_loc = spane.get_area();
             }
@@ -2143,6 +2152,8 @@ void advanced_inventory::swap_panes()
     std::swap( panes[left], panes[right] );
     // Switch save states
     std::swap( panes[left].save_state, panes[right].save_state );
+    // Switch currently selected item
+    std::swap( panes[left].target_item_after_recalc, panes[right].target_item_after_recalc );
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
     // Recalculation required for weight & volume
