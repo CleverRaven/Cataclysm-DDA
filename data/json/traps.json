@@ -85,7 +85,8 @@
     "floor_bedding_warmth": 800,
     "action": "none",
     "drops": [ "mattress" ],
-    "benign": true
+    "benign": true,
+    "looks_like": "f_floor_mattress"
   },
   {
     "type": "trap",
@@ -100,7 +101,8 @@
     "floor_bedding_warmth": 800,
     "action": "none",
     "drops": [ "down_mattress" ],
-    "benign": true
+    "benign": true,
+    "looks_like": "f_floor_mattress"
   },
   {
     "type": "trap",
