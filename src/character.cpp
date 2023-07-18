@@ -659,7 +659,7 @@ void Character::set_wielded_item( const item &to_wield )
 
 int Character::get_oxygen_max() const
 {
-    return 30 + has_bionic( bio_synlungs ) ? 70 : 2 * str_cur;
+    return 30 + has_bionic( bio_synlungs ) ? 30 : 2 * str_cur;
 }
 
 bool Character::can_recover_oxygen() const
