@@ -445,6 +445,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||
                 has_flag( json_flag_BIONIC_GUN ) ||
                 power_activate > 0_kJ ||
+                spell_on_activate > 0_kJ ||
                 charge_time > 0_turns;
 
     if( has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
