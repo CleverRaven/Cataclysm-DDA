@@ -4196,7 +4196,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "sound_volume": 5        // Loudness of the noise.
 }
 "use_action": {
-    "type": "manualnoise",   // Makes sound
+    "type": "manualnoise",   // Makes sound. Insludes ammo checks and may take moves from player
     "use_message": "You do the thing" // Shown to player who activated it
     "noise_message": "Bzzz"  // Shown if player can hear the sound. Default "hsss".
     "noise_variant":         // Default "default"
