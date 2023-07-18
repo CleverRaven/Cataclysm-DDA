@@ -1949,7 +1949,7 @@ std::unique_ptr<iuse_actor> manualnoise_actor::clone() const
     return std::make_unique<manualnoise_actor>( *this );
 }
 
-std::optional<int> manualnoise_actor::use( Character *p, item &it, bool, const tripoint & ) const
+std::optional<int> manualnoise_actor::use( Character *p, item &, bool, const tripoint & ) const
 {
     p->moves -= moves;
     if( noise > 0 ) {
