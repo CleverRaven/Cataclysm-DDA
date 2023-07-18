@@ -1574,6 +1574,18 @@
     "passive_pseudo_items": [ "fake_goggles" ]
   },
   {
+    "id": "bio_synlungs",
+    "type": "bionic",
+    "name": { "str": "Synthetic Lungs" },
+    "description": "You have highly efficient artificial lungs which greatly increase your oxygen intake.  If they are not powered you will suffocate.",
+    "occupied_bodyparts": [ [ "torso", 5 ] ],
+    "flags": [ "BIONIC_SLEEP_FRIENDLY", "BIO_SHOCKPROOF" ],
+    "act_cost": "2 J",
+    "react_cost": "2 J",
+    "time": "1 s",
+    "activated_on_install": true
+  },
+  {
     "id": "bio_targeting",
     "type": "bionic",
     "name": { "str": "Targeting System" },
