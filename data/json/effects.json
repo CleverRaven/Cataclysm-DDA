@@ -1779,15 +1779,68 @@
   },
   {
     "type": "effect_type",
-    "id": "smoke",
-    "name": [ { "ctxt": "inhaled", "str": "Smoke" } ],
-    "desc": [ "You've inhaled a lungful of thick smoke." ],
-    "apply_message": "You inhale a lungful of thick smoke.",
-    "rating": "bad",
+    "id": "smoke_eyes",
+    "name": [
+      "Little Eye Irritation (Smoke)",
+      "Minor Eye Irritation (Smoke)",
+      "Huge Eye Irritation (Smoke)",
+      "Bad Eye Irritation (Smoke)"
+    ],
+    "desc": [
+      "Your eyes mildly irritate.",
+      "Your eyes watering.",
+      "Your eyes tear and stings heavily.",
+      "Your eyes burn out of smoke, and you hardly see anything."
+    ],
+    "apply_message": [
+      [ "Your eyes mildly irritate.", "bad" ],
+      [ "Your eyes watering out of smoke.", "bad" ],
+      [ "Your eyes tear and stings heavily.", "bad" ],
+      [ "Your eyes burn out of smoke, and you hardly see anything.", "bad" ]
+    ],
+    "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
+    "max_duration": "3 m",
+    "max_intensity": 4,
+    "int_decay_tick": 40,
+    "base_mods": { "per_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -1 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "smoke_lungs",
+    "name": [ "Inhaled Some Smoke", "Inhaled Plenty of Smoke", "Smoke Inhalation", "Bad Smoke Inhalation" ],
+    "desc": [
+      "You draw in a faint whiff of smoke.",
+      "Noticeable amount of smoke fills your lungs.",
+      "Dense cloud of smoke enter your lungs.",
+      "You inhale an overwhelming amount of smoke."
+    ],
+    "apply_message": [
+      [ "You draw in a faint whiff of smoke.", "bad" ],
+      [ "Noticeable amount of smoke fills your lungs.", "bad" ],
+      [ "Dense cloud of smoke enter your lungs.", "bad" ],
+      [ "You inhale an overwhelming amount of smoke.", "bad" ]
+    ],
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,
-    "max_duration": "10 m",
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "max_duration": "3 m",
+    "max_intensity": 4,
+    "int_decay_tick": 40,
+    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "limb_score_mods": [
+      { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.25 },
+      { "limb_score": "reaction", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "balance", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "lift", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "manip", "resist_modifier": 1, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
   {
