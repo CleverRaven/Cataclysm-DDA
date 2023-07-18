@@ -1407,17 +1407,11 @@ void suffer::from_bad_bionics( Character &you )
     if( you.has_bionic( bio_synlungs ) && !you.has_active_bionic( bio_synlungs ) &&
         !you.has_effect( effect_narcosis ) ) {
         if( you.get_power_level() >= bio_synlungs->power_trigger ) {
-            you.activate_bionic( you.find_bionic_by_type( bio_synlungs ) );
+			std::optional<bionic *> bio_opt = you.find_bionic_by_type( bio_synlungs );
+            you.activate_bionic( **bio_opt );
         } else {
-            you.oxygen--;
+			you.mod_stamina( -2000 );
             you.add_msg_if_player( m_bad, _( "Emergency! User's lungs are not powered!" ) );
-            if( you.oxygen <= 5 ) {
-                you.add_msg_if_player( m_bad, _( "You're suffocating!" ) );
-                if( uistate.distraction_oxygen && you.is_avatar() ) {
-                    g->cancel_activity_or_ignore_query( distraction_type::oxygen, _( "You're suffocating!" ) );
-                }
-                you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
-            }
         }
     }
     if( you.has_bionic( bio_dis_shock ) && you.get_power_level() > bio_dis_shock->power_trigger &&
