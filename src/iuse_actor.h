@@ -589,7 +589,6 @@ class fireweapon_on_actor : public iuse_actor
 class manualnoise_actor : public iuse_actor
 {
     public:
-        translation no_charges_message;
         translation use_message;
         translation noise_message = to_translation( "hsss" );
         std::string noise_id;

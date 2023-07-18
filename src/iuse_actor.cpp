@@ -1937,7 +1937,6 @@ std::optional<int> fireweapon_on_actor::use( Character *p, item &it, bool t,
 
 void manualnoise_actor::load( const JsonObject &obj )
 {
-    obj.get_member( "no_charges_message" ).read( no_charges_message );
     obj.get_member( "use_message" ).read( use_message );
     obj.read( "noise_message", noise_message );
     noise_id            = obj.get_string( "noise_id", "misc" );
@@ -1951,23 +1950,14 @@ std::unique_ptr<iuse_actor> manualnoise_actor::clone() const
     return std::make_unique<manualnoise_actor>( *this );
 }
 
-std::optional<int> manualnoise_actor::use( Character *p, item &it, bool t, const tripoint & ) const
+std::optional<int> manualnoise_actor::use( Character *p, item &it, bool, const tripoint & ) const
 {
-    if( t ) {
-        return std::nullopt;
-    }
-    if( !it.ammo_sufficient( p ) ) {
-        p->add_msg_if_player( "%s", no_charges_message );
-        return std::nullopt;
-    }
-    {
         p->moves -= moves;
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, sounds::sound_t::activity,
                            noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
         }
         p->add_msg_if_player( "%s", use_message );
-    }
     return 1;
 }
 

@@ -3952,9 +3952,6 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "explosion", // An item that explodes when it runs out of charges.
-    "sound_volume": 0, // Volume of a sound the item makes every turn.
-    "sound_msg": "Tick.", // Message describing sound the item makes every turn.
-    "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.", // Message to display if the player tries to activate the item, prevents activation from succeeding if defined.
     "explosion": { // Optional: physical explosion data
         // Specified like `"explosion"` field in generic items
     },
@@ -4191,6 +4188,21 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type": "message",      // Displays message text
     "message": "Read this.",// Message that is shown
     "name": "Light fuse"    // Optional name for the action. Default "Activate".
+}
+"use_action": {
+    "type": "sound",         // Makes sound
+    "name": "Turn on"        // Optional name for the action. Default "Activate".
+    "sound_message": "Bzzzz.", // Optional message shown to player if they are able to hear the sound.
+    "sound_volume": 5        // Loudness of the noise.
+}
+"use_action": {
+    "type": "manualnoise",   // Makes sound
+    "use_message": "You do the thing" // Shown to player who activated it
+    "noise_message": "Bzzz"  // Shown if player can hear the sound. Default "hsss".
+    "noise_variant":         // Default "default"
+    "noise_id": "misc"       // Default "misc"
+    "noise" : 6              // Loudness of the noise. Default 0.
+    "moves" : 40             // How long the action takes. Default 0.
 }
 ```
 
