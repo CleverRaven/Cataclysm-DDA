@@ -137,7 +137,6 @@ The player is substantially less effective with guns at low skill values
 Lycra is less protective
 BMI has a less all consuming impact on how healthy you are
 Being badly wounded will always allow you to swap characters in camp while you heal
-Certain previously non dodgeable attacks can be dodged
 Intelligence provides a multiplier to current focus rather than adding to its value
 
 
@@ -193,7 +192,6 @@ Flat armor penetration is spread across all armor layers instead of applying its
 Fix tow cables being unable to connect different vehicles
 Smashing now incorporates any MELEE_DAMAGE and STRENGTH enchantments
 'w'ield menu will now correctly trigger a steal warning when wielding an item that does not belong to player
-Add missing dialogue to tell Rubik about the Hub
 Allow crafting tools to use linked electricity
 
 
