@@ -1,0 +1,97 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "JSONroad_nes",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "    ................    ",
+        "    .......**.......    ",
+        "    .......**.......    ",
+        "    .......**.......    ",
+        "    ................*...",
+        "    .......**.......*...",
+        "    .......**.......*...",
+        "    .......**.......*...",
+        "    ................*...",
+        "    .......**.......*...",
+        "    .......**.......*...",
+        "    .......**.......***.",
+        "    ................***.",
+        "    .......**...........",
+        "    .......**...........",
+        "    .......**...........",
+        "    ....................",
+        "    .......**...........",
+        "    .......**...........",
+        "    .......**...........",
+        "    ................    ",
+        "    .......**.......    ",
+        "    .......**.......    ",
+        "    .......**.......    "
+      ],
+      "palettes": [ "road_palette" ],
+      "place_nested": [
+        { "chunks": [ "24x24_sidewalk_nes_corner_half_n" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_ew_corner_double" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 20, "flags": { "south_east": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_nes_corner_half_s" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 12, "flags": { "south_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_ns_long" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
+        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_sidewalk_nes_corner_half_n",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [ { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_sidewalk_nes_corner_half_s",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 12 },
+        { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 20 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_sidewalk_ew_corner_double",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x4_sidewalk_corner",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "____",
+        "____",
+        "____",
+        "____"
+      ],
+      "palettes": [ "road_palette" ]
+    }
+  }
+]
