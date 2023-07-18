@@ -230,8 +230,9 @@ void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) co
         next_furn(
             furn_at_loc->id );
     const trap_str_id trap_at_loc = m.maptile_at( location ).get_trap().id();
-    std::optional<std::pair<trap_str_id, std::pair<std::optional<translation>, bool>>> trap_potential = next_trap(
-                trap_at_loc );
+    std::optional<std::pair<trap_str_id, std::pair<std::optional<translation>, bool>>> trap_potential =
+        next_trap(
+            trap_at_loc );
 
     const field &field_at_loc = m.field_at( location );
     for( const auto &fld : field_at_loc ) {
