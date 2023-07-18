@@ -1,0 +1,82 @@
+[
+  {
+    "type": "palette",
+    "id": "road_palette",
+    "terrain": { ".": "t_pavement", "_": "t_sidewalk", "*": "t_pavement_y" },
+    "furniture": { "Y": "f_street_light" }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_road",
+    "name": "road",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_ns" ],
+    "copy-from": "generic_road",
+    "sym": "|"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_ew" ],
+    "copy-from": "generic_road",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_sw" ],
+    "copy-from": "generic_road",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Incorrectly named",
+    "id": [ "JSONroad_wn" ],
+    "copy-from": "generic_road",
+    "sym": "┘"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_ne" ],
+    "copy-from": "generic_road",
+    "sym": "└"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_es" ],
+    "copy-from": "generic_road",
+    "sym": "┌"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_new" ],
+    "copy-from": "generic_road",
+    "sym": "┴"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_nes" ],
+    "copy-from": "generic_road",
+    "sym": "├"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_esw" ],
+    "copy-from": "generic_road",
+    "sym": "┬"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_nsw" ],
+    "copy-from": "generic_road",
+    "sym": "┤"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "JSONroad_nesw" ],
+    "copy-from": "generic_road",
+    "sym": "┼"
+  }
+]
