@@ -1,0 +1,18 @@
+[
+  {
+    "result": "lump_cast_iron",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "chunk_cast_iron", 4 ] ] ]
+  },
+  {
+    "result": "chunk_cast_iron",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_cast_iron", 5 ] ] ]
+  }
+]
