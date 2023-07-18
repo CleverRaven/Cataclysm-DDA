@@ -288,7 +288,8 @@ void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) co
     if( ter_potential ) {
         m.ter_set( location, ter_potential->first );
         if( you.sees( location ) && ter_potential->second.first.has_value() ) {
-            you.add_msg_if_player( ter_potential->second.first.value().translated(), ter_potential->second.second ? m_good : m_bad );
+            you.add_msg_if_player( ter_potential->second.first.value().translated(),
+                                   ter_potential->second.second ? m_good : m_bad );
         }
     }
     if( furn_potential ) {
