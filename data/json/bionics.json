@@ -1586,7 +1586,7 @@
     "activated_on_install": true,
     "trigger_cost": "3 J",
     "cant_remove_reason": "The CBM has replaced the patient's lungs and cannot be removed.",
-    "canceled_mutations": [ "GOODCARDIO", "BADCARDIO", "GOODCARDIO2", "PERSISTENCE_HUNTER", "PERSISTENCE_HUNTER2" ]
+    "canceled_mutations": [ "GOODCARDIO", "BADCARDIO", "GOODCARDIO2", "PERSISTENCE_HUNTER", "PERSISTENCE_HUNTER2", "ASTHMA" ]
   },
   {
     "id": "bio_targeting",
