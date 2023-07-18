@@ -1542,10 +1542,10 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             if( e.get_int_dur_factor() > 0_turns ) {
                 // Set intensity if value is given
             } else if( intensity > 0 ) {
-                e.set_intensity( intensity );
+                e.set_intensity( intensity, true );
                 // Else intensity uses the type'd step size if it already exists
             } else if( e.get_int_add_val() != 0 ) {
-                e.mod_intensity( e.get_int_add_val() );
+                e.mod_intensity( e.get_int_add_val(), true );
             }
 
             // Bound intensity by [1, max intensity]
@@ -1598,8 +1598,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
-            if( is_avatar() && !type.get_apply_message().empty() ) {
-                add_msg( type.gain_game_message_type(), type.get_apply_message() );
+            if( is_avatar() ) {
+                eff_id->add_apply_msg( e.get_intensity() );
             }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
@@ -1681,7 +1681,8 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
     if( Character *ch = as_character() ) {
         if( is_avatar() ) {
             if( !type.get_remove_message().empty() ) {
-                add_msg( type.lose_game_message_type(), type.get_remove_message() );
+                add_msg( type.lose_game_message_type( get_effect( eff_id, bp.id() ).get_intensity() ),
+                         type.get_remove_message() );
             }
         }
         get_event_bus().send<event_type::character_loses_effect>( ch->getID(), eff_id );

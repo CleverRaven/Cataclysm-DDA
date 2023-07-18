@@ -140,6 +140,11 @@
     "//": "Dies in full sunlight"
   },
   {
+    "id": "PHOTOPHOBIC",
+    "type": "monster_flag",
+    "//": "Severely weakened in sufficient light (applies photophobia effect)"
+  },
+  {
     "id": "ELECTRIC",
     "type": "monster_flag",
     "//": "Shocks unarmed attackers"

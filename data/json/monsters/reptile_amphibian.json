@@ -191,6 +191,8 @@
     "hp": 2,
     "speed": 70,
     "dodge": 5,
+    "vision_day": 25,
+    "vision_night": 6,
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
@@ -199,7 +201,7 @@
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mammal_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "VENOM", "HARDTOSHOOT", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "VENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake",
@@ -227,7 +229,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 6,
     "vision_day": 30,
-    "vision_night": 5,
+    "vision_night": 8,
     "harvest": "mammal_tiny",
     "dissect": "dissect_lizard_sample_single",
     "special_attacks": [ [ "RATTLE", 6 ] ],
@@ -238,7 +240,7 @@
     "baby_flags": [ "SUMMER" ],
     "//babies": "On average, a female rattlesnake gives birth to at least eight babies, up to around fifteen.  Most baby rattlesnakes are born in the early summer, but sometimes in late summer and early autumn.",
     "upgrades": { "half_life": 34, "into": "mon_rattlesnake_big" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake_big",
@@ -285,13 +287,13 @@
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake_big" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mammal_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake_giant",
     "type": "MONSTER",
     "name": { "str": "giant rattlesnake" },
-    "description": "A large mutated timber rattlesnake, about six times as large as the norm.  While it isn't big enough to regard humans as potential prey, it is more aggressive and dangerous compared to a normal rattler.",
+    "description": "A large mutated timber rattlesnake, about six times as large as the norm.  While it still isn't big enough to regard humans as potential prey, it is much more aggressive and dangerous compared to a normal rattler.",
     "default_faction": "mutant",
     "bodytype": "snake",
     "categories": [ "WILDLIFE" ],
@@ -312,7 +314,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 4,
     "vision_day": 30,
-    "vision_night": 5,
+    "vision_night": 8,
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_lizard_sample_small",
     "special_attacks": [
@@ -329,21 +331,21 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
     "id": "mon_rattlesnake_mega",
     "type": "MONSTER",
     "name": { "str": "deathrattle serpent" },
-    "description": "A primal fear strikes when the club-like tail of this massively warped snake shifts, an assortment of bones rattling softly.  Multiple sets of hollow fangs have erupted in its maw, which itself is flanked by skinless ropes of powerful muscle.",
+    "description": "A primal fear strikes when the club-like tail of this massively warped snake shifts, an assortment of bones rattling softly.  Multiple sets of hollow fangs have erupted in its maw, which itself is flanked by skinless ropes of powerful muscle.  Its scales constantly shed off and regrow with unnatural speed.",
     "default_faction": "mutant",
     "bodytype": "snake",
     "categories": [ "WILDLIFE" ],
     "species": [ "REPTILE" ],
     "diff": 10,
-    "volume": "680 L",
-    "weight": "810 kg",
+    "volume": "620 L",
+    "weight": "760 kg",
     "hp": 400,
     "speed": 110,
     "material": [ "flesh" ],
@@ -361,7 +363,7 @@
     "vision_night": 35,
     "harvest": "mutant_animal_large_noskin",
     "dissect": "dissect_lizard_sample_large",
-    "//grab": "Pretty small, considering the description, but multiple teeth sound grabby",
+    "//grab": "Big jaw full of long fangs - about as grabby as you can get without multiple appendages, consider a coiling attack on next update",
     "//grab2": "You brought this upon yourself, serpentdom is proud",
     "grab_strength": 70,
     "special_attacks": [
@@ -374,12 +376,13 @@
         "infection_chance": 100
       }
     ],
+    "regenerates": 2,
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "reproduction": { "baby_monster": "mon_rattlesnake_big_s", "baby_count": 20, "baby_timer": 90 },
     "//babies": "Rattlesnake’s gestation period is around 90 days, but it varies depending on the breed.  The timber rattlesnake has a gestation period of up to five months.",
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
   {

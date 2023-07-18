@@ -1656,6 +1656,7 @@ lobotomizer
 lockpick
 lockpickers
 lockpicking
+lockpicks
 longarm
 longear
 longhair
@@ -2721,6 +2722,7 @@ spitter
 splashproof
 splicer
 splinting
+splintmail
 splorch
 splosh
 spoilage
