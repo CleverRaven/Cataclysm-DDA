@@ -88,7 +88,16 @@
           "dreamforged_longbow",
           "arrow_dreamforged",
           "dreamforged_crossbow",
-          "bolt_dreamforged"
+          "bolt_dreamforged",
+          "dreamforged_hacksaw",
+          "dreamforged_hammer",
+          "dreamforged_halligan",
+          "dreamforged_pliers_locking",
+          "dreamforged_pickaxe",
+          "dreamforged_picklocks",
+          "dreamforged_scalpel",
+          "dreamforged_e_tool",
+          "dreamforged_ax"
         ],
         "type": "recipe",
         "true_eocs": {

@@ -181,8 +181,12 @@ static const std::string camp_om_fortifications_trench_parameter = faction_wall_
 static const std::string camp_om_fortifications_spiked_trench_parameter =
     faction_wall_level_n_1_string;
 
+static const std::string var_time_between_succession =
+    "npctalk_var_time_between_succession";
+
 static const std::string var_timer_time_of_last_succession =
     "npctalk_var_timer_time_of_last_succession";
+
 
 //  These strings are matched against recipe group 'building_type'. Definite candidates for JSON definitions of
 //  the various UI strings corresponding to these groups.
@@ -1511,10 +1515,13 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
 
 void basecamp::choose_new_leader()
 {
-    // TODO: This is stupid as heck
-    time_point last_succession_time = time_point::from_turn( std::stoi(
+    // This is ugly, but dialogue vars are stored as strings, even if they hold data for times.
+    time_point last_succession_time = time_point::from_turn( std::stof(
                                           get_player_character().get_value( var_timer_time_of_last_succession ) ) );
-    time_point next_succession_chance = last_succession_time + 90_days;
+    time_duration succession_cooldown = time_duration::from_turns( std::stof(
+                                            get_globals().get_global_value(
+                                                    var_time_between_succession ) ) );
+    time_point next_succession_chance = last_succession_time + succession_cooldown;
     int current_time_int = to_seconds<int>( calendar::turn - calendar::turn_zero );
     if( next_succession_chance >= calendar::turn ) {
         popup( _( "It's too early for that.  A new leader can be chosen in %s days." ),

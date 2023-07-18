@@ -94,6 +94,15 @@ struct json_source_location {
     int offset = 0;
 };
 
+enum class json_error_output_colors_t {
+    unset,        // default value, will print a warning
+    no_colors,    // use when error output is a redirected pipe
+    color_tags,   // use when debugmsg will handle the errors in either SDL or curses mode
+    ansi_escapes, // use when error output will end up in stdout: in tooling, formatters or CI
+};
+
+extern json_error_output_colors_t json_error_output_colors;
+
 class TextJsonValue
 {
     private:

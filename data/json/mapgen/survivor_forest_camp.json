@@ -122,42 +122,58 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "clothes_unisex_survival",
+    "entries": [
+      { "group": "underwear_unisex", "prob": 100 },
+      { "group": "pants_unisex", "prob": 100 },
+      { "group": "shoes_unisex", "prob": 100 },
+      { "group": "shirts_unisex", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "corpse_child_survival",
+    "entries": [ { "group": "corpse_child_survival_undam", "damage": [ 3, 4 ], "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "corpse_child_survival_undam",
+    "container-item": "corpse_child_calm",
     "entries": [
       { "item": "childnote" },
       { "group": "child_items", "damage-min": 1, "damage-max": 3, "prob": 100 },
       { "group": "child_items", "damage-min": 1, "damage-max": 3, "prob": 50 },
       { "group": "child_bugout", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "corpse_child", "damage-min": 3, "damage-max": 4, "prob": 100 },
-      { "group": "underwear_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "pants_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "shoes_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "shirts_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 }
+      { "group": "clothes_unisex_survival", "damage": [ 1, 3 ], "prob": 100 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "corpse_female_survival",
-    "entries": [
-      { "group": "corpse_female", "damage-min": 3, "damage-max": 4 },
-      { "group": "underwear_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "pants_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "shoes_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "shirts_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 }
-    ]
+    "entries": [ { "group": "corpse_female_survival_undam", "damage": [ 3, 4 ], "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "corpse_female_survival_undam",
+    "container-item": "corpse_generic_female",
+    "entries": [ { "group": "clothes_unisex_survival", "damage": [ 1, 3 ], "prob": 100 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "corpses_unisex_survival",
-    "entries": [
-      { "group": "corpses", "damage-min": 3, "damage-max": 4 },
-      { "group": "underwear_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "pants_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "shoes_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 },
-      { "group": "shirts_unisex", "damage-min": 1, "damage-max": 3, "prob": 100 }
-    ]
+    "entries": [ { "group": "corpses_unisex_survival_undam", "damage": [ 3, 4 ], "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "corpses_unisex_survival_undam",
+    "container-item": "corpse_generic_human",
+    "entries": [ { "group": "clothes_unisex_survival", "damage": [ 1, 3 ], "prob": 100 } ]
   },
   {
     "type": "mapgen",

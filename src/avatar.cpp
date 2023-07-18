@@ -237,6 +237,11 @@ void avatar::toggle_map_memory()
     show_map_memory = !show_map_memory;
 }
 
+bool avatar::is_map_memory_valid() const
+{
+    return player_map_memory->is_valid();
+}
+
 bool avatar::should_show_map_memory() const
 {
     if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
@@ -247,20 +252,20 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getabs( pos() ) );
+    return player_map_memory->save( get_map().getglobal( pos() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getabs( pos() ) );
+    player_map_memory->load( get_map().getglobal( pos() ) );
 }
 
-void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
+void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
 {
     player_map_memory->prepare_region( p1, p2 );
 }
 
-const memorized_tile &avatar::get_memorized_tile( const tripoint &p ) const
+const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) const
 {
     if( should_show_map_memory() ) {
         return player_map_memory->get_tile( p );
@@ -268,24 +273,24 @@ const memorized_tile &avatar::get_memorized_tile( const tripoint &p ) const
     return mm_submap::default_tile;
 }
 
-void avatar::memorize_terrain( const tripoint &p, const std::string_view id,
+void avatar::memorize_terrain( const tripoint_abs_ms &p, const std::string_view id,
                                int subtile, int rotation )
 {
     player_map_memory->set_tile_terrain( p, id, subtile, rotation );
 }
 
-void avatar::memorize_decoration( const tripoint &p, const std::string_view id,
+void avatar::memorize_decoration( const tripoint_abs_ms &p, const std::string_view id,
                                   int subtile, int rotation )
 {
     player_map_memory->set_tile_decoration( p, id, subtile, rotation );
 }
 
-void avatar::memorize_symbol( const tripoint &p, char32_t symbol )
+void avatar::memorize_symbol( const tripoint_abs_ms &p, char32_t symbol )
 {
     player_map_memory->set_tile_symbol( p, symbol );
 }
 
-void avatar::memorize_clear_decoration( const tripoint &p, std::string_view prefix )
+void avatar::memorize_clear_decoration( const tripoint_abs_ms &p, std::string_view prefix )
 {
     player_map_memory->clear_tile_decoration( p, prefix );
 }
@@ -673,16 +678,16 @@ void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
             if( const optional_vpart_position ovp = m.veh_at( pos() + gpoint ) ) {
                 for( const tripoint &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        memorize_clear_decoration( m.getabs( target ), /* prefix = */ "vp_" );
+                        memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
                     }
-                    m.set_memory_seen_cache_dirty( target );
+                    m.memory_cache_dec_set_dirty( target, true );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                memorize_clear_decoration( m.getabs( pos() + gpoint ) );
+                memorize_clear_decoration( m.getglobal( pos() + gpoint ) );
             }
-            m.set_memory_seen_cache_dirty( pos() + gpoint );
+            m.memory_cache_dec_set_dirty( pos() + gpoint, true );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.

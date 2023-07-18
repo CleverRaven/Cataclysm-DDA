@@ -14,9 +14,9 @@
     "description": "A thin forcefield surrounds your body, continually draining power.  Everything loses velocity when penetrating this field, which results in reduced amount of dealt damage at the cost of your bionic energy.  Bullets and stabbing attacks will lose more velocity than cutting attacks and those in turn more than bashing attacks.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 J",
-    "react_cost": "10 J",
-    "trigger_cost": "25kJ",
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
+    "trigger_cost": "10 kJ",
     "time": "1 s"
   },
   {
@@ -1746,10 +1746,17 @@
     "id": "bio_weight",
     "type": "bionic",
     "name": { "str": "Titanium Skeletal Bracing" },
-    "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
+    "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds, and you receive slightly less bashing damage to your arms, legs and torso.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "weight_capacity_bonus": "20 kg",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "protec": [
+      [ "torso", { "bash": 2 } ],
+      [ "arm_l", { "bash": 2 } ],
+      [ "arm_r", { "bash": 2 } ],
+      [ "leg_l", { "bash": 2 } ],
+      [ "leg_r", { "bash": 2 } ]
+    ],
     "mutation_conflicts": [
       "AMORPHOUS",
       "BENDY2",

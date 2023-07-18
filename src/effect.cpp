@@ -640,7 +640,7 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string_view m
     return jo.read( member, miss_msgs );
 }
 
-static std::optional<game_message_type> process_rating( std::string r )
+static std::optional<game_message_type> process_rating( const std::string &r )
 {
     if( r == "good" ) {
         return m_good;
