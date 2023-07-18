@@ -3346,7 +3346,7 @@
     "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
     "looks_like": "ifak_pouch",
     "description": "A plastic box designed to contain a first aid kit.",
-    "weight": "50 g",
+    "weight": "200 g",
     "volume": "2900 ml",
     "price": 0,
     "price_postapoc": 0,
@@ -3358,6 +3358,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2700 ml",
         "max_contains_weight": "3 kg",
+        "max_item_length": "20 cm",
         "rigid": true,
         "moves": 100
       }
@@ -3372,7 +3373,8 @@
     "name": { "str": "IFAK pouch", "str_pl": "IFAK pouches" },
     "looks_like": "1st_aid_box",
     "description": "A fabric pouch designed to contain a personalized trauma kit.  These supplies are used to address immediate life-threatening conditions.",
-    "weight": "5 g",
+    "//": "Was introduced without anchoring to a real example, but is similar to this: https://www.amazon.com/Livans-Tactical-Rip-Away-Military-Emergency/dp/B07Y7BRB83",
+    "weight": "329 g",
     "volume": "1250 ml",
     "price": 0,
     "price_postapoc": 10,
@@ -3384,6 +3386,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3200 ml",
         "max_contains_weight": "4000 g",
+        "max_item_length": "20 cm",
         "moves": 100,
         "rigid": false
       }
