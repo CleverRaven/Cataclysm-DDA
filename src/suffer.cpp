@@ -1410,7 +1410,7 @@ void suffer::from_bad_bionics( Character &you )
             std::optional<bionic *> bio_opt = you.find_bionic_by_type( bio_synlungs );
             you.activate_bionic( **bio_opt );
         } else {
-			you.mod_stamina( -2000 );
+            you.mod_stamina( -2000 );
             you.add_msg_if_player( m_bad, _( "Emergency! User's lungs are not powered!" ) );
         }
     }
