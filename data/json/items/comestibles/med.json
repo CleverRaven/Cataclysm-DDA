@@ -693,7 +693,6 @@
     "stack_size": 100,
     "symbol": "*",
     "color": "pink",
-    "stim": 1,
     "fun": 2,
     "flags": [ "NO_INGEST" ],
     "use_action": [ "CHEW" ]
