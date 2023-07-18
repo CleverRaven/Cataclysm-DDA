@@ -1589,14 +1589,14 @@
     "description": "You have a powerful stun gun built into your hand.  Activate to zap an adjacent enemy.",
     "occupied_bodyparts": [ [ "hand_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 kJ",
-    "spell_on_activation": { "id": "bio_taser_spell" }
+    "spell_on_activation": { "id": "bio_taser_spell" },
+    "activated_close_ui": true
   },
   {
     "id": "bio_taser_spell",
     "type": "SPELL",
     "name": "Super Stun Gun",
-    "description": "A blast of electrity from your Super Stun Gun bionic.",
+    "description": "A blast of electricity from your Super Stun Gun bionic.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile" ],
@@ -1613,7 +1613,7 @@
     "aoe_increment": 0,
     "spell_class": "NONE",
     "base_casting_time": 0,
-    "base_energy_cost": 0,
+    "base_energy_cost": 10,
     "energy_source": "BIONIC",
     "difficulty": 0,
     "sound_description": "a crackle",
