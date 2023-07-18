@@ -206,7 +206,8 @@ ter_furn_transform::next_field(
     return next( field_transform, field );
 }
 
-std::optional<std::pair<trap_str_id, std::pair<std::optional<translation>, bool>>> ter_furn_transform::next_trap(
+std::optional<std::pair<trap_str_id, std::pair<std::optional<translation>, bool>>>
+ter_furn_transform::next_trap(
     const trap_str_id &trap ) const
 {
     return next( trap_transform, trap );
