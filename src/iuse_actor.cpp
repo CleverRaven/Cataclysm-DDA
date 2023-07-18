@@ -1970,7 +1970,7 @@ ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it, bo
     return ret_val<void>::make_success();
 }
 
-void play_instrument_iuse::load( const JsonObject &obj )
+void play_instrument_iuse::load( const JsonObject & )
 {
 }
 
@@ -1996,7 +1996,7 @@ std::optional<int> play_instrument_iuse::use( Character *p, item &it, bool, cons
     return std::nullopt;
 }
 
-ret_val<void> play_instrument_iuse::can_use( const Character &p, const item &it, bool,
+ret_val<void> play_instrument_iuse::can_use( const Character &, const item &, bool,
         const tripoint & ) const
 {
     return ret_val<void>::make_success();

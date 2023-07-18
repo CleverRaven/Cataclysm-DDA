@@ -2613,9 +2613,10 @@ std::optional<int> iuse::radio_tick( Character *p, item *it, bool, const tripoin
                                              0 );
         }
     }
+    return 1;
 }
 
-std::optional<int> iuse::radio_on( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::radio_on( Character *, item *it, bool, const tripoint & )
 {
 
     const auto tower_desc = []( const int noise ) {
