@@ -35,12 +35,34 @@
       "place_nested": [
         { "chunks": [ "24x24_sidewalk_nes_corner_half_n" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
         { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_sidewalk_ew_corner_double" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_ew_corner_double" ], "x": 20, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
         { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 20, "flags": { "south_east": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_nes_corner_half_s" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 12, "flags": { "south_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_long" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
-        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } }
+        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
+        {
+          "chunks": [ "24x24_traffic_lights", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "chunks": [ "24x24_marked_crosswalks", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -75,7 +97,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 20 } ]
+      "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 20 } ]
     }
   },
   {

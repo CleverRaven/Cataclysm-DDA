@@ -2,8 +2,119 @@
   {
     "type": "palette",
     "id": "road_palette",
-    "terrain": { ".": "t_pavement", "_": "t_sidewalk", "*": "t_pavement_y" },
-    "furniture": { "Y": "f_street_light" }
+    "terrain": { ".": "t_pavement", "_": "t_sidewalk", "*": "t_pavement_y", "│": "t_zebra_v", "─": "t_zebra_h" },
+    "furniture": { "Y": "f_street_light", "T": "f_traffic_light" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "16x16_marked_crosswalk_h",
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "rows": [
+        ".│.│.│.│.│.│.│.│",
+        ".│.│.│.│.│.│.│.│",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                ",
+        "                "
+      ],
+      "palettes": [ "road_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "16x16_marked_crosswalk_v",
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "rows": [
+        "..              ",
+        "──              ",
+        "..              ",
+        "──              ",
+        "..              ",
+        "──              ",
+        "..              ",
+        "──              ",
+        "..              ",
+        "──              ",
+        "..              ",
+        "──              ",
+        "..              ",
+        "──              ",
+        "..              ",
+        "──              "
+      ],
+      "palettes": [ "road_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_marked_crosswalks",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "//": "Change to road prefix, could merge with traffic lights so they're not independant.",
+      "place_nested": [
+        { "chunks": [ [ "16x16_marked_crosswalk_h", 1 ], [ "null", 4 ] ], "x": 4, "y": 1, "neighbors": { "north": [ "road" ] } },
+        {
+          "chunks": [ [ "16x16_marked_crosswalk_v", 1 ], [ "null", 4 ] ],
+          "x": 21,
+          "y": 4,
+          "neighbors": { "east": [ "road" ] }
+        },
+        {
+          "chunks": [ [ "16x16_marked_crosswalk_h", 1 ], [ "null", 4 ] ],
+          "x": 4,
+          "y": 21,
+          "neighbors": { "south": [ "road" ] }
+        },
+        {
+          "chunks": [ [ "16x16_marked_crosswalk_v", 1 ], [ "null", 4 ] ],
+          "x": 1,
+          "y": 4,
+          "neighbors": { "west": [ "road" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_traffic_lights",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "//": "Change to road prefix, could merge with crosswalks so they're not independant, places traffic light on right of joining roads",
+      "place_nested": [
+        { "chunks": [ "1x1_traffic_light" ], "x": 3, "y": 3, "neighbors": { "north": [ "road" ] } },
+        { "chunks": [ "1x1_traffic_light" ], "x": 20, "y": 3, "neighbors": { "east": [ "road" ] } },
+        { "chunks": [ "1x1_traffic_light" ], "x": 20, "y": 20, "neighbors": { "south": [ "road" ] } },
+        { "chunks": [ "1x1_traffic_light" ], "x": 3, "y": 20, "neighbors": { "west": [ "road" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_traffic_light",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "T" ], "palettes": [ "road_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_street_light",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "Y" ], "palettes": [ "road_palette" ] }
   },
   {
     "type": "overmap_terrain",
@@ -16,7 +127,7 @@
     "type": "overmap_terrain",
     "id": [ "JSONroad_ns" ],
     "copy-from": "generic_road",
-    "sym": "|"
+    "sym": "│"
   },
   {
     "type": "overmap_terrain",

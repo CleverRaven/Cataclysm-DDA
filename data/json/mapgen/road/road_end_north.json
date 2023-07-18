@@ -1,0 +1,118 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "JSONroad_end_north",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "//": "Replace check with an OR check for any adjacent sidwalk.",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_road_end_north_cul_de_sac", "24x24_road_end_north_straight" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "east": [ "SIDEWALK" ] }
+        },
+        { "else_chunks": [ "24x24_road_end_north_straight" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "24x24_road_end_north_straight",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "    ................    ",
+        "    .......**.......    ",
+        "    .......**.......    ",
+        "    .......**.......    ",
+        "    ................    ",
+        "    .......**.......    ",
+        "    .......**.......    ",
+        "    .......**.......    ",
+        "    ................    ",
+        "    .......**.......    ",
+        "    .......**.......    ",
+        "    .......**.......    ",
+        "    ................    ",
+        "    ................    ",
+        "    ................    ",
+        "    ................    ",
+        "    ................    ",
+        "    ................    ",
+        "    ................    ",
+        "    ................    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "//": "Could check north_east for road_wn (and north for road_es) to replicate old diag behaviour.",
+      "place_nested": [
+        { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_end_north_straight" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_end_north_straight" ], "x": 0, "y": 0, "flags": { "south_east": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_end_north_straight" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_end_north_straight" ], "x": 0, "y": 0, "flags": { "south_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_end_north_straight" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_sidewalk_end_north_straight",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        { "chunks": [ "12x12_sidewalk_ns_long" ], "x": 0, "y": 0 },
+        { "chunks": [ "12x12_sidewalk_ns_long" ], "x": 20, "y": 0 },
+        { "chunks": [ "12x12_sidewalk_ew_long" ], "x": 0, "y": 20 }
+      ]
+    }
+  }
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "24x24_road_end_north_cul_de_sac",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+"____................____",
+"____................____",
+"____................____",
+"____................____",
+"___Y................Y___",
+"___..................___",
+"__....................__",
+"__....................__",
+"__....................__",
+"_......................_",
+"_......................_",
+"_......................_",
+"Y......................Y",
+"_......................_",
+"_......................_",
+"__....................__",
+"__....................__",
+"__....................__",
+"___..................___",
+"___Y................Y___",
+"_____.............._____",
+"______............______",
+"_________......_________",
+"________________________"
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]
