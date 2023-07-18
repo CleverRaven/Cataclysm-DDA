@@ -587,6 +587,7 @@
     "price_postapoc": 0,
     "description": "This tear gas grenade has had its pin removed and is (or will shortly be) expelling highly noxious gas.",
     "emits": [ "emit_tear_gas_stream" ],
+    "countdown_interval": "50 seconds",
     "countdown_action": { "type": "transform", "target": "canister_empty" },
     "flags": [ "TRADER_AVOID", "DANGEROUS" ]
   },
