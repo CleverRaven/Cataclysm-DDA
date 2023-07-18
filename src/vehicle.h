@@ -1748,7 +1748,7 @@ class vehicle
         * marked with PSEUDO flags, pseudo_magazine_mod and pseudo_magazine attached, magazines filled
         * with the first ammo type required by the tool. pseudo tools are mapped to their hotkey if exists.
         */
-        std::map<item, input_event> prepare_tools( const vehicle_part &vp ) const;
+        std::map<item, int> prepare_tools( const vehicle_part &vp ) const;
 
         /**
          * Update an item's active status, for example when adding
