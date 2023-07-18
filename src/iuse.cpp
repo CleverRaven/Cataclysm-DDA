@@ -2562,7 +2562,7 @@ static int radio_static_chance( const radio_tower_reference &tref )
                  ( max_strength - RADIO_MIN_STRENGTH ) );
 }
 
-std::optional<int> iuse::radio_tick( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::radio_tick( Character *, item *it, bool, const tripoint &pos )
 {
     std::string message = _( "Radio: Kssssssssssssh." );
     const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
