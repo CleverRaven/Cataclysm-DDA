@@ -197,7 +197,7 @@
       [ "bio_evap", 10 ],
       [ "bio_face_mask", 10 ],
       [ "bio_gills", 10 ],
-      [ "bio_hydraulics", 10 ],
+      { "collection": [ { "item": "bio_hydraulics", "prob": 100 }, { "item": "bio_weight", "prob": 100 } ] },
       [ "bio_membrane", 10 ],
       [ "bio_painkiller", 10 ],
       [ "bio_radscrubber", 10 ],
