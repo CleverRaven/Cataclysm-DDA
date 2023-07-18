@@ -996,7 +996,7 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
                     critter = inter;
                     break;
                 } else {
-                    return;                   
+                    return;
                 }
             }
             critter = inter;
