@@ -147,17 +147,13 @@
     "id": "motorcycle_3wheel",
     "type": "vehicle",
     "copy-from": "motorcycle_3wheel_abstract",
-    "parts": [
-      { "x": 2, "y": 0, "parts": [ "engine_vtwin" ] }
-    ]
+    "parts": [ { "x": 2, "y": 0, "parts": [ "engine_vtwin" ] } ]
   },
   {
     "id": "motorcycle_3wheel_super",
     "type": "vehicle",
     "copy-from": "motorcycle_3wheel_abstract",
-    "parts": [
-      { "x": 2, "y": 0, "parts": [ "engine_inline4" ] }
-    ]
+    "parts": [ { "x": 2, "y": 0, "parts": [ "engine_inline4" ] } ]
   },
   {
     "id": "quad_bike",
