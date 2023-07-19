@@ -1542,10 +1542,10 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             if( e.get_int_dur_factor() > 0_turns ) {
                 // Set intensity if value is given
             } else if( intensity > 0 ) {
-                e.set_intensity( intensity, true );
+                e.set_intensity( intensity, is_avatar() );
                 // Else intensity uses the type'd step size if it already exists
             } else if( e.get_int_add_val() != 0 ) {
-                e.mod_intensity( e.get_int_add_val(), true );
+                e.mod_intensity( e.get_int_add_val(), is_avatar() );
             }
 
             // Bound intensity by [1, max intensity]
