@@ -1911,7 +1911,6 @@ class map
 
         void draw_lab( mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
-        void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.

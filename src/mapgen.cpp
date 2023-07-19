@@ -5232,7 +5232,7 @@ void map::draw_map( mapgendata &dat )
         fill_background( this, t_floor );
     }
 
-    draw_connections( dat );
+    resolve_regional_terrain_and_furniture( dat );
 }
 
 static const int SOUTH_EDGE = 2 * SEEY - 1;
@@ -6248,11 +6248,6 @@ void map::draw_slimepit( const mapgendata &dat )
         place_items( Item_spawn_data_sewer, 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,
                      calendar::start_of_cataclysm );
     }
-}
-
-void map::draw_connections( const mapgendata &dat )
-{
-    resolve_regional_terrain_and_furniture( dat );
 }
 
 void map::place_spawns( const mongroup_id &group, const int chance,
