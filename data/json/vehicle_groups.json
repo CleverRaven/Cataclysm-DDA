@@ -1250,9 +1250,6 @@
     "type": "vehicle_group",
     "id": "3wheel_motorcycles_all",
     "//": "All the three-wheel motorsycles!",
-    "vehicles": [
-      [ "motorcycle_3wheel", 100 ],
-      [ "motorcycle_3wheel_super", 50 ]
-    ]
+    "vehicles": [ [ "motorcycle_3wheel", 100 ], [ "motorcycle_3wheel_super", 50 ] ]
   }
 ]
