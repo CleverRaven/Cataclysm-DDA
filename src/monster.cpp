@@ -3138,9 +3138,9 @@ void monster::process_effects()
             const monster *const mon = creatures.creature_at<monster>( p );
             if( mon ) {
                 if( ( mon->faction->attitude( faction ) != MFA_FRIENDLY ) ) {
-                    if ( morale < type->morale ) {
-                    morale = type->morale;
-                    anger = type->agro;
+                    if( morale < type->morale ) {
+                        morale = type->morale;
+                        anger = type->agro;
                     }
                 }
             }
