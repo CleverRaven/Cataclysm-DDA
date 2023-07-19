@@ -6972,9 +6972,7 @@ bool connects_to( const oter_id &there, int dir )
     switch( dir ) {
         // South
         case 2:
-            if( there == oter_sewer_ns || there == oter_sewer_es || there == oter_sewer_sw ||
-                there == oter_sewer_nes || there == oter_sewer_nsw || there == oter_sewer_esw ||
-                there == oter_sewer_nesw || there == oter_ants_ns || there == oter_ants_es ||
+            if( there == oter_ants_ns || there == oter_ants_es ||
                 there == oter_ants_sw || there == oter_ants_nes || there == oter_ants_nsw ||
                 there == oter_ants_esw || there == oter_ants_nesw ) {
                 return true;
@@ -6982,9 +6980,7 @@ bool connects_to( const oter_id &there, int dir )
             return false;
         // West
         case 3:
-            if( there == oter_sewer_ew || there == oter_sewer_sw || there == oter_sewer_wn ||
-                there == oter_sewer_new || there == oter_sewer_nsw || there == oter_sewer_esw ||
-                there == oter_sewer_nesw || there == oter_ants_ew || there == oter_ants_sw ||
+            if( there == oter_ants_ew || there == oter_ants_sw ||
                 there == oter_ants_wn || there == oter_ants_new || there == oter_ants_nsw ||
                 there == oter_ants_esw || there == oter_ants_nesw ) {
                 return true;
@@ -6992,9 +6988,7 @@ bool connects_to( const oter_id &there, int dir )
             return false;
         // North
         case 0:
-            if( there == oter_sewer_ns || there == oter_sewer_ne || there == oter_sewer_wn ||
-                there == oter_sewer_nes || there == oter_sewer_new || there == oter_sewer_nsw ||
-                there == oter_sewer_nesw || there == oter_ants_ns || there == oter_ants_ne ||
+            if( there == oter_ants_ns || there == oter_ants_ne ||
                 there == oter_ants_wn || there == oter_ants_nes || there == oter_ants_new ||
                 there == oter_ants_nsw || there == oter_ants_nesw ) {
                 return true;
@@ -7002,9 +6996,7 @@ bool connects_to( const oter_id &there, int dir )
             return false;
         // East
         case 1:
-            if( there == oter_sewer_ew || there == oter_sewer_ne || there == oter_sewer_es ||
-                there == oter_sewer_nes || there == oter_sewer_new || there == oter_sewer_esw ||
-                there == oter_sewer_nesw || there == oter_ants_ew || there == oter_ants_ne ||
+            if( there == oter_ants_ew || there == oter_ants_ne ||
                 there == oter_ants_es || there == oter_ants_nes || there == oter_ants_new ||
                 there == oter_ants_esw || there == oter_ants_nesw ) {
                 return true;
