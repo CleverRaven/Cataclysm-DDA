@@ -65,7 +65,6 @@
     "clip_size": 1,
     "default_mods": [ "match_trigger", "muzzle_brake" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -114,7 +113,6 @@
     "//": "Cheek pad required for holding the buttstock in place and keep it from folding.",
     "default_mods": [ "match_trigger", "muzzle_brake" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -160,7 +158,6 @@
     "blackpowder_tolerance": 24,
     "default_mods": [ "match_trigger", "high_end_folding_stock", "retool_axmc_338lapua", "muzzle_brake" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "bore", 1 ],
       [ "mechanism", 4 ],

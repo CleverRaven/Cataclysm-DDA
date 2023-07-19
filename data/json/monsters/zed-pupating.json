@@ -115,7 +115,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "vision_day": 83,
     "vision_night": 4,
-    "harvest": "zombie",
+    "harvest": "zombie_hulk",
     "grab_strength": 35,
     "special_attacks": [
       { "id": "grab" },
@@ -173,7 +173,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "vision_day": 83,
     "vision_night": 4,
-    "harvest": "zombie",
+    "harvest": "zombie_hulk",
     "special_attacks": [
       { "id": "grab" },
       { "id": "bite_humanoid", "cooldown": 5 },
@@ -220,6 +220,7 @@
     "bleed_rate": 0,
     "vision_day": 8,
     "vision_night": 15,
+    "harvest": "zombie_humanoid_shadow",
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NIGHT_INVISIBILITY" ] },
     "armor": { "electric": 2, "bash": 8, "cut": 6, "bullet": 6 }
   },

@@ -953,8 +953,8 @@ New EOC effects that are documented should be in the format below.
 
 | Effect                 | Options            | Description   |
 | ---------------------- | ------- | --- |
-| `u_attack, npc_attack` | `u_attack`: string or [variable object](#variable-object) The technique ID to use, if you don't want a specific tech provide "tec_none" </br> `allow_special: ` bool, **default true**, whether or not a special attack should be selected. </br> `allow_unarmed: ` bool **default true** if unarmed techs should be considered </br> `forced_movecost: ` double or [variable object](#variable-object) **default -1.0** the attack will take a fixed amount of moves, any negative value will be ignored (giving the moves standard cost) | the selected talker attacks the other talker with a melee attack. |
-| `run_eoc_until`        | `run_eoc_until`: EOC or inline EOC The eoc to run multiple times </br> `condition` string or [variable object](#variable-object) The name of the condition from the current context to evaluate to see if execution should continue </br> `iteration` double or [variable object](#variable-object) The number of iterations this loop is allowed to go for before throwing an error, **default 100**  | The provided EOC is run until the condition given is false. |
+| `u_attack, npc_attack` | `u_attack`: string or [variable object](#variable-object) The technique ID to use, if you don't want a specific tech provide "tec_none" <br/> `allow_special: ` bool, **default true**, whether or not a special attack should be selected. <br/> `allow_unarmed: ` bool **default true** if unarmed techs should be considered <br/> `forced_movecost: ` double or [variable object](#variable-object) **default -1.0** the attack will take a fixed amount of moves, any negative value will be ignored (giving the moves standard cost) | the selected talker attacks the other talker with a melee attack. |
+| `run_eoc_until`        | `run_eoc_until`: EOC or inline EOC The eoc to run multiple times <br/> `condition` string or [variable object](#variable-object) The name of the condition from the current context to evaluate to see if execution should continue <br/> `iteration` double or [variable object](#variable-object) The number of iterations this loop is allowed to go for before throwing an error, **default 100**  | The provided EOC is run until the condition given is false. |
 
 
 #### Deprecated
@@ -1096,8 +1096,8 @@ Condition | Type | Description
 `"days_since_cataclysm"` | int or [variable object](#variable-object) | `true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
 `"is_season"` | string or [variable object](#variable-object) | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime.
-`"u_is_outside"`</br>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
-`"u_is_underwater"`</br>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
+`"u_is_outside"`<br/>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
+`"u_is_underwater"`<br/>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
 `"one_in_chance"` | int or [variable object](#variable-object) | `true` if a one in `one_in_chance` random chance occurs.
 `"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints  or [variable object](#variable-object).
 `"is_weather"` | string or [variable object](#variable-object)  | `true` if current weather is `"is_weather"`.
@@ -1296,7 +1296,7 @@ Mutator Name | Required Keys | Description
 `"game_option"` | `option`: String or [variable object](#variable-object). | Returns the value of the option as a string, for numerical options you should instead use the math function.
 `"ma_technique_name"` | `matec_id`: String or [variable object](#variable-object). | Returns the name of the martial arts tech with ID `matec_id` 
 `"ma_technique_description"` | `matec_id`: String or [variable object](#variable-object). | Returns the description of the martial arts tech with ID `matec_id` 
-`"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). </br> `crit`: bool </br> `dodge_counter`: bool </br> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
+`"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). <br/> `crit`: bool <br/> `dodge_counter`: bool <br/> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
 `"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
 
 

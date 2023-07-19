@@ -363,9 +363,9 @@
     "category": "AUTO_PICKUP",
     "name": "Move rule up",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -490,9 +490,9 @@
     "category": "SAFEMODE",
     "name": "Move rule up",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -586,7 +586,7 @@
     "id": "TOGGLE_CLOTH",
     "category": "SORT_ARMOR",
     "name": "Toggle armor visibility on character sprite",
-    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -782,9 +782,9 @@
     "category": "SOKOBAN",
     "name": "Next level",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -865,20 +865,20 @@
   },
   {
     "type": "keybinding",
-    "id": "ADD_MOD",
+    "id": "MOVE_MOD_DOWN",
     "category": "MODMANAGER_DIALOG",
-    "name": "Move selected mod up",
+    "name": "Move selected mod down",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
     "type": "keybinding",
-    "id": "REMOVE_MOD",
+    "id": "MOVE_MOD_UP",
     "category": "MODMANAGER_DIALOG",
-    "name": "Move selected mod down",
+    "name": "Move selected mod up",
     "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
@@ -1531,7 +1531,7 @@
     "id": "CHOOSE_CITY",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Choose character starting city",
-    "bindings": [ { "input_method": "keyboard_any", "key": "C" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "C" }, { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2044,7 +2044,7 @@
     "id": "SHOW_HIDE_CONTENTS_ALL",
     "category": "INVENTORY",
     "name": "Show/hide all contents",
-    "bindings": [ { "input_method": "keyboard_char", "key": "E" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3073,9 +3073,9 @@
     "category": "LIST_ITEMS",
     "name": "Increase priority",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -3293,9 +3293,9 @@
     "category": "ZONES_MANAGER",
     "name": "Move zone up",
     "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
       { "input_method": "keyboard_char", "key": "+" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
-      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
     ]
   },
   {
@@ -3376,7 +3376,7 @@
     "id": "CHANGE_FACTION",
     "category": "ZONES_MANAGER",
     "name": "Change shown faction",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3555,7 +3555,11 @@
     "id": "INCREASE_COUNT",
     "category": "INVENTORY",
     "name": "Increase selected amount for the highlighted item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "+" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "=" },
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" }
+    ]
   },
   {
     "type": "keybinding",
@@ -3569,7 +3573,7 @@
     "id": "DECREASE_COUNT",
     "category": "INVENTORY",
     "name": "Decrease selected amount for the highlighted item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
@@ -3589,7 +3593,10 @@
     "id": "PREV_COLUMN",
     "category": "INVENTORY",
     "name": "Previous column",
-    "bindings": [ { "input_method": "keyboard_char", "key": "BACKTAB" } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "BACKTAB" },
+      { "input_method": "keyboard_code", "key": "TAB", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -3603,7 +3610,7 @@
     "id": "MARK_WITH_COUNT",
     "category": "INVENTORY",
     "name": "Select a specific amount of highlighted item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "!" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "!" }, { "input_method": "keyboard_code", "key": "1", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3708,7 +3715,7 @@
     "id": "EXAMINE_CONTENTS",
     "category": "ADVANCED_INVENTORY",
     "name": "Examine items in container",
-    "bindings": [ { "input_method": "keyboard_char", "key": "o" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
   },
   {
     "type": "keybinding",
@@ -4221,14 +4228,14 @@
     "id": "SCROLL_MISSION_INFO_UP",
     "category": "FACTIONS",
     "name": "Scroll camp mission info up",
-    "bindings": [ { "input_method": "keyboard_char", "key": "[" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "[" } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_MISSION_INFO_DOWN",
     "category": "FACTIONS",
     "name": "Scroll camp mission info down",
-    "bindings": [ { "input_method": "keyboard_char", "key": "]" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
   {
     "type": "keybinding",
@@ -4277,7 +4284,7 @@
     "category": "WISH_ITEM",
     "id": "SNIPPET",
     "name": "Choose snippet",
-    "bindings": [ { "input_method": "keyboard_any", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

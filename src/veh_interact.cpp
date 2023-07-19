@@ -137,7 +137,7 @@ player_activity veh_interact::serialize_activity()
     }
 
     avatar &player_character = get_avatar();
-    int time = 1000;
+    time_duration time = 0_seconds;
     switch( sel_cmd ) {
         case 'i':
             time = vp->install_time( player_character );
@@ -158,9 +158,9 @@ player_activity veh_interact::serialize_activity()
             break;
     }
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
-        time = 1;
+        time = 1_seconds;
     }
-    player_activity res( ACT_VEHICLE, time, static_cast<int>( sel_cmd ) );
+    player_activity res( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( sel_cmd ) );
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
@@ -344,14 +344,14 @@ void veh_interact::allocate_windows()
 }
 
 bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
-                                const std::map<skill_id, int> &skills, int moves ) const
+                                const std::map<skill_id, int> &skills, time_duration time ) const
 {
     Character &player_character = get_player_character();
     const inventory &inv = player_character.crafting_inventory();
     bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
 
     msg += _( "<color_white>Time required:</color>\n" );
-    msg += "> " + to_string_approx( time_duration::from_moves( moves ) ) + "\n";
+    msg += "> " + to_string_approx( time ) + "\n";
 
     msg += _( "<color_white>Skills required:</color>\n" );
     for( const auto &e : skills ) {
@@ -682,7 +682,8 @@ task_reason veh_interact::cant_do( char mode )
             // remove mode
             enough_morale = player_character.has_morale_to_craft();
             valid_target = cpart >= 0;
-            part_free = parts_here.size() > 1 || ( cpart >= 0 && veh->can_unmount( cpart ) );
+            part_free = parts_here.size() > 1 ||
+                        ( cpart >= 0 && veh->can_unmount( veh->part( cpart ) ).success() );
             //tool and skill checks processed later
             has_tools = true;
             has_skill = true;
@@ -761,19 +762,6 @@ task_reason veh_interact::cant_do( char mode )
     return task_reason::CAN_DO;
 }
 
-bool veh_interact::is_drive_conflict()
-{
-    std::string conflict_type;
-    bool has_conflict = veh->has_engine_conflict( sel_vpart_info, conflict_type );
-
-    if( has_conflict ) {
-        //~ %1$s is fuel_type
-        msg = string_format( _( "Only one %1$s powered engine can be installed." ),
-                             conflict_type );
-    }
-    return has_conflict;
-}
-
 bool veh_interact::can_self_jack()
 {
     int lvl = jack_quality( *veh );
@@ -799,7 +787,9 @@ bool veh_interact::update_part_requirements()
         return false;
     }
 
-    if( is_drive_conflict() ) {
+    if( const std::optional<std::string> conflict = veh->has_engine_conflict( *sel_vpart_info ) ) {
+        //~ %1$s is fuel_type
+        msg = string_format( _( "Only one %1$s powered engine can be installed." ), conflict.value() );
         return false;
     }
     if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
@@ -1785,10 +1775,10 @@ bool veh_interact::can_remove_part( int idx, const Character &you )
     }
     nmsg += res.second;
 
-    std::string reason;
-    if( !veh->can_unmount( idx, reason ) ) {
+    const ret_val<void> unmount = veh->can_unmount( *sel_vehicle_part );
+    if( !unmount.success() ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
-        nmsg += string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) + "\n";
+        nmsg += string_format( _( "> %1$s%2$s</color>" ), status_color( false ), unmount.str() ) + "\n";
         ok = false;
     }
     const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
@@ -2482,10 +2472,10 @@ void veh_interact::display_stats() const
 
     units::volume total_cargo = 0_ml;
     units::volume free_cargo = 0_ml;
-    for( const vpart_reference &vp : veh->get_any_parts( "CARGO" ) ) {
-        const size_t p = vp.part_index();
-        total_cargo += veh->max_volume( p );
-        free_cargo += veh->free_volume( p );
+    for( const vpart_reference &vpr : veh->get_any_parts( VPFLAG_CARGO ) ) {
+        const vehicle_stack vs = vpr.items();
+        total_cargo += vs.max_volume();
+        free_cargo += vs.free_volume();
     }
 
     const int second_column = 33 + ( extraw / 4 );
@@ -3273,7 +3263,7 @@ void veh_interact::complete_vehicle( Character &you )
                     return;
                 }
             }
-            const vehicle_part &vp = veh.part( vp_index );
+            vehicle_part &vp = veh.part( vp_index );
             const vpart_info &vpi = vp.info();
             const bool appliance_removal = static_cast<char>( you.activity.index ) == 'O';
             const bool wall_wire_removal = appliance_removal && vpi.id == vpart_ap_wall_wiring;
@@ -3299,13 +3289,13 @@ void veh_interact::complete_vehicle( Character &you )
             std::list<item> resulting_items;
 
             // First we get all the contents of the part
-            vehicle_stack contents = veh.get_items( vp_index );
+            vehicle_stack contents = veh.get_items( vp );
             resulting_items.insert( resulting_items.end(), contents.begin(), contents.end() );
             contents.clear();
 
             // Power cables must remove parts from the target vehicle, too.
             if( vpi.has_flag( "POWER_TRANSFER" ) ) {
-                veh.remove_remote_part( vp_index );
+                veh.remove_remote_part( vp );
             }
 
             if( broken ) {
@@ -3352,7 +3342,7 @@ void veh_interact::complete_vehicle( Character &you )
                 here.destroy_vehicle( &veh );
             } else {
                 const tripoint part_pos = veh.global_part_pos3( vp );
-                veh.remove_part( vp_index );
+                veh.remove_part( vp );
                 // part_removal_cleanup calls refresh, so parts_at_relative is valid
                 veh.part_removal_cleanup();
                 if( veh.parts_at_relative( vp.mount, true ).empty() ) {

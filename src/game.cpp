@@ -224,6 +224,8 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_fake_common_cold( "fake_common_cold" );
+static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -975,12 +977,8 @@ bool game::start_game()
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = v.v->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
+                    for( const int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
+                        vpart_reference( *v.v, sp ).items().clear();
                     }
 
                     auto mons = critter_tracker->find( u.get_location() );
@@ -5807,8 +5805,8 @@ void game::control_vehicle()
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
         for( const tripoint &target : veh->get_points() ) {
-            u.memorize_clear_decoration( m.getabs( target ), "vp_" );
-            m.set_memory_seen_cache_dirty( target );
+            u.memorize_clear_decoration( m.getglobal( target ), "vp_" );
+            m.memory_cache_dec_set_dirty( target, true );
         }
         veh->is_following = false;
         veh->is_patrolling = false;
@@ -9854,6 +9852,12 @@ void game::wield( item_location loc )
     tripoint pos = loc.position();
     const int obtain_cost = loc.obtain_cost( u );
     int worn_index = INT_MIN;
+
+    // Need to account for case where we're trying to wield a weapon that belongs to someone else
+    if( !avatar_action::check_stealing( u, *loc.get_item() ) ) {
+        return;
+    }
+
     if( u.is_worn( *loc.get_item() ) ) {
         auto ret = u.can_takeoff( *loc.get_item() );
         if( !ret.success() ) {
@@ -9884,9 +9888,9 @@ void game::wield( item_location loc )
                 m.add_item( pos, to_wield );
                 break;
             case item_location::type::vehicle: {
-                const std::optional<vpart_reference> vp = m.veh_at( pos ).part_with_feature( "CARGO", false );
+                const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !vp || !vp->vehicle().add_item( vp->part_index(), to_wield ) ) {
+                if( !ovp || !ovp->vehicle().add_item( ovp->part(), to_wield ) ) {
                     m.add_item( pos, to_wield );
                 }
                 break;
@@ -10942,7 +10946,8 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
         m.clear_vehicle_list( z );
     }
     m.rebuild_vehicle_level_caches();
-    m.access_cache( m.get_abs_sub().z() ).map_memory_seen_cache.reset();
+    m.access_cache( m.get_abs_sub().z() ).map_memory_cache_dec.reset();
+    m.access_cache( m.get_abs_sub().z() ).map_memory_cache_ter.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
     const tripoint_abs_sm map_sm_pos =
@@ -12489,6 +12494,16 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
     tmp->randomize();
+
+    if( one_in( 100 ) ) {
+        // Same chances and duration of flu vs. cold as for the player.
+        if( one_in( 6 ) ) {
+            tmp->add_effect( effect_fake_flu, rng( 3_days, 10_days ) );
+        } else {
+            tmp->add_effect( effect_fake_common_cold, rng( 1_days, 14_days ) );
+        }
+    }
+
     std::string new_fac_id = "solo_";
     new_fac_id += tmp->name;
     // create a new "lone wolf" faction for this one NPC

@@ -977,6 +977,7 @@ eyestalks
 f
 fabricators
 facemask
+facemasks
 faceplates
 faceted
 faders
@@ -1184,6 +1185,7 @@ gesticulates
 getups
 ghast
 gibbous
+giganotosaurus
 github
 gladius
 glaive
@@ -1251,6 +1253,7 @@ gunshop
 gunsmithing
 gunsmoke
 gushingly
+gurkha
 gutskin
 guvnah
 gymnocladus
@@ -1525,6 +1528,8 @@ kickin
 kickstand
 killbasa
 killin
+kilij
+kilijs
 kilns
 kilroy
 kilted
@@ -1651,6 +1656,7 @@ lobotomizer
 lockpick
 lockpickers
 lockpicking
+lockpicks
 longarm
 longear
 longhair
@@ -2572,6 +2578,8 @@ shadowboxing
 shadowcat
 shahada
 shambler
+shamshir
+shamshirs
 shantak
 shantytowns
 shapechangers
@@ -2714,6 +2722,7 @@ spitter
 splashproof
 splicer
 splinting
+splintmail
 splorch
 splosh
 spoilage
@@ -2746,6 +2755,7 @@ staunchable
 staunching
 std
 steadfastness
+steelshod
 steeltoed
 steeping
 steerable
@@ -2850,6 +2860,8 @@ tadfish
 taegeuk
 taitsu
 takedowns
+talwar
+talwars
 tamable
 tambaqui
 tamina
@@ -3282,6 +3294,7 @@ yateveo
 yd
 yelemi
 yellowjacket
+yelman
 yme
 ynn
 yoroi

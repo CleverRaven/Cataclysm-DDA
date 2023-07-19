@@ -1761,7 +1761,7 @@ void outfit::activate_combat_items( npc &guy )
                 continue;
             }
             if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
-                transform->use( guy, candidate, false, tripoint_zero );
+                transform->use( &guy, candidate, false, tripoint_zero );
                 guy.add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
             }
         }
@@ -1781,7 +1781,7 @@ void outfit::deactivate_combat_items( npc &guy )
             const iuse_transform *transform = dynamic_cast<const iuse_transform *>
                                               ( candidate.type->get_use( "transform" )->get_actor_ptr() );
             if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
-                transform->use( guy, candidate, false, tripoint_zero );
+                transform->use( &guy, candidate, false, tripoint_zero );
                 guy.add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
             }
         }
@@ -2963,10 +2963,8 @@ void npc::find_item()
         int num_items = m_stack.size();
         const optional_vpart_position vp = here.veh_at( p );
         if( vp ) {
-            const std::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
-            if( cargo ) {
-                vehicle_stack v_stack = cargo->vehicle().get_items( cargo->part_index() );
-                num_items += v_stack.size();
+            if( const std::optional<vpart_reference> vp_cargo = vp.cargo() ) {
+                num_items += vp_cargo->items().size();
             }
         }
         if( prev_num_items == num_items ) {
@@ -2995,7 +2993,7 @@ void npc::find_item()
             cache_tile();
             continue;
         }
-        const std::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
+        const std::optional<vpart_reference> cargo = vp.cargo();
         static const std::string locked_string( "LOCKED" );
         // TODO: Let player know what parts are safe from NPC thieves
         if( !cargo || cargo->has_feature( locked_string ) ) {
@@ -3009,7 +3007,7 @@ void npc::find_item()
             continue;
         }
 
-        for( const item &it : cargo->vehicle().get_items( cargo->part_index() ) ) {
+        for( const item &it : cargo->items() ) {
             consider_item( it, p );
         }
         cache_tile();
@@ -3165,7 +3163,7 @@ std::list<item> npc::pick_up_item_map( const tripoint &where )
 
 std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 {
-    vehicle_stack stack = veh.get_items( part_index );
+    vehicle_stack stack = veh.get_items( veh.part( part_index ) );
     return npc_pickup_from_stack( *this, stack );
 }
 
@@ -3564,7 +3562,7 @@ void npc::activate_item( item &it )
 {
     const int oldmoves = moves;
     if( it.is_tool() || it.is_food() ) {
-        it.type->invoke( *this, it, pos() );
+        it.type->invoke( this, it, pos() );
     }
 
     if( moves == oldmoves ) {
@@ -3603,7 +3601,7 @@ void npc::heal_player( Character &patient )
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" ).value_or( 0 );
+        int charges_used = used.type->invoke( this, used, patient.pos(), "heal" ).value_or( 0 );
         consume_charges( used, charges_used );
     } else {
         pretend_heal( patient, used );
@@ -3645,7 +3643,7 @@ void npc::heal_self()
             }
         }
         if( treatment != nullptr ) {
-            treatment->get_use( iusage )->call( *this, *treatment, treatment->active, pos() );
+            treatment->get_use( iusage )->call( this, *treatment, treatment->active, pos() );
             treatment->ammo_consume( treatment->ammo_required(), pos(), this );
             return;
         }
@@ -3665,7 +3663,7 @@ void npc::heal_self()
     add_msg_if_player_sees( *this, _( "%1$s starts applying a %2$s." ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( *this, used, pos(), "heal" ).value_or( 0 );
+    int charges_used = used.type->invoke( this, used, pos(), "heal" ).value_or( 0 );
     if( used.is_medication() && charges_used > 0 ) {
         consume_charges( used, charges_used );
     }

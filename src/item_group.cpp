@@ -107,7 +107,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
 
 static void put_into_container(
     Item_spawn_data::ItemList &items, std::size_t num_items,
-    const std::optional<itype_id> &container_type,
+    const std::optional<itype_id> &container_type, const bool sealed,
     time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
     const std::string &context )
 {
@@ -150,6 +150,9 @@ static void put_into_container(
         }
     }
     ctr.add_automatic_whitelist();
+    if( sealed ) {
+        ctr.seal();
+    }
 
     excess.emplace_back( std::move( ctr ) );
     items.erase( items.end() - num_items, items.end() );
@@ -267,7 +270,7 @@ std::size_t Single_item_creator::create( ItemList &list,
         }
     }
     const std::size_t items_created = list.size() - prev_list_size;
-    put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+    put_into_container( list, items_created, container_item, sealed, birthday, on_overflow, context() );
     return list.size() - prev_list_size;
 }
 
@@ -732,7 +735,7 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
         }
     }
     const std::size_t items_created = list.size() - prev_list_size;
-    put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+    put_into_container( list, items_created, container_item, sealed, birthday, on_overflow, context() );
 
     return list.size() - prev_list_size;
 }

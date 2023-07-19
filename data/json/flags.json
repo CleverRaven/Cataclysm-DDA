@@ -192,6 +192,11 @@
     "inherit": false
   },
   {
+    "id": "GEMSTONE",
+    "type": "json_flag",
+    "info": "This item is a precious gemstone, used for ornamentation.  This is mostly useless post-Cataclysm."
+  },
+  {
     "id": "DIG_TOOL",
     "type": "json_flag",
     "info": "While wielded, this item allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
@@ -369,6 +374,12 @@
     "type": "json_flag",
     "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",
     "restriction": "Item must be some kind of chainmail veil"
+  },
+  {
+    "id": "EXTRA_PLATING",
+    "type": "json_flag",
+    "info": "This item is wearable over some armors as an extra layer of plating.",
+    "restriction": "Item must be some kind of strapped additional plating"
   },
   {
     "id": "COLD_IMMUNE",

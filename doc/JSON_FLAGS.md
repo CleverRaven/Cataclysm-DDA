@@ -1114,6 +1114,7 @@ Other monster flags.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
 - ```PET_HARNESSABLE``` Creature can be attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
+- ```PHOTOPHOBIC``` Severely weakened if in light level >= 30 (within about 7 tiles of a full-strength flashlight) by applying photophobia effect.
 - ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.
 - ```NULL``` Source use only.
 - ```PACIFIST``` Monster will never do melee attacks. Useful for having them use grab without attacking the player.

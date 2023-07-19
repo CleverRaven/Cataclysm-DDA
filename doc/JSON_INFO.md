@@ -159,6 +159,8 @@ Use the `Home` key to return to the top.
     - [Furniture](#furniture)
       - [`type`](#type-1)
       - [`move_cost_mod`](#move_cost_mod)
+      - [`keg_capacity`](#keg_capacity)
+      - [`deployed_item`](#deployed_item)
       - [`lockpick_result`](#lockpick_result)
       - [`lockpick_message`](#lockpick_message)
       - [`light_emitted`](#light_emitted)
@@ -184,6 +186,9 @@ Use the `Home` key to return to the top.
       - [`oxytorch`](#oxytorch-1)
       - [`prying`](#prying-1)
       - [`transforms_into`](#transforms_into)
+      - [`allowed_template_ids`](#allowed_template_ids)
+      - [`curtain_transform`](#curtain_transform)
+      - [`shoot`](#shoot)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
     - [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
@@ -200,6 +205,7 @@ Use the `Home` key to return to the top.
       - [`bonus_fire_warmth_feet`](#bonus_fire_warmth_feet)
       - [`looks_like`](#looks_like)
       - [`color` or `bgcolor`](#color-or-bgcolor)
+      - [`coverage`](#coverage)
       - [`max_volume`](#max_volume)
       - [`examine_action`](#examine_action)
       - [`close` and `open`](#close-and-open)
@@ -259,6 +265,7 @@ Use the `Home` key to return to the top.
 - [Obsoletion and migration](#obsoletion-and-migration)
   - [Charge and temperature removal](#charge-and-temperature-removal)
 - [Field types](#field-types)
+  - [Immunity data](#immunity-data)
 - [Option sliders](#option-sliders)
   - [Option sliders - Fields](#option-sliders---fields)
   - [Option sliders - Levels](#option-sliders---levels)
@@ -4436,6 +4443,8 @@ Examples from the actual definitions:
     "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
+    "keg_capacity": 240,
+    "deployed_item": "plastic_sheet",
     "light_emitted": 5,
     "required_str": 18,
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
@@ -4497,6 +4506,14 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 #### `move_cost_mod`
 
 Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
+
+#### `keg_capacity`
+
+Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
+
+#### `deployed_item`
+
+Item id string used to create furniture. Allows player to interact with the furniture to 'take it down' (transform it to item form).
 
 #### `lockpick_result`
 
@@ -4648,7 +4665,12 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "deconstruct": "TODO",
     "harvestable": "blueberries",
     "transforms_into": "t_tree_harvested",
-    "harvest_season": "WINTER",
+    "allowed_template_ids": [ "standard_template_construct", "debug_template", "afs_10mm_smart_template" ],
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true },
+    "harvest_by_season": [
+      { "seasons": [ "spring", "autumn" ], "id": "burdock_harv" },
+      { "seasons": [ "summer" ], "id": "burdock_summer_harv" }
+    ],
     "roof": "t_roof",
     "examine_action": "pit",
     "boltcut": {
@@ -4813,7 +4835,42 @@ oxytorch: {
 (Optional) Used for various transformation of the terrain. If defined, it must be a valid terrain id. Used for example:
 
 - When harvesting fruits (to change into the harvested form of the terrain).
-- In combination with the `HARVESTED` flag and `harvest_season` to change the harvested terrain back into a terrain with fruits.
+- In combination with the `HARVESTED` flag and `harvest_by_season` to change the harvested terrain back into a terrain with fruits.
+
+#### `allowed_template_ids`
+
+(Optional) Array used for specifying templates that a nanofabricator can create
+
+#### `curtain_transform`
+
+(Optional) Terrain id
+
+Transform into this terrain when an `examine_action` of curtains is used and the `Tear down the curtains` option is selected.
+
+#### `shoot`
+
+(Optional) Array of objects
+
+Defines how this terrain will interact with ranged projectiles. Has the following objects: 
+
+```
+    // Base chance to hit the object at all (defaults to 100%)
+    int chance_to_hit = 0;
+    // Minimum damage reduction to apply to shot when hit
+    int reduce_dmg_min = 0;
+    // Maximum damage reduction to apply to shot when hit
+    int reduce_dmg_max = 0;
+    // Minimum damage reduction to apply to laser shots when hit
+    int reduce_dmg_min_laser = 0;
+    // Maximum damage reduction to apply to laser shots when hit
+    int reduce_dmg_max_laser = 0;
+    // Damage required to have a chance to destroy
+    int destroy_dmg_min = 0;
+    // Damage required to guarantee destruction
+    int destroy_dmg_max = 0;
+    // Are lasers incapable of destroying the object (defaults to false)
+    bool no_laser_destroy = false;
+```
 
 #### `harvest_by_season`
 
@@ -4930,6 +4987,10 @@ id of a similar item that this item looks like. The tileset loader will try to l
 Color of the object as it appears in the game. "color" defines the foreground color (no background color), "bgcolor" defines a solid background color. As with the "symbol" value, this can be an array with 4 entries, each entry being the color during the different seasons.
 
 > **NOTE**: You must use ONLY ONE of "color" or "bgcolor"
+
+#### `coverage`
+
+The coverage percentage of a furniture piece of terrain. <30 won't cover from sight. (Does not interact with projectiles, gunfire, or other attacks. Only line of sight.)
 
 #### `max_volume`
 

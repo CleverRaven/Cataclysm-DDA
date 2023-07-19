@@ -64,7 +64,7 @@
         "f": "f_counter_gate_c",
         "s": "f_sink",
         "x": "f_pool_table",
-        "q": "f_stool",
+        "q": "f_barstool",
         "{": "f_rack"
       },
       "toilets": { "t": {  } },
@@ -212,7 +212,7 @@
         "x": "f_pool_table",
         "o": "f_bookcase",
         "O": "f_fireplace",
-        "q": "f_stool",
+        "q": "f_barstool",
         "{": "f_rack"
       },
       "toilets": { "t": {  } },

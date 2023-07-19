@@ -77,7 +77,6 @@ readability-*,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
 -modernize-use-nodiscard,\
--performance-unnecessary-copy-initialization,\
 -readability-container-data-pointer,\
 -readability-convert-member-functions-to-static,\
 -readability-duplicate-include,\

@@ -17,5 +17,19 @@
     "num_args": 1,
     "//": "used to transform the variable time (the smallest measure is 1 second) to the spell time (the smallest measure is 1 move, 1 second = 100 moves)",
     "return": "_0 * 100"
+  },
+  {
+    "type": "jmath_function",
+    "id": "spell_exp",
+    "num_args": 1,
+    "//": "accept a spell level, return the amount of XP spell required at this level. Not used anywhere because of #66728 (comment)",
+    "return": "2.71828182^(0.146661*(_0+62.5))-6200"
+  },
+  {
+    "type": "jmath_function",
+    "id": "spell_exp_diff",
+    "num_args": 1,
+    "//": "aceept the spell level, return a difference in experience between spell's current level and the next level",
+    "return": "spell_exp(_0 + 1) - spell_exp(_0)"
   }
 ]
