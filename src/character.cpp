@@ -6706,7 +6706,7 @@ int Character::get_cardiofit() const
 
     if( has_bionic( bio_synlungs ) ) {
         // If you have the synthetic lungs bionic your cardioacc is forced to a specific value
-        return 4 * get_cardio_acc_base();
+        return 3 * get_cardio_acc_base();
     }
 
     const int cardio_base = get_cardio_acc();
