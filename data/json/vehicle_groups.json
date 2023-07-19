@@ -167,7 +167,7 @@
       [ "car_luxury", 200 ],
       [ "electric_car", 175 ],
       [ "car_hybrid", 500 ],
-      [ "cars_shootingbrakes", 400 ],
+      [ "cars_shootingbrakes", 500 ],
       [ "cars_sedans", 1200 ],
       [ "cars_town", 600 ],
       [ "cars_coupes", 1200 ],
@@ -276,7 +276,7 @@
       [ "cars_micros", 200 ],
       [ "cars_scompacts", 100 ],
       [ "cars_scompact_tandems", 100 ],
-      [ "cars_shootingbrakes", 200 ],
+      [ "cars_shootingbrakes_short", 100 ],
       [ "cars_super", 100 ],
       [ "superbike", 50 ],
       [ "3wheel_motorcycles_all", 50 ],
@@ -1180,7 +1180,22 @@
     "type": "vehicle_group",
     "id": "cars_shootingbrakes",
     "//": "All the shooting brakes!",
-    "vehicles": [ [ "car_shootingbrake_v8", 300 ], [ "car_shootingbrake_v12", 100 ], [ "car_shootingbrake_electric", 50 ] ]
+    "vehicles": [
+      [ "car_shootingbrake_v8", 300 ],
+      [ "car_shootingbrake_v12", 100 ],
+      [ "car_shootingbrake_electric", 50 ] ],
+      [ "car_shootingbrake_long_v8", 900 ],
+      [ "car_shootingbrake_long_v12", 300 ],
+      [ "car_shootingbrake_long_electric", 150 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cars_shootingbrakes_short",
+    "//": "All the two-seat shooting brakes!",
+    "vehicles": [
+      [ "car_shootingbrake_v8", 300 ],
+      [ "car_shootingbrake_v12", 100 ],
+      [ "car_shootingbrake_electric", 50 ] ],
   },
   {
     "type": "vehicle_group",
