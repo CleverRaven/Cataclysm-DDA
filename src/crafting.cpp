@@ -1128,7 +1128,7 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
     }
 
     // Let's just be careful, I don't want to touch a negative stddev
-    crafting_stddev = std::max( crafting_stddev, 0.f );
+    crafting_stddev = std::max( crafting_stddev, 1.f );
 
     craft_roll_data ret;
     ret.center = weighted_skill_average;
@@ -1136,7 +1136,7 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
     ret.final_difficulty = final_difficulty + 1;
     if( has_trait( trait_DEBUG_CNF ) ) {
         ret.center = 2.f;
-        ret.stddev = 0.f;
+        ret.stddev = std::numeric_limits<decltype( ret.stddev )>::epsilon();
         ret.final_difficulty = 0.f;
     }
     return ret;

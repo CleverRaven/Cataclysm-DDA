@@ -115,6 +115,8 @@ static const diseasetype_id disease_bad_food( "bad_food" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_fake_common_cold( "fake_common_cold" );
+static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_pet( "pet" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
@@ -139,6 +141,8 @@ static const oter_str_id oter_deep_rock( "deep_rock" );
 static const oter_str_id oter_empty_rock( "empty_rock" );
 static const oter_str_id oter_open_air( "open_air" );
 static const oter_str_id oter_solid_earth( "solid_earth" );
+
+static const species_id species_FERAL( "FERAL" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_soil( "t_soil" );
@@ -270,11 +274,51 @@ void map::set_floor_cache_dirty( const int zlev )
     }
 }
 
-void map::set_memory_seen_cache_dirty( const tripoint &p )
+bool map::memory_cache_dec_is_dirty( const tripoint &p ) const
 {
-    const int offset = p.x + p.y * MAPSIZE_Y;
-    if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
-        get_cache( p.z ).map_memory_seen_cache.reset( offset );
+    if( !inbounds( p ) ) {
+        debugmsg( "memory_cache_dec_is_dirty called on out of bounds position" );
+        return true;
+    }
+    return !get_cache( p.z ).map_memory_cache_dec[p.x + p.y * MAPSIZE_Y];
+}
+
+void map::memory_cache_dec_set_dirty( const tripoint &p, bool value ) const
+{
+    if( !inbounds( p ) ) {
+        debugmsg( "memory_cache_dec_set_dirty called on out of bounds position" );
+        return;
+    }
+    get_cache( p.z ).map_memory_cache_dec[p.x + p.y * MAPSIZE_Y] = !value;
+}
+
+bool map::memory_cache_ter_is_dirty( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        debugmsg( "memory_cache_ter_is_dirty called on out of bounds position" );
+        return true;
+    }
+    return !get_cache( p.z ).map_memory_cache_ter[p.x + p.y * MAPSIZE_Y];
+}
+
+void map::memory_cache_ter_set_dirty( const tripoint &p, bool value ) const
+{
+    if( !inbounds( p ) ) {
+        debugmsg( "memory_cache_ter_set_dirty called on out of bounds position" );
+        return;
+    }
+    get_cache( p.z ).map_memory_cache_ter[p.x + p.y * MAPSIZE_Y] = !value;
+}
+
+void map::memory_clear_vehicle_points( const vehicle &veh ) const
+{
+    avatar &player_character = get_avatar();
+    for( const tripoint &p : veh.get_points() ) {
+        if( !inbounds( p ) ) {
+            continue;
+        }
+        memory_cache_dec_set_dirty( p, true );
+        player_character.memorize_clear_decoration( getglobal( p ), "vp_" );
     }
 }
 
@@ -506,8 +550,10 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
             for( const tripoint &pt : veh->get_points() ) {
-                get_avatar().memorize_clear_decoration( getabs( pt ), "vp_" );
-                set_memory_seen_cache_dirty( pt );
+                if( inbounds( pt ) ) {
+                    memory_cache_dec_set_dirty( pt, true );
+                }
+                get_avatar().memorize_clear_decoration( getglobal( pt ), "vp_" );
             }
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
@@ -1402,6 +1448,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         return true;
     }
 
+    memory_clear_vehicle_points( veh );
+
     Character &player_character = get_player_character();
     // Need old coordinates to check for remote control
     const bool remote = veh.remote_controlled( player_character );
@@ -1725,9 +1773,9 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
 
     invalidate_max_populated_zlev( p.z );
 
-    set_memory_seen_cache_dirty( p );
+    memory_cache_dec_set_dirty( p, true );
     if( pl_sees( p, player_character.sight_max ) ) {
-        player_character.memorize_clear_decoration( getabs( p ), "f_" );
+        player_character.memorize_clear_decoration( getglobal( p ), "f_" );
     }
 
     // TODO: Limit to changes that affect move cost, traps and stairs
@@ -1843,13 +1891,13 @@ uint8_t map::get_known_connections( const tripoint &p,
     if( use_tiles ) {
         is_memorized =
         [&]( const tripoint & q ) {
-            return !player_character.get_memorized_tile( getabs( q ) ).get_ter_id().empty();
+            return !player_character.get_memorized_tile( getglobal( q ) ).get_ter_id().empty();
         };
     } else {
 #endif
         is_memorized =
         [&]( const tripoint & q ) {
-            return player_character.get_memorized_tile( getabs( q ) ).symbol != 0;
+            return player_character.get_memorized_tile( getglobal( q ) ).symbol != 0;
         };
 #ifdef TILES
     }
@@ -1928,12 +1976,12 @@ uint8_t map::get_known_connections_f( const tripoint &p,
 #ifdef TILES
     if( use_tiles ) {
         is_memorized = [&]( const tripoint & q ) {
-            return !player_character.get_memorized_tile( getabs( q ) ).get_dec_id().empty();
+            return !player_character.get_memorized_tile( getglobal( q ) ).get_dec_id().empty();
         };
     } else {
 #endif
         is_memorized = [&]( const tripoint & q ) {
-            return player_character.get_memorized_tile( getabs( q ) ).symbol != 0;
+            return player_character.get_memorized_tile( getglobal( q ) ).symbol != 0;
         };
 #ifdef TILES
     }
@@ -2168,10 +2216,10 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
 
     invalidate_max_populated_zlev( p.z );
 
-    set_memory_seen_cache_dirty( p );
+    memory_cache_dec_set_dirty( p, true );
     avatar &player_character = get_avatar();
     if( pl_sees( p, player_character.sight_max ) ) {
-        player_character.memorize_clear_decoration( getabs( p ), "t_" );
+        player_character.memorize_clear_decoration( getglobal( p ), "t_" );
     }
 
     // TODO: Limit to changes that affect move cost, traps and stairs
@@ -5927,10 +5975,10 @@ void map::partial_con_remove( const tripoint_bub_ms &p )
         return;
     }
     current_submap->partial_constructions.erase( tripoint_sm_ms( l, p.z() ) );
-    set_memory_seen_cache_dirty( p.raw() );
+    memory_cache_dec_set_dirty( p.raw(), true );
     avatar &player_character = get_avatar();
     if( pl_sees( p.raw(), player_character.sight_max ) ) {
-        player_character.memorize_clear_decoration( getabs( p ), "tr_" );
+        player_character.memorize_clear_decoration( getglobal( p ), "tr_" );
     }
 }
 
@@ -5970,10 +6018,10 @@ void map::trap_set( const tripoint &p, const trap_id &type )
         return;
     }
 
-    set_memory_seen_cache_dirty( p );
+    memory_cache_dec_set_dirty( p, true );
     avatar &player_character = get_avatar();
     if( pl_sees( p, player_character.sight_max ) ) {
-        player_character.memorize_clear_decoration( getabs( p ), "tr_" );
+        player_character.memorize_clear_decoration( getglobal( p ), "tr_" );
     }
     // If there was already a trap here, remove it.
     if( current_submap->get_trap( l ) != tr_null ) {
@@ -6007,10 +6055,10 @@ void map::remove_trap( const tripoint &p )
     trap_id tid = current_submap->get_trap( l );
     if( tid != tr_null ) {
         if( g != nullptr && this == &get_map() ) {
-            set_memory_seen_cache_dirty( p );
+            memory_cache_dec_set_dirty( p, true );
             avatar &player_character = get_avatar();
             if( pl_sees( p, player_character.sight_max ) ) {
-                player_character.memorize_clear_decoration( getabs( p ), "tr_" );
+                player_character.memorize_clear_decoration( getglobal( p ), "tr_" );
             }
             player_character.add_known_trap( p, tr_null.obj() );
         }
@@ -6528,7 +6576,7 @@ visibility_type map::get_visibility( const lit_level ll,
 
 static std::optional<char32_t> get_memory_at( const tripoint &p )
 {
-    const memorized_tile &mt = get_avatar().get_memorized_tile( get_map().getabs( p ) );
+    const memorized_tile &mt = get_avatar().get_memorized_tile( get_map().getglobal( p ) );
     if( mt.symbol != 0 ) {
         return mt.symbol;
     }
@@ -6566,8 +6614,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                              );
     avatar &player_character = get_avatar();
     player_character.prepare_map_memory_region(
-        getabs( tripoint( min_mm_reg, center.z ) ),
-        getabs( tripoint( max_mm_reg, center.z ) )
+        getglobal( tripoint( min_mm_reg, center.z ) ),
+        getglobal( tripoint( max_mm_reg, center.z ) )
     );
 
     const auto draw_background = [&]( const tripoint & p ) {
@@ -6857,8 +6905,9 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         }
     }
 
-    if( param.memorize() && check_and_set_seen_cache( p ) ) {
-        player_character.memorize_symbol( getabs( p ), memory_sym );
+    if( param.memorize() && memory_cache_ter_is_dirty( p ) ) {
+        player_character.memorize_symbol( getglobal( p ), memory_sym );
+        memory_cache_ter_set_dirty( p, false );
     }
 
     // If there's graffiti here, change background color
@@ -7539,7 +7588,8 @@ void map::shift( const point &sp )
         clear_vehicle_list( gridz );
         level_cache *cache = get_cache_lazy( gridz );
         if( cache ) {
-            shift_bitset_cache<MAPSIZE_X, SEEX>( cache->map_memory_seen_cache, sp );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( cache->map_memory_cache_dec, sp );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( cache->map_memory_cache_ter, sp );
             shift_bitset_cache<MAPSIZE, 1>( cache->field_cache, sp );
         }
         if( sp.x >= 0 ) {
@@ -8445,6 +8495,18 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
 
         for( int j = 0; j < i.count; j++ ) {
             monster tmp( i.type );
+
+            if( tmp.type->in_species( species_FERAL ) ) {
+                if( one_in( 100 ) ) {
+                    // Same chances and duration of flu vs. cold as for the player.
+                    if( one_in( 6 ) ) {
+                        tmp.add_effect( effect_fake_flu, rng( 3_days, 10_days ) );
+                    } else {
+                        tmp.add_effect( effect_fake_common_cold, rng( 1_days, 14_days ) );
+                    }
+                }
+            }
+
             if( i.mission_id > 0 ) {
                 tmp.mission_ids = { i.mission_id };
                 mission *found_mission = mission::find( i.mission_id );

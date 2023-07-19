@@ -13,6 +13,27 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "attack_player_only",
+    "//": "Should be friendly to everything, this faction only attacks and is attacked by the player/NPCs",
+    "friendly": [
+      "slime",
+      "zombie",
+      "animal",
+      "mutant",
+      "insect",
+      "bot",
+      "nether",
+      "spider",
+      "stag_beetle",
+      "small_animal",
+      "plant",
+      "triffid"
+    ],
+    "by_mood": [ "attack_player_only" ],
+    "hate": [ "player", "human" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "human",
     "neutral": [ "mech_bot", "passive_machine" ],
     "by_mood": [ "exodii", "isolated_artisans", "yrax" ]
@@ -26,7 +47,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "zombie",
-    "friendly": [ "slime" ],
+    "friendly": [ "slime", "attack_player_only" ],
     "neutral": [ "cult", "small_animal", "fish", "aquatic_predator", "passive_machine", "nether_player_hate" ]
   },
   {
@@ -64,6 +85,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "animal",
+    "friendly": [ "attack_player_only" ],
     "neutral": [ "small_animal", "fish", "bot", "aquatic_predator", "robofac", "passive_machine", "nether_player_hate" ],
     "by_mood": [ "animal" ]
   },
@@ -71,6 +93,7 @@
     "type": "MONSTER_FACTION",
     "name": "small_animal",
     "base_faction": "animal",
+    "friendly": [ "attack_player_only" ],
     "neutral": [ "zombie", "fish", "exodii", "isolated_artisans", "nether", "animal", "yrax", "passive_machine" ],
     "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf" ]
   },
@@ -161,6 +184,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "nether",
+    "friendly": [ "attack_player_only" ],
     "neutral": [ "cult", "small_animal", "fish", "slime", "passive_machine" ],
     "by_mood": [ "leech_plant", "vortex", "mi-go" ]
   },
@@ -197,7 +221,7 @@
     "name": "slime",
     "base_faction": "nether",
     "neutral": [ "nether", "mi-go", "passive_machine" ],
-    "friendly": [ "zombie" ]
+    "friendly": [ "zombie", "attack_player_only" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -211,6 +235,7 @@
     "//": "Assorted mutated wildlife, more aggressive",
     "//2": "Primarily meant as a base_faction;",
     "//3": "if used as a faction, they may attack each other.",
+    "friendly": [ "attack_player_only" ],
     "neutral": [ "fish", "passive_machine" ],
     "by_mood": [ "mutant", "mutant_piscivores" ],
     "hate": [ "insect", "animal" ]
@@ -290,7 +315,7 @@
     "type": "MONSTER_FACTION",
     "name": "bot",
     "neutral": [ "bot", "animal", "insect", "plant", "fish", "robofac", "fungus", "aquatic_predator", "passive_machine" ],
-    "friendly": [ "passive_machine" ]
+    "friendly": [ "passive_machine", "attack_player_only" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -371,6 +396,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "insect",
+    "friendly": [ "attack_player_only" ],
     "neutral": [ "fish", "bot", "aquatic_predator" ],
     "by_mood": [ "insect" ]
   },
@@ -426,6 +452,7 @@
     "type": "MONSTER_FACTION",
     "name": "spider",
     "base_faction": "insect",
+    "friendly": [ "attack_player_only" ],
     "hate": [ "insect", "animal" ],
     "by_mood": [ "spider" ]
   },
@@ -490,6 +517,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "stag_beetle",
+    "friendly": [ "attack_player_only" ],
     "base_faction": "insect"
   },
   {
@@ -606,12 +634,13 @@
     "type": "MONSTER_FACTION",
     "name": "plant",
     "neutral": [ "bot", "fish", "passive_machine" ],
-    "friendly": [ "bee" ]
+    "friendly": [ "bee", "attack_player_only" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "triffid",
     "base_faction": "plant",
+    "friendly": [ "attack_player_only" ],
     "neutral": [ "yrax" ],
     "hate": [ "fungus" ]
   },

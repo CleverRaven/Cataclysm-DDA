@@ -3,79 +3,112 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "map_extra_science",
+    "//": "Nested group to damage the container-item",
+    "entries": [ { "group": "map_extra_science_corpse", "prob": 100, "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_science_corpse",
+    "container-item": "corpse_generic_human",
+    "//": "Half the time a wallet with an id card, all the time a lab coat",
     "entries": [
-      { "group": "wallets_science", "prob": 50, "//": "half the time a wallet with an id card" },
-      { "item": "coat_lab", "damage-min": 1, "damage-max": 3, "//": "all the time a lab coat" },
+      { "group": "wallets_science", "prob": 50 },
+      { "item": "coat_lab", "damage": [ 1, 3 ] },
       { "group": "science" },
-      { "group": "lab_pants", "damage-min": 1, "damage-max": 3 },
-      { "group": "socks_unisex", "damage-min": 1, "damage-max": 3 },
-      { "group": "lab_shoes", "damage-min": 1, "damage-max": 3 },
-      { "group": "lab_torso", "damage-min": 1, "damage-max": 3 },
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "item": "corpse", "damage": 4, "//": "always a corpse, pulped!" }
+      { "group": "lab_pants", "damage": [ 1, 3 ] },
+      { "group": "socks_unisex", "damage": [ 1, 3 ] },
+      { "group": "lab_shoes", "damage": [ 1, 3 ] },
+      { "group": "lab_torso", "damage": [ 1, 3 ] },
+      { "group": "underwear", "damage": [ 1, 3 ] }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "map_extra_college_camping",
+    "entries": [ { "group": "map_extra_college_camping_corpse", "prob": 100, "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_college_camping_corpse",
+    "container-item": "corpse_generic_human",
     "entries": [
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "group": "shirts", "damage-min": 1, "damage-max": 4 },
-      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
-      { "group": "pants", "damage-min": 1, "damage-max": 4 },
-      { "group": "socks_unisex", "damage-min": 1, "damage-max": 4 },
-      { "group": "shoes", "damage-min": 1, "damage-max": 4 },
-      { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
+      { "group": "underwear", "damage": [ 1, 3 ] },
+      { "group": "shirts", "damage": [ 1, 4 ] },
+      { "group": "jackets", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "pants", "damage": [ 1, 4 ] },
+      { "group": "socks_unisex", "damage": [ 1, 4 ] },
+      { "group": "shoes", "damage": [ 1, 4 ] },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 40 },
       { "group": "college_camping", "prob": 50 },
       { "group": "college_camping", "prob": 80 },
       { "group": "SUS_book_nonf_soft", "prob": 20 },
       { "item": "pride_flag", "prob": 5 },
-      { "item": "national_flag", "prob": 2 },
-      { "item": "corpse", "damage": 4 }
+      { "item": "national_flag", "prob": 2 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "map_extra_college_sports",
+    "entries": [ { "group": "map_extra_college_sports_corpse", "prob": 100, "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_college_sports_corpse",
+    "container-item": "corpse_generic_human",
     "entries": [
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "group": "shirts", "damage-min": 1, "damage-max": 4 },
-      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
-      { "group": "pants", "damage-min": 1, "damage-max": 4 },
-      { "group": "socks_unisex", "damage-min": 1, "damage-max": 4 },
-      { "group": "shoes", "damage-min": 1, "damage-max": 4 },
-      { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
+      { "group": "underwear", "damage": [ 1, 3 ] },
+      { "group": "shirts", "damage": [ 1, 4 ] },
+      { "group": "jackets", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "pants", "damage": [ 1, 4 ] },
+      { "group": "socks_unisex", "damage": [ 1, 4 ] },
+      { "group": "shoes", "damage": [ 1, 4 ] },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 40 },
       { "group": "college_sports", "prob": 50 },
       { "group": "college_sports", "prob": 90 },
       { "group": "SUS_book_sports", "prob": 30 },
-      { "item": "pride_flag", "prob": 2 },
-      { "item": "corpse", "damage": 4 }
+      { "item": "pride_flag", "prob": 2 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "map_extra_college_lake",
+    "entries": [ { "group": "map_extra_college_lake_corpse", "prob": 100, "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_college_lake_corpse",
+    "container-item": "corpse_generic_human",
     "entries": [
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "group": "shirts", "damage-min": 1, "damage-max": 4 },
-      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
-      { "group": "pants", "damage-min": 1, "damage-max": 4 },
+      { "group": "underwear", "damage": [ 1, 3 ] },
+      { "group": "shirts", "damage": [ 1, 4 ] },
+      { "group": "jackets", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "pants", "damage": [ 1, 4 ] },
       { "group": "socks_unisex", "damage-min": 1, "damage-max": 4 },
       { "group": "shoes", "damage-min": 1, "damage-max": 4 },
       { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
       { "group": "college_lake", "prob": 50 },
       { "group": "college_lake", "prob": 70 },
-      { "group": "SUS_book_nonf_soft", "prob": 25 },
-      { "item": "corpse", "damage": 4 }
+      { "group": "SUS_book_nonf_soft", "prob": 25 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "map_extra_drugdeal",
+    "entries": [ { "group": "map_extra_drugdeal_corpse", "prob": 100, "damage": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_drugdeal_corpse",
+    "container-item": "corpse_generic_human",
     "entries": [
       { "group": "drugdealer", "prob": 75 },
       {
@@ -92,15 +125,21 @@
       { "group": "lab_shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
       { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 50 },
       { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-      { "item": "corpse", "damage": 4 }
+      { "group": "underwear", "damage-min": 1, "damage-max": 3 }
     ]
   },
   {
-    "id": "map_extra_police",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "mon_zombie_cop_death_drops" }, { "item": "corpse", "damage": 4 } ]
+    "id": "map_extra_police",
+    "entries": [ { "group": "map_extra_police_corpse", "prob": 100, "damage": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_police_corpse",
+    "container-item": "corpse_generic_human",
+    "entries": [ { "group": "mon_zombie_cop_death_drops" } ]
   },
   {
     "type": "item_group",
@@ -135,17 +174,6 @@
       { "item": "cigar_butt" },
       { "item": "cig_butt" },
       { "item": "can_drink" }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "id": "corpse_in_body_bag",
-    "container-item": "bag_body_bag",
-    "entries": [
-      { "group": "corpse_male", "damage": [ 1, 4 ] },
-      { "group": "corpse_male", "damage": [ 1, 4 ] },
-      { "group": "corpse_child", "damage": [ 1, 4 ] }
     ]
   }
 ]

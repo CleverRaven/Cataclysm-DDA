@@ -107,7 +107,14 @@
             "mission_cursor"
           ],
           "fg": 70
-        }
+        },
+        { "id": [ "run_nw", "run_se" ], "fg": 428 },
+        { "id": [ "run_n", "run_s" ], "fg": 515 },
+        { "id": [ "run_ne", "run_sw", "bash_effective" ], "fg": 383 },
+        { "id": [ "run_w", "run_e" ], "fg": 381 },
+        { "id": "bash_complete", "fg": 424 },
+        { "id": "shadow", "animated": true, "fg": [ { "weight": 8, "sprite": 2478 }, { "weight": 8, "sprite": 0 } ] },
+        { "id": [ "t_open_air", "t_open_air_rooved", "t_open_air_rooved_outside" ], "fg": 9 }
       ]
     },
     {
