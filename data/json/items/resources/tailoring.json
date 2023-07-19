@@ -393,7 +393,23 @@
     "color": "dark_gray"
   },
   {
-    "id": "patch_kevlar",
+    "id": "sheet_kevlar_patchwork",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "patchwork Kevlar sheet" },
+    "description": "A 12-inch by 24-inch sheet of fabric sewn together from Kevlar patches, suitable for making durable cut and stab resistant clothing.  This would be out of the question for ballistic Kevlar but the simpler, looser weave of this variety means it is fine to use if you lack proper material sheets.",
+    "weight": "26 g",
+    "volume": "51 ml",
+    "//": "values taken from Duponts chemical reference. 144 GSM",
+    "price": 900,
+    "price_postapoc": 50,
+    "material": [ "kevlar" ],
+    "looks_like": "sheet_kevlar",
+    "symbol": "=",
+    "color": "dark_gray"
+  },
+  {
+    "id": "kevlar_patch",
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Kevlar patch" },
@@ -404,7 +420,7 @@
     "price": 100,
     "price_postapoc": 5,
     "material": [ "kevlar" ],
-    "symbol": "=",
+    "symbol": ",",
     "color": "dark_gray"
   },
   {
