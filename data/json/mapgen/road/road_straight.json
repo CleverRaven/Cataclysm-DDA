@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "JSONroad_ns",
+    "om_terrain": "road_straight",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [

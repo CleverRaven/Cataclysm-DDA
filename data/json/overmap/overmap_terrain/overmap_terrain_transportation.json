@@ -31,13 +31,7 @@
     "color": "dark_gray",
     "see_cost": 2,
     "extras": "road",
-    "//": "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
-    "mapgen_straight": [ { "method": "builtin", "name": "road_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "road_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
-    "flags": [ "LINEAR", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",

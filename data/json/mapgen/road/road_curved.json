@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "JSONroad_es",
+    "om_terrain": "road_curved",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "//": "Replace 24x24_road_es_curvy with 24x24_road_es_roundabout and add tees to deal with bad road spawns (perfectly circle 2x2 with nests for connections, no need for SIDEWALK bc only out of city has bad road spawns)",

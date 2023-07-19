@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "JSONroad_nesw",
+    "om_terrain": "road_four_way",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -55,6 +55,16 @@
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_sidewalk_ns_corner_double",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0 } ]
     }
   }
 ]
