@@ -1022,7 +1022,7 @@
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_quenching", "skill_penalty": 0 }
     ],
-    "components": [ [ [ "bo", 1  ] ] ]
+    "components": [ [ [ "bo", 1 ] ] ]
   },
   {
     "type": "recipe",
