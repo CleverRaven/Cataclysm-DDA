@@ -1477,20 +1477,21 @@
     "price": 35000,
     "price_postapoc": 1250,
     "to_hit": -3,
-    "material": [ "kevlar", "nylon" ],
+    "material": [ "kevlar_layered", "nylon" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_gray",
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "flags": [ "STURDY" ],
     "armor": [
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.3 }
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3 }
         ],
         "encumbrance": 3,
+        "ignore_sheet_thickness": true,
         "coverage": 94,
         "cover_vitals": 70,
         "covers": [ "torso" ],
@@ -1499,10 +1500,11 @@
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.3 }
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3 }
         ],
         "//": "encumbrance handled above",
         "encumbrance": 0,
+        "ignore_sheet_thickness": true,
         "coverage": 85,
         "cover_vitals": 60,
         "covers": [ "torso" ],
