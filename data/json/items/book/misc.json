@@ -1192,7 +1192,8 @@
         "id": "book_judaica_hardcover_7",
         "name": { 
           "str": "Coming to Terms with America: Essays on Jewish History, Religion, and Culture",
-          "str_pl": "copies of Coming to Terms with America: Essays on Jewish History, Religion, and Culture" },
+          "str_pl": "copies of Coming to Terms with America: Essays on Jewish History, Religion, and Culture"
+        },
         "description": "A series of fifteen essays by Jonathan Sarna on Jews' attempt to be both distinctively Jewish but also definitely American, covering the American Revolution through to contemporary times.",
         "weight": 1
       },
