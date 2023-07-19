@@ -1345,7 +1345,8 @@ void advanced_inventory::start_activity(
             debugmsg( "Active container is null, failed to insert!" );
             return;
         }
-        if( sitem->items.front() == panes[dest].container ) {
+        if( sitem->items.front() == panes[dest].container ||
+            sitem->items.front().eventually_contains( panes[dest].container ) ) {
             popup_getkey( _( "You can't put the %s inside itself." ), sitem->items.front()->type_name() );
             return;
         }
