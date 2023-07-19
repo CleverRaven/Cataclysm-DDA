@@ -12,7 +12,7 @@
     "looks_like": "sledge",
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
-    "flags": [ "SHEATH_SPEAR", "DURABLE_MELEE", "ALWAYS_TWOHAND" ],
+    "flags": [ "SHEATH_SPEAR", "DURABLE_MELEE" ],
     "weapon_category": [ "GREAT_HAMMERS" ],
     "melee_damage": { "bash": 27 },
     "relic_data": { "passive_effects": [ { "id": "WOLF_SLEDGE" } ] },
@@ -39,8 +39,8 @@
     "charges_per_use": 1,
     "charged_qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -50 ] ],
     "use_action": { "target": "combatsaw_spear_on", "msg": "You turn on the chainsaw spear.", "active": true, "type": "transform" },
-    "techniques": [ "SWEEP", "IMPALE" ],
-    "flags": [ "ALWAYS_TWOHAND", "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE" ],
+    "techniques": [ "SWEEP", "IMPALE", "SPIN" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR", "DURABLE_MELEE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

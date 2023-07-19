@@ -32,7 +32,7 @@
   {
     "type": "recipe",
     "result": "faction_base_fire_lookout_tower_root_cellar",
-    "description": "Digging a root cellar will allow us trapping small game and preserving it.",
+    "description": "Digging a root cellar will allow us to preserve any small game that we trap.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

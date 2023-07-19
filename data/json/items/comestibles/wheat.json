@@ -1,26 +1,6 @@
 [
   {
     "type": "COMESTIBLE",
-    "id": "wheat",
-    "name": { "str_sp": "wheat" },
-    "weight": "203 g",
-    "color": "brown",
-    "comestible_type": "FOOD",
-    "symbol": ",",
-    "quench": -10,
-    "calories": 667,
-    "description": "Raw wheat, not very tasty.",
-    "price": 120,
-    "price_postapoc": 100,
-    "material": [ "wheat" ],
-    "milling": { "into": "flour", "conversion_rate": 15 },
-    "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
-    "fun": -10
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "grain_boiled",
     "looks_like": "buckwheat_cooked",
     "name": { "str_sp": "boiled grain" },
@@ -207,26 +187,6 @@
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -8
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "oats",
-    "name": { "str_sp": "oats" },
-    "weight": "86 g",
-    "color": "brown",
-    "comestible_type": "FOOD",
-    "symbol": ",",
-    "quench": -10,
-    "calories": 335,
-    "description": "Raw oats.",
-    "price": 120,
-    "price_postapoc": 100,
-    "material": [ "wheat" ],
-    "volume": "250 ml",
-    "milling": { "into": "flour", "conversion_rate": 3.75 },
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
-    "fun": -10
   },
   {
     "type": "COMESTIBLE",
@@ -618,7 +578,7 @@
     "price": 5000,
     "price_postapoc": 300,
     "charges": 4,
-    "material": [ "wheat" ],
+    "material": [ "wheat", "egg" ],
     "symbol": "%",
     "color": "brown",
     "calories": 278,
@@ -657,15 +617,5 @@
     "price_postapoc": 500,
     "fun": 15,
     "use_action": [ "WEED_CAKE" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "wild_rice",
-    "name": { "str_sp": "wild rice" },
-    "copy-from": "wheat",
-    "calories": 120,
-    "description": "Raw wild rice, still in its fibrous shell and not very tasty.",
-    "milling": { "into": "dry_wild_rice", "conversion_rate": 5 },
-    "fun": -20
   }
 ]

@@ -840,6 +840,30 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint_abs_ms &wh
     return false;
 }
 
+std::vector<zone_data const *> zone_manager::get_near_zones( const zone_type_id &type,
+        const tripoint_abs_ms &where, int range,
+        const faction_id &fac ) const
+{
+    std::vector<zone_data const *> ret;
+    for( const zone_data &zone : zones ) {
+        if( square_dist( zone.get_center_point(), where ) <= range && zone.get_type() == type &&
+            zone.get_faction() == fac ) {
+            ret.emplace_back( &zone );
+        }
+    }
+
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
+    for( const zone_data *zone : vzones ) {
+        if( square_dist( zone->get_center_point(), where ) <= range && zone->get_type() == type &&
+            zone->get_faction() == fac ) {
+            ret.emplace_back( zone );
+        }
+    }
+
+    return ret;
+}
+
 bool zone_manager::has_loot_dest_near( const tripoint_abs_ms &where ) const
 {
     for( const auto &ztype : get_manager().get_types() ) {

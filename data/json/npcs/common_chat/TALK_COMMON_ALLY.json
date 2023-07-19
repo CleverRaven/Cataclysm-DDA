@@ -731,6 +731,16 @@
         },
         {
           "concatenate": [
+            { "npc_override": "lock_doors", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "lock_doors",
+              "yes": "<ally_rule_lock_doors_true_text>",
+              "no": "<ally_rule_lock_doors_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
             { "npc_override": "ignore_noise", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "ignore_noise",
@@ -746,6 +756,16 @@
               "npc_rule": "avoid_doors",
               "yes": "<ally_rule_avoid_doors_true_text>",
               "no": "<ally_rule_avoid_doors_false_text>"
+            }
+          ]
+        },
+        {
+          "concatenate": [
+            { "npc_override": "avoid_locks", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "avoid_locks",
+              "yes": "<ally_rule_avoid_locks_true_text>",
+              "no": "<ally_rule_avoid_locks_false_text>"
             }
           ]
         },
@@ -800,12 +820,30 @@
       },
       {
         "truefalsetext": {
+          "condition": { "npc_rule": "lock_doors" },
+          "true": "Leave doors unlocked.",
+          "false": "Lock any doors that you close."
+        },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "lock_doors" }
+      },
+      {
+        "truefalsetext": {
           "condition": { "npc_rule": "avoid_doors" },
           "true": "Open doors to get where you're going.",
           "false": "Don't walk through closed doors."
         },
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "avoid_doors" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "avoid_locks" },
+          "true": "Unlock doors to get where you're going.",
+          "false": "Don't unlock locked doors."
+        },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "avoid_locks" }
       },
       {
         "truefalsetext": {
@@ -886,6 +924,12 @@
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
         "effect": "do_read"
+      },
+      {
+        "text": "Please study from an e-book.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_eread"
       },
       {
         "text": "Please start deconstructing any vehicles in a deconstruction zone.",

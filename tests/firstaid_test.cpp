@@ -38,7 +38,7 @@ static bool bandages_filter( const item &it )
     return ( it.typeId() == itype_bandages );
 }
 
-TEST_CASE( "avatar does healing", "[activity][firstaid][avatar]" )
+TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
@@ -93,7 +93,7 @@ TEST_CASE( "avatar does healing", "[activity][firstaid][avatar]" )
     }
 }
 
-TEST_CASE( "npc does healing", "[activity][firstaid][npc]" )
+TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();

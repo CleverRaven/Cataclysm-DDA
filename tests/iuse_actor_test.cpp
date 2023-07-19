@@ -82,7 +82,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     g->clear_zombies();
 }
 
-TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
+TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
 {
     Character &dummy = get_avatar();
     clear_avatar();

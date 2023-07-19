@@ -68,16 +68,9 @@ static const char *getenv_or_abort( const char *name )
     return result;
 }
 
-void PATH_INFO::init_base_path( std::string path )
+void PATH_INFO::init_base_path( const std::string &path )
 {
-    if( !path.empty() ) {
-        const char ch = path.back();
-        if( ch != '/' && ch != '\\' ) {
-            path.push_back( '/' );
-        }
-    }
-
-    base_path_value = path;
+    base_path_value = as_norm_dir( path );
     base_path_path_value = cata_path{ cata_path::root_path::base, fs::path{} };
 }
 
@@ -105,7 +98,7 @@ void PATH_INFO::init_user_dir( std::string dir )
 #endif
     }
 
-    user_dir_value = dir;
+    user_dir_value = as_norm_dir( dir );
     user_dir_path_value = cata_path{ cata_path::root_path::user, fs::path{} };
 }
 

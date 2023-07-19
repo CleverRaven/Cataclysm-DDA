@@ -5,7 +5,6 @@
     "location": "engine_block",
     "categories": [ "movement", "operations" ],
     "fuel_type": "muscle",
-    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 50,
     "noise_factor": 5,
@@ -28,7 +27,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "extend": { "flags": [ "MUSCLE_LEGS", "CONTROLS" ] },
@@ -44,12 +43,11 @@
     "description": "A set of wheelchair style wheels.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
     "power": "180 W",
     "muscle_power_factor": 30,
-    "damage_modifier": 50,
     "folded_volume": "500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "extend": { "flags": [ "MUSCLE_ARMS", "CONTROLS" ] },

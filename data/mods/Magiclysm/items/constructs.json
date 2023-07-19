@@ -72,7 +72,7 @@
     "description": "A broken iron golem, with all iron you would possibly ever need.  Could be smashed for iron.",
     "price": 100000,
     "material": [ "iron" ],
-    "weight": "945 kg",
+    "weight": "875 kg",
     "volume": "120 L",
     "to_hit": -5,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],

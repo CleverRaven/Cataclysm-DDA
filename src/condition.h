@@ -49,7 +49,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_is_height", "npc_is_height", "math",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
-        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int",
+        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", "u_is_in_field", "npc_is_in_field", "compare_int",
         "compare_string", "roll_contested", "compare_num", "u_has_martial_art", "npc_has_martial_art", "get_condition", "get_game_option"
     }
 };
@@ -125,6 +125,8 @@ struct conditional_t {
         void set_has_part_temp( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
         void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_is_on_terrain_with_flag( const JsonObject &jo, const std::string &member,
+                                          bool is_npc = false );
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_one_in_chance( const JsonObject &jo, const std::string &member );
         void set_query( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -189,6 +191,7 @@ struct conditional_t {
         void set_u_has_camp();
         void set_has_pickup_list( bool is_npc );
         void set_has_reason();
+        void set_is_alive( bool is_npc = false );
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_has_skill( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_roll_contested( const JsonObject &jo, std::string_view member );

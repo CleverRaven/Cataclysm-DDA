@@ -1868,7 +1868,12 @@
     "speed": 60,
     "attack_cost": 60,
     "hp": 365,
-    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 }, { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [
+      { "id": "bio_op_takedown", "cooldown": 20 },
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
+    ],
     "burn_into": "mon_ziats_scorched",
     "fungalize_into": "mon_ziats_fungus",
     "categories": [ "DINOSAUR" ]
@@ -3007,7 +3012,12 @@
     "melee_dice": 3,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 }, { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [
+      { "id": "bio_op_takedown", "cooldown": 20 },
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
+    ],
     "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
   },
   {

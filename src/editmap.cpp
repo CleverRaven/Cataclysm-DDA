@@ -427,8 +427,6 @@ std::optional<tripoint> editmap::edit()
         } else if( action == "EDIT_MONSTER" ) {
             if( Creature *const critter = creatures.creature_at( target ) ) {
                 edit_critter( *critter );
-            } else if( get_map().veh_at( target ) ) {
-                edit_veh();
             }
         } else if( action == "EDIT_OVERMAP" ) {
             edit_mapgen();
@@ -1577,11 +1575,6 @@ void editmap::edit_critter( Creature &critter )
     } else if( npc *const npc_ptr = dynamic_cast<npc *>( &critter ) ) {
         edit_json( *npc_ptr );
     }
-}
-
-void editmap::edit_veh() const
-{
-    edit_json( get_map().veh_at( target )->vehicle() );
 }
 
 /*

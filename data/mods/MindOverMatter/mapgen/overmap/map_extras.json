@@ -1,0 +1,12 @@
+[
+  {
+    "id": "mx_alien_grass",
+    "type": "map_extra",
+    "name": { "str": "alien grass" },
+    "description": "A patch of alien grass.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_alien_grass" },
+    "sym": "A",
+    "color": "red",
+    "autonote": true
+  }
+]

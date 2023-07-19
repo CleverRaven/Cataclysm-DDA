@@ -261,6 +261,11 @@ void talk_function::do_read( npc &p )
     p.do_npc_read();
 }
 
+void talk_function::do_eread( npc &p )
+{
+    p.do_npc_read( true );
+}
+
 void talk_function::dismount( npc &p )
 {
     p.npc_dismount();

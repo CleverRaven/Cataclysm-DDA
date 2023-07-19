@@ -12,6 +12,7 @@ enum class var_type : int {
     faction,
     party,
     context,
+    var,
     last
 };
 

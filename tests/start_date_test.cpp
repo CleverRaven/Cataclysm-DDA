@@ -10,7 +10,7 @@ static const string_id<scenario> scenario_test_random_day( "test_random_day" );
 static const string_id<scenario> scenario_test_random_hour( "test_random_hour" );
 static const string_id<scenario> scenario_test_random_year( "test_random_year" );
 
-TEST_CASE( "Test start dates" )
+TEST_CASE( "Test_start_dates" )
 {
     int default_initial_day = 60;
     int default_initial_time = 8;  // Note that the default for scenario time is same
@@ -88,7 +88,7 @@ TEST_CASE( "Test start dates" )
     calendar::turn = calendar::turn_zero;
 }
 
-TEST_CASE( "Random dates" )
+TEST_CASE( "Random_dates" )
 {
     int default_initial_time = 8;
 
@@ -131,7 +131,7 @@ TEST_CASE( "Random dates" )
     calendar::turn = calendar::turn_zero;
 }
 
-TEST_CASE( "Random scenario dates" )
+TEST_CASE( "Random_scenario_dates" )
 {
     // Days counted from start of year
     time_duration first_day_of_summer = calendar::season_length();

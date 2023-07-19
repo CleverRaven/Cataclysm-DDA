@@ -118,7 +118,7 @@
 #include "submap.h"
 #include "text_snippets.h"
 #include "tileray.h"
-#include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -220,7 +220,7 @@ static tripoint read_legacy_creature_pos( const JsonObject &data )
 
 void item_contents::serialize( JsonOut &json ) const
 {
-    if( !contents.empty() ) {
+    if( !contents.empty() || !get_all_ablative_pockets().empty() || !additional_pockets.empty() ) {
         json.start_object();
 
         json.member( "contents", contents );
@@ -244,6 +244,7 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
+    json.member( "no_rigid", no_rigid );
     if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
@@ -259,6 +260,7 @@ void item_pocket::deserialize( const JsonObject &data )
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
+    data.read( "no_rigid", no_rigid );
     if( data.has_member( "favorite_settings" ) ) {
         data.read( "favorite_settings", this->settings );
     } else {
@@ -278,6 +280,7 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.member( "collapsed", collapsed );
     json.member( "disabled", disabled );
     json.member( "unload", unload );
+    json.member( "player_edited", player_edited );
     json.end_object();
 }
 
@@ -300,6 +303,11 @@ void item_pocket::favorite_settings::deserialize( const JsonObject &data )
     }
     if( data.has_member( "unload" ) ) {
         data.read( "unload", unload );
+    }
+    if( data.has_member( "player_edited" ) ) {
+        data.read( "player_edited", player_edited );
+    } else {
+        player_edited = true;
     }
 }
 
@@ -758,8 +766,6 @@ void Character::load( const JsonObject &data )
     data.read( "moncams", moncams );
 
     data.read( "magic", magic );
-
-    data.read( "underwater", underwater );
 
     data.read( "traits", my_traits );
     // If a trait has been migrated, we'll need to add it.
@@ -2043,15 +2049,15 @@ void dialogue_chatbin::deserialize( const JsonObject &data )
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
-    missions = mission::to_ptr_vector( tmpmissions );
+    missions = mission::to_ptr_vector( tmpmissions, /* ok_missing */ true );
     std::vector<int> tmpmissions_assigned;
     data.read( "missions_assigned", tmpmissions_assigned );
-    missions_assigned = mission::to_ptr_vector( tmpmissions_assigned );
+    missions_assigned = mission::to_ptr_vector( tmpmissions_assigned, /* ok_missing */ true );
 
     int tmpmission_selected = 0;
     mission_selected = nullptr;
     if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
-        mission_selected = mission::find( tmpmission_selected );
+        mission_selected = mission::find( tmpmission_selected, /* ok_missing */ true );
     }
 }
 
@@ -2701,6 +2707,8 @@ void monster::load( const JsonObject &data )
 
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
+
+    data.read( "grabbed_limbs", grabbed_limbs );
 }
 
 /*
@@ -2775,6 +2783,9 @@ void monster::store( JsonOut &json ) const
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
     json.member( "mounted_player_id", mounted_player_id );
+
+    // store grabbed limbs
+    json.member( "grabbed_limbs", grabbed_limbs );
 }
 
 void mon_special_attack::serialize( JsonOut &json ) const
@@ -2974,6 +2985,7 @@ void item::io( Archive &archive )
     archive.io( "active", active, false );
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
+    archive.io( "countdown_point", countdown_point, calendar::turn_max );
     archive.io( "wetness", wetness, 0 );
     archive.io( "contents_linked", contents_linked, false );
     archive.io( "dropped_from", dropped_from, harvest_drop_type_id::NULL_ID() );
@@ -3144,6 +3156,15 @@ void item::io( Archive &archive )
     // Activate corpses from old saves
     if( is_corpse() && !active ) {
         active = true;
+    }
+
+    // Migrate items with timer. #66161
+    // Do not remove this migration until all timer items are migrated to countdown_action
+    if( active && type->countdown_action && countdown_point == calendar::turn_max ) {
+        countdown_point  = calendar::turn + time_duration::from_seconds( charges ) +
+                           time_duration::from_seconds( item_counter );
+        charges = 0;
+        item_counter = 0;
     }
 
     if( charges != 0 && !type->can_have_charges() ) {
@@ -3339,6 +3360,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "target_second_y", target.second.y );
     data.read( "target_second_z", target.second.z );
     data.read( "ammo_pref", ammo_pref );
+    data.read( "locked", locked );
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
@@ -3350,7 +3372,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 void vehicle_part::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "id", info_->get_id().str() );
+    json.member( "id", info_->id.str() );
     if( !variant.empty() ) {
         json.member( "variant", variant );
     }
@@ -3390,6 +3412,7 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "target_second_z", target.second.z );
     }
     json.member( "ammo_pref", ammo_pref );
+    json.member( "locked", locked );
     json.end_object();
 }
 
@@ -3557,6 +3580,7 @@ void vehicle::deserialize( const JsonObject &data )
 void vehicle::deserialize_parts( const JsonArray &data )
 {
     parts.clear();
+    parts.reserve( data.size() );
     for( const JsonValue jv : data ) {
         try {
             vehicle_part part;
@@ -3997,40 +4021,33 @@ void player_morale::load( const JsonObject &jsin )
     jsin.read( "morale", points );
 }
 
-struct mm_elem {
-    memorized_terrain_tile tile;
-    int symbol;
-
-    bool operator==( const mm_elem &rhs ) const {
-        return symbol == rhs.symbol && tile == rhs.tile;
-    }
-};
-
 void mm_submap::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
 
     // Uses RLE for compression.
 
-    mm_elem last;
+    memorized_tile last;
     int num_same = 1;
 
     const auto write_seq = [&]() {
         jsout.start_array();
-        jsout.write( last.tile.tile );
-        jsout.write( last.tile.subtile );
-        jsout.write( last.tile.rotation );
+        jsout.write( num_same );
         jsout.write( last.symbol );
-        if( num_same != 1 ) {
-            jsout.write( num_same );
+        jsout.write( last.ter_id );
+        jsout.write( static_cast<int>( last.ter_subtile ) );
+        jsout.write( static_cast<int>( last.ter_rotation ) );
+        if( !last.get_dec_id().empty() ) {
+            jsout.write( last.dec_id );
+            jsout.write( static_cast<int>( last.dec_subtile ) );
+            jsout.write( static_cast<int>( last.dec_rotation ) );
         }
         jsout.end_array();
     };
 
     for( size_t y = 0; y < SEEY; y++ ) {
         for( size_t x = 0; x < SEEX; x++ ) {
-            point p( x, y );
-            const mm_elem elem = { tile( p ), symbol( p ) };
+            const memorized_tile &elem = get_tile( point( x, y ) );
             if( x == 0 && y == 0 ) {
                 last = elem;
                 continue;
@@ -4049,13 +4066,12 @@ void mm_submap::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void mm_submap::deserialize( const JsonValue &ja )
+void mm_submap::deserialize( int version, const JsonArray &ja )
 {
+    size_t submap_array_idx = 0;
+
     // Uses RLE for compression.
-
-    JsonArray sm_json = ja;
-
-    mm_elem elem;
+    memorized_tile tile;
     size_t remaining = 0;
 
     for( size_t y = 0; y < SEEY; y++ ) {
@@ -4063,25 +4079,56 @@ void mm_submap::deserialize( const JsonValue &ja )
             if( remaining > 0 ) {
                 remaining -= 1;
             } else {
-                JsonArray elem_json = sm_json.next_array();
-                elem.tile.tile = elem_json.next_string();
-                elem.tile.subtile = elem_json.next_int();
-                elem.tile.rotation = elem_json.next_int();
-                elem.symbol = elem_json.next_int();
-                if( elem_json.size() > 4 ) {
-                    remaining = elem_json.next_int() - 1;
-                }
-                if( elem_json.has_more() ) {
-                    elem_json.throw_error( "Too many values for RLE" );
+                const JsonArray ja_tile = ja.get_array( submap_array_idx++ );
+                if( version < 1 ) { // legacy, remove after 0.H comes out
+                    std::string id = ja_tile.get_string( 0 );
+                    if( string_starts_with( id, "t_" ) ) {
+                        tile.set_ter_id( std::move( id ) );
+                        tile.set_ter_subtile( ja_tile.get_int( 1 ) );
+                        tile.set_ter_rotation( ja_tile.get_int( 2 ) );
+                        tile.set_dec_id( "" );
+                        tile.set_dec_subtile( 0 );
+                        tile.set_dec_rotation( 0 );
+                    } else {
+                        tile.set_ter_id( "" );
+                        tile.set_ter_subtile( 0 );
+                        tile.set_ter_rotation( 0 );
+                        tile.set_dec_id( std::move( id ) );
+                        tile.set_dec_subtile( ja_tile.get_int( 1 ) );
+                        const int legacy_rotation = ja_tile.get_int( 2 );
+                        if( string_starts_with( tile.dec_id, "vp_" ) ) {
+                            // legacy vehicle rotation needs to be converted from 0-360 degrees
+                            // to 0-3 tileset rotation
+                            const units::angle legacy_angle = units::from_degrees( legacy_rotation );
+                            tile.set_dec_rotation( angle_to_dir4( 270_degrees - legacy_angle ) );
+                        } else {
+                            tile.set_dec_rotation( legacy_rotation );
+                        }
+                    }
+                    tile.symbol = ja_tile.get_int( 3 );
+                    if( ja_tile.size() > 4 ) {
+                        remaining = ja_tile.get_int( 4 ) - 1;
+                    }
+                } else {
+                    remaining = ja_tile.get_int( 0 ) - 1;
+                    tile.symbol = ja_tile.get_int( 1 );
+                    tile.set_ter_id( ja_tile.get_string( 2 ) );
+                    tile.ter_subtile = ja_tile.get_int( 3 );
+                    tile.ter_rotation = ja_tile.get_int( 4 );
+                    if( ja_tile.size() > 5 ) {
+                        tile.set_dec_id( ja_tile.get_string( 5 ) );
+                        tile.dec_subtile = ja_tile.get_int( 6 );
+                        tile.dec_rotation = ja_tile.get_int( 7 );
+                    } else {
+                        tile.set_dec_id( "" );
+                        tile.dec_subtile = 0;
+                        tile.dec_rotation = 0;
+                    }
                 }
             }
-            point p( x, y );
             // Try to avoid assigning to save up on memory
-            if( elem.tile != mm_submap::default_tile ) {
-                set_tile( p, elem.tile );
-            }
-            if( elem.symbol != mm_submap::default_symbol ) {
-                set_symbol( p, elem.symbol );
+            if( tile != mm_submap::default_tile ) {
+                set_tile( point( x, y ), tile );
             }
         }
     }
@@ -4089,6 +4136,10 @@ void mm_submap::deserialize( const JsonValue &ja )
 
 void mm_region::serialize( JsonOut &jsout ) const
 {
+    jsout.start_object();
+    jsout.member( "version", 1 );
+    jsout.write( "data" );
+    jsout.write_member_separator();
     jsout.start_array();
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         // NOLINTNEXTLINE(modernize-loop-convert)
@@ -4102,69 +4153,32 @@ void mm_region::serialize( JsonOut &jsout ) const
         }
     }
     jsout.end_array();
+    jsout.end_object();
 }
 
 void mm_region::deserialize( const JsonValue &ja )
 {
-    JsonArray region_json = ja;
+    int version;
+    JsonArray region_json;
+
+    if( ja.test_array() ) { // legacy, remove after 0.H comes out
+        version = 0;
+        region_json = ja;
+    } else {
+        JsonObject region_obj = ja;
+        version = region_obj.get_int( "version" );
+        region_json = region_obj.get_array( "data" );
+    }
+
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         // NOLINTNEXTLINE(modernize-loop-convert)
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             shared_ptr_fast<mm_submap> &sm = submaps[x][y];
             sm = make_shared_fast<mm_submap>();
-            JsonValue jsin = region_json.next_value();
+            const JsonValue jsin = region_json.next_value();
             if( !jsin.test_null() ) {
-                sm->deserialize( jsin );
+                sm->deserialize( version, jsin );
             }
-        }
-    }
-}
-
-void map_memory::load_legacy( const JsonValue &jv )
-{
-    struct mig_elem {
-        int symbol;
-        memorized_terrain_tile tile;
-    };
-    std::map<tripoint, mig_elem> elems;
-
-    JsonArray root_array = jv;
-    for( JsonArray elem_json : root_array.next_array() ) {
-        tripoint p;
-        p.x = elem_json.next_int();
-        p.y = elem_json.next_int();
-        p.z = elem_json.next_int();
-        mig_elem &elem = elems[p];
-        elem.tile.tile = elem_json.next_string();
-        elem.tile.subtile = elem_json.next_int();
-        elem.tile.rotation = elem_json.next_int();
-        if( elem_json.has_more() ) {
-            elem_json.throw_error( "Too many values for map memory entry" );
-        }
-    }
-
-    for( JsonArray symbols_json : root_array.next_array() ) {
-        tripoint p;
-        p.x = symbols_json.next_int();
-        p.y = symbols_json.next_int();
-        p.z = symbols_json.next_int();
-        elems[p].symbol = symbols_json.next_int();
-        if( symbols_json.has_more() ) {
-            symbols_json.throw_error( "Too many values for map memory symbol" );
-        }
-    }
-
-    for( const std::pair<const tripoint, mig_elem> &elem : elems ) {
-        coord_pair cp( elem.first );
-        shared_ptr_fast<mm_submap> sm = find_submap( cp.sm );
-        if( !sm ) {
-            sm = allocate_submap( cp.sm );
-        }
-        if( elem.second.tile != mm_submap::default_tile ) {
-            sm->set_tile( cp.loc, elem.second.tile );
-        }
-        if( elem.second.symbol != mm_submap::default_symbol ) {
-            sm->set_symbol( cp.loc, elem.second.symbol );
         }
     }
 }
@@ -5154,10 +5168,10 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
     } else if( member_name == "vehicles" ) {
         JsonArray vehicles_json = jv;
         for( JsonValue vehicle_json : vehicles_json ) {
-            std::unique_ptr<vehicle> tmp = std::make_unique<vehicle>();
             try {
-                tmp->deserialize( vehicle_json );
-                vehicles.push_back( std::move( tmp ) );
+                std::unique_ptr<vehicle> veh = std::make_unique<vehicle>( vproto_id() );
+                veh->deserialize( vehicle_json );
+                vehicles.emplace_back( std::move( veh ) );
             } catch( const JsonError &err ) {
                 debugmsg( err.what() );
             }

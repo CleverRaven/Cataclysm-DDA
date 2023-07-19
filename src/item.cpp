@@ -181,6 +181,9 @@ static const matec_id RAPID( "RAPID" );
 
 static const material_id material_wool( "wool" );
 
+static const mon_flag_str_id mon_flag_POISON( "POISON" );
+static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
+
 static const morale_type morale_null( "morale_null" );
 
 static const mtype_id debug_mon( "debug_mon" );
@@ -288,7 +291,9 @@ item::item() : bday( calendar::start_of_cataclysm )
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
     contents = item_contents( type->pockets );
-    item_counter = type->countdown_interval;
+    if( type->countdown_interval > 0_seconds ) {
+        countdown_point = calendar::turn + type->countdown_interval;
+    }
     item_vars = type->item_variables;
 
     if( has_flag( flag_CORPSE ) ) {
@@ -583,7 +588,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
 
-    if( result.corpse->has_flag( MF_REVIVES ) ) {
+    if( result.corpse->has_flag( mon_flag_REVIVES ) ) {
         if( one_in( 20 ) ) {
             result.set_flag( flag_REVIVE_SPECIAL );
         }
@@ -618,6 +623,12 @@ item &item::convert( const itype_id &new_type )
     temp.update_modified_pockets();
     temp.contents.combine( contents, true );
     contents = temp.contents;
+
+    if( temp.type->countdown_interval > 0_seconds ) {
+        countdown_point = calendar::turn + type->countdown_interval;
+        active = true;
+    }
+
     return *this;
 }
 
@@ -627,11 +638,11 @@ item &item::deactivate( const Character *ch, bool alert )
         return *this; // no-op
     }
 
-    if( is_tool() && type->tool->revert_to ) {
+    if( type->revert_to ) {
         if( ch && alert && !type->tool->revert_msg.empty() ) {
             ch->add_msg_if_player( m_info, type->tool->revert_msg.translated(), tname() );
         }
-        convert( *type->tool->revert_to );
+        convert( *type->revert_to );
         active = false;
 
     }
@@ -642,10 +653,6 @@ item &item::activate()
 {
     if( active ) {
         return *this; // no-op
-    }
-
-    if( type->countdown_interval > 0 ) {
-        item_counter = type->countdown_interval;
     }
 
     active = true;
@@ -869,7 +876,11 @@ void item::set_damage( int qty )
 
 void item::set_degradation( int qty )
 {
-    degradation_ = std::clamp( qty, 0, max_damage() );
+    if( type->degrade_increments() > 0 ) {
+        degradation_ = std::clamp( qty, 0, max_damage() );
+    } else {
+        degradation_ = 0;
+    }
     set_damage( damage_ );
 }
 
@@ -924,17 +935,6 @@ bool item::covers( const sub_bodypart_id &bp ) const
         does_cover = does_cover || bp == covered;
     } );
 
-    // check if a piece of ablative armor covers the location
-    for( const item_pocket *pocket : get_all_contained_pockets() ) {
-        // if the pocket is ablative and not empty we should check it
-        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
-            // get the contained plate
-            const item &ablative_armor = pocket->front();
-
-            subpart_cover = subpart_cover || ablative_armor.covers( bp );
-        }
-    }
-
     return does_cover || subpart_cover;
 }
 
@@ -945,17 +945,6 @@ bool item::covers( const bodypart_id &bp ) const
     iterate_covered_body_parts_internal( get_side(), [&]( const bodypart_str_id & covered ) {
         does_cover = does_cover || bp == covered;
     } );
-
-    // check if a piece of ablative armor covers the location
-    for( const item_pocket *pocket : get_all_contained_pockets() ) {
-        // if the pocket is ablative and not empty we should check it
-        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
-            // get the contained plate
-            const item &ablative_armor = pocket->front();
-
-            subpart_cover = subpart_cover || ablative_armor.covers( bp );
-        }
-    }
 
     return does_cover || subpart_cover;
 }
@@ -1047,10 +1036,10 @@ const std::array<bodypart_str_id, 4> &right_side_parts()
 
 } // namespace
 
-void item::iterate_covered_sub_body_parts_internal( const side s,
-        const std::function<void( const sub_bodypart_str_id & )> &cb ) const
+static void iterate_helper_sbp( const item *i, const side s,
+                                const std::function<void( const sub_bodypart_str_id & )> &cb )
 {
-    const islot_armor *armor = find_armor_data();
+    const islot_armor *armor = i->find_armor_data();
     if( armor == nullptr ) {
         return;
     }
@@ -1072,11 +1061,28 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
     }
 }
 
-void item::iterate_covered_body_parts_internal( const side s,
-        const std::function<void( const bodypart_str_id & )> &cb ) const
+void item::iterate_covered_sub_body_parts_internal( const side s,
+        const std::function<void( const sub_bodypart_str_id & )> &cb ) const
 {
+    iterate_helper_sbp( this, s, cb );
 
-    const islot_armor *armor = find_armor_data();
+    //check for ablative armor too
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+
+                iterate_helper_sbp( &ablative_armor, s, cb );
+            }
+        }
+    }
+}
+
+static void iterate_helper( const item *i, const side s,
+                            const std::function<void( const bodypart_str_id & )> &cb )
+{
+    const islot_armor *armor = i->find_armor_data();
     if( armor == nullptr ) {
         return;
     }
@@ -1098,6 +1104,24 @@ void item::iterate_covered_body_parts_internal( const side s,
                                bpid ) == opposite_side_parts.end() ) {
                     cb( bpid );
                 }
+            }
+        }
+    }
+}
+
+void item::iterate_covered_body_parts_internal( const side s,
+        const std::function<void( const bodypart_str_id & )> &cb ) const
+{
+    iterate_helper( this, s, cb );
+
+    //check for ablative armor too
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+
+                iterate_helper( &ablative_armor, s, cb );
             }
         }
     }
@@ -1197,6 +1221,7 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed ) cons
             debugmsg( "ERROR: failed to put %s in its container %s", typeId().c_str(), cont.c_str() );
             return *this;
         }
+        container.add_automatic_whitelist();
         return container;
     } else if( is_software() && container.is_software_storage() ) {
         container.put_in( *this, item_pocket::pocket_type::SOFTWARE );
@@ -1204,6 +1229,25 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed ) cons
         return container;
     }
     return *this;
+}
+
+void item::add_automatic_whitelist()
+{
+    std::vector<item_pocket *> pkts = get_all_contained_pockets();
+    if( pkts.size() == 1 && contents_only_one_type() ) {
+        pkts.front()->settings.whitelist_item( contents.first_item().typeId() );
+    }
+}
+
+void item::clear_automatic_whitelist()
+{
+    std::vector<item_pocket *> pkts = get_all_contained_pockets();
+    if( pkts.size() == 1 && !pkts.front()->settings.was_edited() ) {
+        cata::flat_set<itype_id> const &wl = pkts.front()->settings.get_item_whitelist();
+        if( !wl.empty() ) {
+            pkts.front()->settings.clear_item( *wl.begin() );
+        }
+    }
 }
 
 void item::update_modified_pockets()
@@ -2271,6 +2315,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
+            if( countdown_point != calendar::turn_max ) {
+                info.emplace_back( "BASE", _( "countdown: " ), "", iteminfo::lower_is_better,
+                                   to_seconds<int>( countdown_point - calendar::turn ) );
+            }
 
             const std::string tags_listed = enumerate_as_string( item_tags,
             []( const flag_id & f ) {
@@ -3734,7 +3782,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "ARMOR", coverage );
     }
 
-    if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_rigid() ) {
+    if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && ( is_rigid() || is_ablative() ) ) {
         // if the item has no armor data it doesn't cover that part
         const islot_armor *armor = find_armor_data();
         if( armor != nullptr ) {
@@ -3744,17 +3792,36 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             } else {
                 // only some parts are rigid
                 std::string coverage = _( "<bold>Rigid Locations</bold>:" );
-                std::vector<sub_bodypart_id> covered;
+                std::set<sub_bodypart_id> covered;
+                // if ablative check if there are hard plates in locations
+                if( armor->ablative ) {
+                    // if item has ablative armor we should check those too.
+                    for( const item_pocket *pocket : get_all_contained_pockets() ) {
+                        // if the pocket is ablative and not empty we should use its values
+                        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+                            // get the contained plate
+                            const item &ablative_armor = pocket->front();
+                            for( const armor_portion_data &entry : ablative_armor.find_armor_data()->sub_data ) {
+                                if( entry.rigid ) {
+                                    for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
+                                        covered.emplace( sbp );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 for( const armor_portion_data &entry : armor->sub_data ) {
                     if( entry.rigid ) {
                         for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
-                            covered.emplace_back( sbp );
+                            covered.emplace( sbp );
                         }
                     }
                 }
 
                 if( !covered.empty() ) {
-                    std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered );
+                    std::vector<sub_bodypart_id> covered_vec( covered.begin(), covered.end() );
+                    std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered_vec );
                     for( const translation &entry : to_print ) {
                         coverage += string_format( _( " The <info>%s</info>." ), entry );
                     }
@@ -3796,7 +3863,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
         std::map<int, std::vector<bodypart_id>> limb_groups;
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            limb_groups[portion_for_bodypart( bp )->coverage].emplace_back( bp );
+            const armor_portion_data *portion = portion_for_bodypart( bp );
+            if( portion ) {
+                limb_groups[portion->coverage].emplace_back( bp );
+            }
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -3891,7 +3961,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         std::map<int, std::vector<bodypart_id>> limb_groups;
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            limb_groups[portion_for_bodypart( bp )->breathability].emplace_back( bp );
+            const armor_portion_data *portion = portion_for_bodypart( bp );
+            if( portion ) {
+                limb_groups[portion->breathability].emplace_back( bp );
+            }
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -5648,9 +5721,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const itype_id tid = typeId();
         std::vector<vpart_info> vparts;
 
-        for( const std::pair<const vpart_id, vpart_info> &vp : vpart_info::all() ) {
-            if( vp.second.base_item == tid ) {
-                vparts.push_back( vp.second );
+        for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+            if( vpi.base_item == tid ) {
+                vparts.push_back( vpi );
             }
         }
 
@@ -6114,6 +6187,12 @@ void item::on_takeoff( Character &p )
     if( is_sided() ) {
         set_side( side::BOTH );
     }
+    // reset any pockets to not have restrictions
+    if( is_ablative() ) {
+        for( item_pocket *pocket : get_all_standard_pockets() ) {
+            pocket->set_no_rigid( {} );
+        }
+    }
 }
 
 int item::on_wield_cost( const Character &you ) const
@@ -6263,6 +6342,9 @@ void item::on_contents_changed()
     cached_relative_encumbrance.reset();
     encumbrance_update_ = true;
     update_inherited_flags();
+    if( empty_container() ) {
+        clear_automatic_whitelist();
+    }
 }
 
 std::string item::dirt_symbol() const
@@ -6395,6 +6477,22 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     } else {
         maintext = label( quantity ) + ( is_armor() && has_clothing_mod() ? "+1" : "" );
     }
+
+    std::vector<const item_pocket *> pkts = get_all_contained_pockets();
+    bool wl = false;
+    bool bl = false;
+    bool player_wbl = false;
+    for( item_pocket const *pkt : pkts ) {
+        bool const wl_ = !pkt->settings.get_item_whitelist().empty() ||
+                         !pkt->settings.get_category_whitelist().empty();
+        bool const bl_ = !pkt->settings.get_item_blacklist().empty() ||
+                         !pkt->settings.get_category_blacklist().empty();
+        player_wbl |= ( wl_ || bl_ ) && pkt->settings.was_edited();
+        wl |= wl_;
+        bl |= bl_;
+    }
+    std::string const wltext =
+        wl || bl ? colorize( "⁺", player_wbl ? c_light_gray : c_dark_gray ) : std::string();
 
     /* only expand full contents name if with_contents == true */
     if( with_contents_full && !contents.empty() && contents_only_one_type() ) {
@@ -6601,9 +6699,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").%7s: inner contents suffix (e.g. " > rock" or " > 5 items").
-    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s%7$s" ), damtext, burntext, modtext,
-                                     vehtext, maintext, tagtext, contents_suffix_text );
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). %5$s: main item text (e.g. "apple"). %6$s: whitelist marker (e.g. "⁺"). %7$s: tags (e.g. "(wet) (poor fit)").%8$s: inner contents suffix (e.g. " > rock" or " > 5 items").
+    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s" ), damtext, burntext,
+                                     modtext, vehtext, maintext, wltext, tagtext, contents_suffix_text );
 
     if( truncate != 0 ) {
         ret = utf8_truncate( ret, truncate + truncate_override );
@@ -7792,11 +7890,11 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
                         encumber_flags flags ) const
 {
     const islot_armor *t = find_armor_data();
+    int encumber = 0;
     if( !t ) {
         return 0;
     }
 
-    int encumber = 0;
     float relative_encumbrance;
 
     if( flags & encumber_flags::assume_full ) {
@@ -7829,20 +7927,22 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
                                additional_encumbrance - portion_data->encumber ) );
 
         // add the encumbrance values of any ablative plates and additional encumbrance pockets
-        if( is_ablative() || has_additional_encumbrance() ) {
+        if( has_additional_encumbrance() ) {
             for( const item_pocket *pocket : contents.get_all_contained_pockets() ) {
-                if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
-                    // get the contained plate
-                    const item &ablative_armor = pocket->front();
-
-                    if( const armor_portion_data *ablative_portion_data = ablative_armor.portion_for_bodypart(
-                                bodypart ) ) {
-                        encumber += ablative_portion_data->encumber;
-                    }
-                }
                 if( pocket->get_pocket_data()->extra_encumbrance > 0 && !pocket->empty() ) {
                     encumber += pocket->get_pocket_data()->extra_encumbrance;
                 }
+            }
+        }
+    }
+
+    // even if we don't have data we might have ablative armor draped over it
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                encumber += ablative_armor.get_encumber( p, bodypart, flags );
             }
         }
     }
@@ -7883,11 +7983,11 @@ std::vector<layer_level> item::get_layer() const
     return armor->all_layers;
 }
 
-std::vector<layer_level> item::get_layer( bodypart_id bp ) const
+static void get_layer_helper( const item *i, bodypart_id bp, std::set<layer_level> &layers )
 {
-    const islot_armor *t = find_armor_data();
+    const islot_armor *t = i->find_armor_data();
     if( t == nullptr ) {
-        return std::vector<layer_level>();
+        return;
     }
 
     for( const armor_portion_data &data : t->data ) {
@@ -7896,19 +7996,36 @@ std::vector<layer_level> item::get_layer( bodypart_id bp ) const
         }
         for( const bodypart_str_id &bpid : data.covers.value() ) {
             if( bp == bpid ) {
-                // if the item has additional pockets and is on the torso it should also be strapped
-                if( bp == body_part_torso && contents.has_additional_pockets() ) {
-                    std::set<layer_level> with_belted = data.layers;
-                    with_belted.insert( layer_level::BELTED );
-                    return std::vector<layer_level>( with_belted.begin(), with_belted.end() );
-                } else {
-                    return std::vector<layer_level>( data.layers.begin(), data.layers.end() );
-                }
+                layers.insert( data.layers.begin(), data.layers.end() );
             }
         }
     }
-    // body part not covered by this armour
-    return std::vector<layer_level>();
+}
+
+std::vector<layer_level> item::get_layer( bodypart_id bp ) const
+{
+
+    std::set<layer_level> layers;
+
+    get_layer_helper( this, bp, layers );
+
+    //get layers for ablative armor too
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                get_layer_helper( &ablative_armor, bp, layers );
+            }
+        }
+    }
+
+    // if the item has additional pockets and is on the torso it should also be strapped
+    if( bp == body_part_torso && contents.has_additional_pockets() ) {
+        layers.insert( layer_level::BELTED );
+    }
+
+    return std::vector<layer_level>( layers.begin(), layers.end() );
 }
 
 std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
@@ -8208,7 +8325,7 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    return is_corpse() && ( corpse->has_flag( MF_REVIVES ) || has_var( "zombie_form" ) ) &&
+    return is_corpse() && ( corpse->has_flag( mon_flag_REVIVES ) || has_var( "zombie_form" ) ) &&
            damage() < max_damage() &&
            !( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ||
               has_flag( flag_QUARTERED ) ||
@@ -8733,6 +8850,10 @@ void item::mitigate_damage( damage_unit &du, const bodypart_id &bp, int roll ) c
 {
     const resistances res = resistances( *this, false, roll, bp );
     const float mitigation = res.get_effective_resist( du );
+    // get_effective_resist subtracts the flat penetration value before multiplying the remaining armor.
+    // therefore, res_pen is reduced by the full value of the item's armor value even though mitigation might be smaller (such as an attack with a 0.5 armor multiplier)
+    du.res_pen -= res.type_resist( du.type );
+    du.res_pen = std::max( 0.0f, du.res_pen );
     du.amount -= mitigation;
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -8741,6 +8862,10 @@ void item::mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll
 {
     const resistances res = resistances( *this, false, roll, bp );
     const float mitigation = res.get_effective_resist( du );
+    // get_effective_resist subtracts the flat penetration value before multiplying the remaining armor.
+    // therefore, res_pen is reduced by the full value of the item's armor value even though mitigation might be smaller (such as an attack with a 0.5 armor multiplier)
+    du.res_pen -= res.type_resist( du.type );
+    du.res_pen = std::max( 0.0f, du.res_pen );
     du.amount -= mitigation;
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -9296,6 +9421,16 @@ std::vector<const item_pocket *> item::get_all_standard_pockets() const
 std::vector<item_pocket *> item::get_all_standard_pockets()
 {
     return contents.get_all_standard_pockets();
+}
+
+std::vector<item_pocket *> item::get_all_ablative_pockets()
+{
+    return contents.get_all_ablative_pockets();
+}
+
+std::vector<const item_pocket *> item::get_all_ablative_pockets() const
+{
+    return contents.get_all_ablative_pockets();
 }
 
 item_pocket *item::contained_where( const item &contained )
@@ -10459,7 +10594,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     return wanted_qty - qty;
 }
 
-units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier )
+units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
+                                    float fuel_efficiency )
 {
     if( qty < 0_kJ ) {
         debugmsg( "Cannot consume negative quantity of energy for %s", tname() );
@@ -10468,10 +10604,14 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
 
     const units::energy wanted_energy = qty;
 
-    // Consume battery(ammo)
-    if( is_battery() ) {
-        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos );
+    // Consume battery(ammo) and other fuel (if allowed)
+    if( is_battery() || fuel_efficiency >= 0 ) {
+        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
         qty -= units::from_kilojoule( consumed_kj );
+        // fix negative quantity
+        if( qty < 0_J ) {
+            qty = 0_J;
+        }
     }
 
     // Consume energy from contained magazine
@@ -12079,7 +12219,8 @@ int item::processing_speed() const
     }
 
     if( active || ethereal || wetness || contents_linked ||
-        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ||
+        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -12736,8 +12877,8 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
             convert( itype_joint_roach );
         }
     } else { // transform (lit) items
-        if( type->tool->revert_to ) {
-            convert( *type->tool->revert_to );
+        if( type->revert_to ) {
+            convert( *type->revert_to );
         } else {
             type->invoke( carrier != nullptr ? *carrier : get_avatar(), *this, pos, "transform" );
         }
@@ -12947,54 +13088,54 @@ int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int t
     if( !link || link->charge_rate == 0 || turns_elapsed < 1 || link->charge_interval < 1 ) {
         return 0;
     }
-    const item *parent_mag = linked_item.magazine_current();
-    if( !parent_mag ) {
-        return 0;
+
+    if( !linked_item.is_battery() ) {
+        const item *parent_mag = linked_item.magazine_current();
+        if( !parent_mag || !parent_mag->has_flag( flag_RECHARGE ) ) {
+            return 0;
+        }
     }
 
     const bool power_in = link->charge_rate > 0;
+    if( power_in ? linked_item.ammo_remaining() >= linked_item.ammo_capacity( ammo_battery ) :
+        linked_item.ammo_remaining() <= 0 ) {
+        return 0;
+    }
 
-    if( ( power_in && parent_mag->has_flag( flag_RECHARGE ) &&
-          linked_item.ammo_remaining() < linked_item.ammo_capacity( ammo_battery ) ) ||
-        ( !power_in && linked_item.ammo_remaining() > 0 ) ) {
+    // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
+    // spent ouside the reality bubble it should be applied as a percentage of the total instead.
+    bool short_time_passed = turns_elapsed <= link->charge_interval;
 
-        // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
-        // spent ouside the reality bubble it should be applied as a percentage of the total instead.
-        // This is used for determining which to do.
-        bool short_time_passed = turns_elapsed <= link->charge_interval;
-
-        if( !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) &&
-            short_time_passed ) {
-            return link->charge_rate;
-        }
-
-        // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
-        int transfer_total = short_time_passed ? 1 :
-                             ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
-
-        if( power_in ) {
-            const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
-            // Around 85% efficient by default; a few of the discharges don't actually recharge
-            if( battery_deficit == 0 && !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
-                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + transfer_total );
-            }
-        } else {
-            // Around 85% efficient by default; a few of the discharges don't actually charge
-            if( !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
-                const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
-                if( battery_surplus == 0 ) {
-                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
-                }
-            } else {
-                const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
-                if( linked_levels.first < linked_levels.second ) {
-                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
-                }
-            }
-        }
+    if( !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) &&
+        short_time_passed ) {
         return link->charge_rate;
     }
-    return 0;
+
+    // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
+    int transfer_total = short_time_passed ? 1 :
+                         ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
+
+    if( power_in ) {
+        const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
+        // Around 85% efficient by default; a few of the discharges don't actually recharge
+        if( battery_deficit == 0 && !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+            linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + transfer_total );
+        }
+    } else {
+        // Around 85% efficient by default; a few of the discharges don't actually charge
+        if( !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
+            const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
+            if( battery_surplus == 0 ) {
+                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
+            }
+        } else {
+            const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
+            if( linked_levels.first < linked_levels.second ) {
+                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
+            }
+        }
+    }
+    return link->charge_rate;
 }
 
 bool item::reset_cable( Character *p, item *parent_item, const bool loose_message,
@@ -13074,8 +13215,8 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
 bool item::process_wet( Character * /*carrier*/, const tripoint & /*pos*/ )
 {
     if( item_counter == 0 ) {
-        if( is_tool() && type->tool->revert_to ) {
-            convert( *type->tool->revert_to );
+        if( type->revert_to ) {
+            convert( *type->revert_to );
         }
         unset_flag( flag_WET );
         active = false;
@@ -13100,7 +13241,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         }
 
         // invoking the object can convert the item to another type
-        const bool had_revert_to = type->tool->revert_to.has_value();
+        const bool had_revert_to = type->revert_to.has_value();
         type->invoke( carrier != nullptr ? *carrier : player_character, *this, pos );
         if( carrier ) {
             carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
@@ -13135,8 +13276,13 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
 bool item::process_blackpowder_fouling( Character *carrier )
 {
-    if( damage() < max_damage() && one_in( 2000 ) ) {
+    // rust is deterministic. 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
+    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level.
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + static_cast<int>( get_var( "dirt",
+             0 ) / 2000 ) );
+    if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 43200.0 / ( damage() + 1 ) ) {
         inc_damage();
+        set_var( "rust_timer", 0 );
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
         }
@@ -13231,9 +13377,17 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             item_counter--;
         }
 
-        if( item_counter == 0 && type->countdown_action ) {
-            type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
-            if( type->countdown_destroy ) {
+        if( calendar::turn >= countdown_point ) {
+            active = false;
+            if( type->countdown_action ) {
+                type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
+            }
+            countdown_point = calendar::turn_max;
+            if( type->revert_to ) {
+                convert( *type->revert_to );
+
+                active = needs_processing();
+            } else {
                 return true;
             }
         }
@@ -13374,7 +13528,7 @@ bool item::is_dangerous() const
 
 bool item::is_tainted() const
 {
-    return corpse && corpse->has_flag( MF_POISON );
+    return corpse && corpse->has_flag( mon_flag_POISON );
 }
 
 bool item::is_soft() const
@@ -13406,13 +13560,24 @@ bool item::is_rigid() const
         return false;
     }
 
+    bool is_rigid = false;
+
     for( const armor_portion_data &portion : armor->sub_data ) {
-        if( portion.rigid ) {
-            return true;
+        is_rigid |= portion.rigid;
+    }
+
+    // check if ablative pieces are rigid too
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                is_rigid |= ablative_armor.is_rigid();
+            }
         }
     }
 
-    return false;
+    return is_rigid;
 }
 
 bool item::is_comfortable() const
@@ -13452,11 +13617,24 @@ bool item::is_bp_rigid( const T &bp ) const
 
     const armor_portion_data *portion = portion_for_bodypart( bp );
 
-    if( !portion ) {
-        return false;
+    bool is_rigid = false;
+
+    if( portion ) {
+        is_rigid |= portion->rigid;
     }
 
-    return portion->rigid;
+    // check if ablative pieces are rigid too
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                is_rigid |= ablative_armor.is_bp_rigid( bp );
+            }
+        }
+    }
+
+    return is_rigid;
 }
 
 // initialize for sub_bodyparts and body parts
@@ -14070,7 +14248,8 @@ item const *item::this_or_single_content() const
 bool item::contents_only_one_type() const
 {
     std::list<const item *> const items = contents.all_items_top( []( item_pocket const & pkt ) {
-        return pkt.is_standard_type() || pkt.is_type( item_pocket::pocket_type::SOFTWARE );
+        return pkt.is_type( item_pocket::pocket_type::CONTAINER ) ||
+               pkt.is_type( item_pocket::pocket_type::SOFTWARE );
     } );
     return items.size() == 1 ||
            ( items.size() > 1 &&
@@ -14135,6 +14314,16 @@ std::list<item *> item::all_known_contents()
 std::list<const item *> item::all_known_contents() const
 {
     return contents.all_known_contents();
+}
+
+std::list<item *> item::all_ablative_armor()
+{
+    return contents.all_ablative_armor();
+}
+
+std::list<const item *> item::all_ablative_armor() const
+{
+    return contents.all_ablative_armor();
 }
 
 void item::clear_items()

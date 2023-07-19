@@ -22,8 +22,8 @@
       {
         "type": "gun",
         "cooldown": 1,
-        "gun_type": "laser_cannon",
-        "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
+        "gun_type": "v29_turret",
+        "fake_skills": [ [ "gun", 4 ], [ "pistol", 4 ] ],
         "ranges": [ [ 0, 30, "DEFAULT" ] ]
       }
     ],

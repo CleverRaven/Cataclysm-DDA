@@ -128,29 +128,6 @@ void angle::deserialize( const JsonValue &jv )
     *this = read_from_json_string( jv, units::angle_units );
 }
 
-int angle_to_dir4( units::angle direction )
-{
-    // ensure direction is in range [0,360)
-    const units::angle dir = fmod( fmod( direction, 360_degrees ) + 360_degrees, 360_degrees );
-
-    // adjust and round values near diagonals before comparison to avoid floating point error
-    if( round_to_multiple_of( dir - 45_degrees, 1.5_degrees ) == 0_degrees ||
-        round_to_multiple_of( dir - 135_degrees, 1.5_degrees ) == 0_degrees ) {
-        return 1;
-    }
-    if( round_to_multiple_of( dir - 225_degrees, 1.5_degrees ) == 0_degrees ||
-        round_to_multiple_of( dir - 315_degrees, 1.5_degrees ) == 0_degrees ) {
-        return 3;
-    }
-
-    return std::fmod( 4 + ( direction + 45_degrees ) / 90_degrees, 4 );
-}
-
-int angle_to_dir8( units::angle direction )
-{
-    return std::fmod( 8 + ( direction + 22.5_degrees ) / 45_degrees, 8 );
-}
-
 std::string display( const units::energy &v )
 {
     const int kj = units::to_kilojoule( v );

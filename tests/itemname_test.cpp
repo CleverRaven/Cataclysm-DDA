@@ -15,7 +15,7 @@
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 
-TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
+TEST_CASE( "item_sizing_display", "[item][iteminfo][display_name][sizing]" )
 {
     Character &player_character = get_player_character();
     GIVEN( "player is a normal size" ) {
@@ -125,7 +125,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
     }
 }
 
-TEST_CASE( "display name includes item contents", "[item][display_name][contents]" )
+TEST_CASE( "display_name_includes_item_contents", "[item][display_name][contents]" )
 {
     clear_avatar();
 

@@ -134,6 +134,9 @@ class talker
         virtual int get_cur_part_temp( const bodypart_id & ) const {
             return 0;
         }
+        virtual bool get_is_alive() const {
+            return false;
+        }
 
         // stats, skills, traits, bionics, and magic
         virtual int str_cur() const {
@@ -210,6 +213,8 @@ class talker
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
+        virtual void activate_mutation( const trait_id & ) {}
+        virtual void deactivate_mutation( const trait_id & ) {}
         virtual void set_fatigue( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;
@@ -511,6 +516,9 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
+        virtual void attack_target( Creature &, bool, const matec_id &,
+                                    bool, int ) {}
+
         virtual int attack_speed() const {
             return 0;
         }
@@ -635,6 +643,10 @@ class talker
         }
         virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
         virtual void die() {}
+        virtual matec_id get_random_technique( Creature &, bool, bool,
+                                               bool, const std::vector<matec_id> & = {} ) const {
+            return matec_id();
+        }
         virtual void learn_martial_art( const matype_id & ) const {}
         virtual void forget_martial_art( const matype_id & ) const {}
         virtual bool knows_martial_art( const matype_id & ) const {

@@ -1755,11 +1755,12 @@ static void update_cache( map &m )
     m.build_map_cache( 0 );
 }
 
-TEST_CASE( "activity interruption by distractions", "[activity][interruption]" )
+TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
 {
-    avatar &dummy = get_avatar();
     clear_avatar();
     clear_map();
+    set_time_to_day();
+    avatar &dummy = get_avatar();
     map &m = get_map();
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
 

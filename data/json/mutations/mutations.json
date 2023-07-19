@@ -1112,7 +1112,7 @@
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
+    "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "flags": [ "CANNIBAL" ]
   },
   {
@@ -1123,7 +1123,7 @@
     "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
+    "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
   },
   {
@@ -1524,7 +1524,7 @@
     "starting_trait": true,
     "vitamins_absorb_multi": [ [ "flesh", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "types": [ "DIET" ],
-    "cancels": [ "CANNIBAL", "STRICT_HUMANITARIAN" ],
+    "cancels": [ "CANNIBAL", "STRICT_HUMANITARIAN", "VEGAN" ],
     "changes_to": [ "HERBIVORE" ],
     "category": [ "CATTLE", "RABBIT" ]
   },
@@ -1849,6 +1849,17 @@
   },
   {
     "type": "mutation",
+    "id": "VEGAN",
+    "name": { "str": "Vegan" },
+    "points": -4,
+    "description": "You're very strictly vegan, eating animal products is out of the question, even if it means death.  You also can't bear to wear clothing made of animal products, such as leather or fur.",
+    "starting_trait": true,
+    "valid": false,
+    "types": [ "DIET" ],
+    "cancels": [ "CANNIBAL", "STRICT_HUMANITARIAN", "VEGETARIAN" ]
+  },
+  {
+    "type": "mutation",
     "id": "TRUTHTELLER",
     "name": { "str": "Truth Teller" },
     "points": -1,
@@ -1957,33 +1968,85 @@
   },
   {
     "type": "mutation",
+    "id": "JAUNDICE",
+    "name": { "str": "Jaundice" },
+    "points": 0,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "It's subtle, but your skin has definitely taken on a sickly yellow-green hue.",
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
+    "changes_to": [ "PLANTSKIN" ],
+    "category": [ "PLANT", "ELFA" ]
+  },
+  {
+    "type": "mutation",
     "id": "SKIN_ROUGH",
-    "name": { "str": "Rough Skin" },
+    "name": { "str": "Goosebumps" },
     "points": 0,
     "visibility": 2,
     "ugliness": 1,
-    "description": "Your skin is slightly rough.  This has no gameplay effect.",
-    "types": [ "SKIN" ],
-    "changes_to": [ "SPARSE_SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN", "PATCHSKIN1" ],
-    "category": [
-      "LIZARD",
-      "RAPTOR",
-      "BIRD",
-      "SPIDER",
-      "MOUSE",
-      "PLANT",
-      "CHIMERA",
-      "FISH",
-      "BEAST",
-      "CATTLE",
-      "RAT",
-      "FELINE",
-      "LUPINE",
-      "RABBIT",
-      "INSECT",
-      "ELFA",
-      "URSINE",
-      "CRUSTACEAN"
+    "description": "You have goosebumps that never seem to go away.  Are they getting bigger?",
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
+    "changes_to": [ "FEATHERS" ],
+    "category": [ "BIRD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SKIN_RASHY",
+    "name": { "str": "Rashy Skin" },
+    "points": -1,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "You've developed a persistent skin rash.  Sometimes it's fine, other times it itches like hell.",
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
+    "changes_to": [ "PATCHSKIN1" ],
+    "category": [ "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HIRSUTE",
+    "name": { "str": "Hirsute" },
+    "points": 0,
+    "description": "Your body hair is growing in thicker than it used to.  It's almost like you're going through a second puberty or something.",
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
+    "changes_to": [ "LIGHTFUR" ],
+    "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SKIN_PEELING",
+    "name": { "str": "Peeling Skin" },
+    "points": 0,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "Your skin keeps peeling in big flakes, like you're recovering from a bad sunburn.  Oddly, it doesn't hurt at all.",
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
+    "changes_to": [ "SPARSE_SCALES" ],
+    "category": [ "LIZARD", "RAPTOR", "FISH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SKIN_SMOOTH",
+    "name": { "str": "Smooth Skin" },
+    "points": 0,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "Your skin has lost some of its color and taken on a smooth, papery texture.  This slightly reduces wet effects, but also makes you a little more vulnerable to cuts and scrapes.",
+    "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
+    "changes_to": [ "CHITIN" ],
+    "category": [ "SPIDER", "INSECT", "CRUSTACEAN" ],
+    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": -1 } ],
+    "wet_protection": [
+      { "part": "head", "neutral": 3 },
+      { "part": "leg_l", "neutral": 4 },
+      { "part": "leg_r", "neutral": 4 },
+      { "part": "foot_l", "neutral": 1 },
+      { "part": "foot_r", "neutral": 1 },
+      { "part": "arm_l", "neutral": 4 },
+      { "part": "arm_r", "neutral": 4 },
+      { "part": "hand_l", "neutral": 6 },
+      { "part": "hand_r", "neutral": 6 },
+      { "part": "torso", "neutral": 5 }
     ]
   },
   {
@@ -2258,32 +2321,32 @@
     "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA" ],
     "attacks": [
       {
-        "attack_text_u": "You sink your fangs into %s",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
         "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
         "body_part": "mouth",
         "chance": 20,
         "base_damage": { "damage_type": "stab", "amount": 20 }
       },
       {
-        "attack_text_u": "You sink your fangs into %s",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
         "required_mutations": [ "MUZZLE" ],
         "body_part": "mouth",
         "chance": 18,
         "base_damage": { "damage_type": "stab", "amount": 20 }
       },
       {
-        "attack_text_u": "You sink your fangs into %s",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
         "required_mutations": [ "MUZZLE_LONG" ],
         "body_part": "mouth",
         "chance": 15,
         "base_damage": { "damage_type": "stab", "amount": 20 }
       },
       {
-        "attack_text_u": "You sink your fangs into %s",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
         "required_mutations": [ "MUZZLE_RAT" ],
         "body_part": "mouth",
         "chance": 19,
@@ -2304,8 +2367,8 @@
     "threshreq": [ "THRESH_RAT", "THRESH_RABBIT" ],
     "category": [ "RAT", "RABBIT" ],
     "attacks": {
-      "attack_text_u": "You bite into %s with your ratlike incisors",
-      "attack_text_npc": "%1$s bites %2$s with their ratlike incisors",
+      "attack_text_u": "You bite into %s with your ratlike incisors!",
+      "attack_text_npc": "%1$s bites %2$s with their ratlike incisors!",
       "body_part": "mouth",
       "chance": 18,
       "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
@@ -2466,7 +2529,7 @@
     "description": "Your skin has toughened and grown thin, flexible scales in some places, acting as natural armor.",
     "types": [ "SKIN" ],
     "category": [ "RAPTOR", "LIZARD", "FISH" ],
-    "prereqs": [ "SKIN_ROUGH" ],
+    "prereqs": [ "SKIN_PEELING" ],
     "changes_to": [ "SCALES" ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
@@ -2622,7 +2685,7 @@
     "description": "Light fur has grown to cover your entire body, providing marginal protection against attacks and slight protection from cold.",
     "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE" ],
     "types": [ "SKIN" ],
-    "prereqs": [ "SKIN_ROUGH" ],
+    "prereqs": [ "HIRSUTE" ],
     "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "RABBIT_FUR" ],
     "integrated_armor": [ "integrated_lightfur" ]
   },
@@ -2721,7 +2784,7 @@
     ],
     "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
-    "prereqs": [ "SKIN_ROUGH" ],
+    "prereqs": [ "SKIN_RASHY" ],
     "changes_to": [ "PATCHSKIN2" ],
     "integrated_armor": [ "integrated_patchskin1" ]
   },
@@ -2790,7 +2853,7 @@
     "ugliness": 2,
     "description": "Your epidermis has turned into a thin, flexible layer of chitin.  It provides decent physical protection.  Slightly reduces wet effects.",
     "types": [ "SKIN" ],
-    "prereqs": [ "SKIN_ROUGH" ],
+    "prereqs": [ "SKIN_SMOOTH" ],
     "leads_to": [ "CHITIN2", "CHITIN_FUR", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "category": [ "SPIDER", "INSECT", "CRUSTACEAN" ],
     "integrated_armor": [ "integrated_chitin" ],
@@ -3116,6 +3179,7 @@
     "ugliness": 2,
     "description": "Your skin is light green and has a slightly woody quality to it.  This provides armor and helps you retain moisture, resulting in less thirst.  Greatly decreases wet penalties.",
     "types": [ "SKIN" ],
+    "prereqs": [ "JAUNDICE" ],
     "leads_to": [ "BARK", "THORNS", "LEAVES" ],
     "category": [ "PLANT", "ELFA" ],
     "thirst_modifier": -0.2,
@@ -3500,8 +3564,8 @@
             "id": "generic_blinding_spray_1",
             "hit_self": false,
             "once_in": 15,
-            "message": "Your ink glands spray some ink into %2$s's eyes.",
-            "npc_message": "%1$s's ink glands spray some ink into %2$s's eyes."
+            "message": "Your ink glands spray some ink into %2$s's eyes!",
+            "npc_message": "%1$s's ink glands spray some ink into %2$s's eyes!"
           }
         ]
       }
@@ -3549,8 +3613,8 @@
     "thirst": true,
     "attacks": [
       {
-        "attack_text_u": "You spray %s with a boiling chemical mixture",
-        "attack_text_npc": "%1$s sprays %2$s with a boiling chemical mixture",
+        "attack_text_u": "You spray %s with a boiling chemical mixture!",
+        "attack_text_npc": "%1$s sprays %2$s with a boiling chemical mixture!",
         "body_part": "torso",
         "chance": 15,
         "base_damage": { "damage_type": "heat", "amount": 15 },
@@ -3836,8 +3900,8 @@
     "cancels": [ "FANGS", "MANDIBLES" ],
     "active": true,
     "attacks": {
-      "attack_text_u": "You tear into %s with your rasping tongue",
-      "attack_text_npc": "%1$s tears into %2$s with their rasping tongue",
+      "attack_text_u": "You tear into %s with your rasping tongue!",
+      "attack_text_npc": "%1$s tears into %2$s with their rasping tongue!",
       "body_part": "mouth",
       "chance": 15,
       "base_damage": { "damage_type": "cut", "amount": 15 },
@@ -3857,8 +3921,8 @@
     "category": [ "GASTROPOD" ],
     "active": true,
     "attacks": {
-      "attack_text_u": "You stab into %s with your harpoon tongue",
-      "attack_text_npc": "%1$s stabs into %2$s with their harpoon tongue",
+      "attack_text_u": "You stab into %s with your harpoon tongue!",
+      "attack_text_npc": "%1$s stabs into %2$s with their harpoon tongue!",
       "body_part": "mouth",
       "chance": 25,
       "base_damage": { "damage_type": "stab", "amount": 15 },
@@ -3885,7 +3949,7 @@
     "visibility": 1,
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
     "types": [ "SOLES" ],
-    "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER" ],
+    "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER", "BEAST" ],
     "flags": [ "TOUGH_FEET" ]
   },
   {
@@ -3900,6 +3964,80 @@
     "prereqs": [ "PADDED_FEET" ],
     "movecost_modifier": 0.88,
     "category": [ "BATRACHIAN", "RABBIT", "FELINE", "LUPINE", "SPIDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMAL_FEET",
+    "name": { "str": "Digitigrade Legs" },
+    "points": -1,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "The heels of your feet have shifted up off the ground in a rather animalistic fashion, reducing your carry weight limit and preventing you from wearing shoes.  These hind feet are a bad match for human arms, but could pair well with matching forepaws.",
+    "types": [ "FEET" ],
+    "prereqs": [ "PADDED_FEET" ],
+    "category": [ "LUPINE", "FELINE", "BEAST", "RABBIT" ],
+    "changes_to": [ "RABBIT_FEET" ],
+    "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "destroys_gear": true,
+    "weight_capacity_modifier": 0.8,
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              { "u_has_move_mode": "run" },
+              { "not": "u_can_drop_weapon" },
+              { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE" ] },
+              { "u_has_trait": "PAWS" }
+            ]
+          },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You rise up to walk on your hind feet." }
+        }
+      ]
+    ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "u_has_move_mode": "crouch" },
+            { "not": "u_can_drop_weapon" },
+            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST" ] },
+            { "u_has_trait": "PAWS" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "u_has_move_mode": "run" },
+            { "not": "u_can_drop_weapon" },
+            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST" ] },
+            { "u_has_trait": "PAWS" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
+      },
+      {
+        "condition": {
+          "or": [
+            "u_can_drop_weapon",
+            { "u_has_move_mode": "walk" },
+            {
+              "and": [
+                { "not": { "u_has_trait": "THRESH_LUPINE" } },
+                { "not": { "u_has_trait": "THRESH_FELINE" } },
+                { "not": { "u_has_trait": "THRESH_BEAST" } }
+              ]
+            },
+            { "not": { "u_has_trait": "PAWS" } }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -3957,8 +4095,8 @@
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
     "attacks": {
-      "attack_text_u": "You slash %s with a talon",
-      "attack_text_npc": "%1$s slashes %2$s with a talon",
+      "attack_text_u": "You slash %s with one of your talons!",
+      "attack_text_npc": "%1$s slashes %2$s with one of their talons!",
       "chance": 20,
       "strength_damage": { "damage_type": "cut", "amount": 4 }
     }
@@ -3997,8 +4135,8 @@
     "destroys_gear": true,
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
     "attacks": {
-      "attack_text_u": "You kick %s with your hooves",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves",
+      "attack_text_u": "You kick %s with your hooves!",
+      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 3 }
     },
@@ -4196,8 +4334,8 @@
     "destroys_gear": true,
     "social_modifiers": { "intimidate": 15 },
     "attacks": {
-      "attack_text_u": "You tear into %s with your saber teeth",
-      "attack_text_npc": "%1$s tears into %2$s with their saber teeth",
+      "attack_text_u": "You tear into %s with your saber teeth!",
+      "attack_text_npc": "%1$s tears into %2$s with their saber teeth!",
       "body_part": "mouth",
       "chance": 20,
       "base_damage": { "damage_type": "stab", "amount": 25 },
@@ -4251,8 +4389,8 @@
     "restricts_gear": [ "head_crown" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You headbutt %s with your horns",
-      "attack_text_npc": "%1$s headbutts %2$s with their horns",
+      "attack_text_u": "You headbutt %s with your horns!",
+      "attack_text_npc": "%1$s headbutts %2$s with their horns!",
       "chance": 20,
       "base_damage": [ { "damage_type": "stab", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
     }
@@ -4271,8 +4409,8 @@
     "category": [ "CHIMERA" ],
     "restricts_gear": [ "head_crown" ],
     "attacks": {
-      "attack_text_u": "You headbutt %s with your curled horns",
-      "attack_text_npc": "%1$s headbutts %2$s with their curled horns",
+      "attack_text_u": "You headbutt %s with your curled horns!",
+      "attack_text_npc": "%1$s headbutts %2$s with their curled horns!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 14 }
     }
@@ -4291,8 +4429,8 @@
     "restricts_gear": [ "head_crown" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You stab %s with your pointed horns",
-      "attack_text_npc": "%1$s stabs %2$s with their pointed horns",
+      "attack_text_u": "You stab %s with your pointed horns!",
+      "attack_text_npc": "%1$s stabs %2$s with their pointed horns!",
       "chance": 22,
       "base_damage": { "damage_type": "stab", "amount": 24 }
     }
@@ -4311,8 +4449,8 @@
     "restricts_gear": [ "head_crown" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You butt %s with your antlers",
-      "attack_text_npc": "%1$s butts %2$s with their antlers",
+      "attack_text_u": "You butt %s with your antlers!",
+      "attack_text_npc": "%1$s butts %2$s with their antlers!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 4 }
     }
@@ -4438,8 +4576,8 @@
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You whap %s with your tail",
-      "attack_text_npc": "%1$s whaps %2$s with their tail",
+      "attack_text_u": "You whap %s with your tail!",
+      "attack_text_npc": "%1$s whaps %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 8 }
     },
@@ -4460,8 +4598,8 @@
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 20 },
     "attacks": {
-      "attack_text_u": "You dart your head and snap at %s",
-      "attack_text_npc": "%1$s darts their head and snaps at %2$s",
+      "attack_text_u": "You dart your head and snap at %s!",
+      "attack_text_npc": "%1$s darts their head and snaps at %2$s!",
       "blocker_mutations": [ "FANGS" ],
       "body_part": "mouth",
       "chance": 18,
@@ -4537,8 +4675,8 @@
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You club %s with your tail",
-      "attack_text_npc": "%1$s clubs %2$s with their tail",
+      "attack_text_u": "You club %s with your tail!",
+      "attack_text_npc": "%1$s clubs %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 18 }
     }
@@ -4941,8 +5079,8 @@
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "integrated_armor": [ "integrated_mandibles" ],
     "attacks": {
-      "attack_text_u": "You bite %s with your fangs",
-      "attack_text_npc": "%1$s bites %2$s with their fangs",
+      "attack_text_u": "You bite %s with your fangs!",
+      "attack_text_npc": "%1$s bites %2$s with their fangs!",
       "blocker_mutations": [ "FANGS_SPIDER" ],
       "body_part": "mouth",
       "chance": 22,
@@ -4966,8 +5104,8 @@
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "integrated_armor": [ "integrated_fangs_spider" ],
     "attacks": {
-      "attack_text_u": "You bite %s with your fangs",
-      "attack_text_npc": "%1$s bites %2$s with their fangs",
+      "attack_text_u": "You bite %s with your fangs!",
+      "attack_text_npc": "%1$s bites %2$s with their fangs!",
       "blocker_mutations": [ "MANDIBLES" ],
       "body_part": "mouth",
       "chance": 22,
@@ -5005,6 +5143,7 @@
     "threshreq": [ "THRESH_GASTROPOD" ],
     "leads_to": [ "GASTROPOD_BALANCE" ],
     "flags": [ "SLUDGE_IMMUNE" ],
+    "enchantments": [ "ENCH_GASTROPOD_FOOT" ],
     "visibility": 8,
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
@@ -5046,8 +5185,8 @@
     "ugliness": 2,
     "description": "Your mucus has developed an acidic component that seems to soften your prey up.",
     "attacks": {
-      "attack_text_u": "You smear slime on %s",
-      "attack_text_npc": "%1$s smears slime on %2$s",
+      "attack_text_u": "You smear slime on %s!",
+      "attack_text_npc": "%1$s smears slime on %2$s!",
       "body_part": "torso",
       "chance": 23,
       "base_damage": { "damage_type": "acid", "amount": 6 }
@@ -5828,8 +5967,8 @@
     "category": [ "BATRACHIAN" ],
     "active": true,
     "attacks": {
-      "attack_text_u": "You bash %s with your tongue",
-      "attack_text_npc": "%1$s smacks into %2$s with their tongue",
+      "attack_text_u": "You swipe %s with your tongue!",
+      "attack_text_npc": "%1$s swipes %2$s with their tongue!",
       "body_part": "mouth",
       "chance": 15,
       "base_damage": { "damage_type": "bash", "amount": 15 },
@@ -6057,7 +6196,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "PRETTY" ],
     "changes_to": [ "BEAUTIFUL2" ],
-    "category": [ "ALPHA" ]
+    "category": [ "ALPHA", "ELFA" ]
   },
   {
     "type": "mutation",
@@ -6070,8 +6209,8 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL" ],
     "changes_to": [ "BEAUTIFUL3" ],
-    "category": [ "ALPHA" ],
-    "threshreq": [ "THRESH_ALPHA" ]
+    "category": [ "ALPHA", "ELFA" ],
+    "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA" ]
   },
   {
     "type": "mutation",
@@ -6082,7 +6221,9 @@
     "ugliness": -10,
     "description": "You are incredibly beautiful.  People cannot help themselves due to your charms, and will do whatever they can to please you.",
     "types": [ "ATTRACTIVENESS" ],
-    "prereqs": [ "BEAUTIFUL2" ]
+    "prereqs": [ "BEAUTIFUL2" ],
+    "category": [ "ELFA" ],
+    "threshreq": [ "THRESH_ELFA" ]
   },
   {
     "type": "mutation",
@@ -6152,8 +6293,8 @@
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 6 },
     "attacks": {
-      "attack_text_u": "You nip at %s",
-      "attack_text_npc": "%1$s nips and harries %2$s",
+      "attack_text_u": "You nip at %s!",
+      "attack_text_npc": "%1$s nips and harries %2$s!",
       "blocker_mutations": [ "FANGS" ],
       "body_part": "mouth",
       "chance": 18,
@@ -6174,8 +6315,8 @@
     "category": [ "URSINE" ],
     "restricts_gear": [ "mouth" ],
     "attacks": {
-      "attack_text_u": "You bite %s",
-      "attack_text_npc": "%1$s bites %2$s",
+      "attack_text_u": "You bite %s!",
+      "attack_text_npc": "%1$s bites %2$s!",
       "blocker_mutations": [ "FANGS" ],
       "body_part": "mouth",
       "chance": 20,
@@ -6210,8 +6351,8 @@
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 20 },
     "attacks": {
-      "attack_text_u": "You bite a chunk out of %s",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s",
+      "attack_text_u": "You bite a chunk out of %s!",
+      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
       "blocker_mutations": [ "FANGS" ],
       "body_part": "mouth",
       "chance": 18,
@@ -6722,8 +6863,8 @@
     "restricts_gear": [ "mouth" ],
     "destroys_gear": true,
     "attacks": {
-      "attack_text_u": "You peck %s",
-      "attack_text_npc": "%1$s pecks %2$s",
+      "attack_text_u": "You peck %s!",
+      "attack_text_npc": "%1$s pecks %2$s!",
       "body_part": "mouth",
       "chance": 15,
       "base_damage": { "damage_type": "stab", "amount": 15 }
@@ -6748,8 +6889,8 @@
     "destroys_gear": true,
     "attacks": [
       {
-        "attack_text_u": "You jackhammer into %s with your beak",
-        "attack_text_npc": "%1$s jackhammer into %2$s with their beak",
+        "attack_text_u": "You jackhammer into %s with your beak!",
+        "attack_text_npc": "%1$s jackhammer into %2$s with their beak!",
         "body_part": "mouth",
         "chance": 15,
         "hardcoded_effect": true
@@ -6789,7 +6930,7 @@
   {
     "type": "mutation",
     "id": "MAKAYLA_MUTATOR",
-    "name": { "str": "Catastrophic mutation" },
+    "name": { "str": "Catastrophic Mutation" },
     "points": -2,
     "mixed_effect": true,
     "description": "Exposure to portal storms and related phenomena causes you to mutate in a mostly predictable fashion.",
@@ -6935,7 +7076,7 @@
     "points": -3,
     "description": "Your body's ability to digest meat is severely hampered.  Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
     "types": [ "DIET" ],
-    "prereqs": [ "VEGETARIAN" ],
+    "prereqs": [ "VEGETARIAN", "VEGAN" ],
     "leads_to": [ "RUMINANT" ],
     "category": [ "CATTLE", "RABBIT" ]
   },
@@ -6946,6 +7087,7 @@
     "points": -4,
     "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat.",
     "types": [ "DIET" ],
+    "cancels": [ "VEGAN" ],
     "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN", "BEAST", "LUPINE" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
@@ -7021,8 +7163,8 @@
     "category": [ "PLANT" ],
     "attacks": [
       {
-        "attack_text_u": "You lash %s with a vine",
-        "attack_text_npc": "%1$s lashes %2$s with their vines",
+        "attack_text_u": "You lash %s with one of your vines!",
+        "attack_text_npc": "%1$s lashes %2$s with one of their vines!",
         "chance": 1,
         "hardcoded_effect": true
       }
@@ -7049,8 +7191,8 @@
     "spawn_item": { "type": "vine_30", "message": "You detach a vine from your body." },
     "attacks": [
       {
-        "attack_text_u": "You lash %s with a vine",
-        "attack_text_npc": "%1$s lashes %2$s with their vines",
+        "attack_text_u": "You lash %s with one of your vines!",
+        "attack_text_npc": "%1$s lashes %2$s with one of their vines!",
         "chance": 1,
         "hardcoded_effect": true
       }
@@ -7403,15 +7545,15 @@
     ],
     "attacks": [
       {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
+        "attack_text_u": "You slap %s with one of your tentacles!",
+        "attack_text_npc": "%1$s slaps %2$s with one of their tentacles!",
         "blocker_mutations": [ "CLAWS_TENTACLE" ],
         "chance": 1,
         "hardcoded_effect": true
       },
       {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
+        "attack_text_u": "You rake %s with one of your tentacles!",
+        "attack_text_npc": "%1$s rakes %2$s with one of their tentacles!",
         "required_mutations": [ "CLAWS_TENTACLE" ],
         "chance": 1,
         "hardcoded_effect": true
@@ -7442,15 +7584,15 @@
     ],
     "attacks": [
       {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
+        "attack_text_u": "You slap %s with one of your tentacles!",
+        "attack_text_npc": "%1$s slaps %2$s with one of their tentacles!",
         "blocker_mutations": [ "CLAWS_TENTACLE" ],
         "chance": 1,
         "hardcoded_effect": true
       },
       {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
+        "attack_text_u": "You rake %s with one of your tentacles!",
+        "attack_text_npc": "%1$s rakes %2$s with one of their tentacles!",
         "required_mutations": [ "CLAWS_TENTACLE" ],
         "chance": 1,
         "hardcoded_effect": true
@@ -7480,15 +7622,15 @@
     ],
     "attacks": [
       {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
+        "attack_text_u": "You slap %s with one of your tentacles!",
+        "attack_text_npc": "%1$s slaps %2$s with one of their tentacles!",
         "blocker_mutations": [ "CLAWS_TENTACLE" ],
         "chance": 1,
         "hardcoded_effect": true
       },
       {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
+        "attack_text_u": "You rake %s with one of your tentacles!",
+        "attack_text_npc": "%1$s rakes %2$s with one of their tentacles!",
         "required_mutations": [ "CLAWS_TENTACLE" ],
         "chance": 1,
         "hardcoded_effect": true
@@ -7986,8 +8128,8 @@
     "threshreq": [ "THRESH_FISH" ],
     "social_modifiers": { "intimidate": 5 },
     "attacks": {
-      "attack_text_u": "You tear into %s with your teeth",
-      "attack_text_npc": "%1$s tears into %2$s with their teeth",
+      "attack_text_u": "You tear into %s with your teeth!",
+      "attack_text_npc": "%1$s tears into %2$s with their teeth!",
       "body_part": "mouth",
       "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
       "chance": 20,
@@ -8273,7 +8415,7 @@
     "name": { "str": "Ignores Sounds" },
     "points": 99,
     "valid": false,
-    "description": "NPC ignores sounds and does not investigate them.",
+    "description": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.",
     "purifiable": false
   },
   {
@@ -8282,7 +8424,7 @@
     "name": { "str": "Will Not Bash" },
     "points": 99,
     "valid": false,
-    "description": "NPC will not bash to reach things.",
+    "description": "NPC will not bash to reach things.  If you see this, it's a bug.",
     "purifiable": false
   },
   {
@@ -8531,7 +8673,7 @@
     "name": { "str": "Debug Bionic Power" },
     "points": 99,
     "valid": false,
-    "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
+    "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated).",
     "debug": true,
     "active": true
   },
@@ -8706,8 +8848,8 @@
     "bodytemp_modifiers": [ 25, 50 ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
     "attacks": {
-      "attack_text_u": "You kick %s with your large feet",
-      "attack_text_npc": "%1$s kicks %2$s with their large feet",
+      "attack_text_u": "You kick %s with your large feet!",
+      "attack_text_npc": "%1$s kicks %2$s with their large feet!",
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 1.5 }
     }
@@ -8896,8 +9038,8 @@
     "description": "You fare better than most in colder climates and are less bothered by lower temperatures.  Note that while you are slightly less prone to developing frostbite as a result, you aren't any better at dealing with the symptoms.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTCHILL" ],
-    "types": [ "ACCLIMATIZATION" ],
-    "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
+    "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
+    "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ]
   },
   {
@@ -8908,8 +9050,8 @@
     "valid": true,
     "description": "You are now even less bothered by the cold and it is harder for you to freeze or to even get chilly.  When you do though, it'll hit just as hard as it did before.",
     "prereqs": [ "RESISTCHILL" ],
-    "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
-    "types": [ "ACCLIMATIZATION" ],
+    "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST" ],
+    "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
     "threshreq": [
       "THRESH_LUPINE",
       "THRESH_URSINE",

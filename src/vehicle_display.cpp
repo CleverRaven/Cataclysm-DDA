@@ -39,7 +39,7 @@ vpart_display::vpart_display()
     , variant( vpart_id::NULL_ID()->variants.begin()->second ) {}
 
 vpart_display::vpart_display( const vehicle_part &vp )
-    : id( vp.info().get_id() )
+    : id( vp.info().id )
     , variant( vp.info().variants.at( vp.variant ) ) {}
 
 std::string vpart_display::get_tileset_id() const
@@ -74,7 +74,7 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
         variant_it = vpi.variants.begin();
         const std::string fallback_variant = variant_it->first;
         debugmsg( "part '%s' uses non-existent variant '%s' setting to '%s'",
-                  vpi.get_id().str(), vp.variant, fallback_variant );
+                  vpi.id.str(), vp.variant, fallback_variant );
         vehicle_part &vp_cast = const_cast<vehicle_part &>( vp );
         vp_cast.variant = fallback_variant;
     }
@@ -89,7 +89,7 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
         ret.symbol = '\'';
         ret.symbol_curses = '\'';
     } else {
-        const units::angle direction = rotate ? face.dir() + 90_degrees : 0_degrees;
+        const units::angle direction = rotate ? 270_degrees - face.dir() : 0_degrees;
         ret.symbol = vv.get_symbol( direction, ret.is_broken );
         ret.symbol_curses = vpart_variant::get_symbol_curses( ret.symbol );
     }
@@ -149,7 +149,8 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     std::vector<int> pl = this->parts_at_relative( parts[p].mount, true, include_fakes );
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
-        const vehicle_part &vp = parts[ pl [ i ] ];
+        const vehicle_part &vp = parts[pl[i]];
+        const vpart_info &vpi = vp.info();
         if( !vp.is_real_or_active_fake() ) {
             continue;
         }
@@ -178,7 +179,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             }
         }
 
-        if( part_flag( pl[i], "CARGO" ) ) {
+        if( vpi.has_flag( VPFLAG_CARGO ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _( " (vol: %s/%s %s)" ),
                                        format_volume( stored_volume( pl[i] ) ),
@@ -186,13 +187,13 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
                                        volume_units_abbr() );
         }
 
-        bool armor = part_flag( pl[i], "ARMOR" );
+        const bool armor = vpi.has_flag( VPFLAG_ARMOR );
         std::string left_sym;
         std::string right_sym;
         if( armor ) {
             left_sym = "(";
             right_sym = ")";
-        } else if( part_info( pl[i] ).location == part_location_structure ) {
+        } else if( vpi.location == part_location_structure ) {
             left_sym = "[";
             right_sym = "]";
         } else {

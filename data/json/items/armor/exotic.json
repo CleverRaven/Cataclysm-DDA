@@ -46,8 +46,9 @@
     "non_functional": "migo_plate_undergrown",
     "damage_verb": "crumbles as blood oozes from its insides",
     "//": "transforms over a day",
-    "countdown_interval": 86400,
-    "countdown_action": { "type": "transform", "target": "migo_plate_overgrown", "msg": "The iridescent carapace plate expands as it grows." },
+    "countdown_interval": "24 hours",
+    "countdown_action": { "type": "message", "message": "The iridescent carapace plate expands as it grows." },
+    "revert_to": "migo_plate_overgrown",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "armor": [
       {
@@ -79,8 +80,9 @@
     "non_functional": "migo_plate_naked",
     "damage_verb": "crumbles as blood oozes from its insides",
     "//": "transforms over a day",
-    "countdown_interval": 86400,
-    "countdown_action": { "type": "transform", "target": "migo_plate", "msg": "The iridescent carapace plate expands as it grows." },
+    "countdown_interval": "24 hours",
+    "countdown_action": { "type": "message", "message": "The iridescent carapace plate expands as it grows." },
+    "revert_to": "migo_plate",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "armor": [
       {
@@ -110,8 +112,9 @@
     "color": "dark_gray",
     "material_thickness": 4,
     "//": "transforms over a day",
-    "countdown_interval": 86400,
-    "countdown_action": { "type": "transform", "target": "migo_plate_undergrown", "msg": "The plate of scarred flesh expands as it grows." },
+    "countdown_interval": "24 hours",
+    "countdown_action": { "type": "message", "message": "The plate of scarred flesh expands as it grows." },
+    "revert_to": "migo_plate_undergrown",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
     "armor": [
       {
@@ -127,7 +130,6 @@
     "id": "migo_skin",
     "type": "ARMOR",
     "name": { "str": "second skin" },
-    "repairs_like": "jumpsuit",
     "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you - the sensation is uncomfortable.  The liquid appears bound to the resonating collar at your neck; the inside of the collar reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".  The ooze flows freely, covering your entire body but never crossing the gorget to get to your head.",
     "weight": "1500 g",
     "volume": "1 L",
@@ -253,5 +255,212 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "armor_star_samurai",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ryūsei battle kit" },
+    "description": "A strange belt wrapped with circuitry and hundreds of banded metal discs.  When you touch it, it seems to vibrate slightly.",
+    "weight": "40 g",
+    "volume": "200 ml",
+    "price": 0,
+    "price_postapoc": 8000,
+    "material": [ "unobtanium", "superalloy" ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "dark_gray",
+    "warmth": 0,
+    "longest_side": "40 cm",
+    "material_thickness": 3,
+    "flags": [ "STURDY", "BELTED", "MUNDANE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20000 kg",
+        "max_item_length": "100 cm",
+        "moves": 800,
+        "description": "Synchronization point for ryūsei dō plate.",
+        "flag_restriction": [ "STAR_PLATE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "20000 kg",
+        "max_item_length": "100 cm",
+        "moves": 800,
+        "description": "Synchronization point for ryūsei kote plate.",
+        "flag_restriction": [ "STAR_SHOULDER" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "20000 kg",
+        "max_item_length": "100 cm",
+        "moves": 800,
+        "description": "Synchronization point for ryūsei kote plate.",
+        "flag_restriction": [ "STAR_SHOULDER" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20000 kg",
+        "max_item_length": "100 cm",
+        "moves": 800,
+        "description": "Synchronization point for ryūsei hai-date plate.",
+        "flag_restriction": [ "STAR_SKIRT" ]
+      },
+      {
+        "description": "Floating clip (seems like anything would fit).",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "30 cm",
+        "moves": 80,
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "weight_multiplier": 0.0
+      },
+      {
+        "description": "Large Quiver.",
+        "weight_multiplier": 0.0,
+        "ammo_restriction": { "strange_arrow": 5 },
+        "moves": 40,
+        "volume_encumber_modifier": 0.2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "305 mm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3,
+        "weight_multiplier": 0.0
+      }
+    ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "relic_data": { "passive_effects": [ { "id": "ench_meteor_armor" } ] }
+  },
+  {
+    "id": "armor_star_samurai_mask",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "filtering menpo" },
+    "category": "armor",
+    "description": "A sealed mask with strange filtering components on the front turned up in the shape of horns.  Inscriptions mark the glass of the lenses creating spiral patterns that blur the vision.",
+    "flags": [ "SLEEP_IGNORE", "MUNDANE" ],
+    "weight": "897 g",
+    "volume": "1 L",
+    "price": 4900,
+    "price_postapoc": 750,
+    "to_hit": -3,
+    "material": [ "monolith" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+    ],
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 16,
+    "relic_data": { "passive_effects": [ { "id": "ench_meteor_mask" } ] }
+  },
+  {
+    "id": "armor_star_samurai_torso",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ryūsei dō" },
+    "//": "torso armor for the space samurai",
+    "description": "An impossibly large slab of dark reflective material wrapped in bands of multicolored alloy.  It seems shaped to fit over a humanoid torso.",
+    "weight": "300 kg",
+    "volume": "6000 ml",
+    "price": 0,
+    "price_postapoc": 8000,
+    "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "dark_gray",
+    "warmth": 0,
+    "longest_side": "60 cm",
+    "material_thickness": 25,
+    "flags": [ "STURDY", "OUTER", "STAR_PLATE" ],
+    "armor": [
+      { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] },
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ]
+      }
+    ]
+  },
+  {
+    "id": "armor_star_samurai_shoulder",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ryūsei kote" },
+    "//": "shoulder armor for the space samurai",
+    "description": "An impossibly large slab of dark reflective material wrapped in bands of multicolored alloy.  It seems shaped as though it would tie to the upper arms.",
+    "weight": "100 kg",
+    "volume": "4000 ml",
+    "price": 0,
+    "price_postapoc": 8000,
+    "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "dark_gray",
+    "warmth": 0,
+    "longest_side": "60 cm",
+    "material_thickness": 25,
+    "flags": [ "STURDY", "OUTER", "STAR_SHOULDER" ],
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_upper_l", "arm_shoulder_r", "arm_upper_r" ]
+      }
+    ]
+  },
+  {
+    "id": "armor_star_samurai_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ryūsei hai-date" },
+    "//": "leg armor for the space samurai",
+    "description": "An impossibly large slab of dark reflective material wrapped in bands of multicolored alloy.  It has been forced into a conical shape as though it could somehow be worn as a skirt.",
+    "weight": "275 kg",
+    "volume": "5500 ml",
+    "price": 0,
+    "price_postapoc": 8000,
+    "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "dark_gray",
+    "warmth": 0,
+    "longest_side": "60 cm",
+    "material_thickness": 25,
+    "flags": [ "STURDY", "OUTER", "STAR_SKIRT" ],
+    "armor": [
+      {
+        "encumbrance": 15,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
+      }
+    ]
   }
 ]

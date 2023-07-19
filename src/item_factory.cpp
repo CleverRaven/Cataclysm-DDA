@@ -89,10 +89,16 @@ static const item_category_id item_category_weapons( "weapons" );
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 
 static const material_id material_bean( "bean" );
+static const material_id material_blood( "blood" );
+static const material_id material_bone( "bone" );
+static const material_id material_bread( "bread" );
+static const material_id material_cheese( "cheese" );
+static const material_id material_dried_vegetable( "dried_vegetable" );
 static const material_id material_egg( "egg" );
 static const material_id material_flesh( "flesh" );
 static const material_id material_fruit( "fruit" );
 static const material_id material_garlic( "garlic" );
+static const material_id material_hblood( "hblood" );
 static const material_id material_hflesh( "hflesh" );
 static const material_id material_honey( "honey" );
 static const material_id material_hydrocarbons( "hydrocarbons" );
@@ -1705,6 +1711,7 @@ void Item_factory::init()
     add_iuse( "JACKHAMMER", &iuse::jackhammer );
     add_iuse( "JET_INJECTOR", &iuse::jet_injector );
     add_iuse( "LUMBER", &iuse::lumber );
+    add_iuse( "MACE", &iuse::mace );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
@@ -1805,7 +1812,7 @@ void Item_factory::init()
     add_actor( std::make_unique<inscribe_actor>() );
     add_actor( std::make_unique<iuse_transform>() );
     add_actor( std::make_unique<unpack_actor>() );
-    add_actor( std::make_unique<countdown_actor>() );
+    add_actor( std::make_unique<message_iuse>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
@@ -2332,11 +2339,7 @@ void Item_factory::check_definitions() const
             for( const ammotype &at : type->tool->ammo_id ) {
                 check_ammo_type( msg, at );
             }
-            if( type->tool->revert_to && ( !has_template( *type->tool->revert_to ) ||
-                                           type->tool->revert_to->is_null() ) ) {
-                msg += string_format( "invalid revert_to property %s\n", type->tool->revert_to->c_str() );
-            }
-            if( !type->tool->revert_msg.empty() && !type->tool->revert_to ) {
+            if( !type->tool->revert_msg.empty() && !type->revert_to ) {
                 msg += "cannot specify revert_msg without revert_to\n";
             }
             if( !type->tool->subtype.is_empty() && !has_template( type->tool->subtype ) ) {
@@ -2366,6 +2369,11 @@ void Item_factory::check_definitions() const
                     tmp_item.ammo_set( ammo_id, 1 );
                 }
             }
+        }
+
+        if( type->revert_to && ( !has_template( *type->revert_to ) ||
+                                 type->revert_to->is_null() ) ) {
+            msg += string_format( "invalid revert_to property %s\n does not exist", type->revert_to->c_str() );
         }
 
         if( msg.empty() ) {
@@ -2860,7 +2868,7 @@ static void apply_optional( T &value, const std::optional<T> &applied )
     }
 }
 
-// Gets around the issue that cata::optional doesn't support
+// Gets around the issue that std::optional doesn't support
 // the *= and += operators required for "proportional" and "relative".
 template<typename T>
 static void get_optional( const JsonObject &jo, bool was_loaded, const std::string &member,
@@ -2911,12 +2919,20 @@ void islot_armor::load( const JsonObject &jo )
     get_relative( relative, "material_thickness", _material_thickness, 0.f );
     get_relative( relative, "environmental_protection", _env_resist, 0 );
     get_relative( relative, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
+    float _rel_encumb = 0.0f;
+    if( relative.has_float( "encumbrance" ) ) {
+        _rel_encumb = relative.get_float( "encumbrance" );
+    }
 
     JsonObject proportional = jo.get_object( "proportional" );
     proportional.allow_omitted_members();
     get_proportional( proportional, "material_thickness", _material_thickness, 0.f );
     get_proportional( proportional, "environmental_protection", _env_resist, 0 );
     get_proportional( proportional, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
+    float _prop_encumb = 1.0f;
+    if( proportional.has_float( "encumbrance" ) ) {
+        _prop_encumb = proportional.get_float( "encumbrance" );
+    }
 
     for( armor_portion_data &armor : sub_data ) {
         apply_optional( armor.avg_thickness, _material_thickness );
@@ -2925,6 +2941,22 @@ void islot_armor::load( const JsonObject &jo )
         if( covers ) {
             armor.covers = covers;
         }
+
+        // pass down relative and proportional encumbrance
+        if( armor.encumber > 0 ) {
+            armor.encumber += _rel_encumb;
+            armor.encumber *= _prop_encumb;
+
+            armor.encumber = std::max( 0, armor.encumber );
+        }
+
+        if( armor.max_encumber > 0 ) {
+            armor.max_encumber += _rel_encumb;
+            armor.max_encumber *= _prop_encumb;
+
+            armor.max_encumber = std::max( 0, armor.max_encumber );
+        }
+
     }
 
     optional( jo, was_loaded, "sided", sided, false );
@@ -2969,8 +3001,8 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
     assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
     assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
+    assign( jo, "fuel_efficiency", slot.fuel_efficiency, strict, -1.0f );
     assign( jo, "power_draw", slot.power_draw, strict, 0_W );
-    assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
 
@@ -3462,17 +3494,23 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::array<std::pair<material_id, flag_id>, 22> all_pairs = { {
+    static const std::array<std::pair<material_id, flag_id>, 29> all_pairs = { {
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
             { material_hflesh, flag_CANNIBALISM },
-
+            { material_hblood, flag_CANNIBALISM },
             { material_hflesh, flag_ALLERGEN_MEAT },
             { material_iflesh, flag_ALLERGEN_MEAT },
+            { material_bread, flag_ALLERGEN_BREAD },
             { material_flesh, flag_ALLERGEN_MEAT },
+            { material_cheese, flag_ALLERGEN_CHEESE},
+            { material_blood, flag_ALLERGEN_MEAT },
+            { material_hblood, flag_ALLERGEN_MEAT },
+            { material_bone, flag_ALLERGEN_MEAT },
             { material_wheat, flag_ALLERGEN_WHEAT },
             { material_fruit, flag_ALLERGEN_FRUIT },
             { material_veggy, flag_ALLERGEN_VEGGY },
+            { material_dried_vegetable, flag_ALLERGEN_DRIED_VEGETABLE },
             { material_bean, flag_ALLERGEN_VEGGY },
             { material_tomato, flag_ALLERGEN_VEGGY },
             { material_garlic, flag_ALLERGEN_VEGGY },
@@ -3487,8 +3525,8 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_flesh, flag_CARNIVORE_OK },
             { material_hflesh, flag_CARNIVORE_OK },
             { material_iflesh, flag_CARNIVORE_OK },
-            { material_milk, flag_CARNIVORE_OK },
-            { material_egg, flag_CARNIVORE_OK },
+            { material_blood, flag_CARNIVORE_OK },
+            { material_hblood, flag_CARNIVORE_OK },
             { material_honey, flag_URSINE_HONEY }
         }
     };
@@ -3572,7 +3610,7 @@ static bool has_only_special_pockets( const itype &def )
         return true;
     }
 
-    const std::vector<item_pocket::pocket_type> special_pockets = { item_pocket::pocket_type::CORPSE, item_pocket::pocket_type::MOD, item_pocket::pocket_type::MOD, item_pocket::pocket_type::MIGRATION };
+    const std::vector<item_pocket::pocket_type> special_pockets = { item_pocket::pocket_type::CORPSE, item_pocket::pocket_type::MOD, item_pocket::pocket_type::MIGRATION };
 
     for( const pocket_data &pocket : def.pockets ) {
         if( std::find( special_pockets.begin(), special_pockets.end(),
@@ -3908,6 +3946,56 @@ static void migrate_mag_from_pockets( itype &def )
     }
 }
 
+static void replace_materials( const JsonObject &jo, itype &def )
+{
+    // itterate through material replacements
+    for( JsonMember jv : jo ) {
+        material_id to_replace = material_id( jv.name() );
+        material_id replacement = material_id( jv.get_string() );
+
+        units::mass original_weight = def.weight;
+
+        int mat_portion = def.materials[to_replace];
+        // material is defined
+        if( mat_portion != 0 ) {
+            double mat_percent = static_cast<double>( mat_portion ) / static_cast<double>
+                                 ( def.mat_portion_total );
+
+            float density_percent = replacement->density() / to_replace->density();
+
+            // add the portion for the replaced material
+            def.materials[replacement] += mat_portion;
+
+            // delete the old data
+            def.materials.erase( to_replace );
+
+            // change the weight relative
+            units::mass material_weight = original_weight * mat_percent;
+            units::mass weight_dif = material_weight * density_percent - material_weight;
+
+            def.weight += weight_dif;
+        }
+
+        // update the armor defs
+        if( def.armor ) {
+            for( armor_portion_data &data : def.armor->sub_data ) {
+                std::vector<part_material>::iterator entry;
+                do {
+                    entry = std::find_if( data.materials.begin(),
+                    data.materials.end(), [to_replace]( const part_material & pm ) {
+                        return pm.id == to_replace;
+                    } );
+
+                    if( entry != data.materials.end() ) {
+                        entry->id = replacement;
+                    }
+
+                } while( entry != data.materials.end() );
+            }
+        }
+    }
+}
+
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
@@ -3988,7 +4076,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     float degrade_mult = 1.0f;
     optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
     // TODO: remove condition once degradation is ready to be applied to all items
-    if( def.category_force != item_category_veh_parts ) {
+    if( def.count_by_charges() || def.category_force != item_category_veh_parts ) {
         degrade_mult = 0.0f;
     }
     if( ( degrade_mult * itype::damage_max_ ) <= 0.5f ) {
@@ -4165,7 +4253,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
-    assign( jo, "countdown_destroy", def.countdown_destroy );
+    assign( jo, "revert_to", def.revert_to, strict );
 
     if( jo.has_string( "countdown_action" ) ) {
         def.countdown_action = usage_from_string( jo.get_string( "countdown_action" ) );
@@ -4264,6 +4352,12 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         def.snippet_category = jo.get_string( "snippet_category", "" );
     }
+
+
+    // potentially replace materials and update their values
+    JsonObject replace_val = jo.get_object( "replace_materials" );
+    replace_val.allow_omitted_members();
+    replace_materials( replace_val, def );
 
     if( jo.has_string( "abstract" ) ) {
         m_abstracts[ def.id ] = def;

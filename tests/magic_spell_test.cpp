@@ -43,7 +43,7 @@ static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 // Functions:
 // spell::name
 //
-TEST_CASE( "spell name", "[magic][spell][name]" )
+TEST_CASE( "spell_name", "[magic][spell][name]" )
 {
     // Test spells from data/mods/TEST_DATA/magic.json
     spell_id pew_id( "test_spell_pew" );
@@ -73,7 +73,7 @@ TEST_CASE( "spell name", "[magic][spell][name]" )
 // spell::set_level
 // spell::exp_to_next_level
 
-TEST_CASE( "spell level", "[magic][spell][level]" )
+TEST_CASE( "spell_level", "[magic][spell][level]" )
 {
     npc guy;
     spell_id pew_id( "test_spell_pew" );
@@ -117,7 +117,7 @@ static int spell_xp_to_next_level( const spell_id &sp_id, const int from_level )
     return test_spell.exp_to_next_level();
 }
 
-TEST_CASE( "experience to gain spell levels", "[magic][spell][level][xp]" )
+TEST_CASE( "experience_to_gain_spell_levels", "[magic][spell][level][xp]" )
 {
     npc guy;
     spell_id pew_id( "test_spell_pew" );
@@ -243,7 +243,7 @@ static int spell_damage( const spell_id &sp_id, const int spell_level )
     return test_spell.damage( guy );
 }
 
-TEST_CASE( "spell damage", "[magic][spell][damage]" )
+TEST_CASE( "spell_damage", "[magic][spell][damage]" )
 {
     spell_id pew_id( "test_spell_pew" );
     const spell_type &pew_type = pew_id.obj();
@@ -296,7 +296,7 @@ static std::string spell_duration_string( const spell_id &sp_id, const int spell
     return test_spell.duration_string( guy );
 }
 
-TEST_CASE( "spell duration", "[magic][spell][duration]" )
+TEST_CASE( "spell_duration", "[magic][spell][duration]" )
 {
     spell_id lava_id( "test_spell_lava" );
     const spell_type &lava_type = lava_id.obj();
@@ -346,7 +346,7 @@ TEST_CASE( "spell duration", "[magic][spell][duration]" )
 // Spells with the PERMANENT flag have behavior that depends on what kind of spell it is
 // - If spell has "effect": "spawn_item", the spawned item only has permanent duration at maximum level
 // - If spell has "effect": "summon", the summoned monster can have permanent duration at any level
-TEST_CASE( "permanent spell duration depends on effect and level", "[magic][spell][permanent]" )
+TEST_CASE( "permanent_spell_duration_depends_on_effect_and_level", "[magic][spell][permanent]" )
 {
     npc guy;
     GIVEN( "spell with spawn_item effect, nonzero duration, and PERMANENT flag" ) {
@@ -418,7 +418,7 @@ static int spell_range( const spell_id &sp_id, const int spell_level )
     return test_spell.range( guy );
 }
 
-TEST_CASE( "spell range", "[magic][spell][range]" )
+TEST_CASE( "spell_range", "[magic][spell][range]" )
 {
     spell_id pew_id( "test_spell_pew" );
     const spell_type &pew_type = pew_id.obj();
@@ -473,7 +473,7 @@ static int spell_aoe( const spell_id &sp_id, const int spell_level )
     return test_spell.aoe( guy );
 }
 
-TEST_CASE( "spell area of effect", "[magic][spell][aoe]" )
+TEST_CASE( "spell_area_of_effect", "[magic][spell][aoe]" )
 {
     spell_id lava_id( "test_spell_lava" );
     const spell_type &lava_type = lava_id.obj();
@@ -524,7 +524,7 @@ TEST_CASE( "spell area of effect", "[magic][spell][aoe]" )
 // spell_effect::cone_attack
 
 // spell_effect::target_attack
-TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack]" )
+TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack]" )
 {
     // World setup
     clear_map();
@@ -580,7 +580,7 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
 }
 
 // spell_effect::spawn_summoned_monster
-TEST_CASE( "spell effect - summon", "[magic][spell][effect][summon]" )
+TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
 {
     clear_map();
 
@@ -609,7 +609,7 @@ TEST_CASE( "spell effect - summon", "[magic][spell][effect][summon]" )
 }
 
 // spell_effect::recover_energy
-TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_energy]" )
+TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_energy]" )
 {
     // Takes recovery amount from sp.damage
     // Takes energy source from sp.effect_data

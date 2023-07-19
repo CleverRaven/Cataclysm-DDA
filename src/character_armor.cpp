@@ -237,20 +237,21 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 }
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp,
-                              const sub_bodypart_id &sbp, int roll )
+                              const sub_bodypart_id &sbp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
-
-    // if the armor location has ablative armor apply that first
-    if( armor.is_ablative() ) {
-        ablative_armor_absorb( du, armor, sbp, roll );
-    }
 
     // if the core armor is missed then exit
     if( roll > armor.get_coverage( sbp, ctype ) ) {
         return false;
     }
-
+    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
+    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
+        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
+                pos(), nullptr ) ) {
+        armor.deactivate( nullptr, false );
+        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
+    }
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, sbp, -1 );
@@ -272,7 +273,13 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( roll > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
-
+    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
+    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
+        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
+                pos(), nullptr ) ) {
+        armor.deactivate( nullptr, false );
+        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
+    }
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, bp, -1 );
@@ -292,9 +299,9 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 
-    for( item_pocket *const pocket : armor.get_all_contained_pockets() ) {
+    for( item_pocket *const pocket : armor.get_all_ablative_pockets() ) {
         // if the pocket is ablative and not empty we should use its values
-        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+        if( !pocket->empty() ) {
             // get the contained plate
             item &ablative_armor = pocket->front();
 

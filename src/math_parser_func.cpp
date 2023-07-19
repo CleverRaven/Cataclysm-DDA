@@ -10,6 +10,7 @@ std::vector<std::string_view> tokenize( std::string_view str, std::string_view s
     std::vector<std::string_view> ret;
     std::string_view::size_type start = 0;
     std::string_view::size_type pos = 0;
+    std::string_view last;
 
     while( pos != std::string_view::npos ) {
         pos = str.find_first_of( separators, start );
@@ -23,7 +24,16 @@ std::vector<std::string_view> tokenize( std::string_view str, std::string_view s
             }
         }
         if( pos != std::string_view::npos && include_seps ) {
-            ret.emplace_back( &str[pos], 1 );
+            if( str[pos] == '=' && start > 0 &&
+                ( last == "=" || last == ">" || last == "<" || last == "!" ) ) {
+                ret.pop_back();
+                ret.emplace_back( str.substr( pos - 1, 2 ) );
+            } else {
+                ret.emplace_back( &str[pos], 1 );
+            }
+        }
+        if( !ret.empty() ) {
+            last = ret.back();
         }
         start = pos + 1;
     }

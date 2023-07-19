@@ -187,7 +187,6 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
@@ -2869,6 +2868,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    update_last_bionic_uid();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     calc_encumbrance();
@@ -2891,7 +2891,10 @@ bionic &Character::bionic_at_index( int i )
 
 void Character::clear_bionics()
 {
-    my_bionics->clear();
+    set_max_power_level_modifier( 0_kJ );
+    while( !my_bionics->empty() ) {
+        remove_bionic( my_bionics->front() );
+    }
 }
 
 void reset_bionics()
@@ -3249,8 +3252,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, Charac
     }
 
     //Pain junkies feel sorry about missed pain from operation.
-    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
-        has_trait( trait_CENOBITE ) ) {
+    if( has_trait( trait_MASOCHIST_MED ) || has_trait( trait_CENOBITE ) ) {
         add_msg_if_player( m_mixed,
                            _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }

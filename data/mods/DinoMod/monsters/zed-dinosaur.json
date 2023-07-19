@@ -219,7 +219,7 @@
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 300,
     "grab_strength": 100,
-    "special_attacks": [ { "id": "ranged_pull", "cooldown": 20 }, [ "BIO_OP_TAKEDOWN", 20 ], [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [ { "id": "ranged_pull", "cooldown": 20 }, [ "BIO_OP_TAKEDOWN", 20 ], { "id": "grab_drag" }, { "id": "drag_followup" } ],
     "description": "The shambling corpse of a huge, bipedal dinosaur predator with long claws and strong arms for grappling.",
     "burn_into": "mon_ziats_scorched",
     "fungalize_into": "mon_ziats_fungus",

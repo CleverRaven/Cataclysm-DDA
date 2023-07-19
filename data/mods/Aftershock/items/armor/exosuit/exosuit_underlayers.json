@@ -1,7 +1,6 @@
 [
   {
     "id": "afs_exo_standard_underlayer",
-    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
@@ -33,7 +32,6 @@
   },
   {
     "id": "afs_exo_combat_underlayer",
-    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
@@ -73,7 +71,6 @@
   },
   {
     "id": "afs_exo_eva_underlayer",
-    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
@@ -105,7 +102,6 @@
   },
   {
     "id": "afs_exo_hazard_underlayer",
-    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",

@@ -107,6 +107,7 @@
         "O   "
       ],
       "palettes": [ "house_w_nest_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ],
       "items": {
         "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
         "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
@@ -2422,6 +2423,32 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "house_w_nest_garden_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "pond_6x6_natural",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     Z",
+        "  Kk  ",
+        "kKkKK ",
+        " KKK  ",
+        "  K   ",
+        "    Z "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "furniture": { "k": "f_region_water_plant" },
+      "monsters": {
+        "K": { "monster": "GROUP_POND_FISH", "chance": 4, "density": 0.01 },
+        "k": { "monster": "GROUP_POND_BIRD", "chance": 3, "density": 0.01 },
+        " ": { "monster": "GROUP_POND_ANIMAL", "chance": 23, "density": 0.01 }
+      }
     }
   },
   {

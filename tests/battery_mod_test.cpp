@@ -67,7 +67,7 @@ static const itype_id itype_medium_plus_battery_cell( "medium_plus_battery_cell"
 // both to ensure they work as expected, and to exhibit their attributes and terminology (like the
 // curious fact that a battery is treated like a magazine full of ammunition).
 //
-TEST_CASE( "battery tool mod test", "[battery][mod]" )
+TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
 {
     item med_mod( "magazine_battery_medium_mod" );
 
@@ -217,7 +217,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 //   - Can be reloaded with a compatible "magazine" (battery)
 //   - Charge left in the tool's battery is "ammo remaining"
 //
-TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
+TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
 {
     const item bat_cell( "light_battery_cell" );
     const item flashlight( "flashlight" );
@@ -316,7 +316,7 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
     }
 }
 
-TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
+TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
 {
     item bat_cell( "light_battery_cell" );
     item flashlight( "flashlight" );

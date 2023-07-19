@@ -1154,6 +1154,9 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     std::vector<options_manager::id_and_option> resource_names;
 
     resource_option.clear();
+    if( !dir_exist( dirname.get_unrelative_path() ) ) {
+        return resource_names; // don't try to enumerate non-existing directories
+    }
     const auto resource_dirs = get_directories_with( filename, dirname, true );
 
     for( const cata_path &resource_dir : resource_dirs ) {

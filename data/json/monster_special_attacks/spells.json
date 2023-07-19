@@ -841,13 +841,7 @@
                       "condition": {
                         "and": [
                           { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
-                          {
-                            "compare_num": [
-                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_guilt" },
-                              "<",
-                              { "const": 1 }
-                            ]
-                          }
+                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
                       "effect": {
@@ -868,13 +862,7 @@
                       "condition": {
                         "and": [
                           { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
-                          {
-                            "compare_num": [
-                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_sloth" },
-                              "<",
-                              { "const": 1 }
-                            ]
-                          }
+                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
                       "effect": {

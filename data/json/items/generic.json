@@ -131,7 +131,7 @@
     "symbol": ",",
     "material": [ "paper" ],
     "volume": "50 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -251,7 +251,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED", "TINDER" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -266,7 +266,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "volume": "100 ml",
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -279,7 +279,7 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "100 ml",
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -292,7 +292,7 @@
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -1627,6 +1627,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "TINDER", "PAPER_SHAPED" ],
     "volume": "6 ml",
     "longest_side": "297 mm",
     "ammo_type": "paper"
@@ -2113,15 +2114,27 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "fan",
     "symbol": ",",
-    "color": "light_gray",
     "name": { "str": "desk fan" },
     "description": "A small fan, used to propel air around a room.",
+    "color": "light_gray",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
+    "flags": [ "WATER_BREAK" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 4,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "charged_qualities": [ [ "BLOW_AIR", 1 ] ],
     "weight": "2857 g",
     "volume": "1 L"
   },
@@ -2855,16 +2868,18 @@
     "description": "A beautiful black onyx."
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "straw_pile",
-    "symbol": ",",
-    "color": "light_gray",
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },
     "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "calories": 15,
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
-    "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
-    "weight": "20 g",
+    "material": [ "veggy" ],
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER" ],
+    "weight": "34 g",
     "volume": "250 ml",
     "to_hit": -2
   },
@@ -2878,6 +2893,7 @@
     "price": 100,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "TINDER" ],
     "weight": "80 g",
     "volume": "500 ml"
   },
@@ -2923,7 +2939,6 @@
     "price": 1500,
     "price_postapoc": 100,
     "material": [ "cotton" ],
-    "repairs_like": "tshirt",
     "weight": "774 g",
     "volume": "1750 ml",
     "flags": [ "SLEEP_AID" ],
@@ -3779,7 +3794,6 @@
   },
   {
     "id": "wallet",
-    "repairs_like": "backpack",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "wallet" },
@@ -3834,7 +3848,6 @@
   },
   {
     "id": "wallet_leather",
-    "repairs_like": "leather_belt",
     "type": "GENERIC",
     "copy-from": "wallet",
     "name": { "str": "leather wallet" },
@@ -3843,7 +3856,6 @@
   },
   {
     "id": "wallet_large",
-    "repairs_like": "leather_belt",
     "type": "GENERIC",
     "copy-from": "wallet",
     "name": { "str": "large wallet" },
@@ -3884,7 +3896,6 @@
   },
   {
     "id": "wallet_stylish",
-    "repairs_like": "leather_belt",
     "type": "GENERIC",
     "copy-from": "wallet",
     "name": { "str": "stylish wallet" },
@@ -3894,7 +3905,6 @@
   },
   {
     "id": "wallet_travel",
-    "repairs_like": "leather_belt",
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "symbol": ";",

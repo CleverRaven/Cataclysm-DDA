@@ -1297,5 +1297,33 @@
       "ter_set": "t_pavement",
       "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_cattle_feeder",
+    "alias": [ "t_cattle_feeder_h", "t_cattle_feeder_v" ],
+    "name": "cattle feeder",
+    "description": "A section of tall steel with a solid base and feed spaces above to allow livestock to reach the contained food.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "looks_like": "t_metal_railing",
+    "move_cost": 0,
+    "examine_action": "chainfence",
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "MOUNTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connect_groups": "RAILING",
+    "connects_to": "RAILING",
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "sheet_metal", "count": 4 }, { "item": "pipe", "count": 2 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "charges": [ 1, 8 ] },
+        { "item": "scrap", "count": [ 1, 5 ] }
+      ]
+    }
   }
 ]

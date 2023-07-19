@@ -7,13 +7,85 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-units::angle normalize( units::angle a, const units::angle &mod )
+units::angle normalize( units::angle a, units::angle mod )
 {
     a = units::fmod( a, mod );
     if( a < 0_degrees ) {
         a += mod;
     }
     return a;
+}
+
+units::angle angle_delta( units::angle a, units::angle b )
+{
+    const units::angle delta = normalize( a - b );
+    return delta > 180_degrees ? 360_degrees - delta : delta;
+}
+
+int angle_to_dir4( const units::angle direction )
+{
+    const int dir8 = angle_to_dir8( direction );
+    // direction is snapped to 8 directions in angle_to_dir8, then we need to further snap it
+    // to just 4 directions, used for tilesets; for consistent visuals NE/NW diagonals snap to north
+    // and SE/SW diagonals snap to south
+    // NOLINTBEGIN(bugprone-branch-clone)
+    switch( dir8 ) {
+        // *INDENT-OFF*
+        case 0:  return 0; // north
+        case 1:  return 0; // north <- north west
+        case 2:  return 1; // west
+        case 3:  return 2; // south <- south west
+        case 4:  return 2; // south
+        case 5:  return 2; // south <- south east
+        case 6:  return 3; // east
+        case 7:  return 0; // north <- north east
+
+        default: return 0;
+        // *INDENT-ON*
+    }
+    // NOLINTEND(bugprone-branch-clone)
+}
+
+int angle_to_dir8( const units::angle direction )
+{
+    // Direction is snapped to "notches" of 15-degrees on a circle, we bump direction towards the
+    // middle of each notch, and lookup the 8-way direction. Cardinal directions get 5 "notches", diagonals
+    // get 1 at the boundary of each 2 cardinals. This can be shorter but this way is easier to read,
+    // the compilers will optimize into lookup table. This is mostly used in curses mode.
+    constexpr units::angle bump = 15_degrees / 2.0;
+    const int snap = normalize( direction - bump ) / 15_degrees + 1;
+    // NOLINTBEGIN(bugprone-branch-clone)
+    switch( snap ) {
+        // *INDENT-OFF*
+        case 22: return 0; // north
+        case 23: return 0; // north
+        case 24: return 0; // north      (   0 degrees )
+        case 1:  return 0; // north
+        case 2:  return 0; // north
+        case 3:  return 1; // north-west (  45 degrees )
+        case 4:  return 2; // west
+        case 5:  return 2; // west
+        case 6:  return 2; // west       (  90 degrees )
+        case 7:  return 2; // west
+        case 8:  return 2; // west
+        case 9:  return 3; // south-west ( 135 degrees )
+        case 10: return 4; // south
+        case 11: return 4; // south
+        case 12: return 4; // south      ( 180 degrees )
+        case 13: return 4; // south
+        case 14: return 4; // south
+        case 15: return 5; // south-east ( 225 degrees )
+        case 16: return 6; // east
+        case 17: return 6; // east
+        case 18: return 6; // east       ( 270 degrees )
+        case 19: return 6; // east
+        case 20: return 6; // east
+        case 21: return 7; // north-east ( 315 degrees )
+
+        default: return 0; // other values can't happen
+        // *INDENT-ON*
+    }
+    // NOLINTEND(bugprone-branch-clone)
 }
 
 const char *weight_units()

@@ -22,12 +22,7 @@
     "id": "MON_NEARBY_SPEED",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "values": [
-      {
-        "value": "SPEED",
-        "add": { "arithmetic": [ { "global_val": "monsters_nearby", "radius": 25 }, "/", { "const": 2 } ] }
-      }
-    ]
+    "values": [ { "value": "SPEED", "add": { "math": [ "u_monsters_nearby('radius': 25) / 2" ] } } ]
   },
   {
     "type": "enchantment",

@@ -47,6 +47,8 @@ static const itype_id itype_towel_wet( "towel_wet" );
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item eyedrops( "saline", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = eyedrops.charges;
@@ -85,6 +87,8 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 TEST_CASE( "antifungal", "[iuse][antifungal]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item antifungal( "antifungal", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = antifungal.charges;
@@ -136,6 +140,8 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
 TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item antiparasitic( "antiparasitic", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = antiparasitic.charges;
@@ -192,6 +198,8 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item anticonvulsant( "diazepam", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = anticonvulsant.charges;
@@ -222,9 +230,11 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 }
 
 // test the `iuse::oxygen_bottle` function
-TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
+TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item oxygen( "oxygen_tank" );
     itype_id o2_ammo( "oxygen" );
     oxygen.ammo_set( o2_ammo );
@@ -324,9 +334,10 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 }
 
 // test the `iuse::caff` and `iuse::atomic_caff` functions
-TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
+TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
 {
     avatar dummy;
+    dummy.normalize();
 
     // Baseline fatigue level before caffeinating
     int fatigue_before = 200;
@@ -356,7 +367,8 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
-    dummy.set_body();
+    dummy.normalize();
+
     item towel( "towel", calendar::turn_zero, item::default_charges_tag{} );
 
     GIVEN( "avatar is wet" ) {
@@ -476,7 +488,9 @@ TEST_CASE( "towel", "[iuse][towel]" )
 TEST_CASE( "thorazine", "[iuse][thorazine]" )
 {
     avatar dummy;
+    dummy.normalize();
     dummy.set_fatigue( 0 );
+
     item thorazine( "thorazine", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = thorazine.charges;
@@ -525,6 +539,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 TEST_CASE( "prozac", "[iuse][prozac]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item prozac( "prozac", calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "prozac gives prozac and visible prozac effect" ) {
@@ -591,6 +607,8 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
 TEST_CASE( "panacea", "[iuse][panacea]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item panacea( "panacea", calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "panacea gives cure-all effect" ) {
@@ -604,6 +622,8 @@ TEST_CASE( "panacea", "[iuse][panacea]" )
 TEST_CASE( "xanax", "[iuse][xanax]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item xanax( "xanax", calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "xanax gives xanax and visible xanax effects" ) {

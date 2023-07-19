@@ -80,12 +80,12 @@
     "aggression": 30,
     "morale": 100,
     "melee_skill": 3,
-    "melee_dice": 4,
+    "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "stab", "amount": 12 } ],
     "dodge": 3,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
     "special_attacks": [
       [ "PARROT_AT_DANGER", 0 ],
       {
@@ -120,7 +120,7 @@
       "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS"
     ],
-    "armor": { "bash": 9, "cut": 7, "acid": 4, "bullet": 12 }
+    "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 18 }
   },
   {
     "id": "mon_chud",

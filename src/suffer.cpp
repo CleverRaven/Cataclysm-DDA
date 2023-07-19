@@ -129,6 +129,8 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
+static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
+
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
@@ -282,6 +284,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
         // if you haven't deactivated then run the EOC
         for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
             dialogue d( get_talker_for( you ), nullptr );
+            d.set_value( "npctalk_var_this", mut_id.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {
@@ -327,7 +330,7 @@ void suffer::while_grabbed( Character &you )
     int impassable_ter = 0;
     for( auto&& dest : here.points_in_radius( you.pos(), 1, 0 ) ) { // *NOPAD*
         const monster *const mon = creatures.creature_at<monster>( dest );
-        if( mon && mon->has_flag( MF_GROUP_BASH ) ) {
+        if( mon && mon->has_flag( mon_flag_GROUP_BASH ) ) {
             crowd++;
             add_msg_debug( debugmode::DF_CHARACTER, "Crowd pressure check: monster %s found, crowd size %d",
                            mon->name(), crowd );
@@ -1832,7 +1835,7 @@ void Character::suffer()
         if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
             suffer::water_damage( *this, mut_id );
         }
-        if( has_active_mutation( mut_id ) ) {
+        if( has_active_mutation( mut_id ) || ( !mut_id->activated && !mut_id->processed_eocs.empty() ) ) {
             suffer::mutation_power( *this, mut_id );
         }
     }

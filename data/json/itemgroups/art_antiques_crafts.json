@@ -11,7 +11,6 @@
       { "item": "chalice", "prob": 10 },
       { "group": "tinware", "prob": 5 },
       { "item": "heels", "prob": 50 },
-      { "item": "coat_fur_sf", "prob": 1 },
       { "item": "tricorne", "prob": 3 },
       { "item": "gold_bracelet", "prob": 8 },
       { "item": "gold_necklace", "prob": 8 },
@@ -201,6 +200,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "trex_gun", "prob": 4 },
+      { "item": "helmet_army_outdated", "prob": 5 },
       { "item": "spiral_stone", "prob": 2 },
       { "item": "kris", "prob": 2 },
       { "item": "cavalry_sabre_fake", "prob": 2 },

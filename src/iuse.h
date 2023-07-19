@@ -145,6 +145,7 @@ std::optional<int> electricstorage( Character *, item *, bool, const tripoint & 
 std::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
 std::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 std::optional<int> makemound( Character *, item *, bool, const tripoint & );
+std::optional<int> mace( Character *, item *, bool, const tripoint & );
 std::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
 std::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
 std::optional<int> mininuke( Character *, item *, bool, const tripoint & );

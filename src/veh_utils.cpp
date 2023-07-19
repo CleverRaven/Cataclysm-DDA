@@ -49,7 +49,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
     //   5:  3 xp /h
     //   6:  2 xp /h
     //  7+:  1 xp /h
-    return std::ceil( static_cast<double>( vp.install_moves ) /
+    return std::ceil( to_moves<double>( vp.install_moves ) /
                       to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) );
 }
 
@@ -136,7 +136,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
     const std::string partname = pt.name( false );
     const std::string startdurability = pt.get_base().damage_indicator();
     if( pt.is_broken() ) {
-        const vpart_id vpid = pt.info().get_id();
+        const vpart_id vpid = pt.info().id;
         const point mount = pt.mount;
         const units::angle direction = pt.direction;
         const std::string variant = pt.variant;

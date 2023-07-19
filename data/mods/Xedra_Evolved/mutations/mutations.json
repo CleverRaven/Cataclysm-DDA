@@ -272,5 +272,15 @@
     "valid": false,
     "purifiable": false,
     "types": [ "BLOOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FUTURESIGHT",
+    "name": { "str": "Future Sight" },
+    "points": 0,
+    "description": "You aren't where you seem to be.",
+    "starting_trait": false,
+    "valid": false,
+    "flags": [ "UNCANNY_DODGE" ]
   }
 ]

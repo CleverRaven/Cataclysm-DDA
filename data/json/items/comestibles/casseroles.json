@@ -74,5 +74,28 @@
     "price_postapoc": 150,
     "material": [ "flesh", "wheat", "milk" ],
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "eggplant_parmigiana",
+    "name": { "str": "eggplant parmigiana" },
+    "weight": "178 g",
+    "color": "brown",
+    "spoils_in": "60 days",
+    "container": "casserole",
+    "comestible_type": "FOOD",
+    "symbol": "p",
+    "quench": -2,
+    "healthy": -1,
+    "calories": 301,
+    "description": "A good portion of tasty eggplant parmigiana.",
+    "price": 100,
+    "price_postapoc": 300,
+    "material": [ "veggy", "milk" ],
+    "primary_material": "veggy",
+    "volume": "250 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ], [ "vitC", 7 ] ],
+    "fun": 8
   }
 ]

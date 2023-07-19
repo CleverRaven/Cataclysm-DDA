@@ -129,7 +129,13 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "BIO_OP_TAKEDOWN", 20 ], { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [
+      [ "FUNGUS", 200 ],
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
+    ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },

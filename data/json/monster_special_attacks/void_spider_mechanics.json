@@ -146,7 +146,6 @@
             "effect": [
               { "mapgen_update": "void_spider_lair_entrance_shift", "om_terrain": "void_spider_lair_entrance" },
               { "math": [ "spider_lair_sealed", "=", "1" ] },
-              { "math": [ "void_spider_lairs_visited", "+=", "1" ] },
               { "queue_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
               { "queue_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
             ]
@@ -185,8 +184,8 @@
               "and": [
                 { "u_has_effect": "webbed" },
                 { "one_in_chance": 6 },
-                { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, "<", { "const": 1 } ] },
-                { "math": [ "void_spider_lairs_visited", ">", "void_spider_killed" ] }
+                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
+                { "math": [ "void_spider_killed", "!=", "1" ] }
               ]
             },
             "effect": [
@@ -199,8 +198,8 @@
             "condition": {
               "and": [
                 { "one_in_chance": 120 },
-                { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, "<", { "const": 1 } ] },
-                { "math": [ "void_spider_lairs_visited", ">", "void_spider_killed" ] }
+                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
+                { "math": [ "void_spider_killed", "!=", "1" ] }
               ]
             },
             "effect": [
@@ -213,10 +212,8 @@
             "condition": {
               "and": [
                 { "or": [ { "u_has_effect": "webbed" }, { "u_has_effect": "grabbed" } ] },
-                { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, "=", { "const": 1 } ] },
-                {
-                  "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider_maw" }, "<", { "const": 4 } ]
-                }
+                { "math": [ "u_monsters_nearby('mon_void_spider')", "==", "1" ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider_maw')", "<", "4" ] }
               ]
             },
             "effect": [
@@ -277,7 +274,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_DISTURBED_NEST",
     "global": true,
-    "condition": { "compare_num": [ { "u_val": "monsters_nearby", "id": "mon_void_spider" }, ">=", { "const": 1 } ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_void_spider')", ">=", "1" ] },
     "effect": [
       { "u_message": "The shadows of frenzied limbs slip into reality", "type": "info" },
       {
@@ -334,6 +331,13 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_EMPTY_REVERT",
     "global": true,
+    "condition": {
+      "or": [
+        { "u_at_om_location": "void_spider_lair_entrance" },
+        { "u_at_om_location": "void_spider_lair_a1" },
+        { "u_at_om_location": "void_spider_lair_a2" }
+      ]
+    },
     "effect": [
       { "u_cast_spell": { "id": "void_spider_empty_revert", "hit_self": true } },
       { "queue_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
@@ -368,7 +372,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_KILLED",
     "global": true,
-    "effect": [ { "math": [ "void_spider_killed", "+=", "1" ] } ]
+    "effect": [ { "math": [ "void_spider_killed", "=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -377,6 +381,7 @@
     "//": "Reset in case someone finds a second lair under some extraneous circumstances.",
     "effect": [
       { "math": [ "spider_lair_sealed", "=", "0" ] },
+      { "math": [ "void_spider_killed", "=", "0" ] },
       { "math": [ "void_spider_nest_eggs_spawned", "=", "0" ] },
       { "math": [ "void_spider_nest_corpses_spawned", "=", "0" ] }
     ]

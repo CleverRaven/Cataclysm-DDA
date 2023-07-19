@@ -358,19 +358,17 @@
   },
   {
     "id": "catalytic_cracking_reactor",
-    "type": "TOOL",
-    "name": { "str": "catalytic cracking reactor" },
-    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled and reassembled.",
-    "symbol": "U",
-    "color": "dark_gray",
-    "looks_like": "household_water_heater",
-    "weight": "22700 g",
+    "type": "GENERIC",
+    "name": { "str": "disassembled catalytic cracking reactor" },
+    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled.  You can reassemble and plug it into your own power grid to use it.",
+    "symbol": "Y",
+    "color": "light_cyan",
+    "looks_like": "f_catalytic_cracking_reactor",
+    "weight": "500 kg",
     "volume": "500 L",
     "price": 20000,
     "to_hit": -5,
     "material": [ "steel" ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_catalytic_cracking_reactor" },
-    "qualities": [ [ "EXTRACT", 3 ] ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -682,7 +680,8 @@
   },
   {
     "id": "oxygen_cylinder",
-    "type": "TOOL",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "19050 g",
@@ -703,10 +702,9 @@
         "ammo_restriction": { "oxygen": 300 }
       }
     ],
-    "initial_charges": 300,
-    "max_charges": 300,
-    "charges_per_use": 1,
-    "use_action": [ "OXYGEN_BOTTLE" ],
+    "ammo_type": [ "oxygen" ],
+    "capacity": 300,
+    "count": 300,
     "melee_damage": { "bash": 10 }
   },
   {
@@ -1151,7 +1149,16 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "symbol": "R",
     "color": "white",
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1169,7 +1176,7 @@
     "looks_like": "glass_tube_small",
     "symbol": "N",
     "color": "light_blue",
-    "qualities": [ [ "FINE_DISTILL", 1 ] ],
+    "qualities": [ [ "FINE_DISTILL", 1 ], [ "CONCENTRATE", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1206,7 +1213,8 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

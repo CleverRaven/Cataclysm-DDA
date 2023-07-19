@@ -214,7 +214,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Subdermal Carbon Filament CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Thin armor made of carbon nanotubes, implanted just beneath the skin.  It reduces bashing and cutting damage.",
+    "description": "Thin armor made of carbon nanotubes, implanted just beneath the skin.  It reduces cutting, stabbing and ballistic damage.",
     "price": 750000,
     "price_postapoc": 5000,
     "difficulty": 9
