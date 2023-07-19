@@ -1590,8 +1590,7 @@
     "occupied_bodyparts": [ [ "hand_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
     "spell_on_activation": { "id": "bio_taser_spell" },
-    "activated_close_ui": true,
-    "extra_move_cost": 100
+    "activated_close_ui": true
   },
   {
     "id": "bio_taser_spell",
