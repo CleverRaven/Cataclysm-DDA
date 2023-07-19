@@ -472,7 +472,7 @@
     "id": "bandit_vehicles",
     "type": "vehicle_group",
     "//": "Vehicles used by Hell's Raiders for scouting and assaults",
-    "vehicles": [ [ "pickup_technical", 150 ], [ "quad_bike", 150 ], [ "motorcycle", 300 ], [ "3wheel_motorcycles_all", 75 ], ]
+    "vehicles": [ [ "pickup_technical", 150 ], [ "quad_bike", 150 ], [ "motorcycle", 300 ], [ "3wheel_motorcycles_all", 75 ] ]
   },
   {
     "type": "vehicle_group",
