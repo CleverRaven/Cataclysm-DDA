@@ -121,9 +121,10 @@
     ]
   },
   {
-    "abstract": "motorcycle_3wheel_abstract",
+    "id": "motorcycle_3wheel",
     "type": "vehicle",
     "name": "Three-Wheel Motorcycle",
+    "//": "Nased on CanAm three-wheelers",
     "blueprint": [
       [ "   O" ],
       [ "o#>o" ],
