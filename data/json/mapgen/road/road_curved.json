@@ -11,13 +11,21 @@
           "chunks": [ "road_es_bend" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ], "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ], "south": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+          "neighbors": {
+            "east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ],
+            "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ],
+            "south": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ]
+          }
         },
         {
           "else_chunks": [ "road_es_bend" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ], "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ], "south": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+          "neighbors": {
+            "east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ],
+            "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ],
+            "south": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ]
+          }
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -33,16 +41,46 @@
       "//": "This nesting tries to place curvy bends when there's just one turn and straight diagonal road when there's more than one while not being able to search for sepcific rotations relative to this one due to the linear id forming",
       "place_nested": [
         {
-          "chunks": [ "24x24_road_es_curvy" ],
+          "chunks": [ "24x24_road_es_straight" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north_east": "road", "east": "road", "south_east": "road" }
+          "neighbors": {
+            "north_east": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" }
+            ],
+            "east": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
         },
         {
           "else_chunks": [ "road_es_bend_second_pass" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north_east": "road", "east": "road", "south_east": "road" }
+          "neighbors": {
+            "north_east": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" }
+            ],
+            "east": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
         }
       ]
     }
@@ -56,62 +94,46 @@
       "rotation": [ 0, 3 ],
       "place_nested": [
         {
-          "chunks": [ "24x24_road_es_curvy" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": { "south_east": "road", "south": "road", "south_west": "road" }
-        },
-        {
-          "else_chunks": [ "road_es_bend_third_pass" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": { "south_east": "road", "south": "road", "south_west": "road" }
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "road_es_bend_third_pass",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [
-        {
           "chunks": [ "24x24_road_es_straight" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north_east": "road", "east": "road" }
-        },
-        {
-          "else_chunks": [ "road_es_bend_fourth_pass" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": { "north_east": "road", "east": "road" }
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "road_es_bend_fourth_pass",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [
-        {
-          "chunks": [ "24x24_road_es_straight" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": { "south": "road", "south_west": "road" }
+          "neighbors": {
+            "south_west": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" }
+            ],
+            "south": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
         },
         {
           "else_chunks": [ "24x24_road_es_curvy" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "south": "road", "south_west": "road" }
+          "neighbors": {
+            "south_west": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" }
+            ],
+            "south": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
         }
       ]
     }
