@@ -3511,6 +3511,84 @@
     "difficulty": 7
   },
   {
+    "id": "nested_lc_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_chainmail_half_legs", "xs_lc_chainmail_half_legs", "xl_lc_chainmail_half_legs" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_chainmail_half_legs", "xs_mc_chainmail_half_legs", "xl_mc_chainmail_half_legs" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_chainmail_half_legs", "xs_hc_chainmail_half_legs", "xl_hc_chainmail_half_legs" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_ch_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_half_legs", "xs_ch_chainmail_half_legs", "xl_ch_chainmail_half_legs" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_qt_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_chainmail_half_legs", "xs_qt_chainmail_half_legs", "xl_qt_chainmail_half_legs" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "steel chain half-legs",
+    "description": "Recipes related to constructing various sizes and types of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_chainmail_half_legs",
+      "nested_mc_chainmail_half_legs",
+      "nested_hc_chainmail_half_legs",
+      "nested_ch_chainmail_half_legs",
+      "nested_qt_chainmail_half_legs"
+    ],
+    "difficulty": 7
+  },
+  {
     "id": "nested_boots_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",

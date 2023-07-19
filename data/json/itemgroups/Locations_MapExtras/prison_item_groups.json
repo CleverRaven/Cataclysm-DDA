@@ -41,8 +41,16 @@
   },
   {
     "type": "item_group",
-    "id": "prisoner_or_cop_clothes",
     "subtype": "collection",
+    "id": "prisoner_or_cop_clothes",
+    "//": "Nested group to damage the container-item",
+    "entries": [ { "group": "prisoner_or_cop_clothes_corpse", "prob": 100, "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "prisoner_or_cop_clothes_corpse",
+    "subtype": "collection",
+    "container-item": "corpse_generic_human",
     "entries": [
       { "group": "male_underwear", "damage": [ 1, 4 ] },
       {
@@ -68,8 +76,7 @@
         "prob": 90
       },
       { "group": "socks_unisex", "damage": [ 1, 4 ] },
-      { "group": "clothing_glasses", "prob": 20 },
-      { "item": "corpse_generic_human", "damage": 4 }
+      { "group": "clothing_glasses", "prob": 20 }
     ]
   }
 ]

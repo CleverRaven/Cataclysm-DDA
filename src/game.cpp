@@ -5805,8 +5805,8 @@ void game::control_vehicle()
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
         for( const tripoint &target : veh->get_points() ) {
-            u.memorize_clear_decoration( m.getabs( target ), "vp_" );
-            m.set_memory_seen_cache_dirty( target );
+            u.memorize_clear_decoration( m.getglobal( target ), "vp_" );
+            m.memory_cache_dec_set_dirty( target, true );
         }
         veh->is_following = false;
         veh->is_patrolling = false;
@@ -10946,7 +10946,8 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
         m.clear_vehicle_list( z );
     }
     m.rebuild_vehicle_level_caches();
-    m.access_cache( m.get_abs_sub().z() ).map_memory_seen_cache.reset();
+    m.access_cache( m.get_abs_sub().z() ).map_memory_cache_dec.reset();
+    m.access_cache( m.get_abs_sub().z() ).map_memory_cache_ter.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
     const tripoint_abs_sm map_sm_pos =

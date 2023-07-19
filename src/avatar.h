@@ -140,13 +140,17 @@ class avatar : public Character
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
+        //! @copydoc map_memory::is_valid() const
+        bool is_map_memory_valid() const;
         bool should_show_map_memory() const;
-        void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
-        const memorized_tile &get_memorized_tile( const tripoint &p ) const;
-        void memorize_terrain( const tripoint &p, std::string_view id, int subtile, int rotation );
-        void memorize_decoration( const tripoint &p, std::string_view id, int subtile, int rotation );
-        void memorize_symbol( const tripoint &p, char32_t symbol );
-        void memorize_clear_decoration( const tripoint &p, std::string_view prefix = "" );
+        void prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 );
+        const memorized_tile &get_memorized_tile( const tripoint_abs_ms &p ) const;
+        void memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
+                               int subtile, int rotation );
+        void memorize_decoration( const tripoint_abs_ms &p, std::string_view id,
+                                  int subtile, int rotation );
+        void memorize_symbol( const tripoint_abs_ms &p, char32_t symbol );
+        void memorize_clear_decoration( const tripoint_abs_ms &p, std::string_view prefix = "" );
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
