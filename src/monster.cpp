@@ -280,7 +280,7 @@ monster::monster( const mtype_id &id ) : monster()
     hp = type->hp;
     for( const auto &sa : type->special_attacks ) {
         mon_special_attack &entry = special_attacks[sa.first];
-        entry.cooldown = rng( 0, sa.second->cooldown );
+        entry.cooldown = sa.second->cooldown;
     }
     anger = type->agro;
     morale = type->morale;
