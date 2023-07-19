@@ -30,7 +30,7 @@
       [ "motorcycle_cross", 20 ],
       [ "motorcycle_enduro", 50 ],
       [ "superbike", 50 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "motorcycle_sidecart", 100 ],
       [ "scooter", 200 ],
       [ "scooter_electric", 300 ],
@@ -204,7 +204,7 @@
       [ "meth_lab", 300 ],
       [ "armored_car", 300 ],
       [ "superbike", 50 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "surv_car", 2 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
@@ -240,7 +240,7 @@
       [ "cars_coupes", 1000 ],
       [ "cars_super", 100 ],
       [ "superbike", 50 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "motorcycle", 200 ],
       [ "motorcycle_cross", 25 ],
       [ "motorcycle_enduro", 50 ],
@@ -279,7 +279,7 @@
       [ "cars_shootingbrakes", 200 ],
       [ "cars_super", 100 ],
       [ "superbike", 50 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "motorcycle", 200 ],
       [ "motorcycle_cross", 25 ],
       [ "motorcycle_enduro", 50 ],
@@ -299,7 +299,7 @@
     "type": "vehicle_group",
     "id": "dirtlot",
     "vehicles": [
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "quad_bike", 100 ],
       [ "pickup", 300 ],
       [ "bicycle_dirt", 100 ],
@@ -323,7 +323,7 @@
       [ "policecar_k9", 1 ],
       [ "policesuv", 100 ],
       [ "policesuv_k9", 1 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "quad_bike", 100 ],
       [ "semi_truck", 500 ],
       [ "cube_van", 1000 ],
@@ -361,7 +361,7 @@
       [ "bicycle_electric", 200 ],
       [ "motorcycle", 500 ],
       [ "superbike", 50 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "motorcycle_sidecart", 300 ],
       [ "shopping_cart", 1000 ],
       [ "icecream_truck", 50 ],
@@ -390,7 +390,7 @@
       [ "motorcycle", 10 ],
       [ "motorcycle_chassis", 20 ],
       [ "portable_generator", 20 ],
-      [ "motorcycle_3wheel", 5 ],
+      [ "3wheel_motorcycles_all", 5 ],
       [ "quad_bike", 10 ],
       [ "quad_bike_chassis", 20 ],
       [ "car_racing_electric", 5 ],
@@ -472,7 +472,7 @@
     "id": "bandit_vehicles",
     "type": "vehicle_group",
     "//": "Vehicles used by Hell's Raiders for scouting and assaults",
-    "vehicles": [ [ "pickup_technical", 150 ], [ "quad_bike", 150 ], [ "motorcycle", 300 ], [ "motorcycle_3wheel", 75 ], ]
+    "vehicles": [ [ "pickup_technical", 150 ], [ "quad_bike", 150 ], [ "motorcycle", 300 ], [ "3wheel_motorcycles_all", 75 ], ]
   },
   {
     "type": "vehicle_group",
@@ -629,7 +629,7 @@
       [ "van_mini", 300 ],
       [ "motorcycle", 500 ],
       [ "superbike", 50 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "motorcycle_sidecart", 300 ],
       [ "underlift_tow_truck", 250 ]
     ]
@@ -783,7 +783,7 @@
       [ "motorcycle_enduro", 100 ],
       [ "superbike", 100 ],
       [ "skateboard", 75 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "motorcycle_sidecart", 100 ],
       [ "golf_cart", 10 ],
       [ "golf_cart_4seat", 10 ]
@@ -813,7 +813,7 @@
       [ "motorcycle_cross", 150 ],
       [ "motorcycle_enduro", 100 ],
       [ "superbike", 100 ],
-      [ "motorcycle_3wheel", 100 ],
+      [ "3wheel_motorcycles_all", 100 ],
       [ "motorcycle_sidecart", 100 ],
       [ "scooter", 200 ],
       [ "scooter_electric", 200 ],
@@ -913,7 +913,7 @@
       [ "motorcycle", 500 ],
       [ "motorcycle_enduro", 50 ],
       [ "superbike", 50 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "motorcycle_sidecart", 50 ]
     ]
   },
@@ -943,7 +943,7 @@
       [ "motorcycle", 500 ],
       [ "motorcycle_enduro", 50 ],
       [ "superbike", 50 ],
-      [ "motorcycle_3wheel", 50 ],
+      [ "3wheel_motorcycles_all", 50 ],
       [ "motorcycle_sidecart", 50 ]
     ]
   },
@@ -1084,7 +1084,7 @@
       [ "beetle", 500 ],
       [ "motorcycle", 200 ],
       [ "superbike", 200 ],
-      [ "motorcycle_3wheel", 150 ],
+      [ "3wheel_motorcycles_all", 150 ],
       [ "motorcycle_sidecart", 100 ],
       [ "scooter", 100 ],
       [ "scooter_electric", 150 ],
@@ -1244,6 +1244,15 @@
       [ "car_super_electric_alt", 50 ],
       [ "car_super_solar", 25 ],
       [ "car_super_solar_alt", 25 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "3wheel_motorcycles_all",
+    "//": "All the three-wheel motorsycles!",
+    "vehicles": [
+      [ "motorcycle_3wheel", 100 ],
+      [ "motorcycle_3wheel_super", 50 ]
     ]
   }
 ]
