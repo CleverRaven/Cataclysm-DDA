@@ -1,56 +1,94 @@
-{
-  "type": "mapgen",
-  "method": "json",
-  "om_terrain": [
-    "synagogue"
-  ],
-  "//": "New England Synagogue",
-  "weight": 1000,
-  "object": {
-    "fill_ter": "t_floor",
-    "rows": [
-      "   ssssssssss           ",
-      "  ss^^^^^^^ss^^^^^^^    ",
-      "  s^^||||w|++|w||||^^   ",
-      "  s^||tt........+.||^   ",
-      "  s^|..........l|..|^   ",
-      " ss^|lll.tt.....|ST|^^  ",
-      " s^||||||||++||||||||^  ",
-      " s^|................|^  ",
-      " s^|.######..######.|^  ",
-      " s^w................w^  ",
-      " s^|#.#.#.rrrr.#.#.#|^  ",
-      " s^w#.#.#.r££r.#.#.#w^  ",
-      " s^|#.#.#..BB..#.#.#|^  ",
-      " s^w#.#.#.rBBr.#.#.#w^  ",
-      " s^|#.#.#.rrrr.#.#.#|^  ",
-      " s^w................w^  ",
-      " s^|.######..######.|^  ",
-      " s^|.......AA.......|^  ",
-      " s^||||+||||||||+||||^  ",
-      " s^^woo.o|y.eD....ow^^  ",
-      " ss^|y...+.....h.ho|^   ",
-      "  s^||hd.|o..ydddd||^   ",
-      "  s^^|||w||++||w|||^^   ",
-      "  sssssssssss           "
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [
+      "synagogue"
     ],
-    "palettes": [ "church" ],
-    "terrain": { "B": "t_carpet_red", "A": "t_carpet_red", "£": "t_carpet_red", "r": "t_railing" },
-    "furniture": { "£": "f_desk", "A": "f_torah_ark" },
-    "place_item": [
-      { "item": "holybook_torah_scroll", "x": 17, "y": 11, "chance": 20 },
-      { "item": "holybook_torah_scroll", "x": 17, "y": 12, "chance": 20 },
-      { "item": "holybook_torah_scroll", "x": 11, "y": 11, "chance": 60 },
-      { "item": "holybook_torah_scroll", "x": 11, "y": 12, "chance": 60 }
-    ],
-    "items": {
-      "d": { "item": "SUS_office_desk", "chance": 60 },
-      "o": { "item": "synagogue_books", "chance": 40, "repeat": [ 1, 4 ] },
-      "L": { "item": "SUS_janitors_closet", "chance": 80 },
-      "#": { "item": "synagogue", "chance": 40 },
-      ".": { "item": "synagogue", "chance": 5 },
-      ",": { "item": "synagogue", "chance": 5 },
-      "l": { "item": "jackets", "chance": 60 }
+    "//": "New England Synagogue",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "   ssssssssss           ",
+        "  ss^^^^^^^ss^^^^^^^    ",
+        "  s^^||||w|++|w||||^^   ",
+        "  s^||tt........+.||^   ",
+        "  s^|..........l|..|^   ",
+        " ss^|lll.tt.....|ST|^^  ",
+        " s^||||||||++||||||||^  ",
+        " s^|................|^  ",
+        " s^|.######..######.|^  ",
+        " s^w................w^  ",
+        " s^|#.#.#.rrrr.#.#.#|^  ",
+        " s^w#.#.#.r££r.#.#.#w^  ",
+        " s^|#.#.#..BB..#.#.#|^  ",
+        " s^w#.#.#.rBBr.#.#.#w^  ",
+        " s^|#.#.#.rrrr.#.#.#|^  ",
+        " s^w................w^  ",
+        " s^|.######..######.|^  ",
+        " s^|.......AA.......|^  ",
+        " s^||||+||||||||+||||^  ",
+        " s^^woo.o|y.eD....ow^^  ",
+        " ss^|y...+.....h.ho|^   ",
+        "  s^||hd.|o..ydddd||^   ",
+        "  s^^|||w||++||w|||^^   ",
+        "  sssssssssss           "
+      ],
+      "palettes": [ "church" ],
+      "terrain": { "B": "t_carpet_red", "A": "t_carpet_red", "£": "t_carpet_red", "r": "t_railing" },
+      "furniture": { "£": "f_desk", "A": "f_torah_ark" },
+      "place_item": [
+        { "item": "holybook_torah_scroll", "x": 17, "y": 11, "chance": 20 },
+        { "item": "holybook_torah_scroll", "x": 17, "y": 12, "chance": 20 },
+        { "item": "holybook_torah_scroll", "x": 11, "y": 11, "chance": 60 },
+        { "item": "holybook_torah_scroll", "x": 11, "y": 12, "chance": 60 }
+      ],
+      "items": {
+        "d": { "item": "SUS_office_desk", "chance": 60 },
+        "o": { "item": "synagogue_books", "chance": 40, "repeat": [ 1, 4 ] },
+        "L": { "item": "SUS_janitors_closet", "chance": 80 },
+        "#": { "item": "synagogue", "chance": 40 },
+        ".": { "item": "synagogue", "chance": 5 },
+        ",": { "item": "synagogue", "chance": 5 },
+        "l": { "item": "jackets", "chance": 60 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "synagogue_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "     --------------     ",
+        "    --............--    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "   --..............--   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   --..............--   ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    --............--    ",
+        "     --------------     ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof", "<": "t_stairs_up", "#": "t_wall_w", "o": "t_open_air_rooved" }
     }
   }
-}
+]
