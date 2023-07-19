@@ -1059,6 +1059,91 @@
     "items": [ { "x": -1, "y": 0, "chance": 5, "item_groups": [ "hunting_lodge_weapons" ] } ]
   },
   {
+    "abstract": "car_shootingbrake_long_abstract",
+    "type": "vehicle",
+    "name": "Shooting Brake",
+    "blueprint": [
+      [ "o-+o-" ],
+      [ "+=#'|" ],
+      [ "+=#'|" ],
+      [ "o-+o-" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat_leather#windshield_front", "seatbelt", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "stereo", "vehicle_alarm", "horn_car", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#cross", "seat_leather#windshield_front", "seatbelt", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame#vertical_right", "door#ne" ] },
+      { "x": 1, "y": -1, "parts": [ "frame#vertical_T_left", "windshield#wheel_left" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#horizontal_2", "windshield#cover_left" ] },
+      { "x": 1, "y": 1, "parts": [ "frame#horizontal_2", "windshield#cover_right" ] },
+      { "x": 1, "y": 2, "parts": [ "frame#vertical_T_right", "windshield#wheel_right" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 2, "y": -1, "parts": [ "frame#nw", "halfboard#nw", "headlight" ] },
+      { "x": 2, "y": 0, "parts": [ "frame#horizontal_front", "halfboard#cover_left" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#horizontal_front", "halfboard#cover_right" ] },
+      { "x": 2, "y": 2, "parts": [ "frame#ne", "halfboard#ne", "headlight" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "halfboard#vertical_left" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#vertical", "roof" ] },
+      { "x": -1, "y": 0, "parts": [ "seat_back_leather#left", "seatbelt" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#vertical", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "seat_back_leather#right", "seatbelt" ] },
+      { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "halfboard#vertical_right" ] },
+      { "x": -2, "y": -1, "parts": [ "frame#vertical_left", "halfboard#vertical_left" ] },
+      { "x": -2, "y": 0, "parts": [ "frame#cross", "trunk", "muffler", "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "frame#cross", "trunk", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "frame#vertical_right", "halfboard#vertical_right" ] },
+      { "x": -3, "y": -1, "parts": [ "frame#sw", "halfboard#hatch_wheel_left", "wheel_mount_medium" ] },
+      { "x": -3, "y": -1, "parts": [ "wheel" ] },
+      { "x": -3, "y": 0, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
+      { "x": -3, "y": 1, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
+      { "x": -3, "y": 2, "parts": [ "frame#se", "halfboard#hatch_wheel_right", "wheel_mount_medium" ] },
+      { "x": -3, "y": 2, "parts": [ "wheel" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
+      { "x": -1, "y": 1, "chance": 90, "item_groups": [ "car_kit" ] },
+      { "x": -1, "y": 1, "chance": 10, "item_groups": [ "spare_tire_kit_small_jack" ] },
+      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] }
+    ]
+  },
+  {
+    "id": "car_shootingbrake_long_v8",
+    "type": "vehicle",
+    "copy-from": "car_shootingbrake_long_abstract",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "engine_v8", "alternator_car", "battery_car" ] },
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+    ],
+    "items": [ { "x": -1, "y": 0, "chance": 2, "item_groups": [ "hunting_lodge_weapons" ] } ]
+  },
+  {
+    "id": "car_shootingbrake_long_v12",
+    "type": "vehicle",
+    "copy-from": "car_shootingbrake_long_abstract",
+    "name": "Premium Shooting Brake",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "engine_v12", "alternator_car", "battery_car" ] },
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+    ],
+    "items": [ { "x": -1, "y": 0, "chance": 5, "item_groups": [ "hunting_lodge_weapons" ] } ]
+  },
+  {
+    "id": "car_shootingbrake_long_electric",
+    "type": "vehicle",
+    "copy-from": "car_shootingbrake_long_abstract",
+    "name": "Electric Shooting Brake",
+    "parts": [
+      { "x": -3, "y": 0, "parts": [ "engine_electric_enhanced" ] },
+      { "x": 0, "y": 0, "parts": [ "storage_battery" ] },
+      { "x": 0, "y": 1, "parts": [ "storage_battery" ] },
+      { "x": -1, "y": 0, "parts": [ "storage_battery" ] },
+      { "x": -1, "y": 1, "parts": [ "storage_battery" ] }
+    ],
+    "items": [ { "x": -1, "y": 0, "chance": 5, "item_groups": [ "hunting_lodge_weapons" ] } ]
+  },
+  {
     "abstract": "car_sedan_abstract",
     "type": "vehicle",
     "name": "Sedan",
