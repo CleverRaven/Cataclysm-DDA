@@ -1596,7 +1596,7 @@
     "id": "bio_taser_spell",
     "type": "SPELL",
     "name": "Super Stun Gun",
-    "description": "A blast of electrity from your Super Stun Gun bionic.",
+    "description": "A blast of electricity from your Super Stun Gun bionic.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile" ],
