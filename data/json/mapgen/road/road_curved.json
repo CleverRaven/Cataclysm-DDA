@@ -11,13 +11,13 @@
           "chunks": [ "24x24_road_es_curvy" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ "JSONroad_sw" ], "south_east": [ "JSONroad_wn" ], "south": [ "JSONroad_ne" ] }
+          "neighbors": { "east": [ "road_sw" ], "south_east": [ "road_wn" ], "south": [ "road_ne" ] }
         },
         {
-          "else_chunks": [ "JSONroad_es_bend" ],
+          "else_chunks": [ "road_es_bend" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ "JSONroad_sw" ], "south_east": [ "JSONroad_wn" ], "south": [ "JSONroad_ne" ] }
+          "neighbors": { "east": [ "road_sw" ], "south_east": [ "road_wn" ], "south": [ "road_ne" ] }
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -26,7 +26,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "JSONroad_es_bend",
+    "nested_mapgen_id": "road_es_bend",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -38,13 +38,13 @@
           "chunks": [ "24x24_road_es_straight" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ "JSONroad_wn" ], "south": [ "JSONroad_wn" ] }
+          "neighbors": { "east": [ "road_wn" ], "south": [ "road_wn" ] }
         },
         {
           "else_chunks": [ "24x24_road_es_curvy" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ "JSONroad_wn" ], "south": [ "JSONroad_wn" ] }
+          "neighbors": { "east": [ "road_wn" ], "south": [ "road_wn" ] }
         }
       ]
     }
