@@ -280,9 +280,15 @@ void advanced_inventory::print_items( side p, bool active )
     const int index = pane.index;
     bool compact = TERMX <= 100;
     pane.other_cont = -1;
-    item *other_container;
+    //std::vector<item *> other_pane_conts;
+    std::unordered_set<const item *> other_pane_conts;
     if( panes[-p + 1].container ) {
-        other_container = panes[-p + 1].container.get_item();
+        item_location parent_recursive = panes[-p + 1].container;
+        other_pane_conts.insert( parent_recursive.get_item() );
+        while( parent_recursive.has_parent() ) {
+            parent_recursive = parent_recursive.parent_item();
+            other_pane_conts.insert( parent_recursive.get_item() );
+        }
     }
 
     int columns = getmaxx( window );
@@ -424,7 +430,7 @@ void advanced_inventory::print_items( side p, bool active )
         nc_color print_color;
 
         if( selected ) {
-            if( other_container && &it == other_container ) {
+            if( !other_pane_conts.empty() && other_pane_conts.count( &it ) == 1 ) {
                 pane.other_cont = item_line;
                 thiscolor = c_white_yellow;
             } else {
@@ -436,7 +442,7 @@ void advanced_inventory::print_items( side p, bool active )
             } else {
                 mvwprintz( window, point( 1, 6 + item_line ), thiscolor, ">>%s", spaces );
             }
-        } else if( other_container && &it == other_container ) {
+        } else if( !other_pane_conts.empty() && other_pane_conts.count( &it ) == 1 ) {
             pane.other_cont = item_line;
             thiscolor = i_brown;
             mvwprintz( window, point( 1, 6 + item_line ), thiscolor, spaces );
