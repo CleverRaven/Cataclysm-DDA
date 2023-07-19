@@ -919,7 +919,7 @@
     "time": "24 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 2 ], [ "recipe_melee", 3 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -944,7 +944,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "bo", 1 ], [ "lc_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "bo", 1 ] ], [ [ "lc_steel_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -963,7 +963,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "bo", 1 ], [ "mc_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "bo", 1 ] ], [ [ "mc_steel_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -976,13 +976,13 @@
     "time": "24 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 2 ], [ "recipe_melee", 3 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "hc_steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "bo", 1 ], [ "hc_steel_chunk", 2 ] ] ]
+    "components": [ [ [ "bo", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -995,14 +995,14 @@
     "time": "744m",
     "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "mc_steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_case_hardening", "skill_penalty": 0 }
     ],
-    "components": [ [ [ "bo", 1 ], [ "mc_steel_chunk", 2 ] ] ]
+    "components": [ [ [ "bo", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1015,14 +1015,14 @@
     "time": "1104m",
     "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 4 ], [ "recipe_melee", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "mc_steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_quenching", "skill_penalty": 0 }
     ],
-    "components": [ [ [ "bo", 1 ], [ "mc_steel_chunk", 2 ] ] ]
+    "components": [ [ [ "bo", 1  ] ] ]
   },
   {
     "type": "recipe",
