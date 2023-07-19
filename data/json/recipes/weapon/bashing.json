@@ -944,7 +944,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "bo", 1 ] ], [ [ "lc_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "bo", 1 ], [ "lc_steel_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -963,7 +963,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "bo", 1 ] ], [ [ "mc_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "bo", 1 ], [ "mc_steel_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -982,7 +982,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "bo", 1 ] ], [ [ "hc_steel_chunk", 2 ] ] ]
+    "components": [ [ [ "bo", 1 ], [ "hc_steel_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1002,7 +1002,7 @@
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_case_hardening", "skill_penalty": 0 }
     ],
-    "components": [ [ [ "bo", 1 ] ], [ [ "mc_steel_chunk", 2 ] ] ]
+    "components": [ [ [ "bo", 1 ], [ "mc_steel_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1022,7 +1022,7 @@
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_quenching", "skill_penalty": 0 }
     ],
-    "components": [ [ [ "bo", 1 ] ], [ [ "mc_steel_chunk", 2 ] ] ]
+    "components": [ [ [ "bo", 1 ], [ "mc_steel_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
