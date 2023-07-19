@@ -2645,7 +2645,7 @@ void monster::load( const JsonObject &data )
         const std::string &aname = sa.first;
         if( special_attacks.find( aname ) == special_attacks.end() ) {
             auto &entry = special_attacks[aname];
-            entry.cooldown = rng( 0, sa.second->cooldown );
+            entry.cooldown = sa.second->cooldown;
         }
     }
 
