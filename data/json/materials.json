@@ -1195,7 +1195,7 @@
     "latent_heat": 273,
     "chip_resist": 7,
     "breathability": "GOOD",
-    "repaired_with": "patch_kevlar",
+    "repaired_with": "kevlar_patch",
     "salvaged_into": "sheet_kevlar",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
