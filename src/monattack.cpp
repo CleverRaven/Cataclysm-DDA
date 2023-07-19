@@ -4472,12 +4472,11 @@ bool mattack::parrot_at_danger( monster *parrot )
                     parrot_common( parrot );
                     return true;
                 }
-            }
-            else {
-                monster* monster = creature.as_monster();
-                if ( one_in( 20 ) && ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
-                    ( monster->anger > 0 &&
-                        monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
+            } else {
+                monster *monster = creature.as_monster();
+                if( one_in( 20 ) && ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
+                                      ( monster->anger > 0 &&
+                                        monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
                     parrot->sees( *monster ) ) {
                     parrot_common( parrot );
                     return true;
