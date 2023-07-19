@@ -1186,7 +1186,8 @@
       [ "car_shootingbrake_electric", 50 ],
       [ "car_shootingbrake_long_v8", 900 ],
       [ "car_shootingbrake_long_v12", 300 ],
-      [ "car_shootingbrake_long_electric", 150 ] ]
+      [ "car_shootingbrake_long_electric", 150 ] 
+    ]
   },
   {
     "type": "vehicle_group",
@@ -1195,7 +1196,8 @@
     "vehicles": [
       [ "car_shootingbrake_v8", 300 ],
       [ "car_shootingbrake_v12", 100 ],
-      [ "car_shootingbrake_electric", 50 ] ],
+      [ "car_shootingbrake_electric", 50 ], 
+    ]
   },
   {
     "type": "vehicle_group",
