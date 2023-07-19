@@ -136,7 +136,7 @@
       { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_medium", "fuel": "gasoline" } ] },
       { "x": 1, "y": 0, "parts": [ "motorcycle_headlight", "battery_motorbike" ] },
       { "x": 2, "y": 0, "parts": [ "frame#cover", "box" ] },
-      { "x": 2, "y": 0, "parts": [ "horn_car", "alternator_motorbike" ] },
+      { "x": 2, "y": 0, "parts": [ "horn_car" ] },
       { "x": 2, "y": -1, "parts": [ "frame#horizontal", "wheel_mount_medium_steerable", "wheel" ] },
       { "x": 2, "y": 1, "parts": [ "frame#horizontal", "wheel_mount_medium_steerable", "wheel" ] },
       { "x": -1, "y": 0, "parts": [ "frame#vertical", "wheel_mount_medium", "wheel" ] },
@@ -147,13 +147,13 @@
     "id": "motorcycle_3wheel",
     "type": "vehicle",
     "copy-from": "motorcycle_3wheel_abstract",
-    "parts": [ { "x": 2, "y": 0, "parts": [ "engine_vtwin" ] } ]
+    "parts": [ { "x": 2, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] } ]
   },
   {
     "id": "motorcycle_3wheel_super",
     "type": "vehicle",
     "copy-from": "motorcycle_3wheel_abstract",
-    "parts": [ { "x": 2, "y": 0, "parts": [ "engine_inline4" ] } ]
+    "parts": [ { "x": 2, "y": 0, "parts": [ "engine_inline4", "alternator_motorbike" ] } ]
   },
   {
     "id": "quad_bike",
