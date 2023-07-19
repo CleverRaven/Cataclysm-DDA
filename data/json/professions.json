@@ -4153,10 +4153,10 @@
   {
     "type": "profession",
     "id": "skaterkid",
-    "name": { "male": "Skater Boy", "female": "Skater Girl" },
+    "name": { "male": "Skater Boy (Rollerblades)", "female": "Skater Girl (Rollerblades)" },
     "description": "You love to skate!  You've probably spent more time on a pair of blades than off.  Things have gotten pretty bad, but at least the grown-ups aren't telling you where you can't roll.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "dodge" } ],
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "swimming" } ],
     "traits": [ "PROF_SKATER" ],
     "items": {
       "both": {
@@ -4169,6 +4169,35 @@
           "gloves_fingerless",
           "helmet_skid",
           "roller_blades",
+          "wristwatch",
+          "sports_drink"
+        ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "skaterkid_board",
+    "name": { "male": "Skater Boy (Skateboard)", "female": "Skater Girl (Skateboard)" },
+    "description": "You love to skate!  You've probably spent more time on a skateboard than off.  Things have gotten pretty bad, but at least the grown-ups aren't telling you where you can't roll.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "traits": [ "PROF_SKATER" ],
+    "items": {
+      "both": {
+        "items": [
+          "hoodie",
+          "jeans",
+          "socks",
+          "elbow_pads",
+          "knee_pads",
+          "gloves_fingerless",
+          "helmet_skid",
+          "sneakers",
+          "folded_skateboard_generic",
           "wristwatch",
           "sports_drink"
         ],
