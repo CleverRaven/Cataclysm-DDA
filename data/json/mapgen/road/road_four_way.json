@@ -5,6 +5,17 @@
     "om_terrain": "road_four_way",
     "object": {
       "fallback_predecessor_mapgen": "field",
+      "place_nested": [ { "chunks": [ [ "24x24_road_four_way_crossroad", 20 ], [ "24x24_road_four_way_rotary", 1 ] ], "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_four_way_crossroad",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
       "rows": [
         "    *******.........    ",
         "    ................    ",
@@ -65,6 +76,369 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_sidewalk_ew_corner_double",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "road_nesw_manhole",
+    "object": {
+      "fill_ter": "t_sidewalk",
+      "rows": [
+        "    *******.........    ",
+        "    ................    ",
+        "    ................    ",
+        "    ................    ",
+        ".......................*",
+        ".......................*",
+        ".......................*",
+        ".......................*",
+        ".......................*",
+        ".......................*",
+        "...............O.......*",
+        "........................",
+        "........................",
+        "*.......................",
+        "*.......................",
+        "*.......................",
+        "*.......................",
+        "*.......................",
+        "*.......................",
+        "*.......................",
+        "    ................    ",
+        "    ................    ",
+        "    ................    ",
+        "    .........*******    "
+      ],
+      "palettes": [ "road_palette" ],
+      "place_nested": [
+        { "chunks": [ "24x24_traffic_lights", "null" ], "x": 0, "y": 0 },
+        {
+          "chunks": [ "24x24_marked_crosswalks" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "roundabout_palette",
+    "terrain": {
+      ".": "t_sidewalk",
+      "_": "t_pavement",
+      "y": "t_pavement_y",
+      ",": "t_region_grass",
+      "#": "t_sconc_wall_halfway",
+      "~": "t_water_sh",
+      "s": "t_region_shrub_decorative"
+    },
+    "furniture": { "!": "f_traffic_light", "*": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ], "@": "f_statue" },
+    "signs": { "?": { "signage": "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered." } }
+  },
+  {
+    "type": "snippet",
+    "category": "<statue_worthy_act>",
+    "text": [ "provided for our city in a time of need", "founded our great city" ],
+    "//": "Idk, what do peeps get statues for?"
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_four_way_rotary",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    _________yyyyyyy    ",
+        "   __________________   ",
+        "  ____________________  ",
+        " ______________________ ",
+        "y_______________________",
+        "y_______________________",
+        "y_______________________",
+        "y_______________________",
+        "y_________,,,,__________",
+        "y________,,,,,,_________",
+        "y_______,,,,,,,,________",
+        "________,,,,,,,,________",
+        "________,,,,,,,,________",
+        "________,,,,,,,,_______y",
+        "_________,,,,,,________y",
+        "__________,,,,_________y",
+        "_______________________y",
+        "_______________________y",
+        "_______________________y",
+        "_______________________y",
+        " ______________________ ",
+        "  ____________________  ",
+        "   __________________   ",
+        "    yyyyyyy_________    "
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        { "chunks": [ "4x4_roundabout_sidewalk_ne" ], "x": 20, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_ne" ], "x": 20, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_ne" ], "x": 20, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_se" ], "x": 20, "y": 20, "flags": { "south_east": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_se" ], "x": 20, "y": 20, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_se" ], "x": 20, "y": 20, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_sw" ], "x": 0, "y": 20, "flags": { "south_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_sw" ], "x": 0, "y": 20, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_sw" ], "x": 0, "y": 20, "flags": { "west": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_nw" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_nw" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_roundabout_sidewalk_nw" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
+        {
+          "chunks": [ "24x24_roundabout_traffic_lights", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "chunks": [
+            "8x8_roundabout_center_basic",
+            "8x8_roundabout_center_fountain",
+            "8x8_roundabout_center_statue",
+            "8x8_roundabout_center_flowers",
+            "8x8_roundabout_center_shrubs"
+          ],
+          "x": 8,
+          "y": 8,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x4_roundabout_sidewalk_ne",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "....",
+        " ...",
+        "  ..",
+        "   ."
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x4_roundabout_sidewalk_se",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   .",
+        "  ..",
+        " ...",
+        "...."
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x4_roundabout_sidewalk_sw",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".   ",
+        "..  ",
+        "... ",
+        "...."
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x4_roundabout_sidewalk_nw",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "....",
+        "... ",
+        "..  ",
+        ".   "
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_roundabout_center_basic",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "  ....  ",
+        " ..  .. ",
+        "..    ..",
+        ".      .",
+        ".      .",
+        "..    ..",
+        " ..  .. ",
+        "  ....  "
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_roundabout_center_fountain",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "  ....  ",
+        " ..  .. ",
+        "..####..",
+        ". #~~# .",
+        ". #~~# .",
+        "..####..",
+        " ..  .. ",
+        "  ....  "
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_roundabout_center_statue",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "  ....  ",
+        " ..  .. ",
+        "..    ..",
+        ".      .",
+        ".  ?@  .",
+        "..    ..",
+        " ..  .. ",
+        "  ....  "
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_roundabout_center_flowers",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "  ....  ",
+        " ..**.. ",
+        "..****..",
+        ".******.",
+        ".******.",
+        "..****..",
+        " ..**.. ",
+        "  ....  "
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_roundabout_center_shrubs",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "  ....  ",
+        " ..  .. ",
+        "..    ..",
+        ".  ss  .",
+        ".  ss  .",
+        "..    ..",
+        " ..  .. ",
+        "  ....  "
+      ],
+      "palettes": [ "roundabout_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_roundabout_traffic_lights",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "   !                !   ",
+        "                        ",
+        "                        ",
+        "!                      !",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "!                      !",
+        "                        ",
+        "                        ",
+        "   !                !   "
+      ],
+      "palettes": [ "roundabout_palette" ]
     }
   }
 ]

@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "road_palette",
-    "terrain": { ".": "t_pavement", "_": "t_sidewalk", "*": "t_pavement_y", "│": "t_zebra_v", "─": "t_zebra_h", "Y": "t_sidewalk", "T": "t_sidewalk" },
+    "terrain": { ".": "t_pavement", "_": "t_sidewalk", "*": "t_pavement_y", "│": "t_zebra_v", "─": "t_zebra_h", "O": "t_manhole_cover", "Y": "t_sidewalk", "T": "t_sidewalk" },
     "furniture": { "Y": "f_street_light", "T": "f_traffic_light" }
   },
   {

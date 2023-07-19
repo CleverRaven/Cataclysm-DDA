@@ -145,17 +145,6 @@ static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_finale( "lab_finale" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
-static const oter_str_id oter_sewer_es( "sewer_es" );
-static const oter_str_id oter_sewer_esw( "sewer_esw" );
-static const oter_str_id oter_sewer_ew( "sewer_ew" );
-static const oter_str_id oter_sewer_ne( "sewer_ne" );
-static const oter_str_id oter_sewer_nes( "sewer_nes" );
-static const oter_str_id oter_sewer_nesw( "sewer_nesw" );
-static const oter_str_id oter_sewer_new( "sewer_new" );
-static const oter_str_id oter_sewer_ns( "sewer_ns" );
-static const oter_str_id oter_sewer_nsw( "sewer_nsw" );
-static const oter_str_id oter_sewer_sw( "sewer_sw" );
-static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
@@ -5104,9 +5093,16 @@ void mapgen_function_json::generate( mapgendata &md )
         do_predecessor_mapgen( predecessor_md );
     } else if( expects_predecessor() ) {
         if( md.has_predecessor() ) {
-            mapgendata predecessor_md( md, md.last_predecessor() );
-            predecessor_md.pop_last_predecessor();
-            do_predecessor_mapgen( predecessor_md );
+            // Gets around connections changing terrain type
+            if( ter.has_flag( oter_flags::line_drawing ) ) {
+                mapgendata predecessor_md( md, md.first_predecessor() );
+                predecessor_md.clear_predecessors();
+                do_predecessor_mapgen( predecessor_md );
+            } else {
+                mapgendata predecessor_md( md, md.last_predecessor() );
+                predecessor_md.pop_last_predecessor();
+                do_predecessor_mapgen( predecessor_md );
+            }
         } else {
             mapgendata predecessor_md( md, fallback_predecessor_mapgen_ );
             do_predecessor_mapgen( predecessor_md );

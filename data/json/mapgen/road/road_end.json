@@ -4,8 +4,9 @@
     "method": "json",
     "om_terrain": "road_end",
     "object": {
+      "rotation": [ 2, 2 ],
       "fallback_predecessor_mapgen": "field",
-      "//": "Replace check with an OR check for any adjacent sidwalk.",
+      "//": "Replace check with an OR check for any adjacent sidewalk and rotate 180 degrees.",
       "place_nested": [
         {
           "chunks": [ "24x24_road_end_cul_de_sac", "24x24_road_end_straight" ],
@@ -116,7 +117,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_end_north_straight",
+    "nested_mapgen_id": "24x24_sidewalk_end_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -130,7 +131,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_road_end_north_cul_de_sac",
+    "nested_mapgen_id": "24x24_road_end_cul_de_sac",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
