@@ -1178,7 +1178,8 @@
         "id": "book_judaica_hardcover_5",
         "name": { 
           "str": "The Observent Life: The Wisdom of Contemporary Judaism for Contemporary Jews",
-          "str_pl": "copies of The Observent Life: The Wisdom of Contemporary Judaism for Contemporary Jews" },
+          "str_pl": "copies of The Observent Life: The Wisdom of Contemporary Judaism for Contemporary Jews"
+        },
         "description": "A long discussion of the ways in which Judaism's ancient rituals, traditions, and ethical practices are still relevant and meaningful in the modern world.  Unfortunately, there's no discussion of post-apocalyptic Judaism.",
         "weight": 1
       },
