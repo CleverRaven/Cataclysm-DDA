@@ -66,6 +66,7 @@
     "name": { "str_sp": "Kevlar scraps" },
     "description": "A handful of oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it would be disposed of, but since Kevlar is very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
     "volume": "2 ml",
+    "weight": "810 mg",
     "price": 1,
     "price_postapoc": 10,
     "material": [ "kevlar" ]
