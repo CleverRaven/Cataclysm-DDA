@@ -1134,5 +1134,135 @@
     "price_postapoc": 50,
     "symbol": "?",
     "color": "light_gray"
+  },
+  {
+    "id": "book_judaica_hardcover",
+    "type": "BOOK",
+    "name": { "str": "Judaica hardcover" },
+    "description": "This is a book of Judaica.  You're a real mensch if you managed to find this one.",
+    "copy-from": "book_nonf_hard_phil_tpl",
+    "fun": 1,
+    "weight": "420 g",
+    "volume": "773 ml",
+    "longest_side": "18 cm",
+    "time": "45 m",
+    "variants": [
+      {
+        "id": "book_judaica_hardcover_1",
+        "name": { "str": "Siddur", "str_pl": "copies of a Siddur" },
+        "description": "A Siddur, or prayerbook, contains the set order of prayers for Jewish religion services.  This one is comprehensive, divided into morning, afternoon, and evening prayers for both weekdays and Shabbat, along with separate sections for minor and major holidays.",
+        "weight": 10
+      },
+      {
+        "id": "book_judaica_hardcover_2",
+        "name": { "str": "Hell in Jewish Literature", "str_pl": "copies of Hell in Jewish Literature" },
+        "description": "A analysis of rabbinic discussions of Gehinnom, the Jewish afterlife for the cleansing of sins, including how big it is, how hot it is, who goes there, how long they stay there, whether there is any relief from their punishments in the meantime, and exactly what shape Gehinnom is.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_3",
+        "name": { 
+          "str": "Mimekor Yisrael, Book One: The National Tales",
+          "str_pl": "copies of Mimekor Yisrael, Book One: The National Tales" 
+        },
+        "description": "A collection of Jewish folktales, from Ashmedai king of demons to golem-making rabbis, from the Torah scholar who showed Aristotle the futility of philosophy to how Satan refused to bow to Adam because Adam was created from the dust of the earth, from martyrs murdered by Christian persecutors to General Joab single-handedly killing two thousand Amalekites so that when the blood ran out like a river through the city gates his troops knew to stop besieging the city and assault it, and dozens more besides.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_4",
+        "name": { "str": "On the Doorposts of Your House", "str_pl": "copies of On the Doorposts of Your House" },
+        "description": "A list of prayers, meditations, and rituals for use at home, from lighting the Shabbat candles to welcoming a new child into the household.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_5",
+        "name": { 
+          "str": "The Observent Life: The Wisdom of Contemporary Judaism for Contemporary Jews",
+          "str_pl": "copies of The Observent Life: The Wisdom of Contemporary Judaism for Contemporary Jews" },
+        "description": "A long discussion of the ways in which Judaism's ancient rituals, traditions, and ethical practices are still relevant and meaningful in the modern world.  Unfortunately, there's no discussion of post-apocalyptic Judaism.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_6",
+        "name": { "str": "Siddur Tisha b'Av", "str_pl": "copies of Siddur Tisha b'Av" },
+        "description": "A prayerbook for Tisha b'Av, the most solemn day in the Jewish year.  This one also contains the full text of the book of Lamentations and selected commentaries.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_7",
+        "name": { 
+          "str": "Coming to Terms with America: Essays on Jewish History, Religion, and Culture",
+          "str_pl": "copies of Coming to Terms with America: Essays on Jewish History, Religion, and Culture" },
+        "description": "A series of fifteen essays by Jonathan Sarna on Jews' attempt to be both distinctively Jewish but also definitely American, covering the American Revolution through to contemporary times.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_8",
+        "name": { "str": "In This Hour", "str_pl": "copies of In This Hour" },
+        "description": "An English translation of works written by Rabbi Abraham Joshua Heschel during the Nazi rule of Germany and Rabbi Heschel's exile in England, concerning historic and current persecution and his vision for Jewish education.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "book_judaica_softcover",
+    "type": "BOOK",
+    "name": { "str": "Judaica softcover" },
+    "description": "This is a book of Judaica.  You're a real mensch if you managed to find this one.",
+    "copy-from": "book_nonf_soft_phil_tpl",
+    "weight": "227 g",
+    "volume": "421 ml",
+    "fun": 1,
+    "time": "45 m",
+    "variants": [
+      {
+        "id": "book_judaica_softcover_1",
+        "name": { 
+          "str": "A Short History of the Jewish People: From Legendary Times to to Modern Statehood",
+          "str_pl": "copies of A Short History of the Jewish People: From Legendary Times to to Modern Statehood" 
+        },
+        "description": "A survey-level study of Jewish history, from Biblical times through to the 1990s.  At only 250 pages long, it is by necessity very brief on any individual topic.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_2",
+        "name": { "str": "I and Thou", "str_pl": "copies of I and Thou" },
+        "description": "An English translation of Martin Buber's philosophical work on the relationships of human beings to each other and to God.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_3",
+        "name": { "str": "Living a Jewish Life", "str_pl": "copies of Living a Jewish Life" },
+        "description": "Anita Diamant's survey-level discussion of the daily practices and rituals of Jewish life.  Originally mostly superceded by the free availability of information on the internet, it's much more useful now for everyone who feels bad that they didn't attend their synagogue often enough before it was overrun.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_4",
+        "name": { "str": "What Is a Jew", "str_pl": "copies of What Is a Jew" },
+        "description": "Rabbi Morris Kertzer's introductory text about Judaism and Jewish beliefs, written as a series of questions and then answers, primarily from a Reform viewpoint but with explicit mention of where Conservative or Orthodox Jews would disagree.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_5",
+        "name": { 
+          "str": "The Way of Humanity: According to Chasidic Teachings",
+          "str_pl": "copies of The Way of Humanity: According to Chasidic Teachings" 
+        },
+        "description": "An English translation of lectures given by Martin Buber on six traditional Chasidic stories from the 18th and 19th centuries.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_6",
+        "name": { "str": "Megillat Esther: The Book of Esther", "str_pl": "copies of Megillat Esther: The Book of Esther" },
+        "description": "A comprehensive work for celebrating Purim, this book contains the complete Book of Esther in Hebrew, multiple English translations, commentary on each of its chapters, and commentary on certain verses by a group of Conservative rabbis.  Cursed be Haman (booo)!",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_7",
+        "name": { "str": "Halakhic Man", "str_pl": "copies of Halakhic Man" },
+        "description": "Rabbi Joseph Soloveitchik's argument on the proper path to moral virtue through Torah scholarship and observance to the law, through the intellect and not through mystical experience or surrender to God.",
+        "weight": 1
+      }
+    ]
   }
 ]
