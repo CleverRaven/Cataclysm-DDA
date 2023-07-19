@@ -42,7 +42,6 @@
     "color": "yellow",
     "see_cost": 2,
     "extras": "road_nesw_manhole",
-    "mapgen": [ { "method": "builtin", "name": "road_four_way" } ],
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {

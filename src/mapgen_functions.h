@@ -44,7 +44,6 @@ void mapgen_forest_trail_curved( mapgendata &dat );
 void mapgen_forest_trail_tee( mapgendata &dat );
 void mapgen_forest_trail_four_way( mapgendata &dat );
 void mapgen_river_center( mapgendata &dat );
-void mapgen_road( mapgendata &dat );
 //void mapgen_bridge( mapgendata &dat );
 void mapgen_railroad( mapgendata &dat );
 void mapgen_railroad_bridge( mapgendata &dat );

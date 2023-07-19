@@ -8,12 +8,12 @@
       "//": "Replace check with an OR check for any adjacent sidwalk.",
       "place_nested": [
         {
-          "chunks": [ "24x24_road_end_north_cul_de_sac", "24x24_road_end_north_straight" ],
+          "chunks": [ "24x24_road_end_cul_de_sac", "24x24_road_end_straight" ],
           "x": 0,
           "y": 0,
           "flags": { "east": [ "SIDEWALK" ] }
         },
-        { "else_chunks": [ "24x24_road_end_north_straight" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } }
+        { "else_chunks": [ "24x24_road_end_straight" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -21,7 +21,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_road_end_north_straight",
+    "nested_mapgen_id": "24x24_road_end_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -56,21 +56,21 @@
       "place_nested": [
         { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_sidewalk_end_north_straight" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
         {
-          "chunks": [ "24x24_sidewalk_end_north_straight" ],
+          "chunks": [ "24x24_sidewalk_end_straight" ],
           "x": 0,
           "y": 0,
           "flags": { "south_east": [ "SIDEWALK" ] }
         },
-        { "chunks": [ "24x24_sidewalk_end_north_straight" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } },
         {
-          "chunks": [ "24x24_sidewalk_end_north_straight" ],
+          "chunks": [ "24x24_sidewalk_end_straight" ],
           "x": 0,
           "y": 0,
           "flags": { "south_west": [ "SIDEWALK" ] }
         },
-        { "chunks": [ "24x24_sidewalk_end_north_straight" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
