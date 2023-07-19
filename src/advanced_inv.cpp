@@ -666,7 +666,6 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
     int min_x = wwidth;
-    int container_loc = -1;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
         int data_location = screen_relative_location( static_cast<aim_location>( i ) );
         bool can_put_items = squares[data_location].canputitems( pane.get_cur_item_ptr() != nullptr ?
