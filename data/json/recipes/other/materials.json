@@ -592,7 +592,7 @@
     "reversible": true,
     "using": [ [ "sewing_kevlar", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "kevlar_patch", 16 ] ] ]
+    "components": [ [ [ "kevlar_patch", 8 ] ] ]
   },
   {
     "result": "sheet_kevlar",
