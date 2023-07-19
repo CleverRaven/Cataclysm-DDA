@@ -4954,7 +4954,7 @@
     "price": 20000,
     "price_postapoc": 10000,
     "to_hit": -5,
-    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
+    "material": [ "kevlar" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
@@ -4965,7 +4965,7 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
         ],
         "covers": [ "torso" ],
@@ -4974,7 +4974,7 @@
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -4984,7 +4984,7 @@
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 70, "thickness": 3 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -4995,7 +4995,7 @@
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
         ],
         "covers": [ "leg_l", "leg_r" ],
