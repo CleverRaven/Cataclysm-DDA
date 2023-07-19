@@ -582,7 +582,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sheet_kevlar_layered",
+    "result": "sheet_kevlar_patchwork",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
@@ -591,7 +591,21 @@
     "reversible": true,
     "using": [ [ "sewing_kevlar", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "sheet_kevlar", 16 ] ], [ [ "thread", 30 ] ] ]
+    "components": [ [ [ "patch_kevlar", 16 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "patch_kevlar",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "20 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "sewing_kevlar", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
+    "components": [ [ [ "scrap_kevlar", 4 ] ] ]
   },
   {
     "type": "recipe",
