@@ -986,6 +986,19 @@ bool advanced_inventory::move_all_items()
         return false;
     }
 
+    // Check first if the destination area still has enough room for moving all.
+    const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
+    units::volume dest_volume_free;
+    if( dpane.container ) {
+        dest_volume_free = dpane.container->get_remaining_capacity();
+    } else {
+        dest_volume_free = darea.free_volume( dpane.in_vehicle() );
+    }
+    if( !is_processing() && src_volume > dest_volume_free &&
+        !query_yn( _( "There isn't enough room.  Attempt to move as much as you can?" ) ) ) {
+        return false;
+    }
+
     std::vector<drop_or_stash_item_info> pane_items;
     // Keep a list of favorites separated, only drop non-fav first if they exist.
     std::vector<drop_or_stash_item_info> pane_favs;
