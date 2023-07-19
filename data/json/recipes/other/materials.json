@@ -591,12 +591,12 @@
     "reversible": true,
     "using": [ [ "sewing_kevlar", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "patch_kevlar", 16 ] ] ]
+    "components": [ [ [ "kevlar_patch", 16 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "patch_kevlar",
+    "result": "kevlar_patch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
