@@ -211,6 +211,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_NEVER_WANDER: return "NEVER_WANDER";
         case MF_CONVERSATION: return "CONVERSATION";
         case MF_SMALL_HIDER: return "SMALL_HIDER";
+        case MF_CORNERED_FIGHTER: return "CORNERED_FIGHTER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;

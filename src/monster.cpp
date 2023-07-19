@@ -1521,11 +1521,10 @@ void monster::process_triggers()
 
     process_trigger( mon_trigger::BRIGHT_LIGHT, [this]() {
         int ret = 0;
-        const tripoint lightcheck = this->pos();
         static const int dim_light = round( .75 * default_daylight_level() );
-        int light = round( get_map().ambient_light_at( lightcheck ) );
+        int light = round( get_map().ambient_light_at( pos() ) );
         if( light >= ( dim_light ) ) {
-            ret += 15;
+            ret += 10;
         }
         return ret;
     } );
@@ -3029,6 +3028,28 @@ void monster::process_effects()
         if( anger < 0 && anger < type->agro ) {
             anger += 5;
             anger = std::min( anger, type->agro );
+        }
+    }
+
+    if( has_flag( MF_CORNERED_FIGHTER ) && ( morale + anger ) < 0 ) {
+        if( friendly == 0 && rl_dist( pos(), player_character.pos() ) <= 2 ) {
+            if ( morale < type->morale ) {
+            morale = type->morale;
+            anger = type->agro;
+            }
+        }
+        map &here = get_map();
+        creature_tracker &creatures = get_creature_tracker();
+        for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
+            const monster *const mon = creatures.creature_at<monster>( p );
+            if( mon ) {
+                if( ( mon->faction->attitude( faction ) != MFA_FRIENDLY ) ) {
+                    if ( morale < type->morale ) {
+                    morale = type->morale;
+                    anger = type->agro;
+                    }
+                }
+            }
         }
     }
 

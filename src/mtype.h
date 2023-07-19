@@ -182,6 +182,7 @@ enum m_flag : int {
     MF_NEVER_WANDER,        // This monster will never join wandering hordes.
     MF_CONVERSATION,        // This monster can engage in conversation.  Will need to have chat_topics as well.
     MF_SILENT_DISAPPEAR,    // This monster will disappear without printing any message.
+    MF_CORNERED_FIGHTER,    // This monster will rapidly gain morale and anger if cornered.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
