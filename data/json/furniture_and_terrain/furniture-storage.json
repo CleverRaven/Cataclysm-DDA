@@ -850,6 +850,13 @@
   },
   {
     "type": "furniture",
+    "id": "f_torah_ark",
+    "name": "Torah Ark",
+    "copy-from": "f_wardrobe",
+    "description": "An ornately-carved cabinet designed to hold a Torah scroll.  This one is decorated with a tree motif, referencing Proverbs 3:18." 
+  },
+  {
+    "type": "furniture",
     "id": "f_filing_cabinet",
     "name": "filing cabinet",
     "looks_like": "f_rack",
