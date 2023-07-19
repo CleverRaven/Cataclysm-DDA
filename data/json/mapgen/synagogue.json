@@ -38,10 +38,10 @@
     "terrain": { "B": "t_carpet_red", "A": "t_carpet_red", "£": "t_carpet_red", "r": "t_railing" },
     "furniture": { "£": "f_desk", "A": "f_torah_ark" },
     "place_item": [
-      { "item": "torah_scroll", "x": 17, "y": 11, "chance": 20 },
-      { "item": "torah_scroll", "x": 17, "y": 12, "chance": 20 },
-      { "item": "torah_scroll", "x": 11, "y": 11, "chance": 60 },
-      { "item": "torah_scroll", "x": 11, "y": 12, "chance": 60 }
+      { "item": "holybook_torah_scroll", "x": 17, "y": 11, "chance": 20 },
+      { "item": "holybook_torah_scroll", "x": 17, "y": 12, "chance": 20 },
+      { "item": "holybook_torah_scroll", "x": 11, "y": 11, "chance": 60 },
+      { "item": "holybook_torah_scroll", "x": 11, "y": 12, "chance": 60 }
     ],
     "items": {
       "d": { "item": "SUS_office_desk", "chance": 60 },
