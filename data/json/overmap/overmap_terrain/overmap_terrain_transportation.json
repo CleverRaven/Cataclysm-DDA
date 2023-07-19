@@ -31,7 +31,7 @@
     "color": "dark_gray",
     "see_cost": 2,
     "extras": "road",
-    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ]
+    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR", "IGNORE_ROTATION_FOR_ADJACENCY" ]
   },
   {
     "type": "overmap_terrain",

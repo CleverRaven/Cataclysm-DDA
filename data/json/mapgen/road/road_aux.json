@@ -2,8 +2,33 @@
   {
     "type": "palette",
     "id": "road_palette",
-    "terrain": { ".": "t_pavement", "_": "t_sidewalk", "*": "t_pavement_y", "│": "t_zebra_v", "─": "t_zebra_h", "O": "t_manhole_cover", "Y": "t_sidewalk", "T": "t_sidewalk" },
-    "furniture": { "Y": "f_street_light", "T": "f_traffic_light" }
+    "terrain": {
+      ".": "t_pavement",
+      "_": "t_sidewalk",
+      "*": "t_pavement_y",
+      "│": "t_zebra_v",
+      "─": "t_zebra_h",
+      "O": "t_manhole_cover",
+      "g": "t_region_grass",
+      "#": "t_sconc_wall_halfway",
+      "~": "t_water_sh",
+      "s": "t_region_shrub_decorative",
+      "Y": "t_sidewalk",
+      "T": "t_sidewalk"
+    },
+    "furniture": {
+      "Y": "f_street_light",
+      "T": "f_traffic_light",
+      "f": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ],
+      "@": "f_statue"
+    },
+    "signs": { "?": { "signage": "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered." } }
+  },
+  {
+    "type": "snippet",
+    "category": "<statue_worthy_act>",
+    "text": [ "provided for our city in a time of need", "founded our great city" ],
+    "//": "Idk, what do peeps get statues for?"
   },
   {
     "type": "mapgen",
@@ -126,6 +151,25 @@
           "y": 20,
           "neighbors": { "west": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
         }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_traffic_lights_rotary",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "//": "Only four_way for now so no need for conditionals",
+      "place_nested": [
+        { "chunks": [ "1x1_traffic_light" ], "x": 20, "y": 0 },
+        { "chunks": [ "1x1_traffic_light" ], "x": 23, "y": 3 },
+        { "chunks": [ "1x1_traffic_light" ], "x": 23, "y": 20 },
+        { "chunks": [ "1x1_traffic_light" ], "x": 20, "y": 23 },
+        { "chunks": [ "1x1_traffic_light" ], "x": 3, "y": 23 },
+        { "chunks": [ "1x1_traffic_light" ], "x": 0, "y": 20 },
+        { "chunks": [ "1x1_traffic_light" ], "x": 0, "y": 3 },
+        { "chunks": [ "1x1_traffic_light" ], "x": 3, "y": 0 }
       ]
     }
   },

@@ -5,19 +5,19 @@
     "om_terrain": "road_curved",
     "object": {
       "fallback_predecessor_mapgen": "field",
-      "//": "Replace 24x24_road_es_curvy with 24x24_road_es_roundabout and add tees to deal with bad road spawns (perfectly circle 2x2 with nests for connections, no need for SIDEWALK bc only out of city has bad road spawns)",
+      "//": "Replace chunks road_es_bend with a quarter of a roundabout to deal with bad road spawns (perfectly circle 2x2 with nests for connections, no need for SIDEWALK bc only out of city has bad road spawns)",
       "place_nested": [
         {
-          "chunks": [ "24x24_road_es_curvy" ],
+          "chunks": [ "road_es_bend" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ "road_sw" ], "south_east": [ "road_wn" ], "south": [ "road_ne" ] }
+          "neighbors": { "east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ], "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ], "south": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
         },
         {
           "else_chunks": [ "road_es_bend" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ "road_sw" ], "south_east": [ "road_wn" ], "south": [ "road_ne" ] }
+          "neighbors": { "east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ], "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ], "south": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
         }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -29,7 +29,7 @@
     "nested_mapgen_id": "road_es_bend",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
+      "rotation": [ 0, 0 ],
       "//": "If east road_nw or south road_nw -> straight diagonal",
       "//1": "If neither east road_nw or south road_nw -> curvy diagonal",
       "//2": "Need or/nor rather than and/nand to make it work in an ideal way",
@@ -38,13 +38,38 @@
           "chunks": [ "24x24_road_es_straight" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ "road_wn" ], "south": [ "road_wn" ] }
+          "neighbors": { "east": [ "road_wn" ] }
         },
         {
           "else_chunks": [ "24x24_road_es_curvy" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ "road_wn" ], "south": [ "road_wn" ] }
+          "neighbors": { "east": [ "road_wn" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_es_bend_second_pass",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 0 ],
+      "//": "If south road_nw -> straight diagonal",
+      "//1": "If neither east road_nw or south road_nw -> curvy diagonal",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_road_es_straight" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "road_wn" ] }
+        },
+        {
+          "else_chunks": [ "24x24_road_es_curvy" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "road_wn" ] }
         }
       ]
     }

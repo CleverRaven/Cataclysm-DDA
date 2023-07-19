@@ -69,13 +69,6 @@ static const oter_str_id oter_river_sw( "river_sw" );
 static const oter_str_id oter_river_west( "river_west" );
 static const oter_str_id oter_road_nesw( "road_nesw" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
-static const oter_str_id oter_sewer_es( "sewer_es" );
-static const oter_str_id oter_sewer_esw( "sewer_esw" );
-static const oter_str_id oter_sewer_ew( "sewer_ew" );
-static const oter_str_id oter_sewer_new( "sewer_new" );
-static const oter_str_id oter_sewer_nsw( "sewer_nsw" );
-static const oter_str_id oter_sewer_sw( "sewer_sw" );
-static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
 
@@ -133,7 +126,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "forest_trail_tee",         &mapgen_forest_trail_tee },
             { "forest_trail_four_way",    &mapgen_forest_trail_four_way },
             { "field",            &mapgen_field },
-            { "highway",          &mapgen_highway },
             { "railroad_straight", &mapgen_railroad },
             { "railroad_curved",   &mapgen_railroad },
             { "railroad_end",      &mapgen_railroad },
@@ -648,35 +640,6 @@ void mapgen_subway( mapgendata &dat )
 
     // finally, unrotate the map
     m->rotate( rot );
-}
-
-void mapgen_highway( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < 3 || i >= SEEX * 2 - 3 ) {
-                m->ter_set( point( i, j ), dat.groundcover() );
-            } else if( i == 3 || i == SEEX * 2 - 4 ) {
-                m->ter_set( point( i, j ), t_railing );
-            } else {
-                if( ( i == SEEX - 1 || i == SEEX ) && j % 4 != 0 ) {
-                    m->ter_set( point( i, j ), t_pavement_y );
-                } else {
-                    m->ter_set( point( i, j ), t_pavement );
-                }
-            }
-        }
-    }
-
-    // spawn regular road out of fuel vehicles
-    VehicleSpawn::apply( VehicleSpawn_default_highway, *m, "highway" );
-
-    if( dat.terrain_type() == oter_hiway_ew ) {
-        m->rotate( 1 );
-    }
-    m->place_items( Item_spawn_data_road, 8, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
-                    false, dat.when() );
 }
 
 // mapgen_railroad
