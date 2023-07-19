@@ -679,25 +679,6 @@
     "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
-    "id": "gum",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str_sp": "chewing gum" },
-    "description": "Bright pink sugar-free chewing gum.",
-    "category": "food",
-    "weight": "3 g",
-    "volume": "250 ml",
-    "price": 100,
-    "price_postapoc": 100,
-    "charges": 10,
-    "stack_size": 100,
-    "symbol": "*",
-    "color": "pink",
-    "fun": 2,
-    "flags": [ "NO_INGEST" ],
-    "use_action": [ "CHEW" ]
-  },
-  {
     "id": "handrolled_cig",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
