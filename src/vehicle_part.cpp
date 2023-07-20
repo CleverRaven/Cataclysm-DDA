@@ -559,7 +559,8 @@ bool vehicle_part::contains_liquid() const
 
 bool vehicle_part::is_battery() const
 {
-    return info().has_flag( VPFLAG_BATTERY ) || base.is_magazine() && base.ammo_types().count( ammo_battery );
+    return info().has_flag( VPFLAG_BATTERY ) || base.is_magazine() &&
+           base.ammo_types().count( ammo_battery );
 }
 
 bool vehicle_part::is_reactor() const

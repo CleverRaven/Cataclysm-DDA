@@ -131,6 +131,7 @@ static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_power_cord( "power_cord" );
 
 static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
 
@@ -4803,6 +4804,10 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
             p->add_msg_if_player( m_good, _( "You connect %1$s and %2$s with the %3$s." ),
                                   prev_veh->disp_name(), target_veh->disp_name(), it.type_name() );
         }
+        if( it.typeId() != itype_power_cord ) {
+            // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
+            it.reset_link( p );
+        }
         p->moves -= move_cost;
         return 1; // Let the cable be destroyed.
     }
@@ -4933,6 +4938,10 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
             target_veh->tow_data.set_towing( target_veh, prev_veh );
         } else {
             prev_veh->tow_data.set_towing( prev_veh, target_veh );
+        }
+        if( it.typeId() != itype_power_cord ) {
+            // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
+            it.reset_link( p );
         }
         p->moves -= move_cost;
         return 1; // Let the cable be destroyed.

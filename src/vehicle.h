@@ -227,7 +227,8 @@ enum class vp_flag : uint32_t {
     animal_flag = 2,
     carried_flag = 4,
     carrying_flag = 8,
-    tracked_flag = 16 //carried vehicle part with tracking enabled
+    tracked_flag = 16, //carried vehicle part with tracking enabled
+    linked_flag = 32 //a cable is attached to this
 };
 
 class turret_cpu
@@ -510,6 +511,8 @@ struct vehicle_part {
 
         /** If it's a part with variants, which variant it is */
         std::string variant;
+
+        time_point last_disconnected = calendar::before_time_starts;
 
     private:
         // part type definition

@@ -12992,7 +12992,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     if( ( link->t_state == link_state::no_link && link->s_state != link_state::vehicle_tow ) ||
         link->t_state == link_state::bio_cable ) {
         if( carrier == nullptr ) {
-            return reset_link( nullptr, true, pos );
+            return reset_link( nullptr, -1, true, pos );
         }
         return false;
     }
@@ -13035,9 +13035,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     // Re-establish vehicle pointer if it got lost or if this item just got loaded.
     if( !link->t_veh_safe ) {
         vehicle *found_veh = here.find_vehicle( link->t_abs_pos );
-        //return false;
         if( !found_veh ) {
-            return reset_link( carrier, true, pos );
+            return reset_link( carrier, -2, true, pos );
         }
         if( debug_mode ) {
             add_msg_debug( debugmode::DF_IUSE, "Re-established link of %s to %s.", type_name(),
@@ -13083,8 +13082,17 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     }
     if( link_vp_index == -1 ) {
         // The part with cable ports was lost, so disconnect the cable.
-        return reset_link( carrier, true, pos );
+        return reset_link( carrier, -2, true, pos );
     }
+
+    if( link->last_processed <= t_veh->part( link_vp_index ).last_disconnected ) {
+        add_msg_if_player_sees( pos, m_warning, string_format( _( "You detached the %s." ), type_name() ) );
+        return reset_link( carrier, -2 );
+    }
+    t_veh->part( link_vp_index ).set_flag( vp_flag::linked_flag );
+
+    int turns_elapsed = to_turns<int>( calendar::turn - link->last_processed );
+    link->last_processed = calendar::turn;
 
     // Set the new absolute position to the vehicle's origin.
     tripoint t_veh_bub_pos = t_veh->global_pos3();
@@ -13098,15 +13106,12 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     if( check_length ) {
         link->length = rl_dist( pos, t_veh_bub_pos + t_veh->part( link_vp_index ).precalc[0] );
         if( is_cable_too_long() ) {
-            return reset_link( carrier );
+            return reset_link( carrier, link_vp_index );
         }
     }
 
     // Extra behaviors for the cabled item.
     if( !is_cable_item ) {
-        int turns_elapsed = to_turns<int>( calendar::turn - link->last_processed );
-        link->last_processed = calendar::turn;
-
         int power_draw = 0;
 
         if( link->efficiency < 0.001f ) {
@@ -13188,7 +13193,8 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     return link->charge_rate;
 }
 
-bool item::reset_link( Character *p, const bool loose_message, const tripoint cable_position )
+bool item::reset_link( Character *p, int vpart_index,
+                       const bool loose_message, const tripoint cable_position )
 {
     if( !link ) {
         return has_flag( flag_NO_DROP );
@@ -13196,6 +13202,33 @@ bool item::reset_link( Character *p, const bool loose_message, const tripoint ca
     // Cables that need reeling should be reset with a reel_cable_activity_actor instead.
     if( link->has_state( link_state::needs_reeling ) ) {
         return false;
+    }
+
+    if( vpart_index != -2 && link->t_veh_safe ) {
+        if( vpart_index == -1 ) {
+            vehicle *t_veh = link->t_veh_safe.get();
+            // Find the vp_part index the cable is linked to.
+            if( link->t_state == link_state::vehicle_port ) {
+                for( int idx : t_veh->cable_ports ) {
+                    if( t_veh->part( idx ).mount == link->t_mount ) {
+                        vpart_index = idx;
+                        break;
+                    }
+                }
+            } else if( link->t_state == link_state::vehicle_battery ) {
+                for( int idx : t_veh->batteries ) {
+                    if( t_veh->part( idx ).mount == link->t_mount ) {
+                        vpart_index = idx;
+                        break;
+                    }
+                }
+            } else if( link->t_state == link_state::vehicle_tow || link->s_state == link_state::vehicle_tow ) {
+                vpart_index = t_veh->part_at( t_veh->coord_translate( link->t_mount ) );
+            }
+        }
+        if( vpart_index != -1 ) {
+            link->t_veh_safe->part( vpart_index ).remove_flag( vp_flag::linked_flag );
+        }
     }
 
     const bool is_cable_item = has_flag( flag_CABLE_SPOOL );

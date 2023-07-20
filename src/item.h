@@ -1476,12 +1476,14 @@ class item : public visitable
         /**
          * Brings a cable item back to its initial state.
          * @param p Set to character that's holding the linked item, nullptr if none.
+         * @param vpart_index The index of the vehicle part the cable is attached to, so it can have `linked_flag` removed.
+         * @param * At -1, the default, this function will look up the index itself. At -2, skip modifying the part's flags entirely.
          * @param loose_message If there should be a notification that the link was disconnected.
          * @param cable_position Position of the linked item, used to determine if the player can see the link becoming loose.
          * @return True if the cable should be deleted.
          */
-        bool reset_link( Character *p = nullptr, bool loose_message = false,
-                         tripoint cable_position = tripoint_zero );
+        bool reset_link( Character *p = nullptr, int vpart_index = -1,
+                         bool loose_message = false, tripoint cable_position = tripoint_zero );
 
         /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
