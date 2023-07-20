@@ -536,7 +536,7 @@
     "category": "clothing",
     "symbol": "[",
     "color": "blue",
-    "name": { "str": "tallit gadol", "str_pl": "tallitot gdolim" },
+    "name": { "str_sp": "tallit gadol" },
     "description": "A large prayer shawl worn by observant Jews during morning prayers and certain other occasions.",
     "price": 25000,
     "price_postapoc": 50,

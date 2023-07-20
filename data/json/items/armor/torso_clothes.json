@@ -1724,7 +1724,7 @@
   {
     "id": "tallit_katan",
     "type": "ARMOR",
-    "name": { "str": "tallit katan", "str_pl": "tallitot katanim" },
+    "name": { "str_sp": "tallit katan" },
     "description": "A shirt with four tassels worn by observant Jews in deference to Deuteronomy 22:12, which commands the wearing of fringes on the corner of one's garments.",
     "weight": "158 g",
     "volume": "500 ml",
