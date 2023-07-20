@@ -104,7 +104,7 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 1, "stab": 18 },
-    "//": "Based on https://www.amazon.com/Dexter-Russell-Scalloped-Slicer-12-White/dp/B0195V29HG/ref=sr_1_3?crid=1PTJ4T5VL3C86&keywords=carving+knife&qid=1688903048&sprefix=carving+k%2Caps%2C366&sr=8-3"
+    "//": "Based on https://www.amazon.com/dp/B0195V29HG"
   },
   {
     "id": "knife_bread",

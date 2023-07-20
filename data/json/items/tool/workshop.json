@@ -425,7 +425,7 @@
     "type": "TOOL",
     "name": { "str_sp": "tin snips" },
     "description": "A pair of tin snips, resembling a sturdy pair of scissors with beefy blades designed to cut through thin sheets of soft metal.  These cannot cut through thick metals like a hacksaw can, but are better suited to precision work and leave a cleaner edge.",
-    "//": "Based on https://www.amazon.com/Stanley-FatMax-14-563-Straight-Aviation/dp/B00009OYFY/ref=sr_1_4?crid=1KL1NG4RARK8Y&keywords=Stanley+FATMAX+straight+cut+9-7%2F8-inch+aviation+snip&qid=1683478618&sprefix=stanley+fatmax+straight+cut+9-7%2F8-inch+aviation+snip%2Caps%2C421&sr=8-4",
+    "//": "Based on https://www.amazon.com/dp/B00009OYFY",
     "weight": "400 g",
     "volume": "500 ml",
     "longest_side": "25 cm",
