@@ -1343,6 +1343,24 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     }
     int mount_min_x = vp_map.begin()->first.x, mount_max_x = vp_map.rbegin()->first.x;
 
+    // print the vehicle's blueprint.
+    json.member( "blueprint" );
+    json.start_array();
+    // let's start from the front of the vehicle, scanning by row.
+    for( int x = mount_max_x; x >= mount_min_x; x-- ) {
+        std::string row = "";
+        for( int y = mount_min_y; y <= mount_max_y; y++ ) {
+            if( veh.part_displayed_at( point( x, y ), false, true, true ) == -1 ) {
+                row += " ";
+                continue;
+            }
+            const vpart_display &c = veh.get_display_of_tile( point( x, y ), false, false, true, true );
+            row += utf32_to_utf8( c.symbol );
+        }
+        json.write( row );
+    }
+    json.end_array();
+
     json.member( "parts" );
     json.start_array();
     // Used to flexibly print vehicle parts with possible non-default variants
