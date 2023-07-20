@@ -10,6 +10,7 @@
     "price_postapoc": 10000000,
     "symbol": "@",
     "color": "white",
+    "looks_like": "talking_doll",
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Hug the imperfect doll.",
@@ -65,6 +66,7 @@
     "material": [ "glass" ],
     "weight": "600 g",
     "volume": "400 ml",
+    "looks_like": "philosophy_book",
     "price": 0,
     "price_postapoc": 0,
     "symbol": "i",
@@ -80,6 +82,7 @@
     "material": [ "glass" ],
     "weight": "150 g",
     "volume": "100 ml",
+    "looks_like": "apple",
     "price": 0,
     "price_postapoc": 0,
     "symbol": "i",
