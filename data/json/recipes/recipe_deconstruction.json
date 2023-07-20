@@ -6061,10 +6061,10 @@
   {
     "result": "heavy_crowbar",
     "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "time": "20 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 4 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 6 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "sheet_kevlar",

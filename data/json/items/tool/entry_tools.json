@@ -127,10 +127,11 @@
     "type": "TOOL",
     "name": { "str": "heavy crowbar" },
     "looks_like": "crowbar",
-    "description": "A 5-foot-long construction prybar.  Essentially a long, solid steel rod with a hardened chisel tip.",
-    "weight": "4 kg",
-    "volume": "725 ml",
-    "longest_side": "150 cm",
+    "description": "A 60-inch-long construction prybar.  Essentially a long, solid steel rod with a hardened chisel tip.",
+    "weight": "6201 g",
+    "volume": "1740 ml",
+	"//1": "With the assumption that it's a cylinder of 60in length and 1.5in diameter. Assuming 2.5in in diameter left it at 4l+ - item dimensions on the listing are yet again package dimensions that would inflate the volume.",
+    "longest_side": "152 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price_postapoc": 4000,
     "color": "red",
@@ -138,9 +139,10 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "ALWAYS_TWOHAND", "SHEATH_SPEAR" ],
-    "price": 10000,
+    "price": "90 USD",
     "qualities": [ [ "HAMMER", 1 ], [ "PRY", 3 ], [ "COOK", 1 ] ],
     "use_action": [ "CROWBAR" ],
-    "melee_damage": { "bash": 45 }
+    "melee_damage": { "bash": 45 },
+    "//2": "Based on https://www.amazon.com/Bon-RiverWorks-27-226-60-Inch-Carbon/dp/B007DHX596/ref=sr_1_5?crid=5W0QJWQUKVSF&keywords=construction+pry+bar+60+inch&qid=1689844867&sprefix=construction+prybar+60inch%2Caps%2C173&sr=8-5"
   }
 ]

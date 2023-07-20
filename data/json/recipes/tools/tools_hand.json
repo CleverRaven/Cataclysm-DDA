@@ -1306,7 +1306,7 @@
     "time": "380 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 8 ] ],
-    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 4 ] ],
+    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
