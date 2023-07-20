@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_vitrified_doll",
     "name": "incomplete plush doll",
-    "symbol": "{",
+    "symbol": "D",
     "description": "A soft plush torso, empty of features, is lying on this sofa.",
     "color": "dark_gray",
     "move_cost_mod": 1,
@@ -13,8 +13,7 @@
     "flags": [ "TRANSPARENT", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_vitrified_doll_talk" ] },
     "rotates_to": "INDOORFLOOR",
-    "bash": { "str_min": 900, "str_max": 900, "sound": "smash!", "sound_fail": "whump." },
-    "emissions": [ "emit_glimmer" ]
+    "bash": { "str_min": 900, "str_max": 900, "sound": "smash!", "sound_fail": "whump." }
   },
   {
     "id": "EOC_vitrified_doll_talk",
@@ -55,7 +54,8 @@
       { "u_remove_item_with": "imperfect_doll_features" },
       { "u_remove_item_with": "imperfect_doll_arms" },
       { "u_remove_item_with": "imperfect_doll_legs" },
-      { "u_spawn_item": "imperfect_doll_complete", "suppress_message": true }
+      { "u_spawn_item": "imperfect_doll_complete", "suppress_message": true },
+      { "u_transform_radius" : 5, "ter_furn_transform" : "imperfect_doll_to_couch"}
     ]
   },
   {
@@ -65,6 +65,7 @@
     "symbol": "{",
     "description": "This bookcase is missing a book.",
     "color": "dark_gray",
+    "looks_like": "f_bookcase",
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 900,
@@ -199,5 +200,15 @@
     "id": "EOC_swap_glass_apple_for_arms",
     "type": "effect_on_condition",
     "effect": [ { "u_remove_item_with": "glass_apple" }, { "u_spawn_item": "imperfect_doll_arms", "suppress_message": true } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "imperfect_doll_to_couch",
+    "terrain": [
+      {
+        "result": "f_vitrified_sofa",
+        "valid_terrain": [ "f_vitrified_doll" ]
+      }
+    ]
   }
 ]
