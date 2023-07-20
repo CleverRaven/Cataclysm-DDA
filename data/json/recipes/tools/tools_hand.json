@@ -1344,9 +1344,8 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "100 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 6 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "forging_standard", 6 ], [ "steel_tiny", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
