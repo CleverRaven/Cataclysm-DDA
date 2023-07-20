@@ -26,18 +26,16 @@ static bool operator==( const vehicle_item_spawn &l, const vehicle_item_spawn &r
 {
     return l.pos == r.pos && l.chance == r.chance && l.with_ammo == r.with_ammo &&
            l.with_ammo == r.with_ammo && l.with_magazine == r.with_magazine && l.item_ids == r.item_ids &&
+           // NOLINTNEXTLINE(misc-redundant-expression)
            l.variant_ids == r.variant_ids && l.item_groups == r.item_groups;
 }
 
 TEST_CASE( "export_vehicle_test" )
 {
     clear_map();
-    const tripoint test_origin( 0, 0, 0 );
-    const tripoint vehicle_origin = test_origin;
     // Spawn the vehicle with fuel.
-    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_veh_export_test, vehicle_origin,
-                       0_degrees,
-                       -1, 0 );
+    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_veh_export_test, tripoint_zero,
+                       0_degrees, -1, 0 );
     REQUIRE( veh_ptr != nullptr );
 
     // To ensure the zones get placed.

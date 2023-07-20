@@ -1325,7 +1325,8 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     json.member( "type", "vehicle" );
     json.member( "name", "/TO_BE_REPLACED/" );
     std::map<point, std::list<const vehicle_part *>> vp_map;
-    int mount_min_y = 123, mount_max_y = -123;
+    int mount_min_y = 123;
+    int mount_max_y = -123;
     // Form a map of existing real parts
     // Structural parts first
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
@@ -1341,14 +1342,15 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         mount_min_y = mount_min_y > p.mount.y ? p.mount.y : mount_min_y;
         vp_map[p.mount].push_back( &p );
     }
-    int mount_min_x = vp_map.begin()->first.x, mount_max_x = vp_map.rbegin()->first.x;
+    int mount_min_x = vp_map.begin()->first.x;
+    int mount_max_x = vp_map.rbegin()->first.x;
 
     // print the vehicle's blueprint.
     json.member( "blueprint" );
     json.start_array();
     // let's start from the front of the vehicle, scanning by row.
     for( int x = mount_max_x; x >= mount_min_x; x-- ) {
-        std::string row = "";
+        std::string row;
         for( int y = mount_min_y; y <= mount_max_y; y++ ) {
             if( veh.part_displayed_at( point( x, y ), false, true, true ) == -1 ) {
                 row += " ";
