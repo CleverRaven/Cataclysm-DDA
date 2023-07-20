@@ -1636,6 +1636,9 @@
       [ "holy_symbol", 20 ],
       [ "kufi", 5 ],
       [ "kippah", 5 ],
+      [ "tallit_katan", 5 ],
+      [ "tallit_gadol", 1 ],
+      [ "tefillin_sets", 2 ],
       [ "headscarf", 5 ],
       { "item": "kirpan", "container-item": "sheath", "prob": 1 },
       { "item": "kirpan_cheap", "container-item": "sheath", "prob": 3 },
@@ -4560,5 +4563,26 @@
       { "item": "ring_signet", "prob": 30 },
       { "item": "tie_skinny", "prob": 20 }
     ]
+  },
+  {
+    "id": "tefillin_sets",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "distribution",
+    "items": [ { "group": "tefillin_right_hand", "prob": 1 }, { "group": "tefillin_left_hand", "prob": 1 } ]
+  },
+  {
+    "id": "tefillin_right_hand",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "collection",
+    "items": [ { "group": "tefillin_hand_r", "prob": 100 }, { "group": "tefillin_head", "prob": 100 } ]
+  },
+  {
+    "id": "tefillin_sets",
+    "type": "tefillin_left_hand",
+    "//": "tefillin sets",
+    "subtype": "collection",
+    "items": [ { "group": "tefillin_hand_l", "prob": 100 }, { "group": "tefillin_head", "prob": 100 } ]
   }
 ]

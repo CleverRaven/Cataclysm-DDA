@@ -1267,6 +1267,63 @@
         },
         "description": "An examination of the archeological evidence behind the beginning of many Jewish traditions, including eschewing pork, adopting tefillin and placing mezuzot on doorposts, and circumcision.",
         "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_16",
+        "name": { "str": "The Guide for the Perplexed", "str_pl": "copies of the Guide for the Perplexed" },
+        "description": "An English translation of the great sage Rabbi Moses ben Maimon's work finding common points between natural philosophy and Talmudic scholarship.  Contains the famous Thirteen Principles of Faith, accepted by many Jews as a summary of the fundamental beliefs of Judaism.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_17",
+        "name": {
+          "str": "Jewish Publication Society Torah Commentary: Genesis",
+          "str_pl": "copies of the Jewish Publication Society Torah Commentary: Genesis"
+        },
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Genesis.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_18",
+        "name": {
+          "str": "Jewish Publication Society Torah Commentary: Exodus",
+          "str_pl": "copies of the Jewish Publication Society Torah Commentary: Exodus"
+        },
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Exodus.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_19",
+        "name": {
+          "str": "Jewish Publication Society Torah Commentary: Leviticus",
+          "str_pl": "copies of the Jewish Publication Society Torah Commentary: Leviticus"
+        },
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Leviticus.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_20",
+        "name": {
+          "str": "Jewish Publication Society Torah Commentary: Numbers",
+          "str_pl": "copies of the Jewish Publication Society Torah Commentary: Numbers"
+        },
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Numbers.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_21",
+        "name": {
+          "str": "Jewish Publication Society Torah Commentary: Deuteronomy",
+          "str_pl": "copies of the Jewish Publication Society Torah Commentary: Deuteronomy"
+        },
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Deuteronomy.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_22",
+        "name": { "str": "Shulchan Arukh", "str_pl": "copies of the Shulchan Arukh" },
+        "description": "Compiled by Rabbi Yosef Karo in the 16th century, the Shuchan Arukh is the most widely-consulted and authoritative compilation of Jewish law lasting into the present day.  If you need to convene a post-Cataclysmic Beit Din, keep this with you and you'll be set.",
+        "weight": 1
       }
     ]
   },
@@ -1366,7 +1423,7 @@
       {
         "id": "book_judaica_softcover_12",
         "name": {
-          "str": "People Love Dead Jews: Reports from a Haunted Present ",
+          "str": "People Love Dead Jews: Reports from a Haunted Present",
           "str_pl": "copies of People Love Dead Jews: Reports from a Haunted Present "
         },
         "description": "Dara Horn's exploration of the modern rise of antisemitism, why there is so much interest in Jewish tragedy and comparatively little interest in Jewish culture, and why non-Jews feature so often and so prominently in popular stories of the Holocaust.  It would probably have been riveting and insightful before the Cataclysm made such concerns mostly irrelevant.",
@@ -1375,10 +1432,64 @@
       {
         "id": "book_judaica_softcover_13",
         "name": {
-          "str": "God in Search of Man : A Philosophy of Judaism ",
+          "str": "God in Search of Man : A Philosophy of Judaism",
           "str_pl": "copies of God in Search of Man : A Philosophy of Judaism "
         },
         "description": "Rabbi Abraham Joshua Heschel's philosophical work on religious thought, on revelation and the problem of evil, and on the nature of a God who seeks a partner in humanity.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_14",
+        "name": {
+          "str": "Not in God's Name: Confronting Religious Violence",
+          "str_pl": "copies of Not in God's Name: Confronting Religious Violence "
+        },
+        "description": "Rabbi Abraham Joshua Heschel's answer to the claim that religion is fundamentally divisive and encourages conflict.  His main argument is that religiously-motivated violence stems from misreadings of sacred texts.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_15",
+        "name": { "str": "When Bad Things Happen to Good People", "str_pl": "copies of When Bad Things Happen to Good People" },
+        "description": "A meditation on meaningless tragedy and why the disaster and sorrow in the world is unevenly distributed.  Written decades before the Catalcysm, but the author was obviously on to something.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_16",
+        "name": { "str": "The Jewish War: Revised Edition", "str_pl": "copies of The Jewish War: Revised Edition" },
+        "description": "An account of the Roman conquest of Judea and the destruction of the Temple written by Josephus, the first century Judean rebel turned Roman negotiator.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_17",
+        "name": {
+          "str": "Standing Again at Sinai: Judaism from a Feminist Perspective",
+          "str_pl": "copies of Standing Again at Sinai: Judaism from a Feminist Perspective"
+        },
+        "description": "A critique of Jewish practice by a Jewish feminist theologian.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_18",
+        "name": {
+          "str": "Zohar: The Book of Splendor: Basic Readings from the Kabbalah",
+          "str_pl": "copies of Zohar: The Book of Splendor: Basic Readings from the Kabbalah"
+        },
+        "description": "A book of Jewish mysticism often attributed to the great rabbi Shimon bar Yochai, the Zohar is the central work of Kabbalah.  This is an abbridged version containing selected passages from the full text.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_19",
+        "name": {
+          "str": "Miriam’s Tambourine: Jewish Folktales from Around the World",
+          "str_pl": "copies of Miriam’s Tambourine: Jewish Folktales from Around the World"
+        },
+        "description": "A collection of over fifty Jewish folktales, from classics like the story of Miriam's well or Rabbi Loew and the golem or the life of the Baal Shem Tov, to Jewish versions of modern cultural classics like Snow White or Sinbad.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_20",
+        "name": { "str": "From the Maccabees to the Mishnah", "str_pl": "copies of From the Maccabees to the Mishnah" },
+        "description": "A history of the development of Rabbinic Judaism, from the Jewish Revolt in the first century to the writing of the Mishnah, and how Judaism and Christianity fully separated.",
         "weight": 1
       }
     ]
