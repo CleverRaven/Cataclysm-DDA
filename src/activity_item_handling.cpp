@@ -3182,7 +3182,7 @@ static std::optional<tripoint_bub_ms> find_refuel_spot_trap(
 
 // Visits an item and all its contents.
 static VisitResponse visit_item_contents( item_location &loc,
-                                   const std::function<VisitResponse( item_location & )> &func )
+        const std::function<VisitResponse( item_location & )> &func )
 {
     switch( func( loc ) ) {
         case VisitResponse::ABORT:
@@ -3204,7 +3204,8 @@ static VisitResponse visit_item_contents( item_location &loc,
     }
 }
 
-static int get_comestible_order( Character &you, const item_location &loc, const time_duration &time )
+static int get_comestible_order( Character &you, const item_location &loc,
+                                 const time_duration &time )
 {
     if( loc->rotten() ) {
         if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
@@ -3242,7 +3243,8 @@ static time_duration get_comestible_time_left( const item_location &loc )
     return time_left;
 }
 
-static bool comestible_sort_compare( Character &you, const item_location &lhs, const item_location &rhs )
+static bool comestible_sort_compare( Character &you, const item_location &lhs,
+                                     const item_location &rhs )
 {
     time_duration time_a = get_comestible_time_left( lhs );
     time_duration time_b = get_comestible_time_left( rhs );
