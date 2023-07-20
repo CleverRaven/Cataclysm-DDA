@@ -288,7 +288,6 @@ static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_noise_emitter( "noise_emitter" );
 static const itype_id itype_noise_emitter_on( "noise_emitter_on" );
 static const itype_id itype_paper( "paper" );
-static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
