@@ -6,9 +6,6 @@
     "desc": [ "It is very peaceful here." ],
     "rating": "good",
     "max_intensity": 7,
-    "base_mods": {  },
-    "scaling_mods": {
-      "enchantments": { "values": [ { "value": "INTELLIGENCE", "add": { "math": [ "-1 * (floor(u_val('intelligence') / 6))" ] } } ] }
-    }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": { "math": [  "u_val('effect_intensity','effect:VITRIFYING') * -1 * (ceil(u_val('intelligence') / 6))" ] } } ] } ]
   }
 ]
