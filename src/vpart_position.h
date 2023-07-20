@@ -91,7 +91,7 @@ class vpart_position
         // Finds vpart_reference to inner part with specified tool
         std::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
         // Returns a list of all tools provided by vehicle and their hotkey
-        std::map<item, input_event> get_tools() const;
+        std::map<item, int> get_tools() const;
         // Forms inventory for inventory::form_from_map
         void form_inventory( inventory &inv ) const;
 
