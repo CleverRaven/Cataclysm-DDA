@@ -4,12 +4,12 @@
     "method": "json",
     "update_mapgen_id": "vitrified_farm_0",
     "object": {
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "fill_ter": "t_vitrified_floor",
       "rows": [
         "EEEEEEEEEEEEEEEEEEEEEEEE",
-        "E9...ss.................",
-        "E..CsssCMMMMMMMCMM..9.9.",
+        "E9...ssssssss.9.9.9.9.9.",
+        "E...sssCMMMMMMMCMM..9.9.",
         "E9.s#*o#o#o#o#o#o##.....",
         "E..s#,,{    }     #.9.9.",
         "E9.s#,,           #.....",
@@ -17,19 +17,19 @@
         "E9.s#             o.....",
         "E..s#             #.9.9.",
         "E..s#<>           #.....",
-        "E!!@####||+|      #!!!!.",
-        "E!.s..^#t,,|Y,,1,,o...!.",
-        "E!.s...#88j|7,,,,,*.9.!.",
-        "E!9s9..#o###l,,,,3#...!.",
-        "E!.ssssssss#6c45i2#.9.!.",
-        "E!9.9.9.9.s###oo###...!.",
-        "E!]......9s.........9.!.",
-        "E!......9.s909.9[.....!.",
-        "E!.......9s0009.......!.",
-        "E!......9.s000.9......!.",
-        "E!.......9s0009.......!.",
-        "E!......9..909........!.",
-        "E!.......9..9..9......!.",
+        "E..s####||+|      #.9.9.",
+        "E..s..^#t,,|Y,,1,,o...ss",
+        "E..s...#88j|7,,,,,*sssss",
+        "E.9s9..#o###l,,,,3#s....",
+        "E..ssssssss#6c45i2#s9...",
+        "E.9.9.9.9.s###oo###s....",
+        "E.]......9ssssssssss9...",
+        "E.......9.s909.9[.......",
+        "E........9s0009.........",
+        "E...9...9.s000.9...9....",
+        "E........9s0009.........",
+        "E.......9..909..........",
+        "E........9..9..9........",
         "EEEEEEEEEEEEEEEEEEEEEEEE"
       ],
       "palettes": [ "vitrified_house_palatte" ],
@@ -70,10 +70,6 @@
         "7": "f_vitrified_cupboard",
         "8": "f_vitrified_counter"
       },
-      "set": [
-        { "point": "variable", "id": "glass_apple_loc_4", "x": 3, "y": 15 },
-        { "point": "variable", "id": "glass_apple_loc_5", "x": 20, "y": 14 }
-      ],
       "nested": {
         "{": { "chunks": [ "livingroom_5x5_vitrified" ] },
         "}": { "chunks": [ "diningroom_6x6_vitrified" ] },
@@ -87,33 +83,33 @@
     "method": "json",
     "update_mapgen_id": "vitrified_farm_1",
     "object": {
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "fill_ter": "t_vitrified_floor",
       "rows": [
-        "------------------------",
-        "------------------------",
-        "----##oo##o#o##oo##-----",
-        "----#{   |HRH|}   #-----",
-        "----o    |___|    o-----",
-        "----o    +___|    o-----",
-        "----#    |___+    #-----",
-        "----#|||||__||||||#-----",
-        "----#_______+[    #-----",
-        "----#>R|||+||     o-----",
-        "----####TT~8|     o-----",
-        "------^#~~~j|     #-----",
-        "-------sw~t8#+#oo##-----",
-        "-------##o###~~~~~s-----",
-        "-----------s~~~~~~s-----",
-        "-----------CssssssC-----",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------"
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "E-----------------------",
+        "E---##oo##o#o##oo##-----",
+        "E---#{   |HRH|}   #-----",
+        "E---o    |___|    o-----",
+        "E---o    +___|    o-----",
+        "E---#    |___+    #-----",
+        "E---#|||||__||||||#-----",
+        "E---#_______+[    #-----",
+        "E---#>R|||+||     o-----",
+        "E---####TT~8|     o-----",
+        "E-----^#~~~j|     #-----",
+        "E------sw~t8#+#oo##-----",
+        "E------##o###~~~~~s-----",
+        "E----------s~~~~~~s-----",
+        "E----------CssssssC-----",
+        "E-----------------------",
+        "E-----------------------",
+        "E-----------------------",
+        "E-----------------------",
+        "E-----------------------",
+        "E-----------------------",
+        "E-----------------------",
+        "EEEEEEEEEEEEEEEEEEEEEEEE"
       ],
       "palettes": [ "vitrified_house_palatte" ],
       "terrain": {
@@ -123,7 +119,8 @@
         "s": "t_vitrified_wall_glass",
         "R": "t_vitrified_floor",
         "u": "t_vitrified_door",
-        "8": "t_vitrified_tile"
+        "8": "t_vitrified_tile",
+        "E": "t_vitrified_edge"
       },
       "furniture": { "8": "f_vitrified_counter" },
       "nested": {
@@ -139,7 +136,7 @@
     "update_mapgen_id": "vitrified_farm_-1",
     "//": "Unfinished basement",
     "object": {
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "fill_ter": "t_vitrified_tile",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -168,7 +165,7 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
       "terrain": {
-        "^": "t_vitrified_wall",
+        "^": "t_vitrified_edge",
         "#": "t_vitrified_wall",
         "|": "t_vitrified_wall",
         ".": "t_vitrified_tile",
@@ -191,14 +188,7 @@
         "!": "f_vitrified_table",
         "Q": "f_vitrified_box"
       },
-      "set": [
-        { "point": "variable", "id": "glass_boat_loc_1", "x": 8, "y": 5 },
-        { "point": "variable", "id": "glass_boat_loc_2", "x": 17, "y": 9 },
-        { "point": "variable", "id": "glass_boat_loc_3", "x": 6, "y": 11 },
-        { "point": "variable", "id": "glass_boat_loc_4", "x": 8, "y": 12 },
-        { "point": "variable", "id": "glass_boat_loc_5", "x": 16, "y": 13 }
-      ],
-      "place_item": [ { "item": "glass_boat", "x": 16, "y": 9, "chance": 100 } ]
+      "place_item": [ { "item": "glass_boat", "x": 16, "y": 5, "chance": 100 } ]
     }
   },
   {
@@ -206,35 +196,38 @@
     "method": "json",
     "update_mapgen_id": "vitrified_farm_2",
     "object": {
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN"],
       "fill_ter": "t_vitrified_roof",
       "rows": [
-        "                        ",
-        "                        ",
-        "    ---------------     ",
-        "    -.............-     ",
-        "    -.............-     ",
-        "    -.............-     ",
-        "    -.............-     ",
-        "    -.............-     ",
-        "    -.............-     ",
-        "    -.............-     ",
-        "    ---5..........-     ",
-        "       -..........-     ",
-        "       -..........-     ",
-        "       -----......-     ",
-        "           -......-     ",
-        "           --------     ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "E                       ",
+        "E   ---------------     ",
+        "E   -.............-     ",
+        "E   -.............-     ",
+        "E   -.............-     ",
+        "E   -.............-     ",
+        "E   -.............-     ",
+        "E   -.............-     ",
+        "E   -.............-     ",
+        "E   ---5..........-     ",
+        "E      -..........-     ",
+        "E      -..........-     ",
+        "E      -----......-     ",
+        "E          -......-     ",
+        "E          --------     ",
+        "E                       ",
+        "E                       ",
+        "E                       ",
+        "E                       ",
+        "E                       ",
+        "E                       ",
+        "E                       ",
+        "EEEEEEEEEEEEEEEEEEEEEEEE"
       ],
-      "terrain": { ".": "t_vitrified_roof", "-": "t_vitrified_roof", "5": "t_vitrified_gutter_drop" }
+      "terrain": { ".": "t_vitrified_roof",
+      "-": "t_vitrified_roof",
+      "5": "t_vitrified_gutter_drop",
+      "E": "t_vitrified_edge" }
     }
   },
   {
@@ -243,36 +236,118 @@
     "update_mapgen_id": "vitrified_orchard",
     "weight": 100,
     "object": {
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "fill_ter": "t_vitrified_dirt",
       "rows": [
         "EEEEEEEEEEEEEEEEEEEEEEEE",
-        "***********************E",
-        "**         **         *E",
-        "** 7  7  7 ** 7  7  7 *E",
-        "**         **         *E",
-        "**         **         *E",
-        "** 7     7 ** 7     7 *E",
-        "**         **         *E",
-        "**         **         *E",
-        "** 7  7  7 ** 7  7  7 *E",
-        "**         **         *E",
-        "***********************E",
-        "***********************E",
-        "**         **         *E",
-        "** 7  7  7 ** 7  q  7 *E",
-        "**         **         *E",
-        "**         **         *E",
-        "** 7     7 ** 7     7 *E",
-        "**         **         *E",
-        "**         **         *E",
-        "** 7  7  7 ** 7  7  7 *E",
-        "**         **         *E",
-        "***********************E",
+        "!**********************E",
+        "!*    *    **    *    *E",
+        "!* 7  7  7 ** 7  7  7 *E",
+        "!*         **         *E",
+        "!*         **         *E",
+        "!**7     7****7     7**E",
+        "!*         **         *E",
+        "!*         ** r       *E",
+        "!* 7  7  7 ** 7  7  7 *E",
+        "!*    *    **    *    *E",
+        "!**********************E",
+        "!**********************E",
+        "!*    *    **    *    *E",
+        "!* 7  7  7 ** 7  q  7 *E",
+        "!*     r   **         *E",
+        "!*         **         *E",
+        "!**7     7 ***7     7**E",
+        "!*         **         *E",
+        "!*         **         *E",
+        "!* 7  7  7 ** 7  7  7 *E",
+        "!*    *    **    *    *E",
+        "!**********************E",
         "EEEEEEEEEEEEEEEEEEEEEEEE"
       ],
       "palettes": [ "orchard_vitrified_palette" ],
-      "terrain": { "E": "t_vitrified_edge", "q": "t_vitrified_soil_talker" }
+      "terrain": {
+         "E": "t_vitrified_edge",
+         "q": "t_vitrified_soil_talker",
+         "!": "t_vitrified_fence_barbed" 
+        }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "vitrified_orchard_sky",
+    "weight": 100,
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "fill_ter": "t_vitrified_dirt",
+      "rows": [
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "                       E",
+        "EEEEEEEEEEEEEEEEEEEEEEEE"
+      ],
+      "terrain": {
+         "E": "t_vitrified_edge"
+        }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "vitrified_sky",
+    "weight": 100,
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "fill_ter": "t_vitrified_dirt",
+      "rows": [
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE",
+        "EEEEEEEEEEEEEEEEEEEEEEEE"
+      ],
+      "terrain": {
+         "E": "t_vitrified_roof"
+        }
     }
   },
   {
@@ -310,8 +385,7 @@
         " BLB y",
         "      "
       ],
-      "palettes": [ "house_vitrified_nest_palette" ],
-      "set": [ { "point": "variable", "id": "glass_book_loc_1", "x": 3, "y": 4 } ]
+      "palettes": [ "house_vitrified_nest_palette" ]
     }
   },
   {
@@ -324,9 +398,9 @@
       "rotation": [ 0, 3 ],
       "rows": [
         " ccc ",
-        "     ",
+        " f   ",
         "  i  ",
-        "     ",
+        "   f ",
         " ccc "
       ],
       "palettes": [ "vitrified_garden_palette" ],
@@ -352,11 +426,6 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "vitrified_garden_palette" ],
       "terrain": { "s": "t_vitrified_dirt" },
-      "set": [
-        { "point": "variable", "id": "glass_apple_loc_1", "x": 2, "y": 3 },
-        { "point": "variable", "id": "glass_apple_loc_2", "x": 4, "y": 4 },
-        { "point": "variable", "id": "glass_apple_loc_3", "x": 2, "y": 5 }
-      ],
       "place_item": [ { "item": "glass_apple", "x": 1, "y": 3, "chance": 100 } ]
     }
   },
@@ -369,13 +438,12 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "rrrr",
-        "P h ",
+        "Prrr",
+        " Yh ",
         "    ",
         " RHH"
       ],
       "palettes": [ "house_vitrified_nest_palette" ],
-      "set": [ { "point": "variable", "id": "glass_book_loc_2", "x": 3, "y": 1 } ],
       "furniture": {
         "P": "f_vitrified_bookcase",
         "R": "f_vitrified_bookcase",
@@ -401,8 +469,8 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        " aO ",
-        "Q   ",
+        "QaO ",
+        "    ",
         " EE ",
         "LEEL"
       ],
@@ -423,11 +491,10 @@
         "    L",
         "O  EE",
         "O  EE",
-        "    L",
+        "  Y L",
         "     "
       ],
       "palettes": [ "house_vitrified_nest_palette" ],
-      "set": [ { "point": "variable", "id": "glass_book_loc_3", "x": 5, "y": 4 } ],
       "place_item": [ { "item": "glass_book", "x": 4, "y": 1, "chance": 100 } ]
     }
   }
