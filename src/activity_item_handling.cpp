@@ -3335,7 +3335,7 @@ int get_auto_consume_moves( Character &you, const bool food )
         if( vp ) {
             if( const std::optional<vpart_reference> vp_cargo = vp.cargo() ) {
                 for( item &it : vp_cargo->items() ) {
-                    item_location i_loc( vehicle_cursor( vp->vehicle(), index ), &it );
+                    item_location i_loc( vehicle_cursor( vp->vehicle(), vp->part_index() ), &it );
                     visit_item_contents( i_loc, visit );
                 }
             }
