@@ -439,7 +439,7 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_tiny", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },

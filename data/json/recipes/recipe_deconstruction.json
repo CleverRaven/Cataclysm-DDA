@@ -7057,7 +7057,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "metal_tank_little",
