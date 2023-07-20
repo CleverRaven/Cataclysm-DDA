@@ -194,17 +194,29 @@ Your character or the NPC will attempt to mutate; used in mutation system, for o
 
 ##### Examples
 ```json
-{ "u_mutate_category": 0 }
+{ "u_mutate": 0 }
 ```
 
 ```json
-{ "npc_mutate_category": { "math": [ "1+1" ] }, "use_vitamins": false }
+{ "npc_mutate": { "math": [ "1+1" ] }, "use_vitamins": false }
 ```
 
 
 #### `u_mutate_category`, `npc_mutate_category`
 
-exactly same as u_mutate
+Similar to `u_mutate` but takes category as a parameter and guarantees mutation.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_mutate_category" / "npc_mutate_category" | **mandatory** | string or [variable object](#variable-object) | mutation category |
+| "use_vitamins" | optional | boolean | same as in `u_mutate` | 
+
+##### Examples
+```json
+{ "u_mutate_category": "PLANT" }
+{ "u_mutate_category": { "global_val": "next_mutation" }
+---->> github eats these backticks ``` <----
+
 
 
 #### `u_add_effect`, `npc_add_effect`
@@ -1224,7 +1236,7 @@ You increase the HP of your minor parts to 50, if possible
 
 You heal your right leg for 10 HP; in detail, you set the HP of your right leg to be 10 HP bigger than it's current HP; what people could do to not add `u_adjust_hp` XD
 ```json
-{ "u_set_hp": { "math": { "u_val('hp', 'bodypart: leg_r')", "+", "10" } }, "target_part": "leg_r" }
+{ "u_set_hp": { "math": { "u_val('hp', 'bodypart: leg_r') + 10" } }, "target_part": "leg_r" }
 ```
 
 #### `u_die`, `npc_die`
