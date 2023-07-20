@@ -100,38 +100,40 @@
   },
   {
     "type": "furniture",
-    "id": "f_windchime_wooden",
+    "id": "f_windchime_bamboo",
     "name": "windchime",
-    "description": "A wooden windchime hung from a hook.",
+    "description": "A bamboo windchime hung from a hook.",
     "symbol": "8",
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "NOCOLLIDE", "TRANSPARENT" ],
     "bash": {
-      "str_min": 18,
-      "str_max": 40,
+      "str_min": 1,
+      "str_max": 4,
       "sound": "smash!",
       "sound_fail": "crack.",
-      "items": [ { "item": "chain", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "windchime_bamboo" } ],
+      "furn_set": "f_hook"
     }
   },
   {
     "type": "furniture",
-    "id": "f_windchime",
+    "id": "f_windchime_aluminum",
     "name": "windchime",
-    "description": "A metal windchime hung from a hook.",
+    "description": "An aluminum windchime hung from a hook.",
     "symbol": "8",
     "color": "light_gray",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "NOCOLLIDE", "TRANSPARENT" ],
     "bash": {
-      "str_min": 18,
-      "str_max": 40,
+      "str_min": 1,
+      "str_max": 4,
       "sound": "smash!",
       "sound_fail": "crack.",
-      "items": [ { "item": "chain", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "windchime_aluminum" } ],
+      "furn_set": "f_hook"
     }
   },
   {

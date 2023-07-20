@@ -5925,25 +5925,25 @@
   },
   {
     "type": "construction",
-    "id": "constr_place_windchime_wooden",
+    "id": "constr_place_windchime_bamboo",
     "group": "place_windchime",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 s",
-    "components": [ [ [ "windchime_wooden", 1 ] ] ],
+    "components": [ [ [ "windchime_bamboo", 1 ] ] ],
     "pre_terrain": "f_hook",
-    "post_terrain": "f_windchime_wooden"
+    "post_terrain": "f_windchime_bamboo"
   },
   {
     "type": "construction",
-    "id": "constr_place_windchime",
+    "id": "constr_place_windchime_aluminum",
     "group": "place_windchime",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 s",
-    "components": [ [ [ "windchime", 1 ] ] ],
+    "components": [ [ [ "windchime_aluminum", 1 ] ] ],
     "pre_terrain": "f_hook",
-    "post_terrain": "f_windchime"
+    "post_terrain": "f_windchime_aluminum"
   },
   {
     "type": "construction",
