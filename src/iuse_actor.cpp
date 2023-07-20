@@ -4348,7 +4348,7 @@ void link_up_actor::info( const item &it, std::vector<iteminfo> &dump ) const
         std::vector<std::string> cable_types;
         cable_types.reserve( can_extend.size() );
         for( const std::string &cable_type : can_extend ) {
-            cable_types.emplace_back( cable_type == "ELECTRICAL_DEVICES" ? "electrical device cables" :
+            cable_types.emplace_back( cable_type == "ELECTRICAL_DEVICES" ? _( "electrical device cables" ) :
                                       itype_id( cable_type )->nname( 1 ) );
         }
         std::string cable_type_list = enumerate_as_string( cable_types, enumeration_conjunction::or_ );
