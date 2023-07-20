@@ -3270,8 +3270,7 @@ bool comestible_sort_compare( Character &you, const item_location &lhs, const it
 
     return order_a < order_b
            || ( order_a == order_b && time_a < time_b )
-           || ( order_a == order_b && time_a == time_b /*&&
-                inventory_selector_preset::sort_compare( lhs, rhs )*/ );
+           || ( order_a == order_b && time_a == time_b );
 }
 
 int get_auto_consume_moves( Character &you, const bool food )
