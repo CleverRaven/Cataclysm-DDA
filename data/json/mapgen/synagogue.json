@@ -153,7 +153,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof", "<": "t_stairs_up", "#": "t_wall_w", "o": "t_open_air_rooved" }
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   }
 ]
