@@ -4047,7 +4047,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
 
     for( size_t y = 0; y < SEEY; y++ ) {
         for( size_t x = 0; x < SEEX; x++ ) {
-            const memorized_tile &elem = get_tile( point( x, y ) );
+            const memorized_tile &elem = get_tile( point_sm_ms( x, y ) );
             if( x == 0 && y == 0 ) {
                 last = elem;
                 continue;
@@ -4128,7 +4128,7 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
             }
             // Try to avoid assigning to save up on memory
             if( tile != mm_submap::default_tile ) {
-                set_tile( point( x, y ), tile );
+                set_tile( point_sm_ms( x, y ), tile );
             }
         }
     }

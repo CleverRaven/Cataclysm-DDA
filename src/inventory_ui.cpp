@@ -383,6 +383,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_thirst", distraction_thirst );
     json.member( "distraction_temperature", distraction_temperature );
     json.member( "distraction_mutation", distraction_mutation );
+    json.member( "distraction_oxygen", distraction_oxygen );
     json.member( "numpad_navigation", numpad_navigation );
 
     json.member( "input_history" );
@@ -451,6 +452,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_thirst", distraction_thirst );
     jo.read( "distraction_temperature", distraction_temperature );
     jo.read( "distraction_mutation", distraction_mutation );
+    jo.read( "distraction_oxygen", distraction_oxygen );
     jo.read( "numpad_navigation", numpad_navigation );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
