@@ -892,19 +892,21 @@
     "copy-from": "base_cookpot",
     "material": [ "ceramic" ],
     "color": "white",
-    "weight": "650 g",
-    "volume": "2100 ml",
-    "longest_side": "23 cm",
+    "weight": "1400 g",
+    "volume": "3140 ml",
+    "longest_side": "22 cm",
+    "price": "20 USD",
     "pocket_data": [
       {
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+	"//": "Based on https://www.amazon.com/dp/B08J7TPT98"
   },
   {
     "type": "GENERIC",
