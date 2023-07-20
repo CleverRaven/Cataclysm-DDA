@@ -257,9 +257,6 @@
     "material": [ "paper" ],
     "symbol": "*",
     "color": "red",
-    "initial_charges": 25,
-    "max_charges": 25,
-    "charges_per_use": 1,
     "use_action": [ "FIRECRACKER_PACK" ],
     "melee_damage": { "bash": 1 }
   },
@@ -276,8 +273,7 @@
     "material": [ "paper" ],
     "symbol": "*",
     "color": "red",
-    "turns_per_charge": 7,
-    "use_action": [ "FIRECRACKER_PACK_ACT" ],
+    "tick_action": [ "FIRECRACKER_PACK_ACT" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {

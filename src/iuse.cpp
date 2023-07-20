@@ -3714,7 +3714,7 @@ std::optional<int> iuse::firecracker_pack( Character *p, item *it, bool, const t
     }
     p->add_msg_if_player( _( "You light the pack of firecrackers." ) );
     it->convert( itype_firecracker_pack_act );
-    it->charges = 26;
+    it->countdown_point = calendar::turn + 27_seconds;
     it->set_age( 0_turns );
     it->active = true;
     return 0; // don't use any charges at all. it has became a new item
@@ -3722,23 +3722,20 @@ std::optional<int> iuse::firecracker_pack( Character *p, item *it, bool, const t
 
 std::optional<int> iuse::firecracker_pack_act( Character *, item *it, bool, const tripoint &pos )
 {
-    time_duration timer = it->age();
-    if( timer < 2_turns ) {
+    // Two seconds of lit fuse burning
+    // Followed by random number of explosions (4-6) per turn until 25 epxlosions have happened
+    // Finally item despawns since countdown has ended
+    if( it->age() < 2_seconds ) {
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
-        it->inc_damage();
-    } else if( it->charges > 0 ) {
-        int ex = rng( 4, 6 );
+    } else {
+        // Time left to countdown_point is used to track of number of explosions
+        int explosions = rng( 4, 6 );
         int i = 0;
-        if( ex > it->charges ) {
-            ex = it->charges;
-        }
-        for( i = 0; i < ex; i++ ) {
+        explosions = std::min( explosions, to_seconds<int>( it->countdown_point - calendar::turn ) );
+        for( i = 0; i < explosions; i++ ) {
             sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         }
-        it->charges -= ex;
-    }
-    if( it->charges == 0 ) {
-        it->charges = -1;
+        it->countdown_point -= ( explosions - 1 ) * 1_seconds;
     }
     return 0;
 }
@@ -3757,23 +3754,6 @@ std::optional<int> iuse::firecracker( Character *p, item *it, bool, const tripoi
     it->countdown_point = calendar::turn + 2_seconds;
     it->active = true;
     return 1;
-}
-
-std::optional<int> iuse::firecracker_act( Character *p, item *it, bool t, const tripoint &pos )
-{
-    if( pos.x == -999 || pos.y == -999 ) {
-        return std::nullopt;
-    }
-    if( t ) { // Simple timer effects
-        sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                              it->tname() );
-        return std::nullopt;
-    } else { // When that timer runs down...
-        sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), true, "explosion", "small" );
-    }
-    return 0;
 }
 
 std::optional<int> iuse::mininuke( Character *p, item *it, bool, const tripoint & )

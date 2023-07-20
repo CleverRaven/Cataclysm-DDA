@@ -490,11 +490,6 @@
   },
   {
     "type": "item_action",
-    "id": "FIRECRACKER_ACT",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
     "id": "FIRECRACKER_PACK",
     "name": { "str": "Light up" }
   },
