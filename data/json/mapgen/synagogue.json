@@ -31,7 +31,7 @@
         " ss^|y...+.....h.ho|^   ",
         "  s^||hd.|o..ydddd||^   ",
         "  s^^|||w||++||w|||^^   ",
-        "  sssssssssss           "
+        "  sssssssssss    !      "
       ],
       "terrain": {
         " ": "t_region_groundcover_urban",
@@ -47,7 +47,8 @@
         "B": "t_carpet_red",
         "A": "t_carpet_red",
         "£": "t_carpet_red",
-        "r": "t_railing"
+        "r": "t_railing",
+        "!": "t_gutter_downspout"
       },
       "furniture": {
         "#": "f_bench",
@@ -112,11 +113,11 @@
         "    -..............-    ",
         "    -..............-    ",
         "    --............--    ",
-        "     --------------     ",
+        "     ------------d-     ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tile_flat_roof", "|": "t_brick_wall", "o": "t_open_air_rooved", "w": "t_window" }
+      "terrain": { ".": "t_tile_flat_roof", "|": "t_brick_wall", "o": "t_open_air_rooved", "w": "t_window", "d": "t_gutter_drop" }
     }
   },
   {
