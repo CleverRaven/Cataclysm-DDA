@@ -4,10 +4,11 @@
     "type": "TOOL",
     "name": { "str": "crowbar" },
     "description": "A hefty prying tool.  Use it to open locked doors without destroying them, or to lift manhole covers.  You could also wield it to bash some heads in.",
-    "weight": "550 g",
-    "volume": "100 ml",
-    "longest_side": "45 cm",
-    "price": 1300,
+    "weight": "1456 g",
+    "volume": "520 ml",
+    "//1": "With the assumption that it's a cylinder of 18in length and 1.5in diameter. Listing says 0.5in width BUT the crowbar itself is curved a little and package dimensions said 1.57in so I rounded it down slightly.",
+    "longest_side": "46 cm",
+    "price": "26 USD",
     "price_postapoc": 500,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
@@ -18,7 +19,8 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
     "weapon_category": [ "BATONS" ],
-    "melee_damage": { "bash": 15, "cut": 1 }
+    "melee_damage": { "bash": 15, "cut": 1 },
+    "//2": "Based on https://www.amazon.com/440mm-Crowbar-Wrecking-Remover-Removal/dp/B07B4JDQB4/ref=sr_1_7?crid=2L3MYMBNF0SFQ&keywords=18+inch+crowbar&qid=1689843701&sprefix=18+inch+crowbar%2Caps%2C356&sr=8-7"
   },
   {
     "id": "emergency_lockpick",

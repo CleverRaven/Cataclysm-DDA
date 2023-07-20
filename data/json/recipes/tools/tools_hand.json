@@ -1285,7 +1285,6 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "120 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
