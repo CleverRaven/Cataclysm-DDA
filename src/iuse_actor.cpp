@@ -1314,11 +1314,10 @@ std::optional<int> firestarter_actor::use( Character *p, item &it, bool t,
 
     // TODO: fix point types
     tripoint_bub_ms pos( spos );
-    float light = light_mod( p->pos() );
-    if( !prep_firestarter_use( *p, pos ) ) {
+    if( !p || !prep_firestarter_use( *p, pos ) ) {  // if invoked from active item processing, do nothing.
         return std::nullopt;
     }
-
+    float light = light_mod( p->pos() );
     double skill_level = p->get_skill_level( skill_survival );
     /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
