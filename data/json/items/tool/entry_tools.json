@@ -130,7 +130,7 @@
     "description": "A 60-inch-long construction prybar.  Essentially a long, solid steel rod with a hardened chisel tip.",
     "weight": "6201 g",
     "volume": "1740 ml",
-	"//1": "With the assumption that it's a cylinder of 60in length and 1.5in diameter. Assuming 2.5in in diameter left it at 4l+ - item dimensions on the listing are yet again package dimensions that would inflate the volume.",
+    "//1": "With the assumption that it's a cylinder of 60in length and 1.5in diameter. Assuming 2.5in in diameter left it at 4l+ - item dimensions on the listing are yet again package dimensions that would inflate the volume.",
     "longest_side": "152 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price_postapoc": 4000,
