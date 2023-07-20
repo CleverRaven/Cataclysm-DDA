@@ -1,126 +1,130 @@
 [
   {
     "type": "terrain",
-    "id": "t_quietfarm_north_ground",
-    "name": "concrete",
-    "description": "A newer segment of poured concrete with surface finishes for aesthetics and resistance to freeze-thaw cycles.",
+    "id": "t_quietfarm_border_ground",
+    "name": "dirt",
+    "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
     "symbol": ".",
-    "color": "light_gray",
-    "looks_like": "t_pavement",
+    "color": "brown",
+    "looks_like": "t_dirt",
+    "connect_groups": "DIRT",
+    "connects_to": [ "DIRT", "CLAY", "SAND", "MUD", "DIRTMOUND", "CLAYMOUND", "SANDMOUND", "SANDGLASS", "CONCRETE" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
-    "connect_groups": "CONCRETE",
-    "connects_to": "CONCRETE",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_quietfarm_border_fence",
+    "name": "chain link fence",
+    "description": "A tall fence made of woven wires.  There aren't any gaps big enough for you to fit through, so you'll have to cut it, climb it, or find a way around.",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "looks_like": "t_chainfence",
+    "move_cost": 0,
+    "boltcut": {
+      "result": "t_quietfarm_border_ground",
+      "duration": "5 seconds",
+      "sound": "Snick, snick, gachunk!",
+      "byproducts": [ { "item": "wire", "count": 20 } ]
+    },
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connect_groups": "CHAINFENCE",
+    "connects_to": "CHAINFENCE",
+    "examine_action": "chainfence",
+    "oxytorch": {
+      "result": "t_quietfarm_border_ground",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
+    "hacksaw": {
+      "result": "t_quietfarm_border_ground",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
     "bash": {
-      "ter_set": "t_null",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [ { "item": "rock", "count": [ 2, 15 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
+      "str_min": 10,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_quietfarm_border_ground",
+      "items": [ { "item": "wire", "count": [ 8, 15 ] } ]
     }
   },
   {
     "type": "terrain",
-    "id": "t_quietfarm_north_fence",
-    "name": "chickenwire fence",
-    "description": "A tall, rather flimsy fence made of planks and woven wire, suitable for containing small livestock like chickens.",
-    "symbol": "LINE_OXOX",
-    "color": "brown",
-    "looks_like": "t_chainfence",
+    "id": "t_quietfarm_border_fence_closed",
+    "name": "closed wire gate",
+    "description": "A gate for a chain link fence with a latch system to stay closed.",
+    "symbol": "+",
+    "color": "cyan",
+    "looks_like": "t_chaingate_c",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "CLIMBABLE" ],
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
-    "examine_action": "chainfence",
-    "deconstruct": {
-      "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+    "oxytorch": {
+      "result": "t_quietfarm_border_ground",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
+    "open": "t_quietfarm_border_fence_open",
+    "hacksaw": {
+      "result": "t_quietfarm_border_ground",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "metal rattling!",
-      "sound_fail": "whack!",
-      "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
+      "str_min": 10,
+      "str_max": 150,
+      "str_min_blocked": 15,
+      "str_max_blocked": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_quietfarm_border_ground",
+      "items": [
+        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "pipe", "count": [ 6, 15 ] },
+        { "item": "scrap", "count": [ 0, 12 ] }
+      ]
     }
   },
   {
     "type": "terrain",
-    "id": "t_quietfarm_west_fence",
-    "name": "chickenwire fence",
-    "description": "A tall, rather flimsy fence made of planks and woven wire, suitable for containing small livestock like chickens.",
-    "symbol": "LINE_OXOX",
-    "color": "brown",
-    "looks_like": "t_chainfence",
-    "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "CLIMBABLE" ],
+    "id": "t_quietfarm_border_fence_open",
+    "name": "open wire gate",
+    "description": "A gate for a chain link fence with a latch system to stay closed.  The latch is undone, so the gate has swung open.",
+    "symbol": ".",
+    "color": "cyan",
+    "looks_like": "t_chaingate_o",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
-    "examine_action": "chainfence",
-    "deconstruct": {
-      "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+    "close": "t_quietfarm_border_fence_closed",
+    "oxytorch": {
+      "result": "t_quietfarm_border_ground",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
+    "hacksaw": {
+      "result": "t_quietfarm_border_ground",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 5,
-      "str_max": 12,
-      "sound": "metal rattling!",
-      "sound_fail": "whack!",
-      "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_quietfarm_east_fence",
-    "name": "chickenwire fence",
-    "description": "A tall, rather flimsy fence made of planks and woven wire, suitable for containing small livestock like chickens.",
-    "symbol": "LINE_OXOX",
-    "color": "brown",
-    "looks_like": "t_chainfence",
-    "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "CLIMBABLE" ],
-    "connect_groups": "CHAINFENCE",
-    "connects_to": "CHAINFENCE",
-    "examine_action": "chainfence",
-    "deconstruct": {
-      "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
-    },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "metal rattling!",
-      "sound_fail": "whack!",
-      "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_quietfarm_south_fence",
-    "name": "chickenwire fence",
-    "description": "A tall, rather flimsy fence made of planks and woven wire, suitable for containing small livestock like chickens.",
-    "symbol": "LINE_OXOX",
-    "color": "brown",
-    "looks_like": "t_chainfence",
-    "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "CLIMBABLE" ],
-    "connect_groups": "CHAINFENCE",
-    "connects_to": "CHAINFENCE",
-    "examine_action": "chainfence",
-    "deconstruct": {
-      "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
-    },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "metal rattling!",
-      "sound_fail": "whack!",
-      "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_quietfarm_border_ground",
+      "items": [
+        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "pipe", "count": [ 6, 15 ] },
+        { "item": "scrap", "count": [ 0, 12 ] }
+      ]
     }
   },
   {
@@ -131,17 +135,17 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ]
   },
   {
     "type": "terrain",
     "id": "t_vitrified_grass",
     "name": "black grass",
-    "description": "A patch of thick, luxuriant midnight black grass. Every blade is a razor.",
+    "description": "A patch of thick, luxuriant midnight black grass.  Every blade is a razor.",
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SHARP" ]
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "FLAT", "ROAD", "INDOORS", "SHARP" ]
   },
   {
     "type": "terrain",
@@ -151,7 +155,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ]
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF","INDOORS" ]
   },
   {
     "type": "terrain",
@@ -161,7 +165,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ]
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF","INDOORS" ]
   },
   {
     "type": "terrain",
@@ -171,30 +175,30 @@
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "WALL" ]
+    "flags": [ "SUPPORTS_ROOF", "NOITEM", "WALL" ]
   },
   {
     "type": "terrain",
     "id": "t_vitrified_edge",
     "name": "edge of a vastness",
-    "description": "Beyond this point stretches an endless expanse of smooth black. You are so small, in comparison. And why would you even want to leave?",
+    "description": "Beyond this point stretches an endless expanse of smooth black.  You are so small, in comparison.  And why would you even want to leave?",
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "NOITEM", "WALL" ]
+    "flags": [ "SUPPORTS_ROOF", "NOITEM", "WALL" ]
   },
   {
     "type": "terrain",
     "id": "t_vitrified_door",
     "name": "black glass door",
-    "description": "A door made from black glass, fused shut on useless hinges. If you look very closely, you can see the tiny ridges of fingerprints on the knob.",
+    "description": "A door made from black glass, fused shut on useless hinges.  If you look very closely, you can see the tiny ridges of fingerprints on the knob.",
     "symbol": "&",
     "looks_like": "t_door_c",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_vitrified_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_WITH_WALL", "SUPPORTS_ROOF" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_WITH_WALL", "INDOORS", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 5,
       "str_max": 13,
@@ -211,12 +215,12 @@
     "type": "terrain",
     "id": "t_vitrified_chickenwire_fence",
     "name": "black fibreglass fence",
-    "description": "A network of delicate glass threads strung between thicker posts. The wind blowing across them produces a faint, eerie whine.",
+    "description": "A network of delicate glass threads strung between thicker posts.  The wind blowing across them produces a faint, eerie whine.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "looks_like": "t_chainfence",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "SHARP", "AUTO_WALL_SYMBOL", "CLIMBABLE" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "NOITEM", "PERMEABLE", "SHARP", "AUTO_WALL_SYMBOL", "CLIMBABLE" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
@@ -233,11 +237,11 @@
     "type": "terrain",
     "id": "t_vitrified_fence_barbed",
     "name": "spined glasswire fence",
-    "description": "Rolling coils of thin black glass covered in delicate barbs. It's reminiscent of snowflakes.",
+    "description": "Rolling coils of thin black glass covered in delicate barbs.  It's reminiscent of snowflakes.",
     "symbol": "$",
     "color": "dark_gray",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "SHARP", "THIN_OBSTACLE", "SHORT" ],
     "bash": {
       "str_min": 8,
       "str_max": 20,
@@ -258,7 +262,7 @@
     "move_cost": 0,
     "coverage": 30,
     "roof": "t_vitrified_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 4,
@@ -277,13 +281,12 @@
     "id": "t_vitrified_sand",
     "name": "black glass dust",
     "description": "A pile of glass ground so finely that the slightest breeze bears it aloft into mesmerizing clouds.",
-    "looks_like": "t_sand",
     "symbol": "~",
     "color": "light_gray",
     "connect_groups": "SANDGLASS",
     "connects_to": "SANDGLASS",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SHARP" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "DIGGABLE", "FLAT", "SHARP" ],
     "bash": { "sound": "crunch", "ter_set": "t_sand", "str_min": 25, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -313,7 +316,7 @@
     "type": "terrain",
     "id": "t_vitrified_window_frame",
     "name": "jagged glass aperture",
-    "description": "A ragged hole smashed through a thin portion of black glass. The biggest shards could probably be snapped off to make it safer to pass through.",
+    "description": "A ragged hole smashed through a thin portion of black glass.  The biggest shards could probably be snapped off to make it safer to pass through.",
     "symbol": "0",
     "color": "dark_gray",
     "move_cost": 8,
@@ -343,36 +346,14 @@
   },
   {
     "type": "terrain",
-    "id": "t_vitrified_splitrail_fence",
-    "name": "splintered glass fence",
-    "description": "A fence made of beams of black glass. It has been twisted and warped by time and weather, and bristles with needles and barbs.",
-    "symbol": "LINE_OXOX",
-    "color": "dark_gray",
-    "looks_like": "t_fence",
-    "move_cost": 0,
-    "examine_action": "chainfence",
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "SHARP" ],
-    "connect_groups": "WOODFENCE",
-    "connects_to": "WOODFENCE",
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "glass crunching!",
-      "sound_fail": "clink!",
-      "ter_set": "t_vitrified_fence_post",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_vitrified_fence_post",
     "name": "black glass pole",
-    "description": "A spar of glass fused into the ground, still bearing the jagged edges of the structure it once supported..",
+    "description": "A spar of glass fused into the ground, still bearing the jagged edges of the structure it once supported.",
     "symbol": "#",
     "color": "dark_gray",
     "looks_like": "t_fence_post",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHARP" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "THIN_OBSTACLE", "SHARP" ],
     "bash": {
       "str_min": 8,
       "str_max": 20,
@@ -387,23 +368,23 @@
     "id": "t_vitrified_water_pump",
     "name": "black glass well",
     "looks_like": "f_machinery_heavy",
-    "description": "This was formerly a well shaft and pump mechanism; it is now so obscured with bubbles of black glass that only a faint outline of the original shape can be seen..",
+    "description": "This was formerly a well shaft and pump mechanism; it is now so obscured with bubbles of black glass that only a faint outline of the original shape can be seen.",
     "symbol": "&",
     "color": "light_gray",
     "move_cost": 6,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHARP" ]
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "THIN_OBSTACLE", "SHARP" ]
   },
   {
     "type": "terrain",
     "id": "t_vitrified_bars",
     "name": "black glass bars",
-    "description": "Thick spars of black glass extending from floor to ceiling..",
+    "description": "Thick spars of black glass extending from floor to ceiling.",
     "examine_action": "bars",
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "THIN_OBSTACLE" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -423,7 +404,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
+    "flags": [ "SUPPORTS_ROOF", "WALL", "PERMEABLE", "MINEABLE" ],
     "bash": {
       "str_min": 120,
       "str_max": 200,
@@ -437,12 +418,12 @@
     "type": "terrain",
     "id": "t_vitrified_pool",
     "name": "shallow black pool",
-    "description": "At first glance, this looks like a smooth pool of black water. Closer examination reveals it to be fine glass dust.",
+    "description": "At first glance, this looks like a smooth pool of black water.  Closer examination reveals it to be fine glass dust.",
     "symbol": "~",
     "looks_like": "t_water_pool",
     "color": "black",
     "move_cost": 7,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHARP" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHARP" ],
     "connect_groups": "POOLWATER",
     "connects_to": "POOLWATER"
   },
@@ -451,13 +432,13 @@
     "id": "t_tree_apple_vitrified",
     "name": "tree of glass apples",
     "looks_like": "t_tree",
-    "description": "A flourishing tree, its branches heavy with apples. Every black leaf is razor-edged; every heavy fruit turns to dust at the touch.",
+    "description": "A flourishing tree, its branches heavy with apples.  Every black leaf is razor-edged; every heavy fruit turns to dust at the touch.",
     "symbol": "7",
     "color": [ "dark_gray" ],
     "//": "barren in winter, fruits in autumn",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT" ],
+    "flags": [ "SUPPORTS_ROOF", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -472,12 +453,12 @@
     "id": "t_vitrified_tree",
     "name": "black glass tree",
     "looks_like": "t_tree",
-    "description": "The glass skeleton of a once-leafy tree. It looks more like coral, now.",
+    "description": "The glass skeleton of a once-leafy tree.  It looks more like coral, now.",
     "symbol": "7",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "flags": [ "SUPPORTS_ROOF", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 70,
       "str_max": 140,
@@ -496,8 +477,7 @@
     "color": "dark_gray",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP" ],
-    "looks_like": "t_shrub_strawberry_harvested",
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "CONTAINER", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP" ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -515,19 +495,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "SUPPORTS_ROOF" ],
-    "bash": {
-      "str_min": 300,
-      "str_max": 300,
-      "sound": "crunch!",
-      "sound_fail": "whump!",
-      "ter_set": "t_open_air_rooved",
-      "items": [
-        { "item": "2x4", "count": [ 0, 2 ] },
-        { "item": "nail", "charges": [ 0, 5 ] },
-        { "item": "splinter", "count": [ 2, 8 ] }
-      ]
-    }
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "INDOORS", "SUPPORTS_ROOF" ]
   },
   {
     "type": "terrain",
@@ -537,27 +505,19 @@
     "symbol": "<",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "PLACE_ITEM" ],
-    "bash": {
-      "str_min": 300,
-      "str_max": 300,
-      "sound": "crunch!",
-      "sound_fail": "whump!",
-      "ter_set": "t_wood_stairs_up_broken",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    }
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
   },
   {
     "type": "terrain",
     "id": "t_vitrified_downspout",
     "name": "black glass downspout",
-    "description": "A drainpipe of black glass. There are holes down its length, from which occasionally trickle little dustings of black sand.",
+    "description": "A drainpipe of black glass.  There are holes down its length, from which occasionally trickle little dustings of black sand.",
     "symbol": "|",
     "looks_like": "t_chainfence_posts",
     "color": "light_gray",
     "move_cost": 3,
     "trap": "tr_downspout_funnel",
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -571,12 +531,12 @@
     "type": "terrain",
     "id": "t_vitrified_roof",
     "name": "black glass roof",
-    "description": "A roof of black glass tiles. They are very smooth, and some break away at the touch.",
+    "description": "A roof of black glass tiles.  They are very smooth, and some break away at the touch.",
     "symbol": ".",
     "looks_like": "t_concrete",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "UNSTABLE" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "UNSTABLE" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
   },
   {
@@ -588,7 +548,7 @@
     "looks_like": "t_gutter_north",
     "color": "light_gray",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
     "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "bash": {
