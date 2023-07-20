@@ -1125,7 +1125,7 @@
     "latent_heat": 247,
     "conductive": true,
     "chip_resist": 15,
-    "repaired_with": "scrap_cast_iron",
+    "repaired_with": "scrap",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
