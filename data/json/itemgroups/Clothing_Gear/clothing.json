@@ -1638,7 +1638,7 @@
       [ "kippah", 5 ],
       [ "tallit_katan", 5 ],
       [ "tallit_gadol", 1 ],
-      [ "tefillin_sets", 2 ],
+      { "group": "tefillin_sets", "prob": 1 },
       [ "headscarf", 5 ],
       { "item": "kirpan", "container-item": "sheath", "prob": 1 },
       { "item": "kirpan_cheap", "container-item": "sheath", "prob": 3 },
@@ -4576,13 +4576,13 @@
     "type": "item_group",
     "//": "tefillin sets",
     "subtype": "collection",
-    "items": [ { "group": "tefillin_hand_r", "prob": 100 }, { "group": "tefillin_head", "prob": 100 } ]
+    "items": [ { "item": "tefillin_hand_r", "prob": 100 }, { "item": "tefillin_head", "prob": 100 } ]
   },
   {
-    "id": "tefillin_sets",
-    "type": "tefillin_left_hand",
+    "id": "tefillin_left_hand",
+    "type": "item_group",
     "//": "tefillin sets",
     "subtype": "collection",
-    "items": [ { "group": "tefillin_hand_l", "prob": 100 }, { "group": "tefillin_head", "prob": 100 } ]
+    "items": [ { "item": "tefillin_hand_l", "prob": 100 }, { "item": "tefillin_head", "prob": 100 } ]
   }
 ]

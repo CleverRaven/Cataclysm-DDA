@@ -8,7 +8,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "   ssssssssss           ",
+        "   s       ss           ",
         "  ss^^^^^^^ss^^^^^^^    ",
         "  s^^||||w|++|w||||^^   ",
         "  s^||tt........+.||^   ",
@@ -76,7 +76,7 @@
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 60, "repeat": [ 1, 3 ] },
         "o": { "item": "synagogue_books", "chance": 40, "repeat": [ 2, 5 ] },
-        "#": [ { "item": "synagogue", "chance": 40 }, { "item": "book_judaica_siddur", "chance": 5 } ],
+        "#": [ { "item": "synagogue", "chance": 40 } ],
         ".": { "item": "synagogue", "chance": 3 },
         ",": { "item": "synagogue", "chance": 3 },
         "l": { "item": "jackets", "chance": 60 }

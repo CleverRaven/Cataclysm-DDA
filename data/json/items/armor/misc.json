@@ -309,7 +309,6 @@
     "symbol": "[",
     "color": "light_gray",
     "warmth": 0,
-    "flags": [ "OVERSIZE " ],
     "material_thickness": 1.0,
     "environmental_protection": 0,
     "armor": [ { "encumbrance": 15, "coverage": 10, "covers": [ "head" ] } ]
