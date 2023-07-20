@@ -3098,9 +3098,9 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "knife_vegetable_cleaver",
-    "time": "2 m",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "blade", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "laptop",
