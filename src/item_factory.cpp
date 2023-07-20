@@ -4573,16 +4573,16 @@ void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::
 void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
-    for( JsonArray curr : jo.get_array( member ) ) {
-        const auto iter = def.qualities.find( quality_id( curr.get_string( 0 ) ) );
-        if( iter != def.qualities.end() && iter->second == curr.get_int( 1 ) ) {
+    for( std::string curr : jo.get_array( member ) ) {
+        const auto iter = def.qualities.find( quality_id( curr ) );
+        if( iter != def.qualities.end() ) {
             def.qualities.erase( iter );
         }
     }
 }
 
-void Item_factory::relative_qualities_from_json( const JsonObject &jo, const std::string_view member,
-        itype &def )
+void Item_factory::relative_qualities_from_json( const JsonObject &jo,
+        const std::string_view member, itype &def )
 {
     for( JsonArray curr : jo.get_array( member ) ) {
         const quality_id key = quality_id( curr.get_string( 0 ) );

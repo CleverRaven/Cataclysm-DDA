@@ -725,7 +725,7 @@
     "copy-from": "multi_cooker",
     "name": { "str": "multi-cooker - cooking", "str_pl": "multi-cookers - cooking" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish cooking inside it.",
-    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+    "delete": { "qualities": [ "CONTAIN" ] }
   },
   {
     "id": "oil_cooker",

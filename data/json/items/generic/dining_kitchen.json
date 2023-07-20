@@ -1011,8 +1011,8 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] },
+    "extend": { "qualities": [ [ "HAMMER", 1 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 12 },
     "//": "Based on https://www.amazon.com/Lodge-Skillet-Pre-Seasoned-Ready-Stove/dp/B00006JSUA/ref=sr_1_5?crid=SPLV6RIP18RL&keywords=cast%2Biron%2Bfrying%2Bpan&qid=1688243417&sprefix=cast%2Biron%2Bfrying%2Bp%2Caps%2C491&sr=8-5&th=1 BUT volume calculated as a cylinder - 2 inches height x 10.68 inches diameter"
   },
@@ -1039,8 +1039,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1066,8 +1065,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 7 }
   },
   {
@@ -1140,7 +1138,7 @@
     "weight": "728 g",
     "volume": "1575 ml",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
+    "delete": { "qualities": [ "COOK" ] },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -1156,7 +1154,7 @@
     "volume": "3100 ml",
     "melee_damage": { "bash": 5 },
     "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "6 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] }
+    "delete": { "qualities": [ "COOK" ] }
   },
   {
     "id": "colander_steel",
@@ -1330,8 +1328,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 7 }
   },
   {
