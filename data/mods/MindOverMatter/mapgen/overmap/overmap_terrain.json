@@ -67,7 +67,7 @@
       "psi_phavian_lab_blockE1"
     ],
     "name": "parking lot",
-    "//": "parking lot attached to Research facility.",
+    "//": "parking lot attached to Project PHAVIAN Lab.",
     "sym": "_",
     "looks_like": "lab_surface_parking_blockE2",
     "color": "dark_gray",
