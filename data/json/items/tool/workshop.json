@@ -274,7 +274,7 @@
     "flags": [ "NO_SALVAGE" ],
     "use_action": [ { "type": "link_up", "cable_length": 15, "charge_rate": "1500 W" } ],
     "melee_damage": { "bash": 15 },
-    "//2": "Based on https://www.amazon.com/Klutch-Cubic-Portable-Cement-Mixer/dp/B01EGB6TJ4/ref=sr_1_10?crid=BR7LJEDH8MNC&keywords=cement+mixer&qid=1689856124&sprefix=cement+mixe%2Caps%2C341&sr=8-10"
+    "//2": "Based on https://www.amazon.com/dp/B01EGB6TJ4"
   },
   {
     "id": "cordless_drill",
