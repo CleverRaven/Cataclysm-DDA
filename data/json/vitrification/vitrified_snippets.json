@@ -18,12 +18,14 @@
       "With all this glass, you expected it to be brighter here.  It's not.  That's okay, it would have hurt your eyes otherwise.",
       "A gust of wind blows across the farm.  Glass chimes and keens in the breeze.",
       "You are suddenly very aware of your heartbeat, but only for a moment.",
-      "The glass around you isn't sparkling; it doesn't reflect. You're not sure what it's doing instead.",
+      "The glass around you isn't sparkling; it doesn't reflect. The glimmers that cross it in the corner of your eye are your imagination.",
       "It's very cold here.",
       "You didn't realize there had been an ache at the base of your neck all day until just now, when you notice it's gone.",
       "There's nothing here, really.  How long has it been since you've felt truly safe?",
-      "You find yourself wondering what the glass tastes like.",
-      "The glass is solid under your feet. It supports you completely.  Why can't you feel yourself standing?"
+      "You find yourself wondering what the glass tastes like.  You're ashamed of the thought.",
+      "The glass is solid under your feet. It supports you completely, but the feeling of it under your feet is dull, somehow.",
+      "It occurs to you that you can see clearly.  You're not sure how; the sun, if it's there, is the same smooth black as the rest of the sky.",
+      "You are seized with a brief desire to smash something, anything.  You don't know why you'd think such an unseemly thing.  It doesn't feel at all like you."
     ]
   },
   {
@@ -38,7 +40,9 @@
       "How very smooth it all is.  Even the sharp parts; especially the sharp parts.  Pristine, and perfect.",
       "You're so glad you decided to visit.",
       "You were shivering, a little bit ago.  It's stopped now.  You must have warmed up.",
-      "Everything seems so much more real than usual.  It's all right there.  Reach out; touch it."
+      "Everything seems so much more real than usual.  It's all right there.  Reach out; touch it.",
+      "The place you left behind was much worse than this.  All noise and uneven edges.",
+      "Perhaps you should rest?  The furniture here is all hard glass, but you're sure it won't trouble you.  You can't imagine anything hurting, here."
     ]
   },
   {
@@ -53,7 +57,11 @@
       "It feels like your ribs are finally able to tuck inwards, where they belong, now that all that mess and noise is settling down.",
       "What a wonderful place. What a wonderful place!",
       "You catch a glimpse of your hands.  They're all wrong.  They won't do at all.  Not all askew like this.",
-      "The glass is singing.  Or is that you?  No, it's both.  Your voices are beautiful together."
+      "The glass is singing.  Or is that you?  No, it's both.  Your voices are beautiful together.",
+      "When you turn your head, you can hear the wet click of tendons in your neck.  How dreadful.  It won't be a problem, soon.",
+      "It would be a very good idea to lie down and close your eyes.  You could listen to the glass sing you to sleep.",
+      "Your head feels heavy on your neck, your arms heavy on your shoulders.  What an awful thing, to expect you to hold them up with a few strips of muscle.  You poor thing.",
+      "What a blessing it is, to be in a place without distractions like this.  What a joy, to think clearly for the first time in your life."
     ]
   },
   {
@@ -68,7 +76,10 @@
       "You'd really like to sit down.  No, no, not that; and let your heavy head bow your spine?  Lying would be much better.  Lying flat.",
       "There are so many parts of you that are wrong.  But that's not their fault.  Once they're clipped away and laid out, they'll all fit.",
       "Every move you make, your bones crackle and pop.  They're getting closer.  How wonderful!",
-      "Something somewhere is screaming.  Forcing air out of the nasty sacks in its chest.  You're so glad that's not you."
+      "Something somewhere is screaming.  Forcing air out of the nasty sacks in its chest.  You're so glad that's not you.",
+      "For the first time in your life, you are free of the ugly sound of your pulse in your ears.  How did you ever function, beaten down by that hideous rhythm?",
+      "It's been quite a while since you had a thought.  Noticing that, itself, screeches unpleasantly in your cold, clear mind."
+
     ]
   },
   {
@@ -83,7 +94,11 @@
       "Stop moving.  You're ruining it.",
       "You can't cut well enough yet, but you're so close.  Smaller and sharper and cleaner, all of it.",
       "Every motion shaves you down, finer and finer and finer and finer and finer and finer.",
-      "It's so selfish of you to keep yourself this ugly whole, when you could be so many perfect pieces."
+      "It's so selfish of you to keep yourself this ugly whole, when you could be so many perfect pieces.",
+      "You have brought pain to this place of peace; the pain of being incorrect.  It is awful of you.  But you are forgiven.",
+      "Such a rare and beautiful blessing, you have been given.  You are so grateful that you might cry, if you still needed that ugly function.",
+      "You've done so well!  You've been so patient, while you are being fixed.  This is why you were chosen for it.  You deserve it.",
+      "Sleep now.  It will be dreamless, and empty, as it always should have been."
     ]
   },
   {
@@ -92,13 +107,20 @@
     "text": [
       "Thoughts are slow now.  Simple.  Clean.",
       "Sharper.  Sharper.  Sharper.",
-      "You're almost completed.",
+      "You're almost complete.",
       "You should rest.  You've never rested before now.",
       "You're glittering.  Finally, you're glittering.",
       "This is it.  Your flourishing.  Your apotheosis.",
       "The parts of you you don't need are howling.  They don't understand yet.",
       "All your facets are here.  Every one smooth, perfect.",
-      "Cold.  So cold.  Perfect.  Perfect."
+      "Cold.  So cold.  Perfect.  Perfect.",
+      "The song.  The silence.  The song.  The silence.  The song.  The silence.",
+      "Smooth.  Clean.  The best of you, finally.",
+      "Almost nothing left now.  It's all been shaved away.",
+      "Look how you catch the light, now.  Never look away.",
+      "Be still, now.  There is nothing left to do.",
+      "Edges.  Lines.  Points.  Happy.  Happy.",
+      "Let go, now.  Let what you are clutching become perfect too."
     ]
   },
   {
@@ -114,7 +136,8 @@
     "text": [
       "Blood drips from your cuts.  It doesn't reach the ground.",
       "Your cuts don't hurt anymore.  Or do they? It's... different, now.",
-      "Blood falls from your wounds in ugly little drops.  It's disgusting."
+      "Blood falls from your wounds in ugly little drops.  It's disgusting.",
+      "You feel a little better, with some of your blood gone.  Cleaner."
     ]
   },
   {
@@ -123,7 +146,8 @@
     "text": [
       "It's horrible, the stuff dripping from you.  How kind it is of the glass to let you be free of it.",
       "You are not open enough.  How will you be clean and dry, with only these few little cuts?",
-      "Your blood isn't quite liquid anymore.  Slurry, like crushed ice.  It's not good enough yet."
+      "Your blood isn't quite liquid anymore.  Slurry, like crushed ice.  It's not good enough yet.",
+      "Out it comes, the nasty fluid sloshing through your tubes.  Out it comes to be fixed."
     ]
   },
   {
@@ -132,7 +156,8 @@
     "text": [
       "More.  Bleed more.  You're almost clean.",
       "Your fluids are so ugly.  You're so close to being free.",
-      "Look.  You're bleeding snowflakes.  A thousand little parts of you are finding themselves."
+      "Look.  You're bleeding snowflakes.  A thousand little parts of you are finding themselves.",
+      "If you broke your skin just a little more, it would be that much easier to lift it away."
     ]
   },
   {
