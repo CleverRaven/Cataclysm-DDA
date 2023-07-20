@@ -151,6 +151,7 @@ static const mon_flag_str_id mon_flag_ATTACK_UPPER( "ATTACK_UPPER" );
 static const mon_flag_str_id mon_flag_BADVENOM( "BADVENOM" );
 static const mon_flag_str_id mon_flag_CAN_DIG( "CAN_DIG" );
 static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
+static const mon_flag_str_id mon_flag_CORNERED_FIGHTER( "CORNERED_FIGHTER" );
 static const mon_flag_str_id mon_flag_DIGS( "DIGS" );
 static const mon_flag_str_id mon_flag_EATS( "EATS" );
 static const mon_flag_str_id mon_flag_ELECTRIC( "ELECTRIC" );
