@@ -129,7 +129,7 @@
     "name": { "str": "lawnmower bag" },
     "looks_like": "bag_canvas",
     "description": "A large and sturdy canvas sack.  Smells faintly of cut grass.",
-    "//": "Based off of https://www.amazon.com/964-04117A-664-04117A-Bag-Compatible-964-04117B/dp/B097MNCDHQ/",
+    "//": "Based off of https://www.amazon.com/dp/B097MNCDHQ/",
     "weight": "730 g",
     "volume": "3130 ml",
     "price": 3000,

@@ -75,7 +75,7 @@
     "symbol": ";",
     "color": "black",
     "description": "A dart designed for playing darts.",
-    "//": "Based off https://www.amazon.co.uk/CENTAUR-Professional-Frosted-Shafts-Flights/dp/B0BFQ86NC7/ , darts seem to range from 18-30g so I took the average",
+    "//": "Based off https://www.amazon.co.uk/dp/B0BFQ86NC7/ , darts seem to range from 18-30g so I took the average",
     "material": [ { "type": "steel", "portion": 82 }, { "type": "aluminum", "portion": 48 }, { "type": "plastic", "portion": 43 } ],
     "volume": "108 ml",
     "weight": "24 g",

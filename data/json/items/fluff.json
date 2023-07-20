@@ -552,7 +552,7 @@
     "category": "other",
     "name": { "str": "dartboard" },
     "description": "A game where players throw darts at the board trying to score exact values.",
-    "//": "Based off https://www.amazon.com/Franklin-Sports-Regulation-Bristle-Dartboard/dp/B0091DKL4W/",
+    "//": "Based off https://www.amazon.com/dp/B0091DKL4W/",
     "weight": "4082 g",
     "volume": "10619 ml",
     "price": "40 USD",

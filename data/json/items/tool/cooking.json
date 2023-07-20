@@ -231,7 +231,7 @@
     "type": "TOOL",
     "name": { "str": "disposable barbecue" },
     "description": "A small metal tray for cooking food while camping, only good for one use.  Lasts about 40 minutes.",
-    "//": "Based off https://www.amazon.com/Improved-Disposable-Size-Charcoal-Camping-Tailgate/dp/B087YHNJ2M/ , lasts 45 mins according to review",
+    "//": "Based off https://www.amazon.com/dp/B087YHNJ2M/ , lasts 45 mins according to review",
     "weight": "600 g",
     "volume": "1950 ml",
     "longest_side": "31 cm",
